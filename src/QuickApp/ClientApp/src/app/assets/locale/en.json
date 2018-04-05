@@ -36,7 +36,8 @@
       "Profile": "Profile",
       "Preferences": "Preferences",
       "Users": "Users",
-      "Roles": "Roles"
+      "Roles": "Roles",
+      "Analyze":  "Analyze"
     },
     "header": {
       "UserProfile": "User Profile",

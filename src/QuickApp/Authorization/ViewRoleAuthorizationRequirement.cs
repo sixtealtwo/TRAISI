@@ -24,7 +24,7 @@ namespace QuickApp.Authorization
         {
             if (context.User == null)
                 return Task.CompletedTask;
-
+    
             if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ViewRoles) || context.User.IsInRole(roleName))
                 context.Succeed(requirement);
 

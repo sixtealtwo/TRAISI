@@ -30,7 +30,7 @@ namespace QuickApp
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            builder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+            builder.UseSqlite(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
             builder.UseOpenIddict();
 
             return new ApplicationDbContext(builder.Options);

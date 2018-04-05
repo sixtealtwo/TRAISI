@@ -38,14 +38,14 @@ namespace QuickApp
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        //private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
 
 
-        public Startup(IConfiguration configuration/*, IHostingEnvironment env*/)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-            //_hostingEnvironment = env;
+            _hostingEnvironment = env;
         }
 
 
@@ -55,7 +55,7 @@ namespace QuickApp
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+                options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
                 options.UseOpenIddict();
             });
 
@@ -97,8 +97,8 @@ namespace QuickApp
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
 
-                //if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
-                options.DisableHttpsRequirement();
+                if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
+                    options.DisableHttpsRequirement();
 
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
                 //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
@@ -127,8 +127,8 @@ namespace QuickApp
 
 
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
-            //if (!_hostingEnvironment.IsDevelopment())
-            //    services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
+            if (!_hostingEnvironment.IsDevelopment())
+                services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
@@ -158,6 +158,7 @@ namespace QuickApp
             {
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
+                options.AddPolicy(Authorization.Policies.AnalyzeAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AnalyzeUsers));
 
                 options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
                 options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));

@@ -18,6 +18,9 @@
         <li [hidden]="!canViewRoles">
           <a id="rolesTab" [routerLink]="[]" fragment="roles" href="#roles" data-toggle="tab"><i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}</a>
         </li>
+          <li [hidden]="!canAnalyzeUsers">
+              <a id="rolesTab" [routerLink]="[]" fragment="roles" href="#roles" data-toggle="tab"><i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Analyze' | translate}}</a>
+          </li>  
       </ul>
     </div>
     <div class="col-sm-10">
