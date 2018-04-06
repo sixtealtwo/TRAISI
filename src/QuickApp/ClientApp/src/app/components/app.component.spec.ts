@@ -6,19 +6,19 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from "../components/app.component";
-import { LoginComponent } from "../components/login/login.component";
-import { NotificationsViewerComponent } from "../components/controls/notifications-viewer.component";
+import { AppComponent } from '../components/app.component';
+import { LoginComponent } from '../components/login/login.component';
+import { NotificationsViewerComponent } from '../components/controls/notifications-viewer.component';
 
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { PopoverModule } from "ngx-bootstrap/popover";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AuthService } from '../services/auth.service';
 import { AppTitleService } from '../services/app-title.service';
@@ -78,10 +78,10 @@ describe('AppComponent', () => {
         expect(app).toBeTruthy();
     }));
 
-    it(`should have as title 'Quick Application'`, async(() => {
+    it(`should have as title 'TRAISI'`, async(() => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = <AppComponent>fixture.debugElement.componentInstance;
-        expect(app.appTitle).toEqual('Quick Application');
+        expect(app.appTitle).toEqual('TRAISI');
     }));
 
     it('should render Loaded! in a h1 tag', async(() => {

@@ -106,7 +106,7 @@ NOTE: SASS is already configured in this project template. To use SASS change yo
 /*********** CSS VERSION ***********/
 
 .default-theme-option {
-  background: #027FF4;
+  background: rgb(10, 34, 85);
   color: white;
   font-weight: bold;
   display: inline-block;

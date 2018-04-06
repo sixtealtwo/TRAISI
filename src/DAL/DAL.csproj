@@ -3,12 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>2.0.1</Version>
-    <Description>Data Access Layer for the Quick Application template</Description>
-    <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
-    <PackageLicenseUrl>https://github.com/emonney/QuickApp/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/emonney/QuickApp.git</RepositoryUrl>
-    <Company>EBENMONNEY</Company>
+    <Description>Data Access Layer for TRAISI</Description>
+    <Copyright>Copyright © 2018 UTTRI</Copyright>
+    <Company>University of Toronto UTTRI</Company>
     <AssemblyVersion>2.0.0.1</AssemblyVersion>
     <FileVersion>2.0.0.1</FileVersion>
   </PropertyGroup>
