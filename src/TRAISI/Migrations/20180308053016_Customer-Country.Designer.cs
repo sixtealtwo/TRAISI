@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace QuickApp.Migrations
+namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20180308053016_Customer-Country")]

@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     public static class Utilities
     {

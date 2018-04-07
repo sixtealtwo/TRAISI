@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickApp.ViewModels
+namespace TRAISI.ViewModels
 {
     public class UserEditViewModel : UserViewModel
     {

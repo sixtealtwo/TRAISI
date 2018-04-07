@@ -3,7 +3,7 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-using QuickApp.Helpers;
+using TRAISI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.ViewModels
+namespace TRAISI.ViewModels
 {
     public class RoleViewModel
     {

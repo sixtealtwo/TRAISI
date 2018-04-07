@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace QuickApp.Migrations
+namespace TRAISI.Migrations
 {
     public partial class CustomerCountry : Migration
     {

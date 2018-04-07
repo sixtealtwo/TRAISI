@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class MinimumCountAttribute : ValidationAttribute

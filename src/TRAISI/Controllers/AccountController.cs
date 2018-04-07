@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using QuickApp.ViewModels;
+using TRAISI.ViewModels;
 using AutoMapper;
 using DAL.Models;
 using DAL.Core.Interfaces;
-using QuickApp.Authorization;
-using QuickApp.Helpers;
+using TRAISI.Authorization;
+using TRAISI.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using DAL.Core;
 
-namespace QuickApp.Controllers
+namespace TRAISI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

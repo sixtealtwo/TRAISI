@@ -21,9 +21,9 @@ using Newtonsoft.Json;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using QuickApp.ViewModels;
-using QuickApp.Helpers;
-using QuickApp.Authorization;
+using TRAISI.ViewModels;
+using TRAISI.Helpers;
+using TRAISI.Authorization;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
@@ -33,7 +33,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using System.Collections.Generic;
 
-namespace QuickApp
+namespace TRAISI
 {
     public class Startup
     {
@@ -55,7 +55,7 @@ namespace QuickApp
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+                options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
                 options.UseOpenIddict();
             });
 
@@ -144,7 +144,7 @@ namespace QuickApp
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
 
                 c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
                 {
@@ -236,7 +236,7 @@ namespace QuickApp
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TRAISI API V1");
             });
 
 

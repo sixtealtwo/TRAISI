@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace QuickApp
+namespace TRAISI
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
@@ -30,7 +30,7 @@ namespace QuickApp
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            builder.UseSqlite(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+            builder.UseSqlite(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
             builder.UseOpenIddict();
 
             return new ApplicationDbContext(builder.Options);

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace QuickApp.Migrations
+namespace TRAISI.Migrations
 {
     public partial class Initial : Migration
     {

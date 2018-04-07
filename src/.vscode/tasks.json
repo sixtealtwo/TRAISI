@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/QuickApp/TRAISI.csproj"
+                "${workspaceFolder}/TRAISI/TRAISI.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

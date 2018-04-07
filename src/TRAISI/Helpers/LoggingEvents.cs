@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     public static class LoggingEvents
     {

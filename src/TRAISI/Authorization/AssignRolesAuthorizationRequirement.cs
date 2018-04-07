@@ -10,7 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace QuickApp.Authorization
+namespace TRAISI.Authorization
 {
     public class AssignRolesAuthorizationRequirement : IAuthorizationRequirement
     {

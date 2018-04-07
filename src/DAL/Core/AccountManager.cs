@@ -3,7 +3,7 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-// ==> Get QuickApp PREMIUM TEMPLATES
+// ==> Get TRAISI PREMIUM TEMPLATES
 // ==> https://www.ebenmonney.com/shop
 // ====================================
 

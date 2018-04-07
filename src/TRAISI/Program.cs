@@ -12,10 +12,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QuickApp.Helpers;
+using TRAISI.Helpers;
 using DAL;
 
-namespace QuickApp
+namespace TRAISI
 {
     public class Program
     {

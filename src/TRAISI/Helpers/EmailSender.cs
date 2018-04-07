@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using Microsoft.Extensions.Options;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     public interface IEmailer
     {

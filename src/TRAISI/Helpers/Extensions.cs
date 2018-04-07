@@ -3,7 +3,7 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-using QuickApp.ViewModels;
+using TRAISI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     public static class Extensions
     {

@@ -8,7 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace QuickApp.Helpers
+namespace TRAISI.Helpers
 {
     public static class EmailTemplates
     {

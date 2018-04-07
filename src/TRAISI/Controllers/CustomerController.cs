@@ -9,14 +9,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DAL;
-using QuickApp.ViewModels;
+using TRAISI.ViewModels;
 using AutoMapper;
 using DAL.Models;
 using Microsoft.Extensions.Logging;
-using QuickApp.Helpers;
+using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
 
-namespace QuickApp.Controllers
+namespace TRAISI.Controllers
 {
     [Route("api/[controller]")]
     public class CustomerController : Controller
@@ -61,7 +61,7 @@ namespace QuickApp.Controllers
 
             string message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
 
-            (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
+            (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from TRAISI", message);
 
             if (response.success)
                 return "Success";

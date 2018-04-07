@@ -6,7 +6,7 @@
 using System;
 using System.Linq;
 
-namespace QuickApp.ViewModels
+namespace TRAISI.ViewModels
 {
     public class ClaimViewModel
     {

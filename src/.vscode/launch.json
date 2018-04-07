@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/QuickApp/bin/Debug/netcoreapp2.0/QuickApp.dll",
+            "program": "${workspaceFolder}/TRAISI/bin/Debug/netcoreapp2.0/TRAISI.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/QuickApp",
+            "cwd": "${workspaceFolder}/TRAISI",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
