@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, ElementRef, AfterViewInit, Output} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppConfig } from '../../app.config';
@@ -15,6 +15,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   configFn: any;
   router: Router;
   location: Location;
+
+  @Output() logoutEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(config: AppConfig, el: ElementRef, router: Router, location: Location) {
     this.$el = jQuery(el.nativeElement);
@@ -78,8 +80,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  logout() {
-    this.router.navigate(['/login']);
+  logout(): void {
+    this.logoutEvent.emit();
   }
 }

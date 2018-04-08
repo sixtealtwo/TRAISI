@@ -1,7 +1,7 @@
 {
-  "name": "Sing",
-  "version": "4.2.0",
-  "description": "Sing Dashboard App with Angular 5.0 Final Release support by Flatlogic",
+  "name": "traisi",
+  "version": "2.0.0",
+  "description": "TRAISI Version 2 by UTTRI",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --extract-css",
@@ -31,7 +31,7 @@
     "angular2-text-mask": "8.0.2",
     "animate.css": "3.5.2",
     "awesome-bootstrap-checkbox": "1.0.0",
-    "bootstrap": "4.0.0-beta.3",
+    "bootstrap": "4.0.0",
     "bootstrap-colorpicker": "2.5.1",
     "bootstrap-datepicker": "1.7.0",
     "bootstrap-markdown": "2.10.0",

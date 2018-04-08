@@ -8,7 +8,8 @@ declare let jQuery: any;
 })
 export class NavbarComponent implements OnInit {
   @Output() toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
-  @Output() toggleChatEvent: EventEmitter<any> = new EventEmitter();
+  @Output() logoutEvent: EventEmitter<any> = new EventEmitter();
+
   $el: any;
   config: any;
 
@@ -21,8 +22,8 @@ export class NavbarComponent implements OnInit {
     this.toggleSidebarEvent.emit(state);
   }
 
-  toggleChat(): void {
-    this.toggleChatEvent.emit(null);
+  logout(): void {
+    this.logoutEvent.emit();
   }
 
   ngOnInit(): void {

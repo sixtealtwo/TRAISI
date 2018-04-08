@@ -7,8 +7,8 @@ export class AppConfig {
   config = {
     name: 'sing',
     logo: 'assets/img/logo_dark.png',
-    title: 'Sing Dashboard App with Angular support by Flatlogic',
-    version: '4.2.0',
+    title: 'TRAISI Version 2 by UTTRI',
+    version: '2.0.0',
     /**
      * Whether to print and alert some log information
      */

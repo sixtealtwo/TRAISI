@@ -1,7 +1,6 @@
-<app-sidebar id="sidebar" role="navigation" class="sidebar"></app-sidebar>
-<app-navbar (toggleSidebarEvent)="toggleSidebarListener($event)"
-     (toggleChatEvent)="toggleChatListener()" class="page-controls navbar navbar-dashboard"></app-navbar>
-<app-chat-sidebar class="chat-sidebar"></app-chat-sidebar>
+<app-sidebar id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()"></app-sidebar>
+<app-navbar (toggleSidebarEvent)="toggleSidebarListener($event)" (logoutEvent)="logout()"
+     class="page-controls navbar navbar-dashboard"></app-navbar>
 
 <div class="content-wrap" id="content-wrap">
   <ngx-loading-bar></ngx-loading-bar>
@@ -26,7 +25,7 @@
       <router-outlet></router-outlet>
     </div>
     <footer class="content-footer">
-      Sing Angular Version - Made by <a href="https://flatlogic.com" rel="nofollow" target="_blank">Flatlogic</a>
+      2018 &copy; University of Toronto Transportation Research Institute
     </footer>
   </main>
 </div>

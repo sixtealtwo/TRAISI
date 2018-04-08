@@ -14,6 +14,7 @@ import {
   NavigationError
 } from '@angular/router';
 import { AppConfig } from '../app.config';
+import { AuthService } from '../services/auth.service';
 
 declare let jQuery: any;
 declare let Hammer: any;
@@ -39,7 +40,7 @@ export class LayoutComponent implements OnInit {
               el: ElementRef,
               router: Router,
               private renderer: Renderer2,
-              private ngZone: NgZone) {
+              private ngZone: NgZone, private authService: AuthService) {
     this.el = el;
     this.config = config.getConfig();
     this.configFn = config;
@@ -285,5 +286,10 @@ export class LayoutComponent implements OnInit {
         '1'
       );
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.authService.redirectLogoutUser();
   }
 }

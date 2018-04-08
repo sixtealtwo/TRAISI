@@ -1,11 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "Sing App 4.2.0 with Angular 4.0 Final Release support by Flatlogic"
+    "name": "TRAISI Version 2 by UTTRI"
   },
   "apps": [
     {
-      "name": "Sing",
+      "name": "traisi",
       "root": "src",
       "outDir": "dist",
       "assets": [
@@ -53,6 +53,10 @@
     "component": {},
     "serve": {
       "port": 3000
+    },
+    "build": {
+      "showCircularDependencies": false,
+      "progress": true
     }
   }
 }

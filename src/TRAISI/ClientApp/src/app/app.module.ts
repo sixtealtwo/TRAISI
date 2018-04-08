@@ -15,6 +15,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppTitleService } from './services/app-title.service';
 import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
 import { ConfigurationService } from './services/configuration.service';
@@ -26,10 +27,11 @@ import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
 import { AccountEndpoint } from './services/account-endpoint.service';
 
-import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 const APP_PROVIDERS = [
   AppConfig
@@ -45,11 +47,8 @@ const APP_PROVIDERS = [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    AppRoutingModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: false,
-      preloadingStrategy: NoPreloading
-    }),
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

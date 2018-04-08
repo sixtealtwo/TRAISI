@@ -10,6 +10,7 @@
 @import "../../node_modules/animate.css/animate";
 @import "../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
 @import "../../node_modules/bootstrap-select/sass/bootstrap-select";
+@import '../../node_modules/ng2-toasty/bundles/style-bootstrap';
 
 @import "bootstrap-override";
 @import "libs-override";
@@ -27,3 +28,4 @@
 @import "loader";
 @import "utils";
 @import "print";
+@import "toasty";
