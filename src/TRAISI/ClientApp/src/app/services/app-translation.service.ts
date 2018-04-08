@@ -98,17 +98,17 @@ export class TranslateLanguageLoader implements TranslateLoader {
 
         switch (lang) {
             case "en":
-                return Observable.of(require("../assets/locale/en.json"));
+                return Observable.of(require("../../assets/locale/en.json"));
             case "fr":
-                return Observable.of(require("../assets/locale/fr.json"));
+                return Observable.of(require("../../assets/locale/fr.json"));
             case "de":
-                return Observable.of(require("../assets/locale/de.json"));
+                return Observable.of(require("../../assets/locale/de.json"));
             case "pt":
-                return Observable.of(require("../assets/locale/pt.json"));
+                return Observable.of(require("../../assets/locale/pt.json"));
             case "ar":
-                return Observable.of(require("../assets/locale/ar.json"));
+                return Observable.of(require("../../assets/locale/ar.json"));
             case "ko":
-                return Observable.of(require("../assets/locale/ko.json"));
+                return Observable.of(require("../../assets/locale/ko.json"));
             default:
         }
     }

@@ -1,32 +1,29 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "quickapp"
+    "name": "Sing App 4.2.0 with Angular 4.0 Final Release support by Flatlogic"
   },
   "apps": [
     {
+      "name": "Sing",
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "favicon.ico"
+        "assets"
       ],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "scss/application.scss"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/popper.js/dist/umd/popper.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
-        "../node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-        "../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"
+        "../node_modules/hammerjs/hammer.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -44,14 +41,6 @@
     {
       "project": "src/tsconfig.app.json",
       "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "src/tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "e2e/tsconfig.e2e.json",
-      "exclude": "**/node_modules/**"
     }
   ],
   "test": {
@@ -60,11 +49,10 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "component": {},
-    "build": {
-      "showCircularDependencies": false,
-      "progress": true
+    "serve": {
+      "port": 3000
     }
   }
 }
