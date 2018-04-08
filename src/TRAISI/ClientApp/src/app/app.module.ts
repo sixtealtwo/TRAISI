@@ -30,8 +30,7 @@ import { AccountEndpoint } from './services/account-endpoint.service';
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
-import { AuthGuard } from './services/auth-guard.service';
-import { AuthService } from './services/auth.service';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 const APP_PROVIDERS = [
   AppConfig
@@ -41,7 +40,8 @@ const APP_PROVIDERS = [
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    ErrorComponent
+    ErrorComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

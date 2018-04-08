@@ -233,7 +233,7 @@ export class LayoutComponent implements OnInit {
     });
 
     // populate name with logged in user
-    this.userName = this.authService.currentUser.fullName;
+    this.userName = this.authService.currentUser.fullName.split(' ')[0];
   }
 
   private _navigationInterceptor(event: RouterEvent): void {

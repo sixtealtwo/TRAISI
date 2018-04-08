@@ -22,8 +22,18 @@ footer {
   }
 }
 
+.login-logo {
+  @media (max-width: 467px) {
+    width: 73vw;
+  }
+}
+
 .widget-login-container{
   padding-top: 10%;
+
+  @media (max-width: 467px) {
+    padding-top: 5%;
+  }
 }
 
 .widget-login-logo{

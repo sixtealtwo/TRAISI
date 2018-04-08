@@ -1,4 +1,4 @@
-<app-sidebar id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()"></app-sidebar>
+<app-sidebar id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()"  [userName]="userName"></app-sidebar>
 <app-navbar (toggleSidebarEvent)="toggleSidebarListener($event)" (logoutEvent)="logout()" [userName]="userName"
      class="page-controls navbar navbar-dashboard"></app-navbar>
 

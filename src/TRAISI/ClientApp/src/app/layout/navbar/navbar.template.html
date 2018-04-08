@@ -36,22 +36,13 @@
 </form>
 <ul class="navbar-nav mr-3 d-none d-md-flex flex-row" (click)="$event.preventDefault()">
     <li class="nav-item dropdown" dropdown placement="bottom right" [autoClose]="false">
-      <a href="#" dropdownToggle class="nav-link dropdown-toggle dropdown-toggle-notifications"
+      <div class="nav-link dropdown-toggle dropdown-toggle-notifications"
          id="notifications-dropdown-toggle">
               <span class="thumb-sm avatar float-left">
                   <img class="rounded-circle" src="assets/img/avatar.png" alt="...">
               </span>
               &nbsp;<strong>{{ userName }}</strong>&nbsp;
-              <span class="fw-bold badge badge-pill badge-warning p-1 text-gray">
-                  13
-              </span>
-        <b class="caret"></b>
-      </a>
-      <!-- ready to use notifications dropdown. inspired by smartadmin template.
-                   consists of three components:
-                   notifications, messages, progress. leave or add what's important for you.
-                   uses Sing's ajax-load plugin for async content loading. See #load-notifications-btn -->
-      <app-notifications *dropdownMenu class="dropdown-menu dropdown-menu-right animated animated-fast fadeInUp"></app-notifications>
+      </div>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a href="#" class="nav-link dropdown-toggle" dropdownToggle>
