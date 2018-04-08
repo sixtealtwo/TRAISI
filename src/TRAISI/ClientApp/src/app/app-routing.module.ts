@@ -29,7 +29,7 @@ import { ErrorComponent } from './error/error.component';
            }
          ], {
             useHash: false,
-            preloadingStrategy: NoPreloading
+            preloadingStrategy: PreloadAllModules
           })
     ],
     exports: [

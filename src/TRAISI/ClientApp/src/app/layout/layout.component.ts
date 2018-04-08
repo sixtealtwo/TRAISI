@@ -36,6 +36,8 @@ export class LayoutComponent implements OnInit {
   @ViewChild('spinnerElement') spinnerElement: ElementRef;
   @ViewChild('routerComponent') routerComponent: ElementRef;
 
+  userName: string;
+
   constructor(config: AppConfig,
               el: ElementRef,
               router: Router,
@@ -229,6 +231,9 @@ export class LayoutComponent implements OnInit {
 
       jQuery(this).closest('li').removeClass('open');
     });
+
+    // populate name with logged in user
+    this.userName = this.authService.currentUser.fullName;
   }
 
   private _navigationInterceptor(event: RouterEvent): void {

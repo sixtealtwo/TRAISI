@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, ElementRef, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, ElementRef, Input, Output } from '@angular/core';
 import { AppConfig } from '../../app.config';
 declare let jQuery: any;
 
@@ -10,6 +10,7 @@ export class NavbarComponent implements OnInit {
   @Output() toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
   @Output() logoutEvent: EventEmitter<any> = new EventEmitter();
 
+  @Input() userName: string;
   $el: any;
   config: any;
 
