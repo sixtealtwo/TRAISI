@@ -57,6 +57,8 @@ export class AppComponent implements OnInit {  isAppLoaded: boolean;
         this.alertService.showMessage('Login', `Welcome back ${this.userName}!`, MessageSeverity.default);
         } else {
          this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again', MessageSeverity.warn);
+         this.authService.logout();
+         this.authService.redirectLogoutUser();
         }
       }
     }, 2000);
