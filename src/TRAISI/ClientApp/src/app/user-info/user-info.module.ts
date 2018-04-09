@@ -1,30 +1,27 @@
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-
-import { LoginComponent } from './login.component';
+import { BootstrapSelectDirective } from '../directives/bootstrap-select.directive';
+import { UserInfoComponent } from './user-info.component';
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 
 export const routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' }
+  { path: '', component: UserInfoComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
     TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader},
-      isolate: true
+      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
     })
-  ]
+  ],
+  declarations: [UserInfoComponent, BootstrapSelectDirective]
 })
-export class LoginModule {
+export class UserInfoModule {
   static routes = routes;
 }

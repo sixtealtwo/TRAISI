@@ -14,7 +14,7 @@ import 'rxjs/add/observable/of';
 export class AppTranslationService {
 
     private _languageChanged = new Subject<string>();
-    readonly defaultLanguage = "en";
+    readonly defaultLanguage = 'en';
 
     constructor(private translate: TranslateService) {
 

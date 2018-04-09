@@ -16,14 +16,17 @@
       "polyfills": "polyfills.ts",
       "tsconfig": "tsconfig.app.json",
       "prefix": "app",
-      "styles": [
-        "scss/application.scss"
-      ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/popper.js/dist/umd/popper.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/hammerjs/hammer.js"
+        "../node_modules/hammerjs/hammer.js",
+        "../node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
+        "../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "../node_modules/bootstrap-select/dist/js/bootstrap-select.js"
+      ],
+      "styles": [
+        "scss/application.scss"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

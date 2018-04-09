@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 import { ROUTES } from './layout.routes';
 
@@ -13,10 +15,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ChatSidebarComponent } from './chat-sidebar/chat-sidebar.component';
 import { ChatMessageComponent } from './chat-sidebar/chat-message/chat-message.component';
 import { SearchPipe } from './pipes/search.pipe';
-import { NotificationsLoadDirective } from './notifications/notifications-load.directive';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { TranslateLanguageLoader } from '../services/app-translation.service';
 
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+
 
 @NgModule({
   imports: [
@@ -25,7 +26,11 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     BsDropdownModule.forRoot(),
     ROUTES,
     FormsModule,
-    LoadingBarRouterModule
+    LoadingBarRouterModule,
+    TranslateModule.forChild({
+      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader},
+      isolate: true
+    })
   ],
   declarations: [
     LayoutComponent,
@@ -33,8 +38,6 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     NavbarComponent,
     ChatSidebarComponent,
     SearchPipe,
-    NotificationsComponent,
-    NotificationsLoadDirective,
     ChatMessageComponent
   ]
 })

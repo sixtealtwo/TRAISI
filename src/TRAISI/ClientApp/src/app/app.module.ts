@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -27,10 +27,18 @@ import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
 import { AccountEndpoint } from './services/account-endpoint.service';
 
+import { EqualValidator } from './directives/equal-validator.directive';
+import { LastElementDirective } from './directives/last-element.directive';
+import { AutofocusDirective } from './directives/autofocus.directive';
+import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
+import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
+
+import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
+import { GroupByPipe } from './pipes/group-by.pipe';
+
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
-import { UserInfoComponent } from './user-info/user-info.component';
 
 const APP_PROVIDERS = [
   AppConfig
@@ -41,7 +49,13 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     ErrorComponent,
-    UserInfoComponent
+    EqualValidator,
+    LastElementDirective,
+    AutofocusDirective,
+    BootstrapTabDirective,
+    BootstrapToggleDirective,
+    BootstrapDatepickerDirective,
+    GroupByPipe
   ],
   imports: [
     BrowserModule,
@@ -75,7 +89,8 @@ const APP_PROVIDERS = [
     AccountService,
     AccountEndpoint,
     LocalStoreManager,
-    EndpointFactory
+    EndpointFactory,
+    TranslatePipe
   ]
 })
 export class AppModule {}

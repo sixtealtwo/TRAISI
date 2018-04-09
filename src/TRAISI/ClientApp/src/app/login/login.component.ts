@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     @Input()
     isModal = false;
 
-
+    blah = 'test';
     constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
 
     }
