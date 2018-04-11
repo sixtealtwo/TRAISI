@@ -12,6 +12,9 @@
     "About": "Sobre",
     "Logout": "Sair"
   },
+  "sidebar": {
+    "Dashboard": "Painel de Controle"
+  },
   "pageHeader": {
     "Dashboard": "Painel de Controle",
     "Customers": "Clientes",

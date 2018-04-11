@@ -13,6 +13,8 @@ import { AuthService } from './services/auth.service';
 import { ConfigurationService } from './services/configuration.service';
 import { Permission } from './models/permission.model';
 
+declare let alertify: any;
+
 @Component({
   selector: 'app-root',
   template: `<router-outlet><ng2-toasty></ng2-toasty></router-outlet>`
@@ -49,6 +51,10 @@ export class AppComponent implements OnInit {  isAppLoaded: boolean;
     // 1 sec to ensure all the effort to get the css animation working is appreciated :|, Preboot screen is removed .5 sec later
     setTimeout(() => this.isAppLoaded = true, 1000);
 
+    this.alertService.getDialogEvent().subscribe(alert => this.showDialog(alert));
+    this.alertService.getMessageEvent().subscribe(message => this.showToast(message, false));
+    this.alertService.getStickyMessageEvent().subscribe(message => this.showToast(message, true));
+
     setTimeout(() => {
       if (this.isUserLoggedIn) {
         this.alertService.resetStickyMessage();
@@ -62,9 +68,6 @@ export class AppComponent implements OnInit {  isAppLoaded: boolean;
         }
       }
     }, 2000);
-
-    this.alertService.getMessageEvent().subscribe(message => this.showToast(message, false));
-    this.alertService.getStickyMessageEvent().subscribe(message => this.showToast(message, true));
 
     this.authService.reLoginDelegate = () => this.router.navigate(['/login']);
 
@@ -87,6 +90,48 @@ export class AppComponent implements OnInit {  isAppLoaded: boolean;
         }
       }
     });
+  }
+
+  showDialog(dialog: AlertDialog) {
+
+    alertify.set({
+      labels: {
+        ok: dialog.okLabel || 'OK',
+        cancel: dialog.cancelLabel || 'Cancel'
+      }
+    });
+
+    switch (dialog.type) {
+      case DialogType.alert:
+        alertify.alert(dialog.message);
+        break;
+      case DialogType.confirm:
+        alertify
+          .confirm(dialog.message, (e) => {
+            if (e) {
+              dialog.okCallback();
+            }  else {
+              if (dialog.cancelCallback) {
+                dialog.cancelCallback();
+              }
+            }
+          });
+
+        break;
+      case DialogType.prompt:
+        alertify
+          .prompt(dialog.message, (e, val) => {
+            if (e) {
+              dialog.okCallback(val);
+            } else {
+              if (dialog.cancelCallback) {
+                dialog.cancelCallback();
+              }
+            }
+          }, dialog.defaultValue);
+
+        break;
+    }
   }
 
   showToast(message: AlertMessage, isSticky: boolean) {

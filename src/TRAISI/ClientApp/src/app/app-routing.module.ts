@@ -29,7 +29,8 @@ import { ErrorComponent } from './error/error.component';
            }
          ], {
             useHash: false,
-            preloadingStrategy: PreloadAllModules
+            preloadingStrategy: PreloadAllModules,
+            onSameUrlNavigation: 'reload'
           })
     ],
     exports: [

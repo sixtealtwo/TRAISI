@@ -17,23 +17,37 @@
                           (ngSubmit)="f.form.valid ? login() :
                           (!email.valid && showErrorAlert('Email is required', 'Please enter a valid email'));
                           (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
-                        <div class="form-group" [ngClass]="{'was-validated': f.submitted}">
-                            <label class="control-label col-md-2" for="login-email">Email:</label>
-                            <div>
-                                <input type="text" id="login-email" name="email" placeholder="Enter email or username" class="form-control feedback-icon"
-                                  [(ngModel)]="userLogin.email" #email="ngModel" required />
-                                <div class="invalid-feedback">
-                                    Email is required
+                        <div class="form-group row" [ngClass]="{'was-validated': f.submitted}">
+                            <label class="col-form-label text-md-right col-md-2" for="login-email">Email:</label>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">
+                                          <i class="fa fa-user"></i>
+                                        </span>
+                                    </span>
+                                    <input type="text" id="login-email" name="email" placeholder="Enter email or username" class="form-control feedback-icon"
+                                            [(ngModel)]="userLogin.email" #email="ngModel" required />
+                                    <div class="invalid-feedback">
+                                        Email is required
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="form-group" [ngClass]="{'was-validated': f.submitted}">
-                            <label class="control-label col-md-2" for="login-password">Password:</label>
-                            <div>
-                                <input type="password" id="login-password" name="password" placeholder="Enter password" class="form-control" [(ngModel)]="userLogin.password" #password="ngModel" required />
-                                <div class="invalid-feedback" >
-                                    Password is required
+                        <div class="form-group row" [ngClass]="{'was-validated': f.submitted}">
+                            <label class="col-form-label text-md-right col-md-2" for="login-password">Password:</label>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </span>
+                                    <input type="password" id="login-password" name="password" placeholder="Enter password" class="form-control" [(ngModel)]="userLogin.password" #password="ngModel" required />
+                                    <div class="invalid-feedback" >
+                                        Password is required
+                                    </div>
                                 </div>
                             </div>
                         </div>

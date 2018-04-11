@@ -12,6 +12,9 @@
     "About": "À Propos",
     "Logout": "Se Déconnecter"
   },
+  "sidebar": {
+    "Dashboard": "Tableau de bord"
+  },
   "pageHeader": {
     "Dashboard": "Tableau de bord",
     "Customers": "Les clients",

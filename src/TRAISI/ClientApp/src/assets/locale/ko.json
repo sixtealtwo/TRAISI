@@ -12,6 +12,9 @@
     "About": "약",
     "Logout": "로그 아웃"
   },
+  "sidebar": {
+    "Dashboard": "계기반"
+  },
   "pageHeader": {
     "Dashboard": "계기반",
     "Customers": "고객",

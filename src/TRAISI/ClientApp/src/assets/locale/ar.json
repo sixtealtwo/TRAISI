@@ -12,6 +12,9 @@
     "About": "حول منجز التطبيق",
     "Logout": "الخروج"
   },
+  "sidebar": {
+    "Dashboard": "لوحة القيادة"
+  },
   "pageHeader": {
     "Dashboard": "لوحة القيادة",
     "Customers": "الزبائن",

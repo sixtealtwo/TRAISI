@@ -3,7 +3,7 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, Input } from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../services/alert.service';
 import { AccountService } from '../services/account.service';

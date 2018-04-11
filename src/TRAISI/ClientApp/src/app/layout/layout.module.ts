@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
+
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
@@ -18,7 +19,6 @@ import { SearchPipe } from './pipes/search.pipe';
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -28,8 +28,7 @@ import { TranslateLanguageLoader } from '../services/app-translation.service';
     FormsModule,
     LoadingBarRouterModule,
     TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader},
-      isolate: true
+      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
     })
   ],
   declarations: [

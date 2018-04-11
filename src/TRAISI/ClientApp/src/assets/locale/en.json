@@ -12,6 +12,9 @@
     "About": "About",
     "Logout": "Logout"
   },
+  "sidebar": {
+    "Dashboard": "Dashboard"
+  },
   "pageHeader": {
     "Dashboard": "Dashboard",
     "Customers": "Customers",

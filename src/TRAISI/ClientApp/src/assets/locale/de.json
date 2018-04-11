@@ -12,6 +12,9 @@
     "About": "Über",
     "Logout": "Abmelden"
   },
+  "sidebar": {
+    "Dashboard": "Übersicht"
+  },
   "pageHeader": {
     "Dashboard": "Übersicht",
     "Customers": "Kunden",

@@ -20,8 +20,7 @@ export const routes = [
     FormsModule,
     RouterModule.forChild(routes),
     TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader},
-      isolate: true
+      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
     })
   ]
 })

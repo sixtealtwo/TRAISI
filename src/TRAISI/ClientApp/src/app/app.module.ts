@@ -11,7 +11,6 @@ import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
@@ -73,7 +72,6 @@ const APP_PROVIDERS = [
     ToastyModule.forRoot(),
     TooltipModule.forRoot(),
     PopoverModule.forRoot(),
-    BsDropdownModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ChartsModule
