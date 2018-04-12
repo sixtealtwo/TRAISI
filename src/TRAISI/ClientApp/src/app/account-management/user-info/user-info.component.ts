@@ -14,11 +14,13 @@ import { Role } from '../../models/role.model';
 import { Permission } from '../../models/permission.model';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { AuthService } from '../../services/auth.service';
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
     selector: 'user-info',
     templateUrl: './user-info.component.html',
-    styleUrls: ['./user-info.component.scss']
+    styleUrls: ['./user-info.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class UserInfoComponent implements OnInit {
 
@@ -33,7 +35,11 @@ export class UserInfoComponent implements OnInit {
     public user: User = new User();
     public userEdit: UserEdit;
     public allRoles: Role[] = [];
-
+    public rolesOptions: Array<Select2OptionData>;
+    public selectedRole: string;
+    select2Options: any = {
+        theme: 'bootstrap'
+      };
     public formResetToggle = true;
 
     public changesSavedCallback: () => void;
@@ -87,6 +93,7 @@ export class UserInfoComponent implements OnInit {
         if (!this.isGeneralEditor) {
             this.loadCurrentUserData();
         }
+        this.rolesOptions = [];
     }
 
     private loadCurrentUserData() {
@@ -105,6 +112,22 @@ export class UserInfoComponent implements OnInit {
         this.alertService.stopLoadingMessage();
         this.user = user;
         this.allRoles = roles;
+        this.rolesOptions = [];
+
+        for (const role of this.allRoles) {
+            this.rolesOptions.push({text: role.description, id: role.name});
+        }
+        this.selectedRole = this.user.roles[0];
+    }
+
+    public updateRole(e: any): void {
+        if (this.isEditingSelf) {
+            this.user.roles = [];
+            this.user.roles.push(e.value);
+        } else {
+            this.userEdit.roles = [];
+            this.userEdit.roles.push(e.value);
+        }
     }
 
     private onCurrentUserDataLoadFailed(error: any) {
@@ -338,6 +361,12 @@ export class UserInfoComponent implements OnInit {
             this.userEdit = new UserEdit();
             Object.assign(this.user, user);
             Object.assign(this.userEdit, user);
+            this.rolesOptions = [];
+
+            for (const role of this.allRoles) {
+                this.rolesOptions.push({text: role.description, id: role.name});
+            }
+            this.selectedRole = this.userEdit.roles[0];
             this.edit();
 
             return this.userEdit;

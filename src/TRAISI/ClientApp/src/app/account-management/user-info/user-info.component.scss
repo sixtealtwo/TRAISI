@@ -1,3 +1,8 @@
+@import "../../../scss/helpers";
+@import "../../../scss/select2-variables";
+@import "../../../../node_modules/select2/src/scss/core";
+@import "../../../../node_modules/select2-bootstrap-theme/src/select2-bootstrap";
+
 .separator-hr {
     margin: 0px 0px 8px 0px;
     border-top-style: dashed;
