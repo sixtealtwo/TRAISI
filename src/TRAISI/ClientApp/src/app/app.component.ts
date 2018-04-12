@@ -72,9 +72,9 @@ export class AppComponent implements OnInit {  isAppLoaded: boolean;
     this.authService.reLoginDelegate = () => this.router.navigate(['/login']);
 
     this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
-      this.isUserLoggedIn = isLoggedIn;
+    this.isUserLoggedIn = isLoggedIn;
 
-      setTimeout(() => {
+    setTimeout(() => {
         if (!this.isUserLoggedIn) {
           this.alertService.showMessage('Session Ended!', '', MessageSeverity.default);
         }

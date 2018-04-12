@@ -33,7 +33,6 @@ import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
 import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
 
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
-import { GroupByPipe } from './pipes/group-by.pipe';
 
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
@@ -53,8 +52,7 @@ const APP_PROVIDERS = [
     AutofocusDirective,
     BootstrapTabDirective,
     BootstrapToggleDirective,
-    BootstrapDatepickerDirective,
-    GroupByPipe
+    BootstrapDatepickerDirective
   ],
   imports: [
     BrowserModule,

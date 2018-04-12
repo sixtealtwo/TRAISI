@@ -5,8 +5,8 @@ const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', loadChildren: '../dashboard/dashboard.module#DashboardModule' },
     { path: 'another-page', loadChildren: '../another/another.module#AnotherModule' },
-    { path: 'account', loadChildren: '../user-info/user-info.module#UserInfoModule'},
-    { path: 'preferences', loadChildren: '../user-preferences/user-preferences.module#UserPreferencesModule'}
+    { path: 'account', loadChildren: '../account-management/account-management.module#AccountManagementModule'},
+    { path: 'users', loadChildren: '../users-management/users-management.module#UsersManagementModule'}
   ]}
 ];
 

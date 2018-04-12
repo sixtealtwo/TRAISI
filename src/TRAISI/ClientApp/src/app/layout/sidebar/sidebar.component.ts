@@ -2,6 +2,8 @@ import {Component, EventEmitter, OnInit, ElementRef, AfterViewInit, Input, Outpu
 import { Router, NavigationEnd } from '@angular/router';
 import { Location, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppConfig } from '../../app.config';
+import { AccountService } from '../../services/account.service';
+import { Permission } from '../../models/permission.model';
 declare let jQuery: any;
 
 @Component({
@@ -18,7 +20,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   @Output() logoutEvent: EventEmitter<any> = new EventEmitter();
   @Input() userName: string;
-  constructor(config: AppConfig, el: ElementRef, router: Router, location: Location) {
+  constructor(config: AppConfig, el: ElementRef, router: Router,
+    location: Location, private accountService: AccountService) {
     this.$el = jQuery(el.nativeElement);
     this.config = config.getConfig();
     this.configFn = config;
@@ -82,5 +85,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
   logout(): void {
     this.logoutEvent.emit();
+  }
+
+  get canManageUsers() {
+    return this.accountService.userHasPermission(Permission.manageUsersPermission);
+  }
+
+  get canViewRoles() {
+    return this.accountService.userHasPermission(Permission.viewRolesPermission);
   }
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserPreferencesComponent } from './user-preferences.component';
+import { RolesManagementComponent } from './roles-management.component';
 
-describe('UserPreferencesComponent', () => {
-  let component: UserPreferencesComponent;
-  let fixture: ComponentFixture<UserPreferencesComponent>;
+describe('RolesManagementComponent', () => {
+  let component: RolesManagementComponent;
+  let fixture: ComponentFixture<RolesManagementComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserPreferencesComponent ]
+      declarations: [ RolesManagementComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserPreferencesComponent);
+    fixture = TestBed.createComponent(RolesManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

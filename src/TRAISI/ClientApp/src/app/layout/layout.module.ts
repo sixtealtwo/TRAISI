@@ -7,6 +7,7 @@ import { BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { ROUTES } from './layout.routes';
 
@@ -18,12 +19,12 @@ import { ChatMessageComponent } from './chat-sidebar/chat-message/chat-message.c
 import { SearchPipe } from './pipes/search.pipe';
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 
-
 @NgModule({
   imports: [
     CommonModule,
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     ROUTES,
     FormsModule,
     LoadingBarRouterModule,

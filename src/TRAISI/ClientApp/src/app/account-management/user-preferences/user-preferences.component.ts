@@ -5,15 +5,14 @@
 
 import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild } from '@angular/core';
 
-import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { AppTranslationService } from '../services/app-translation.service';
-import { BootstrapSelectDirective } from '../directives/bootstrap-select.directive';
-import { AccountService } from '../services/account.service';
-import { Utilities } from '../services/utilities';
-import { Permission } from '../models/permission.model';
+import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
+import { ConfigurationService } from '../../services/configuration.service';
+import { AppTranslationService } from '../../services/app-translation.service';
+import { BootstrapSelectDirective } from '../../directives/bootstrap-select.directive';
+import { AccountService } from '../../services/account.service';
+import { Utilities } from '../../services/utilities';
+import { Permission } from '../../models/permission.model';
 import { Select2OptionData } from 'ng2-select2';
-import { ɵDomSharedStylesHost } from '@angular/platform-browser';
 
 @Component({
     selector: 'user-preferences',
@@ -42,14 +41,14 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
         // This is a hack on angular style loader to prevent ng2-select2 from adding its styles.
         // They are hard-coded into the component, so there are no other way to get rid of them
         //
-        this.domSharedStylesHost = injector.get(ɵDomSharedStylesHost);
+        /*this.domSharedStylesHost = injector.get(ɵDomSharedStylesHost);
         this.domSharedStylesHost.__onStylesAdded__ = this.domSharedStylesHost.onStylesAdded;
         this.domSharedStylesHost.onStylesAdded = (additions) => {
           const style = additions[0];
           if (!style || !style.trim().startsWith('.select2-container')) {
             this.domSharedStylesHost.__onStylesAdded__(additions);
           }
-        };
+        };*/
     }
 
     ngOnInit() {

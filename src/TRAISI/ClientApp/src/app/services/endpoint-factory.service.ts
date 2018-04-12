@@ -65,7 +65,10 @@ export class EndpointFactory {
 
     getRefreshLoginEndpoint<T>(): Observable<T> {
 
-        let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        let header = new HttpHeaders({
+            'Authorization': 'Bearer ' + this.authService.accessToken,
+            'Content-Type': 'application/x-www-form-urlencoded'}
+        );
 
         let params = new HttpParams()
             .append('refresh_token', this.authService.refreshToken)
@@ -83,7 +86,7 @@ export class EndpointFactory {
 
 
     protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
-        let headers = new HttpHeaders({
+        const headers = new HttpHeaders({
             'Authorization': 'Bearer ' + this.authService.accessToken,
             'Content-Type': 'application/json',
             'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,

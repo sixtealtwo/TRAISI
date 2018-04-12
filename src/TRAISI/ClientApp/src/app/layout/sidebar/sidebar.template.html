@@ -22,16 +22,21 @@
         {{ 'sidebar.Dashboard' | translate }}
       </a>
     </li>
-    <li>
-      <a [routerLink]=" ['another-page'] ">
+    <li *ngIf="canManageUsers">
+      <a [routerLink]=" ['users'] ">
       <span class="icon">
-          <i class="fa fa-tree"></i>
+          <i class="fa fa-users"></i>
       </span>
-        Another Page
-      <span class="badge badge-danger">
-          9
-      </span>
+        Manage Users
       </a>
+    </li>
+    <li *ngIf="canViewRoles">
+        <a [routerLink]=" ['users/roles'] ">
+        <span class="icon">
+            <i class="fa fa-gg-circle"></i>
+        </span>
+          Manage Roles
+        </a>
     </li>
     <li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
       <a (click)="logout()">

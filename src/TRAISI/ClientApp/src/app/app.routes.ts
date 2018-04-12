@@ -8,7 +8,7 @@ export const ROUTES: Routes = [{
     path: 'app',   loadChildren: './layout/layout.module#LayoutModule'
   },
   {
-    path: 'login', loadChildren: './login/login.module#LoginModule'
+    path: 'login', loadChildren: './login/login.module#LoginModule', data: { title: 'TRAISI - Login' }
   },
   {
     path: 'error', component: ErrorComponent
