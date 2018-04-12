@@ -53,8 +53,9 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
           { prop: 'index', name: '#', width: 30, cellTemplate: this.indexTemplate, canAutoResize: false },
           { prop: 'name', name: gT('roles.management.Name'), minWidth: 140, flexGrow: 140 },
           { prop: 'description', name: gT('roles.management.Description'), minWidth: 200, flexGrow: 200 },
+          { prop: 'level', name: gT('roles.management.Level'), minWidth: 40, flexGrow: 40 },
           { prop: 'usersCount', name: gT('roles.management.Users'), minWidth: 80, flexGrow: 80 },
-          { name: '', minWidth: 140, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false,
+          { name: '', minWidth: 150, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false,
               sortable: false, draggable: false }
       ];
 

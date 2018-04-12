@@ -147,6 +147,7 @@
     "editor": {
       "Name": "Nom:",
       "Description": "La description:",
+      "Level": "Niveau:",
       "RoleNameRequired": "Le nom du rôle est requis (minimum de 2 et maximum de 200 caractères)",
       "SelectAll": "Tout sélectionner",
       "SelectNone": "Ne rien sélectionner",

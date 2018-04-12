@@ -59,6 +59,7 @@ namespace DAL.Models
         /// Gets or sets the description for this role.
         /// </summary>
         public string Description { get; set; }
+        public int Level { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

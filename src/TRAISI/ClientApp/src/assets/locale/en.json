@@ -143,11 +143,13 @@
       "EditRole": "Edit Role \"{{name}}\"",
       "Name": "Name",
       "Description": "Description",
+      "Level": "Level",
       "Users": "Users"
     },
     "editor": {
       "Name": "Name:",
       "Description": "Description:",
+      "Level": "Level:",
       "RoleNameRequired": "Role name is required (minimum of 2 and maximum of 200 characters)",
       "SelectAll": "Select all",
       "SelectNone": "Select none",

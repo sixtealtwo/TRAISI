@@ -147,6 +147,7 @@
     "editor": {
       "Name": "Name:",
       "Description": "Beschreibung:",
+      "Level": "Niveau:",
       "RoleNameRequired": "Ein Rollenname ist erforderlich (mindestens 2, maximal 200 Zeichen)",
       "SelectAll": "Alle auswählen",
       "SelectNone": "Auswahl aufheben",

@@ -147,6 +147,7 @@
     "editor": {
       "Name": "이름:",
       "Description": "기술:",
+      "Level": "수평:",
       "RoleNameRequired": "역할 이름은 필수 항목입니다 (최소 2 자, 최대 200 자).",
       "SelectAll": "모두 선택",
       "SelectNone": "없음 선택",

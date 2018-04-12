@@ -147,6 +147,7 @@
     "editor": {
       "Name": "Nome:",
       "Description": "Descrição:",
+      "Level": "Nível:",
       "RoleNameRequired": "Nome da Função é Obrigatório (mínimo de 2 máximo de 200 caracteres)",
       "SelectAll": "Selecionar Todos",
       "SelectNone": "Nenhum",

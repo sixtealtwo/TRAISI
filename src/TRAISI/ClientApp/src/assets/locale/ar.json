@@ -147,6 +147,7 @@
     "editor": {
       "Name": "اسم:",
       "Description": "وصف:",
+      "Level": "مستوى:",
       "RoleNameRequired": "(اسم الدور مطلوب (بحد أدنى 2 و 200 حرف كحد أقصى",
       "SelectAll": "اختر الكل",
       "SelectNone": "لا تختر شيء",

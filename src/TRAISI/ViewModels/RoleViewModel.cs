@@ -22,6 +22,8 @@ namespace TRAISI.ViewModels
 
         public string Description { get; set; }
 
+        public int Level { get; set; }
+
         public int UsersCount { get; set; }
 
         public PermissionViewModel[] Permissions { get; set; }

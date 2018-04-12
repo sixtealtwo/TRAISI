@@ -14,11 +14,20 @@
                 </div>
             </div>
 
-            <div class="col-sm-8">
-                <div class="form-group">
+            <div class="col-sm-4">
+                <div class="form-group has-feedback">
                     <label class="control-label col-md-10" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
                     <div class="col-md-9">
                         <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription" placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group has-feedback">
+                    <label class="control-label col-md-10" for="roleLevel">{{'roles.editor.Level' | translate}}</label>
+                    <div class="col-md-9">
+                        <input [disabled]="!canManageRoles" type="number" min="0" id="roleLevel" name="roleLevel" placeholder="Enter role level" class="form-control" [(ngModel)]="roleEdit.level" />
                     </div>
                 </div>
             </div>
