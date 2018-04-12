@@ -54,9 +54,9 @@
               <hr class="password-separator-hr" />
           </div>
       </div>
-      <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="form-group has-feedback">
-          <label class="col-form-label text-md-right" for="userPassword-{{uniqueId}}">{{'users.editor.Password' | translate}}</label>
-          <div class="col-md-10" [ngClass]="{'has-success': f.submitted && userPassword.valid, 'has-error' : f.submitted && !userPassword.valid}">
+      <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="form-group row has-feedback">
+          <label class="col-form-label text-md-right col-md-2" for="userPassword-{{uniqueId}}">{{'users.editor.Password' | translate}}</label>
+          <div class="col-md-7" [ngClass]="{'has-success': f.submitted && userPassword.valid, 'has-error' : f.submitted && !userPassword.valid}">
               <input type="password" attr.id="userPassword-{{uniqueId}}" name="userPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter password"
                      class="form-control" [(ngModel)]="userEdit.currentPassword" #userPassword="ngModel" required />
               <small class="hint-sm">{{'users.editor.PasswordHint' | translate}}</small>

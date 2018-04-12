@@ -50,11 +50,11 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
       const gT = (key: string) => this.translationService.getTranslation(key);
 
       this.columns = [
-          { prop: 'index', name: '#', width: 50, cellTemplate: this.indexTemplate, canAutoResize: false },
-          { prop: 'name', name: gT('roles.management.Name'), width: 200 },
-          { prop: 'description', name: gT('roles.management.Description'), width: 350 },
-          { prop: 'usersCount', name: gT('roles.management.Users'), width: 80 },
-          { name: '', width: 130, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false,
+          { prop: 'index', name: '#', width: 30, cellTemplate: this.indexTemplate, canAutoResize: false },
+          { prop: 'name', name: gT('roles.management.Name'), minWidth: 140, flexGrow: 140 },
+          { prop: 'description', name: gT('roles.management.Description'), minWidth: 200, flexGrow: 200 },
+          { prop: 'usersCount', name: gT('roles.management.Users'), minWidth: 80, flexGrow: 80 },
+          { name: '', minWidth: 140, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false,
               sortable: false, draggable: false }
       ];
 

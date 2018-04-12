@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <ngx-datatable class="bootstrap sm table table-striped table-hover"
+    <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive"
                    [loadingIndicator]="loadingIndicator"
                    [rows]="rows"
                    [rowHeight]="45"
@@ -16,7 +16,7 @@
                    [footerHeight]="35"
                    [columns]="columns"
                    [scrollbarH]="true"
-                   [columnMode]="'force'">
+                   [columnMode]="'flex'">
     </ngx-datatable>
 
     <ng-template #indexTemplate let-value="value">
