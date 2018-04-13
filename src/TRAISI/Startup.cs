@@ -55,7 +55,7 @@ namespace TRAISI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
+                options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
                 options.UseOpenIddict();
             });
 

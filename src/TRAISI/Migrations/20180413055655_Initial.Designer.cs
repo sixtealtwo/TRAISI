@@ -12,13 +12,14 @@ using System;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180412182415_ApplicationRoleLevel")]
-    partial class ApplicationRoleLevel
+    [Migration("20180413055655_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>

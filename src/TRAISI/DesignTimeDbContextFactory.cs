@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
+
 namespace TRAISI
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
@@ -30,7 +31,7 @@ namespace TRAISI
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            builder.UseSqlite(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
+            builder.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
             builder.UseOpenIddict();
 
             return new ApplicationDbContext(builder.Options);
