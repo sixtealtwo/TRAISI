@@ -22,6 +22,9 @@ namespace DAL.Core
         public static ApplicationPermission ManageUsers = new ApplicationPermission("Manage Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
         public static ApplicationPermission AnalyzeUsers = new ApplicationPermission("Analyze Users", "users.analyze", UsersPermissionGroupName, "Permission to analyze users");
 
+        public const string SurveysPermissionGroupName = "Survey Permissions";
+        public static ApplicationPermission ViewSurveys = new ApplicationPermission("View Surveys", "surveys.view", SurveysPermissionGroupName, "Permission to view other surveys");
+
         public const string RolesPermissionGroupName = "Role Permissions";
         public static ApplicationPermission ViewRoles = new ApplicationPermission("View Roles", "roles.view", RolesPermissionGroupName, "Permission to view available roles");
         public static ApplicationPermission ManageRoles = new ApplicationPermission("Manage Roles", "roles.manage", RolesPermissionGroupName, "Permission to create, delete and modify roles");
@@ -38,7 +41,9 @@ namespace DAL.Core
 
                 ViewRoles,
                 ManageRoles,
-                AssignRoles
+                AssignRoles,
+
+                ViewSurveys
             };
 
             AllPermissions = allPermissions.AsReadOnly();

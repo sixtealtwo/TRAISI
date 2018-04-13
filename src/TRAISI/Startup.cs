@@ -165,6 +165,8 @@ namespace TRAISI
                 options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
                 options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
+            
+                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));            
             });
 
             Mapper.Initialize(cfg =>
