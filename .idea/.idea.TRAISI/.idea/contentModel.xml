@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\brendan\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v182\SolutionCaches\_TRAISI.1004801860.00" t="ExcludeRecursive" />
+    <e p="C:\Users\brendan\Documents\traisi\traisi-v2" t="IncludeFlat">
+      <e p=".gitignore" t="Include" />
+      <e p="LICENSE" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="README.md" t="Include" />
+      <e p="Solution Items" t="Include" />
+      <e p="src" t="Include">
+        <e p="DAL" t="IncludeRecursive">
+          <e p="ApplicationDbContext.cs" t="Include" />
+          <e p="Bin" t="ExcludeRecursive" />
+          <e p="Core" t="Include">
+            <e p="AccountManager.cs" t="Include" />
+            <e p="ApplicationPermissions.cs" t="Include" />
+            <e p="CustomClaimTypes.cs" t="Include" />
+            <e p="Enums.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IAccountManager.cs" t="Include" />
+            </e>
+          </e>
+          <e p="DAL.csproj" t="IncludeRecursive" />
+          <e p="DatabaseInitializer.cs" t="Include" />
+          <e p="HttpUnitOfWork.cs" t="Include" />
+          <e p="IUnitOfWork.cs" t="Include" />
+          <e p="models" t="Include">
+            <e p="ApplicationRole.cs" t="Include" />
+            <e p="ApplicationUser.cs" t="Include" />
+            <e p="AuditableEntity.cs" t="Include" />
+            <e p="Customer.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IAuditableEntity.cs" t="Include" />
+            </e>
+            <e p="Order.cs" t="Include" />
+            <e p="OrderDetail.cs" t="Include" />
+            <e p="Product.cs" t="Include" />
+            <e p="ProductCategory.cs" t="Include" />
+          </e>
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netstandard2.0" t="Include">
+                <e p="DAL.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Repositories" t="Include">
+            <e p="CustomerRepository.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="ICustomerRepository.cs" t="Include" />
+              <e p="IOrdersRepository.cs" t="Include" />
+              <e p="IProductRepository.cs" t="Include" />
+              <e p="IRepository.cs" t="Include" />
+            </e>
+            <e p="OrdersRepository.cs" t="Include" />
+            <e p="ProductRepository.cs" t="Include" />
+            <e p="Repository.cs" t="Include" />
+          </e>
+          <e p="UnitOfWork.cs" t="Include" />
+        </e>
+        <e p="traisi" t="IncludeRecursive">
+          <e p="appsettings.Development.json" t="Include" />
+          <e p="appsettings.json" t="Include" />
+          <e p="Authorization" t="Include">
+            <e p="AssignRolesAuthorizationRequirement.cs" t="Include" />
+            <e p="Policies.cs" t="Include" />
+            <e p="UserAccountAuthorizationRequirement.cs" t="Include" />
+            <e p="ViewRoleAuthorizationRequirement.cs" t="Include" />
+          </e>
+          <e p="Bin" t="ExcludeRecursive" />
+          <e p="ClientApp" t="Include">
+            <e p=".angular-cli.json" t="Include" />
+            <e p=".editorconfig" t="Include" />
+            <e p=".gitignore" t="Include" />
+            <e p="e2e" t="Include">
+              <e p="app.e2e-spec.ts" t="Include" />
+              <e p="app.po.ts" t="Include" />
+              <e p="tsconfig.e2e.json" t="Include" />
+            </e>
+            <e p="karma.conf.js" t="Include" />
+            <e p="package-lock.json" t="Include" />
+            <e p="package.json" t="Include" />
+            <e p="protractor.conf.js" t="Include" />
+            <e p="README.md" t="Include" />
+            <e p="src" t="Include">
+              <e p="app" t="Include">
+                <e p="account-management" t="Include">
+                  <e p="account-management.module.ts" t="Include" />
+                  <e p="account-management.routes.ts" t="Include" />
+                  <e p="user-info" t="Include">
+                    <e p="user-info.component.html" t="Include" />
+                    <e p="user-info.component.scss" t="Include" />
+                    <e p="user-info.component.spec.ts" t="Include" />
+                    <e p="user-info.component.ts" t="Include" />
+                  </e>
+                  <e p="user-preferences" t="Include">
+                    <e p="user-preferences.component.html" t="Include" />
+                    <e p="user-preferences.component.scss" t="Include" />
+                    <e p="user-preferences.component.spec.ts" t="Include" />
+                    <e p="user-preferences.component.ts" t="Include" />
+                  </e>
+                </e>
+                <e p="another" t="Include">
+                  <e p="another.component.ts" t="Include" />
+                  <e p="another.module.ts" t="Include" />
+                  <e p="another.template.html" t="Include" />
+                </e>
+                <e p="app-routing.module.ts" t="Include" />
+                <e p="app.component.ts" t="Include" />
+                <e p="app.config.ts" t="Include" />
+                <e p="app.module.ts" t="Include" />
+                <e p="app.routes.ts" t="Include" />
+                <e p="components" t="Include">
+                  <e p="search-box" t="Include">
+                    <e p="search-box.component.css" t="Include" />
+                    <e p="search-box.component.html" t="Include" />
+                    <e p="search-box.component.ts" t="Include" />
+                  </e>
+                </e>
+                <e p="dashboard" t="Include">
+                  <e p="dashboard.component.ts" t="Include" />
+                  <e p="dashboard.module.ts" t="Include" />
+                  <e p="dashboard.template.html" t="Include" />
+                </e>
+                <e p="directives" t="Include">
+                  <e p="autofocus.directive.ts" t="Include" />
+                  <e p="bootstrap-datepicker.directive.ts" t="Include" />
+                  <e p="bootstrap-select.directive.ts" t="Include" />
+                  <e p="bootstrap-tab.directive.ts" t="Include" />
+                  <e p="bootstrap-toggle.directive.ts" t="Include" />
+                  <e p="equal-validator.directive.ts" t="Include" />
+                  <e p="last-element.directive.ts" t="Include" />
+                </e>
+                <e p="error" t="Include">
+                  <e p="error.component.ts" t="Include" />
+                  <e p="error.style.scss" t="Include" />
+                  <e p="error.template.html" t="Include" />
+                </e>
+                <e p="layout" t="Include">
+                  <e p="chat-sidebar" t="Include">
+                    <e p="chat-message" t="Include">
+                      <e p="chat-message.component.ts" t="Include" />
+                      <e p="chat-message.template.html" t="Include" />
+                    </e>
+                    <e p="chat-sidebar.component.ts" t="Include" />
+                    <e p="chat-sidebar.template.html" t="Include" />
+                    <e p="chat.service.ts" t="Include" />
+                  </e>
+                  <e p="layout.component.ts" t="Include" />
+                  <e p="layout.module.ts" t="Include" />
+                  <e p="layout.routes.ts" t="Include" />
+                  <e p="layout.template.html" t="Include" />
+                  <e p="navbar" t="Include">
+                    <e p="navbar.component.scss" t="Include" />
+                    <e p="navbar.component.ts" t="Include" />
+                    <e p="navbar.template.html" t="Include" />
+                  </e>
+                  <e p="pipes" t="Include">
+                    <e p="search.pipe.ts" t="Include" />
+                  </e>
+                  <e p="sidebar" t="Include">
+                    <e p="sidebar.component.ts" t="Include" />
+                    <e p="sidebar.template.html" t="Include" />
+                  </e>
+                  <e p="widget" t="Include">
+                    <e p="widget.directive.ts" t="Include" />
+                    <e p="widget.module.ts" t="Include" />
+                  </e>
+                </e>
+                <e p="login" t="Include">
+                  <e p="login.component.ts" t="Include" />
+                  <e p="login.module.ts" t="Include" />
+                  <e p="login.style.scss" t="Include" />
+                  <e p="login.template.html" t="Include" />
+                </e>
+                <e p="models" t="Include">
+                  <e p="enums.ts" t="Include" />
+                  <e p="login-response.model.ts" t="Include" />
+                  <e p="notification.model.ts" t="Include" />
+                  <e p="permission.model.ts" t="Include" />
+                  <e p="role.model.ts" t="Include" />
+                  <e p="user-edit.model.ts" t="Include" />
+                  <e p="user-login.model.ts" t="Include" />
+                  <e p="user.model.ts" t="Include" />
+                </e>
+                <e p="pipes" t="Include">
+                  <e p="group-by.pipe.ts" t="Include" />
+                </e>
+                <e p="services" t="Include">
+                  <e p="account-endpoint.service.ts" t="Include" />
+                  <e p="account.service.ts" t="Include" />
+                  <e p="alert.service.ts" t="Include" />
+                  <e p="animations.ts" t="Include" />
+                  <e p="app-title.service.ts" t="Include" />
+                  <e p="app-translation.service.ts" t="Include" />
+                  <e p="auth-guard.service.ts" t="Include" />
+                  <e p="auth.service.ts" t="Include" />
+                  <e p="can-deactivate-guard.service.ts" t="Include" />
+                  <e p="configuration.service.ts" t="Include" />
+                  <e p="db-keys.ts" t="Include" />
+                  <e p="endpoint-factory.service.ts" t="Include" />
+                  <e p="jwt-helper.ts" t="Include" />
+                  <e p="local-store-manager.service.ts" t="Include" />
+                  <e p="notification-endpoint.service.ts" t="Include" />
+                  <e p="notification.service.ts" t="Include" />
+                  <e p="utilities.ts" t="Include" />
+                </e>
+                <e p="users-management" t="Include">
+                  <e p="roles-management" t="Include">
+                    <e p="role-editor.component.css" t="Include" />
+                    <e p="role-editor.component.html" t="Include" />
+                    <e p="role-editor.component.ts" t="Include" />
+                    <e p="roles-management.component.html" t="Include" />
+                    <e p="roles-management.component.scss" t="Include" />
+                    <e p="roles-management.component.spec.ts" t="Include" />
+                    <e p="roles-management.component.ts" t="Include" />
+                  </e>
+                  <e p="users-management" t="Include">
+                    <e p="users-management.component.html" t="Include" />
+                    <e p="users-management.component.scss" t="Include" />
+                    <e p="users-management.component.spec.ts" t="Include" />
+                    <e p="users-management.component.ts" t="Include" />
+                  </e>
+                  <e p="users-management.module.ts" t="Include" />
+                  <e p="users-management.routes.ts" t="Include" />
+                </e>
+              </e>
+              <e p="assets" t="Include">
+                <e p="icon" t="Include">
+                  <e p="android-icon-144x144.png" t="Include" />
+                  <e p="android-icon-192x192.png" t="Include" />
+                  <e p="android-icon-36x36.png" t="Include" />
+                  <e p="android-icon-48x48.png" t="Include" />
+                  <e p="android-icon-72x72.png" t="Include" />
+                  <e p="android-icon-96x96.png" t="Include" />
+                  <e p="apple-icon-114x114.png" t="Include" />
+                  <e p="apple-icon-120x120.png" t="Include" />
+                  <e p="apple-icon-144x144.png" t="Include" />
+                  <e p="apple-icon-152x152.png" t="Include" />
+                  <e p="apple-icon-180x180.png" t="Include" />
+                  <e p="apple-icon-57x57.png" t="Include" />
+                  <e p="apple-icon-60x60.png" t="Include" />
+                  <e p="apple-icon-72x72.png" t="Include" />
+                  <e p="apple-icon-76x76.png" t="Include" />
+                  <e p="apple-icon-precomposed.png" t="Include" />
+                  <e p="apple-icon.png" t="Include" />
+                  <e p="browserconfig.xml" t="Include" />
+                  <e p="favicon-16x16.png" t="Include" />
+                  <e p="favicon-32x32.png" t="Include" />
+                  <e p="favicon-96x96.png" t="Include" />
+                  <e p="favicon.ico" t="Include" />
+                  <e p="manifest.json" t="Include" />
+                  <e p="ms-icon-144x144.png" t="Include" />
+                  <e p="ms-icon-150x150.png" t="Include" />
+                  <e p="ms-icon-310x310.png" t="Include" />
+                  <e p="ms-icon-70x70.png" t="Include" />
+                  <e p="ms-icon-72x72.png" t="Include" />
+                </e>
+                <e p="img" t="Include">
+                  <e p="a2.png" t="Include" />
+                  <e p="angular-logo.png" t="Include" />
+                  <e p="angular-logo.svg" t="Include" />
+                  <e p="angularclass-avatar.png" t="Include" />
+                  <e p="angularclass-logo.png" t="Include" />
+                  <e p="angularjs-logo.svg" t="Include" />
+                  <e p="avatar.png" t="Include" />
+                  <e p="back.svg" t="Include" />
+                  <e p="bag.svg" t="Include" />
+                  <e p="cancel.svg" t="Include" />
+                  <e p="check.svg" t="Include" />
+                  <e p="invoice-logo.png" t="Include" />
+                  <e p="js-logo.svg" t="Include" />
+                  <e p="logo_dark.png" t="Include" />
+                  <e p="logo_light.png" t="Include" />
+                  <e p="react-logo.svg" t="Include" />
+                  <e p="search.png" t="Include" />
+                  <e p="stars" t="Include">
+                    <e p="star-filled.svg" t="Include" />
+                    <e p="star.svg" t="Include" />
+                  </e>
+                  <e p="vue-logo.svg" t="Include" />
+                </e>
+                <e p="locale" t="Include">
+                  <e p="ar.json" t="Include" />
+                  <e p="de.json" t="Include" />
+                  <e p="en.json" t="Include" />
+                  <e p="fr.json" t="Include" />
+                  <e p="ko.json" t="Include" />
+                  <e p="pt.json" t="Include" />
+                </e>
+                <e p="scripts" t="Include">
+                  <e p="alertify.js" t="Include" />
+                </e>
+                <e p="select2" t="Include">
+                  <e p="select2-spinner.gif" t="Include" />
+                  <e p="select2.png" t="Include" />
+                  <e p="select2x2.png" t="Include" />
+                </e>
+                <e p="styles-external.css" t="Include" />
+              </e>
+              <e p="environments" t="Include">
+                <e p="environment.prod.ts" t="Include" />
+                <e p="environment.ts" t="Include" />
+              </e>
+              <e p="index.html" t="Include" />
+              <e p="main.ts" t="Include" />
+              <e p="polyfills.ts" t="Include" />
+              <e p="scss" t="Include">
+                <e p="_base.scss" t="Include" />
+                <e p="_bootstrap-override.scss" t="Include" />
+                <e p="_font.scss" t="Include" />
+                <e p="_general.scss" t="Include" />
+                <e p="_global-transitions.scss" t="Include" />
+                <e p="_libs-override.scss" t="Include" />
+                <e p="_loader.scss" t="Include" />
+                <e p="_mixins.scss" t="Include" />
+                <e p="_print.scss" t="Include" />
+                <e p="_select2-variables.scss" t="Include" />
+                <e p="_toasty.scss" t="Include" />
+                <e p="_utils.scss" t="Include" />
+                <e p="_variables.scss" t="Include" />
+                <e p="alertify.bootstrap.css" t="Include" />
+                <e p="alertify.core.css" t="Include" />
+                <e p="application.scss" t="Include" />
+                <e p="fonts" t="Include">
+                  <e p="flaticon" t="Include">
+                    <e p="_flaticon.scss" t="Include" />
+                    <e p="Flaticon.eot" t="Include" />
+                    <e p="Flaticon.svg" t="Include" />
+                    <e p="Flaticon.ttf" t="Include" />
+                    <e p="Flaticon.woff" t="Include" />
+                  </e>
+                  <e p="glyphicons" t="Include">
+                    <e p="glyphicons-halflings-regular.eot" t="Include" />
+                    <e p="glyphicons-halflings-regular.svg" t="Include" />
+                    <e p="glyphicons-halflings-regular.ttf" t="Include" />
+                    <e p="glyphicons-halflings-regular.woff" t="Include" />
+                    <e p="glyphicons-halflings-regular.woff2" t="Include" />
+                  </e>
+                </e>
+                <e p="helpers.scss" t="Include" />
+                <e p="Untitled-2.json" t="Include" />
+              </e>
+              <e p="tsconfig.app.json" t="Include" />
+              <e p="typings.d.ts" t="Include" />
+            </e>
+            <e p="tsconfig.json" t="Include" />
+            <e p="tslint.json" t="Include" />
+          </e>
+          <e p="Controllers" t="Include">
+            <e p="AccountController.cs" t="Include" />
+            <e p="AuthorizationController.cs" t="Include" />
+            <e p="CustomerController.cs" t="Include" />
+            <e p="HomeController.cs" t="Include" />
+          </e>
+          <e p="DesignTimeDbContextFactory.cs" t="Include" />
+          <e p="Helpers" t="Include">
+            <e p="EmailSender.cs" t="Include" />
+            <e p="EmailTemplates.cs" t="Include" />
+            <e p="Extensions.cs" t="Include" />
+            <e p="LoggingEvents.cs" t="Include" />
+            <e p="MediaTypeNames.cs" t="Include" />
+            <e p="MinimumCountAttribute.cs" t="Include" />
+            <e p="Templates" t="Include">
+              <e p="PlainTextTestEmail.template" t="Include" />
+              <e p="TestEmail.template" t="Include" />
+            </e>
+            <e p="Utilities.cs" t="Include" />
+          </e>
+          <e p="Logs" t="Include">
+            <e p="log-20180418.log" t="Include" />
+            <e p="log-20180419.log" t="Include" />
+            <e p="log-20180420.log" t="Include" />
+          </e>
+          <e p="Migrations" t="Include">
+            <e p="20180413055655_Initial.cs" t="Include" />
+            <e p="20180413055655_Initial.Designer.cs" t="Include" />
+            <e p="ApplicationDbContextModelSnapshot.cs" t="Include" />
+          </e>
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netcoreapp2.0" t="Include">
+                <e p="TRAISI.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Program.cs" t="Include" />
+          <e p="ReadMe.html" t="Include" />
+          <e p="Startup.cs" t="Include" />
+          <e p="test.db" t="Include" />
+          <e p="TRAISI.csproj" t="IncludeRecursive" />
+          <e p="ViewModels" t="Include">
+            <e p="AutoMapperProfile.cs" t="Include" />
+            <e p="ClaimViewModel.cs" t="Include" />
+            <e p="CustomerViewModel.cs" t="Include" />
+            <e p="OrderViewModel.cs" t="Include" />
+            <e p="PageHeader.cs" t="Include" />
+            <e p="PermissionViewModel.cs" t="Include" />
+            <e p="ProductViewModel.cs" t="Include" />
+            <e p="RoleViewModel.cs" t="Include" />
+            <e p="UserEditViewModel.cs" t="Include" />
+            <e p="UserPatchViewModel.cs" t="Include" />
+            <e p="UserViewModel.cs" t="Include" />
+          </e>
+          <e p="web.config" t="Include" />
+          <e p="wwwroot" t="Include">
+            <e p="favicon.ico" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="TRAISI.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

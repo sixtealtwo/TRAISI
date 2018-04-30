@@ -38,19 +38,27 @@ namespace TRAISI
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        
         private readonly IHostingEnvironment _hostingEnvironment;
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="env"></param>
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
             _hostingEnvironment = env;
         }
 
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -165,8 +173,8 @@ namespace TRAISI
                 options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
                 options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
-            
-                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));            
+
+                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
             });
 
             Mapper.Initialize(cfg =>

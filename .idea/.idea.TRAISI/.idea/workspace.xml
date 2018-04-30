@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="32e874df-b967-4feb-b21e-7c4ea6879105" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TRAISI/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/TRAISI/Startup.cs" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="AutoMapperProfile.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/AutoMapperProfile.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="359">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+              <folding>
+                <marker date="1524069979935" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979935" expanded="false" signature="208:406" ph="..." />
+                <marker date="1524069979935" expanded="true" signature="435:2261" ph="{...}" />
+                <marker date="1524069979935" expanded="true" signature="482:2259" ph="{...}" />
+                <marker date="1524069979935" expanded="true" signature="523:2253" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrderDetail.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DAL/Models/OrderDetail.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <marker date="1524069979686" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979686" expanded="false" signature="208:234" ph="..." />
+                <marker date="1524069979686" expanded="true" signature="256:663" ph="{...}" />
+                <marker date="1524069979686" expanded="true" signature="305:661" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Product.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/DAL/Models/Product.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="24" column="34" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="34" />
+              <folding>
+                <marker date="1524069979686" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979686" expanded="false" signature="208:369" ph="..." />
+                <marker date="1524069979686" expanded="true" signature="391:1283" ph="{...}" />
+                <marker date="1524069979686" expanded="true" signature="436:1281" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PermissionViewModel.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/PermissionViewModel.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <marker date="1524069979938" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979938" expanded="false" signature="208:234" ph="..." />
+                <marker date="1524069979938" expanded="true" signature="263:493" ph="{...}" />
+                <marker date="1524069979938" expanded="true" signature="302:491" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomerViewModel.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/CustomerViewModel.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+              <folding>
+                <marker date="1524069979937" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979937" expanded="false" signature="208:341" ph="..." />
+                <marker date="1524069979937" expanded="true" signature="371:1148" ph="{...}" />
+                <marker date="1524069979937" expanded="true" signature="408:780" ph="{...}" />
+                <marker date="1524069979937" expanded="true" signature="867:1146" ph="{...}" />
+                <marker date="1524069979937" expanded="true" signature="917:1140" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20180413055655_Initial.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/Migrations/20180413055655_Initial.cs">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="EmailTemplates.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/EmailTemplates.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-204">
+              <folding>
+                <marker date="1524069979922" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979922" expanded="false" signature="208:310" ph="..." />
+                <marker date="1524069979922" expanded="true" signature="336:2220" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="377:2218" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="610:684" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="769:1125" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="1194:1528" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="1592:2212" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="2041:2202" ph="{...}" />
+                <marker date="1524069979922" expanded="true" signature="2109:2188" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MinimumCountAttribute.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MinimumCountAttribute.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <marker date="1524069979925" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979925" expanded="false" signature="208:388" ph="..." />
+                <marker date="1524069979925" expanded="true" signature="414:1786" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="532:1784" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="807:828" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="961:1111" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="1163:1617" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="1682:1778" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MediaTypeNames.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MediaTypeNames.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-255">
+              <folding>
+                <marker date="1524069979925" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979925" expanded="false" signature="208:317" ph="..." />
+                <marker date="1524069979925" expanded="true" signature="343:16324" ph="{...}" />
+                <marker date="1524069979925" expanded="true" signature="384:16322" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClaimViewModel.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/ClaimViewModel.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <marker date="1524069979936" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+                <marker date="1524069979936" expanded="false" signature="208:234" ph="..." />
+                <marker date="1524069979936" expanded="true" signature="263:394" ph="{...}" />
+                <marker date="1524069979936" expanded="true" signature="297:392" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/DAL/Models/Product.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Helpers/Extensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Migrations/20180413055655_Initial.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MinimumCountAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/DAL/ApplicationDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Helpers/EmailTemplates.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/PermissionViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MediaTypeNames.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/DAL/Models/OrderDetail.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/DAL/Models/Interfaces/IAuditableEntity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/UserViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/RoleViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/PageHeader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/ClaimViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/AutoMapperProfile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/CustomerViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/OrderViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Controllers/HomeController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/TRAISI/Startup.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/src/TRAISI/ClientApp/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="260" />
+    <option name="y" value="25" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Solution Items" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="DAL" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="DAL" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Models" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="DAL" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Repositories" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Controllers" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Helpers" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Logs" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Migrations" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="TRAISI (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="src" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="TRAISI" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="ViewModels" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/src/TRAISI/bin/Debug/netcoreapp2.0/TRAISI.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/TRAISI" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <envs>
+        <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
+        <env name="ASPNETCORE_URLS" value="http://localhost:5000" />
+      </envs>
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/TRAISI/TRAISI.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.0" />
+      <browser url="http://localhost:5000" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32e874df-b967-4feb-b21e-7c4ea6879105" name="Default" comment="" />
+      <created>1524166325084</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1524166325084</updated>
+      <workItem from="1524166327241" duration="965000" />
+      <workItem from="1525100035605" duration="2072000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="3037000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3297414" />
+      <window_info anchor="right" id="Errors In Solution" order="3" />
+      <window_info anchor="bottom" id="Messages" weight="0.3297414" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" order="7" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="REST Client" order="7" weight="0.3297414" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.34698275" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3297414" />
+      <window_info anchor="bottom" id="NuGet" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3297414" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978448" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.3297414" />
+      <window_info anchor="bottom" id="Message" order="0" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" isUnityUI="false" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Startup.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+          <folding>
+            <marker date="1524257220530" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524257220530" expanded="true" signature="208:1143" ph="..." />
+            <marker date="1524257220530" expanded="true" signature="1161:10556" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1188:10554" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1922:8496" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1999:2194" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="2536:3517" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="2657:3220" ph="/* Password settings ... */" />
+            <marker date="1524257220530" expanded="true" signature="3617:4329" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="4091:4315" ph="/* options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request ... */" />
+            <marker date="1524257220530" expanded="true" signature="4383:4604" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="4897:4984" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="5301:5501" ph="/* Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation ... */" />
+            <marker date="1524257220530" expanded="true" signature="5516:5682" ph="/* .AddJsonOptions(opts =&gt; ... */" />
+            <marker date="1524257220530" expanded="true" signature="5725:6078" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="5919:6062" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="6130:7484" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="7524:7605" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="8715:10548" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9063:9140" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9157:9449" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9188:9378" ph="/* Enforce https during production ... */" />
+            <marker date="1524257220530" expanded="true" signature="9803:9911" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9948:10114" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="10147:10536" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="10178:10324" ph="/* To learn more about options for serving an Angular SPA from ASP.NET Core, ... */" />
+            <marker date="1524257220530" expanded="true" signature="10421:10522" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4216">
+          <caret line="248" column="6" selection-start-line="248" selection-start-column="6" selection-end-line="248" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Controllers/HomeController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="33" lean-forward="true" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
+          <folding>
+            <marker date="1524069979920" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979920" expanded="true" signature="208:398" ph="..." />
+            <marker date="1524069979920" expanded="true" signature="428:951" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="475:949" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="518:565" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="603:739" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="867:943" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Startup.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+          <folding>
+            <marker date="1524257220530" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524257220530" expanded="true" signature="208:1143" ph="..." />
+            <marker date="1524257220530" expanded="true" signature="1161:10556" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1188:10554" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1922:8496" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="1999:2194" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="2536:3517" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="2657:3220" ph="/* Password settings ... */" />
+            <marker date="1524257220530" expanded="true" signature="3617:4329" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="4091:4315" ph="/* options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request ... */" />
+            <marker date="1524257220530" expanded="true" signature="4383:4604" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="4897:4984" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="5301:5501" ph="/* Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation ... */" />
+            <marker date="1524257220530" expanded="true" signature="5516:5682" ph="/* .AddJsonOptions(opts =&gt; ... */" />
+            <marker date="1524257220530" expanded="true" signature="5725:6078" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="5919:6062" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="6130:7484" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="7524:7605" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="8715:10548" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9063:9140" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9157:9449" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9188:9378" ph="/* Enforce https during production ... */" />
+            <marker date="1524257220530" expanded="true" signature="9803:9911" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="9948:10114" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="10147:10536" ph="{...}" />
+            <marker date="1524257220530" expanded="true" signature="10178:10324" ph="/* To learn more about options for serving an Angular SPA from ASP.NET Core, ... */" />
+            <marker date="1524257220530" expanded="true" signature="10421:10522" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4216">
+          <caret line="248" selection-start-line="248" selection-end-line="248" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Controllers/HomeController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="55" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
+          <folding>
+            <marker date="1524069979920" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979920" expanded="true" signature="208:398" ph="..." />
+            <marker date="1524069979920" expanded="true" signature="428:951" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="475:949" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="518:565" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="603:739" ph="{...}" />
+            <marker date="1524069979920" expanded="true" signature="867:943" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DAL/Models/Interfaces/IAuditableEntity.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <marker date="1524069979684" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979684" expanded="false" signature="208:268" ph="..." />
+            <marker date="1524069979684" expanded="true" signature="301:519" ph="{...}" />
+            <marker date="1524069979684" expanded="true" signature="341:517" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DAL/ApplicationDbContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-177">
+          <folding>
+            <marker date="1524069979622" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979622" expanded="false" signature="208:482" ph="..." />
+            <marker date="1524069979622" expanded="true" signature="497:5184" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="599:5182" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="1024:1036" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="1108:3358" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="3404:3498" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="3572:3691" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="3810:3926" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="4077:4220" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="4265:5176" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="4514:5166" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="4692:4828" ph="{...}" />
+            <marker date="1524069979622" expanded="true" signature="4849:5059" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/UserViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1524069979942" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979942" expanded="true" signature="208:414" ph="..." />
+            <marker date="1524069979942" expanded="true" signature="444:1937" ph="{...}" />
+            <marker date="1524069979942" expanded="true" signature="477:1355" ph="{...}" />
+            <marker date="1524069979942" expanded="true" signature="1364:1935" ph="/* Todo: ***Using DataAnnotations for validations until Swashbuckle supports FluentValidation ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/RoleViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding>
+            <marker date="1524069979940" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979940" expanded="false" signature="208:384" ph="..." />
+            <marker date="1524069979940" expanded="true" signature="413:901" ph="{...}" />
+            <marker date="1524069979940" expanded="true" signature="446:899" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/PageHeader.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+          <folding>
+            <marker date="1524069979938" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979938" expanded="false" signature="208:317" ph="..." />
+            <marker date="1524069979938" expanded="true" signature="346:858" ph="{...}" />
+            <marker date="1524069979938" expanded="true" signature="376:856" ph="{...}" />
+            <marker date="1524069979938" expanded="true" signature="475:669" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/Extensions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+          <folding>
+            <marker date="1524069979923" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979923" expanded="false" signature="208:398" ph="..." />
+            <marker date="1524069979923" expanded="true" signature="424:1135" ph="{...}" />
+            <marker date="1524069979923" expanded="true" signature="461:1133" ph="{...}" />
+            <marker date="1524069979923" expanded="true" signature="603:856" ph="{...}" />
+            <marker date="1524069979923" expanded="true" signature="948:1127" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/OrderViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+          <folding>
+            <marker date="1524069979937" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979937" expanded="false" signature="208:234" ph="..." />
+            <marker date="1524069979937" expanded="true" signature="264:439" ph="{...}" />
+            <marker date="1524069979937" expanded="true" signature="298:437" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/PermissionViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1524069979938" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979938" expanded="false" signature="208:234" ph="..." />
+            <marker date="1524069979938" expanded="true" signature="263:493" ph="{...}" />
+            <marker date="1524069979938" expanded="true" signature="302:491" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/CustomerViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+          <folding>
+            <marker date="1524069979937" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979937" expanded="false" signature="208:341" ph="..." />
+            <marker date="1524069979937" expanded="true" signature="371:1148" ph="{...}" />
+            <marker date="1524069979937" expanded="true" signature="408:780" ph="{...}" />
+            <marker date="1524069979937" expanded="true" signature="867:1146" ph="{...}" />
+            <marker date="1524069979937" expanded="true" signature="917:1140" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Migrations/20180413055655_Initial.cs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/EmailTemplates.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <folding>
+            <marker date="1524069979922" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979922" expanded="false" signature="208:310" ph="..." />
+            <marker date="1524069979922" expanded="true" signature="336:2220" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="377:2218" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="610:684" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="769:1125" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="1194:1528" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="1592:2212" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="2041:2202" ph="{...}" />
+            <marker date="1524069979922" expanded="true" signature="2109:2188" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MinimumCountAttribute.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1524069979925" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979925" expanded="false" signature="208:388" ph="..." />
+            <marker date="1524069979925" expanded="true" signature="414:1786" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="532:1784" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="807:828" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="961:1111" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="1163:1617" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="1682:1778" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/Helpers/MediaTypeNames.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255">
+          <folding>
+            <marker date="1524069979925" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979925" expanded="false" signature="208:317" ph="..." />
+            <marker date="1524069979925" expanded="true" signature="343:16324" ph="{...}" />
+            <marker date="1524069979925" expanded="true" signature="384:16322" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/ClaimViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1524069979936" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979936" expanded="false" signature="208:234" ph="..." />
+            <marker date="1524069979936" expanded="true" signature="263:394" ph="{...}" />
+            <marker date="1524069979936" expanded="true" signature="297:392" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TRAISI/ViewModels/AutoMapperProfile.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <marker date="1524069979935" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979935" expanded="false" signature="208:406" ph="..." />
+            <marker date="1524069979935" expanded="true" signature="435:2261" ph="{...}" />
+            <marker date="1524069979935" expanded="true" signature="482:2259" ph="{...}" />
+            <marker date="1524069979935" expanded="true" signature="523:2253" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DAL/Models/OrderDetail.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1524069979686" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979686" expanded="false" signature="208:234" ph="..." />
+            <marker date="1524069979686" expanded="true" signature="256:663" ph="{...}" />
+            <marker date="1524069979686" expanded="true" signature="305:661" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DAL/Models/Product.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="34" />
+          <folding>
+            <marker date="1524069979686" expanded="true" signature="0:200" ph="/* ==================================================== ... */" />
+            <marker date="1524069979686" expanded="false" signature="208:369" ph="..." />
+            <marker date="1524069979686" expanded="true" signature="391:1283" ph="{...}" />
+            <marker date="1524069979686" expanded="true" signature="436:1281" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

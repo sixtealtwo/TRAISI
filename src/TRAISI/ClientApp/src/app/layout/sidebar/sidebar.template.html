@@ -22,6 +22,14 @@
         {{ 'sidebar.Dashboard' | translate }}
       </a>
     </li>
+    <li>
+      <a [routerLink]=" ['surveys'] ">
+      <span class="icon">
+          <i class="fa fa-users"></i>
+      </span>
+        Surveys
+      </a>
+    </li>
     <li *ngIf="canManageUsers">
       <a [routerLink]=" ['users'] ">
       <span class="icon">

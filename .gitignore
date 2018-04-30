@@ -244,3 +244,6 @@ _Pvt_Extensions
 *.licenseheader
 Thumbs.db
 /.cr
+.vscode/settings.json
+.vscode/settings.json
+.rider/
