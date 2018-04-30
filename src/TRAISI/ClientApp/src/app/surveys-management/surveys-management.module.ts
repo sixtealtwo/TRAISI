@@ -19,21 +19,21 @@ import { GroupByPipe } from '../pipes/group-by.pipe';
 import { SurveysManagementComponent } from './surveys-management.component';
 
 @NgModule({
-    imports: [
-      CommonModule,
-      FormsModule,
-      Select2Module,
-      ROUTES,
-      TranslateModule.forChild({
-        loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-      }),
-      ModalModule,
-      AccountManagementModule,
-      NgxDatatableModule,
-      TooltipModule
-    ],
-    declarations: [
-      SurveysManagementComponent
-    ]
-  })
-  export class SurveysManagementModule { }
+		imports: [
+			CommonModule,
+			FormsModule,
+			Select2Module,
+			ROUTES,
+			TranslateModule.forChild({
+				loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+			}),
+			ModalModule,
+			AccountManagementModule,
+			NgxDatatableModule,
+			TooltipModule
+		],
+		declarations: [
+			SurveysManagementComponent
+		]
+	})
+	export class SurveysManagementModule { }
