@@ -176,6 +176,9 @@ namespace TRAISI
                 options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
 
                 options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
+                options.AddPolicy(Authorization.Policies.ManageAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
+                options.AddPolicy(Authorization.Policies.ViewGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
+                options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
             });
 
             Mapper.Initialize(cfg =>
@@ -199,6 +202,8 @@ namespace TRAISI
             // Auth Handlers
             services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ViewGroupUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ManageGroupUserAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
 
