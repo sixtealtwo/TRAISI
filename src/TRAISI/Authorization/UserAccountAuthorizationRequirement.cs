@@ -76,6 +76,8 @@ namespace TRAISI.Authorization
             return Utilities.GetUserId(user) == targetUserId;
         }
     }
+
+    // Temporary View Group Users authorization handler (need to update when groups are added)
     public class ViewGroupUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
@@ -100,9 +102,9 @@ namespace TRAISI.Authorization
     }
 
 
-
-        public class ManageGroupUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
-        {
+    // Temporary Manage Group Users authorization handler (need to update when groups are added)
+    public class ManageGroupUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+    {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
         {
             if (context.User == null ||

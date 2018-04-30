@@ -39,6 +39,15 @@ namespace TRAISI.Authorization
 
         /// <summary>Policy to allow viewing all surveys.</summary>
         public const string ViewAllSurveysPolicy = "View All Surveys";
+                
+        /// <summary>Policy to allow removing of any surveys.</summary>
+        public const string ManageAllSurveysPolicy = "Manage All Surveys";
+        
+         /// <summary>Policy to allow viewing all surveys within the group.</summary>
+        public const string ViewGroupSurveysPolicy = "View Group Surveys";
+                
+        /// <summary>Policy to allow adding, removing and modifying of any surveys within the group.</summary>
+        public const string ManageGroupSurveysPolicy = "Manage Group Surveys";
     }
 
 
