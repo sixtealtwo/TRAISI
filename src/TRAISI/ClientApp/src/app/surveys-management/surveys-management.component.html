@@ -1,39 +1,84 @@
 <div>
-    <h1 class="page-title">Manage Surveys</h1>
+  <h1 class="page-title">Manage Surveys</h1>
 
-    <div class="row justify-content-center">
-        <div>
-              <button class="btn btn-primary" (click)="newSurvey()">
-                  <i class="fa fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
-              </button>
-        </div>
+  <div class="row justify-content-center">
+    <div>
+      <button class="btn btn-primary" (click)="newSurvey()">
+        <i class="fa fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
+      </button>
     </div>
+  </div>
 
-    <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title pull-left"><i class="fa fa-cubes"></i>New Survey</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    
-                </div>
-                <div class="modal-body">
+  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}"
+    tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">
+            <i class="fa fa-cubes"></i>New Survey</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
 
-                        <div class="form-group">
-                                <label for="surveyTitle">Survey Title</label>
-                                <input type="text" class="form-control" id="surveyTitle" aria-describedby="emailHelp" placeholder="Survey Title">
-                              </div>
-                   
-                </div>
+        </div>
+        <div class="modal-body">
 
-                <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary">Save</button>
-                </div>
+          <div class="form-group">
+            <label for="surveyTitle">Survey Name</label>
+            <input type="text" class="form-control" id="surveyTitle" aria-describedby="emailHelp" placeholder="Survey Title">
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="isActiveCheck">
+            <label class="form-check-label" for="isActiveCheck">
+              Active
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="isOpenCheck">
+            <label class="form-check-label" for="isOpenCheck">
+              Open Survey
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="rejectionLink">Rejection Link</label>
+            <input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link">
+          </div>
+
+          <div class="form-group">
+            <label for="successLink">Success Link</label>
+            <input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link">
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+            <label for="startDate">Start Date</label>
+              <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startDate"
+              #dp="bsDatepicker" [bsConfig]="bsConfig">
             </div>
+
+
+          </div>
+
+          <div class="row">
+                <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+                <label for="startDate">End Date</label>
+                  <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endDate"
+                  #dp="bsDatepicker" [bsConfig]="bsConfig">
+                </div>
+    
+    
+              </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeEditorModal()">Cancel</button>
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
         </div>
+      </div>
     </div>
 
-    </div>
+  </div>

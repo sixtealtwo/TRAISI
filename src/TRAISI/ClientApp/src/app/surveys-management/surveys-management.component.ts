@@ -5,12 +5,16 @@ import { AlertService, DialogType, MessageSeverity } from '../services/alert.ser
 
 import { Select2OptionData } from 'ng2-select2';
 
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+
 @Component({
 	selector: 'app-surveys-management',
 	templateUrl: './surveys-management.component.html',
 	styleUrls: ['./surveys-management.component.scss'],
 })
 export class SurveysManagementComponent implements OnInit {
+
+	public bsConfig: Partial<BsDatepickerConfig> = Object.assign({}, { containerClass: 'theme-default' });
 
 	@ViewChild('editorModal')
 	editorModal: ModalDirective;
@@ -33,6 +37,7 @@ export class SurveysManagementComponent implements OnInit {
 
 	onEditorModalHidden(): void
 	{
-		
 	}
+
+
 }
