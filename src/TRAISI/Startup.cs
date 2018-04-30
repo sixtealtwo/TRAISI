@@ -179,6 +179,7 @@ namespace TRAISI
                 options.AddPolicy(Authorization.Policies.ManageAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
                 options.AddPolicy(Authorization.Policies.ViewGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
                 options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
+                options.AddPolicy(Authorization.Policies.CreateSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateSurveys));
             });
 
             Mapper.Initialize(cfg =>

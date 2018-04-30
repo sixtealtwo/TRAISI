@@ -7,13 +7,13 @@ export type PermissionNames =
     "View Users" | "Manage Users" | "View Group Users" |
     "Manage Group Users" | "View Roles" | "Manage Roles" | 
     "Assign Roles" | "View Surveys" | "Manage Surveys" |
-    "View Group Surveys" | "Manage Group Surveys";
+    "View Group Surveys" | "Manage Group Surveys" | "Create Surveys";
 
 export type PermissionValues =
     "users.view" | "users.manage" | "users.viewgroup" |
     "users.managegroup" | "roles.view" | "roles.manage" | 
     "roles.assign" | "surveys.view" | "surveys.manage"|
-    "surveys.viewgroup" | "surveys.managegroup";
+    "surveys.viewgroup" | "surveys.managegroup"  | "surveys.create";
 
 export class Permission {
 
@@ -30,6 +30,7 @@ export class Permission {
     public static readonly manageSurveysPermission: PermissionValues = "surveys.manage";
     public static readonly viewGroupSurveysPermission: PermissionValues = "surveys.viewgroup";
     public static readonly manageGroupSurveysPermission: PermissionValues = "surveys.managegroup";
+    public static readonly createSurveysPermission: PermissionValues = "surveys.create";
 
 
     constructor(name?: PermissionNames, value?: PermissionValues, groupName?: string, description?: string) {
