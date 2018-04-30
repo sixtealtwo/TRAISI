@@ -166,7 +166,8 @@ namespace TRAISI
             {
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
-                options.AddPolicy(Authorization.Policies.AnalyzeAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AnalyzeUsers));
+                options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
+                options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupUsers));
 
                 options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
                 options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));

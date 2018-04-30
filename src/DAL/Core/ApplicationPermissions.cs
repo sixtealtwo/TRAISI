@@ -20,7 +20,8 @@ namespace DAL.Core
         public const string UsersPermissionGroupName = "User Permissions";
         public static ApplicationPermission ViewUsers = new ApplicationPermission("View Users", "users.view", UsersPermissionGroupName, "Permission to view other users account details");
         public static ApplicationPermission ManageUsers = new ApplicationPermission("Manage Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
-        public static ApplicationPermission AnalyzeUsers = new ApplicationPermission("Analyze Users", "users.analyze", UsersPermissionGroupName, "Permission to analyze users");
+        public static ApplicationPermission ViewGroupUsers = new ApplicationPermission("View Group Users", "users.viewgroup", UsersPermissionGroupName, "Permission to view other users account details within the group");
+        public static ApplicationPermission ManageGroupUsers = new ApplicationPermission("Manage Group Users", "users.managegroup", UsersPermissionGroupName, "Permission to create, delete and modify other users account details within the group");
 
         public const string SurveysPermissionGroupName = "Survey Permissions";
         public static ApplicationPermission ViewSurveys = new ApplicationPermission("View Surveys", "surveys.view", SurveysPermissionGroupName, "Permission to view other surveys");
@@ -37,7 +38,8 @@ namespace DAL.Core
             {
                 ViewUsers,
                 ManageUsers,
-                AnalyzeUsers,
+                ViewGroupUsers,
+                ManageGroupUsers,
 
                 ViewRoles,
                 ManageRoles,

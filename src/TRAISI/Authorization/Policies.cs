@@ -19,8 +19,11 @@ namespace TRAISI.Authorization
         ///<summary>Policy to allow adding, removing and updating all user records.</summary>
         public const string ManageAllUsersPolicy = "Manage All Users";
 
-        ///<summary>Policy to allow adding, removing and updating all user records.</summary>
-        public const string AnalyzeAllUsersPolicy = "Analyze All Users";
+        ///<summary>Policy to allow viewing all user records within the group.</summary>
+        public const string ViewGroupUsersPolicy = "View Group Users";
+
+        ///<summary>Policy to allow adding, removing and updating all user records within the group.</summary>
+        public const string ManageGroupUsersPolicy = "Manage Group Users";
 
         /// <summary>Policy to allow viewing details of all roles.</summary>
         public const string ViewAllRolesPolicy = "View All Roles";
