@@ -18,26 +18,27 @@ import { RolesManagementComponent } from './roles-management/roles-management.co
 import { RoleEditorComponent } from './roles-management/role-editor.component';
 
 import { GroupByPipe } from '../pipes/group-by.pipe';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    Select2Module,
-    ROUTES,
-    TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-    }),
-    ModalModule,
-    AccountManagementModule,
-    NgxDatatableModule,
-    TooltipModule
-  ],
-  declarations: [UsersManagementComponent,
-    SearchBoxComponent,
-    RolesManagementComponent,
-    RoleEditorComponent,
-    GroupByPipe
-  ]
+	imports: [
+		CommonModule,
+		FormsModule,
+		Select2Module,
+		ROUTES,
+		TranslateModule.forChild({
+			loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+		}),
+		ModalModule,
+		AccountManagementModule,
+		NgxDatatableModule,
+		TooltipModule
+	],
+	declarations: [UsersManagementComponent,
+		SearchBoxComponent,
+		RolesManagementComponent,
+		RoleEditorComponent,
+		GroupByPipe
+	]
 })
 export class UsersManagementModule { }

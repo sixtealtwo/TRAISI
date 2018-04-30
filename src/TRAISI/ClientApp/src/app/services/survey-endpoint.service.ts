@@ -74,8 +74,19 @@ export class SurveyEndpointService extends EndpointFactory
 			});
 	}
 
+	/**
+	 * Generates the endpoint and URL for retrieving a survey object by id
+	 * @param  {any} survey
+	 * @returns Observable
+	 */
+	public getSurveyEndpoint<T>(id: number): Observable<T>
+	{
+		const endpointUrl = `${this._surveysUrl}/${id}`;
 
-
-
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+			.catch(error => {
+				return this.handleError(error, () => this.getSurveyEndpoint(id));
+			});
+	}
 
 }

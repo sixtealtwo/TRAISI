@@ -48,4 +48,14 @@ export class SurveyService
 		return this._surveyEndpointService.getDeleteSurveyEndpoint(survey);
 	}
 
+	/**
+	 * Retrieves survey with specified id.
+	 * @param id 
+	 */
+	public getSurvey(id:number)
+	{
+
+		return this._surveyEndpointService.getSurveyEndpoint(id);
+	}
+
 }
