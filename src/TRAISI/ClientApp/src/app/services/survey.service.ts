@@ -52,7 +52,7 @@ export class SurveyService
 	 * Retrieves survey with specified id.
 	 * @param id 
 	 */
-	public getSurvey(id:number)
+	public getSurvey(id: number)
 	{
 
 		return this._surveyEndpointService.getSurveyEndpoint(id);

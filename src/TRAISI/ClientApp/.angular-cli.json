@@ -28,7 +28,7 @@
         "../node_modules/select2/dist/js/select2.min.js"
       ],
       "styles": [
-        "scss/application.scss",
+        "scss/application.scss"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
