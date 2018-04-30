@@ -7,9 +7,10 @@ import { Observable } from 'rxjs';
 import { EndpointFactory } from './endpoint-factory.service';
 
 @Injectable()
-export class SurveyEndpointService extends EndpointFactory {
+export class SurveyEndpointService extends EndpointFactory 
+{
 
-	private readonly _surveysUrl: string = "/api/survey-management/surveys";
+	private readonly _surveysUrl: string = '/api/survey-management/surveys';
 
 	/**
 	 * @param  {HttpClient} http
@@ -21,7 +22,7 @@ export class SurveyEndpointService extends EndpointFactory {
 		super(http, configurations, injector);
 	}
 
-	public listSurveysEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
+	public listSurveysEndpoint<T>(page?: number, pageSize?: number): Observable<T>
 	{
 		const endpointUrl = page && pageSize ? `${this._surveysUrl}/${page}/${pageSize}` : this._surveysUrl;
 
@@ -30,5 +31,4 @@ export class SurveyEndpointService extends EndpointFactory {
 				return this.handleError(error, () => this.listSurveysEndpoint(page, pageSize));
 			});
 	}
-
 }

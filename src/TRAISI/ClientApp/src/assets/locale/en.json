@@ -88,6 +88,11 @@
     "ResetDefault": "Reset default",
     "SetDefault": "Set as default"
   },
+  "surveys": {
+    "management" : {
+      "NewSurvey": "New Survey"
+    }
+  },
   "users": {
     "management": {
       "Search": "Search for user...",
