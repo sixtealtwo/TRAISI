@@ -8,10 +8,10 @@ import { EndpointFactory } from './endpoint-factory.service';
 import { Survey } from '../models/survey.model';
 
 @Injectable()
-export class SurveyEndpointService extends EndpointFactory 
+export class SurveyEndpointService extends EndpointFactory
 {
 
-	private readonly _surveysUrl: string = '/api/survey-management/surveys';
+	private readonly _surveysUrl: string = '/api/survey/surveys';
 
 	/**
 	 * @param  {HttpClient} http
