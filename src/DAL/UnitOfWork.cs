@@ -18,6 +18,7 @@ namespace DAL
         readonly ApplicationDbContext _context;
 
         ICustomerRepository _customers;
+        ISurveyRepository _surveys;
         IProductRepository _products;
         IOrdersRepository _orders;
 
@@ -38,6 +39,17 @@ namespace DAL
                     _customers = new CustomerRepository(_context);
 
                 return _customers;
+            }
+        }
+
+        public ISurveyRepository Surveys
+        {
+            get
+            {
+                if (_surveys == null)
+                    _surveys = new SurveyRepository(_context);
+
+                return _surveys;
             }
         }
 

@@ -52,6 +52,9 @@ namespace TRAISI.ViewModels
             CreateMap<Customer, CustomerViewModel>()
                 .ReverseMap();
 
+            CreateMap<Survey, SurveyViewModel>()
+                .ReverseMap();
+
             CreateMap<Product, ProductViewModel>()
                 .ReverseMap();
 
