@@ -38,9 +38,8 @@ namespace TRAISI
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        
-        private readonly IHostingEnvironment _hostingEnvironment;
 
+        private readonly IHostingEnvironment _hostingEnvironment;
 
 
         /// <summary>
@@ -63,7 +62,8 @@ namespace TRAISI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("TRAISI"));
+                options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
+                    b => b.MigrationsAssembly("TRAISI"));
                 options.UseOpenIddict();
             });
 
@@ -94,8 +94,7 @@ namespace TRAISI
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
-            services.AddScoped<IEntityManager<Survey>,EntityManager<Survey>>();
-
+            services.AddScoped<IEntityManager<Survey>, EntityManager<Survey>>();
 
 
             // Register the OpenIddict services.
@@ -130,10 +129,7 @@ namespace TRAISI
 
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
 
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
@@ -151,10 +147,9 @@ namespace TRAISI
             //});
 
 
-
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info {Title = "TRAISI API", Version = "v1"});
 
                 c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
                 {
@@ -166,28 +161,38 @@ namespace TRAISI
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
-                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
-                options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
-                options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupUsers));
+                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
+                options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
+                options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupUsers));
 
-                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
-                options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
-                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
+                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
+                options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy,
+                    policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
+                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
-                options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
+                options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy,
+                    policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
 
-                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
-                options.AddPolicy(Authorization.Policies.ManageAllSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
-                options.AddPolicy(Authorization.Policies.ViewGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
-                options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
-                options.AddPolicy(Authorization.Policies.CreateSurveysPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateSurveys));
+                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
+                options.AddPolicy(Authorization.Policies.ManageAllSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
+                options.AddPolicy(Authorization.Policies.ViewGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
+                options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
+                options.AddPolicy(Authorization.Policies.CreateSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateSurveys));
             });
 
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<AutoMapperProfile>();
-            });
+            Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
 
 
             // Configurations
@@ -253,10 +258,7 @@ namespace TRAISI
 
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TRAISI API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TRAISI API V1"); });
 
 
             app.UseMvc(routes =>
