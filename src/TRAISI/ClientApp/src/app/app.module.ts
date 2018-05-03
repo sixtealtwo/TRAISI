@@ -37,6 +37,7 @@ import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
+import { ItemListComponent } from './item-list/item-list.component';
 
 const APP_PROVIDERS = [
   AppConfig
@@ -52,7 +53,8 @@ const APP_PROVIDERS = [
     AutofocusDirective,
     BootstrapTabDirective,
     BootstrapToggleDirective,
-    BootstrapDatepickerDirective
+    BootstrapDatepickerDirective,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,
