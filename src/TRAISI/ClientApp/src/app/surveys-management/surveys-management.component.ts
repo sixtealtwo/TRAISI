@@ -8,6 +8,7 @@ import { Select2OptionData } from 'ng2-select2';
 import { ItemListComponent} from "../shared/item-list/item-list.component";
 
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {SurveyService} from "../services/survey.service";
 
 @Component({
 	selector: 'app-surveys-management',
@@ -21,15 +22,28 @@ export class SurveysManagementComponent implements OnInit {
 	@ViewChild('editorModal')
 	editorModal: ModalDirective;
 
-	public itemData = [{name:'Survey1'},{name:'Survey1'},{name:'Survey1'}];
+	public surveys;
 
 	public columns = [
-    { prop: 'name' },
+    { prop: 'name' },{prop:'startAt'},{prop:'endAt'}
   ];
 
+	constructor(private surveyService: SurveyService)
+  {
+    console.log(this.surveyService);
+  }
 
+
+  /**
+   *
+   */
 	ngOnInit(): void {
-		console.log('ngOnInit');
+
+		this.surveyService.listSurveys().subscribe((value) =>{
+      this.surveys = value;
+      console.log(this.surveys);
+    });
+
 	}
 
 	newSurvey(): void

@@ -11,20 +11,18 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Core
 {
-    public class EntityManager<T> : IEntityManager<T>  where T : class
+    public class EntityManager<T> : IEntityManager<T> where T : class
     {
         private readonly ApplicationDbContext _context;
 
-        
+
         public EntityManager(
             ApplicationDbContext context
-            )
+        )
         {
             _context = context;
-
-            
         }
-        
+
         public async Task<EntityEntry<T>> CreateEntityAsync(T entity)
         {
             var result = await _context.AddAsync(entity);

@@ -1,15 +1,16 @@
 <div>
   <h1 class="page-title">Manage Surveys</h1>
 
-  <item-list [data]="itemData"></item-list>
 
-  <ngx-datatable
 
-    [columnMode]="'flex'"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="'auto'"
-    [rows]="itemData"
+  <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive"
+
+                 [scrollbarH]="true"
+                 [rowHeight]="45"
+                 [headerHeight]="35"
+                 [footerHeight]="35"
+                 [columnMode]="'flex'"
+    [rows]="surveys"
     [columns]="columns">
 
 

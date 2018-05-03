@@ -11,7 +11,7 @@ import { Survey } from '../models/survey.model';
 export class SurveyEndpointService extends EndpointFactory
 {
 
-	private readonly _surveysUrl: string = '/api/survey/surveys';
+	private readonly _surveysUrl: string = '/api/survey/';
 
 	/**
 	 * @param  {HttpClient} http
