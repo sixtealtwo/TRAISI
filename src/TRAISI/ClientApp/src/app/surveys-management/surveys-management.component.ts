@@ -5,6 +5,8 @@ import { AlertService, DialogType, MessageSeverity } from '../services/alert.ser
 
 import { Select2OptionData } from 'ng2-select2';
 
+import { ItemListComponent} from "../shared/item-list/item-list.component";
+
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
@@ -18,6 +20,12 @@ export class SurveysManagementComponent implements OnInit {
 
 	@ViewChild('editorModal')
 	editorModal: ModalDirective;
+
+	public itemData = [{name:'Survey1'},{name:'Survey1'},{name:'Survey1'}];
+
+	public columns = [
+    { prop: 'name' },
+  ];
 
 
 	ngOnInit(): void {

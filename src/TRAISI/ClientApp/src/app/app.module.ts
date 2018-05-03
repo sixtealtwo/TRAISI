@@ -37,7 +37,7 @@ import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
-import { ItemListComponent } from './item-list/item-list.component';
+import {SharedModule} from "./shared/shared.module";
 
 const APP_PROVIDERS = [
   AppConfig
@@ -53,8 +53,8 @@ const APP_PROVIDERS = [
     AutofocusDirective,
     BootstrapTabDirective,
     BootstrapToggleDirective,
-    BootstrapDatepickerDirective,
-    ItemListComponent
+    BootstrapDatepickerDirective
+
   ],
   imports: [
     BrowserModule,
@@ -62,6 +62,7 @@ const APP_PROVIDERS = [
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    SharedModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

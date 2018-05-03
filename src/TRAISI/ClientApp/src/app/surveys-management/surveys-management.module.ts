@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SharedModule} from "../shared/shared.module";
 
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -13,9 +14,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { ROUTES } from './surveys-management.routes';
 
-
-
-import { GroupByPipe } from '../pipes/group-by.pipe';
 import { SurveysManagementComponent } from './surveys-management.component';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 
@@ -25,6 +23,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 		BsDatepickerModule.forRoot(),
 		FormsModule,
 		Select2Module,
+    SharedModule,
 		ROUTES,
 		TranslateModule.forChild({
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }

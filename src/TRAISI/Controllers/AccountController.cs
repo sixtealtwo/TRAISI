@@ -29,11 +29,13 @@ namespace TRAISI.Controllers
         private readonly IAuthorizationService _authorizationService;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
+        private IEntityManager<Survey> _entityManager;
 
-        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService)
+        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService,IEntityManager<Survey> entityManager)
         {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
+            this._entityManager = entityManager;
         }
 
 
@@ -83,6 +85,10 @@ namespace TRAISI.Controllers
         [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers()
         {
+            _entityManager.CreateEntityAsync(new Survey
+            {
+                Name = "Test"
+            });
             return await GetUsers(-1, -1);
         }
 

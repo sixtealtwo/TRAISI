@@ -94,6 +94,8 @@ namespace TRAISI
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
+            services.AddScoped<IEntityManager<Survey>,EntityManager<Survey>>();
+
 
 
             // Register the OpenIddict services.

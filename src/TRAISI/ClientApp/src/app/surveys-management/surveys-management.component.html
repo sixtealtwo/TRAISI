@@ -1,6 +1,22 @@
 <div>
   <h1 class="page-title">Manage Surveys</h1>
 
+  <item-list [data]="itemData"></item-list>
+
+  <ngx-datatable
+
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [rows]="itemData"
+    [columns]="columns">
+
+
+
+
+  </ngx-datatable>
+
   <div class="row justify-content-center">
     <div>
       <button class="btn btn-primary" (click)="newSurvey()">
@@ -69,8 +85,8 @@
                   <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endDate"
                   #dp="bsDatepicker" [bsConfig]="bsConfig">
                 </div>
-    
-    
+
+
               </div>
 
           <div class="modal-footer">
