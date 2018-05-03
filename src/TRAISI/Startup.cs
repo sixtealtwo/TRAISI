@@ -219,7 +219,7 @@ namespace TRAISI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug(LogLevel.Warning);
+            loggerFactory.AddDebug(LogLevel.Trace);
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             Utilities.ConfigureLogger(loggerFactory);

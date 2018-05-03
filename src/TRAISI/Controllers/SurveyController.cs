@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using DAL;
 using TRAISI.ViewModels;
 using AutoMapper;
+using DAL.Core.Interfaces;
 using DAL.Models;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
@@ -22,11 +23,30 @@ namespace TRAISI.Controllers
     public class SurveyController : Controller
     {
 
-        // GET api/values
-        [HttpGet("{id}")]
-        public string GetId(int id)
+        private IEntityManager<Survey> _entityManager;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_entityManager"></param>
+        public SurveyController(IEntityManager<Survey> _entityManager)
         {
-            return "value: " + id;
+            this._entityManager = _entityManager;
+
+        }
+
+        // GET api/values
+        [HttpGet("/survey/{id}")]
+        public async Task<IActionResult> GetSurvey(int id)
+        {
+            var survey=  await this._entityManager.GetEntityAsync(id);
+
+
+            Console.WriteLine("TEST" + survey);
+
+            return new ObjectResult(survey);
+
+
         }
 
         [HttpGet("{name}")]

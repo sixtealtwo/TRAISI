@@ -16,8 +16,8 @@ namespace DAL.Models
         public DateTime StartAt { get; set; }
         public DateTime EndAt { get; set; }
         public bool IsActive { get; set; }
-        public Boolean IsOpen { get; set; }
-        public bool SuccessLink { get; set; }
+        public bool IsOpen { get; set; }
+        public string SuccessLink { get; set; }
         public string RejectionLink { get; set; }
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }

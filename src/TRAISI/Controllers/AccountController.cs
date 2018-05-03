@@ -85,7 +85,7 @@ namespace TRAISI.Controllers
         [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers()
         {
-            _entityManager.CreateEntityAsync(new Survey
+            await _entityManager.CreateEntityAsync(new Survey
             {
                 Name = "Test"
             });

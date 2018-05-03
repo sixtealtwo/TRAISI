@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Core.Interfaces
 {
-    public interface IEntityManager<T>
+    public interface IEntityManager<T>  where T : class
     {
-        Task<Tuple<bool, string[]>> CreateEntityAsync(T entity);
+        Task<EntityEntry<T>>  CreateEntityAsync(T entity);
+        Task<T> GetEntityAsync(int id);
     }
 }
