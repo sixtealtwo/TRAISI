@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using DAL.Core.Interfaces;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Core
@@ -40,6 +42,11 @@ namespace DAL.Core
         public async Task<T> GetEntityAsync(int id)
         {
             return await _context.FindAsync<T>(id);
+        }
+
+        public async Task<List<T>> GetEntitiesAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
         }
     }
 }

@@ -10,5 +10,6 @@ namespace DAL.Core.Interfaces
     {
         Task<EntityEntry<T>>  CreateEntityAsync(T entity);
         Task<T> GetEntityAsync(int id);
+        Task<List<T>> GetEntitiesAsync();
     }
 }
