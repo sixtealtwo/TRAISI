@@ -19,7 +19,7 @@ using Microsoft.Extensions.Options;
 
 namespace TRAISI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class SurveyController : Controller
     {
 
@@ -36,13 +36,10 @@ namespace TRAISI.Controllers
         }
 
         // GET api/values
-        [HttpGet("/survey/{id}")]
+        [HttpGet("survey/{id}")]
         public async Task<IActionResult> GetSurvey(int id)
         {
             var survey=  await this._entityManager.GetEntityAsync(id);
-
-
-            Console.WriteLine("TEST" + survey);
 
             return new ObjectResult(survey);
 
