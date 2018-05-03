@@ -36,7 +36,9 @@ namespace TRAISI.Controllers
 
         }
 
-        // GET api/values
+        /// <summary>
+        /// Get survey by ID
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSurvey(int id)
         {
@@ -45,6 +47,9 @@ namespace TRAISI.Controllers
             return new ObjectResult(survey);
         }
         
+        /// <summary>
+        /// Get all surveys
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetSurveys()
         {
@@ -52,6 +57,53 @@ namespace TRAISI.Controllers
 
             return new ObjectResult(surveys);
         }
+
+        /// <summary>
+        /// Create survey
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> CreateSurvey([FromBody] SurveyViewModel survey)
+        {
+            if (ModelState.IsValid)
+            {
+                if (survey == null)
+                    return BadRequest($"{nameof(survey)} cannot be null");
+
+                Survey appSurvey = Mapper.Map<Survey>(survey);
+
+                var newsurvey = await this._entityManager.CreateEntityAsync(appSurvey);
+
+                return new ObjectResult(newsurvey);
+            } 
+
+            return BadRequest(ModelState);
+        }
+
+        /// <summary>
+        /// Update a survey
+        /// </summary>
+        [HttpPut]
+        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel survey)
+        {
+            Survey appSurvey = Mapper.Map<Survey>(survey);
+
+            var updatedsurvey=  await this._entityManager.UpdateEntityAsync(appSurvey);
+
+            return new ObjectResult(updatedsurvey);
+        }
+
+        
+        /// <summary>
+        /// Delete a survey
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSurvey(int id)
+        {
+            var survey=  await this._entityManager.DeleteEntityAsync(id);
+
+            return null;
+        }
+
         
 
     }

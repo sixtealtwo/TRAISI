@@ -23,6 +23,9 @@ namespace DAL.Core
             _context = context;
         }
 
+        /// <summary>
+        /// Create entity
+        /// </summary>
         public async Task<EntityEntry<T>> CreateEntityAsync(T entity)
         {
             var result = await _context.AddAsync(entity);
@@ -33,7 +36,37 @@ namespace DAL.Core
         }
 
         /// <summary>
-        /// 
+        /// Delete entity by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<T> DeleteEntityAsync(int id)
+        {
+            var result = await _context.FindAsync<T>(id);
+
+            _context.Remove(result);
+
+            await _context.SaveChangesAsync();
+
+            return null;
+        }
+
+        /// <summary>
+        /// Update Entity
+        /// </summary>
+        public async Task<EntityEntry<T>> UpdateEntityAsync(T entity)
+        {
+            var result = _context.Update(entity);
+
+            await _context.SaveChangesAsync();
+
+            return result;
+
+        }
+
+
+        /// <summary>
+        /// Get entity by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -42,6 +75,9 @@ namespace DAL.Core
             return await _context.FindAsync<T>(id);
         }
 
+        /// <summary>
+        /// Get all entities to list
+        /// </summary>
         public async Task<List<T>> GetEntitiesAsync()
         {
             return await _context.Set<T>().ToListAsync();
