@@ -43,6 +43,7 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\survey-builder" />
     <Folder Include="Logs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
