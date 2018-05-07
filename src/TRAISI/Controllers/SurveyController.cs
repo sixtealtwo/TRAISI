@@ -67,13 +67,15 @@ namespace TRAISI.Controllers
             if (ModelState.IsValid)
             {
                 if (survey == null)
+                {
                     return BadRequest($"{nameof(survey)} cannot be null");
+                }
 
                 Survey appSurvey = Mapper.Map<Survey>(survey);
 
                 var newsurvey = await this._entityManager.CreateEntityAsync(appSurvey);
 
-                return new ObjectResult(newsurvey);
+                return new OkResult();
             } 
 
             return BadRequest(ModelState);

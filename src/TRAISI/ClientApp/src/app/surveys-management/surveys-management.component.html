@@ -26,8 +26,9 @@
     </div>
   </div>
 
-  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}"
+  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" (onShow)="onEditorModalShow()"
     tabindex="-1">
+    <form (submit)="onNewSurveyFormSubmit()">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -42,8 +43,8 @@
 
 
           <div class="form-group">
-            <label for="surveyTitle">Survey Name</label>
-            <input type="text" class="form-control" id="surveyTitle" aria-describedby="emailHelp" placeholder="Survey Title">
+            <label for="surveyName">Survey Name</label>
+            <input name="surveyName" [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name">
           </div>
 
           <div class="form-check">
@@ -92,10 +93,10 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeEditorModal()">Cancel</button>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
     </div>
-
+    </form>
   </div>

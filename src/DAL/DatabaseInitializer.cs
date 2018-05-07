@@ -178,16 +178,6 @@ namespace DAL
                 };
 
 
-                _context.Customers.Add(cust_1);
-                _context.Customers.Add(cust_2);
-                _context.Customers.Add(cust_3);
-                _context.Customers.Add(cust_4);
-
-                _context.Products.Add(prod_1);
-                _context.Products.Add(prod_2);
-
-                _context.Orders.Add(ordr_1);
-                _context.Orders.Add(ordr_2);
 
                 await _context.SaveChangesAsync();
 

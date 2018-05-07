@@ -36,13 +36,14 @@ export class SurveyEndpointService extends EndpointFactory
 	 * @param  {any} survey
 	 * @returns Observable
 	 */
-	public getNewSurveyEndpoint<T>(survey:any): Observable<T>
+	public getCreateSurveyEndpoint<T>(survey:any): Observable<T>
 	{
 		const endpointUrl = this._surveysUrl;
 
+		console.log(endpointUrl);
 		return this.http.post<T>(endpointUrl,  JSON.stringify(survey), this.getRequestHeaders())
 			.catch(error => {
-				return this.handleError(error, () => this.getNewSurveyEndpoint(survey));
+				return this.handleError(error, () => this.getCreateSurveyEndpoint(survey));
 			});
 	}
 

@@ -25,9 +25,9 @@ export class SurveyService
 	 * Creates a new survey with the passed survey details.
 	 * @param  {any} survey
 	 */
-	public newSurvey(survey: any)
+	public createSurvey(survey: any)
 	{
-		return this._surveyEndpointService.getNewSurveyEndpoint(survey);
+		return this._surveyEndpointService.getCreateSurveyEndpoint(survey);
 	}
 
 	/**
@@ -50,7 +50,7 @@ export class SurveyService
 
 	/**
 	 * Retrieves survey with specified id.
-	 * @param id 
+	 * @param id
 	 */
 	public getSurvey(id: number)
 	{

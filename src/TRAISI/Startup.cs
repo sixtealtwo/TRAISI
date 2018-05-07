@@ -125,7 +125,11 @@ namespace TRAISI
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(opts =>
+            {
+                opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
 
             // In production, the Angular files will be served from this directory
@@ -139,12 +143,6 @@ namespace TRAISI
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-
-            //.AddJsonOptions(opts =>
-            //{
-            //    opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //});
 
 
             services.AddSwaggerGen(c =>

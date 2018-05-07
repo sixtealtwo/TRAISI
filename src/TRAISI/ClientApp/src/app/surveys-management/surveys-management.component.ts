@@ -9,6 +9,7 @@ import { ItemListComponent} from "../shared/item-list/item-list.component";
 
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import {SurveyService} from "../services/survey.service";
+import {Survey} from "../models/survey.model";
 
 @Component({
 	selector: 'app-surveys-management',
@@ -24,13 +25,21 @@ export class SurveysManagementComponent implements OnInit {
 
 	public surveys;
 
+	public model : Survey;
+
 	public columns = [
-    { prop: 'name' },{prop:'startAt'},{prop:'endAt'}
+    { prop: 'name',name:'Survey Title',minWidth: 90, flexGrow: 1 },
+    {prop:'startAt',minWidth: 50, flexGrow: 1},
+    {prop:'endAt',minWidth: 50, flexGrow: 1}
   ];
 
 	constructor(private surveyService: SurveyService)
   {
-    console.log(this.surveyService);
+
+
+    this.model = new Survey();
+
+    console.log(this.model);
   }
 
 
@@ -60,6 +69,29 @@ export class SurveysManagementComponent implements OnInit {
 	onEditorModalHidden(): void
 	{
 	}
+
+  /**
+   *
+   */
+	public onEditorModalShow() : void
+  {
+    this.model = new Survey();
+  }
+
+  /**
+   *
+   */
+	public onNewSurveyFormSubmit(): void
+  {
+
+    this.surveyService.createSurvey(this.model).subscribe(value =>
+      this.surveyService.listSurveys().subscribe((value) =>{
+        this.surveys = value;
+        console.log(this.surveys);
+      }));
+
+    this.editorModal.hide();
+  }
 
 
 }
