@@ -13,6 +13,7 @@ using TRAISI.ViewModels;
 using AutoMapper;
 using DAL.Core.Interfaces;
 using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
@@ -61,6 +62,7 @@ namespace TRAISI.Controllers
         /// <summary>
         /// Create survey
         /// </summary>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateSurvey([FromBody] SurveyViewModel survey)
         {
