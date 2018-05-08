@@ -90,7 +90,8 @@
   },
   "surveys": {
     "management" : {
-      "NewSurvey": "New Survey"
+      "NewSurvey": "New Survey",
+      "Search": "Search for survey..."
     }
   },
   "users": {
