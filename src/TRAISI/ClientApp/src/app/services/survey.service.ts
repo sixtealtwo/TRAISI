@@ -43,9 +43,9 @@ export class SurveyService
 	 * Deletes the passed survey.
 	 * @param  {Survey} survey
 	 */
-	public deleteSurvey(survey: Survey)
+	public deleteSurvey(id: number)
 	{
-		return this._surveyEndpointService.getDeleteSurveyEndpoint(survey);
+		return this._surveyEndpointService.getDeleteSurveyEndpoint(id);
 	}
 
 	/**

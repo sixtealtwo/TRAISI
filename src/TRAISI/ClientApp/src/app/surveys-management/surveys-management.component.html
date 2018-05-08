@@ -5,8 +5,9 @@
 
   <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive"
 
+                  [rowHeight]="100"
+                  [rowClass]="customRow"
                  [scrollbarH]="true"
-                 [rowHeight]="45"
                  [headerHeight]="35"
                  [footerHeight]="35"
                  [columnMode]="'flex'"
@@ -17,6 +18,23 @@
 
 
   </ngx-datatable>
+
+  <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
+    <div class="btn-group" dropdown>
+
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-sm "
+              aria-controls="dropdown-basic">
+        Actions<span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item">View Survey</a></li>
+        <li role="menuitem"><a class="dropdown-item"  (click)="onDeleteSurveyClicked(value)">Delete Survey</a></li>
+      </ul>
+    </div>
+
+  </ng-template>
+
 
   <div class="row justify-content-center">
     <div>

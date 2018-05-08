@@ -69,7 +69,7 @@ namespace DAL
                     Name = "Ebenezer Monney",
                     Email = "contact@ebenmonney.com",
                     Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
+                    DateCreated = DateTime.UtcNow, 
                     DateModified = DateTime.UtcNow
                 };
 

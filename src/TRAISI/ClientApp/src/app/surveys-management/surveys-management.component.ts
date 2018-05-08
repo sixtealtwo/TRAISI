@@ -23,15 +23,15 @@ export class SurveysManagementComponent implements OnInit {
 	@ViewChild('editorModal')
 	editorModal: ModalDirective;
 
+
+  @ViewChild('actionsTemplate')
+  actionsTemplate: TemplateRef<any>;
+
 	public surveys;
 
 	public model : Survey;
 
-	public columns = [
-    { prop: 'name',name:'Survey Title',minWidth: 90, flexGrow: 1 },
-    {prop:'startAt',minWidth: 50, flexGrow: 1},
-    {prop:'endAt',minWidth: 50, flexGrow: 1}
-  ];
+	public columns : Array<any>;
 
 	constructor(private surveyService: SurveyService)
   {
@@ -43,6 +43,7 @@ export class SurveysManagementComponent implements OnInit {
   }
 
 
+
   /**
    *
    */
@@ -52,6 +53,15 @@ export class SurveysManagementComponent implements OnInit {
       this.surveys = value;
       console.log(this.surveys);
     });
+
+    console.log(this.actionsTemplate);
+
+    this.columns = [
+      { prop: 'name',name:'Survey Title',minWidth: 90, flexGrow: 1 },
+      {prop:'startAt',minWidth: 50, flexGrow: 1},
+      {prop:'endAt',minWidth: 50, flexGrow: 1},
+      {name: 'Actions',cellTemplate:this.actionsTemplate,minWidth: 90, flexGrow: 1, prop:'id'}
+    ];
 
 	}
 
@@ -87,10 +97,22 @@ export class SurveysManagementComponent implements OnInit {
     this.surveyService.createSurvey(this.model).subscribe(value =>
       this.surveyService.listSurveys().subscribe((value) =>{
         this.surveys = value;
-        console.log(this.surveys);
       }));
 
     this.editorModal.hide();
+  }
+
+  /**
+   *
+   * @param surveyId
+   */
+  public onDeleteSurveyClicked(surveyId) : void
+  {
+    console.log("delete clicked " + surveyId);
+    this.surveyService.deleteSurvey(surveyId).subscribe(value =>
+      this.surveyService.listSurveys().subscribe((value) =>{
+        this.surveys = value;
+      }));
   }
 
 

@@ -66,13 +66,13 @@ export class SurveyEndpointService extends EndpointFactory
 	 * @param  {any} survey
 	 * @returns Observable
 	 */
-	public getDeleteSurveyEndpoint<T>(survey: Survey): Observable<T>
+	public getDeleteSurveyEndpoint<T>(id: number): Observable<T>
 	{
-		const endpointUrl = `${this._surveysUrl}/${survey.id}`;
+		const endpointUrl = `${this._surveysUrl}${id}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
           .pipe(catchError(error => {
-				return this.handleError(error, () => this.getDeleteSurveyEndpoint(survey));
+				return this.handleError(error, () => this.getDeleteSurveyEndpoint(id));
 			}));
 	}
 
@@ -83,7 +83,7 @@ export class SurveyEndpointService extends EndpointFactory
 	 */
 	public getSurveyEndpoint<T>(id: number): Observable<T>
 	{
-		const endpointUrl = `${this._surveysUrl}/${id}`;
+		const endpointUrl = `${this._surveysUrl}${id}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
           .pipe(catchError(error => {

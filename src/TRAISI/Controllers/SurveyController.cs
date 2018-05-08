@@ -105,7 +105,7 @@ namespace TRAISI.Controllers
         {
             var survey=  await this._entityManager.DeleteEntityAsync(id);
 
-            return null;
+            return new OkResult();
         }
 
         
