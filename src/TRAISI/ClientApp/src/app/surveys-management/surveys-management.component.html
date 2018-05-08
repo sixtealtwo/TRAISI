@@ -24,7 +24,7 @@
   </ngx-datatable>
 
   <ng-template #buildTemplate let-row="row" let-value="value" let-i="index">
-    <span class="build-icon"><i class="fa fa-wrench clear-input right-icon"></i></span>
+    <span class="build-icon"><a [routerLink]="['/app/survey-builder',row.id]" ><i class="fa fa-wrench clear-input right-icon"></i></a></span>
   </ng-template>
 
 
