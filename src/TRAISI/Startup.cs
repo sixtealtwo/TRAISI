@@ -128,6 +128,7 @@ namespace TRAISI
             services.AddMvc().AddJsonOptions(opts =>
             {
                 opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                 //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 

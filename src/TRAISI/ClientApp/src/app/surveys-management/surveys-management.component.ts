@@ -1,101 +1,109 @@
-import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import {Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild, TemplateRef} from '@angular/core';
+import {ModalDirective} from 'ngx-bootstrap/modal';
 
-import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
+import {AlertService, DialogType, MessageSeverity} from '../services/alert.service';
 
-import { Select2OptionData } from 'ng2-select2';
+import {Select2OptionData} from 'ng2-select2';
 
-import { ItemListComponent} from "../shared/item-list/item-list.component";
+import {ItemListComponent} from "../shared/item-list/item-list.component";
 
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 import {SurveyService} from "../services/survey.service";
 import {Survey} from "../models/survey.model";
 
 @Component({
-	selector: 'app-surveys-management',
-	templateUrl: './surveys-management.component.html',
-	styleUrls: ['./surveys-management.component.scss'],
+  selector: 'app-surveys-management',
+  templateUrl: './surveys-management.component.html',
+  styleUrls: ['./surveys-management.component.scss'],
 })
 export class SurveysManagementComponent implements OnInit {
 
-	public bsConfig: Partial<BsDatepickerConfig> = Object.assign({}, { containerClass: 'theme-default' });
+  public bsConfig: Partial<BsDatepickerConfig> = Object.assign({}, {
+    containerClass: 'theme-default',
+    dateInputFormat: ''
+  });
 
-	@ViewChild('editorModal')
-	editorModal: ModalDirective;
+  @ViewChild('editorModal')
+  editorModal: ModalDirective;
 
 
   @ViewChild('actionsTemplate')
   actionsTemplate: TemplateRef<any>;
 
-	public surveys;
 
-	public model : Survey;
+  @ViewChild('dateTemplate')
+  dateTemplate: TemplateRef<any>;
 
-	public columns : Array<any>;
+  public surveys;
 
-	constructor(private surveyService: SurveyService)
-  {
+  public model: Survey;
 
-
-    this.model = new Survey();
-
-    console.log(this.model);
-  }
-
-
+  public columns: Array<any>;
 
   /**
    *
+   * @param {SurveyService} surveyService
    */
-	ngOnInit(): void {
+  constructor(private surveyService: SurveyService) {
+    this.model = new Survey();
 
-		this.surveyService.listSurveys().subscribe((value) =>{
+  }
+
+
+  /**
+   * Initializer
+   */
+  ngOnInit(): void {
+
+    //retrieve surveysd
+    this.surveyService.listSurveys().subscribe((value) => {
       this.surveys = value;
-      console.log(this.surveys);
     });
 
-    console.log(this.actionsTemplate);
-
+    //columns for the display data table
     this.columns = [
-      { prop: 'name',name:'Survey Title',minWidth: 90, flexGrow: 1 },
-      {prop:'startAt',minWidth: 50, flexGrow: 1},
-      {prop:'endAt',minWidth: 50, flexGrow: 1},
-      {name: 'Actions',cellTemplate:this.actionsTemplate,minWidth: 90, flexGrow: 1, prop:'id'}
+      {prop: 'name', name: 'Survey Title', minWidth: 90, flexGrow: 1},
+      {prop: 'startAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
+      {prop: 'endAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
+      {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 90, flexGrow: 1, prop: 'id'}
     ];
 
-	}
-
-	newSurvey(): void
-	{
-		this.editorModal.show();
-
-	}
-
-	closeEditorModal(): void
-	{
-		this.editorModal.hide();
-	}
-
-	onEditorModalHidden(): void
-	{
-	}
+  }
 
   /**
-   *
+   * Launches the new survey modal.
    */
-	public onEditorModalShow() : void
-  {
-    this.model = new Survey();
+  newSurvey(): void {
+    this.editorModal.show();
+
+  }
+
+  closeEditorModal(): void {
+    this.editorModal.hide();
   }
 
   /**
    *
    */
-	public onNewSurveyFormSubmit(): void
-  {
+  onEditorModalHidden(): void {
+  }
+
+  /**
+   * Called before new survey modal is displayed. The input data and model will be reset.
+   */
+  public onEditorModalShow(): void {
+    this.model = new Survey();
+    this.model.startAt = new Date();
+    this.model.endAt = new Date();
+  }
+
+  /**
+   * Called when the new survey form is submitted.
+   */
+  public onNewSurveyFormSubmit(): void {
 
     this.surveyService.createSurvey(this.model).subscribe(value =>
-      this.surveyService.listSurveys().subscribe((value) =>{
+      this.surveyService.listSurveys().subscribe((value) => {
         this.surveys = value;
       }));
 
@@ -103,14 +111,13 @@ export class SurveysManagementComponent implements OnInit {
   }
 
   /**
-   *
+   * Deletes the survey with the associated id.
    * @param surveyId
    */
-  public onDeleteSurveyClicked(surveyId) : void
-  {
-    console.log("delete clicked " + surveyId);
+  public onDeleteSurveyClicked(surveyId): void {
+
     this.surveyService.deleteSurvey(surveyId).subscribe(value =>
-      this.surveyService.listSurveys().subscribe((value) =>{
+      this.surveyService.listSurveys().subscribe((value) => {
         this.surveys = value;
       }));
   }

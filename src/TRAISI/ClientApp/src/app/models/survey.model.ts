@@ -8,11 +8,11 @@ export class Survey {
               public code?: string,
               public createdAt?: Date,
               public defaultLanguage?: string,
-              public endsAt?: Date,
+              public endAt?: Date,
               public footerUrl?: string,
               public isActive?: boolean,
               public rejectionLink?: string,
-              public startsAt?: Date,
+              public startAt?: Date,
               public successLink?: string,
               public updatedAt?: Date) {
 

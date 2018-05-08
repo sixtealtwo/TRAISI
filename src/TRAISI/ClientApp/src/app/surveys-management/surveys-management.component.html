@@ -19,6 +19,10 @@
 
   </ngx-datatable>
 
+  <ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
+    <span>{{ value | date }}</span>
+  </ng-template>
+
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
     <div class="btn-group" dropdown>
 
@@ -62,18 +66,18 @@
 
           <div class="form-group">
             <label for="surveyName">Survey Name</label>
-            <input name="surveyName" [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name">
+            <input  [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name" name="surveyName">
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="isActiveCheck">
+            <input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
             <label class="form-check-label" for="isActiveCheck">
               Active
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="isOpenCheck">
+            <input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
             <label class="form-check-label" for="isOpenCheck">
               Open Survey
             </label>
@@ -81,19 +85,19 @@
 
           <div class="form-group">
             <label for="rejectionLink">Rejection Link</label>
-            <input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link">
+            <input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
           </div>
 
           <div class="form-group">
             <label for="successLink">Success Link</label>
-            <input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link">
+            <input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
           </div>
 
           <div class="row">
             <div class="col-xs-12 col-md-5 col-lg-4 form-group">
-            <label for="startDate">Start Date</label>
-              <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startDate" id="startDate"
-              #dp="bsDatepicker" [bsConfig]="bsConfig">
+            <label for="startAt">Start Date</label>
+              <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startAt" id="startAt"
+              #dpStart="bsDatepicker" [bsConfig]="bsConfig" [(ngModel)]="model.startAt">
             </div>
 
 
@@ -101,9 +105,9 @@
 
           <div class="row">
                 <div class="col-xs-12 col-md-5 col-lg-4 form-group">
-                <label for="endDate">End Date</label>
-                  <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endDate" id="endDate"
-                  #dp="bsDatepicker" [bsConfig]="bsConfig">
+                <label for="endAt">End Date</label>
+                  <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt"
+                         #dpEnd="bsDatepicker"  [bsConfig]="bsConfig" [(ngModel)]="model.endAt">
                 </div>
 
 
