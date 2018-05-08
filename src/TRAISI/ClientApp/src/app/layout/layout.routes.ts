@@ -7,7 +7,8 @@ const routes: Routes = [
 		{ path: 'another-page', loadChildren: '../another/another.module#AnotherModule' },
 		{ path: 'account', loadChildren: '../account-management/account-management.module#AccountManagementModule'},
 		{ path: 'users', loadChildren: '../users-management/users-management.module#UsersManagementModule'},
-		{ path: 'surveys', loadChildren: '../surveys-management/surveys-management.module#SurveysManagementModule'}
+		{ path: 'surveys', loadChildren: '../surveys-management/surveys-management.module#SurveysManagementModule'},
+		{ path: 'survey-builder/:id', loadChildren: '../survey-builder/survey-builder.module#SurveyBuilderModule'}
 	]}
 ];
 
