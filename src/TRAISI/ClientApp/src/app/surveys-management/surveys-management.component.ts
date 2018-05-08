@@ -35,9 +35,12 @@ export class SurveysManagementComponent implements OnInit {
   @ViewChild('surveyTagTemplate')
   surveyTagTemplate: TemplateRef<any>;
 
-
   @ViewChild('dateTemplate')
   dateTemplate: TemplateRef<any>;
+
+
+  @ViewChild('buildTemplate')
+  buildTemplate: TemplateRef<any>;
 
   public surveys;
 
@@ -74,7 +77,8 @@ export class SurveysManagementComponent implements OnInit {
       {prop: 'startAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
       {prop: 'endAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
       { minWidth: 50, flexGrow: 1, cellTemplate: this.surveyTagTemplate,name:'Info'},
-      {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 1, prop: 'id'}
+      { minWidth: 50, flexGrow: 1, cellTemplate: this.buildTemplate,name:'Build'},
+      {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 30, flexGrow: 1, prop: 'id'}
     ];
 
   }

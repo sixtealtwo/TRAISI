@@ -23,6 +23,11 @@
 
   </ngx-datatable>
 
+  <ng-template #buildTemplate let-row="row" let-value="value" let-i="index">
+    <span class="build-icon"><i class="fa fa-wrench clear-input right-icon"></i></span>
+  </ng-template>
+
+
   <ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
     <span>{{ value | date }}</span>
   </ng-template>
