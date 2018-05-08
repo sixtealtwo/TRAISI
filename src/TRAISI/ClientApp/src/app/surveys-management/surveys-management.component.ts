@@ -15,6 +15,7 @@ import {Survey} from "../models/survey.model";
   selector: 'app-surveys-management',
   templateUrl: './surveys-management.component.html',
   styleUrls: ['./surveys-management.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SurveysManagementComponent implements OnInit {
 
@@ -62,10 +63,10 @@ export class SurveysManagementComponent implements OnInit {
 
     //columns for the display data table
     this.columns = [
-      {prop: 'name', name: 'Survey Title', minWidth: 90, flexGrow: 1},
+      {prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 1},
       {prop: 'startAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
       {prop: 'endAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
-      {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 90, flexGrow: 1, prop: 'id'}
+      {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 1, prop: 'id'}
     ];
 
   }

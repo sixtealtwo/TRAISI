@@ -3,14 +3,13 @@
 
 
 
-  <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive"
+  <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive survey-management-table"
 
-                  [rowHeight]="100"
-                  [rowClass]="customRow"
-                 [scrollbarH]="true"
+                 [scrollbarH]="false"
                  [headerHeight]="35"
                  [footerHeight]="35"
-                 [columnMode]="'flex'"
+                 [columnMode]="'force'"
+
     [rows]="surveys"
     [columns]="columns">
 
