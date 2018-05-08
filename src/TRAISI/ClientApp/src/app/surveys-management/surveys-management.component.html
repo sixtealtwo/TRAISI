@@ -1,8 +1,13 @@
 <div>
   <h1 class="page-title">Manage Surveys</h1>
 
-
-
+  <div class="row ">
+    <div class="col-sm-8">
+      <div class="form-group search-box">
+        <search-input (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}"></search-input>
+      </div>
+    </div>
+  </div>
   <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive survey-management-table"
 
                  [scrollbarH]="false"
@@ -20,6 +25,12 @@
 
   <ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
     <span>{{ value | date }}</span>
+  </ng-template>
+
+
+  <ng-template #surveyTagTemplate let-row="row" let-value="value" let-i="index">
+    <span class="user-role badge badge-secondary" *ngIf="row.isOpen">Open Survey</span>
+    <span class="user-role badge badge-primary" *ngIf="row.isActive">Active</span>
   </ng-template>
 
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">

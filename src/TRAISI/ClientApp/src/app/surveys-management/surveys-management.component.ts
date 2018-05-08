@@ -10,6 +10,7 @@ import {ItemListComponent} from "../shared/item-list/item-list.component";
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 import {SurveyService} from "../services/survey.service";
 import {Survey} from "../models/survey.model";
+import {Utilities} from "../services/utilities";
 
 @Component({
   selector: 'app-surveys-management',
@@ -31,6 +32,9 @@ export class SurveysManagementComponent implements OnInit {
   @ViewChild('actionsTemplate')
   actionsTemplate: TemplateRef<any>;
 
+  @ViewChild('surveyTagTemplate')
+  surveyTagTemplate: TemplateRef<any>;
+
 
   @ViewChild('dateTemplate')
   dateTemplate: TemplateRef<any>;
@@ -40,6 +44,8 @@ export class SurveysManagementComponent implements OnInit {
   public model: Survey;
 
   public columns: Array<any>;
+
+  public surveysCache: Array<Survey>;
 
   /**
    *
@@ -57,8 +63,9 @@ export class SurveysManagementComponent implements OnInit {
   ngOnInit(): void {
 
     //retrieve surveysd
-    this.surveyService.listSurveys().subscribe((value) => {
+    this.surveyService.listSurveys().subscribe((value : Survey[]) => {
       this.surveys = value;
+      this.surveysCache = value;
     });
 
     //columns for the display data table
@@ -66,6 +73,7 @@ export class SurveysManagementComponent implements OnInit {
       {prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 1},
       {prop: 'startAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
       {prop: 'endAt', minWidth: 50, flexGrow: 1, cellTemplate: this.dateTemplate},
+      { minWidth: 50, flexGrow: 1, cellTemplate: this.surveyTagTemplate,name:'Info'},
       {name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 1, prop: 'id'}
     ];
 
@@ -106,6 +114,7 @@ export class SurveysManagementComponent implements OnInit {
     this.surveyService.createSurvey(this.model).subscribe(value =>
       this.surveyService.listSurveys().subscribe((value) => {
         this.surveys = value;
+        this.surveysCache = this.surveys;
       }));
 
     this.editorModal.hide();
@@ -120,7 +129,18 @@ export class SurveysManagementComponent implements OnInit {
     this.surveyService.deleteSurvey(surveyId).subscribe(value =>
       this.surveyService.listSurveys().subscribe((value) => {
         this.surveys = value;
+        this.surveysCache = this.surveys;
       }));
+  }
+
+  /**
+   *
+   * @param value
+   */
+  public onSearchChanged(value:string) : void {
+    console.log("in search");
+    this.surveys = this.surveysCache.filter(r => Utilities.searchArray(value, false, r.name));
+
   }
 
 

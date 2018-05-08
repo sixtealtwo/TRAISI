@@ -31,4 +31,13 @@ export class SearchBoxComponent {
         this.searchInput.nativeElement.value = '';
         this.onValueChange(this.searchInput.nativeElement.value);
     }
+
+  /**
+   *
+   * @param {string} value
+   */
+  onInputChange(value: string)
+    {
+      setTimeout(() => this.searchChange.emit(value));
+    }
 }
