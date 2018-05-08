@@ -1,3 +1,7 @@
+
+import {throwError as observableThrowError,  Observable ,  Subject } from 'rxjs';
+
+import {switchMap, catchError, mergeMap} from 'rxjs/operators';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -5,12 +9,10 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+
+
+
+
 
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
@@ -77,10 +79,10 @@ export class EndpointFactory {
 
         let requestBody = params.toString();
 
-        return this.http.post<T>(this.loginUrl, requestBody, { headers: header })
-            .catch(error => {
-                return this.handleError(error, () => this.getRefreshLoginEndpoint());
-            });
+        return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
+            catchError(error => {
+                return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
+            }));
     }
 
 
@@ -107,34 +109,34 @@ export class EndpointFactory {
 
             this.isRefreshingLogin = true;
 
-            return this.authService.refreshLogin()
-                .mergeMap(data => {
+            return this.authService.refreshLogin().pipe(
+                mergeMap(data => {
                     this.isRefreshingLogin = false;
                     this.resumeTasks(true);
 
                     return continuation();
-                })
-                .catch(refreshLoginError => {
+                }),
+                catchError(refreshLoginError => {
                     this.isRefreshingLogin = false;
                     this.resumeTasks(false);
 
                     if (refreshLoginError.status == 401 || (refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))) {
                         this.authService.reLogin();
-                        return Observable.throw('session expired');
+                        return observableThrowError('session expired');
                     }
                     else {
-                        return Observable.throw(refreshLoginError || 'server error');
+                        return observableThrowError(refreshLoginError || 'server error');
                     }
-                });
+                }),);
         }
 
         if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
             this.authService.reLogin();
 
-            return Observable.throw((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
+            return observableThrowError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
         }
         else {
-            return Observable.throw(error);
+            return observableThrowError(error);
         }
     }
 
@@ -144,9 +146,9 @@ export class EndpointFactory {
         if (!this.taskPauser)
             this.taskPauser = new Subject();
 
-        return this.taskPauser.switchMap(continueOp => {
-            return continueOp ? continuation() : Observable.throw('session expired');
-        });
+        return this.taskPauser.pipe(switchMap(continueOp => {
+            return continueOp ? continuation() : observableThrowError('session expired');
+        }));
     }
 
 

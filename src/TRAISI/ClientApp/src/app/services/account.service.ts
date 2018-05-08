@@ -1,3 +1,7 @@
+
+import {forkJoin as observableForkJoin,  Observable ,  Subject } from 'rxjs';
+
+import {tap, mergeMap} from 'rxjs/operators';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -6,11 +10,9 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
+
+
+
 
 import { AccountEndpoint } from './account-endpoint.service';
 import { AuthService } from './auth.service';
@@ -48,7 +50,7 @@ export class AccountService {
 
 	getUserAndRoles(userId?: string) {
 
-		return Observable.forkJoin(
+		return observableForkJoin(
 			this.accountEndpoint.getUserEndpoint<User>(userId),
 			this.accountEndpoint.getRolesEndpoint<Role[]>());
 	}
@@ -60,7 +62,7 @@ export class AccountService {
 
 	getUsersAndRoles(page?: number, pageSize?: number) {
 
-		return Observable.forkJoin(
+		return observableForkJoin(
 			this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize),
 			this.accountEndpoint.getRolesEndpoint<Role[]>());
 	}
@@ -71,11 +73,11 @@ export class AccountService {
 			return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
 		}
 		else {
-			return this.accountEndpoint.getUserByUserNameEndpoint<User>(user.userName)
-				.mergeMap(foundUser => {
+			return this.accountEndpoint.getUserByUserNameEndpoint<User>(user.userName).pipe(
+				mergeMap(foundUser => {
 					user.id = foundUser.id;
 					return this.accountEndpoint.getUpdateUserEndpoint(user, user.id)
-				});
+				}));
 		}
 	}
 
@@ -97,8 +99,8 @@ export class AccountService {
 	deleteUser(userOrUserId: string | UserEdit): Observable<User> {
 
 		if (typeof userOrUserId === 'string' || userOrUserId instanceof String) {
-			return this.accountEndpoint.getDeleteUserEndpoint<User>(<string>userOrUserId)
-				.do(data => this.onRolesUserCountChanged(data.roles));
+			return this.accountEndpoint.getDeleteUserEndpoint<User>(<string>userOrUserId).pipe(
+				tap(data => this.onRolesUserCountChanged(data.roles)));
 		}
 		else {
 
@@ -106,8 +108,8 @@ export class AccountService {
 				return this.deleteUser(userOrUserId.id);
 			}
 			else {
-				return this.accountEndpoint.getUserByUserNameEndpoint<User>(userOrUserId.userName)
-					.mergeMap(user => this.deleteUser(user.id));
+				return this.accountEndpoint.getUserByUserNameEndpoint<User>(userOrUserId.userName).pipe(
+					mergeMap(user => this.deleteUser(user.id)));
 			}
 		}
 	}
@@ -138,7 +140,7 @@ export class AccountService {
 
 	getRolesAndPermissions(page?: number, pageSize?: number) {
 
-		return Observable.forkJoin(
+		return observableForkJoin(
 			this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize),
 			this.accountEndpoint.getPermissionsEndpoint<Permission[]>());
 	}
@@ -146,31 +148,31 @@ export class AccountService {
 
 	updateRole(role: Role) {
 		if (role.id) {
-			return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id)
-				.do(data => this.onRolesChanged([role], AccountService.roleModifiedOperation));
+			return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id).pipe(
+				tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
 		}
 		else {
-			return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name)
-				.mergeMap(foundRole => {
+			return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe(
+				mergeMap(foundRole => {
 					role.id = foundRole.id;
 					return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id)
-				})
-				.do(data => this.onRolesChanged([role], AccountService.roleModifiedOperation));
+				}),
+				tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)),);
 		}
 	}
 
 
 	newRole(role: Role) {
-		return this.accountEndpoint.getNewRoleEndpoint<Role>(role)
-			.do(data => this.onRolesChanged([role], AccountService.roleAddedOperation));
+		return this.accountEndpoint.getNewRoleEndpoint<Role>(role).pipe(
+			tap(data => this.onRolesChanged([role], AccountService.roleAddedOperation)));
 	}
 
 
 	deleteRole(roleOrRoleId: string | Role): Observable<Role> {
 
 		if (typeof roleOrRoleId === 'string' || roleOrRoleId instanceof String) {
-			return this.accountEndpoint.getDeleteRoleEndpoint<Role>(<string>roleOrRoleId)
-				.do(data => this.onRolesChanged([data], AccountService.roleDeletedOperation));
+			return this.accountEndpoint.getDeleteRoleEndpoint<Role>(<string>roleOrRoleId).pipe(
+				tap(data => this.onRolesChanged([data], AccountService.roleDeletedOperation)));
 		}
 		else {
 
@@ -178,8 +180,8 @@ export class AccountService {
 				return this.deleteRole(roleOrRoleId.id);
 			}
 			else {
-				return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(roleOrRoleId.name)
-					.mergeMap(role => this.deleteRole(role.id));
+				return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(roleOrRoleId.name).pipe(
+					mergeMap(role => this.deleteRole(role.id)));
 			}
 		}
 	}

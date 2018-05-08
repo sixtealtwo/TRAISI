@@ -6,6 +6,7 @@ import { ConfigurationService } from './configuration.service';
 import { Observable } from 'rxjs';
 import { EndpointFactory } from './endpoint-factory.service';
 import { Survey } from '../models/survey.model';
+import { catchError } from 'rxjs/internal/operators/catchError';
 
 @Injectable()
 export class SurveyEndpointService extends EndpointFactory
@@ -27,10 +28,10 @@ export class SurveyEndpointService extends EndpointFactory
 	{
 		const endpointUrl = page && pageSize ? `${this._surveysUrl}/${page}/${pageSize}` : this._surveysUrl;
 
-		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+      return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+        .pipe(catchError(error => {
 				return this.handleError(error, () => this.getListSurveysEndpoint(page, pageSize));
-			});
+			}));
 	}
 	/**
 	 * @param  {any} survey
@@ -42,9 +43,9 @@ export class SurveyEndpointService extends EndpointFactory
 
 		console.log(endpointUrl);
 		return this.http.post<T>(endpointUrl,  JSON.stringify(survey), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getCreateSurveyEndpoint(survey));
-			});
+			}));
 	}
 
 	/**
@@ -56,9 +57,9 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = this._surveysUrl;
 
 		return this.http.put<T>(endpointUrl,  JSON.stringify(survey), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getEditSurveyEndpoint(survey));
-			});
+			}));
 	}
 
 	/**
@@ -70,9 +71,9 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = `${this._surveysUrl}/${survey.id}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getDeleteSurveyEndpoint(survey));
-			});
+			}));
 	}
 
 	/**
@@ -85,9 +86,9 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = `${this._surveysUrl}/${id}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getSurveyEndpoint(id));
-			});
+			}));
 	}
 
 }

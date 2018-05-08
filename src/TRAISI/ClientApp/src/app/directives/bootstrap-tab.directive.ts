@@ -1,12 +1,12 @@
+
+import {fromEvent as observableFromEvent,  Observable ,  Subscription } from 'rxjs';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
 // ====================================================
 
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromEvent';
+
 
 declare var $: any;
 
@@ -31,12 +31,12 @@ export class BootstrapTabDirective implements OnDestroy {
 
     constructor(private el: ElementRef, private zone: NgZone) {
 
-        this.tabShownSubscription = Observable.fromEvent($(this.el.nativeElement), 'show.bs.tab')
+        this.tabShownSubscription = observableFromEvent($(this.el.nativeElement), 'show.bs.tab')
             .subscribe((e: any) => {
                 this.runInZone(() => this.showBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
             });
 
-        this.tabHiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.tab')
+        this.tabHiddenSubscription = observableFromEvent($(this.el.nativeElement), 'hidden.bs.tab')
             .subscribe((e: any) => {
                 this.runInZone(() => this.hideBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
             });

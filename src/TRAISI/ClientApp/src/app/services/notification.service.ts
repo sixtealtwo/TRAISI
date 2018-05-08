@@ -1,13 +1,15 @@
+
+import {interval as observableInterval,  Observable } from 'rxjs';
+
+import {startWith, mergeMap, map} from 'rxjs/operators';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
 // ====================================================
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/interval';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
+
+
 
 import { AuthService } from './auth.service';
 import { NotificationEndpoint } from './notification-endpoint.service';
@@ -38,40 +40,40 @@ export class NotificationService {
 
     getNotification(notificationId?: number) {
 
-        return this.notificationEndpoint.getNotificationEndpoint(notificationId)
-            .map(response => Notification.Create(response));
+        return this.notificationEndpoint.getNotificationEndpoint(notificationId).pipe(
+            map(response => Notification.Create(response)));
     }
 
 
     getNotifications(page: number, pageSize: number) {
 
-        return this.notificationEndpoint.getNotificationsEndpoint(page, pageSize)
-            .map(response => {
+        return this.notificationEndpoint.getNotificationsEndpoint(page, pageSize).pipe(
+            map(response => {
                 return this.getNotificationsFromResponse(response);
-            });
+            }));
     }
 
 
     getUnreadNotifications(userId?: string) {
 
-        return this.notificationEndpoint.getUnreadNotificationsEndpoint(userId)
-            .map(response => this.getNotificationsFromResponse(response));
+        return this.notificationEndpoint.getUnreadNotificationsEndpoint(userId).pipe(
+            map(response => this.getNotificationsFromResponse(response)));
     }
 
 
     getNewNotifications() {
-        return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate)
-            .map(response => this.processNewNotificationsFromResponse(response));
+        return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
+            map(response => this.processNewNotificationsFromResponse(response)));
     }
 
 
     getNewNotificationsPeriodically() {
-        return Observable.interval(10000)
-            .startWith(0)
-            .flatMap(() => {
-                return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate)
-                    .map(response => this.processNewNotificationsFromResponse(response));
-            });
+        return observableInterval(10000).pipe(
+            startWith(0),
+            mergeMap(() => {
+                return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
+                    map(response => this.processNewNotificationsFromResponse(response)));
+            }),);
     }
 
 
@@ -99,11 +101,11 @@ export class NotificationService {
     deleteNotification(notificationOrNotificationId: number | Notification): Observable<Notification> {
 
         if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { //Todo: Test me if its check is valid
-            return this.notificationEndpoint.getDeleteNotificationEndpoint(<number>notificationOrNotificationId)
-                .map(response => {
+            return this.notificationEndpoint.getDeleteNotificationEndpoint(<number>notificationOrNotificationId).pipe(
+                map(response => {
                     this.recentNotifications = this.recentNotifications.filter(n => n.id != notificationOrNotificationId);
                     return Notification.Create(response);
-                });
+                }));
         }
         else {
             return this.deleteNotification(notificationOrNotificationId.id);

@@ -13,12 +13,12 @@ import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@
 export class SearchBoxComponent {
 
     @Input()
-    placeholder: string = "Search...";
+    placeholder: string = 'Search...';
 
     @Output()
     searchChange = new EventEmitter<string>();
 
-    @ViewChild("searchInput")
+    @ViewChild('searchInput')
     searchInput: ElementRef;
 
 

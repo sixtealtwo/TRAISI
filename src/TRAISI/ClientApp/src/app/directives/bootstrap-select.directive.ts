@@ -1,12 +1,12 @@
+
+import {fromEvent as observableFromEvent,  Observable ,  Subscription } from 'rxjs';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
 // ====================================================
 
 import { Directive, Attribute, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromEvent';
+
 
 declare var $: any;
 
@@ -41,9 +41,9 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.changedSubscription = Observable.fromEvent($(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(this.selected)));
-        this.shownSubscription = Observable.fromEvent($(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
-        this.hiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
+        this.changedSubscription = observableFromEvent($(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(this.selected)));
+        this.shownSubscription = observableFromEvent($(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
+        this.hiddenSubscription = observableFromEvent($(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
     }
 
 

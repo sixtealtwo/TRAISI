@@ -1,12 +1,12 @@
+
+import {fromEvent as observableFromEvent,  Observable ,  Subscription } from 'rxjs';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
 // ====================================================
 
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromEvent';
+
 
 declare var $: any;
 
@@ -28,7 +28,7 @@ export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.checkedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change')
+        this.checkedSubscription = observableFromEvent($(this.el.nativeElement), 'change')
             .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
     }
 

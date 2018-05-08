@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable ,  Subject } from 'rxjs';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -5,9 +7,7 @@
 
 import { Injectable } from '@angular/core';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/of';
+
 
 
 @Injectable()
@@ -98,17 +98,17 @@ export class TranslateLanguageLoader implements TranslateLoader {
 
         switch (lang) {
             case "en":
-                return Observable.of(require("../../assets/locale/en.json"));
+                return observableOf(require("../../assets/locale/en.json"));
             case "fr":
-                return Observable.of(require("../../assets/locale/fr.json"));
+                return observableOf(require("../../assets/locale/fr.json"));
             case "de":
-                return Observable.of(require("../../assets/locale/de.json"));
+                return observableOf(require("../../assets/locale/de.json"));
             case "pt":
-                return Observable.of(require("../../assets/locale/pt.json"));
+                return observableOf(require("../../assets/locale/pt.json"));
             case "ar":
-                return Observable.of(require("../../assets/locale/ar.json"));
+                return observableOf(require("../../assets/locale/ar.json"));
             case "ko":
-                return Observable.of(require("../../assets/locale/ko.json"));
+                return observableOf(require("../../assets/locale/ko.json"));
             default:
         }
     }

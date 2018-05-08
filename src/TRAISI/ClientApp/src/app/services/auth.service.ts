@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -5,9 +7,8 @@
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/map';
+import { Observable ,  Subject } from 'rxjs';
+
 
 import { LocalStoreManager } from './local-store-manager.service';
 import { EndpointFactory } from './endpoint-factory.service';
@@ -104,8 +105,8 @@ export class AuthService {
 
 
     refreshLogin() {
-        return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>()
-            .map(response => this.processLoginResponse(response, this.rememberMe));
+        return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>().pipe(
+            map(response => this.processLoginResponse(response, this.rememberMe)));
     }
 
 
@@ -115,8 +116,8 @@ export class AuthService {
             this.logout();
         }
 
-        return this.endpointFactory.getLoginEndpoint<LoginResponse>(userName, password)
-            .map(response => this.processLoginResponse(response, rememberMe));
+        return this.endpointFactory.getLoginEndpoint<LoginResponse>(userName, password).pipe(
+            map(response => this.processLoginResponse(response, rememberMe)));
     }
 
 

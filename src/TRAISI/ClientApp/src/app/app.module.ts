@@ -37,14 +37,14 @@ import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
-import {SharedModule} from "./shared/shared.module";
+import {SharedModule} from './shared/shared.module';
 
 const APP_PROVIDERS = [
   AppConfig
 ];
 
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     ErrorComponent,

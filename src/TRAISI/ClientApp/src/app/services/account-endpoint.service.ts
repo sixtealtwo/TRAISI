@@ -6,10 +6,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
+
 
 import { EndpointFactory } from './endpoint-factory.service';
 import { ConfigurationService } from './configuration.service';
+import { catchError } from 'rxjs/internal/operators/catchError';
 
 
 @Injectable()
@@ -46,10 +47,10 @@ export class AccountEndpoint extends EndpointFactory {
 	getUserEndpoint<T>(userId?: string): Observable<T> {
 		let endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
-		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+      return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+        .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUserEndpoint(userId));
-			});
+			}));
 	}
 
 
@@ -57,9 +58,9 @@ export class AccountEndpoint extends EndpointFactory {
 		let endpointUrl = `${this.userByUserNameUrl}/${userName}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUserByUserNameEndpoint(userName));
-			});
+			}));
 	}
 
 
@@ -67,27 +68,27 @@ export class AccountEndpoint extends EndpointFactory {
 		let endpointUrl = page && pageSize ? `${this.usersUrl}/${page}/${pageSize}` : this.usersUrl;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUsersEndpoint(page, pageSize));
-			});
+			}));
 	}
 
 
 	getNewUserEndpoint<T>(userObject: any): Observable<T> {
 
 		return this.http.post<T>(this.usersUrl, JSON.stringify(userObject), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getNewUserEndpoint(userObject));
-			});
+			}));
 	}
 
 	getUpdateUserEndpoint<T>(userObject: any, userId?: string): Observable<T> {
 		let endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(userObject), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUpdateUserEndpoint(userObject, userId));
-			});
+			}));
 	}
 
 	getPatchUpdateUserEndpoint<T>(patch: {}, userId?: string): Observable<T>
@@ -108,43 +109,43 @@ export class AccountEndpoint extends EndpointFactory {
 		}
 
 		return this.http.patch<T>(endpointUrl, JSON.stringify(patchDocument), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getPatchUpdateUserEndpoint(valueOrPatch, opOrUserId, path, from, userId));
-			});
+			}));
 	}
 
 
 	getUserPreferencesEndpoint<T>(): Observable<T> {
 
 		return this.http.get<T>(this.currentUserPreferencesUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUserPreferencesEndpoint());
-			});
+			}));
 	}
 
 	getUpdateUserPreferencesEndpoint<T>(configuration: string): Observable<T> {
 		return this.http.put<T>(this.currentUserPreferencesUrl, JSON.stringify(configuration), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUpdateUserPreferencesEndpoint(configuration));
-			});
+			}));
 	}
 
 	getUnblockUserEndpoint<T>(userId: string): Observable<T> {
 		let endpointUrl = `${this.unblockUserUrl}/${userId}`;
 
 		return this.http.put<T>(endpointUrl, null, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUnblockUserEndpoint(userId));
-			});
+			}));
 	}
 
 	getDeleteUserEndpoint<T>(userId: string): Observable<T> {
 		let endpointUrl = `${this.usersUrl}/${userId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getDeleteUserEndpoint(userId));
-			});
+			}));
 	}
 
 
@@ -155,9 +156,9 @@ export class AccountEndpoint extends EndpointFactory {
 		let endpointUrl = `${this.rolesUrl}/${roleId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getRoleEndpoint(roleId));
-			});
+			}));
 	}
 
 
@@ -165,9 +166,9 @@ export class AccountEndpoint extends EndpointFactory {
 		let endpointUrl = `${this.roleByRoleNameUrl}/${roleName}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getRoleByRoleNameEndpoint(roleName));
-			});
+			}));
 	}
 
 
@@ -176,43 +177,43 @@ export class AccountEndpoint extends EndpointFactory {
 		let endpointUrl = page && pageSize ? `${this.rolesUrl}/${page}/${pageSize}` : this.rolesUrl;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getRolesEndpoint(page, pageSize));
-			});
+			}));
 	}
 
 	getNewRoleEndpoint<T>(roleObject: any): Observable<T> {
 
 		return this.http.post<T>(this.rolesUrl, JSON.stringify(roleObject), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getNewRoleEndpoint(roleObject));
-			});
+			}));
 	}
 
 	getUpdateRoleEndpoint<T>(roleObject: any, roleId: string): Observable<T> {
 		let endpointUrl = `${this.rolesUrl}/${roleId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(roleObject), this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getUpdateRoleEndpoint(roleObject, roleId));
-			});
+			}));
 	}
 
 	getDeleteRoleEndpoint<T>(roleId: string): Observable<T> {
 		let endpointUrl = `${this.rolesUrl}/${roleId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getDeleteRoleEndpoint(roleId));
-			});
+			}));
 	}
 
 
 	getPermissionsEndpoint<T>(): Observable<T> {
 
 		return this.http.get<T>(this.permissionsUrl, this.getRequestHeaders())
-			.catch(error => {
+          .pipe(catchError(error => {
 				return this.handleError(error, () => this.getPermissionsEndpoint());
-			});
+			}));
 	}
 }

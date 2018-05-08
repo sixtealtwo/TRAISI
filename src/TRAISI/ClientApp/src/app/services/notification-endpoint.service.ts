@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -5,9 +7,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
+
+
 
 
 @Injectable()
@@ -54,7 +55,7 @@ export class NotificationEndpoint {
             response = this.createResponse<T>(null, 404);
         }
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -64,7 +65,7 @@ export class NotificationEndpoint {
         let notifications = this.demoNotifications;
         let response = this.createResponse<T>(this.demoNotifications, 200);
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -74,7 +75,7 @@ export class NotificationEndpoint {
         let unreadNotifications = this.demoNotifications.filter(val => !val.isRead);
         let response = this.createResponse<T>(unreadNotifications, 200);
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -84,7 +85,7 @@ export class NotificationEndpoint {
         let unreadNotifications = this.demoNotifications;
         let response = this.createResponse<T>(unreadNotifications, 200);
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -108,7 +109,7 @@ export class NotificationEndpoint {
         }
 
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -125,7 +126,7 @@ export class NotificationEndpoint {
         }
 
         let response = this.createResponse<T>(null, 204);
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 
@@ -143,7 +144,7 @@ export class NotificationEndpoint {
             response = this.createResponse<T>(null, 404);
         }
 
-        return Observable.of(response.body);
+        return observableOf(response.body);
     }
 
 

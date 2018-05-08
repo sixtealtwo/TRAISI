@@ -1,3 +1,5 @@
+
+import {mergeMap, map, filter} from 'rxjs/operators';
 // ====================================================
 // More Templates: https://www.ebenmonney.com/templates
 // Email: support@ebenmonney.com
@@ -5,11 +7,11 @@
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/filter';
+
+
+
 import { Utilities } from './utilities';
 
 
@@ -20,16 +22,16 @@ export class AppTitleService {
 	appName: string;
 
 	constructor(private titleService: Title, private router: Router) {
-		this.sub = this.router.events
-			.filter(event => event instanceof NavigationEnd)
-			.map(_ => this.router.routerState.root)
-			.map(route => {
+		this.sub = this.router.events.pipe(
+			filter(event => event instanceof NavigationEnd),
+			map(_ => this.router.routerState.root),
+			map(route => {
 				while (route.firstChild)
 					route = route.firstChild;
 
 				return route;
-			})
-			.flatMap(route => route.data)
+			}),
+			mergeMap(route => route.data),)
 			.subscribe(data => {
 				let title = data['title'];
 
