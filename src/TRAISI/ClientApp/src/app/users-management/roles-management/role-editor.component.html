@@ -50,8 +50,9 @@
         <div class="form-horizontal row">
 
           <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
-            <legend for="checkboxes" (click)="toggleGroup(permissionGroup.key)"><strong>{{permissionGroup.key}}</strong></legend>
+            
             <div class="col-sm permissionsColumn">
+              <legend for="checkboxes" (click)="toggleGroup(permissionGroup.key)"><strong>{{permissionGroup.key}}</strong></legend>
               <div>
                 <div class="form-check abc-checkbox abc-checkbox-circle abc-checkbox-info" *ngFor="let permission of permissionGroup.value">
                   <input class="form-check-input" [disabled]="!canManageRoles" name="checkboxes-{{permission.value}}" id="checkboxes-{{permission.value}}" type="checkbox" [(ngModel)]="selectedValues[permission.value]">
