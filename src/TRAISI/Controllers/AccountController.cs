@@ -29,13 +29,11 @@ namespace TRAISI.Controllers
         private readonly IAuthorizationService _authorizationService;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
-        private IEntityManager<Survey> _entityManager;
 
-        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService,IEntityManager<Survey> entityManager)
+        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService)
         {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
-            this._entityManager = entityManager;
         }
 
 
@@ -361,12 +359,6 @@ namespace TRAISI.Controllers
         }
 
 
-
-
-
-
-
-
         [HttpGet("roles/{id}", Name = GetRoleByIdActionName)]
         [Produces(typeof(RoleViewModel))]
         public async Task<IActionResult> GetRoleById(string id)
@@ -525,16 +517,6 @@ namespace TRAISI.Controllers
         {
             return Ok(Mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
         }
-
-
-
-
-
-
-
-
-
-
 
 
         private async Task<UserViewModel> GetUserViewModelHelper(string userId)

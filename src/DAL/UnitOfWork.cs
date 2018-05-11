@@ -86,5 +86,10 @@ namespace DAL
         {
             return _context.SaveChanges();
         }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

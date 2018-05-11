@@ -14,11 +14,9 @@ namespace TRAISI.Controllers
 {
     public class HomeController : Controller
     {
-        private IEntityManager<Survey> _entityManager;
 
-        public HomeController(IEntityManager<Survey> entityManager)
+        public HomeController()
         {
-            _entityManager = entityManager;
         }
 
         public IActionResult Index()

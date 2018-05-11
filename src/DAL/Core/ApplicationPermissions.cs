@@ -18,17 +18,17 @@ namespace DAL.Core
 
 
         public const string UsersPermissionGroupName = "User Permissions";
-        public static ApplicationPermission ViewUsers = new ApplicationPermission("View Users", "users.view", UsersPermissionGroupName, "Permission to view other users account details");
-        public static ApplicationPermission ManageUsers = new ApplicationPermission("Manage Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
+        public static ApplicationPermission ViewUsers = new ApplicationPermission("View All Users", "users.view", UsersPermissionGroupName, "Permission to view other users account details");
+        public static ApplicationPermission ManageUsers = new ApplicationPermission("Manage All Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
         public static ApplicationPermission ViewGroupUsers = new ApplicationPermission("View Group Users", "users.viewgroup", UsersPermissionGroupName, "Permission to view other users account details within the group");
         public static ApplicationPermission ManageGroupUsers = new ApplicationPermission("Manage Group Users", "users.managegroup", UsersPermissionGroupName, "Permission to create, delete and modify other users account details within the group");
 
         public const string SurveysPermissionGroupName = "Survey Permissions";
-        public static ApplicationPermission ViewSurveys = new ApplicationPermission("View Surveys", "surveys.view", SurveysPermissionGroupName, "Permission to view other surveys");
-        public static ApplicationPermission ManageSurveys = new ApplicationPermission("Manage Surveys", "surveys.manage", SurveysPermissionGroupName, "Permission to delete surveys");
+        public static ApplicationPermission ViewSurveys = new ApplicationPermission("View All User Surveys", "surveys.view", SurveysPermissionGroupName, "Permission to view other surveys");
+        public static ApplicationPermission ManageSurveys = new ApplicationPermission("Manage All Surveys", "surveys.manage", SurveysPermissionGroupName, "Permission to delete surveys");
         public static ApplicationPermission ViewGroupSurveys = new ApplicationPermission("View Group Surveys", "surveys.viewgroup", SurveysPermissionGroupName, "Permission to view other surveys within the group");
         public static ApplicationPermission ManageGroupSurveys = new ApplicationPermission("Manage Group Surveys", "surveys.managegroup", SurveysPermissionGroupName, "Permission to delete and modify surveys within the group");
-        public static ApplicationPermission CreateSurveys = new ApplicationPermission("Create Surveys", "surveys.create", SurveysPermissionGroupName, "Permission to create surveys within the group");
+        public static ApplicationPermission CreateGroupSurveys = new ApplicationPermission("Create Group Surveys", "surveys.create", SurveysPermissionGroupName, "Permission to create surveys within the group");
 
         public const string RolesPermissionGroupName = "Role Permissions";
         public static ApplicationPermission ViewRoles = new ApplicationPermission("View Roles", "roles.view", RolesPermissionGroupName, "Permission to view available roles");
@@ -53,7 +53,7 @@ namespace DAL.Core
                 ManageSurveys,
                 ViewGroupSurveys,
                 ManageGroupSurveys,
-                CreateSurveys
+                CreateGroupSurveys
             };
 
             AllPermissions = allPermissions.AsReadOnly();

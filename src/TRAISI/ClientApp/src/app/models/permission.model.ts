@@ -4,10 +4,10 @@
 // ====================================================
 
 export type PermissionNames =
-    "View Users" | "Manage Users" | "View Group Users" |
+    "View All Users" | "Manage All Users" | "View Group Users" |
     "Manage Group Users" | "View Roles" | "Manage Roles" | 
-    "Assign Roles" | "View Surveys" | "Manage Surveys" |
-    "View Group Surveys" | "Manage Group Surveys" | "Create Surveys";
+    "Assign Roles" | "View All User Surveys" | "Manage All Surveys" |
+    "View Group Surveys" | "Manage Group Surveys" | "Create Group Surveys";
 
 export type PermissionValues =
     "users.view" | "users.manage" | "users.viewgroup" |

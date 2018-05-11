@@ -24,16 +24,16 @@ namespace TRAISI.Controllers
     public class SurveyController : Controller
     {
 
-        private IEntityManager<Survey> _entityManager;
+        private IUnitOfWork _unitOfWork;
 
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="_entityManager"></param>
-        public SurveyController(IEntityManager<Survey> _entityManager)
+        public SurveyController(IUnitOfWork unitOfWork)
         {
-            this._entityManager = _entityManager;
+            this._unitOfWork = unitOfWork;
 
         }
 
@@ -43,7 +43,7 @@ namespace TRAISI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSurvey(int id)
         {
-            var survey=  await this._entityManager.GetEntityAsync(id);
+            var survey =  await this._unitOfWork.Surveys.GetAsync(id);
 
             return new ObjectResult(survey);
         }
@@ -54,7 +54,7 @@ namespace TRAISI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSurveys()
         {
-            var surveys=  await this._entityManager.GetEntitiesAsync();
+            var surveys = await this._unitOfWork.Surveys.GetAllAsync();
 
             return new ObjectResult(surveys);
         }
@@ -75,8 +75,8 @@ namespace TRAISI.Controllers
 
                 Survey appSurvey = Mapper.Map<Survey>(survey);
 
-                var newsurvey = await this._entityManager.CreateEntityAsync(appSurvey);
-
+                await this._unitOfWork.Surveys.AddAsync(appSurvey);
+                await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();
             } 
 
@@ -91,9 +91,9 @@ namespace TRAISI.Controllers
         {
             Survey appSurvey = Mapper.Map<Survey>(survey);
 
-            var updatedsurvey=  await this._entityManager.UpdateEntityAsync(appSurvey);
-
-            return new ObjectResult(updatedsurvey);
+            this._unitOfWork.Surveys.Update(appSurvey);
+            await this._unitOfWork.SaveChangesAsync();
+            return new OkResult();
         }
 
         
@@ -103,8 +103,9 @@ namespace TRAISI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSurvey(int id)
         {
-            var survey=  await this._entityManager.DeleteEntityAsync(id);
-
+            var removed = this._unitOfWork.Surveys.Get(id);
+            this._unitOfWork.Surveys.Remove(removed);
+            await this._unitOfWork.SaveChangesAsync();
             return new OkResult();
         }
 

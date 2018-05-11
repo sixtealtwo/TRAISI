@@ -21,5 +21,6 @@ namespace DAL
 
 
         int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

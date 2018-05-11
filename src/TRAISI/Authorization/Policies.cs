@@ -50,7 +50,25 @@ namespace TRAISI.Authorization
         public const string ManageGroupSurveysPolicy = "Manage Group Surveys";
 
         /// <summary>Policy to allow adding surveys within the group.</summary>
-        public const string CreateSurveysPolicy = "Create Surveys";
+        public const string CreateGroupSurveysPolicy = "Create Group Surveys";
+
+        /// <summary>Policy to allow viewing an individual survey.</summary>
+        public const string ViewSpecificSurvey = "View Specific Survey";
+
+        /// <summary>Policy to allow modifying of an individual survey.</summary>
+        public const string ModifySpecificSurvey = "Modify Specific Survey";
+
+        /// <summary>Policy to allow deleting an individual survey.</summary>
+        public const string DeleteSpecificSurvey = "Delete Specific Survey";
+
+        /// <summary>Policy to allow analysis of an individual survey.</summary>
+        public const string AnalyzeSpecificSurvey = "Analzye Specific Survey";
+
+        /// <summary>Policy to allow sharing of an individual survey.</summary>
+        public const string ShareSpecificSurvey = "Share Specific Survey";
+
+        /// <summary>Policy to allow interview mode on an individual survey.</summary>
+        public const string InterviewSpecificSurvey = "Interview Mode on Specific Survey";
     }
 
 

@@ -94,7 +94,6 @@ namespace TRAISI
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
-            services.AddScoped<IEntityManager<Survey>, EntityManager<Survey>>();
 
 
             // Register the OpenIddict services.
@@ -187,8 +186,8 @@ namespace TRAISI
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
                 options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
-                options.AddPolicy(Authorization.Policies.CreateSurveysPolicy,
-                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateSurveys));
+                options.AddPolicy(Authorization.Policies.CreateGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
             });
 
             Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
