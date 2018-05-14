@@ -107,7 +107,8 @@
       "Email": "Email",
       "Roles": "Roles",
       "PhoneNumber": "Phone Number",
-      "NewGroup": "Create New Group"
+      "NewGroup": "Create New Group",
+      "DeleteGroup": "Delete Group"
     },
     "editor": {
       "JobTitle": "Job Title: ",

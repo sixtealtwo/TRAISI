@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { ConfigurationService } from '../../services/configuration.service';
@@ -55,6 +56,7 @@ export class UsersManagementComponent implements OnInit {
   newGroupName: string;
 
   groupBeingViewed: boolean = false;
+  groupActive: string;
 
   @ViewChild('indexTemplate')
   indexTemplate: TemplateRef<any>;
@@ -87,7 +89,7 @@ export class UsersManagementComponent implements OnInit {
   userEditor: UserInfoComponent;
 
   constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private accountService: AccountService, private userGroupService: UserGroupService) {
+    private accountService: AccountService, private userGroupService: UserGroupService, private router: Router) {
   }
 
 
@@ -264,6 +266,12 @@ export class UsersManagementComponent implements OnInit {
                 this.groupNameOptions.push({ text: g.name, id: g.id.toString() })
               });
             this.selectedGroup = this.groupNameOptions[0].id;
+            if (this.groupBeingViewed) {
+              //ideally stay on same group and activate tab..
+              //but for now, just switch to the solo tab
+              this.switchGroup('unGrouped');
+              this.navigateToSolo();
+            }
           }, error => {
           });
       }, error =>
@@ -279,6 +287,33 @@ export class UsersManagementComponent implements OnInit {
       this.editorModal.show();
   }
 
+  deleteGroup() {
+    this.alertService.showDialog('Are you sure you want to delete \"' + this.groupActive + '\"?', DialogType.confirm, () => {
+      let groupDelete = this.allGroups.filter(g => g.name == this.groupActive)[0];
+      this.userGroupService.deleteUserGroup(groupDelete.id).subscribe(
+        result => {
+          this.userGroupService.listUserGroups().subscribe(
+            userGroups => {
+              this.allGroups = userGroups;
+              this.groupNameOptions = [];
+              this.allGroups.forEach(
+                g => {
+                  this.groupNameOptions.push({ text: g.name, id: g.id.toString() })
+                });
+              this.selectedGroup = this.groupNameOptions[0].id;
+              this.switchGroup('unGrouped');
+              this.navigateToSolo();
+
+            }, error => {
+            });
+        }, error => {
+        });
+    });
+  }
+
+  private navigateToSolo(): void {
+    (<any>$('#myTab li:first-child a')).tab('show');
+  }
 
   deleteUser(row: UserEdit) {
       this.alertService.showDialog('Are you sure you want to delete \"' + row.userName + '\"?', DialogType.confirm, () => this.deleteUserHelper(row));
@@ -334,6 +369,7 @@ export class UsersManagementComponent implements OnInit {
   switchGroup(name: string) {
     if (name === 'unGrouped') {
       this.groupBeingViewed = false;
+      this.groupActive = '';
     }
     else {
       this.alertService.startLoadingMessage("Loading " + name + " members...");
@@ -348,6 +384,7 @@ export class UsersManagementComponent implements OnInit {
           this.groupUserRowsCache = [...userInfo];
           this.groupUserRows = userInfo;
           this.groupBeingViewed = true;
+          this.groupActive = name;
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
         },
