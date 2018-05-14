@@ -15,12 +15,13 @@
               </sup>
             </a>
           </li>
+          <li class="nav-item">
+            <a *ngIf="canManageUsers && canAssignRoles" class="btn btn-primary new-group-tab nav-link" (click)="createGroupModal.show()">
+              <i class="fa fa-plus-circle"></i> {{'users.management.NewGroup' | translate}}
+            </a>
+          </li>
         </ul>
-        <div class="float-right">
-          <button *ngIf="canManageUsers && canAssignRoles" class="btn btn-danger" (click)="createGroupModal.show()">
-            <i class="fa fa-plus-circle"></i> {{'users.management.NewGroup' | translate}}
-          </button>
-        </div>
+
       </div>
       <div class="tab-content mb-lg" id="myTabContent">
         <div role="tabpanel" class="tab-pane active in clearfix" id="solo" aria-labelledby="solo-tab" aria-expanded="true">

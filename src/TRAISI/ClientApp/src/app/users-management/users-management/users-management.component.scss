@@ -18,11 +18,20 @@
     min-height: 0;
 }
 
-    .action-box .toolbaritem a {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        min-width: 100px;
-    }
+.new-group-tab {
+  color: white !important;
+
+  &:hover {
+    background-color: #447cb5 !important;
+    color: white !important;
+  }
+}
+
+.action-box .toolbaritem a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-width: 100px;
+}
 
 
 .user-disabled {
