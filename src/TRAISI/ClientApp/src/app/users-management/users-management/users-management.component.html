@@ -174,10 +174,17 @@
                 <input type="text" id="normal-field" class="form-control" placeholder="Group Name" [(ngModel)]="newGroupName" name="groupName">
               </div>
             </div>
-            <div class="form-actions">
-              <div class="btn-block text-center">
-                <button type="submit" class="btn btn-success" (click)="createGroupModal.hide()" title="Create New Group">Create New Group</button>
-                <button type="button" class="btn btn-inverse" (click)="createGroupModal.hide()" title="Cancel">Cancel</button>
+            <div class="row">
+              <div class="col-md-12">
+                <hr class="edit-last-separator-hr" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <div class="pull-right">
+                  <button type="submit" class="btn btn-primary" (click)="createGroupModal.hide()" title="Create New Group"> {{'users.management.NewGroup' | translate }}</button>
+                  <button type="button" class="btn btn-danger" (click)="createGroupModal.hide()" title="Cancel"> {{'users.editor.Cancel' | translate }}</button>
+                </div>
               </div>
             </div>
           </form>

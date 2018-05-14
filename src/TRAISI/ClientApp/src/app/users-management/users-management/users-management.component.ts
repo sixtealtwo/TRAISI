@@ -345,7 +345,7 @@ export class UsersManagementComponent implements OnInit {
           userInfo.forEach((user, index, userInfo) => {
             (<any>user).index = index + 1;
           });
-          this.groupUserRowsCache == [...userInfo];
+          this.groupUserRowsCache = [...userInfo];
           this.groupUserRows = userInfo;
           this.groupBeingViewed = true;
           this.alertService.stopLoadingMessage();
