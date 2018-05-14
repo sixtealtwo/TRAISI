@@ -25,19 +25,19 @@
 
 
     <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-        <a *ngIf="canManageRoles" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
-        <a *ngIf="!canManageRoles" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
-        {{canManageRoles ? '|' : ''}}
-        <!--<a *ngIf="canManageRoles" class="badge badge-danger" href="javascript:;" (click)="deleteRole(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>-->
+      <a *ngIf="canManageRoles && row.name != 'super administrator'" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
+      <a *ngIf="!canManageRoles" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
+      <!--{{canManageRoles ? '|' : ''}}
+      <a *ngIf="canManageRoles" class="badge badge-danger" href="javascript:;" (click)="deleteRole(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>-->
     </ng-template>
 
-    <div class="row justify-content-center">
+    <!--<div class="row justify-content-center">
         <div>
             <button *ngIf="canManageRoles" class="btn btn-primary" (click)="newRole(row)">
                 <i class="fa fa-plus-circle"></i> {{'roles.management.NewRole' | translate}}
             </button>
         </div>
-    </div>
+    </div>-->
 
     <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
         <div class="modal-dialog modal-lg">
