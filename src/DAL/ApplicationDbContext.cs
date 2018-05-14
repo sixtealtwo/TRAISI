@@ -20,12 +20,15 @@ namespace DAL
     {
         public string CurrentUserId { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Survey> Surveys { get; set; }
+
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<GroupMember> GroupMembers { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
@@ -49,10 +52,15 @@ namespace DAL
             builder.Entity<Customer>().Property(c => c.City).HasMaxLength(50);
             builder.Entity<Customer>().ToTable($"App{nameof(this.Customers)}");
 
-            builder.Entity<Survey>().Property(c => c.Name).IsRequired().HasMaxLength(100);
-            builder.Entity<Survey>().HasIndex(c => c.Name);
-
+            builder.Entity<Survey>().Property(s => s.Name).IsRequired().HasMaxLength(100);
+            builder.Entity<Survey>().HasIndex(s => s.Name);
             builder.Entity<Survey>().ToTable($"App{nameof(this.Surveys)}");
+
+            builder.Entity<UserGroup>().Property(g => g.Name).IsRequired().HasMaxLength(100);
+            builder.Entity<UserGroup>().HasIndex(g => g.Name);
+            builder.Entity<UserGroup>().ToTable($"App{nameof(this.UserGroups)}");
+
+            builder.Entity<GroupMember>().ToTable($"App{nameof(this.GroupMembers)}");
 
             builder.Entity<ProductCategory>().Property(p => p.Name).IsRequired().HasMaxLength(100);
             builder.Entity<ProductCategory>().Property(p => p.Description).HasMaxLength(500);
@@ -69,6 +77,7 @@ namespace DAL
             builder.Entity<Order>().ToTable($"App{nameof(this.Orders)}");
 
             builder.Entity<OrderDetail>().ToTable($"App{nameof(this.OrderDetails)}");
+
         }
 
 

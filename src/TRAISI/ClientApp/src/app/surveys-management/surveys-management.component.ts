@@ -65,7 +65,7 @@ export class SurveysManagementComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    //retrieve surveysd
+    //retrieve surveys
     this.surveyService.listSurveys().subscribe((value : Survey[]) => {
       this.surveys = value;
       this.surveysCache = value;

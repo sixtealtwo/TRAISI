@@ -64,6 +64,9 @@ namespace TRAISI.Authorization
         /// <summary>Policy to allow analysis of an individual survey.</summary>
         public const string AnalyzeSpecificSurvey = "Analzye Specific Survey";
 
+        /// <summary>Policy to allow analysis of an individual survey.</summary>
+        public const string DetailedSpecificSurvey = "View Detailed Responses on Specific Survey";
+
         /// <summary>Policy to allow sharing of an individual survey.</summary>
         public const string ShareSpecificSurvey = "Share Specific Survey";
 

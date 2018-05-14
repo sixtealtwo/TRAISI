@@ -34,10 +34,10 @@ export class SurveyEndpointService extends EndpointFactory
 			}));
 	}
 	/**
-	 * @param  {any} survey
+	 * @param  {Survey} survey
 	 * @returns Observable
 	 */
-	public getCreateSurveyEndpoint<T>(survey:any): Observable<T>
+  public getCreateSurveyEndpoint<T>(survey: Survey): Observable<T>
 	{
 		const endpointUrl = this._surveysUrl;
 
@@ -49,7 +49,7 @@ export class SurveyEndpointService extends EndpointFactory
 	}
 
 	/**
-	 * @param  {any} survey
+	 * @param  {Survey} survey
 	 * @returns Observable
 	 */
 	public getEditSurveyEndpoint<T>(survey: Survey): Observable<T>
@@ -63,12 +63,12 @@ export class SurveyEndpointService extends EndpointFactory
 	}
 
 	/**
-	 * @param  {any} survey
+	 * @param  {number} id
 	 * @returns Observable
 	 */
 	public getDeleteSurveyEndpoint<T>(id: number): Observable<T>
 	{
-		const endpointUrl = `${this._surveysUrl}${id}`;
+		const endpointUrl = `${this._surveysUrl}/${id}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
           .pipe(catchError(error => {
@@ -83,7 +83,7 @@ export class SurveyEndpointService extends EndpointFactory
 	 */
 	public getSurveyEndpoint<T>(id: number): Observable<T>
 	{
-		const endpointUrl = `${this._surveysUrl}${id}`;
+		const endpointUrl = `${this._surveysUrl}/${id}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
           .pipe(catchError(error => {

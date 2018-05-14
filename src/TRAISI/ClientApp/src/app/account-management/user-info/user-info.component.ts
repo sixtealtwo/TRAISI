@@ -90,10 +90,17 @@ export class UserInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.isGeneralEditor) {
-            this.loadCurrentUserData();
+      if (!this.isGeneralEditor) {
+          this.loadCurrentUserData();
+      }
+      this.rolesOptions = [];
+      this.accountService.getRoles().subscribe(roles => {
+        for (const role of roles) {
+          this.rolesOptions.push({ text: role.description, id: role.name });
         }
-        this.rolesOptions = [];
+        this.selectedRole = this.rolesOptions[0].id;
+      }, error => { });
+      
     }
 
     private loadCurrentUserData() {
@@ -180,7 +187,7 @@ export class UserInfoComponent implements OnInit {
 
         if (this.isNewUser) {
             this.accountService.newUser(this.userEdit).subscribe(user => this.saveSuccessHelper(user),
-                                                                  error => this.saveFailedHelper(error));
+                                                                  (error) => this.saveFailedHelper(error));
         } else {
             this.accountService.updateUser(this.userEdit).subscribe(response => this.saveSuccessHelper(),
                                                                     error => this.saveFailedHelper(error));
@@ -344,6 +351,8 @@ export class UserInfoComponent implements OnInit {
         this.allRoles = [...allRoles];
         this.editingUserName = null;
         this.user = this.userEdit = new UserEdit();
+        this.user.roles = [];
+        this.user.roles.push(this.selectedRole);
         this.userEdit.isEnabled = true;
         this.edit();
 

@@ -21,6 +21,10 @@
       "rxjs/Rx"
     ],
     "import-spacing": true,
+    "indent": [
+      true,
+      "tabs"
+    ],
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [

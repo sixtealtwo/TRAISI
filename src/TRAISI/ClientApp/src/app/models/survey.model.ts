@@ -17,5 +17,4 @@ export class Survey {
               public updatedAt?: Date) {
 
 	}
-
 }

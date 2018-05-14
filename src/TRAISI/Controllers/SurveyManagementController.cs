@@ -10,15 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 namespace TRAISI.Controllers
 {
     [Authorize]
-    [Route("api/survey-management")]
+    [Route("api/[controller]")]
     public class SurveyManagementController
     {
         /// <summary>
         /// Returns a list of all surveys.
         /// </summary>
         /// <returns></returns>
-        [Authorize]
-        [Route("api/survey-management/surveys"), Authorize, HttpGet]
+        [Route("surveys"), Authorize, HttpGet]
         public IEnumerable<Survey> Get()
         {
             return new Survey[]{} ;

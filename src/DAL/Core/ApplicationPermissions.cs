@@ -74,6 +74,11 @@ namespace DAL.Core
             return AllPermissions.Select(p => p.Value).ToArray();
         }
 
+        public static string[] GetAllGroupPermissionValues()
+        {
+            return AllPermissions.Where(p => p.Name.Contains("Group")).Select(p => p.Value).ToArray();
+        }
+
         public static string[] GetAdministrativePermissionValues()
         {
             return new string[] { ManageUsers, ManageRoles, AssignRoles };

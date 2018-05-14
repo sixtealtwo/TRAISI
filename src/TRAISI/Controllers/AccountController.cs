@@ -108,7 +108,34 @@ namespace TRAISI.Controllers
             return Ok(usersVM);
         }
 
+        [HttpGet("users/solo")]
+        [Produces(typeof(List<UserViewModel>))]
+        [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
+        public async Task<IActionResult> GetSoloUsers()
+        {
 
+            return await GetSoloUsers(-1, -1);
+        }
+
+        [HttpGet("users/solo/{page:int}/{pageSize:int}")]
+        [Produces(typeof(List<UserViewModel>))]
+        [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
+        public async Task<IActionResult> GetSoloUsers(int page, int pageSize)
+        {
+            var usersAndRoles = await _accountManager.GetSoloUsersAndRolesAsync(page, pageSize);
+
+            List<UserViewModel> usersVM = new List<UserViewModel>();
+
+            foreach (var item in usersAndRoles)
+            {
+                var userVM = Mapper.Map<UserViewModel>(item.Item1);
+                userVM.Roles = item.Item2;
+
+                usersVM.Add(userVM);
+            }
+
+            return Ok(usersVM);
+        }
 
 
         [HttpPut("users/me")]
@@ -250,7 +277,14 @@ namespace TRAISI.Controllers
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, Tuple.Create(user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
                 return new ChallengeResult();
-
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    var temp = 5;
+                    temp = temp + 5;
+                }
+            }
 
             if (ModelState.IsValid)
             {

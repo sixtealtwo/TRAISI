@@ -43,9 +43,6 @@ namespace DAL.Core
             _roleManager = roleManager;
         }
 
-
-
-
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
@@ -113,6 +110,31 @@ namespace DAL.Core
                 .ToList();
         }
 
+        public async Task<List<Tuple<ApplicationUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize)
+        {
+            IQueryable<ApplicationUser> usersQuery = _context.Users
+                .Where(u => u.Groups == null || u.Groups.Count == 0)
+                .Include(u => u.Roles)
+                .OrderBy(u => u.UserName);
+
+            if (page != -1)
+                usersQuery = usersQuery.Skip((page - 1) * pageSize);
+
+            if (pageSize != -1)
+                usersQuery = usersQuery.Take(pageSize);
+
+            var users = await usersQuery.ToListAsync();
+
+            var userRoleIds = users.SelectMany(u => u.Roles.Select(r => r.RoleId)).ToList();
+
+            var roles = await _context.Roles
+                .Where(r => userRoleIds.Contains(r.Id))
+                .ToArrayAsync();
+
+            return users.Select(u => Tuple.Create(u,
+                roles.Where(r => u.Roles.Select(ur => ur.RoleId).Contains(r.Id)).Select(r => r.Name).ToArray()))
+                .ToList();
+        }
 
         public async Task<Tuple<bool, string[]>> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password)
         {

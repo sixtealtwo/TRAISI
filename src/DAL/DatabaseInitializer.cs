@@ -46,139 +46,42 @@ namespace DAL
             {
                 _logger.LogInformation("Generating inbuilt accounts");
 
-                const string adminRoleName = "administrator";
+                const string adminRoleName = "super administrator";
+                const string groupAdminRoleName = "group administor";
                 const string userRoleName = "user";
 
-                await EnsureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
-                await EnsureRoleAsync(userRoleName, "Default user", new string[] { });
+                await EnsureRoleAsync(adminRoleName, "Super administrator", ApplicationPermissions.GetAllPermissionValues());
+                await EnsureRoleAsync(groupAdminRoleName, "Group administrator", ApplicationPermissions.GetAllGroupPermissionValues());
+                await EnsureRoleAsync(userRoleName, "Basic user", new string[] { });
 
-                await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
-                await CreateUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+                await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
+                await CreateUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
+                await CreateUserAsync("smto", "tempP@ss123", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
+                await CreateUserAsync("tts", "tempP@ss123", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 
                 _logger.LogInformation("Inbuilt account generation completed");
             }
 
 
 
-            if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
+            if (!await _context.UserGroups.AnyAsync())
             {
                 _logger.LogInformation("Seeding initial data");
 
-                Customer cust_1 = new Customer
+                UserGroup TTS = new UserGroup()
                 {
-                    Name = "Ebenezer Monney",
-                    Email = "contact@ebenmonney.com",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow, 
-                    DateModified = DateTime.UtcNow
+                    Name = "TTS",
+                    Members = new List<GroupMember>()
                 };
 
-                Customer cust_2 = new Customer
+                UserGroup SMTO = new UserGroup()
                 {
-                    Name = "Itachi Uchiha",
-                    Email = "uchiha@narutoverse.com",
-                    PhoneNumber = "+81123456789",
-                    Address = "Some fictional Address, Street 123, Konoha",
-                    City = "Konoha",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Name = "StudentMove",
+                    Members = new List<GroupMember>()
                 };
 
-                Customer cust_3 = new Customer
-                {
-                    Name = "John Doe",
-                    Email = "johndoe@anonymous.com",
-                    PhoneNumber = "+18585858",
-                    Address = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet",
-                    City = "Lorem Ipsum",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
-                };
-
-                Customer cust_4 = new Customer
-                {
-                    Name = "Jane Doe",
-                    Email = "Janedoe@anonymous.com",
-                    PhoneNumber = "+18585858",
-                    Address = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet",
-                    City = "Lorem Ipsum",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
-                };
-
-
-
-                ProductCategory prodCat_1 = new ProductCategory
-                {
-                    Name = "None",
-                    Description = "Default category. Products that have not been assigned a category",
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
-                };
-
-
-
-                Product prod_1 = new Product
-                {
-                    Name = "BMW M6",
-                    Description = "Yet another masterpiece from the world's best car manufacturer",
-                    BuyingPrice = 109775,
-                    SellingPrice = 114234,
-                    UnitsInStock = 12,
-                    IsActive = true,
-                    ProductCategory = prodCat_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
-                };
-
-                Product prod_2 = new Product
-                {
-                    Name = "Nissan Patrol",
-                    Description = "A true man's choice",
-                    BuyingPrice = 78990,
-                    SellingPrice = 86990,
-                    UnitsInStock = 4,
-                    IsActive = true,
-                    ProductCategory = prodCat_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
-                };
-
-
-
-                Order ordr_1 = new Order
-                {
-                    Discount = 500,
-                    Cashier = await _context.Users.FirstAsync(),
-                    Customer = cust_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>()
-                    {
-                        new OrderDetail() {UnitPrice = prod_1.SellingPrice, Quantity=1, Product = prod_1 },
-                        new OrderDetail() {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
-                    }
-                };
-
-                Order ordr_2 = new Order
-                {
-                    Cashier = await _context.Users.FirstAsync(),
-                    Customer = cust_2,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>()
-                    {
-                        new OrderDetail() {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
-                    }
-                };
-
-
-
+                _context.UserGroups.Add(TTS);
+                _context.UserGroups.Add(SMTO);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Seeding initial data completed");

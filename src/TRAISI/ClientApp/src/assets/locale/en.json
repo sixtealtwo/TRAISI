@@ -106,7 +106,8 @@
       "FullName": "Full Name",
       "Email": "Email",
       "Roles": "Roles",
-      "PhoneNumber": "Phone Number"
+      "PhoneNumber": "Phone Number",
+      "NewGroup": "Create New Group"
     },
     "editor": {
       "JobTitle": "Job Title: ",

@@ -58,7 +58,13 @@ export class AccountService {
 	getUsers(page?: number, pageSize?: number) {
 
 		return this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize);
-	}
+  }
+
+  getSoloUsers(page?: number, pageSize?: number) {
+
+    return this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize);
+  }
+
 
 	getUsersAndRoles(page?: number, pageSize?: number) {
 
@@ -67,6 +73,12 @@ export class AccountService {
 			this.accountEndpoint.getRolesEndpoint<Role[]>());
 	}
 
+  getSoloUsersAndRoles(page?: number, pageSize?: number) {
+
+    return observableForkJoin(
+      this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize),
+      this.accountEndpoint.getRolesEndpoint<Role[]>());
+  }
 
 	updateUser(user: UserEdit) {
 		if (user.id) {

@@ -39,6 +39,8 @@ namespace TRAISI.ViewModels
 
         [MinimumCount(1, ErrorMessage = "Roles cannot be empty")]
         public string[] Roles { get; set; }
+
+        public string[] Groups { get; set; }
     }
 
 

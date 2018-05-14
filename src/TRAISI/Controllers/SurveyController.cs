@@ -20,6 +20,7 @@ using Microsoft.Extensions.Options;
 
 namespace TRAISI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class SurveyController : Controller
     {
@@ -41,6 +42,7 @@ namespace TRAISI.Controllers
         /// Get survey by ID
         /// </summary>
         [HttpGet("{id}")]
+        [Produces(typeof(SurveyViewModel))]
         public async Task<IActionResult> GetSurvey(int id)
         {
             var survey =  await this._unitOfWork.Surveys.GetAsync(id);
@@ -52,6 +54,7 @@ namespace TRAISI.Controllers
         /// Get all surveys
         /// </summary>
         [HttpGet]
+        [Produces(typeof(List<SurveyViewModel>))]
         public async Task<IActionResult> GetSurveys()
         {
             var surveys = await this._unitOfWork.Surveys.GetAllAsync();

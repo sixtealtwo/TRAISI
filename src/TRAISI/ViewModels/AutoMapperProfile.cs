@@ -60,6 +60,16 @@ namespace TRAISI.ViewModels
 
             CreateMap<Order, OrderViewModel>()
                 .ReverseMap();
+
+            CreateMap<GroupMember, GroupMemberViewModel>();
+
+            CreateMap<GroupMemberViewModel, GroupMember>()
+                .ForMember(d => d.User, map => map.Ignore())
+                .ForMember(d=>d.UserGroup, map=>map.Ignore());
+
+            CreateMap<UserGroup, UserGroupViewModel>()
+                .ReverseMap();
+
         }
     }
 }

@@ -168,6 +168,32 @@ namespace TRAISI.Migrations
                     b.ToTable("AppCustomers");
                 });
 
+            modelBuilder.Entity("DAL.Models.GroupMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateJoined");
+
+                    b.Property<string>("Group");
+
+                    b.Property<bool>("GroupAdmin");
+
+                    b.Property<int?>("UserGroupId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserGroupId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AppGroupMembers");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -371,6 +397,32 @@ namespace TRAISI.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("AppSurveys");
+                });
+
+            modelBuilder.Entity("DAL.Models.UserGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("AppUserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -592,10 +644,21 @@ namespace TRAISI.Migrations
                     b.ToTable("OpenIddictTokens");
                 });
 
+            modelBuilder.Entity("DAL.Models.GroupMember", b =>
+                {
+                    b.HasOne("DAL.Models.UserGroup", "UserGroup")
+                        .WithMany("Members")
+                        .HasForeignKey("UserGroupId");
+
+                    b.HasOne("DAL.Models.ApplicationUser", "User")
+                        .WithMany("Groups")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.HasOne("DAL.Models.ApplicationUser", "Cashier")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CashierId");
 
                     b.HasOne("DAL.Models.Customer", "Customer")

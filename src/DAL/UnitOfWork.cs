@@ -21,8 +21,8 @@ namespace DAL
         ISurveyRepository _surveys;
         IProductRepository _products;
         IOrdersRepository _orders;
-
-
+        IUserGroupRepository _userGroups;
+        IGroupMemberRepository _groupMembers;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -79,8 +79,27 @@ namespace DAL
             }
         }
 
+        public IGroupMemberRepository GroupMembers
+        {
+            get
+            {
+                if (_groupMembers == null)
+                    _groupMembers = new GroupMemberRepository(_context);
 
+                return _groupMembers;
+            }
+        }
 
+        public IUserGroupRepository UserGroups
+        {
+            get
+            {
+                if (_userGroups == null)
+                    _userGroups = new UserGroupRepository(_context);
+
+                return _userGroups;
+            }
+        }
 
         public int SaveChanges()
         {

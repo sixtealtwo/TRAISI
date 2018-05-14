@@ -15,7 +15,7 @@ export class SurveyService
 	 * @param  {number} page?
 	 * @param  {number} pageSize?
 	 */
-	public  listSurveys(page?: number, pageSize?: number)
+	public listSurveys(page?: number, pageSize?: number)
 	{
 		return this._surveyEndpointService.getListSurveysEndpoint(page, pageSize);
 

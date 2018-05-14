@@ -16,7 +16,8 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 @Injectable()
 export class AccountEndpoint extends EndpointFactory {
 
-	private readonly _usersUrl: string = "/api/account/users";
+  private readonly _usersUrl: string = "/api/account/users";
+  private readonly _soloUsersUrl: string = "/api/account/users/solo";
 	private readonly _userByUserNameUrl: string = "/api/account/users/username";
 	private readonly _currentUserUrl: string = "/api/account/users/me";
 	private readonly _currentUserPreferencesUrl: string = "/api/account/users/me/preferences";
@@ -25,7 +26,8 @@ export class AccountEndpoint extends EndpointFactory {
 	private readonly _roleByRoleNameUrl: string = "/api/account/roles/name";
 	private readonly _permissionsUrl: string = "/api/account/permissions";
 
-	get usersUrl() { return this.configurations.baseUrl + this._usersUrl; }
+  get usersUrl() { return this.configurations.baseUrl + this._usersUrl; }
+  get soloUsersUrl() { return this.configurations.baseUrl + this._soloUsersUrl; }
 	get userByUserNameUrl() { return this.configurations.baseUrl + this._userByUserNameUrl; }
 	get currentUserUrl() { return this.configurations.baseUrl + this._currentUserUrl; }
 	get currentUserPreferencesUrl() { return this.configurations.baseUrl + this._currentUserPreferencesUrl; }
@@ -72,6 +74,15 @@ export class AccountEndpoint extends EndpointFactory {
 				return this.handleError(error, () => this.getUsersEndpoint(page, pageSize));
 			}));
 	}
+
+  getSoloUsersEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
+    let endpointUrl = page && pageSize ? `${this.soloUsersUrl}/${page}/${pageSize}` : this.soloUsersUrl;
+
+    return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+      .pipe(catchError(error => {
+        return this.handleError(error, () => this.getUsersEndpoint(page, pageSize));
+      }));
+  }
 
 
 	getNewUserEndpoint<T>(userObject: any): Observable<T> {
