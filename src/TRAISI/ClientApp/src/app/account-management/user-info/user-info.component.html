@@ -14,9 +14,7 @@
         (isChangePassword && !newPassword.valid && showErrorAlert('New password is required', 'Please enter the new password (minimum of 6 characters)'));
 
         (isChangePassword && confirmPassword.errors?.required && showErrorAlert('Confirmation password is required', 'Please enter the confirmation password'));
-        (isChangePassword && confirmPassword.errors?.validateEqual && showErrorAlert('Passwword mismatch', 'New password and comfirmation password do not match'));
-
-        (canAssignRoles && !roles.valid && showErrorAlert('Roles is required', 'Please select a minimum of 1 role'));">
+        (isChangePassword && confirmPassword.errors?.validateEqual && showErrorAlert('Passwword mismatch', 'New password and comfirmation password do not match'));">
 
       <div class="form-group row">
           <label [class.col-md-3]="isViewOnly" [class.col-md-2]="!isViewOnly" class="col-form-label text-md-right" for="jobTitle-{{uniqueId}}">{{'users.editor.JobTitle' | translate}}</label>
@@ -178,13 +176,9 @@
               </p>
           </div>
       
-          <div *ngIf="isEditMode && canAssignRoles" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly" [ngClass]="{'has-success': f.submitted && roles.valid, 'has-error' : f.submitted && !roles.valid}">
+          <div *ngIf="isEditMode && canAssignRoles" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly" [ngClass]="{'has-success': f.submitted, 'has-error' : f.submitted}">
             <select2 (valueChanged)="updateRole($event)"
                 [data]="rolesOptions" [value]="selectedRole" [options]="select2Options" [width]="240" [cssImport]=true></select2>
-            <span *ngIf="showValidationErrors && f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': roles.valid, 'glyphicon-remove' : !roles.valid}"></span>
-            <span *ngIf="showValidationErrors && f.submitted && !roles.valid" class="errorMessage">
-                {{'users.editor.RoleRequired' | translate}}
-            </span>
           </div>
       </div>
       

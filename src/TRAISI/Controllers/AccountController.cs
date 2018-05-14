@@ -277,14 +277,6 @@ namespace TRAISI.Controllers
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, Tuple.Create(user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
                 return new ChallengeResult();
-            foreach (var modelState in ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    var temp = 5;
-                    temp = temp + 5;
-                }
-            }
 
             if (ModelState.IsValid)
             {

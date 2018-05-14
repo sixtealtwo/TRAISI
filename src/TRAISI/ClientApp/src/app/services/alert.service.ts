@@ -135,7 +135,7 @@ export class AlertService {
 
         this.loadingMessageId = setTimeout(() => {
             this.showStickyMessage(caption, message, MessageSeverity.wait);
-        }, 1000);
+        }, 100);
     }
 
     stopLoadingMessage() {

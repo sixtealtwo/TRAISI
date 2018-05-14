@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError,  Observable ,  Subject } from 'rxjs';
+import {Observable ,  Subject } from 'rxjs';
 
 import {switchMap, catchError, mergeMap} from 'rxjs/operators';
 // ====================================================
@@ -10,13 +10,9 @@ import {switchMap, catchError, mergeMap} from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-
-
-
-
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
-
+import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class EndpointFactory {
@@ -100,7 +96,7 @@ export class EndpointFactory {
 
 
 
-    protected handleError(error, continuation: () => Observable<any>) {
+  protected handleError(error, continuation: () => Observable<any>): Observable<any> {
 
         if (error.status == 401) {
             if (this.isRefreshingLogin) {

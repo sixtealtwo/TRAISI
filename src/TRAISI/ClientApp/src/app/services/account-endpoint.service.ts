@@ -7,7 +7,6 @@ import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 import { EndpointFactory } from './endpoint-factory.service';
 import { ConfigurationService } from './configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -158,9 +157,6 @@ export class AccountEndpoint extends EndpointFactory {
 				return this.handleError(error, () => this.getDeleteUserEndpoint(userId));
 			}));
 	}
-
-
-
 
 
 	getRoleEndpoint<T>(roleId: string): Observable<T> {
