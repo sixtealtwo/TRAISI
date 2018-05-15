@@ -19,7 +19,7 @@ export class JwtHelper {
 			case 2: { output += '=='; break; }
 			case 3: { output += '='; break; }
 			default: {
-				throw 'Illegal base64url string!';
+				throw new Error('Illegal base64url string!');
 			}
 		}
 		return this.b64DecodeUnicode(output);

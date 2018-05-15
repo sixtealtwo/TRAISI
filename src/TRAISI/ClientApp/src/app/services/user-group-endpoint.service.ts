@@ -13,11 +13,11 @@ import { GroupMember } from '../models/group-member.model';
 export class UserGroupEndpointService extends EndpointFactory
 {
 
-  private readonly _userGroupsUrl: string = '/api/UserGroup';
-  private readonly _userGroupMembersUrl: string = '/api/UserGroup/members';
+	private readonly _userGroupsUrl: string = '/api/UserGroup';
+	private readonly _userGroupMembersUrl: string = '/api/UserGroup/members';
 
-  get userGroupsUrl() { return this.configurations.baseUrl + this._userGroupsUrl; }
-  get userGroupMembersUrl() { return this.configurations.baseUrl + this._userGroupMembersUrl; }
+	get userGroupsUrl() { return this.configurations.baseUrl + this._userGroupsUrl; }
+	get userGroupMembersUrl() { return this.configurations.baseUrl + this._userGroupMembersUrl; }
 
 	/**
 	 * @param  {HttpClient} http
@@ -30,24 +30,24 @@ export class UserGroupEndpointService extends EndpointFactory
 	}
 
 	public getListUserGroupsEndpoint<T>(): Observable<T> {
-      const endpointUrl = this.userGroupsUrl;
+		const endpointUrl = this.userGroupsUrl;
 
-      return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-        .pipe(catchError(error => {
-          return this.handleError(error, () => this.getListUserGroupsEndpoint());
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+		.pipe(catchError(error => {
+			return this.handleError(error, () => this.getListUserGroupsEndpoint());
 			}));
 	}
 	/**
 	 * @param  {UserGroup} userGroup
 	 * @returns Observable
 	 */
-  public getCreateUserGroupEndpoint<T>(userGroup: UserGroup): Observable<T> {
-      const endpointUrl = this.userGroupsUrl;
+	public getCreateUserGroupEndpoint<T>(userGroup: UserGroup): Observable<T> {
+		const endpointUrl = this.userGroupsUrl;
 
 		console.log(endpointUrl);
 		return this.http.post<T>(endpointUrl,  JSON.stringify(userGroup), this.getRequestHeaders())
-          .pipe(catchError(error => {
-            return this.handleError(error, () => this.getCreateUserGroupEndpoint(userGroup));
+			.pipe(catchError(error => {
+			return this.handleError(error, () => this.getCreateUserGroupEndpoint(userGroup));
 			}));
 	}
 
@@ -55,12 +55,12 @@ export class UserGroupEndpointService extends EndpointFactory
 	 * @param  {UserGroup} userGroup
 	 * @returns Observable
 	 */
-  public getEditUserGroupEndpoint<T>(userGroup: UserGroup): Observable<T> {
-      const endpointUrl = this.userGroupsUrl;
+	public getEditUserGroupEndpoint<T>(userGroup: UserGroup): Observable<T> {
+		const endpointUrl = this.userGroupsUrl;
 
-    return this.http.put<T>(endpointUrl, JSON.stringify(userGroup), this.getRequestHeaders())
-          .pipe(catchError(error => {
-            return this.handleError(error, () => this.getEditUserGroupEndpoint(userGroup));
+	return this.http.put<T>(endpointUrl, JSON.stringify(userGroup), this.getRequestHeaders())
+			.pipe(catchError(error => {
+			return this.handleError(error, () => this.getEditUserGroupEndpoint(userGroup));
 			}));
 	}
 
@@ -69,11 +69,11 @@ export class UserGroupEndpointService extends EndpointFactory
 	 * @returns Observable
 	 */
 	public getDeleteUserGroupEndpoint<T>(id: number): Observable<T> {
-      const endpointUrl = `${this.userGroupsUrl}/${id}`;
+		const endpointUrl = `${this.userGroupsUrl}/${id}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-          .pipe(catchError(error => {
-            return this.handleError(error, () => this.getDeleteUserGroupEndpoint(id));
+			.pipe(catchError(error => {
+			return this.handleError(error, () => this.getDeleteUserGroupEndpoint(id));
 			}));
 	}
 
@@ -83,57 +83,57 @@ export class UserGroupEndpointService extends EndpointFactory
 	 * @returns Observable
 	 */
 	public getUserGroupEndpoint<T>(id: number): Observable<T> {
-      const endpointUrl = `${this.userGroupsUrl}/${id}`;
+		const endpointUrl = `${this.userGroupsUrl}/${id}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-          .pipe(catchError(error => {
-            return this.handleError(error, () => this.getUserGroupEndpoint(id));
+			.pipe(catchError(error => {
+			return this.handleError(error, () => this.getUserGroupEndpoint(id));
 			}));
 	}
 
-  public getUserGroupMembersEndpoint<T>(id: number): Observable<T> {
-    const endpointUrl = `${this.userGroupsUrl}/${id}/members`;
+	public getUserGroupMembersEndpoint<T>(id: number): Observable<T> {
+	const endpointUrl = `${this.userGroupsUrl}/${id}/members`;
 
-    return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-      .pipe(catchError(error => {
-        return this.handleError(error, () => this.getUserGroupMembersEndpoint(id));
-      }));
-  }
+	return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+		.pipe(catchError(error => {
+		return this.handleError(error, () => this.getUserGroupMembersEndpoint(id));
+		}));
+	}
 
-  /**
-   * Generates the endpoint and URL for adding a member to a group
-   * @param {GroupMember} memberInfo
-   * @return Observable
-   */
-  public getAddMemberToUserGroupEndpoint<T>(memberInfo: GroupMember): Observable<T> {
-    const endpointUrl = this.userGroupMembersUrl;
+	/**
+	 * Generates the endpoint and URL for adding a member to a group
+	 * @param {GroupMember} memberInfo
+	 * @return Observable
+	 */
+	public getAddMemberToUserGroupEndpoint<T>(memberInfo: GroupMember): Observable<T> {
+	const endpointUrl = this.userGroupMembersUrl;
 
-    return this.http.post<T>(endpointUrl, JSON.stringify(memberInfo), this.getRequestHeaders())
-      .pipe(catchError(error => {
-        return this.handleError(error, () => this.getAddMemberToUserGroupEndpoint(memberInfo));
-      }));
-  }
+	return this.http.post<T>(endpointUrl, JSON.stringify(memberInfo), this.getRequestHeaders())
+		.pipe(catchError(error => {
+		return this.handleError(error, () => this.getAddMemberToUserGroupEndpoint(memberInfo));
+		}));
+	}
 
-  public removeMemberFromGroupEndpoint<T>(id: number): Observable<T> {
-    const endpointUrl = `${this.userGroupMembersUrl}/${id}`;
+	public removeMemberFromGroupEndpoint<T>(id: number): Observable<T> {
+	const endpointUrl = `${this.userGroupMembersUrl}/${id}`;
 
-    return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-      .pipe(catchError(error => {
-        return this.handleError(error, () => this.removeMemberFromGroupEndpoint(id));
-      }));
-  }
+	return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
+		.pipe(catchError(error => {
+		return this.handleError(error, () => this.removeMemberFromGroupEndpoint(id));
+		}));
+	}
 
-  public removeMembersFromGroupEndpoint<T>(ids: number[]): Observable<T> {
-    let endpointUrl = `${this.userGroupMembersUrl}?`;
-    ids.forEach(id => {
-      endpointUrl = `${endpointUrl}ids=${id}&`;
-    });
-    endpointUrl = endpointUrl.slice(0, endpointUrl.length - 1);
+	public removeMembersFromGroupEndpoint<T>(ids: number[]): Observable<T> {
+	let endpointUrl = `${this.userGroupMembersUrl}?`;
+	ids.forEach(id => {
+		endpointUrl = `${endpointUrl}ids=${id}&`;
+	});
+	endpointUrl = endpointUrl.slice(0, endpointUrl.length - 1);
 
-    return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-      .pipe(catchError(error => {
-        return this.handleError(error, () => this.removeMembersFromGroupEndpoint(ids));
-      }));
-  }
+	return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
+		.pipe(catchError(error => {
+		return this.handleError(error, () => this.removeMembersFromGroupEndpoint(ids));
+		}));
+	}
 
 }

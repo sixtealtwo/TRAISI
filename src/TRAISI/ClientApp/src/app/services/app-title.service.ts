@@ -26,29 +26,33 @@ export class AppTitleService {
 			filter(event => event instanceof NavigationEnd),
 			map(_ => this.router.routerState.root),
 			map(route => {
-				while (route.firstChild)
+				while (route.firstChild) {
 					route = route.firstChild;
+				}
 
 				return route;
 			}),
-			mergeMap(route => route.data),)
+			mergeMap(route => route.data), )
 			.subscribe(data => {
 				let title = data['title'];
 
 				if (title) {
-					let fragment = this.router.url.split('#')[1]
+					let fragment = this.router.url.split('#')[1];
 
-					if (fragment)
-						title += " | " + Utilities.toTitleCase(fragment);
+					if (fragment) {
+						title += ' | ' + Utilities.toTitleCase(fragment);
+					}
 				}
 
-				if (title && this.appName)
+				if (title && this.appName) {
 					title += ' - ' + this.appName;
-				else if (this.appName)
+				} else if (this.appName) {
 					title = this.appName;
+				}
 
-				if (title)
+				if (title) {
 					this.titleService.setTitle(title);
+				}
 			});
 	}
 
