@@ -175,9 +175,9 @@
 
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
     <div *ngIf="canManageUsers || canManageGroupUsers">
-      <a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editUser(row.user)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>
+      <a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editUser(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>
       |
-      <a class="badge badge-danger" href="javascript:;" (click)="deleteGroupUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
+      <a class="badge badge-danger" href="javascript:;" (click)="deleteUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
     </div>
   </ng-template>
 
