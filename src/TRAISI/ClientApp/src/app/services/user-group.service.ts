@@ -71,4 +71,9 @@ export class UserGroupService
   public removeMemberFromGroup(memberInfo: GroupMember) {
     return this._userGroupEndpointService.removeMemberFromGroupEndpoint<number>(memberInfo.id);
   }
+
+  public removeMembersFromGroup(memberInfo: GroupMember[]) {
+    return this._userGroupEndpointService.removeMembersFromGroupEndpoint<number>(memberInfo.map(m => m.id));
+  }
+
 }

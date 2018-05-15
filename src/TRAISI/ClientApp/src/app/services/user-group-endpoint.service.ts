@@ -123,4 +123,17 @@ export class UserGroupEndpointService extends EndpointFactory
       }));
   }
 
+  public removeMembersFromGroupEndpoint<T>(ids: number[]): Observable<T> {
+    let endpointUrl = `${this.userGroupMembersUrl}?`;
+    ids.forEach(id => {
+      endpointUrl = `${endpointUrl}ids=${id}&`;
+    });
+    endpointUrl = endpointUrl.slice(0, endpointUrl.length - 1);
+
+    return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
+      .pipe(catchError(error => {
+        return this.handleError(error, () => this.removeMembersFromGroupEndpoint(ids));
+      }));
+  }
+
 }

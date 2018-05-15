@@ -424,7 +424,6 @@ namespace TRAISI.Controllers
 
         [HttpGet("roles")]
         [Produces(typeof(List<RoleViewModel>))]
-        [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
         public async Task<IActionResult> GetRoles()
         {
             return await GetRoles(-1, -1);
@@ -434,7 +433,6 @@ namespace TRAISI.Controllers
 
         [HttpGet("roles/{page:int}/{pageSize:int}")]
         [Produces(typeof(List<RoleViewModel>))]
-        [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
         public async Task<IActionResult> GetRoles(int page, int pageSize)
         {
             var roles = await _accountManager.GetRolesLoadRelatedAsync(page, pageSize);

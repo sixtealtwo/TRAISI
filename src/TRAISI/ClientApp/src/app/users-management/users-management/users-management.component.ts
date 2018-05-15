@@ -95,10 +95,10 @@ export class UsersManagementComponent implements OnInit {
 
   ngOnInit() {
 
-      const gT = (key: string) => this.translationService.getTranslation(key);
+    const gT = (key: string) => this.translationService.getTranslation(key);
 
     this.soloUserColumns = [
-          { width: 30, sortable:false, canAutoResize: false, draggable: false, resizable: false, headerCheckboxable: true, checkboxable: true},
+          { width: 30, sortable:false, canAutoResize: false, draggable: false, resizable: false, headerCheckboxable: false, checkboxable: true},
           { prop: 'index', name: '#', width: 30, cellTemplate: this.indexTemplate, canAutoResize: false },
           { prop: 'userName', name: gT('users.management.UserName'), minWidth: 90, flexGrow: 60, cellTemplate: this.userNameTemplate },
           { prop: 'fullName', name: gT('users.management.FullName'), minWidth: 150, flexGrow: 120 },
@@ -107,7 +107,7 @@ export class UsersManagementComponent implements OnInit {
     ];
 
     this.groupUserColumns = [
-      { width: 30, sortable: false, canAutoResize: false, draggable: false, resizable: false, headerCheckboxable: true, checkboxable: true },
+      { width: 30, sortable: false, canAutoResize: false, draggable: false, resizable: false, headerCheckboxable: false, checkboxable: true },
       { prop: 'index', name: '#', width: 30, cellTemplate: this.indexTemplateG, canAutoResize: false },
       { prop: 'user.userName', name: gT('users.management.UserName'), minWidth: 90, flexGrow: 60, cellTemplate: this.userNameTemplateG },
       { prop: 'user.fullName', name: gT('users.management.FullName'), minWidth: 150, flexGrow: 120 },
@@ -115,16 +115,19 @@ export class UsersManagementComponent implements OnInit {
       { prop: 'user.roles', name: gT('users.management.Roles'), minWidth: 90, flexGrow: 80, cellTemplate: this.rolesTemplateG }
     ];
 
-      if (this.canManageUsers) {
-          this.soloUserColumns.push({ name: '', width: 150, cellTemplate: this.actionsTemplate,
-          resizeable: false, canAutoResize: false, sortable: false, draggable: false
-        });
-        this.groupUserColumns.push({
-          name: '', width: 150, cellTemplate: this.actionsTemplateG,
-          resizeable: false, canAutoResize: false, sortable: false, draggable: false
-        });
-      }
-      this.loadData();
+    if (this.canManageUsers) {
+      this.soloUserColumns.push({
+        name: 'Actions', width: 150, cellTemplate: this.actionsTemplate,
+        resizeable: false, canAutoResize: false, sortable: false, draggable: false
+      });
+    }
+    if (this.canManageGroupUsers) {
+      this.groupUserColumns.push({
+        name: '', width: 150, cellTemplate: this.actionsTemplateG,
+        resizeable: false, canAutoResize: false, sortable: false, draggable: false
+      });
+    }
+    this.loadData();
   }
 
 
@@ -139,7 +142,7 @@ export class UsersManagementComponent implements OnInit {
           this.editedUser = null;
           this.sourceUser = null;
           this.editorModal.hide();
-      };
+    };
   }
 
 
@@ -184,16 +187,25 @@ export class UsersManagementComponent implements OnInit {
     this.alertService.startLoadingMessage();
     this.loadingIndicator = true;
 
-   
-    if (this.canViewRoles) {
-      this.accountService.getSoloUsersAndRoles().subscribe(results => {
-        this.userGroupService.listUserGroups().subscribe(userGroups => this.onDataLoadSuccessful(results[0], results[1], userGroups), error => this.onDataLoadFailed(error))
-      }, error => this.onDataLoadFailed(error));
+    if (this.accountService.userHasPermission(Permission.manageUsersPermission)) {
+      if (this.canViewRoles) {
+        this.accountService.getSoloUsersAndRoles().subscribe(results => {
+          this.userGroupService.listUserGroups().subscribe(userGroups => this.onDataLoadSuccessful(results[0], results[1], userGroups), error => this.onDataLoadFailed(error))
+        }, error => this.onDataLoadFailed(error));
+      }
+      else {
+        this.accountService.getSoloUsers().subscribe(users => {
+          this.userGroupService.listUserGroups().subscribe(userGroups => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x)), userGroups), error => this.onDataLoadFailed(error))
+        }, error => this.onDataLoadFailed(error));
+      }
     }
     else {
-      this.accountService.getSoloUsers().subscribe(users => {
-        this.userGroupService.listUserGroups().subscribe(userGroups => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x)), userGroups), error => this.onDataLoadFailed(error))
-      }, error => this.onDataLoadFailed(error));
+      this.userGroupService.listUserGroups().subscribe(
+        userGroups => {
+          this.onDataLoadSuccessful([], [], userGroups);
+          this.switchGroup(userGroups[0].name);
+          setTimeout(() => this.navigateToFirst());
+        }, error => this.onDataLoadFailed(error));
     }
   }
 
@@ -211,14 +223,20 @@ export class UsersManagementComponent implements OnInit {
 
     this.allRoles = roles;
     this.allGroups = groups;
+    this.loadGroupNamesSectionOptions();
+
+
+  }
+
+  private loadGroupNamesSectionOptions(skipGroup?: string): void {
     this.groupNameOptions = [];
     this.allGroups.forEach(
       g => {
-        this.groupNameOptions.push({ text: g.name, id: g.id.toString()})
+        if (g.name !== skipGroup) {
+          this.groupNameOptions.push({ text: g.name, id: g.id.toString() })
+        }
       });
     this.selectedGroup = this.groupNameOptions[0].id;
-
-
   }
 
 
@@ -260,17 +278,12 @@ export class UsersManagementComponent implements OnInit {
         this.userGroupService.listUserGroups().subscribe(
           userGroups => {
             this.allGroups = userGroups;
-            this.groupNameOptions = [];
-            this.allGroups.forEach(
-              g => {
-                this.groupNameOptions.push({ text: g.name, id: g.id.toString() })
-              });
-            this.selectedGroup = this.groupNameOptions[0].id;
+            this.loadGroupNamesSectionOptions();
             if (this.groupBeingViewed) {
               //ideally stay on same group and activate tab..
               //but for now, just switch to the solo tab
               this.switchGroup('unGrouped');
-              this.navigateToSolo();
+              this.navigateToFirst();
             }
           }, error => {
           });
@@ -295,14 +308,9 @@ export class UsersManagementComponent implements OnInit {
           this.userGroupService.listUserGroups().subscribe(
             userGroups => {
               this.allGroups = userGroups;
-              this.groupNameOptions = [];
-              this.allGroups.forEach(
-                g => {
-                  this.groupNameOptions.push({ text: g.name, id: g.id.toString() })
-                });
-              this.selectedGroup = this.groupNameOptions[0].id;
+              this.loadGroupNamesSectionOptions();
               this.switchGroup('unGrouped');
-              this.navigateToSolo();
+              this.navigateToFirst();
 
             }, error => {
             });
@@ -311,8 +319,9 @@ export class UsersManagementComponent implements OnInit {
     });
   }
 
-  private navigateToSolo(): void {
-    (<any>$('#myTab li:first-child a')).tab('show');
+  private navigateToFirst(): void {
+    let test = (<any>$('#myTab li:first-child a'));
+    test.tab('show');
   }
 
   deleteUser(row: UserEdit) {
@@ -370,6 +379,7 @@ export class UsersManagementComponent implements OnInit {
     if (name === 'unGrouped') {
       this.groupBeingViewed = false;
       this.groupActive = '';
+      this.loadGroupNamesSectionOptions();
     }
     else {
       this.alertService.startLoadingMessage("Loading " + name + " members...");
@@ -385,6 +395,8 @@ export class UsersManagementComponent implements OnInit {
           this.groupUserRows = userInfo;
           this.groupBeingViewed = true;
           this.groupActive = name;
+          this.loadGroupNamesSectionOptions(name);
+          this.groupUserSelected = [];
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
         },
@@ -422,14 +434,32 @@ export class UsersManagementComponent implements OnInit {
     this.soloUserSelected = [];
   }
 
-  removeUsersFromGroup() {
-    this.groupUserSelected.forEach(m => {
-      this.userGroupService.removeMemberFromGroup(m).subscribe(
+  addGroupUsersToGroup() {
+    let groupSelect = this.selectedGroupName;
+    let groupMemberList: GroupMember[] = this.groupUserSelected.map(
+      r => new GroupMember(0, r.userName, r.user, groupSelect, new Date(), false));
+
+    groupMemberList.forEach(m => {
+      this.userGroupService.addMemberToGroup(m).subscribe(
         result => {
-          this.loadData();
-          this.switchGroup(m.group);
-        }, error => { });
+       
+        }, error => {
+          this.alertService.showStickyMessage("Add Error", `Unable to add user(s).\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+            MessageSeverity.error, error);
+        });
     });
+    this.groupUserSelected = [];
+  }
+
+  removeUsersFromGroup() {
+    this.userGroupService.removeMembersFromGroup(this.groupUserSelected).subscribe(
+      result => {
+        this.loadData();
+        this.switchGroup(this.groupActive);
+      }, error => { });
+
+    this.groupUserSelected = [];
+    
   }
 
   get canAssignRoles() {
@@ -444,8 +474,8 @@ export class UsersManagementComponent implements OnInit {
       return this.accountService.userHasPermission(Permission.manageUsersPermission);
   }
 
-  get canMangeGroups() {
-    return this.accountService.userHasPermission(Permission.manageGroupSurveysPermission);
+  get canManageGroupUsers() {
+    return this.accountService.userHasPermission(Permission.manageGroupUsersPermission);
   }
 
 }

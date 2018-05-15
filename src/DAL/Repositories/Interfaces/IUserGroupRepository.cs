@@ -13,7 +13,7 @@ namespace DAL.Repositories.Interfaces
 {
     public interface IUserGroupRepository : IRepository<UserGroup>
     {
-        void AddUser(GroupMember newMember);
+        Tuple<bool,string[]> AddUser(GroupMember newMember);
         void RemoveUser(GroupMember currentMember);
         void UpdateUser(GroupMember member);
 

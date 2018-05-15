@@ -26,31 +26,41 @@ namespace DAL.Repositories
         /// Add user to survey group
         /// </summary>
         /// <param name="newMember">GroupMember object with Group variable populated</param>
-        public void AddUser(GroupMember newMember)
+        public Tuple<bool, string[]> AddUser(GroupMember newMember)
         {
-            newMember.User = _appContext.Users.Single(r => r.UserName == newMember.UserName);
-            var group = _appContext.UserGroups
-                .Where(g => g.Name == newMember.Group)
-                .Include(g => g.Members)
-                .Single();
-            newMember.UserGroup = group;
-            if (group.Members == null)
+            Tuple<bool, string[]> result;
+            try
             {
-                group.Members = new List<GroupMember>();
+                newMember.User = _appContext.Users.Single(r => r.UserName == newMember.UserName);
+                var group = _appContext.UserGroups
+                    .Where(g => g.Name == newMember.Group)
+                    .Include(g => g.Members)
+                    .Single();
+                newMember.UserGroup = group;
+                if (group.Members == null)
+                {
+                    group.Members = new List<GroupMember>();
+                }
+                if (group.Members.Where(m => m.UserName == newMember.UserName).Count() == 0)
+                {
+                    //add member info to group members repo
+                    //_appContext.GroupMembers.Add(newMember);
+                    //_appContext.SaveChanges();
+                    //add member to group members list
+                    group.Members.Add(newMember);
+                    _appContext.GroupMembers.Add(newMember);
+                }
+                else
+                {
+                    throw new Exception("Member " + newMember.UserName + " already exists in group: " + group.Name);
+                }
+                result = Tuple.Create(true, new string[] { "Success" });
             }
-            if (!group.Members.Contains(newMember))
+            catch (Exception ex)
             {
-                //add member info to group members repo
-                //_appContext.GroupMembers.Add(newMember);
-                //_appContext.SaveChanges();
-                //add member to group members list
-                group.Members.Add(newMember);
-                _appContext.GroupMembers.Add(newMember);
+                result = Tuple.Create(false, new string[] { ex.Message });
             }
-            else
-            {
-                throw new Exception("Member already exists in group");
-            }
+            return result;
         }
 
         public void RemoveUser(GroupMember currentMember)

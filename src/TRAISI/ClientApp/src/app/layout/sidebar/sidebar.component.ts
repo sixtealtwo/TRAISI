@@ -94,4 +94,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   get canViewRoles() {
     return this.accountService.userHasPermission(Permission.viewRolesPermission);
   }
+
+  get canManageGroupUsers() {
+    return this.accountService.userHasPermission(Permission.manageGroupUsersPermission);
+  }
 }

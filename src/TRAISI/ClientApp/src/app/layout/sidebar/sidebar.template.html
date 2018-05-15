@@ -30,7 +30,7 @@
         Manage Surveys
       </a>
     </li>
-    <li *ngIf="canManageUsers">
+    <li *ngIf="canManageUsers || canManageGroupUsers">
       <a [routerLink]=" ['users'] ">
       <span class="icon">
           <i class="fa fa-users"></i>

@@ -138,9 +138,16 @@ namespace TRAISI.Controllers
             if (ModelState.IsValid)
             {
                 GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
-                this._unitOfWork.UserGroups.AddUser(newGMember);
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
+                var result = this._unitOfWork.UserGroups.AddUser(newGMember);
+                if (result.Item1)
+                {
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    AddErrors(result.Item2);
+                }
             }
             return BadRequest(ModelState);
         }
@@ -157,5 +164,30 @@ namespace TRAISI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpDelete("members")]
+        public async Task<IActionResult> RemoveGroupMembers([FromQuery] int[] ids)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (int id in ids)
+                {
+                    var member = this._unitOfWork.GroupMembers.Get(id);
+                    this._unitOfWork.GroupMembers.Remove(member);
+                }
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            return BadRequest(ModelState);
+        }
+
+        private void AddErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+        }
+
     }
 }
