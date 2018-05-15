@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 export class SurveyEndpointService extends EndpointFactory
 {
 
-	private readonly _surveysUrl: string = '/api/survey/';
+	private readonly _surveysUrl: string = '/api/survey';
 
 	/**
 	 * @param  {HttpClient} http

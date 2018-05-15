@@ -35,8 +35,7 @@ import { ErrorComponent } from './error/error.component';
          ], {
             useHash: false,
             preloadingStrategy: PreloadAllModules,
-          onSameUrlNavigation: 'reload',
-          enableTracing: true
+          onSameUrlNavigation: 'reload'
           })
     ],
     exports: [

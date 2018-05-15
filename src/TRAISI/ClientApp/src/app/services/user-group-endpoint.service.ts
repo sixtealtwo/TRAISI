@@ -13,7 +13,7 @@ import { GroupMember } from '../models/group-member.model';
 export class UserGroupEndpointService extends EndpointFactory
 {
 
-  private readonly _userGroupsUrl: string = '/api/UserGroup/';
+  private readonly _userGroupsUrl: string = '/api/UserGroup';
   private readonly _userGroupMembersUrl: string = '/api/UserGroup/members';
 
   get userGroupsUrl() { return this.configurations.baseUrl + this._userGroupsUrl; }
