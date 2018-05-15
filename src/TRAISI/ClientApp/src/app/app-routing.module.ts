@@ -15,6 +15,11 @@ import { ErrorComponent } from './error/error.component';
         RouterModule.forRoot([{
             path: '', redirectTo: 'app', pathMatch: 'full'
            },
+          {
+            path: 'app/survey-builder',
+            canActivate: [AuthGuard],
+            loadChildren: './survey-builder/survey-builder.module#SurveyBuilderModule'
+          },
            {
              path: 'app', canActivate: [AuthGuard],   loadChildren: './layout/layout.module#LayoutModule'
            },
@@ -30,7 +35,8 @@ import { ErrorComponent } from './error/error.component';
          ], {
             useHash: false,
             preloadingStrategy: PreloadAllModules,
-            onSameUrlNavigation: 'reload'
+          onSameUrlNavigation: 'reload',
+          enableTracing: true
           })
     ],
     exports: [
