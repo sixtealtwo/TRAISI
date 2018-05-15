@@ -17,6 +17,12 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "questions/*": [
+        "../../Questions/*"
+      ]
+    }
   }
 }
