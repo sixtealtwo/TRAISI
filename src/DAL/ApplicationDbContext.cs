@@ -30,6 +30,10 @@ namespace DAL
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
 
+        public DbSet<QuestionPart> QuestionParts {get;set;}
+
+
+
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }

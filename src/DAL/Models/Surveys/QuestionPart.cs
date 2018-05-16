@@ -9,5 +9,7 @@ namespace DAL.Models
     {
         public int Id { get; set; }
 
+        public ICollection<QuestionPart> QuestionPartChildren {get;set;}
+
     }
 }

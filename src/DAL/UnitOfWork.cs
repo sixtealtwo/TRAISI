@@ -24,6 +24,8 @@ namespace DAL
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
 
+        IQuestionPartRepository _questionParts;
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -98,6 +100,19 @@ namespace DAL
                     _userGroups = new UserGroupRepository(_context);
 
                 return _userGroups;
+            }
+        }
+
+        public IQuestionPartRepository IQuestionPartRepository
+        {
+            get
+            {
+                if(_questionParts == null)
+                {
+                    _questionParts = new QuestionPartRepository(_context);
+                }
+
+                return _questionParts;
             }
         }
 
