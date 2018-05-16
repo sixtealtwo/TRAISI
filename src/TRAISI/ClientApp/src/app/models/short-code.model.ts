@@ -1,4 +1,2 @@
-export class ShortCode
-{
-    
+export class ShortCode {
 }

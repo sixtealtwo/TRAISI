@@ -28,8 +28,8 @@ export class SurveyEndpointService extends EndpointFactory
 	{
 		const endpointUrl = page && pageSize ? `${this._surveysUrl}/${page}/${pageSize}` : this._surveysUrl;
 
-      return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-        .pipe(catchError(error => {
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
+		.pipe(catchError(error => {
 				return this.handleError(error, () => this.getListSurveysEndpoint(page, pageSize));
 			}));
 	}
@@ -37,13 +37,13 @@ export class SurveyEndpointService extends EndpointFactory
 	 * @param  {Survey} survey
 	 * @returns Observable
 	 */
-  public getCreateSurveyEndpoint<T>(survey: Survey): Observable<T>
+	public getCreateSurveyEndpoint<T>(survey: Survey): Observable<T>
 	{
 		const endpointUrl = this._surveysUrl;
 
 		console.log(endpointUrl);
 		return this.http.post<T>(endpointUrl,  JSON.stringify(survey), this.getRequestHeaders())
-          .pipe(catchError(error => {
+			.pipe(catchError(error => {
 				return this.handleError(error, () => this.getCreateSurveyEndpoint(survey));
 			}));
 	}
@@ -57,7 +57,7 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = this._surveysUrl;
 
 		return this.http.put<T>(endpointUrl,  JSON.stringify(survey), this.getRequestHeaders())
-          .pipe(catchError(error => {
+			.pipe(catchError(error => {
 				return this.handleError(error, () => this.getEditSurveyEndpoint(survey));
 			}));
 	}
@@ -71,7 +71,7 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = `${this._surveysUrl}/${id}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders())
-          .pipe(catchError(error => {
+			.pipe(catchError(error => {
 				return this.handleError(error, () => this.getDeleteSurveyEndpoint(id));
 			}));
 	}
@@ -86,7 +86,7 @@ export class SurveyEndpointService extends EndpointFactory
 		const endpointUrl = `${this._surveysUrl}/${id}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders())
-          .pipe(catchError(error => {
+			.pipe(catchError(error => {
 				return this.handleError(error, () => this.getSurveyEndpoint(id));
 			}));
 	}

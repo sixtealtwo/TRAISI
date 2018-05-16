@@ -2,20 +2,20 @@ import {Component, HostBinding} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-error',
-  styleUrls: [ './error.style.scss' ],
-  templateUrl: './error.template.html',
+	selector: 'app-error',
+	styleUrls: [ './error.style.scss' ],
+	templateUrl: './error.template.html',
 })
 export class ErrorComponent {
-  @HostBinding('class') classes = 'error-page app';
+	@HostBinding('class') classes = 'error-page app';
 
-  router: Router;
+	router: Router;
 
-  constructor(router: Router) {
-    this.router = router;
-  }
+	constructor(router: Router) {
+		this.router = router;
+	}
 
-  searchResult(): void {
-    this.router.navigate(['/app', 'dashboard']);
-  }
+	searchResult(): void {
+		this.router.navigate(['/app', 'dashboard']);
+	}
 }

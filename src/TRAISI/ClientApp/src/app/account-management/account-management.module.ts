@@ -10,20 +10,20 @@ import { Select2Module } from 'ng2-select2';
 import { ROUTES } from './account-management.routes';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    Select2Module,
-    ROUTES,
-    TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-    })
-  ],
-  declarations: [
-    UserPreferencesComponent,
-    UserInfoComponent
-  ],
-  exports: [UserInfoComponent]
+	imports: [
+		CommonModule,
+		FormsModule,
+		Select2Module,
+		ROUTES,
+		TranslateModule.forChild({
+		loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+		})
+	],
+	declarations: [
+		UserPreferencesComponent,
+		UserInfoComponent
+	],
+	exports: [UserInfoComponent]
 })
 
 export class AccountManagementModule {

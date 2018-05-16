@@ -8,22 +8,22 @@ import { LoginComponent } from './login.component';
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 
 export const routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' }
+	{ path: '', component: LoginComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild(routes),
-    TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-    })
-  ]
+	declarations: [
+		LoginComponent
+	],
+	imports: [
+		CommonModule,
+		FormsModule,
+		RouterModule.forChild(routes),
+		TranslateModule.forChild({
+		loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+		})
+	]
 })
 export class LoginModule {
-  static routes = routes;
+	static routes = routes;
 }

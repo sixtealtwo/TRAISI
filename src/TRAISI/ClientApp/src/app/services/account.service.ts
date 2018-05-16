@@ -23,7 +23,7 @@ import { UserEdit } from '../models/user-edit.model';
 
 
 
-export type RolesChangedOperation = "add" | "delete" | "modify";
+export type RolesChangedOperation = 'add' | 'delete' | 'modify';
 export type RolesChangedEventArg = { roles: Role[] | string[], operation: RolesChangedOperation };
 
 
@@ -31,9 +31,9 @@ export type RolesChangedEventArg = { roles: Role[] | string[], operation: RolesC
 @Injectable()
 export class AccountService {
 
-	public static readonly roleAddedOperation: RolesChangedOperation = "add";
-	public static readonly roleDeletedOperation: RolesChangedOperation = "delete";
-	public static readonly roleModifiedOperation: RolesChangedOperation = "modify";
+	public static readonly roleAddedOperation: RolesChangedOperation = 'add';
+	public static readonly roleDeletedOperation: RolesChangedOperation = 'delete';
+	public static readonly roleModifiedOperation: RolesChangedOperation = 'modify';
 
 	private _rolesChanged = new Subject<RolesChangedEventArg>();
 
@@ -58,12 +58,12 @@ export class AccountService {
 	getUsers(page?: number, pageSize?: number) {
 
 		return this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize);
-  }
+	}
 
-  getSoloUsers(page?: number, pageSize?: number) {
+	getSoloUsers(page?: number, pageSize?: number) {
 
-    return this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize);
-  }
+	return this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize);
+	}
 
 
 	getUsersAndRoles(page?: number, pageSize?: number) {
@@ -73,12 +73,12 @@ export class AccountService {
 			this.accountEndpoint.getRolesEndpoint<Role[]>());
 	}
 
-  getSoloUsersAndRoles(page?: number, pageSize?: number) {
+	getSoloUsersAndRoles(page?: number, pageSize?: number) {
 
-    return observableForkJoin(
-      this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize),
-      this.accountEndpoint.getRolesEndpoint<Role[]>());
-  }
+	return observableForkJoin(
+		this.accountEndpoint.getSoloUsersEndpoint<User[]>(page, pageSize),
+		this.accountEndpoint.getRolesEndpoint<Role[]>());
+	}
 
 	updateUser(user: UserEdit) {
 		if (user.id) {
@@ -88,7 +88,7 @@ export class AccountService {
 			return this.accountEndpoint.getUserByUserNameEndpoint<User>(user.userName).pipe(
 				mergeMap(foundUser => {
 					user.id = foundUser.id;
-					return this.accountEndpoint.getUpdateUserEndpoint(user, user.id)
+					return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
 				}));
 		}
 	}
@@ -133,7 +133,7 @@ export class AccountService {
 
 
 	userHasPermission(permissionValue: PermissionValues): boolean {
-		return this.permissions.some(p => p == permissionValue);
+		return this.permissions.some(p => p === permissionValue);
 	}
 
 
@@ -167,9 +167,9 @@ export class AccountService {
 			return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe(
 				mergeMap(foundRole => {
 					role.id = foundRole.id;
-					return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id)
+					return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id);
 				}),
-				tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)),);
+				tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)), );
 		}
 	}
 

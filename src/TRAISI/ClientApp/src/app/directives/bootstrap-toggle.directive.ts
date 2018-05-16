@@ -11,71 +11,73 @@ import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy }
 declare var $: any;
 
 @Directive({
-    selector: '[bootstrapToggle]',
-    exportAs: 'bootstrap-toggle'
+	selector: '[bootstrapToggle]',
+	exportAs: 'bootstrap-toggle'
 })
 export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
-    private checkedSubscription: Subscription;
+	private checkedSubscription: Subscription;
 
-    @Input()
-    set ngModel(value) {
-        this.toggle(value);
-    }
+	@Input()
+	set ngModel(value) {
+		this.toggle(value);
+	}
 
-    @Output()
-    ngModelChange = new EventEmitter();
-
-
-    constructor(private el: ElementRef) {
-        this.checkedSubscription = observableFromEvent($(this.el.nativeElement), 'change')
-            .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
-    }
+	@Output()
+	ngModelChange = new EventEmitter();
 
 
-
-    ngOnInit() {
-        this.initialize();
-    }
-
-    ngOnDestroy() {
-        this.destroy();
-    }
+	constructor(private el: ElementRef) {
+		this.checkedSubscription = observableFromEvent($(this.el.nativeElement), 'change')
+			.subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
+	}
 
 
 
+	ngOnInit() {
+		this.initialize();
+	}
 
-    initialize(options?: any) {
-        $(this.el.nativeElement).bootstrapToggle(options);
-    }
+	ngOnDestroy() {
+		this.destroy();
+	}
 
-    destroy() {
-        if (this.checkedSubscription)
-            this.checkedSubscription.unsubscribe();
 
-        $(this.el.nativeElement).bootstrapToggle('destroy');
-    }
 
-    toggleOn() {
-        $(this.el.nativeElement).bootstrapToggle('on');
-    }
 
-    toggleOff() {
-        $(this.el.nativeElement).bootstrapToggle('off');
-    }
+	initialize(options?: any) {
+		$(this.el.nativeElement).bootstrapToggle(options);
+	}
 
-    toggle(value?: boolean) {
-        if (value == null)
-            $(this.el.nativeElement).bootstrapToggle('toggle');
-        else
-            $(this.el.nativeElement).prop('checked', value).change();
-    }
+	destroy() {
+		if (this.checkedSubscription) {
+			this.checkedSubscription.unsubscribe();
+		}
 
-    enable() {
-        $(this.el.nativeElement).bootstrapToggle('enable');
-    }
+		$(this.el.nativeElement).bootstrapToggle('destroy');
+	}
 
-    disable() {
-        $(this.el.nativeElement).bootstrapToggle('disable');
-    }
+	toggleOn() {
+		$(this.el.nativeElement).bootstrapToggle('on');
+	}
+
+	toggleOff() {
+		$(this.el.nativeElement).bootstrapToggle('off');
+	}
+
+	toggle(value?: boolean) {
+		if (value == null) {
+			$(this.el.nativeElement).bootstrapToggle('toggle');
+		} else {
+			$(this.el.nativeElement).prop('checked', value).change();
+		}
+	}
+
+	enable() {
+		$(this.el.nativeElement).bootstrapToggle('enable');
+	}
+
+	disable() {
+		$(this.el.nativeElement).bootstrapToggle('disable');
+	}
 }

@@ -26,21 +26,23 @@ type UserConfiguration = {
 @Injectable()
 export class ConfigurationService {
 
-	public static readonly appVersion: string = "2.5.3";
+	public static readonly appVersion: string = '2.5.3';
 
-	public baseUrl = environment.baseUrl || Utilities.baseUrl();
-	public loginUrl = environment.loginUrl;
-	public fallbackBaseUrl = "http://www.uttri.utoronto.ca";
-
-	//***Specify default configurations here***
-	public static readonly defaultLanguage: string = "en";
-	public static readonly defaultHomeUrl: string = "/";
-	public static readonly defaultTheme: string = "Default";
+	// ***Specify default configurations here***
+	public static readonly defaultLanguage: string = 'en';
+	public static readonly defaultHomeUrl: string = '/';
+	public static readonly defaultTheme: string = 'Default';
 	public static readonly defaultShowDashboardStatistics: boolean = true;
 	public static readonly defaultShowDashboardNotifications: boolean = true;
 	public static readonly defaultShowDashboardTodo: boolean = false;
 	public static readonly defaultShowDashboardBanner: boolean = true;
-	//***End of defaults***
+	// ***End of defaults***
+
+	public baseUrl = environment.baseUrl || Utilities.baseUrl();
+	public loginUrl = environment.loginUrl;
+	public fallbackBaseUrl = 'http://www.uttri.utoronto.ca';
+
+
 
 	private _language: string = null;
 	private _homeUrl: string = null;
@@ -67,23 +69,29 @@ export class ConfigurationService {
 			this.resetLanguage();
 		}
 
-		if (this.localStorage.exists(DBkeys.HOME_URL))
+		if (this.localStorage.exists(DBkeys.HOME_URL)) {
 			this._homeUrl = this.localStorage.getDataObject<string>(DBkeys.HOME_URL);
+		}
 
-		if (this.localStorage.exists(DBkeys.THEME))
+		if (this.localStorage.exists(DBkeys.THEME)) {
 			this._theme = this.localStorage.getDataObject<string>(DBkeys.THEME);
+		}
 
-		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_STATISTICS))
+		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_STATISTICS)) {
 			this._showDashboardStatistics = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_STATISTICS);
+		}
 
-		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS))
+		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS)) {
 			this._showDashboardNotifications = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
+		}
 
-		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_TODO))
+		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_TODO)) {
 			this._showDashboardTodo = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_TODO);
+		}
 
-		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_BANNER))
+		if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_BANNER)) {
 			this._showDashboardBanner = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_BANNER);
+		}
 	}
 
 
@@ -96,31 +104,39 @@ export class ConfigurationService {
 
 		this.clearLocalChanges();
 
-		if (!jsonValue)
+		if (!jsonValue) {
 			return;
+		}
 
 		let importValue: UserConfiguration = Utilities.JSonTryParse(jsonValue);
 
-		if (importValue.language != null)
+		if (importValue.language != null) {
 			this.language = importValue.language;
+		}
 
-		if (importValue.homeUrl != null)
+		if (importValue.homeUrl != null) {
 			this.homeUrl = importValue.homeUrl;
+		}
 
-		if (importValue.theme != null)
+		if (importValue.theme != null) {
 			this.theme = importValue.theme;
+		}
 
-		if (importValue.showDashboardStatistics != null)
+		if (importValue.showDashboardStatistics != null) {
 			this.showDashboardStatistics = importValue.showDashboardStatistics;
+		}
 
-		if (importValue.showDashboardNotifications != null)
+		if (importValue.showDashboardNotifications != null) {
 			this.showDashboardNotifications = importValue.showDashboardNotifications;
+		}
 
-		if (importValue.showDashboardTodo != null)
+		if (importValue.showDashboardTodo != null) {
 			this.showDashboardTodo = importValue.showDashboardTodo;
+		}
 
-		if (importValue.showDashboardBanner != null)
+		if (importValue.showDashboardBanner != null) {
 			this.showDashboardBanner = importValue.showDashboardBanner;
+		}
 	}
 
 
@@ -169,7 +185,7 @@ export class ConfigurationService {
 			this._language = language;
 		}
 		else {
-			this._language = this.translationService.changeLanguage()
+			this._language = this.translationService.changeLanguage();
 		}
 	}
 
@@ -182,8 +198,9 @@ export class ConfigurationService {
 		this.translationService.changeLanguage(value);
 	}
 	get language() {
-		if (this._language != null)
+		if (this._language != null) {
 			return this._language;
+		}
 
 		return ConfigurationService.defaultLanguage;
 	}
@@ -194,8 +211,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.HOME_URL);
 	}
 	get homeUrl() {
-		if (this._homeUrl != null)
+		if (this._homeUrl != null) {
 			return this._homeUrl;
+		}
 
 		return ConfigurationService.defaultHomeUrl;
 	}
@@ -206,8 +224,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.THEME);
 	}
 	get theme() {
-		if (this._theme != null)
+		if (this._theme != null) {
 			return this._theme;
+		}
 
 		return ConfigurationService.defaultTheme;
 	}
@@ -218,8 +237,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_STATISTICS);
 	}
 	get showDashboardStatistics() {
-		if (this._showDashboardStatistics != null)
+		if (this._showDashboardStatistics != null) {
 			return this._showDashboardStatistics;
+		}
 
 		return ConfigurationService.defaultShowDashboardStatistics;
 	}
@@ -230,8 +250,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
 	}
 	get showDashboardNotifications() {
-		if (this._showDashboardNotifications != null)
+		if (this._showDashboardNotifications != null) {
 			return this._showDashboardNotifications;
+		}
 
 		return ConfigurationService.defaultShowDashboardNotifications;
 	}
@@ -242,8 +263,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_TODO);
 	}
 	get showDashboardTodo() {
-		if (this._showDashboardTodo != null)
+		if (this._showDashboardTodo != null) {
 			return this._showDashboardTodo;
+		}
 
 		return ConfigurationService.defaultShowDashboardTodo;
 	}
@@ -254,8 +276,9 @@ export class ConfigurationService {
 		this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_BANNER);
 	}
 	get showDashboardBanner() {
-		if (this._showDashboardBanner != null)
+		if (this._showDashboardBanner != null) {
 			return this._showDashboardBanner;
+		}
 
 		return ConfigurationService.defaultShowDashboardBanner;
 	}

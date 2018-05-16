@@ -22,7 +22,7 @@ export class User {
 
 		if (this.jobTitle)
 		{
-			name = this.jobTitle + " " + name;
+			name = this.jobTitle + ' ' + name;
 		}
 
 		return name;

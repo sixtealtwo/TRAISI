@@ -40,56 +40,56 @@ import { ErrorComponent } from './error/error.component';
 import {SharedModule} from './shared/shared.module';
 
 const APP_PROVIDERS = [
-  AppConfig
+	AppConfig
 ];
 
 @NgModule({
-  bootstrap: [AppComponent],
-  declarations: [
-    AppComponent,
-    ErrorComponent,
-    EqualValidator,
-    LastElementDirective,
-    AutofocusDirective,
-    BootstrapTabDirective,
-    BootstrapToggleDirective,
-    BootstrapDatepickerDirective
+	bootstrap: [AppComponent],
+	declarations: [
+		AppComponent,
+		ErrorComponent,
+		EqualValidator,
+		LastElementDirective,
+		AutofocusDirective,
+		BootstrapTabDirective,
+		BootstrapToggleDirective,
+		BootstrapDatepickerDirective
 
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SharedModule,
-    TranslateModule.forRoot({
-      loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLanguageLoader
-      }
-    }),
-    NgxDatatableModule,
-    ToastyModule.forRoot(),
-    TooltipModule.forRoot(),
-    PopoverModule.forRoot(),
-    CarouselModule.forRoot(),
-    ModalModule.forRoot(),
-    ChartsModule
-    ],
-  providers: [
-    APP_PROVIDERS,
-    AlertService,
-    ConfigurationService,
-    AppTitleService,
-    AppTranslationService,
-    NotificationService,
-    NotificationEndpoint,
-    AccountService,
-    AccountEndpoint,
-    LocalStoreManager,
-    EndpointFactory,
-    TranslatePipe
-  ]
+	],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		AppRoutingModule,
+		HttpClientModule,
+		SharedModule,
+		TranslateModule.forRoot({
+		loader: {
+			provide: TranslateLoader,
+			useClass: TranslateLanguageLoader
+		}
+		}),
+		NgxDatatableModule,
+		ToastyModule.forRoot(),
+		TooltipModule.forRoot(),
+		PopoverModule.forRoot(),
+		CarouselModule.forRoot(),
+		ModalModule.forRoot(),
+		ChartsModule
+		],
+	providers: [
+		APP_PROVIDERS,
+		AlertService,
+		ConfigurationService,
+		AppTitleService,
+		AppTranslationService,
+		NotificationService,
+		NotificationEndpoint,
+		AccountService,
+		AccountEndpoint,
+		LocalStoreManager,
+		EndpointFactory,
+		TranslatePipe
+	]
 })
 export class AppModule {}

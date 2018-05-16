@@ -11,124 +11,125 @@ import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy }
 declare var $: any;
 
 @Directive({
-    selector: '[bootstrapDatepicker]',
-    exportAs: 'bootstrap-datepicker'
+	selector: '[bootstrapDatepicker]',
+	exportAs: 'bootstrap-datepicker'
 })
 export class BootstrapDatepickerDirective implements OnInit, OnDestroy {
 
-    private _isShown = false;
-    private updateTimeout;
-    private changedSubscription: Subscription;
-    private shownSubscription: Subscription;
-    private hiddenSubscription: Subscription;
+	private _isShown = false;
+	private updateTimeout;
+	private changedSubscription: Subscription;
+	private shownSubscription: Subscription;
+	private hiddenSubscription: Subscription;
 
-    get isShown() {
-        return this._isShown;
-    }
+	get isShown() {
+		return this._isShown;
+	}
 
-    @Input()
-    options = {};
+	@Input()
+	options = {};
 
-    @Input()
-    set ngModel(value) {
-        this.tryUpdate(value);
-    }
-
-
-    @Output()
-    ngModelChange = new EventEmitter();
+	@Input()
+	set ngModel(value) {
+		this.tryUpdate(value);
+	}
 
 
-    constructor(private el: ElementRef) {
-        this.changedSubscription = observableFromEvent($(this.el.nativeElement), 'change').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
-        this.shownSubscription = observableFromEvent($(this.el.nativeElement), 'show').subscribe((e: any) => this._isShown = true);
-        this.hiddenSubscription = observableFromEvent($(this.el.nativeElement), 'hide').subscribe((e: any) => this._isShown = false);
-    }
+	@Output()
+	ngModelChange = new EventEmitter();
 
 
-
-    ngOnInit() {
-        this.initialize(this.options);
-    }
-
-    ngOnDestroy() {
-        this.destroy();
-    }
+	constructor(private el: ElementRef) {
+		this.changedSubscription = observableFromEvent($(this.el.nativeElement), 'change').subscribe((e: any) =>
+			setTimeout(() => this.ngModelChange.emit(e.target.value)));
+		this.shownSubscription = observableFromEvent($(this.el.nativeElement), 'show').subscribe((e: any) => this._isShown = true);
+		this.hiddenSubscription = observableFromEvent($(this.el.nativeElement), 'hide').subscribe((e: any) => this._isShown = false);
+	}
 
 
 
+	ngOnInit() {
+		this.initialize(this.options);
+	}
 
-    initialize(options?: any) {
-        $(this.el.nativeElement).datepicker(options);
-    }
-
-    destroy() {
-        if (this.changedSubscription) {
-            this.changedSubscription.unsubscribe();
-            this.shownSubscription.unsubscribe();
-            this.hiddenSubscription.unsubscribe();
-        }
-
-        $(this.el.nativeElement).datepicker('destroy');
-    }
+	ngOnDestroy() {
+		this.destroy();
+	}
 
 
 
-    show() {
-        $(this.el.nativeElement).datepicker('show');
-    }
+
+	initialize(options?: any) {
+		$(this.el.nativeElement).datepicker(options);
+	}
+
+	destroy() {
+		if (this.changedSubscription) {
+			this.changedSubscription.unsubscribe();
+			this.shownSubscription.unsubscribe();
+			this.hiddenSubscription.unsubscribe();
+		}
+
+		$(this.el.nativeElement).datepicker('destroy');
+	}
 
 
-    hide() {
-        $(this.el.nativeElement).datepicker('hide');
-    }
+
+	show() {
+		$(this.el.nativeElement).datepicker('show');
+	}
 
 
-    toggle() {
-        this.isShown ? this.hide() : this.show();
-    }
+	hide() {
+		$(this.el.nativeElement).datepicker('hide');
+	}
 
 
-    private tryUpdate(value) {
-
-        clearTimeout(this.updateTimeout);
-
-        if (!$(this.el.nativeElement).is(":focus")) {
-            this.update(value);
-        } else {
-            this.updateTimeout = setTimeout(() => {
-                this.updateTimeout = null;
-                this.tryUpdate(value);
-            }, 100);
-        }
-    }
-
-    update(value) {
-        setTimeout(() => $(this.el.nativeElement).datepicker('update', value));
-    }
+	toggle() {
+		this.isShown ? this.hide() : this.show();
+	}
 
 
-    setDate(value) {
-        setTimeout(() => $(this.el.nativeElement).datepicker('setDate', value));
-    }
+	private tryUpdate(value) {
+
+		clearTimeout(this.updateTimeout);
+
+		if (!$(this.el.nativeElement).is(':focus')) {
+			this.update(value);
+		} else {
+			this.updateTimeout = setTimeout(() => {
+				this.updateTimeout = null;
+				this.tryUpdate(value);
+			}, 100);
+		}
+	}
+
+	update(value) {
+		setTimeout(() => $(this.el.nativeElement).datepicker('update', value));
+	}
 
 
-    setUTCDate(value) {
-        setTimeout(() => $(this.el.nativeElement).datepicker('setUTCDate', value));
-    }
+	setDate(value) {
+		setTimeout(() => $(this.el.nativeElement).datepicker('setDate', value));
+	}
 
 
-    clearDates() {
-        setTimeout(() => $(this.el.nativeElement).datepicker('clearDates'));
-    }
+	setUTCDate(value) {
+		setTimeout(() => $(this.el.nativeElement).datepicker('setUTCDate', value));
+	}
 
 
-    getDate() {
-        $(this.el.nativeElement).datepicker('getDate');
-    }
+	clearDates() {
+		setTimeout(() => $(this.el.nativeElement).datepicker('clearDates'));
+	}
 
 
-    getUTCDate() {
-        $(this.el.nativeElement).datepicker('getUTCDate');
-    }
+	getDate() {
+		$(this.el.nativeElement).datepicker('getDate');
+	}
+
+
+	getUTCDate() {
+		$(this.el.nativeElement).datepicker('getUTCDate');
+	}
 }

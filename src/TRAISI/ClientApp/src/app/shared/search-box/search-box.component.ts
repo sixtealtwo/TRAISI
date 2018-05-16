@@ -6,31 +6,31 @@
 import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-    selector: 'search-input',
-    templateUrl: './search-box.component.html',
-    styleUrls: ['./search-box.component.css']
+	selector: 'search-input',
+	templateUrl: './search-box.component.html',
+	styleUrls: ['./search-box.component.css']
 })
 export class SearchBoxComponent {
 
-    @Input()
-    placeholder: string = 'Search...';
+	@Input()
+	placeholder: string = 'Search...';
 
-    @Output()
-    searchChange = new EventEmitter<string>();
+	@Output()
+	searchChange = new EventEmitter<string>();
 
-    @ViewChild('searchInput')
-    searchInput: ElementRef;
+	@ViewChild('searchInput')
+	searchInput: ElementRef;
 
-    public input : string;
-
-
-    onValueChange(value: string) {
-        setTimeout(() => this.searchChange.emit(value));
-    }
+	public input: string;
 
 
-    clear() {
-        this.searchInput.nativeElement.value = '';
-        this.onValueChange(this.searchInput.nativeElement.value);
-    }
+	onValueChange(value: string) {
+		setTimeout(() => this.searchChange.emit(value));
+	}
+
+
+	clear() {
+		this.searchInput.nativeElement.value = '';
+		this.onValueChange(this.searchInput.nativeElement.value);
+	}
 }

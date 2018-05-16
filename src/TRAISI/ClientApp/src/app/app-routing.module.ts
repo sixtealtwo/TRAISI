@@ -11,38 +11,38 @@ import { AuthGuard } from './services/auth-guard.service';
 import { ErrorComponent } from './error/error.component';
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot([{
-            path: '', redirectTo: 'app', pathMatch: 'full'
-           },
-          {
-            path: 'app/survey-builder',
-            canActivate: [AuthGuard],
-            loadChildren: './survey-builder/survey-builder.module#SurveyBuilderModule'
-          },
-           {
-             path: 'app', canActivate: [AuthGuard],   loadChildren: './layout/layout.module#LayoutModule'
-           },
-           {
-             path: 'login', loadChildren: './login/login.module#LoginModule'
-           },
-           {
-             path: 'error', component: ErrorComponent
-           },
-           {
-             path: '**',  component: ErrorComponent
-           }
-         ], {
-            useHash: false,
-            preloadingStrategy: PreloadAllModules,
-          onSameUrlNavigation: 'reload'
-          })
-    ],
-    exports: [
-        RouterModule
-    ],
-    providers: [
-        AuthService, AuthGuard
-    ]
+	imports: [
+		RouterModule.forRoot([{
+			path: '', redirectTo: 'app', pathMatch: 'full'
+		},
+		{
+			path: 'app/survey-builder',
+			canActivate: [AuthGuard],
+			loadChildren: './survey-builder/survey-builder.module#SurveyBuilderModule'
+		},
+		{
+			path: 'app', canActivate: [AuthGuard],   loadChildren: './layout/layout.module#LayoutModule'
+		},
+		{
+			path: 'login', loadChildren: './login/login.module#LoginModule'
+		},
+		{
+			path: 'error', component: ErrorComponent
+		},
+		{
+			path: '**',  component: ErrorComponent
+		}
+		], {
+			useHash: false,
+			preloadingStrategy: PreloadAllModules,
+		onSameUrlNavigation: 'reload'
+		})
+	],
+	exports: [
+		RouterModule
+	],
+	providers: [
+		AuthService, AuthGuard
+	]
 })
 export class AppRoutingModule { }
