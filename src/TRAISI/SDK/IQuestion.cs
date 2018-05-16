@@ -15,11 +15,8 @@ namespace TRAISI.SDK
         /// <summary>
         /// Declare all question slots
         /// </summary>
-        ICollection<IQuestion> QuestionSlots {get;set; }
+        ICollection<IQuestion> QuestionSlots { get; set; }
 
     }
-    
-    
-    
-    
+
 }
