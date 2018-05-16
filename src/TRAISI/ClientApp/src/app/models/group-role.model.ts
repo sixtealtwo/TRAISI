@@ -1,14 +1,11 @@
-import { CreateSurveys } from "./enums";
+import { CreateSurveys } from './enums';
 
 
-export class GroupRole
-{
+export class GroupRole {
 	constructor(private _id?: number,
 	private _createSurveys?: CreateSurveys,
 	private _isAdmin?: boolean,
-	private _name?: string)
-	{
+	private _name?: string)	{
 
 	}
-
 }

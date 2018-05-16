@@ -1,4 +1,2 @@
-export class SurveyPermissions
-{
-    
+export class SurveyPermissions {
 }

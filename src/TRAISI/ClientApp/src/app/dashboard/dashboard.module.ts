@@ -6,14 +6,14 @@ import { DashboardComponent } from './dashboard.component';
 import { WidgetModule } from '../layout/widget/widget.module';
 
 export const routes = [
-  { path: '', component: DashboardComponent, pathMatch: 'full' }
+	{ path: '', component: DashboardComponent, pathMatch: 'full' }
 ];
 
 
 @NgModule({
-  imports: [ CommonModule, RouterModule.forChild(routes), WidgetModule ],
-  declarations: [ DashboardComponent ]
+	imports: [ CommonModule, RouterModule.forChild(routes), WidgetModule ],
+	declarations: [ DashboardComponent ]
 })
 export class DashboardModule {
-  static routes = routes;
+	static routes = routes;
 }

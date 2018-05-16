@@ -20,26 +20,26 @@ import { SearchPipe } from './pipes/search.pipe';
 import { TranslateLanguageLoader } from '../services/app-translation.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TooltipModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
-    ROUTES,
-    FormsModule,
-    LoadingBarRouterModule,
-    TranslateModule.forChild({
-      loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-    })
-  ],
-  declarations: [
-    LayoutComponent,
-    SidebarComponent,
-    NavbarComponent,
-    ChatSidebarComponent,
-    SearchPipe,
-    ChatMessageComponent
-  ]
+	imports: [
+		CommonModule,
+		TooltipModule.forRoot(),
+		BsDropdownModule.forRoot(),
+		ModalModule.forRoot(),
+		ROUTES,
+		FormsModule,
+		LoadingBarRouterModule,
+		TranslateModule.forChild({
+		loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+		})
+	],
+	declarations: [
+		LayoutComponent,
+		SidebarComponent,
+		NavbarComponent,
+		ChatSidebarComponent,
+		SearchPipe,
+		ChatMessageComponent
+	]
 })
 export class LayoutModule {
 }
