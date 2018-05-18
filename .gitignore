@@ -249,3 +249,5 @@ Thumbs.db
 .rider/
 .idea/
 
+#local coniguration
+appsettings.local.json

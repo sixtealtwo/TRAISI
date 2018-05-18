@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using DAL;
+using Microsoft.Extensions.Configuration;
 
 namespace TRAISI
 {
@@ -22,6 +23,8 @@ namespace TRAISI
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
+
+			
 
             using (var scope = host.Services.CreateScope())
             {
@@ -45,6 +48,14 @@ namespace TRAISI
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+				.ConfigureAppConfiguration( (hostingContext,config) => {
+
+					// add local configuration if file exists, not tracked in repository
+					if(File.Exists("appsettings.local.json"))
+					{
+						config.AddJsonFile("appsettings.local.json");
+					}
+				})
                 .Build();
     }
 }
