@@ -32,6 +32,7 @@ using AppPermissions = DAL.Core.ApplicationPermissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using System.Collections.Generic;
+using TRAISI.SDK;
 
 namespace TRAISI
 {
@@ -60,6 +61,7 @@ namespace TRAISI
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddDbContext<ApplicationDbContext>(options =>
             {
 				bool development = false;
@@ -231,6 +233,11 @@ namespace TRAISI
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
         }
 
+        public void InitalizeQuestions()
+        {
+            var s = QuestionTypeManager.QuestionTypeDefinitions;
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -242,6 +249,7 @@ namespace TRAISI
             Utilities.ConfigureLogger(loggerFactory);
             EmailTemplates.Initialize(env);
 
+            InitalizeQuestions();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
