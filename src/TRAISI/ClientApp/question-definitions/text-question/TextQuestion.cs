@@ -8,13 +8,19 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion]
     public class TextQuestion : ISurveyQuestion
     {
-        public string TypeName { 
+        public string TypeName
+        {
             get => "Text";
-            }
+        }
 
-            
-    [QuestionPart("Sub Part")]
-    public string question;
+        [QuestionParameter(typeof(int),
+        ParameterName="Max Length",
+        ParameterDescription="Max number of characters")]
+        public int MaxLength = 255;
+
+
     }
+
+
 
 }
