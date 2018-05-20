@@ -6,10 +6,9 @@ namespace DAL.Repositories {
 	class SurveyViewRepository : Repository<SurveyView>, ISurveyViewRepository
 	{
 
-		private DbContext _context;
 		public SurveyViewRepository(DbContext context) : base(context)
 		{
-			this._context = context;
+	
 		}
 	}
 }

@@ -7,11 +7,11 @@ namespace DAL.Repositories
 	public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository
 	{
 
-		private DbContext _context;
+
 
 		public SurveyResponseRepository(DbContext context) : base(context)
 		{
-			this._context = context;
+
 		}
 	}
 }
