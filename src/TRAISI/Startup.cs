@@ -75,6 +75,7 @@ namespace TRAISI
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
                     b => b.MigrationsAssembly("TRAISI"));
 				}
+				
                 options.UseOpenIddict();
             });
 

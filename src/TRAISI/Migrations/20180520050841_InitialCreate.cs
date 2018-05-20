@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TRAISI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -231,6 +231,48 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Label",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    SurveyId = table.Column<int>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Label", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Label_AppSurveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "AppSurveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveyView",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SurveyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyView", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SurveyView_AppSurveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "AppSurveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -425,6 +467,32 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuestionParts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    QuestionPartId = table.Column<int>(nullable: true),
+                    SurveyViewId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionParts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_SurveyView_SurveyViewId",
+                        column: x => x.SurveyViewId,
+                        principalTable: "SurveyView",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppOrderDetails",
                 columns: table => new
                 {
@@ -589,6 +657,11 @@ namespace TRAISI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Label_SurveyId",
+                table: "Label",
+                column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId",
@@ -620,6 +693,21 @@ namespace TRAISI.Migrations
                 table: "OpenIddictTokens",
                 column: "ReferenceId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionParts_QuestionPartId",
+                table: "QuestionParts",
+                column: "QuestionPartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionParts_SurveyViewId",
+                table: "QuestionParts",
+                column: "SurveyViewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyView_SurveyId",
+                table: "SurveyView",
+                column: "SurveyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -629,9 +717,6 @@ namespace TRAISI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppOrderDetails");
-
-            migrationBuilder.DropTable(
-                name: "AppSurveys");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -649,10 +734,16 @@ namespace TRAISI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Label");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
+
+            migrationBuilder.DropTable(
+                name: "QuestionParts");
 
             migrationBuilder.DropTable(
                 name: "AppUserGroups");
@@ -670,6 +761,9 @@ namespace TRAISI.Migrations
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
+                name: "SurveyView");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
@@ -680,6 +774,9 @@ namespace TRAISI.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "AppSurveys");
         }
     }
 }

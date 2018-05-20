@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DAL.Models.Questions;
 
-namespace DAL.Models
+namespace DAL.Models.Surveys
 {
     public class SurveyView
     {

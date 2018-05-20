@@ -12,8 +12,8 @@ using System;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180514013833_Initial")]
-    partial class Initial
+    [Migration("20180520050841_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -195,6 +195,28 @@ namespace TRAISI.Migrations
                     b.ToTable("AppGroupMembers");
                 });
 
+            modelBuilder.Entity("DAL.Models.Label", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<int?>("SurveyId");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("Label");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -354,6 +376,24 @@ namespace TRAISI.Migrations
                     b.ToTable("AppProductCategories");
                 });
 
+            modelBuilder.Entity("DAL.Models.QuestionPart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("QuestionPartId");
+
+                    b.Property<int?>("SurveyViewId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionPartId");
+
+                    b.HasIndex("SurveyViewId");
+
+                    b.ToTable("QuestionParts");
+                });
+
             modelBuilder.Entity("DAL.Models.Survey", b =>
                 {
                     b.Property<int>("Id")
@@ -398,6 +438,20 @@ namespace TRAISI.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("AppSurveys");
+                });
+
+            modelBuilder.Entity("DAL.Models.SurveyView", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("SurveyId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("SurveyView");
                 });
 
             modelBuilder.Entity("DAL.Models.UserGroup", b =>
@@ -656,6 +710,13 @@ namespace TRAISI.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("DAL.Models.Label", b =>
+                {
+                    b.HasOne("DAL.Models.Survey")
+                        .WithMany("NameLabel")
+                        .HasForeignKey("SurveyId");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.HasOne("DAL.Models.ApplicationUser", "Cashier")
@@ -692,6 +753,24 @@ namespace TRAISI.Migrations
                         .WithMany("Products")
                         .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DAL.Models.QuestionPart", b =>
+                {
+                    b.HasOne("DAL.Models.QuestionPart")
+                        .WithMany("QuestionPartChildren")
+                        .HasForeignKey("QuestionPartId");
+
+                    b.HasOne("DAL.Models.SurveyView")
+                        .WithMany("QuestionParts")
+                        .HasForeignKey("SurveyViewId");
+                });
+
+            modelBuilder.Entity("DAL.Models.SurveyView", b =>
+                {
+                    b.HasOne("DAL.Models.Survey")
+                        .WithMany("SurveyViews")
+                        .HasForeignKey("SurveyId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

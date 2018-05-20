@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using DAL.Repositories.Interfaces;
+using DAL.Models.Surveys;
 
 namespace DAL.Repositories
 {

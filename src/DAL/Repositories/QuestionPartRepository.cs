@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using DAL.Models.Questions;
 using DAL.Repositories.Interfaces;
 
 namespace DAL.Repositories
@@ -16,7 +17,10 @@ namespace DAL.Repositories
         {
         }
 
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
         private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
     }
 }

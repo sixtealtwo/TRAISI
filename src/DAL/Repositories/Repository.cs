@@ -20,12 +20,20 @@ namespace DAL.Repositories
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
         public Repository(DbContext context)
         {
             _context = context;
             _entities = context.Set<TEntity>();
         }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="entity"></param>
         public virtual void Add(TEntity entity)
         {
             _entities.Add(entity);

@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using DAL.Models.Interfaces;
+using DAL.Models.Questions;
+using DAL.Models.Surveys;
 
 namespace DAL
 {

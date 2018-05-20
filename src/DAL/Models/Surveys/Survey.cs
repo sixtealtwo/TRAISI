@@ -1,16 +1,17 @@
 ﻿using DAL.Core;
+using DAL.Models.Surveys;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models
+namespace DAL.Models.Surveys
 {
-    public class Survey : AuditableEntity
+    public class Survey : AuditableEntity, ISurvey
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
         public DateTime StartAt { get; set; }
@@ -22,6 +23,27 @@ namespace DAL.Models
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }
         public ICollection<SurveyView> SurveyViews {get;set;}
+
+		public string Name{get;set;}
+
+		public ICollection<Label> TitleLabel {get;set;}
+
+		public string Title {
+			get
+			{
+				return TitleLabel.FirstOrDefault()?.Text;
+			}
+			set
+			{
+				
+			}
+		}
+
+
+		public Survey()
+		{
+			this.TitleLabel = new HashSet<Label>();
+		}
 
     }
 }

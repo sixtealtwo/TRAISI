@@ -7,112 +7,95 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using DAL;
-using TRAISI.ViewModels;
 using AutoMapper;
+using DAL;
 using DAL.Core.Interfaces;
-using DAL.Models;
+using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
-
-namespace TRAISI.Controllers
-{
-    [Authorize]
-    [Route("api/[controller]")]
-    public class SurveyController : Controller
-    {
-
-        private IUnitOfWork _unitOfWork;
+using TRAISI.Helpers;
+using TRAISI.ViewModels;
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="_entityManager"></param>
-        public SurveyController(IUnitOfWork unitOfWork)
-        {
-            this._unitOfWork = unitOfWork;
+namespace TRAISI.Controllers {
+	[Authorize]
+	[Route ("api/[controller]")]
+	public class SurveyController : Controller {
 
-        }
+		private IUnitOfWork _unitOfWork;
 
-        /// <summary>
-        /// Get survey by ID
-        /// </summary>
-        [HttpGet("{id}")]
-        [Produces(typeof(SurveyViewModel))]
-        public async Task<IActionResult> GetSurvey(int id)
-        {
-            var survey =  await this._unitOfWork.Surveys.GetAsync(id);
+		public SurveyController (IUnitOfWork unitOfWork) {
+			this._unitOfWork = unitOfWork;
 
-            return new ObjectResult(survey);
-        }
-        
-        /// <summary>
-        /// Get all surveys
-        /// </summary>
-        [HttpGet]
-        [Produces(typeof(List<SurveyViewModel>))]
-        public async Task<IActionResult> GetSurveys()
-        {
-            var surveys = await this._unitOfWork.Surveys.GetAllAsync();
+		}
 
-            return new ObjectResult(surveys);
-        }
+		/// <summary>
+		/// Get survey by ID
+		/// </summary>
+		[HttpGet ("{id}")]
+		[Produces (typeof (SurveyViewModel))]
+		public async Task<IActionResult> GetSurvey (int id) {
+			var survey = await this._unitOfWork.Surveys.GetAsync (id);
 
-        /// <summary>
-        /// Create survey
-        /// </summary>
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateSurvey([FromBody] SurveyViewModel survey)
-        {
-            if (ModelState.IsValid)
-            {
-                if (survey == null)
-                {
-                    return BadRequest($"{nameof(survey)} cannot be null");
-                }
+			return new ObjectResult (survey);
+		}
 
-                Survey appSurvey = Mapper.Map<Survey>(survey);
+		/// <summary>
+		/// Get all surveys
+		/// </summary>
+		[HttpGet]
+		[Produces (typeof (List<SurveyViewModel>))]
+		public async Task<IActionResult> GetSurveys () {
+			var surveys = await this._unitOfWork.Surveys.GetAllAsync ();
 
-                await this._unitOfWork.Surveys.AddAsync(appSurvey);
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
-            } 
+			return new ObjectResult (surveys);
+		}
 
-            return BadRequest(ModelState);
-        }
+		/// <summary>
+		/// Create survey
+		/// </summary>
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> CreateSurvey ([FromBody] SurveyViewModel survey) {
+			if (ModelState.IsValid) {
+				if (survey == null) {
+					return BadRequest ($"{nameof(survey)} cannot be null");
+				}
 
-        /// <summary>
-        /// Update a survey
-        /// </summary>
-        [HttpPut]
-        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel survey)
-        {
-            Survey appSurvey = Mapper.Map<Survey>(survey);
+				Survey appSurvey = Mapper.Map<Survey> (survey);
 
-            this._unitOfWork.Surveys.Update(appSurvey);
-            await this._unitOfWork.SaveChangesAsync();
-            return new OkResult();
-        }
+				await this._unitOfWork.Surveys.AddAsync (appSurvey);
+				await this._unitOfWork.SaveChangesAsync ();
+				return new OkResult ();
+			}
 
-        
-        /// <summary>
-        /// Delete a survey
-        /// </summary>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSurvey(int id)
-        {
-            var removed = this._unitOfWork.Surveys.Get(id);
-            this._unitOfWork.Surveys.Remove(removed);
-            await this._unitOfWork.SaveChangesAsync();
-            return new OkResult();
-        }
+			return BadRequest (ModelState);
+		}
 
-        
+		/// <summary>
+		/// Update a survey
+		/// </summary>
+		[HttpPut]
+		public async Task<IActionResult> UpdateSurvey ([FromBody] SurveyViewModel survey) {
+			Survey appSurvey = Mapper.Map<Survey> (survey);
 
-    }
+			this._unitOfWork.Surveys.Update (appSurvey);
+			await this._unitOfWork.SaveChangesAsync ();
+			return new OkResult ();
+		}
+
+		/// <summary>
+		/// Delete a survey
+		/// </summary>
+		[HttpDelete ("{id}")]
+		public async Task<IActionResult> DeleteSurvey (int id) {
+			var removed = this._unitOfWork.Surveys.Get (id);
+			this._unitOfWork.Surveys.Remove (removed);
+			await this._unitOfWork.SaveChangesAsync ();
+			return new OkResult ();
+		}
+
+	}
 }
