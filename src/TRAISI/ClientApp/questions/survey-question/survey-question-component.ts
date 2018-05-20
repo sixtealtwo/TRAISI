@@ -1,7 +1,7 @@
 /**
  * Base interface for all question types
  */
-interface Question
+interface SurveyQuestion
 {
 	/**
 	 * Question name (type)
