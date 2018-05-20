@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
         }
 
         [QuestionParameter(typeof(int),
-        ParameterName="Max Length",
+        ParameterName="Max Length", 
         ParameterDescription="Max number of characters")]
         public int MaxLength = 255;
 
