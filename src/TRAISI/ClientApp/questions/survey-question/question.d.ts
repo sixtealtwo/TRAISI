@@ -1,4 +1,17 @@
+/**
+ * Base interface for all question types
+ */
 interface Question
 {
-	name: string;
+	/**
+	 * Question name (type)
+	 */
+	typeName: string;
+
+	/**
+	 * URL if Icon
+	 */
+	icon: string;
+
+
 }
