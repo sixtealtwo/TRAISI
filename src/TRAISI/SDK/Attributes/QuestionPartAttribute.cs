@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Annotations
+namespace TRAISI.SDK.Attributes
 {
     public class QuestionPartAttribute : Attribute
     {

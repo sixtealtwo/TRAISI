@@ -1,5 +1,5 @@
 
-using TRAISI.SDK.Annotations;
+using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
