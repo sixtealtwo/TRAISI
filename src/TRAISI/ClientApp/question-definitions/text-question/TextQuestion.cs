@@ -11,5 +11,10 @@ namespace TRAISI.SDK.Questions
         public string TypeName { 
             get => "Text";
             }
+
+            
+    [QuestionPart("Sub Part")]
+    public string question;
     }
+
 }
