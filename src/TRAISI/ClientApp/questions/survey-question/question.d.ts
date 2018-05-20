@@ -1,0 +1,4 @@
+interface Question
+{
+	name: string;
+}

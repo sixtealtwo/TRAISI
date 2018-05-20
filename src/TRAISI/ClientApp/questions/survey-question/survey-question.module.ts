@@ -7,5 +7,4 @@ import { CommonModule } from '@angular/common';
 	],
 	declarations: []
 })
-export class TextQuestionModule {
-}
+export class SurveyQuestionModule { }
