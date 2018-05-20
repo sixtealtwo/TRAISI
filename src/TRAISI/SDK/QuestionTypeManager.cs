@@ -23,7 +23,7 @@ namespace TRAISI.SDK
         /// <summary>
         /// 
         /// </summary>
-        private static void LoadQuestionTypeDefinitions()
+        public static void LoadQuestionTypeDefinitions(string loadFrom = ".")
         {
             var current = new DirectoryInfo(Directory.GetCurrentDirectory());
 
