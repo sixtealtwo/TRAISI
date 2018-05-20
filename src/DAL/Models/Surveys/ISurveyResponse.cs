@@ -1,6 +1,6 @@
 namespace DAL.Models.Surveys
 {
-	public interface ISurveyResponse
+	public interface ISurveyResponse<T>
 	{
 		
 	}
