@@ -38,8 +38,7 @@ import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
 import {SharedModule} from './shared/shared.module';
-import { TextQuestionComponentComponent } from './text-question-component/text-question-component.component';
-import { TextQuestionComponent } from './text-question/text-question.component';
+
 
 const APP_PROVIDERS = [
 	AppConfig
@@ -56,8 +55,6 @@ const APP_PROVIDERS = [
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
-		TextQuestionComponentComponent,
-		TextQuestionComponent
 
 	],
 	imports: [

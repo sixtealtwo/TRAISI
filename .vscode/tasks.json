@@ -7,7 +7,8 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/TRAISI/TRAISI.csproj"
+                "${workspaceFolder}/src/TRAISI/TRAISI.csproj",
+                "/property:GenerateFullPaths=true"
             ],
             "problemMatcher": "$msCompile"
         }

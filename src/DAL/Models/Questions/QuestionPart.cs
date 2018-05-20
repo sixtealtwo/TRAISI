@@ -13,6 +13,7 @@ namespace DAL.Models.Questions
 		{
 			TextLabels = new HashSet<Label>();
 			QuestionPartChildren = new HashSet<QuestionPart>();
+
 		}
 
 		public int Id { get;set;}

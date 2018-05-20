@@ -1,3 +1,4 @@
+using System.Collections;
 
 namespace TRAISI.SDK
 {
@@ -7,12 +8,9 @@ namespace TRAISI.SDK
         public QuestionManager()
         {
             
+
+            
         }
 
-        public ICollection<QuestionPart> AllAvailableQuestionTypes(){
-
-            return null;
-
-        }
     }
 }
