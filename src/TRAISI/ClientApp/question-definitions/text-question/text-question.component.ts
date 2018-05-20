@@ -7,14 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TextQuestionComponent implements OnInit, SurveyQuestion {
 
-	readonly QUESTION_TYPE_NAME : string = "Text Question";
+	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
 	typeName: string;
 	icon: string;
 	constructor() {
 		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = "text";
-	 }
+		this.icon = 'text';
+	}
 
 	ngOnInit() {
 
