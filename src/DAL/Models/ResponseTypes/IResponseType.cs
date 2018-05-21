@@ -6,6 +6,8 @@ namespace DAL.Models.ResponseTypes
 
         T Value{get;set;}
 
+        QuestionPart Question {get;set;}
+
 
 
          
