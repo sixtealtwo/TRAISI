@@ -1,12 +1,14 @@
+using DAL.Models.Questions;
 using DAL.Models.ResponseTypes;
 
 namespace DAL.Models.Surveys
 {
-    public class SurveyResponse<T>
+    public class SurveyResponse : ISurveyResponse
     {
         public int Id { get; set; }
 
-        IResponseType<T> Value{get;set;}
+         public QuestionPart Question {get;set;}
+
 
 
     }

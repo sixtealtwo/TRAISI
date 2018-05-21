@@ -2,8 +2,8 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 
 namespace DAL.Models.ResponseTypes {
-    public class StringResponse : SurveyResponse {
+    public class DecimalResponse : SurveyResponse {
 
-        public string Value { get; set; }
+        public double Value { get; set; }
     }
 }

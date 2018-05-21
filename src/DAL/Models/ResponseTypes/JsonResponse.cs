@@ -1,12 +1,10 @@
-namespace DAL.Models.ResponseTypes
-{
-    public class JsonResponse : IResponseType<object>
-    {
-        public int Id { get;set;}
+using DAL.Models.Questions;
+using DAL.Models.Surveys;
+using Newtonsoft.Json.Linq;
 
-        public object Value {get;set;}
-
-
+namespace DAL.Models.ResponseTypes {
+    public class JsonResponse : SurveyResponse {
+        JObject Value { get; set; }
     }
 
 }
