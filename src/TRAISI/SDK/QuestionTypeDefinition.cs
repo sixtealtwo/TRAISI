@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace TRAISI.SDK
@@ -11,8 +12,11 @@ namespace TRAISI.SDK
 
         public DirectoryInfo Location{get;set;}
 
-        public QuestionTypeDefinition()
+        public Type Type{get;}
+
+        public QuestionTypeDefinition(Type type)
         {
+            this.Type = type;
             
         }
 
