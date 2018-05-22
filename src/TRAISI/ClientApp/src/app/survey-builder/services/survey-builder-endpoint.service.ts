@@ -7,12 +7,11 @@ import { Observable } from 'rxjs/index';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
-	private readonly _surveyBuilderUrl: string = '/api/survey-builder';
+	private readonly _surveyBuilderUrl: string = '/api/SurveyBuilder';
 
 	get getSurveyBuilderQuestionTypesUrl() {
 		return (
 			this.configurations.baseUrl +
-			'/' +
 			this._surveyBuilderUrl +
 			'/question-types'
 		);

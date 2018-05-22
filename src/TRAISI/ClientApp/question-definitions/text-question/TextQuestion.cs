@@ -13,13 +13,19 @@ namespace TRAISI.SDK.Questions
             get => "Text";
         }
 
+		public string Icon
+		{
+			get=> "Text";
+			set{}
+		}
+
         [QuestionConfigParameter(QuestionParameterType.Number,
-        ParameterName="Max Length", 
+        ParameterName="Max Length",
         ParameterDescription="Max number of characters")]
         public int MaxLength = 255;
 
         [QuestionConfigParameter(QuestionParameterType.Boolean,
-        ParameterName="Multiline", 
+        ParameterName="Multiline",
         ParameterDescription="Specifies whether to render a text field or text area.")]
         public bool IsMultiLine = false;
 

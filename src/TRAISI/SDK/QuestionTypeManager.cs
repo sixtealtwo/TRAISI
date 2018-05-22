@@ -6,14 +6,17 @@ using System.Reflection;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 
-namespace TRAISI.SDK {
+namespace TRAISI.SDK
+{
 
-    public class QuestionTypeManager : IQuestionTypeManager {
+    public class QuestionTypeManager : IQuestionTypeManager
+    {
         private ICollection<QuestionTypeDefinition> _questionTypeDefinitions;
 
-        public QuestionTypeManager () {
-            _questionTypeDefinitions = new LinkedList<QuestionTypeDefinition> ();
-            LoadQuestionTypeDefinitions ();
+        public QuestionTypeManager()
+        {
+            _questionTypeDefinitions = new LinkedList<QuestionTypeDefinition>();
+            LoadQuestionTypeDefinitions();
 
         }
 
@@ -22,27 +25,33 @@ namespace TRAISI.SDK {
         /// </summary>
         /// <param name="type"></param>
         /// <param name="attribute"></param>
-        private void CreateQuestionTypeDefinition (Type questionType, Attribute attribute) {
-            QuestionTypeDefinitions.Add (new QuestionTypeDefinition (questionType));
+        private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute)
+        {
+            _questionTypeDefinitions.Add(new QuestionTypeDefinition(questionType, attribute));
         }
 
-        public ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+        public ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
 
         /// <summary>
         /// 
         /// </summary>
-        public void LoadQuestionTypeDefinitions (string loadFrom = ".") {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies ();
+        public void LoadQuestionTypeDefinitions(string loadFrom = ".")
+        {
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (var assembly in assemblies) {
-                Type[] types = assembly.GetTypes ();
-                foreach (var type in types) {
+            foreach (var assembly in assemblies)
+            {
+                Type[] types = assembly.GetTypes();
+                foreach (var type in types)
+                {
 
-                    var e = type.GetCustomAttributes (typeof (SurveyQuestionAttribute));
+                    var e = type.GetCustomAttributes(typeof(SurveyQuestionAttribute));
 
-                    foreach (var attribute in e) {
-                        if (attribute.GetType () == typeof (SurveyQuestionAttribute)) {
-                            CreateQuestionTypeDefinition (type, attribute);
+                    foreach (var attribute in e)
+                    {
+                        if (attribute.GetType() == typeof(SurveyQuestionAttribute))
+                        {
+                            CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute);
                         }
                     }
 

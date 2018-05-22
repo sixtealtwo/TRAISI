@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using TRAISI.SDK.Attributes;
+using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK
 {
@@ -8,18 +10,23 @@ namespace TRAISI.SDK
     /// </summary>
     public class QuestionTypeDefinition
     {
-        public string TypeName{get;set;}
+        public string TypeName { get; set; }
 
-        public DirectoryInfo Location{get;set;}
+        public DirectoryInfo Location { get; set; }
 
-        public Type Type{get;}
+        public Type Type { get; }
 
-        public QuestionTypeDefinition(Type type)
+        public QuestionTypeDefinition(Type type, SurveyQuestionAttribute attribute)
         {
+            var question = Activator.CreateInstance(type) as ISurveyQuestion;
             this.Type = type;
-            
+            TypeName = question.TypeName;
+            Icon = question.Icon;
+
         }
 
-        
+        public string Icon { get; set; }
+
+
     }
 }

@@ -10,8 +10,10 @@ namespace TRAISI.SDK.Questions
     {
         public string TypeName =>  "Radio Select";
 
+        public string Icon { get => "radio"; set {} }
+
         [QuestionParameter(QuestionParameterType.OptionList,
-        ParameterName="Response Options", 
+        ParameterName="Response Options",
         ParameterDescription="The list of available radio responses presented to the user.")]
         public ICollection ResponseOptions;
     }

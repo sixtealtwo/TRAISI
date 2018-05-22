@@ -13,9 +13,11 @@ import { SurveyBuilderService } from './services/survey-builder.service';
 	declarations: [
 		SurveyBuilderComponent,
 		NestedDragAndDropListComponent,
-		QuestionTypeChooserComponent,
+		QuestionTypeChooserComponent
+	],
+	providers: [
 		SurveyBuilderEndpointService,
-		SurveyBuilderService
+		SurveyBuilderService,
 	]
 })
 export class SurveyBuilderModule {}
