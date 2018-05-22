@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-
-namespace TRAISI.SDK.Interfaces
-{
-    public interface ISurveyQuestion
-    {
+using TRAISI.SDK.Enums;
+namespace TRAISI.SDK.Interfaces {
+    public interface ISurveyQuestion {
         string TypeName { get; }
 
-        string Icon {get; set;}
+        string Icon { get;  }
 
-        QuestionIconType IconType {get;set;}
+        QuestionIconType IconType { get;  }
     }
 }

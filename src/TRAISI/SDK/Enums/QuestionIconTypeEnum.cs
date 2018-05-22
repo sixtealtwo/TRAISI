@@ -1,6 +1,6 @@
-
-public enum QuestionIconType
-{
-    URL,
-    FONT
+namespace TRAISI.SDK.Enums {
+    public enum QuestionIconType {
+        URL,
+        FONT
+    }
 }
