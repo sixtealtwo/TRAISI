@@ -38,6 +38,7 @@ import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
 import {SharedModule} from './shared/shared.module';
+import { QuestionTypeChooserComponent } from './question-type-chooser/question-type-chooser.component';
 
 
 const APP_PROVIDERS = [
@@ -55,6 +56,7 @@ const APP_PROVIDERS = [
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
+		QuestionTypeChooserComponent,
 
 	],
 	imports: [

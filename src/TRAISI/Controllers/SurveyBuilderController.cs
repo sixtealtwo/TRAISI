@@ -23,7 +23,7 @@ namespace TRAISI.Controllers {
             this._questionTypeManager = questionTypeManager;
         }
 
-        [HttpGet]
+        [HttpGet("question-types")]
         [Produces(typeof(List<QuestionTypeDefinition>))]
         public IEnumerable<QuestionTypeDefinition> QuestionTypes () {
             return this._questionTypeManager.QuestionTypeDefinitions;
