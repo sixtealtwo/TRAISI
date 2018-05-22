@@ -1,8 +1,8 @@
-import { QuestionTypeIcon } from './question-type-icon';
+import { QuestionIconType } from './question-icon-type.enum';
 
 export interface QuestionTypeDefinition {
 	id: number;
 	typeName: string;
 	icon: string;
-	iconType: QuestionTypeIcon;
+	iconType: QuestionIconType;
 }

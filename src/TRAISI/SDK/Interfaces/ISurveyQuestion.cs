@@ -7,5 +7,7 @@ namespace TRAISI.SDK.Interfaces
         string TypeName { get; }
 
         string Icon {get; set;}
+
+        QuestionIconType IconType {get;set;}
     }
 }
