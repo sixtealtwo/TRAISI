@@ -3,16 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Surveys;
 
 namespace DAL.Models.Questions {
-	public interface IQuestionPart { 
+	public interface IQuestionPart {
 
-	 	int Id { get; set; }
+		int Id { get; set; }
 
 		[NotMapped]
-		string Text{get;set;}
+		string Text { get; set; }
 
-		ICollection<Label> TextLabels{get;set;}
+		ICollection<Label> TextLabels { get; set; }
 
-		ICollection<QuestionPart> QuestionPartChildren {get;set;}
-	
+		ICollection<QuestionPart> QuestionPartChildren { get; set; }
+
+		ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
+
 	}
 }
