@@ -4,18 +4,15 @@ using System.Threading.Tasks;
 using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Repositories {
-	class SurveyViewRepository : Repository<SurveyView>, ISurveyViewRepository
-	{
-		private DbContext _context;
+	class SurveyViewRepository : Repository<SurveyView>, ISurveyViewRepository {
 
-		public SurveyViewRepository(DbContext context) : base(context)
-		{
-			this._context = _context;
+		public SurveyViewRepository (DbContext context) : base (context) {
 
 		}
-		
+
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
 
 		/// <summary>
@@ -23,10 +20,22 @@ namespace DAL.Repositories {
 		/// </summary>
 		/// <param name="surveyId">The survey id</param>
 		/// <returns>(async) A list of all relevent SurveyView objects</returns>
-		public Task<List<SurveyView>> GetSurveyViews(int surveyId)
+		public Task<List<SurveyView>> GetSurveyViews (int surveyId) {
+			return  _context.Set<SurveyView> ().Include (sv => sv.Survey)
+				.Where (sv => sv.Survey.Id == surveyId).ToListAsync ();
+		}
+
+		/// <summary>
+		/// Creates a new Survey View associated with the passed survey.
+		/// </summary>
+		/// <param name="survey"></param>
+		/// <returns></returns>
+		public Task<EntityEntry<SurveyView>> CreateSurveyView(Survey survey)
 		{
-			return _context.Set<SurveyView>().Include(sv=>sv.Survey)
-				.Where(sv => sv.Survey.Id == surveyId).ToListAsync();
+			SurveyView view = new SurveyView(){
+				Survey=survey
+			};
+			return  _context.AddAsync<SurveyView>(view);
 		}
 	}
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using TRAISI.SDK.Attributes;
+using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK {
 
-    public static class QuestionTypeManager {
-        private static ICollection<QuestionTypeDefinition> _questionTypeDefinitions;
+    public class QuestionTypeManager : IQuestionTypeManager {
+        private ICollection<QuestionTypeDefinition> _questionTypeDefinitions;
 
-        static QuestionTypeManager () {
+        public QuestionTypeManager () {
             _questionTypeDefinitions = new LinkedList<QuestionTypeDefinition> ();
             LoadQuestionTypeDefinitions ();
 
@@ -21,16 +22,16 @@ namespace TRAISI.SDK {
         /// </summary>
         /// <param name="type"></param>
         /// <param name="attribute"></param>
-        private static void CreateQuestionTypeDefinition (Type questionType, Attribute attribute) {
+        private void CreateQuestionTypeDefinition (Type questionType, Attribute attribute) {
             QuestionTypeDefinitions.Add (new QuestionTypeDefinition (questionType));
         }
 
-        public static ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+        public ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public static void LoadQuestionTypeDefinitions (string loadFrom = ".") {
+        public void LoadQuestionTypeDefinitions (string loadFrom = ".") {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies ();
 
             foreach (var assembly in assemblies) {
