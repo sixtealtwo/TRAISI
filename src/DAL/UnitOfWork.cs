@@ -17,12 +17,11 @@ namespace DAL
     {
         readonly ApplicationDbContext _context;
 
-        ICustomerRepository _customers;
+
         ISurveyRepository _surveys;
-        IProductRepository _products;
-        IOrdersRepository _orders;
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
+        ISurveyViewRepository _surveyViews;
 
         IQuestionPartRepository _questionParts;
 
@@ -31,18 +30,19 @@ namespace DAL
             _context = context;
         }
 
-
-
-        public ICustomerRepository Customers
+        public ISurveyViewRepository SurveyViews
         {
             get
             {
-                if (_customers == null)
-                    _customers = new CustomerRepository(_context);
+                if (_surveyViews == null)
+                {
+                    _surveyViews = new SurveyViewRepository(_context);
+                }
 
-                return _customers;
+                return _surveyViews;
             }
         }
+
 
         public ISurveyRepository Surveys
         {
@@ -55,31 +55,6 @@ namespace DAL
             }
         }
 
-
-
-        public IProductRepository Products
-        {
-            get
-            {
-                if (_products == null)
-                    _products = new ProductRepository(_context);
-
-                return _products;
-            }
-        }
-
-
-
-        public IOrdersRepository Orders
-        {
-            get
-            {
-                if (_orders == null)
-                    _orders = new OrdersRepository(_context);
-
-                return _orders;
-            }
-        }
 
         public IGroupMemberRepository GroupMembers
         {

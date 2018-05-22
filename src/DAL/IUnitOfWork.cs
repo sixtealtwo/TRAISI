@@ -14,12 +14,11 @@ namespace DAL
 {
     public interface IUnitOfWork
     {
-        ICustomerRepository Customers { get; }
+
         ISurveyRepository Surveys { get; }
-        IProductRepository Products { get; }
-        IOrdersRepository Orders { get; }
         IUserGroupRepository UserGroups { get; }
         IGroupMemberRepository GroupMembers { get; }
+        ISurveyViewRepository SurveyViews { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

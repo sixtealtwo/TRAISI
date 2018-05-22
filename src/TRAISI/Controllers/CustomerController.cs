@@ -33,18 +33,6 @@ namespace TRAISI.Controllers
             _emailer = emailer;
         }
 
-
-
-        // GET: api/values
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var allCustomers = _unitOfWork.Customers.GetAllCustomersData();
-            return Ok(Mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
-        }
-
-
-
         [HttpGet("throw")]
         public IEnumerable<CustomerViewModel> Throw()
         {
