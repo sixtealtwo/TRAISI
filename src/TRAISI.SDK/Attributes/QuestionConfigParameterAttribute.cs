@@ -1,4 +1,5 @@
 using System;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK.Attributes
 {

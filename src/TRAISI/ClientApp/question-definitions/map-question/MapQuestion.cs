@@ -12,5 +12,6 @@ namespace TRAISI.ClientApp.question_definitions.map_question {
 			get => "Map";
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
+
 	}
 }

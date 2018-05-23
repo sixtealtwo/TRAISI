@@ -2,16 +2,17 @@
 using System.Linq;
 using System.Reflection;
 using TRAISI.SDK;
+using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Helpers
 {
     public class QuestionLoader
     {
-        public static ICollection<IQuestion> Questions { get; private set; }
+        public static ICollection<ISurveyQuestion> Questions { get; private set; }
         
         public QuestionLoader()
         {
-            Questions = new List<IQuestion>();
+            Questions = new List<ISurveyQuestion>();
         }
 
 
@@ -25,7 +26,7 @@ namespace TRAISI.Helpers
                 .GetReferencedAssemblies()
                 .Select(Assembly.Load)
                 .SelectMany(x => x.DefinedTypes)
-                .Where(type => typeof(IQuestion).GetTypeInfo().IsAssignableFrom(type.AsType()));  
+                .Where(type => typeof(ISurveyQuestion).GetTypeInfo().IsAssignableFrom(type.AsType()));  
         }
     }
 }
