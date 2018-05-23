@@ -12,7 +12,7 @@
     <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
-    <Version>2.5.3</Version> 
+    <Version>2.5.3</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc2-final" />
@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
@@ -43,7 +44,7 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
-      <Folder Include="ClientApp\questions" />
+    <Folder Include="ClientApp\questions" />
     <Folder Include="Logs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
