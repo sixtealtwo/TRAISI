@@ -18,6 +18,6 @@ namespace DAL.Models.Surveys
         /// Raw data of this configuration
         /// </summary>
         /// <returns></returns>
-        byte [] Value { get; set;}
+       string Value { get; set;}
     }
 }

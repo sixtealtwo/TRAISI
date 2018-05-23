@@ -26,6 +26,8 @@ namespace DAL {
 
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
+        public DbSet<QuestionConfiguration> QuestionConfigurations{get;set;}
+
         public ApplicationDbContext (DbContextOptions options) : base (options) { }
 
         protected override void OnModelCreating (ModelBuilder builder) {
@@ -39,13 +41,13 @@ namespace DAL {
 
             builder.Entity<Survey> ().Property (s => s.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<Survey> ().HasIndex (s => s.Name);
-            builder.Entity<Survey> ().ToTable ($"App{nameof(this.Surveys)}");
+            builder.Entity<Survey> ().ToTable ($"{nameof(this.Surveys)}");
 
             builder.Entity<UserGroup> ().Property (g => g.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<UserGroup> ().HasIndex (g => g.Name);
-            builder.Entity<UserGroup> ().ToTable ($"App{nameof(this.UserGroups)}");
+            builder.Entity<UserGroup> ().ToTable ($"{nameof(this.UserGroups)}");
 
-            builder.Entity<GroupMember> ().ToTable ($"App{nameof(this.GroupMembers)}");
+            builder.Entity<GroupMember> ().ToTable ($"{nameof(this.GroupMembers)}");
 
         }
 

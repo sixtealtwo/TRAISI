@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
+using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -33,6 +34,13 @@ namespace DAL {
 
         public async Task SeedAsync () {
             await _context.Database.MigrateAsync ().ConfigureAwait (false);
+
+            if (!await _context.QuestionConfigurations.AnyAsync ()) {
+                QuestionConfiguration qc = new QuestionConfiguration ();
+                qc.Key = "test_ley";
+                qc.Value = "{\"some\": \"value\"}";
+                await _context.QuestionConfigurations.AddAsync (qc);
+            }
 
             if (!await _context.Users.AnyAsync ()) {
                 _logger.LogInformation ("Generating inbuilt accounts");
