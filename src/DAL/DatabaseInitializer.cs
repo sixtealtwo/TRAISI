@@ -37,7 +37,6 @@ namespace DAL {
 
             if (!await _context.QuestionConfigurations.AnyAsync ()) {
                 QuestionConfiguration qc = new QuestionConfiguration ();
-                qc.Key = "test_ley";
                 qc.Value = "{\"some\": \"value\"}";
                 await _context.QuestionConfigurations.AddAsync (qc);
             }

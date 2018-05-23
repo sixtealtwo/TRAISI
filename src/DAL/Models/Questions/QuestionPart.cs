@@ -18,6 +18,6 @@ namespace DAL.Models.Questions {
 		public ICollection<Label> TextLabels { get; set; }
 		public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-		public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
+		public QuestionConfiguration QuestionConfiguration { get; set; }
 	}
 }

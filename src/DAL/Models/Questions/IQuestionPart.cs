@@ -14,7 +14,7 @@ namespace DAL.Models.Questions {
 
 		ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-		ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
+		QuestionConfiguration QuestionConfiguration { get; set; }
 
 	}
 }
