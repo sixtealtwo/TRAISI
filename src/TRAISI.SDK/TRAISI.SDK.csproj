@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>
+  <PropertyGroup Condition="'$(Configuration)' != 'cli'">
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <OutputType>Library</OutputType>
+  <PropertyGroup Condition="'$(Configuration)' == 'cli'">
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+  <PropertyGroup Condition="'$(Configuration)' == 'cli'">
+    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
     <PackageType>DotnetCliTool</PackageType>
     <OutputType>Exe</OutputType>
     <Version>1.0.0</Version>
@@ -15,7 +16,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Dotnet CLI extension for use with TRAISI. Packages external extensions.</Description>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'cli'">
+    <Compile Include="CLITool/**"/>
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
   </ItemGroup>
 </Project>
