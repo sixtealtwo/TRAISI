@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: path.join(process.cwd(), './src/traisi-questions.module.ts'),
@@ -41,4 +42,7 @@ module.exports = {
             callback();
         }
     ],
+    plugins: [
+        new UglifyJsPlugin()
+      ]
 };
