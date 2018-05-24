@@ -1,4 +1,5 @@
 using System;
+using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Attributes
@@ -19,7 +20,7 @@ namespace TRAISI.SDK.Attributes
         /// Limits the Slot Question Type when this is set
         /// </summary>
         /// <returns></returns>
-        public Type SlotQuestionType {get;set;}
+        public QuestionResponseType SlotQuestionType {get;set;}
 
 
         public QuestionPartSlotAttribute()

@@ -1,4 +1,5 @@
 using System;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK.Attributes
 {
@@ -10,6 +11,17 @@ namespace TRAISI.SDK.Attributes
         /// </summary>
         /// <returns></returns>
        public bool CustomBuilderView{get;set;} = false;
+
+        /// <summary>
+        /// Gets the ResponseType format of this the attached question definition
+        /// </summary>
+        /// <returns></returns>
+       public QuestionResponseType QuestionResponseType {get;}
+
+       public SurveyQuestionAttribute(QuestionResponseType responseType)
+       {
+           this.QuestionResponseType = responseType;
+       }
 
     }
 }

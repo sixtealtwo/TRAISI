@@ -4,7 +4,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions {
 
-	[SurveyQuestion]
+	[SurveyQuestion(QuestionResponseType.String)]
 	public class TextQuestion : ISurveyQuestion {
 		public string TypeName {
 			get => "Text";

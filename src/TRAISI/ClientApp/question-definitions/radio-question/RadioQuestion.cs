@@ -4,7 +4,7 @@ using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions {
-	[SurveyQuestion]
+	[SurveyQuestion(QuestionResponseType.Integer)]
 	public class RadioQuestion : ISurveyQuestion {
 		public string TypeName => "Radio Select";
 

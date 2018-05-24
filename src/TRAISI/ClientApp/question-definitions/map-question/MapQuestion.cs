@@ -4,7 +4,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.ClientApp.question_definitions.map_question {
 
-	[SurveyQuestion]
+	[SurveyQuestion(QuestionResponseType.Location)]
 	public class MapQuestion : ISurveyQuestion {
 		public string TypeName => "Map";
 
