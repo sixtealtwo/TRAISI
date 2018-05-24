@@ -5,7 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import {
+	TranslateModule,
+	TranslateLoader,
+	TranslatePipe
+} from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -16,7 +20,10 @@ import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppTitleService } from './services/app-title.service';
-import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
+import {
+	AppTranslationService,
+	TranslateLanguageLoader
+} from './services/app-translation.service';
 import { ConfigurationService } from './services/configuration.service';
 import { AlertService } from './services/alert.service';
 import { LocalStoreManager } from './services/local-store-manager.service';
@@ -37,12 +44,9 @@ import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
-import {SharedModule} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 
-
-const APP_PROVIDERS = [
-	AppConfig
-];
+const APP_PROVIDERS = [AppConfig];
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -55,7 +59,6 @@ const APP_PROVIDERS = [
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective
-
 	],
 	imports: [
 		BrowserModule,
@@ -65,10 +68,10 @@ const APP_PROVIDERS = [
 		HttpClientModule,
 		SharedModule,
 		TranslateModule.forRoot({
-		loader: {
-			provide: TranslateLoader,
-			useClass: TranslateLanguageLoader
-		}
+			loader: {
+				provide: TranslateLoader,
+				useClass: TranslateLanguageLoader
+			}
 		}),
 		NgxDatatableModule,
 		ToastyModule.forRoot(),
@@ -77,7 +80,7 @@ const APP_PROVIDERS = [
 		CarouselModule.forRoot(),
 		ModalModule.forRoot(),
 		ChartsModule
-		],
+	],
 	providers: [
 		APP_PROVIDERS,
 		AlertService,
