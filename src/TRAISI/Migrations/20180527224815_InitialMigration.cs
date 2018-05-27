@@ -5,100 +5,10 @@ using System.Collections.Generic;
 
 namespace TRAISI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AppCustomers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(maxLength: 50, nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(maxLength: 100, nullable: true),
-                    Gender = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppCustomers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppProductCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Icon = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppProductCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppSurveys",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    DefaultLanguage = table.Column<string>(nullable: true),
-                    EndAt = table.Column<DateTime>(nullable: false),
-                    Group = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsOpen = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Owner = table.Column<string>(nullable: true),
-                    RejectionLink = table.Column<string>(nullable: true),
-                    StartAt = table.Column<DateTime>(nullable: false),
-                    StyleTemplate = table.Column<string>(nullable: true),
-                    SuccessLink = table.Column<string>(nullable: true),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppSurveys", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUserGroups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUserGroups", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -191,85 +101,61 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppProducts",
+                name: "QuestionConfigurations",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BuyingPrice = table.Column<decimal>(nullable: false),
+                    Value = table.Column<string>(type: "jsonb", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionConfigurations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Surveys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Icon = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
+                    DefaultLanguage = table.Column<string>(nullable: true),
+                    EndAt = table.Column<DateTime>(nullable: false),
+                    Group = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    IsDiscontinued = table.Column<bool>(nullable: false),
+                    IsOpen = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
-                    ProductCategoryId = table.Column<int>(nullable: false),
-                    SellingPrice = table.Column<decimal>(nullable: false),
-                    UnitsInStock = table.Column<int>(nullable: false),
+                    Owner = table.Column<string>(nullable: true),
+                    RejectionLink = table.Column<string>(nullable: true),
+                    StartAt = table.Column<DateTime>(nullable: false),
+                    StyleTemplate = table.Column<string>(nullable: true),
+                    SuccessLink = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
                     UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppProducts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppProducts_AppProducts_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "AppProducts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppProducts_AppProductCategories_ProductCategoryId",
-                        column: x => x.ProductCategoryId,
-                        principalTable: "AppProductCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Surveys", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Label",
+                name: "UserGroups",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    SurveyId = table.Column<int>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Label", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Label_AppSurveys_SurveyId",
-                        column: x => x.SurveyId,
-                        principalTable: "AppSurveys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SurveyView",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    SurveyId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SurveyView", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SurveyView_AppSurveys_SurveyId",
-                        column: x => x.SurveyId,
-                        principalTable: "AppSurveys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_UserGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,70 +175,6 @@ namespace TRAISI.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppGroupMembers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    DateJoined = table.Column<DateTime>(nullable: false),
-                    Group = table.Column<string>(nullable: true),
-                    GroupAdmin = table.Column<bool>(nullable: false),
-                    UserGroupId = table.Column<int>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
-                    UserName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppGroupMembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppGroupMembers_AppUserGroups_UserGroupId",
-                        column: x => x.UserGroupId,
-                        principalTable: "AppUserGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppGroupMembers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppOrders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CashierId = table.Column<string>(nullable: true),
-                    Comments = table.Column<string>(maxLength: 500, nullable: true),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppOrders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppOrders_AspNetUsers_CashierId",
-                        column: x => x.CashierId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppOrders_AppCustomers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "AppCustomers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -467,62 +289,52 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuestionParts",
+                name: "SurveyView",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    QuestionPartId = table.Column<int>(nullable: true),
-                    SurveyViewId = table.Column<int>(nullable: true)
+                    SurveyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuestionParts", x => x.Id);
+                    table.PrimaryKey("PK_SurveyView", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuestionParts_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuestionParts_SurveyView_SurveyViewId",
-                        column: x => x.SurveyViewId,
-                        principalTable: "SurveyView",
+                        name: "FK_SurveyView_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppOrderDetails",
+                name: "GroupMembers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
-                    OrderId = table.Column<int>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    UnitPrice = table.Column<decimal>(nullable: false),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                    DateJoined = table.Column<DateTime>(nullable: false),
+                    Group = table.Column<string>(nullable: true),
+                    GroupAdmin = table.Column<bool>(nullable: false),
+                    UserGroupId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppOrderDetails", x => x.Id);
+                    table.PrimaryKey("PK_GroupMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppOrderDetails_AppOrders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "AppOrders",
+                        name: "FK_GroupMembers_UserGroups_UserGroupId",
+                        column: x => x.UserGroupId,
+                        principalTable: "UserGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AppOrderDetails_AppProducts_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "AppProducts",
+                        name: "FK_GroupMembers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -559,65 +371,70 @@ namespace TRAISI.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AppCustomers_Name",
-                table: "AppCustomers",
-                column: "Name");
+            migrationBuilder.CreateTable(
+                name: "QuestionParts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    QuestionConfigurationId = table.Column<int>(nullable: true),
+                    QuestionPartId = table.Column<int>(nullable: true),
+                    SurveyViewId = table.Column<int>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionParts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_QuestionConfigurations_QuestionConfigurationId",
+                        column: x => x.QuestionConfigurationId,
+                        principalTable: "QuestionConfigurations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_SurveyView_SurveyViewId",
+                        column: x => x.SurveyViewId,
+                        principalTable: "SurveyView",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AppGroupMembers_UserGroupId",
-                table: "AppGroupMembers",
-                column: "UserGroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppGroupMembers_UserId",
-                table: "AppGroupMembers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrderDetails_OrderId",
-                table: "AppOrderDetails",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrderDetails_ProductId",
-                table: "AppOrderDetails",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrders_CashierId",
-                table: "AppOrders",
-                column: "CashierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrders_CustomerId",
-                table: "AppOrders",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppProducts_Name",
-                table: "AppProducts",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppProducts_ParentId",
-                table: "AppProducts",
-                column: "ParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppProducts_ProductCategoryId",
-                table: "AppProducts",
-                column: "ProductCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppSurveys_Name",
-                table: "AppSurveys",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUserGroups_Name",
-                table: "AppUserGroups",
-                column: "Name");
+            migrationBuilder.CreateTable(
+                name: "Label",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    QuestionPartId = table.Column<int>(nullable: true),
+                    SurveyId = table.Column<int>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Label", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Label_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Label_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -655,6 +472,21 @@ namespace TRAISI.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupMembers_UserGroupId",
+                table: "GroupMembers",
+                column: "UserGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupMembers_UserId",
+                table: "GroupMembers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Label_QuestionPartId",
+                table: "Label",
+                column: "QuestionPartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Label_SurveyId",
@@ -695,6 +527,11 @@ namespace TRAISI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuestionParts_QuestionConfigurationId",
+                table: "QuestionParts",
+                column: "QuestionConfigurationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionParts_QuestionPartId",
                 table: "QuestionParts",
                 column: "QuestionPartId");
@@ -705,19 +542,23 @@ namespace TRAISI.Migrations
                 column: "SurveyViewId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Surveys_Name",
+                table: "Surveys",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SurveyView_SurveyId",
                 table: "SurveyView",
                 column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGroups_Name",
+                table: "UserGroups",
+                column: "Name");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppGroupMembers");
-
-            migrationBuilder.DropTable(
-                name: "AppOrderDetails");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -734,6 +575,9 @@ namespace TRAISI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GroupMembers");
+
+            migrationBuilder.DropTable(
                 name: "Label");
 
             migrationBuilder.DropTable(
@@ -743,40 +587,31 @@ namespace TRAISI.Migrations
                 name: "OpenIddictTokens");
 
             migrationBuilder.DropTable(
-                name: "QuestionParts");
-
-            migrationBuilder.DropTable(
-                name: "AppUserGroups");
-
-            migrationBuilder.DropTable(
-                name: "AppOrders");
-
-            migrationBuilder.DropTable(
-                name: "AppProducts");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "OpenIddictAuthorizations");
-
-            migrationBuilder.DropTable(
-                name: "SurveyView");
+                name: "UserGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AppCustomers");
+                name: "QuestionParts");
 
             migrationBuilder.DropTable(
-                name: "AppProductCategories");
+                name: "OpenIddictAuthorizations");
+
+            migrationBuilder.DropTable(
+                name: "QuestionConfigurations");
+
+            migrationBuilder.DropTable(
+                name: "SurveyView");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
 
             migrationBuilder.DropTable(
-                name: "AppSurveys");
+                name: "Surveys");
         }
     }
 }

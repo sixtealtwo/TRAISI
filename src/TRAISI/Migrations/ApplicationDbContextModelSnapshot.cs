@@ -144,13 +144,15 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AppGroupMembers");
+                    b.ToTable("GroupMembers");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("QuestionConfigurationId");
 
                     b.Property<int?>("QuestionPartId");
 
@@ -159,6 +161,8 @@ namespace TRAISI.Migrations
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuestionConfigurationId");
 
                     b.HasIndex("QuestionPartId");
 
@@ -200,16 +204,10 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Key");
-
-                    b.Property<int?>("QuestionPartId");
-
                     b.Property<string>("Value")
                         .HasColumnType("jsonb");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuestionPartId");
 
                     b.ToTable("QuestionConfigurations");
                 });
@@ -259,7 +257,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AppSurveys");
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyView", b =>
@@ -299,7 +297,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AppUserGroups");
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -534,6 +532,10 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPart", b =>
                 {
+                    b.HasOne("DAL.Models.Surveys.QuestionConfiguration", "QuestionConfiguration")
+                        .WithMany()
+                        .HasForeignKey("QuestionConfigurationId");
+
                     b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionPartChildren")
                         .HasForeignKey("QuestionPartId");
@@ -552,13 +554,6 @@ namespace TRAISI.Migrations
                     b.HasOne("DAL.Models.Surveys.Survey")
                         .WithMany("TitleLabel")
                         .HasForeignKey("SurveyId");
-                });
-
-            modelBuilder.Entity("DAL.Models.Surveys.QuestionConfiguration", b =>
-                {
-                    b.HasOne("DAL.Models.Questions.QuestionPart")
-                        .WithMany("QuestionConfigurations")
-                        .HasForeignKey("QuestionPartId");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyView", b =>
