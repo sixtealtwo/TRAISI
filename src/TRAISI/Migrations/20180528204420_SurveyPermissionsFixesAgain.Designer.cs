@@ -11,9 +11,10 @@ using System;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180528204420_SurveyPermissionsFixesAgain")]
+    partial class SurveyPermissionsFixesAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,8 +265,6 @@ namespace TRAISI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("PermissionCode");
 
                     b.Property<int?>("SurveyId");
 

@@ -22,7 +22,6 @@ namespace DAL.Models.Surveys {
         public string StyleTemplate { get; set; }
         public ICollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
-
         public string Name { get; set; }
 
         public ICollection<Label> TitleLabel { get; set; }

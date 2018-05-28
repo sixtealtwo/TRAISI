@@ -59,6 +59,9 @@ namespace DAL.Core
             AllPermissions = allPermissions.AsReadOnly();
         }
 
+
+
+
         public static ApplicationPermission GetPermissionByName(string permissionName)
         {
             return AllPermissions.Where(p => p.Name == permissionName).FirstOrDefault();
@@ -85,7 +88,64 @@ namespace DAL.Core
         }
     }
 
+    public static class SurveyPermissions
+    {
+        public static ReadOnlyCollection<ApplicationPermission> AllSurveyPermissions;
 
+        public const string SurveySpecificPermissionGroupName = "Survey Specific Permissions";
+        public static ApplicationPermission ViewSurvey = new ApplicationPermission("View Survey","survey.view", SurveySpecificPermissionGroupName, "Permission to view specified survey");
+        public static ApplicationPermission ModifySurvey = new ApplicationPermission("Modify Survey","survey.modify", SurveySpecificPermissionGroupName, "Permission to modify specified survey");
+        public static ApplicationPermission DeleteSurvey = new ApplicationPermission("Delete Survey","survey.delete", SurveySpecificPermissionGroupName, "Permission to delete specified survey");
+        public static ApplicationPermission AnalyzeSurvey = new ApplicationPermission("Analyze Survey","survey.analyze", SurveySpecificPermissionGroupName, "Permission to analyze specified survey");
+        public static ApplicationPermission Interview = new ApplicationPermission("Interview","survey.interview", SurveySpecificPermissionGroupName, "Permission to conduct CATI interviews for specified survey");
+        public static ApplicationPermission ShareSurvey = new ApplicationPermission("Share Survey","survey.share", SurveySpecificPermissionGroupName, "Permission to share specified survey (i.e. manage/view survey users of specified survey)");
+
+        static SurveyPermissions()
+        {
+            List<ApplicationPermission> allSurveyPermissions = new List<ApplicationPermission>()
+            {
+                ViewSurvey,
+                ModifySurvey,
+                DeleteSurvey,
+                AnalyzeSurvey,
+                Interview,
+                ShareSurvey
+            };
+
+            AllSurveyPermissions = allSurveyPermissions.AsReadOnly();
+        }
+
+        public static string[] ConvertPermissionCodeToList(string code)
+        {
+            List<string> permissionsList = new List<string>();
+            for (int i=0; i<AllSurveyPermissions.Count; i++)
+            {
+                if (code[i] == '1')
+                {
+                    permissionsList.Add(AllSurveyPermissions[i].Value);
+                }
+            }
+            return permissionsList.ToArray();
+        }
+
+        public static string ConvertPermissionsListToCode(string[] permissions)
+        {
+            StringBuilder codeBuilder = new StringBuilder("", AllSurveyPermissions.Count);
+            foreach (var permissionValue in AllSurveyPermissions)
+            {
+                if (permissions.Contains(permissionValue))
+                {
+                    codeBuilder.Append("1");
+                }
+                else {
+                    codeBuilder.Append("0");
+                }
+            }
+            return codeBuilder.ToString();
+        }
+
+
+    }
 
     public class ApplicationPermission
     {
@@ -119,4 +179,5 @@ namespace DAL.Core
             return permission.Value;
         }
     }
+
 }

@@ -17,11 +17,14 @@ namespace DAL.Models.Surveys
         public string PermissionCode { get; set; }
 
         [NotMapped]
-        public ICollection<string> Permissions
+        public string[] Permissions
         {
             get
             {
-                return ApplicationPermissions.GetAllPermissionValues();
+                return SurveyPermissions.ConvertPermissionCodeToList(this.PermissionCode);
+            }
+            set {
+                this.PermissionCode = SurveyPermissions.ConvertPermissionsListToCode(value);
             }
         }
     }

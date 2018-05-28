@@ -41,6 +41,8 @@ namespace DAL {
                 await _context.QuestionConfigurations.AddAsync (qc);
             }
 
+            ApplicationUser smto = null;
+
             if (!await _context.Users.AnyAsync ()) {
                 _logger.LogInformation ("Generating inbuilt accounts");
 
@@ -54,7 +56,7 @@ namespace DAL {
 
                 await CreateUserAsync ("admin", "tempP@ss123", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
                 await CreateUserAsync ("user", "tempP@ss123", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
-                await CreateUserAsync ("smto", "tempP@ss123", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
+                smto = await CreateUserAsync ("smto", "tempP@ss123", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
                 await CreateUserAsync ("tts", "tempP@ss123", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 
                 _logger.LogInformation ("Inbuilt account generation completed");
@@ -75,6 +77,34 @@ namespace DAL {
 
                 _context.UserGroups.Add (TTS);
                 _context.UserGroups.Add (SMTO);
+
+                Survey TestSurvey = new Survey() { 
+                    Name = "Test",
+                    Owner = "smto",
+                    Group = "StudentMove",
+                    StartAt = DateTime.Now,
+                    EndAt = DateTime.Now.Add(TimeSpan.FromDays(1)),
+                    IsActive = true,
+                    IsOpen = true,
+                    SuccessLink = "",
+                    RejectionLink = "",
+                    DefaultLanguage = "en",
+                };
+
+                TestSurvey.SurveyPermissions = new List<SurveyPermission>();
+
+                SurveyPermission test = new SurveyPermission()
+                {
+                    Permissions = new string[] {"survey.view","survey.interview"},
+                    User = smto
+                };
+
+                TestSurvey.SurveyPermissions.Add(test);
+                
+
+                _context.Surveys.Add(TestSurvey);
+
+
                 await _context.SaveChangesAsync ();
 
                 _logger.LogInformation ("Seeding initial data completed");
