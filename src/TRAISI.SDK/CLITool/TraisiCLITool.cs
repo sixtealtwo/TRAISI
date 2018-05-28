@@ -14,25 +14,54 @@ namespace TRAISI.SDK.CLITool
 		{
 			CommandLineApplication cli = new CommandLineApplication();
 
-			cli.Command("Init", (initCommand) =>
-			{
-				
-				initCommand.OnExecute(() =>
-				{
-					Console.WriteLine("Init called");
-					string [] resources = ReadAssemblyResources();
 
-					foreach(string resource in resources)
-					{
-						Console.WriteLine("Extracting assembly resource: " + resource);
-						ExtractAssemblyResource(resource);
-					}
-					return 0;
-				});
-			});
+			cli.Command("Init", InitFunction);
+			cli.Command("Build", BuildFunction);
 
 			cli.Execute(args);
 		}
+
+		/// <summary>
+		/// Build command of the TRAISI CLI tool.
+		/// This tool will run webpack on the front end code and
+		/// will embed as a resource in the compiled assembly
+		/// </summary>
+		/// <param name="buildCommand"></param>
+		private void BuildFunction(CommandLineApplication buildCommand)
+		{
+
+			buildCommand.OnExecute(() => {
+
+				return 0;
+
+			});
+
+		}
+
+		/// <summary>
+		/// Init command of the TRAISI CLI tool.
+		/// This command will extract and prepare current directory for
+		/// building.
+		/// </summary>
+		/// <param name="initCommand"></param>
+		private void InitFunction(CommandLineApplication initCommand)
+		{
+
+			initCommand.OnExecute(() =>
+			{
+				Console.WriteLine("Init called");
+				string[] resources = ReadAssemblyResources();
+
+				foreach (string resource in resources)
+				{
+					Console.WriteLine("Extracting assembly resource: " + resource);
+					ExtractAssemblyResource(resource);
+				}
+				return 0;
+			});
+		}
+
+
 
 
 
@@ -48,7 +77,7 @@ namespace TRAISI.SDK.CLITool
 		/// <summary>
 		/// Reads embedded resources in the assembly
 		/// </summary>
-		public string [] ReadAssemblyResources()
+		public string[] ReadAssemblyResources()
 		{
 			var assembly = typeof(TraisiCLITool).Assembly;
 
@@ -61,14 +90,14 @@ namespace TRAISI.SDK.CLITool
 		{
 			var assembly = typeof(TraisiCLITool).Assembly;
 
-			using(Stream r =assembly.GetManifestResourceStream(resource))
+			using (Stream r = assembly.GetManifestResourceStream(resource))
 			{
-				using(var file = new FileStream(resource,FileMode.Create,FileAccess.Write))
+				using (var file = new FileStream(resource, FileMode.Create, FileAccess.Write))
 				{
 					r.CopyTo(file);
 				}
 			}
-			
+
 		}
 
 
