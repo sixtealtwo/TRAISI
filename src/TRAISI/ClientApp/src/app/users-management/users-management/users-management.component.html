@@ -64,7 +64,7 @@
                 <!--<button class="btn btn-secondary mb-xs" role="button">Enable Selected</button>
     <button class="btn btn-secondary mb-xs" role="button">Disable Selected</button>-->
                 <button class="btn btn-secondary mb-xs" role="button" (click)="removeUsersFromGroup()">Remove from Group</button>
-                <button class="btn btn-secondary mb-xs" role="button" (click)="addGroupUsersToGroup()">Add to Group</button>
+                <button  class="btn btn-secondary mb-xs" role="button" (click)="addGroupUsersToGroup()">Add to Group</button>
                 <select2 [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200" [cssImport]=true></select2>
 
               </div>

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
+using TRAISI.Authorization;
 
 namespace TRAISI.Controllers
 {
@@ -26,15 +27,16 @@ namespace TRAISI.Controllers
     {
 
         private IUnitOfWork _unitOfWork;
-
+        private readonly IAuthorizationService _authorizationService;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="_entityManager"></param>
-        public UserGroupController(IUnitOfWork unitOfWork)
+        public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService)
         {
             this._unitOfWork = unitOfWork;
+            this._authorizationService = authorizationService;
 
         }
 
@@ -57,8 +59,14 @@ namespace TRAISI.Controllers
         [Produces(typeof(List<UserGroupViewModel>))]
         public async Task<IActionResult> GetGroups()
         {
-            var groups = await this._unitOfWork.UserGroups.GetAllGroupInfoAsync();
-
+            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync (this.User, Authorization.Policies.ViewAllUsersPolicy);
+            IEnumerable<UserGroup> groups;
+            if (viewAllUsersPolicy.Succeeded) {
+                groups = await this._unitOfWork.UserGroups.GetAllGroupsAsync();
+            }
+            else {
+                groups = await this._unitOfWork.UserGroups.GetAllGroupsWhereMemberAsync(this.User.Identity.Name);
+            }
             return Ok(Mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
         }
 

@@ -43,6 +43,7 @@ namespace TRAISI
                 {
                     var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
                     databaseInitializer.SeedAsync().Wait();
+                    
                 }
                 catch (Exception ex)
                 {

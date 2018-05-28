@@ -15,7 +15,8 @@ namespace DAL.Repositories.Interfaces {
 		void RemoveUser (GroupMember currentMember);
 		void UpdateUser (GroupMember member);
 
-		Task<IEnumerable<UserGroup>> GetAllGroupInfoAsync ();
+		Task<IEnumerable<UserGroup>> GetAllGroupsWhereMemberAsync (string username);
+		Task<IEnumerable<UserGroup>> GetAllGroupsAsync();
 		Task<IEnumerable<Tuple<GroupMember, string[]>> > GetGroupMembersInfoAsync (int groupID);
 	}
 }

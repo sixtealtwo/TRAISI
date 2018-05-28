@@ -73,10 +73,20 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<UserGroup>> GetAllGroupInfoAsync()
+        public async Task<IEnumerable<UserGroup>> GetAllGroupsWhereMemberAsync(string username)
+        {
+            return await _appContext.GroupMembers
+                .Where(m => m.UserName == username)
+                .Include(m => m.UserGroup)
+                .Select(m => m.UserGroup)
+                .OrderBy(g => g.Name)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<UserGroup>> GetAllGroupsAsync()
         {
             return await _appContext.UserGroups
-                .Include(c => c.Members).ThenInclude(o => o.User).ThenInclude(u=>u.Roles)
+                //.Include(c => c.Members).ThenInclude(o => o.User).ThenInclude(u=>u.Roles)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
         }
