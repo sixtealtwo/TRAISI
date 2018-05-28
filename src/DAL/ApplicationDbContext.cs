@@ -21,6 +21,7 @@ namespace DAL {
         public string CurrentUserId { get; set; }
 
         public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyPermission> SurveyPermissions { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
 
@@ -42,6 +43,8 @@ namespace DAL {
             builder.Entity<Survey> ().Property (s => s.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<Survey> ().HasIndex (s => s.Name);
             builder.Entity<Survey> ().ToTable ($"{nameof(this.Surveys)}");
+
+            builder.Entity<SurveyPermission> ().ToTable ($"{nameof(this.SurveyPermissions)}");
 
             builder.Entity<UserGroup> ().Property (g => g.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<UserGroup> ().HasIndex (g => g.Name);

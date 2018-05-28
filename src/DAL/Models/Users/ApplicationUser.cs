@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using DAL.Models.Interfaces;
+using DAL.Models.Surveys;
 
 namespace DAL.Models
 {
@@ -56,5 +57,7 @@ namespace DAL.Models
         /// Navigation property for the groups this user belongs to.
         /// </summary>
         public virtual ICollection<GroupMember> Groups { get; set; }
+
+        public virtual ICollection<SurveyPermission> SurveyPermissions { get; set; }
     }
 }

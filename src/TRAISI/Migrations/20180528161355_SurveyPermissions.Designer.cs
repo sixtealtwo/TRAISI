@@ -11,9 +11,10 @@ using System;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180528161355_SurveyPermissions")]
+    partial class SurveyPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,8 +270,6 @@ namespace TRAISI.Migrations
 
                     b.Property<int?>("SurveyId");
 
-                    b.Property<string>("TestField");
-
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
@@ -279,7 +278,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SurveyPermissions");
+                    b.ToTable("SurveyPermission");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyView", b =>
@@ -585,7 +584,7 @@ namespace TRAISI.Migrations
                         .HasForeignKey("SurveyId");
 
                     b.HasOne("DAL.Models.ApplicationUser", "User")
-                        .WithMany("SurveyPermissions")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 
