@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft;
 using Microsoft.Extensions.CommandLineUtils;
 
@@ -8,16 +9,24 @@ namespace TRAISI.SDK.CLITool
 
 	public class TraisiCLITool
 	{
-		public static void Main(string[] args)
+
+		public void InitCommandLineApplication(string[] args)
 		{
 			CommandLineApplication cli = new CommandLineApplication();
 
 			cli.Command("Init", (initCommand) =>
 			{
+				
 				initCommand.OnExecute(() =>
 				{
 					Console.WriteLine("Init called");
-					ReadAssemblyResources();
+					string [] resources = ReadAssemblyResources();
+
+					foreach(string resource in resources)
+					{
+						Console.WriteLine("Extracting assembly resource: " + resource);
+						ExtractAssemblyResource(resource);
+					}
 					return 0;
 				});
 			});
@@ -25,18 +34,47 @@ namespace TRAISI.SDK.CLITool
 			cli.Execute(args);
 		}
 
+
+
 		/// <summary>
 		/// 
 		/// </summary>
-		public static void ReadAssemblyResources()
+		/// <param name="args"></param>
+		public static void Main(string[] args)
 		{
-            var assembly = typeof(TraisiCLITool).Assembly;
+			new TraisiCLITool().InitCommandLineApplication(args);
+		}
 
-			string [] names = assembly.GetManifestResourceNames();
-			foreach(var name in names)
+		/// <summary>
+		/// Reads embedded resources in the assembly
+		/// </summary>
+		public string [] ReadAssemblyResources()
+		{
+			var assembly = typeof(TraisiCLITool).Assembly;
+
+			string[] names = assembly.GetManifestResourceNames();
+			return names;
+
+		}
+
+		public void ExtractAssemblyResource(string resource)
+		{
+			var assembly = typeof(TraisiCLITool).Assembly;
+
+			using(Stream r =assembly.GetManifestResourceStream(resource))
 			{
-				Console.WriteLine(name);
+				using(var file = new FileStream(resource,FileMode.Create,FileAccess.Write))
+				{
+					r.CopyTo(file);
+				}
 			}
+			
+		}
+
+
+
+		public TraisiCLITool()
+		{
 
 		}
 	}
