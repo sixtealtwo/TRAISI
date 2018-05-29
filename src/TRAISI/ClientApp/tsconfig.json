@@ -24,5 +24,6 @@
 				"../../Questions/*"
 			]
 		}
-	}
+	},
+	"exclude": ["node_modules"]
 }
