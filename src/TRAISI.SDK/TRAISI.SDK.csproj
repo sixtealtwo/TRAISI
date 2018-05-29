@@ -21,7 +21,13 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'cli'">
     <Compile Include="CLITool/**/*.cs"/>
-    <EmbeddedResource Include="CLITool/Resources/**" />
+    <EmbeddedResource Include="CLITool/Resources/package.json">
+      <LogicalName>traisi.package.json</LogicalName>
+    </EmbeddedResource>
+        <EmbeddedResource Include="CLITool/Resources/tsconfig.json"> <LogicalName>traisi.tsconfig.json</LogicalName>
+    </EmbeddedResource>
+            <EmbeddedResource Include="CLITool/Resources/webpack.config.js"> <LogicalName>traisi.webpack.config.js</LogicalName>
+    </EmbeddedResource>
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
   </ItemGroup>
 </Project>

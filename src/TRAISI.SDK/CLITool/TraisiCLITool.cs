@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft;
 using Microsoft.Extensions.CommandLineUtils;
+using System.Diagnostics;
 
 namespace TRAISI.SDK.CLITool
 {
@@ -17,8 +18,22 @@ namespace TRAISI.SDK.CLITool
 
 			cli.Command("Init", InitFunction);
 			cli.Command("Build", BuildFunction);
+			cli.Command("Question", AddQuestionDefinition);
 
 			cli.Execute(args);
+		}
+
+		/// <summary>
+		/// Creates an angular component representing a new question definition type.
+		/// 
+		/// </summary>
+		/// <param name="addQuestionCommand"></param>
+		private void AddQuestionDefinition(CommandLineApplication addQuestionCommand)
+		{
+
+			addQuestionCommand.OnExecute(() => {
+				return 0;
+			});
 		}
 
 		/// <summary>
@@ -30,8 +45,23 @@ namespace TRAISI.SDK.CLITool
 		private void BuildFunction(CommandLineApplication buildCommand)
 		{
 
-			buildCommand.OnExecute(() => {
+			buildCommand.OnExecute(() =>
+			{
 
+				ProcessStartInfo dotnetProcess = new ProcessStartInfo();
+				dotnetProcess.FileName = "dotnet";
+				dotnetProcess.Arguments = "build";
+				Process.Start(dotnetProcess);
+
+				var cmdProcess = new ProcessStartInfo
+				{
+					FileName = "cmd",
+					RedirectStandardInput = true,
+					WorkingDirectory = "."
+				};
+				var npmProcess = Process.Start(cmdProcess);
+				npmProcess.StandardInput.WriteLine("npm i");
+				npmProcess.StandardInput.WriteLine("npm run build");
 				return 0;
 
 			});
@@ -62,9 +92,6 @@ namespace TRAISI.SDK.CLITool
 		}
 
 
-
-
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -86,15 +113,27 @@ namespace TRAISI.SDK.CLITool
 
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="resource"></param>
 		public void ExtractAssemblyResource(string resource)
 		{
 			var assembly = typeof(TraisiCLITool).Assembly;
 
 			using (Stream r = assembly.GetManifestResourceStream(resource))
 			{
-				using (var file = new FileStream(resource, FileMode.Create, FileAccess.Write))
+				if (!File.Exists(resource))
 				{
-					r.CopyTo(file);
+
+					using (var file = new FileStream(resource, FileMode.Create, FileAccess.Write))
+					{
+						r.CopyTo(file);
+					}
+				}
+				else
+				{
+					Console.WriteLine($"Unable to extract file: {resource}, file already exists at location.");
 				}
 			}
 
