@@ -30,8 +30,10 @@ using Microsoft.AspNetCore.Rewrite;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 
-namespace TRAISI {
-    public class Startup {
+namespace TRAISI
+{
+    public class Startup
+    {
         public IConfiguration Configuration { get; }
 
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -41,7 +43,8 @@ namespace TRAISI {
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="env"></param>
-        public Startup (IConfiguration configuration, IHostingEnvironment env) {
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        {
             Configuration = configuration;
             _hostingEnvironment = env;
         }
@@ -51,29 +54,35 @@ namespace TRAISI {
         /// 
         /// </summary>
         /// <param name="services"></param>
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices(IServiceCollection services)
+        {
 
-            services.AddDbContext<ApplicationDbContext> (options => {
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 bool development = false;
-                Boolean.TryParse (Configuration.GetSection ("DevelopmentSettings").GetSection ("UseSqliteDatabaseProvider").Value, out development);
+                Boolean.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value, out development);
 
-                if (development) {
-                    options.UseSqlite ("Data Source=dev.db;");
-                } else {
-                    options.UseNpgsql (Configuration["ConnectionStrings:DefaultConnection"],
-                        b => b.MigrationsAssembly ("TRAISI"));
+                if (development)
+                {
+                    options.UseSqlite("Data Source=dev.db;");
+                }
+                else
+                {
+                    options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
+                        b => b.MigrationsAssembly("TRAISI"));
                 }
 
-                options.UseOpenIddict ();
+                options.UseOpenIddict();
             });
 
             // add identity
-            services.AddIdentity<ApplicationUser, ApplicationRole> ()
-                .AddEntityFrameworkStores<ApplicationDbContext> ()
-                .AddDefaultTokenProviders ();
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             // Configure Identity options and password complexity here
-            services.Configure<IdentityOptions> (options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 // User settings
                 options.User.RequireUniqueEmail = true;
 
@@ -94,161 +103,176 @@ namespace TRAISI {
             });
 
             // Register the OpenIddict services.
-            services.AddOpenIddict (options => {
-                options.AddEntityFrameworkCoreStores<ApplicationDbContext> ();
-                options.AddMvcBinders ();
-                options.EnableTokenEndpoint ("/connect/token");
-                options.AllowPasswordFlow ();
-                options.AllowRefreshTokenFlow ();
+            services.AddOpenIddict(options =>
+            {
+                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+                options.AddMvcBinders();
+                options.EnableTokenEndpoint("/connect/token");
+                options.AllowPasswordFlow();
+                options.AllowRefreshTokenFlow();
 
-                if (_hostingEnvironment.IsDevelopment ()) //Uncomment to only disable Https during development
-                    options.DisableHttpsRequirement ();
+                if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
+                    options.DisableHttpsRequirement();
 
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
                 //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
-            services.AddAuthentication (options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
-            }).AddOAuthValidation ();
+            }).AddOAuthValidation();
 
             // Add cors
-            services.AddCors ();
+            services.AddCors();
 
             // Add framework services.
-            services.AddMvc ().AddJsonOptions (opts => {
+            services.AddMvc().AddJsonOptions(opts =>
+            {
                 opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                 //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles (configuration => { configuration.RootPath = "ClientApp/dist"; });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
-            if (!_hostingEnvironment.IsDevelopment ())
-                services.Configure<MvcOptions> (options => options.Filters.Add (new RequireHttpsAttribute ()));
+            if (!_hostingEnvironment.IsDevelopment())
+                services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            services.AddSwaggerGen (c => {
-                c.SwaggerDoc ("v1", new Info { Title = "TRAISI API", Version = "v1" });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
 
-                c.AddSecurityDefinition ("OpenID Connect", new OAuth2Scheme {
+                c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
+                {
                     Type = "oauth2",
-                        Flow = "password",
-                        TokenUrl = "/connect/token"
+                    Flow = "password",
+                    TokenUrl = "/connect/token"
                 });
             });
 
-            services.AddAuthorization (options => {
-                options.AddPolicy (Authorization.Policies.ViewAllUsersPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ViewUsers));
-                options.AddPolicy (Authorization.Policies.ManageAllUsersPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ManageUsers));
-                options.AddPolicy (Authorization.Policies.ViewGroupUsersPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
-                options.AddPolicy (Authorization.Policies.ManageGroupUsersPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ManageGroupUsers));
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
+                options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
+                options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupUsers));
 
-                options.AddPolicy (Authorization.Policies.ViewAllRolesPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ViewRoles));
-                options.AddPolicy (Authorization.Policies.ViewRoleByRoleNamePolicy,
-                    policy => policy.Requirements.Add (new ViewRoleAuthorizationRequirement ()));
-                options.AddPolicy (Authorization.Policies.ManageAllRolesPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ManageRoles));
+                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
+                options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy,
+                    policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
+                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
-                options.AddPolicy (Authorization.Policies.AssignAllowedRolesPolicy,
-                    policy => policy.Requirements.Add (new AssignRolesAuthorizationRequirement ()));
+                options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy,
+                    policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
 
-                options.AddPolicy (Authorization.Policies.ViewAllSurveysPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
-                options.AddPolicy (Authorization.Policies.ManageAllSurveysPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
-                options.AddPolicy (Authorization.Policies.ViewGroupSurveysPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
-                options.AddPolicy (Authorization.Policies.ManageGroupSurveysPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
-                options.AddPolicy (Authorization.Policies.CreateGroupSurveysPolicy,
-                    policy => policy.RequireClaim (CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
+                options.AddPolicy(Authorization.Policies.ViewAllSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewSurveys));
+                options.AddPolicy(Authorization.Policies.ManageAllSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageSurveys));
+                options.AddPolicy(Authorization.Policies.ViewGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupSurveys));
+                options.AddPolicy(Authorization.Policies.ManageGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
+                options.AddPolicy(Authorization.Policies.CreateGroupSurveysPolicy,
+                    policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
             });
 
-            Mapper.Initialize (cfg => { cfg.AddProfile<AutoMapperProfile> (); });
+            Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
 
             // Configurations
-            services.Configure<SmtpConfig> (Configuration.GetSection ("SmtpConfig"));
+            services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
 
             // Business Services
-            services.AddScoped<IEmailer, Emailer> ();
+            services.AddScoped<IEmailer, Emailer>();
 
             // Repositories
-            services.AddScoped<IUnitOfWork, HttpUnitOfWork> ();
-            services.AddScoped<IAccountManager, AccountManager> ();
+            services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
+            services.AddScoped<IAccountManager, AccountManager>();
 
             // Auth Handlers
-            services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler> ();
-            services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler> ();
-            services.AddSingleton<IAuthorizationHandler, ViewGroupUserAuthorizationHandler> ();
-            services.AddSingleton<IAuthorizationHandler, ManageGroupUserAuthorizationHandler> ();
-            services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler> ();
-            services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler> ();
-            services.AddSingleton<IQuestionTypeManager, QuestionTypeManager> ();
+            services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ViewGroupUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ManageGroupUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
+            services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
 
             // DB Creation and Seeding
-            services.AddTransient<IDatabaseInitializer, DatabaseInitializer> ();
+            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
-            loggerFactory.AddConsole (Configuration.GetSection ("Logging"));
-            loggerFactory.AddDebug (LogLevel.Trace);
-            loggerFactory.AddFile (Configuration.GetSection ("Logging"));
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IQuestionTypeManager questionTypeManager)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug(LogLevel.Trace);
+            loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
-            Utilities.ConfigureLogger (loggerFactory);
-            EmailTemplates.Initialize (env);
+            Utilities.ConfigureLogger(loggerFactory);
+            EmailTemplates.Initialize(env);
 
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
-            } else {
+            questionTypeManager.LoadQuestionExtensions();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
                 // Enforce https during production
                 //var rewriteOptions = new RewriteOptions()
                 //    .AddRedirectToHttps();
                 //app.UseRewriter(rewriteOptions);
 
-                app.UseExceptionHandler ("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             //Configure Cors
-            app.UseCors (builder => builder
-                .AllowAnyOrigin ()
-                .AllowAnyHeader ()
-                .AllowAnyMethod ());
+            app.UseCors(builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod());
 
-            app.UseStaticFiles ();
-            app.UseSpaStaticFiles ();
-            app.UseAuthentication ();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
-            app.UseSwagger ();
-            app.UseSwaggerUI (c => { c.SwaggerEndpoint ("/swagger/v1/swagger.json", "TRAISI API V1"); });
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TRAISI API V1"); });
 
-            app.UseMvc (routes => {
-                routes.MapRoute (
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa (spa => {
+            app.UseSpa(spa =>
+            {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
-                spa.Options.StartupTimeout = TimeSpan.FromMinutes (5);
+                spa.Options.StartupTimeout = TimeSpan.FromMinutes(5);
 
-                if (env.IsDevelopment ()) {
+                if (env.IsDevelopment())
+                {
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                    spa.UseAngularCliServer (npmScript: "start");
+                    spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }

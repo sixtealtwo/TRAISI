@@ -252,3 +252,5 @@ Thumbs.db
 #local coniguration
 appsettings.local.json
 dev.db
+
+src/TRAISI/extensions/
