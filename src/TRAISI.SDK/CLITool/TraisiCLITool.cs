@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft;
 using Microsoft.Extensions.CommandLineUtils;
 using System.Diagnostics;
-
+using System.Xml.Linq;
 namespace TRAISI.SDK.CLITool
 {
 
@@ -14,6 +14,9 @@ namespace TRAISI.SDK.CLITool
 		public void InitCommandLineApplication(string[] args)
 		{
 			CommandLineApplication cli = new CommandLineApplication();
+
+			cli.Name = "TRAISI Question SDK CLI";
+			cli.HelpOption("-?|-h|--help");
 
 
 			cli.Command("Init", InitFunction);
@@ -31,7 +34,8 @@ namespace TRAISI.SDK.CLITool
 		private void AddQuestionDefinition(CommandLineApplication addQuestionCommand)
 		{
 
-			addQuestionCommand.OnExecute(() => {
+			addQuestionCommand.OnExecute(() =>
+			{
 				return 0;
 			});
 		}
@@ -77,9 +81,23 @@ namespace TRAISI.SDK.CLITool
 		private void InitFunction(CommandLineApplication initCommand)
 		{
 
+			//initCommand.Arguments
+
+			var projectArgument = initCommand.Argument("project", 
+			".csproj file to initialize.");
+
+
+
 			initCommand.OnExecute(() =>
 			{
 				Console.WriteLine("Init called");
+
+				if(!File.Exists(projectArgument.Value))
+				{
+					Console.Error.WriteLine("init requires the path to a valid .csproj file");
+					return 1;
+
+				}
 				string[] resources = ReadAssemblyResources();
 
 				foreach (string resource in resources)
@@ -137,6 +155,15 @@ namespace TRAISI.SDK.CLITool
 				}
 			}
 
+		}
+
+		/// <summary>
+		/// Uses the passed CSProj file to include necessary embedded resource tags
+		/// </summary>
+		private void UpdateCsProjFile(string file)
+		{
+			XDocument csprojDoc = XDocument.Parse(file);
+			
 		}
 
 
