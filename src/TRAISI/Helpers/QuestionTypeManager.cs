@@ -78,9 +78,9 @@ namespace TRAISI.SDK
             {
                 try
                 {
-
                     string loadFrom  = Path.Combine(Directory.GetCurrentDirectory(),file);
                     Assembly.LoadFile(loadFrom);
+                     this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
                 }
                 catch (Exception e)
                 {
@@ -89,8 +89,6 @@ namespace TRAISI.SDK
             });
 
             return;
-
-
         }
 
         public ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
