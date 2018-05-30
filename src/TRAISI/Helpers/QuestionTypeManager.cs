@@ -53,9 +53,31 @@ namespace TRAISI.SDK
         /// </summary>
         /// <param name="type"></param>
         /// <param name="attribute"></param>
-        private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute)
+        private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
         {
-            _questionTypeDefinitions.Add(new QuestionTypeDefinition(questionType, attribute));
+            var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
+            _questionTypeDefinitions.Add(typeDefinition);
+
+            typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeDefinition"></param>
+        /// <param name="sourceAssembly"></param>
+        /// <returns></returns>
+        private byte[] GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
+        {
+            string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.Contains(typeDefinition.TypeName));
+
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
+                return ms.ToArray();
+            }
         }
 
         /// <summary>
@@ -78,9 +100,9 @@ namespace TRAISI.SDK
             {
                 try
                 {
-                    string loadFrom  = Path.Combine(Directory.GetCurrentDirectory(),file);
+                    string loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
                     Assembly.LoadFile(loadFrom);
-                     this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
+                    this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
                 }
                 catch (Exception e)
                 {
@@ -112,7 +134,7 @@ namespace TRAISI.SDK
                     {
                         if (attribute.GetType() == typeof(SurveyQuestionAttribute))
                         {
-                            CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute);
+                            CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly);
                         }
                     }
 
