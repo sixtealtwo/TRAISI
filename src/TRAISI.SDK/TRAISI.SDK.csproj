@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Condition="'$(Configuration)' != 'cli'">
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
@@ -18,17 +19,31 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-    <PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" />
+    <!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" /> -->
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'cli'">
     <Compile Include="CLITool/**/*.cs" />
     <EmbeddedResource Include="CLITool/Resources/package.json">
       <LogicalName>traisi.package.json</LogicalName>
     </EmbeddedResource>
-        <EmbeddedResource Include="CLITool/Resources/tsconfig.json"> <LogicalName>traisi.tsconfig.json</LogicalName>
+    <EmbeddedResource Include="CLITool/Resources/tsconfig.json">
+      <LogicalName>traisi.tsconfig.json</LogicalName>
     </EmbeddedResource>
-            <EmbeddedResource Include="CLITool/Resources/webpack.config.js"> <LogicalName>traisi.webpack.config.js</LogicalName>
+    <EmbeddedResource Include="CLITool/Resources/webpack.config.js">
+      <LogicalName>traisi.webpack.config.js</LogicalName>
     </EmbeddedResource>
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dist/*.module.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dist/*.module.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dist/*.module.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dist/*.module.js" />
   </ItemGroup>
 </Project>

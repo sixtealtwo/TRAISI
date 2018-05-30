@@ -4,6 +4,17 @@
    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
    "version": "0.2.0",
    "configurations": [
+       {
+           "name": ".NET Core Launch (console)",
+           "type": "coreclr",
+           "request": "launch",
+           "preLaunchTask": "build-cli",
+           "program": "${workspaceRoot}/src/TRAISI.SDK/bin/cli/netcoreapp2.0/dotnet-traisi.dll",
+           "args": ["Init", "TRAISI.SDK.csproj"],
+           "cwd": "${workspaceRoot}/src/TRAISI.SDK",
+           "stopAtEntry": false,
+           "console": "internalConsole"
+       },
         {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",

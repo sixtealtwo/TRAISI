@@ -11,6 +11,19 @@
                 "/property:GenerateFullPaths=true"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-cli",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/TRAISI.SDK/TRAISI.SDK.csproj",
+                "/property:GenerateFullPaths=true",
+                "-c",
+                "cli"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }

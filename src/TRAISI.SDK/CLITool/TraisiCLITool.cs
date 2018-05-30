@@ -83,16 +83,14 @@ namespace TRAISI.SDK.CLITool
 
 			//initCommand.Arguments
 
-			var projectArgument = initCommand.Argument("project", 
+			var projectArgument = initCommand.Argument("project",
 			".csproj file to initialize.");
-
-
 
 			initCommand.OnExecute(() =>
 			{
 				Console.WriteLine("Init called");
 
-				if(!File.Exists(projectArgument.Value))
+				if (!File.Exists(projectArgument.Value))
 				{
 					Console.Error.WriteLine("init requires the path to a valid .csproj file");
 					return 1;
@@ -105,6 +103,11 @@ namespace TRAISI.SDK.CLITool
 					Console.WriteLine("Extracting assembly resource: " + resource);
 					ExtractAssemblyResource(resource);
 				}
+
+
+				Console.WriteLine("Updating .csproj file...");
+				UpdateCsProjFile(projectArgument.Value);
+
 				return 0;
 			});
 		}
@@ -162,11 +165,29 @@ namespace TRAISI.SDK.CLITool
 		/// </summary>
 		private void UpdateCsProjFile(string file)
 		{
-			XDocument csprojDoc = XDocument.Parse(file);
-			
+
+			try
+			{
+				XDocument csprojDoc = XDocument.Parse(File.ReadAllText(file));
+
+				var xmlElement = new XElement("EmbeddedResource");
+				xmlElement.Add(new XAttribute("Include", "dist/*.module.js"));
+
+				var itemGroup = new XElement("ItemGroup");
+				itemGroup.Add(xmlElement);
+
+				csprojDoc.Root.Add(itemGroup);
+
+				csprojDoc.Save(File.OpenWrite(file));
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+			}
+
+
 		}
-
-
 
 		public TraisiCLITool()
 		{
