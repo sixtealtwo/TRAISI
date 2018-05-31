@@ -1,8 +1,3 @@
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { NgModule } from '@angular/core';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 
@@ -21,7 +16,12 @@ import { ErrorComponent } from './error/error.component';
 			loadChildren: './survey-builder/survey-builder.module#SurveyBuilderModule'
 		},
 		{
-			path: 'app', canActivate: [AuthGuard],   loadChildren: './layout/layout.module#LayoutModule'
+			path: 'app/survey-viewer',
+			canActivate: [AuthGuard],
+			loadChildren: './survey-viewer/survey-viewer.module#SurveyViewerModule'
+		},
+		{
+			path: 'app', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'
 		},
 		{
 			path: 'login', loadChildren: './login/login.module#LoginModule'
@@ -30,13 +30,13 @@ import { ErrorComponent } from './error/error.component';
 			path: 'error', component: ErrorComponent
 		},
 		{
-			path: '**',  component: ErrorComponent
+			path: '**', component: ErrorComponent
 		}
 		], {
-			useHash: false,
-			preloadingStrategy: PreloadAllModules,
-		onSameUrlNavigation: 'reload'
-		})
+				useHash: false,
+				preloadingStrategy: PreloadAllModules,
+				onSameUrlNavigation: 'reload'
+			})
 	],
 	exports: [
 		RouterModule

@@ -27,17 +27,15 @@ namespace TRAISI.Controllers
             return new OkResult();
         }
 
-
         /// <summary>
         /// Returns the bundled module.js client code for the requested
         /// question definition.
         /// </summary>
         /// <param name="questionType"></param>
         /// <returns></returns>
-        [HttpGet("client-code")]
+        [HttpGet("client-code/{questionType}")]
         public FileContentResult ClientCode(string questionType)
         {
-
             var response = File(this._questionTypeManager.QuestionTypeDefinitions
             .Where(q => string.Equals(q.TypeName,questionType))
             .Single().ClientModules[0],"application/javascript");

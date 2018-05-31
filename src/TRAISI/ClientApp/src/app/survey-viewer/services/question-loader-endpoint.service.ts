@@ -17,6 +17,7 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl + '/client-code';
 	}
 
+
 	/**
 	 * Returns all available question type definitions
 	 * @returns {Observable<T>}
@@ -34,12 +35,21 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 	}
 
 	/**
+	 * Returns the client code endpoint URL
+	 * @param questionType
+	 */
+	public getClientCodeEndpointUrl(questionType: string): string
+	{
+		return `${this.getClientCodeUrl}/${questionType}`;
+	}
+
+	/**
 	 * Creates the endpoint that retrieves the compiled (javascript) client code
 	 * for the passed question type.
 	 * @param questionType
 	 */
 	getClientCodeEndpoint<T>(questionType: string): Observable<T> {
-		let endpointUrl = `${this.getClientCodeUrl}/${questionType}`;
+		let endpointUrl = this.getClientCodeEndpointUrl(questionType);
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
