@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace TRAISI.Controllers
 {
+    [Route("api/[controller]")]
     public class QuestionController : Controller
     {
 
@@ -33,8 +34,8 @@ namespace TRAISI.Controllers
         /// </summary>
         /// <param name="questionType"></param>
         /// <returns></returns>
-        [HttpGet("question-type-client-code")]
-        public FileContentResult QuestionTypeClientCode(string questionType)
+        [HttpGet("client-code")]
+        public FileContentResult ClientCode(string questionType)
         {
 
             var response = File(this._questionTypeManager.QuestionTypeDefinitions
