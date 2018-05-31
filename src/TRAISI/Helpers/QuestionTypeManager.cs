@@ -9,13 +9,13 @@ using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
-
-namespace TRAISI.SDK
+using TRAISI.SDK;
+namespace TRAISI.Helpers
 {
 
     public class QuestionTypeManager : IQuestionTypeManager
     {
-        private ICollection<QuestionTypeDefinition> _questionTypeDefinitions;
+        private IList<QuestionTypeDefinition> _questionTypeDefinitions;
 
         private IConfiguration _configuration;
 
@@ -34,7 +34,7 @@ namespace TRAISI.SDK
             this._loggerFactory = loggerFactory;
 
             this._logger = loggerFactory.CreateLogger<QuestionTypeManager>();
-            _questionTypeDefinitions = new LinkedList<QuestionTypeDefinition>();
+            _questionTypeDefinitions = new List<QuestionTypeDefinition>();
 
 
         }
@@ -60,6 +60,7 @@ namespace TRAISI.SDK
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
+
         }
 
         /// <summary>
@@ -70,8 +71,8 @@ namespace TRAISI.SDK
         /// <returns></returns>
         private byte[] GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
         {
-            string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.Contains(typeDefinition.TypeName));
-
+            string [] resourceNames = sourceAssembly.GetManifestResourceNames();
+            string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.EndsWith(".module.js"));
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -113,7 +114,7 @@ namespace TRAISI.SDK
             return;
         }
 
-        public ICollection<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
+        public IList<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
 
         /// <summary>
         /// 
