@@ -7,7 +7,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="dist/**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <OutputFile Include="$(OutDir)/TRAISI.Questions.dll"/>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
+    <Message Text="TRAISI.Questions.dll -> Copied to TRAISI extensions folder" Importance="High" />
+
+  </Target>
+
 </Project>
