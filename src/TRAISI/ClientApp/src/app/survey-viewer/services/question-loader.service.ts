@@ -1,4 +1,4 @@
-import { Injectable, Compiler, SkipSelf, Injector, SystemJsNgModuleLoader, ComponentFactory } from '@angular/core';
+import { Injectable, Compiler, SkipSelf, Injector, ComponentFactory } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
 import 'rxjs/add/observable/of';
@@ -46,7 +46,7 @@ export class QuestionLoaderService {
 	 */
 	constructor(private _questionLoaderEndpointService: QuestionLoaderEndpointService,
 		private compiler: Compiler, @SkipSelf() private injector: Injector,
-		private moduleLoader: SystemJsNgModuleLoader) {
+		) {
 
 
 	}
