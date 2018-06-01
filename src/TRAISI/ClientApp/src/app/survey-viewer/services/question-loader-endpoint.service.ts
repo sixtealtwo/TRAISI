@@ -7,14 +7,14 @@ import { Observable } from 'rxjs/index';
 
 @Injectable()
 export class QuestionLoaderEndpointService extends EndpointFactory {
-	private readonly _surveyViewQuestionsUrl: string = '/api/QuestionController';
+	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
 
 	get questionTypesUrl() {
-		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl + '/question-types';
+		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/question-types';
 	}
 
 	get getClientCodeUrl() {
-		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl + '/client-code';
+		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/client-code';
 	}
 
 

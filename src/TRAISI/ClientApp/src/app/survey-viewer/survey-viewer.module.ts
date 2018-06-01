@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SystemJsNgModuleLoader } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionLoaderService } from './services/question-loader.service';
 import { QuestionLoaderEndpointService } from 'app/survey-viewer/services/question-loader-endpoint.service';
@@ -11,6 +11,7 @@ import { SurveyViewerEndpointService } from './services/survey-viewer-endpoint.s
 @NgModule({
 	imports: [
 		CommonModule, SharedModule, ROUTES
+
 	],
 	declarations: [SurveyViewerComponent],
 	providers: [QuestionLoaderEndpointService,

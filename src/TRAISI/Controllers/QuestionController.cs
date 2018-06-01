@@ -21,11 +21,7 @@ namespace TRAISI.Controllers
         {
             this._questionTypeManager = questionTypeManager;
         }
-        // GET
-        public IActionResult Index()
-        {
-            return new OkResult();
-        }
+
 
         /// <summary>
         /// Returns the bundled module.js client code for the requested

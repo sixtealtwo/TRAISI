@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, SystemJsNgModuleLoader } from '@angular/core';
 import { SurveyViewerService } from '../services/survey-viewer.service';
 import { QuestionLoaderService } from '../services/question-loader.service';
 import { NextObserver } from 'rxjs';
@@ -19,7 +19,8 @@ export class SurveyViewerComponent implements OnInit {
 	 * @param questionLoaderService
 	 */
 	constructor(private surveyViewerService: SurveyViewerService,
-		private questionLoaderService: QuestionLoaderService) {
+		private questionLoaderService: QuestionLoaderService
+	) {
 
 	}
 
