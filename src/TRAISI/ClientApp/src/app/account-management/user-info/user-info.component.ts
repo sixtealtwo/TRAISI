@@ -15,6 +15,8 @@ import { Permission } from '../../models/permission.model';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { AuthService } from '../../services/auth.service';
 import { Select2OptionData } from 'ng2-select2';
+import { GroupMember } from '../../models/group-member.model';
+import { UserGroupService } from '../../services/user-group.service';
 
 @Component({
 	selector: 'user-info',
@@ -23,7 +25,6 @@ import { Select2OptionData } from 'ng2-select2';
 	encapsulation: ViewEncapsulation.None
 })
 export class UserInfoComponent implements OnInit {
-
 	public isEditMode = false;
 	public isNewUser = false;
 	public isSaving = false;
@@ -39,52 +40,46 @@ export class UserInfoComponent implements OnInit {
 	public selectedRole: string;
 	select2Options: any = {
 		theme: 'bootstrap'
-		};
+	};
 	public formResetToggle = true;
+	public groupMemberInfo: GroupMember;
 
 	public changesSavedCallback: () => void;
 	public changesFailedCallback: () => void;
 	public changesCancelledCallback: () => void;
 
-	@Input()
-	isViewOnly: boolean;
+	@Input() isViewOnly: boolean;
 
-	@Input()
-	isGeneralEditor = false;
+	@Input() isGeneralEditor: boolean = false;
 
+	@Input() inGroupMode: boolean = false;
 
-	@ViewChild('f')
-	private form;
+	@ViewChild('f') private form;
 
 	// ViewChilds Required because ngIf hides template variables from global scope
-	@ViewChild('userName')
-	private userName;
+	@ViewChild('userName') private userName;
 
-	@ViewChild('userPassword')
-	private userPassword;
+	@ViewChild('userPassword') private userPassword;
 
-	@ViewChild('email')
-	private email;
+	@ViewChild('email') private email;
 
-	@ViewChild('currentPassword')
-	private currentPassword;
+	@ViewChild('currentPassword') private currentPassword;
 
-	@ViewChild('newPassword')
-	private newPassword;
+	@ViewChild('newPassword') private newPassword;
 
-	@ViewChild('confirmPassword')
-	private confirmPassword;
+	@ViewChild('confirmPassword') private confirmPassword;
 
-	@ViewChild('roles')
-	private roles;
+	@ViewChild('roles') private roles;
 
-	@ViewChild('rolesSelector')
-	private rolesSelector;
+	@ViewChild('rolesSelector') private rolesSelector;
 
-
-	constructor(private alertService: AlertService, private accountService: AccountService,
-		private translationService: AppTranslationService, private authService: AuthService) {
-
+	constructor(
+		private alertService: AlertService,
+		private accountService: AccountService,
+		private translationService: AppTranslationService,
+		private authService: AuthService,
+		private userGroupService: UserGroupService
+	) {
 		translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
 		translationService.setDefaultLanguage('en');
 	}
@@ -94,23 +89,34 @@ export class UserInfoComponent implements OnInit {
 			this.loadCurrentUserData();
 		}
 		this.rolesOptions = [];
-		this.accountService.getRoles().subscribe(roles => {
-		for (const role of roles) {
-			this.rolesOptions.push({ text: role.description, id: role.name });
-		}
-		this.selectedRole = this.rolesOptions[0].id;
-		}, error => { });
+		this.accountService.getRoles().subscribe(
+			roles => {
+				for (const role of roles) {
+					this.rolesOptions.push({ text: role.description, id: role.name });
+				}
+				this.selectedRole = 'user';
+			},
+			error => {}
+		);
 	}
 
 	private loadCurrentUserData() {
 		this.alertService.startLoadingMessage();
 
 		if (this.canViewAllRoles) {
-			this.accountService.getUserAndRoles().subscribe(results => this.onCurrentUserDataLoadSuccessful(results[0],
-															results[1]), error => this.onCurrentUserDataLoadFailed(error));
+			this.accountService
+				.getUserAndRoles()
+				.subscribe(
+					results => this.onCurrentUserDataLoadSuccessful(results[0], results[1]),
+					error => this.onCurrentUserDataLoadFailed(error)
+				);
 		} else {
-			this.accountService.getUser().subscribe(user => this.onCurrentUserDataLoadSuccessful(user,
-													user.roles.map(x => new Role(x))), error => this.onCurrentUserDataLoadFailed(error));
+			this.accountService
+				.getUser()
+				.subscribe(
+					user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x => new Role(x))),
+					error => this.onCurrentUserDataLoadFailed(error)
+				);
 		}
 	}
 
@@ -121,7 +127,7 @@ export class UserInfoComponent implements OnInit {
 		this.rolesOptions = [];
 
 		for (const role of this.allRoles) {
-			this.rolesOptions.push({text: role.description, id: role.name});
+			this.rolesOptions.push({ text: role.description, id: role.name });
 		}
 		this.selectedRole = this.user.roles[0];
 	}
@@ -138,16 +144,19 @@ export class UserInfoComponent implements OnInit {
 
 	private onCurrentUserDataLoadFailed(error: any) {
 		this.alertService.stopLoadingMessage();
-		this.alertService.showStickyMessage('Load Error',
-											`Unable to retrieve user data from the server.
+		this.alertService.showStickyMessage(
+			'Load Error',
+			`Unable to retrieve user data from the server.
 											Errors: "${Utilities.getHttpResponseMessage(error)}"`,
-											MessageSeverity.error, error);
+			MessageSeverity.error,
+			error
+		);
 
 		this.logout();
 	}
 
 	private getRoleByName(name: string) {
-		return this.allRoles.find((r) => r.name === name);
+		return this.allRoles.find(r => r.name === name);
 	}
 
 	private showErrorAlert(caption: string, message: string) {
@@ -172,7 +181,9 @@ export class UserInfoComponent implements OnInit {
 				this.userEdit = new UserEdit();
 			}
 
-			this.isEditingSelf = this.accountService.currentUser ? this.userEdit.id === this.accountService.currentUser.id : false;
+			this.isEditingSelf = this.accountService.currentUser
+				? this.userEdit.id === this.accountService.currentUser.id
+				: false;
 		}
 
 		this.isEditMode = true;
@@ -185,11 +196,22 @@ export class UserInfoComponent implements OnInit {
 		this.alertService.startLoadingMessage('Saving changes...');
 
 		if (this.isNewUser) {
-			this.accountService.newUser(this.userEdit).subscribe(user => this.saveSuccessHelper(user),
-																	(error) => this.saveFailedHelper(error));
+			this.accountService
+				.newUser(this.userEdit)
+				.subscribe(user => this.saveSuccessHelper(user), error => this.saveFailedHelper(error));
 		} else {
-			this.accountService.updateUser(this.userEdit).subscribe(response => this.saveSuccessHelper(),
-																	error => this.saveFailedHelper(error));
+			this.accountService.updateUser(this.userEdit).subscribe(
+				response => {
+					if (this.inGroupMode) {
+						// update user name in group member (one edited is only in userEdit object)
+						this.groupMemberInfo.userName = this.groupMemberInfo.user.userName;
+						this.userGroupService
+							.updateGroupMember(this.groupMemberInfo)
+							.subscribe(mresponse => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+					}
+				},
+				error => this.saveFailedHelper(error)
+			);
 		}
 	}
 
@@ -199,7 +221,7 @@ export class UserInfoComponent implements OnInit {
 		if (user) {
 			Object.assign(this.userEdit, user);
 		}
-
+		let test = this.groupMemberInfo;
 		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
 		this.isChangePassword = false;
@@ -208,26 +230,35 @@ export class UserInfoComponent implements OnInit {
 		this.deletePasswordFromUser(this.userEdit);
 		Object.assign(this.user, this.userEdit);
 		this.userEdit = new UserEdit();
+		this.groupMemberInfo = new GroupMember();
 		this.resetForm();
-
 
 		if (this.isGeneralEditor) {
 			if (this.isNewUser) {
-				this.alertService.showMessage('Success',
-												`User \"${this.user.userName}\" was created successfully`, MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					`User \"${this.user.userName}\" was created successfully`,
+					MessageSeverity.success
+				);
 			} else if (!this.isEditingSelf) {
-				this.alertService.showMessage('Success', `Changes to user \"${this.user.userName}\" was saved successfully`,
-												MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					`Changes to user \"${this.user.userName}\" was saved successfully`,
+					MessageSeverity.success
+				);
 			}
 		}
 
 		if (this.isEditingSelf) {
-			this.alertService.showMessage('Success', 'Changes to your User Profile was saved successfully', MessageSeverity.success);
+			this.alertService.showMessage(
+				'Success',
+				'Changes to your User Profile was saved successfully',
+				MessageSeverity.success
+			);
 			this.refreshLoggedInUser();
 		}
 
 		this.isEditMode = false;
-
 
 		if (this.changesSavedCallback) {
 			this.changesSavedCallback();
@@ -237,8 +268,12 @@ export class UserInfoComponent implements OnInit {
 	private saveFailedHelper(error: any) {
 		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
-		this.alertService.showStickyMessage('Save Error', 'The below errors occured whilst saving your changes:',
-												MessageSeverity.error, error);
+		this.alertService.showStickyMessage(
+			'Save Error',
+			'The below errors occured whilst saving your changes:',
+			MessageSeverity.error,
+			error
+		);
 		this.alertService.showStickyMessage(error, null, MessageSeverity.error);
 
 		if (this.changesFailedCallback) {
@@ -247,9 +282,12 @@ export class UserInfoComponent implements OnInit {
 	}
 
 	private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
-
-		const rolesAdded = this.isNewUser ? editedUser.roles : editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
-		const rolesRemoved = this.isNewUser ? [] : currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
+		const rolesAdded = this.isNewUser
+			? editedUser.roles
+			: editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
+		const rolesRemoved = this.isNewUser
+			? []
+			: currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
 
 		const modifiedRoles = rolesAdded.concat(rolesRemoved);
 
@@ -292,16 +330,20 @@ export class UserInfoComponent implements OnInit {
 	}
 
 	private refreshLoggedInUser() {
-		this.accountService.refreshLoggedInUser()
-			.subscribe(user => {
+		this.accountService.refreshLoggedInUser().subscribe(
+			user => {
 				this.loadCurrentUserData();
 			},
 			error => {
 				this.alertService.resetStickyMessage();
-				this.alertService.showStickyMessage('Refresh failed',
-													'An error occured whilst refreshing logged in user information from the server',
-													MessageSeverity.error, error);
-			});
+				this.alertService.showStickyMessage(
+					'Refresh failed',
+					'An error occured whilst refreshing logged in user information from the server',
+					MessageSeverity.error,
+					error
+				);
+			}
+		);
 	}
 
 	private changePassword() {
@@ -312,21 +354,29 @@ export class UserInfoComponent implements OnInit {
 		this.isSaving = true;
 		this.alertService.startLoadingMessage('Unblocking user...');
 
-
-		this.accountService.unblockUser(this.userEdit.id)
-			.subscribe(response => {
+		this.accountService.unblockUser(this.userEdit.id).subscribe(
+			response => {
 				this.isSaving = false;
 				this.userEdit.isLockedOut = false;
 				this.alertService.stopLoadingMessage();
-				this.alertService.showMessage('Success', 'User has been successfully unblocked', MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					'User has been successfully unblocked',
+					MessageSeverity.success
+				);
 			},
 			error => {
 				this.isSaving = false;
 				this.alertService.stopLoadingMessage();
-				this.alertService.showStickyMessage('Unblock Error', 'The below errors occured whilst unblocking the user:',
-													MessageSeverity.error, error);
+				this.alertService.showStickyMessage(
+					'Unblock Error',
+					'The below errors occured whilst unblocking the user:',
+					MessageSeverity.error,
+					error
+				);
 				this.alertService.showStickyMessage(error, null, MessageSeverity.error);
-			});
+			}
+		);
 	}
 
 	resetForm(replace = false) {
@@ -372,7 +422,7 @@ export class UserInfoComponent implements OnInit {
 			this.rolesOptions = [];
 
 			for (const role of this.allRoles) {
-				this.rolesOptions.push({text: role.description, id: role.name});
+				this.rolesOptions.push({ text: role.description, id: role.name });
 			}
 			this.selectedRole = this.userEdit.roles[0];
 			this.edit();
@@ -383,7 +433,6 @@ export class UserInfoComponent implements OnInit {
 		}
 	}
 	displayUser(user: User, allRoles?: Role[]) {
-
 		this.user = new User();
 		Object.assign(this.user, user);
 		this.deletePasswordFromUser(this.user);
@@ -398,7 +447,6 @@ export class UserInfoComponent implements OnInit {
 	}
 
 	private setRoles(user: User, allRoles?: Role[]) {
-
 		this.allRoles = allRoles ? [...allRoles] : [];
 
 		if (user.roles) {

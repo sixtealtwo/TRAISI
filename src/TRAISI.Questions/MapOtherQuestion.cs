@@ -12,9 +12,9 @@ namespace TRAISI.ClientApp.question_definitions.map_other_question
     /// </summary>
     public class MapOtherQuestion : MapQuestion
     {
-        public new string TypeName => "Map Other";
+        public override string TypeName => "Map Other";
 
-        public new string Icon
+        public override string Icon
         {
             get => "Map";
         }

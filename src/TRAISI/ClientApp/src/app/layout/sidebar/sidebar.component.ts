@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Location, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppConfig } from '../../app.config';
 import { AccountService } from '../../services/account.service';
+import { UserGroupService } from '../../services/user-group.service';
+
 import { Permission } from '../../models/permission.model';
 declare let jQuery: any;
 
@@ -17,11 +19,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	configFn: any;
 	router: Router;
 	location: Location;
+	isGroupAdmin: boolean = false;
 
 	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
 	@Input() userName: string;
 	constructor(config: AppConfig, el: ElementRef, router: Router,
-		location: Location, private accountService: AccountService) {
+		location: Location, private accountService: AccountService, private userGroupService: UserGroupService) {
 		this.$el = jQuery(el.nativeElement);
 		this.config = config.getConfig();
 		this.configFn = config;
@@ -82,6 +85,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 			this.changeActiveNavigationItem(this.location);
 		}
 		});
+
+		this.userGroupService.isGroupAdmin().subscribe(result => this.isGroupAdmin = result);
 	}
 	logout(): void {
 		this.logoutEvent.emit();

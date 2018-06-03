@@ -11,11 +11,7 @@ import {
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
-import {
-	AlertService,
-	DialogType,
-	MessageSeverity
-} from '../../services/alert.service';
+import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { BootstrapSelectDirective } from '../../directives/bootstrap-select.directive';
@@ -57,7 +53,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	allRoles: Role[] = [];
 	allGroups: UserGroup[] = [];
 
-	groupNameOptions: Array<Select2OptionData>;
+	groupNameOptions: Array<Select2OptionData> = [];
 	selectedGroup: string;
 	selectedGroupName: string;
 	select2Options: any = {
@@ -135,13 +131,6 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				name: gT('users.management.Email'),
 				minWidth: 210,
 				flexGrow: 200
-			},
-			{
-				prop: 'roles',
-				name: gT('users.management.Roles'),
-				minWidth: 90,
-				flexGrow: 80,
-				cellTemplate: this.rolesTemplate
 			}
 		];
 
@@ -180,13 +169,6 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				name: gT('users.management.Email'),
 				minWidth: 210,
 				flexGrow: 200
-			},
-			{
-				prop: 'user.roles',
-				name: gT('users.management.Roles'),
-				minWidth: 90,
-				flexGrow: 80,
-				cellTemplate: this.rolesTemplateG
 			}
 		];
 
@@ -201,17 +183,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				draggable: false
 			});
 		}
-		if (this.canManageGroupUsers) {
-			this.groupUserColumns.push({
-				name: '',
-				width: 150,
-				cellTemplate: this.actionsTemplateG,
-				resizeable: false,
-				canAutoResize: false,
-				sortable: false,
-				draggable: false
-			});
-		}
+
 		this.loadData();
 	}
 
@@ -232,10 +204,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		if (this.sourceUser) {
 			Object.assign(this.sourceUser, this.editedUser);
 
-			let sourceIndex = this.soloUserRowsCache.indexOf(
-				this.sourceUser,
-				0
-			);
+			let sourceIndex = this.soloUserRowsCache.indexOf(this.sourceUser, 0);
 			if (sourceIndex > -1) {
 				Utilities.moveArrayItem(this.soloUserRowsCache, sourceIndex, 0);
 			}
@@ -273,23 +242,14 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		this.alertService.startLoadingMessage();
 		this.loadingIndicator = true;
 
-		if (
-			this.accountService.userHasPermission(
-				Permission.manageUsersPermission
-			)
-		) {
+		if (this.accountService.userHasPermission(Permission.manageUsersPermission)) {
 			if (this.canViewRoles) {
 				this.accountService.getSoloUsersAndRoles().subscribe(
 					results => {
 						this.userGroupService
-							.listUserGroups()
+							.listUserGroupsWhereAdmin()
 							.subscribe(
-								userGroups =>
-									this.onDataLoadSuccessful(
-										results[0],
-										results[1],
-										userGroups
-									),
+								userGroups => this.onDataLoadSuccessful(results[0], results[1], userGroups),
 								error => this.onDataLoadFailed(error)
 							);
 					},
@@ -299,14 +259,12 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				this.accountService.getSoloUsers().subscribe(
 					users => {
 						this.userGroupService
-							.listUserGroups()
+							.listUserGroupsWhereAdmin()
 							.subscribe(
 								userGroups =>
 									this.onDataLoadSuccessful(
 										users,
-										this.accountService.currentUser.roles.map(
-											x => new Role(x)
-										),
+										this.accountService.currentUser.roles.map(x => new Role(x)),
 										userGroups
 									),
 								error => this.onDataLoadFailed(error)
@@ -316,7 +274,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				);
 			}
 		} else {
-			this.userGroupService.listUserGroups().subscribe(
+			this.userGroupService.listUserGroupsWhereAdmin().subscribe(
 				userGroups => {
 					this.onDataLoadSuccessful([], [], userGroups);
 					this.switchGroup(userGroups[0].name);
@@ -341,6 +299,18 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		this.allRoles = roles;
 		this.allGroups = groups;
 		this.loadGroupNamesSectionOptions();
+
+		if (this.canManageGroupUsers) {
+			this.groupUserColumns.push({
+				name: '',
+				width: 150,
+				cellTemplate: this.actionsTemplateG,
+				resizeable: false,
+				canAutoResize: false,
+				sortable: false,
+				draggable: false
+			});
+		}
 	}
 
 	private loadGroupNamesSectionOptions(skipGroup?: string): void {
@@ -353,7 +323,9 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				});
 			}
 		});
-		this.selectedGroup = this.groupNameOptions[0].id;
+		if (this.groupNameOptions.length > 0) {
+			this.selectedGroup = this.groupNameOptions[0].id;
+		}
 	}
 
 	onDataLoadFailed(error: any) {
@@ -362,9 +334,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 		this.alertService.showStickyMessage(
 			'Load Error',
-			`Unable to retrieve users from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(
-				error
-			)}"`,
+			`Unable to retrieve users from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 			MessageSeverity.error,
 			error
 		);
@@ -385,15 +355,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			);
 		} else {
 			this.soloUserRows = this.soloUserRowsCache.filter(r =>
-				Utilities.searchArray(
-					value,
-					false,
-					r.userName,
-					r.fullName,
-					r.email,
-					r.jobTitle,
-					r.roles
-				)
+				Utilities.searchArray(value, false, r.userName, r.fullName, r.email, r.jobTitle, r.roles)
 			);
 		}
 	}
@@ -414,7 +376,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		let newGroup = new UserGroup(0, value, null);
 		this.userGroupService.createUserGroup(newGroup).subscribe(
 			result => {
-				this.userGroupService.listUserGroups().subscribe(
+				this.userGroupService.listUserGroupsWhereAdmin().subscribe(
 					userGroups => {
 						this.allGroups = userGroups;
 						this.loadGroupNamesSectionOptions();
@@ -440,17 +402,24 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		this.editorModal.show();
 	}
 
+	editGroupUser(row: GroupMember) {
+		this.editingUserName = { name: row.userName };
+		this.sourceUser = row.user as UserEdit;
+		this.editedUser = this.userEditor.editUser(row.user, this.allRoles);
+		this.userEditor.groupMemberInfo = row;
+		this.userEditor.groupMemberInfo.user = this.editedUser;
+		this.editorModal.show();
+	}
+
 	deleteGroup() {
 		this.alertService.showDialog(
 			'Are you sure you want to delete "' + this.groupActive + '"?',
 			DialogType.confirm,
 			() => {
-				let groupDelete = this.allGroups.filter(
-					g => g.name === this.groupActive
-				)[0];
+				let groupDelete = this.allGroups.filter(g => g.name === this.groupActive)[0];
 				this.userGroupService.deleteUserGroup(groupDelete.id).subscribe(
 					result => {
-						this.userGroupService.listUserGroups().subscribe(
+						this.userGroupService.listUserGroupsWhereAdmin().subscribe(
 							userGroups => {
 								this.allGroups = userGroups;
 								this.loadGroupNamesSectionOptions();
@@ -496,12 +465,8 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				this.alertService.stopLoadingMessage();
 				this.loadingIndicator = false;
 
-				this.soloUserRowsCache = this.soloUserRowsCache.filter(
-					item => item !== row
-				);
-				this.soloUserRows = this.soloUserRows.filter(
-					item => item !== row
-				);
+				this.soloUserRowsCache = this.soloUserRowsCache.filter(item => item !== row);
+				this.soloUserRows = this.soloUserRows.filter(item => item !== row);
 			},
 			error => {
 				this.alertService.stopLoadingMessage();
@@ -509,9 +474,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 				this.alertService.showStickyMessage(
 					'Delete Error',
-					`An error occured whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessage(
-						error
-					)}"`,
+					`An error occured whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
 					MessageSeverity.error,
 					error
 				);
@@ -527,12 +490,8 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			results => {
 				this.alertService.stopLoadingMessage();
 				this.loadingIndicator = false;
-				this.groupUserRowsCache = this.groupUserRowsCache.filter(
-					item => item !== row
-				);
-				this.groupUserRows = this.groupUserRows.filter(
-					item => item !== row
-				);
+				this.groupUserRowsCache = this.groupUserRowsCache.filter(item => item !== row);
+				this.groupUserRows = this.groupUserRows.filter(item => item !== row);
 			},
 			error => {
 				this.alertService.stopLoadingMessage();
@@ -540,9 +499,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 				this.alertService.showStickyMessage(
 					'Delete Error',
-					`An error occured whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessage(
-						error
-					)}"`,
+					`An error occured whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
 					MessageSeverity.error,
 					error
 				);
@@ -556,9 +513,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 			this.groupActive = '';
 			this.loadGroupNamesSectionOptions();
 		} else {
-			this.alertService.startLoadingMessage(
-				'Loading ' + name + ' members...'
-			);
+			this.alertService.startLoadingMessage('Loading ' + name + ' members...');
 			this.loadingIndicator = true;
 			const group = this.allGroups.filter(u => u.name === name)[0];
 			this.userGroupService.getUserGroupMembers(group.id).subscribe(
@@ -604,26 +559,14 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	addUsersToGroup() {
 		let groupSelect = this.selectedGroupName;
 		let groupMemberList: GroupMember[] = this.soloUserSelected.map(
-			r =>
-				new GroupMember(
-					0,
-					r.userName,
-					r,
-					groupSelect,
-					new Date(),
-					false
-				)
+			r => new GroupMember(0, r.userName, r, groupSelect, new Date(), false)
 		);
 
 		groupMemberList.forEach(m => {
 			this.userGroupService.addMemberToGroup(m).subscribe(
 				result => {
-					this.soloUserRowsCache = this.soloUserRowsCache.filter(
-						item => item !== m.user
-					);
-					this.soloUserRows = this.soloUserRows.filter(
-						item => item !== m.user
-					);
+					this.soloUserRowsCache = this.soloUserRowsCache.filter(item => item !== m.user);
+					this.soloUserRows = this.soloUserRows.filter(item => item !== m.user);
 				},
 				error => {}
 			);
@@ -634,15 +577,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	addGroupUsersToGroup() {
 		let groupSelect = this.selectedGroupName;
 		let groupMemberList: GroupMember[] = this.groupUserSelected.map(
-			r =>
-				new GroupMember(
-					0,
-					r.userName,
-					r.user,
-					groupSelect,
-					new Date(),
-					false
-				)
+			r => new GroupMember(0, r.userName, r.user, groupSelect, new Date(), false)
 		);
 
 		groupMemberList.forEach(m => {
@@ -651,9 +586,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 				error => {
 					this.alertService.showStickyMessage(
 						'Add Error',
-						`Unable to add user(s).\r\nErrors: "${Utilities.getHttpResponseMessage(
-							error
-						)}"`,
+						`Unable to add user(s).\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 						MessageSeverity.error,
 						error
 					);
@@ -664,40 +597,30 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	}
 
 	removeUsersFromGroup() {
-		this.userGroupService
-			.removeMembersFromGroup(this.groupUserSelected)
-			.subscribe(
-				result => {
-					this.loadData();
-					this.switchGroup(this.groupActive);
-				},
-				error => {}
-			);
+		this.userGroupService.removeMembersFromGroup(this.groupUserSelected).subscribe(
+			result => {
+				this.loadData();
+				this.switchGroup(this.groupActive);
+			},
+			error => {}
+		);
 
 		this.groupUserSelected = [];
 	}
 
 	public get canAssignRoles(): boolean {
-		return this.accountService.userHasPermission(
-			Permission.assignRolesPermission
-		);
+		return this.accountService.userHasPermission(Permission.assignRolesPermission);
 	}
 
 	public get canViewRoles(): boolean {
-		return this.accountService.userHasPermission(
-			Permission.viewRolesPermission
-		);
+		return this.accountService.userHasPermission(Permission.viewRolesPermission);
 	}
 
 	public get canManageUsers(): boolean {
-		return this.accountService.userHasPermission(
-			Permission.manageUsersPermission
-		);
+		return this.accountService.userHasPermission(Permission.manageUsersPermission);
 	}
 
 	public get canManageGroupUsers(): boolean {
-		return this.accountService.userHasPermission(
-			Permission.manageGroupUsersPermission
-		);
+		return this.allGroups.length > 0;
 	}
 }

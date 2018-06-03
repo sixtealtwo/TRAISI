@@ -83,19 +83,37 @@ namespace TRAISI.Controllers
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{
-				groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync();
+				groups = await this._unitOfWork.UserGroups.GetAllGroupsAsync();
 			}
 			else
 			{
-				groups = await this._unitOfWork.UserGroups.GetAllGroupsWhereMemberAsync(this.User.Identity.Name);
+				groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync(this.User.Identity.Name);
 			}
 			return Ok(Mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
+		}
+
+		[HttpGet("canAdmin")]
+		[Produces(typeof(bool))]
+		public async Task<IActionResult> CanAdminGroups()
+		{
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			IEnumerable<UserGroup> groups;
+			if (viewAllUsersPolicy.Succeeded)
+			{
+                return Ok(true);
+			}
+			else
+			{
+				groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync(this.User.Identity.Name);
+                return Ok(groups.Count() > 0);
+            }
 		}
 
 		/// <summary>
 		/// Create user group
 		/// </summary>
 		[HttpPost]
+		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
 		public async Task<IActionResult> CreateGroup([FromBody] UserGroupViewModel group)
 		{
 			if (ModelState.IsValid)
@@ -119,13 +137,18 @@ namespace TRAISI.Controllers
 		/// Update a user group
 		/// </summary>
 		[HttpPut]
+		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
 		public async Task<IActionResult> UpdateGroup([FromBody] UserGroupViewModel group)
 		{
-			UserGroup appUserGroup = Mapper.Map<UserGroup>(group);
+			if (ModelState.IsValid)
+			{
+				UserGroup appUserGroup = Mapper.Map<UserGroup>(group);
 
-			this._unitOfWork.UserGroups.Update(appUserGroup);
-			await this._unitOfWork.SaveChangesAsync();
-			return new OkResult();
+				this._unitOfWork.UserGroups.Update(appUserGroup);
+				await this._unitOfWork.SaveChangesAsync();
+				return new OkResult();
+			}
+			return BadRequest(ModelState);
 		}
 
 
@@ -133,6 +156,7 @@ namespace TRAISI.Controllers
 		/// Delete a user group
 		/// </summary>
 		[HttpDelete("{id}")]
+		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
 		public async Task<IActionResult> DeleteGroup(int id)
 		{
 			var removed = this._unitOfWork.UserGroups.Get(id);
@@ -182,11 +206,22 @@ namespace TRAISI.Controllers
 			return BadRequest(ModelState);
 		}
 
+		[HttpPut("members")]
+		[Authorize (Authorization.Policies.ManageAllUsersPolicy)]
+		public async Task<IActionResult> UpdateGroupMember([FromBody] GroupMemberViewModel member)
+		{
+			GroupMember gMember = Mapper.Map<GroupMember>(member);
+			this._unitOfWork.GroupMembers.Update(gMember);
+			await this._unitOfWork.SaveChangesAsync();
+			return new OkResult();
+		}
+
 		[HttpDelete("members/{id}")]
 		public async Task<IActionResult> RemoveGroupMember(int id)
 		{
 			if (ModelState.IsValid)
 			{
+				// todo: check if user has permission (needs to be group admin)
 				var member = this._unitOfWork.GroupMembers.Get(id);
 				this._unitOfWork.GroupMembers.Remove(member);
 				await this._unitOfWork.SaveChangesAsync();
@@ -200,6 +235,7 @@ namespace TRAISI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+								// todo: check if user has permission (needs to be group admin)
 				foreach (int id in ids)
 				{
 					var member = this._unitOfWork.GroupMembers.Get(id);
