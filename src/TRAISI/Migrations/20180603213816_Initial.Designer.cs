@@ -11,8 +11,8 @@ using System;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180528171532_SurveyPermissions-fixes")]
-    partial class SurveyPermissionsfixes
+    [Migration("20180603213816_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,6 +218,8 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Code");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
 
@@ -247,8 +249,6 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("SuccessLink");
 
-                    b.Property<string>("Title");
-
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);
 
@@ -269,8 +269,6 @@ namespace TRAISI.Migrations
                     b.Property<string>("PermissionCode");
 
                     b.Property<int?>("SurveyId");
-
-                    b.Property<string>("TestField");
 
                     b.Property<string>("UserId");
 

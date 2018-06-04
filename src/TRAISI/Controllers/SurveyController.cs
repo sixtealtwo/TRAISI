@@ -34,24 +34,35 @@ namespace TRAISI.Controllers {
 		public async Task<IActionResult> GetSurvey (int id) {
 			var survey = await this._unitOfWork.Surveys.GetAsync (id);
 
-			return new ObjectResult (survey);
+			return Ok(Mapper.Map<SurveyViewModel>(survey));
 		}
 
 		/// <summary>
-		/// Get all surveys
+		/// Get all surveys owned by the calling user
 		/// </summary>
 		[HttpGet]
 		[Produces (typeof (List<SurveyViewModel>))]
 		public async Task<IActionResult> GetSurveys () {
-			var surveys = await this._unitOfWork.Surveys.GetAllAsync ();
 
-			return new ObjectResult (surveys);
+            var surveys = await this._unitOfWork.Surveys.GetAllUserSurveys(this.User.Identity.Name);
+			return Ok(Mapper.Map<IEnumerable<SurveyViewModel>>(surveys));
 		}
+        /// <summary>
+        /// Get all surveys owned for the specified group
+        /// </summary>
+        [HttpGet ("group/{id}")]
+        [Produces(typeof(List<SurveyViewModel>))]
+        public async Task<IActionResult> GetGroupSurveys(int id)
+        {
+            var group = this._unitOfWork.UserGroups.Get(id);
+            var surveys = await this._unitOfWork.Surveys.GetAllGroupSurveys(group.Name, this.User.Identity.Name);
+            return Ok(Mapper.Map<IEnumerable<SurveyViewModel>>(surveys));
+        }
 
-		/// <summary>
-		/// Create survey
-		/// </summary>
-		[Authorize]
+
+        /// <summary>
+        /// Create survey
+        /// </summary>
 		[HttpPost]
 		public async Task<IActionResult> CreateSurvey ([FromBody] SurveyViewModel survey) {
 			if (ModelState.IsValid) {
@@ -60,7 +71,7 @@ namespace TRAISI.Controllers {
 				}
 
 				Survey appSurvey = Mapper.Map<Survey> (survey);
-
+				appSurvey.Owner = this.User.Identity.Name;
 				await this._unitOfWork.Surveys.AddAsync (appSurvey);
 				await this._unitOfWork.SaveChangesAsync ();
 				return new OkResult ();
@@ -74,7 +85,10 @@ namespace TRAISI.Controllers {
 		/// </summary>
 		[HttpPut]
 		public async Task<IActionResult> UpdateSurvey ([FromBody] SurveyViewModel survey) {
-			Survey appSurvey = Mapper.Map<Survey> (survey);
+
+            // to do: check group of input survey and ensure that user has access before updating survey
+
+            Survey appSurvey = Mapper.Map<Survey> (survey);
 
 			this._unitOfWork.Surveys.Update (appSurvey);
 			await this._unitOfWork.SaveChangesAsync ();
@@ -91,6 +105,11 @@ namespace TRAISI.Controllers {
 			await this._unitOfWork.SaveChangesAsync ();
 			return new OkResult ();
 		}
+
+        private bool GroupValidForUser(string groupName)
+        {
+            return true;
+        }
 
 	}
 }

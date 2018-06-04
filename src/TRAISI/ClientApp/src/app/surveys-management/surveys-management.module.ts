@@ -13,6 +13,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ROUTES } from './surveys-management.routes';
 import { SurveysManagementComponent } from './surveys-management.component';
 import {BsDatepickerModule, BsDropdownModule} from 'ngx-bootstrap';
+import { SurveysEditorComponent } from './surveys-editor/surveys-editor.component';
 
 @NgModule({
 	imports: [
@@ -32,7 +33,8 @@ import {BsDatepickerModule, BsDropdownModule} from 'ngx-bootstrap';
 	BsDropdownModule.forRoot()
 	],
 	declarations: [
-		SurveysManagementComponent
+		SurveysManagementComponent,
+		SurveysEditorComponent
 	]
 })
 export class SurveysManagementModule { }

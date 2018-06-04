@@ -35,35 +35,35 @@ import { UserGroupService } from '../../services/user-group.service';
 	encapsulation: ViewEncapsulation.None
 })
 export class UsersManagementComponent implements OnInit, AfterViewInit {
-	soloUserColumns: any[] = [];
-	soloUserRows: User[] = [];
-	soloUserRowsCache: User[] = [];
-	soloUserSelected: User[] = [];
+	public soloUserColumns: any[] = [];
+	public soloUserRows: User[] = [];
+	public soloUserRowsCache: User[] = [];
+	public soloUserSelected: User[] = [];
 
-	groupUserColumns: any[] = [];
-	groupUserRows: GroupMember[] = [];
-	groupUserRowsCache: GroupMember[] = [];
-	groupUserSelected: GroupMember[] = [];
+	public groupUserColumns: any[] = [];
+	public groupUserRows: GroupMember[] = [];
+	public groupUserRowsCache: GroupMember[] = [];
+	public groupUserSelected: GroupMember[] = [];
 
-	editedUser: UserEdit;
-	sourceUser: UserEdit;
-	editingUserName: { name: string };
-	loadingIndicator: boolean;
+	public editedUser: UserEdit;
+	public sourceUser: UserEdit;
+	public editingUserName: { name: string };
+	public loadingIndicator: boolean;
 
-	allRoles: Role[] = [];
-	allGroups: UserGroup[] = [];
+	public allRoles: Role[] = [];
+	public allGroups: UserGroup[] = [];
 
-	groupNameOptions: Array<Select2OptionData> = [];
-	selectedGroup: string;
-	selectedGroupName: string;
-	select2Options: any = {
+	public groupNameOptions: Array<Select2OptionData> = [];
+	public selectedGroup: string;
+	public selectedGroupName: string;
+	public select2Options: any = {
 		theme: 'bootstrap'
 	};
 
-	newGroupName: string;
+	public newGroupName: string;
 
-	groupBeingViewed: boolean = false;
-	groupActive: string;
+	public groupBeingViewed: boolean = false;
+	public groupActive: string;
 
 	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
 
@@ -89,8 +89,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		private alertService: AlertService,
 		private translationService: AppTranslationService,
 		private accountService: AccountService,
-		private userGroupService: UserGroupService,
-		private router: Router
+		private userGroupService: UserGroupService
 	) {}
 
 	ngOnInit() {

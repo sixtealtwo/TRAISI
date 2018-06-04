@@ -221,7 +221,7 @@ export class UserInfoComponent implements OnInit {
 		if (user) {
 			Object.assign(this.userEdit, user);
 		}
-		let test = this.groupMemberInfo;
+
 		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
 		this.isChangePassword = false;

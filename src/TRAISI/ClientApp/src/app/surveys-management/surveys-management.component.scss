@@ -1,17 +1,20 @@
+@import "../../scss/helpers";
+
+.datatable-header {
+	font-weight: $font-weight-semi-bold;
+	text-transform: uppercase;
+	border-bottom-width: 1px;
+}
+
+datatable-scroller {
+	width: 100% !important;
+}
+
 .survey-management-table datatable-body-row, .survey-management-table datatable-body-cell
 {
   height: auto !important;
   overflow: visible !important;
   min-height: 45px !important;
-}
-
-.survey-management-table datatable-body
-{
-  padding-bottom: 120px;
-}
-
-.survey-management-table datatable-scroller{
-  width:100% !important;
 }
 
 .build-icon

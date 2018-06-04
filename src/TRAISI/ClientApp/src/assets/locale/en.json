@@ -91,7 +91,10 @@
   "surveys": {
     "management" : {
       "NewSurvey": "New Survey",
-      "Search": "Search for survey..."
+			"Search": "Search for survey...",
+			"Edit": "Edit",
+			"Delete": "Delete",
+			"View": "View"
     }
   },
   "users": {

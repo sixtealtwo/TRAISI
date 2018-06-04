@@ -1,18 +1,19 @@
 export class Survey {
 
 	constructor(public id?: number,
-				public name?: string,
-				public isOpen?: boolean,
-				public bannerUrl?: string,
 				public code?: string,
-				public createdAt?: Date,
-				public defaultLanguage?: string,
-				public endAt?: Date,
-				public footerUrl?: string,
-				public isActive?: boolean,
-				public rejectionLink?: string,
+				public name?: string,
+				public owner?: string,
+				public group?: string,
+				public createdDate?: Date,
+				public updatedDate?: Date,
 				public startAt?: Date,
+				public endAt?: Date,
+				public isActive?: boolean,
+				public isOpen?: boolean,
 				public successLink?: string,
-				public updatedAt?: Date) {
+				public rejectionLink?: string,
+				public defaultLanguage?: string,
+				public styleTemplate?: string) {
 	}
 }
