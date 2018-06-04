@@ -105,6 +105,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{ prop: 'group', name: 'Group', minWidth: 30, flexGrow: 30 },
 			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
 			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
+			{ minWidth: 50, flexGrow: 30, cellTemplate: this.buildTemplate, name: 'Build' },
 			{ minWidth: 50, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status' },
 			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
 		];
@@ -115,6 +116,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30 },
 			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
 			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
+			{ minWidth: 50, flexGrow: 30, cellTemplate: this.buildTemplate, name: 'Build' },
 			{ minWidth: 30, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status' },
 			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
 		];
