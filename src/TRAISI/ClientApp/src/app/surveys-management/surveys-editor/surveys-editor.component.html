@@ -1,84 +1,99 @@
-<form (ngSubmit)="onNewSurveyFormSubmit()" #f="ngForm" novalidate>
+<div>
+	<form (ngSubmit)="onNewSurveyFormSubmit()" #f="ngForm" novalidate class="form-horizontal">
 		<div class="form-group row">
 			<label for="surveyName" class="col-md-2 col-form-label text-md-right">Survey Name</label>
-			<input [(ngModel)]="model.name" type="text" class="form-control col-md-7" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name"
-			 name="surveyName">
+			<div class="col-md-7">
+				<input [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name"
+				 name="surveyName">
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-					<hr class="edit-separator-hr" />
+				<hr class="edit-separator-hr" />
 			</div>
 		</div>
 		<div class="form-group row">
-				<label class="col-md-2 col-form-label text-md-right" for="userGroup">Group</label>
-				<select2 (valueChanged)="updateGroup($event)"
-                [data]="groupsOptions" [value]="selectedGroup" id="userGroup" [options]="select2Options" [width]="240" [cssImport]=true></select2>
+			<label class="col-md-2 col-form-label text-md-right" for="userGroup">Group</label>
+			<div class="col-md-7">
+				<select2 (valueChanged)="updateGroup($event)" [data]="groupsOptions" [value]="selectedGroup" id="userGroup" [options]="select2Options"
+				 [width]="240" [cssImport]=true></select2>
 			</div>
-		<div class="row">
-				<div class="col-md-12">
-						<hr class="edit-separator-hr" />
-				</div>
-			</div>
-		<div class="form-group row">
-			<label class="col-md-2 col-form-label text-md-right" for="isActiveCheck">Active</label>
-			<input class="checkbox pull-left" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-					<hr class="edit-separator-hr" />
-			</div>
-		</div>
-		<div class="form-group row">
-			<label class="col-md-2 col-form-label text-md-right" for="isOpenCheck">Open Survey</label>
-			<input class="checkbox pull-left" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-					<hr class="edit-separator-hr" />
+				<hr class="edit-separator-hr" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-md-2 col-form-label text-md-right" for="rejectionLink">Rejection Link</label>
-			<input type="text" class="form-control col-md-7" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
+			<div class="col-md-7">
+				<input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-					<hr class="edit-separator-hr" />
+				<hr class="edit-separator-hr" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-md-2 col-form-label text-md-right" for="successLink">Success Link</label>
-			<input type="text" class="form-control col-md-7" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
+			<div class="col-md-7">
+				<input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-					<hr class="edit-separator-hr" />
+				<hr class="edit-separator-hr" />
 			</div>
 		</div>
 		<div class="form-group row">
-				<label class="col-md-2 col-form-label text-md-right" for="startAt">Start Date</label>
-				<input type="text" placeholder="Datepicker" class="form-control col-md-5" bsDatepicker name="startAt" id="startAt" #dpStart="bsDatepicker"
+			<label class="col-md-2 col-form-label text-md-right" for="startAt">Start Date</label>
+			<div class="col-md-5">
+				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startAt" id="startAt" #dpStart="bsDatepicker"
 				 [bsConfig]="bsConfig" [(ngModel)]="model.startAt">
+			</div>
 		</div>
 		<div class="row">
-				<div class="col-md-12">
-						<hr class="edit-separator-hr" />
-				</div>
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
 			</div>
+		</div>
 		<div class="form-group row">
-				<label class="col-md-2 col-form-label text-md-right" for="endAt">End Date</label>
-				<input type="text" placeholder="Datepicker" class="form-control col-md-5" bsDatepicker name="endAt" id="endAt" #dpEnd="bsDatepicker"
+			<label class="col-md-2 col-form-label text-md-right" for="endAt">End Date</label>
+			<div class="col-md-5">
+				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt" #dpEnd="bsDatepicker"
 				 [bsConfig]="bsConfig" [(ngModel)]="model.endAt">
+			</div>
 		</div>
 		<div class="row">
-				<div class="col-md-12">
-						<hr class="edit-last-separator-hr" />
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-8 offset-md-2">
+				<div class="form-check abc-checkbox abc-checkbox-circle abc-checkbox-info">
+					<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
+					<label class="col-form-label text-md-right" for="isActiveCheck">Active</label>
+				</div>
+				<div class="form-check abc-checkbox abc-checkbox-circle abc-checkbox-info">
+					<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
+					<label class="col-form-label text-md-right" for="isOpenCheck">Open Survey</label>
 				</div>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-last-separator-hr" />
+			</div>
+		</div>
 		<div class="modal-footer row">
-			<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()"><i class='fa fa-times'></i>Cancel</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()">
+				<i class='fa fa-times'></i>Cancel</button>
 			<button type="submit" class="btn btn-primary" [disabled]="isSaving">
-					<i class='fa fa-save'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+				<i class='fa fa-save'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
 			</button>
 		</div>
+		<div class="clearfix"></div>
 	</form>
+</div>

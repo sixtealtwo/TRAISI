@@ -1,7 +1,19 @@
-.build-icon
-{
-  font-size:22px;
-  text-align: center;
+@import '../../../scss/helpers';
+@import '../../../scss/select2-variables';
+@import '../../../../node_modules/select2/src/scss/core';
+@import '../../../../node_modules/select2-bootstrap-theme/src/select2-bootstrap';
+@import '../../../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.scss';
+
+.abc-checkbox label {
+	&::before,
+	&::after {
+		top: 20%;
+	}
+}
+
+.build-icon {
+	font-size: 22px;
+	text-align: center;
 }
 
 .separator-hr {
@@ -27,7 +39,6 @@
 	border-style: none;
 }
 
-
 .form-group {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -36,7 +47,6 @@
 input.form-control {
 	border-left-width: 5px;
 }
-
 
 .password-well {
 	margin-bottom: 0;
@@ -56,6 +66,6 @@ input.form-control {
 
 @media (min-width: 992px) {
 	.user-enabled {
-			margin-left: 40px;
+		margin-left: 40px;
 	}
 }
