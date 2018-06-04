@@ -29,9 +29,47 @@
 							</div>
 						</div>
 					</div>
-					<ngx-datatable *ngIf="!groupBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive" [rows]="soloSurveyRows"
-					 [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45" [headerHeight]="35"
-					 [footerHeight]="35" [columnMode]="'flex'">
+					<ngx-datatable #soloTable *ngIf="!groupBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					 [rows]="soloSurveyRows" [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
+					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
+						<ngx-datatable-row-detail [rowHeight]="70" #myDetailRow>
+							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+								<div class="surveyDetails">
+									<div class="row justify-content-end">
+										<div class="surveyAction" (click)="editSurvey(row)">
+											<div class="surveyActionLabel"><strong>Settings</strong></div>
+											<div>
+												<i class="fa fa-cog fa-4" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
+											<div class="surveyActionLabel"><strong>Design</strong></div>
+											<div>
+												<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Execute</strong></div>
+											<div>
+												<i class="fa fa-envelope" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Analyze</strong></div>
+											<div>
+												<i class="fa fa-bar-chart" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Share</strong></div>
+											<div>
+												<i class="fa fa-share" aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngx-datatable-row-detail>
 					</ngx-datatable>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="group" aria-labelledby="group-tab" aria-expanded="true">
@@ -50,6 +88,15 @@
 			</div>
 		</div>
 	</div>
+
+	<ng-template #expandTemplate let-row="row" let-expanded="expanded">
+		<div>
+			<a href="javascript:void(0)" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+				<i [hidden]="expanded" class="fa fa-caret-right" aria-hidden="true"></i>
+				<i [hidden]="!expanded" class="fa fa-caret-down" aria-hidden="true"></i>
+			</a>
+		</div>
+	</ng-template>
 
 	<ng-template #buildTemplate let-row="row" let-value="value" let-i="index">
 		<span class="build-icon">
@@ -72,9 +119,9 @@
 
 	<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
 		<div>
-			<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editSurvey(row)">
+			<!--<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editSurvey(row)">
 				<i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'surveys.management.Edit' | translate}}</a>
-			|
+			|-->
 			<a class="badge badge-danger" href="javascript:;" (click)="onDeleteSurveyClicked(value)">
 				<i class="fa fa-trash-o" aria-hidden="true"></i> {{'surveys.management.Delete' | translate}}</a>
 			|
@@ -98,8 +145,10 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title pull-left">
-						<i class="fa fa-cubes"></i>New Survey</h4>
+					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
+						<i class="fa fa-cubes"></i>Edit Survey</h4>
+						<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
+								<i class="fa fa-cubes"></i>New Survey</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
 						<span aria-hidden="true">&times;</span>
 					</button>

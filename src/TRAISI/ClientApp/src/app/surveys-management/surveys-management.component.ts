@@ -58,10 +58,12 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	public model: Survey;
 	public editModel: Survey;
 
-	private surveyEditMode: boolean = false;
+	public surveyEditMode: boolean = false;
 	public loadingIndicator: boolean;
 	public groupBeingViewed: boolean = false;
 	public groupActive: string;
+
+	@ViewChild('soloTable') table: any;
 
 	@ViewChild('editorModal') editorModal: ModalDirective;
 
@@ -76,6 +78,8 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	@ViewChild('dateTemplate') dateTemplate: TemplateRef<any>;
 
 	@ViewChild('buildTemplate') buildTemplate: TemplateRef<any>;
+
+	@ViewChild('expandTemplate') expandTemplate: TemplateRef<any>;
 
 	/**
 	 *
@@ -100,13 +104,13 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		const gT = (key: string) => this.translationService.getTranslation(key);
 		// columns for the display data table
 		this.soloSurveyColumns = [
+			{ width: 50, cellTemplate: this.expandTemplate, sortable: false, resizeable: false, draggable: false, canAutoResize: false},
 			{ prop: 'code', name: 'Code', midWidth: 20, flexGrow: 20 },
 			{ prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 50 },
 			{ prop: 'group', name: 'Group', minWidth: 30, flexGrow: 30 },
 			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
 			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ minWidth: 50, flexGrow: 30, cellTemplate: this.buildTemplate, name: 'Build' },
-			{ minWidth: 50, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status' },
+			{ minWidth: 50, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status', sortable: false },
 			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
 		];
 
@@ -116,8 +120,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30 },
 			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
 			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ minWidth: 50, flexGrow: 30, cellTemplate: this.buildTemplate, name: 'Build' },
-			{ minWidth: 30, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status' },
+			{ minWidth: 30, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status', sortable: false },
 			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
 		];
 
@@ -304,5 +307,9 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		} else {
 			this.soloSurveyRows = this.soloSurveyRowsCache.filter(r => Utilities.searchArray(value, false, r.name));
 		}
+	}
+
+	public toggleExpandRow(row) {
+		this.table.rowDetail.toggleExpandRow(row);
 	}
 }
