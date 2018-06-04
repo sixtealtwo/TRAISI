@@ -230,6 +230,7 @@ export class UserInfoComponent implements OnInit {
 		this.deletePasswordFromUser(this.userEdit);
 		Object.assign(this.user, this.userEdit);
 		this.userEdit = new UserEdit();
+		this.isNewUser = true;
 		this.groupMemberInfo = new GroupMember();
 		this.resetForm();
 
@@ -275,7 +276,9 @@ export class UserInfoComponent implements OnInit {
 			error
 		);
 		this.alertService.showStickyMessage(error, null, MessageSeverity.error);
-
+		this.userEdit = new UserEdit();
+		this.isNewUser = true;
+		this.groupMemberInfo = new GroupMember();
 		if (this.changesFailedCallback) {
 			this.changesFailedCallback();
 		}
@@ -302,7 +305,8 @@ export class UserInfoComponent implements OnInit {
 		} else {
 			this.userEdit = new UserEdit();
 		}
-
+		this.isNewUser = true;
+		this.groupMemberInfo = new GroupMember();
 		this.showValidationErrors = false;
 		this.resetForm();
 
@@ -323,7 +327,8 @@ export class UserInfoComponent implements OnInit {
 		this.showValidationErrors = false;
 		this.resetForm();
 		this.isEditMode = false;
-
+		this.isNewUser = true;
+		this.groupMemberInfo = new GroupMember();
 		if (this.changesSavedCallback) {
 			this.changesSavedCallback();
 		}

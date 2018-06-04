@@ -90,25 +90,17 @@
 	</div>
 
 	<ng-template #expandTemplate let-row="row" let-expanded="expanded">
-		<div>
-			<a href="javascript:void(0)" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+		<div class="cursor-pointer" (click)="toggleExpandRow(row)">
+			<a href="javascript:void(0)" title="Expand/Collapse Row">
 				<i [hidden]="expanded" class="fa fa-caret-right" aria-hidden="true"></i>
 				<i [hidden]="!expanded" class="fa fa-caret-down" aria-hidden="true"></i>
 			</a>
 		</div>
 	</ng-template>
 
-	<ng-template #buildTemplate let-row="row" let-value="value" let-i="index">
-		<span class="build-icon">
-			<a [routerLink]="['/app/survey-builder',row.id]">
-				<i class="fa fa-wrench clear-input right-icon"></i>
-			</a>
-		</span>
-	</ng-template>
 
-
-	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
-		<span>{{ value | date }}</span>
+	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
+		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value | date }}</div>
 	</ng-template>
 
 

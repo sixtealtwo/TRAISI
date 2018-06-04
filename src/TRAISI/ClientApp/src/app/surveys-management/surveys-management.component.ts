@@ -77,8 +77,6 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('dateTemplate') dateTemplate: TemplateRef<any>;
 
-	@ViewChild('buildTemplate') buildTemplate: TemplateRef<any>;
-
 	@ViewChild('expandTemplate') expandTemplate: TemplateRef<any>;
 
 	/**

@@ -406,7 +406,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		this.sourceUser = row.user as UserEdit;
 		this.editedUser = this.userEditor.editUser(row.user, this.allRoles);
 		this.userEditor.groupMemberInfo = row;
-		this.userEditor.groupMemberInfo.user = this.editedUser;
+		this.userEditor.groupMemberInfo.user = this.sourceUser;
 		this.editorModal.show();
 	}
 
