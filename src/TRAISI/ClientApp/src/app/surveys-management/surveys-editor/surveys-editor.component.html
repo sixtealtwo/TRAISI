@@ -7,12 +7,12 @@
 				 name="surveyName" required>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" *ngIf="isNewSurvey">
 			<div class="col-md-12">
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" *ngIf="isNewSurvey">
 			<label class="col-md-2 col-form-label text-md-right" for="userGroup">Group</label>
 			<div class="col-md-7">
 				<select2 (valueChanged)="updateGroup($event)" [data]="groupsOptions" [value]="selectedGroup" id="userGroup" [options]="select2Options"
@@ -71,27 +71,38 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="col-md-8 offset-md-2">
-				<div class="form-check abc-checkbox abc-checkbox-circle abc-checkbox-info">
-					<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
-					<label class="col-form-label text-md-right" for="isActiveCheck">Active</label>
-				</div>
-				<div class="form-check abc-checkbox abc-checkbox-circle abc-checkbox-info">
-					<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
-					<label class="col-form-label text-md-right" for="isOpenCheck">Open Survey</label>
-				</div>
+			<label class="col-md-2 col-form-label text-md-right">Active</label>
+			<div class="col-md-5">
+				<label class="form-check-label switch" for="isActiveCheck">
+					<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive"><i></i>
+				</label>
 			</div>
 		</div>
+		<div class="row">
+				<div class="col-md-12">
+					<hr class="edit-separator-hr" />
+				</div>
+			</div>
+		<div class="form-group row">
+			<label class="col-md-2 col-form-label text-md-right">Open Survey</label>
+			<div class="col-md-5">
+				<label class="form-check-label switch" for="isOpenCheck">
+					<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen"><i></i>
+				</label>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="edit-last-separator-hr" />
 			</div>
 		</div>
 		<div class="modal-footer row">
-			<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()">
+			<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
 				<i class='fa fa-times'></i>Cancel</button>
 			<button type="submit" class="btn btn-primary" [disabled]="isSaving">
-				<i class='fa fa-save'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+				<i *ngIf="!isSaving" class='fa fa-save'></i>
+				<i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
 			</button>
 		</div>
 		<div class="clearfix"></div>

@@ -19,6 +19,7 @@ export class SurveysEditorComponent implements OnInit {
 	public model: Survey = new Survey();
 	public editMode: boolean = false;
 	public isNewSurvey = false;
+	public isSaving = false;
 
 	public groupsOptions: Array<Select2OptionData>;
 	public selectedGroup: string;
@@ -40,6 +41,7 @@ export class SurveysEditorComponent implements OnInit {
 	 * Called when the new survey form is submitted.
 	 */
 	public onNewSurveyFormSubmit(): void {
+		this.isSaving = true;
 		if (!this.editMode) {
 			this.surveyService.createSurvey(this.model)
 			.subscribe(
@@ -57,7 +59,7 @@ export class SurveysEditorComponent implements OnInit {
 	private saveSuccessHelper() {
 
 		this.alertService.stopLoadingMessage();
-
+		this.isSaving = false;
 		if (this.isNewSurvey) {
 			this.alertService.showMessage(
 				'Success',
@@ -79,6 +81,7 @@ export class SurveysEditorComponent implements OnInit {
 	}
 
 	private saveFailedHelper(error: any) {
+		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
 			'Save Error',

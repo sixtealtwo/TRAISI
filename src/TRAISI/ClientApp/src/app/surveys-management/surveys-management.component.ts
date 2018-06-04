@@ -248,11 +248,19 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.editorModal.hide();
 	}
 
+	public deleteSurvey(row: Survey) {
+		this.alertService.showDialog(
+			'Are you sure you want to delete "' + row.name + '"?',
+			DialogType.confirm,
+			() => this.deleteSurveyHelper(row.id)
+		);
+	}
+
 	/**
 	 * Deletes the survey with the associated id.
 	 * @param surveyId
 	 */
-	public onDeleteSurveyClicked(surveyId): void {
+	private deleteSurveyHelper(surveyId: number): void {
 		this.surveyService.deleteSurvey(surveyId).subscribe(value =>
 			this.surveyService.listSurveys().subscribe(surveys => {
 				this.soloSurveyRows = surveys;
