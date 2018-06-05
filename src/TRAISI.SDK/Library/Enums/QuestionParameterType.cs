@@ -9,9 +9,11 @@ namespace TRAISI.SDK.Enums
     public enum QuestionParameterType
     {
         String,
-        Number,
+        Integer,
+        Decimal,
         OptionList,
         Boolean,
+        Tuple,
         Custom
     }
 }

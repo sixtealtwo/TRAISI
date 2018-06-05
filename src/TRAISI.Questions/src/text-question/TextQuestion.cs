@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions {
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-		[QuestionConfigParameter (QuestionParameterType.Number,
+		[QuestionConfigParameter (QuestionParameterType.Integer,
 			ParameterName = "Max Length",
 			ParameterDescription = "Max number of characters")]
 		public int MaxLength = 255;
