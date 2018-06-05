@@ -14,8 +14,7 @@ import { Title } from '@angular/platform-browser';
 
 import { Utilities } from './utilities';
 
-
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class AppTitleService {
 
 	sub: Subscription;

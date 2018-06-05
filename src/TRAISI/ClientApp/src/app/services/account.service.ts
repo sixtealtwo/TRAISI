@@ -27,8 +27,7 @@ export type RolesChangedOperation = 'add' | 'delete' | 'modify';
 export type RolesChangedEventArg = { roles: Role[] | string[], operation: RolesChangedOperation };
 
 
-
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class AccountService {
 
 	public static readonly roleAddedOperation: RolesChangedOperation = 'add';

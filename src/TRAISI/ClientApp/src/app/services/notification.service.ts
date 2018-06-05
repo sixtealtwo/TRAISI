@@ -15,9 +15,7 @@ import { AuthService } from './auth.service';
 import { NotificationEndpoint } from './notification-endpoint.service';
 import { Notification } from '../models/notification.model';
 
-
-
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class NotificationService {
 
 	private lastNotificationDate: Date;

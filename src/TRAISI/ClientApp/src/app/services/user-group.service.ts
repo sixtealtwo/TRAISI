@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { UserGroupEndpointService } from './user-group-endpoint.service';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
-@Injectable()
+
+@Injectable({ providedIn: 'root'})
 export class UserGroupService {
 	constructor(private _userGroupEndpointService: UserGroupEndpointService) {}
 

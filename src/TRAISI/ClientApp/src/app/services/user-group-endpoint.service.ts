@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class UserGroupEndpointService extends EndpointFactory {
 	private readonly _userGroupsUrl: string = '/api/UserGroup';
 	private readonly _userGroupsAdminUrl: string = '/api/UserGroup/admin';

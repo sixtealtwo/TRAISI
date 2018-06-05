@@ -4,7 +4,8 @@ import { Survey } from '../models/survey.model';
 import { map } from 'rxjs/operators';
 
 import {forkJoin as observableForkJoin,  Observable ,  Subject } from 'rxjs';
-@Injectable()
+
+@Injectable({ providedIn: 'root'})
 export class SurveyService {
 	constructor(private _surveyEndpointService: SurveyEndpointService) {}
 

@@ -7,7 +7,7 @@ import { EndpointFactory } from './endpoint-factory.service';
 import { Survey } from '../models/survey.model';
 import { catchError } from 'rxjs/internal/operators/catchError';
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class SurveyEndpointService extends EndpointFactory {
 	private readonly _surveysUrl: string = '/api/survey';
 	private readonly _groupSurveysUrl: string = '/api/survey/group';

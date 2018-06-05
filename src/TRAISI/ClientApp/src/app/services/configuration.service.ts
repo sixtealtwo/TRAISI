@@ -23,7 +23,7 @@ type UserConfiguration = {
 	showDashboardBanner: boolean
 };
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class ConfigurationService {
 
 	public static readonly appVersion: string = '2.5.3';

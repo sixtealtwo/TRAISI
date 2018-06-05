@@ -19,19 +19,14 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppTitleService } from './services/app-title.service';
+
 import {
 	AppTranslationService,
 	TranslateLanguageLoader
 } from './services/app-translation.service';
-import { ConfigurationService } from './services/configuration.service';
-import { AlertService } from './services/alert.service';
+
 import { LocalStoreManager } from './services/local-store-manager.service';
 import { EndpointFactory } from './services/endpoint-factory.service';
-import { NotificationService } from './services/notification.service';
-import { NotificationEndpoint } from './services/notification-endpoint.service';
-import { AccountService } from './services/account.service';
-import { AccountEndpoint } from './services/account-endpoint.service';
 
 import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';
@@ -83,14 +78,7 @@ const APP_PROVIDERS = [AppConfig];
 	],
 	providers: [
 		APP_PROVIDERS,
-		AlertService,
-		ConfigurationService,
-		AppTitleService,
 		AppTranslationService,
-		NotificationService,
-		NotificationEndpoint,
-		AccountService,
-		AccountEndpoint,
 		LocalStoreManager,
 		EndpointFactory,
 		TranslatePipe
