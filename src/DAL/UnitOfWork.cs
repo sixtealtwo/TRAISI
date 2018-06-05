@@ -19,7 +19,6 @@ namespace DAL {
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
         ISurveyViewRepository _surveyViews;
-
         IQuestionPartRepository _questionParts;
 
         public UnitOfWork (ApplicationDbContext context) {

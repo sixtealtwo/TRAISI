@@ -13,6 +13,28 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
 	}
 
+	get surveyViewQuestionConfiguration() {
+		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
+	}
+
+
+
+	/**
+	 *
+	 * @param questionId
+	 */
+	getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
+		let endpointUrl = `${this.surveyViewQuestionConfiguration}/${questionId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewQuestionsEndpoint(questionId)
+				);
+			})
+		);
+	}
+
 	/**
 	 * Returns the endpoint for retrieving survey questions of a particular survey view
 	 * @param {number} surveyId

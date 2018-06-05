@@ -19,6 +19,7 @@ namespace DAL
         IUserGroupRepository UserGroups { get; }
         IGroupMemberRepository GroupMembers { get; }
         ISurveyViewRepository SurveyViews { get; }
+        IQuestionPartRepository QuestionParts {get;}
 
         int SaveChanges();
         Task<int> SaveChangesAsync();
