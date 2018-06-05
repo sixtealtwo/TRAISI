@@ -8,10 +8,7 @@ import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
-
-
-
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class NotificationEndpoint {
 
 	private demoNotifications = [

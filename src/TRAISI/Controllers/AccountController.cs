@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
@@ -25,12 +26,14 @@ namespace TRAISI.Controllers {
     public class AccountController : Controller {
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
+        private IUnitOfWork _unitOfWork;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService) {
+        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork) {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet ("users/me")]
@@ -222,14 +225,22 @@ namespace TRAISI.Controllers {
         }
 
         [HttpPost ("users")]
-        [Authorize (Authorization.Policies.ManageAllUsersPolicy)]
         public async Task<IActionResult> Register ([FromBody] UserEditViewModel user) {
-            if (!(await _authorizationService.AuthorizeAsync (this.User, Tuple.Create (user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
-                return new ChallengeResult ();
+            //if (!(await _authorizationService.AuthorizeAsync (this.User, Tuple.Create (user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
+            //    return new ChallengeResult ();
+
+            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+            bool isGroupAdmin = await this.CanAdminGroups();
+
+            if (!viewAllUsersPolicy.Succeeded && !isGroupAdmin)
+                return new ChallengeResult();
 
             if (ModelState.IsValid) {
                 if (user == null)
                     return BadRequest ($"{nameof(user)} cannot be null");
+
+								// force user type to be 'user' to avoid any other type being set through here
+								user.Roles = new string[] { "user" };
 
                 ApplicationUser appUser = Mapper.Map<ApplicationUser> (user);
 
@@ -451,6 +462,21 @@ namespace TRAISI.Controllers {
                 return Mapper.Map<RoleViewModel> (role);
 
             return null;
+        }
+
+        private async Task<bool> CanAdminGroups()
+        {
+            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+            IEnumerable<UserGroup> groups;
+            if (viewAllUsersPolicy.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync(this.User.Identity.Name);
+                return groups.Count() > 0;
+            }
         }
 
         private void AddErrors (IEnumerable<string> errors) {

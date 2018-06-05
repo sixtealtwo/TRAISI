@@ -19,7 +19,6 @@ namespace DAL.Repositories
 		public UserGroupRepository(ApplicationDbContext context) : base(context)
 		{ }
 
-
 		private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
 		/// <summary>
@@ -83,9 +82,10 @@ namespace DAL.Repositories
 					.ToListAsync();
 		}
 
-		public async Task<IEnumerable<UserGroup>> GetAllGroupsForAdminAsync()
+		public async Task<IEnumerable<UserGroup>> GetAllGroupsForAdminAsync(string username)
 		{
 			return await _appContext.GroupMembers
+					.Where(m => m.UserName == username && m.GroupAdmin)
 					.Include(m => m.UserGroup)
 					.Select(m => m.UserGroup)
 					.OrderBy(g => g.Name)

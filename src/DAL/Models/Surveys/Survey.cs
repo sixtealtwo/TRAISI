@@ -10,6 +10,8 @@ using DAL.Models.Surveys;
 namespace DAL.Models.Surveys {
     public class Survey : AuditableEntity, ISurvey {
         public int Id { get; set; }
+        public int Code { get; set; }
+        public string Name { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
         public DateTime StartAt { get; set; }
@@ -22,10 +24,11 @@ namespace DAL.Models.Surveys {
         public string StyleTemplate { get; set; }
         public ICollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
-        public string Name { get; set; }
+
 
         public ICollection<Label> TitleLabel { get; set; }
 
+        [NotMapped]
         public string Title {
             get {
                 return TitleLabel.FirstOrDefault ()?.Text;

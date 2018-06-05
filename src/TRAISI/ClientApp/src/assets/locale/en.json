@@ -91,7 +91,10 @@
   "surveys": {
     "management" : {
       "NewSurvey": "New Survey",
-      "Search": "Search for survey..."
+			"Search": "Search for survey...",
+			"Edit": "Edit",
+			"Delete": "Delete",
+			"View": "View"
     }
   },
   "users": {
@@ -132,7 +135,8 @@
       "RoleRequired": " Role is required",
       "PhoneNumber": "Phone #:",
       "Enabled": "Enabled",
-      "Unblock": "Unblock",
+			"Unblock": "Unblock",
+			"GroupAdmin": "Group Admin",
       "Close": "Close",
       "Edit": "Edit",
       "Cancel": "Cancel",

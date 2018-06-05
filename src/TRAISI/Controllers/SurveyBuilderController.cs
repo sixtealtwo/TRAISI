@@ -22,7 +22,7 @@ namespace TRAISI.Controllers
         /// <param name="unitOfWork">Unit of work service.</param>
         /// <param name="questionTypeManager">Question type manager service.</param>
         public SurveyBuilderController(IUnitOfWork unitOfWork,
-IQuestionTypeManager questionTypeManager)
+										IQuestionTypeManager questionTypeManager)
         {
             this._unitOfWork = unitOfWork;
             this._questionTypeManager = questionTypeManager;

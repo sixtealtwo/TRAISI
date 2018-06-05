@@ -160,7 +160,7 @@
 
       <!--******************************************************************************************************-->
 
-      <div *ngIf="!isEditMode || canAssignRoles" class="row">
+      <!--<div *ngIf="!isEditMode || canAssignRoles" class="row">
           <div class="col-md-12">
               <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
           </div>
@@ -180,7 +180,7 @@
             <select2 (valueChanged)="updateRole($event)"
                 [data]="rolesOptions" [value]="selectedRole" [options]="select2Options" [width]="240" [cssImport]=true></select2>
           </div>
-      </div>
+      </div>-->
       
 
       <!--******************************************************************************************************-->
@@ -222,7 +222,13 @@
                           {{'users.editor.Enabled' | translate}}
                       </label>
                   </div>
-                  <button *ngIf="userEdit.isLockedOut" type="button" (click)="unlockUser()" class="btn btn-warning unblock-user" [disabled]="isSaving"><i class='fa fa-unlock-alt'></i> {{'users.editor.Unblock' | translate}}</button>
+									<button *ngIf="userEdit.isLockedOut" type="button" (click)="unlockUser()" class="btn btn-warning unblock-user" [disabled]="isSaving"><i class='fa fa-unlock-alt'></i> {{'users.editor.Unblock' | translate}}</button>
+									<div *ngIf="inGroupMode && !isNewUser" class="checkbox user-enabled">
+										<label>
+												<input type="checkbox" name="isGroupAdmin" [(ngModel)]="groupMemberInfo.groupAdmin">
+												{{'users.editor.GroupAdmin' | translate}}
+										</label>
+								</div>
               </div>
           </div>
           <div class="col-sm-7">

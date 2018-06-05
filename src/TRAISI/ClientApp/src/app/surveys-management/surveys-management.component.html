@@ -1,139 +1,155 @@
 <div>
-  <h1 class="page-title">Manage Surveys</h1>
+	<h1 class="page-title">Manage Surveys</h1>
 
-  <div class="row ">
-    <div class="col-sm-8">
-      <div class="form-group search-box">
-        <search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
-      </div>
-    </div>
-  </div>
-  <ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive survey-management-table"
+	<div class="row mb-lg">
+		<div class="col-lg-12 col-12">
+			<div class="clearfix">
+				<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active fw-semi-bold" (click)="switchGroup('unGrouped')" id="solo-tab" data-toggle="tab" href="#solo" role="tab"
+						 aria-controls="solo" aria-expanded="true">Solo</a>
+					</li>
+					<li *ngFor="let group of allGroups" class="nav-item">
+						<a class="nav-link fw-semi-bold" (click)="switchGroup(group.name)" id="{{ group.name + '-tab' }}" data-toggle="tab" href="#group"
+						 role="tab" aria-controls="group.name" aria-expanded="true">
+							{{ group.name }}
+							<sup class="badge badge-pill badge-primary">
+								G
+							</sup>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-content mb-lg" id="myTabContent">
+				<div role="tabpanel" class="tab-pane active in clearfix" id="solo" aria-labelledby="solo-tab" aria-expanded="true">
+					<div class="row ">
+						<div class="col-sm-4">
+							<div class="form-group search-box">
+								<search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
+							</div>
+						</div>
+					</div>
+					<ngx-datatable #soloTable *ngIf="!groupBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					 [rows]="soloSurveyRows" [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
+					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
+						<ngx-datatable-row-detail [rowHeight]="70" #myDetailRow>
+							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+								<div class="surveyDetails">
+									<div class="row justify-content-end">
+										<div class="surveyAction" (click)="editSurvey(row)">
+											<div class="surveyActionLabel"><strong>Settings</strong></div>
+											<div>
+												<i class="fa fa-cog fa-4" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
+											<div class="surveyActionLabel"><strong>Design</strong></div>
+											<div>
+												<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Execute</strong></div>
+											<div>
+												<i class="fa fa-envelope" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Analyze</strong></div>
+											<div>
+												<i class="fa fa-bar-chart" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Share</strong></div>
+											<div>
+												<i class="fa fa-share" aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngx-datatable-row-detail>
+					</ngx-datatable>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="group" aria-labelledby="group-tab" aria-expanded="true">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group search-box">
+								<search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
+							</div>
+						</div>
+					</div>
+					<ngx-datatable *ngIf="groupBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive" [rows]="groupSurveyRows"
+					 [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45" [headerHeight]="35"
+					 [footerHeight]="35" [columnMode]="'flex'">
+					</ngx-datatable>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                 [scrollbarH]="false"
-                 [headerHeight]="35"
-                 [footerHeight]="35"
-                 [columnMode]="'force'"
-
-    [rows]="surveys"
-    [columns]="columns">
-
-
-
-
-  </ngx-datatable>
-
-  <ng-template #buildTemplate let-row="row" let-value="value" let-i="index">
-    <span class="build-icon"><a [routerLink]="['/app/survey-builder',row.id]" ><i class="fa fa-wrench clear-input right-icon"></i></a></span>
-  </ng-template>
-
-
-  <ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
-    <span>{{ value | date }}</span>
-  </ng-template>
-
-
-  <ng-template #surveyTagTemplate let-row="row" let-value="value" let-i="index">
-    <span class="user-role badge badge-secondary" *ngIf="row.isOpen">Open Survey</span>
-    <span class="user-role badge badge-primary" *ngIf="row.isActive">Active</span>
-  </ng-template>
-
-  <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-    <div class="btn-group" dropdown>
-
-      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-sm "
-              aria-controls="dropdown-basic">
-        Actions<span class="caret"></span>
-      </button>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li role="menuitem"><a class="dropdown-item">View Survey</a></li>
-        <li role="menuitem"><a class="dropdown-item"  (click)="onDeleteSurveyClicked(value)">Delete Survey</a></li>
-      </ul>
-    </div>
-
-  </ng-template>
-
-
-  <div class="row justify-content-center">
-    <div>
-      <button class="btn btn-primary" (click)="newSurvey()">
-        <i class="fa fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
-      </button>
-    </div>
-  </div>
-
-  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" (onShow)="onEditorModalShow()"
-    tabindex="-1">
-    <form (submit)="onNewSurveyFormSubmit()">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">
-            <i class="fa fa-cubes"></i>New Survey</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-
-        </div>
-        <div class="modal-body">
-
-
-          <div class="form-group">
-            <label for="surveyName">Survey Name</label>
-            <input  [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name" name="surveyName">
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
-            <label class="form-check-label" for="isActiveCheck">
-              Active
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
-            <label class="form-check-label" for="isOpenCheck">
-              Open Survey
-            </label>
-          </div>
-
-          <div class="form-group">
-            <label for="rejectionLink">Rejection Link</label>
-            <input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
-          </div>
-
-          <div class="form-group">
-            <label for="successLink">Success Link</label>
-            <input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
-          </div>
-
-          <div class="row">
-            <div class="col-xs-12 col-md-5 col-lg-4 form-group">
-            <label for="startAt">Start Date</label>
-              <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startAt" id="startAt"
-              #dpStart="bsDatepicker" [bsConfig]="bsConfig" [(ngModel)]="model.startAt">
-            </div>
+	<ng-template #expandTemplate let-row="row" let-expanded="expanded">
+		<div class="cursor-pointer" (click)="toggleExpandRow(row)">
+			<a href="javascript:void(0)" title="Expand/Collapse Row">
+				<i [hidden]="expanded" class="fa fa-caret-right" aria-hidden="true"></i>
+				<i [hidden]="!expanded" class="fa fa-caret-down" aria-hidden="true"></i>
+			</a>
+		</div>
+	</ng-template>
 
 
-          </div>
-
-          <div class="row">
-                <div class="col-xs-12 col-md-5 col-lg-4 form-group">
-                <label for="endAt">End Date</label>
-                  <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt"
-                         #dpEnd="bsDatepicker"  [bsConfig]="bsConfig" [(ngModel)]="model.endAt">
-                </div>
+	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
+		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value | date }}</div>
+	</ng-template>
 
 
-              </div>
+	<ng-template #surveyTagTemplate let-row="row" let-value="value" let-i="index">
+		<span class="user-role badge badge-secondary" *ngIf="row.isOpen">Open Survey</span>
+		<span class="user-role badge badge-primary" *ngIf="row.isActive">Active</span>
+	</ng-template>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeEditorModal()">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    </form>
-  </div>
+	<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
+		<div>
+			<!--<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editSurvey(row)">
+				<i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'surveys.management.Edit' | translate}}</a>
+			|-->
+			<a class="badge badge-danger" href="javascript:;" (click)="deleteSurvey(row)">
+				<i class="fa fa-trash-o" aria-hidden="true"></i> {{'surveys.management.Delete' | translate}}</a>
+			|
+			<a class="badge badge-primary" href="javascript:;">
+				<i class="fa fa-eye-o" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
+		</div>
+	</ng-template>
+
+
+	<div class="row justify-content-center">
+		<div>
+			<button class="btn btn-primary" (click)="newSurvey()">
+				<i class="fa fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
+			</button>
+		</div>
+	</div>
+
+	<div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}"
+	 (onShow)="onEditorModalShow()" tabindex="-1">
+
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
+						<i class="fa fa-cubes"></i>Edit Survey</h4>
+						<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
+								<i class="fa fa-cubes"></i>New Survey</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+
+				</div>
+				<div class="modal-body">
+					<app-surveys-editor #surveyEditor></app-surveys-editor>
+				</div>
+			</div>
+		</div>
+
+	</div>

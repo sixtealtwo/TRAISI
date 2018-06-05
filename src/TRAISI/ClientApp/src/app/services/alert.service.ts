@@ -10,8 +10,7 @@ import { Observable ,  Subject } from 'rxjs';
 import { Utilities } from '../services/utilities';
 
 
-
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class AlertService {
 
 	private messages = new Subject<AlertMessage>();

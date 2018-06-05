@@ -11,9 +11,12 @@ namespace TRAISI.ViewModels
     public class SurveyViewModel
     {
         public int Id { get; set; }
+        public int Code { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime EndAt { get; set; }
         public Boolean IsActive { get; set; }
@@ -22,7 +25,6 @@ namespace TRAISI.ViewModels
         public string RejectionLink { get; set; }
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }
-
     }
     
     public class SurveyViewModelValidator : AbstractValidator<SurveyViewModel>

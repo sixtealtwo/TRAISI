@@ -12,7 +12,7 @@ import { ConfigurationService } from './configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class AccountEndpoint extends EndpointFactory {
 
 	private readonly _usersUrl: string = '/api/account/users';

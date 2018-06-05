@@ -1,7 +1,3 @@
-.row:not(:last-child) {
-    /*border-bottom: 1px solid #ccc;*/
-}
-
 .separator-hr {
     margin: 0 5px;
     border-top-style: dashed;

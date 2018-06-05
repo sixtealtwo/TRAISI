@@ -217,6 +217,8 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Code");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
 
@@ -245,8 +247,6 @@ namespace TRAISI.Migrations
                     b.Property<string>("StyleTemplate");
 
                     b.Property<string>("SuccessLink");
-
-                    b.Property<string>("Title");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);

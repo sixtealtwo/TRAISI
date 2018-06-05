@@ -47,7 +47,7 @@ namespace DAL {
                 _logger.LogInformation ("Generating inbuilt accounts");
 
                 const string adminRoleName = "super administrator";
-                const string groupAdminRoleName = "group administor";
+                const string groupAdminRoleName = "group administrator";
                 const string userRoleName = "user";
 
                 await EnsureRoleAsync (adminRoleName, "Super administrator", ApplicationPermissions.GetAllPermissionValues ());

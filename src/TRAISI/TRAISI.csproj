@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj" />
     <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
   </ItemGroup>
   <ItemGroup>

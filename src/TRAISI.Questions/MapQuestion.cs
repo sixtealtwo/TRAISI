@@ -5,9 +5,9 @@ namespace TRAISI.ClientApp.question_definitions.map_question {
 
 	[SurveyQuestion(QuestionResponseType.Location)]
 	public class MapQuestion : ISurveyQuestion {
-		public string TypeName => "Map";
+		public virtual string TypeName => "Map";
 
-		public string Icon {
+		public virtual string Icon {
 			get => "Map";
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
