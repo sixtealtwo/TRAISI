@@ -22,7 +22,7 @@ module.exports = {
             },
             {
                 test: /\.html?$/,
-                loader:'raw-loader'
+                loader: 'raw-loader'
             },
             {
                 test: /\.scss$/,

@@ -19,6 +19,7 @@ namespace TRAISI.ViewModels {
         public AutoMapperProfile () {
             CreateMap<ApplicationUser, UserViewModel> ()
                 .ForMember (d => d.Roles, map => map.Ignore ());
+                
             CreateMap<UserViewModel, ApplicationUser> ()
                 .ForMember (d => d.Roles, map => map.Ignore ());
 

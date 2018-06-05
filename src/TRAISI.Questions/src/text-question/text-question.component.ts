@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: 'helllotest'
+	template: <string>require('./text-question.component.html')
 })
 export class TextQuestionComponent implements OnInit {
 
