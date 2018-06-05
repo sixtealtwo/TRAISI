@@ -33,7 +33,7 @@ namespace TRAISI.Controllers
         public FileContentResult ClientCode(string questionType)
         {
             var response = File(this._questionTypeManager.QuestionTypeDefinitions
-            .Where(q => string.Equals(q.TypeName,questionType))
+            .Where(q => string.Equals(q.TypeName.ToLower(),questionType.ToLower()))
             .Single().ClientModules[0],"application/javascript");
             return response;
         }

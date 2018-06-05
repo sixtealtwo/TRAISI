@@ -1,9 +1,9 @@
-import { Compiler, Component, Injector, SkipSelf, ViewChild, ViewContainerRef, Injectable, ComponentFactory  } from '@angular/core';
+import { Compiler, Component, Injector, SkipSelf, ViewChild, ViewContainerRef, Injectable, ComponentFactory } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
+import * as AngularCore from '@angular/core';
+import * as AngularCommon from '@angular/common';
 import 'rxjs/add/observable/of';
-
-require('systemjs/dist/system-production.js');
 
 
 declare const SystemJS;
@@ -20,6 +20,10 @@ export class QuestionLoaderService {
 	 */
 	public getQuestionComponentFactory(questionType: string): Observable<any> {
 
+		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
+		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
+
+
 		// create and obserer and return the component factory after it has finished importing
 		let obs: Observable<ComponentFactory<any>> = Observable.create((observer: Observer<ComponentFactory<any>>) => {
 			SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)).then((module) => {
@@ -32,8 +36,9 @@ export class QuestionLoaderService {
 				console.log(componentFactory);
 				observer.next(componentFactory);
 				observer.complete();
-			}).catch( error => {
-				console.log("Error: " + error);
+			}).catch(error => {
+				console.log(error);
+				console.log('Error: ' + error);
 			});
 		});
 
@@ -50,7 +55,7 @@ export class QuestionLoaderService {
 	 */
 	constructor(private _questionLoaderEndpointService: QuestionLoaderEndpointService,
 		private compiler: Compiler, @SkipSelf() private injector: Injector,
-		) {
+	) {
 
 
 	}

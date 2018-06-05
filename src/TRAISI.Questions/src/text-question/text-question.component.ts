@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: require('./text-question.component.html') as string,
-	styles: [require('./text-question.component.scss') as string]
+	template: 'helllotest'
 })
 export class TextQuestionComponent implements OnInit {
 
@@ -14,10 +13,12 @@ export class TextQuestionComponent implements OnInit {
 	constructor() {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
+		console.log("loaded");
+	
 	}
 
 	ngOnInit() {
-
+		console.log("init");
 	}
 
 }

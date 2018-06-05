@@ -14,7 +14,7 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 	}
 
 	get getClientCodeUrl() {
-		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/client-code';
+		return this._surveyViewQuestionsUrl + '/client-code';
 	}
 
 

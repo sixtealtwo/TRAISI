@@ -6,7 +6,7 @@ module.exports = {
     output: {
         path: path.join(process.cwd(), 'dist'),
         filename: 'traisi-questions.module.js',
-        libraryTarget: 'umd'
+        libraryTarget: 'amd'
     },
     resolve: {
         extensions: [
@@ -34,14 +34,15 @@ module.exports = {
             }]
         
     },
-    externals: [
+    /*externals: [
         function (context, request, callback) {
             if (/^@angular/.test(request)) {
                 return callback(null, 'umd ' + request);
             }
             callback();
         }
-    ],
+    ],*/
+    externals: /^@angular/,
     plugins: [
         //snew UglifyJsPlugin()
       ]
