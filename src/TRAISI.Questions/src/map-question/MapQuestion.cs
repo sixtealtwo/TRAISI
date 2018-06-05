@@ -38,7 +38,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 		[QuestionConfigParameter(QuestionParameterType.Tuple,
 		ParameterName = "Mapbox Default Centre",
 		ParameterDescription = "Initial centre location (lat,lng).")]
-		public Tuple<double,double> Centre  = new Tuple<double,double>(74.50, 40);
+		public Tuple<double,double> Centre  = new Tuple<double,double>(-79.40, 43.67);
 
 	}
 }
