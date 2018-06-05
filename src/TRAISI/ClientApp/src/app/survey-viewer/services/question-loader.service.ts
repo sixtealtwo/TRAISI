@@ -4,6 +4,7 @@ import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import 'rxjs/add/observable/of';
+import * as _ from 'lodash';
 
 
 declare const SystemJS;
@@ -32,7 +33,15 @@ export class QuestionLoaderService {
 				const moduleRef = moduleFactory.create(this.injector);
 				const widgets = moduleRef.injector.get('widgets');
 				const resolver = moduleRef.componentFactoryResolver;
-				const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widgets[0][0].component);
+				console.log(widgets);
+
+				let widget = _.find(widgets[0], (item) => {
+					return item.id.toLowerCase() === questionType.toLowerCase();
+				});
+
+				console.log(widget);
+
+				const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widget.component);
 				console.log(componentFactory);
 				observer.next(componentFactory);
 				observer.complete();

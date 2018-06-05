@@ -12,6 +12,7 @@ import { NextObserver } from 'rxjs';
 export class SurveyViewerComponent implements OnInit {
 
 	@ViewChild('vc', {read: ViewContainerRef}) vc;
+	@ViewChild('vcmap', {read: ViewContainerRef}) vcmap;
 
 	/**
 	 *
@@ -33,6 +34,10 @@ export class SurveyViewerComponent implements OnInit {
 		// tests with the Map type currently
 		this.questionLoaderService.getQuestionComponentFactory('Text').subscribe((value: ComponentFactory<any>) => {
 			this.vc.createComponent(value);
+		});
+
+		this.questionLoaderService.getQuestionComponentFactory('Map').subscribe((value: ComponentFactory<any>) => {
+			this.vcmap.createComponent(value);
 		});
 	}
 

@@ -5,6 +5,7 @@ using DAL;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+
 namespace TRAISI.Controllers
 {
 
@@ -30,12 +31,20 @@ namespace TRAISI.Controllers
 		/// <param name="questionType"></param>
 		/// <returns></returns>
 		[HttpGet("client-code/{questionType}")]
-		public FileContentResult ClientCode(string questionType)
+		public ActionResult ClientCode(string questionType)
 		{
-			var response = File(this._questionTypeManager.QuestionTypeDefinitions
-			.Where(q => string.Equals(q.TypeName, questionType))
-			.Single().ClientModules[0], "application/javascript");
-			return response;
+			try
+			{
+				var response = File(this._questionTypeManager.QuestionTypeDefinitions
+				.Where(q => string.Equals(q.TypeName, questionType))
+				.Single().ClientModules[0], "application/javascript");
+				return response;
+			}
+			catch
+			{
+				//return error if not found
+				return new EmptyResult();
+			}
 		}
 
 
