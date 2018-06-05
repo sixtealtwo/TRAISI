@@ -1,6 +1,12 @@
-
+@import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
 
 body
 {
     font-weight:bold;
 }
+
+mgl-map {
+    height: 100%;
+    width: 100%;
+  }

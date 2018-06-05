@@ -13,136 +13,143 @@ using TRAISI.SDK;
 namespace TRAISI.Helpers
 {
 
-    public class QuestionTypeManager : IQuestionTypeManager
-    {
-        private IList<QuestionTypeDefinition> _questionTypeDefinitions;
+	public class QuestionTypeManager : IQuestionTypeManager
+	{
+		private IList<QuestionTypeDefinition> _questionTypeDefinitions;
 
-        private IConfiguration _configuration;
+		private IConfiguration _configuration;
 
-        private ILoggerFactory _loggerFactory;
+		private ILoggerFactory _loggerFactory;
 
-        private ILogger<QuestionTypeManager> _logger;
+		private ILogger<QuestionTypeManager> _logger;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="configuration"></param>
-        public QuestionTypeManager(IConfiguration configuration,
-        ILoggerFactory loggerFactory)
-        {
-            this._configuration = configuration;
-            this._loggerFactory = loggerFactory;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="configuration"></param>
+		public QuestionTypeManager(IConfiguration configuration,
+		ILoggerFactory loggerFactory)
+		{
+			this._configuration = configuration;
+			this._loggerFactory = loggerFactory;
 
-            this._logger = loggerFactory.CreateLogger<QuestionTypeManager>();
-            _questionTypeDefinitions = new List<QuestionTypeDefinition>();
-
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void LoadQuestionExtensions()
-        {
-            LoadExtensionAssemblies();
-            LoadQuestionTypeDefinitions();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="attribute"></param>
-        private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
-        {
-            var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
-            _questionTypeDefinitions.Add(typeDefinition);
-
-            typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
+			this._logger = loggerFactory.CreateLogger<QuestionTypeManager>();
+			_questionTypeDefinitions = new List<QuestionTypeDefinition>();
 
 
-        }
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="typeDefinition"></param>
-        /// <param name="sourceAssembly"></param>
-        /// <returns></returns>
-        private byte[] GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
-        {
-            string [] resourceNames = sourceAssembly.GetManifestResourceNames();
-            string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.EndsWith(".module.js"));
+		/// <summary>
+		/// 
+		/// </summary>
+		public void LoadQuestionExtensions()
+		{
+			LoadExtensionAssemblies();
+			LoadQuestionTypeDefinitions();
+		}
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
-                return ms.ToArray();
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="attribute"></param>
+		private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
+		{
+			var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
+			_questionTypeDefinitions.Add(typeDefinition);
 
-        /// <summary>
-        /// Load all extension (dll) included in the configured extensions directory.
-        /// </summary>
-        public void LoadExtensionAssemblies()
-        {
-            this._logger.LogInformation("Loading TRAISI extensions");
-            if (!Directory.Exists("extensions"))
-            {
-                this._logger.LogWarning("Extensions folder does not exist.");
-                return;
-            }
-            //assume from configuration at the moment
-            var s = from d in Directory.EnumerateFiles("extensions")
-                    where d.EndsWith(".dll")
-                    select d;
+			typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
-            Directory.EnumerateFiles("extensions").Where(file => file.EndsWith("dll")).ToList<string>().ForEach((file) =>
-            {
-                try
-                {
-                    string loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
-                    Assembly.LoadFile(loadFrom);
-                    this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
-                }
-                catch (Exception e)
-                {
-                    this._logger.LogWarning(e, "Error loading extension assembly.");
-                }
-            });
 
-            return;
-        }
+		}
 
-        public IList<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeDefinition"></param>
+		/// <param name="sourceAssembly"></param>
+		/// <returns></returns>
+		private byte[] GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
+		{
+			string[] resourceNames = sourceAssembly.GetManifestResourceNames();
+			string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.EndsWith(".module.js"));
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void LoadQuestionTypeDefinitions(string loadFrom = ".")
-        {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			using (MemoryStream ms = new MemoryStream())
+			{
+				sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
+				return ms.ToArray();
+			}
+		}
 
-            foreach (var assembly in assemblies)
-            {
-                Type[] types = assembly.GetTypes();
-                foreach (var type in types)
-                {
+		/// <summary>
+		/// Load all extension (dll) included in the configured extensions directory.
+		/// </summary>
+		public void LoadExtensionAssemblies()
+		{
+			this._logger.LogInformation("Loading TRAISI extensions");
+			if (!Directory.Exists("extensions"))
+			{
+				this._logger.LogWarning("Extensions folder does not exist.");
+				return;
+			}
+			//assume from configuration at the moment
+			var s = from d in Directory.EnumerateFiles("extensions")
+					where d.EndsWith(".dll")
+					select d;
 
-                    var e = type.GetCustomAttributes(typeof(SurveyQuestionAttribute));
+			Directory.EnumerateFiles("extensions").Where(file => file.EndsWith("dll")).ToList<string>().ForEach((file) =>
+			{
+				try
+				{
+					string loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
+					Assembly.LoadFile(loadFrom);
+					this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
+				}
+				catch (Exception e)
+				{
+					this._logger.LogWarning(e, "Error loading extension assembly.");
+				}
+			});
 
-                    foreach (var attribute in e)
-                    {
-                        if (attribute.GetType() == typeof(SurveyQuestionAttribute))
-                        {
-                            CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly);
-                        }
-                    }
+			return;
+		}
 
-                }
-            }
+		public IList<QuestionTypeDefinition> QuestionTypeDefinitions { get { return this._questionTypeDefinitions; } }
 
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public void LoadQuestionTypeDefinitions(string loadFrom = ".")
+		{
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-    }
+			foreach (var assembly in assemblies)
+			{
+				try
+				{
+					Type[] types = assembly.GetTypes();
+					foreach (var type in types)
+					{
+
+						var e = type.GetCustomAttributes(typeof(SurveyQuestionAttribute));
+
+						foreach (var attribute in e)
+						{
+							if (attribute.GetType() == typeof(SurveyQuestionAttribute))
+							{
+								CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly);
+							}
+						}
+
+					}
+				}
+				catch (Exception e)
+				{
+                    Console.WriteLine(e.Message);
+				}
+			}
+
+		}
+
+	}
 }

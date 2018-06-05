@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="dist/**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <OutputFile Include="$(OutDir)/TRAISI.Questions.dll"/>
+    <None Remove="node_modules/**" />
+    <Compile Remove="node_modules/**" />
+
+    <EmbeddedResource Include="dist/**" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

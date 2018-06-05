@@ -5,15 +5,8 @@ import { Component, OnInit } from '@angular/core';
  */
 @Component({
   selector: 'traisi-map-question',
-  template: <string>require('./map-question.component.html'),
-  styles: [
-    `
-    mgl-map {
-      height: 100%;
-      width: 100%;
-    }
-  `
-  ]
+  template: <string>require('./map-question.component.html').toString(),
+  styles: [require('./map-question.component.scss').toString()]
 })
 export class MapQuestionComponent implements OnInit {
   readonly QUESTION_TYPE_NAME: string = 'Map Question';

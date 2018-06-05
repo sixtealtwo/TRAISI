@@ -3,8 +3,7 @@ import { TextQuestionComponent } from "./text-question/text-question.component";
 import { MapQuestionComponent } from "./map-question/map-question.component";
 import { NgxMapboxGLModule } from "ngx-mapbox-gl";
 
-require("../node_modules/mapbox-gl/dist/mapbox-gl.css");
-require("../node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css");
+
 
 @NgModule({
   declarations: [TextQuestionComponent, MapQuestionComponent],
