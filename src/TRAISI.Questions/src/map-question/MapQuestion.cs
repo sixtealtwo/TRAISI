@@ -20,9 +20,14 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 
 
 		[QuestionConfigParameter(QuestionParameterType.String,
-	ParameterName = "Mapbox Style",
-	ParameterDescription = "Style string to use for map.")]
+		ParameterName = "Mapbox Style",
+		ParameterDescription = "Style string to use for map.")]
 		public string Style = "mapbox://styles/mapbox/streets-v9";
+
+		[QuestionConfigParameter(QuestionParameterType.String,
+		ParameterName = "Mapbox Access Token",
+		ParameterDescription = "API Access token for the Mapbox service.")]
+		public string AccessToken = "";
 
 	}
 }
