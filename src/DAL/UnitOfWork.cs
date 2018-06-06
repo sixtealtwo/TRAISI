@@ -62,7 +62,7 @@ namespace DAL {
             }
         }
 
-        public IQuestionPartRepository IQuestionPartRepository {
+        public IQuestionPartRepository QuestionParts {
             get {
                 if (_questionParts == null) {
                     _questionParts = new QuestionPartRepository (_context);

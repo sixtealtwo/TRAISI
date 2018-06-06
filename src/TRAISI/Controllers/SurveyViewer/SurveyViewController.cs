@@ -57,7 +57,7 @@ namespace TRAISI.Controllers.SurveyViewer
 		public async Task<IActionResult> GetSurveyViewQuestionConfiguration(int questionId)
 		{
 			var QuestionPart = await this._unitOfWork.QuestionParts.GetAsync(questionId);
-			return new ObjectResult(QuestionPart.QuestionConfiguration)
+			return new ObjectResult(QuestionPart.QuestionConfiguration);
 
 		}
 
