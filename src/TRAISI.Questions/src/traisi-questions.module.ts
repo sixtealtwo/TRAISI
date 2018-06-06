@@ -34,7 +34,7 @@ import { RadioQuestionComponent } from './radio-question/radio-question.componen
     NgxMapboxGLModule.forRoot({
       accessToken:
         'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg', // Can also be set per map (accessToken input of mgl-map)
-      geocoderAccessToken: 'TOKEN' // Optionnal, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
+		 // geocoderAccessToken: 'TOKEN' // Optionnal, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
     })
   ]
 })

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MapComponent } from 'ngx-mapbox-gl';
+import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 /**
  *
  */
@@ -12,17 +13,35 @@ export class MapQuestionComponent implements OnInit {
   readonly QUESTION_TYPE_NAME: string = 'Map Question';
 
   typeName: string;
-  icon: string;
+	icon: string;
+
+	public locationSearch: string;
+	
+	@ViewChild('mapbox') mapGL: MapComponent;
+
   constructor() {
     this.typeName = this.QUESTION_TYPE_NAME;
     this.icon = 'map';
-    console.log('loaded');
-  }
-
+		console.log('loaded');
+	}
+	
   /**
    *
    */
   ngOnInit() {
-    console.log('init');
-  }
+		console.log('init');
+		this.configureMapSettings();
+	}
+	
+	private configureMapSettings(): void {
+		this.mapGL.zoom=[9];
+		this.mapGL.minZoom=7;
+		this.mapGL.center=[-79.40, 43.67];
+		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
+		
+	}
+
+	public locationFound(event: {result: Result}): void {
+		this.locationSearch = event['result'].place_name;
+	}
 }

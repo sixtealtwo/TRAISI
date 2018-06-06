@@ -42,12 +42,7 @@ namespace DAL.Repositories
 				}
 				if (group.Members.Where(m => m.UserName == newMember.UserName).Count() == 0)
 				{
-					//add member info to group members repo
-					//_appContext.GroupMembers.Add(newMember);
-					//_appContext.SaveChanges();
-					//add member to group members list
 					group.Members.Add(newMember);
-					_appContext.GroupMembers.Add(newMember);
 				}
 				else
 				{

@@ -33,6 +33,7 @@ namespace TRAISI.Controllers {
 		[Produces (typeof (SurveyViewModel))]
 		public async Task<IActionResult> GetSurvey (int id) {
 			var survey = await this._unitOfWork.Surveys.GetAsync (id);
+			
 
 			return Ok(Mapper.Map<SurveyViewModel>(survey));
 		}

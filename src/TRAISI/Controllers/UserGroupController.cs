@@ -37,7 +37,6 @@ namespace TRAISI.Controllers
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
-
 		}
 
 		/// <summary>
