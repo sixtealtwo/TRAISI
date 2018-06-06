@@ -229,10 +229,6 @@ export class UserInfoComponent implements OnInit {
 
 		this.deletePasswordFromUser(this.userEdit);
 		Object.assign(this.user, this.userEdit);
-		this.userEdit = new UserEdit();
-		this.isNewUser = true;
-		this.groupMemberInfo = new GroupMember();
-		this.resetForm();
 
 		if (this.isGeneralEditor) {
 			if (this.isNewUser) {
@@ -244,11 +240,16 @@ export class UserInfoComponent implements OnInit {
 			} else if (!this.isEditingSelf) {
 				this.alertService.showMessage(
 					'Success',
-					`Changes to user \"${this.user.userName}\" was saved successfully`,
+					`Changes to user \"${this.user.userName}\" were saved successfully`,
 					MessageSeverity.success
 				);
 			}
 		}
+
+		this.userEdit = new UserEdit();
+		this.isNewUser = true;
+		this.groupMemberInfo = new GroupMember();
+		this.resetForm();
 
 		if (this.isEditingSelf) {
 			this.alertService.showMessage(

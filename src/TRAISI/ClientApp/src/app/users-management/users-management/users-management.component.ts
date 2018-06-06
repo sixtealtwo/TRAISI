@@ -1,13 +1,4 @@
-import {
-	Component,
-	ViewEncapsulation,
-	OnInit,
-	AfterViewInit,
-	Injector,
-	OnDestroy,
-	ViewChild,
-	TemplateRef
-} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, Injector, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
@@ -342,15 +333,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	onSearchChanged(value: string) {
 		if (this.groupBeingViewed) {
 			this.groupUserRows = this.groupUserRowsCache.filter(r =>
-				Utilities.searchArray(
-					value,
-					false,
-					r.userName,
-					r.user.fullName,
-					r.user.email,
-					r.user.jobTitle,
-					r.user.roles
-				)
+				Utilities.searchArray(value, false, r.userName, r.user.fullName, r.user.email, r.user.jobTitle, r.user.roles)
 			);
 		} else {
 			this.soloUserRows = this.soloUserRowsCache.filter(r =>
@@ -411,27 +394,23 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	}
 
 	deleteGroup() {
-		this.alertService.showDialog(
-			'Are you sure you want to delete "' + this.groupActive + '"?',
-			DialogType.confirm,
-			() => {
-				let groupDelete = this.allGroups.filter(g => g.name === this.groupActive)[0];
-				this.userGroupService.deleteUserGroup(groupDelete.id).subscribe(
-					result => {
-						this.userGroupService.listUserGroupsWhereAdmin().subscribe(
-							userGroups => {
-								this.allGroups = userGroups;
-								this.loadGroupNamesSectionOptions();
-								this.switchGroup('unGrouped');
-								this.navigateToFirst();
-							},
-							error => {}
-						);
-					},
-					error => {}
-				);
-			}
-		);
+		this.alertService.showDialog('Are you sure you want to delete "' + this.groupActive + '"?', DialogType.confirm, () => {
+			let groupDelete = this.allGroups.filter(g => g.name === this.groupActive)[0];
+			this.userGroupService.deleteUserGroup(groupDelete.id).subscribe(
+				result => {
+					this.userGroupService.listUserGroupsWhereAdmin().subscribe(
+						userGroups => {
+							this.allGroups = userGroups;
+							this.loadGroupNamesSectionOptions();
+							this.switchGroup('unGrouped');
+							this.navigateToFirst();
+						},
+						error => {}
+					);
+				},
+				error => {}
+			);
+		});
 	}
 
 	private navigateToFirst(): void {
@@ -440,18 +419,14 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	}
 
 	deleteUser(row: UserEdit) {
-		this.alertService.showDialog(
-			'Are you sure you want to delete "' + row.userName + '"?',
-			DialogType.confirm,
-			() => this.deleteUserHelper(row)
+		this.alertService.showDialog('Are you sure you want to delete "' + row.userName + '"?', DialogType.confirm, () =>
+			this.deleteUserHelper(row)
 		);
 	}
 
 	deleteGroupUser(row: GroupMember) {
-		this.alertService.showDialog(
-			'Are you sure you want to delete "' + row.user.userName + '"?',
-			DialogType.confirm,
-			() => this.deleteGroupUserHelper(row)
+		this.alertService.showDialog('Are you sure you want to delete "' + row.user.userName + '"?', DialogType.confirm, () =>
+			this.deleteGroupUserHelper(row)
 		);
 	}
 
@@ -535,9 +510,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 					this.loadingIndicator = false;
 					this.alertService.showStickyMessage(
 						'Load Error',
-						`An error occured whilst loading the group members.\r\nError: "${Utilities.getHttpResponseMessage(
-							error
-						)}"`,
+						`An error occured whilst loading the group members.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
 						MessageSeverity.error,
 						error
 					);
