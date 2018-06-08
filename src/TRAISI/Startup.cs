@@ -149,12 +149,17 @@ namespace TRAISI
             {
                 c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
 
-                c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
+                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
                 {
                     Type = "oauth2",
                     Flow = "password",
                     TokenUrl = "/connect/token"
                 });
+								c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+								{
+										{ "oauth2", new string[] { } }
+								});
+								
             });
 
             services.AddAuthorization(options =>
