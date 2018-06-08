@@ -3,7 +3,17 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Component, ViewEncapsulation, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	OnInit,
+	ViewChild,
+	Input,
+	Output,
+	AfterViewInit,
+	EventEmitter,
+	Directive
+} from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -36,7 +46,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	public editingUserName: string;
 	public uniqueId: string = Utilities.uniqueId();
 	public user: User = new User();
-	public userEdit: UserEdit;
+	public userEdit: UserEdit = new UserEdit();
 	public allRoles: Role[] = [];
 	public rolesOptions: Array<Select2OptionData>;
 	public selectedRole: string;
@@ -187,7 +197,9 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 				this.userEdit = new UserEdit();
 			}
 
-			this.isEditingSelf = this.accountService.currentUser ? this.userEdit.id === this.accountService.currentUser.id : false;
+			this.isEditingSelf = this.accountService.currentUser
+				? this.userEdit.id === this.accountService.currentUser.id
+				: false;
 		}
 
 		this.isEditMode = true;
@@ -256,7 +268,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		this.resetForm();
 
 		if (this.isEditingSelf) {
-			this.alertService.showMessage('Success', 'Changes to your User Profile was saved successfully', MessageSeverity.success);
+			this.alertService.showMessage(
+				'Success',
+				'Changes to your User Profile was saved successfully',
+				MessageSeverity.success
+			);
 			this.refreshLoggedInUser();
 		}
 
@@ -286,8 +302,12 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	}
 
 	private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
-		const rolesAdded = this.isNewUser ? editedUser.roles : editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
-		const rolesRemoved = this.isNewUser ? [] : currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
+		const rolesAdded = this.isNewUser
+			? editedUser.roles
+			: editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
+		const rolesRemoved = this.isNewUser
+			? []
+			: currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
 
 		const modifiedRoles = rolesAdded.concat(rolesRemoved);
 
@@ -361,7 +381,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 				this.isSaving = false;
 				this.userEdit.isLockedOut = false;
 				this.alertService.stopLoadingMessage();
-				this.alertService.showMessage('Success', 'User has been successfully unblocked', MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					'User has been successfully unblocked',
+					MessageSeverity.success
+				);
 			},
 			error => {
 				this.isSaving = false;

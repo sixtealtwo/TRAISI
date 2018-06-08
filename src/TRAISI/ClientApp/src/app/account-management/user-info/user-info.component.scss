@@ -58,3 +58,23 @@ input.form-control {
         margin-left: 40px;
     }
 }
+
+/***********************************/
+/**            PARSLEY            **/
+/***********************************/
+
+
+input.parsley-error{
+  border-color: theme-color('danger');
+}
+
+.parsley-errors-list{
+  font-size: $small-font-size;
+  padding-left: 0;
+  margin-bottom: 5px;
+
+  li{
+    list-style: none;
+    color: theme-color('danger');
+  }
+}
