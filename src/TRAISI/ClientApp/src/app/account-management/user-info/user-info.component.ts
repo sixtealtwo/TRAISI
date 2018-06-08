@@ -3,7 +3,17 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Component, ViewEncapsulation, OnInit, ViewChild, Input } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	OnInit,
+	ViewChild,
+	Input,
+	Output,
+	AfterViewInit,
+	EventEmitter,
+	Directive
+} from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -18,13 +28,15 @@ import { Select2OptionData } from 'ng2-select2';
 import { GroupMember } from '../../models/group-member.model';
 import { UserGroupService } from '../../services/user-group.service';
 
+declare let jQuery: any;
+
 @Component({
 	selector: 'user-info',
 	templateUrl: './user-info.component.html',
 	styleUrls: ['./user-info.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnInit, AfterViewInit {
 	public isEditMode = false;
 	public isNewUser = false;
 	public isSaving = false;
@@ -34,7 +46,7 @@ export class UserInfoComponent implements OnInit {
 	public editingUserName: string;
 	public uniqueId: string = Utilities.uniqueId();
 	public user: User = new User();
-	public userEdit: UserEdit;
+	public userEdit: UserEdit = new UserEdit();
 	public allRoles: Role[] = [];
 	public rolesOptions: Array<Select2OptionData>;
 	public selectedRole: string;
@@ -98,6 +110,10 @@ export class UserInfoComponent implements OnInit {
 			},
 			error => {}
 		);
+	}
+
+	ngAfterViewInit(): void {
+		jQuery('.parsleyjs').parsley();
 	}
 
 	private loadCurrentUserData() {
