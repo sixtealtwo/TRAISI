@@ -9,8 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using DAL.Models;
 
-namespace DAL.Repositories.Interfaces {
-	public interface IGroupMemberRepository : IRepository<GroupMember> {
-		//Task<IEnumerable<GroupMember>> GetAllMembersInGroup(int groupID);
+namespace DAL.Repositories.Interfaces
+{
+	public interface IGroupMemberRepository : IRepository<GroupMember>
+	{
+		Task<bool> IsMemberOfGroup(string username, string groupName);
 	}
 }

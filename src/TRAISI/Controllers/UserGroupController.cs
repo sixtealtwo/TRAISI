@@ -47,8 +47,21 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> GetGroup(int id)
 		{
 			var group = await this._unitOfWork.UserGroups.GetAsync(id);
-
-			return Ok(Mapper.Map<UserGroupViewModel>(group));
+			//two user types can access: superadmin or any group member
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			if (viewAllUsersPolicy.Succeeded) {
+				return Ok(Mapper.Map<UserGroupViewModel>(group));
+			}
+			else {
+				var memberOfGroup = await this._unitOfWork.GroupMembers.IsMemberOfGroup(this.User.Identity.Name, group.Name);
+				if (memberOfGroup)
+				{
+					return Ok(Mapper.Map<UserGroupViewModel>(group));
+				}
+				else{
+					return new ChallengeResult ();
+				}
+			}
 		}
 
 		/// <summary>

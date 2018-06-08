@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
+import { MapComponent } from 'ngx-mapbox-gl';
 /**
  *
  */

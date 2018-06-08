@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ChatService } from './chat.service';
-declare let jQuery: any;
+declare let jQuery: JQueryStatic;
 declare let Hammer: any;
 
 @Component({
@@ -28,7 +28,10 @@ export class ChatSidebarComponent implements OnInit {
 	}
 
 	deactivateLink(e): void {
-		jQuery(e.currentTarget).removeClass('active').find('.badge').remove();
+		jQuery(e.currentTarget)
+			.removeClass('active')
+			.find('.badge')
+			.remove();
 	}
 
 	enableSwipeCollapsing(): void {
@@ -36,17 +39,17 @@ export class ChatSidebarComponent implements OnInit {
 		const chatSidebarSwipe = new Hammer(document.getElementById('content-wrap'));
 
 		chatSidebarSwipe.on('swipeleft', () => {
-		if ($chatContainer.is('.nav-collapsed')) {
-			$chatContainer.addClass('chat-sidebar-opened');
-		}
+			if ($chatContainer.is('.nav-collapsed')) {
+				$chatContainer.addClass('chat-sidebar-opened');
+			}
 		});
 
 		chatSidebarSwipe.on('swiperight', () => {
-		setTimeout(() => {
-			if ($chatContainer.is('.chat-sidebar-opened')) {
-			$chatContainer.removeClass('chat-sidebar-opened');
-			}
-		});
+			setTimeout(() => {
+				if ($chatContainer.is('.chat-sidebar-opened')) {
+					$chatContainer.removeClass('chat-sidebar-opened');
+				}
+			});
 		});
 	}
 
@@ -54,8 +57,7 @@ export class ChatSidebarComponent implements OnInit {
 		jQuery('app-layout').addClass('chat-sidebar-container');
 
 		if ('ontouchstart' in window) {
-		this.enableSwipeCollapsing();
+			this.enableSwipeCollapsing();
 		}
 	}
-
 }

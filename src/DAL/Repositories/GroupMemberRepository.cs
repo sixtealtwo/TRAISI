@@ -18,5 +18,13 @@ namespace DAL.Repositories {
 
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
 
+		public async Task<bool> IsMemberOfGroup(string username, string groupName)
+		{
+			int number = await _appContext.GroupMembers
+				.Where(gm => gm.UserName == username && gm.Group == groupName)
+				.CountAsync();
+			
+			return number == 1;
+		}
 	}
 }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { ConfigurationService } from '../../services/configuration.service';
-declare let jQuery: any;
+declare let jQuery: JQueryStatic;
 
 @Component({
 	selector: 'app-navbar',

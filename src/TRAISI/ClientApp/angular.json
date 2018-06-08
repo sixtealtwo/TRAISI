@@ -30,7 +30,8 @@
 							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
 							"src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
-							"node_modules/systemjs/dist/system-production.js"
+							"node_modules/systemjs/dist/system-production.js",
+							"node_modules/parsleyjs/dist/parsley.js"
 						]
 					},
 					"configurations": {
@@ -46,10 +47,8 @@
 							"buildOptimizer": true,
 							"fileReplacements": [
 								{
-									"replace":
-										"src/environments/environment.ts",
-									"with":
-										"src/environments/environment.prod.ts"
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
 								}
 							]
 						},
