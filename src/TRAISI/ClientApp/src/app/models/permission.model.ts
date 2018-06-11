@@ -4,21 +4,39 @@
 // ====================================================
 
 export type PermissionNames =
-	'View All Users' | 'Manage All Users' | 'View Group Users' |
-	'Manage Group Users' | 'View Roles' | 'Manage Roles' |
-	'Assign Roles' | 'View All User Surveys' | 'Manage All Surveys' |
-	'View Group Surveys' | 'Manage Group Surveys' | 'Create Group Surveys';
+	| 'View All Users'
+	| 'Manage All Users'
+	| 'Manage All Groups'
+	| 'View Group Users'
+	| 'Manage Group Users'
+	| 'View Roles'
+	| 'Manage Roles'
+	| 'Assign Roles'
+	| 'View All User Surveys'
+	| 'Manage All Surveys'
+	| 'View Group Surveys'
+	| 'Manage Group Surveys'
+	| 'Create Group Surveys';
 
 export type PermissionValues =
-	'users.view' | 'users.manage' | 'users.viewgroup' |
-	'users.managegroup' | 'roles.view' | 'roles.manage' |
-	'roles.assign' | 'surveys.view' | 'surveys.manage'|
-	'surveys.viewgroup' | 'surveys.managegroup'  | 'surveys.create';
+	| 'users.view'
+	| 'users.manage'
+	| 'groups.manage'
+	| 'users.viewgroup'
+	| 'users.managegroup'
+	| 'roles.view'
+	| 'roles.manage'
+	| 'roles.assign'
+	| 'surveys.view'
+	| 'surveys.manage'
+	| 'surveys.viewgroup'
+	| 'surveys.managegroup'
+	| 'surveys.create';
 
 export class Permission {
-
 	public static readonly viewUsersPermission: PermissionValues = 'users.view';
 	public static readonly manageUsersPermission: PermissionValues = 'users.manage';
+	public static readonly manageGroupsPermission: PermissionValues = 'groups.manage';
 	public static readonly viewGroupUsersPermission: PermissionValues = 'users.viewgroup';
 	public static readonly manageGroupUsersPermission: PermissionValues = 'users.managegroup';
 
@@ -31,7 +49,6 @@ export class Permission {
 	public static readonly viewGroupSurveysPermission: PermissionValues = 'surveys.viewgroup';
 	public static readonly manageGroupSurveysPermission: PermissionValues = 'surveys.managegroup';
 	public static readonly createSurveysPermission: PermissionValues = 'surveys.create';
-
 
 	constructor(name?: PermissionNames, value?: PermissionValues, groupName?: string, description?: string) {
 		this.name = name;

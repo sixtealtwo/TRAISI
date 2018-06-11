@@ -28,15 +28,17 @@ namespace TRAISI.Controllers
 
 		private IUnitOfWork _unitOfWork;
 		private readonly IAuthorizationService _authorizationService;
+		private readonly IAccountManager _accountManager;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="_entityManager"></param>
-		public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService)
+		public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
+			this._accountManager = accountManager;
 		}
 
 		/// <summary>
@@ -46,20 +48,23 @@ namespace TRAISI.Controllers
 		[Produces(typeof(UserGroupViewModel))]
 		public async Task<IActionResult> GetGroup(int id)
 		{
-			var group = await this._unitOfWork.UserGroups.GetAsync(id);
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
 			//two user types can access: superadmin or any group member
 			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
-			if (viewAllUsersPolicy.Succeeded) {
+			if (viewAllUsersPolicy.Succeeded)
+			{
 				return Ok(Mapper.Map<UserGroupViewModel>(group));
 			}
-			else {
+			else
+			{
 				var memberOfGroup = await this._unitOfWork.GroupMembers.IsMemberOfGroup(this.User.Identity.Name, group.Name);
 				if (memberOfGroup)
 				{
 					return Ok(Mapper.Map<UserGroupViewModel>(group));
 				}
-				else{
-					return new ChallengeResult ();
+				else
+				{
+					return new ChallengeResult();
 				}
 			}
 		}
@@ -71,7 +76,7 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<UserGroupViewModel>))]
 		public async Task<IActionResult> GetGroups()
 		{
-			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{
@@ -85,13 +90,13 @@ namespace TRAISI.Controllers
 		}
 
 		/// <summary>
-		/// Get all user group for super admin
+		/// Get all user groups where group admin
 		/// </summary>
 		[HttpGet("admin")]
 		[Produces(typeof(List<UserGroupViewModel>))]
 		public async Task<IActionResult> GetGroupsForAdmin()
 		{
-			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{
@@ -104,28 +109,32 @@ namespace TRAISI.Controllers
 			return Ok(Mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
 		}
 
+		/// <summary>
+		/// Check if admin for one or more groups
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet("canAdmin")]
 		[Produces(typeof(bool))]
 		public async Task<IActionResult> CanAdminGroups()
 		{
-			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{
-                return Ok(true);
+				return Ok(true);
 			}
 			else
 			{
 				groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync(this.User.Identity.Name);
-                return Ok(groups.Count() > 0);
-            }
+				return Ok(groups.Count() > 0);
+			}
 		}
 
 		/// <summary>
 		/// Create user group
 		/// </summary>
 		[HttpPost]
-		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
+		[Authorize(Authorization.Policies.ManageAllGroupsPolicy)]
 		public async Task<IActionResult> CreateGroup([FromBody] UserGroupViewModel group)
 		{
 			if (ModelState.IsValid)
@@ -149,7 +158,7 @@ namespace TRAISI.Controllers
 		/// Update a user group
 		/// </summary>
 		[HttpPut]
-		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
+		[Authorize(Authorization.Policies.ManageGroupSurveysPolicy)]
 		public async Task<IActionResult> UpdateGroup([FromBody] UserGroupViewModel group)
 		{
 			if (ModelState.IsValid)
@@ -168,7 +177,7 @@ namespace TRAISI.Controllers
 		/// Delete a user group
 		/// </summary>
 		[HttpDelete("{id}")]
-		[Authorize (Authorization.Policies.ManageGroupSurveysPolicy)]
+		[Authorize(Authorization.Policies.ManageAllGroupsPolicy)]
 		public async Task<IActionResult> DeleteGroup(int id)
 		{
 			var removed = this._unitOfWork.UserGroups.Get(id);
@@ -177,20 +186,49 @@ namespace TRAISI.Controllers
 			return new OkResult();
 		}
 
+		/// <summary>
+		/// Get members within group
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet("{id}/members")]
 		[Produces(typeof(List<GroupMemberViewModel>))]
 		public async Task<IActionResult> GetGroupMembers(int id)
 		{
+			var group = await this._unitOfWork.UserGroups.GetAsync(id);
 			var groupMembers = await this._unitOfWork.UserGroups.GetGroupMembersInfoAsync(id);
-			List<GroupMemberViewModel> groupMembersVM = new List<GroupMemberViewModel>();
-
-			foreach (var member in groupMembers)
+			bool canAccess = false;
+			//two user types can access: superadmin or any group member
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+			if (viewAllUsersPolicy.Succeeded)
 			{
-				var groupMemberVM = Mapper.Map<GroupMemberViewModel>(member.Item1);
-				groupMemberVM.User.Roles = member.Item2;
-				groupMembersVM.Add(groupMemberVM);
+				canAccess = true;
 			}
-			return Ok(groupMembersVM);
+			else
+			{
+				bool memberOfGroup = groupMembers.Where(m => m.Item1.UserName == this.User.Identity.Name).Any();
+				if (memberOfGroup)
+				{
+					canAccess = true;
+				}
+			}
+
+			if (canAccess)
+			{
+				List<GroupMemberViewModel> groupMembersVM = new List<GroupMemberViewModel>();
+
+				foreach (var member in groupMembers)
+				{
+					var groupMemberVM = Mapper.Map<GroupMemberViewModel>(member.Item1);
+					groupMemberVM.User.Roles = member.Item2;
+					groupMembersVM.Add(groupMemberVM);
+				}
+				return Ok(groupMembersVM);
+			}
+			else
+			{
+				return new ChallengeResult();
+			}
 		}
 
 		/// <summary>
@@ -203,23 +241,35 @@ namespace TRAISI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
-				var result = this._unitOfWork.UserGroups.AddUser(newGMember);
-				if (result.Item1)
-				{
-					await this._unitOfWork.SaveChangesAsync();
-					return new OkResult();
+				var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, newMember.Group);
+				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
+				if (isGroupAdmin || isSuperAdmin) {
+					GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
+					var result = this._unitOfWork.UserGroups.AddUser(newGMember);
+					if (result.Item1)
+					{
+						await this._unitOfWork.SaveChangesAsync();
+						return new OkResult();
+					}
+					else
+					{
+						AddErrors(result.Item2);
+					}
 				}
-				else
-				{
-					AddErrors(result.Item2);
+				else {
+					return new ChallengeResult();
 				}
 			}
 			return BadRequest(ModelState);
 		}
 
+		/// <summary>
+		/// Update member within any group. Restricted to super administrators only.
+		/// </summary>
+		/// <param name="member"></param>
+		/// <returns></returns>
 		[HttpPut("members")]
-		[Authorize (Authorization.Policies.ManageAllUsersPolicy)]
+		[Authorize(Authorization.Policies.ManageAllUsersPolicy)]
 		public async Task<IActionResult> UpdateGroupMember([FromBody] GroupMemberViewModel member)
 		{
 			GroupMember gMember = Mapper.Map<GroupMember>(member);
@@ -247,7 +297,7 @@ namespace TRAISI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-								// todo: check if user has permission (needs to be group admin)
+				// todo: check if user has permission (needs to be group admin)
 				foreach (int id in ids)
 				{
 					var member = this._unitOfWork.GroupMembers.Get(id);
@@ -257,6 +307,15 @@ namespace TRAISI.Controllers
 				return new OkResult();
 			}
 			return BadRequest(ModelState);
+		}
+
+		private async Task<bool> CheckGroupAdminPermission(string permission)
+		{
+			var role = await _accountManager.GetRoleLoadRelatedAsync("group administrator");
+			var hasPermission = (from r in role.Claims
+													 where r.ClaimValue == permission
+													 select r).Any();
+			return hasPermission;
 		}
 
 		private void AddErrors(IEnumerable<string> errors)
