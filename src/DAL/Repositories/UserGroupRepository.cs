@@ -57,16 +57,23 @@ namespace DAL.Repositories
 			return result;
 		}
 
-		public void RemoveUser(GroupMember currentMember)
+		/// <summary>
+		/// Get group information for a given group
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<UserGroup> GetGroupWithMembersAsync(int id)
 		{
-			throw new NotImplementedException();
+		return await _appContext.UserGroups
+			.Where(m => m.Id == id)
+			.Include(m => m.Members)
+			.SingleAsync();
 		}
-
-		public void UpdateUser(GroupMember member)
-		{
-			throw new NotImplementedException();
-		}
-
+		/// <summary>
+		/// Get list of groups where member
+		/// </summary>
+		/// <param name="username"></param>
+		/// <returns></returns>
 		public async Task<IEnumerable<UserGroup>> GetAllGroupsWhereMemberAsync(string username)
 		{
 			return await _appContext.GroupMembers
@@ -77,6 +84,11 @@ namespace DAL.Repositories
 					.ToListAsync();
 		}
 
+		/// <summary>
+		/// Get list of groups where group admin
+		/// </summary>
+		/// <param name="username"></param>
+		/// <returns></returns>
 		public async Task<IEnumerable<UserGroup>> GetAllGroupsForAdminAsync(string username)
 		{
 			return await _appContext.GroupMembers
@@ -87,6 +99,10 @@ namespace DAL.Repositories
 					.ToListAsync();
 		}
 
+		/// <summary>
+		/// Get all groups in platform
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IEnumerable<UserGroup>> GetAllGroupsAsync()
 		{
 			return await _appContext.UserGroups
@@ -95,6 +111,12 @@ namespace DAL.Repositories
 					.ToListAsync();
 		}
 
+		/// <summary>
+		/// Gets the group members information for a given group.
+		/// Returns roles for each member as mapper ignores roles.
+		/// </summary>
+		/// <param name="groupID"></param>
+		/// <returns></returns>
 		public async Task<IEnumerable<Tuple<GroupMember, string[]>>> GetGroupMembersInfoAsync(int groupID)
 		{
 			var group = await _appContext.UserGroups

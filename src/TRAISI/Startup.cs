@@ -168,6 +168,8 @@ namespace TRAISI
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
+								options.AddPolicy(Authorization.Policies.ManageAllGroupsPolicy,
+										policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroups));
                 options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
                 options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy,
