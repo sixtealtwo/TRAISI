@@ -11,6 +11,7 @@ import {
 	TranslatePipe
 } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -69,6 +70,7 @@ const APP_PROVIDERS = [AppConfig];
 			}
 		}),
 		NgxDatatableModule,
+		NgxDnDModule,
 		ToastyModule.forRoot(),
 		TooltipModule.forRoot(),
 		PopoverModule.forRoot(),
