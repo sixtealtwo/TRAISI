@@ -1,0 +1,15 @@
+{
+  "name": "traisi-question-sdk",
+  "version": "1.0.0",
+  "description": "SDK and interface definitions for creating new extension questions in TRAISI.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "University of Toronto",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.9.1"
+  }
+}
