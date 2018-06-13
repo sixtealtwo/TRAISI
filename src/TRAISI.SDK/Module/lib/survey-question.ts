@@ -1,5 +1,10 @@
-export interface ISurveyQuestion
-{
+export interface ISurveyViewerInstance {
+  updateResponse(questionId: number, value: any): void;
+}
 
-    saveResponse(): void;
+/**
+ *
+ */
+export interface ISurveyQuestion {
+  new (viewer: ISurveyViewerInstance, questionId: number): ISurveyQuestion;
 }
