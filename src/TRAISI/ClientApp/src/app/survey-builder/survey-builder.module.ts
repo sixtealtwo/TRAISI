@@ -7,9 +7,10 @@ import { NestedDragAndDropListComponent } from './components/nested-drag-and-dro
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 @NgModule({
-	imports: [CommonModule, SharedModule, ROUTES],
+	imports: [CommonModule, SharedModule, NgxDnDModule, ROUTES],
 	declarations: [
 		SurveyBuilderComponent,
 		NestedDragAndDropListComponent,

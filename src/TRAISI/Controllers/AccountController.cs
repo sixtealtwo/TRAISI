@@ -381,13 +381,19 @@ namespace TRAISI.Controllers {
                 if (appRole == null)
                     return NotFound (id);
 
-                Mapper.Map<RoleViewModel, ApplicationRole> (role, appRole);
+								if (appRole.Name == "super administrator") {
+									string[] saError = new string[] {"Cannot modify super administrator privelages"};
+									AddErrors(saError);
+								}
+								else {
+									Mapper.Map<RoleViewModel, ApplicationRole> (role, appRole);
 
-                var result = await _accountManager.UpdateRoleAsync (appRole, role.Permissions?.Select (p => p.Value).ToArray ());
-                if (result.Item1)
-                    return NoContent ();
+									var result = await _accountManager.UpdateRoleAsync (appRole, role.Permissions?.Select (p => p.Value).ToArray ());
+									if (result.Item1)
+											return NoContent ();
 
-                AddErrors (result.Item2);
+									AddErrors (result.Item2);
+								}
 
             }
 

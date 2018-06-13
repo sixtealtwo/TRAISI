@@ -14,9 +14,7 @@ namespace DAL.Repositories.Interfaces
 	public interface IUserGroupRepository : IRepository<UserGroup>
 	{
 		Tuple<bool, string[]> AddUser(GroupMember newMember);
-		void RemoveUser(GroupMember currentMember);
-		void UpdateUser(GroupMember member);
-
+		Task<UserGroup> GetGroupWithMembersAsync(int id);
 		Task<IEnumerable<UserGroup>> GetAllGroupsWhereMemberAsync(string username);
 		Task<IEnumerable<UserGroup>> GetAllGroupsForAdminAsync(string username);
 		Task<IEnumerable<UserGroup>> GetAllGroupsAsync();

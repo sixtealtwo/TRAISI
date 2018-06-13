@@ -1,3 +1,5 @@
-<p *ngFor="let question of questionTypeDefinitions">
+<div class="ngx-dnd-container" ngxDroppable="'prevent'">
+		<div class="ngx-dnd-item" ngxDraggable="['restricted-target']" *ngFor="let question of questionTypeDefinitions">
  {{question.typeName}}
-</p>
+		</div>
+</div>

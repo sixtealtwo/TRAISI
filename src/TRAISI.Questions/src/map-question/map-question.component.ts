@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import { MapComponent } from 'ngx-mapbox-gl';
+
+
+
 /**
  *
  */
@@ -23,6 +26,9 @@ export class MapQuestionComponent implements OnInit {
     this.typeName = this.QUESTION_TYPE_NAME;
     this.icon = 'map';
 		console.log('loaded');
+
+		
+
 	}
 	
   /**
