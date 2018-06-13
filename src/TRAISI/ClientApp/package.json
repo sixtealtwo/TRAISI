@@ -26,6 +26,7 @@
     "@ngx-loading-bar/router": "2.0.0",
     "@ngx-translate/core": "^10.0.2",
     "@swimlane/ngx-datatable": "^13.0.0",
+    "@swimlane/ngx-dnd": "^4.0.2",
     "@tinymce/tinymce-angular": "2.0.0",
     "angular2-datatable": "0.6.0",
     "angular2-text-mask": "9.0.0",
