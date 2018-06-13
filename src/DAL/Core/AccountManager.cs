@@ -238,9 +238,12 @@ namespace DAL.Core
         }
 
 
-        public bool TestCanDeleteUserAsync(string userId)
+        public async Task<bool> TestCanDeleteUserAsync(string userId)
         {
-           return false;
+           if (await _context.GroupMembers.Where(gm => gm.User.Id == userId).AnyAsync())
+					 	return false;
+					
+					return true;
         }
 
 

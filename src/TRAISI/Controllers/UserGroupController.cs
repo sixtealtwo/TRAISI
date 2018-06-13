@@ -158,7 +158,7 @@ namespace TRAISI.Controllers
 		/// Update a user group
 		/// </summary>
 		[HttpPut]
-		[Authorize(Authorization.Policies.ManageGroupSurveysPolicy)]
+		[Authorize(Authorization.Policies.ManageAllGroupsPolicy)]
 		public async Task<IActionResult> UpdateGroup([FromBody] UserGroupViewModel group)
 		{
 			if (ModelState.IsValid)
@@ -197,6 +197,10 @@ namespace TRAISI.Controllers
 		{
 			var group = await this._unitOfWork.UserGroups.GetAsync(id);
 			var groupMembers = await this._unitOfWork.UserGroups.GetGroupMembersInfoAsync(id);
+
+			if (group == null || groupMembers == null) {
+				return BadRequest($"Group {id} does not exist");
+			}
 			bool canAccess = false;
 			//two user types can access: superadmin or any group member
 			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
@@ -241,7 +245,8 @@ namespace TRAISI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, newMember.Group);
+				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
+				var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, newMember.Group);
 				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
 				if (isGroupAdmin || isSuperAdmin) {
 					GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
@@ -278,33 +283,87 @@ namespace TRAISI.Controllers
 			return new OkResult();
 		}
 
+		/// <summary>
+		/// Delete group member. Restricted to group admins and super admins.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpDelete("members/{id}")]
 		public async Task<IActionResult> RemoveGroupMember(int id)
 		{
 			if (ModelState.IsValid)
 			{
-				// todo: check if user has permission (needs to be group admin)
+				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
 				var member = this._unitOfWork.GroupMembers.Get(id);
-				this._unitOfWork.GroupMembers.Remove(member);
-				await this._unitOfWork.SaveChangesAsync();
-				return new OkResult();
+				if (member == null) 
+				{
+					return BadRequest("The member does not exist.");
+				}
+				else {
+					var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, member.Group);
+					var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
+					if (isGroupAdmin || isSuperAdmin) {
+						this._unitOfWork.GroupMembers.Remove(member);
+						await this._unitOfWork.SaveChangesAsync();
+						return new OkResult();
+					}
+					else {
+							return new ChallengeResult();
+					}
+				}
 			}
 			return BadRequest(ModelState);
 		}
 
+		/// <summary>
+		/// Delete several group members
+		/// </summary>
+		/// <param name="ids"></param>
+		/// <returns></returns>
 		[HttpDelete("members")]
 		public async Task<IActionResult> RemoveGroupMembers([FromQuery] int[] ids)
 		{
+			List<int> removalsWithErrors = new List<int>();
+
 			if (ModelState.IsValid)
 			{
-				// todo: check if user has permission (needs to be group admin)
+				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
+				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
+
 				foreach (int id in ids)
 				{
 					var member = this._unitOfWork.GroupMembers.Get(id);
-					this._unitOfWork.GroupMembers.Remove(member);
+					if (member == null) {
+						removalsWithErrors.Add(id);
+					}
+					else {
+						if (isSuperAdmin) {
+							this._unitOfWork.GroupMembers.Remove(member);
+						}
+						else {
+							var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, member.Group);
+							if (isGroupAdmin) {
+								this._unitOfWork.GroupMembers.Remove(member);
+							}
+							else {
+								removalsWithErrors.Add(id);
+							}
+						}
+					}
 				}
 				await this._unitOfWork.SaveChangesAsync();
-				return new OkResult();
+				if (removalsWithErrors.Count == 0){
+					return new OkResult();
+				}
+				else {
+					if (removalsWithErrors.Count < ids.Count()) {
+						return Ok("Some members removed, but cannot delete group members: " + String.Join(",", removalsWithErrors));
+					}
+					else 
+					{
+						return BadRequest("Members do not exist in groups or insufficient privelages");
+					}
+				}
 			}
 			return BadRequest(ModelState);
 		}

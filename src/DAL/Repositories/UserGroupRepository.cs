@@ -123,11 +123,11 @@ namespace DAL.Repositories
 					.Where(g => g.Id == groupID)
 					.Include(g => g.Members).ThenInclude(m => m.User).ThenInclude(u => u.Roles)
 					.OrderBy(g => g.Name)
-					.SingleAsync();
+					.SingleOrDefaultAsync();
 
 			var roleDict = _appContext.Roles.ToDictionary(r => r.Id, r => r.Name);
-
-			return group.Members.Select(m => Tuple.Create(m, m.User.Roles.Select(r => roleDict[r.RoleId]).ToArray())).ToList();
+			
+			return group?.Members.Select(m => Tuple.Create(m, m.User.Roles.Select(r => roleDict[r.RoleId]).ToArray())).ToList();
 		}
 	}
 }

@@ -262,7 +262,7 @@ namespace TRAISI.Controllers {
             if (!(await _authorizationService.AuthorizeAsync (this.User, id, AccountManagementOperations.Delete)).Succeeded)
                 return new ChallengeResult ();
 
-            if (!_accountManager.TestCanDeleteUserAsync (id))
+            if (!await _accountManager.TestCanDeleteUserAsync (id))
                 return BadRequest ("User cannot be deleted. Delete all orders associated with this user and try again");
 
             UserViewModel userVM = null;

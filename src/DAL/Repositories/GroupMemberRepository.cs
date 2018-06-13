@@ -18,6 +18,15 @@ namespace DAL.Repositories {
 
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
 
+		public async Task<GroupMember> GetMemberWithInfo(int id)
+		{
+			return await _appContext.GroupMembers
+			.Where(gm => gm.Id == id)
+			.Include(gm => gm.UserGroup)
+			.Include(gm => gm.User)
+			.SingleOrDefaultAsync();
+		}
+
 		/// <summary>
 		/// Check if member within given group
 		/// </summary>

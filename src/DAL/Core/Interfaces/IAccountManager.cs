@@ -35,7 +35,7 @@ namespace DAL.Core.Interfaces
         Task<List<Tuple<ApplicationUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize);
         Task<Tuple<bool, string[]>> ResetPasswordAsync(ApplicationUser user, string newPassword);
         Task<bool> TestCanDeleteRoleAsync(string roleId);
-        bool TestCanDeleteUserAsync(string userId);
+        Task<bool> TestCanDeleteUserAsync(string userId);
         Task<Tuple<bool, string[]>> UpdatePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
         Task<Tuple<bool, string[]>> UpdateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<Tuple<bool, string[]>> UpdateUserAsync(ApplicationUser user);
