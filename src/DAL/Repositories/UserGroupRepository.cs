@@ -64,11 +64,12 @@ namespace DAL.Repositories
 		/// <returns></returns>
 		public async Task<UserGroup> GetGroupWithMembersAsync(int id)
 		{
-		return await _appContext.UserGroups
-			.Where(m => m.Id == id)
-			.Include(m => m.Members)
-			.SingleAsync();
+			return await _appContext.UserGroups
+				.Where(m => m.Id == id)
+				.Include(m => m.Members)
+				.SingleAsync();
 		}
+
 		/// <summary>
 		/// Get list of groups where member
 		/// </summary>
@@ -126,8 +127,20 @@ namespace DAL.Repositories
 					.SingleOrDefaultAsync();
 
 			var roleDict = _appContext.Roles.ToDictionary(r => r.Id, r => r.Name);
-			
+
 			return group?.Members.Select(m => Tuple.Create(m, m.User.Roles.Select(r => roleDict[r.RoleId]).ToArray())).ToList();
+		}
+
+		/// <summary>
+		/// Get group info given group's name
+		/// </summary>
+		/// <param name="groupName"></param>
+		/// <returns></returns>
+		public async Task<UserGroup> GetGroupByName(string groupName)
+		{
+			return await _appContext.UserGroups
+				.Where(g => g.Name == groupName)
+				.SingleOrDefaultAsync();
 		}
 	}
 }

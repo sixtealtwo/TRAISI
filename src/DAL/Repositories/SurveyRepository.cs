@@ -97,13 +97,35 @@ namespace DAL.Repositories
 					var survey = await _appContext.Surveys
 								.Where(s => s.Id == id)
 								.SingleOrDefaultAsync();
-					var user = await _appContext.Users
-										.Where(u => u.UserName == userName)
-										.SingleOrDefaultAsync();
 					survey.SurveyPermissions = await _appContext.SurveyPermissions
-																		 .Where(sp => sp.Survey == survey && sp.User == user)
+																		 .Where(sp => sp.Survey == survey && sp.User.UserName == userName)
 																		 .ToListAsync();
 					return survey;
+				}
+
+
+				/// <summary>
+				/// Get all surveys shared with given user
+				/// </summary>
+				/// <param name="userName"></param>
+				/// <returns></returns>
+				public async Task<IEnumerable<Survey>> GetSharedSurveys(string userName)
+				{
+					var surveyPermissions = await _appContext.SurveyPermissions
+						.Where(sp => sp.User.UserName == userName)
+						.Include(sp => sp.Survey).Include(sp => sp.User)
+						.ToListAsync();
+
+					List<Survey> sharedSurveys = new List<Survey>();
+
+					surveyPermissions.ForEach(sp => 
+					{
+						sharedSurveys.Add(sp.Survey);
+						sp.Survey.SurveyPermissions = new List<SurveyPermission>();
+						sp.Survey.SurveyPermissions.Add(sp);
+					});
+
+					return sharedSurveys;
 				}
     }
 }

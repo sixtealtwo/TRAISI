@@ -16,6 +16,7 @@ namespace DAL {
         readonly ApplicationDbContext _context;
 
         ISurveyRepository _surveys;
+				ISurveyPermissionsRepository _surveyPermissions;
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
         ISurveyViewRepository _surveyViews;
@@ -43,6 +44,15 @@ namespace DAL {
                 return _surveys;
             }
         }
+
+				public ISurveyPermissionsRepository SurveyPermissions {
+						get{
+								if (_surveyPermissions == null)
+										_surveyPermissions = new SurveyPermissionsRepository (_context);
+
+								return _surveyPermissions;
+						}
+				}
 
         public IGroupMemberRepository GroupMembers {
             get {

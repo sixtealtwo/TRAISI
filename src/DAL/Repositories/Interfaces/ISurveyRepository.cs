@@ -20,5 +20,7 @@ namespace DAL.Repositories.Interfaces {
 
 				Task<Survey> GetSurveyWithUserPermissions(int id, string userName);
 
+				Task<IEnumerable<Survey>> GetSharedSurveys(string userName);
+
     }
 }
