@@ -85,5 +85,25 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyPermissions)
                 .FirstOrDefaultAsync();
         }
+
+				/// <summary>
+				/// Get survey with permissions for given user
+				/// </summary>
+				/// <param name="id"></param>
+				/// <param name="userName"></param>
+				/// <returns></returns>
+				public async Task<Survey> GetSurveyWithUserPermissions(int id, string userName)
+				{
+					var survey = await _appContext.Surveys
+								.Where(s => s.Id == id)
+								.SingleOrDefaultAsync();
+					var user = await _appContext.Users
+										.Where(u => u.UserName == userName)
+										.SingleOrDefaultAsync();
+					survey.SurveyPermissions = await _appContext.SurveyPermissions
+																		 .Where(sp => sp.Survey == survey && sp.User == user)
+																		 .ToListAsync();
+					return survey;
+				}
     }
 }

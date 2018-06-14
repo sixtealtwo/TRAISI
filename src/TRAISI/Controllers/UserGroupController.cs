@@ -368,6 +368,11 @@ namespace TRAISI.Controllers
 			return BadRequest(ModelState);
 		}
 
+		/// <summary>
+		/// Check if group admin has given permission
+		/// </summary>
+		/// <param name="permission"></param>
+		/// <returns></returns>
 		private async Task<bool> CheckGroupAdminPermission(string permission)
 		{
 			var role = await _accountManager.GetRoleLoadRelatedAsync("group administrator");

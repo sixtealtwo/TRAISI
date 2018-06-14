@@ -18,5 +18,7 @@ namespace DAL.Repositories.Interfaces {
 
         Task<Survey> GetSurveyWithPermissions(int id);
 
+				Task<Survey> GetSurveyWithUserPermissions(int id, string userName);
+
     }
 }
