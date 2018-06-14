@@ -97,13 +97,21 @@
 				<hr class="edit-last-separator-hr" />
 			</div>
 		</div>
-		<div class="modal-footer row">
-			<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
-				<i class='fa fa-times'></i>Cancel</button>
-			<button type="submit" class="btn btn-primary" [disabled]="isSaving">
-				<i *ngIf="!isSaving" class='fa fa-save'></i>
-				<i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
-			</button>
+		<div class="form-group row">
+			<div class="col-md-3">
+					<button *ngIf="!isNewSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
+							<i class='fa fa-times'></i>Delete</button>
+			</div>
+			<div class="col-md-9">
+				<div class="pull-right">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
+						<i class='fa fa-times'></i>Cancel</button>
+					<button type="submit" class="btn btn-primary" [disabled]="isSaving">
+						<i *ngIf="!isSaving" class='fa fa-save'></i>
+						<i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+					</button>
+				</div>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 	</form>

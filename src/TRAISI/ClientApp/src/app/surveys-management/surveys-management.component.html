@@ -98,6 +98,9 @@
 		</div>
 	</ng-template>
 
+	<ng-template #textTemplate let-row="row" let-value="value" let-i="index" >
+		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value }}</div>
+	</ng-template>
 
 	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
 		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value | date }}</div>
@@ -111,12 +114,6 @@
 
 	<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
 		<div>
-			<!--<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editSurvey(row)">
-				<i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'surveys.management.Edit' | translate}}</a>
-			|-->
-			<a class="badge badge-danger" href="javascript:;" (click)="deleteSurvey(row)">
-				<i class="fa fa-trash-o" aria-hidden="true"></i> {{'surveys.management.Delete' | translate}}</a>
-			|
 			<a class="badge badge-primary" href="javascript:;">
 				<i class="fa fa-eye-o" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
 		</div>

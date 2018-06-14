@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { SurveyService } from '../../services/survey.service';
 import { Survey } from '../../models/survey.model';
 import { UserGroupService } from '../../services/user-group.service';
@@ -15,6 +15,7 @@ export class SurveysEditorComponent implements OnInit {
 	public changesSavedCallback: () => void;
 	public changesCancelledCallback: () => void;
 	public changesFailedCallback: () => void;
+	public deleteSurveyCallback: () => void;
 
 	public model: Survey = new Survey();
 	public editMode: boolean = false;
@@ -29,11 +30,7 @@ export class SurveysEditorComponent implements OnInit {
 
 	@ViewChild('f') private form;
 
-	constructor(
-		private alertService: AlertService,
-		private userGroupService: UserGroupService,
-		private surveyService: SurveyService
-	) {}
+	constructor(private alertService: AlertService, private userGroupService: UserGroupService, private surveyService: SurveyService) {}
 
 	ngOnInit() {}
 
@@ -43,29 +40,17 @@ export class SurveysEditorComponent implements OnInit {
 	public onNewSurveyFormSubmit(): void {
 		this.isSaving = true;
 		if (!this.editMode) {
-			this.surveyService.createSurvey(this.model)
-			.subscribe(
-				value => this.saveSuccessHelper(), error => this.saveFailedHelper(error)
-			);
-		}
-		else {
-			this.surveyService.editSurvey(this.model)
-			.subscribe(
-				value => this.saveSuccessHelper(), error => this.saveFailedHelper(error)
-			);
+			this.surveyService.createSurvey(this.model).subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+		} else {
+			this.surveyService.editSurvey(this.model).subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
 		}
 	}
 
 	private saveSuccessHelper() {
-
 		this.alertService.stopLoadingMessage();
 		this.isSaving = false;
 		if (this.isNewSurvey) {
-			this.alertService.showMessage(
-				'Success',
-				`Survey \"${this.model.name}\" was created successfully`,
-				MessageSeverity.success
-			);
+			this.alertService.showMessage('Success', `Survey \"${this.model.name}\" was created successfully`, MessageSeverity.success);
 		} else {
 			this.alertService.showMessage(
 				'Success',
@@ -97,7 +82,6 @@ export class SurveysEditorComponent implements OnInit {
 	}
 
 	private cancel() {
-
 		this.model = new Survey();
 
 		this.form.reset();
@@ -107,6 +91,12 @@ export class SurveysEditorComponent implements OnInit {
 
 		if (this.changesCancelledCallback) {
 			this.changesCancelledCallback();
+		}
+	}
+
+	private delete() {
+		if (this.deleteSurveyCallback) {
+			this.deleteSurveyCallback();
 		}
 	}
 
