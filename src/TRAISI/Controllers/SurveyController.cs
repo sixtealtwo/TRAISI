@@ -72,11 +72,11 @@ namespace TRAISI.Controllers
 		}
 
 		/// <summary>
-		/// Get all surveys for the specified group
+		/// Get all surveys for the specified group where user is not owner and has no permissions.
 		/// </summary>
 		[HttpGet("group/{id}")]
 		[Produces(typeof(List<SurveyViewModel>))]
-		public async Task<IActionResult> GetGroupSurveys(int id)
+		public async Task<IActionResult> GetGroupSurveysWithNoPermissions(int id)
 		{
 			var group = this._unitOfWork.UserGroups.Get(id);
 			if (group == null)

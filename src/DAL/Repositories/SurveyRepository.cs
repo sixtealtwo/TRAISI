@@ -67,8 +67,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Survey>> GetAllGroupSurveys(string groupName, string exceptUserName)
         {
             return await _appContext.Surveys
-                .Where(s => s.Group == groupName && s.Owner != exceptUserName)
-                .Include(s => s.SurveyPermissions)
+                .Where(s => s.Group == groupName && s.Owner != exceptUserName && s.SurveyPermissions.Where(r => r.User.UserName==exceptUserName).Count() == 0)
                 .OrderByDescending(g => g.CreatedDate)
                 .ToListAsync();
         }
