@@ -185,7 +185,7 @@ namespace TRAISI.Controllers
 			else
 			{
 				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, appSurvey.Id);
-				if (surveyPermissions.Contains("survey.modify"))
+				if (surveyPermissions.Permissions.Contains("survey.modify"))
 				{
 					
 					appSurvey.Owner = originalSurvey.Owner;
@@ -222,7 +222,7 @@ namespace TRAISI.Controllers
 			else
 			{
 				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, survey.Id);
-				if (surveyPermissions != null && surveyPermissions.Contains("survey.delete"))
+				if (surveyPermissions.Permissions != null && surveyPermissions.Permissions.Contains("survey.delete"))
 				{
 					this._unitOfWork.Surveys.Remove(removed);
 					await this._unitOfWork.SaveChangesAsync();
@@ -235,6 +235,71 @@ namespace TRAISI.Controllers
 
 			}
 		}
+	
+		/// <summary>
+		/// Get user permissions for given survey
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="userName"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/permissions/{userName}")]
+		[Produces(typeof(List<SurveyPermissionViewModel>))]
+		public async Task<IActionResult> GetUserSurveyPermissions(int id, string userName)
+		{	
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(userName, id);
+			//Restrict to super admins, group admins, owners, and users with survey.share permissions
+			if (survey.Owner == this.User.Identity.Name || await isSuperAdmin() || await isGroupAdmin(survey.Group))
+			{
+				return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
+			}
+			else
+			{
+				if (surveyPermissions.Permissions.Contains("survey.share"))
+				{
+					return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
+				}
+				else
+				{
+					return BadRequest("Insufficient privileges.");
+				}
+			}
+		}
+	
+
+		/// <summary>
+		/// Update user permissions for given survey
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <returns></returns>
+		[HttpPut("permissions")]
+		public async Task<IActionResult> UpdateUserSurveyPermissions([FromBody] SurveyPermissionViewModel surveyPermissions)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(surveyPermissions.SurveyId);
+			var surveyPermissionsModel = Mapper.Map<SurveyPermission>(surveyPermissions);
+			// Restrict to group admins, owners, and users with survey.share permissions.
+			if (survey.Owner == this.User.Identity.Name || await isGroupAdmin(survey.Group))
+			{
+				this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
+				await this._unitOfWork.SaveChangesAsync();
+				return new OkResult();
+			}
+			else
+			{
+				var userPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, surveyPermissions.SurveyId);
+				if(surveyPermissions.Permissions.Contains("survey.share"))
+				{
+					this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
+					await this._unitOfWork.SaveChangesAsync();
+					return new OkResult();
+				}
+				else
+				{
+					return BadRequest("Insufficient privileges.");
+				}
+			}
+		}
+
 
 		/// <summary>
 		/// Check if group admin has given permission

@@ -26,11 +26,10 @@ namespace DAL.Repositories
 		/// <param name="userName"></param>
 		/// <param name="surveyID"></param>
 		/// <returns></returns>
-		public async Task<string[]> GetPermissionsForSurvey(string userName, int surveyID)
+		public async Task<SurveyPermission> GetPermissionsForSurvey(string userName, int surveyID)
 		{
 			return await _appContext.SurveyPermissions
 							.Where(sp => sp.User.UserName == userName && sp.Survey.Id == surveyID)
-							.Select(sp => sp.Permissions)
 							.SingleOrDefaultAsync();
 		}
 

@@ -25,6 +25,8 @@ namespace TRAISI.ViewModels
         public string RejectionLink { get; set; }
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }
+
+				public ICollection<SurveyPermissionViewModel> SurveyPermissions {get; set;}
     }
     
     public class SurveyViewModelValidator : AbstractValidator<SurveyViewModel>

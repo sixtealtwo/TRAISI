@@ -60,6 +60,9 @@ namespace TRAISI.ViewModels {
             CreateMap<UserGroup, UserGroupViewModel> ()
                 .ReverseMap ();
 
+						CreateMap<SurveyPermission, SurveyPermissionViewModel>()
+								.ReverseMap ();
+
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DAL.Repositories.Interfaces {
     public interface ISurveyPermissionsRepository : IRepository<SurveyPermission>
     {
-        Task<string[]> GetPermissionsForSurvey(string userName, int surveyID);
+        Task<SurveyPermission> GetPermissionsForSurvey(string userName, int surveyID);
 
     }
 }
