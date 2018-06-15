@@ -37,13 +37,6 @@ import { GroupMember } from '../models/group-member.model';
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveysManagementComponent implements OnInit, AfterViewInit {
-	public bsConfig: Partial<BsDatepickerConfig> = Object.assign(
-		{},
-		{
-			containerClass: 'theme-default',
-			dateInputFormat: ''
-		}
-	);
 
 	public soloSurveyColumns: any[] = [];
 	public soloSurveyRows: Survey[] = [];

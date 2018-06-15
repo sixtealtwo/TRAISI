@@ -102,6 +102,12 @@ namespace TRAISI
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
+		    // IIS Integration
+		    services.Configure<IISOptions>(options =>
+		    {
+		    });
+
+
             // Register the OpenIddict services.
             services.AddOpenIddict(options =>
             {
@@ -220,6 +226,10 @@ namespace TRAISI
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
+					
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -278,8 +288,8 @@ namespace TRAISI
 
                 if (env.IsDevelopment())
                 {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                    //spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }

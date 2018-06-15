@@ -34,7 +34,7 @@ import { LastElementDirective } from './directives/last-element.directive';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
 import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
-
+import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
 
 import { AppComponent } from './app.component';
@@ -54,7 +54,8 @@ const APP_PROVIDERS = [AppConfig];
 		AutofocusDirective,
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
-		BootstrapDatepickerDirective
+		BootstrapDatepickerDirective,
+		BootstrapSelectDirective
 	],
 	imports: [
 		BrowserModule,

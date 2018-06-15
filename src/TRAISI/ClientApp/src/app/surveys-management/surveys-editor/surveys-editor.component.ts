@@ -4,6 +4,7 @@ import { Survey } from '../../models/survey.model';
 import { UserGroupService } from '../../services/user-group.service';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { Select2OptionData } from 'ng2-select2';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
 	selector: 'app-surveys-editor',
@@ -27,6 +28,15 @@ export class SurveysEditorComponent implements OnInit {
 	public select2Options: any = {
 		theme: 'bootstrap'
 	};
+
+	public bsConfig: Partial<BsDatepickerConfig> = Object.assign(
+		{},
+		{
+			containerClass: 'theme-default',
+			dateInputFormat: ''
+		}
+	);
+
 
 	@ViewChild('f') private form;
 
@@ -81,7 +91,7 @@ export class SurveysEditorComponent implements OnInit {
 		}
 	}
 
-	private cancel() {
+	public cancel() {
 		this.model = new Survey();
 
 		this.form.reset();

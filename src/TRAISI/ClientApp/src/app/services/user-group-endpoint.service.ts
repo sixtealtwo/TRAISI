@@ -35,6 +35,7 @@ export class UserGroupEndpointService extends EndpointFactory {
 	 */
 	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
 		super(http, configurations, injector);
+
 	}
 
 	public getListUserGroupsEndpoint<T>(): Observable<T> {
