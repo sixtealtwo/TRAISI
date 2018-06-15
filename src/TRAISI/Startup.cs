@@ -288,8 +288,8 @@ namespace TRAISI
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                    //spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                    spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }
