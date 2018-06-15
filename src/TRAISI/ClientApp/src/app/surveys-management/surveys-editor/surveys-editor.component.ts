@@ -33,7 +33,7 @@ export class SurveysEditorComponent implements OnInit {
 		{},
 		{
 			containerClass: 'theme-default',
-			dateInputFormat: ''
+			dateInputFormat: 'YYYY-MM-DD'
 		}
 	);
 

@@ -23,17 +23,14 @@
 
 
 <ul class="navbar-nav mr-3 d-none d-md-flex flex-row" (click)="$event.preventDefault()">
-    <li class="nav-item dropdown" dropdown placement="bottom right" [autoClose]="false">
-      <div class="nav-padding">
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a href="#" class="nav-link dropdown-toggle" dropdownToggle>
+					<div class="nav-padding">
               <span class="thumb-sm avatar float-left">
                   <img class="rounded-circle" src="assets/img/avatar.png" alt="...">
               </span>
               &nbsp;<strong>{{ userName }}</strong>&nbsp;
-      </div>
-    </li>
-    <li class="nav-item dropdown" dropdown placement="bottom right">
-      <a href="#" class="nav-link dropdown-toggle" dropdownToggle>
-        <i class="fa fa-cog fa-lg"></i>
+      		</div>
       </a>
       <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
         <li><a class="dropdown-item" [routerLink]=" ['/app/account/info'] "><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
