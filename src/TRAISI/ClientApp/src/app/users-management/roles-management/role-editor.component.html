@@ -86,8 +86,8 @@
 
             <div class="col-sm-7">
                 <div class="pull-right">
-                    <button *ngIf="!canManageRoles" type="button" (click)="cancel()" class="btn btn-default">{{'roles.editor.Close' | translate}}</button>
-                    <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
+                    <button *ngIf="!canManageRoles" type="button" (click)="cancel()" class="btn btn-default action-button">{{'roles.editor.Close' | translate}}</button>
+                    <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger action-button" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
                     <button *ngIf="canManageRoles" type="submit" class="btn btn-primary" [disabled]="isSaving">
                         <i *ngIf="!isSaving" class='fa fa-save'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('roles.editor.Saving' | translate) : ('roles.editor.Save' | translate)}}
                     </button>
