@@ -3,6 +3,7 @@ import { QuestionLoaderEndpointService } from './question-loader-endpoint.servic
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
+import * as AngularHttp from '@angular/common/http';
 import 'rxjs/add/observable/of';
 import * as _ from 'lodash';
 
@@ -23,7 +24,7 @@ export class QuestionLoaderService {
 
 		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
-
+		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 
 		// create and obserer and return the component factory after it has finished importing
 		let obs: Observable<ComponentFactory<any>> = Observable.create((observer: Observer<ComponentFactory<any>>) => {

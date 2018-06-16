@@ -251,9 +251,9 @@ namespace TRAISI
             else
             {
                 // Enforce https during production
-                //var rewriteOptions = new RewriteOptions()
-                //    .AddRedirectToHttps();
-                //app.UseRewriter(rewriteOptions);
+                var rewriteOptions = new RewriteOptions()
+                    .AddRedirectToHttps();
+                app.UseRewriter(rewriteOptions);
 
                 app.UseExceptionHandler("/Home/Error");
             }

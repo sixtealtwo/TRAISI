@@ -207,7 +207,9 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.allGroups.forEach( group => {
 			this.surveyEditor.groupsOptions.push({ text: group.name, id: group.name });
 		});
-		this.surveyEditor.selectedGroup = this.surveyEditor.groupsOptions[0].id;
+		if (this.allGroups.length > 0) {
+			this.surveyEditor.selectedGroup = this.surveyEditor.groupsOptions[0].id;
+		}
 	}
 
 	onDataLoadFailed(error: any) {

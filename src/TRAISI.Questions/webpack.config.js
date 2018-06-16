@@ -6,8 +6,9 @@ module.exports = {
     output: {
         path: path.join(process.cwd(), 'dist'),
         filename: 'traisi-questions.module.js',
-        libraryTarget: 'amd'
-    },
+				libraryTarget: 'amd'
+		},
+		devtool: 'source-map',
     resolve: {
         extensions: [
             '.ts',
@@ -38,7 +39,13 @@ module.exports = {
                     "css-loader", // translates CSS into CommonJS
                     "sass-loader" // compiles Sass to CSS
                 ]
-            }]
+						},
+						{
+							test: /\.png$/, 
+							exclude: /node_modules/,
+							loader: 'file-loader?name=images/[name].[ext]'
+						}
+					]
         
     },
     /*externals: [

@@ -7,7 +7,7 @@ module.exports = {
         path: path.join(process.cwd(), 'dist'),
         filename: 'traisi-questions.module.js',
         libraryTarget: 'commonjs'
-    },
+		},
     resolve: {
         extensions: [
             '.ts',

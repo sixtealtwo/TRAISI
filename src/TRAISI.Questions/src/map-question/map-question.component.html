@@ -1,5 +1,5 @@
 <div class="map-container">
-	<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'">
+	<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)" >
 		<mgl-layer id="3d-buildings" source="composite" sourceLayer="building" [filter]="['==', 'extrude', 'true']" type="fill-extrusion"
 		 [minzoom]="15" [paint]="{
 			'fill-extrusion-color': '#aaa',
@@ -15,16 +15,23 @@
 				15.05, ['get', 'min_height']
 			],
 			'fill-extrusion-opacity': .6
-		}" [before]="labelLayerId"></mgl-layer>
+		}"></mgl-layer>
 		<mgl-control mglGeolocate position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
 	}" [trackUserLocation]="true"></mgl-control>
 		<mgl-control mglNavigation position="top-left"></mgl-control>
-		<mgl-control #geocoder mglGeocoder [placeholder]="'Search Location'" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
-		<mgl-control position="bottom-left">
-			<div>
-				<label>{{ locationSearch }}</label>
-			</div>
-		</mgl-control>
+		<mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
+		<mgl-marker
+      [lngLat]="markerPosition"
+      mglDraggable
+      (dragStart)="onDragStart($event)"
+      (dragEnd)="onDragEnd($event)"
+			(drag)="onDrag($event)"
+		>
+		<img draggable="false" src="assets/img/map-markers/default-marker.png"/>
+    </mgl-marker>
 	</mgl-map>
+	<div class="locationDisplay">
+		<label>Location Selected: {{ locationSearch }}</label>
+	</div>
 </div>
