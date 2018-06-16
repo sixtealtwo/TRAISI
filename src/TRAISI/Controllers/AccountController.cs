@@ -27,13 +27,15 @@ namespace TRAISI.Controllers {
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
         private IUnitOfWork _unitOfWork;
+				private IEmailer _emailer;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork) {
+        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork, IEmailer emailer) {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
             _unitOfWork = unitOfWork;
+						_emailer = emailer;
         }
 
         [HttpGet ("users/me")]

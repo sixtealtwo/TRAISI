@@ -19,11 +19,10 @@ namespace TRAISI.Controllers
     [Route("api/[controller]")]
     public class MapServiceController : Controller
     {
-        private IGeocoder _geocoder;
-
-        public MapServiceController()
+        private IGeoService _geoService;
+        public MapServiceController(IGeoService geoService)
         {
-            this._geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyAy4ehUhieFvo1SfRzQ - pLB6TpWqCzbIrY" };
+            this._geoService = geoService;
         }
 
         // GET: api/<controller>
@@ -32,8 +31,8 @@ namespace TRAISI.Controllers
 				[Produces(typeof(string))]
         public async Task<IActionResult> ReverseGeocode(double lat, double lng)
         {
-            var result = await _geocoder.ReverseGeocodeAsync(lat, lng);
-            return Ok(result.First().FormattedAddress);
+            var result = await this._geoService.ReverseGeocodeAsync(lat, lng);
+            return Ok(result);
         }
         
     }

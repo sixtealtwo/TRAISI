@@ -207,9 +207,11 @@ namespace TRAISI
 
             // Configurations
             services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
+            services.Configure<GeoConfig>(Configuration.GetSection("GeoConfig"));
 
             // Business Services
             services.AddScoped<IEmailer, Emailer>();
+            services.AddScoped<IGeoService, GeoService>();
 
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
