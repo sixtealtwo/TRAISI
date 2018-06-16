@@ -22,7 +22,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/application.scss"
+							"src/scss/application.scss",
+							"node_modules/animate.css/animate.css",
+							"node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
+							"node_modules/bootstrap-select/dist/css/bootstrap-select.css",
+							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
+							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+						  "node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
+							"node_modules/@swimlane/ngx-dnd/release/index.css",
+							"src/scss/alertify.core.css",
+							"src/scss/alertify.bootstrap.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
