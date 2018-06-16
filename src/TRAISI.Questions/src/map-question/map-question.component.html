@@ -1,5 +1,5 @@
 <div class="map-container">
-	<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)" >
+	<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)">
 		<mgl-layer id="3d-buildings" source="composite" sourceLayer="building" [filter]="['==', 'extrude', 'true']" type="fill-extrusion"
 		 [minzoom]="15" [paint]="{
 			'fill-extrusion-color': '#aaa',
@@ -21,15 +21,21 @@
 	}" [trackUserLocation]="true"></mgl-control>
 		<mgl-control mglNavigation position="top-left"></mgl-control>
 		<mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
+		<mgl-control position="bottom-right">
+			<div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
+				<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
+				<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>
+				<a class="mapbox-improve-map" href="https://www.mapbox.com/feedback" target="_blank">Improve this map</a>
+			</div>
+		</mgl-control>
 		<mgl-marker
       [lngLat]="markerPosition"
       mglDraggable
       (dragStart)="onDragStart($event)"
       (dragEnd)="onDragEnd($event)"
 			(drag)="onDrag($event)"
-			class="mapMarker"
 		>
-		<img draggable="false" src="assets/img/map-markers/default-marker.png"/>
+		<img 	class="mapMarker" draggable="false" src="assets/img/map-markers/default-marker.png"/>
     </mgl-marker>
 	</mgl-map>
 	<div class="locationDisplay">
