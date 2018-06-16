@@ -12,7 +12,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ROUTES } from './surveys-management.routes';
 import { SurveysManagementComponent } from './surveys-management.component';
-import {BsDatepickerModule, BsDropdownModule} from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 import { SurveysEditorComponent } from './surveys-editor/surveys-editor.component';
 
 @NgModule({

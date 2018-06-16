@@ -29,6 +29,7 @@ import { SurveysEditorComponent } from './surveys-editor/surveys-editor.componen
 import { UserGroupService } from '../services/user-group.service';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
+import { SurveyPermissions } from '../models/survey-permissions.model';
 
 @Component({
 	selector: 'app-surveys-management',
@@ -42,6 +43,10 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	public soloSurveyRows: Survey[] = [];
 	public soloSurveyRowsCache: Survey[] = [];
 
+	public sharedSurveyColumns: any[] = [];
+	public sharedSurveyRows: Survey[] = [];
+	public sharedSurveyRowsCache: Survey[] = [];
+
 	public groupSurveyColumns: any[] = [];
 	public groupSurveyRows: Survey[] = [];
 	public groupSurveyRowsCache: Survey[] = [];
@@ -53,16 +58,19 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 	public surveyEditMode: boolean = false;
 	public loadingIndicator: boolean;
+	public sharedBeingViewed: boolean = false;
 	public groupBeingViewed: boolean = false;
 	public groupActive: string;
 
 	@ViewChild('soloTable') table: any;
 
+	@ViewChild('sharedTable') sTable: any;
+
+	@ViewChild('groupTable') gTable: any;
+
 	@ViewChild('editorModal') editorModal: ModalDirective;
 
 	@ViewChild('surveyEditor') surveyEditor: SurveysEditorComponent;
-
-	// @ViewChild('codeTemplate') codeTemplate: TemplateRef<any>;
 
 	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
 
@@ -107,7 +115,20 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
 		];
 
+		this.sharedSurveyColumns = [
+			{ width: 50, cellTemplate: this.expandTemplate, sortable: false, resizeable: false, draggable: false, canAutoResize: false},
+			{ prop: 'code', name: 'Code', midWidth: 20, flexGrow: 20, cellTemplate: this.textTemplate },
+			{ prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 50, cellTemplate: this.textTemplate },
+			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
+			{ prop: 'group', name: 'Group', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
+			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
+			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
+			{ minWidth: 50, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status', sortable: false },
+			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
+		];
+
 		this.groupSurveyColumns = [
+			{ width: 50, cellTemplate: this.expandTemplate, sortable: false, resizeable: false, draggable: false, canAutoResize: false},
 			{ prop: 'code', name: 'Code', midWidth: 20, flexGrow: 20, cellTemplate: this.textTemplate },
 			{ prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 50, cellTemplate: this.textTemplate },
 			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
@@ -127,6 +148,10 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			this.surveyService.listSurveys().subscribe(surveys => {
 				this.soloSurveyRows = surveys;
 				this.soloSurveyRowsCache = [...surveys];
+			});
+			this.surveyService.listSharedSurveys().subscribe(surveys => {
+				this.sharedSurveyRows = surveys;
+				this.sharedSurveyRowsCache = [...surveys];
 			});
 		};
 
@@ -151,24 +176,31 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.loadingIndicator = true;
 
 		this.surveyService.listSurveys().subscribe(
-			(surveys: Survey[]) => {
-				this.userGroupService
-					.listUserGroups()
-					.subscribe(
-						userGroups => this.onDataLoadSuccessful(surveys, userGroups),
-						error => this.onDataLoadFailed(error)
-					);
+			(soloSurveys: Survey[]) => {
+				this.surveyService.listSharedSurveys().subscribe(
+					(sharedSurveys: Survey[]) => {
+						this.userGroupService
+						.listUserGroups()
+						.subscribe(
+							userGroups => this.onDataLoadSuccessful(soloSurveys, sharedSurveys, userGroups),
+							error => this.onDataLoadFailed(error)
+						);
+					}
+				)
 			},
 			error => this.onDataLoadFailed(error)
 		);
 	}
 
-	onDataLoadSuccessful(surveys: Survey[], groups: UserGroup[]) {
+	onDataLoadSuccessful(soloSurveys: Survey[], sharedSurveys: Survey[], groups: UserGroup[]) {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
 
-		this.soloSurveyRows = surveys;
-		this.soloSurveyRowsCache = [...surveys];
+		this.soloSurveyRows = soloSurveys;
+		this.soloSurveyRowsCache = [...soloSurveys];
+
+		this.sharedSurveyRows = sharedSurveys;
+		this.sharedSurveyRowsCache = [...sharedSurveys];
 
 		this.allGroups = groups;
 		this.surveyEditor.groupsOptions = [];
@@ -202,6 +234,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	editSurvey(survey: Survey): void {
 		this.surveyEditMode = true;
 		this.surveyEditor.isNewSurvey = false;
+		this.surveyEditor.canDeleteSurvey = (survey.owner === this.accountService.currentUser.userName) || this.canDelete(survey);
 		this.model = survey;
 		this.editModel = new Survey();
 		Object.assign(this.editModel, this.model);
@@ -262,19 +295,34 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	 * @param surveyId
 	 */
 	private deleteSurveyHelper(surveyId: number): void {
-		this.surveyService.deleteSurvey(surveyId).subscribe(value =>
-			this.surveyService.listSurveys().subscribe(surveys => {
-				this.soloSurveyRows = surveys;
-				this.soloSurveyRowsCache = [...surveys];
-			})
+		this.surveyService.deleteSurvey(surveyId).subscribe(value => {
+			if (this.sharedBeingViewed) {
+				this.surveyService.listSharedSurveys().subscribe(surveys => {
+					this.sharedSurveyRows = surveys;
+					this.sharedSurveyRowsCache = [...surveys];
+				});
+			}	else if (this.groupBeingViewed) {
+				this.switchGroup(this.groupActive);
+			}	else {
+				this.surveyService.listSurveys().subscribe(surveys => {
+					this.soloSurveyRows = surveys;
+					this.soloSurveyRowsCache = [...surveys];
+				});
+			}
+		}
 		);
 	}
 
 	switchGroup(name: string) {
 		if (name === 'unGrouped') {
 			this.groupBeingViewed = false;
+			this.sharedBeingViewed = false;
 			this.groupActive = '';
-		} else {
+		} else if (name === 'shared') {
+			this.groupBeingViewed = false;
+			this.sharedBeingViewed = true;
+			this.groupActive = '';
+		}	else {
 			this.alertService.startLoadingMessage('Loading ' + name + ' members...');
 			this.loadingIndicator = true;
 			const group = this.allGroups.filter(u => u.name === name)[0];
@@ -284,6 +332,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 					this.groupSurveyRowsCache = [...surveyInfo];
 					this.groupSurveyRows = surveyInfo;
 					this.groupBeingViewed = true;
+					this.sharedBeingViewed = false;
 					this.groupActive = name;
 					this.alertService.stopLoadingMessage();
 					this.loadingIndicator = false;
@@ -293,7 +342,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 					this.loadingIndicator = false;
 					this.alertService.showStickyMessage(
 						'Load Error',
-						`An error occured whilst loading the group members.\r\nError: "${Utilities.getHttpResponseMessage(
+						`An error occured whilst loading the group surveys.\r\nError: "${Utilities.getHttpResponseMessage(
 							error
 						)}"`,
 						MessageSeverity.error,
@@ -311,12 +360,33 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	public onSearchChanged(value: string): void {
 		if (this.groupBeingViewed) {
 			this.groupSurveyRows = this.groupSurveyRowsCache.filter(r => Utilities.searchArray(value, false, r.name));
-		} else {
+		} else if (this.sharedBeingViewed) {
+			this.sharedSurveyRows = this.sharedSurveyRowsCache.filter(r => Utilities.searchArray(value, false, r.name));
+		}	else {
 			this.soloSurveyRows = this.soloSurveyRowsCache.filter(r => Utilities.searchArray(value, false, r.name));
 		}
 	}
 
 	public toggleExpandRow(row) {
-		this.table.rowDetail.toggleExpandRow(row);
+		if (this.groupBeingViewed) {
+			this.gTable.rowDetail.toggleExpandRow(row);
+		} else if (this.sharedBeingViewed) {
+			this.sTable.rowDetail.toggleExpandRow(row);
+		}	else {
+			this.table.rowDetail.toggleExpandRow(row);
+		}
+	}
+
+	public canEdit(row: Survey): boolean {
+		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.modify');
+	}
+	public canDelete(row: Survey): boolean {
+		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.delete');
+	}
+	public canAnalyze(row: Survey): boolean {
+		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.analyze');
+	}
+	public canShare(row: Survey): boolean {
+		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.share');
 	}
 }

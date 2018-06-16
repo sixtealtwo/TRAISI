@@ -42,6 +42,7 @@ namespace DAL {
             }
 
             ApplicationUser smto = null;
+						ApplicationUser tts = null;
 
             if (!await _context.Users.AnyAsync ()) {
                 _logger.LogInformation ("Generating inbuilt accounts");
@@ -57,7 +58,7 @@ namespace DAL {
                 await CreateUserAsync ("admin", "tempP@ss123", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
                 await CreateUserAsync ("user", "tempP@ss123", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
                 smto = await CreateUserAsync ("smto", "tempP@ss123", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
-                await CreateUserAsync ("tts", "tempP@ss123", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
+                tts = await CreateUserAsync ("tts", "tempP@ss123", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 
                 _logger.LogInformation ("Inbuilt account generation completed");
             }
@@ -80,7 +81,7 @@ namespace DAL {
 
                 Survey TestSurvey = new Survey() { 
                     Name = "Test",
-                    Owner = "smto",
+                    Owner = "tts",
                     Group = "StudentMove",
                     StartAt = DateTime.Now,
                     EndAt = DateTime.Now.Add(TimeSpan.FromDays(1)),
@@ -95,7 +96,7 @@ namespace DAL {
 
                 SurveyPermission test = new SurveyPermission()
                 {
-                    Permissions = new string[] {"survey.view","survey.interview"},
+                    Permissions = new string[] {"survey.view","survey.modify","survey.interview"},
                     User = smto
                 };
 

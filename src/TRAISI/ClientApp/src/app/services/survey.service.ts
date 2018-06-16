@@ -10,7 +10,7 @@ export class SurveyService {
 	constructor(private _surveyEndpointService: SurveyEndpointService) {}
 
 	/**
-	 * Lists all surveys.
+	 * Lists all surveys owned by user.
 	 * @param  {number} page?
 	 * @param  {number} pageSize?
 	 */
@@ -28,6 +28,23 @@ export class SurveyService {
 
 	public listGroupSurveys(id: number): Observable<Survey[]> {
 		return this._surveyEndpointService.getListGroupSurveysEndpoint<Survey[]>(id).pipe(map(surveys => {
+			return surveys.map(survey => {
+				survey.startAt = new Date(survey.startAt);
+				survey.endAt = new Date(survey.endAt);
+				survey.createdDate = new Date(survey.createdDate);
+				survey.updatedDate = new Date(survey.updatedDate);
+				return survey;
+			});
+		}));
+	}
+
+		/**
+	 * Lists all surveys shared with the user.
+	 * @param  {number} page?
+	 * @param  {number} pageSize?
+	 */
+	public listSharedSurveys(): Observable<Survey[]> {
+		return this._surveyEndpointService.getListSharedSurveysEndpoint<Survey[]>().pipe(map(surveys => {
 			return surveys.map(survey => {
 				survey.startAt = new Date(survey.startAt);
 				survey.endAt = new Date(survey.endAt);

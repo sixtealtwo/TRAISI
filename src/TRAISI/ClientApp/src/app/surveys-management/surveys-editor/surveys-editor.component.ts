@@ -21,6 +21,7 @@ export class SurveysEditorComponent implements OnInit {
 	public model: Survey = new Survey();
 	public editMode: boolean = false;
 	public isNewSurvey = false;
+	public canDeleteSurvey = false;
 	public isSaving = false;
 
 	public groupsOptions: Array<Select2OptionData>;

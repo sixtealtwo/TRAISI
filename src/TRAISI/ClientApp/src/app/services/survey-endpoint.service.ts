@@ -11,12 +11,16 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 export class SurveyEndpointService extends EndpointFactory {
 	private readonly _surveysUrl: string = '/api/survey';
 	private readonly _groupSurveysUrl: string = '/api/survey/group';
+	private readonly _sharedSurveysUrl: string = '/api/survey/shared';
 
 	get surveysUrl() {
 		return this.configurations.baseUrl + this._surveysUrl;
 	}
 	get groupSurveysUrl() {
 		return this.configurations.baseUrl + this._groupSurveysUrl;
+	}
+	get sharedSurveysUrl() {
+		return this.configurations.baseUrl + this._sharedSurveysUrl;
 	}
 
 	/**
@@ -44,6 +48,16 @@ export class SurveyEndpointService extends EndpointFactory {
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getListSurveysEndpoint(id));
+			})
+		);
+	}
+
+	public getListSharedSurveysEndpoint<T>(): Observable<T> {
+		const endpointUrl = this.sharedSurveysUrl;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getListSurveysEndpoint());
 			})
 		);
 	}

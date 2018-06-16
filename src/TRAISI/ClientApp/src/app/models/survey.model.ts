@@ -1,3 +1,4 @@
+import { SurveyPermissions } from './survey-permissions.model';
 export class Survey {
 
 	constructor(public id?: number,
@@ -14,6 +15,7 @@ export class Survey {
 				public successLink?: string,
 				public rejectionLink?: string,
 				public defaultLanguage?: string,
-				public styleTemplate?: string) {
+				public styleTemplate?: string,
+				public surveyPermissions?: SurveyPermissions[]) {
 	}
 }
