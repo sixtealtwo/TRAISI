@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
@@ -20,8 +20,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('mapbox') mapGL: MapComponent;
 	@ViewChild('geocoder') mapGeocoder: any;
+	@ViewChild('geoLocator') mapGeoLocator: any;
 
-	constructor(private mapEndpointService: MapEndpointService) {
+	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'map';
 		console.log('loaded');
@@ -32,7 +33,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-
+		this.mapGL.load.subscribe((map: mapboxgl.Map) => {
+			this.mapGeoLocator.control.on('geolocate', e => this.userLocate(e));
+		});
 	}
 
 	private configureMapSettings(): void {
@@ -42,12 +45,22 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
 		this.mapGL.doubleClickZoom = false;
 		this.mapGL.attributionControl = false;
+
 		this.locationSearch = 'Toronto';
 	}
 
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
+	}
+
+	userLocate(e: Position) {
+		this.markerPosition = [e.coords.longitude, e.coords.latitude];
+		this.mapEndpointService.reverseGeocode(e.coords.latitude,e.coords.longitude).subscribe(result => {
+			this.locationSearch = result;
+			this.mapGeocoder.control._inputEl.value = result;
+			this.cdRef.detectChanges();
+		});
 	}
 
 	onDragStart(event: any) {}

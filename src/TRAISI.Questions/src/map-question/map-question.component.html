@@ -16,9 +16,9 @@
 			],
 			'fill-extrusion-opacity': .6
 		}"></mgl-layer>
-		<mgl-control mglGeolocate position="top-left" [positionOptions]="{
+		<mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
-	}" [trackUserLocation]="true"></mgl-control>
+	}" [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
 		<mgl-control mglNavigation position="top-left"></mgl-control>
 		<mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
 		<mgl-control position="bottom-right">
