@@ -20,6 +20,12 @@ body{
   overflow-x: hidden;
 }
 
+body.modal-open
+{
+	-webkit-overflow-scrolling: touch !important;
+ 
+}
+
 th{
   font-weight: $font-weight-semi-bold;
 }

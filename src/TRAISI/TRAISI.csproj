@@ -42,11 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\questions\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\questions\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClientApp\questions" />
+    <EmbeddedResource Remove="ClientApp\questions\**" />
+    <None Remove="ClientApp\questions\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Logs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>

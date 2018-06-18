@@ -139,7 +139,10 @@ export class LayoutComponent implements OnInit {
 	}
 
 	enableSwipeCollapsing(): void {
-		const swipe = new Hammer(document.getElementById('content-wrap'));
+		
+		const swipe = new Hammer(document.getElementById('navbar'), {
+			touchAction: 'auto'
+		});
 		const d = this;
 
 		swipe.on('swipeleft', () => {
