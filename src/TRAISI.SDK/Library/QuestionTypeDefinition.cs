@@ -15,7 +15,9 @@ namespace TRAISI.SDK
 
         public DirectoryInfo Location { get; set; }
 
-        public Dictionary<string, object> QuestionConfiguration;
+        public Dictionary<string, object> QuestionConfigurations { get; set; }
+
+        public Dictionary<string, object> QuestionParameterConfigurations { get; set; }
 
         public Type Type { get; }
 
@@ -24,7 +26,7 @@ namespace TRAISI.SDK
         /// that is to be served to the front end.
         /// </summary>
         /// <returns></returns>
-        public List<byte []> ClientModules {get;set;} 
+        public List<byte[]> ClientModules { get; set; }
 
         /// <summary>
         /// 

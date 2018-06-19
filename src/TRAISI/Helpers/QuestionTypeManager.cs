@@ -56,16 +56,40 @@ namespace TRAISI.Helpers
         private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
         {
             var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
-            var configurations  = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
-            typeDefinition.QuestionConfiguration = configurations;
+            var configurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
+            typeDefinition.QuestionConfigurations = configurations;
+            var parameterConfigurations = this.ReadQuestionParameterData(questionType, sourceAssembly);
+            typeDefinition.QuestionParameterConfigurations = parameterConfigurations;
             _questionTypeDefinitions.Add(typeDefinition);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
-           
 
+        }
 
+        private Dictionary<string, object> ReadQuestionParameterData(Type questionType, Assembly sourceAssembly)
+        {
+            var properties = questionType.GetProperties();
+            var members = questionType.GetMembers();
+            var configuration = new Dictionary<string, object>();
+            foreach (var member in members)
+            {
+                var attributes = member.GetCustomAttributes();
+                if (attributes.Count() > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(QuestionParameterAttribute))
+                        {
+                            var configAttribute = attribute as QuestionParameterAttribute;
+                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
+                        }
 
+                    }
+                }
+            }
+
+            return configuration;
         }
 
         /// <summary>
@@ -89,11 +113,6 @@ namespace TRAISI.Helpers
                         if (attribute.GetType() == typeof(QuestionConfigParameterAttribute))
                         {
                             var configAttribute = attribute as QuestionConfigParameterAttribute;
-                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
-                        }
-                        else if (attribute.GetType() == typeof(QuestionParameterAttribute))
-                        {
-                            var configAttribute = attribute as QuestionParameterAttribute;
                             configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
                         }
                     }
