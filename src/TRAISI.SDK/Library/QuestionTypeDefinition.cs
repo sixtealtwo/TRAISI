@@ -15,6 +15,8 @@ namespace TRAISI.SDK
 
         public DirectoryInfo Location { get; set; }
 
+        public Dictionary<string, object> QuestionConfiguration;
+
         public Type Type { get; }
 
         /// <summary>

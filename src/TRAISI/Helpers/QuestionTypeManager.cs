@@ -56,11 +56,14 @@ namespace TRAISI.Helpers
         private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
         {
             var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
+            var configurations  = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
+            typeDefinition.QuestionConfiguration = configurations;
             _questionTypeDefinitions.Add(typeDefinition);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
-            this.ReadQuestionConfigurationData(questionType, sourceAssembly);
+           
+
 
 
         }
