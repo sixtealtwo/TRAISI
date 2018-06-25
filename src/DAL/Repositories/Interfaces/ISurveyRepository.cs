@@ -6,7 +6,8 @@ using DAL.Models.Surveys;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DAL.Repositories.Interfaces {
+namespace DAL.Repositories.Interfaces
+{
     public interface ISurveyRepository : IRepository<Survey>
     {
         void LoadSurveyFromJson(Stream data);
@@ -18,9 +19,9 @@ namespace DAL.Repositories.Interfaces {
 
         Task<Survey> GetSurveyWithPermissions(int id);
 
-				Task<Survey> GetSurveyWithUserPermissions(int id, string userName);
+        Task<Survey> GetSurveyWithUserPermissions(int id, string userName);
 
-				Task<IEnumerable<Survey>> GetSharedSurveys(string userName);
+        Task<IEnumerable<Survey>> GetSharedSurveys(string userName);
 
     }
 }

@@ -16,11 +16,11 @@ namespace DAL
     {
 
         ISurveyRepository Surveys { get; }
-				ISurveyPermissionsRepository SurveyPermissions { get; }
+        ISurveyPermissionsRepository SurveyPermissions { get; }
         IUserGroupRepository UserGroups { get; }
         IGroupMemberRepository GroupMembers { get; }
         ISurveyViewRepository SurveyViews { get; }
-        IQuestionPartRepository QuestionParts {get;}
+        IQuestionPartRepository QuestionParts { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();
