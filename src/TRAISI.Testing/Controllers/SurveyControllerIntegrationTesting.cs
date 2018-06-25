@@ -15,7 +15,6 @@ namespace TRAISI.Testing.Controllers
         
             _client = _server.CreateClient();
 
-         
 
         }
     }
