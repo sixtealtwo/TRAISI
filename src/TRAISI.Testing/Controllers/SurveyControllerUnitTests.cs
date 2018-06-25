@@ -23,8 +23,6 @@ namespace TRAISI.Testing.Controllers
             TestingUtilities.GetAuthorizationService(), TestingUtilities.GetAccountManager());
            
         }
-
-        [Fact]
         public async void TestGetSurvey()
         {
             var result = await _surveyController.GetSurvey(1);
