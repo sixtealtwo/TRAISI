@@ -1,13 +1,14 @@
 const path = require('path');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-    entry: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+    entry: path.join(process.cwd(), './src/$(ProjectName).module.ts'),
     output: {
         path: path.join(process.cwd(), 'dist'),
-        filename: 'traisi-questions.module.js',
-        libraryTarget: 'amd'
-    },
+        filename: '$(ProjectName).module.js',
+				libraryTarget: 'amd'
+		},
+		devtool: 'source-map',
     resolve: {
         extensions: [
             '.ts',
@@ -38,7 +39,13 @@ module.exports = {
                     "css-loader", // translates CSS into CommonJS
                     "sass-loader" // compiles Sass to CSS
                 ]
-            }]
+						},
+						{
+							test: /\.png$/, 
+							exclude: /node_modules/,
+							loader: 'file-loader?name=images/[name].[ext]'
+						}
+					]
         
     },
     /*externals: [
@@ -51,6 +58,13 @@ module.exports = {
     ],*/
     externals: /^@angular/,
     plugins: [
-        //snew UglifyJsPlugin()
+        /*
+        new UglifyJsPlugin({
+            uglifyOptions:{
+                output: {
+                    comments: false,
+                }
+            }
+        })  */
       ]
 };
