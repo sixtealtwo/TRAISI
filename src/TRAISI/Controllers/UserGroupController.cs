@@ -369,6 +369,62 @@ namespace TRAISI.Controllers
 		}
 
 		/// <summary>
+		/// Get API keys for given group
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/apikeys")]
+		[Produces(typeof(ApiKeysViewModel))]
+		public async Task<IActionResult> GetGroupApiKeys(int id)
+		{
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
+			var apiKeys = await this._unitOfWork.ApiKeys.GetGroupApiKeys(id);
+
+			if (await isGroupAdmin(group.Name))
+			{
+				return Ok(Mapper.Map<ApiKeysViewModel>(apiKeys));
+			}
+			else
+			{
+				return new ChallengeResult();
+			}
+		}
+
+		/// <summary>
+		/// Update group API keys
+		/// </summary>
+		/// <param name="apiKeys"></param>
+		/// <returns></returns>
+		[HttpPost("{id}/apikeys")]
+		public async Task<IActionResult> UpdateGroupApiKeys([FromBody] ApiKeysViewModel apiKeys)
+		{
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(apiKeys.GroupId);
+			if (await isGroupAdmin(group.Name))
+			{
+				ApiKeys gApiKeys = Mapper.Map<ApiKeys>(apiKeys);
+				//gApiKeys.Group = group;
+				this._unitOfWork.ApiKeys.Update(gApiKeys);
+				await this._unitOfWork.SaveChangesAsync();
+				return new OkResult();
+			}
+			else
+			{
+				return BadRequest("Insufficient privileges.");
+			}
+		}
+
+		/// <summary>
+		/// Check if user is group admin
+		/// </summary>
+		/// <param name="groupName"></param>
+		/// <returns></returns>
+		private async Task<bool> isGroupAdmin(string groupName)
+		{
+			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, groupName);
+			return isGroupAdmin;
+		}
+
+		/// <summary>
 		/// Check if group admin has given permission
 		/// </summary>
 		/// <param name="permission"></param>

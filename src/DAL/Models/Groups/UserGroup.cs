@@ -10,6 +10,8 @@ namespace DAL.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+				public ApiKeys ApiKeySettings { get; set; }
         public virtual ICollection<GroupMember> Members { get; set; }
     }
 }

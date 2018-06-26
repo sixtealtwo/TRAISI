@@ -25,6 +25,7 @@ namespace DAL {
         public DbSet<SurveyPermission> SurveyPermissions { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
+				public DbSet<ApiKeys> ApiKeys { get; set; }
 
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
@@ -54,6 +55,8 @@ namespace DAL {
             builder.Entity<UserGroup> ().ToTable ($"{nameof(this.UserGroups)}");
 
             builder.Entity<GroupMember> ().ToTable ($"{nameof(this.GroupMembers)}");
+
+						builder.Entity<ApiKeys> ().ToTable($"{nameof(this.ApiKeys)}");
 
         }
 

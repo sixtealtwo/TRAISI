@@ -63,6 +63,10 @@ namespace TRAISI.ViewModels {
 						CreateMap<SurveyPermission, SurveyPermissionViewModel>()
 								.ReverseMap ();
 
+						CreateMap<ApiKeys, ApiKeysViewModel>()
+								.ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
+								.ReverseMap();
+
         }
     }
 }

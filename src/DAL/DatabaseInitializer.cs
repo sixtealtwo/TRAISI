@@ -68,12 +68,14 @@ namespace DAL {
 
                 UserGroup TTS = new UserGroup () {
                     Name = "TTS",
-                    Members = new List<GroupMember> ()
+                    Members = new List<GroupMember> (),
+										ApiKeySettings = new ApiKeys()
                 };
 
                 UserGroup SMTO = new UserGroup () {
                     Name = "StudentMove",
-                    Members = new List<GroupMember> ()
+                    Members = new List<GroupMember> (),
+										ApiKeySettings = new ApiKeys()
                 };
 
                 _context.UserGroups.Add (TTS);
