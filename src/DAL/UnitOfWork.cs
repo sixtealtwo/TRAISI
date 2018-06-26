@@ -21,6 +21,7 @@ namespace DAL
         ISurveyPermissionsRepository _surveyPermissions;
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
+				IApiKeysRepository _apiKeys;
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 
@@ -84,6 +85,17 @@ namespace DAL
                     _userGroups = new UserGroupRepository(_context);
 
                 return _userGroups;
+            }
+        }
+
+				public IApiKeysRepository ApiKeys
+        {
+            get
+            {
+                if (_apiKeys == null)
+                    _apiKeys = new ApiKeysRepository(_context);
+
+                return _apiKeys;
             }
         }
 
