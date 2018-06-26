@@ -4,7 +4,9 @@ namespace DAL.Models.Surveys
     {
         int Id { get; set; }
 
-        IHousehold Household { get; set; }
+        string FirstName { get; set; }
+
+        string LastName { get; set; }
 
 
     }

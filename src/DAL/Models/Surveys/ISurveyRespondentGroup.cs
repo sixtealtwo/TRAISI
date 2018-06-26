@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DAL.Models.Surveys
 {
-    public interface IHousehold
+    public interface ISurveyRespondentGroup
     {
 
         int Id { get; set; }

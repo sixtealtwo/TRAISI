@@ -31,12 +31,9 @@ namespace TRAISI.Testing.Controllers
         {
             _output.WriteLine("Here");
 
-            var result = await _client.GetAsync("/api/SurveyController/1");
-
-            _output.WriteLine(result.ToString());
             Assert.True(false);
-            
-            
+
+
         }
     }
 }
