@@ -380,7 +380,7 @@ namespace TRAISI.Controllers
 			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
 			var apiKeys = await this._unitOfWork.ApiKeys.GetGroupApiKeys(id);
 
-			if (await isGroupAdmin(group.Name))
+			if (await isSuperAdmin() || await isGroupAdmin(group.Name))
 			{
 				return Ok(Mapper.Map<ApiKeysViewModel>(apiKeys));
 			}
@@ -395,14 +395,14 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="apiKeys"></param>
 		/// <returns></returns>
-		[HttpPost("{id}/apikeys")]
+		[HttpPut("{id}/apikeys")]
 		public async Task<IActionResult> UpdateGroupApiKeys([FromBody] ApiKeysViewModel apiKeys)
 		{
-			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(apiKeys.GroupId);
-			if (await isGroupAdmin(group.Name))
+			var group = await this._unitOfWork.UserGroups.GetAsync(apiKeys.GroupId);
+			if (await isSuperAdmin() || await isGroupAdmin(group.Name))
 			{
 				ApiKeys gApiKeys = Mapper.Map<ApiKeys>(apiKeys);
-				//gApiKeys.Group = group;
+				gApiKeys.Group = group;
 				this._unitOfWork.ApiKeys.Update(gApiKeys);
 				await this._unitOfWork.SaveChangesAsync();
 				return new OkResult();
@@ -412,6 +412,18 @@ namespace TRAISI.Controllers
 				return BadRequest("Insufficient privileges.");
 			}
 		}
+
+		/// <summary>
+		/// Check if user is super admin
+		/// </summary>
+		/// <param name="User"></param>
+		/// <returns></returns>
+		private async Task<bool> isSuperAdmin()
+		{
+			var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
+			return isSuperAdmin;
+		}
+
 
 		/// <summary>
 		/// Check if user is group admin

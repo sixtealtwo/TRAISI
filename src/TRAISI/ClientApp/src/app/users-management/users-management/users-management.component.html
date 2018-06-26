@@ -31,8 +31,6 @@
                 <search-input (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}"></search-input>
               </div>
               <div [hidden]="soloUserSelected.length == 0">
-                <!--<button class="btn btn-secondary mb-xs" role="button">Enable Selected</button>
-                <button class="btn btn-secondary mb-xs" role="button">Disable Selected</button>-->
                 <button class="btn btn-secondary mb-xs" role="button" (click)="addUsersToGroup()">Add to Group</button>
                 <select2 [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200" [cssImport]=true></select2>
               </div>

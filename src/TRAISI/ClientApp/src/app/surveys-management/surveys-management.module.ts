@@ -21,7 +21,7 @@ import { SurveysEditorComponent } from './surveys-editor/surveys-editor.componen
 		BsDatepickerModule.forRoot(),
 		FormsModule,
 		Select2Module,
-	SharedModule,
+		SharedModule,
 		ROUTES,
 		TranslateModule.forChild({
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserGroupEndpointService } from './user-group-endpoint.service';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
+import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -83,5 +84,13 @@ export class UserGroupService {
 
 	public removeMembersFromGroup(memberInfo: GroupMember[]) {
 		return this._userGroupEndpointService.removeMembersFromGroupEndpoint<number>(memberInfo.map(m => m.id));
+	}
+
+	public getUserGroupApiKeys(id: number) {
+		return this._userGroupEndpointService.getUserGroupAPIKeysEndpoint<UserGroupAPIKeys>(id);
+	}
+
+	public updateUserGroupApiKeys(apiKeys: UserGroupAPIKeys) {
+		return this._userGroupEndpointService.getUpdateUserGroupAPIKeysEndpoint<UserGroupAPIKeys>(apiKeys);
 	}
 }

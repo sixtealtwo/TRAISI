@@ -69,13 +69,13 @@ namespace DAL {
                 UserGroup TTS = new UserGroup () {
                     Name = "TTS",
                     Members = new List<GroupMember> (),
-										ApiKeySettings = new ApiKeys()
+										ApiKeySettings = new ApiKeys() { MailgunApiKey = "TTSMail", GoogleMapsApiKey = "TTSGoogle", MapBoxApiKey = "TTSMapbox"}
                 };
 
                 UserGroup SMTO = new UserGroup () {
                     Name = "StudentMove",
                     Members = new List<GroupMember> (),
-										ApiKeySettings = new ApiKeys()
+										ApiKeySettings = new ApiKeys() { MailgunApiKey = "SMTOMail", GoogleMapsApiKey = "SMTOGoogle", MapBoxApiKey = "SMTOMapbox"}
                 };
 
                 _context.UserGroups.Add (TTS);

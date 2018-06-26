@@ -7,6 +7,7 @@ import { EndpointFactory } from './endpoint-factory.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
+import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 
 @Injectable({ providedIn: 'root'})
 export class UserGroupEndpointService extends EndpointFactory {
@@ -189,4 +190,25 @@ export class UserGroupEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	public getUserGroupAPIKeysEndpoint<T>(id: number): Observable<T> {
+		const endpointUrl = `${this.userGroupsUrl}/${id}/apikeys`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUserGroupAPIKeysEndpoint(id));
+			})
+		);
+	}
+
+	public getUpdateUserGroupAPIKeysEndpoint<T>(apiKeys: UserGroupAPIKeys): Observable<T> {
+		const endpointUrl = `${this.userGroupsUrl}/${apiKeys.groupId}/apikeys`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(apiKeys), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateGroupMemberEndpoint(apiKeys));
+			})
+		);
+	}
+
 }

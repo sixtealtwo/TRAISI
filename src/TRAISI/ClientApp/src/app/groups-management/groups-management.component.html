@@ -1,0 +1,73 @@
+<div>
+	<h1 class="page-title">Manage Groups</h1>
+
+	<div class="row mb-lg">
+		<div class="col-lg-12 col-12">
+			<div class="clearfix">
+				<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
+					<li *ngFor="let group of allGroups; let i = index" class="nav-item">
+						<a class="nav-link fw-semi-bold" [class.active]="i==0" (click)="switchGroup(group.name)" id="{{ group.name + '-tab' }}" data-toggle="tab" href="#group"
+						 role="tab" aria-controls="group.name" aria-expanded="true">
+							{{ group.name }}
+							<sup class="badge badge-pill badge-primary">
+								G
+							</sup>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-content mb-lg" id="myTabContent">
+				<div role="tabpanel" class="tab-pane active in clearfix" id="group" aria-labelledby="group-tab" aria-expanded="true">
+						<form (ngSubmit)="saveKeys()" #f="ngForm" novalidate class="form-horizontal">
+								<div class="form-group row">
+										<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mapbox API Key</label>
+										<div class="col-md-5">
+											<input [(ngModel)]="apiModel.mapBoxApiKey" type="text" class="form-control" id="mapbox" aria-describedby="mapbox" placeholder="Mapbox API Key"
+											 name="mapbox" required>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-7">
+											<hr class="edit-separator-hr" />
+										</div>
+									</div>
+									<div class="form-group row">
+											<label for="surveyName" class="col-md-2 col-form-label text-md-right">Google Maps API Key</label>
+											<div class="col-md-5">
+												<input [(ngModel)]="apiModel.googleMapsApiKey" type="text" class="form-control" id="google" aria-describedby="google" placeholder="Google Maps API Key"
+												 name="google" required>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-7">
+												<hr class="edit-separator-hr" />
+											</div>
+										</div>
+										<div class="form-group row">
+												<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mailgun API Key</label>
+												<div class="col-md-5">
+													<input [(ngModel)]="apiModel.mailgunApiKey" type="text" class="form-control" id="mailgun" aria-describedby="mailgun" placeholder="Mailgun API Key"
+													 name="mailgun" required>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-7">
+													<hr class="edit-separator-hr" />
+												</div>
+											</div>
+											<div class="form-group row">
+												<div class="col-md-7">
+													<div class="pull-right">
+														<button type="submit" class="btn btn-primary" [disabled]="isSaving">
+															<i *ngIf="!isSaving" class="fa fa-save"></i>
+															<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="clearfix"></div>
+						</form>
+				</div>
+			</div>
+		</div>
+	</div>
