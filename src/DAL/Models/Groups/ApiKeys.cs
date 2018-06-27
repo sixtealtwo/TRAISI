@@ -6,13 +6,13 @@ using DAL.Core;
 
 namespace DAL.Models
 {
-    public class ApiKeys: AuditableEntity
+    public class ApiKeys : AuditableEntity
     {
         public int Id { get; set; }
         public UserGroup Group { get; set; }
-				public string MapBoxApiKey { get; set; }
-				public string GoogleMapsApiKey { get; set; }
-				public string MailgunApiKey{ get; set; }
+        public string MapBoxApiKey { get; set; }
+        public string GoogleMapsApiKey { get; set; }
+        public string MailgunApiKey { get; set; }
 
     }
 }

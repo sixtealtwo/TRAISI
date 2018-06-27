@@ -21,7 +21,7 @@ namespace TRAISI.Testing
          
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite("Data Source=traisi_testing.db;");
+                options.UseSqlite("Data Source=testing.db;");
 
             });
 

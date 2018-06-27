@@ -4,6 +4,8 @@ using Microsoft;
 using Microsoft.Extensions.CommandLineUtils;
 using System.Diagnostics;
 using System.Xml.Linq;
+using System.Linq;
+using System.Collections;
 namespace TRAISI.SDK.CLITool
 {
 
@@ -85,9 +87,25 @@ namespace TRAISI.SDK.CLITool
             var projectArgument = initCommand.Argument("project",
             ".csproj file to initialize.");
 
+            CommandOption projectName = initCommand.Option("-n |--name <name>",
+            "A custom name for generated modules and files",
+            CommandOptionType.SingleValue);
+
+            string project = "";
+
             initCommand.OnExecute(() =>
             {
-                Console.WriteLine("Init called");
+                Console.WriteLine("Initializing...");
+
+                if (projectName.HasValue())
+                {
+                    project = projectName.Value();
+                }
+                else
+                {
+                    project = Path.GetFileName(Environment.CurrentDirectory);
+                }
+
 
                 if (!File.Exists(projectArgument.Value))
                 {
@@ -100,7 +118,7 @@ namespace TRAISI.SDK.CLITool
                 foreach (string resource in resources)
                 {
                     Console.WriteLine("Extracting assembly resource: " + resource);
-                    ExtractAssemblyResource(resource);
+                    ExtractAssemblyResource(resource, project);
                 }
 
 
@@ -137,7 +155,7 @@ namespace TRAISI.SDK.CLITool
         /// 
         /// </summary>
         /// <param name="resource"></param>
-        public void ExtractAssemblyResource(string resource)
+        public void ExtractAssemblyResource(string resource, string projectName)
         {
             var assembly = typeof(TraisiCLITool).Assembly;
 
@@ -145,11 +163,12 @@ namespace TRAISI.SDK.CLITool
             {
                 if (!File.Exists(resource))
                 {
+                    var reader = new StreamReader(r);
+                    string contents = reader.ReadToEnd();
 
-                    using (var file = new FileStream(resource, FileMode.Create, FileAccess.Write))
-                    {
-                        r.CopyTo(file);
-                    }
+                    contents = contents.Replace("$(ProjectName)", projectName);
+
+                    File.WriteAllText(resource, contents);
                 }
                 else
                 {
@@ -175,7 +194,22 @@ namespace TRAISI.SDK.CLITool
                 var itemGroup = new XElement("ItemGroup");
                 itemGroup.Add(xmlElement);
 
-                csprojDoc.Root.Add(itemGroup);
+                var itemGroupElements = from n in csprojDoc.Descendants("ItemGroup") select n;
+
+                var matched = false;
+                foreach (var element in itemGroupElements)
+                {
+                    if (XNode.DeepEquals(itemGroup, element))
+                    {
+                        matched = true;
+                        break;
+                    }
+                }
+                //add element only if not previously existing
+                if (!matched)
+                {
+                    csprojDoc.Root.Add(itemGroup);
+                }
 
                 csprojDoc.Save(File.OpenWrite(file));
             }
