@@ -69,5 +69,42 @@ namespace TRAISI.Testing
             var mock = new Mock<IAccountManager>();
             return mock.Object;
         }
+
+        /// <summary>
+        /// Creates and initializes a list of test survey objects with relevent test data created.
+        /// </summary>
+        /// <returns></returns>
+        public static IList<ISurvey> GetTestSurveys()
+        {
+            IList<ISurvey> testSurveys = new List<ISurvey>();
+
+            testSurveys.Add(new Survey()
+            {
+                Title = "Test Survey 1",
+                Id = 1,
+                Name = "Test Survey Name 1",
+                CreatedDate = new System.DateTime()
+            });
+
+            testSurveys.Add(new Survey()
+            {
+                Title = "Test Survey 2",
+                Id = 2,
+                Name = "Test Survey Name 2",
+                CreatedDate = new System.DateTime()
+            });
+
+            testSurveys.Add(new Survey()
+            {
+                Title = "Test Survey 2",
+                Id = 3,
+                Name = "Test Survey Name 2",
+                CreatedDate = new System.DateTime()
+            });
+
+            return testSurveys;
+
+
+        }
     }
 }
