@@ -31,7 +31,7 @@ const routes: Routes = [
 					'../groups-management/groups-management.module#GroupsManagementModule'
 			},
 			{
-				path: 'survey-builder/:id',
+				path: 'survey-builder',
 				loadChildren:
 					'../survey-builder/survey-builder.module#SurveyBuilderModule'
 			},
@@ -40,6 +40,11 @@ const routes: Routes = [
 				loadChildren:
 					'../survey-viewer/survey-viewer.module#SurveyViewerModule'
 			},
+			{
+				path: 'survey-execute',
+				loadChildren:
+					'../survey-execute/survey-execute.module#SurveyExecuteModule'
+			}
 		]
 	}
 ];

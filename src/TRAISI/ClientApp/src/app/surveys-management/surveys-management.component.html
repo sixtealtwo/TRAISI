@@ -52,7 +52,7 @@
 														<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 													</div>
 												</div>
-												<div class="surveyAction">
+												<div class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
 													<div class="surveyActionLabel"><strong>Execute</strong></div>
 													<div>
 														<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -103,7 +103,7 @@
 															<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 														</div>
 													</div>
-													<div *ngIf="canEdit(row)" class="surveyAction">
+													<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
 														<div class="surveyActionLabel"><strong>Execute</strong></div>
 														<div>
 															<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -172,6 +172,12 @@
 												<i class="fa fa-share" aria-hidden="true"></i>
 											</div>
 										</div>
+										<div *ngIf="noAccess(row)" class="surveyAction">
+												<div class="surveyActionLabel"><strong>Request</strong></div>
+												<div>
+													<i class="fa fa-check-circle" aria-hidden="true"></i>
+												</div>
+											</div>
 									</div>
 								</div>
 							</ng-template>

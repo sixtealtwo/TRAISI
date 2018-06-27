@@ -186,7 +186,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 							error => this.onDataLoadFailed(error)
 						);
 					}
-				)
+				);
 			},
 			error => this.onDataLoadFailed(error)
 		);
@@ -390,5 +390,9 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	}
 	public canShare(row: Survey): boolean {
 		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.share');
+	}
+
+	public noAccess(row: Survey): boolean {
+		return !row.surveyPermissions || row.surveyPermissions.length === 0;
 	}
 }

@@ -14,12 +14,6 @@ import { ErrorComponent } from './error/error.component';
 					redirectTo: 'app',
 					pathMatch: 'full'
 				},
-				{
-					path: 'app/survey-builder',
-					canActivate: [AuthGuard],
-					loadChildren:
-						'./survey-builder/survey-builder.module#SurveyBuilderModule'
-				},
 				/*{
 					path: 'app/survey-viewer',
 					canActivate: [AuthGuard],

@@ -7,6 +7,9 @@ import {forkJoin as observableForkJoin,  Observable ,  Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root'})
 export class SurveyService {
+
+	private lastSurvey: Survey;
+
 	constructor(private _surveyEndpointService: SurveyEndpointService) {}
 
 	/**
@@ -84,6 +87,13 @@ export class SurveyService {
 	 * @param id
 	 */
 	public getSurvey(id: number) {
-		return this._surveyEndpointService.getSurveyEndpoint<Survey>(id);
+		return this._surveyEndpointService.getSurveyEndpoint<Survey>(id).pipe(map(survey => {
+			this.lastSurvey = survey;
+			return survey;
+		}));
+	}
+
+	public getLastSurvey() {
+		return this.lastSurvey;
 	}
 }
