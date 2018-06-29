@@ -22,5 +22,7 @@ namespace DAL.Models.Questions
 
         ISurveyView SurveyView { get; set; }
 
+        bool IsGroupQuestion {get;set;}
+
     }
 }

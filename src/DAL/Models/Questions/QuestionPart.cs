@@ -20,14 +20,17 @@ namespace DAL.Models.Questions
         public ICollection<Label> TextLabels { get; set; }
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-		//configuration data related to the use front-end use of, and
-		//survey related information.
+        //configuration data related to the use front-end use of, and
+        //survey related information.
         public IQuestionConfiguration QuestionConfiguration { get; set; }
 
-		//configuration data related to the use of parameter settings or other back-end
-		//values that are unrelated to the actual survey use
-		public IQuestionConfiguration QuestionSettings { get; set; }
+        //configuration data related to the use of parameter settings or other back-end
+        //values that are unrelated to the actual survey use
+        public IQuestionConfiguration QuestionSettings { get; set; }
 
         public ISurveyView SurveyView { get; set; }
+
+        //Whether this question part is responded to by the respondent group
+        public bool IsGroupQuestion { get; set; } = false;
     }
 }
