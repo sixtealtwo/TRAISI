@@ -9,6 +9,6 @@ namespace DAL.Models.Surveys
 
         Survey Survey { get; set; }
 
-        ICollection<IQuestionPart> QuestionParts { get; set; }
+        ICollection<QuestionPart> QuestionParts { get; set; }
     }
 }

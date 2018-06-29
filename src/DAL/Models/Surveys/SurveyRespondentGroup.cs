@@ -7,5 +7,10 @@ namespace DAL.Models.Surveys
         public int Id { get; set; }
 
         public ICollection<ISurveyRespondent> GroupMembers { get; set; }
+
+        public SurveyRespondentGroup()
+        {
+            this.GroupMembers = new HashSet<ISurveyRespondent>();
+        }
     }
 }

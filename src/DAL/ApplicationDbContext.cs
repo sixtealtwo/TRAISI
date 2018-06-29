@@ -1,10 +1,4 @@
-﻿
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +32,10 @@ namespace DAL
 
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
 
+        //public DbSet<SurveyResponse> SurveyResponses {get;set;}
+
+        //public DbSet<SurveyView> SurveyViews {get;set;}
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }
@@ -68,11 +66,23 @@ namespace DAL
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            builder.Entity<ISurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
+            builder.Entity<QuestionPart>().HasOne( p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
+            
+            builder.Entity<QuestionPart>().HasOne( p => p.Response).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
 
-            builder.Entity<IQuestionPart>().HasOne(q => q.QuestionConfiguration).WithOne(q => q.QuestionPart);
+            
 
-            builder.Entity<ISurveyRespondentGroup>().HasMany(r => r.GroupMembers).WithOne(m => m.SurveyRespondentGroup);
+            //builder.Entity<ISurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
+
+            //builder.Entity<IQuestionPart>().HasOne(q => q.QuestionConfiguration).WithOne(q => q.QuestionPart);
+
+            //builder.Entity<ISurveyRespondentGroup>().HasMany(r => r.GroupMembers).WithOne(m => m.SurveyRespondentGroup);
+
+            //builder.Entity<ISurveyResponse>().HasOne(r => r.SurveyRespondent).WithMany(s => s.SurveyResponses);
+
+            //builder.Entity<ISurveyResponse>().HasOne(r => r.ResponseValue).WithOne(v => v.SurveyResponse);
+
+           // builder.Entity<ISurveyResponse>().ToTable($"{nameof(this.SurveyResponses)}");
 
 
         }

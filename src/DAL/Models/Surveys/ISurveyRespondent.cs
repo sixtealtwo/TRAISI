@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DAL.Models.Surveys
 {
     public interface ISurveyRespondent
@@ -9,6 +11,8 @@ namespace DAL.Models.Surveys
         string LastName { get; set; }
 
         ISurveyRespondentGroup SurveyRespondentGroup { get; set; }
+
+        ICollection<ISurveyResponse> SurveyResponses { get; set; }
 
 
     }

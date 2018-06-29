@@ -7,9 +7,8 @@ namespace DAL.Models.Surveys
     {
         public int Id { get; set; }
 
-        public QuestionPart Question { get; set; }
+        public QuestionPart QuestionPart { get; set; }
 
-        public ISurveyRespondent Respondent { get; set; }
 
 
 

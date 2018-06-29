@@ -18,7 +18,7 @@ namespace DAL.Models.Surveys
         [Column(TypeName = "jsonb")]
         public string Value { get; set; }
 
-        public IQuestionPart QuestionPart { get; set; }
+        public QuestionPart QuestionPart { get; set; }
 
 
     }

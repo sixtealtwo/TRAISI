@@ -16,6 +16,6 @@ namespace DAL.Models.Surveys
         /// <returns></returns>
         string Value { get; set; }
 
-        IQuestionPart QuestionPart { get; set; }
+        QuestionPart QuestionPart { get; set; }
     }
 }

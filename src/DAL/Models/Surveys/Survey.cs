@@ -41,6 +41,7 @@ namespace DAL.Models.Surveys {
 
         public Survey () {
             this.TitleLabel = new HashSet<Label> ();
+            this.SurveyPermissions = new HashSet<SurveyPermission>();
         }
 
     }
