@@ -12,7 +12,9 @@ namespace DAL.Models.Surveys
 
         ISurveyRespondentGroup SurveyRespondentGroup { get; set; }
 
-        ICollection<ISurveyResponse> SurveyResponses { get; set; }
+
+
+
 
 
     }

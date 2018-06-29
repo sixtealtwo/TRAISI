@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DAL.Models;
 using DAL.Models.Interfaces;
 using DAL.Models.Questions;
+using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace DAL
 
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
 
-        //public DbSet<SurveyResponse> SurveyResponses {get;set;}
+        public DbSet<ResponseValue> ResponseValues { get; set; }
 
         //public DbSet<SurveyView> SurveyViews {get;set;}
 
@@ -66,11 +67,24 @@ namespace DAL
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            builder.Entity<QuestionPart>().HasOne( p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
-            
-            builder.Entity<QuestionPart>().HasOne( p => p.Response).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
+            builder.Entity<QuestionPart>().HasOne(p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
 
-            
+            builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
+            .HasValue<StringResponse>(1)
+            .HasValue<DecimalResponse>(2)
+            .HasValue<LocationResponse>(3)
+            .HasValue<IntegerResponse>(4)
+            .HasValue<OptionListResponse>(5)
+            .HasValue<JsonResponse>(6);
+
+            builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
+
+
+
+
+            //builder.Entity<QuestionPart>().HasOne( p => p.Response).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
+
+
 
             //builder.Entity<ISurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
 
@@ -82,7 +96,7 @@ namespace DAL
 
             //builder.Entity<ISurveyResponse>().HasOne(r => r.ResponseValue).WithOne(v => v.SurveyResponse);
 
-           // builder.Entity<ISurveyResponse>().ToTable($"{nameof(this.SurveyResponses)}");
+            // builder.Entity<ISurveyResponse>().ToTable($"{nameof(this.SurveyResponses)}");
 
 
         }

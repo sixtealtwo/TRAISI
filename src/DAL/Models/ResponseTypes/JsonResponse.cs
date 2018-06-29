@@ -5,15 +5,13 @@ using Newtonsoft.Json.Linq;
 
 namespace DAL.Models.ResponseTypes
 {
-    public class JsonResponse : IResponseValue
+    public class JsonResponse : ResponseValue
     {
 
-        public int Id { get; set; }
 
         [Column(TypeName = "jsonb")]
         JObject Value { get; set; }
 
-        public SurveyResponse SurveyResponse { get; set; }
     }
 
 }

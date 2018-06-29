@@ -20,7 +20,6 @@ namespace DAL.Models.Questions
         public string Text { get; set; }
         public ICollection<Label> TextLabels { get; set; }
 
-        public SurveyResponse Response { get; set; }
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 

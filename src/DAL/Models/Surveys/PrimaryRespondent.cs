@@ -16,9 +16,9 @@ namespace DAL.Models.Surveys
 
         public ICollection<ISurveyResponse> SurveyResponses { get; set; }
 
+
         public PrimaryRespondent()
         {
-            SurveyResponses = new List<ISurveyResponse>();
         }
     }
 }

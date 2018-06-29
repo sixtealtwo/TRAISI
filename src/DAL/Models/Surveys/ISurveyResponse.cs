@@ -10,6 +10,8 @@ namespace DAL.Models.Surveys
 
         QuestionPart QuestionPart { get; set; }
 
+        ResponseValue ResponseValue { get; set; }
+
 
     }
 }

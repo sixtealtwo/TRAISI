@@ -21,7 +21,6 @@ namespace DAL.Models.Questions
 
 		QuestionConfiguration QuestionSettings{get;set;}
 
-        SurveyResponse Response{get;set;}
 
         SurveyView SurveyView { get; set; }
 

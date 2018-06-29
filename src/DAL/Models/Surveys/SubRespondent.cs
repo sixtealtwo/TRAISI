@@ -15,11 +15,11 @@ namespace DAL.Models.Surveys
 
         public ISurveyRespondentGroup SurveyRespondentGroup { get; set; }
 
-        public ICollection<ISurveyResponse> SurveyResponses { get; set; }
+
 
         public SubRespondent()
         {
-            SurveyResponses = new List<ISurveyResponse>();
+
         }
     }
 }
