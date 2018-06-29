@@ -35,11 +35,11 @@ namespace DAL {
         public async Task SeedAsync () {
             await _context.Database.MigrateAsync ().ConfigureAwait (false);
 
-            if (!await _context.QuestionConfigurations.AnyAsync ()) {
+           /* if (!await _context.QuestionConfigurations.AnyAsync ()) {
                 QuestionConfiguration qc = new QuestionConfiguration ();
                 qc.Value = "{\"some\": \"value\"}";
                 await _context.QuestionConfigurations.AddAsync (qc);
-            }
+            } */
 
             ApplicationUser smto = null;
 						ApplicationUser tts = null;

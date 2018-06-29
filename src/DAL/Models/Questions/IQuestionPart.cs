@@ -17,9 +17,10 @@ namespace DAL.Models.Questions
 
         ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-        QuestionConfiguration QuestionConfiguration { get; set; }
 
-		QuestionConfiguration QuestionSettings{get;set;}
+        ICollection<QuestionConfiguration> QuestionSettings {get ;set;}
+
+        ICollection<QuestionConfiguration> QuestionOptions{get;set;}
 
 
         SurveyView SurveyView { get; set; }

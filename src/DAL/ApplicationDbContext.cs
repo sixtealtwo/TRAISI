@@ -34,8 +34,7 @@ namespace DAL
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
 
         public DbSet<ResponseValue> ResponseValues { get; set; }
-
-        //public DbSet<SurveyView> SurveyViews {get;set;}
+        public DbSet<SurveyView> SurveyViews {get;set;}
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
@@ -67,7 +66,16 @@ namespace DAL
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            builder.Entity<QuestionPart>().HasOne(p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
+            //builder.Entity<QuestionConfiguration>().Property<int>("")
+
+
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionSettings);
+
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions);
+
+            //builder.Entity<QuestionPart>().HasOne(p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.QuestionConfigurationId);
+
+            //builder.Entity<QuestionPart>().HasOne(p => p.QuestionSettings).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.QuestionSettingsId);
 
             builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
             .HasValue<StringResponse>(1)
@@ -77,26 +85,11 @@ namespace DAL
             .HasValue<OptionListResponse>(5)
             .HasValue<JsonResponse>(6);
 
+            builder.Entity<QuestionConfiguration>().ToTable("QuestionConfigurations").HasDiscriminator<int>("ConfigurationValueType")
+            .HasValue<StringConfigurationValue>(1)
+            .HasValue<NumberConfigurationValue>(2);
+
             builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
-
-
-
-
-            //builder.Entity<QuestionPart>().HasOne( p => p.Response).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.Id);
-
-
-
-            //builder.Entity<ISurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
-
-            //builder.Entity<IQuestionPart>().HasOne(q => q.QuestionConfiguration).WithOne(q => q.QuestionPart);
-
-            //builder.Entity<ISurveyRespondentGroup>().HasMany(r => r.GroupMembers).WithOne(m => m.SurveyRespondentGroup);
-
-            //builder.Entity<ISurveyResponse>().HasOne(r => r.SurveyRespondent).WithMany(s => s.SurveyResponses);
-
-            //builder.Entity<ISurveyResponse>().HasOne(r => r.ResponseValue).WithOne(v => v.SurveyResponse);
-
-            // builder.Entity<ISurveyResponse>().ToTable($"{nameof(this.SurveyResponses)}");
 
 
         }

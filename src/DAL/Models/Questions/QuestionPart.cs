@@ -14,6 +14,9 @@ namespace DAL.Models.Questions
         {
             TextLabels = new HashSet<Label>();
             QuestionPartChildren = new HashSet<QuestionPart>();
+
+            QuestionOptions = new HashSet<QuestionConfiguration>();
+            QuestionSettings = new HashSet<QuestionConfiguration>();
         }
 
         public int Id { get; set; }
@@ -23,13 +26,11 @@ namespace DAL.Models.Questions
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-        //configuration data related to the use front-end use of, and
-        //survey related information.
-        public QuestionConfiguration QuestionConfiguration { get; set; }
 
-        //configuration data related to the use of parameter settings or other back-end
-        //values that are unrelated to the actual survey use
-        public QuestionConfiguration QuestionSettings { get; set; }
+        public ICollection<QuestionConfiguration> QuestionSettings { get; set; }
+
+        public ICollection<QuestionConfiguration> QuestionOptions { get; set; }
+
 
         public SurveyView SurveyView { get; set; }
 

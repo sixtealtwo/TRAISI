@@ -1,6 +1,6 @@
 using DAL.Models.Questions;
 
-namespace DAL.Models.Surveys
+namespace DAL.Models.Questions
 {
     /// <summary>
     /// Stores a single configuration value that belongs to a question configuration
@@ -10,12 +10,7 @@ namespace DAL.Models.Surveys
 
         int Id { get; set; }
 
-        /// <summary>
-        /// Raw data of this configuration
-        /// </summary>
-        /// <returns></returns>
-        string Value { get; set; }
 
-        QuestionPart QuestionPart { get; set; }
+        string PropertyName{get;set;}
     }
 }
