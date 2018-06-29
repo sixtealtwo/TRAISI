@@ -68,9 +68,11 @@ namespace DAL
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            builder.Entity<SurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
+            builder.Entity<ISurveyView>().HasMany(v => QuestionParts).WithOne(q => q.SurveyView);
 
             builder.Entity<IQuestionPart>().HasOne(q => q.QuestionConfiguration).WithOne(q => q.QuestionPart);
+
+            builder.Entity<ISurveyRespondentGroup>().HasMany(r => r.GroupMembers).WithOne(m => m.SurveyRespondentGroup);
 
 
         }

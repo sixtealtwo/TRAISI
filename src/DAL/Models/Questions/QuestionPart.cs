@@ -28,6 +28,6 @@ namespace DAL.Models.Questions
 		//values that are unrelated to the actual survey use
 		public IQuestionConfiguration QuestionSettings { get; set; }
 
-        public SurveyView SurveyView { get; set; }
+        public ISurveyView SurveyView { get; set; }
     }
 }
