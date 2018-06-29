@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Collections.Generic;
+using DAL.Models.Questions;
+
 namespace TRAISI.Testing
 {
     public class TestingUtilities
@@ -18,7 +20,7 @@ namespace TRAISI.Testing
 
 
         /// <summary>
-        /// 
+        /// Gets a Mock IUnitOfWork
         /// </summary>
         public static IUnitOfWork GetUnitOfWork()
         {
@@ -34,7 +36,7 @@ namespace TRAISI.Testing
         }
 
         /// <summary>
-        /// 
+        /// Gets a Mocked SurveyRepository
         /// </summary>
         /// <returns></returns>
         public static ISurveyRepository GetSurveyRepository()
@@ -78,32 +80,60 @@ namespace TRAISI.Testing
         {
             IList<ISurvey> testSurveys = new List<ISurvey>();
 
-            testSurveys.Add(new Survey()
+            var testSurvey1 = new Survey()
             {
                 Title = "Test Survey 1",
                 Id = 1,
                 Name = "Test Survey Name 1",
                 CreatedDate = new System.DateTime()
-            });
-
-            testSurveys.Add(new Survey()
+            };
+            var testSurvey2 = new Survey()
             {
                 Title = "Test Survey 2",
                 Id = 2,
                 Name = "Test Survey Name 2",
                 CreatedDate = new System.DateTime()
-            });
-
-            testSurveys.Add(new Survey()
+            };
+            var testSurvey3 = new Survey()
             {
-                Title = "Test Survey 2",
+                Title = "Test Survey 3",
                 Id = 3,
-                Name = "Test Survey Name 2",
+                Name = "Test Survey Name 3",
                 CreatedDate = new System.DateTime()
-            });
+            };
+
+            testSurveys.Add(testSurvey1);
+            testSurveys.Add(testSurvey2);
+            testSurveys.Add(testSurvey3);
+
+            //survey view for first survay
+            var surveyView1 = new SurveyView();
+            surveyView1.Id = 1;
+            surveyView1.QuestionParts = new List<QuestionPart>();
+            testSurvey1.SurveyViews.Add(surveyView1);
+
+            //2nd survey view for first sturvey
+            var surveyView2 = new SurveyView();
+            surveyView2.Id = 2;
+            surveyView2.QuestionParts = new List<QuestionPart>();
+            testSurvey1.SurveyViews.Add(surveyView2);
+
+            var surveyView3 = new SurveyView();
+            surveyView3.Id = 3;
+            surveyView3.QuestionParts = new List<QuestionPart>();
+            testSurvey2.SurveyViews.Add(surveyView3);
+
+            //third survey has no survey views
 
             return testSurveys;
+        }
 
+        /// <summary>
+        /// Adds test question definitions to the list of passed surveys
+        /// </summary>
+        /// <param name="surveys"></param>
+        public static void BuildTestSurveyQuestions(IList<ISurvey> surveys)
+        {
 
         }
     }

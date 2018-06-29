@@ -61,10 +61,12 @@ namespace DAL
             builder.Entity<UserGroup>().Property(g => g.Name).IsRequired().HasMaxLength(100);
             builder.Entity<UserGroup>().HasIndex(g => g.Name);
             builder.Entity<UserGroup>().HasOne(g => g.ApiKeySettings).WithOne(k => k.Group).HasForeignKey<ApiKeys>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
-            
+
             builder.Entity<UserGroup>().ToTable($"{nameof(this.UserGroups)}");
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
+
+            builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
 
 
