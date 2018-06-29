@@ -10,10 +10,10 @@ namespace DAL.Models.Surveys
     {
         public int Id { get; set; }
 
-				public string UserId { get; set; }
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 
-				public int SurveyId { get; set; }
+        public int SurveyId { get; set; }
         public Survey Survey { get; set; }
 
         public string PermissionCode { get; set; }
@@ -25,7 +25,8 @@ namespace DAL.Models.Surveys
             {
                 return SurveyPermissions.ConvertPermissionCodeToList(this.PermissionCode);
             }
-            set {
+            set
+            {
                 this.PermissionCode = SurveyPermissions.ConvertPermissionsListToCode(value);
             }
         }

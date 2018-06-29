@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
+using FluentValidation.AspNetCore;
 
 namespace TRAISI
 {
@@ -141,6 +142,8 @@ namespace TRAISI
                 //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+						
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
@@ -148,8 +151,9 @@ namespace TRAISI
             if (!_hostingEnvironment.IsDevelopment())
                 services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
+						
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
-            //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(c =>
             {
@@ -212,6 +216,9 @@ namespace TRAISI
             // Business Services
             services.AddScoped<IEmailer, Emailer>();
             services.AddScoped<IGeoService, GeoService>();
+
+						// Survey Code Generation Services
+						services.AddScoped<ICodeGeneration, CodeGenerationService>();
 
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();

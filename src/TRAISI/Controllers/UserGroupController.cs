@@ -145,7 +145,7 @@ namespace TRAISI.Controllers
 				}
 
 				UserGroup appUserGroup = Mapper.Map<UserGroup>(group);
-
+				appUserGroup.ApiKeySettings = new ApiKeys();
 				await this._unitOfWork.UserGroups.AddAsync(appUserGroup);
 				await this._unitOfWork.SaveChangesAsync();
 				return new OkResult();

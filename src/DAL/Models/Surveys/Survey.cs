@@ -22,8 +22,11 @@ namespace DAL.Models.Surveys {
         public string RejectionLink { get; set; }
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }
+
         public ICollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
+				public ICollection<GroupCode> GroupCodes { get; set; }
+				public ICollection<Shortcode> Shortcodes { get; set; }
 
 
         public ICollection<Label> TitleLabel { get; set; }
@@ -40,6 +43,7 @@ namespace DAL.Models.Surveys {
 
         public Survey () {
             this.TitleLabel = new HashSet<Label> ();
+            this.SurveyPermissions = new HashSet<SurveyPermission>();
         }
 
     }

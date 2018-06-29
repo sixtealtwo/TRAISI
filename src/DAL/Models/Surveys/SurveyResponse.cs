@@ -5,11 +5,17 @@ namespace DAL.Models.Surveys
 {
     public class SurveyResponse : ISurveyResponse
     {
+        
         public int Id { get; set; }
 
-        public QuestionPart Question { get; set; }
+        public QuestionPart QuestionPart { get; set; }
 
-        public ISurveyRespondent Respondent { get; set; }
+        
+        public ResponseValue ResponseValue {get;set;}
+
+        public int ResponseValueId {get;set;}
+
+
 
 
 

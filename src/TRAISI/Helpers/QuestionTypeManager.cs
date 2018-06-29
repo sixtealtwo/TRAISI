@@ -79,9 +79,9 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionParameterAttribute))
+                        if (attribute.GetType() == typeof(QuestionConfigurationOptionAttribute))
                         {
-                            var configAttribute = attribute as QuestionParameterAttribute;
+                            var configAttribute = attribute as QuestionConfigurationOptionAttribute;
                             configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
                         }
 
@@ -110,9 +110,9 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionConfigParameterAttribute))
+                        if (attribute.GetType() == typeof(QuestionSettingsOptionAttribute))
                         {
-                            var configAttribute = attribute as QuestionConfigParameterAttribute;
+                            var configAttribute = attribute as QuestionSettingsOptionAttribute;
                             configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
                         }
                     }

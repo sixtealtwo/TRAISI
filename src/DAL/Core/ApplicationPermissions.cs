@@ -99,6 +99,8 @@ namespace DAL.Core
         public static ApplicationPermission ViewSurvey = new ApplicationPermission("View Survey","survey.view", SurveySpecificPermissionGroupName, "Permission to view specified survey");
         public static ApplicationPermission ModifySurvey = new ApplicationPermission("Modify Survey","survey.modify", SurveySpecificPermissionGroupName, "Permission to modify specified survey");
         public static ApplicationPermission DeleteSurvey = new ApplicationPermission("Delete Survey","survey.delete", SurveySpecificPermissionGroupName, "Permission to delete specified survey");
+
+				public static ApplicationPermission ExecuteSurvey = new ApplicationPermission("Execute Survey", "survey.execute", SurveySpecificPermissionGroupName, "Permission to execute specified survey (i.e. generate shortcodes, email invites, etc.)");
         public static ApplicationPermission AnalyzeSurvey = new ApplicationPermission("Analyze Survey","survey.analyze", SurveySpecificPermissionGroupName, "Permission to analyze specified survey");
         public static ApplicationPermission Interview = new ApplicationPermission("Interview","survey.interview", SurveySpecificPermissionGroupName, "Permission to conduct CATI interviews for specified survey");
         public static ApplicationPermission ShareSurvey = new ApplicationPermission("Share Survey","survey.share", SurveySpecificPermissionGroupName, "Permission to share specified survey (i.e. manage/view survey users of specified survey)");
@@ -110,6 +112,7 @@ namespace DAL.Core
                 ViewSurvey,
                 ModifySurvey,
                 DeleteSurvey,
+								ExecuteSurvey,
                 AnalyzeSurvey,
                 Interview,
                 ShareSurvey

@@ -100,7 +100,6 @@ namespace TRAISI.Controllers
 
 		/// <summary>
 		/// Get all surveys shared with user
-		/// To do: need to test this!
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet("shared")]
