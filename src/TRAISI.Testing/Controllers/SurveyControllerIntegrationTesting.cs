@@ -27,7 +27,7 @@ namespace TRAISI.Testing.Controllers
         }
 
         [Fact]
-        public async void BlankTest()
+        public void BlankTest()
         {
             _output.WriteLine("Here");
 

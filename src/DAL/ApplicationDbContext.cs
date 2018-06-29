@@ -33,7 +33,8 @@ namespace DAL
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ApiKeys> ApiKeys { get; set; }
-
+				public DbSet<Shortcode> Shortcode { get; set; }
+				public DbSet<GroupCode> GroupCode { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
@@ -65,6 +66,10 @@ namespace DAL
             builder.Entity<UserGroup>().ToTable($"{nameof(this.UserGroups)}");
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
+
+						builder.Entity<Shortcode>().ToTable($"{nameof(this.Shortcode)}");
+
+						builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCode)}");
 
 
 

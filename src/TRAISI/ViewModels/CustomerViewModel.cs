@@ -29,12 +29,12 @@ namespace TRAISI.ViewModels
 
 
 
-    public class CustomerViewModelValidator : AbstractValidator<CustomerViewModel>
+     public class CustomerViewModelValidator : AbstractValidator<CustomerViewModel>
     {
         public CustomerViewModelValidator()
         {
             RuleFor(register => register.Name).NotEmpty().WithMessage("Customer name cannot be empty");
             RuleFor(register => register.Gender).NotEmpty().WithMessage("Gender cannot be empty");
-        }
+       }
     }
 }

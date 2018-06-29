@@ -25,7 +25,8 @@ namespace TRAISI.ViewModels {
 
             CreateMap<ApplicationUser, UserEditViewModel> ()
                 .ForMember (d => d.Roles, map => map.Ignore ());
-            CreateMap<UserEditViewModel, ApplicationUser> ()
+            
+						CreateMap<UserEditViewModel, ApplicationUser> ()
                 .ForMember (d => d.Roles, map => map.Ignore ());
 
             CreateMap<ApplicationUser, UserPatchViewModel> ()
@@ -66,7 +67,25 @@ namespace TRAISI.ViewModels {
 						CreateMap<ApiKeys, ApiKeysViewModel>()
 								.ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
 								.ReverseMap();
+						
+						CreateMap<CodeGeneration, CodeGenerationViewModel>()
+								.ReverseMap();
+						
+						CreateMap<GroupCodeViewModel, GroupCode>()
+								.ForMember(gc => gc.Survey, map => map.Ignore());
+						
+						CreateMap<GroupCode, GroupCodeViewModel>()
+								.ForMember(gc => gc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
 
+						CreateMap<ShortcodeViewModel, Shortcode>()
+								.ForMember (sc => sc.GroupCode, map => map.Ignore())
+								.ForMember (sc => sc.Survey, map => map.Ignore())
+								.ForMember (sc => sc.Respondent, map => map.Ignore());
+						
+						CreateMap<Shortcode, ShortcodeViewModel>()
+								.ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id))
+								.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
+						
         }
     }
 }

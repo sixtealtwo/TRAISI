@@ -22,6 +22,8 @@ namespace DAL
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
 				IApiKeysRepository _apiKeys;
+				IShortcodeRepository _shortcodes;
+				IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 
@@ -98,6 +100,30 @@ namespace DAL
                 return _apiKeys;
             }
         }
+
+				public IShortcodeRepository Shortcodes 
+				{
+						get
+						{
+									if (_shortcodes == null)
+											_shortcodes = new ShortcodeRepository(_context);
+
+									return _shortcodes;
+						}
+				}
+
+				public IGroupCodeRepository GroupCodes 
+				{
+						get
+						{
+									if(_groupCodes == null)
+									{
+										_groupCodes = new GroupCodeRepository(_context);
+									}
+
+									return _groupCodes;
+						}
+				}
 
         public IQuestionPartRepository QuestionParts
         {
