@@ -29,7 +29,6 @@ namespace TRAISI.Testing.Controllers
         [Fact]
         public void BlankTest()
         {
-            _output.WriteLine("Here");
 
             Assert.True(false);
 

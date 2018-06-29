@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DAL.Models.Surveys
 {
     /// <summary>
@@ -9,5 +11,14 @@ namespace DAL.Models.Surveys
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public ISurveyRespondentGroup SurveyRespondentGroup { get; set; }
+
+        public ICollection<ISurveyResponse> SurveyResponses { get; set; }
+
+
+        public PrimaryRespondent()
+        {
+        }
     }
 }
