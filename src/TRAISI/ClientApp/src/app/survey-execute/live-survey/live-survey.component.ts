@@ -12,6 +12,9 @@ import { SurveyService } from '../../services/survey.service';
 export class LiveSurveyComponent implements OnInit {
 	public surveyId: number;
 	public survey: Survey;
+	public codeProperties = 'pattern';
+	public codePattern: string = '';
+	public codeLength: number = 0;
 
 	constructor(private surveyService: SurveyService, private route: ActivatedRoute) {
 		this.route.params.subscribe(params => {

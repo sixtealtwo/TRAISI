@@ -1,6 +1,6 @@
 <div>
 	<form (ngSubmit)="onNewSurveyFormSubmit()" #f="ngForm" novalidate class="form-horizontal">
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label for="surveyName" class="col-md-2 col-form-label text-md-right">Survey Name</label>
 			<div class="col-md-7">
 				<input [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name"
@@ -12,7 +12,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row" *ngIf="isNewSurvey">
+		<div class="form-group form-group-adjust row" *ngIf="isNewSurvey">
 			<label class="col-md-2 col-form-label text-md-right" for="userGroup">Group</label>
 			<div class="col-md-7">
 				<select2 (valueChanged)="updateGroup($event)" [data]="groupsOptions" [value]="selectedGroup" id="userGroup" [options]="select2Options"
@@ -24,7 +24,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="rejectionLink">Rejection Link</label>
 			<div class="col-md-7">
 				<input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
@@ -35,7 +35,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="successLink">Success Link</label>
 			<div class="col-md-7">
 				<input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
@@ -46,7 +46,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="startAt">Start Date</label>
 			<div class="col-md-5">
 				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startAt" id="startAt" #dpStart="bsDatepicker"
@@ -58,7 +58,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="endAt">End Date</label>
 			<div class="col-md-5">
 				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt" #dpEnd="bsDatepicker"
@@ -70,7 +70,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right">Active</label>
 			<div class="col-md-5">
 				<label class="form-check-label switch" for="isActiveCheck">
@@ -84,7 +84,7 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right">Open Survey</label>
 			<div class="col-md-5">
 				<label class="form-check-label switch" for="isOpenCheck">
@@ -99,7 +99,7 @@
 				<hr class="edit-last-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group form-group-adjust row">
 			<div class="col-md-3">
 				<button *ngIf="!isNewSurvey && canDeleteSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
 					<i class='fa fa-times'></i>Delete</button>

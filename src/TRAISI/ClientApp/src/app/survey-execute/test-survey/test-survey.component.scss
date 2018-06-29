@@ -1,3 +1,19 @@
-.section-header { 
-	border-bottom: 1px solid gray;
+
+.vertical-middle {
+	top: 30%;
+}
+
+dropzone {
+	.dz-message {
+		overflow: hidden !important;
+	}
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.separator-hr {
+	margin: 0px 0px 8px 0px;
+	border-top: 1px dashed gray;
 }

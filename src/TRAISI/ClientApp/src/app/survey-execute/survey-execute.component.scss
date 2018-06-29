@@ -13,6 +13,7 @@ button.survey-select:hover {
 	background:white;
 	padding: 20px;
 	margin-left:20px;
+	margin-bottom:20px;
 	text-align: center;
 	border: 0px solid black;
 
@@ -26,7 +27,12 @@ button.survey-select:hover {
 	}
 }
 
-.section-header { 
-	border-bottom: 1px solid gray;
-	padding: 50px;
+.datatable-header {
+	font-weight: $font-weight-semi-bold;
+	text-transform: uppercase;
+	border-bottom-width: 1px;
+}
+
+datatable-scroller {
+	width: 100% !important;
 }

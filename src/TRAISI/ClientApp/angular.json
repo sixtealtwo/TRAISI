@@ -15,7 +15,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "progress": false,
+            "progress": true,
             "showCircularDependencies": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
@@ -46,7 +46,8 @@
               "src/assets/scripts/alertify.js",
               "node_modules/select2/dist/js/select2.min.js",
               "node_modules/systemjs/dist/system-production.js",
-              "node_modules/parsleyjs/dist/parsley.js"
+							"node_modules/parsleyjs/dist/parsley.js",
+							"node_modules/dropzone/dist/dropzone.js"
             ]
           },
           "configurations": {

@@ -18,6 +18,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
+import { ButtonsModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -76,6 +77,7 @@ const APP_PROVIDERS = [AppConfig];
 		TooltipModule.forRoot(),
 		PopoverModule.forRoot(),
 		CarouselModule.forRoot(),
+		ButtonsModule.forRoot(),
 		ModalModule.forRoot(),
 		ChartsModule
 	],
