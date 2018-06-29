@@ -1,7 +1,13 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using DAL.Models.Questions;
 
-namespace DAL.Models.Surveys {
-    public class QuestionConfiguration : IQuestionConfiguration {
+namespace DAL.Models.Surveys
+{
+    /// <summary>
+    /// Configuration Data for question parts
+    /// </summary>
+    public class QuestionConfiguration : IQuestionConfiguration
+    {
         public int Id { get; set; }
 
         /// <summary>
@@ -9,8 +15,11 @@ namespace DAL.Models.Surveys {
         /// coniguration.
         /// </summary>
         /// <returns></returns>
-        [Column (TypeName = "jsonb")]
+        [Column(TypeName = "jsonb")]
         public string Value { get; set; }
+
+        public IQuestionPart QuestionPart { get; set; }
+
 
     }
 }

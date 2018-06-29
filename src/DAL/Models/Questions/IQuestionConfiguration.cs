@@ -1,8 +1,12 @@
-namespace DAL.Models.Surveys {
+using DAL.Models.Questions;
+
+namespace DAL.Models.Surveys
+{
     /// <summary>
     /// Stores a single configuration value that belongs to a question configuration
     /// </summary>
-    public interface IQuestionConfiguration {
+    public interface IQuestionConfiguration
+    {
 
         int Id { get; set; }
 
@@ -11,5 +15,7 @@ namespace DAL.Models.Surveys {
         /// </summary>
         /// <returns></returns>
         string Value { get; set; }
+
+        IQuestionPart QuestionPart { get; set; }
     }
 }

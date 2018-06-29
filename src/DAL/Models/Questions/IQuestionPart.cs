@@ -2,19 +2,25 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Surveys;
 
-namespace DAL.Models.Questions {
-	public interface IQuestionPart {
+namespace DAL.Models.Questions
+{
+    public interface IQuestionPart
+    {
 
-		int Id { get; set; }
+        int Id { get; set; }
 
-		[NotMapped]
-		string Text { get; set; }
+        [NotMapped]
+        string Text { get; set; }
 
-		ICollection<Label> TextLabels { get; set; }
+        ICollection<Label> TextLabels { get; set; }
 
-		ICollection<QuestionPart> QuestionPartChildren { get; set; }
+        ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-		QuestionConfiguration QuestionConfiguration { get; set; }
+        IQuestionConfiguration QuestionConfiguration { get; set; }
 
-	}
+		IQuestionConfiguration QuestionSettings{get;set;}
+
+        SurveyView SurveyView { get; set; }
+
+    }
 }
