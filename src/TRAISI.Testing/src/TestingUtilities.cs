@@ -109,18 +109,15 @@ namespace TRAISI.Testing
             //survey view for first survay
             var surveyView1 = new SurveyView();
             surveyView1.Id = 1;
-            surveyView1.QuestionParts = new List<QuestionPart>();
             testSurvey1.SurveyViews.Add(surveyView1);
 
             //2nd survey view for first sturvey
             var surveyView2 = new SurveyView();
             surveyView2.Id = 2;
-            surveyView2.QuestionParts = new List<QuestionPart>();
             testSurvey1.SurveyViews.Add(surveyView2);
 
             var surveyView3 = new SurveyView();
             surveyView3.Id = 3;
-            surveyView3.QuestionParts = new List<QuestionPart>();
             testSurvey2.SurveyViews.Add(surveyView3);
 
             //third survey has no survey views
