@@ -6,20 +6,15 @@ namespace DAL.Models.Questions
     /// <summary>
     /// Configuration Data for question parts
     /// </summary>
-    public abstract class QuestionConfiguration : IQuestionConfiguration
+    public class QuestionConfiguration : IQuestionConfiguration
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
 
-        public string PropertyName { get; set; }
-
-        public ConfiguratonType ConfiguratonType {get;set;}
+        public string Value {get;set;}
 
 
     }
 
-    public enum ConfiguratonType {
-        SETTING,
-        CONFIGURATION
-    }
 }
