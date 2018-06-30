@@ -211,10 +211,12 @@ namespace TRAISI
 
             // Configurations
             services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
+            services.Configure<MailgunConfig>(Configuration.GetSection("MailgunConfig"));
             services.Configure<GeoConfig>(Configuration.GetSection("GeoConfig"));
 
             // Business Services
             services.AddScoped<IEmailer, Emailer>();
+            services.AddScoped<IMailgunMailer, MailgunMailer>();
             services.AddScoped<IGeoService, GeoService>();
 
 						// Survey Code Generation Services

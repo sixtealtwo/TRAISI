@@ -26,21 +26,22 @@ namespace TRAISI.Controllers {
     public class AccountController : Controller {
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
-        private IUnitOfWork _unitOfWork;
-				private IEmailer _emailer;
+        private readonly IUnitOfWork _unitOfWork;
+		private readonly IMailgunMailer _emailer;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork, IEmailer emailer) {
+        public AccountController (IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork, IMailgunMailer emailer) {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
             _unitOfWork = unitOfWork;
-						_emailer = emailer;
+			_emailer = emailer;
         }
 
         [HttpGet ("users/me")]
         [Produces (typeof (UserViewModel))]
         public async Task<IActionResult> GetCurrentUser () {
+
             return await GetUserByUserName (this.User.Identity.Name);
         }
 
@@ -248,6 +249,27 @@ namespace TRAISI.Controllers {
 
                 var result = await _accountManager.CreateUserAsync (appUser, user.Roles, user.NewPassword);
                 if (result.Item1) {
+                    MailgunEmail regEmail = new MailgunEmail()
+                    {
+                        Receipient = appUser.Email,
+                        Subject = "TRAISI Registration",
+                        Body = @"<!doctype html>
+<html>
+<head><title>Test</title></head>
+<body>
+<div><h1>Welcome to the TRAISI Platform!</h1></div>
+<div>Your user name is: {{ user_name }}</div>
+<div>Your password is: {{ password }}</div>
+</body>
+</html>",
+                        TemplateReplacements = new Dictionary<string, string>() { { "user_name", appUser.UserName }, { "password", user.NewPassword } }
+
+                    };
+                    var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
+                    if (!emailRegSuccess)
+                    {
+                        AddErrors(new string[] { errorMessage });
+                    }
                     UserViewModel userVM = await GetUserViewModelHelper (appUser.Id);
                     return CreatedAtAction (GetUserByIdActionName, new { id = userVM.Id }, userVM);
                 }

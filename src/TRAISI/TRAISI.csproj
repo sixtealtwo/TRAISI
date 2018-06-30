@@ -27,6 +27,7 @@
     <PackageReference Include="OpenIddict" Version="2.0.0-rc2-final" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc2-final" />
     <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc2-final" />
+    <PackageReference Include="RestSharp" Version="106.3.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />

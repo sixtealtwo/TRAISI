@@ -6,14 +6,97 @@
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
+using System.Text;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using Microsoft.Extensions.Options;
+using RestSharp;
+using RestSharp.Authenticators;
 
 namespace TRAISI.Helpers
 {
+    public interface IMailgunMailer
+    {
+        Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings);
+    }
+
+    public class MailgunMailer: IMailgunMailer
+    {
+        private MailgunConfig _config;
+
+        public MailgunMailer(IOptions<MailgunConfig> config)
+        {
+            this._config = config.Value;
+        }
+
+        public async Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings)
+        {
+            IRestResponse sendResult = await this.SendViaMailgunAsync(emailSettings);
+            if (sendResult.IsSuccessful)
+            {
+                return (true, "Successfully sent email");
+            }
+            else
+            {
+                return (false, sendResult.ErrorMessage);
+            }
+        }
+
+        private async Task<IRestResponse> SendViaMailgunAsync(MailgunEmail emailSettings)
+        {
+            RestClient client = new RestClient();
+            client.BaseUrl = new Uri(this._config.MailGunUrl);
+            client.Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey);
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain",
+                                 this._config.Domain, ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", this._config.Sender);
+            request.AddParameter("h:Reply-To", this._config.ReplyTo);
+            request.AddParameter("to", emailSettings.Receipient);
+            request.AddParameter("subject", emailSettings.Subject);
+            if (emailSettings.DeliveryTime != null && emailSettings.DeliveryTime != DateTime.MinValue)
+            {
+                request.AddParameter("o:deliverytime", emailSettings.DeliveryTime);
+            }
+
+            StringBuilder htmlBuilder = new StringBuilder(emailSettings.Body);
+            if (emailSettings.TemplateReplacements != null)
+            {
+                foreach (var templateField in emailSettings.TemplateReplacements)
+                {
+                    htmlBuilder.Replace("{{ " + templateField.Key + " }}", templateField.Value);
+                }
+            }
+            string htmlText = htmlBuilder.ToString();
+            request.AddParameter("html", htmlText);
+            request.Method = Method.POST;
+            return await client.ExecuteTaskAsync(request);
+        }
+    }
+
+    public class MailgunConfig
+    {
+        public string Domain { get; set; }
+        public string Sender { get; set; }
+        public string ReplyTo { get; set; }
+        public string MailGunUrl { get; set; }
+        public string APIKey { get; set; }
+    }
+
+    public class MailgunEmail
+    {
+        public string Receipient { get; set; }
+        public DateTime DeliveryTime { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public Dictionary<string,string> TemplateReplacements { get; set; }
+    }
+
+
     public interface IEmailer
     {
         Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true);

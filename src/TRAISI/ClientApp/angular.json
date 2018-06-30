@@ -15,7 +15,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "progress": false,
+            "progress": true,
             "showCircularDependencies": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
@@ -32,7 +32,8 @@
 						  "node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
 							"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
-							"src/scss/alertify.bootstrap.css"
+							"src/scss/alertify.bootstrap.css",
+							"node_modules/dropzone/dist/dropzone.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
