@@ -96,7 +96,6 @@ namespace TRAISI.Controllers
         [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers()
         {
-
             return await GetUsers(-1, -1);
         }
 
@@ -289,15 +288,12 @@ namespace TRAISI.Controllers
                 var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
                 if (result.Item1)
                 {
-                    var registrationEmail = _configuration.GetSection("EmailTemplates").GetValue<string>("RegistrationEmail");
-                    var templateText = System.IO.File.Exists((registrationEmail)) ? System.IO.File.ReadAllText(registrationEmail) : _localizer["New User"];
                     MailgunEmail regEmail = new MailgunEmail()
                     {
                         Receipient = appUser.Email,
                         Subject = _localizer["RegistrationEmailSubject"],
-                        Body = templateText,
+                        Template = "RegistrationEmail",
                         TemplateReplacements = new Dictionary<string, string>() { { "user_name", appUser.UserName }, { "password", user.NewPassword } }
-
                     };
                     var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
                     if (!emailRegSuccess)

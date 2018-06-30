@@ -256,7 +256,7 @@ namespace TRAISI
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             Utilities.ConfigureLogger(loggerFactory);
-            EmailTemplates.Initialize(env);
+            EmailTemplates.Initialize(env, Configuration);
 
             questionTypeManager.LoadQuestionExtensions();
 

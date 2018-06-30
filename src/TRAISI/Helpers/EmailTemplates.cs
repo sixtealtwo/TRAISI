@@ -4,7 +4,10 @@
 // ====================================================
 
 using System;
+using System.Text;
+using System.Collections.Generic;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
@@ -13,43 +16,37 @@ namespace TRAISI.Helpers
     public static class EmailTemplates
     {
         static IHostingEnvironment _hostingEnvironment;
-        static string testEmailTemplate;
-        static string plainTextTestEmailTemplate;
+        static IConfiguration _configuration;
+        static private Dictionary<string, string> _templates;
 
 
-        public static void Initialize(IHostingEnvironment hostingEnvironment)
+        public static void Initialize(IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
+            _templates = new Dictionary<string, string>();
         }
 
-
-        public static string GetTestEmail(string recepientName, DateTime testDate)
+        public static string GetTemplate(string templateName, Dictionary<string,string> templateReplacements)
         {
-            if (testEmailTemplate == null)
-                testEmailTemplate = ReadPhysicalFile("Helpers/Templates/TestEmail.template");
 
+            if (!_templates.ContainsKey(templateName))
+            {
+                var emailTemplatePath = _configuration.GetSection("EmailTemplates").GetValue<string>(templateName);
+                _templates[templateName] = ReadPhysicalFile(emailTemplatePath);
+            }
+            StringBuilder htmlBuilder = new StringBuilder(_templates[templateName]);
 
-            string emailMessage = testEmailTemplate
-                .Replace("{user}", recepientName)
-                .Replace("{testDate}", testDate.ToString());
+            if (templateReplacements != null)
+            {
+                foreach (var templateField in templateReplacements)
+                {
+                    htmlBuilder.Replace("{{ " + templateField.Key + " }}", templateField.Value);
+                }
+            }
 
-            return emailMessage;
+            return htmlBuilder.ToString();
         }
-
-
-
-        public static string GetPlainTextTestEmail(DateTime date)
-        {
-            if (plainTextTestEmailTemplate == null)
-                plainTextTestEmailTemplate = ReadPhysicalFile("Helpers/Templates/PlainTextTestEmail.template");
-
-
-            string emailMessage = plainTextTestEmailTemplate
-                .Replace("{date}", date.ToString());
-
-            return emailMessage;
-        }
-
 
 
 
@@ -72,4 +69,5 @@ namespace TRAISI.Helpers
             }
         }
     }
+
 }

@@ -26,10 +26,16 @@ namespace TRAISI.Helpers
     public class MailgunMailer: IMailgunMailer
     {
         private MailgunConfig _config;
+        private Dictionary<string, string> templates;
 
         public MailgunMailer(IOptions<MailgunConfig> config)
         {
             this._config = config.Value;
+        }
+
+        private void loadTemplates()
+        {
+
         }
 
         public async Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings)
@@ -63,15 +69,15 @@ namespace TRAISI.Helpers
                 request.AddParameter("o:deliverytime", emailSettings.DeliveryTime);
             }
 
-            StringBuilder htmlBuilder = new StringBuilder(emailSettings.Body);
-            if (emailSettings.TemplateReplacements != null)
+            if (emailSettings.Tags != null)
             {
-                foreach (var templateField in emailSettings.TemplateReplacements)
+                foreach (var tag in emailSettings.Tags)
                 {
-                    htmlBuilder.Replace("{{ " + templateField.Key + " }}", templateField.Value);
+                    request.AddParameter("o:tag", tag);
                 }
             }
-            string htmlText = htmlBuilder.ToString();
+
+            string htmlText = EmailTemplates.GetTemplate(emailSettings.Template, emailSettings.TemplateReplacements);
             request.AddParameter("html", htmlText);
             request.Method = Method.POST;
             return await client.ExecuteTaskAsync(request);
@@ -92,8 +98,9 @@ namespace TRAISI.Helpers
         public string Receipient { get; set; }
         public DateTime DeliveryTime { get; set; }
         public string Subject { get; set; }
-        public string Body { get; set; }
+        public string Template { get; set; }
         public Dictionary<string,string> TemplateReplacements { get; set; }
+        public string[] Tags { get; set; }
     }
 
 
