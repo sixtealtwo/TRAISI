@@ -47,7 +47,7 @@ namespace TRAISI.Controllers
             string recepientName = "QickApp Tester"; //         <===== Put the recepient's name here
             string recepientEmail = "test@ebenmonney.com"; //   <===== Put the recepient's email here
 
-            string message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
+            string message = "";
 
             (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from TRAISI", message);
 
