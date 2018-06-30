@@ -25,7 +25,7 @@ namespace DAL.Repositories
 		/// Add user to survey group
 		/// </summary>
 		/// <param name="newMember">GroupMember object with Group variable populated</param>
-		public Tuple<bool, string[]> AddUser(GroupMember newMember)
+		public Tuple<bool, string[]> AddUserAsync(GroupMember newMember)
 		{
 			Tuple<bool, string[]> result;
 			try
@@ -136,7 +136,7 @@ namespace DAL.Repositories
 		/// </summary>
 		/// <param name="groupName"></param>
 		/// <returns></returns>
-		public async Task<UserGroup> GetGroupByName(string groupName)
+		public async Task<UserGroup> GetGroupByNameAsync(string groupName)
 		{
 			return await _appContext.UserGroups
 				.Where(g => g.Name == groupName)

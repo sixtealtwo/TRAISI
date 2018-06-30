@@ -35,7 +35,7 @@ namespace DAL.Repositories
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Survey>> GetAllUserSurveys(string userName)
+        public async Task<IEnumerable<Survey>> GetAllUserSurveysAsync(string userName)
         {
             return await _appContext.Surveys
                 .Where(s => s.Owner == userName)
@@ -49,7 +49,7 @@ namespace DAL.Repositories
         /// </summary>
         /// <param name="groupName"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Survey>> GetAllGroupSurveys(string groupName)
+        public async Task<IEnumerable<Survey>> GetAllGroupSurveysAsync(string groupName)
         {
             return await _appContext.Surveys
                 .Where(s => s.Group == groupName)
@@ -64,7 +64,7 @@ namespace DAL.Repositories
         /// <param name="groupName">name of group</param>
         /// <param name="exceptUserName">user to exclude from list</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Survey>> GetAllGroupSurveys(string groupName, string exceptUserName)
+        public async Task<IEnumerable<Survey>> GetAllGroupSurveysAsync(string groupName, string exceptUserName)
         {
             return await _appContext.Surveys
                 .Where(s => s.Group == groupName && s.Owner != exceptUserName && s.SurveyPermissions.Where(r => r.User.UserName==exceptUserName).Count() == 0)
@@ -77,7 +77,7 @@ namespace DAL.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Survey> GetSurveyWithPermissions(int id)
+        public async Task<Survey> GetSurveyWithPermissionsAsync(int id)
         {
             return await _appContext.Surveys
                 .Where(s => s.Id == id)
@@ -91,7 +91,7 @@ namespace DAL.Repositories
 				/// <param name="id"></param>
 				/// <param name="userName"></param>
 				/// <returns></returns>
-				public async Task<Survey> GetSurveyWithUserPermissions(int id, string userName)
+				public async Task<Survey> GetSurveyWithUserPermissionsAsync(int id, string userName)
 				{
 					var survey = await _appContext.Surveys
 								.Where(s => s.Id == id)
@@ -108,7 +108,7 @@ namespace DAL.Repositories
 				/// </summary>
 				/// <param name="userName"></param>
 				/// <returns></returns>
-				public async Task<IEnumerable<Survey>> GetSharedSurveys(string userName)
+				public async Task<IEnumerable<Survey>> GetSharedSurveysAsync(string userName)
 				{
 					var surveyPermissions = await _appContext.SurveyPermissions
 						.Where(sp => sp.User.UserName == userName)

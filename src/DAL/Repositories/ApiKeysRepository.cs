@@ -26,7 +26,7 @@ namespace DAL.Repositories
 		/// </summary>
 		/// <param name="groupId"></param>
 		/// <returns></returns>
-		public async Task<ApiKeys> GetGroupApiKeys(int groupId)
+		public async Task<ApiKeys> GetGroupApiKeysAsync(int groupId)
 		{
 
 			return await _appContext.ApiKeys

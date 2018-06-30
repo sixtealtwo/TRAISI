@@ -26,7 +26,7 @@ namespace DAL.Repositories
 		/// <param name="surveyId"></param>
 		/// <param name="isTest"></param>
 		/// <returns></returns>
-		public async Task<IEnumerable<GroupCode>> GetGroupCodesForSurvey(int surveyId, bool isTest)
+		public async Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest)
 		{
 			return await _appContext.GroupCode
 							.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)

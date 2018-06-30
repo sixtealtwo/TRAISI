@@ -39,16 +39,31 @@ namespace TRAISI.Controllers
 		/// Get all shortcodes for survey
 		/// </summary>
 		/// <param name="id"></param>
-		/// <param name="isTest"></param>
+		/// <param name="mode"></param>
 		/// <returns></returns>
-		[HttpGet("{id}")]
-		[Produces(typeof(Shortcode))]
-		public async Task<IActionResult> GetSurveyShortcodes(int id, bool isTest)
+		[HttpGet("{id}/{mode}")]
+		[Produces(typeof(List<Shortcode>))]
+		public async Task<IActionResult> GetSurveyShortcodes(int id, string mode)
+		{
+			return await this.GetSurveyShortcodes(id,mode,-1,-1);
+		}
+
+		/// <summary>
+		/// Gets shortcodes for survey (with page passed in)
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="mode"></param>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/{mode}/{pageIndex}/{pageSize}")]
+		[Produces(typeof(List<Shortcode>))]
+		public async Task<IActionResult> GetSurveyShortcodes(int id, string mode, int pageIndex, int pageSize)
 		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
 			if(survey.Owner == this.User.Identity.Name || await hasExecuteSurveyPermissions(id))
 			{
-				var shortcodes = await this._unitOfWork.Shortcodes.GetShortcodesForSurvey(id, isTest);
+				var shortcodes = await this._unitOfWork.Shortcodes.GetShortcodesForSurveyAsync(id, mode=="test", pageIndex, pageSize);
 				return Ok(Mapper.Map<IEnumerable<ShortcodeViewModel>>(shortcodes));
 			}
 			else
@@ -57,20 +72,38 @@ namespace TRAISI.Controllers
 			}
 		}
 
-		/// <summary>
-		/// Get all group codes for survey
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="isTest"></param>
-		/// <returns></returns>
-		[HttpGet("{id}/groupcode")]
-		[Produces(typeof(GroupCode))]
-		public async Task<IActionResult> GetSurveyGroupCodes(int id, bool isTest)
+		[HttpGet("{id}/{mode}/count")]
+		[Produces(typeof(int))]
+		public async Task<IActionResult> GetNumberSurveyShortCodes(int id, string mode)
 		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
 			if(survey.Owner == this.User.Identity.Name || await hasExecuteSurveyPermissions(id))
 			{
-				var groupcodes = await this._unitOfWork.GroupCodes.GetGroupCodesForSurvey(id, isTest);
+				var numCodes = await this._unitOfWork.Shortcodes.GetCountOfShortcodesForSurveyAsync(id, mode=="test");
+				return Ok(numCodes);
+			}
+			else
+			{
+				return BadRequest("User does not have permissions to execute this survey.");
+			}
+		}
+
+
+
+		/// <summary>
+		/// Get all group codes for survey
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/groupcode/{mode}")]
+		[Produces(typeof(List<GroupCode>))]
+		public async Task<IActionResult> GetSurveyGroupCodes(int id, string mode)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			if(survey.Owner == this.User.Identity.Name || await hasExecuteSurveyPermissions(id))
+			{
+				var groupcodes = await this._unitOfWork.GroupCodes.GetGroupCodesForSurveyAsync(id, mode=="Test");
 				return Ok(Mapper.Map<IEnumerable<GroupCodeViewModel>>(groupcodes));
 			}
 			else
@@ -136,7 +169,7 @@ namespace TRAISI.Controllers
 		/// <returns></returns>
 		private async Task<bool> isGroupAdmin(string groupName)
 		{
-			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, groupName);
+			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, groupName);
 			return isGroupAdmin;
 		}
 
@@ -159,7 +192,7 @@ namespace TRAISI.Controllers
 		/// <returns></returns>
 		private async Task<bool> hasExecuteSurveyPermissions (int surveyId)
 		{
-			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, surveyId);
+			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyId);
 			bool hasExecuteSurveyPermissions = surveyPermissions.Permissions.Contains("survey.execute");
 			return hasExecuteSurveyPermissions;
 		}

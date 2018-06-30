@@ -13,6 +13,6 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface IApiKeysRepository : IRepository<ApiKeys>
 	{
-		Task<ApiKeys> GetGroupApiKeys(int groupId);
+		Task<ApiKeys> GetGroupApiKeysAsync(int groupId);
 	}
 }

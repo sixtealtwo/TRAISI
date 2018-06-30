@@ -14,12 +14,21 @@ export class SurveyExecuteService {
 	constructor(private _surveyExecuteEndpointService: SurveyExecuteEndpointService) {}
 
 
-	public listSurveyShortCodes(id: number, page: number, pageSize: number) {
-		return this._surveyExecuteEndpointService.getSurveyShortCodesEndpoint<ShortCode[]>(id, page, pageSize);
+	public listSurveyShortCodes(surveyId: number, mode: string, page?: number, pageSize?: number) {
+		return this._surveyExecuteEndpointService.getSurveyShortCodesEndpoint<ShortCode[]>(surveyId, mode, page, pageSize).pipe(map(codes => {
+			return codes.map(code => {
+				code.createdDate = new Date(code.createdDate);
+				return code;
+			});
+		}));
 	}
 
-	public listSurveyGroupCodes(id: number, page: number, pageSize: number) {
-		return this._surveyExecuteEndpointService.getSurveyGroupCodesEndpoint<GroupCode[]>(id, page, pageSize);
+	public totalSurveyShortCodes(surveyId: number, mode: string) {
+		return this._surveyExecuteEndpointService.getCountOfSurveyShortCodesEndpoint<number>(surveyId, mode);
+	}
+
+	public listSurveyGroupCodes(surveyId: number, mode: string, page?: number, pageSize?: number) {
+		return this._surveyExecuteEndpointService.getSurveyGroupCodesEndpoint<GroupCode[]>(surveyId, mode, page, pageSize);
 	}
 
 	public createSurveyShortCodes(codeGenParams: CodeGenerator) {

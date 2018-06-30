@@ -13,8 +13,8 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface IGroupMemberRepository : IRepository<GroupMember>
 	{
-		Task<GroupMember> GetMemberWithInfo(int id);
-		Task<bool> IsMemberOfGroup(string username, string groupName);
-		Task<bool> IsGroupAdmin (string username, string groupName);
+		Task<GroupMember> GetMemberWithInfoAsync(int id);
+		Task<bool> IsMemberOfGroupAsync(string username, string groupName);
+		Task<bool> IsGroupAdminAsync (string username, string groupName);
 	}
 }

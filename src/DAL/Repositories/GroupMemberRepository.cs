@@ -18,7 +18,7 @@ namespace DAL.Repositories {
 
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
 
-		public async Task<GroupMember> GetMemberWithInfo(int id)
+		public async Task<GroupMember> GetMemberWithInfoAsync(int id)
 		{
 			return await _appContext.GroupMembers
 			.Where(gm => gm.Id == id)
@@ -33,7 +33,7 @@ namespace DAL.Repositories {
 		/// <param name="username"></param>
 		/// <param name="groupName"></param>
 		/// <returns></returns>
-		public async Task<bool> IsMemberOfGroup(string username, string groupName)
+		public async Task<bool> IsMemberOfGroupAsync(string username, string groupName)
 		{
 			int number = await _appContext.GroupMembers
 				.Where(gm => gm.UserName == username && gm.Group == groupName)
@@ -42,7 +42,7 @@ namespace DAL.Repositories {
 			return number == 1;
 		}
 
-		public async Task<bool> IsGroupAdmin (string username, string groupName)
+		public async Task<bool> IsGroupAdminAsync (string username, string groupName)
 		{
 			int number = await _appContext.GroupMembers
 				.Where(gm => gm.UserName == username && gm.Group == groupName && gm.GroupAdmin)

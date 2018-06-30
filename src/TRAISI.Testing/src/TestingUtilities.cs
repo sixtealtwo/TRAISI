@@ -44,7 +44,7 @@ namespace TRAISI.Testing
             var mock = new Mock<ISurveyRepository>();
             mock.Setup(p => p.Get(1)).Returns(new Survey() { Name = "Test Survey" });
 
-            mock.Setup(s => s.GetSurveyWithUserPermissions(1, "test")).Returns(Task.FromResult(new Survey() { Name = "Test Survey" }));
+            mock.Setup(s => s.GetSurveyWithUserPermissionsAsync(1, "test")).Returns(Task.FromResult(new Survey() { Name = "Test Survey" }));
 
             return mock.Object;
         }

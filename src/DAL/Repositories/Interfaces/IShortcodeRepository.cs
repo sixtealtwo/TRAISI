@@ -14,7 +14,10 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface IShortcodeRepository : IRepository<Shortcode>
 	{
-		Task<IEnumerable<Shortcode>> GetShortcodesForSurvey(int surveyId, bool isTest);
+		Task<IEnumerable<Shortcode>> GetShortcodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize);
+
+		Task<int> GetCountOfShortcodesForSurveyAsync(int surveyId, bool isTest);
+
 		bool UniqueShortCodeForSurvey(int surveyId, string code);
 	}
 }

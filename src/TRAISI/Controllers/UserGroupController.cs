@@ -57,7 +57,7 @@ namespace TRAISI.Controllers
 			}
 			else
 			{
-				var memberOfGroup = await this._unitOfWork.GroupMembers.IsMemberOfGroup(this.User.Identity.Name, group.Name);
+				var memberOfGroup = await this._unitOfWork.GroupMembers.IsMemberOfGroupAsync(this.User.Identity.Name, group.Name);
 				if (memberOfGroup)
 				{
 					return Ok(Mapper.Map<UserGroupViewModel>(group));
@@ -246,11 +246,11 @@ namespace TRAISI.Controllers
 			if (ModelState.IsValid)
 			{
 				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
-				var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, newMember.Group);
+				var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, newMember.Group);
 				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
 				if (isGroupAdmin || isSuperAdmin) {
 					GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
-					var result = this._unitOfWork.UserGroups.AddUser(newGMember);
+					var result = this._unitOfWork.UserGroups.AddUserAsync(newGMember);
 					if (result.Item1)
 					{
 						await this._unitOfWork.SaveChangesAsync();
@@ -300,7 +300,7 @@ namespace TRAISI.Controllers
 					return BadRequest("The member does not exist.");
 				}
 				else {
-					var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, member.Group);
+					var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, member.Group);
 					var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
 					if (isGroupAdmin || isSuperAdmin) {
 						this._unitOfWork.GroupMembers.Remove(member);
@@ -341,7 +341,7 @@ namespace TRAISI.Controllers
 							this._unitOfWork.GroupMembers.Remove(member);
 						}
 						else {
-							var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, member.Group);
+							var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, member.Group);
 							if (isGroupAdmin) {
 								this._unitOfWork.GroupMembers.Remove(member);
 							}
@@ -378,7 +378,7 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> GetGroupApiKeys(int id)
 		{
 			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
-			var apiKeys = await this._unitOfWork.ApiKeys.GetGroupApiKeys(id);
+			var apiKeys = await this._unitOfWork.ApiKeys.GetGroupApiKeysAsync(id);
 
 			if (await isSuperAdmin() || await isGroupAdmin(group.Name))
 			{
@@ -432,7 +432,7 @@ namespace TRAISI.Controllers
 		/// <returns></returns>
 		private async Task<bool> isGroupAdmin(string groupName)
 		{
-			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, groupName);
+			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, groupName);
 			return isGroupAdmin;
 		}
 

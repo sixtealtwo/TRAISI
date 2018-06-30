@@ -36,7 +36,7 @@
 					<ngx-datatable #soloTable *ngIf="!groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 					 [rows]="soloSurveyRows" [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
 					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
-						<ngx-datatable-row-detail [rowHeight]="70" #myDetailRow>
+						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
 									<div class="row justify-content-end">
@@ -87,7 +87,7 @@
 						<ngx-datatable #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 						 [rows]="sharedSurveyRows" [columns]="sharedSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
 						 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
-							<ngx-datatable-row-detail [rowHeight]="70" #myDetailRow>
+							<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 								<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 									<div class="surveyDetails">
 										<div class="row justify-content-end">
@@ -138,7 +138,7 @@
 					<ngx-datatable #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive" [rows]="groupSurveyRows"
 					 [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45" [headerHeight]="35"
 					 [footerHeight]="35" [columnMode]="'flex'">
-					 <ngx-datatable-row-detail [rowHeight]="70" #myDetailRow>
+					 <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
 									<div class="row justify-content-end">

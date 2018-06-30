@@ -12,7 +12,7 @@ namespace DAL.Models.Surveys {
 		{
 				public int Id { get; set; }
 				public Survey Survey { get; set; }
-				public PrimaryRespondent Respondent { get; set; }
+			//	public PrimaryRespondent Respondent { get; set; }
 				public GroupCode GroupCode { get; set; }
 				public string Code { get; set; }
 				public Boolean IsTest { get; set; }

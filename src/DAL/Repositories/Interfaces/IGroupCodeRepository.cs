@@ -14,7 +14,7 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface IGroupCodeRepository : IRepository<GroupCode>
 	{
-		Task<IEnumerable<GroupCode>> GetGroupCodesForSurvey(int surveyId, bool isTest);
+		Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest);
 		bool isUniqueGroupCodeForSurvey(int surveyId, string code);
 	}
 }

@@ -28,26 +28,38 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 		super(http, configurations, injector);
 	}
 
-	public getSurveyShortCodesEndpoint<T>(id: number, page?: number, pageSize?: number): Observable<T> {
+	public getSurveyShortCodesEndpoint<T>(id: number, mode: string, page?: number, pageSize?: number): Observable<T> {
 		const endpointUrl =
-			page && pageSize ? `${this.surveyExecuteUrl}/${id}/${page}/${pageSize}` : `${this.surveyExecuteUrl}/${id}`;
+			page && pageSize
+				? `${this.surveyExecuteUrl}/${id}/${mode}/${page}/${pageSize}`
+				: `${this.surveyExecuteUrl}/${id}/${mode}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getSurveyShortCodesEndpoint(page, pageSize));
+				return this.handleError(error, () => this.getSurveyShortCodesEndpoint(id, mode, page, pageSize));
 			})
 		);
 	}
 
-	public getSurveyGroupCodesEndpoint<T>(id: number, page?: number, pageSize?: number): Observable<T> {
-		const endpointUrl =
-			page && pageSize
-				? `${this.surveyExecuteUrl}/${id}/groupcode/${page}/${pageSize}`
-				: `${this.surveyExecuteUrl}/${id}/groupcode`;
+	public getCountOfSurveyShortCodesEndpoint<T>(id: number, mode: string): Observable<T> {
+		const endpointUrl = `${this.surveyExecuteUrl}/${id}/${mode}/count`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getSurveyGroupCodesEndpoint(id));
+				return this.handleError(error, () => this.getCountOfSurveyShortCodesEndpoint(id, mode));
+			})
+		);
+	}
+
+	public getSurveyGroupCodesEndpoint<T>(id: number, mode: string, page?: number, pageSize?: number): Observable<T> {
+		const endpointUrl =
+			page && pageSize
+				? `${this.surveyExecuteUrl}/${id}/groupcode/${mode}/${page}/${pageSize}`
+				: `${this.surveyExecuteUrl}/${id}/groupcode/${mode}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getSurveyGroupCodesEndpoint(id, mode, page, pageSize));
 			})
 		);
 	}

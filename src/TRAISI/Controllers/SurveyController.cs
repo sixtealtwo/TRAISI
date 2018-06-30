@@ -40,14 +40,14 @@ namespace TRAISI.Controllers
 		[Produces(typeof(SurveyViewModel))]
 		public async Task<IActionResult> GetSurvey(int id)
 		{
-			var survey = await this._unitOfWork.Surveys.GetSurveyWithPermissions(id);
+			var survey = await this._unitOfWork.Surveys.GetSurveyWithPermissionsAsync(id);
 			if (survey.Owner == this.User.Identity.Name || await isSuperAdmin() || await isGroupAdmin(survey.Group))
 			{
 				return Ok(Mapper.Map<SurveyViewModel>(survey));
 			}
 			else
 			{
-				var surveyPermissions = await this._unitOfWork.Surveys.GetSurveyWithUserPermissions(id, this.User.Identity.Name);
+				var surveyPermissions = await this._unitOfWork.Surveys.GetSurveyWithUserPermissionsAsync(id, this.User.Identity.Name);
 				if (surveyPermissions.SurveyPermissions.Any())
 				{
 					return Ok(Mapper.Map<SurveyViewModel>(surveyPermissions));
@@ -67,7 +67,7 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<SurveyViewModel>))]
 		public async Task<IActionResult> GetSurveys()
 		{
-			var surveys = await this._unitOfWork.Surveys.GetAllUserSurveys(this.User.Identity.Name);
+			var surveys = await this._unitOfWork.Surveys.GetAllUserSurveysAsync(this.User.Identity.Name);
 			return Ok(Mapper.Map<IEnumerable<SurveyViewModel>>(surveys));
 		}
 
@@ -88,7 +88,7 @@ namespace TRAISI.Controllers
 				//Check if user is in the group or superadmin
 				if (await isSuperAdmin() || await memberOfGroup(id))
 				{
-					var surveys = await this._unitOfWork.Surveys.GetAllGroupSurveys(group.Name, this.User.Identity.Name);
+					var surveys = await this._unitOfWork.Surveys.GetAllGroupSurveysAsync(group.Name, this.User.Identity.Name);
 					return Ok(Mapper.Map<IEnumerable<SurveyViewModel>>(surveys));
 				}
 				else
@@ -106,7 +106,7 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<SurveyViewModel>))]
 		public async Task<IActionResult> GetSharedSurveys()
 		{
-			var surveys = await this._unitOfWork.Surveys.GetSharedSurveys(this.User.Identity.Name);
+			var surveys = await this._unitOfWork.Surveys.GetSharedSurveysAsync(this.User.Identity.Name);
 			return Ok(Mapper.Map<IEnumerable<SurveyViewModel>>(surveys));
 		}
 
@@ -128,7 +128,7 @@ namespace TRAISI.Controllers
 				{
 					// Check if survey has a valid group
 					Survey appSurvey = Mapper.Map<Survey>(survey);
-					var group = await this._unitOfWork.UserGroups.GetGroupByName(appSurvey.Group);
+					var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(appSurvey.Group);
 
 					if (group == null)
 					{
@@ -183,7 +183,7 @@ namespace TRAISI.Controllers
 			}
 			else
 			{
-				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, appSurvey.Id);
+				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, appSurvey.Id);
 				if (surveyPermissions.Permissions.Contains("survey.modify"))
 				{
 					
@@ -210,7 +210,7 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> DeleteSurvey(int id)
 		{
 			// restrict to owner, group admin, and users with delete permissions
-			var survey = await this._unitOfWork.Surveys.GetSurveyWithPermissions(id);
+			var survey = await this._unitOfWork.Surveys.GetSurveyWithPermissionsAsync(id);
 			var removed = this._unitOfWork.Surveys.Get(id);
 			if (survey.Owner == this.User.Identity.Name || await isGroupAdmin(survey.Group))
 			{
@@ -220,7 +220,7 @@ namespace TRAISI.Controllers
 			}
 			else
 			{
-				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, survey.Id);
+				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, survey.Id);
 				if (surveyPermissions.Permissions != null && surveyPermissions.Permissions.Contains("survey.delete"))
 				{
 					this._unitOfWork.Surveys.Remove(removed);
@@ -246,7 +246,7 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> GetUserSurveyPermissions(int id, string userName)
 		{	
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
-			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(userName, id);
+			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(userName, id);
 			//Restrict to super admins, group admins, owners, and users with survey.share permissions
 			if (survey.Owner == this.User.Identity.Name || await isSuperAdmin() || await isGroupAdmin(survey.Group))
 			{
@@ -285,7 +285,7 @@ namespace TRAISI.Controllers
 			}
 			else
 			{
-				var userPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurvey(this.User.Identity.Name, surveyPermissions.SurveyId);
+				var userPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyPermissions.SurveyId);
 				if(surveyPermissions.Permissions.Contains("survey.share"))
 				{
 					this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
@@ -334,7 +334,7 @@ namespace TRAISI.Controllers
 		private async Task<bool> isGroupAdmin(string groupName)
 		{
 			bool groupAdminHasPermission = await this.CheckGroupAdminPermission("surveys.managegroup");
-			var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdmin(this.User.Identity.Name, groupName);
+			var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, groupName);
 			return isGroupAdmin;
 		}
 

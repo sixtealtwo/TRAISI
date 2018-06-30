@@ -293,7 +293,7 @@ namespace TRAISI
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
-                spa.Options.StartupTimeout = TimeSpan.FromSeconds(259);
+                spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
                 if (env.IsDevelopment())
                 {

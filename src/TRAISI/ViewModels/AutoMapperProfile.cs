@@ -79,12 +79,12 @@ namespace TRAISI.ViewModels {
 
 						CreateMap<ShortcodeViewModel, Shortcode>()
 								.ForMember (sc => sc.GroupCode, map => map.Ignore())
-								.ForMember (sc => sc.Survey, map => map.Ignore())
-								.ForMember (sc => sc.Respondent, map => map.Ignore());
+								.ForMember (sc => sc.Survey, map => map.Ignore());
+								//.ForMember (sc => sc.Respondent, map => map.Ignore());
 						
 						CreateMap<Shortcode, ShortcodeViewModel>()
-								.ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id))
-								.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
+								.ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
+								//.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 						
         }
     }
