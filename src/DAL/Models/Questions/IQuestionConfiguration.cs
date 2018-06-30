@@ -10,7 +10,8 @@ namespace DAL.Models.Questions
 
         int Id { get; set; }
 
+        string Name { get; set; }
 
-        string PropertyName{get;set;}
+        string Value { get; set; }
     }
 }

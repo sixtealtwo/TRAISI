@@ -28,14 +28,16 @@ namespace DAL
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ApiKeys> ApiKeys { get; set; }
-				public DbSet<Shortcode> Shortcode { get; set; }
-				public DbSet<GroupCode> GroupCode { get; set; }
+        public DbSet<Shortcode> Shortcode { get; set; }
+        public DbSet<GroupCode> GroupCode { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
 
+        public DbSet<QuestionOption> QuestionOptions { get; set; }
+
         public DbSet<ResponseValue> ResponseValues { get; set; }
-        public DbSet<SurveyView> SurveyViews {get;set;}
+        public DbSet<SurveyView> SurveyViews { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
@@ -57,6 +59,7 @@ namespace DAL
 
             builder.Entity<SurveyPermission>().ToTable($"{nameof(this.SurveyPermissions)}");
 
+
             builder.Entity<UserGroup>().Property(g => g.Name).IsRequired().HasMaxLength(100);
             builder.Entity<UserGroup>().HasIndex(g => g.Name);
             builder.Entity<UserGroup>().HasOne(g => g.ApiKeySettings).WithOne(k => k.Group).HasForeignKey<ApiKeys>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
@@ -65,22 +68,19 @@ namespace DAL
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
 
-						builder.Entity<Shortcode>().ToTable($"{nameof(this.Shortcode)}");
+            builder.Entity<Shortcode>().ToTable($"{nameof(this.Shortcode)}");
 
-						builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCode)}");
+            builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCode)}");
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            //builder.Entity<QuestionConfiguration>().Property<int>("")
-
+            builder.Entity<QuestionOptionLabels>().HasKey(k => new {k.QuestionOptionId,k.LabelId});
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionSettings);
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions);
 
-            //builder.Entity<QuestionPart>().HasOne(p => p.QuestionConfiguration).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.QuestionConfigurationId);
-
-            //builder.Entity<QuestionPart>().HasOne(p => p.QuestionSettings).WithOne(c => c.QuestionPart).HasForeignKey<QuestionPart>(p => p.QuestionSettingsId);
+            builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels);
 
             builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
             .HasValue<StringResponse>(1)
@@ -90,12 +90,8 @@ namespace DAL
             .HasValue<OptionListResponse>(5)
             .HasValue<JsonResponse>(6);
 
-            builder.Entity<QuestionConfiguration>().ToTable("QuestionConfigurations").HasDiscriminator<int>("ConfigurationValueType")
-            .HasValue<StringConfigurationValue>(1)
-            .HasValue<NumberConfigurationValue>(2);
 
             builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
-
 
         }
 
