@@ -89,7 +89,6 @@ namespace TRAISI.Controllers
 		}
 
 
-
 		/// <summary>
 		/// Get all group codes for survey
 		/// </summary>
@@ -100,10 +99,17 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<GroupCode>))]
 		public async Task<IActionResult> GetSurveyGroupCodes(int id, string mode)
 		{
+			return await this.GetSurveyGroupCodes(id, mode, -1, -1);
+		}
+
+		[HttpGet("{id}/groupcode/{mode}/{pageIndex}/{pageSize}")]
+		[Produces(typeof(List<GroupCode>))]
+		public async Task<IActionResult> GetSurveyGroupCodes(int id, string mode, int pageIndex, int pageSize)
+		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
 			if(survey.Owner == this.User.Identity.Name || await hasExecuteSurveyPermissions(id))
 			{
-				var groupcodes = await this._unitOfWork.GroupCodes.GetGroupCodesForSurveyAsync(id, mode=="Test");
+				var groupcodes = await this._unitOfWork.GroupCodes.GetGroupCodesForSurveyAsync(id, mode=="test", pageIndex, pageSize);
 				return Ok(Mapper.Map<IEnumerable<GroupCodeViewModel>>(groupcodes));
 			}
 			else
@@ -111,6 +117,24 @@ namespace TRAISI.Controllers
 				return BadRequest("User does not have permissions to execute this survey.");
 			}
 		}
+
+
+		[HttpGet("{id}/groupcode/{mode}/count")]
+		[Produces(typeof(int))]
+		public async Task<IActionResult> GetNumberSurveyGroupCodes(int id, string mode)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			if(survey.Owner == this.User.Identity.Name || await hasExecuteSurveyPermissions(id))
+			{
+				var numCodes = await this._unitOfWork.GroupCodes.GetCountOfGroupCodesForSurveyAsync(id, mode=="test");
+				return Ok(numCodes);
+			}
+			else
+			{
+				return BadRequest("User does not have permissions to execute this survey.");
+			}
+		}
+
 
 		/// <summary>
 		/// Generate short codes for survey

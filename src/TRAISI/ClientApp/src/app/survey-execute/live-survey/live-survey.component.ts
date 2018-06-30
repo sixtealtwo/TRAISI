@@ -27,13 +27,23 @@ export class LiveSurveyComponent implements OnInit {
 	public baseUrl: string = '';
 	public loadingIndicator: boolean = false;
 	public generatingIndicator: boolean = false;
+	public pageLimit: number = 20;
 
 	public individualCodeBeingViewed: boolean = true;
+	public groupCodeBeingViewed: boolean = false;
+	public emailBeingViewed: boolean = false;
+	public scheduleBeingViewed: boolean = false;
+
 	public indivCodeRows: ShortCode[];
 	public indivCodeColumns: any[] = [];
-	public pageLimit: number = 20;
+
 	public totalIndivCodes: number = 0;
 	public currentIndivPage: number = 0;
+
+	public groupCodeRows: ShortCode[];
+	public groupCodeColumns: any[] = [];
+	public totalGroupCodes: number = 0;
+	public currentGroupPage: number = 0;
 
 	config: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -92,6 +102,32 @@ export class LiveSurveyComponent implements OnInit {
 			}
 		];
 
+		this.groupCodeColumns = [
+			{
+				prop: 'index',
+				name: '#',
+				width: 50,
+				canAutoResize: false,
+				cellClass: 'remove-padding'
+			},
+			{
+				prop: 'code',
+				name: 'code',
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellClass: 'remove-padding'
+			},
+			{
+				prop: 'name',
+				name: 'Group Name',
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellClass: 'remove-padding'
+			}
+		];
+
 		this.survey = this.surveyService.getLastSurvey();
 		if (!this.survey || this.survey == null) {
 			this.survey = new Survey();
@@ -106,9 +142,74 @@ export class LiveSurveyComponent implements OnInit {
 		this.loadIndivCodeCount();
 	}
 
+	switchTab(tab: string): void
+	{
+		if (tab === 'indivCode') {
+			this.individualCodeBeingViewed = true;
+			this.groupCodeBeingViewed = false;
+			this.emailBeingViewed = false;
+			this.scheduleBeingViewed = false;
+			this.generateType = 'numberCodes';
+			this.loadIndivCodeData(0);
+			this.loadIndivCodeCount();
+		} else if (tab === 'groupCode') {
+			this.individualCodeBeingViewed = false;
+			this.groupCodeBeingViewed = true;
+			this.emailBeingViewed = false;
+			this.scheduleBeingViewed = false;
+			this.generateType = 'single';
+			this.loadGroupCodeData(0);
+			this.loadGroupCodeCount();
+		} else if (tab === 'email') {
+			this.individualCodeBeingViewed = false;
+			this.groupCodeBeingViewed = false;
+			this.emailBeingViewed = true;
+			this.scheduleBeingViewed = false;
+		} else {
+			this.individualCodeBeingViewed = false;
+			this.groupCodeBeingViewed = false;
+			this.emailBeingViewed = false;
+			this.scheduleBeingViewed = true;
+		}
+	}
+
 	setIndivPage(pageInfo: any) {
 		this.loadIndivCodeData(pageInfo.offset);
 		this.currentIndivPage = pageInfo.offset;
+	}
+
+	setGroupPage(pageInfo: any) {
+		this.loadGroupCodeData(pageInfo.offset);
+		this.currentGroupPage = pageInfo.offset;
+	}
+
+	loadGroupCodeData(pageNum: number)
+	{
+		this.alertService.startLoadingMessage('Loading codes...');
+		this.loadingIndicator = true;
+
+		this.surveyExecuteService.listSurveyGroupCodes(this.surveyId, 'live', pageNum, this.pageLimit).subscribe(
+			results => {
+				this.groupCodeRows = results;
+				this.groupCodeRows.forEach((code, index) => {
+					(<any>code).index = (pageNum * this.pageLimit) + index + 1;
+				});
+				this.alertService.stopLoadingMessage();
+			},
+			error => {
+				this.alertService.stopLoadingMessage();
+				this.generatingIndicator = false;
+
+				this.alertService.showStickyMessage(
+					'Loading Error',
+					`An error occured whilst loading the codes.\r\nError: "${Utilities.getHttpResponseMessage(
+						error
+					)}"`,
+					MessageSeverity.error,
+					error
+				);
+			}
+		);
 	}
 
 	loadIndivCodeData(pageNum: number)
@@ -145,6 +246,15 @@ export class LiveSurveyComponent implements OnInit {
 		this.surveyExecuteService.totalSurveyShortCodes(this.surveyId, 'live').subscribe(
 			result => {
 				this.totalIndivCodes = result;
+			}
+		);
+	}
+
+	loadGroupCodeCount()
+	{
+		this.surveyExecuteService.totalSurveyGroupCodes(this.surveyId, 'live').subscribe(
+			result => {
+				this.totalGroupCodes = result;
 			}
 		);
 	}
@@ -192,4 +302,48 @@ export class LiveSurveyComponent implements OnInit {
 					);
 		}
 	}
+
+	generateGroupCodes() {
+		this.generatingIndicator = true;
+		this.alertService.startLoadingMessage('Generating group codes...');
+
+		this.codeGenParams.isGroupCode = true;
+		this.codeGenParams.usePattern = this.codeProperties === 'pattern';
+
+		if (this.generateType === 'single') {
+			this.surveyExecuteService.createSurveyGroupCodes(this.codeGenParams).subscribe(
+				results => {
+					this.alertService.stopLoadingMessage();
+					this.alertService.showMessage('Success', 'Successfully generated codes', MessageSeverity.success);
+					this.generatingIndicator = false;
+					this.loadGroupCodeData(0);
+					this.currentGroupPage = 0;
+					this.loadGroupCodeCount();
+				},
+				error => {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator = false;
+
+					this.alertService.showStickyMessage(
+						'Generation Error',
+						`An error occured whilst generating the codes.\r\nError: "${Utilities.getHttpResponseMessage(
+							error
+						)}"`,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+		} else {
+			this.alertService.stopLoadingMessage();
+			this.generatingIndicator = false;
+
+					this.alertService.showStickyMessage(
+						'Generation Error',
+						`Importing via CSV is not yet available.`,
+						MessageSeverity.error
+					);
+		}
+	}
+
 }

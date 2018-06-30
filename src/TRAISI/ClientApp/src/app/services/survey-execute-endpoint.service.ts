@@ -64,6 +64,16 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getCountOfSurveyGroupCodesEndpoint<T>(id: number, mode: string): Observable<T> {
+		const endpointUrl = `${this.surveyExecuteUrl}/${id}/groupcode/${mode}/count`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getCountOfSurveyShortCodesEndpoint(id, mode));
+			})
+		);
+	}
+
 	public getCreateSurveyShortCodesEndpoint<T>(codeGenParams: CodeGenerator): Observable<T> {
 		const endpointUrl = this.surveyExecuteUrl;
 

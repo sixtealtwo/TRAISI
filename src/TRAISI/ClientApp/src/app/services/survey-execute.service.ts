@@ -27,8 +27,17 @@ export class SurveyExecuteService {
 		return this._surveyExecuteEndpointService.getCountOfSurveyShortCodesEndpoint<number>(surveyId, mode);
 	}
 
+	public totalSurveyGroupCodes(surveyId: number, mode: string) {
+		return this._surveyExecuteEndpointService.getCountOfSurveyGroupCodesEndpoint<number>(surveyId, mode);
+	}
+
 	public listSurveyGroupCodes(surveyId: number, mode: string, page?: number, pageSize?: number) {
-		return this._surveyExecuteEndpointService.getSurveyGroupCodesEndpoint<GroupCode[]>(surveyId, mode, page, pageSize);
+		return this._surveyExecuteEndpointService.getSurveyGroupCodesEndpoint<GroupCode[]>(surveyId, mode, page, pageSize).pipe(map(codes => {
+			return codes.map(code => {
+				code.createdAt = new Date(code.createdAt);
+				return code;
+			});
+		}));
 	}
 
 	public createSurveyShortCodes(codeGenParams: CodeGenerator) {

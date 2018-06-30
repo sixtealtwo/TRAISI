@@ -26,12 +26,27 @@ namespace DAL.Repositories
 		/// <param name="surveyId"></param>
 		/// <param name="isTest"></param>
 		/// <returns></returns>
-		public async Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest)
+		public async Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize)
+		{
+			IQueryable<GroupCode> codes = _appContext.GroupCode
+							.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
+							.OrderByDescending(sc => sc.CreatedDate);
+							
+			if (pageIndex > 0)
+			{
+				codes = codes.Skip(pageIndex*pageSize);
+			}
+			if (pageSize > 0) {
+				codes = codes.Take(pageSize);
+			}
+			return await codes.ToListAsync();
+		}
+
+		public async Task<int> GetCountOfGroupCodesForSurveyAsync(int surveyId, bool isTest)
 		{
 			return await _appContext.GroupCode
-							.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
-							.OrderByDescending(sc => sc.CreatedDate)
-							.ToListAsync();
+			.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
+			.CountAsync();
 		}
 
 		/// <summary>

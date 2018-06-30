@@ -4,16 +4,16 @@
 	<div class="clearfix">
 		<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 			<li class="nav-item">
-				<a class="nav-link active fw-semi-bold" id="codes-tab" data-toggle="tab" href="#codes" role="tab" aria-controls="codes" aria-expanded="true">Individual Codes</a>
+				<a class="nav-link active fw-semi-bold" id="codes-tab" (click)="switchTab('indivCode')" data-toggle="tab" href="#codes" role="tab" aria-controls="codes" aria-expanded="true">Individual Codes</a>
 			</li>
 			<li class="nav-item">
-					<a class="nav-link fw-semi-bold" id="gcodes-tab" data-toggle="tab" href="#gcodes" role="tab" aria-controls="gcodes" aria-expanded="true">Group Codes</a>
+					<a class="nav-link fw-semi-bold" id="gcodes-tab" (click)="switchTab('groupCode')" data-toggle="tab" href="#gcodes" role="tab" aria-controls="gcodes" aria-expanded="true">Group Codes</a>
 				</li>
 			<li class="nav-item">
-				<a class="nav-link fw-semi-bold" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-expanded="true">E-mail</a>
+				<a class="nav-link fw-semi-bold" id="email-tab" (click)="switchTab('email')" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-expanded="true">E-mail</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link fw-semi-bold" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule"
+				<a class="nav-link fw-semi-bold" id="schedule-tab" (click)="switchTab('schedule')"  data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule"
 				 aria-expanded="true">Schedule</a>
 			</li>
 		</ul>
@@ -114,7 +114,99 @@
 			</form>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="gcodes" aria-labelledby="gcodes-tab" aria-expanded="true">
-			</div>
+				<form (ngSubmit)="generateGroupCodes()" #f="ngForm" novalidate class="form-horizontal">
+						<legend>Properties</legend>
+						<div class="form-group row row-grid">
+							<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4 offset-md-1 col-10">
+								<input class="form-check-input" type="radio" name="property" ng-control="property" id="pattern" value="pattern" [(ngModel)]="codeProperties">
+								<label class="form-check-label vertical-middle" for="pattern">
+									Pattern
+								</label>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<input [class.hidden]="codeProperties=='length'" width="100" type="text" name="codePattern" class="form-control" placeholder="CCC-###" [(ngModel)]="codeGenParams.pattern">
+							</div>
+						</div>
+						<div class="form-group row row-grid">
+							<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+								<input class="form-check-input" type="radio" name="property" ng-control="property" id="length" value="length" [(ngModel)]="codeProperties">
+								<label class="form-check-label vertical-middle" for="length">
+									Length
+								</label>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<input [class.hidden]="codeProperties=='pattern'" width="50" type="number" name="codeLength" class="form-control" [(ngModel)]="codeGenParams.codeLength">
+							</div>
+						</div>
+						<legend>Generate</legend>
+						<div class="form-group row row-grid">
+								<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+									<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="single" value="single" [(ngModel)]="generateType">
+									<label class="form-check-label vertical-middle" for="numberCodes">
+										Single Company
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<input [class.hidden]="generateType=='list'" width="100" type="text" name="companyName" class="form-control" [(ngModel)]="codeGenParams.groupName">
+								</div>
+							</div>
+							<div class="form-group row row-grid">
+								<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+									<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="list" value="list" [(ngModel)]="generateType">
+									<label class="form-check-label vertical-middle" for="list">
+										Import List
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<dropzone [class.hidden]="generateType=='single'" [config]="config" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+								</div>
+							</div>
+							<div class="form-group row row-grid">
+								<div class="col-md-7">
+									<div class="d-flex justify-content-center">
+										<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator">
+											<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
+											<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Code(s)
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="row row-grid">
+									<div class="col-md-12 separator-hr">
+									
+									</div>
+								</div>
+							<div class="form-group row row-grid">
+								<div class="col-md-12">
+									Survey Link: <strong>{{ baseUrl }}/survey/{{ survey.name }}</strong>
+								</div>
+							</div>
+							<ngx-datatable *ngIf="groupCodeBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+														 [rows]="groupCodeRows"
+														 [columns]="groupCodeColumns"
+														 [loadingIndicator]="loadingIndicator"
+														 [scrollbarH]="true"
+														 [rowHeight]="25"
+														 [headerHeight]="35"
+														 [footerHeight]="'auto'"
+														 [columnMode]="'flex'"
+														 [externalPaging]="true"
+														 [count]="totalGroupCodes"
+														 [offset]="currentGroupPage"
+														 [limit]="pageLimit"
+														 (page)='setGroupPage($event)'>
+							</ngx-datatable>
+						<!--<div class="form-group row row-grid">
+							<label class="col-form-label col-md-2 text-md-right">Code Type: </label>
+							<div class="btn-group" btnRadioGroup name="codeType" [(ngModel)]="codeType">
+									<label class="btn btn-danger" btnRadio="Individual"
+												 tabindex="0" role="button">Individual</label>
+									<label class="btn btn-danger" btnRadio="Group"
+												 tabindex="0" role="button">Group</label>
+								</div>
+						</div>-->
+				</form>
+		</div>
 		<div role="tabpanel" class="tab-pane" id="email" aria-labelledby="email-tab" aria-expanded="true">
 		</div>
 		<div role="tabpanel" class="tab-pane" id="schedule" aria-labelledby="schedule-tab" aria-expanded="true">
