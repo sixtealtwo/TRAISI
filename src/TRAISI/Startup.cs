@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Rewrite;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using FluentValidation.AspNetCore;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace TRAISI
 {
@@ -38,6 +40,8 @@ namespace TRAISI
         public IConfiguration Configuration { get; }
 
         private readonly IHostingEnvironment _hostingEnvironment;
+
+        
 
         /// <summary>
         /// 
@@ -103,10 +107,10 @@ namespace TRAISI
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
-		    // IIS Integration
-		    services.Configure<IISOptions>(options =>
-		    {
-		    });
+            // IIS Integration
+            services.Configure<IISOptions>(options =>
+            {
+            });
 
 
             // Register the OpenIddict services.
@@ -142,7 +146,7 @@ namespace TRAISI
                 //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-						
+
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
@@ -151,7 +155,7 @@ namespace TRAISI
             if (!_hostingEnvironment.IsDevelopment())
                 services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
-						
+
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
@@ -165,11 +169,11 @@ namespace TRAISI
                     Flow = "password",
                     TokenUrl = "/connect/token"
                 });
-								c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-								{
-										{ "oauth2", new string[] { } }
-								});
-								
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                                {
+                                        { "oauth2", new string[] { } }
+                                });
+
             });
 
             services.AddAuthorization(options =>
@@ -178,8 +182,8 @@ namespace TRAISI
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
-								options.AddPolicy(Authorization.Policies.ManageAllGroupsPolicy,
-										policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroups));
+                options.AddPolicy(Authorization.Policies.ManageAllGroupsPolicy,
+                        policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroups));
                 options.AddPolicy(Authorization.Policies.ViewGroupUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewGroupUsers));
                 options.AddPolicy(Authorization.Policies.ManageGroupUsersPolicy,
@@ -219,8 +223,8 @@ namespace TRAISI
             services.AddScoped<IMailgunMailer, MailgunMailer>();
             services.AddScoped<IGeoService, GeoService>();
 
-						// Survey Code Generation Services
-						services.AddScoped<ICodeGeneration, CodeGenerationService>();
+            // Survey Code Generation Services
+            services.AddScoped<ICodeGeneration, CodeGenerationService>();
 
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
@@ -237,8 +241,9 @@ namespace TRAISI
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            services.AddLocalization(options => options.ResourcesPath = "Resources/Localization");
 
-					
+
 
 
         }
@@ -278,6 +283,22 @@ namespace TRAISI
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
+
+            
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-CA"),
+                new CultureInfo("en"),
+                new CultureInfo("fr")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-CA"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TRAISI API V1"); });

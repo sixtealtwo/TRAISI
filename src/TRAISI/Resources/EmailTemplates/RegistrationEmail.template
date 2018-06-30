@@ -1,0 +1,9 @@
+<!doctype html>
+<html>
+<head><title>Test</title></head>
+<body>
+<div><h1>Welcome to the TRAISI Platform!</h1></div>
+<div>Your user name is: {{ user_name }}</div>
+<div>Your password is: {{ password }}</div>
+</body>
+</html>
