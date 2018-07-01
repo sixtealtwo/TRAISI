@@ -3,6 +3,7 @@ import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
+import { GeoLocation } from '../models/geo-location.model';
 
 @Component({
 	selector: 'traisi-map-question',
@@ -56,9 +57,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 
 	userLocate(e: Position) {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
-		this.mapEndpointService.reverseGeocode(e.coords.latitude,e.coords.longitude).subscribe(result => {
-			this.locationSearch = result;
-			this.mapGeocoder.control._inputEl.value = result;
+		this.mapEndpointService.reverseGeocode(e.coords.latitude,e.coords.longitude).subscribe((result: GeoLocation) => {
+			this.locationSearch = result.address;
+			this.mapGeocoder.control._inputEl.value = result.address;
 			this.cdRef.detectChanges();
 		});
 	}
@@ -66,9 +67,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	onDragStart(event: any) {}
 
 	onDragEnd(event: MapMouseEvent) {
-		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe(result => {
-			this.locationSearch = result;
-			this.mapGeocoder.control._inputEl.value = result;
+		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
+			this.locationSearch = result.address;
+			this.mapGeocoder.control._inputEl.value = result.address;
 		});
 	}
 

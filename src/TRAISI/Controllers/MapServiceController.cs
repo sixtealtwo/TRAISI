@@ -28,10 +28,11 @@ namespace TRAISI.Controllers
         // GET: api/<controller>
         [HttpGet]
         [Route("reversegeo/{lat}/{lng}")]
-				[Produces(typeof(string))]
+		[Produces(typeof(GeoLocationViewModel))]
         public async Task<IActionResult> ReverseGeocode(double lat, double lng)
         {
-            var result = await this._geoService.ReverseGeocodeAsync(lat, lng);
+            var address = await this._geoService.ReverseGeocodeAsync(lat, lng);
+            GeoLocationViewModel result = new GeoLocationViewModel() { Latitude = lat, Longitude = lng, Address = address };
             return Ok(result);
         }
         

@@ -3,6 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable, throwError } from 'rxjs';
 import { EndpointFactory } from '../../../TRAISI/ClientApp/src/app/services/endpoint-factory.service';
+import { GeoLocation } from '../models/geo-location.model';
 
 @Injectable()
 export class MapEndpointService {
@@ -15,10 +16,10 @@ export class MapEndpointService {
 
 	}
 
-	public reverseGeocode(latitude: number, longitude: number): Observable<string> {
+	public reverseGeocode(latitude: number, longitude: number): Observable<GeoLocation> {
 		const endpointUrl = `${this._reverseGeocodeUrl}/${latitude}/${longitude}`;
 
-		return this.http.get<string>(endpointUrl, this.getRequestHeaders('text'));
+		return this.http.get<GeoLocation>(endpointUrl, this.getRequestHeaders());
 	}
 
 	protected getRequestHeaders(rType:any='json'): { headers: HttpHeaders | { [header: string]: string | string[]; }; responseType: any } {

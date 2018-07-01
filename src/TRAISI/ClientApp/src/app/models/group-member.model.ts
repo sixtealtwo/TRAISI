@@ -1,5 +1,4 @@
 import { UserGroup } from './user-group.model';
-import { GroupRole } from './group-role.model';
 import { User } from './user.model';
 
 export class GroupMember {
