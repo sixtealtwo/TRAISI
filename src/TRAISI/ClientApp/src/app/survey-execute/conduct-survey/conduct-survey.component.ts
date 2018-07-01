@@ -11,17 +11,20 @@ import { SurveyExecuteService } from '../../services/survey-execute.service';
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { Utilities } from '../../services/utilities';
 import { AuthService } from '../../services/auth.service';
+import { Title } from '@angular/platform-browser';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
-	selector: 'app-live-survey',
-	templateUrl: './live-survey.component.html',
-	styleUrls: ['./live-survey.component.scss'],
+	selector: 'app-test-survey',
+	templateUrl: './conduct-survey.component.html',
+	styleUrls: ['./conduct-survey.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class LiveSurveyComponent implements OnInit, AfterViewInit {
+export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	public surveyId: number;
 	public survey: Survey;
 	public codeGenParams: CodeGenerator;
+	public executeMode: string;
 
 	public codeProperties = 'pattern';
 	public generateType: string = 'numberCodes';
@@ -79,7 +82,9 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 		private configurationService: ConfigurationService,
 		private alertService: AlertService,
 		private authService: AuthService,
-		private router: Router
+		private router: Router,
+		private title: Title,
+		private titleCasePipe: TitleCasePipe
 	) {
 		this.survey = new Survey();
 		this.codeGenParams = new CodeGenerator();
@@ -98,7 +103,15 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 			this.surveyId = params['id'];
 			this.codeGenParams.surveyId = this.surveyId;
 			this.codeGenParams.isGroupCode = false;
-			this.codeGenParams.isTest = false;
+			this.executeMode = params['mode'];
+			if (this.executeMode === 'test') {
+				this.codeGenParams.isTest = true;
+			} else if (this.executeMode === 'live')
+			{
+				this.codeGenParams.isTest = false;
+			} else {
+				this.router.navigate(['error']);
+			}
 		});
 	}
 
@@ -169,7 +182,11 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 					this.router.navigate(['error']);
 				}
 			);
+		} else {
+			this.loadIndivCodeData(1);
+			this.loadIndivCodeCount();
 		}
+		this.title.setTitle(`Execute ${this.titleCasePipe.transform(this.executeMode)} Survey - TRAISI`);
 	}
 
 	ngAfterViewInit() {
@@ -221,7 +238,7 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 		this.alertService.startLoadingMessage('Loading codes...');
 		this.loadingIndicator = true;
 
-		this.surveyExecuteService.listSurveyGroupCodes(this.surveyId, 'live', pageNum, this.pageLimit).subscribe(
+		this.surveyExecuteService.listSurveyGroupCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit).subscribe(
 			results => {
 				this.groupCodeRows = results;
 				this.groupCodeRows.forEach((code, index) => {
@@ -247,7 +264,7 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 		this.alertService.startLoadingMessage('Loading codes...');
 		this.loadingIndicator = true;
 
-		this.surveyExecuteService.listSurveyShortCodes(this.surveyId, 'live', pageNum, this.pageLimit).subscribe(
+		this.surveyExecuteService.listSurveyShortCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit).subscribe(
 			results => {
 				this.indivCodeRows = results;
 				this.indivCodeRows.forEach((code, index) => {
@@ -270,13 +287,13 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 	}
 
 	loadIndivCodeCount() {
-		this.surveyExecuteService.totalSurveyShortCodes(this.surveyId, 'live').subscribe(result => {
+		this.surveyExecuteService.totalSurveyShortCodes(this.surveyId, this.executeMode).subscribe(result => {
 			this.totalIndivCodes = result;
 		});
 	}
 
 	loadGroupCodeCount() {
-		this.surveyExecuteService.totalSurveyGroupCodes(this.surveyId, 'live').subscribe(result => {
+		this.surveyExecuteService.totalSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(result => {
 			this.totalGroupCodes = result;
 		});
 	}

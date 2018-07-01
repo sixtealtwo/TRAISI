@@ -183,7 +183,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 		delete userEdit.currentPassword;
 		delete userEdit.newPassword;
-		delete userEdit.confirmPassword; 
+		delete userEdit.confirmPassword;
 	}
 
 	private edit() {

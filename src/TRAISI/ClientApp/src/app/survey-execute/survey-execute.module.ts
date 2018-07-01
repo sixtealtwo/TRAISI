@@ -7,8 +7,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { SurveyExecuteComponent } from './survey-execute.component';
 import { ROUTES } from './survey-execute.routes';
-import { TestSurveyComponent } from './test-survey/test-survey.component';
-import { LiveSurveyComponent } from './live-survey/live-survey.component';
+import { ConductSurveyComponent } from './conduct-survey/conduct-survey.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -25,7 +24,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 		DropzoneModule,
 		NgxDatatableModule
 	],
-	declarations: [SurveyExecuteComponent, TestSurveyComponent, LiveSurveyComponent],
+	declarations: [SurveyExecuteComponent, ConductSurveyComponent],
 	providers: [
 	]
 })

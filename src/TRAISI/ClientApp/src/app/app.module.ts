@@ -42,6 +42,7 @@ import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
+import { TitleCasePipe } from '@angular/common';
 
 const APP_PROVIDERS = [AppConfig];
 
@@ -86,7 +87,8 @@ const APP_PROVIDERS = [AppConfig];
 		AppTranslationService,
 		LocalStoreManager,
 		EndpointFactory,
-		TranslatePipe
+		TranslatePipe,
+		TitleCasePipe
 	]
 })
 export class AppModule {}
