@@ -25,6 +25,7 @@ export class AlertService {
 	showDialog(message: string);
 	showDialog(message: string, type: DialogType, okCallback: (val?: any) => any);
 	showDialog(message: string, type: DialogType, okCallback?: (val?: any) => any, cancelCallback?: () => any,
+		// tslint:disable-next-line:unified-signatures
 		okLabel?: string, cancelLabel?: string, defaultValue?: string);
 	showDialog(message: string, type?: DialogType, okCallback?: (val?: any) => any, cancelCallback?: () => any,
 		okLabel?: string, cancelLabel?: string, defaultValue?: string) {
@@ -41,7 +42,9 @@ export class AlertService {
 
 	showMessage(summary: string);
 	showMessage(summary: string, detail: string, severity: MessageSeverity);
+	// tslint:disable-next-line:unified-signatures
 	showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
+	// tslint:disable-next-line:unified-signatures
 	showMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity);
 	showMessage(data: any, separatorOrDetail?: string, severity?: MessageSeverity) {
 
@@ -70,6 +73,7 @@ export class AlertService {
 	showStickyMessage(summary: string);
 	showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any);
 	showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
+	// tslint:disable-next-line:unified-signatures
 	showStickyMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity);
 	showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string, severity?: MessageSeverity, error?: any) {
 

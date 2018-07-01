@@ -161,12 +161,14 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 			this.surveyService.getSurvey(this.surveyId).subscribe(
 				result => {
 					this.survey = result;
+					this.loadIndivCodeData(1);
+					this.loadIndivCodeCount();
 				},
-				error => {}
+				error => {
+					this.router.navigate(['error']);
+				}
 			);
 		}
-		this.loadIndivCodeData(1);
-		this.loadIndivCodeCount();
 	}
 
 	ngAfterViewInit() {
