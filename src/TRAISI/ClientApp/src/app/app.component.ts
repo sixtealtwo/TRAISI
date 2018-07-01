@@ -192,16 +192,5 @@ export class AppComponent implements OnInit {
 		return this.authService.currentUser ? this.authService.currentUser.fullName : '';
 	}
 
-	get canViewCustomers(): boolean {
-		return this.accountService.userHasPermission(Permission.viewUsersPermission);
-	}
-
-	get canViewProducts(): boolean {
-		return this.accountService.userHasPermission(Permission.viewUsersPermission);
-	}
-
-	get canViewOrders(): boolean {
-		return true;
-	}
 }
 

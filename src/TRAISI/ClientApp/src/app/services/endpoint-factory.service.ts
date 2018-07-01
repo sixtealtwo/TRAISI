@@ -1,11 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 

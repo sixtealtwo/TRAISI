@@ -1,10 +1,5 @@
 
 import {fromEvent as observableFromEvent,  Observable ,  Subscription } from 'rxjs';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 

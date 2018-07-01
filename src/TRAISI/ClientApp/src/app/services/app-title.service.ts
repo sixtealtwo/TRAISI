@@ -1,10 +1,5 @@
 
 import {mergeMap, map, filter} from 'rxjs/operators';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { Subscription } from 'rxjs';

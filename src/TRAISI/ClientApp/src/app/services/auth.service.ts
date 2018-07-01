@@ -1,10 +1,5 @@
 
 import {map} from 'rxjs/operators';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable ,  Subject } from 'rxjs';

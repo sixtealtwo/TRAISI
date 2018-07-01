@@ -1,9 +1,4 @@
-﻿// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +22,7 @@ namespace TRAISI.Controllers
 	public class UserGroupController : Controller
 	{
 
-		private IUnitOfWork _unitOfWork;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
 
@@ -381,7 +376,7 @@ namespace TRAISI.Controllers
 			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
 			var apiKeys = await this._unitOfWork.ApiKeys.GetGroupApiKeysAsync(id);
 
-			if (await isSuperAdmin() || await isGroupAdmin(group.Name))
+			if (await IsSuperAdmin() || await IsGroupAdmin(group.Name))
 			{
 				return Ok(Mapper.Map<ApiKeysViewModel>(apiKeys));
 			}
@@ -400,7 +395,7 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> UpdateGroupApiKeys([FromBody] ApiKeysViewModel apiKeys)
 		{
 			var group = await this._unitOfWork.UserGroups.GetAsync(apiKeys.GroupId);
-			if (await isSuperAdmin() || await isGroupAdmin(group.Name))
+			if (await IsSuperAdmin() || await IsGroupAdmin(group.Name))
 			{
 				ApiKeys gApiKeys = Mapper.Map<ApiKeys>(apiKeys);
 				gApiKeys.Group = group;
@@ -419,7 +414,7 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="User"></param>
 		/// <returns></returns>
-		private async Task<bool> isSuperAdmin()
+		private async Task<bool> IsSuperAdmin()
 		{
 			var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
 			return isSuperAdmin;
@@ -431,7 +426,7 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="groupName"></param>
 		/// <returns></returns>
-		private async Task<bool> isGroupAdmin(string groupName)
+		private async Task<bool> IsGroupAdmin(string groupName)
 		{
 			var isGroupAdmin = await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, groupName);
 			return isGroupAdmin;

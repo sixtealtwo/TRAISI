@@ -1,10 +1,5 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 

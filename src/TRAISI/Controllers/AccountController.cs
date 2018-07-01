@@ -1,9 +1,4 @@
-﻿// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,7 +34,7 @@ namespace TRAISI.Controllers
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        private IStringLocalizer<AccountController> _localizer;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
         public AccountController(IAccountManager accountManager,
         IAuthorizationService authorizationService,

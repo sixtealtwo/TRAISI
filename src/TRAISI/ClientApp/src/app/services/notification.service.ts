@@ -2,11 +2,6 @@
 import {interval as observableInterval,  Observable } from 'rxjs';
 
 import {startWith, mergeMap, map} from 'rxjs/operators';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 
 

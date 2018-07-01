@@ -19,7 +19,7 @@ namespace TRAISI.Controllers
     [Route("api/[controller]")]
     public class MapServiceController : Controller
     {
-        private IGeoService _geoService;
+        private readonly IGeoService _geoService;
         public MapServiceController(IGeoService geoService)
         {
             this._geoService = geoService;

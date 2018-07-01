@@ -1,8 +1,3 @@
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild } from '@angular/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
@@ -160,15 +155,4 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	get canViewCustomers() {
-		return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewCustomersPermission
-	}
-
-	get canViewProducts() {
-		return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewProductsPermission
-	}
-
-	get canViewOrders() {
-		return true; // eg. viewOrdersPermission
-	}
 }

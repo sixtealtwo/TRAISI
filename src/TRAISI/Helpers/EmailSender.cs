@@ -1,9 +1,4 @@
-﻿// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using System.Text;
@@ -25,16 +20,11 @@ namespace TRAISI.Helpers
 
     public class MailgunMailer: IMailgunMailer
     {
-        private MailgunConfig _config;
+        private readonly MailgunConfig _config;
 
         public MailgunMailer(IOptions<MailgunConfig> config)
         {
             this._config = config.Value;
-        }
-
-        private void loadTemplates()
-        {
-
         }
 
         public async Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings)
@@ -52,9 +42,11 @@ namespace TRAISI.Helpers
 
         private async Task<IRestResponse> SendViaMailgunAsync(MailgunEmail emailSettings)
         {
-            RestClient client = new RestClient();
-            client.BaseUrl = new Uri(this._config.MailGunUrl);
-            client.Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey);
+            RestClient client = new RestClient
+            {
+                BaseUrl = new Uri(this._config.MailGunUrl),
+                Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey)
+            };
             RestRequest request = new RestRequest();
             request.AddParameter("domain",
                                  this._config.Domain, ParameterType.UrlSegment);

@@ -1,16 +1,11 @@
 
 import {fromEvent as observableFromEvent,  Observable ,  Subscription } from 'rxjs';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Directive, ElementRef, Output, EventEmitter, OnDestroy, NgZone } from '@angular/core';
 
 
 declare var $: any;
 
-type eventArg = { type: string, target: Element, relatedTarget: Element };
+interface EventArg { type: string; target: Element; relatedTarget: Element; }
 
 @Directive({
 	selector: '[bootstrapTab]',
@@ -20,10 +15,10 @@ export class BootstrapTabDirective implements OnDestroy {
 
 
 	@Output()
-	showBSTab = new EventEmitter<eventArg>();
+	showBSTab = new EventEmitter<EventArg>();
 
 	@Output()
-	hideBSTab = new EventEmitter<eventArg>();
+	hideBSTab = new EventEmitter<EventArg>();
 
 	private tabShownSubscription: Subscription;
 	private tabHiddenSubscription: Subscription;

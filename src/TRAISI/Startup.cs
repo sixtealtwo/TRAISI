@@ -64,8 +64,7 @@ namespace TRAISI
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                bool development = false;
-                Boolean.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value, out development);
+                Boolean.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value, out bool development);
 
                 if (development)
                 {
@@ -220,8 +219,6 @@ namespace TRAISI
 
             // Business Services
             services.AddScoped<IEmailer, Emailer>();
-            services.AddScoped<IMailgunMailer, MailgunMailer>();
-            services.AddScoped<IGeoService, GeoService>();
 
             // Survey Code Generation Services
             services.AddScoped<ICodeGeneration, CodeGenerationService>();
@@ -238,6 +235,10 @@ namespace TRAISI
             services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
+
+            // Persistent Business Services
+            services.AddSingleton<IMailgunMailer, MailgunMailer>();
+            services.AddSingleton<IGeoService, GeoService>();
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();

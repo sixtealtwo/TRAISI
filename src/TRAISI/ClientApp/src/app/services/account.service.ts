@@ -2,11 +2,6 @@
 import {forkJoin as observableForkJoin,  Observable ,  Subject } from 'rxjs';
 
 import {tap, mergeMap} from 'rxjs/operators';
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -24,7 +19,7 @@ import { UserEdit } from '../models/user-edit.model';
 
 
 export type RolesChangedOperation = 'add' | 'delete' | 'modify';
-export type RolesChangedEventArg = { roles: Role[] | string[], operation: RolesChangedOperation };
+export interface RolesChangedEventArg { roles: Role[] | string[]; operation: RolesChangedOperation; }
 
 
 @Injectable({ providedIn: 'root'})

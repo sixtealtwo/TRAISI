@@ -17,11 +17,11 @@ namespace TRAISI.Helpers
     {
         private IList<QuestionTypeDefinition> _questionTypeDefinitions;
 
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
-        private ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory _loggerFactory;
 
-        private ILogger<QuestionTypeManager> _logger;
+        private readonly ILogger<QuestionTypeManager> _logger;
 
         /// <summary>
         /// 

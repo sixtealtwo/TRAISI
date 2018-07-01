@@ -15,7 +15,7 @@ namespace TRAISI.Helpers
 
     public class GeoService: IGeoService
     {
-        private IGeocoder _geocoder;
+        private readonly IGeocoder _geocoder;
         private GeoConfig _config;
         public GeoService(IOptions<GeoConfig> config)
         {

@@ -1,8 +1,3 @@
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,11 +26,10 @@ namespace TRAISI
 
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-			bool development = false;
-			Boolean.TryParse(configuration.GetSection("DevelopmentSettings").
-			GetSection("UseSqliteDatabaseProvider").Value, out development);
+            Boolean.TryParse(configuration.GetSection("DevelopmentSettings").
+            GetSection("UseSqliteDatabaseProvider").Value, out bool development);
 
-			if (development)
+            if (development)
 			{
 				builder.UseSqlite("Data Source=dev.db;");
 			}

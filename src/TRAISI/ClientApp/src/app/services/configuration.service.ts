@@ -1,8 +1,3 @@
-// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
 import { Injectable } from '@angular/core';
 
 import { AppTranslationService } from './app-translation.service';
@@ -13,15 +8,15 @@ import { environment } from '../../environments/environment';
 
 
 
-type UserConfiguration = {
-	language: string,
-	homeUrl: string,
-	theme: string,
-	showDashboardStatistics: boolean,
-	showDashboardNotifications: boolean,
-	showDashboardTodo: boolean,
-	showDashboardBanner: boolean
-};
+interface UserConfiguration {
+	language: string;
+	homeUrl: string;
+	theme: string;
+	showDashboardStatistics: boolean;
+	showDashboardNotifications: boolean;
+	showDashboardTodo: boolean;
+	showDashboardBanner: boolean;
+}
 
 @Injectable({ providedIn: 'root'})
 export class ConfigurationService {

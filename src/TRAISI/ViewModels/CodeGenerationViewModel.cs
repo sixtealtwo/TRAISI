@@ -25,7 +25,7 @@ namespace TRAISI.ViewModels
 	{
 		public CodeGenerationViewModelValidator()
 		{
-			RuleFor(register => register.Pattern).Cascade(CascadeMode.StopOnFirstFailure).NotNull().Must(pattern => this.isValidCodePattern(pattern.ToUpper())).WithMessage("Incorrect pattern: Must contain only 'C' and '#' and be between 6 and 10 characters").When(p => p.UsePattern);
+			RuleFor(register => register.Pattern).Cascade(CascadeMode.StopOnFirstFailure).NotNull().Must(pattern => this.IsValidCodePattern(pattern.ToUpper())).WithMessage("Incorrect pattern: Must contain only 'C' and '#' and be between 6 and 10 characters").When(p => p.UsePattern);
 			RuleFor(register => register.CodeLength).InclusiveBetween(6,10).WithMessage("Code length must be between 6 and 10.").When(p => !p.UsePattern);
 			RuleFor(register => register.UsePattern).NotNull().WithMessage("UsePattern field must not be empty");
 			RuleFor(register => register.IsGroupCode).NotNull().WithMessage("IsGroupCode field must not be empty");
@@ -34,7 +34,7 @@ namespace TRAISI.ViewModels
 			RuleFor(register => register.NumberOfCodes).GreaterThan(0).WithMessage("Number of codes to generate must be greater than 0").When(g => !g.IsGroupCode);
 		}
 
-		private bool isValidCodePattern(string pattern)
+		private bool IsValidCodePattern(string pattern)
 		{
 			Regex patternValidator = new Regex("^[C#-]*$");
 			var codeLength = pattern.Count(x => x == 'C' || x == '#');

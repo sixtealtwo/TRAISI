@@ -1,9 +1,4 @@
-﻿// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using DAL.Models;
+﻿using DAL.Models;
 using FluentValidation;
 using TRAISI.Helpers;
 using Microsoft.AspNetCore.Identity;
