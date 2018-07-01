@@ -8,6 +8,7 @@ export class CodeGenerator {
 		public isGroupCode?: boolean,
 		public usePattern?: boolean,
 		public isTest?: boolean) {
-			codeLength = 0;
+			this.pattern = 'CCC-###';
+			this.codeLength = 0;
 	}
 }

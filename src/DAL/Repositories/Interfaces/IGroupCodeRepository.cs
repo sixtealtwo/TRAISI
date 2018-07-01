@@ -16,6 +16,8 @@ namespace DAL.Repositories.Interfaces
 	{
 		Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize);
 		Task<int> GetCountOfGroupCodesForSurveyAsync(int surveyId, bool isTest);
-		bool isUniqueGroupCodeForSurvey(int surveyId, string code);
-	}
+		bool IsUniqueGroupCodeForSurvey(int surveyId, string code);
+        IEnumerable<string> GetUniqueCodes(int surveyId, IEnumerable<string> codesToCheck);
+
+    }
 }

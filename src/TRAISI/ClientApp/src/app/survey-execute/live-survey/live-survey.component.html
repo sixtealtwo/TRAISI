@@ -4,18 +4,18 @@
 	<div class="clearfix">
 		<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 			<li class="nav-item">
-					<a class="nav-link active fw-semi-bold" id="codes-tab" (click)="switchTab('indivCode')" data-toggle="tab" href="#codes" role="tab" aria-controls="codes" aria-expanded="true">Individual Codes</a>
+				<a class="nav-link active fw-semi-bold" id="codes-tab" (click)="switchTab('indivCode')" data-toggle="tab" href="#codes" role="tab" aria-controls="codes" aria-expanded="true">Individual Codes</a>
+			</li>
+			<li class="nav-item">
+					<a class="nav-link fw-semi-bold" id="gcodes-tab" (click)="switchTab('groupCode')" data-toggle="tab" href="#gcodes" role="tab" aria-controls="gcodes" aria-expanded="true">Group Codes</a>
 				</li>
-				<li class="nav-item">
-						<a class="nav-link fw-semi-bold" id="gcodes-tab" (click)="switchTab('groupCode')" data-toggle="tab" href="#gcodes" role="tab" aria-controls="gcodes" aria-expanded="true">Group Codes</a>
-					</li>
-				<li class="nav-item">
-					<a class="nav-link fw-semi-bold" id="email-tab" (click)="switchTab('email')" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-expanded="true">E-mail</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link fw-semi-bold" id="schedule-tab" (click)="switchTab('schedule')"  data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule"
-						aria-expanded="true">Schedule</a>
-				</li>
+			<li class="nav-item">
+				<a class="nav-link fw-semi-bold" id="email-tab" (click)="switchTab('email')" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-expanded="true">E-mail</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link fw-semi-bold" id="schedule-tab" (click)="switchTab('schedule')"  data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule"
+				 aria-expanded="true">Schedule</a>
+			</li>
 		</ul>
 	</div>
 	<div class="tab-content mb-lg" id="myTabContent">
@@ -64,13 +64,13 @@
 							</label>
 						</div>
 						<div class="col-md-4 col-sm-4">
-							<dropzone [class.hidden]="generateType=='numberCodes'" [config]="config" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+							<dropzone #indivUpload [class.hidden]="generateType=='numberCodes'" [config]="indivDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)" ></dropzone>
 						</div>
 					</div>
 					<div class="form-group row row-grid">
 						<div class="col-md-7">
 							<div class="d-flex justify-content-center">
-								<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator">
+								<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
 									<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
 									<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Codes
 								</button>
@@ -142,7 +142,7 @@
 						<div class="form-group row row-grid">
 								<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
 									<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="single" value="single" [(ngModel)]="generateType">
-									<label class="form-check-label vertical-middle" for="numberCodes">
+									<label class="form-check-label vertical-middle" for="single">
 										Single Company
 									</label>
 								</div>
@@ -158,13 +158,13 @@
 									</label>
 								</div>
 								<div class="col-md-4 col-sm-4">
-									<dropzone [class.hidden]="generateType=='single'" [config]="config" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+									<dropzone #groupUpload [class.hidden]="generateType=='single'" [config]="groupDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessGroup($event)"></dropzone>
 								</div>
 							</div>
 							<div class="form-group row row-grid">
 								<div class="col-md-7">
 									<div class="d-flex justify-content-center">
-										<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator">
+										<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
 											<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
 											<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Code(s)
 										</button>

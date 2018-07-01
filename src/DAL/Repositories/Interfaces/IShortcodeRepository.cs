@@ -19,5 +19,7 @@ namespace DAL.Repositories.Interfaces
 		Task<int> GetCountOfShortcodesForSurveyAsync(int surveyId, bool isTest);
 
 		bool UniqueShortCodeForSurvey(int surveyId, string code);
-	}
+        IEnumerable<string> GetUniqueCodes(int surveyId, IEnumerable<string> codesToCheck);
+
+    }
 }

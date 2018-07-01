@@ -28,7 +28,7 @@ namespace DAL.Repositories
 		/// <returns></returns>
 		public async Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize)
 		{
-			IQueryable<GroupCode> codes = _appContext.GroupCode
+			IQueryable<GroupCode> codes = _appContext.GroupCodes
 							.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
 							.OrderByDescending(sc => sc.CreatedDate);
 							
@@ -44,7 +44,7 @@ namespace DAL.Repositories
 
 		public async Task<int> GetCountOfGroupCodesForSurveyAsync(int surveyId, bool isTest)
 		{
-			return await _appContext.GroupCode
+			return await _appContext.GroupCodes
 			.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
 			.CountAsync();
 		}
@@ -55,12 +55,17 @@ namespace DAL.Repositories
 		/// <param name="surveyId"></param>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		public bool isUniqueGroupCodeForSurvey(int surveyId, string code)
+		public bool IsUniqueGroupCodeForSurvey(int surveyId, string code)
 		{
-			return _appContext.GroupCode
-							.Where(g => g.Survey.Id == surveyId && g.Code == code)
-							.Any();
+            return !_appContext.GroupCodes
+                            .Any(g => g.Survey.Id == surveyId && g.Code == code);
 		}
-		
-  }
+
+        public IEnumerable<string> GetUniqueCodes(int surveyId, IEnumerable<string> codesToCheck)
+        {
+            return codesToCheck
+                .Except(_appContext.GroupCodes.Where(s => s.Survey.Id == surveyId).Select(s => s.Code))
+                .ToList();
+        }
+    }
 }

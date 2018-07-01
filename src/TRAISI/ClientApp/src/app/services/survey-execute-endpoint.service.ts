@@ -31,7 +31,7 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 	public getSurveyShortCodesEndpoint<T>(id: number, mode: string, page?: number, pageSize?: number): Observable<T> {
 		const endpointUrl =
 			page && pageSize
-				? `${this.surveyExecuteUrl}/${id}/${mode}/${page}/${pageSize}`
+				? `${this.surveyExecuteUrl}/${id}/${mode}/${page - 1}/${pageSize}`
 				: `${this.surveyExecuteUrl}/${id}/${mode}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -54,7 +54,7 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 	public getSurveyGroupCodesEndpoint<T>(id: number, mode: string, page?: number, pageSize?: number): Observable<T> {
 		const endpointUrl =
 			page && pageSize
-				? `${this.surveyExecuteUrl}/${id}/groupcode/${mode}/${page}/${pageSize}`
+				? `${this.surveyExecuteUrl}/${id}/groupcode/${mode}/${page - 1}/${pageSize}`
 				: `${this.surveyExecuteUrl}/${id}/groupcode/${mode}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(

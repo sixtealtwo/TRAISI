@@ -12,23 +12,23 @@ using System.IO;
 
 namespace DAL.Repositories
 {
-	public class SurveyRepository : Repository<Survey>, ISurveyRepository
-	{
-		public SurveyRepository(ApplicationDbContext context) : base(context) { }
+    public class SurveyRepository : Repository<Survey>, ISurveyRepository
+    {
+        public SurveyRepository(ApplicationDbContext context) : base(context) { }
 
-		public SurveyRepository(DbContext context) : base(context) { }
+        public SurveyRepository(DbContext context) : base(context) { }
 
-		private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-		/// <summary>
-		/// Loads a survey and all associated objects from a given inputstream with JSON data
-		/// </summary>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public async void LoadSurveyFromJson(Stream data)
-		{
-			await this.AddAsync(new Survey());
-		}
+        /// <summary>
+        /// Loads a survey and all associated objects from a given inputstream with JSON data
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async void LoadSurveyFromJson(Stream data)
+        {
+            await this.AddAsync(new Survey());
+        }
 
         /// <summary>
         /// Gets all surveys owned by a specific user
@@ -67,7 +67,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Survey>> GetAllGroupSurveysAsync(string groupName, string exceptUserName)
         {
             return await _appContext.Surveys
-                .Where(s => s.Group == groupName && s.Owner != exceptUserName && s.SurveyPermissions.Where(r => r.User.UserName==exceptUserName).Count() == 0)
+                .Where(s => s.Group == groupName && s.Owner != exceptUserName && s.SurveyPermissions.Where(r => r.User.UserName == exceptUserName).Count() == 0)
                 .OrderByDescending(g => g.CreatedDate)
                 .ToListAsync();
         }
@@ -85,46 +85,48 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
-				/// <summary>
-				/// Get survey with permissions for given user
-				/// </summary>
-				/// <param name="id"></param>
-				/// <param name="userName"></param>
-				/// <returns></returns>
-				public async Task<Survey> GetSurveyWithUserPermissionsAsync(int id, string userName)
-				{
-					var survey = await _appContext.Surveys
-								.Where(s => s.Id == id)
-								.SingleOrDefaultAsync();
-					survey.SurveyPermissions = await _appContext.SurveyPermissions
-																		 .Where(sp => sp.Survey == survey && sp.User.UserName == userName)
-																		 .ToListAsync();
-					return survey;
-				}
+        /// <summary>
+        /// Get survey with permissions for given user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyWithUserPermissionsAsync(int id, string userName)
+        {
+            var survey = await _appContext.Surveys
+                        .Where(s => s.Id == id)
+                        .SingleOrDefaultAsync();
+            survey.SurveyPermissions = await _appContext.SurveyPermissions
+                                                                 .Where(sp => sp.Survey == survey && sp.User.UserName == userName)
+                                                                 .ToListAsync();
+            return survey;
+        }
 
 
-				/// <summary>
-				/// Get all surveys shared with given user
-				/// </summary>
-				/// <param name="userName"></param>
-				/// <returns></returns>
-				public async Task<IEnumerable<Survey>> GetSharedSurveysAsync(string userName)
-				{
-					var surveyPermissions = await _appContext.SurveyPermissions
-						.Where(sp => sp.User.UserName == userName)
-						.Include(sp => sp.Survey).Include(sp => sp.User)
-						.ToListAsync();
+        /// <summary>
+        /// Get all surveys shared with given user
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Survey>> GetSharedSurveysAsync(string userName)
+        {
+            var surveyPermissions = await _appContext.SurveyPermissions
+                .Where(sp => sp.User.UserName == userName)
+                .Include(sp => sp.Survey).Include(sp => sp.User)
+                .ToListAsync();
 
-					List<Survey> sharedSurveys = new List<Survey>();
+            List<Survey> sharedSurveys = new List<Survey>();
 
-					surveyPermissions.ForEach(sp => 
-					{
-						sharedSurveys.Add(sp.Survey);
-						sp.Survey.SurveyPermissions = new List<SurveyPermission>();
-						sp.Survey.SurveyPermissions.Add(sp);
-					});
+            surveyPermissions.ForEach(sp =>
+            {
+                sharedSurveys.Add(sp.Survey);
+                sp.Survey.SurveyPermissions = new List<SurveyPermission>
+                {
+                    sp
+                };
+            });
 
-					return sharedSurveys;
-				}
+            return sharedSurveys;
+        }
     }
 }

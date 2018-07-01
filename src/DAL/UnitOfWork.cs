@@ -147,5 +147,15 @@ namespace DAL
         {
             return await _context.SaveChangesAsync();
         }
+
+        public void EnableAutoDetectChanges()
+        {
+            this._context.ChangeTracker.AutoDetectChangesEnabled = true;
+        }
+
+        public void DisableAutoDetectChanges()
+        {
+            this._context.ChangeTracker.AutoDetectChangesEnabled = false;
+        }
     }
 }

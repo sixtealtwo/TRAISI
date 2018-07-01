@@ -26,7 +26,6 @@ namespace TRAISI.Helpers
     public class MailgunMailer: IMailgunMailer
     {
         private MailgunConfig _config;
-        private Dictionary<string, string> templates;
 
         public MailgunMailer(IOptions<MailgunConfig> config)
         {

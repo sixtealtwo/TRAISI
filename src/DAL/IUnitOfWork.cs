@@ -17,15 +17,20 @@ namespace DAL
 
         ISurveyRepository Surveys { get; }
         ISurveyPermissionsRepository SurveyPermissions { get; }
-				IApiKeysRepository ApiKeys { get; }
-				IShortcodeRepository Shortcodes { get; }
-				IGroupCodeRepository GroupCodes { get; }
+        IApiKeysRepository ApiKeys { get; }
+        IShortcodeRepository Shortcodes { get; }
+        IGroupCodeRepository GroupCodes { get; }
         IUserGroupRepository UserGroups { get; }
         IGroupMemberRepository GroupMembers { get; }
         ISurveyViewRepository SurveyViews { get; }
         IQuestionPartRepository QuestionParts { get; }
 
+
         int SaveChanges();
         Task<int> SaveChangesAsync();
+
+        void EnableAutoDetectChanges();
+
+        void DisableAutoDetectChanges();
     }
 }

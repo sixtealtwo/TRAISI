@@ -30,8 +30,8 @@ namespace DAL
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ApiKeys> ApiKeys { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
-        public DbSet<Shortcode> Shortcode { get; set; }
-        public DbSet<GroupCode> GroupCode { get; set; }
+        public DbSet<Shortcode> Shortcodes { get; set; }
+        public DbSet<GroupCode> GroupCodes { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
         public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; }
@@ -75,9 +75,9 @@ namespace DAL
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
 
-            builder.Entity<Shortcode>().ToTable($"{nameof(this.Shortcode)}");
+            builder.Entity<Shortcode>().ToTable($"{nameof(this.Shortcodes)}");
 
-            builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCode)}");
+            builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCodes)}");
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
