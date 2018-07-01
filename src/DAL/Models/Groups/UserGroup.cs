@@ -4,7 +4,7 @@ using System.Text;
 
 using DAL.Core;
 
-namespace DAL.Models
+namespace DAL.Models.Groups
 {
     public class UserGroup : AuditableEntity
     {
@@ -14,5 +14,6 @@ namespace DAL.Models
 
         public virtual ApiKeys ApiKeySettings { get; set; }
         public virtual ICollection<GroupMember> Members { get; set; }
+        public virtual ICollection<EmailTemplate> EmailTemplates { get; set; }
     }
 }

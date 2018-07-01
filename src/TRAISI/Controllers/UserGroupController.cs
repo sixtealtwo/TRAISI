@@ -13,6 +13,7 @@ using TRAISI.ViewModels;
 using AutoMapper;
 using DAL.Core.Interfaces;
 using DAL.Models;
+using DAL.Models.Groups;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DAL.Core;
 using DAL.Models;
+using DAL.Models.Groups;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 

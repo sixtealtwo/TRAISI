@@ -4,7 +4,7 @@ using System.Text;
 
 using DAL.Core;
 
-namespace DAL.Models
+namespace DAL.Models.Groups
 {
     public class ApiKeys : AuditableEntity
     {

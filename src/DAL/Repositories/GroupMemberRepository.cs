@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.Groups;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

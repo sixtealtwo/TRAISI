@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.Groups;
 using DAL.Models.Interfaces;
 using DAL.Models.Questions;
 using DAL.Models.ResponseTypes;
@@ -28,6 +29,7 @@ namespace DAL
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ApiKeys> ApiKeys { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
         public DbSet<Shortcode> Shortcode { get; set; }
         public DbSet<GroupCode> GroupCode { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
@@ -63,8 +65,13 @@ namespace DAL
             builder.Entity<UserGroup>().Property(g => g.Name).IsRequired().HasMaxLength(100);
             builder.Entity<UserGroup>().HasIndex(g => g.Name);
             builder.Entity<UserGroup>().HasOne(g => g.ApiKeySettings).WithOne(k => k.Group).HasForeignKey<ApiKeys>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<UserGroup>().HasMany(g => g.EmailTemplates).WithOne(k => k.Group).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserGroup>().ToTable($"{nameof(this.UserGroups)}");
+
+            builder.Entity<ApiKeys>().ToTable($"{nameof(this.ApiKeys)}");
+
+            builder.Entity<EmailTemplate>().ToTable($"{nameof(this.EmailTemplates)}");
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
 

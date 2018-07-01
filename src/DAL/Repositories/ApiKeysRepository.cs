@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
+using DAL.Models.Groups;
 using DAL.Repositories.Interfaces;
 
 namespace DAL.Repositories

@@ -12,6 +12,7 @@ using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
 using DAL.Models.Surveys;
+using DAL.Models.Groups;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

@@ -21,9 +21,9 @@ namespace DAL
         ISurveyPermissionsRepository _surveyPermissions;
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
-				IApiKeysRepository _apiKeys;
-				IShortcodeRepository _shortcodes;
-				IGroupCodeRepository _groupCodes;
+	    IApiKeysRepository _apiKeys;
+	    IShortcodeRepository _shortcodes;
+	    IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 

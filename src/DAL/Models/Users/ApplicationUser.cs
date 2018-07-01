@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using DAL.Models.Interfaces;
 using DAL.Models.Surveys;
+using DAL.Models.Groups;
 
 namespace DAL.Models
 {
