@@ -7,11 +7,11 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
     entry: {
         a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
-        b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+       // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
     },
     output: {
         path: path.join(process.cwd(), 'dist'),
-        filename: 'traisi-questions.module.[name].js',
+        filename: 'traisi-questions.module.js',
         libraryTarget: 'amd'
     },
     devtool: 'source-map',
