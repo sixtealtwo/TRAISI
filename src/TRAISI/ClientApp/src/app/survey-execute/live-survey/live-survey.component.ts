@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Survey } from '../../models/survey.model';
 import { SurveyService } from '../../services/survey.service';
 import { DROPZONE_CONFIG, DropzoneComponent } from 'ngx-dropzone-wrapper';
@@ -78,7 +78,8 @@ export class LiveSurveyComponent implements OnInit, AfterViewInit {
 		private route: ActivatedRoute,
 		private configurationService: ConfigurationService,
 		private alertService: AlertService,
-		private authService: AuthService
+		private authService: AuthService,
+		private router: Router
 	) {
 		this.survey = new Survey();
 		this.codeGenParams = new CodeGenerator();
