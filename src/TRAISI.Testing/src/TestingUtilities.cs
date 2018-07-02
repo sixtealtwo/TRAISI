@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Collections.Generic;
 using DAL.Models.Questions;
+using TRAISI.Helpers;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TRAISI.Testing
 {
@@ -61,6 +63,13 @@ namespace TRAISI.Testing
             return mock.Object;
 
         }
+
+				public static IHubContext<NotifyHub> GetNotificationHub()
+				{
+					var mock = new Mock<IHubContext<NotifyHub>>();
+					return mock.Object;
+				}
+
 
         /// <summary>
         /// 

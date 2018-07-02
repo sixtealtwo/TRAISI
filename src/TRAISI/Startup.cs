@@ -312,9 +312,9 @@ namespace TRAISI
             app.UseAuthentication();
 
             app.UseSignalR(routes =>
-{
-    routes.MapHub<NotifyHub>("/chat");
-});
+						{
+								routes.MapHub<NotifyHub>("/chat");
+						});
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

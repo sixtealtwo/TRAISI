@@ -20,7 +20,7 @@ namespace TRAISI.Testing.Controllers
         public SurveyControllerUnitTests()
         {
             _surveyController = new SurveyController(TestingUtilities.GetUnitOfWork(),
-            TestingUtilities.GetAuthorizationService(), TestingUtilities.GetAccountManager());
+            TestingUtilities.GetAuthorizationService(), TestingUtilities.GetAccountManager(), TestingUtilities.GetNotificationHub());
 
         }
         public async void TestGetSurvey()
