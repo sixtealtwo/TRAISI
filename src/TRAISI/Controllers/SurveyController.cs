@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TRAISI.Helpers;
 using TRAISI.ViewModels;
+using Microsoft.AspNetCore.SignalR;
 
 
 namespace TRAISI.Controllers
@@ -22,15 +23,17 @@ namespace TRAISI.Controllers
 	{
 
 		private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IHubContext<NotifyHub> _notifyHub;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
 
-		public SurveyController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager)
+		public SurveyController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
+            this._notifyHub = notifyHub;
+            
 		}
 
 		/// <summary>

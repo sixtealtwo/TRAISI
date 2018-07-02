@@ -44,6 +44,7 @@ import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
 
+
 const APP_PROVIDERS = [AppConfig];
 
 @NgModule({

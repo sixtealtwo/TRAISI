@@ -234,7 +234,8 @@ export class AuthService {
 	get accessToken(): string {
 
 		this.reevaluateLoginStatus();
-		return this.localStorage.getData(DBkeys.ACCESS_TOKEN);
+		let accessToken = this.localStorage.getData(DBkeys.ACCESS_TOKEN);
+		return accessToken;
 	}
 
 	get accessTokenExpiryDate(): Date {

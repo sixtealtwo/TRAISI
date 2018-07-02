@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import { ChatAppComponent } from '../chat-app/chat-app.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -44,6 +45,10 @@ const routes: Routes = [
 				path: 'survey-execute',
 				loadChildren:
 					'../survey-execute/survey-execute.module#SurveyExecuteModule'
+			},
+			{
+				path: 'chat',
+				component: ChatAppComponent
 			}
 		]
 	}

@@ -1,5 +1,7 @@
 using System;
 using System.Net;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using AspNet.Security.OAuth.Validation;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
@@ -32,6 +34,8 @@ using TRAISI.SDK.Interfaces;
 using FluentValidation.AspNetCore;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 namespace TRAISI
 {
@@ -41,7 +45,7 @@ namespace TRAISI
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        
+
 
         /// <summary>
         /// 
@@ -111,6 +115,9 @@ namespace TRAISI
             {
             });
 
+            // Add cors
+            services.AddCors();
+            services.AddSignalR();
 
             // Register the OpenIddict services.
             services.AddOpenIddict(options =>
@@ -120,22 +127,37 @@ namespace TRAISI
                 options.EnableTokenEndpoint("/connect/token");
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
+                //options.UseJsonWebTokens();
 
                 if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
                     options.DisableHttpsRequirement();
 
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
-                //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+               // options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
-            }).AddOAuthValidation();
+            }).AddOAuthValidation(options =>
+            {
+                options.Events = new OAuthValidationEvents()
+                {
+                    OnRetrieveToken = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
 
-            // Add cors
-            services.AddCors();
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (context.HttpContext.WebSockets.IsWebSocketRequest || context.Request.Headers["Accept"] == "text/event-stream"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
 
             // Add framework services.
             services.AddMvc().AddJsonOptions(opts =>
@@ -158,6 +180,14 @@ namespace TRAISI
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder.AllowAnyMethod().AllowAnyHeader()
+                       .AllowAnyOrigin()
+                       .AllowCredentials();
+            }));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
@@ -169,9 +199,9 @@ namespace TRAISI
                     TokenUrl = "/connect/token"
                 });
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                                {
-                                        { "oauth2", new string[] { } }
-                                });
+                {
+                        { "oauth2", new string[] { } }
+                });
 
             });
 
@@ -276,16 +306,20 @@ namespace TRAISI
             }
 
             //Configure Cors
-            app.UseCors(builder => builder
-               .AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod());
+            app.UseCors("CorsPolicy");
+
+            app.UseWebSockets();
+            app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+{
+    routes.MapHub<NotifyHub>("/chat");
+});
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseAuthentication();
 
-            
+
             var supportedCultures = new[]
             {
                 new CultureInfo("en-CA"),
