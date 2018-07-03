@@ -68,7 +68,7 @@
               </div>
             </div>
             <div class="col-sm-2 offset-sm-2" [hidden]="groupUserRows.length > 0">
-              <button *ngIf="canManageUsers" class="btn btn-danger pull-right" (click)="deleteGroup()">
+              <button *ngIf="canManageGroups" class="btn btn-danger pull-right" (click)="deleteGroup()">
                 <i class="fa fa-plus-circle"></i> {{'users.management.DeleteGroup' | translate}}
               </button>
             </div>

@@ -7,9 +7,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
 
   <ItemGroup>
-    <OutputFile Include="$(OutDir)/TRAISI.Questions.dll"/>
+    <OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />
     <None Remove="node_modules/**" />
     <Compile Remove="node_modules/**" />
 
@@ -19,7 +25,7 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
 
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
-    <Message Text="TRAISI.Questions.dll -> Copied to TRAISI extensions folder" Importance="High" />
+    <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
 
   </Target>
 

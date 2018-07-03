@@ -291,11 +291,12 @@ namespace TRAISI.Controllers
                         Template = "RegistrationEmail",
                         TemplateReplacements = new Dictionary<string, string>() { { "user_name", appUser.UserName }, { "password", user.NewPassword } }
                     };
-                    var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
+                    this._emailer.SendEmail(regEmail);
+                    /*var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
                     if (!emailRegSuccess)
                     {
                         AddErrors(new string[] { errorMessage });
-                    }
+                    }*/
                     UserViewModel userVM = await GetUserViewModelHelper(appUser.Id);
                     return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
                 }

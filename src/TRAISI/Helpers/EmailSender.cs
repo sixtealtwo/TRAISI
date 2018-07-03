@@ -10,12 +10,17 @@ using System.Net.Security;
 using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Authenticators;
+using Hangfire;
+using Hangfire.Common;
+using Newtonsoft.Json;
+
 
 namespace TRAISI.Helpers
 {
     public interface IMailgunMailer
     {
-        Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings);
+        void SendEmail(MailgunEmail emailSettings);
+        //Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings);
     }
 
     public class MailgunMailer: IMailgunMailer
@@ -27,26 +32,30 @@ namespace TRAISI.Helpers
             this._config = config.Value;
         }
 
+        public void SendEmail(MailgunEmail emailSettings)
+        {
+            var restReq = this.SetupMailgunRequest(emailSettings);
+            JobHelper.SetSerializerSettings(new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            string jobID = BackgroundJob.Enqueue(() => this.SendViaMailgun(restReq));
+        }
+
         public async Task<(bool success, string errorMsg)> SendEmailAsync(MailgunEmail emailSettings)
         {
-            IRestResponse sendResult = await this.SendViaMailgunAsync(emailSettings);
-            if (sendResult.IsSuccessful)
+            string jobID = BackgroundJob.Enqueue(() => this.SetupMailgunRequest(emailSettings));
+
+            var (isSuccessful, errorMessage) = await this.SendViaMailgunAsync(this.SetupMailgunRequest(emailSettings));
+            if (isSuccessful)
             {
                 return (true, "Successfully sent email");
             }
             else
             {
-                return (false, sendResult.ErrorMessage);
+                return (false, errorMessage);
             }
         }
 
-        private async Task<IRestResponse> SendViaMailgunAsync(MailgunEmail emailSettings)
+        private RestRequest SetupMailgunRequest(MailgunEmail emailSettings)
         {
-            RestClient client = new RestClient
-            {
-                BaseUrl = new Uri(this._config.MailGunUrl),
-                Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey)
-            };
             RestRequest request = new RestRequest();
             request.AddParameter("domain",
                                  this._config.Domain, ParameterType.UrlSegment);
@@ -71,7 +80,30 @@ namespace TRAISI.Helpers
             string htmlText = EmailTemplates.GetTemplate(emailSettings.Template, emailSettings.TemplateReplacements);
             request.AddParameter("html", htmlText);
             request.Method = Method.POST;
-            return await client.ExecuteTaskAsync(request);
+            return request;
+        }
+
+        private async Task<(bool, string)> SendViaMailgunAsync(RestRequest request)
+        {
+            RestClient client = new RestClient
+            {
+                BaseUrl = new Uri(this._config.MailGunUrl),
+                Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey)
+            };
+            
+            var result = await client.ExecuteTaskAsync(request);
+            return (result.IsSuccessful, result.ErrorMessage);
+        }
+        public (bool, string) SendViaMailgun(RestRequest request)
+        {
+            RestClient client = new RestClient
+            {
+                BaseUrl = new Uri(this._config.MailGunUrl),
+                Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey)
+            };
+
+            var result =  client.Execute(request);
+            return (result.IsSuccessful, result.ErrorMessage);
         }
     }
 

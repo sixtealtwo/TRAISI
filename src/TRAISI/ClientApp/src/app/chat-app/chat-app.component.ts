@@ -24,8 +24,8 @@ export class ChatAppComponent implements OnInit {
 			.then(() => console.log('Connection started!')).then(() => this.hubConnection.invoke('getPriorMessages').catch(err => console.error(err)))
 			.catch(err => console.log('Error while establishing connection :('));
 
-		this.hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
-			const text = `${nick}: ${receivedMessage}`;
+		this.hubConnection.on('sendToAll', (message) => {
+			const text = `${message.userName}: ${message.message}`;
 			this.messages.push(text);
 		});
 

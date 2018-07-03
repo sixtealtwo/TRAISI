@@ -17,8 +17,8 @@ namespace TRAISI.Helpers
     {
         public class NotifyMessage
         {
-            public string userName { get; set; }
-            public string message { get; set; }
+            public string UserName { get; set; }
+            public string Message { get; set; }
         }
 
         public static readonly object _messagesLock = new object();
@@ -28,11 +28,13 @@ namespace TRAISI.Helpers
         }
         public async Task SendToAll(string message)
         {
+						NotifyMessage newMessage = new NotifyMessage() { UserName = this.Context.User.Identity.Name, Message = message };
             lock (_messagesLock)
             {
-                NotifyHub.priorMessages.Add(new NotifyMessage() { userName = this.Context.User.Identity.Name, message = message });
+                NotifyHub.priorMessages.Add(newMessage);
             }
-            await Clients.All.SendAsync("sendToAll", this.Context.User.Identity.Name, message);
+
+            await Clients.All.SendAsync("sendToAll", newMessage);
         }
 
         public async Task SendMessageToCaller(string message)
@@ -40,9 +42,9 @@ namespace TRAISI.Helpers
             await Clients.Caller.SendAsync("sendToAll", message);
         }
 
-        public void SendPriorMessageToCaller(string nick, string message)
+        public void SendPriorMessageToCaller(NotifyMessage message)
         {
-            Clients.Caller.SendAsync("sendToAll", nick, message);
+            Clients.Caller.SendAsync("sendToAll", message);
         }
 
         public async Task SendMessageToGroups(string message)
@@ -57,7 +59,7 @@ namespace TRAISI.Helpers
             {
                 foreach (var message in priorMessages)
                 {
-                    this.SendPriorMessageToCaller(message.userName, message.message);
+                    this.SendPriorMessageToCaller(message);
                 }
             }
         }

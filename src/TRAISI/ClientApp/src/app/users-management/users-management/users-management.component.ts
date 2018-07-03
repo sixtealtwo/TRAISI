@@ -592,6 +592,10 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 		return this.accountService.userHasPermission(Permission.manageUsersPermission);
 	}
 
+	public get canManageGroups(): boolean {
+		return this.accountService.userHasPermission(Permission.manageGroupsPermission);
+	}
+
 	public get canManageGroupUsers(): boolean {
 		return this.allGroups.length > 0;
 	}

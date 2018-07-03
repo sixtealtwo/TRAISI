@@ -1,6 +1,8 @@
 <app-sidebar id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()"  [userName]="userName"></app-sidebar>
-<app-navbar id="navbar" (toggleSidebarEvent)="toggleSidebarListener($event)" (logoutEvent)="logout()" [userName]="userName"
+<app-navbar id="navbar" (toggleSidebarEvent)="toggleSidebarListener($event)" (toggleChatEvent)="toggleChatListener()"  (logoutEvent)="logout()" [userName]="userName"
      class="page-controls navbar navbar-dashboard"></app-navbar>
+		 <app-chat-sidebar class="chat-sidebar"></app-chat-sidebar>
+		 
 
 <div class="content-wrap" id="content-wrap">
   <ngx-loading-bar></ngx-loading-bar>

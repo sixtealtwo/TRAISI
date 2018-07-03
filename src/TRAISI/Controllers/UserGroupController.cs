@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
 using TRAISI.Authorization;
+using Hangfire;
 
 namespace TRAISI.Controllers
 {
@@ -92,7 +93,7 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<UserGroupViewModel>))]
 		public async Task<IActionResult> GetGroupsForAdmin()
 		{
-			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
+            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{

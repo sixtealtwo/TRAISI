@@ -34,7 +34,9 @@ using TRAISI.SDK.Interfaces;
 using FluentValidation.AspNetCore;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Hangfire;
+using Hangfire.PostgreSql;
+
 
 
 namespace TRAISI
@@ -274,6 +276,9 @@ namespace TRAISI
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddLocalization(options => options.ResourcesPath = "Resources/Localization");
 
+            services.AddHangfire(config => {
+                config.UsePostgreSqlStorage(Configuration["ConnectionStrings:DefaultConnection"]);
+                });
 
 
 
@@ -318,6 +323,9 @@ namespace TRAISI
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
 
             var supportedCultures = new[]
