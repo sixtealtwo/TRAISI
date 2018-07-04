@@ -19,7 +19,8 @@
             "showCircularDependencies": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
-              "src/assets"
+							"src/assets",
+							{ "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
             ],
             "styles": [
 							"src/scss/application.scss",
@@ -42,13 +43,10 @@
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/hammerjs/hammer.js",
               "node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
-              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
               "src/assets/scripts/alertify.js",
-              "node_modules/select2/dist/js/select2.min.js",
-              "node_modules/systemjs/dist/system-production.js",
-							"node_modules/parsleyjs/dist/parsley.js",
-							"node_modules/dropzone/dist/dropzone.js"
+							"node_modules/select2/dist/js/select2.min.js",
+							"src/assets/scripts/system-production.js"
             ]
           },
           "configurations": {

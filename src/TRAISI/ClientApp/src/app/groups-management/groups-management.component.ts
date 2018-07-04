@@ -6,7 +6,8 @@ import {
 	OnDestroy,
 	ViewChild,
 	TemplateRef,
-	AfterViewInit
+	AfterViewInit,
+	ChangeDetectorRef
 } from '@angular/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
@@ -42,6 +43,14 @@ export class GroupsManagementComponent implements OnInit {
 
 	public editingTemplate: boolean;
 
+	editorOptions = {theme: 'vs-dark', language: 'html'};
+	code: string= `<html>
+		<head></head>
+		<body>
+			Testing
+		</body>
+	</html>`;
+
 	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
 	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
 
@@ -51,7 +60,8 @@ export class GroupsManagementComponent implements OnInit {
 		private alertService: AlertService,
 		private translationService: AppTranslationService,
 		private accountService: AccountService,
-		private userGroupService: UserGroupService
+		private userGroupService: UserGroupService,
+		private changeDetect: ChangeDetectorRef
 	) {
 		this.apiModel = new UserGroupAPIKeys();
 	}
@@ -179,10 +189,18 @@ export class GroupsManagementComponent implements OnInit {
 	}
 
 	editTemplate(row: EmailTemplate) {
-		this.editingTemplate = true;
+	
 		this.editorModal.show();
+
 	}
+	onEditorModalShow() {
+		this.editingTemplate = true;
+		//this.editingUserName = null;
+		//this.userEditor.resetForm(true);
+	}
+
 	onEditorModalHidden() {
+		this.editingTemplate = false;
 		//this.editingUserName = null;
 		//this.userEditor.resetForm(true);
 	}

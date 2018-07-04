@@ -84,7 +84,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
+		<div class="modal fade" bsModal #editorModal="bs-modal" (onShown)="onEditorModalShow()" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -94,7 +94,8 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<!--<user-info #userEditor [isGeneralEditor]="true"></user-info>-->
+						<ngx-monaco-editor *ngIf="editingTemplate" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+						<div id="display" [innerHTML]="code"></div>
 					</div>
 				</div>
 			</div>

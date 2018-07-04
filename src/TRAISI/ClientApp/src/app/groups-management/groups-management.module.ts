@@ -10,6 +10,8 @@ import { GroupsManagementComponent } from './groups-management.component';
 import { ROUTES } from './groups-management.routes';
 import { ModalModule } from 'ngx-bootstrap';
 
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -20,7 +22,8 @@ import { ModalModule } from 'ngx-bootstrap';
 		TranslateModule.forChild({
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
 		}),
-		NgxDatatableModule
+		NgxDatatableModule,
+		MonacoEditorModule
 	],
 	declarations: [GroupsManagementComponent]
 })

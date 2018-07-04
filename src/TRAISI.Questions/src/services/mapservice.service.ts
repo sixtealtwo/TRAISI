@@ -1,7 +1,7 @@
 import { HttpResponseBase, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { EndpointFactory } from '../../../TRAISI/ClientApp/src/app/services/endpoint-factory.service';
 import { GeoLocation } from '../models/geo-location.model';
 
