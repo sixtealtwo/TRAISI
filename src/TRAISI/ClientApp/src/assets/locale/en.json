@@ -170,7 +170,15 @@
       "Save": "Save",
       "Saving": "Saving..."
     }
-  },
+	},
+	"groups": {
+		"management": {
+			"SaveKeys": "Save Keys",
+			"SavingKeys": "Saving Keys",
+			"EditTemplate": "Edit Template",
+			"NewTemplate": "New Template"
+		}
+	},
   "notifications": {
     "Delete": "Delete notification",
     "Pin": "Pin notification",

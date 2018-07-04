@@ -1187,3 +1187,13 @@ input.parsley-error{
 	}
 }
 
+/***ngx-datatable***/
+.datatable-header {
+	font-weight: $font-weight-semi-bold;
+	text-transform: uppercase;
+	border-bottom-width: 1px;
+}
+
+datatable-scroller {
+	width: 100% !important;
+}

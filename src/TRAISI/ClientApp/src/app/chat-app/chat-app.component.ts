@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HubConnectionBuilder, HubConnection, IHttpConnectionOptions } from '@aspnet/signalr';
+import { HubConnectionBuilder, HubConnection, IHttpConnectionOptions, LogLevel } from '@aspnet/signalr';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -17,12 +17,10 @@ export class ChatAppComponent implements OnInit {
 	ngOnInit() {
 		this.nick = this.authService.currentUser.fullName.split(' ')[0];
 
-		this.hubConnection = new HubConnectionBuilder().withUrl('/chat', { accessTokenFactory: () => this.authService.accessToken }).build();
+		this.hubConnection = new HubConnectionBuilder().withUrl('/chat', { accessTokenFactory: () => this.authService.accessToken, logger: LogLevel.Critical }).build();
 
 		this.hubConnection
-			.start()
-			.then(() => console.log('Connection started!')).then(() => this.hubConnection.invoke('getPriorMessages').catch(err => console.error(err)))
-			.catch(err => console.log('Error while establishing connection :('));
+			.start().then(() => this.hubConnection.invoke('getPriorMessages').catch(err => {}));
 
 		this.hubConnection.on('sendToAll', (message) => {
 			const text = `${message.userName}: ${message.message}`;

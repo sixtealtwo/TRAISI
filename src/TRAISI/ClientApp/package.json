@@ -73,6 +73,7 @@
     "ngx-bootstrap": "^3.0.0",
     "ngx-dropzone-wrapper": "^6.1.0",
     "ngx-mapbox-gl": "^1.2.0",
+    "ngx-monaco-editor": "^6.0.0",
     "node-sass": "^4.9.0",
     "nvd3": "1.8.6",
     "parsleyjs": "2.8.1",
