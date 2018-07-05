@@ -214,7 +214,7 @@
 	</div>
 
 	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
-		<div>{{ value | date }}</div>
+		<div>{{ value | date: 'medium' : getFormattedTimeZone()}}</div>
 	</ng-template>
 	
 </div>

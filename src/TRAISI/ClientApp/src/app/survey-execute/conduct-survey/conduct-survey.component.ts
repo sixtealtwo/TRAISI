@@ -166,6 +166,15 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 				flexGrow: 60,
 				sortable: false,
 				cellClass: 'remove-padding'
+			},
+			{
+				prop: 'createdDate',
+				name: 'Creation Date',
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellTemplate: this.dateTemplate,
+				cellClass: 'remove-padding'
 			}
 		];
 
@@ -431,4 +440,8 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		this.codeGenParams.usePattern = this.codeProperties === 'pattern';
 		data[2].append('parameters', JSON.stringify(this.codeGenParams));
 	}
+
+	getFormattedTimeZone() {
+		return new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1].split(' (')[0].replace(/[A-Z]+/,'')
+	 }
 }

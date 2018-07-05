@@ -206,7 +206,8 @@ namespace TRAISI.Helpers
 
         private string CodeFunction(int codeLength)
         {
-            string code = Path.GetRandomFileName().Substring(0, codeLength);
+            string code = Guid.NewGuid().ToString("N").Substring(0, codeLength);
+						//string code = Path.GetRandomFileName().Substring(0, codeLength);
             return code.ToUpper();
         }
 
