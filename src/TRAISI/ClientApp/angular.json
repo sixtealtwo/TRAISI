@@ -15,12 +15,11 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "progress": false,
-            "showCircularDependencies": false,
+						"progress": false,
+						"showCircularDependencies": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
-							"src/assets",
-							{ "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
+							"src/assets"
             ],
             "styles": [
 							"src/scss/application.scss",
