@@ -22,6 +22,8 @@ import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 import { EmailTemplate } from '../models/email-template.model';
 import { ModalDirective } from 'ngx-bootstrap';
 
+
+
 @Component({
 	selector: 'app-groups-management',
 	templateUrl: './groups-management.component.html',
@@ -64,11 +66,6 @@ export class GroupsManagementComponent implements OnInit {
 		private changeDetect: ChangeDetectorRef
 	) {
 		this.apiModel = new UserGroupAPIKeys();
-		if (!(window as any).require) {
-			$.getScript('./assets/monaco/vs/loader.js').then(function() {
-				(window as any).AMDLoader.init();
-			});
-		}
 	}
 
 	ngOnInit(): void {

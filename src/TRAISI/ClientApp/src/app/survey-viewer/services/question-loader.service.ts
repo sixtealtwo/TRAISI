@@ -66,7 +66,6 @@ export class QuestionLoaderService {
 	constructor(private _questionLoaderEndpointService: QuestionLoaderEndpointService,
 		private compiler: Compiler, @SkipSelf() private injector: Injector,
 	) {
-		(window as any).SystemJS.constructor();
 
 	}
 }

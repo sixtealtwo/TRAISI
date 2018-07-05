@@ -19,7 +19,9 @@
 						"showCircularDependencies": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
-							"src/assets"
+							"src/assets",
+							{ "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
+
             ],
             "styles": [
 							"src/scss/application.scss",
@@ -45,7 +47,7 @@
               "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
               "src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
-							"src/assets/scripts/system-production.js"
+							"node_modules/systemjs/dist/system.js"
             ]
           },
           "configurations": {
