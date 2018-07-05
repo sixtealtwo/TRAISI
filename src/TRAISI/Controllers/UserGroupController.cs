@@ -366,6 +366,104 @@ namespace TRAISI.Controllers
 		}
 
 		/// <summary>
+		/// Get all email templates for given group
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/templates")]
+		[Produces(typeof(EmailTemplateViewModel))]
+		public async Task<IActionResult> GetGroupEmailTemplates(int id)
+		{
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
+
+			if(await IsGroupAdmin(group.Name))
+			{
+				//IEnumerable<DAL.Models.Groups.EmailTemplates> emailTemplates;
+				var emailTemplates = await this._unitOfWork.EmailTemplates.GetGroupEmailTemplatesAsync(id);
+				return Ok(Mapper.Map<IEnumerable<EmailTemplateViewModel>>(emailTemplates));
+			}
+			else
+			{
+				return new ChallengeResult();
+			}
+		}
+
+		/// <summary>
+		/// Update email template
+		/// </summary>
+		/// <param name="emailTemplate"></param>
+		/// <returns></returns>
+		[HttpPut("templates")]
+		public async Task<IActionResult> UpdateEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
+		{
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
+
+			if(await IsGroupAdmin(group.Name))
+			{
+				EmailTemplate updatedEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
+				updatedEmailTemplate.Group = group;
+				this._unitOfWork.EmailTemplates.Update(updatedEmailTemplate);
+				await this._unitOfWork.SaveChangesAsync();
+				return new OkResult();
+			}
+			else
+			{
+				return BadRequest("Insufficient privileges.");
+			}
+		}
+
+		
+		/// <summary>
+		/// Create new email template
+		/// </summary>
+		/// <param name="emailTemplate"></param>
+		/// <returns></returns>
+		[HttpPost("templates")]
+		public async Task<IActionResult> AddEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
+		{
+			if (ModelState.IsValid)
+			{
+				var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
+
+				if (await IsGroupAdmin(group.Name)) {
+					DAL.Models.Groups.EmailTemplate newEmailTemplate = Mapper.Map<DAL.Models.Groups.EmailTemplate>(emailTemplate);
+					await this._unitOfWork.EmailTemplates.AddAsync(newEmailTemplate);
+					await this._unitOfWork.SaveChangesAsync();
+					return new OkResult();
+				}
+				else {
+					return new ChallengeResult();
+				}
+			}
+			return BadRequest(ModelState);
+		}
+
+		/// <summary>
+		/// Delete email template
+		/// </summary>
+		/// <param name="emailTemplate"></param>
+		/// <returns></returns>
+		[HttpDelete("templates")]
+		public async Task<IActionResult> DeleteEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
+		{
+			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
+
+			if(await IsGroupAdmin(group.Name))
+			{
+				DAL.Models.Groups.EmailTemplate deleteEmailTemplate = Mapper.Map<DAL.Models.Groups.EmailTemplate>(emailTemplate);
+				deleteEmailTemplate.Group = group;
+				this._unitOfWork.EmailTemplates.Remove(deleteEmailTemplate);
+				await this._unitOfWork.SaveChangesAsync();
+				return new OkResult();
+			}
+			else
+			{
+				return BadRequest("Insufficient privileges.");
+			}
+		}
+
+		
+		/// <summary>
 		/// Get API keys for given group
 		/// </summary>
 		/// <param name="id"></param>

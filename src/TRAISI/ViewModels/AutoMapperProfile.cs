@@ -63,6 +63,10 @@ namespace TRAISI.ViewModels {
 						CreateMap<ApiKeys, ApiKeysViewModel>()
 								.ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
 								.ReverseMap();
+
+						CreateMap<EmailTemplate, EmailTemplateViewModel>()
+								.ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
+								.ReverseMap();
 						
 						CreateMap<CodeGeneration, CodeGenerationViewModel>()
 								.ReverseMap();

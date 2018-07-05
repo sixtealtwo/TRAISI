@@ -1,0 +1,18 @@
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace TRAISI.ViewModels
+{
+    public class EmailTemplateViewModel
+    {
+				public int Id { get; set; }
+				public string Name { get; set; }
+				public string HTML { get; set; }
+				public int GroupId { get; set; }
+		}
+
+}
