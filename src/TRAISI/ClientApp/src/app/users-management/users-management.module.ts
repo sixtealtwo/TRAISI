@@ -24,8 +24,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 	imports: [
 		CommonModule,
 		FormsModule,
-	Select2Module,
-	SharedModule,
+		Select2Module,
+		SharedModule,
 		ROUTES,
 		TranslateModule.forChild({
 			loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}

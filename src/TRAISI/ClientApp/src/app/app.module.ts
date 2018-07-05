@@ -43,7 +43,13 @@ import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 
+const monacoConfig: NgxMonacoEditorConfig = {
+  baseUrl: './assets', // configure base path for monaco editor
+  defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
+  onMonacoLoad: () => { console.log((<any>window).monaco); } // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
+};
 
 const APP_PROVIDERS = [AppConfig];
 
@@ -81,7 +87,8 @@ const APP_PROVIDERS = [AppConfig];
 		CarouselModule.forRoot(),
 		ButtonsModule.forRoot(),
 		ModalModule.forRoot(),
-		ChartsModule
+		ChartsModule,
+		MonacoEditorModule.forRoot(monacoConfig)
 	],
 	providers: [
 		APP_PROVIDERS,

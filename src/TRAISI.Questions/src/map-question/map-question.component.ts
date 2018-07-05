@@ -34,7 +34,7 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.mapGL.load.subscribe((map: mapboxgl.Map) => {
+		this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
 			this.mapGeoLocator.control.on('geolocate', e => this.userLocate(e));
 		});
 	}

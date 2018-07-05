@@ -14,6 +14,7 @@ import { ConfigurationService } from './services/configuration.service';
 import { Permission } from './models/permission.model';
 
 declare let alertify: any;
+declare const SystemJS;
 
 @Component({
 	selector: 'app-root',
@@ -88,6 +89,14 @@ export class AppComponent implements OnInit {
 
 				if (url !== url.toLowerCase()) {
 					this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
+				}
+			}
+		});
+
+		SystemJS.config({
+			meta: {
+				'./assets/monaco/vs/loader.js': {
+				format: 'amd'
 				}
 			}
 		});

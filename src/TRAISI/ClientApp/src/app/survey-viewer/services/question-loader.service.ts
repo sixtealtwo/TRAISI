@@ -67,6 +67,5 @@ export class QuestionLoaderService {
 		private compiler: Compiler, @SkipSelf() private injector: Injector,
 	) {
 
-
 	}
 }
