@@ -13,6 +13,8 @@ namespace TRAISI.SDK.Attributes
 
         public string Description{get;set;}
         private QuestionOptionValueType _valueType;
+
+        public QuestionOptionValueType ValueType {get => this._valueType; }
         public QuestionOptionAttribute(QuestionOptionValueType valueType)
         {
                 this._valueType = valueType;

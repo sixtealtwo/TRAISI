@@ -58,20 +58,21 @@ namespace TRAISI.Helpers
             var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
             var configurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
-            var parameterConfigurations = this.ReadQuestionParameterData(questionType, sourceAssembly);
-            typeDefinition.QuestionParameterConfigurations = parameterConfigurations;
+            var parameterConfigurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
+            typeDefinition.QuestionConfigurations = parameterConfigurations;
             _questionTypeDefinitions.Add(typeDefinition);
+
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
 
         }
 
-        private Dictionary<string, object> ReadQuestionParameterData(Type questionType, Assembly sourceAssembly)
+        private Dictionary<string, QuestionConfigurationDefinition> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
-            var configuration = new Dictionary<string, object>();
+            var configuration = new Dictionary<string, QuestionConfigurationDefinition>();
             foreach (var member in members)
             {
                 var attributes = member.GetCustomAttributes();
@@ -82,7 +83,15 @@ namespace TRAISI.Helpers
                         if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
                         {
                             var configAttribute = attribute as QuestionConfigurationAttribute;
-                            configuration.Add(configAttribute.Name, configAttribute.TypeId);
+                            configuration.Add(configAttribute.Name, new QuestionConfigurationDefinition()
+                            {
+                                Name = configAttribute.Name,
+                                Description = configAttribute.Description,
+                                TypeId = configAttribute.TypeId,
+                                ValueType = configAttribute.ValueType
+                            }
+
+                                );
                         }
 
                     }
@@ -98,11 +107,11 @@ namespace TRAISI.Helpers
         /// <param name="questionType"></param>
         /// <param name="sourceAssembly"></param>
         /// <returns></returns>
-        private Dictionary<string, object> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
+        private Dictionary<string, QuestionOptionDefinition> ReadQuestionOptionData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
-            var configuration = new Dictionary<string, object>();
+            var configuration = new Dictionary<string, QuestionOptionDefinition>();
             foreach (var member in members)
             {
                 var attributes = member.GetCustomAttributes();
@@ -113,7 +122,13 @@ namespace TRAISI.Helpers
                         if (attribute.GetType() == typeof(QuestionOptionAttribute))
                         {
                             var configAttribute = attribute as QuestionOptionAttribute;
-                            configuration.Add(configAttribute.Name, configAttribute.TypeId);
+                            configuration.Add(configAttribute.Name, new QuestionOptionDefinition()
+                            {
+                                Name = configAttribute.Name,
+                                Description = configAttribute.Description,
+                                ValueType = configAttribute.ValueType,
+                                TypeId = configAttribute.TypeId,
+                            });
                         }
                     }
                 }
