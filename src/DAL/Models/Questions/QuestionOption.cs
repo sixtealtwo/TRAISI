@@ -15,7 +15,7 @@ namespace DAL.Models.Questions
         public string Name { get; set; }
 
         [NotMapped]
-        public ICollection<Label> Values { get; set; }
+        public ICollection<Label> Values { get;set; }
 
         public ICollection<QuestionOptionLabel> QuestionOptionLabels { get; set; }
 

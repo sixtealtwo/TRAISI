@@ -44,7 +44,7 @@ namespace TRAISI.Services
         /// <param name="questionPart"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void SetQuestionConfigfuration(QuestionPart questionPart, string name, string value)
+        public void SetQuestionConfiguration(QuestionPart questionPart, string name, string value)
         {
             var configuration = questionPart.QuestionConfigurations.SingleOrDefault(c => c.Name == name);
 
@@ -75,32 +75,42 @@ namespace TRAISI.Services
             {
                 if (language == null)
                 {
-                    option.Values.First().Value = value;
+                    option.QuestionOptionLabels.First().Label.Value = value;
                 }
                 else
                 {
-                    var label = option.Values.FirstOrDefault(v => v.Language == language);
-                    if (label == null)
+                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Label.Language == language);
+                    if (optionLabel == null)
                     {
-                        option.Values.Add(new Label()
+                        option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                         {
-                            Language = language,
-                            Value = value
+                            Label = new Label()
+                            {
+                                Language = language,
+                                Value = value,
+
+                            },
+                            QuestionOption = option
 
                         });
                     }
                     else
                     {
-                        label.Value = value;
+                        optionLabel.Label.Value = value;
                     }
                 }
             }
             else
             {
-                option.Values.Add(new Label()
+                option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {
-                    Language = language,
-                    Value = value
+                    Label = new Label()
+                    {
+                        Language = language,
+                        Value = value,
+
+                    },
+                    QuestionOption = option
 
                 });
             }
@@ -121,7 +131,7 @@ namespace TRAISI.Services
             }
             else
             {
-                option.Values.Remove(option.Values.SingleOrDefault(v => v.Language == language));
+                option.QuestionOptionLabels.Remove(option.QuestionOptionLabels.SingleOrDefault(v => v.Label.Language == language));
             }
         }
 
