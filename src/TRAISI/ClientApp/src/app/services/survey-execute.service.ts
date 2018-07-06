@@ -34,7 +34,7 @@ export class SurveyExecuteService {
 	public listSurveyGroupCodes(surveyId: number, mode: string, page?: number, pageSize?: number) {
 		return this._surveyExecuteEndpointService.getSurveyGroupCodesEndpoint<GroupCode[]>(surveyId, mode, page, pageSize).pipe(map(codes => {
 			return codes.map(code => {
-				code.createdAt = new Date(code.createdAt);
+				code.createdDate = new Date(code.createdDate);
 				return code;
 			});
 		}));

@@ -27,7 +27,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// Return all questions for a given survey view.
         /// </summary>
         [HttpGet]
-        [Produces(typeof(List<QuestionPart>))]
+        [Produces(typeof(List<SurveyView>))]
         public async Task<IActionResult> GetSurveyViews(int surveyId)
         {
             var surveys = await this._unitOfWork.SurveyViews.GetSurveyViews(surveyId);

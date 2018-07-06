@@ -25,12 +25,12 @@ export class GroupCode {
 		this._code = value;
 	}
 
-	get createdAt(): Date {
-		return this._createdAt;
+	get createdDate(): Date {
+		return this._createdDate;
 	}
 
-	set createdAt(value: Date) {
-		this._createdAt = value;
+	set createdDate(value: Date) {
+		this._createdDate = value;
 	}
 
 	get isActive(): boolean {
@@ -60,7 +60,7 @@ export class GroupCode {
 	constructor(private _id?: number,
 		private _createdBy?: User,
 		private _code?: string,
-		private _createdAt?: Date,
+		private _createdDate?: Date,
 		private _isActive?: boolean,
 		private _name?: string,
 		private _updatedAt?: Date) {

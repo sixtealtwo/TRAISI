@@ -1,9 +1,9 @@
-import { EndpointFactory } from 'app/services/endpoint-factory.service';
+import { EndpointFactory } from '../../services/endpoint-factory.service';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from 'app/services/configuration.service';
+import { ConfigurationService } from '../../services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
-import { Observable } from 'rxjs/index';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SurveyViewerEndpointService extends EndpointFactory {

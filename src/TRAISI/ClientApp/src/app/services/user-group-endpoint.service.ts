@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
 import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
+import { EmailTemplate } from '../models/email-template.model';
 
 @Injectable({ providedIn: 'root'})
 export class UserGroupEndpointService extends EndpointFactory {
@@ -15,6 +16,7 @@ export class UserGroupEndpointService extends EndpointFactory {
 	private readonly _userGroupsAdminUrl: string = '/api/UserGroup/admin';
 	private readonly _userGroupsCanAdminUrl: string = '/api/UserGroup/canAdmin';
 	private readonly _userGroupMembersUrl: string = '/api/UserGroup/members';
+	private readonly _userGroupTemplatesUrl: string = '/api/UserGroup/emailtemplates';
 
 	get userGroupsUrl() {
 		return this.configurations.baseUrl + this._userGroupsUrl;
@@ -27,6 +29,9 @@ export class UserGroupEndpointService extends EndpointFactory {
 	}
 	get userGroupMembersUrl() {
 		return this.configurations.baseUrl + this._userGroupMembersUrl;
+	}
+	get userGroupTemplatesUrl() {
+		return this.configurations.baseUrl + this._userGroupTemplatesUrl;
 	}
 
 	/**
@@ -126,6 +131,52 @@ export class UserGroupEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	public getUserGroupEmailTemplatesEndpoint<T>(id: number): Observable<T> {
+		const endpointUrl = `${this.userGroupsUrl}/${id}/emailtemplates`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUserGroupEmailTemplatesEndpoint(id));
+			})
+		);
+	}
+
+		/**
+	 * Generates the endpoint and URL for updating group membership info
+	 * @param {GroupMember} memberInfo
+	 * @return Observable
+	 */
+	public getUpdateUserGroupEmailTemplateEndpoint<T>(templateInfo: EmailTemplate): Observable<T> {
+		const endpointUrl = this.userGroupTemplatesUrl;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(templateInfo), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateUserGroupEmailTemplateEndpoint(templateInfo));
+			})
+		);
+	}
+
+	public getAddUserGroupEmailTemplateEndpoint<T>(templateInfo: EmailTemplate): Observable<T> {
+		const endpointUrl = this.userGroupTemplatesUrl;
+
+		return this.http.post<T>(endpointUrl, JSON.stringify(templateInfo), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getAddUserGroupEmailTemplateEndpoint(templateInfo));
+			})
+		);
+	} 
+
+	public getDeleteUserGroupEmailTemplateEndpoint<T>(id: number): Observable<T> {
+		const endpointUrl = `${this.userGroupTemplatesUrl}/${id}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDeleteUserGroupEmailTemplateEndpoint(id));
+			})
+		);
+	}
+
 
 	public getUserGroupMembersEndpoint<T>(id: number): Observable<T> {
 		const endpointUrl = `${this.userGroupsUrl}/${id}/members`;
