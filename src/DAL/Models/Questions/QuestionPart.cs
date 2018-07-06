@@ -15,7 +15,7 @@ namespace DAL.Models.Questions
             TextLabels = new HashSet<Label>();
             QuestionPartChildren = new HashSet<QuestionPart>();
             QuestionOptions = new HashSet<QuestionOption>();
-            QuestionSettings = new HashSet<QuestionConfiguration>();
+            QuestionConfigurations = new HashSet<QuestionConfiguration>();
         }
 
         public int Id { get; set; }
@@ -26,7 +26,7 @@ namespace DAL.Models.Questions
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
 
-        public ICollection<QuestionConfiguration> QuestionSettings { get; set; }
+        public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
 
         public ICollection<QuestionOption> QuestionOptions { get; set; }
 

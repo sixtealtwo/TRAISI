@@ -9,15 +9,17 @@ namespace TRAISI.SDK.Attributes
     [AttributeUsage(AttributeTargets.Field)]
     public class QuestionOptionAttribute : Attribute
     {
-        public string Name{get;set;}
+        public string Name { get; set; }
 
-        public string Description{get;set;}
+        public string Description { get; set; }
         private QuestionOptionValueType _valueType;
 
-        public QuestionOptionValueType ValueType {get => this._valueType; }
+        public QuestionOptionValueType ValueType { get => this._valueType; }
+
+        public bool IsTranslatable { get; set; } = false;
         public QuestionOptionAttribute(QuestionOptionValueType valueType)
         {
-                this._valueType = valueType;
+            this._valueType = valueType;
         }
 
     }

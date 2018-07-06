@@ -83,7 +83,7 @@ namespace DAL
 
             builder.Entity<QuestionOptionLabels>().HasKey(k => new {k.QuestionOptionId,k.LabelId});
 
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionSettings);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations);
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions);
 

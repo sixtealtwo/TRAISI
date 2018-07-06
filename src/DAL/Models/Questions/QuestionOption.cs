@@ -8,10 +8,11 @@ namespace DAL.Models.Questions
     {
         public int Id { get; set; }
 
-        public string Value { get; set; }
+
+        public string Name {get;set;}
 
         [NotMapped]
-        public ICollection<Label> Label { get; set; }
+        public ICollection<Label> Values { get; set; }
 
         public ICollection<QuestionOptionLabels> QuestionOptionLabels { get; set; }
 
@@ -20,7 +21,8 @@ namespace DAL.Models.Questions
 
         public QuestionOption()
         {
-            Label = new HashSet<Label>();
+            Values = new HashSet<Label>();
+            QuestionOptionLabels = new HashSet<QuestionOptionLabels>();
         }
 
 
