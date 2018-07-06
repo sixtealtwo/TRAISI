@@ -14,6 +14,8 @@ namespace TRAISI.SDK.Enums
         OptionList,
         Boolean,
         Tuple,
+        Time,
+        Date,
         Custom
     }
 }

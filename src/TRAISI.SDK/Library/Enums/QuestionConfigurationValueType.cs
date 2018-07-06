@@ -13,6 +13,8 @@ namespace TRAISI.SDK.Enums
         Decimal,
         Boolean,
         Tuple,
+        Time,
+        Date,
         Custom
     }
 }
