@@ -7,8 +7,11 @@ namespace DAL.Models.Surveys
     {
         int Id { get; set; }
 
+        string ViewName {get;set;}
+
         Survey Survey { get; set; }
 
         ICollection<QuestionPart> QuestionParts { get; set; }
+
     }
 }

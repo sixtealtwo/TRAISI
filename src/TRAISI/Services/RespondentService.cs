@@ -2,9 +2,9 @@ using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Services
 {
-    public class HouseholdService : IHouseholdService
+    public class RespondentService : IRespondentService
     {
-        public HouseholdService()
+        public RespondentService()
         {
 
         }
