@@ -1,6 +1,7 @@
 using DAL;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using System.Collections.Generic;
 using System.Linq;
 using TRAISI.Services.Interfaces;
 
@@ -89,6 +90,7 @@ namespace TRAISI.Services
                                 Language = language,
                                 Value = value,
 
+
                             },
                             QuestionOption = option
 
@@ -143,6 +145,28 @@ namespace TRAISI.Services
         public void RemoveQuestionConfiguration(QuestionPart part, string name)
         {
             part.QuestionConfigurations.Remove(part.QuestionConfigurations.SingleOrDefault(c => c.Name == name));
+        }
+
+        /// <summary>
+        /// Retrieves the list of question configurations associated with this question part. Only values that differ
+        /// from default values will be returned (default values are not stored).
+        /// </summary>
+        /// <param name="questionPart"></param>
+        /// <returns></returns>
+        public IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart)
+        {
+            return questionPart.QuestionConfigurations;
+        }
+
+        /// <summary>
+        /// Returns the set of question options associated with this question part.
+        /// </summary>
+        /// <param name="questionPart"></param>
+        /// <param name="language">Specify a main label language</param>
+        /// <returns></returns>
+        public IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language = null)
+        {
+            return questionPart.QuestionOptions;
         }
     }
 }

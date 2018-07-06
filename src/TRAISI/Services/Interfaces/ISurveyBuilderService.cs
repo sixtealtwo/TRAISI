@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 
@@ -17,5 +18,9 @@ namespace TRAISI.Services.Interfaces
         void RemoveQuestionConfiguration(QuestionPart questionPart, string name);
 
         void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
+
+        IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart);
+
+        IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language);
     }
 }
