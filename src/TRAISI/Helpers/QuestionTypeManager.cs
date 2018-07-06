@@ -79,10 +79,10 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionConfigurationOptionAttribute))
+                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
                         {
-                            var configAttribute = attribute as QuestionConfigurationOptionAttribute;
-                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
+                            var configAttribute = attribute as QuestionConfigurationAttribute;
+                            configuration.Add(configAttribute.Name, configAttribute.TypeId);
                         }
 
                     }
@@ -110,10 +110,10 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionSettingsOptionAttribute))
+                        if (attribute.GetType() == typeof(QuestionOptionAttribute))
                         {
-                            var configAttribute = attribute as QuestionSettingsOptionAttribute;
-                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
+                            var configAttribute = attribute as QuestionOptionAttribute;
+                            configuration.Add(configAttribute.Name, configAttribute.TypeId);
                         }
                     }
                 }

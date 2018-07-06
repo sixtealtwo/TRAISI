@@ -13,5 +13,7 @@ namespace DAL.Models.Questions
         string Name { get; set; }
 
         string Value { get; set; }
+
+
     }
 }

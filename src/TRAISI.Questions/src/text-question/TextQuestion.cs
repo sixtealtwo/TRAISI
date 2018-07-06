@@ -14,14 +14,14 @@ namespace TRAISI.SDK.Questions {
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-		[QuestionConfigurationOption (QuestionParameterType.Integer,
-			ParameterName = "Max Length",
-			ParameterDescription = "Max number of characters")]
+		[QuestionConfiguration (QuestionConfigurationValueType.Integer,
+			Name = "Max Length",
+			Description = "Max number of characters")]
 		public int MaxLength = 255;
 
-		[QuestionConfigurationOption (QuestionParameterType.Boolean,
-			ParameterName = "Multiline",
-			ParameterDescription = "Specifies whether to render a text field or text area.")]
+		[QuestionOption (QuestionOptionValueType.Boolean,
+			Name = "Multiline",
+			Description = "Specifies whether to render a text field or text area.")]
 		public bool IsMultiLine = false;
 
 	}

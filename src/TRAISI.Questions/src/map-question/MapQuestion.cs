@@ -20,24 +20,24 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
 
-		[QuestionSettingsOption(QuestionParameterType.String,
-		ParameterName = "Mapbox Style",
-		ParameterDescription = "Style string to use for map.")]
+		[QuestionConfiguration(QuestionConfigurationValueType.String,
+		Name = "Mapbox Style",
+		Description = "Style string to use for map.")]
 		public string Style = "mapbox://styles/mapbox/streets-v9?optimize=true";
 
-		[QuestionSettingsOption(QuestionParameterType.String,
-		ParameterName = "Mapbox Access Token",
-		ParameterDescription = "API Access token for the Mapbox service.")]
+		[QuestionConfiguration(QuestionConfigurationValueType.String,
+		Name = "Mapbox Access Token",
+		Description = "API Access token for the Mapbox service.")]
 		public string AccessToken = "";
 
-		[QuestionSettingsOption(QuestionParameterType.Integer,
-		ParameterName = "Mapbox Default Zoom",
-		ParameterDescription = "Initial zoom level.")]
+		[QuestionConfiguration(QuestionConfigurationValueType.Integer,
+		Name = "Mapbox Default Zoom",
+		Description = "Initial zoom level.")]
 		public int Zoom = 8;
 
-		[QuestionSettingsOption(QuestionParameterType.Tuple,
-		ParameterName = "Mapbox Default Centre",
-		ParameterDescription = "Initial centre location (lat,lng).")]
+		[QuestionConfiguration(QuestionConfigurationValueType.Tuple,
+		Name = "Mapbox Default Centre",
+		Description = "Initial centre location (lat,lng).")]
 		public Tuple<double,double> Centre  = new Tuple<double,double>(-79.40, 43.67);
 
 	}

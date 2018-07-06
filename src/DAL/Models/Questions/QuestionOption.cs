@@ -15,6 +15,8 @@ namespace DAL.Models.Questions
 
         public ICollection<QuestionOptionLabels> QuestionOptionLabels { get; set; }
 
+        public string Description {get;set;}
+
 
         public QuestionOption()
         {

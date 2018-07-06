@@ -13,9 +13,9 @@ namespace TRAISI.SDK.Questions {
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-		[QuestionConfigurationOption (QuestionParameterType.OptionList,
-			ParameterName = "Response Options",
-			ParameterDescription = "The list of available radio responses presented to the user.")]
+		[QuestionOption (QuestionOptionValueType.OptionList,
+			Name = "Response Options",
+			Description = "The list of available radio responses presented to the user.")]
 		public ICollection ResponseOptions;
 	}
 
