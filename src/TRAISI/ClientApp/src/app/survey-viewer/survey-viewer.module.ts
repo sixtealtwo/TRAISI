@@ -1,9 +1,9 @@
 import { NgModule, SystemJsNgModuleLoader } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionLoaderService } from './services/question-loader.service';
-import { QuestionLoaderEndpointService } from 'app/survey-viewer/services/question-loader-endpoint.service';
+import { QuestionLoaderEndpointService } from './services/question-loader-endpoint.service';
 import { ROUTES } from './survey-viewer.routes';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { SurveyViewerComponent } from './components/survey-viewer.component';
 import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyViewerEndpointService } from './services/survey-viewer-endpoint.service';

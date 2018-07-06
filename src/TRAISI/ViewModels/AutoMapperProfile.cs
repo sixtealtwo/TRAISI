@@ -65,7 +65,7 @@ namespace TRAISI.ViewModels {
 								.ReverseMap();
 
 						CreateMap<EmailTemplate, EmailTemplateViewModel>()
-								.ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
+								.ForMember(a => a.GroupName, map => map.MapFrom(s => s.Group.Name))
 								.ReverseMap();
 						
 						CreateMap<CodeGeneration, CodeGenerationViewModel>()

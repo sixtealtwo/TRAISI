@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from 'app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SurveyBuilderEndpointService } from './survey-builder-endpoint.service';

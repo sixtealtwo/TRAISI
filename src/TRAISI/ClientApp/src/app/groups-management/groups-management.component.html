@@ -88,14 +88,15 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }}</h4>
+						<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }} - {{ selectedTemplate.name }}</h4>
 						<button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<ngx-monaco-editor *ngIf="editingTemplate" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
-						<div id="display" [innerHTML]="code"></div>
+						<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="selectedTemplate.html"></ngx-monaco-editor>
+						<h3>Preview</h3>
+						<iframe class="previewHTML" frameborder="0"  [srcdoc]="code | safe: 'html'"></iframe>
 					</div>
 				</div>
 			</div>

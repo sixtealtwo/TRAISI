@@ -3,6 +3,7 @@ import { UserGroupEndpointService } from './user-group-endpoint.service';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
 import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
+import { EmailTemplate } from '../models/email-template.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
@@ -92,5 +93,20 @@ export class UserGroupService {
 
 	public updateUserGroupApiKeys(apiKeys: UserGroupAPIKeys) {
 		return this._userGroupEndpointService.getUpdateUserGroupAPIKeysEndpoint<UserGroupAPIKeys>(apiKeys);
+	}
+
+	public getUserGroupEmailTemplates(id: number) {
+		return this._userGroupEndpointService.getUserGroupEmailTemplatesEndpoint<EmailTemplate[]>(id);
+	}
+
+	public addUserGroupEmailTemplate(templateInfo: EmailTemplate) {
+		return this._userGroupEndpointService.getAddUserGroupEmailTemplateEndpoint<EmailTemplate>(templateInfo);
+	}
+
+	public updateUserGroupEmailTemplate(templateInfo: EmailTemplate) {
+		return this._userGroupEndpointService.getUpdateUserGroupEmailTemplateEndpoint<EmailTemplate>(templateInfo);
+	}
+	public deleteUserGroupEmailTemplate(id: number) {
+		return this._userGroupEndpointService.getDeleteUserGroupEmailTemplateEndpoint<number>(id);
 	}
 }

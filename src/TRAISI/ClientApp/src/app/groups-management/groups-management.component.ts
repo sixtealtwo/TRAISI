@@ -21,6 +21,7 @@ import { UserGroup } from '../models/user-group.model';
 import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 import { EmailTemplate } from '../models/email-template.model';
 import { ModalDirective } from 'ngx-bootstrap';
+import { DomSanitizer } from '../../../node_modules/@angular/platform-browser';
 
 
 
@@ -45,13 +46,10 @@ export class GroupsManagementComponent implements OnInit {
 
 	public editingTemplate: boolean;
 
-	editorOptions = {theme: 'vs-dark', language: 'html'};
-	code: string= `<html>
-		<head></head>
-		<body>
-			Testing
-		</body>
-	</html>`;
+	public selectedTemplate: EmailTemplate;
+
+	editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout:true};
+	code: string = '';
 
 	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
 	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
@@ -63,9 +61,11 @@ export class GroupsManagementComponent implements OnInit {
 		private translationService: AppTranslationService,
 		private accountService: AccountService,
 		private userGroupService: UserGroupService,
-		private changeDetect: ChangeDetectorRef
+		private changeDetect: ChangeDetectorRef,
+		private sanitizer: DomSanitizer
 	) {
 		this.apiModel = new UserGroupAPIKeys();
+		this.selectedTemplate = new EmailTemplate();
 	}
 
 	ngOnInit(): void {
@@ -94,8 +94,6 @@ export class GroupsManagementComponent implements OnInit {
 			}
 		];
 
-		let test: EmailTemplate = new EmailTemplate (0,'test','test',0);
-		this.emailRows.push(test);
 
 		this.loadData();
 	}
@@ -112,6 +110,9 @@ export class GroupsManagementComponent implements OnInit {
 			.subscribe(userGroups => this.onDataLoadSuccessful(userGroups), error => this.onDataLoadFailed(error));
 	}
 
+	test() {
+		let test = 5;
+	}
 	onDataLoadSuccessful(groups: UserGroup[]) {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
@@ -127,14 +128,14 @@ export class GroupsManagementComponent implements OnInit {
 
 		this.alertService.showStickyMessage(
 			'Load Error',
-			`Unable to retrieve users from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+			`Unable to retrieve info from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 			MessageSeverity.error,
 			error
 		);
 	}
 
 	switchGroup(name: string) {
-		this.alertService.startLoadingMessage('Loading ' + name + ' members...');
+		this.alertService.startLoadingMessage('Loading ' + name + ' info ...');
 		this.loadingIndicator = true;
 		const group = this.allGroups.filter(u => u.name === name)[0];
 		this.userGroupService.getUserGroupApiKeys(group.id).subscribe(
@@ -149,7 +150,26 @@ export class GroupsManagementComponent implements OnInit {
 				this.loadingIndicator = false;
 				this.alertService.showStickyMessage(
 					'Load Error',
-					`An error occured whilst loading the group surveys.\r\nError: "${Utilities.getHttpResponseMessage(
+					`An error occured whilst loading group information.\r\nError: "${Utilities.getHttpResponseMessage(
+						error
+					)}"`,
+					MessageSeverity.error,
+					error
+				);
+			}
+		);
+		this.userGroupService.getUserGroupEmailTemplates(group.id).subscribe(
+			result => {
+				this.emailRows = result;
+				this.groupActive = name;
+				this.loadingIndicator = false;
+			},
+			error => {
+				this.alertService.stopLoadingMessage();
+				this.loadingIndicator = false;
+				this.alertService.showStickyMessage(
+					'Load Error',
+					`An error occured whilst loading group templates.\r\nError: "${Utilities.getHttpResponseMessage(
 						error
 					)}"`,
 					MessageSeverity.error,
@@ -191,7 +211,7 @@ export class GroupsManagementComponent implements OnInit {
 	}
 
 	editTemplate(row: EmailTemplate) {
-	
+		this.selectedTemplate = row;
 		this.editorModal.show();
 
 	}
