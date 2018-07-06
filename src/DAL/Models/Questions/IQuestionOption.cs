@@ -10,10 +10,6 @@ namespace DAL.Models.Questions
 
         string Name { get; set; }
 
-        ICollection<Label> Values { get; set; }
-
-
-
 
     }
 }
