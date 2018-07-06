@@ -11,11 +11,11 @@ namespace TRAISI.SDK.Enums
         String,
         Integer,
         Decimal,
-        OptionList,
         Boolean,
         Tuple,
         Time,
         Date,
+        KeyValuePair,
         Custom
     }
 }

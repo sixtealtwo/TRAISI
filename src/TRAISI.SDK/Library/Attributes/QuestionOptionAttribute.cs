@@ -16,6 +16,8 @@ namespace TRAISI.SDK.Attributes
 
         public QuestionOptionValueType ValueType { get => this._valueType; }
 
+        public bool IsMultipleAllowed { get; set; } = false;
+
         public bool IsTranslatable { get; set; } = false;
         public QuestionOptionAttribute(QuestionOptionValueType valueType)
         {
