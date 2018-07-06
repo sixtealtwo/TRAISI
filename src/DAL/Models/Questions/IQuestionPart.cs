@@ -13,7 +13,6 @@ namespace DAL.Models.Questions
         [NotMapped]
         string Text { get; set; }
 
-        ICollection<Label> TextLabels { get; set; }
 
         ICollection<QuestionPart> QuestionPartChildren { get; set; }
 

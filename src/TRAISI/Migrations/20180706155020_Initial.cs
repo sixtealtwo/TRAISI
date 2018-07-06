@@ -317,6 +317,31 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Labels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Value = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    Language = table.Column<string>(nullable: true),
+                    SurveyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Labels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Labels_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurveyPermissions",
                 columns: table => new
                 {
@@ -349,7 +374,8 @@ namespace TRAISI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    SurveyId = table.Column<int>(nullable: true)
+                    SurveyId = table.Column<int>(nullable: true),
+                    ViewName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -533,37 +559,6 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Label",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Text = table.Column<string>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    QuestionPartId = table.Column<int>(nullable: true),
-                    SurveyId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Label", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Label_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Label_Surveys_SurveyId",
-                        column: x => x.SurveyId,
-                        principalTable: "Surveys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "QuestionConfigurations",
                 columns: table => new
                 {
@@ -590,7 +585,8 @@ namespace TRAISI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Value = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     QuestionPartId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -641,9 +637,9 @@ namespace TRAISI.Migrations
                 {
                     table.PrimaryKey("PK_QuestionOptionLabels", x => new { x.QuestionOptionId, x.LabelId });
                     table.ForeignKey(
-                        name: "FK_QuestionOptionLabels_Label_LabelId",
+                        name: "FK_QuestionOptionLabels_Labels_LabelId",
                         column: x => x.LabelId,
-                        principalTable: "Label",
+                        principalTable: "Labels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -712,13 +708,8 @@ namespace TRAISI.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Label_QuestionPartId",
-                table: "Label",
-                column: "QuestionPartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Label_SurveyId",
-                table: "Label",
+                name: "IX_Labels_SurveyId",
+                table: "Labels",
                 column: "SurveyId");
 
             migrationBuilder.CreateIndex(
@@ -883,7 +874,7 @@ namespace TRAISI.Migrations
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
-                name: "Label");
+                name: "Labels");
 
             migrationBuilder.DropTable(
                 name: "QuestionOptions");

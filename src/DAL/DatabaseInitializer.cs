@@ -11,6 +11,7 @@ using DAL.Models.Groups;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using DAL.Models.Questions;
 
 namespace DAL {
     public interface IDatabaseInitializer {
@@ -102,6 +103,24 @@ namespace DAL {
                 
 
                 _context.Surveys.Add(TestSurvey);
+
+                QuestionOption qo = new QuestionOption()
+                {
+                    Name =  "TestQuestionOption",
+                    Description= "SomeDescription"
+                };
+                qo.Values.Add(new Label()
+                {
+                    Value = "Test",
+                    Language = "en"
+                });
+                qo.Values.Add(new Label()
+                {
+                    Value = "測試",
+                    Language = "zh"
+                });
+                _context.QuestionOptions.Add(qo);
+                
 
 
                 await _context.SaveChangesAsync ();

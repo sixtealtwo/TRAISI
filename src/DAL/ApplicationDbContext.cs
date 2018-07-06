@@ -41,6 +41,8 @@ namespace DAL
         public DbSet<ResponseValue> ResponseValues { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
 
+        public DbSet<Label> Labels {get;set;}
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }
@@ -81,7 +83,8 @@ namespace DAL
 
             builder.Entity<SurveyView>().HasOne(s => s.Survey).WithMany(s => s.SurveyViews);
 
-            builder.Entity<QuestionOptionLabels>().HasKey(k => new {k.QuestionOptionId,k.LabelId});
+            builder.Entity<QuestionOptionLabel>().ToTable("QuestionOptionLabels").HasKey(k => new { k.QuestionOptionId, k.LabelId });
+
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations);
 
