@@ -14,7 +14,7 @@ namespace TRAISI.UnitTests
         {
             IUnitOfWork unitOfWork;
             var mock = new Mock<ApplicationDbContext>();
-            unitOfWork = new UnitOfWork(mock.Object, null);
+            unitOfWork = new UnitOfWork(mock.Object);
             
 
             return unitOfWork;
