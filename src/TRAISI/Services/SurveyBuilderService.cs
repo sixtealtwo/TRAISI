@@ -3,6 +3,7 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using System.Collections.Generic;
 using System.Linq;
+using TRAISI.Helpers;
 using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Services
@@ -10,9 +11,18 @@ namespace TRAISI.Services
     public class SurveyBuilderService : ISurveyBuilderService
     {
         private IUnitOfWork _unitOfWork;
-        public SurveyBuilderService(IUnitOfWork unitOfWork)
+
+        private QuestionTypeManager _questions;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="questions"></param>
+        public SurveyBuilderService(IUnitOfWork unitOfWork, QuestionTypeManager questions)
         {
             this._unitOfWork = unitOfWork;
+            this._questions = questions;
         }
 
 
@@ -117,7 +127,25 @@ namespace TRAISI.Services
                     QuestionOption = option
 
                 });
+
+                questionPart.QuestionOptions.Add(option);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="name"></param>
+        /// <param name="language"></param>
+        public void AddQuestionOption(QuestionPart part, string name, string value, string language = null)
+        {
+            //check if the option has a value / allows multiple
+            var definition = this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
+            if(definition != null)
+            {
+            }
+            
         }
 
         /// <summary>
