@@ -7,7 +7,7 @@ namespace TRAISI.Services.Interfaces
     public interface ISurveyBuilderService
     {
 
-        void AddSurveyView(Survey survey, string viewName);
+        SurveyView AddSurveyView(Survey survey, string viewName);
 
         void RemoveSurveyView(Survey survey, int id);
 
@@ -18,6 +18,8 @@ namespace TRAISI.Services.Interfaces
         void RemoveQuestionConfiguration(QuestionPart questionPart, string name);
 
         void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
+
+        QuestionPart AddQuestionPart(SurveyView view,QuestionPart part, int position);
 
         IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart);
 

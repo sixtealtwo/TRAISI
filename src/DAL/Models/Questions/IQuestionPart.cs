@@ -14,6 +14,9 @@ namespace DAL.Models.Questions
         string Text { get; set; }
 
 
+        string QuestionType {get;set;}
+
+
         ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
 

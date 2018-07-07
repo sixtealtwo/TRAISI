@@ -4,9 +4,10 @@ using DAL.Models.Surveys;
 
 namespace DAL.Models.Questions
 {
-    /**
-	 * 
-	 */
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class QuestionPart : IQuestionPart
     {
 
@@ -20,6 +21,8 @@ namespace DAL.Models.Questions
 
         public int Id { get; set; }
         public string Text { get; set; }
+
+        public string QuestionType { get; set; }
 
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }

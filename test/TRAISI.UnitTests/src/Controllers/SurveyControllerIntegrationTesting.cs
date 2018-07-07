@@ -26,7 +26,6 @@ namespace TRAISI.Testing.Controllers
 
         }
 
-        [Fact]
         public void BlankTest()
         {
 

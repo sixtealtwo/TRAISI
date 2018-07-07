@@ -20,13 +20,15 @@ namespace TRAISI.Services
         /// Adds a new view to the specified survey
         /// </summary>
         /// <param name="survey"></param>
-        public void AddSurveyView(Survey survey, string viewName)
+        public SurveyView AddSurveyView(Survey survey, string viewName)
         {
             var surveyView = new SurveyView()
             {
                 ViewName = viewName
             };
             survey.SurveyViews.Add(surveyView);
+
+            return surveyView;
         }
 
         /// <summary>
@@ -167,6 +169,18 @@ namespace TRAISI.Services
         public IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language = null)
         {
             return questionPart.QuestionOptions;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="part"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public QuestionPart AddQuestionPart(SurveyView view, QuestionPart part, int position = -1)
+        {
+            return part;
         }
     }
 }
