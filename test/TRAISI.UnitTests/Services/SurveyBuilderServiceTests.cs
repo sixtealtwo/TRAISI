@@ -51,7 +51,7 @@ namespace TRAISI.UnitTests.Services
         /// <returns></returns>
         public SurveyBuilderService CreateSurveyBuilderService()
         {
-            return new SurveyBuilderService(Utility.CreateUnitOfWork());
+            return new SurveyBuilderService(Utility.CreateUnitOfWork(), new Helpers.QuestionTypeManager(null,null));
         }
 
         /// <summary>

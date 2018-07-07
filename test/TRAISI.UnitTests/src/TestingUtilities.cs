@@ -18,24 +18,7 @@ namespace TRAISI.Testing
     public class TestingUtilities
     {
 
-        private static IUnitOfWork _unitOfWork;
 
-
-        /// <summary>
-        /// Gets a Mock IUnitOfWork
-        /// </summary>
-        public static IUnitOfWork GetUnitOfWork()
-        {
-            if (_unitOfWork == null)
-            {
-                var mock = new Mock<ApplicationDbContext>();
-                _unitOfWork = new UnitOfWork(mock.Object, surveyRepository: GetSurveyRepository());
-
-
-            }
-
-            return _unitOfWork;
-        }
 
         /// <summary>
         /// Gets a Mocked SurveyRepository
