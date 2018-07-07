@@ -15,6 +15,8 @@ namespace TRAISI.SDK
 
         public string DefaultValue { get; set; }
 
+        public bool IsMultipleAllowed {get;set;}
+
 
     }
 }

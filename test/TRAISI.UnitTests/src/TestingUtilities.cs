@@ -47,11 +47,11 @@ namespace TRAISI.Testing
 
         }
 
-				public static IHubContext<NotifyHub> GetNotificationHub()
-				{
-					var mock = new Mock<IHubContext<NotifyHub>>();
-					return mock.Object;
-				}
+        public static IHubContext<NotifyHub> GetNotificationHub()
+        {
+            var mock = new Mock<IHubContext<NotifyHub>>();
+            return mock.Object;
+        }
 
 
         /// <summary>
