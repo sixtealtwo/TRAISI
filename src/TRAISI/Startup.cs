@@ -36,8 +36,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Hangfire;
 using Hangfire.PostgreSql;
-
-
+using TRAISI.Services.Interfaces;
+using TRAISI.Services;
 
 namespace TRAISI
 {
@@ -271,6 +271,8 @@ namespace TRAISI
             // Persistent Business Services
             services.AddSingleton<IMailgunMailer, MailgunMailer>();
             services.AddSingleton<IGeoService, GeoService>();
+
+            services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
