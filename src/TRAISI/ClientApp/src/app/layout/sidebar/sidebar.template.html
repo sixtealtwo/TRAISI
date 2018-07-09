@@ -33,13 +33,14 @@
 				Manage Surveys
 			</a>
 		</li>
-		<li *ngIf="isGroupAdmin">
+		<li *ngIf="isGroupAdmin && !canManageUsers">
 			<a [routerLink]=" ['groups'] ">
 				<span class="icon">
 					<i class="fa fa-sliders"></i>
 				</span>
 				Manage Groups
 			</a>
+		</li>
 		<li *ngIf="canManageUsers || isGroupAdmin">
 			<a [routerLink]=" ['users'] ">
 				<span class="icon">

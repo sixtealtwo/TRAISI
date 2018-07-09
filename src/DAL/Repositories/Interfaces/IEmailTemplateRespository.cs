@@ -10,5 +10,7 @@ namespace DAL.Repositories.Interfaces
 	public interface IEmailTemplateRepository : IRepository<EmailTemplate>
 	{
 		Task<IEnumerable<EmailTemplate>> GetGroupEmailTemplatesAsync(int groupId);
+
+        Task<EmailTemplate> GetEmailTemplateWithGroupAsync(int templateId);
 	}
 }
