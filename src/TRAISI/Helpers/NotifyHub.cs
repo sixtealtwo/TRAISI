@@ -21,6 +21,13 @@ namespace TRAISI.Helpers
             public string Message { get; set; }
         }
 
+				public class DownloadProgress
+				{
+					public string Id { get; set; }
+					public double Progress { get; set; }
+					public string Url { get; set; }
+				}
+
         public static readonly object _messagesLock = new object();
         public static List<NotifyMessage> priorMessages = new List<NotifyMessage>();
         public NotifyHub()
@@ -76,5 +83,9 @@ namespace TRAISI.Helpers
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "SignalR Users");
             await base.OnDisconnectedAsync(exception);
         }
+
+				public async void SendDownloadUpdate(DownloadProgress progress) {
+					 await this.Clients.User(this.Context.UserIdentifier).SendAsync("downloadUpdate", progress);
+				}
     }
 }

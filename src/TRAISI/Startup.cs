@@ -255,6 +255,9 @@ namespace TRAISI
             // Survey Code Generation Services
             services.AddScoped<ICodeGeneration, CodeGenerationService>();
 
+						// File Downloader Services
+						services.AddScoped<IFileDownloader, FileDownloaderService>();
+
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
