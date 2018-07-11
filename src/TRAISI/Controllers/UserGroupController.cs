@@ -445,15 +445,13 @@ namespace TRAISI.Controllers
 		/// <param name="emailTemplate"></param>
 		/// <returns></returns>
 		[HttpDelete("emailtemplates/{id}")]
-		public async Task<IActionResult> DeleteEmailTemplate(int emailTemplateID)
+		public async Task<IActionResult> DeleteEmailTemplate(int id)
 		{
-			var emailTemplate = await this._unitOfWork.EmailTemplates.GetAsync(emailTemplateID);
-			var group = await this._unitOfWork.UserGroups.GetAsync(emailTemplate.Group.Id);
-
-			if(await IsGroupAdmin(group.Name))
+			var emailTemplate = await this._unitOfWork.EmailTemplates.GetEmailTemplateWithGroupAsync(id);
+			
+			if(await IsGroupAdmin(emailTemplate.Group.Name))
 			{
-				EmailTemplate deleteEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
-				this._unitOfWork.EmailTemplates.Remove(deleteEmailTemplate);
+				this._unitOfWork.EmailTemplates.Remove(emailTemplate);
 				await this._unitOfWork.SaveChangesAsync();
 				return new OkResult();
 			}

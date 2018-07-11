@@ -43,13 +43,13 @@ export class GroupsManagementComponent implements OnInit {
 	public groupActive: string;
 
 	public isSaving: boolean = false;
+	public isNewTemplate: boolean = false;
 
 	public editingTemplate: boolean;
 
 	public selectedTemplate: EmailTemplate;
 
 	editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout:true};
-	code: string = '';
 
 	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
 	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
@@ -110,9 +110,7 @@ export class GroupsManagementComponent implements OnInit {
 			.subscribe(userGroups => this.onDataLoadSuccessful(userGroups), error => this.onDataLoadFailed(error));
 	}
 
-	test() {
-		let test = 5;
-	}
+	
 	onDataLoadSuccessful(groups: UserGroup[]) {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
@@ -183,7 +181,7 @@ export class GroupsManagementComponent implements OnInit {
 		this.isSaving = true;
 		this.userGroupService
 			.updateUserGroupApiKeys(this.apiModel)
-			.subscribe(value => this.saveKeysSuccessHelper(), error => this.saveKeysFailedHelper(error));
+			.subscribe(value => this.saveKeysSuccessHelper(), error => this.saveFailedHelper(error));
 	}
 
 	private saveKeysSuccessHelper() {
@@ -198,7 +196,7 @@ export class GroupsManagementComponent implements OnInit {
 
 	}
 
-	private saveKeysFailedHelper(error: any) {
+	private saveFailedHelper(error: any) {
 		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
@@ -211,12 +209,14 @@ export class GroupsManagementComponent implements OnInit {
 	}
 
 	editTemplate(row: EmailTemplate) {
-		this.selectedTemplate = row;
+		Object.assign(this.selectedTemplate, row);
+		this.isNewTemplate = false;
+		this.editingTemplate = true;
 		this.editorModal.show();
 
 	}
 	onEditorModalShow() {
-		this.editingTemplate = true;
+
 		//this.editingUserName = null;
 		//this.userEditor.resetForm(true);
 	}
@@ -226,4 +226,94 @@ export class GroupsManagementComponent implements OnInit {
 		//this.editingUserName = null;
 		//this.userEditor.resetForm(true);
 	}
+
+	cancel() {
+		this.editorModal.hide();
+	}
+
+	save() {
+		if (this.isNewTemplate) {
+			this.userGroupService.addUserGroupEmailTemplate(this.selectedTemplate).subscribe(
+				result => {
+					this.saveTemplateSuccessHelper();
+					this.switchGroup(this.groupActive);
+				},
+				error => {
+					this.saveFailedHelper(error);
+				});
+		} else {
+			this.userGroupService.updateUserGroupEmailTemplate(this.selectedTemplate).subscribe(
+				result => {
+					this.saveTemplateSuccessHelper();
+					this.switchGroup(this.groupActive);
+				},
+				error => {
+					this.saveFailedHelper(error);
+				});
+		}
+	}
+
+	private saveTemplateSuccessHelper() {
+		this.alertService.stopLoadingMessage();
+		this.isSaving = false;
+		this.editorModal.hide();
+		this.alertService.showMessage(
+			'Success',
+			`Template updated for group \"${this.groupActive}\"`,
+			MessageSeverity.success
+		);
+
+	}
+
+	newTemplate() {
+		this.isNewTemplate = true;
+		this.selectedTemplate = new EmailTemplate();
+		this.selectedTemplate.groupName = this.groupActive;
+		this.selectedTemplate.html =
+			`<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+</body>
+</html`;
+		this.editingTemplate = true;
+		this.editorModal.show();
+	}
+
+	public delete() {
+		this.alertService.showDialog(
+			'Are you sure you want to delete "' + this.selectedTemplate.name + '"?',
+			DialogType.confirm,
+			() => this.deleteSurveyHelper()
+		);
+	}
+
+	/**
+	 * Deletes the survey with the associated id.
+	 * @param surveyId
+	 */
+	private deleteSurveyHelper(): void {
+		this.userGroupService.deleteUserGroupEmailTemplate(this.selectedTemplate.id).subscribe(
+			value => {
+				this.switchGroup(this.groupActive);
+			},
+			error => {
+				this.deleteFailedHelper(error);
+			}
+		);
+		this.editorModal.hide();
+	}
+
+	private deleteFailedHelper(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			'Save Error',
+			'The below errors occured whilst deleting the template:',
+			MessageSeverity.error,
+			error
+		);
+		this.alertService.showStickyMessage(error, null, MessageSeverity.error);
+	}
+
 }

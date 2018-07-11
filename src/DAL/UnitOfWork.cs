@@ -23,10 +23,9 @@ namespace DAL
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 
-        public UnitOfWork(ApplicationDbContext context, ISurveyRepository surveyRepository = null)
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            _surveys = surveyRepository;
         }
 
         public ISurveyViewRepository SurveyViews
