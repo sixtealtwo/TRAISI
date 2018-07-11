@@ -19,6 +19,12 @@ namespace TRAISI.SDK
 
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
+        /// <summary>
+        /// Set of Question Part Slots
+        /// </summary>
+        /// <value></value>
+        public HashSet<string> QuestionPartSlots { get; set; }
+
 
         public Type Type { get; }
 

@@ -4,6 +4,7 @@ using DAL.Models.Surveys;
 using System.Collections.Generic;
 using System.Linq;
 using TRAISI.Helpers;
+using TRAISI.SDK;
 using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Services
@@ -206,13 +207,13 @@ namespace TRAISI.Services
         /// <param name="part"></param>
         /// <param name="position"></param>
         /// <returns></returns>
-        public QuestionPart AddQuestionPart(SurveyView view, QuestionPart part, int position = -1)
+        public void AddQuestionPart(SurveyView view, QuestionPart part,  QuestionTypeDefinition definition, int position = -1)
         {
             return part;
         }
 
 
-        public void AddQuestionPartChild(QuestionPart part, int position)
+        public void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition, int position)
         {
             part.QuestionPartChildren.Add(part);
         }

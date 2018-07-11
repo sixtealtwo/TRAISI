@@ -68,6 +68,16 @@ namespace TRAISI.Helpers
 
         }
 
+        /// <summary>
+        /// Returns the QuestionTypeDefinition associated with the passed name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public QuestionTypeDefinition GetQuestionTypeDefinition(string name)
+        {
+            return this._questionTypeDefinitions.FirstOrDefault(s => s.TypeName == name);
+        }
+
         private Dictionary<string, QuestionConfigurationDefinition> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();

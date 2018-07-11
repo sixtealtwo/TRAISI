@@ -17,6 +17,13 @@ namespace TRAISI.SDK.Attributes
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public string Description {get;set;}
+
+
+        /// <summary>
         /// Limits the Slot Question Type when this is set
         /// </summary>
         /// <returns></returns>
