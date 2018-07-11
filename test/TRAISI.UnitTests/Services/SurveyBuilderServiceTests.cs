@@ -34,6 +34,10 @@ namespace TRAISI.UnitTests.Services
             this._surveyBuilderService.AddSurveyView(survey, "View 1");
 
             Assert.True(survey.SurveyViews.Count == 1);
+
+            this._surveyBuilderService.AddSurveyView(survey, "View 2");
+
+             Assert.True(survey.SurveyViews.Count == 2);
         }
 
         [Fact]
