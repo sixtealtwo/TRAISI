@@ -24,6 +24,8 @@ namespace DAL.Models.Questions
 
         public string QuestionType { get; set; }
 
+        public int Order {get;set;}
+
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 

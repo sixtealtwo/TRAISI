@@ -143,10 +143,10 @@ namespace TRAISI.Services
         {
             //check if the option has a value / allows multiple
             var definition = this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
-            if(definition != null)
+            if (definition != null)
             {
             }
-            
+
         }
 
         /// <summary>
@@ -207,14 +207,33 @@ namespace TRAISI.Services
         /// <param name="part"></param>
         /// <param name="position"></param>
         /// <returns></returns>
-        public void AddQuestionPart(SurveyView view, QuestionPart part,  QuestionTypeDefinition definition, int position = -1)
+        public void AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position = -1)
         {
+            if (position >= 0)
+            {
+                part.Order = position;
+                (view.QuestionParts as List<QuestionPart>).Insert(position, part);
+       
+            }
+            else
+            {
+                view.QuestionParts.Add(part);
+                part.Order = view.QuestionParts.Count-1;
+            }
             return;
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="definition"></param>
+        /// <param name="position"></param>
         public void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition, int position)
         {
+            part.Order = position;
+            part.QuestionType = definition.TypeName;
             part.QuestionPartChildren.Add(part);
         }
 

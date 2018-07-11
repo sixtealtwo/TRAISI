@@ -29,5 +29,7 @@ namespace DAL.Models.Questions
 
         bool IsGroupQuestion { get; set; }
 
+        int Order {get;set;}
+
     }
 }
