@@ -320,7 +320,7 @@ namespace TRAISI
 
             app.UseSignalR(routes =>
 						{
-								routes.MapHub<NotifyHub>("/chat");
+								routes.MapHub<NotifyHub>("/notify");
 						});
 
             app.UseStaticFiles();
