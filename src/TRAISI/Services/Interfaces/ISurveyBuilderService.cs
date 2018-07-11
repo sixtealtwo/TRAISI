@@ -26,6 +26,8 @@ namespace TRAISI.Services.Interfaces
 
         void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition,int slot);
 
+        void SetSurveyTitle(Survey s, string title, string language);
+
         IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart);
 
         IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language);

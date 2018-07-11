@@ -268,5 +268,23 @@ namespace TRAISI.Services
             part.QuestionPartChildren.Add(part);
         }
 
+        /// <summary>
+        /// Sets a survey title for the specified language.
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="title"></param>
+        /// <param name="language"></param>
+        public void SetSurveyTitle(Survey survey, string title, string language)
+        {
+            //remove the label if it already exists
+            survey.TitleLabel.Remove(survey.TitleLabel.SingleOrDefault(t => t.Language == language));
+            
+            survey.TitleLabel.Add(new Label()
+            {
+                Value = title,
+                Language = language
+            });
+        }
+
     }
 }
