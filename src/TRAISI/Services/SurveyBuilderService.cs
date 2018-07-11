@@ -210,5 +210,12 @@ namespace TRAISI.Services
         {
             return part;
         }
+
+
+        public void AddQuestionPartChild(QuestionPart part, int position)
+        {
+            part.QuestionPartChildren.Add(part);
+        }
+
     }
 }

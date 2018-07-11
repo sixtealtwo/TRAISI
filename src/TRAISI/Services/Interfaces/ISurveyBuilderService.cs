@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using TRAISI.SDK;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -22,6 +23,8 @@ namespace TRAISI.Services.Interfaces
         void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
 
         QuestionPart AddQuestionPart(SurveyView view,QuestionPart part, int position);
+
+        QuestionPart AddQuestionPartChild(QuestionPart part, int slot);
 
         IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart);
 
