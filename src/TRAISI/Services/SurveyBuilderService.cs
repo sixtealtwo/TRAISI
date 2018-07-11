@@ -1,6 +1,7 @@
 using DAL;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TRAISI.Helpers;
@@ -142,9 +143,39 @@ namespace TRAISI.Services
         public void AddQuestionOption(QuestionPart part, string name, string value, string language = null)
         {
             //check if the option has a value / allows multiple
+
             var definition = this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
             if (definition != null)
             {
+                var hasOption = definition.QuestionOptions.Count(c => c.Key == name);
+
+                if (definition.QuestionOptions.Keys.Contains(name))
+                {
+                    if (definition.QuestionOptions[name].IsMultipleAllowed)
+                    {
+                        part.QuestionOptions.Add(new QuestionOption()
+                        {
+                            Name = name
+                        });
+                    }
+                    else if (part.QuestionOptions.Count(o => o.Name == name) == 0)
+                    {
+                        part.QuestionOptions.Add(new QuestionOption()
+                        {
+                            Name = name
+                        });
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Cannot asssign new question option, remove first.");
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Question Option does not exist for this question type.");
+                }
+
+
             }
 
         }
@@ -213,12 +244,12 @@ namespace TRAISI.Services
             {
                 part.Order = position;
                 (view.QuestionParts as List<QuestionPart>).Insert(position, part);
-       
+
             }
             else
             {
                 view.QuestionParts.Add(part);
-                part.Order = view.QuestionParts.Count-1;
+                part.Order = view.QuestionParts.Count - 1;
             }
             return;
         }

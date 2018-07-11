@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
+
 
 namespace DAL.Models.Questions
 {
