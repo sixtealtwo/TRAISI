@@ -59,17 +59,23 @@ namespace TRAISI.Services
         /// <param name="questionPart"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void SetQuestionConfiguration(QuestionPart questionPart, string name, string value)
+        public QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, string value)
         {
             var configuration = questionPart.QuestionConfigurations.SingleOrDefault(c => c.Name == name);
 
             if (configuration == null)
             {
-                questionPart.QuestionConfigurations.Add(new QuestionConfiguration());
+                QuestionConfiguration qc = new QuestionConfiguration(){
+                    Name = name,
+                    Value = value
+                };
+                questionPart.QuestionConfigurations.Add(qc);
+                return qc;
             }
             else
             {
                 configuration.Value = value;
+                return configuration;
             }
 
         }

@@ -4,6 +4,7 @@ using Xunit;
 using Moq;
 using DAL.Models.Surveys;
 using DAL;
+using DAL.Models.Questions;
 
 namespace TRAISI.UnitTests.Services
 {
@@ -31,13 +32,17 @@ namespace TRAISI.UnitTests.Services
 
             Assert.True(survey.SurveyViews.Count == 0);
 
-            this._surveyBuilderService.AddSurveyView(survey, "View 1");
+            var view = this._surveyBuilderService.AddSurveyView(survey, "View 1");
 
             Assert.True(survey.SurveyViews.Count == 1);
 
-            this._surveyBuilderService.AddSurveyView(survey, "View 2");
+            Assert.True(view.ViewName == "View 1");
 
-             Assert.True(survey.SurveyViews.Count == 2);
+            view = this._surveyBuilderService.AddSurveyView(survey, "View 2");
+
+            Assert.True(view.ViewName == "View 2");
+
+            Assert.True(survey.SurveyViews.Count == 2);
         }
 
         [Fact]
@@ -51,14 +56,43 @@ namespace TRAISI.UnitTests.Services
 
             Assert.True(survey.SurveyViews.Count == 0);
 
-            this._surveyBuilderService.AddSurveyView(survey, "View 1");
+            var view = this._surveyBuilderService.AddSurveyView(survey, "View 1");
 
             Assert.True(survey.SurveyViews.Count == 1);
 
-            //this._surveyBuilderService.RemoveSurveyView(survey, "View 1");
-            
-        
 
+            this._surveyBuilderService.RemoveSurveyView(survey, view.Id);
+
+            Assert.True(survey.SurveyViews.Count == 0);
+
+
+        }
+
+        [Fact]
+        public void Test_SetQuestionConfiguration()
+        {
+            Survey survey = new Survey()
+            {
+                Title = "Test Survey",
+
+            };
+
+            var view = this._surveyBuilderService.AddSurveyView(survey,"View");
+
+            var questionPart = new QuestionPart();
+
+            this._surveyBuilderService.AddQuestionPart(view,new DAL.Models.Questions.QuestionPart(), null);
+
+            this._surveyBuilderService.SetQuestionConfiguration(questionPart,"cat","dog");
+
+            Assert.True(true);
+
+
+        }
+        
+        [Fact]
+        public void Test_AddQuestionPart()
+        {
             Assert.True(true);
         }
 
@@ -69,10 +103,10 @@ namespace TRAISI.UnitTests.Services
         /// <returns></returns>
         public SurveyBuilderService CreateSurveyBuilderService()
         {
-            return new SurveyBuilderService(Utility.CreateUnitOfWork(), new Helpers.QuestionTypeManager(null,null));
+            return new SurveyBuilderService(Utility.CreateUnitOfWork(), new Helpers.QuestionTypeManager(null, Utility.CreateLoggerFactory()));
         }
 
-        
+
 
         /// <summary>
         /// Cleanup, teardown after each test

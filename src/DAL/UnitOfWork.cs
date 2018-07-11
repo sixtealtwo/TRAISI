@@ -23,6 +23,13 @@ namespace DAL
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 
+        public UnitOfWork(ISurveyRepository surveyRepository)
+        {
+            this._surveys = surveyRepository;
+        }
+
+   
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -50,6 +57,7 @@ namespace DAL
 
                 return _surveys;
             }
+
         }
 
         public ISurveyPermissionsRepository SurveyPermissions

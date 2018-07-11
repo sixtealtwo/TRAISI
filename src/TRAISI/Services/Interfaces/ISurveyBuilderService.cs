@@ -12,7 +12,7 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveSurveyView(Survey survey, int id);
 
-        void SetQuestionConfiguration(QuestionPart questionPart, string name, string value);
+        QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, string value);
 
         void SetQuestionOption(QuestionPart questionPart, string name, string value, string language);
 

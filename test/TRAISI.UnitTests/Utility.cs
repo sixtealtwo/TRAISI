@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using DAL;
 using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 
@@ -16,10 +18,22 @@ namespace TRAISI.UnitTests
         /// <returns></returns>
         public static IUnitOfWork CreateUnitOfWork()
         {
-            var mock = new Mock<IUnitOfWork>();
-            mock.SetupProperty( p => p.Surveys, CreateSurveyRepository());
+            var mock = new Mock<UnitOfWork>(CreateSurveyRepository());
+            //mock.SetupProperty( p => p.Surveys, CreateSurveyRepository());
 
             return mock.Object;
+        }
+        
+        public static IConfiguration CreateConfiguration()
+        {
+            var mock = new Mock<IConfiguration>();
+            return mock.Object;
+        }
+
+        public static ILoggerFactory CreateLoggerFactory()
+        {
+            return new LoggerFactory();
+            
         }
 
         /// <summary>
@@ -60,13 +74,13 @@ namespace TRAISI.UnitTests
             };
             var mock = new Mock<ISurveyRepository>();
             mock.Setup(m => m.GetAllAsync()).ReturnsAsync(moqSurveys);
-            mock.Setup( m => m.GetAsync(It.IsAny<int>())).
+            mock.Setup(m => m.GetAsync(It.IsAny<int>())).
             ReturnsAsync((int i) => moqSurveys.Find(s => s.Id == i));
 
-            mock.Setup( m=> m.CountAsync()).ReturnsAsync(moqSurveys.Count);
-            mock.Setup( m=> m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
+            mock.Setup(m => m.CountAsync()).ReturnsAsync(moqSurveys.Count);
+            mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
 
-            mock.Setup( m=> m.Update(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Find(p => p.Id == s.Id));
+            mock.Setup(m => m.Update(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Find(p => p.Id == s.Id));
 
             return mock.Object;
         }
