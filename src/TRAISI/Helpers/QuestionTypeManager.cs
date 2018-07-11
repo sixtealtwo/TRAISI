@@ -60,12 +60,38 @@ namespace TRAISI.Helpers
             typeDefinition.QuestionConfigurations = configurations;
             var parameterConfigurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = parameterConfigurations;
+            typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
             _questionTypeDefinitions.Add(typeDefinition);
 
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionType"></param>
+        /// <returns></returns>
+        private List<QuestionPartSlotDefinition> ListQuestionSlots(Type questionType)
+        {
+            var list = new List<QuestionPartSlotDefinition>();
+
+            foreach(var att in questionType.GetCustomAttributes(typeof(QuestionPartSlotAttribute)))
+            {
+
+                list.Add(new QuestionPartSlotDefinition()
+                {
+                    Description = (att as QuestionPartSlotAttribute).Description,
+                    Name = (att as QuestionPartSlotAttribute).SlotName,
+                    SlotOrder = (att as QuestionPartSlotAttribute).SlotOrder,
+
+                });
+            }
+
+
+            return list;
         }
 
         /// <summary>

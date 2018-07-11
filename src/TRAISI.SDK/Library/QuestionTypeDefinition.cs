@@ -23,7 +23,7 @@ namespace TRAISI.SDK
         /// Set of Question Part Slots
         /// </summary>
         /// <value></value>
-        public HashSet<string> QuestionPartSlots { get; set; }
+        public List<QuestionPartSlotDefinition> QuestionPartSlots { get; set; }
 
 
         public Type Type { get; }

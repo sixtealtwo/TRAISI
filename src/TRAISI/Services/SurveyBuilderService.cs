@@ -209,7 +209,7 @@ namespace TRAISI.Services
         /// <returns></returns>
         public void AddQuestionPart(SurveyView view, QuestionPart part,  QuestionTypeDefinition definition, int position = -1)
         {
-            return part;
+            return;
         }
 
 

@@ -4,7 +4,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class)]
     public class QuestionPartSlotAttribute: Attribute
     {
 
@@ -21,6 +21,14 @@ namespace TRAISI.SDK.Attributes
         /// </summary>
         /// <value></value>
         public string Description {get;set;}
+
+
+
+        /// <summary>
+        /// The slot number to house the question part child
+        /// </summary>
+        /// <value></value>
+        public int SlotOrder{get;set;} = 0;
 
 
         /// <summary>
