@@ -3,6 +3,7 @@ using TRAISI.Services;
 using Xunit;
 using Moq;
 using DAL.Models.Surveys;
+using DAL;
 
 namespace TRAISI.UnitTests.Services
 {
@@ -11,9 +12,12 @@ namespace TRAISI.UnitTests.Services
 
         private SurveyBuilderService _surveyBuilderService;
 
+        private IUnitOfWork _unitOfWork;
+
         public SurveyBuilderServiceTests()
         {
             this._surveyBuilderService = CreateSurveyBuilderService();
+            this._unitOfWork = Utility.CreateUnitOfWork();
         }
 
         [Fact]
@@ -40,6 +44,16 @@ namespace TRAISI.UnitTests.Services
                 Title = "Test Survey",
 
             };
+
+            Assert.True(survey.SurveyViews.Count == 0);
+
+            this._surveyBuilderService.AddSurveyView(survey, "View 1");
+
+            Assert.True(survey.SurveyViews.Count == 1);
+
+            //this._surveyBuilderService.RemoveSurveyView(survey, "View 1");
+            
+        
 
             Assert.True(true);
         }
