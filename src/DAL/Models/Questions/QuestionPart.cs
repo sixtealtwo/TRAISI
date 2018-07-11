@@ -1,32 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 
+
 namespace DAL.Models.Questions
 {
-    /**
-	 * 
-	 */
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class QuestionPart : IQuestionPart
     {
 
         public QuestionPart()
         {
-            TextLabels = new HashSet<Label>();
+
             QuestionPartChildren = new HashSet<QuestionPart>();
             QuestionOptions = new HashSet<QuestionOption>();
-            QuestionSettings = new HashSet<QuestionConfiguration>();
+            QuestionConfigurations = new HashSet<QuestionConfiguration>();
         }
 
         public int Id { get; set; }
         public string Text { get; set; }
-        public ICollection<Label> TextLabels { get; set; }
+
+        public string QuestionType { get; set; }
+
+        public int Order {get;set;}
 
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
 
-        public ICollection<QuestionConfiguration> QuestionSettings { get; set; }
+        public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
 
         public ICollection<QuestionOption> QuestionOptions { get; set; }
 

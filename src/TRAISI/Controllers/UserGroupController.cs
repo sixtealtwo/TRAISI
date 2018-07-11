@@ -370,7 +370,7 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpGet("{id}/templates")]
+		[HttpGet("{id}/emailtemplates")]
 		[Produces(typeof(EmailTemplateViewModel))]
 		public async Task<IActionResult> GetGroupEmailTemplates(int id)
 		{
@@ -393,10 +393,10 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="emailTemplate"></param>
 		/// <returns></returns>
-		[HttpPut("templates")]
+		[HttpPut("emailtemplates")]
 		public async Task<IActionResult> UpdateEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
 		{
-			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
+			var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(emailTemplate.GroupName);
 
 			if(await IsGroupAdmin(group.Name))
 			{
@@ -418,16 +418,17 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="emailTemplate"></param>
 		/// <returns></returns>
-		[HttpPost("templates")]
+		[HttpPost("emailtemplates")]
 		public async Task<IActionResult> AddEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
 		{
 			if (ModelState.IsValid)
 			{
-				var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
+				var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(emailTemplate.GroupName);
 
 				if (await IsGroupAdmin(group.Name)) {
-					DAL.Models.Groups.EmailTemplate newEmailTemplate = Mapper.Map<DAL.Models.Groups.EmailTemplate>(emailTemplate);
-					await this._unitOfWork.EmailTemplates.AddAsync(newEmailTemplate);
+					EmailTemplate newEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
+					newEmailTemplate.Group = group;
+					this._unitOfWork.EmailTemplates.Add(newEmailTemplate);
 					await this._unitOfWork.SaveChangesAsync();
 					return new OkResult();
 				}
@@ -443,16 +444,14 @@ namespace TRAISI.Controllers
 		/// </summary>
 		/// <param name="emailTemplate"></param>
 		/// <returns></returns>
-		[HttpDelete("templates")]
-		public async Task<IActionResult> DeleteEmailTemplate([FromBody] EmailTemplateViewModel emailTemplate)
+		[HttpDelete("emailtemplates/{id}")]
+		public async Task<IActionResult> DeleteEmailTemplate(int id)
 		{
-			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(emailTemplate.GroupId);
-
-			if(await IsGroupAdmin(group.Name))
+			var emailTemplate = await this._unitOfWork.EmailTemplates.GetEmailTemplateWithGroupAsync(id);
+			
+			if(await IsGroupAdmin(emailTemplate.Group.Name))
 			{
-				DAL.Models.Groups.EmailTemplate deleteEmailTemplate = Mapper.Map<DAL.Models.Groups.EmailTemplate>(emailTemplate);
-				deleteEmailTemplate.Group = group;
-				this._unitOfWork.EmailTemplates.Remove(deleteEmailTemplate);
+				this._unitOfWork.EmailTemplates.Remove(emailTemplate);
 				await this._unitOfWork.SaveChangesAsync();
 				return new OkResult();
 			}

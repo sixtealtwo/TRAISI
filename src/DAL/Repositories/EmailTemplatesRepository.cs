@@ -29,6 +29,13 @@ namespace DAL.Repositories
 					.ToListAsync();
 		}
 
+        public async Task<EmailTemplate> GetEmailTemplateWithGroupAsync(int templateId)
+        {
+            return await _appContext.EmailTemplates
+                .Where(e => e.Id == templateId)
+                .Include(e => e.Group)
+                .SingleOrDefaultAsync();
+        }
 
-	}
+    }
 }

@@ -79,7 +79,14 @@
                          [headerHeight]="35"
                          [footerHeight]="35"
                          [columnMode]="'flex'">
-          		</ngx-datatable>
+							</ngx-datatable>
+							<div class="row justify-content-center">
+								<div>
+									<button class="btn btn-primary" (click)="newTemplate()">
+										<i class="fa fa-plus-circle"></i> New Template
+									</button>
+								</div>
+							</div>
 						</div>
 				</div>
 			</div>
@@ -88,16 +95,43 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }}</h4>
+						<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }} - {{ selectedTemplate.name }}</h4>
 						<button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<ngx-monaco-editor *ngIf="editingTemplate" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
-						<div id="display" [innerHTML]="code"></div>
+						<div class="form-group row">
+								<label for="templateName" class="col-md-2 col-form-label text-md-right">Template Name</label>
+								<div class="col-md-7">
+									<input [(ngModel)]="selectedTemplate.name" type="text" class="form-control" id="templateName" aria-describedby="templateName" placeholder="Template Name"
+									 name="templateName" required>
+								</div>
+						</div>
+						<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="selectedTemplate.html"></ngx-monaco-editor>
+						<h3>Preview</h3>
+						<iframe *ngIf="editingTemplate" class="previewHTML" frameborder="0" [srcdoc]="selectedTemplate.html | safe: 'html'"></iframe>
+						<div class="form-group form-group-adjust row">
+							<div class="col-md-3">
+								<button *ngIf="!isNewTemplate" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
+									<i class='fa fa-times'></i>Delete
+								</button>
+							</div>
+							<div class="col-md-9">
+								<div class="pull-right">
+									<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
+										<i class='fa fa-times'></i>Cancel
+									</button>
+									<button (click)="save()" class="btn btn-primary" [disabled]="isSaving">
+										<i *ngIf="!isSaving" class="fa fa-save"></i>
+										<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 		<ng-template #indexTemplate let-value="value">

@@ -13,7 +13,7 @@ namespace DAL
         ISurveyRepository Surveys { get; }
         ISurveyPermissionsRepository SurveyPermissions { get; }
         IApiKeysRepository ApiKeys { get; }
-				IEmailTemplateRepository EmailTemplates { get; }
+        IEmailTemplateRepository EmailTemplates { get; }
         IShortcodeRepository Shortcodes { get; }
         IGroupCodeRepository GroupCodes { get; }
         IUserGroupRepository UserGroups { get; }

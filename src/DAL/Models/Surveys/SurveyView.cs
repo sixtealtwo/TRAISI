@@ -11,6 +11,8 @@ namespace DAL.Models.Surveys
 
         public ICollection<QuestionPart> QuestionParts { get; set; }
 
+        public string ViewName { get; set; }
+
         public SurveyView()
         {
             this.QuestionParts = new List<QuestionPart>();

@@ -58,20 +58,57 @@ namespace TRAISI.Helpers
             var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
             var configurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
-            var parameterConfigurations = this.ReadQuestionParameterData(questionType, sourceAssembly);
-            typeDefinition.QuestionParameterConfigurations = parameterConfigurations;
+            var parameterConfigurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
+            typeDefinition.QuestionConfigurations = parameterConfigurations;
+            typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
             _questionTypeDefinitions.Add(typeDefinition);
+
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
 
         }
 
-        private Dictionary<string, object> ReadQuestionParameterData(Type questionType, Assembly sourceAssembly)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionType"></param>
+        /// <returns></returns>
+        private List<QuestionPartSlotDefinition> ListQuestionSlots(Type questionType)
+        {
+            var list = new List<QuestionPartSlotDefinition>();
+
+            foreach(var att in questionType.GetCustomAttributes(typeof(QuestionPartSlotAttribute)))
+            {
+
+                list.Add(new QuestionPartSlotDefinition()
+                {
+                    Description = (att as QuestionPartSlotAttribute).Description,
+                    Name = (att as QuestionPartSlotAttribute).SlotName,
+                    SlotOrder = (att as QuestionPartSlotAttribute).SlotOrder,
+
+                });
+            }
+
+
+            return list;
+        }
+
+        /// <summary>
+        /// Returns the QuestionTypeDefinition associated with the passed name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public QuestionTypeDefinition GetQuestionTypeDefinition(string name)
+        {
+            return this._questionTypeDefinitions.FirstOrDefault(s => s.TypeName == name);
+        }
+
+        private Dictionary<string, QuestionConfigurationDefinition> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
-            var configuration = new Dictionary<string, object>();
+            var configuration = new Dictionary<string, QuestionConfigurationDefinition>();
             foreach (var member in members)
             {
                 var attributes = member.GetCustomAttributes();
@@ -79,10 +116,18 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionConfigurationOptionAttribute))
+                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
                         {
-                            var configAttribute = attribute as QuestionConfigurationOptionAttribute;
-                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
+                            var configAttribute = attribute as QuestionConfigurationAttribute;
+                            configuration.Add(configAttribute.Name, new QuestionConfigurationDefinition()
+                            {
+                                Name = configAttribute.Name,
+                                Description = configAttribute.Description,
+                                TypeId = configAttribute.TypeId,
+                                ValueType = configAttribute.ValueType
+                            }
+
+                                );
                         }
 
                     }
@@ -98,11 +143,11 @@ namespace TRAISI.Helpers
         /// <param name="questionType"></param>
         /// <param name="sourceAssembly"></param>
         /// <returns></returns>
-        private Dictionary<string, object> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
+        private Dictionary<string, QuestionOptionDefinition> ReadQuestionOptionData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
-            var configuration = new Dictionary<string, object>();
+            var configuration = new Dictionary<string, QuestionOptionDefinition>();
             foreach (var member in members)
             {
                 var attributes = member.GetCustomAttributes();
@@ -110,10 +155,16 @@ namespace TRAISI.Helpers
                 {
                     foreach (var attribute in attributes)
                     {
-                        if (attribute.GetType() == typeof(QuestionSettingsOptionAttribute))
+                        if (attribute.GetType() == typeof(QuestionOptionAttribute))
                         {
-                            var configAttribute = attribute as QuestionSettingsOptionAttribute;
-                            configuration.Add(configAttribute.ParameterName, configAttribute.TypeId);
+                            var configAttribute = attribute as QuestionOptionAttribute;
+                            configuration.Add(configAttribute.Name, new QuestionOptionDefinition()
+                            {
+                                Name = configAttribute.Name,
+                                Description = configAttribute.Description,
+                                ValueType = configAttribute.ValueType,
+                                TypeId = configAttribute.TypeId,
+                            });
                         }
                     }
                 }

@@ -36,8 +36,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Hangfire;
 using Hangfire.PostgreSql;
-
-
+using TRAISI.Services.Interfaces;
+using TRAISI.Services;
 
 namespace TRAISI
 {
@@ -275,6 +275,8 @@ namespace TRAISI
             services.AddSingleton<IMailgunMailer, MailgunMailer>();
             services.AddSingleton<IGeoService, GeoService>();
 
+            services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
+
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddLocalization(options => options.ResourcesPath = "Resources/Localization");
@@ -321,7 +323,7 @@ namespace TRAISI
 
             app.UseSignalR(routes =>
 						{
-								routes.MapHub<NotifyHub>("/chat");
+								routes.MapHub<NotifyHub>("/notify");
 						});
 
             app.UseStaticFiles();

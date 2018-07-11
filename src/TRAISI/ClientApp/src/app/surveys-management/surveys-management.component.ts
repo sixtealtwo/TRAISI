@@ -218,7 +218,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 		this.alertService.showStickyMessage(
 			'Load Error',
-			`Unable to retrieve users from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+			`Unable to retrieve surveys from the server.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 			MessageSeverity.error,
 			error
 		);

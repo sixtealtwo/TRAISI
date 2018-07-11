@@ -2,7 +2,7 @@ using DAL.Models.Surveys;
 
 namespace DAL.Models.Questions
 {
-    public class QuestionOptionLabels
+    public class QuestionOptionLabel
     {
         public int QuestionOptionId { get; set; }
 

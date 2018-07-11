@@ -16,17 +16,23 @@ namespace DAL
         ISurveyPermissionsRepository _surveyPermissions;
         IUserGroupRepository _userGroups;
         IGroupMemberRepository _groupMembers;
-				IApiKeysRepository _apiKeys;
-				IEmailTemplateRepository _emailTemplates;
-				IShortcodeRepository _shortcodes;
-				IGroupCodeRepository _groupCodes;
+        IApiKeysRepository _apiKeys;
+        IEmailTemplateRepository _emailTemplates;
+        IShortcodeRepository _shortcodes;
+        IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
         IQuestionPartRepository _questionParts;
 
-        public UnitOfWork(ApplicationDbContext context, ISurveyRepository surveyRepository = null)
+        public UnitOfWork(ISurveyRepository surveyRepository)
+        {
+            this._surveys = surveyRepository;
+        }
+
+   
+
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            _surveys = surveyRepository;
         }
 
         public ISurveyViewRepository SurveyViews
@@ -51,6 +57,7 @@ namespace DAL
 
                 return _surveys;
             }
+
         }
 
         public ISurveyPermissionsRepository SurveyPermissions
@@ -86,7 +93,7 @@ namespace DAL
             }
         }
 
-				public IApiKeysRepository ApiKeys
+        public IApiKeysRepository ApiKeys
         {
             get
             {
@@ -97,7 +104,7 @@ namespace DAL
             }
         }
 
-				public IEmailTemplateRepository EmailTemplates
+        public IEmailTemplateRepository EmailTemplates
         {
             get
             {
@@ -108,29 +115,29 @@ namespace DAL
             }
         }
 
-				public IShortcodeRepository Shortcodes 
-				{
-						get
-						{
-									if (_shortcodes == null)
-											_shortcodes = new ShortcodeRepository(_context);
+        public IShortcodeRepository Shortcodes
+        {
+            get
+            {
+                if (_shortcodes == null)
+                    _shortcodes = new ShortcodeRepository(_context);
 
-									return _shortcodes;
-						}
-				}
+                return _shortcodes;
+            }
+        }
 
-				public IGroupCodeRepository GroupCodes 
-				{
-						get
-						{
-									if(_groupCodes == null)
-									{
-										_groupCodes = new GroupCodeRepository(_context);
-									}
+        public IGroupCodeRepository GroupCodes
+        {
+            get
+            {
+                if (_groupCodes == null)
+                {
+                    _groupCodes = new GroupCodeRepository(_context);
+                }
 
-									return _groupCodes;
-						}
-				}
+                return _groupCodes;
+            }
+        }
 
         public IQuestionPartRepository QuestionParts
         {

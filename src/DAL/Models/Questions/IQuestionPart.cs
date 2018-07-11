@@ -13,19 +13,23 @@ namespace DAL.Models.Questions
         [NotMapped]
         string Text { get; set; }
 
-        ICollection<Label> TextLabels { get; set; }
+
+        string QuestionType {get;set;}
+
 
         ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
 
-        ICollection<QuestionConfiguration> QuestionSettings {get ;set;}
+        ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
 
-        ICollection<QuestionOption> QuestionOptions{get;set;}
+        ICollection<QuestionOption> QuestionOptions { get; set; }
 
 
         SurveyView SurveyView { get; set; }
 
-        bool IsGroupQuestion {get;set;}
+        bool IsGroupQuestion { get; set; }
+
+        int Order {get;set;}
 
     }
 }

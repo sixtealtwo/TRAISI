@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using DAL.Core;
 using DAL.Models.Surveys;
 
-namespace DAL.Models.Surveys {
-    public class Survey : AuditableEntity, ISurvey {
+namespace DAL.Models.Surveys
+{
+    public class Survey : AuditableEntity, ISurvey
+    {
         public int Id { get; set; }
         public int Code { get; set; }
         public string Name { get; set; }
@@ -25,25 +27,30 @@ namespace DAL.Models.Surveys {
 
         public ICollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
-				public ICollection<GroupCode> GroupCodes { get; set; }
-				public ICollection<Shortcode> Shortcodes { get; set; }
+        public ICollection<GroupCode> GroupCodes { get; set; }
+        public ICollection<Shortcode> Shortcodes { get; set; }
 
 
         public ICollection<Label> TitleLabel { get; set; }
 
         [NotMapped]
-        public string Title {
-            get {
-                return TitleLabel.FirstOrDefault ()?.Text;
+        public string Title
+        {
+            get
+            {
+                return TitleLabel.FirstOrDefault()?.Value;
             }
-            set {
+            set
+            {
 
             }
         }
 
-        public Survey () {
-            this.TitleLabel = new HashSet<Label> ();
+        public Survey()
+        {
+            this.TitleLabel = new HashSet<Label>();
             this.SurveyPermissions = new HashSet<SurveyPermission>();
+            this.SurveyViews = new List<SurveyView>();
         }
 
     }

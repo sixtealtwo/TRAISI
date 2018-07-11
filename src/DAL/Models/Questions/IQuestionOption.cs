@@ -7,11 +7,8 @@ namespace DAL.Models.Questions
     {
         int Id { get; set; }
 
-        string Value { get; set; }
 
-        ICollection<Label> Label { get; set; }
-
-
+        string Name { get; set; }
 
 
     }

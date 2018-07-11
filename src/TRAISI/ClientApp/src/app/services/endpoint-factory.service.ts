@@ -20,6 +20,7 @@ export class EndpointFactory {
 
 	private taskPauser: Subject<any>;
 	private isRefreshingLogin: boolean;
+	private lastCall: string = '';
 
 	private _authService: AuthService;
 
@@ -86,7 +87,8 @@ export class EndpointFactory {
 	}
 
 	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
-		if (error.status === 401) {
+		if (error.status === 401 && this.lastCall != error.url) {
+			this.lastCall = error.url;
 			if (this.isRefreshingLogin) {
 				return this.pauseTask(continuation);
 			}
