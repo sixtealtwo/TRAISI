@@ -117,13 +117,13 @@ namespace DAL
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             UpdateAuditEntities();
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             UpdateAuditEntities();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);

@@ -7,7 +7,7 @@
 				<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 					<li *ngFor="let group of allGroups; let i = index" class="nav-item">
 						<a class="nav-link fw-semi-bold" [class.active]="i==0" (click)="switchGroup(group.name)" id="{{ group.name + '-tab' }}" data-toggle="tab" href="#group"
-						 role="tab" aria-controls="group.name" aria-expanded="true">
+						   role="tab" aria-controls="group.name" aria-expanded="true">
 							{{ group.name }}
 							<sup class="badge badge-pill badge-primary">
 								G
@@ -18,67 +18,70 @@
 			</div>
 			<div class="tab-content mb-lg" id="myTabContent">
 				<div role="tabpanel" class="tab-pane active in clearfix" id="group" aria-labelledby="group-tab" aria-expanded="true">
-						<form (ngSubmit)="saveKeys()" #f="ngForm" novalidate class="form-horizontal">
-								<legend>Map Service API Keys</legend>
-								<div class="form-group row">
-										<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mapbox API Key</label>
-										<div class="col-md-7">
-											<input [(ngModel)]="apiModel.mapBoxApiKey" type="text" class="form-control" id="mapbox" aria-describedby="mapbox" placeholder="Mapbox API Key"
-											 name="mapbox" required>
-										</div>
+					<form (ngSubmit)="saveKeys()" #f="ngForm" novalidate class="form-horizontal">
+						<fieldset>
+							<legend>Map Service API Keys</legend>
+							<div class="form-group row">
+								<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mapbox API Key</label>
+								<div class="col-md-7">
+									<input [(ngModel)]="apiModel.mapBoxApiKey" type="text" class="form-control" id="mapbox" aria-describedby="mapbox" placeholder="Mapbox API Key"
+										   name="mapbox" required>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<hr class="edit-separator-hr" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="surveyName" class="col-md-2 col-form-label text-md-right">Google Maps API Key</label>
+								<div class="col-md-7">
+									<input [(ngModel)]="apiModel.googleMapsApiKey" type="text" class="form-control" id="google" aria-describedby="google" placeholder="Google Maps API Key"
+										   name="google" required>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<hr class="edit-separator-hr" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mailgun API Key</label>
+								<div class="col-md-7">
+									<input [(ngModel)]="apiModel.mailgunApiKey" type="text" class="form-control" id="mailgun" aria-describedby="mailgun" placeholder="Mailgun API Key"
+										   name="mailgun" required>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<hr class="edit-separator-hr" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="pull-right">
+										<button type="submit" class="btn btn-primary" [disabled]="isSaving">
+											<i *ngIf="!isSaving" class="fa fa-save"></i>
+											<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('groups.management.SavingKeys' | translate) : ('groups.management.SaveKeys' | translate)}}
+										</button>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<hr class="edit-separator-hr" />
-										</div>
-									</div>
-									<div class="form-group row">
-											<label for="surveyName" class="col-md-2 col-form-label text-md-right">Google Maps API Key</label>
-											<div class="col-md-7">
-												<input [(ngModel)]="apiModel.googleMapsApiKey" type="text" class="form-control" id="google" aria-describedby="google" placeholder="Google Maps API Key"
-												 name="google" required>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												<hr class="edit-separator-hr" />
-											</div>
-										</div>
-										<div class="form-group row">
-												<label for="surveyName" class="col-md-2 col-form-label text-md-right">Mailgun API Key</label>
-												<div class="col-md-7">
-													<input [(ngModel)]="apiModel.mailgunApiKey" type="text" class="form-control" id="mailgun" aria-describedby="mailgun" placeholder="Mailgun API Key"
-													 name="mailgun" required>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-12">
-													<hr class="edit-separator-hr" />
-												</div>
-											</div>
-											<div class="form-group row">
-												<div class="col-md-12">
-													<div class="pull-right">
-														<button type="submit" class="btn btn-primary" [disabled]="isSaving">
-															<i *ngIf="!isSaving" class="fa fa-save"></i>
-															<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('groups.management.SavingKeys' | translate) : ('groups.management.SaveKeys' | translate)}}
-														</button>
-													</div>
-												</div>
-											</div>
-											<div class="clearfix"></div>
-						</form>
-						<div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</fieldset>
+					</form>
+					<div>
+						<fieldset>
 							<legend>E-mail Templates</legend>
 							<ngx-datatable class="bootstrap sm table table-striped table-hover table-responsive"
-                         [rows]="emailRows"
-                         [columns]="emailColumns"
-                         [loadingIndicator]="loadingIndicator"
-                         [scrollbarH]="true"
-                         [rowHeight]="45"
-                         [headerHeight]="35"
-                         [footerHeight]="35"
-                         [columnMode]="'flex'">
+										   [rows]="emailRows"
+										   [columns]="emailColumns"
+										   [loadingIndicator]="loadingIndicator"
+										   [scrollbarH]="true"
+										   [rowHeight]="45"
+										   [headerHeight]="35"
+										   [footerHeight]="35"
+										   [columnMode]="'flex'">
 							</ngx-datatable>
 							<div class="row justify-content-center">
 								<div>
@@ -87,7 +90,8 @@
 									</button>
 								</div>
 							</div>
-						</div>
+						</fieldset>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -102,11 +106,11 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group row">
-								<label for="templateName" class="col-md-2 col-form-label text-md-right">Template Name</label>
-								<div class="col-md-7">
-									<input [(ngModel)]="selectedTemplate.name" type="text" class="form-control" id="templateName" aria-describedby="templateName" placeholder="Template Name"
-									 name="templateName" required>
-								</div>
+							<label for="templateName" class="col-md-2 col-form-label text-md-right">Template Name</label>
+							<div class="col-md-7">
+								<input [(ngModel)]="selectedTemplate.name" type="text" class="form-control" id="templateName" aria-describedby="templateName" placeholder="Template Name"
+									   name="templateName" required>
+							</div>
 						</div>
 						<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="selectedTemplate.html"></ngx-monaco-editor>
 						<h3>Preview</h3>
@@ -131,15 +135,16 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 		<ng-template #indexTemplate let-value="value">
-				<strong>{{value}}</strong>
-			</ng-template>
-			<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-					<div>
-						<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editTemplate(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'groups.management.EditTemplate' | translate}}</a>
-					</div>
-				</ng-template>
+			<strong>{{value}}</strong>
+		</ng-template>
+		<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
+			<div>
+				<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editTemplate(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'groups.management.EditTemplate' | translate}}</a>
+			</div>
+		</ng-template>
 	</div>
+</div>

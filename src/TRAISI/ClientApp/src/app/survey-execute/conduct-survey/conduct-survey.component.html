@@ -23,62 +23,66 @@
 	<div class="tab-content mb-lg" id="myTabContent">
 		<div role="tabpanel" class="tab-pane active in clearfix" id="codes" aria-labelledby="codes-tab" aria-expanded="true">
 			<form (ngSubmit)="generateIndivCodes()" #f="ngForm" novalidate class="form-horizontal">
-				<legend>Properties</legend>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4 offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="property" ng-control="property" id="pattern" value="pattern" [(ngModel)]="codeProperties">
-						<label class="form-check-label vertical-middle" for="pattern">
-							Pattern
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="codeProperties=='length'" width="100" type="text" name="codePattern" class="form-control" placeholder="CCC-###" [(ngModel)]="codeGenParams.pattern">
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="property" ng-control="property" id="length" value="length" [(ngModel)]="codeProperties">
-						<label class="form-check-label vertical-middle" for="length">
-							Length
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="codeProperties=='pattern'" width="50" type="number" name="codeLength" class="form-control" [(ngModel)]="codeGenParams.codeLength">
-					</div>
-				</div>
-				<legend>Generate</legend>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="numberList" ng-control="numberList" id="numberCodes" value="numberCodes" [(ngModel)]="generateType">
-						<label class="form-check-label vertical-middle" for="numberCodes">
-							Number of Codes
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="generateType=='list'" width="100" type="number" name="codeNumber" class="form-control" [(ngModel)]="codeGenParams.numberOfCodes">
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="numberList" ng-control="numberList" id="list" value="list" [(ngModel)]="generateType">
-						<label class="form-check-label vertical-middle" for="list">
-							Import List
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<dropzone #indivUpload [class.hidden]="generateType=='numberCodes'" [config]="indivDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="col-md-7">
-						<div class="d-flex justify-content-center">
-							<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
-								<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
-								<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Codes
-							</button>
+				<fieldset>
+					<legend>Properties</legend>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4 offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="property" ng-control="property" id="pattern" value="pattern" [(ngModel)]="codeProperties">
+							<label class="form-check-label vertical-middle" for="pattern">
+								Pattern
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="codeProperties=='length'" width="100" type="text" name="codePattern" class="form-control" placeholder="CCC-###" [(ngModel)]="codeGenParams.pattern">
 						</div>
 					</div>
-				</div>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="property" ng-control="property" id="length" value="length" [(ngModel)]="codeProperties">
+							<label class="form-check-label vertical-middle" for="length">
+								Length
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="codeProperties=='pattern'" width="50" type="number" name="codeLength" class="form-control" [(ngModel)]="codeGenParams.codeLength">
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Generate</legend>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="numberList" ng-control="numberList" id="numberCodes" value="numberCodes" [(ngModel)]="generateType">
+							<label class="form-check-label vertical-middle" for="numberCodes">
+								Number of Codes
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="generateType=='list'" width="100" type="number" name="codeNumber" class="form-control" [(ngModel)]="codeGenParams.numberOfCodes">
+						</div>
+					</div>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="numberList" ng-control="numberList" id="list" value="list" [(ngModel)]="generateType">
+							<label class="form-check-label vertical-middle" for="list">
+								Import List
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<dropzone #indivUpload [class.hidden]="generateType=='numberCodes'" [config]="indivDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
+						</div>
+					</div>
+					<div class="form-group row row-grid">
+						<div class="col-md-7">
+							<div class="d-flex justify-content-center">
+								<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
+									<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
+									<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Codes
+								</button>
+							</div>
+						</div>
+					</div>
+				</fieldset>
 				<div class="row row-grid">
 					<div class="col-md-12 separator-hr">
 
@@ -137,62 +141,66 @@
 		</div>
 		<div role="tabpanel" class="tab-pane" id="gcodes" aria-labelledby="gcodes-tab" aria-expanded="true">
 			<form (ngSubmit)="generateGroupCodes()" #f="ngForm" novalidate class="form-horizontal">
-				<legend>Properties</legend>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4 offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="property" ng-control="property" id="pattern" value="pattern" [(ngModel)]="codeProperties">
-						<label class="form-check-label vertical-middle" for="pattern">
-							Pattern
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="codeProperties=='length'" width="100" type="text" name="codePattern" class="form-control" placeholder="CCC-###" [(ngModel)]="codeGenParams.pattern">
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="property" ng-control="property" id="length" value="length" [(ngModel)]="codeProperties">
-						<label class="form-check-label vertical-middle" for="length">
-							Length
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="codeProperties=='pattern'" width="50" type="number" name="codeLength" class="form-control" [(ngModel)]="codeGenParams.codeLength">
-					</div>
-				</div>
-				<legend>Generate</legend>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="single" value="single" [(ngModel)]="generateType">
-						<label class="form-check-label vertical-middle" for="single">
-							Single Company
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<input [class.hidden]="generateType=='list'" width="100" type="text" name="companyName" class="form-control" [(ngModel)]="codeGenParams.groupName">
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
-						<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="list" value="list" [(ngModel)]="generateType">
-						<label class="form-check-label vertical-middle" for="list">
-							Import List
-						</label>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<dropzone #groupUpload [class.hidden]="generateType=='single'" [config]="groupDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessGroup($event)"></dropzone>
-					</div>
-				</div>
-				<div class="form-group row row-grid">
-					<div class="col-md-7">
-						<div class="d-flex justify-content-center">
-							<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
-								<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
-								<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Code(s)
-							</button>
+				<fieldset>
+					<legend>Properties</legend>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4 offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="property" ng-control="property" id="pattern" value="pattern" [(ngModel)]="codeProperties">
+							<label class="form-check-label vertical-middle" for="pattern">
+								Pattern
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="codeProperties=='length'" width="100" type="text" name="codePattern" class="form-control" placeholder="CCC-###" [(ngModel)]="codeGenParams.pattern">
 						</div>
 					</div>
-				</div>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="property" ng-control="property" id="length" value="length" [(ngModel)]="codeProperties">
+							<label class="form-check-label vertical-middle" for="length">
+								Length
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="codeProperties=='pattern'" width="50" type="number" name="codeLength" class="form-control" [(ngModel)]="codeGenParams.codeLength">
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Generate</legend>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="single" value="single" [(ngModel)]="generateType">
+							<label class="form-check-label vertical-middle" for="single">
+								Single Company
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<input [class.hidden]="generateType=='list'" width="100" type="text" name="companyName" class="form-control" [(ngModel)]="codeGenParams.groupName">
+						</div>
+					</div>
+					<div class="form-group row row-grid">
+						<div class="form-check abc-radio abc-radio-danger col-md-2 col-sm-4  offset-md-1 col-10">
+							<input class="form-check-input" type="radio" name="singleOrList" ng-control="singleOrList" id="list" value="list" [(ngModel)]="generateType">
+							<label class="form-check-label vertical-middle" for="list">
+								Import List
+							</label>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<dropzone #groupUpload [class.hidden]="generateType=='single'" [config]="groupDropZoneconfig" [message]="'Click or drag csv here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessGroup($event)"></dropzone>
+						</div>
+					</div>
+					<div class="form-group row row-grid">
+						<div class="col-md-7">
+							<div class="d-flex justify-content-center">
+								<button type="submit" class="btn btn-danger" [disabled]="generatingIndicator" [hidden]="generateType=='list'">
+									<i *ngIf="!generatingIndicator" class="fa fa-plus"></i>
+									<i *ngIf="generatingIndicator" class="fa fa-circle-o-notch fa-spin"></i> Generate Code(s)
+								</button>
+							</div>
+						</div>
+					</div>
+				</fieldset>
 				<div class="row row-grid">
 					<div class="col-md-12 separator-hr">
 
