@@ -10,7 +10,7 @@ namespace TRAISI.Helpers
 {
     public interface ITypedHubClient: IClientProxy
     {
-        Task BroadcastMessage(string type, string payload);
+        Task SendToAll(string message);
     }
     [Authorize]
     public class NotifyHub : Hub
@@ -47,6 +47,7 @@ namespace TRAISI.Helpers
         public async Task SendMessageToCaller(string message)
         {
             await Clients.Caller.SendAsync("sendToAll", message);
+						
         }
 
         public void SendPriorMessageToCaller(NotifyMessage message)
@@ -73,19 +74,18 @@ namespace TRAISI.Helpers
 
         public override async Task OnConnectedAsync()
         {
-
-            await Groups.AddToGroupAsync(Context.ConnectionId, "SignalR Users");
+            await Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
             await base.OnConnectedAsync();
         }
 
-        public override async Task OnDisconnectedAsync(Exception exception)
+        /*public override async Task OnDisconnectedAsync(Exception exception)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "SignalR Users");
             await base.OnDisconnectedAsync(exception);
-        }
+        }*/
 
-				public async void SendDownloadUpdate(DownloadProgress progress) {
-					 await this.Clients.User(this.Context.UserIdentifier).SendAsync("downloadUpdate", progress);
-				}
+		public async void SendDownloadUpdate(DownloadProgress progress) {
+				await this.Clients.User(this.Context.UserIdentifier).SendAsync("downloadUpdate", progress);
+		}
     }
 }

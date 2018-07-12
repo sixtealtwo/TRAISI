@@ -97,4 +97,25 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	public getDownloadSurveyShortCodesEndpoint<T>(id: number, mode: string): Observable<T> {
+		const endpointUrl = `${this.surveyExecuteUrl}/${id}/${mode}/download`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDownloadSurveyShortCodesEndpoint(id, mode));
+			})
+		);
+	}
+
+	public getDownloadSurveyGroupCodesEndpoint<T>(id: number, mode: string): Observable<T> {
+		const endpointUrl = `${this.surveyExecuteUrl}/${id}/groupcode/${mode}/download`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDownloadSurveyGroupCodesEndpoint(id, mode));
+			})
+		);
+	}
+	
 }

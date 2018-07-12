@@ -92,7 +92,7 @@ namespace TRAISI.Controllers
 			if(survey.Owner == this.User.Identity.Name || await HasExecuteSurveyPermissions(id))
 			{
 				string code = this._fileDownloader.CodeFunction();
-				
+				this._fileDownloader.WriteShortcodeFile(code, this.User.Identity.Name, mode, survey);
 
 
 				return Ok(code);
