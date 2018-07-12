@@ -105,24 +105,31 @@
 							   (page)='setIndivPage($event)'>
 				</ngx-datatable>
 				<!--<div class="form-group row row-grid">
-					<label class="col-form-label col-md-2 text-md-right">Code Type: </label>
-					<div class="btn-group" btnRadioGroup name="codeType" [(ngModel)]="codeType">
-							<label class="btn btn-danger" btnRadio="Individual"
-										 tabindex="0" role="button">Individual</label>
-							<label class="btn btn-danger" btnRadio="Group"
-										 tabindex="0" role="button">Group</label>
-						</div>
-				</div>-->
+		<label class="col-form-label col-md-2 text-md-right">Code Type: </label>
+		<div class="btn-group" btnRadioGroup name="codeType" [(ngModel)]="codeType">
+				<label class="btn btn-danger" btnRadio="Individual"
+							 tabindex="0" role="button">Individual</label>
+				<label class="btn btn-danger" btnRadio="Group"
+							 tabindex="0" role="button">Group</label>
+			</div>
+	</div>-->
 				<div class="row row-grid">
 					<div class="col-md-12 separator-hr"></div>
 				</div>
-				<div class="form-group row row-grid">
+				<div class="form-group row row-grid justify-content-md-center">
 					<div class="col-md-12">
 						<div class="d-flex justify-content-center">
 							<button (click)="downloadIndividualCodes()" class="btn btn-danger" [disabled]="downloadIndicator">
 								<i *ngIf="!downloadIndicator" class="fa fa-plus"></i>
 								<i *ngIf="downloadIndicator" class="fa fa-circle-o-notch fa-spin"></i> Download All Individual Codes
 							</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row row-grid justify-content-md-center">
+					<div class="col-md-4">
+						<div class="progress progress-xs" *ngIf="downloadIndicator">
+							<div class="progress-bar progress-xs" [style.width]="downloadProgress.progress + '%'" role="progressbar" [attr.aria-valuenow]="downloadProgress.progress" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
@@ -212,14 +219,14 @@
 							   (page)='setGroupPage($event)'>
 				</ngx-datatable>
 				<!--<div class="form-group row row-grid">
-					<label class="col-form-label col-md-2 text-md-right">Code Type: </label>
-					<div class="btn-group" btnRadioGroup name="codeType" [(ngModel)]="codeType">
-							<label class="btn btn-danger" btnRadio="Individual"
-										 tabindex="0" role="button">Individual</label>
-							<label class="btn btn-danger" btnRadio="Group"
-										 tabindex="0" role="button">Group</label>
-						</div>
-				</div>-->
+		<label class="col-form-label col-md-2 text-md-right">Code Type: </label>
+		<div class="btn-group" btnRadioGroup name="codeType" [(ngModel)]="codeType">
+				<label class="btn btn-danger" btnRadio="Individual"
+							 tabindex="0" role="button">Individual</label>
+				<label class="btn btn-danger" btnRadio="Group"
+							 tabindex="0" role="button">Group</label>
+			</div>
+	</div>-->
 				<div class="row row-grid">
 					<div class="col-md-12 separator-hr"></div>
 				</div>
@@ -230,6 +237,13 @@
 								<i *ngIf="!downloadIndicator" class="fa fa-plus"></i>
 								<i *ngIf="downloadIndicator" class="fa fa-circle-o-notch fa-spin"></i> Download All Group Codes
 							</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row row-grid justify-content-md-center">
+					<div class="col-md-4">
+						<div class="progress progress-xs" *ngIf="downloadIndicator">
+							<div class="progress-bar progress-xs" [style.width]="downloadProgress.progress + '%'" role="progressbar" [attr.aria-valuenow]="downloadProgress.progress" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>

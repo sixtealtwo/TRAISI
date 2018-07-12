@@ -96,6 +96,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	) {
 		this.survey = new Survey();
 		this.codeGenParams = new CodeGenerator();
+		this.downloadProgress = new DownloadNotification();
 		this.baseUrl = configurationService.baseUrl;
 
 		this.indivDropZoneconfig.url = this.baseUrl + '/api/SurveyExecution/uploadIndividual';
@@ -481,10 +482,12 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 
 	downloadIndividualCodes() {
 		this.alertService.startLoadingMessage('Creating codes file...');
+		this.downloadProgress = new DownloadNotification("", 1);
 		this.downloadIndicator = true;
 		this.surveyExecuteService.downloadSurveyShortCodes(this.surveyId, this.executeMode).subscribe(
 			result => {
-				this.downloadProgress = new DownloadNotification(result);
+				this.downloadProgress.id = result;
+				this.downloadProgress.progress = 25;
 				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
 				this.downloadNotifier.subscribe(
 					update => {

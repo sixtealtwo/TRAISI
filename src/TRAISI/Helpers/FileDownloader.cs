@@ -10,8 +10,11 @@ using DAL;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Hangfire;
+using Hangfire.Common;
 
 namespace TRAISI.Helpers
 {
@@ -29,13 +32,16 @@ namespace TRAISI.Helpers
         private readonly IHubContext<NotifyHub> _notifyHub;
         private readonly Random _randomGen;
         private IHostingEnvironment _hostingEnvironment;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public FileDownloaderService(IUnitOfWork unitOfWork, IHubContext<NotifyHub> notifyHub, IHostingEnvironment hostingEnvironment)
+        public FileDownloaderService(IUnitOfWork unitOfWork, IHubContext<NotifyHub> notifyHub,
+            IHostingEnvironment hostingEnvironment, IServiceScopeFactory serviceScopeFactory)
         {
             this._unitOfWork = unitOfWork;
             this._notifyHub = notifyHub;
             this._randomGen = new Random();
             this._hostingEnvironment = hostingEnvironment;
+            this._serviceScopeFactory = serviceScopeFactory;
         }
 
         public string CodeFunction()
@@ -46,32 +52,39 @@ namespace TRAISI.Helpers
 
         public void WriteShortcodeFile(string code, string userName, string mode, Survey survey)
         {
-            var shortcodes = this._unitOfWork.Shortcodes.GetShortcodesForSurvey(survey.Id, mode == "test");
 
             Task.Run(() =>
             {
-
-                string folderName = "Download";
-                string webRootPath = _hostingEnvironment.WebRootPath;
-                string newPath = Path.Combine(webRootPath, folderName, userName, code);
-                string fileName = Path.Combine(newPath, $"ShortcodeList_{survey.Name}_{mode}.csv");
-                string url = $"/{folderName}/{userName}/{code}/ShortcodeList_{survey.Name}_{mode}.csv";
-                if (!Directory.Exists(newPath))
+                using (var scope = this._serviceScopeFactory.CreateScope())
                 {
-                    Directory.CreateDirectory(newPath);
+                    IUnitOfWork unitOfWorkInScope = (IUnitOfWork)scope.ServiceProvider.GetRequiredService(typeof(IUnitOfWork));
+                    var shortcodes = unitOfWorkInScope.Shortcodes.GetShortcodesForSurvey(survey.Id, mode == "test");
+
+                    string folderName = "Download";
+                    string webRootPath = _hostingEnvironment.WebRootPath;
+                    string newPath = Path.Combine(webRootPath, folderName, userName, code);
+                    string fileName = Path.Combine(newPath, $"ShortcodeList_{survey.Name}_{mode}.csv");
+                    string url = $"/{folderName}/{userName}/{code}/ShortcodeList_{survey.Name}_{mode}.csv";
+                    if (!Directory.Exists(newPath))
+                    {
+                        Directory.CreateDirectory(newPath);
+                    }
+                    var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
+                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+
+                    // Write shortcodes to csv
+                    using (var sw = new StreamWriter(fileName))
+                    {
+                        var writer = new CsvWriter(sw);
+                        writer.Configuration.RegisterClassMap<ShortCodeMap>();
+
+                        writer.WriteRecords(shortcodes);
+                    }
+                    progress.Progress = 100;
+                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    BackgroundJob.Schedule(() => Directory.Delete(newPath,true), TimeSpan.FromSeconds(30));
                 }
-
-                // Write shortcodes to csv
-                using (var sw = new StreamWriter(fileName))
-                {
-                    var writer = new CsvWriter(sw);
-                    writer.Configuration.RegisterClassMap<ShortCodeMap>();
-
-                    writer.WriteRecords(shortcodes);
-                }
-
-                this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", new NotifyHub.DownloadProgress() { Id = code, Progress = 100, Url = url });
-
+               
             });
         }
 
