@@ -451,31 +451,25 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	}
 
 	downloadGroupCodes() {
+		this.alertService.startLoadingMessage('Creating codes file...');
+		this.downloadProgress = new DownloadNotification("", 1);
 		this.downloadIndicator = true;
 		this.surveyExecuteService.downloadSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(
 			result => {
-				this.downloadProgress = new DownloadNotification(result);
+				this.downloadProgress.id = result;
+				this.downloadProgress.progress = 25;
 				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
 				this.downloadNotifier.subscribe(
 					update => {
-						this.downloadProgress = update;
-						if (update.progress === 100) {
-							this.downloadIndicator = false;
-							//download file and unsubscribe
-							
-							window.open(this.downloadProgress.url, '_self');
-							this.downloadNotifier.unsubscribe();
-							
-						}
+						this.downloadSuccessHelper(update);
 					},
 					error => {
-						this.downloadIndicator = false;
-						this.downloadNotifier.unsubscribe();
+						this.downloadErrorHelper(error);
 					}
 				);
 			},
 			error => {
-
+				this.downloadErrorHelper(error);
 			}
 		);
 	}
@@ -491,14 +485,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
 				this.downloadNotifier.subscribe(
 					update => {
-						this.downloadProgress = update;
-						if (update.progress === 100) {
-							this.alertService.stopLoadingMessage();
-							this.downloadIndicator = false;
-							//download file and unsubscribe
-							window.open(this.downloadProgress.url, '_self');
-							this.downloadNotifier.unsubscribe();
-						}
+						this.downloadSuccessHelper(update);
 					},
 					error => {
 						this.downloadErrorHelper(error);
@@ -511,7 +498,20 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	downloadSuccessHelper(update: DownloadNotification) {
+		this.downloadProgress = update;
+		if (update.progress === 100) {
+			this.alertService.stopLoadingMessage();
+			this.downloadIndicator = false;
+			//download file and unsubscribe
+			window.open(this.downloadProgress.url, '_self');
+			this.downloadNotifier.unsubscribe();
+		}
+	}
+
 	downloadErrorHelper(error: any) {
+		this.downloadIndicator = false;
+		this.downloadNotifier.unsubscribe();
 		this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
 			'Download Error',
