@@ -8,9 +8,9 @@ namespace DAL.Models.Surveys
         int Id { get; set; }
         string ViewName { get; set; }
         Survey Survey { get; set; }
-        ICollection<QuestionPart> QuestionParts { get; set; }
+        ICollection<QuestionPartView> QuestionPartViews { get; set; }
         ICollection<WelcomePageLabel> WelcomePageLabel { get; set; }
-        ICollection<TermsAndConditionsLabel> TermsAndConditionsLabel { get; set; }
+        ICollection<TermsAndConditionsPageLabel> TermsAndConditionsLabel { get; set; }
         ICollection<ThankYouPageLabel> ThankYouPageLabel { get; set; }
 
 

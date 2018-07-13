@@ -22,11 +22,10 @@ namespace DAL.Models.Questions
         }
 
         public int Id { get; set; }
-        public string Text { get; set; }
 
         public string QuestionType { get; set; }
 
-        public int Order {get;set;}
+        public int Order { get; set; }
 
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
@@ -35,9 +34,6 @@ namespace DAL.Models.Questions
         public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
 
         public ICollection<QuestionOption> QuestionOptions { get; set; }
-
-
-        public SurveyView SurveyView { get; set; }
 
         //Whether this question part is responded to by the respondent group
         public bool IsGroupQuestion { get; set; } = false;

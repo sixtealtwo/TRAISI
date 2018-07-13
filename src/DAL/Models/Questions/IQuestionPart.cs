@@ -10,11 +10,7 @@ namespace DAL.Models.Questions
 
         int Id { get; set; }
 
-        [NotMapped]
-        string Text { get; set; }
-
-
-        string QuestionType {get;set;}
+        string QuestionType { get; set; }
 
 
         ICollection<QuestionPart> QuestionPartChildren { get; set; }
@@ -24,12 +20,7 @@ namespace DAL.Models.Questions
 
         ICollection<QuestionOption> QuestionOptions { get; set; }
 
-
-        SurveyView SurveyView { get; set; }
-
         bool IsGroupQuestion { get; set; }
-
-        int Order {get;set;}
 
     }
 }

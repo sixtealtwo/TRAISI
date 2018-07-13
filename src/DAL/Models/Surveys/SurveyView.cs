@@ -9,7 +9,7 @@ namespace DAL.Models.Surveys
 
         public Survey Survey { get; set; }
 
-        public ICollection<QuestionPart> QuestionParts { get; set; }
+        public ICollection<QuestionPartView> QuestionPartViews { get; set; }
         public ICollection<WelcomePageLabel> WelcomePageLabel { get; set; }
         public ICollection<TermsAndConditionsPageLabel> TermsAndConditionsLabel { get; set; }
         public ICollection<ThankYouPageLabel> ThankYouPageLabel { get; set; }
@@ -18,7 +18,7 @@ namespace DAL.Models.Surveys
 
         public SurveyView()
         {
-            this.QuestionParts = new List<QuestionPart>();
+            this.QuestionPartViewss = new List<QuestionPartView>();
         }
     }
 }
