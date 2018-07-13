@@ -26,7 +26,7 @@ namespace TRAISI.SDK
         public List<QuestionPartSlotDefinition> QuestionPartSlots { get; set; }
 
 
-        public Type Type { get; }
+        public ISurveyQuestion Type { get; }
 
         /// <summary>
         /// A list of in memory byte [] data of client code and modules
@@ -40,12 +40,12 @@ namespace TRAISI.SDK
         /// </summary>
         /// <param name="type"></param>
         /// <param name="attribute"></param>
-        public QuestionTypeDefinition(Type type, SurveyQuestionAttribute attribute)
+        public QuestionTypeDefinition(ISurveyQuestion type, SurveyQuestionAttribute attribute)
         {
-            var question = Activator.CreateInstance(type) as ISurveyQuestion;
+            //var question = Activator.CreateInstance(type) as ISurveyQuestion;
             this.Type = type;
-            TypeName = question.TypeName;
-            Icon = question.Icon;
+            TypeName = type.TypeName;
+            Icon = type.Icon;
 
             ClientModules = new List<byte[]>();
 

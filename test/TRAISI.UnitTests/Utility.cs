@@ -42,6 +42,10 @@ namespace TRAISI.UnitTests
 
             List<QuestionTypeDefinition> definitions = new List<QuestionTypeDefinition>();
 
+            var mockQuestion = new Mock<QuestionTypeDefinition>();
+            
+
+
             mock.SetupProperty(p => p.QuestionTypeDefinitions,definitions);
 
             return mock.Object;

@@ -50,14 +50,17 @@ namespace TRAISI.Helpers
             LoadQuestionTypeDefinitions();
         }
 
+        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="questionType"></param>
         /// <param name="attribute"></param>
+        /// <param name="sourceAssembly"></param>
         private void CreateQuestionTypeDefinition(Type questionType, SurveyQuestionAttribute attribute, Assembly sourceAssembly)
         {
-            var typeDefinition = new QuestionTypeDefinition(questionType, attribute);
+            
+            var typeDefinition = new QuestionTypeDefinition(Activator.CreateInstance(questionType) as ISurveyQuestion, attribute);
             var configurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
             var parameterConfigurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
@@ -76,7 +79,7 @@ namespace TRAISI.Helpers
         /// </summary>
         /// <param name="questionType"></param>
         /// <returns></returns>
-        private List<QuestionPartSlotDefinition> ListQuestionSlots(Type questionType)
+        public List<QuestionPartSlotDefinition> ListQuestionSlots(Type questionType)
         {
             var list = new List<QuestionPartSlotDefinition>();
 
@@ -95,6 +98,7 @@ namespace TRAISI.Helpers
 
             return list;
         }
+
 
         /// <summary>
         /// Returns the QuestionTypeDefinition associated with the passed name
