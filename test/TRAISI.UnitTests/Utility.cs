@@ -5,7 +5,8 @@ using DAL.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-
+using TRAISI.Helpers;
+using TRAISI.SDK;
 
 namespace TRAISI.UnitTests
 {
@@ -27,6 +28,22 @@ namespace TRAISI.UnitTests
         public static IConfiguration CreateConfiguration()
         {
             var mock = new Mock<IConfiguration>();
+            return mock.Object;
+        }
+
+        /// <summary>
+        /// Creates a Moq QuestionTypeManager
+        /// </summary>
+        /// <returns></returns>
+        public static QuestionTypeManager CreateQuestionTypeManager()
+        {
+
+            var mock = new Mock<QuestionTypeManager>(null,CreateLoggerFactory());
+
+            List<QuestionTypeDefinition> definitions = new List<QuestionTypeDefinition>();
+
+            mock.SetupProperty(p => p.QuestionTypeDefinitions,definitions);
+
             return mock.Object;
         }
 
