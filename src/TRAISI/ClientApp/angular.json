@@ -1,29 +1,38 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "traisi": {
-      "root": "",
-      "sourceRoot": "src",
-      "projectType": "application",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"cli": {
+		"warnings": {
+			"typescriptMismatch": false
+		}
+	},
+	"defaultProject": "traisi",
+	"newProjectRoot": "projects",
+	"projects": {
+		"traisi": {
+			"root": "",
+			"sourceRoot": "src",
+			"projectType": "application",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist",
+						"index": "src/index.html",
+						"main": "src/main.ts",
+						"tsConfig": "src/tsconfig.app.json",
 						"progress": false,
 						"showCircularDependencies": false,
-            "polyfills": "src/polyfills.ts",
-            "assets": [
+						"polyfills": "src/polyfills.ts",
+						"assets": [
 							"src/assets",
-							{ "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
+							{
+								"glob": "**/*",
+								"input": "node_modules/ngx-monaco-editor/assets/monaco",
+								"output": "./assets/monaco/"
+							}
 
-            ],
-            "styles": [
+						],
+						"styles": [
 							"src/scss/application.scss",
 							"node_modules/animate.css/animate.css",
 							"node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
@@ -31,78 +40,78 @@
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
 							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
-						  "node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
+							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
 							"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
 							"src/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/dropzone.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/parsleyjs/dist/parsley.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/hammerjs/hammer.js",
-              "node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
-              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-              "src/assets/scripts/alertify.js",
+						],
+						"scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/parsleyjs/dist/parsley.js",
+							"node_modules/popper.js/dist/umd/popper.js",
+							"node_modules/bootstrap/dist/js/bootstrap.js",
+							"node_modules/hammerjs/hammer.js",
+							"node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+							"src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
 							"node_modules/systemjs/dist/system.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "serve": {
-              "extractCss": true,
-              "namedChunks": true,
-              "vendorChunk": true,
-              "commonChunk": true,
-              "verbose": true
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "traisi:build:serve",
-            "port": 3000
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "traisi:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "traisi:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
-            "tsConfig": "src/tsconfig.spec.json",
-            "polyfills": "src/polyfills.ts",
-            "styles": [
+						]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"aot": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": false,
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							]
+						},
+						"serve": {
+							"extractCss": true,
+							"namedChunks": true,
+							"vendorChunk": true,
+							"commonChunk": true,
+							"verbose": true
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "traisi:build:serve",
+						"port": 3000
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "traisi:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "traisi:build"
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "src/test.ts",
+						"karmaConfig": "./karma.conf.js",
+						"tsConfig": "src/tsconfig.spec.json",
+						"polyfills": "src/polyfills.ts",
+						"styles": [
 							"src/scss/application.scss",
 							"node_modules/animate.css/animate.css",
 							"node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
@@ -110,79 +119,74 @@
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
 							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
-						  "node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
+							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
 							"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
 							"src/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/dropzone.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/parsleyjs/dist/parsley.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/hammerjs/hammer.js",
-              "node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
-              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-              "src/assets/scripts/alertify.js",
+						],
+						"scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/parsleyjs/dist/parsley.js",
+							"node_modules/popper.js/dist/umd/popper.js",
+							"node_modules/bootstrap/dist/js/bootstrap.js",
+							"node_modules/hammerjs/hammer.js",
+							"node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+							"src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
 							"node_modules/systemjs/dist/system.js"
-            ],
-            "assets": [
-              "src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "traisi-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "traisi:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "defaultProject": "traisi",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "scss"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  },
-  "cli": {
-    "warnings": {
-      "typescriptMismatch": false
-    }
-  }
+						],
+						"assets": [
+							"src/assets"
+						]
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"src/tsconfig.app.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
+					}
+				}
+			}
+		},
+		"traisi-e2e": {
+			"root": "",
+			"sourceRoot": "",
+			"projectType": "application",
+			"architect": {
+				"e2e": {
+					"builder": "@angular-devkit/build-angular:protractor",
+					"options": {
+						"protractorConfig": "./protractor.conf.js",
+						"devServerTarget": "traisi:serve"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [],
+						"exclude": [
+							"**/node_modules/**"
+						]
+					}
+				}
+			}
+		}
+	},
+	"schematics": {
+		"@schematics/angular:component": {
+			"prefix": "app",
+			"styleext": "scss"
+		},
+		"@schematics/angular:directive": {
+			"prefix": "app"
+		}
+	},
+	"version": 1
 }

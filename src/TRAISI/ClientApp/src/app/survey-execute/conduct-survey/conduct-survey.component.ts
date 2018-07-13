@@ -13,6 +13,9 @@ import { Utilities } from '../../services/utilities';
 import { AuthService } from '../../services/auth.service';
 import { Title } from '@angular/platform-browser';
 import { TitleCasePipe } from '@angular/common';
+import { RealTimeNotificationServce } from '../../services/real-time-notification.service';
+import { DownloadNotification } from '../../models/download-notification';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-test-survey',
@@ -31,6 +34,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	public baseUrl: string = '';
 	public loadingIndicator: boolean = false;
 	public generatingIndicator: boolean = false;
+	public downloadIndicator: boolean = false;
 	public pageLimit: number = 20;
 
 	public individualCodeBeingViewed: boolean = true;
@@ -48,6 +52,9 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	public groupCodeColumns: any[] = [];
 	public totalGroupCodes: number = 0;
 	public currentGroupPage: number = 0;
+
+	private downloadProgress: DownloadNotification = null;
+	private downloadNotifier: Subject<DownloadNotification>;
 
 	public indivDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -84,10 +91,12 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		private authService: AuthService,
 		private router: Router,
 		private title: Title,
-		private titleCasePipe: TitleCasePipe
+		private titleCasePipe: TitleCasePipe,
+		private notificationService: RealTimeNotificationServce,
 	) {
 		this.survey = new Survey();
 		this.codeGenParams = new CodeGenerator();
+		this.downloadProgress = new DownloadNotification();
 		this.baseUrl = configurationService.baseUrl;
 
 		this.indivDropZoneconfig.url = this.baseUrl + '/api/SurveyExecution/uploadIndividual';
@@ -439,6 +448,78 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		this.codeGenParams.isGroupCode = true;
 		this.codeGenParams.usePattern = this.codeProperties === 'pattern';
 		data[2].append('parameters', JSON.stringify(this.codeGenParams));
+	}
+
+	downloadGroupCodes() {
+		this.alertService.startLoadingMessage('Creating codes file...');
+		this.downloadProgress = new DownloadNotification("", 1);
+		this.downloadIndicator = true;
+		this.surveyExecuteService.downloadSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(
+			result => {
+				this.downloadProgress.id = result;
+				this.downloadProgress.progress = 25;
+				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
+				this.downloadNotifier.subscribe(
+					update => {
+						this.downloadSuccessHelper(update);
+					},
+					error => {
+						this.downloadErrorHelper(error);
+					}
+				);
+			},
+			error => {
+				this.downloadErrorHelper(error);
+			}
+		);
+	}
+
+	downloadIndividualCodes() {
+		this.alertService.startLoadingMessage('Creating codes file...');
+		this.downloadProgress = new DownloadNotification("", 1);
+		this.downloadIndicator = true;
+		this.surveyExecuteService.downloadSurveyShortCodes(this.surveyId, this.executeMode).subscribe(
+			result => {
+				this.downloadProgress.id = result;
+				this.downloadProgress.progress = 25;
+				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
+				this.downloadNotifier.subscribe(
+					update => {
+						this.downloadSuccessHelper(update);
+					},
+					error => {
+						this.downloadErrorHelper(error);
+					}
+				);
+			},
+			error => {
+				this.downloadErrorHelper(error);
+			}
+		);
+	}
+
+	downloadSuccessHelper(update: DownloadNotification) {
+		this.downloadProgress = update;
+		if (update.progress === 100) {
+			this.alertService.stopLoadingMessage();
+			this.downloadIndicator = false;
+			//download file and unsubscribe
+			window.open(this.downloadProgress.url, '_self');
+			this.downloadNotifier.unsubscribe();
+		}
+	}
+
+	downloadErrorHelper(error: any) {
+		this.downloadIndicator = false;
+		this.downloadNotifier.unsubscribe();
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			'Download Error',
+			`An error occured whilst downloading the codes.\r\nError: "${Utilities.getHttpResponseMessage(
+				this.processDZError(error[1])
+			)}"`,
+			MessageSeverity.error
+		);
 	}
 
 	getFormattedTimeZone() {

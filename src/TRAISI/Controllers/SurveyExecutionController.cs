@@ -30,13 +30,15 @@ namespace TRAISI.Controllers
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
 		private readonly ICodeGeneration _codeGeneration;
+		private readonly IFileDownloader _fileDownloader;
 
-		public SurveyExecutionController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IAuthorizationService authorizationService, IAccountManager accountManager, ICodeGeneration codeGenerationService)
+		public SurveyExecutionController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IAuthorizationService authorizationService, IAccountManager accountManager, ICodeGeneration codeGenerationService, IFileDownloader fileDownloaderService)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
 			this._codeGeneration = codeGenerationService;
+			this._fileDownloader = fileDownloaderService;
 		}
 
 		/// <summary>
@@ -46,7 +48,7 @@ namespace TRAISI.Controllers
 		/// <param name="mode"></param>
 		/// <returns></returns>
 		[HttpGet("{id}/{mode}")]
-		[Produces(typeof(List<Shortcode>))]
+		[Produces(typeof(List<ShortcodeViewModel>))]
 		public async Task<IActionResult> GetSurveyShortcodes(int id, string mode)
 		{
 			return await this.GetSurveyShortcodes(id,mode,-1,-1);
@@ -61,7 +63,7 @@ namespace TRAISI.Controllers
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
 		[HttpGet("{id}/{mode}/{pageIndex}/{pageSize}")]
-		[Produces(typeof(List<Shortcode>))]
+		[Produces(typeof(List<ShortcodeViewModel>))]
 		public async Task<IActionResult> GetSurveyShortcodes(int id, string mode, int pageIndex, int pageSize)
 		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
@@ -69,6 +71,52 @@ namespace TRAISI.Controllers
 			{
 				var shortcodes = await this._unitOfWork.Shortcodes.GetShortcodesForSurveyAsync(id, mode=="test", pageIndex, pageSize);
 				return Ok(Mapper.Map<IEnumerable<ShortcodeViewModel>>(shortcodes));
+			}
+			else
+			{
+				return BadRequest("User does not have permissions to execute this survey.");
+			}
+		}
+
+		/// <summary>
+		/// Download all shortcodes for survey
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/{mode}/download")]
+		[Produces(typeof(string))]
+		public async Task<IActionResult> DownloadSurveyShortcodes(int id, string mode)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			if(survey.Owner == this.User.Identity.Name || await HasExecuteSurveyPermissions(id))
+			{
+				string code = this._fileDownloader.CodeFunction();
+				this._fileDownloader.WriteShortcodeFile(code, this.User.Identity.Name, mode, survey);
+				return Ok(code);
+			}
+			else
+			{
+				return BadRequest("User does not have permissions to execute this survey.");
+			}
+		}
+
+		/// <summary>
+		/// Download all group codes for survey
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		[HttpGet("{id}/groupcode/{mode}/download")]
+		[Produces(typeof(string))]
+		public async Task<IActionResult> DownloadSurveyGroupCodes(int id, string mode)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			if(survey.Owner == this.User.Identity.Name || await HasExecuteSurveyPermissions(id))
+			{
+				string code = this._fileDownloader.CodeFunction();
+				this._fileDownloader.WriteGroupCodeFile(code, this.User.Identity.Name, mode, survey);
+				return Ok(code);
 			}
 			else
 			{
@@ -92,6 +140,8 @@ namespace TRAISI.Controllers
 			}
 		}
 
+		
+
 
 		/// <summary>
 		/// Get all group codes for survey
@@ -100,14 +150,14 @@ namespace TRAISI.Controllers
 		/// <param name="mode"></param>
 		/// <returns></returns>
 		[HttpGet("{id}/groupcode/{mode}")]
-		[Produces(typeof(List<GroupCode>))]
+		[Produces(typeof(List<GroupCodeViewModel>))]
 		public async Task<IActionResult> GetSurveyGroupCodes(int id, string mode)
 		{
 			return await this.GetSurveyGroupCodes(id, mode, -1, -1);
 		}
 
 		[HttpGet("{id}/groupcode/{mode}/{pageIndex}/{pageSize}")]
-		[Produces(typeof(List<GroupCode>))]
+		[Produces(typeof(List<GroupCodeViewModel>))]
 		public async Task<IActionResult> GetSurveyGroupCodes(int id, string mode, int pageIndex, int pageSize)
 		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);

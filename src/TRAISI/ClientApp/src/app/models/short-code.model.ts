@@ -5,5 +5,5 @@ export class ShortCode {
 		public respondent?: string,
 		public isTest?: boolean,
 		public createdDate?: Date) {
-}
+	}
 }

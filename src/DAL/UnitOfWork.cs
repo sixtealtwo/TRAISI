@@ -21,6 +21,9 @@ namespace DAL
         IShortcodeRepository _shortcodes;
         IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
+				IWelcomePageLabelsRepository _welcomePageLabels;
+				IThankYouPageLabelsRepository _thankYouPageLabels;
+				ITermsAndConditionsPageLabelsRepository _termsAndConditionsPageLabels;
         IQuestionPartRepository _questionParts;
 
         public UnitOfWork(ISurveyRepository surveyRepository)
@@ -149,6 +152,45 @@ namespace DAL
                 }
 
                 return _questionParts;
+            }
+        }
+
+				public IWelcomePageLabelsRepository WelcomePageLabels
+        {
+            get
+            {
+                if (_welcomePageLabels == null)
+                {
+                    _welcomePageLabels = new WelcomePageLabelsRepository(_context);
+                }
+
+                return _welcomePageLabels;
+            }
+        }
+
+				public IThankYouPageLabelsRepository ThankYouPageLabels
+        {
+            get
+            {
+                if (_thankYouPageLabels == null)
+                {
+                    _thankYouPageLabels = new ThankYouPageLabelsRepository(_context);
+                }
+
+                return _thankYouPageLabels;
+            }
+        }
+
+				public ITermsAndConditionsPageLabelsRepository TermsAndConditionsPageLabels
+        {
+            get
+            {
+                if (_termsAndConditionsPageLabels == null)
+                {
+                    _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelsRepository(_context);
+                }
+
+                return _termsAndConditionsPageLabels;
             }
         }
 

@@ -21,7 +21,7 @@ namespace DAL.Repositories
 		private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
 		/// <summary>
-		/// Get all groupcodes for survey
+		/// Get all groupcodes for survey (with paging)
 		/// </summary>
 		/// <param name="surveyId"></param>
 		/// <param name="isTest"></param>
@@ -40,6 +40,20 @@ namespace DAL.Repositories
 				codes = codes.Take(pageSize);
 			}
 			return await codes.ToListAsync();
+		}
+
+		/// <summary>
+		/// Get all groupcodes for survey
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="isTest"></param>
+		/// <returns></returns>
+		public IEnumerable<GroupCode> GetGroupCodesForSurvey(int surveyId, bool isTest)
+		{
+			return _appContext.GroupCodes
+							.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
+							.OrderByDescending(sc => sc.CreatedDate)
+							.ToList();
 		}
 
 		public async Task<int> GetCountOfGroupCodesForSurveyAsync(int surveyId, bool isTest)
