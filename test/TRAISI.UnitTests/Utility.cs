@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using DAL;
 using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
@@ -7,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using TRAISI.Helpers;
 using TRAISI.SDK;
+using TRAISI.SDK.Attributes;
+using TRAISI.SDK.Enums;
+using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.UnitTests
 {
@@ -42,8 +46,26 @@ namespace TRAISI.UnitTests
 
             List<QuestionTypeDefinition> definitions = new List<QuestionTypeDefinition>();
 
-            var mockQuestion = new Mock<QuestionTypeDefinition>();
+
+
+            var mockSurveyQuestion = new Mock<ISurveyQuestion>();
+            mockSurveyQuestion.SetupProperty(p => p.TypeName,"TestQuestionType1");
+            mockSurveyQuestion.SetupProperty(p => p.Icon, "IconType1");
             
+            TypeDescriptor.AddAttributes(mockSurveyQuestion.Object, new QuestionConfigurationAttribute(QuestionConfigurationValueType.Integer){
+                Description = "Description",
+
+            });
+            var questionAttribute = new SurveyQuestionAttribute(QuestionResponseType.Integer)
+            {
+                CustomBuilderView = false,
+
+            };
+
+            QuestionTypeDefinition definition = new QuestionTypeDefinition(mockSurveyQuestion.Object,questionAttribute);
+
+            definitions.Add(definition);
+
 
 
             mock.SetupProperty(p => p.QuestionTypeDefinitions,definitions);
