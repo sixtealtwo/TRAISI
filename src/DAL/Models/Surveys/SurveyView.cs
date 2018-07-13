@@ -10,6 +10,7 @@ namespace DAL.Models.Surveys
         public Survey Survey { get; set; }
 
         public ICollection<QuestionPartView> QuestionPartViews { get; set; }
+        
         public ICollection<WelcomePageLabel> WelcomePageLabel { get; set; }
         public ICollection<TermsAndConditionsPageLabel> TermsAndConditionsLabel { get; set; }
         public ICollection<ThankYouPageLabel> ThankYouPageLabel { get; set; }

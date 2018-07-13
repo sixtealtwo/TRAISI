@@ -22,9 +22,9 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
 
-        void AddQuestionPart(SurveyView view,QuestionPart part, QuestionTypeDefinition definition, int position);
+        QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position);
 
-        void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition,int slot);
+        void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition, int slot);
 
         void SetSurveyTitle(Survey s, string title, string language);
 
