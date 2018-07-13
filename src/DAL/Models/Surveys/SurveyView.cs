@@ -18,7 +18,7 @@ namespace DAL.Models.Surveys
 
         public SurveyView()
         {
-            this.QuestionPartViewss = new List<QuestionPartView>();
+            this.QuestionPartViews = new List<QuestionPartView>();
         }
     }
 }

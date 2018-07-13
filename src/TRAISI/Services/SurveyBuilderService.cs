@@ -249,13 +249,13 @@ namespace TRAISI.Services
             if (position >= 0)
             {
                 part.Order = position;
-                (view.QuestionParts as List<QuestionPart>).Insert(position, part);
+                //(view.QuestionParts as List<QuestionPart>).Insert(position, part);
 
             }
             else
             {
-                view.QuestionParts.Add(part);
-                part.Order = view.QuestionParts.Count - 1;
+                //view.QuestionParts.Add(part);
+                //part.Order = view.QuestionParts.Count - 1;
             }
             return;
         }
