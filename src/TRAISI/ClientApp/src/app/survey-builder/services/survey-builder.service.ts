@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SurveyBuilderEndpointService } from './survey-builder-endpoint.service';
 import { Observable } from 'rxjs';
+import { QuestionTypeDefinition } from '../models/question-type-definition';
+import { UploadPath } from '../models/upload-path';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -17,7 +19,11 @@ export class SurveyBuilderService {
 	/**
 	 * Returns a list of question types that are available on the server.
 	 */
-	public getQuestionTypes<T>(): Observable<T> {
-		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint();
+	public getQuestionTypes(): Observable<QuestionTypeDefinition[]> {
+		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint<QuestionTypeDefinition[]>();
+	}
+
+	public deleteUploadedFile(filePath: UploadPath) {
+		return this.surveyBuilderEndpointService.getDeleteUploadedFileEndopint<UploadPath>(filePath);
 	}
 }

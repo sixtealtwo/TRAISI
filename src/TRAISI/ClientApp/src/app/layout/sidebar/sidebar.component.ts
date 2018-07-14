@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
 	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
 	@Input() userName: string;
+	@Input() onBuilder: boolean = false;
 	constructor(
 		config: AppConfig,
 		el: ElementRef,

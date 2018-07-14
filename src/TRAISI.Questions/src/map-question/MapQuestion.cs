@@ -15,7 +15,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 
 		public virtual string Icon
 		{
-			get => "Map";
+			get => "fa-map-marker";
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

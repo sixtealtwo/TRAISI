@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 
 @Component({
 	selector: 'traisi-question-type-chooser',
 	templateUrl: './question-type-chooser.component.html',
-	styleUrls: ['./question-type-chooser.component.scss']
+	styleUrls: ['./question-type-chooser.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class QuestionTypeChooserComponent implements OnInit {
 	public questionTypeDefinitions: QuestionTypeDefinition[];

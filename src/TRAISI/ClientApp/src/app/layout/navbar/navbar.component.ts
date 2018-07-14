@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { ConfigurationService } from '../../services/configuration.service';
+import { Location } from '@angular/common';
 declare let jQuery: JQueryStatic;
 
 @Component({
@@ -16,6 +17,7 @@ export class NavbarComponent implements OnInit {
 	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
 
 	@Input() userName: string;
+	@Input() onBuilder: boolean = false;
 	$el: any;
 	config: any;
 
@@ -24,7 +26,8 @@ export class NavbarComponent implements OnInit {
 		config: AppConfig,
 		private router: Router,
 		private translationService: AppTranslationService,
-		public configurations: ConfigurationService
+		public configurations: ConfigurationService,
+		private location: Location
 	) {
 		this.$el = jQuery(el.nativeElement);
 		this.config = config.getConfig();
@@ -44,6 +47,10 @@ export class NavbarComponent implements OnInit {
 
 	refreshPage() {
 		this.router.navigate([this.router.url]);
+	}
+
+	goBackPage() {
+		this.location.back();
 	}
 
 	ngOnInit(): void {
