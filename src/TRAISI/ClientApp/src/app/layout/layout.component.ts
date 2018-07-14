@@ -301,9 +301,6 @@ export class LayoutComponent implements OnInit {
 	onActivate(event: any) {
 	 if (event instanceof SurveyBuilderComponent) {
 		 this.onBuilder = true;
-		 if (!this.navStatic) {
-		 	this.toggleSidebarListener('static');
-		 }
 	 }
 	 else {
 		 this.onBuilder = false;

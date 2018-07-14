@@ -41,7 +41,7 @@
 							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
 							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
-							"node_modules/@swimlane/ngx-dnd/release/index.css",
+							//"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
 							"src/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/dropzone.css",
@@ -123,7 +123,7 @@
 							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
 							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
-							"node_modules/@swimlane/ngx-dnd/release/index.css",
+							//"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
 							"src/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/dropzone.css"

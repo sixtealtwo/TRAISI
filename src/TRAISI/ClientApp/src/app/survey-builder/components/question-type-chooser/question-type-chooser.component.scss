@@ -1,5 +1,100 @@
+@import '../../../../scss/helpers.scss';
+
 .builder-qtypes .ngx-dnd-container {
 	background: none !important;
 	border: 0px solid black !important;
 	padding: 5px;
+}
+
+li.chooser a{
+	display: block;
+	color: $sidebar-color;
+	text-decoration: none;
+
+	.toggle{
+		float: right;
+		line-height: 18px;
+		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+		transition: transform .35s ease;
+	}
+
+	&.collapsed .toggle{
+		transform: rotate(90deg);
+	}
+
+	.badge{
+		float: right;
+		line-height: 8px;
+		margin-top: 7px;
+		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+		padding: $padding-base-vertical;
+		border-radius: $border-radius-sm;
+
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			margin-top: 11px;
+		}
+	}
+}
+
+li.chooser {
+	list-style:none;
+}
+
+li.chooser > a{
+	position: relative;
+	border-top: 1px solid $sidebar-item-border-color;
+	padding-left: 50px;
+	line-height: 35px;
+
+	&:hover{
+		background-color: $sidebar-item-hover-bg-color;
+	}
+
+	@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+		line-height: 44px;
+	}
+
+	.icon{
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			top: 8px;
+		}
+
+		display: block;
+		position: absolute;
+		top: 3px;
+		left: $sidebar-padding-horizontal;
+		width: 28px;
+		height: 28px;
+		line-height: 24px;
+		text-align: center;
+
+		.fa, .glyphicon{
+			font-size: 16px;
+			color: rgba($sidebar-color, .7);
+		}
+
+		.fa-database {
+			vertical-align: -1px;
+		}
+
+	}
+
+	.toggle{
+		line-height: 35px;
+
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			line-height: 44px;
+		}
+	}
+
+}
+
+.tooltip-builder {
+	font-size:14px;
+	font-family: unset;
+	font-weight: unset;
+	margin-left: -2px;
+	.tooltip-inner {
+		background-color: $sidebar-item-hover-bg-color;
+	}
 }

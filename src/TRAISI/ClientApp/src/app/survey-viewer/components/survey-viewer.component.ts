@@ -36,7 +36,7 @@ export class SurveyViewerComponent implements OnInit {
 			this.vc.createComponent(value);
 		});
 
-		this.questionLoaderService.getQuestionComponentFactory('Map').subscribe((value: ComponentFactory<any>) => {
+		this.questionLoaderService.getQuestionComponentFactory('Location').subscribe((value: ComponentFactory<any>) => {
 			this.vcmap.createComponent(value);
 		});
 	}

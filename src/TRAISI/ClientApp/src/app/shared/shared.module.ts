@@ -4,14 +4,14 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { FormsModule } from '@angular/forms';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
-import { QuestionTypeChooserComponent } from '../survey-builder/components/question-type-chooser/question-type-chooser.component';
 import { NullAstVisitor } from '@angular/compiler';
-
+import { RouterModule } from '../../../node_modules/@angular/router';
+import { TooltipModule } from '../../../node_modules/ngx-bootstrap';
 
 @NgModule({
-	imports: [CommonModule, FormsModule, NgxDnDModule],
+	imports: [CommonModule, TooltipModule, FormsModule, RouterModule, NgxDnDModule],
 	providers: [],
-	declarations: [ItemListComponent, SearchBoxComponent, QuestionTypeChooserComponent],
-	exports: [ItemListComponent, SearchBoxComponent, QuestionTypeChooserComponent, NgxDnDModule]
+	declarations: [ItemListComponent, SearchBoxComponent],
+	exports: [ItemListComponent, SearchBoxComponent, NgxDnDModule]
 })
 export class SharedModule {}
