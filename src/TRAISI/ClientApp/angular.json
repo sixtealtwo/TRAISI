@@ -44,7 +44,9 @@
 							"node_modules/@swimlane/ngx-dnd/release/index.css",
 							"src/scss/alertify.core.css",
 							"src/scss/alertify.bootstrap.css",
-							"node_modules/dropzone/dist/dropzone.css"
+							"node_modules/dropzone/dist/dropzone.css",
+							"node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+  						"node_modules/froala-editor/css/froala_style.min.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.js",
@@ -56,7 +58,8 @@
 							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
 							"src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
-							"node_modules/systemjs/dist/system.js"
+							"node_modules/systemjs/dist/system.js",
+							"node_modules/froala-editor/js/froala_editor.pkgd.min.js"
 						]
 					},
 					"configurations": {

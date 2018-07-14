@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Net.Http.Headers;
+using TRAISI.Helpers;
+using TRAISI.ViewModels;
 
 namespace TRAISI.Controllers
 {
@@ -17,14 +19,16 @@ namespace TRAISI.Controllers
     public class UploadController : Controller
     {
         private IHostingEnvironment _hostingEnvironment;
+        private IFileDownloader _fileHelper;
 
-        public UploadController(IHostingEnvironment hostingEnvironment)
+        public UploadController(IHostingEnvironment hostingEnvironment, IFileDownloader fileHelper)
         {
             _hostingEnvironment = hostingEnvironment;
+            _fileHelper = fileHelper;
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        public ActionResult UploadFile()
+        [HttpPost, DisableRequestSizeLimit, Produces(typeof(UploadPathViewModel))]
+        public async Task<IActionResult> UploadFile()
         {
             try
             {
@@ -39,13 +43,22 @@ namespace TRAISI.Controllers
                 if (file.Length > 0)
                 {
                     string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string extension = Path.GetExtension(fileName);
+                    fileName = _fileHelper.CodeFunction() + extension;
                     string fullPath = Path.Combine(newPath, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
-                        file.CopyTo(stream);
+                        await file.CopyToAsync(stream);
                     }
+
+                    string uploadPath = $"/{folderName}/{this.User.Identity.Name}/{fileName}";
+                    
+                    return Json(new UploadPathViewModel() { Link = uploadPath });
                 }
-                return Json("Upload Successful.");
+                else
+                {
+                    return Json("Upload Failed: ");
+                }
             }
             catch (System.Exception ex)
             {
@@ -53,5 +66,24 @@ namespace TRAISI.Controllers
             }
         }
 
+        [HttpPost("delete")]
+        public IActionResult DeleteUploadedFile([FromBody] UploadPathViewModel uploadPath)
+        {
+            try
+            {
+                var fileSrc = uploadPath.Link.Replace("/", @"\");
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string filePath  =webRootPath + fileSrc;
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1,5 +1,8 @@
-<div class="ngx-dnd-container" ngxDroppable="'prevent'">
-		<div class="ngx-dnd-item" ngxDraggable="['restricted-target']" *ngFor="let question of questionTypeDefinitions">
- {{question.typeName}}
-		</div>
+<div class="builder-qtypes">
+	<ngx-dnd-container [model]="questionTypeDefinitions" [copy]="true" [dropZones]="['restricted-target']">
+			<ng-template let-item="model">
+					<i class="fa" [ngClass]="item.icon"></i>
+					{{item.typeName}}
+				</ng-template>
+	</ngx-dnd-container>
 </div>

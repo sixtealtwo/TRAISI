@@ -11,7 +11,6 @@ import {
 	TranslatePipe
 } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -44,6 +43,7 @@ import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
+import { FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 
 const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: './assets', // configure base path for monaco editor
@@ -80,7 +80,8 @@ const APP_PROVIDERS = [AppConfig];
 			}
 		}),
 		NgxDatatableModule,
-		NgxDnDModule,
+		FroalaEditorModule.forRoot(),
+		FroalaViewModule.forRoot(),
 		ToastyModule.forRoot(),
 		TooltipModule.forRoot(),
 		PopoverModule.forRoot(),

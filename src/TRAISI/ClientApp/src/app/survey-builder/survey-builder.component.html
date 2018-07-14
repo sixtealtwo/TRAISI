@@ -1,13 +1,16 @@
 <h1>Survey Builder for Survey {{ surveyId }}</h1>
 
 <div class="row">
-		<div class="col-md-2">
-			<traisi-question-type-chooser></traisi-question-type-chooser>
-		</div>
-		<div class="col-md-5" ngxDroppable="restricted-target">
-			Testing
-		</div>
-		<div class="col-md-5" ngxDroppable="restricted-target">
-				Testing2
-			</div>
+	<div class="sidebar showlogo">
+		<traisi-question-type-chooser></traisi-question-type-chooser>
+	</div>
+	<div class="col-md-8">
+		<ngx-dnd-container [model]="testTargets" dropZone="restricted-target" [removeOnSpill]="false">
+				<ng-template let-item="model">
+						{{item.typeName}}
+					</ng-template>
+		</ngx-dnd-container>
+	</div>
 </div>
+
+<div [froalaEditor]="froalaOptions">Hello, Froala!</div>

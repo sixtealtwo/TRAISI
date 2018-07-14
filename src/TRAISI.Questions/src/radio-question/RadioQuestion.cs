@@ -12,7 +12,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "Radio";
+            get => "fa-dot-circle-o";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

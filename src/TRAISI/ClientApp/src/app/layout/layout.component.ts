@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, ElementRef, Renderer2, NgZone, ViewChild,
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { AppConfig } from '../app.config';
 import { AuthService } from '../services/auth.service';
+import { SurveyBuilderComponent } from '../survey-builder/survey-builder.component';
 
 declare let jQuery: JQueryStatic;
 declare let Hammer: any;
@@ -24,7 +25,7 @@ export class LayoutComponent implements OnInit {
 	@ViewChild('routerComponent') routerComponent: ElementRef;
 
 	userName: string;
-
+	onBuilder: boolean = false;
 	constructor(
 		config: AppConfig,
 		el: ElementRef,
@@ -295,5 +296,17 @@ export class LayoutComponent implements OnInit {
 	logout() {
 		this.authService.logout();
 		this.authService.redirectLogoutUser();
+	}
+
+	onActivate(event: any) {
+	 if (event instanceof SurveyBuilderComponent) {
+		 this.onBuilder = true;
+		 if (!this.navStatic) {
+		 	this.toggleSidebarListener('static');
+		 }
+	 }
+	 else {
+		 this.onBuilder = false;
+	 }
 	}
 }

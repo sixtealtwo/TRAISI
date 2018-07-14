@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions {
 			get => "Text";
 		}
 		public string Icon {
-			get => "Text";
+			get => "fa-text-width";
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
