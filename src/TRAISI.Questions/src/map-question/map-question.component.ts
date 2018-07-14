@@ -11,7 +11,7 @@ import { GeoLocation } from '../models/geo-location.model';
 	styles: [require('./map-question.component.scss').toString()]
 })
 export class MapQuestionComponent implements OnInit, AfterViewInit {
-	readonly QUESTION_TYPE_NAME: string = 'Map Question';
+	readonly QUESTION_TYPE_NAME: string = 'Location Question';
 
 	typeName: string;
 	icon: string;
