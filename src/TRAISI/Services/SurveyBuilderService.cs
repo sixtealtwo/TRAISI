@@ -272,10 +272,8 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="part"></param>
         /// <param name="definition"></param>
-        /// <param name="position"></param>
-        public void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition, int position)
+        public void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition)
         {
-            part.Order = position;
             part.QuestionType = definition.TypeName;
             part.QuestionPartChildren.Add(part);
         }

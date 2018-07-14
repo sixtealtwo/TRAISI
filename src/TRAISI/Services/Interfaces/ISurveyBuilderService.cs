@@ -24,7 +24,7 @@ namespace TRAISI.Services.Interfaces
 
         QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position);
 
-        void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition, int slot);
+        void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition);
 
         void SetSurveyTitle(Survey s, string title, string language);
 
