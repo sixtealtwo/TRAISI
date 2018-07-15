@@ -14,6 +14,8 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public questionTypeDefinitions: QuestionTypeDefinition[];
 	public config: any;
 	public $el: any;
+	public dragItemIndex: number = 0;
+	private dragParent: any;
 	
 
 	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
@@ -76,20 +78,22 @@ export class QuestionTypeChooserComponent implements OnInit {
 
 	onDragStart(event: any) {
 		setTimeout(() => {
-			let dragging = $('#qTypesList').find('.smooth-dnd-ghost');
+			//let dragging = $('#qTypesList').find('.smooth-dnd-ghost');
+			let dragging = $('.smooth-dnd-ghost');
 			if (dragging.length === 1) {
 				dragging.addClass('builder-source');
-				$(document.body).append(dragging);
+				this.dragParent = dragging.parent();
+				$(document.body).append(dragging.detach());
 			}
 		}, 100);
 	}
 
 	@HostListener('window:mouseup', ['$event']) fixSmoothDnd(event) {
-		let ogParent = $('#qTypesList');
+		let ogParent = this.dragParent;
 		let moved = $('.builder-source');
 		if (moved.length === 1) {
 			moved.removeClass('builder-source');
-			ogParent.children().first().append(moved);
+			ogParent.append(moved);
 		}
 	}
 

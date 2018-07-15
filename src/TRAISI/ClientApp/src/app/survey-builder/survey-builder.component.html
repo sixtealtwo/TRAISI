@@ -6,8 +6,9 @@
 	</div>
 
 	<div class="row">
-		<smooth-dnd-container class="col-md-12 page-questions" [class.page-questions-empty]="testTargets.length == 0" [groupName]="'builder'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+		<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12 page-questions" [class.page-questions-empty]="testTargets.length == 0" [groupName]="'builder-page'"  [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
 			<smooth-dnd-draggable *ngFor="let item of testTargets; index as i">
+				<ng-container *ngIf="item.typeName != 'Survey Part'; else surveyPart">
 					<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
 							<div class="icon">
 									<i class="fa" [ngClass]="item.icon"></i>
@@ -20,6 +21,36 @@
 					<div class="collapse" [attr.id]= "'collapseExample-' + i">
 						<div class="question-options">Testing</div>
 					</div>
+				</ng-container>
+				<ng-template #surveyPart>
+					<div class="page-part">
+							<div class="icon">
+									<i class="fa" [ngClass]="item.icon"></i>
+							</div>
+						{{item.typeName}}
+						<div class="config-icon">
+								<i class="fa fa-cog"></i>
+						</div>
+					</div>
+					<div class="question-part-container" [class.page-questions-empty]="qPartQuestions.get(item.partId).length == 0">
+						<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDropPart" [groupName]="'builder-part-'+item.partId" [getChildPayload]="getQuestionInPartPayload(item.partId)" (drop)="onDropInPart(item.partId,$event)">
+							<smooth-dnd-draggable *ngFor="let innerItem of qPartQuestions.get(item.partId); index as j">
+								<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
+									<div class="icon">
+											<i class="fa" [ngClass]="innerItem.icon"></i>
+									</div>
+								{{innerItem.typeName}}
+								<div class="config-icon">
+										<i class="fa fa-cog"></i>
+								</div>
+							</div>
+							<div class="collapse" [attr.id]= "'collapseExample-' + i + '-' + j">
+								<div class="question-options">Testing Part</div>
+							</div>
+							</smooth-dnd-draggable>
+						</smooth-dnd-container>
+					</div>
+				</ng-template>
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
 	</div>
