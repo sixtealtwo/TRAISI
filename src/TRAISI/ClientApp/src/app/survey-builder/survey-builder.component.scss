@@ -1,3 +1,35 @@
+@import '../../scss/helpers.scss';
+
 .order-correct {
 	z-index:-1;
+}
+.page-questions-empty {
+	height: 50px;
+}
+.page-questions {
+	border: 1px dashed darkslategray;
+	padding: 0px;
+}
+
+.page-question {
+	background-color: $gray-800;
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+	padding:10px;
+	margin:2px 0px 2px 0px;
+	color:white;
+
+	.icon {
+		margin-right: 10px;
+		float: left;
+		margin-top:-1px;
+	}
+	.config-icon {
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+	}
+}
+.question-options {
+	background-color: white;
 }

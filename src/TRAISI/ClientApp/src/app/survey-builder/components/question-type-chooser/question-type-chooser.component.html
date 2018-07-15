@@ -18,8 +18,18 @@
 	<!-- main notification links are placed inside of .sidebar-nav -->
 	<div class="builder-qtypes">
 			<ul class="sidebar-nav">
-		<ngx-dnd-container [model]="questionTypeDefinitions" [copy]="true" [dropZones]="['restricted-target']">
-				<ng-template let-item="model">
+		<smooth-dnd-container id="qTypesList" [behaviour]="'copy'" (dragStart)="onDragStart($event)"  [groupName]="'builder'" [getChildPayload]="getQuestionPayload">
+			<smooth-dnd-draggable>
+				<li class="chooser">
+					<a (click)="addSectionToList()">
+						<span class="icon" [tooltip]="Section" placement="right" container="body" containerClass="tooltip-builder">
+							<i class="fa fa-archive"></i>
+						</span>
+							Section Page
+					</a>
+				</li>
+			</smooth-dnd-draggable>
+			<smooth-dnd-draggable *ngFor="let item of questionTypeDefinitions">
 					<li class="chooser">
 						<a (click)="addQuestionTypeToList(item)">
 							<span class="icon" [tooltip]="item.typeName" placement="right" container="body" containerClass="tooltip-builder">
@@ -28,8 +38,8 @@
 								{{item.typeName}}
 						</a>
 					</li>
-					</ng-template>
-		</ngx-dnd-container>
+				</smooth-dnd-draggable>
+		</smooth-dnd-container>
 
 		</ul>
 	</div>

@@ -5,11 +5,23 @@
 		<traisi-question-type-chooser (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
 	</div>
 
-		<ngx-dnd-container [model]="testTargets" dropZone="restricted-target" [removeOnSpill]="false">
-				<ng-template let-item="model">
+	<div class="row">
+		<smooth-dnd-container class="col-md-12 page-questions" [class.page-questions-empty]="testTargets.length == 0" [groupName]="'builder'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+			<smooth-dnd-draggable *ngFor="let item of testTargets; index as i">
+					<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
+							<div class="icon">
+									<i class="fa" [ngClass]="item.icon"></i>
+							</div>
 						{{item.typeName}}
-					</ng-template>
-		</ngx-dnd-container>
-
+						<div class="config-icon">
+								<i class="fa fa-cog"></i>
+						</div>
+					</div>
+					<div class="collapse" [attr.id]= "'collapseExample-' + i">
+						<div class="question-options">Testing</div>
+					</div>
+			</smooth-dnd-draggable>
+		</smooth-dnd-container>
+	</div>
 
 <div [froalaEditor]="froalaOptions">Hello, Froala!</div>

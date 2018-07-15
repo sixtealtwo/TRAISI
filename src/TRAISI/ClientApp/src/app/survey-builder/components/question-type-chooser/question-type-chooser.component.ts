@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { AppConfig } from '../../../app.config';
+import { QuestionIconType } from '../../models/question-icon-type.enum';
 
 @Component({
 	selector: 'traisi-question-type-chooser',
@@ -13,6 +14,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public questionTypeDefinitions: QuestionTypeDefinition[];
 	public config: any;
 	public $el: any;
+	
 
 	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
 
@@ -20,6 +22,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 	constructor(private surveyBuilderService: SurveyBuilderService, config: AppConfig, el: ElementRef) {
 		this.config = config.getConfig();
 		this.$el = jQuery(el.nativeElement);
+		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 	}
 
 	/**
@@ -59,6 +62,48 @@ export class QuestionTypeChooserComponent implements OnInit {
 
 	addQuestionTypeToList(qType: QuestionTypeDefinition) {
 		this.addQuestionType.emit(qType);
+	}
+
+	addSectionToList() {
+		let surveyPart: QuestionTypeDefinition = {
+			id: -1,
+			typeName: 'Survey Part',
+			icon: 'fa-archive',
+			iconType: QuestionIconType.FONT_ICON
+		};
+		this.addQuestionType.emit(surveyPart);
+	}
+
+	onDragStart(event: any) {
+		setTimeout(() => {
+			let dragging = $('#qTypesList').find('.smooth-dnd-ghost');
+			if (dragging.length === 1) {
+				dragging.addClass('builder-source');
+				$(document.body).append(dragging);
+			}
+		}, 100);
+	}
+
+	@HostListener('window:mouseup', ['$event']) fixSmoothDnd(event) {
+		let ogParent = $('#qTypesList');
+		let moved = $('.builder-source');
+		if (moved.length === 1) {
+			moved.removeClass('builder-source');
+			ogParent.children().first().append(moved);
+		}
+	}
+
+
+	getQuestionPayload(index) {
+		if (index == 0) {
+			let surveyPart = {
+				typeName: 'Survey Part',
+				icon: 'fa-archive'
+			};
+			return surveyPart;
+		} else {
+			return this.questionTypeDefinitions[index-1];
+		}
 	}
 }
 

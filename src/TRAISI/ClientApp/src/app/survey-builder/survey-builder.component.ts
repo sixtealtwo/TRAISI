@@ -40,6 +40,7 @@ export class SurveyBuilderComponent implements OnInit {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
 		});
+		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 	}
 
 	ngOnInit() {
@@ -122,5 +123,31 @@ export class SurveyBuilderComponent implements OnInit {
 			this.testTargets.push(qType)
 		//);
 
+	}
+
+	getQuestionPayload(index) {
+		return this.testTargets[index];
+	}
+	onDrop(dropResult:any) {
+		this.testTargets = this.applyDrag(this.testTargets, dropResult);
+	}
+
+	applyDrag = (arr, dragResult) => {
+		const { removedIndex, addedIndex, payload } = dragResult;
+		console.log(payload);
+		if (removedIndex === null && addedIndex === null) return arr;
+	
+		const result = [...arr];
+		let itemToAdd = payload;
+	
+		if (removedIndex !== null) {
+			itemToAdd = result.splice(removedIndex, 1)[0];
+		}
+	
+		if (addedIndex !== null) {
+			result.splice(addedIndex, 0, itemToAdd);
+		}
+	
+		return result;
 	}
 }
