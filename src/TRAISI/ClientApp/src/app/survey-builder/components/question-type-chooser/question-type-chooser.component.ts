@@ -76,29 +76,6 @@ export class QuestionTypeChooserComponent implements OnInit {
 		this.addQuestionType.emit(surveyPart);
 	}
 
-	onDragStart(event: any) {
-		setTimeout(() => {
-			let dragging = $('.smooth-dnd-ghost');
-			if (dragging.length === 1) {
-				dragging.addClass('builder-source');
-				this.dragParent = dragging.parent();
-				$(document.body).append(dragging.detach());
-			}
-		}, 0);
-	}
-
-	@HostListener('window:touchend', ['$event']) 
-	@HostListener('window:mouseup', ['$event']) 
-	fixSmoothDnd(event) {
-		let ogParent = this.dragParent;
-		let moved = $('.builder-source');
-		if (moved.length === 1) {
-			ogParent.append(moved);
-			moved.removeClass('builder-source');
-		}
-	}
-	
-
 	getQuestionPayload(index) {
 		if (index == 0) {
 			let surveyPart = {

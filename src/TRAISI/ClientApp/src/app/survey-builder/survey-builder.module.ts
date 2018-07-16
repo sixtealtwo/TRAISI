@@ -8,7 +8,7 @@ import { NestedDragAndDropListComponent } from './components/nested-drag-and-dro
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
+import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from '../survey-builder/components/question-type-chooser/question-type-chooser.component';
 import { TooltipModule } from '../../../node_modules/ngx-bootstrap';
 
