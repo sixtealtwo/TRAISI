@@ -16,7 +16,9 @@ import { AlertService, DialogType } from '../services/alert.service';
 export class SurveyBuilderComponent implements OnInit {
 	public surveyId: number;
 	public testTargets = [];
+	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>(); 
 	public froalaOptions: any;
+	private elementUniqueIndex: number = 0;
 
 	deleteImage(e, editor, img) {
 		let uploadPath = new UploadPath(img.attr('src'));
@@ -117,10 +119,14 @@ export class SurveyBuilderComponent implements OnInit {
 		};
 	}
 
-	addQuestionTypeToList(qType: QuestionTypeDefinition) {
+	addQuestionTypeToList(qType) {
 
 		//this.alertService.showDialog('Are you sure you want to add the question?', DialogType.confirm, () =>
-			this.testTargets.push(qType)
+		if (qType.typeName === 'Survey Part') {
+			qType.partId = this.elementUniqueIndex;
+			this.qPartQuestions.set(this.elementUniqueIndex++,[]);
+		}
+		this.testTargets.push(qType)
 		//);
 
 	}
@@ -128,13 +134,73 @@ export class SurveyBuilderComponent implements OnInit {
 	getQuestionPayload(index) {
 		return this.testTargets[index];
 	}
+
+	getQuestionInPartPayload(partId:number) {
+		return (index) => {
+			return this.qPartQuestions.get(partId)[index];
+		}
+	}
+
 	onDrop(dropResult:any) {
+		
+		if (dropResult.payload.typeName === 'Survey Part' && dropResult.removedIndex === null) {
+			if (dropResult.payload.partId === undefined) {
+				dropResult.payload.partId = this.elementUniqueIndex++;
+			}
+			if (!this.qPartQuestions.has(dropResult.payload.partId)){
+				this.qPartQuestions.set(dropResult.payload.partId,[]);
+			}
+		}
 		this.testTargets = this.applyDrag(this.testTargets, dropResult);
+	}
+
+	onDropInPart(partId:number, dropResult: any) {
+		if (partId !== dropResult.payload.partId) {
+			//if (dropResult.addedIndex !== null || dropResult.removedIndex !== null) {
+				let questionParts = this.qPartQuestions.get(partId);
+				questionParts = this.applyDrag(questionParts,dropResult);
+				this.qPartQuestions.set(partId, questionParts);
+			//}
+		} else {
+			/*if (dropResult.addedIndex !== null) {
+				this.testTargets.push(dropResult.payload);
+			}*/
+		}
+	}
+
+	shouldAcceptDrop(sourceContainerOptions, payload) {
+		return true;
+	}
+
+	shouldAcceptDropPart(sourceContainerOptions, payload) {
+		if (payload.typeName === 'Survey Part') {
+			return false;
+		}
+		else {
+			return true;
+		}
+		
+		/*let thisContainer: any = this;
+		
+		let groupName: string = thisContainer.groupName;
+		if (groupName.startsWith('builder-part-')) {
+			let split: string[] = groupName.split('-');
+			let partNum: number = +split[split.length -1];
+			if (partNum === payload.partId) {
+				return false;
+			}
+		}
+		return true;*/
+
+		/*if (sourceContainerOptions.groupName === 'builder-questions' || sourceContainerOptions.groupName === thisContainer) {
+			return true;
+		}
+		return false;
+*/
 	}
 
 	applyDrag = (arr, dragResult) => {
 		const { removedIndex, addedIndex, payload } = dragResult;
-		console.log(payload);
 		if (removedIndex === null && addedIndex === null) return arr;
 	
 		const result = [...arr];

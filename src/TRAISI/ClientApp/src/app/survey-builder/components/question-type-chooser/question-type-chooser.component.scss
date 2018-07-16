@@ -36,7 +36,7 @@ li.chooser a{
 	}
 }
 
-.smooth-dnd-container:last-child
+#qTypesList > .smooth-dnd-container:last-child
 {
 	border-bottom: 1px solid $gray-400;
 }
@@ -45,6 +45,10 @@ li.chooser {
 	list-style:none;
 	background-color: $sidebar-bg-color;
 	color: white;
+}
+
+.section-tool-item {
+	background-color: $widget-title-color !important;
 }
 
 li.chooser > a{
@@ -104,4 +108,8 @@ li.chooser > a{
 	.tooltip-inner {
 		background-color: $sidebar-item-hover-bg-color;
 	}
+}
+
+smooth-dnd-draggable {
+	touch-action: none;
 }

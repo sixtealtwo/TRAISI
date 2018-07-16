@@ -30,6 +30,42 @@
 		margin-top:-1px;
 	}
 }
+
+.page-part {
+	background-color: $gray-600;
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+	padding:10px;
+	margin:4px 0px 4px 0px;
+	color:white;
+
+	.icon {
+		margin-right: 10px;
+		float: left;
+		margin-top:-1px;
+	}
+	.config-icon {
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+	}
+}
+
 .question-options {
 	background-color: white;
+}
+
+.question-part-container {
+	margin-left: 20px;
+	margin-bottom:10px;
+	background-color: $gray-400;
+
+}
+
+.question-part-container-placeholder {
+	text-align: center;
+	padding-top:7px;
+	font-size:24px;
+	font-weight:bold;
+	opacity: 0.5;
 }
