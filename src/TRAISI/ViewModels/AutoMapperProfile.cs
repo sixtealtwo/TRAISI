@@ -89,6 +89,13 @@ namespace TRAISI.ViewModels
                     .ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 
+						CreateMap<Label, LabelViewModel>()
+										.ReverseMap();
+
+						CreateMap<WelcomePageLabel, WelcomePageLabelViewModel>();
+
+						CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
+										.ForMember(w => w.SurveyView, map => map.Ignore());
 
 
         }

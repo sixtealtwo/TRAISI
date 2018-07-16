@@ -21,9 +21,9 @@ namespace DAL
         IShortcodeRepository _shortcodes;
         IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
-				IWelcomePageLabelsRepository _welcomePageLabels;
-				IThankYouPageLabelsRepository _thankYouPageLabels;
-				ITermsAndConditionsPageLabelsRepository _termsAndConditionsPageLabels;
+				IWelcomePageLabelRepository _welcomePageLabels;
+				IThankYouPageLabelRepository _thankYouPageLabels;
+				ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
         IQuestionPartRepository _questionParts;
 
         public UnitOfWork(ISurveyRepository surveyRepository)
@@ -155,39 +155,39 @@ namespace DAL
             }
         }
 
-				public IWelcomePageLabelsRepository WelcomePageLabels
+				public IWelcomePageLabelRepository WelcomePageLabels
         {
             get
             {
                 if (_welcomePageLabels == null)
                 {
-                    _welcomePageLabels = new WelcomePageLabelsRepository(_context);
+                    _welcomePageLabels = new WelcomePageLabelRepository(_context);
                 }
 
                 return _welcomePageLabels;
             }
         }
 
-				public IThankYouPageLabelsRepository ThankYouPageLabels
+				public IThankYouPageLabelRepository ThankYouPageLabels
         {
             get
             {
                 if (_thankYouPageLabels == null)
                 {
-                    _thankYouPageLabels = new ThankYouPageLabelsRepository(_context);
+                    _thankYouPageLabels = new ThankYouPageLabelRepository(_context);
                 }
 
                 return _thankYouPageLabels;
             }
         }
 
-				public ITermsAndConditionsPageLabelsRepository TermsAndConditionsPageLabels
+				public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
         {
             get
             {
                 if (_termsAndConditionsPageLabels == null)
                 {
-                    _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelsRepository(_context);
+                    _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelRepository(_context);
                 }
 
                 return _termsAndConditionsPageLabels;

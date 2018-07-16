@@ -48,9 +48,36 @@ namespace DAL.Models.Surveys
 
         public Survey()
         {
+						this.DefaultLanguage = "en";
             this.TitleLabel = new HashSet<Label>();
             this.SurveyPermissions = new HashSet<SurveyPermission>();
-            this.SurveyViews = new List<SurveyView>();
+            this.SurveyViews = new List<SurveyView>(){
+							new SurveyView() {
+								WelcomePageLabel = new HashSet<WelcomePageLabel>() {
+									new WelcomePageLabel() {
+										Label = new Label() {
+											Language = this.DefaultLanguage,
+											Value = "Default Welcome"
+										}
+									},
+										new WelcomePageLabel() {
+										Label = new Label() {
+											Language = "fr",
+											Value = "Bonjour"
+										}
+									}
+								},
+								ThankYouPageLabel = new HashSet<ThankYouPageLabel>() {
+									new ThankYouPageLabel() {
+										Label = new Label() {
+											Language = this.DefaultLanguage,
+											Value = "Default Thanks"
+										}
+									}
+								}
+							}
+						};
+
         }
 
     }

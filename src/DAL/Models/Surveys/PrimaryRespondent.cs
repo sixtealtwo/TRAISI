@@ -16,6 +16,7 @@ namespace DAL.Models.Surveys
 
         public ICollection<ISurveyResponse> SurveyResponses { get; set; }
 
+				public Shortcode Shortcode { get; set; }
 
         public PrimaryRespondent()
         {

@@ -7,8 +7,8 @@ using DAL.Models.Surveys;
 
 namespace DAL.Repositories.Interfaces
 {
-	public interface IWelcomePageLabelsRepository : IRepository<WelcomePageLabel>
+	public interface IWelcomePageLabelRepository : IRepository<WelcomePageLabel>
 	{
-
+		Task<WelcomePageLabel> GetWelcomePageLabelAsync(int surveyViewId, string language = null);
 	}
 }

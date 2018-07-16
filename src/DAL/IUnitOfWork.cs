@@ -20,9 +20,9 @@ namespace DAL
         IGroupMemberRepository GroupMembers { get; }
         ISurveyViewRepository SurveyViews { get; }
         IQuestionPartRepository QuestionParts { get; }
-				IWelcomePageLabelsRepository WelcomePageLabels { get; }
-				IThankYouPageLabelsRepository ThankYouPageLabels { get; }
-				ITermsAndConditionsPageLabelsRepository TermsAndConditionsPageLabels { get; }
+				IWelcomePageLabelRepository WelcomePageLabels { get; }
+				IThankYouPageLabelRepository ThankYouPageLabels { get; }
+				ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels { get; }
 
 
         int SaveChanges();

@@ -302,6 +302,56 @@ namespace TRAISI.Controllers
 			}
 		}
 
+		
+		[HttpGet("{id}/WelcomePage/{surveyViewId}/{language}")]
+		[Produces(typeof(WelcomePageLabelViewModel))]
+		public async Task<IActionResult> GetWelcomePageLabel(int id, int surveyViewId, string language)
+		{
+			var survey = await this._unitOfWork.Surveys.GetAsync(id);
+			if(survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+			{
+				var welcomePageLabel = await this._unitOfWork.WelcomePageLabels.GetWelcomePageLabelAsync(surveyViewId, language);
+				return Ok(Mapper.Map<WelcomePageLabelViewModel>(welcomePageLabel));
+			}
+			else
+			{
+				return BadRequest("User does not have permissions to execute this survey.");
+			}		
+		}
+
+		[HttpPut("{id}/WelcomePage")]
+		public async Task<IActionResult> UpdateWelcomePageLabel(int id, [FromBody] WelcomePageLabelViewModel welcomePageLabel)
+		{
+			if (ModelState.IsValid)
+			{
+				var survey = await this._unitOfWork.Surveys.GetAsync(id);
+				if(survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+				{
+					WelcomePageLabel welcomePageUpdated = Mapper.Map<WelcomePageLabel>(welcomePageLabel);
+					this._unitOfWork.WelcomePageLabels.Update(welcomePageUpdated);
+					await this._unitOfWork.SaveChangesAsync();
+					return new OkResult();
+				}
+				else
+				{
+					return BadRequest("Insufficient permissions.");
+				}	
+			}
+			return BadRequest(ModelState);
+		}	
+
+		/// <summary>
+		/// Check if user has modify survey permissions
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <returns></returns>
+		private async Task<bool> HasModifySurveyPermissions (int surveyId)
+		{
+			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyId);
+			bool hasModifySurveyPermissions = surveyPermissions.Permissions.Contains("survey.modify");
+			return hasModifySurveyPermissions;
+		}
+
 
 		/// <summary>
 		/// Check if group admin has given permission

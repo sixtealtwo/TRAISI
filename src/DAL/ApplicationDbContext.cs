@@ -91,11 +91,11 @@ namespace DAL
 
             builder.Entity<QuestionOptionLabel>().ToTable("QuestionOptionLabels").HasKey(k => new { k.QuestionOptionId, k.LabelId });
 
-            builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}").HasKey(k => new { k.Id, k.LabelId });
+            builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}");
 
-            builder.Entity<ThankYouPageLabel>().ToTable($"{nameof(this.ThankYouPageLabel)}").HasKey(k => new { k.Id, k.LabelId });
+            builder.Entity<ThankYouPageLabel>().ToTable($"{nameof(this.ThankYouPageLabel)}");
 
-            builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabel)}").HasKey(k => new { k.Id, k.LabelId });
+            builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabel)}");
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations);
 
