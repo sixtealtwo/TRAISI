@@ -53,13 +53,16 @@ namespace DAL
                 const string adminRoleName = "super administrator";
                 const string groupAdminRoleName = "group administrator";
                 const string userRoleName = "user";
+								const string respondentRoleName = "respondent";
 
-                await EnsureRoleAsync(adminRoleName, "Super administrator", ApplicationPermissions.GetAllPermissionValues());
-                await EnsureRoleAsync(groupAdminRoleName, "Group administrator", ApplicationPermissions.GetAllGroupPermissionValues());
-                await EnsureRoleAsync(userRoleName, "Basic user", new string[] { });
+                await EnsureRoleAsync(adminRoleName, "Super administrator", 0, ApplicationPermissions.GetAllPermissionValues());
+                await EnsureRoleAsync(groupAdminRoleName, "Group administrator", 1, ApplicationPermissions.GetAllGroupPermissionValues());
+                await EnsureRoleAsync(userRoleName, "Basic user", 2,  ApplicationPermissions.GetAdministrativePermissionValues());
+								await EnsureRoleAsync(respondentRoleName, "Survey Respondent", 3, new string[] {});
 
                 await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
                 await CreateUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
+								await CreateUserAsync("respondent", "tempP@ss123", "Respondent User", "respondent@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { respondentRoleName });
                 smto = await CreateUserAsync("smto", "tempP@ss123", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
                 tts = await CreateUserAsync("tts", "tempP@ss123", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 
@@ -150,12 +153,12 @@ namespace DAL
             }
         }
 
-        private async Task EnsureRoleAsync(string roleName, string description, string[] claims)
+        private async Task EnsureRoleAsync(string roleName, string description, int level, string[] claims)
         {
             if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
             {
-                ApplicationRole applicationRole = new ApplicationRole(roleName, description);
-
+                ApplicationRole applicationRole = new ApplicationRole(roleName, description, level);
+								
                 var result = await this._accountManager.CreateRoleAsync(applicationRole, claims);
 
                 if (!result.Item1)

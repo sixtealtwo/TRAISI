@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { ConfigurationService } from '../services/configuration.service';
 import { Utilities } from '../services/utilities';
 import { UserLogin } from '../models/user-login.model';
+import { Permission } from '../models/permission.model';
 
 @Component({
 	selector: 'app-login',
@@ -24,7 +25,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		@Input()
 		isModal = false;
 
-		blah = 'test';
 		constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
 
 		}
@@ -82,6 +82,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 						if (!this.isModal) {
 							this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
+							if (!this.authService.userPermissions.some(p => p === Permission.accessAdminPermission)) {
+								this.alertService.showStickyMessage('Insufficient Privelages', 'You do not have access!', MessageSeverity.warn);
+							}
 						} else {
 							this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);
 							setTimeout(() => {

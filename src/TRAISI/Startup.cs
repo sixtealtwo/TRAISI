@@ -209,6 +209,9 @@ namespace TRAISI
 
             services.AddAuthorization(options =>
             {
+								options.AddPolicy(Authorization.Policies.AccessAdminPolicy,
+										policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AccessAdmin));
+
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,

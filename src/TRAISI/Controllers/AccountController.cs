@@ -20,7 +20,7 @@ using TRAISI.ViewModels;
 
 namespace TRAISI.Controllers
 {
-    [Authorize]
+    [Authorize(Authorization.Policies.AccessAdminPolicy)]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {

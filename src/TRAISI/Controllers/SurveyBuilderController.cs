@@ -8,7 +8,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Controllers
 {
-    [Authorize]
+    [Authorize(Authorization.Policies.AccessAdminPolicy)]
     [Route("api/[controller]")]
     public class SurveyBuilderController
     {

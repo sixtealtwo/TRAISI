@@ -32,11 +32,15 @@ namespace DAL.Core
         public static ApplicationPermission ManageRoles = new ApplicationPermission("Manage Roles", "roles.manage", RolesPermissionGroupName, "Permission to create, delete and modify roles");
         public static ApplicationPermission AssignRoles = new ApplicationPermission("Assign Roles", "roles.assign", RolesPermissionGroupName, "Permission to assign roles to users");
 
+        public const string SystemPermissionGroupName = "System Permissions";
+				public static ApplicationPermission AccessAdmin = new ApplicationPermission("Access Admin", "system.accessadmin", SystemPermissionGroupName, "Permission to access admin interface");
 
         static ApplicationPermissions()
         {
             List<ApplicationPermission> allPermissions = new List<ApplicationPermission>()
             {
+								AccessAdmin,
+
                 ViewUsers,
                 ManageUsers,
 								ManageGroups,
@@ -82,7 +86,7 @@ namespace DAL.Core
 
         public static string[] GetAdministrativePermissionValues()
         {
-            return new string[] { ManageUsers, ManageRoles, AssignRoles };
+            return new string[] { AccessAdmin };
         }
     }
 
