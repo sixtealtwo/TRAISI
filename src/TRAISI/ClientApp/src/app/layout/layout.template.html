@@ -1,4 +1,4 @@
-<app-sidebar id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()" [onBuilder]="onBuilder"  [userName]="userName"></app-sidebar>
+<app-sidebar [hidden]="onBuilder" id="sidebar" role="navigation" class="sidebar" (logoutEvent)="logout()" [userName]="userName"></app-sidebar>
 <app-navbar id="navbar" (toggleSidebarEvent)="toggleSidebarListener($event)" (toggleChatEvent)="toggleChatListener()"  (logoutEvent)="logout()" [userName]="userName"
      class="page-controls navbar navbar-dashboard"  [onBuilder]="onBuilder"></app-navbar>
 		 <app-chat-sidebar  class="chat-sidebar"></app-chat-sidebar>

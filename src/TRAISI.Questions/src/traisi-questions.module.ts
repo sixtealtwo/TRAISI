@@ -20,7 +20,7 @@ import { MapEndpointService  } from './services/mapservice.service';
         },
         {
           name: 'traisi-map-question',
-          id: 'map',
+          id: 'location',
           component: MapQuestionComponent
         },
         {

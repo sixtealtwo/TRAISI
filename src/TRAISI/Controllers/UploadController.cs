@@ -71,7 +71,7 @@ namespace TRAISI.Controllers
         {
             try
             {
-                var fileSrc = uploadPath.Link.Replace("/", @"\");
+                var fileSrc = uploadPath.Link.Replace('/', Path.DirectorySeparatorChar);
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 string filePath  =webRootPath + fileSrc;
                 if (System.IO.File.Exists(filePath))

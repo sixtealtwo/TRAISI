@@ -10,7 +10,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 	{
 		public string TypeName
 		{
-			get => "Map";
+			get => "Location";
 		}
 
 		public virtual string Icon
