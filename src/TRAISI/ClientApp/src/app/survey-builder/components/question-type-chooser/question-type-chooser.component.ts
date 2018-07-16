@@ -75,13 +75,8 @@ export class QuestionTypeChooserComponent implements OnInit {
 	}
 
 	onDragStart(event: any) {
-		$('.collapse').collapse('hide');
-		setTimeout(() => {
-			let dragging = $('.smooth-dnd-ghost');
-			if (dragging.length === 1) {
-				dragging.find('.collapse').collapse('hide');
-			}
-		}, 0);
+		$('.collapse.details').collapse('hide');
+		$('.collapse:not(.details)').collapse('show');
 	}
 
 
