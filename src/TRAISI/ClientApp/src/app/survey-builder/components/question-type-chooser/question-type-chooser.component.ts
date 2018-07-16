@@ -78,25 +78,26 @@ export class QuestionTypeChooserComponent implements OnInit {
 
 	onDragStart(event: any) {
 		setTimeout(() => {
-			//let dragging = $('#qTypesList').find('.smooth-dnd-ghost');
 			let dragging = $('.smooth-dnd-ghost');
 			if (dragging.length === 1) {
 				dragging.addClass('builder-source');
 				this.dragParent = dragging.parent();
 				$(document.body).append(dragging.detach());
 			}
-		}, 100);
+		}, 0);
 	}
 
-	@HostListener('window:mouseup', ['$event']) fixSmoothDnd(event) {
+	@HostListener('window:touchend', ['$event']) 
+	@HostListener('window:mouseup', ['$event']) 
+	fixSmoothDnd(event) {
 		let ogParent = this.dragParent;
 		let moved = $('.builder-source');
 		if (moved.length === 1) {
-			moved.removeClass('builder-source');
 			ogParent.append(moved);
+			moved.removeClass('builder-source');
 		}
 	}
-
+	
 
 	getQuestionPayload(index) {
 		if (index == 0) {

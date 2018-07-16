@@ -6,7 +6,7 @@
 	</div>
 
 	<div class="row">
-		<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12 page-questions" [class.page-questions-empty]="testTargets.length == 0" [groupName]="'builder-page'"  [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+		<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12 page-questions" [class.page-questions-empty]="testTargets.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
 			<smooth-dnd-draggable *ngFor="let item of testTargets; index as i">
 				<ng-container *ngIf="item.typeName != 'Survey Part'; else surveyPart">
 					<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="question-part-container" [class.page-questions-empty]="qPartQuestions.get(item.partId).length == 0">
-						<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDropPart" [groupName]="'builder-part-'+item.partId" [getChildPayload]="getQuestionInPartPayload(item.partId)" (drop)="onDropInPart(item.partId,$event)">
+						<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'"  [groupName]="'builder-part-'+item.partId" [getChildPayload]="getQuestionInPartPayload(item.partId)" (drop)="onDropInPart(item.partId,$event)">
 							<smooth-dnd-draggable *ngFor="let innerItem of qPartQuestions.get(item.partId); index as j">
 								<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 									<div class="icon">

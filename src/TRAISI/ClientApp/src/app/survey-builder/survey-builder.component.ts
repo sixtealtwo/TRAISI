@@ -169,18 +169,34 @@ export class SurveyBuilderComponent implements OnInit {
 	}
 
 	shouldAcceptDrop(sourceContainerOptions, payload) {
-		if (sourceContainerOptions.groupName === 'builder-questions' || sourceContainerOptions.groupName === 'builder-page') {
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	shouldAcceptDropPart(sourceContainerOptions, payload) {
-		let thisContainer: any = this;
-		if (sourceContainerOptions.groupName === 'builder-questions' || sourceContainerOptions.groupName === thisContainer.groupName) {
+		if (payload.typeName === 'Survey Part') {
+			return false;
+		}
+		else {
+			return true;
+		}
+		
+		/*let thisContainer: any = this;
+		
+		let groupName: string = thisContainer.groupName;
+		if (groupName.startsWith('builder-part-')) {
+			let split: string[] = groupName.split('-');
+			let partNum: number = +split[split.length -1];
+			if (partNum === payload.partId) {
+				return false;
+			}
+		}
+		return true;*/
+
+		/*if (sourceContainerOptions.groupName === 'builder-questions' || sourceContainerOptions.groupName === thisContainer) {
 			return true;
 		}
 		return false;
+*/
 	}
 
 	applyDrag = (arr, dragResult) => {
