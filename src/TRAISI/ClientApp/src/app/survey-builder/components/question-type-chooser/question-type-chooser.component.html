@@ -18,7 +18,7 @@
 	<!-- main notification links are placed inside of .sidebar-nav -->
 	<div class="builder-qtypes">
 			<ul class="sidebar-nav">
-			<smooth-dnd-container id="qTypesList" [behaviour]="'copy'" [groupName]="'builder-questions'" [getChildPayload]="getQuestionPayload">
+			<smooth-dnd-container id="qTypesList" [behaviour]="'copy'" (dragStart)="onDragStart($event)" [groupName]="'builder-questions'" [getChildPayload]="getQuestionPayload">
 				<smooth-dnd-draggable>
 					<li class="chooser section-tool-item">
 						<a (click)="addSectionToList()">

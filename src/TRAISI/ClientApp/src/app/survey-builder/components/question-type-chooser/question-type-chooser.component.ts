@@ -15,9 +15,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public config: any;
 	public $el: any;
 	public dragItemIndex: number = 0;
-	private dragParent: any;
 	
-
 	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
 
 
@@ -75,6 +73,17 @@ export class QuestionTypeChooserComponent implements OnInit {
 		};
 		this.addQuestionType.emit(surveyPart);
 	}
+
+	onDragStart(event: any) {
+		$('.collapse').collapse('hide');
+		setTimeout(() => {
+			let dragging = $('.smooth-dnd-ghost');
+			if (dragging.length === 1) {
+				dragging.find('.collapse').collapse('hide');
+			}
+		}, 0);
+	}
+
 
 	getQuestionPayload(index) {
 		if (index == 0) {

@@ -49,6 +49,7 @@
 							</div>
 							</smooth-dnd-draggable>
 						</smooth-dnd-container>
+						<div class="question-part-container-placeholder" *ngIf="qPartQuestions.get(item.partId).length == 0">Drop Questions Here</div>
 					</div>
 				</ng-template>
 			</smooth-dnd-draggable>
