@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class SurveyResponseEndpointService extends EndpointFactory {
+export class SurveyResponderEndpointService extends EndpointFactory {
 	private readonly _surveyResponseUrl: string = '/api/survey-response';
 
 	get surveyResponseUrl() {

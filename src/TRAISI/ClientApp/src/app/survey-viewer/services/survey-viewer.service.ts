@@ -6,15 +6,17 @@ import 'rxjs/add/observable/of';
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyViewerService {
+export class SurveyViewerService  {
 
-	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService) { }
+	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService) {
+
+	 }
 
 	/**
 	 * Returns the question configuration for specified question.
 	 * @param questionId
 	 */
-	public getQuestionConfiguration(questionId: number): Observable<{}>
+	public getQuestionData(questionId: number): Observable<{}>
 	{
 		return this._surveyViewerEndpointService.getSurveyViewQuestionConfigurationEndpoint(questionId);
 
