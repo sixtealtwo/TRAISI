@@ -5,6 +5,7 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 
 namespace TRAISI.Controllers.SurveyViewer
@@ -17,9 +18,16 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private IUnitOfWork _unitOfWork;
 
-        public SurveyViewContoller(IUnitOfWork unitOfWork)
+        private ISurveyViewService _viewService;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="viewService"></param>
+        public SurveyViewContoller(ISurveyViewService viewService)
         {
-            this._unitOfWork = unitOfWork;
+            this._unitOfWork = null;
+            this._viewService = viewService;
 
         }
 
