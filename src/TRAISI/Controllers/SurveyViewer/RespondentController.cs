@@ -1,5 +1,6 @@
 
 using DAL;
+using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -9,12 +10,12 @@ namespace TRAISI.Controllers.SurveyViewer
 	public class RespondentController
 	{
 		
-		private IUnitOfWork _unitOfWork;
+
 
 		private IRespondentService _respondentService;
 
-		public RespondentController (IUnitOfWork unitOfWork) {
-			this._unitOfWork = unitOfWork;
+		public RespondentController (IRespondentService respondentService) {
+			this._respondentService = respondentService;
 
 		}
 	}

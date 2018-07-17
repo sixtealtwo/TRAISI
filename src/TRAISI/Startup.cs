@@ -274,6 +274,10 @@ namespace TRAISI
             services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
 
+
+            services.AddScoped<ISurveyViewService,SurveyViewService>();
+            services.AddScoped<IRespondentService,RespondentService>();
+
             // Persistent Business Services
             services.AddSingleton<IMailgunMailer, MailgunMailer>();
             services.AddSingleton<IGeoService, GeoService>();
