@@ -1,5 +1,7 @@
 export interface ISurveyViewerInstance {
-	updateResponse(questionId: number, value: any): void;
+  updateResponse(questionId: number, value: any): void;
+  
+  getQuestionData(questionId:number):void;
 }
 
 /**
