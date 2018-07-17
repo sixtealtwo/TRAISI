@@ -18,13 +18,13 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private IUnitOfWork _unitOfWork;
 
-        private ISurveyViewService _viewService;
+        private ISurveyViewerService _viewService;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="viewService"></param>
-        public SurveyViewContoller(ISurveyViewService viewService)
+        public SurveyViewContoller(ISurveyViewerService viewService)
         {
             this._unitOfWork = null;
             this._viewService = viewService;

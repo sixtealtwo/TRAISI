@@ -275,7 +275,7 @@ namespace TRAISI
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
 
 
-            services.AddScoped<ISurveyViewService,SurveyViewService>();
+            services.AddScoped<ISurveyViewerService,SurveyViewerService>();
             services.AddScoped<IRespondentService,RespondentService>();
 
             // Persistent Business Services
