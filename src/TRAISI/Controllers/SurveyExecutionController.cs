@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace TRAISI.Controllers
 {
-	[Authorize]
+	[Authorize(Authorization.Policies.AccessAdminPolicy)]
 	[Route("api/[controller]")]
 	public class SurveyExecutionController : Controller
 	{

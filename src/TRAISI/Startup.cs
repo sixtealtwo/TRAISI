@@ -209,6 +209,9 @@ namespace TRAISI
 
             services.AddAuthorization(options =>
             {
+								options.AddPolicy(Authorization.Policies.AccessAdminPolicy,
+										policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AccessAdmin));
+
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy,
@@ -270,6 +273,10 @@ namespace TRAISI
             services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
+
+
+            services.AddScoped<ISurveyViewerService,SurveyViewerService>();
+            services.AddScoped<IRespondentService,RespondentService>();
 
             // Persistent Business Services
             services.AddSingleton<IMailgunMailer, MailgunMailer>();

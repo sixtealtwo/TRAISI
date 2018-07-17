@@ -1,4 +1,5 @@
 export type PermissionNames =
+	| 'Access Admin'
 	| 'View All Users'
 	| 'Manage All Users'
 	| 'Manage All Groups'
@@ -14,6 +15,7 @@ export type PermissionNames =
 	| 'Create Group Surveys';
 
 export type PermissionValues =
+	| 'system.accessadmin'
 	| 'users.view'
 	| 'users.manage'
 	| 'groups.manage'
@@ -29,6 +31,7 @@ export type PermissionValues =
 	| 'surveys.create';
 
 export class Permission {
+	public static readonly accessAdminPermission: PermissionValues = 'system.accessadmin';
 	public static readonly viewUsersPermission: PermissionValues = 'users.view';
 	public static readonly manageUsersPermission: PermissionValues = 'users.manage';
 	public static readonly manageGroupsPermission: PermissionValues = 'groups.manage';

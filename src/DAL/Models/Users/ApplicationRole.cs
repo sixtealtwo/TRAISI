@@ -41,9 +41,10 @@ namespace DAL.Models
 		/// <remarks>
 		/// The Id property is initialized to from a new GUID string value.
 		/// </remarks>
-		public ApplicationRole(string roleName, string description) : base(roleName)
+		public ApplicationRole(string roleName, string description, int level) : base(roleName)
 		{
 			Description = description;
+			Level = level;
 		}
 
 

@@ -289,7 +289,7 @@ namespace DAL.Core
             IQueryable<ApplicationRole> rolesQuery = _context.Roles
                 .Include(r => r.Claims)
                 .Include(r => r.Users)
-                .OrderBy(r => r.Name);
+                .OrderBy(r => r.Level);
 
             if (page != -1)
                 rolesQuery = rolesQuery.Skip((page - 1) * pageSize);
