@@ -9,6 +9,7 @@ using DAL.Models;
 using DAL.Models.Groups;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
+using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.ViewModels
 {
@@ -88,6 +89,10 @@ namespace TRAISI.ViewModels
             CreateMap<Shortcode, ShortcodeViewModel>()
                     .ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
+
+            CreateMap<SurveyView,SurveyViewViewModel>()
+                .ForMember(vm => vm.ViewName, map => map.MapFrom(v => v.ViewName))
+                .ForMember(vm => vm.Questions, map => map.MapFrom(v => v.QuestionPartViews));
 
 
 

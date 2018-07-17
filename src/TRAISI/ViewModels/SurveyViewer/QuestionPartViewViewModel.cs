@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TRAISI.ViewModels
+namespace TRAISI.ViewModels.SurveyViewer
 {
     public class QuestionPartViewModel
     {
@@ -9,5 +9,7 @@ namespace TRAISI.ViewModels
         public string Label {get ;set;}
 
         public List<QuestionPartViewModel> QuestionChildren;
+
+        public int Order {get;set;}
     }
 }

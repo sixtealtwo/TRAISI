@@ -21,5 +21,8 @@ namespace TRAISI.Services.Interfaces
         /// <returns></returns>
         bool SurveyLogin(Survey survey, string shortcode);
 
+
+        SurveyView GetSurveyView(Survey survey, int viewId);
+
     }
 }

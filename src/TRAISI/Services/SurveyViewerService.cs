@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DAL;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
@@ -21,8 +22,19 @@ namespace TRAISI.Services
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="viewId"></param>
+        /// <returns></returns>
+        public async Task<SurveyView> GetSurveyView(Survey survey, int viewId)
+        {
+            return await this._unitOfWork.SurveyViews.GetAsync(viewId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="unitOfWork"></param>
-        public SurveyViewService(IUnitOfWork unitOfWork)
+        public SurveyViewerService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }

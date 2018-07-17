@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TRAISI.ViewModels
+namespace TRAISI.ViewModels.SurveyViewer
 {
     public class SurveyViewViewModel
     {
