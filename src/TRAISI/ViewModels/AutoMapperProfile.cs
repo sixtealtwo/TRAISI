@@ -94,6 +94,21 @@ namespace TRAISI.ViewModels
                 .ForMember(vm => vm.ViewName, map => map.MapFrom(v => v.ViewName))
                 .ForMember(vm => vm.Questions, map => map.MapFrom(v => v.QuestionPartViews));
 
+						CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
+								.ForMember(w => w.SurveyView, map => map.Ignore())
+								.ReverseMap();
+
+						CreateMap<ThankYouPageLabelViewModel, ThankYouPageLabel>()
+								.ForMember(w => w.SurveyView, map => map.Ignore())
+								.ReverseMap();
+
+						CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel>()
+								.ForMember(w => w.SurveyView, map => map.Ignore())
+								.ReverseMap();
+
+						CreateMap<LabelViewModel, Label>()
+								.ReverseMap();
+
 
 
         }

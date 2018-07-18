@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 						if (!this.isModal) {
 							this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
 							if (!this.authService.userPermissions.some(p => p === Permission.accessAdminPermission)) {
-								this.alertService.showStickyMessage('Insufficient Privelages', 'You do not have access!', MessageSeverity.warn);
+								this.alertService.showStickyMessage('Insufficient Privileges', 'You do not have access!', MessageSeverity.warn);
 							}
 						} else {
 							this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);

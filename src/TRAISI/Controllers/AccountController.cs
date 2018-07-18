@@ -444,7 +444,7 @@ namespace TRAISI.Controllers
 
                 if (appRole.Name == "super administrator")
                 {
-                    string[] saError = new string[] { "Cannot modify super administrator privelages" };
+                    string[] saError = new string[] { "Cannot modify super administrator privileges" };
                     AddErrors(saError);
                 }
                 else

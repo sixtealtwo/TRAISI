@@ -31,6 +31,7 @@ namespace DAL.Repositories
 					else {
 						return await _appContext.WelcomePageLabels
 									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
+									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}
         }

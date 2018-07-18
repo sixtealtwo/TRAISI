@@ -358,7 +358,7 @@ namespace TRAISI.Controllers
 					}
 					else 
 					{
-						return BadRequest("Members do not exist in groups or insufficient privelages");
+						return BadRequest("Members do not exist in groups or insufficient privileges");
 					}
 				}
 			}

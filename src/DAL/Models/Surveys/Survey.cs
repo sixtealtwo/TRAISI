@@ -74,6 +74,14 @@ namespace DAL.Models.Surveys
 											Value = "Default Thanks"
 										}
 									}
+								},
+								TermsAndConditionsLabel = new HashSet<TermsAndConditionsPageLabel>() {
+									new TermsAndConditionsPageLabel() {
+										Label = new Label() {
+											Language = this.DefaultLanguage,
+											Value = "Default Terms and Conditions"
+										}
+									}
 								}
 							}
 						};

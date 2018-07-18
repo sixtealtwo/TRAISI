@@ -25,11 +25,13 @@ namespace DAL.Repositories
 					if (language != null) {
             return await _appContext.TermsAndConditionsPageLabel
 									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == language)
+									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}
 					else {
 						return await _appContext.TermsAndConditionsPageLabel
 									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
+									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}
         }
