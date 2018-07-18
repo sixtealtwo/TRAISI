@@ -18,7 +18,7 @@ using Hangfire;
 
 namespace TRAISI.Controllers
 {
-	[Authorize]
+	[Authorize(Authorization.Policies.AccessAdminPolicy)]
 	[Route("api/[controller]")]
 	public class UserGroupController : Controller
 	{

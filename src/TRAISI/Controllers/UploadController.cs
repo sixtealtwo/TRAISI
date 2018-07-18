@@ -14,7 +14,7 @@ using TRAISI.ViewModels;
 namespace TRAISI.Controllers
 {
     [Produces("application/json")]
-    [Authorize]
+    [Authorize(Authorization.Policies.AccessAdminPolicy)]
     [Route("api/[controller]")]
     public class UploadController : Controller
     {

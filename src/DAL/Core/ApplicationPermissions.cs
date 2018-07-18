@@ -15,9 +15,9 @@ namespace DAL.Core
         public const string UsersPermissionGroupName = "User Permissions";
         public static ApplicationPermission ViewUsers = new ApplicationPermission("View All Users", "users.view", UsersPermissionGroupName, "Permission to view other users account details");
         public static ApplicationPermission ManageUsers = new ApplicationPermission("Manage All Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
-        
-				public static ApplicationPermission ManageGroups = new ApplicationPermission("Manage All Groups", "groups.manage", UsersPermissionGroupName, "Permission to create, delete and modify all groups");
-				public static ApplicationPermission ViewGroupUsers = new ApplicationPermission("View Group Users", "users.viewgroup", UsersPermissionGroupName, "Permission to view other users account details within the group");
+
+        public static ApplicationPermission ManageGroups = new ApplicationPermission("Manage All Groups", "groups.manage", UsersPermissionGroupName, "Permission to create, delete and modify all groups");
+        public static ApplicationPermission ViewGroupUsers = new ApplicationPermission("View Group Users", "users.viewgroup", UsersPermissionGroupName, "Permission to view other users account details within the group");
         public static ApplicationPermission ManageGroupUsers = new ApplicationPermission("Manage Group Users", "users.managegroup", UsersPermissionGroupName, "Permission to create, delete and modify other users account details within the group");
 
         public const string SurveysPermissionGroupName = "Survey Permissions";
@@ -32,14 +32,18 @@ namespace DAL.Core
         public static ApplicationPermission ManageRoles = new ApplicationPermission("Manage Roles", "roles.manage", RolesPermissionGroupName, "Permission to create, delete and modify roles");
         public static ApplicationPermission AssignRoles = new ApplicationPermission("Assign Roles", "roles.assign", RolesPermissionGroupName, "Permission to assign roles to users");
 
+        public const string SystemPermissionGroupName = "System Permissions";
+        public static ApplicationPermission AccessAdmin = new ApplicationPermission("Access Admin", "system.accessadmin", SystemPermissionGroupName, "Permission to access admin interface");
 
         static ApplicationPermissions()
         {
             List<ApplicationPermission> allPermissions = new List<ApplicationPermission>()
             {
+                AccessAdmin,
+
                 ViewUsers,
                 ManageUsers,
-								ManageGroups,
+                ManageGroups,
                 ViewGroupUsers,
                 ManageGroupUsers,
 
@@ -82,7 +86,7 @@ namespace DAL.Core
 
         public static string[] GetAdministrativePermissionValues()
         {
-            return new string[] { ManageUsers, ManageRoles, AssignRoles };
+            return new string[] { AccessAdmin };
         }
     }
 
@@ -91,14 +95,14 @@ namespace DAL.Core
         public static ReadOnlyCollection<ApplicationPermission> AllSurveyPermissions;
 
         public const string SurveySpecificPermissionGroupName = "Survey Specific Permissions";
-        public static ApplicationPermission ViewSurvey = new ApplicationPermission("View Survey","survey.view", SurveySpecificPermissionGroupName, "Permission to view specified survey");
-        public static ApplicationPermission ModifySurvey = new ApplicationPermission("Modify Survey","survey.modify", SurveySpecificPermissionGroupName, "Permission to modify specified survey");
-        public static ApplicationPermission DeleteSurvey = new ApplicationPermission("Delete Survey","survey.delete", SurveySpecificPermissionGroupName, "Permission to delete specified survey");
+        public static ApplicationPermission ViewSurvey = new ApplicationPermission("View Survey", "survey.view", SurveySpecificPermissionGroupName, "Permission to view specified survey");
+        public static ApplicationPermission ModifySurvey = new ApplicationPermission("Modify Survey", "survey.modify", SurveySpecificPermissionGroupName, "Permission to modify specified survey");
+        public static ApplicationPermission DeleteSurvey = new ApplicationPermission("Delete Survey", "survey.delete", SurveySpecificPermissionGroupName, "Permission to delete specified survey");
 
-				public static ApplicationPermission ExecuteSurvey = new ApplicationPermission("Execute Survey", "survey.execute", SurveySpecificPermissionGroupName, "Permission to execute specified survey (i.e. generate shortcodes, email invites, etc.)");
-        public static ApplicationPermission AnalyzeSurvey = new ApplicationPermission("Analyze Survey","survey.analyze", SurveySpecificPermissionGroupName, "Permission to analyze specified survey");
-        public static ApplicationPermission Interview = new ApplicationPermission("Interview","survey.interview", SurveySpecificPermissionGroupName, "Permission to conduct CATI interviews for specified survey");
-        public static ApplicationPermission ShareSurvey = new ApplicationPermission("Share Survey","survey.share", SurveySpecificPermissionGroupName, "Permission to share specified survey (i.e. manage/view survey users of specified survey)");
+        public static ApplicationPermission ExecuteSurvey = new ApplicationPermission("Execute Survey", "survey.execute", SurveySpecificPermissionGroupName, "Permission to execute specified survey (i.e. generate shortcodes, email invites, etc.)");
+        public static ApplicationPermission AnalyzeSurvey = new ApplicationPermission("Analyze Survey", "survey.analyze", SurveySpecificPermissionGroupName, "Permission to analyze specified survey");
+        public static ApplicationPermission Interview = new ApplicationPermission("Interview", "survey.interview", SurveySpecificPermissionGroupName, "Permission to conduct CATI interviews for specified survey");
+        public static ApplicationPermission ShareSurvey = new ApplicationPermission("Share Survey", "survey.share", SurveySpecificPermissionGroupName, "Permission to share specified survey (i.e. manage/view survey users of specified survey)");
 
         static SurveyPermissions()
         {
@@ -107,7 +111,7 @@ namespace DAL.Core
                 ViewSurvey,
                 ModifySurvey,
                 DeleteSurvey,
-								ExecuteSurvey,
+                ExecuteSurvey,
                 AnalyzeSurvey,
                 Interview,
                 ShareSurvey
@@ -119,7 +123,7 @@ namespace DAL.Core
         public static string[] ConvertPermissionCodeToList(string code)
         {
             List<string> permissionsList = new List<string>();
-            for (int i=0; i<AllSurveyPermissions.Count; i++)
+            for (int i = 0; i < AllSurveyPermissions.Count; i++)
             {
                 if (code[i] == '1')
                 {
@@ -138,7 +142,8 @@ namespace DAL.Core
                 {
                     codeBuilder.Append("1");
                 }
-                else {
+                else
+                {
                     codeBuilder.Append("0");
                 }
             }

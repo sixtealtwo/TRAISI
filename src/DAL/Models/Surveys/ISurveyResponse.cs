@@ -12,6 +12,5 @@ namespace DAL.Models.Surveys
 
         ResponseValue ResponseValue { get; set; }
 
-
     }
 }
