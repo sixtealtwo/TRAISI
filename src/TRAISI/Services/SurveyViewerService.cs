@@ -30,9 +30,16 @@ namespace TRAISI.Services
             return await this._unitOfWork.SurveyViews.GetAsync(viewId);
         }
 
-        SurveyView ISurveyViewerService.GetSurveyView(Survey survey, int viewId)
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <returns></returns>
+        public  SurveyView GetDefaultSurveyView(Survey survey)
         {
-            throw new System.NotImplementedException();
+            return survey.SurveyViews.GetEnumerator().Current;
         }
 
         /// <summary>

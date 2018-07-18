@@ -135,7 +135,7 @@ namespace TRAISI
                     options.DisableHttpsRequirement();
 
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
-               // options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+                // options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
             services.AddAuthentication(options =>
@@ -209,8 +209,8 @@ namespace TRAISI
 
             services.AddAuthorization(options =>
             {
-								options.AddPolicy(Authorization.Policies.AccessAdminPolicy,
-										policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AccessAdmin));
+                options.AddPolicy(Authorization.Policies.AccessAdminPolicy,
+                        policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.AccessAdmin));
 
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy,
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
@@ -258,8 +258,8 @@ namespace TRAISI
             // Survey Code Generation Services
             services.AddScoped<ICodeGeneration, CodeGenerationService>();
 
-						// File Downloader Services
-						services.AddScoped<IFileDownloader, FileDownloaderService>();
+            // File Downloader Services
+            services.AddScoped<IFileDownloader, FileDownloaderService>();
 
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
@@ -275,8 +275,8 @@ namespace TRAISI
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
 
 
-            services.AddScoped<ISurveyViewerService,SurveyViewerService>();
-            services.AddScoped<IRespondentService,RespondentService>();
+            services.AddScoped<ISurveyViewerService, SurveyViewerService>();
+            services.AddScoped<IRespondentService, RespondentService>();
 
             // Persistent Business Services
             services.AddSingleton<IMailgunMailer, MailgunMailer>();
@@ -288,9 +288,10 @@ namespace TRAISI
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddLocalization(options => options.ResourcesPath = "Resources/Localization");
 
-            services.AddHangfire(config => {
+            services.AddHangfire(config =>
+            {
                 config.UsePostgreSqlStorage(Configuration["ConnectionStrings:DefaultConnection"]);
-                });
+            });
 
 
 
@@ -329,9 +330,9 @@ namespace TRAISI
             app.UseAuthentication();
 
             app.UseSignalR(routes =>
-						{
-								routes.MapHub<NotifyHub>("/notify");
-						});
+                        {
+                            routes.MapHub<NotifyHub>("/notify");
+                        });
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 
@@ -22,7 +23,10 @@ namespace TRAISI.Services.Interfaces
         bool SurveyLogin(Survey survey, string shortcode);
 
 
-        SurveyView GetSurveyView(Survey survey, int viewId);
+        Task<SurveyView> GetSurveyView(Survey survey, int viewId);
+
+
+        SurveyView GetDefaultSurveyView(Survey survey);
 
     }
 }

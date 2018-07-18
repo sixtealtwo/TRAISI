@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
+using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
 
     [Authorize]
     [Route("api/[controller]")]
-    public class SurveyViewContoller
+    public class SurveyViewerContoller
     {
 
         private IUnitOfWork _unitOfWork;
@@ -24,7 +25,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// 
         /// </summary>
         /// <param name="viewService"></param>
-        public SurveyViewContoller(ISurveyViewerService viewService)
+        public SurveyViewerContoller(ISurveyViewerService viewService)
         {
             this._unitOfWork = null;
             this._viewService = viewService;
@@ -67,6 +68,20 @@ namespace TRAISI.Controllers.SurveyViewer
             var QuestionPart = await this._unitOfWork.QuestionParts.GetAsync(questionId);
             return new ObjectResult(QuestionPart.QuestionOptions);
 
+        }
+        
+        /// <summary>
+        /// Retrieves the default survey view
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+
+        [HttpGet]
+        [Produces(typeof(SurveyViewViewModel))]
+        public SurveyViewViewModel GetDefaultSurveyView(Survey s)
+        {
+
+            return AutoMapper.Mapper.Map<SurveyViewViewModel>(this._viewService.GetDefaultSurveyView(s));
         }
 
     }
