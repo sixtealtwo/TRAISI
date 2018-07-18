@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, SystemJsNgModuleLoader } from '@angular/core';
-import { SurveyViewerService } from '../services/survey-viewer.service';
-import { QuestionLoaderService } from '../services/question-loader.service';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { QuestionLoaderService } from '../../services/question-loader.service';
 import { NextObserver } from 'rxjs';
 
 

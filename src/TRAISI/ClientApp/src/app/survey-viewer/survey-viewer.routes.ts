@@ -1,5 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
-import {SurveyViewerComponent} from './components/survey-viewer.component';
+import {SurveyViewerComponent} from './components/survey-viewer/survey-viewer.component';
 
 
 const routes: Routes = [
