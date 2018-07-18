@@ -4,7 +4,7 @@ import { QuestionLoaderService } from './services/question-loader.service';
 import { QuestionLoaderEndpointService } from './services/question-loader-endpoint.service';
 import { ROUTES } from './survey-viewer.routes';
 import { SharedModule } from '../shared/shared.module';
-import { SurveyViewerComponent } from './components/survey-viewer.component';
+import { SurveyViewerComponent } from './components/survey-viewer/survey-viewer.component';
 import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyViewerEndpointService } from './services/survey-viewer-endpoint.service';
 import { SurveyWelcomePageComponent } from './components/survey-welcome-page/survey-welcome-page.component';
