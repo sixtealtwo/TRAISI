@@ -21,7 +21,7 @@ import { UserGroup } from '../models/user-group.model';
 import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 import { EmailTemplate } from '../models/email-template.model';
 import { ModalDirective } from 'ngx-bootstrap';
-import { DomSanitizer } from '../../../node_modules/@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -34,7 +34,7 @@ import { DomSanitizer } from '../../../node_modules/@angular/platform-browser';
 export class GroupsManagementComponent implements OnInit {
 	public emailColumns: any[] = [];
 	public emailRows: EmailTemplate[] = [];
-	
+
 	public loadingIndicator: boolean;
 
 	public apiModel: UserGroupAPIKeys;
@@ -110,7 +110,7 @@ export class GroupsManagementComponent implements OnInit {
 			.subscribe(userGroups => this.onDataLoadSuccessful(userGroups), error => this.onDataLoadFailed(error));
 	}
 
-	
+
 	onDataLoadSuccessful(groups: UserGroup[]) {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
