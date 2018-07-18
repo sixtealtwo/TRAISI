@@ -102,14 +102,21 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         public async Task<IActionResult> StartSurvey(int surveyId, string shortcode)
         {
-          
-          if(this._viewService.AuthorizeSurveyUser(await this._unitOfWork.Surveys.GetAsync(surveyId),shortcode))
-          {
-              return new OkResult();
-          }
-          else{
-              return new ChallengeResult();
-          }
+
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if(survey == null)
+            {
+                return new ChallengeResult();
+            }
+
+            if (this._viewService.AuthorizeSurveyUser(survey, shortcode))
+            {
+                return new OkResult();
+            }
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
     }
