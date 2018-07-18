@@ -45,6 +45,7 @@ import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 
+
 const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: './assets', // configure base path for monaco editor
   defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
@@ -64,7 +65,7 @@ const APP_PROVIDERS = [AppConfig];
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
-		BootstrapSelectDirective
+		BootstrapSelectDirective,
 	],
 	imports: [
 		BrowserModule,
