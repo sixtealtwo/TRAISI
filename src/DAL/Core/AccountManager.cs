@@ -103,8 +103,13 @@ namespace DAL.Core
 
         public async Task<List<Tuple<ApplicationUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize)
         {
+						//get respondent role Id for comparison
+						var respondentRoleId = _context.Roles
+														.Where(r => r.Name == "respondent")
+														.Select(r => r.Id).First();
+
             IQueryable<ApplicationUser> usersQuery = _context.Users
-                .Where(u => !u.Groups.Any())
+                .Where(u => !u.Groups.Any() && !u.Roles.Select(r => r.RoleId).Contains(respondentRoleId))
                 .Include(u => u.Roles)
                 .OrderBy(u => u.UserName);
 
