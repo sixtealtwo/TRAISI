@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
+using DAL.Core;
+using DAL.Core.Interfaces;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.SurveyViewer;
+using CryptoHelper;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -21,14 +24,19 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private ISurveyViewerService _viewService;
 
+        private IAccountManager _accountManager;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="viewService"></param>
-        public SurveyViewerContoller(ISurveyViewerService viewService)
+        public SurveyViewerContoller(ISurveyViewerService viewService,
+        IAccountManager accountManager
+        )
         {
             this._unitOfWork = null;
             this._viewService = viewService;
+            this._accountManager = accountManager;
 
         }
 
@@ -69,7 +77,7 @@ namespace TRAISI.Controllers.SurveyViewer
             return new ObjectResult(QuestionPart.QuestionOptions);
 
         }
-        
+
         /// <summary>
         /// Retrieves the default survey view
         /// </summary>
@@ -82,6 +90,26 @@ namespace TRAISI.Controllers.SurveyViewer
         {
 
             return AutoMapper.Mapper.Map<SurveyViewViewModel>(this._viewService.GetDefaultSurveyView(s));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        [Produces(typeof(ObjectResult))]
+        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode)
+        {
+          
+          if(this._viewService.AuthorizeSurveyUser(await this._unitOfWork.Surveys.GetAsync(surveyId),shortcode))
+          {
+              return new OkResult();
+          }
+          else{
+              return new ChallengeResult();
+          }
         }
 
     }

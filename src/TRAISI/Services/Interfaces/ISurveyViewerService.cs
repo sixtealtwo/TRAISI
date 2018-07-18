@@ -28,5 +28,8 @@ namespace TRAISI.Services.Interfaces
 
         SurveyView GetDefaultSurveyView(Survey survey);
 
+        ///
+        bool AuthorizeSurveyUser(Survey survey, string shortcode);
+
     }
 }
