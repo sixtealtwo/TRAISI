@@ -4,8 +4,8 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { FormsModule } from '@angular/forms';
 import { NullAstVisitor } from '@angular/compiler';
-import { RouterModule } from '../../../node_modules/@angular/router';
-import { TooltipModule } from '../../../node_modules/ngx-bootstrap';
+import { RouterModule } from '@angular/router';
+import { TooltipModule } from 'ngx-bootstrap';
 
 @NgModule({
 	imports: [CommonModule, TooltipModule, FormsModule, RouterModule],

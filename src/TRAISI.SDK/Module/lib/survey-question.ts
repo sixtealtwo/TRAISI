@@ -12,5 +12,7 @@ export interface ISurveyQuestion {
 
 	questionShown(): void;
 
-	questionHidden(): void;
+  questionHidden(): void;
+  
+  
 }
