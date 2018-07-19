@@ -30,6 +30,7 @@ namespace DAL
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ApiKeys> ApiKeys { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
+				public DbSet<SiteSurveyTemplate> SiteSurveyTemplates { get; set; }
         public DbSet<Shortcode> Shortcodes { get; set; }
         public DbSet<GroupCode> GroupCodes { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
@@ -82,6 +83,8 @@ namespace DAL
             builder.Entity<ApiKeys>().ToTable($"{nameof(this.ApiKeys)}");
 
             builder.Entity<EmailTemplate>().ToTable($"{nameof(this.EmailTemplates)}");
+
+						builder.Entity<SiteSurveyTemplate>().ToTable($"{nameof(this.SiteSurveyTemplates)}");
 
             builder.Entity<GroupMember>().ToTable($"{nameof(this.GroupMembers)}");
 

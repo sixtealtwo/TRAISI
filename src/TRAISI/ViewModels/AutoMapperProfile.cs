@@ -108,6 +108,9 @@ namespace TRAISI.ViewModels {
             CreateMap<LabelViewModel, Label> ()
                 .ReverseMap ();
 
+						CreateMap<SiteSurveyTemplate, SiteSurveyTemplateViewModel> ()
+								.ReverseMap();
+
         }
 
 
