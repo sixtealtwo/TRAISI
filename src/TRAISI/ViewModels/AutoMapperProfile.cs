@@ -88,8 +88,8 @@ namespace TRAISI.ViewModels {
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 
             CreateMap<SurveyView, SurveyViewerViewModel> ()
-                .ForMember (vm => vm.ViewName, map => map.MapFrom (v => v.ViewName))
-                .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews));
+                .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews))
+                .AfterMap( (s,svm ,opt) => { svm.TitleText = s.Survey.TitleLabel.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"]).Label.Value;});
 
             CreateMap<WelcomePageLabelViewModel, WelcomePageLabel> ()
                 .ForMember (w => w.SurveyView, map => map.Ignore ())
@@ -102,6 +102,8 @@ namespace TRAISI.ViewModels {
             CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel> ()
                 .ForMember (w => w.SurveyView, map => map.Ignore ())
                 .ReverseMap ();
+
+   
 
             CreateMap<LabelViewModel, Label> ()
                 .ReverseMap ();
