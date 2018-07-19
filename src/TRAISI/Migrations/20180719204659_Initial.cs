@@ -655,7 +655,8 @@ namespace TRAISI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     QuestionPartId = table.Column<int>(nullable: true),
                     SurveyViewId = table.Column<int>(nullable: true),
-                    Order = table.Column<int>(nullable: false)
+                    Order = table.Column<int>(nullable: false),
+                    QuestionPartViewId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -664,6 +665,12 @@ namespace TRAISI.Migrations
                         name: "FK_QuestionPartViews_QuestionParts_QuestionPartId",
                         column: x => x.QuestionPartId,
                         principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionPartViews_QuestionPartViews_QuestionPartViewId",
+                        column: x => x.QuestionPartViewId,
+                        principalTable: "QuestionPartViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -907,6 +914,11 @@ namespace TRAISI.Migrations
                 name: "IX_QuestionPartViews_QuestionPartId",
                 table: "QuestionPartViews",
                 column: "QuestionPartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionPartViews_QuestionPartViewId",
+                table: "QuestionPartViews",
+                column: "QuestionPartViewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionPartViews_SurveyViewId",

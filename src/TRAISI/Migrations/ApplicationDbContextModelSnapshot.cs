@@ -301,11 +301,15 @@ namespace TRAISI.Migrations
 
                     b.Property<int?>("QuestionPartId");
 
+                    b.Property<int?>("QuestionPartViewId");
+
                     b.Property<int?>("SurveyViewId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionPartId");
+
+                    b.HasIndex("QuestionPartViewId");
 
                     b.HasIndex("SurveyViewId");
 
@@ -940,6 +944,10 @@ namespace TRAISI.Migrations
                     b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
                         .HasForeignKey("QuestionPartId");
+
+                    b.HasOne("DAL.Models.Questions.QuestionPartView")
+                        .WithMany("QuestionPartViewChildren")
+                        .HasForeignKey("QuestionPartViewId");
 
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("QuestionPartViews")

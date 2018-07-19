@@ -13,6 +13,8 @@ namespace DAL.Models.Questions
 
         SurveyView SurveyView { get; set; }
 
+        ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
+
 
         int Order { get; set; }
 
