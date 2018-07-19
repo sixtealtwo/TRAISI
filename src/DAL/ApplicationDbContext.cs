@@ -42,8 +42,10 @@ namespace DAL
         public DbSet<ResponseValue> ResponseValues { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
         public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
-        public DbSet<ThankYouPageLabel> ThankYouPageLabel { get; set; }
-        public DbSet<TermsAndConditionsPageLabel> TermsAndConditionsPageLabel { get; set; }
+        public DbSet<ThankYouPageLabel> ThankYouPageLabels { get; set; }
+        public DbSet<TermsAndConditionsPageLabel> TermsAndConditionsPageLabels { get; set; }
+
+        public DbSet<TitlePageLabel> TitlePageLabels { get; set; }
 
         public DbSet<QuestionPartView> QuestionPartViews { get; set; }
 
@@ -96,9 +98,11 @@ namespace DAL
 
             builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}");
 
-            builder.Entity<ThankYouPageLabel>().ToTable($"{nameof(this.ThankYouPageLabel)}");
+            builder.Entity<ThankYouPageLabel>().ToTable($"{nameof(this.ThankYouPageLabels)}");
 
-            builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabel)}");
+            builder.Entity<TitlePageLabel>().ToTable($"{nameof(this.TitlePageLabels)}");
+
+            builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabels)}");
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations);
 

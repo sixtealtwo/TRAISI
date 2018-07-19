@@ -2,7 +2,7 @@ using DAL.Models.Surveys;
 
 namespace DAL.Models.Surveys
 {
-    public class TermsAndConditionsPageLabel
+    public class TitlePageLabel
     {
         public int Id { get; set; }
 
@@ -10,8 +10,8 @@ namespace DAL.Models.Surveys
 
         public Label Label { get; set; }
 
-        public int SurveyViewId { get; set; }
+        public Survey Survey {get;set;}
 
-        public SurveyView SurveyView { get; set; }
+
     }
 }

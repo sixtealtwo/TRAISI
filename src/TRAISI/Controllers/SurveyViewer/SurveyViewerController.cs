@@ -11,6 +11,8 @@ using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.SurveyViewer;
 using CryptoHelper;
+using TRAISI.ViewModels.Extensions;
+using AutoMapper;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -37,6 +39,7 @@ namespace TRAISI.Controllers.SurveyViewer
             this._unitOfWork = null;
             this._viewService = viewService;
             this._accountManager = accountManager;
+   
 
         }
 
@@ -85,11 +88,11 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
 
         [HttpGet]
-        [Produces(typeof(SurveyViewViewModel))]
-        public SurveyViewViewModel GetDefaultSurveyView(Survey s)
+        [Produces(typeof(SurveyViewerViewModel))]
+        public SurveyViewerViewModel GetDefaultSurveyView(Survey s)
         {
 
-            return AutoMapper.Mapper.Map<SurveyViewViewModel>(this._viewService.GetDefaultSurveyView(s));
+           return this._viewService.GetDefaultSurveyView(s).ToLocalizedModel<SurveyViewerViewModel>("en");
         }
 
 

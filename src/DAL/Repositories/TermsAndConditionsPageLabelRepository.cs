@@ -23,13 +23,13 @@ namespace DAL.Repositories
 				public async Task<TermsAndConditionsPageLabel> GetTermsAndConditionsPageLabelAsync(int surveyViewId, string language = null)
         {
 					if (language != null) {
-            return await _appContext.TermsAndConditionsPageLabel
+            return await _appContext.TermsAndConditionsPageLabels
 									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == language)
 									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}
 					else {
-						return await _appContext.TermsAndConditionsPageLabel
+						return await _appContext.TermsAndConditionsPageLabels
 									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
 									.Include(w => w.Label)
 									.SingleOrDefaultAsync();

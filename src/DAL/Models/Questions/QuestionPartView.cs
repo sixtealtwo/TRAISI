@@ -32,6 +32,8 @@ namespace DAL.Models.Questions
         /// <value></value>
         public SurveyView SurveyView { get; set; }
 
+        public ICollection<QuestionPartView> QuestionPartViewChildren {get;set;}
+
         /// <summary>
         /// The order (position) of this question part view inside of its containing survey view.
         /// </summary>
