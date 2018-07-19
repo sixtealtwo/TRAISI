@@ -19,7 +19,7 @@ namespace DAL.Models.Surveys
         string RejectionLink { get; set; }
         string DefaultLanguage { get; set; }
         string StyleTemplate { get; set; }
-        ICollection<Label> TitleLabel { get; set; }
+
 
         ICollection<SurveyView> SurveyViews { get; set; }
 

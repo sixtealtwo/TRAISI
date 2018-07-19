@@ -382,8 +382,6 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("Language");
 
-                    b.Property<int?>("SurveyId");
-
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);
 
@@ -392,8 +390,6 @@ namespace TRAISI.Migrations
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SurveyId");
 
                     b.ToTable("Labels");
                 });
@@ -550,7 +546,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("SurveyViewId");
 
-                    b.ToTable("TermsAndConditionsPageLabel");
+                    b.ToTable("TermsAndConditionsPageLabels");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.ThankYouPageLabel", b =>
@@ -568,7 +564,25 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("SurveyViewId");
 
-                    b.ToTable("ThankYouPageLabel");
+                    b.ToTable("ThankYouPageLabels");
+                });
+
+            modelBuilder.Entity("DAL.Models.Surveys.TitlePageLabel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LabelId");
+
+                    b.Property<int?>("SurveyId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LabelId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("TitlePageLabels");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.WelcomePageLabel", b =>
@@ -972,13 +986,6 @@ namespace TRAISI.Migrations
                         .HasForeignKey("SurveyId");
                 });
 
-            modelBuilder.Entity("DAL.Models.Surveys.Label", b =>
-                {
-                    b.HasOne("DAL.Models.Surveys.Survey")
-                        .WithMany("TitleLabel")
-                        .HasForeignKey("SurveyId");
-                });
-
             modelBuilder.Entity("DAL.Models.Surveys.Shortcode", b =>
                 {
                     b.HasOne("DAL.Models.Surveys.GroupCode", "GroupCode")
@@ -1045,6 +1052,18 @@ namespace TRAISI.Migrations
                         .WithMany("ThankYouPageLabel")
                         .HasForeignKey("SurveyViewId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DAL.Models.Surveys.TitlePageLabel", b =>
+                {
+                    b.HasOne("DAL.Models.Surveys.Label", "Label")
+                        .WithMany()
+                        .HasForeignKey("LabelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Surveys.Survey", "Survey")
+                        .WithMany("TitleLabel")
+                        .HasForeignKey("SurveyId");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.WelcomePageLabel", b =>
