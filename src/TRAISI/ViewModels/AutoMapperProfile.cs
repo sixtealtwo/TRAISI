@@ -89,7 +89,9 @@ namespace TRAISI.ViewModels {
 
             CreateMap<SurveyView, SurveyViewerViewModel> ()
                 .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews))
-                .AfterMap( (s,svm ,opt) => { svm.TitleText = s.Survey.TitleLabel.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"]).Label.Value;});
+                .AfterMap ((s, svm, opt) => { svm.TitleText = s.Survey.TitleLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; })
+                .AfterMap ((s, svm, opt) => { svm.SurveyCompletionText = s.ThankYouPageLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; })
+                .AfterMap ((s, svm, opt) => { svm.WelcomeText = s.WelcomePageLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; });
 
             CreateMap<WelcomePageLabelViewModel, WelcomePageLabel> ()
                 .ForMember (w => w.SurveyView, map => map.Ignore ())
@@ -103,16 +105,13 @@ namespace TRAISI.ViewModels {
                 .ForMember (w => w.SurveyView, map => map.Ignore ())
                 .ReverseMap ();
 
-   
-
             CreateMap<LabelViewModel, Label> ()
                 .ReverseMap ();
 
-						CreateMap<SiteSurveyTemplate, SiteSurveyTemplateViewModel> ()
-								.ReverseMap();
+            CreateMap<SiteSurveyTemplate, SiteSurveyTemplateViewModel> ()
+                .ReverseMap ();
 
         }
-
 
     }
 }
