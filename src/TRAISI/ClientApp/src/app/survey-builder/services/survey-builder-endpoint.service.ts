@@ -5,6 +5,7 @@ import { ConfigurationService } from '../../services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { UploadPath } from '../models/upload-path';
+import { WelcomePage } from '../models/welcome-page.model';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
@@ -54,4 +55,65 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	public getStandardWelcomePageEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardWelcomePageEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getStandardTermsAndConditionsPageEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/TermsAndConditionsPage/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardTermsAndConditionsPageEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getStandardThankYouPageEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardWelcomePageEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getUpdateStandardWelcomePageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateStandardWelcomePageEndpoint(surveyId, welcomePage));
+			})
+		);
+	}
+
+	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/TermsAndConditionsPage`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateStandardTermsAndConditionsPageEndpoint(surveyId, welcomePage));
+			})
+		);
+	}
+
+	public getUpdateStandardThankYouPageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateStandardThankYouPageEndpoint(surveyId, welcomePage));
+			})
+		);
+	}
+
 }

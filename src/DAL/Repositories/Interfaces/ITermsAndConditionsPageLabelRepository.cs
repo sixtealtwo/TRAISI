@@ -9,6 +9,6 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface ITermsAndConditionsPageLabelRepository : IRepository<TermsAndConditionsPageLabel>
 	{
-			Task<TermsAndConditionsPageLabel> GetTermsAndConditionsPageLabelAsync(int surveyViewId, string language = null);
+			Task<TermsAndConditionsPageLabel> GetTermsAndConditionsPageLabelAsync(string surveyViewName, string language = null);
 	}
 }

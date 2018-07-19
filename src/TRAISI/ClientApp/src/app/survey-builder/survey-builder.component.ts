@@ -5,8 +5,12 @@ import { AuthService } from '../services/auth.service';
 import { ConfigurationService } from '../services/configuration.service';
 import { UploadPath } from './models/upload-path';
 import { QuestionTypeDefinition } from './models/question-type-definition';
-import { AlertService, DialogType } from '../services/alert.service';
+import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
+import { QuestionPartView } from './models/question-part-view.model';
+import { WelcomePage } from './models/welcome-page.model';
+import { TermsAndConditionsPage } from './models/terms-and-condiitions-page.model';
+import { ThankYouPage } from './models/thank-you-page.model';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -16,24 +20,16 @@ import { NestedDragAndDropListComponent } from './components/nested-drag-and-dro
 })
 export class SurveyBuilderComponent implements OnInit {
 	public surveyId: number;
-	public testTargets = [];
-	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>(); 
 	public froalaOptions: any;
-	private elementUniqueIndex: number = 0;
+	public allPages = [];
+
+	public welcomePage: WelcomePage;
+	public termsAndConditionsPage: TermsAndConditionsPage;
+	public thankYouPage: ThankYouPage;
+
+	private currentPage: string = 'welcome';
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
-
-	deleteImage(e, editor, img) {
-		let uploadPath = new UploadPath(img.attr('src'));
-		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-	}
-
-	deleteVideo(e, editor, vid) {
-		if (vid[0].localName === 'video') {
-			let uploadPath = new UploadPath(vid.attr('src'));
-			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-		}
-	}
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -48,7 +44,16 @@ export class SurveyBuilderComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.froalaOptions = {
+		this.froalaOptions = this.generateFroalaOptions();
+
+		this.allPages.push(new QuestionPartView(0, 'First Page', [], 0));
+		this.allPages.push(new QuestionPartView(1, 'Second Page', [], 1));
+		this.switchPage('welcome');
+
+	}
+
+	generateFroalaOptions() {
+		return {
 			toolbarInline: true,
 			charCounterCount: false,
 			toolbarVisibleWithoutSelection: true,
@@ -114,14 +119,139 @@ export class SurveyBuilderComponent implements OnInit {
 			videoUploadMethod: 'POST',
 			imageUploadURL: this.configurationService.baseUrl + '/api/Upload',
 			imageUploadMethod: 'POST',
+			saveInterval: 5000,
+
 			events: {
 				'froalaEditor.image.removed': (e, editor, img) => this.deleteImage(e, editor, img),
-				'froalaEditor.video.removed': (e, editor, vid) => this.deleteVideo(e, editor, vid)
+				'froalaEditor.video.removed': (e, editor, vid) => this.deleteVideo(e, editor, vid),
+				'froalaEditor.save.before': (e, editor, data) => this.saveMandatoryPages(e, editor, data)
 			}
 		};
 	}
 
+
+	deleteImage(e, editor, img) {
+		let uploadPath = new UploadPath(img.attr('src'));
+		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+	}
+
+	deleteVideo(e, editor, vid) {
+		if (vid[0].localName === 'video') {
+			let uploadPath = new UploadPath(vid.attr('src'));
+			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+		}
+	}
+
+	saveWelcomePage() {
+		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
+			result =>
+			{
+				this.alertService.showMessage('Success', `Welcome page was saved successfully!`, MessageSeverity.success);
+				
+			},
+			error => 
+			{
+
+			}
+		);
+	}
+
+	saveTAndCPage() {
+		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
+			result =>
+			{
+				this.alertService.showMessage('Success', `Terms and conditions page was saved successfully!`, MessageSeverity.success);
+				
+			},
+			error => 
+			{
+
+			}
+		);
+	}
+
+	saveThankYouPage() {
+		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
+			result =>
+			{
+				this.alertService.showMessage('Success', `Thank you page was saved successfully!`, MessageSeverity.success);
+				
+			},
+			error => 
+			{
+
+			}
+		);
+	}
+
+	saveMandatoryPages(e, editor, data) {
+		if (this.currentPage === 'welcome') {
+			this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
+				result =>
+				{
+					console.log("Saved Welcome");
+					
+				},
+				error => 
+				{
+
+				}
+			);
+		} else if (this.currentPage === 'termsAndConditions') {
+			this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
+				result =>
+				{
+					console.log("Saved Terms and Conditions");
+				},
+				error => 
+				{
+
+				}
+			);
+		} else if (this.currentPage === 'thank-you') {
+			this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
+				result =>
+				{
+					console.log("Saved Thank you");
+				},
+				error => 
+				{
+
+				}
+			);
+		}
+	}
+
+
 	addQuestionTypeToList(qType) {
 		this.surveyPage.addQuestionTypeToList(qType);
+	}
+
+	switchPage(pageName: string): void {
+		this.currentPage = pageName;
+		if (this.currentPage === 'welcome') {
+			this.surveyBuilderService.getStandardWelcomePage(this.surveyId, 'en').subscribe(
+				result => {
+					this.welcomePage = result;
+				}
+			);
+		} else if (this.currentPage === 'termsAndConditions') {
+			this.surveyBuilderService.getStandardTermsAndConditionsPage(this.surveyId, 'en').subscribe(
+				result => {
+					this.termsAndConditionsPage = result;
+				}
+			);
+		} else if (this.currentPage === 'thank-you') {
+			this.surveyBuilderService.getStandardThankYouPage(this.surveyId, 'en').subscribe(
+				result => {
+					this.thankYouPage = result;
+				}
+			);
+		}
+	}
+
+	switchSurveyPage(pageId: number): void {
+		this.surveyPage.testTargets = [];
+		this.currentPage = 'surveyPage';
 	}
 }

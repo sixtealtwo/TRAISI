@@ -1,9 +1,66 @@
 <h1>Survey Builder for Survey {{ surveyId }}</h1>
 
 
-	<div role="navigation" id="builderSidebar" class="sidebar order-correct">
-		<traisi-question-type-chooser (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
+<div role="navigation" id="builderSidebar" class="sidebar order-correct">
+	<traisi-question-type-chooser (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
+</div>
+<div class="clearfix">
+	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active fw-semi-bold" (click)="switchPage('welcome')" id="welcome-tab" data-toggle="tab" href="#welcome"
+			 role="tab" aria-controls="welcome" aria-expanded="true">Welcome</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
+			 role="tab" aria-controls="tAndC" aria-expanded="true">Terms and Conditions</a>
+		</li>
+		<li *ngFor="let page of allPages" class="nav-item">
+			<a class="nav-link fw-semi-bold" (click)="switchSurveyPage(page.id)" id="{{ page.id + '-tab' }}" data-toggle="tab" href="#pages"
+			 role="tab" aria-controls="page.label" aria-expanded="true">
+				{{ page.label }}
+				<sup class="badge badge-pill badge-primary">
+					P
+				</sup>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link fw-semi-bold" (click)="switchPage('thank-you')" id="thankYou-tab" data-toggle="tab" href="#thankYou" role="tab"
+			 aria-controls="thankYou" aria-expanded="true">Thank You</a>
+		</li>
+	</ul>
+</div>
+<div class="tab-content mb-lg" id="pageTabContent">
+	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveWelcomePage()">
+					Save
+				</button>
+			</div>
+		</div>
+		<div *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.label.value"></div>
 	</div>
-
-	<app-nested-drag-and-drop-list #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
-<div [froalaEditor]="froalaOptions">Hello, Froala!</div>
+	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveTAndCPage()">
+					Save
+				</button>
+			</div>
+		</div>
+		<div *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.label.value"></div>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
+		<app-nested-drag-and-drop-list #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveThankYouPage()">
+					Save
+				</button>
+			</div>
+		</div>
+		<div *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.label.value"></div>
+	</div>
+</div>

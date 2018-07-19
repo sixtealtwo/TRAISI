@@ -20,17 +20,17 @@ namespace DAL.Repositories
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-				public async Task<WelcomePageLabel> GetWelcomePageLabelAsync(int surveyViewId, string language = null)
+				public async Task<WelcomePageLabel> GetWelcomePageLabelAsync(string surveyViewName, string language = null)
         {
 					if (language != null) {
             return await _appContext.WelcomePageLabels
-									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == language)
+									.Where(w => w.SurveyView.ViewName == surveyViewName && w.Label.Language == language)
 									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}
 					else {
 						return await _appContext.WelcomePageLabels
-									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
+									.Where(w => w.SurveyView.ViewName == surveyViewName && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
 									.Include(w => w.Label)
 									.SingleOrDefaultAsync();
 					}

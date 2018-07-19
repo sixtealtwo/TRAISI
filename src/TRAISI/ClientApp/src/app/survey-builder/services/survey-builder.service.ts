@@ -6,6 +6,9 @@ import { SurveyBuilderEndpointService } from './survey-builder-endpoint.service'
 import { Observable } from 'rxjs';
 import { QuestionTypeDefinition } from '../models/question-type-definition';
 import { UploadPath } from '../models/upload-path';
+import { WelcomePage } from '../models/welcome-page.model';
+import { TermsAndConditionsPage } from '../models/terms-and-condiitions-page.model';
+import { ThankYouPage } from '../models/thank-you-page.model';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -25,5 +28,29 @@ export class SurveyBuilderService {
 
 	public deleteUploadedFile(filePath: UploadPath) {
 		return this.surveyBuilderEndpointService.getDeleteUploadedFileEndopint<UploadPath>(filePath);
+	}
+
+	public getStandardWelcomePage(surveyId: number, language: string): Observable<WelcomePage>  {
+		return this.surveyBuilderEndpointService.getStandardWelcomePageEndpoint<WelcomePage>(surveyId, language);
+	}
+
+	public getStandardTermsAndConditionsPage(surveyId: number, language: string): Observable<TermsAndConditionsPage>  {
+		return this.surveyBuilderEndpointService.getStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, language);
+	}
+
+	public getStandardThankYouPage(surveyId: number, language: string): Observable<ThankYouPage>  {
+		return this.surveyBuilderEndpointService.getStandardThankYouPageEndpoint<ThankYouPage>(surveyId, language);
+	}
+
+	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage): Observable<WelcomePage>  {
+		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(surveyId, welcomePage);
+	}
+
+	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage): Observable<TermsAndConditionsPage>  {
+		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, tAndCPage);
+	}
+
+	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage): Observable<ThankYouPage>  {
+		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(surveyId, thankYouPage);
 	}
 }

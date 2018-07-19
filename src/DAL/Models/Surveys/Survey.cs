@@ -53,7 +53,8 @@ namespace DAL.Models.Surveys
             this.SurveyPermissions = new HashSet<SurveyPermission>();
             this.SurveyViews = new List<SurveyView>(){
                             new SurveyView() {
-                                WelcomePageLabel = new HashSet<WelcomePageLabel>() {
+																ViewName = "Standard",
+																WelcomePageLabel = new HashSet<WelcomePageLabel>() {
                                     new WelcomePageLabel() {
                                         Label = new Label() {
                                             Language = this.DefaultLanguage,
