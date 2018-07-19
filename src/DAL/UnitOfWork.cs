@@ -18,6 +18,7 @@ namespace DAL
         IGroupMemberRepository _groupMembers;
         IApiKeysRepository _apiKeys;
         IEmailTemplateRepository _emailTemplates;
+				ISiteSurveyTemplateRepository _siteSurveyTemplates;
         IShortcodeRepository _shortcodes;
         IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
@@ -117,6 +118,18 @@ namespace DAL
                 return _emailTemplates;
             }
         }
+
+				public ISiteSurveyTemplateRepository SiteSurveyTemplates
+				{
+					get
+					{
+						if (_siteSurveyTemplates == null)
+								_siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
+
+						return _siteSurveyTemplates;
+					}
+				}
+
 
         public IShortcodeRepository Shortcodes
         {

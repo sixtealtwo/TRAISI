@@ -8,6 +8,6 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public string ViewName {get;set;}
 
-        public List<QuestionPartViewModel> Questions;
+        public List<QuestionPartViewViewModel> Questions;
     }
 }

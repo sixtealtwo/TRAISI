@@ -14,6 +14,7 @@ namespace DAL
         ISurveyPermissionsRepository SurveyPermissions { get; }
         IApiKeysRepository ApiKeys { get; }
         IEmailTemplateRepository EmailTemplates { get; }
+				ISiteSurveyTemplateRepository SiteSurveyTemplates { get; }
         IShortcodeRepository Shortcodes { get; }
         IGroupCodeRepository GroupCodes { get; }
         IUserGroupRepository UserGroups { get; }
