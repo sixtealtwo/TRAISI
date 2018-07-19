@@ -88,11 +88,11 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
 
         [HttpGet]
-        [Produces(typeof(SurveyViewViewModel))]
-        public SurveyViewViewModel GetDefaultSurveyView(Survey s)
+        [Produces(typeof(SurveyViewerViewModel))]
+        public SurveyViewerViewModel GetDefaultSurveyView(Survey s)
         {
 
-           return this._viewService.GetDefaultSurveyView(s).ToLocalizedModel<SurveyViewViewModel>("en");
+           return this._viewService.GetDefaultSurveyView(s).ToLocalizedModel<SurveyViewerViewModel>("en");
         }
 
 

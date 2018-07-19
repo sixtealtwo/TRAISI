@@ -87,7 +87,7 @@ namespace TRAISI.ViewModels {
                 .ForMember (sc => sc.SurveyId, map => map.MapFrom (s => s.Survey.Id));
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 
-            CreateMap<SurveyView, SurveyViewViewModel> ()
+            CreateMap<SurveyView, SurveyViewerViewModel> ()
                 .ForMember (vm => vm.ViewName, map => map.MapFrom (v => v.ViewName))
                 .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews));
 

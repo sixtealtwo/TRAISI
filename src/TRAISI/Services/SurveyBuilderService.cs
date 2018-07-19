@@ -287,13 +287,7 @@ namespace TRAISI.Services
         public void SetSurveyTitle(Survey survey, string title, string language)
         {
             //remove the label if it already exists
-            survey.TitleLabel.Remove(survey.TitleLabel.SingleOrDefault(t => t.Language == language));
-
-            survey.TitleLabel.Add(new Label()
-            {
-                Value = title,
-                Language = language
-            });
+           
         }
 
 

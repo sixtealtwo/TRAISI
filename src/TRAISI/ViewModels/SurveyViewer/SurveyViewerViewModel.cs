@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TRAISI.ViewModels.SurveyViewer
 {
-    public class SurveyViewViewModel
+    public class SurveyViewerViewModel
     {
         public int Id {get;set;}
 
