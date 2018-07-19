@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Core;
+using DAL.Models.Interfaces;
 using DAL.Models.Surveys;
 
 namespace DAL.Models.Surveys
 {
-    public class Survey : AuditableEntity, ISurvey
+    public class Survey : AuditableEntity, ISurvey, IEntity
     {
         public int Id { get; set; }
         public int Code { get; set; }

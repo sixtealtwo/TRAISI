@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using DAL.Models.Interfaces;
 using DAL.Models.Questions;
 
 namespace DAL.Models.Surveys
 {
-    public class SurveyView : ISurveyView
+    public class SurveyView : ISurveyView, IEntity
     {
         public int Id { get; set; }
 

@@ -1,19 +1,22 @@
 using AutoMapper;
+using DAL.Models.Interfaces;
 
-namespace TRAISI.ViewModels.Extensions {
+namespace TRAISI.ViewModels.Extensions
+{
 
-    public static class AutoMapperExtensions {
+    public static class AutoMapperExtensions
+    {
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="mapper"></param>
         /// <param name="source"></param>
-        /// <param name="language"></param>
         /// <typeparam name="TDest"></typeparam>
         /// <returns></returns>
-        public static TDest MapWithLanguage<TDest> (this Mapper mapper, object source, string language) {
-            return AutoMapper.Mapper.Map<TDest> (source);
+        public static TDest ToLocalizedModel<TDest>(this IEntity source, string language)
+        {
+            return AutoMapper.Mapper.Map<TDest>(source,opts => opts.Items["Language"] = language);
         }
+       
     }
 }
