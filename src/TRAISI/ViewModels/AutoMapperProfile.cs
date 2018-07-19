@@ -11,100 +11,111 @@ using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 using TRAISI.ViewModels.SurveyViewer;
 
-namespace TRAISI.ViewModels {
-    public class AutoMapperProfile : Profile {
-        public AutoMapperProfile () {
-            CreateMap<ApplicationUser, UserViewModel> ()
-                .ForMember (d => d.Roles, map => map.Ignore ());
+namespace TRAISI.ViewModels
+{
+    public class AutoMapperProfile : Profile
+    {
+        public AutoMapperProfile()
+        {
+            CreateMap<ApplicationUser, UserViewModel>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
-            CreateMap<UserViewModel, ApplicationUser> ()
-                .ForMember (d => d.Roles, map => map.Ignore ());
+            CreateMap<UserViewModel, ApplicationUser>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
-            CreateMap<ApplicationUser, UserEditViewModel> ()
-                .ForMember (d => d.Roles, map => map.Ignore ());
+            CreateMap<ApplicationUser, UserEditViewModel>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
-            CreateMap<UserEditViewModel, ApplicationUser> ()
-                .ForMember (d => d.Roles, map => map.Ignore ());
+            CreateMap<UserEditViewModel, ApplicationUser>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
-            CreateMap<ApplicationUser, UserPatchViewModel> ()
-                .ReverseMap ();
+            CreateMap<ApplicationUser, UserPatchViewModel>()
+                .ReverseMap();
 
-            CreateMap<ApplicationRole, RoleViewModel> ()
-                .ForMember (d => d.Permissions, map => map.MapFrom (s => s.Claims))
-                .ForMember (d => d.UsersCount, map => map.ResolveUsing (s => s.Users?.Count ?? 0))
-                .ReverseMap ();
-            CreateMap<RoleViewModel, ApplicationRole> ();
+            CreateMap<ApplicationRole, RoleViewModel>()
+                .ForMember(d => d.Permissions, map => map.MapFrom(s => s.Claims))
+                .ForMember(d => d.UsersCount, map => map.ResolveUsing(s => s.Users?.Count ?? 0))
+                .ReverseMap();
+            CreateMap<RoleViewModel, ApplicationRole>();
 
-            CreateMap<IdentityRoleClaim<string>, ClaimViewModel> ()
-                .ForMember (d => d.Type, map => map.MapFrom (s => s.ClaimType))
-                .ForMember (d => d.Value, map => map.MapFrom (s => s.ClaimValue))
-                .ReverseMap ();
+            CreateMap<IdentityRoleClaim<string>, ClaimViewModel>()
+                .ForMember(d => d.Type, map => map.MapFrom(s => s.ClaimType))
+                .ForMember(d => d.Value, map => map.MapFrom(s => s.ClaimValue))
+                .ReverseMap();
 
-            CreateMap<ApplicationPermission, PermissionViewModel> ()
-                .ReverseMap ();
+            CreateMap<ApplicationPermission, PermissionViewModel>()
+                .ReverseMap();
 
-            CreateMap<IdentityRoleClaim<string>, PermissionViewModel> ()
-                .ConvertUsing (s => Mapper.Map<PermissionViewModel> (ApplicationPermissions.GetPermissionByValue (s.ClaimValue)));
+            CreateMap<IdentityRoleClaim<string>, PermissionViewModel>()
+                .ConvertUsing(s => Mapper.Map<PermissionViewModel>(ApplicationPermissions.GetPermissionByValue(s.ClaimValue)));
 
-            CreateMap<Survey, SurveyViewModel> ()
-                .ReverseMap ();
+            CreateMap<Survey, SurveyViewModel>()
+                .ReverseMap();
 
-            CreateMap<GroupMember, GroupMemberViewModel> ();
+            CreateMap<GroupMember, GroupMemberViewModel>();
 
-            CreateMap<GroupMemberViewModel, GroupMember> ()
-                .ForMember (d => d.User, map => map.Ignore ())
-                .ForMember (d => d.UserGroup, map => map.Ignore ());
+            CreateMap<GroupMemberViewModel, GroupMember>()
+                .ForMember(d => d.User, map => map.Ignore())
+                .ForMember(d => d.UserGroup, map => map.Ignore());
 
-            CreateMap<UserGroup, UserGroupViewModel> ()
-                .ReverseMap ();
+            CreateMap<UserGroup, UserGroupViewModel>()
+                .ReverseMap();
 
-            CreateMap<SurveyPermission, SurveyPermissionViewModel> ()
-                .ReverseMap ();
+            CreateMap<SurveyPermission, SurveyPermissionViewModel>()
+                .ReverseMap();
 
-            CreateMap<ApiKeys, ApiKeysViewModel> ()
-                .ForMember (a => a.GroupId, map => map.MapFrom (s => s.Group.Id))
-                .ReverseMap ();
+            CreateMap<ApiKeys, ApiKeysViewModel>()
+                .ForMember(a => a.GroupId, map => map.MapFrom(s => s.Group.Id))
+                .ReverseMap();
 
-            CreateMap<EmailTemplate, EmailTemplateViewModel> ()
-                .ForMember (a => a.GroupName, map => map.MapFrom (s => s.Group.Name))
-                .ReverseMap ();
+            CreateMap<EmailTemplate, EmailTemplateViewModel>()
+                .ForMember(a => a.GroupName, map => map.MapFrom(s => s.Group.Name))
+                .ReverseMap();
 
-            CreateMap<CodeGeneration, CodeGenerationViewModel> ()
-                .ReverseMap ();
+            CreateMap<CodeGeneration, CodeGenerationViewModel>()
+                .ReverseMap();
 
-            CreateMap<GroupCodeViewModel, GroupCode> ()
-                .ForMember (gc => gc.Survey, map => map.Ignore ());
+            CreateMap<GroupCodeViewModel, GroupCode>()
+                .ForMember(gc => gc.Survey, map => map.Ignore());
 
-            CreateMap<GroupCode, GroupCodeViewModel> ()
-                .ForMember (gc => gc.SurveyId, map => map.MapFrom (s => s.Survey.Id));
+            CreateMap<GroupCode, GroupCodeViewModel>()
+                .ForMember(gc => gc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
 
-            CreateMap<ShortcodeViewModel, Shortcode> ()
-                .ForMember (sc => sc.GroupCode, map => map.Ignore ())
-                .ForMember (sc => sc.Survey, map => map.Ignore ());
+            CreateMap<ShortcodeViewModel, Shortcode>()
+                .ForMember(sc => sc.GroupCode, map => map.Ignore())
+                .ForMember(sc => sc.Survey, map => map.Ignore());
             //.ForMember (sc => sc.Respondent, map => map.Ignore());
 
-            CreateMap<Shortcode, ShortcodeViewModel> ()
-                .ForMember (sc => sc.SurveyId, map => map.MapFrom (s => s.Survey.Id));
+            CreateMap<Shortcode, ShortcodeViewModel>()
+                .ForMember(sc => sc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 
-            CreateMap<SurveyView, SurveyViewViewModel> ()
-                .ForMember (vm => vm.ViewName, map => map.MapFrom (v => v.ViewName))
-                .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews));
 
-            CreateMap<WelcomePageLabelViewModel, WelcomePageLabel> ()
-                .ForMember (w => w.SurveyView, map => map.Ignore ())
-                .ReverseMap ();
 
-            CreateMap<ThankYouPageLabelViewModel, ThankYouPageLabel> ()
-                .ForMember (w => w.SurveyView, map => map.Ignore ())
-                .ReverseMap ();
+            CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
+                .ForMember(w => w.SurveyView, map => map.Ignore())
+                .ReverseMap();
 
-            CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel> ()
-                .ForMember (w => w.SurveyView, map => map.Ignore ())
-                .ReverseMap ();
+            CreateMap<ThankYouPageLabelViewModel, ThankYouPageLabel>()
+                .ForMember(w => w.SurveyView, map => map.Ignore())
+                .ReverseMap();
 
-            CreateMap<LabelViewModel, Label> ()
-                .ReverseMap ();
+            CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel>()
+                .ForMember(w => w.SurveyView, map => map.Ignore())
+                .ReverseMap();
+
+            CreateMap<LabelViewModel, Label>()
+                .ReverseMap();
+
+            #region  Survey Viewer Mappings
+            CreateMap<SurveyView, SurveyViewerViewModel>()
+                .ForMember(vm => vm.ViewName, map => map.MapFrom(v => v.ViewName))
+                .ForMember(vm => vm.Questions, map => map.MapFrom(v => v.QuestionPartViews))
+                .AfterMap((v,vm,opts) => {vm.WelcomeText = v.WelcomePageLabel.FirstOrDefault(l => l.Label.Language == (string)opts.Items["Language"]).Label.Value;})
+                .AfterMap((v,vm,opts) => {vm.TermsAndConditionsText = v.TermsAndConditionsLabel.FirstOrDefault(l => l.Label.Language == (string)opts.Items["Language"]).Label.Value;})
+                .AfterMap((v,vm,opts) => {vm.CompletionText = v.ThankYouPageLabel.FirstOrDefault(l => l.Label.Language == (string)opts.Items["Language"]).Label.Value;});
+
+            #endregion
 
         }
 
