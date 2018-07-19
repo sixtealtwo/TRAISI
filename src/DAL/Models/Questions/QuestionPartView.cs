@@ -38,9 +38,15 @@ namespace DAL.Models.Questions
         /// <value></value>
         public int Order {get;set;}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public ICollection<QuestionPartView> QuestionPartViewChildren {get;set;}
         public QuestionPartView()
         {
             this.Labels = new HashSet<QuestionPartViewLabel>();
+            this.QuestionPartViewChildren = new HashSet<QuestionPartView>();
         }
 
 

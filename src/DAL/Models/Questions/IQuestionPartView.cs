@@ -9,6 +9,8 @@ namespace DAL.Models.Questions
 
         ICollection<QuestionPartViewLabel> Labels { get; set; }
 
+        ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
+
         QuestionPart QuestionPart { get; set; }
 
         SurveyView SurveyView { get; set; }
