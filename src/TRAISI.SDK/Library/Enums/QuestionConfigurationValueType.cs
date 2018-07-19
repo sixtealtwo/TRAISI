@@ -15,6 +15,7 @@ namespace TRAISI.SDK.Enums
         Tuple,
         Time,
         Date,
-        Custom
+        Custom,
+        Question
     }
 }
