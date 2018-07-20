@@ -14,9 +14,6 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public List<QuestionPartViewViewModel> Questions;
 
-
-
-
         public string TitleText { get; set; }
 
         public string TermsAndConditionsText { get; set; }
