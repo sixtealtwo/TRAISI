@@ -17,6 +17,7 @@ using Microsoft.Extensions.Localization;
 using TRAISI.Authorization;
 using TRAISI.Helpers;
 using TRAISI.ViewModels;
+using TRAISI.ViewModels.Users;
 
 namespace TRAISI.Controllers
 {

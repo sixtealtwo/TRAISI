@@ -8,8 +8,11 @@ using DAL.Core;
 using DAL.Models;
 using DAL.Models.Groups;
 using DAL.Models.Surveys;
+using DAL.Models.Questions;
 using Microsoft.AspNetCore.Identity;
 using TRAISI.ViewModels.SurveyViewer;
+using TRAISI.ViewModels.Users;
+using TRAISI.ViewModels.SurveyBuilder;
 
 namespace TRAISI.ViewModels {
     public class AutoMapperProfile : Profile {
@@ -87,13 +90,24 @@ namespace TRAISI.ViewModels {
                 .ForMember (sc => sc.SurveyId, map => map.MapFrom (s => s.Survey.Id));
             //.ForMember(sc => sc.Respondent, map => map.MapFrom(r => r.Respondent.Id));
 
-            CreateMap<SurveyView, SurveyViewerViewModel> ()
+            CreateMap<QuestionPartView, QuestionPartViewViewModel> ()
+								.AfterMap ((s, svm, opt) => { svm.Label = s.Labels.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; });
+
+						CreateMap<SurveyViewViewModel, SurveyView> ()
+								.ForMember (m => m.TermsAndConditionsLabel, map => map.Ignore())
+								.ForMember (m => m.ThankYouPageLabel, map => map.Ignore())
+								.ForMember (m => m.WelcomePageLabel, map => map.Ignore());
+						
+						CreateMap<SurveyView, SurveyViewViewModel> ()
+								.ForMember (vm => vm.SurveyId, map => map.MapFrom(m => m.Survey.Id));
+
+						CreateMap<SurveyView, SurveyViewerViewModel> ()
                 .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews))
                 .AfterMap ((s, svm, opt) => { svm.TitleText = s.Survey.TitleLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; })
                 .AfterMap ((s, svm, opt) => { svm.SurveyCompletionText = s.ThankYouPageLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; })
                 .AfterMap ((s, svm, opt) => { svm.WelcomeText = s.WelcomePageLabel.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; });
 
-            CreateMap<WelcomePageLabelViewModel, WelcomePageLabel> ()
+						CreateMap<WelcomePageLabelViewModel, WelcomePageLabel> ()
                 .ForMember (w => w.SurveyView, map => map.Ignore ())
                 .ReverseMap ();
 

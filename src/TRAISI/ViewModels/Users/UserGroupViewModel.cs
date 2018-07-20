@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace TRAISI.ViewModels
+namespace TRAISI.ViewModels.Users
 {
     public class UserGroupViewModel
     {

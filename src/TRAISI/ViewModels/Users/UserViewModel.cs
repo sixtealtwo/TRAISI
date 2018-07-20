@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 
-namespace TRAISI.ViewModels
+namespace TRAISI.ViewModels.Users
 {
     public class UserViewModel
     {

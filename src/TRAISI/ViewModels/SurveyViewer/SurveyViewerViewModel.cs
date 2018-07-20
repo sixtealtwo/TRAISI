@@ -14,13 +14,6 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public List<QuestionPartViewViewModel> Questions;
 
-        public WelcomePageLabelViewModel WelcomePageLabels;
-
-        public TermsAndConditionsPageLabelViewModel TermsAndConditionsPageLaels;
-
-        public ThankYouPageLabelViewModel ThankYouPageLabelViewModel;
-
-
         public string TitleText { get; set; }
 
         public string TermsAndConditionsText { get; set; }

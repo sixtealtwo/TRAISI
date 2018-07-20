@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DAL;
 using TRAISI.ViewModels;
+using TRAISI.ViewModels.Users;
 using AutoMapper;
 using DAL.Core.Interfaces;
 using DAL.Models;

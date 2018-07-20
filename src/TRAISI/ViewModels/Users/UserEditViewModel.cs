@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using System.ComponentModel.DataAnnotations;
 
-namespace TRAISI.ViewModels
+namespace TRAISI.ViewModels.Users
 {
     public class UserEditViewModel : UserViewModel
     {
