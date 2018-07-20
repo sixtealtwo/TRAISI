@@ -158,6 +158,37 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SiteSurveyTemplates",
+                columns: table => new
+                {
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    HTML = table.Column<string>(nullable: true),
+                    CSS = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SiteSurveyTemplates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveyRespondentGroup",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyRespondentGroup", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Surveys",
                 columns: table => new
                 {
@@ -372,36 +403,6 @@ namespace TRAISI.Migrations
                         principalTable: "QuestionParts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SurveyResponse",
-                columns: table => new
-                {
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    QuestionPartId = table.Column<int>(nullable: true),
-                    ResponseValueId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SurveyResponse", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SurveyResponse_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SurveyResponse_ResponseValues_ResponseValueId",
-                        column: x => x.ResponseValueId,
-                        principalTable: "ResponseValues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -779,6 +780,41 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PrimaryRespondents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    SurveyRespondentGroupId = table.Column<int>(nullable: true),
+                    ShortcodeId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrimaryRespondents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrimaryRespondents_Shortcodes_ShortcodeId",
+                        column: x => x.ShortcodeId,
+                        principalTable: "Shortcodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PrimaryRespondents_SurveyRespondentGroup_SurveyRespondentGr~",
+                        column: x => x.SurveyRespondentGroupId,
+                        principalTable: "SurveyRespondentGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PrimaryRespondents_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuestionPartViewLabels",
                 columns: table => new
                 {
@@ -802,6 +838,43 @@ namespace TRAISI.Migrations
                         principalTable: "QuestionPartViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveyResponse",
+                columns: table => new
+                {
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    QuestionPartId = table.Column<int>(nullable: true),
+                    ResponseValueId = table.Column<int>(nullable: false),
+                    PrimaryRespondentId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyResponse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SurveyResponse_PrimaryRespondents_PrimaryRespondentId",
+                        column: x => x.PrimaryRespondentId,
+                        principalTable: "PrimaryRespondents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SurveyResponse_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SurveyResponse_ResponseValues_ResponseValueId",
+                        column: x => x.ResponseValueId,
+                        principalTable: "ResponseValues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -895,6 +968,21 @@ namespace TRAISI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PrimaryRespondents_ShortcodeId",
+                table: "PrimaryRespondents",
+                column: "ShortcodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrimaryRespondents_SurveyRespondentGroupId",
+                table: "PrimaryRespondents",
+                column: "SurveyRespondentGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrimaryRespondents_UserId",
+                table: "PrimaryRespondents",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionConfigurations_QuestionPartId",
                 table: "QuestionConfigurations",
                 column: "QuestionPartId");
@@ -958,6 +1046,11 @@ namespace TRAISI.Migrations
                 name: "IX_SurveyPermissions_UserId",
                 table: "SurveyPermissions",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyResponse_PrimaryRespondentId",
+                table: "SurveyResponse",
+                column: "PrimaryRespondentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyResponse_QuestionPartId",
@@ -1068,7 +1161,7 @@ namespace TRAISI.Migrations
                 name: "QuestionPartViewLabels");
 
             migrationBuilder.DropTable(
-                name: "Shortcodes");
+                name: "SiteSurveyTemplates");
 
             migrationBuilder.DropTable(
                 name: "SurveyPermissions");
@@ -1104,10 +1197,7 @@ namespace TRAISI.Migrations
                 name: "QuestionPartViews");
 
             migrationBuilder.DropTable(
-                name: "GroupCodes");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "PrimaryRespondents");
 
             migrationBuilder.DropTable(
                 name: "ResponseValues");
@@ -1123,6 +1213,18 @@ namespace TRAISI.Migrations
 
             migrationBuilder.DropTable(
                 name: "SurveyViews");
+
+            migrationBuilder.DropTable(
+                name: "Shortcodes");
+
+            migrationBuilder.DropTable(
+                name: "SurveyRespondentGroup");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "GroupCodes");
 
             migrationBuilder.DropTable(
                 name: "Surveys");
