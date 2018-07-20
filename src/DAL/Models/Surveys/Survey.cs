@@ -8,10 +8,8 @@ using DAL.Core;
 using DAL.Models.Interfaces;
 using DAL.Models.Surveys;
 
-namespace DAL.Models.Surveys
-{
-    public class Survey : AuditableEntity, ISurvey, IEntity
-    {
+namespace DAL.Models.Surveys {
+    public class Survey : AuditableEntity, ISurvey, IEntity {
         public int Id { get; set; }
         public int Code { get; set; }
         public string Name { get; set; }
@@ -34,58 +32,54 @@ namespace DAL.Models.Surveys
         public ICollection<TitlePageLabel> TitleLabel { get; set; }
 
         [NotMapped]
-        public string Title
-        {
-            get
-            {
+        public string Title {
+            get {
                 return "";
             }
-            set
-            {
+            set {
 
             }
         }
 
-        public Survey()
-        {
+        public Survey () {
             this.DefaultLanguage = "en";
-            this.TitleLabel = new HashSet<TitlePageLabel>();
-            this.SurveyPermissions = new HashSet<SurveyPermission>();
-            this.SurveyViews = new List<SurveyView>(){
-                            new SurveyView() {
-																ViewName = "Standard",
-																WelcomePageLabel = new HashSet<WelcomePageLabel>() {
-                                    new WelcomePageLabel() {
-                                        Label = new Label() {
-                                            Language = this.DefaultLanguage,
-                                            Value = "Default Welcome"
-                                        }
-                                    },
-                                        new WelcomePageLabel() {
-                                        Label = new Label() {
-                                            Language = "fr",
-                                            Value = "Bonjour"
-                                        }
-                                    }
-                                },
-                                ThankYouPageLabel = new HashSet<ThankYouPageLabel>() {
-                                    new ThankYouPageLabel() {
-                                        Label = new Label() {
-                                            Language = this.DefaultLanguage,
-                                            Value = "Default Thanks"
-                                        }
-                                    }
-                                },
-                                TermsAndConditionsLabel = new HashSet<TermsAndConditionsPageLabel>() {
-                                    new TermsAndConditionsPageLabel() {
-                                        Label = new Label() {
-                                            Language = this.DefaultLanguage,
-                                            Value = "Default Terms and Conditions"
-                                        }
-                                    }
-                                }
-                            }
-                        };
+            this.TitleLabel = new HashSet<TitlePageLabel> ();
+            this.SurveyPermissions = new HashSet<SurveyPermission> ();
+            this.SurveyViews = new List<SurveyView> () {
+                new SurveyView () {
+                ViewName = "Standard",
+                WelcomePageLabel = new HashSet<WelcomePageLabel> () {
+                new WelcomePageLabel () {
+                Label = new Label () {
+                Language = this.DefaultLanguage,
+                Value = "Default Welcome"
+                }
+                },
+                new WelcomePageLabel () {
+                Label = new Label () {
+                Language = "fr",
+                Value = "Bonjour"
+                }
+                }
+                },
+                ThankYouPageLabel = new HashSet<ThankYouPageLabel> () {
+                new ThankYouPageLabel () {
+                Label = new Label () {
+                Language = this.DefaultLanguage,
+                Value = "Default Thanks"
+                }
+                }
+                },
+                TermsAndConditionsLabel = new HashSet<TermsAndConditionsPageLabel> () {
+                new TermsAndConditionsPageLabel () {
+                Label = new Label () {
+                Language = this.DefaultLanguage,
+                Value = "Default Terms and Conditions"
+                }
+                }
+                }
+                }
+            };
 
         }
 
