@@ -85,7 +85,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 
         [HttpGet]
         [Produces (typeof (SurveyViewerViewModel))]
-        [Route ("survey-view/{surveyId}/{language?}")]
+        [Route ("viewer/{surveyId}/{language?}")]
         public async Task<IActionResult> GetDefaultSurveyView (int surveyId,  string language = "en") {
 
             var view = await this._viewService.GetDefaultSurveyView(surveyId);

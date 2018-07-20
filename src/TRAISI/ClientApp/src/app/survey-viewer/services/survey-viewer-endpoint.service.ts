@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class SurveyViewerEndpointService extends EndpointFactory {
-	private readonly _surveyViewQuestionsUrl: string = '/api/survey-viewer/questions';
+	private readonly _surveyViewQuestionsUrl: string = '/api/SurveyViewer';
+	private readonly _surveyViewerUrl: string = '/api/SurveyViewer';
 
 	get surveyViewQuestionsUrl() {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
@@ -17,14 +18,40 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
 	}
 
+	get surveyViewerUrl() {
+		return this.configurations.baseUrl + '/' + this._surveyViewerUrl;
+	}
 
+	/**
+	 *
+	 * @param surveyId
+	 * @param language
+	 */
+	getDefaultSurveyViewEndpoint<T>(
+		surveyId: number,
+		language: string = 'en'
+	): Observable<T> {
+		let endpointUrl = `${this.surveyViewerUrl}/${surveyId}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getDefaultSurveyViewEndpoint(surveyId, language)
+				);
+			})
+		);
+	}
 
 	/**
 	 *
 	 * @param questionId
 	 */
-	getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
-		let endpointUrl = `${this.surveyViewQuestionConfiguration}/${questionId}`;
+	getSurveyViewQuestionConfigurationEndpoint<T>(
+		questionId: number
+	): Observable<T> {
+		let endpointUrl = `${
+			this.surveyViewQuestionConfiguration
+		}/${questionId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
