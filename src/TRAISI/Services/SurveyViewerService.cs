@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
 using DAL.Core.Interfaces;
@@ -5,6 +6,7 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using TRAISI.Services.Interfaces;
+using System.Collections;
 
 namespace TRAISI.Services
 {
@@ -25,15 +27,17 @@ namespace TRAISI.Services
             throw new System.NotImplementedException();
         }
 
+        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="survey"></param>
-        /// <param name="viewId"></param>
+        /// <param name="surveyId"></param>
         /// <returns></returns>
-        public async Task<SurveyView> GetSurveyView(Survey survey, int viewId)
+        public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
         {
-            return await this._unitOfWork.SurveyViews.GetAsync(viewId);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            
+            return (survey.SurveyViews as List<SurveyView>)[0];
         }
 
 

@@ -23,7 +23,7 @@ namespace TRAISI.Services.Interfaces
         bool SurveyLogin(Survey survey, string shortcode);
 
 
-        Task<SurveyView> GetSurveyView(Survey survey, int viewId);
+        Task<SurveyView> GetDefaultSurveyView(int surveyId);
 
 
         SurveyView GetDefaultSurveyView(Survey survey);
