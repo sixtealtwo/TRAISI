@@ -26,6 +26,9 @@ namespace DAL.Models.Questions
         /// <value></value>
         public QuestionPart QuestionPart { get; set; }
 
+
+        public QuestionPartView ParentView { get; set; }
+
         /// <summary>
         /// The Survey View this question belongs to.
         /// </summary>

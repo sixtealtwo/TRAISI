@@ -101,9 +101,13 @@ namespace DAL {
 
             builder.Entity<TermsAndConditionsPageLabel> ().ToTable ($"{nameof(this.TermsAndConditionsPageLabels)}");
 
+            builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
             builder.Entity<QuestionPart> ().HasMany (q => q.QuestionConfigurations);
-
             builder.Entity<QuestionPart> ().HasMany (q => q.QuestionOptions);
+
+            builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
+
+            builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
 
             builder.Entity<QuestionOption> ().HasMany (o => o.QuestionOptionLabels);
 

@@ -252,6 +252,8 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("Order");
+
                     b.Property<int?>("QuestionPartId");
 
                     b.HasKey("Id");
@@ -299,17 +301,17 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int?>("QuestionPartId");
+                    b.Property<int?>("ParentViewId");
 
-                    b.Property<int?>("QuestionPartViewId");
+                    b.Property<int?>("QuestionPartId");
 
                     b.Property<int?>("SurveyViewId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionPartId");
+                    b.HasIndex("ParentViewId");
 
-                    b.HasIndex("QuestionPartViewId");
+                    b.HasIndex("QuestionPartId");
 
                     b.HasIndex("SurveyViewId");
 
@@ -1021,13 +1023,13 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPartView", b =>
                 {
+                    b.HasOne("DAL.Models.Questions.QuestionPartView", "ParentView")
+                        .WithMany("QuestionPartViewChildren")
+                        .HasForeignKey("ParentViewId");
+
                     b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
                         .HasForeignKey("QuestionPartId");
-
-                    b.HasOne("DAL.Models.Questions.QuestionPartView")
-                        .WithMany("QuestionPartViewChildren")
-                        .HasForeignKey("QuestionPartViewId");
 
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("QuestionPartViews")

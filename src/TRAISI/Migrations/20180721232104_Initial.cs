@@ -392,6 +392,7 @@ namespace TRAISI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false),
                     QuestionPartId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -674,23 +675,23 @@ namespace TRAISI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     QuestionPartId = table.Column<int>(nullable: true),
+                    ParentViewId = table.Column<int>(nullable: true),
                     SurveyViewId = table.Column<int>(nullable: true),
-                    Order = table.Column<int>(nullable: false),
-                    QuestionPartViewId = table.Column<int>(nullable: true)
+                    Order = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionPartViews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuestionPartViews_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
+                        name: "FK_QuestionPartViews_QuestionPartViews_ParentViewId",
+                        column: x => x.ParentViewId,
+                        principalTable: "QuestionPartViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_QuestionPartViews_QuestionPartViews_QuestionPartViewId",
-                        column: x => x.QuestionPartViewId,
-                        principalTable: "QuestionPartViews",
+                        name: "FK_QuestionPartViews_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1013,14 +1014,14 @@ namespace TRAISI.Migrations
                 column: "QuestionPartViewId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuestionPartViews_ParentViewId",
+                table: "QuestionPartViews",
+                column: "ParentViewId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionPartViews_QuestionPartId",
                 table: "QuestionPartViews",
                 column: "QuestionPartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionPartViews_QuestionPartViewId",
-                table: "QuestionPartViews",
-                column: "QuestionPartViewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionPartViews_SurveyViewId",
