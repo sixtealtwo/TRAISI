@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TRAISI.Helpers;
 using TRAISI.SDK;
+using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Services
@@ -14,14 +15,14 @@ namespace TRAISI.Services
     {
         private IUnitOfWork _unitOfWork;
 
-        private QuestionTypeManager _questions;
+        private IQuestionTypeManager _questions;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="questions"></param>
-        public SurveyBuilderService(IUnitOfWork unitOfWork, QuestionTypeManager questions)
+        public SurveyBuilderService(IUnitOfWork unitOfWork, IQuestionTypeManager questions)
         {
             this._unitOfWork = unitOfWork;
             this._questions = questions;
@@ -236,6 +237,17 @@ namespace TRAISI.Services
         public IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language = null)
         {
             return questionPart.QuestionOptions;
+        }
+
+        /// <summary>
+        /// Adds a page to a survey
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="newPage"></param>
+        public void AddSurveyPage(SurveyView view, QuestionPartView newPage)
+        {
+            view.QuestionPartViews.Add(newPage);
+            newPage.Order = view.QuestionPartViews.Count - 1;
         }
 
         /// <summary>

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using TRAISI.ViewModels.SurveyBuilder;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.Users;
+using TRAISI.ViewModels.Extensions;
 
 namespace TRAISI.ViewModels {
     public class AutoMapperProfile : Profile {
@@ -93,13 +94,25 @@ namespace TRAISI.ViewModels {
             CreateMap<QuestionPartView, QuestionPartViewViewModel> ()
                 .AfterMap ((s, svm, opt) => { svm.Label = s.Labels.FirstOrDefault (l => l.Label.Language == (string) opt.Items["Language"]).Label.Value; });
 
-            CreateMap<SurveyViewViewModel, SurveyView> ()
+            CreateMap<QuestionPartView, SBQuestionPartViewViewModel>()
+                .AfterMap((s, svm, opt) => { svm.Label = s.Labels.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"]).Label.Value; });
+
+            CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
+                .ForMember(s => s.Labels, map => map.Ignore())
+                .ForMember(s => s.QuestionPart, map => map.Ignore())
+                .ForMember(s => s.SurveyView, map => map.Ignore());
+
+            CreateMap<SBSurveyViewViewModel, SurveyView> ()
                 .ForMember (m => m.TermsAndConditionsLabel, map => map.Ignore ())
                 .ForMember (m => m.ThankYouPageLabel, map => map.Ignore ())
                 .ForMember (m => m.WelcomePageLabel, map => map.Ignore ());
 
-            CreateMap<SurveyView, SurveyViewViewModel> ()
-                .ForMember (vm => vm.SurveyId, map => map.MapFrom (m => m.Survey.Id));
+            CreateMap<SurveyView, SBSurveyViewViewModel> ()
+                .ForMember (vm => vm.SurveyId, map => map.MapFrom (m => m.Survey.Id))
+                .ForMember (vm => vm.Pages, map => map.MapFrom (m => m.QuestionPartViews))
+                .AfterMap((s, svm, opt) => { svm.SurveyCompletionPage = Mapper.Map<ThankYouPageLabelViewModel>(s.ThankYouPageLabel.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"])); })
+                .AfterMap((s, svm, opt) => { svm.TermsAndConditionsPage = Mapper.Map<TermsAndConditionsPageLabelViewModel>(s.TermsAndConditionsLabel.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"])); })
+                .AfterMap((s, svm, opt) => { svm.WelcomePage = Mapper.Map<WelcomePageLabelViewModel>(s.WelcomePageLabel.FirstOrDefault(l => l.Label.Language == (string)opt.Items["Language"])); });
 
             CreateMap<SurveyView, SurveyViewerViewModel> ()
                 .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews))
