@@ -89,27 +89,27 @@ namespace TRAISI.UnitTests
                 new Survey() {
                     Id = 1,
                     Name = "Test Survey 1",
-                    Title = "Survey Title",
+   //                 Title = "Survey Title",
                     IsActive = true,
                     IsOpen = true
                 },
                 new Survey() {
                     Id = 2,
                     Name = "Test Survey 2",
-                    Title = "Survey Title",
+               //     Title = "Survey Title",
                     IsActive = true,
                     IsOpen = true
                 },new Survey() {
                     Id = 3,
                     Name = "Test Survey 3",
-                    Title = "Survey Title",
+              //      Title = "Survey Title",
                     IsActive = true,
                     IsOpen = true
                 },
                 new Survey() {
                     Id = 4,
                     Name = "Test Survey 4",
-                    Title = "Survey Title",
+              //      Title = "Survey Title",
                     IsActive = true,
                     IsOpen = true
                 }
