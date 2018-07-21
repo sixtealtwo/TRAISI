@@ -31,23 +31,20 @@ namespace DAL.Models.Surveys {
 
         public ICollection<TitlePageLabel> TitleLabel { get; set; }
 
-        [NotMapped]
-        public string Title {
-            get {
-                return "";
-            }
-            set {
-
-            }
-        }
-
         public Survey () {
             this.DefaultLanguage = "en";
             this.TitleLabel = new HashSet<TitlePageLabel> ();
+            this.TitleLabel.Add (new TitlePageLabel () {
+                Label = new Label () {
+                    Language = this.DefaultLanguage,
+                        Value = "Default Welcome"
+                }, Survey = this
+            });
             this.SurveyPermissions = new HashSet<SurveyPermission> ();
             this.SurveyViews = new List<SurveyView> () {
                 new SurveyView () {
                 ViewName = "Standard",
+                Survey = this,
                 WelcomePageLabel = new HashSet<WelcomePageLabel> () {
                 new WelcomePageLabel () {
                 Label = new Label () {

@@ -18,7 +18,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 
     [Authorize]
     [Route ("api/[controller]")]
-    public class SurveyViewerContoller {
+    public class SurveyViewerContoller : Controller {
 
         private IUnitOfWork _unitOfWork;
 
@@ -44,6 +44,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// </summary>
         [HttpGet]
         [Produces (typeof (List<SurveyView>))]
+        [Route ("views/{surveyId}")]
         public async Task<IActionResult> GetSurveyViews (int surveyId) {
             var surveys = await this._unitOfWork.SurveyViews.GetSurveyViews (surveyId);
 
@@ -55,6 +56,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// </summary>
         [HttpGet]
         [Produces (typeof (List<SurveyView>))]
+        [Route ("questions/{viewId}")]
         public async Task<IActionResult> GetSurveyViewQuestions (int viewId) {
             var surveys = await this._unitOfWork.SurveyViews.GetAsync (viewId);
 
@@ -68,6 +70,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <returns></returns>
         [HttpGet]
         [Produces (typeof (QuestionConfiguration))]
+        [Route ("configurations/{questionId}")]
         public async Task<IActionResult> GetSurveyViewQuestionConfiguration (int questionId) {
             var QuestionPart = await this._unitOfWork.QuestionParts.GetAsync (questionId);
             return new ObjectResult (QuestionPart.QuestionOptions);
@@ -85,7 +88,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 
         [HttpGet]
         [Produces (typeof (SurveyViewerViewModel))]
-        [Route ("viewer/{surveyId}/{language?}")]
+        [Route ("viewer/{surveyId}/{language}")]
         public async Task<IActionResult> GetDefaultSurveyView (int surveyId,  string language = "en") {
 
             var view = await this._viewService.GetDefaultSurveyView(surveyId);
@@ -99,6 +102,8 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <param name="shortcode"></param>
         /// <returns></returns>
         [Produces (typeof (ObjectResult))]
+        [HttpPost]
+        [Route ("start")]
         public async Task<IActionResult> StartSurvey (int surveyId, string shortcode) {
 
             var survey = await this._unitOfWork.Surveys.GetAsync (surveyId);
