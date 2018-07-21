@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -18,7 +18,7 @@ import { ThankYouPage } from './models/thank-you-page.model';
 	styleUrls: ['./survey-builder.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class SurveyBuilderComponent implements OnInit {
+export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public surveyId: number;
 	public froalaOptions: any;
 	public allPages = [];
@@ -28,6 +28,7 @@ export class SurveyBuilderComponent implements OnInit {
 	public thankYouPage: ThankYouPage;
 
 	private currentPage: string = 'welcome';
+	private deletedImages: UploadPath[] = [];
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
 
@@ -49,6 +50,10 @@ export class SurveyBuilderComponent implements OnInit {
 		this.allPages.push(new QuestionPartView(0, 'First Page', [], 0));
 		this.allPages.push(new QuestionPartView(1, 'Second Page', [], 1));
 		this.switchPage('welcome');
+
+	}
+
+	ngOnDestroy() {
 
 	}
 
@@ -124,20 +129,28 @@ export class SurveyBuilderComponent implements OnInit {
 			events: {
 				'froalaEditor.image.removed': (e, editor, img) => this.deleteImage(e, editor, img),
 				'froalaEditor.video.removed': (e, editor, vid) => this.deleteVideo(e, editor, vid),
-				'froalaEditor.save.before': (e, editor, data) => this.saveMandatoryPages(e, editor, data)
+				'froalaEditor.save.before': (e, editor, data) => this.saveMandatoryPages(e, editor, data),
+				'froalaEditor.commands.after': (e, editor, cmd) => this.imageInserted(e,editor,cmd)
 			}
 		};
+	}
+
+	imageInserted(e,editor,cmd) { 
+		console.log(editor);
+		console.log(e);
 	}
 
 
 	deleteImage(e, editor, img) {
 		let uploadPath = new UploadPath(img.attr('src'));
+		this.deletedImages.push(uploadPath);
 		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
 	}
 
 	deleteVideo(e, editor, vid) {
 		if (vid[0].localName === 'video') {
 			let uploadPath = new UploadPath(vid.attr('src'));
+			this.deletedImages.push(uploadPath);
 			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
 		}
 	}
@@ -189,8 +202,6 @@ export class SurveyBuilderComponent implements OnInit {
 			this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
 				result =>
 				{
-					console.log("Saved Welcome");
-					
 				},
 				error => 
 				{
@@ -201,7 +212,6 @@ export class SurveyBuilderComponent implements OnInit {
 			this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
 				result =>
 				{
-					console.log("Saved Terms and Conditions");
 				},
 				error => 
 				{
@@ -212,7 +222,6 @@ export class SurveyBuilderComponent implements OnInit {
 			this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
 				result =>
 				{
-					console.log("Saved Thank you");
 				},
 				error => 
 				{

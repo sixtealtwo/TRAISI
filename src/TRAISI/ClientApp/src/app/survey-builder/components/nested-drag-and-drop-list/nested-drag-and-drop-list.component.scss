@@ -60,6 +60,11 @@
 	overflow:hidden;
 }
 
+.drag-over {
+	background-color: beige !important;
+	border: 1px solid yellow;
+}
+
 .question-part-container-placeholder {
 	text-align: center;
 	padding-top:7px;

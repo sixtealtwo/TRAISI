@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
+import { Observable, Subject } from '../../../../../node_modules/rxjs';
+import { AlertService, DialogType } from '../../../services/alert.service';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -7,64 +9,114 @@ import { SurveyBuilderService } from '../../services/survey-builder.service';
 	styleUrls: ['./nested-drag-and-drop-list.component.scss']
 })
 export class NestedDragAndDropListComponent implements OnInit {
-
 	public testTargets = [];
-	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>(); 
+	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>();
 	private elementUniqueIndex: number = 0;
 
-	constructor() {
+	private dragResult: Subject<boolean>;
+	private dragOverContainer: Object = new Object();
+	private lastDragEnter: string[] = [];
+	private lastDragLeave: string[] = [];
+	private dragDidNotOriginateFromChooser: boolean = false;
+
+	constructor(private alertService: AlertService) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 	}
 
-	ngOnInit() {
-	}
+	ngOnInit() {}
 
 	addQuestionTypeToList(qType) {
-
-		//this.alertService.showDialog('Are you sure you want to add the question?', DialogType.confirm, () =>
-		if (qType.typeName === 'Survey Part') {
-			qType.partId = this.elementUniqueIndex;
-			this.qPartQuestions.set(this.elementUniqueIndex++,[]);
-		}
-		this.testTargets.push(qType)
-		//);
-
+		this.alertService.showDialog('Are you sure you want to add a question?', DialogType.confirm, () => {
+			if (qType.typeName === 'Survey Part') {
+				qType.partId = this.elementUniqueIndex;
+				this.qPartQuestions.set(this.elementUniqueIndex++, []);
+			}
+			this.testTargets.push(qType);
+		});
 	}
 
 	getQuestionPayload(index) {
 		return this.testTargets[index];
 	}
 
-	getQuestionInPartPayload(partId:number) {
-		return (index) => {
+	getQuestionInPartPayload(partId: number) {
+		return index => {
 			return this.qPartQuestions.get(partId)[index];
+		};
+	}
+
+	onDragEnd(event) {
+		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
+			this.dragResult = new Subject<boolean>();
+			if (!this.dragDidNotOriginateFromChooser) {
+				this.alertService.showDialog(
+					'Are you sure you want to create a new question?',
+					DialogType.confirm,
+					() => this.dragResult.next(true),
+					() => this.dragResult.next(false)
+				);
+			} else {
+				setTimeout(() => {
+					this.dragResult.next(true);
+				}, 0);
+			}
+		}
+		this.lastDragEnter = [];
+		this.lastDragLeave = [];
+		this.dragDidNotOriginateFromChooser = false;
+		this.dragOverContainer = new Object();
+	}
+
+	onDragStart(event: any) {
+		this.dragDidNotOriginateFromChooser = this.dragDidNotOriginateFromChooser || event.isSource;
+	}
+
+	onDragEnter(containerName: string) {
+		this.lastDragEnter.push(containerName);
+		this.dragOverContainer[containerName] = true;
+	}
+
+	onDragLeave(containerName: string) {
+		this.lastDragLeave.push(containerName);
+		this.dragOverContainer[containerName] = false;
+	}
+
+	onDrop(dropResult: any) {
+		console.log(dropResult);
+		if (this.dragResult) {
+			this.dragResult.subscribe(proceed => {
+				if (proceed === true) {
+					this.proceedWithDrop(dropResult);
+				}
+				this.dragResult = undefined;
+			});
 		}
 	}
 
-	onDrop(dropResult:any) {
-		
+	proceedWithDrop(dropResult: any) {
 		if (dropResult.payload.typeName === 'Survey Part' && dropResult.removedIndex === null) {
 			if (dropResult.payload.partId === undefined) {
 				dropResult.payload.partId = this.elementUniqueIndex++;
+				this.dragOverContainer[dropResult.payload.partId] = false;
 			}
-			if (!this.qPartQuestions.has(dropResult.payload.partId)){
-				this.qPartQuestions.set(dropResult.payload.partId,[]);
+			if (!this.qPartQuestions.has(dropResult.payload.partId)) {
+				this.qPartQuestions.set(dropResult.payload.partId, []);
 			}
 		}
 		this.testTargets = this.applyDrag(this.testTargets, dropResult);
 	}
 
-	onDropInPart(partId:number, dropResult: any) {
-		if (partId !== dropResult.payload.partId) {
-			//if (dropResult.addedIndex !== null || dropResult.removedIndex !== null) {
-				let questionParts = this.qPartQuestions.get(partId);
-				questionParts = this.applyDrag(questionParts,dropResult);
-				this.qPartQuestions.set(partId, questionParts);
-			//}
-		} else {
-			/*if (dropResult.addedIndex !== null) {
-				this.testTargets.push(dropResult.payload);
-			}*/
+	onDropInPart(partId: number, dropResult: any) {
+		if (this.dragResult) {
+			this.dragResult.subscribe(proceed => {
+				if (proceed === true) {
+					if (partId !== dropResult.payload.partId) {
+						let questionParts = this.qPartQuestions.get(partId);
+						questionParts = this.applyDrag(questionParts, dropResult);
+						this.qPartQuestions.set(partId, questionParts);
+					}
+				}
+			});
 		}
 	}
 
@@ -75,11 +127,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 	shouldAcceptDropPart(sourceContainerOptions, payload) {
 		if (payload.typeName === 'Survey Part') {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
-		
+
 		/*let thisContainer: any = this;
 		
 		let groupName: string = thisContainer.groupName;
@@ -102,19 +153,18 @@ export class NestedDragAndDropListComponent implements OnInit {
 	applyDrag = (arr, dragResult) => {
 		const { removedIndex, addedIndex, payload } = dragResult;
 		if (removedIndex === null && addedIndex === null) return arr;
-	
+
 		const result = [...arr];
 		let itemToAdd = payload;
-	
+
 		if (removedIndex !== null) {
 			itemToAdd = result.splice(removedIndex, 1)[0];
 		}
-	
+
 		if (addedIndex !== null) {
 			result.splice(addedIndex, 0, itemToAdd);
 		}
-	
-		return result;
-	}
 
+		return result;
+	};
 }
