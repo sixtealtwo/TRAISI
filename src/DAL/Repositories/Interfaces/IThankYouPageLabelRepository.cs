@@ -9,6 +9,6 @@ namespace DAL.Repositories.Interfaces
 {
 	public interface IThankYouPageLabelRepository : IRepository<ThankYouPageLabel>
 	{
-			Task<ThankYouPageLabel> GetThankYouPageLabelAsync(string surveyViewName, string language = null);
-	}
+			Task<ThankYouPageLabel> GetThankYouPageLabelAsync(int surveyId, string surveyViewName, string language = null);
+    }
 }

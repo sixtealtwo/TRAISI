@@ -103,7 +103,6 @@ namespace DAL.Repositories
 		public async Task<IEnumerable<UserGroup>> GetAllGroupsAsync()
 		{
 			return await _appContext.UserGroups
-					//.Include(c => c.Members).ThenInclude(o => o.User).ThenInclude(u=>u.Roles)
 					.OrderBy(c => c.Name)
 					.ToListAsync();
 		}
