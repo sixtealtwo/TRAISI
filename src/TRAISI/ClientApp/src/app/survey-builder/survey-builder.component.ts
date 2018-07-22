@@ -240,7 +240,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	switchSurveyPage(pageId: number): void {
-		this.surveyPage.testTargets = [];
+		this.surveyPage.pageQuestions = [];
 		this.currentPage = 'surveyPage';
 	}
 
