@@ -22,9 +22,9 @@ namespace TRAISI.ViewModels.Surveys
         public string RejectionLink { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string DefaultLanguage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string StyleTemplate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ICollection<Label> NameLabel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICollection<LabelViewModel> NameLabel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ICollection<Label> TitleLabel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICollection<LabelViewModel> TitleLabel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ICollection<SurveyView> SurveyViews { get; set; }
     }

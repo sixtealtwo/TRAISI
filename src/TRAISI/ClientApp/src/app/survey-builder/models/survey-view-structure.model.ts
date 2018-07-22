@@ -1,5 +1,5 @@
 import { QuestionPartView } from './question-part-view.model';
-import { TermsAndConditionsPage } from './terms-and-condiitions-page.model';
+import { TermsAndConditionsPage } from './terms-and-conditions-page.model';
 import { WelcomePage } from './welcome-page.model';
 import { ThankYouPage } from './thank-you-page.model';
 

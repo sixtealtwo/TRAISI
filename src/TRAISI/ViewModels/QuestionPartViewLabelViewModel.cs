@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace TRAISI.ViewModels
 {
-    public class QuestionPartViewLabelViewModel
+    public class QuestionPartViewLabelViewModel: LabelViewModel
     {
         public int Id { get; set; }
-        public LabelViewModel Label { get; set; }
         public int QuestionPartViewId { get; set; }
     }
 }

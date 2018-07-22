@@ -24,14 +24,12 @@ namespace DAL.Repositories
         {
 					if (language != null) {
             return await _appContext.TermsAndConditionsPageLabels
-									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Label.Language == language)
-									.Include(w => w.Label)
+									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == language)
 									.SingleOrDefaultAsync();
 					}
 					else {
 						return await _appContext.TermsAndConditionsPageLabels
-									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
-									.Include(w => w.Label)
+									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == w.SurveyView.Survey.DefaultLanguage)
 									.SingleOrDefaultAsync();
 					}
         }

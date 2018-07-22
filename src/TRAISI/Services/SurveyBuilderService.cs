@@ -98,29 +98,24 @@ namespace TRAISI.Services
             {
                 if (language == null)
                 {
-                    option.QuestionOptionLabels.First().Label.Value = value;
+                    option.QuestionOptionLabels.First().Value = value;
                 }
                 else
                 {
-                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Label.Language == language);
+                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language);
                     if (optionLabel == null)
                     {
                         option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                         {
-                            Label = new Label()
-                            {
-                                Language = language,
-                                Value = value,
-
-
-                            },
+														Language = language,
+														Value = value,
                             QuestionOption = option
 
                         });
                     }
                     else
                     {
-                        optionLabel.Label.Value = value;
+                        optionLabel.Value = value;
                     }
                 }
             }
@@ -128,12 +123,8 @@ namespace TRAISI.Services
             {
                 option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {
-                    Label = new Label()
-                    {
-                        Language = language,
-                        Value = value,
-
-                    },
+										Language = language,
+										Value = value,
                     QuestionOption = option
 
                 });
@@ -203,7 +194,7 @@ namespace TRAISI.Services
             }
             else
             {
-                option.QuestionOptionLabels.Remove(option.QuestionOptionLabels.SingleOrDefault(v => v.Label.Language == language));
+                option.QuestionOptionLabels.Remove(option.QuestionOptionLabels.SingleOrDefault(v => v.Language == language));
             }
         }
 

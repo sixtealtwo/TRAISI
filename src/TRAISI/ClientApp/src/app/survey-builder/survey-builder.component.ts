@@ -9,7 +9,7 @@ import { AlertService, DialogType, MessageSeverity } from '../services/alert.ser
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
 import { QuestionPartView } from './models/question-part-view.model';
 import { WelcomePage } from './models/welcome-page.model';
-import { TermsAndConditionsPage } from './models/terms-and-condiitions-page.model';
+import { TermsAndConditionsPage } from './models/terms-and-conditions-page.model';
 import { ThankYouPage } from './models/thank-you-page.model';
 
 @Component({

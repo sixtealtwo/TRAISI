@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { QuestionTypeDefinition } from '../models/question-type-definition';
 import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
-import { TermsAndConditionsPage } from '../models/terms-and-condiitions-page.model';
+import { TermsAndConditionsPage } from '../models/terms-and-conditions-page.model';
 import { ThankYouPage } from '../models/thank-you-page.model';
 import { SurveyViewStructure } from '../models/survey-view-structure.model';
 import { QuestionPartView } from '../models/question-part-view.model';

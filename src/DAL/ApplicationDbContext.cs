@@ -13,6 +13,7 @@ using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace DAL {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string> {
         public ApplicationDbContext (string currentUserId) {
@@ -36,6 +37,8 @@ namespace DAL {
 
         public DbSet<QuestionOption> QuestionOptions { get; set; }
 
+				public DbSet<QuestionOptionLabel> QuestionOptionLabels { get; set; }
+
         public DbSet<ResponseValue> ResponseValues { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
         public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
@@ -47,8 +50,7 @@ namespace DAL {
         public DbSet<QuestionPartView> QuestionPartViews { get; set; }
 
         public DbSet<QuestionPartViewLabel> QuestionPartViewLabels { get; set; }
-        public DbSet<Label> Labels { get; set; }
-
+        
         public DbSet<PrimaryRespondent> PrimaryRespondents {get;set;}
 
         public ApplicationDbContext (DbContextOptions options) : base (options) { }
@@ -66,15 +68,26 @@ namespace DAL {
 
             builder.Entity<Survey> ().Property (s => s.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<Survey> ().HasIndex (s => s.Name);
+						builder.Entity<Survey> ().HasMany (s => s.SurveyViews).WithOne (k => k.Survey).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<Survey> ().HasMany (s => s.SurveyPermissions).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<Survey> ().HasMany (s => s.GroupCodes).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<Survey> ().HasMany (s => s.Shortcodes).WithOne(sc => sc.Survey).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<Survey> ().HasMany (s => s.TitleLabel).WithOne(t => t.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey> ().ToTable ($"{nameof(this.Surveys)}");
 
-            builder.Entity<SurveyPermission> ().ToTable ($"{nameof(this.SurveyPermissions)}");
+						builder.Entity<SurveyView> ().Property (s => s.ViewName).IsRequired().HasMaxLength (100);
+						builder.Entity<SurveyView> ().HasMany (s => s.QuestionPartViews).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.WelcomePageLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.TermsAndConditionsLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.ThankYouPageLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().ToTable ($"{nameof(this.SurveyViews)}");
+            
+						builder.Entity<SurveyPermission> ().ToTable ($"{nameof(this.SurveyPermissions)}");
 
             builder.Entity<UserGroup> ().Property (g => g.Name).IsRequired ().HasMaxLength (100);
             builder.Entity<UserGroup> ().HasIndex (g => g.Name);
-            builder.Entity<UserGroup> ().HasOne (g => g.ApiKeySettings).WithOne (k => k.Group).HasForeignKey<ApiKeys> (p => p.Id).OnDelete (DeleteBehavior.Cascade);
+            builder.Entity<UserGroup> ().HasOne (g => g.ApiKeySettings).WithOne (k => k.Group).OnDelete (DeleteBehavior.Cascade);
             builder.Entity<UserGroup> ().HasMany (g => g.EmailTemplates).WithOne (k => k.Group).OnDelete (DeleteBehavior.Cascade);
-
             builder.Entity<UserGroup> ().ToTable ($"{nameof(this.UserGroups)}");
 
             builder.Entity<ApiKeys> ().ToTable ($"{nameof(this.ApiKeys)}");
@@ -89,26 +102,27 @@ namespace DAL {
 
             builder.Entity<GroupCode> ().ToTable ($"{nameof(this.GroupCodes)}");
 
-            builder.Entity<SurveyView> ().HasOne (s => s.Survey).WithMany (s => s.SurveyViews);
+						builder.Entity<QuestionOptionLabel> ().ToTable ($"{nameof(this.QuestionOptionLabels)}");
 
-            builder.Entity<QuestionOptionLabel> ().ToTable ("QuestionOptionLabels").HasKey (k => new { k.QuestionOptionId, k.LabelId });
+						builder.Entity<WelcomePageLabel> ().ToTable ($"{nameof(this.WelcomePageLabels)}");
 
-            builder.Entity<WelcomePageLabel> ().ToTable ($"{nameof(this.WelcomePageLabels)}");
+						builder.Entity<ThankYouPageLabel> ().ToTable ($"{nameof(this.ThankYouPageLabels)}");
 
-            builder.Entity<ThankYouPageLabel> ().ToTable ($"{nameof(this.ThankYouPageLabels)}");
+						builder.Entity<TitlePageLabel> ().ToTable ($"{nameof(this.TitlePageLabels)}");
 
-            builder.Entity<TitlePageLabel> ().ToTable ($"{nameof(this.TitlePageLabels)}");
-
-            builder.Entity<TermsAndConditionsPageLabel> ().ToTable ($"{nameof(this.TermsAndConditionsPageLabels)}");
-
+						builder.Entity<TermsAndConditionsPageLabel> ().ToTable ($"{nameof(this.TermsAndConditionsPageLabels)}");
+            
+						builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
+						
+						builder.Entity<QuestionPart> ().HasMany (q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart> ().HasMany (q => q.QuestionOptions).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
-            builder.Entity<QuestionPart> ().HasMany (q => q.QuestionConfigurations);
-            builder.Entity<QuestionPart> ().HasMany (q => q.QuestionOptions);
 
-            builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
+						builder.Entity<QuestionPartView> ().HasMany (s => s.Labels).WithOne(l => l.QuestionPartView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<QuestionPartView> ().HasMany (qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
 
-            builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
-
+            
             builder.Entity<QuestionOption> ().HasMany (o => o.QuestionOptionLabels);
 
             builder.Entity<ResponseValue> ().ToTable ("ResponseValues").HasDiscriminator<int> ("ResponseType")

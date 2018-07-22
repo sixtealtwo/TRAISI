@@ -122,7 +122,8 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Groups.ApiKeys", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
@@ -130,6 +131,8 @@ namespace TRAISI.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("GoogleMapsApiKey");
+
+                    b.Property<int>("GroupId");
 
                     b.Property<string>("MailgunApiKey");
 
@@ -141,6 +144,9 @@ namespace TRAISI.Migrations
                     b.Property<DateTime>("UpdatedDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupId")
+                        .IsUnique();
 
                     b.ToTable("ApiKeys");
                 });
@@ -265,13 +271,28 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionLabel", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
+
                     b.Property<int>("QuestionOptionId");
 
-                    b.Property<int>("LabelId");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasKey("QuestionOptionId", "LabelId");
+                    b.Property<DateTime>("UpdatedDate");
 
-                    b.HasIndex("LabelId");
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionOptionId");
 
                     b.ToTable("QuestionOptionLabels");
                 });
@@ -323,13 +344,23 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("LabelId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
 
                     b.Property<int?>("QuestionPartViewId");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("LabelId");
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("QuestionPartViewId");
 
@@ -370,30 +401,6 @@ namespace TRAISI.Migrations
                     b.HasIndex("SurveyId");
 
                     b.ToTable("GroupCodes");
-                });
-
-            modelBuilder.Entity("DAL.Models.Surveys.Label", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<string>("Language");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("UpdatedDate");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Labels");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.PrimaryRespondent", b =>
@@ -590,7 +597,9 @@ namespace TRAISI.Migrations
 
                     b.Property<int?>("SurveyId");
 
-                    b.Property<string>("ViewName");
+                    b.Property<string>("ViewName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -604,13 +613,23 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LabelId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
 
                     b.Property<int>("SurveyViewId");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("LabelId");
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyViewId");
 
@@ -622,13 +641,23 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LabelId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
 
                     b.Property<int>("SurveyViewId");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("LabelId");
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyViewId");
 
@@ -640,13 +669,23 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LabelId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
 
                     b.Property<int?>("SurveyId");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("LabelId");
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -658,13 +697,23 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LabelId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
 
                     b.Property<int>("SurveyViewId");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("LabelId");
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyViewId");
 
@@ -964,7 +1013,7 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Groups.UserGroup", "Group")
                         .WithOne("ApiKeySettings")
-                        .HasForeignKey("DAL.Models.Groups.ApiKeys", "Id")
+                        .HasForeignKey("DAL.Models.Groups.ApiKeys", "GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -991,23 +1040,20 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionConfigurations")
-                        .HasForeignKey("QuestionPartId");
+                        .HasForeignKey("QuestionPartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOption", b =>
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionOptions")
-                        .HasForeignKey("QuestionPartId");
+                        .HasForeignKey("QuestionPartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Questions.QuestionOption", "QuestionOption")
                         .WithMany("QuestionOptionLabels")
                         .HasForeignKey("QuestionOptionId")
@@ -1025,7 +1071,8 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "ParentView")
                         .WithMany("QuestionPartViewChildren")
-                        .HasForeignKey("ParentViewId");
+                        .HasForeignKey("ParentViewId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
@@ -1033,25 +1080,24 @@ namespace TRAISI.Migrations
 
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("QuestionPartViews")
-                        .HasForeignKey("SurveyViewId");
+                        .HasForeignKey("SurveyViewId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPartViewLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId");
-
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "QuestionPartView")
                         .WithMany("Labels")
-                        .HasForeignKey("QuestionPartViewId");
+                        .HasForeignKey("QuestionPartViewId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.GroupCode", b =>
                 {
                     b.HasOne("DAL.Models.Surveys.Survey", "Survey")
                         .WithMany("GroupCodes")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.PrimaryRespondent", b =>
@@ -1077,7 +1123,8 @@ namespace TRAISI.Migrations
 
                     b.HasOne("DAL.Models.Surveys.Survey", "Survey")
                         .WithMany("Shortcodes")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyPermission", b =>
@@ -1112,16 +1159,12 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Surveys.Survey", "Survey")
                         .WithMany("SurveyViews")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.TermsAndConditionsPageLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("TermsAndConditionsLabel")
                         .HasForeignKey("SurveyViewId")
@@ -1130,11 +1173,6 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Surveys.ThankYouPageLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("ThankYouPageLabel")
                         .HasForeignKey("SurveyViewId")
@@ -1143,23 +1181,14 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Surveys.TitlePageLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Surveys.Survey", "Survey")
                         .WithMany("TitleLabel")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.WelcomePageLabel", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.Label", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("WelcomePageLabel")
                         .HasForeignKey("SurveyViewId")

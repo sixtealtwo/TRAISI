@@ -2,7 +2,7 @@
 
 
 <div role="navigation" id="builderSidebar" class="sidebar order-correct">
-	<traisi-question-type-chooser (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
+	<traisi-question-type-chooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
 </div>
 <div class="clearfix">
 	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
@@ -43,7 +43,7 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.label.value"></div>
+		<div *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.value"></div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
 		<div class="row justify-content-center">
@@ -53,7 +53,7 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.label.value"></div>
+		<div *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.value"></div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
 		<app-nested-drag-and-drop-list #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
@@ -66,7 +66,7 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.label.value"></div>
+		<div *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>
 	</div>
 </div>
 

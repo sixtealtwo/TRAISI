@@ -1,5 +1,5 @@
 <div class="row">
-	<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12 page-questions" [class.page-questions-empty]="pageQuestions.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" (dragEnter)="onDragEnter('main list')" (dragLeave)="onDragLeave('main list')">
+	<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12 page-questions" [class.drag-over]="dragOverContainer['main list']" [class.page-questions-empty]="pageQuestions.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" (dragEnter)="onDragEnter('main list')" (dragLeave)="onDragLeave('main list')">
 		<smooth-dnd-draggable *ngFor="let item of pageQuestions; index as i">
 			<ng-container *ngIf="item.typeName != 'Survey Part'; else surveyPart">
 				<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">

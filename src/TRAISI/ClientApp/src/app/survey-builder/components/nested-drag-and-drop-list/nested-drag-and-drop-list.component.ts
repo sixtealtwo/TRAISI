@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
-import { Observable, Subject } from '../../../../../node_modules/rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType } from '../../../services/alert.service';
 
 @Component({

@@ -199,11 +199,11 @@ namespace TRAISI.Controllers
                     {
                         new QuestionPartViewLabel()
                         {
-                            Label = new Label()
-                            {
+                            //Label = new Label()
+                            //{
                                 Language = language,
                                 Value = pageInfo.Label
-                            }
+                            //}
                         }
                     };
                     this._surveyBuilderService.AddSurveyPage(surveyView, newPage);

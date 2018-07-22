@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, Output, EventEmitter, HostListener, Input } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { AppConfig } from '../../../app.config';
@@ -17,6 +17,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public dragItemIndex: number = 0;
 	public wasDragging: boolean = false;
 
+	@Input() disabled: boolean = false;
 	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
 
 
