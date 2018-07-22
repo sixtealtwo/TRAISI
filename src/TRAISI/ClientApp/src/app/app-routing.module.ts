@@ -33,10 +33,10 @@ import { ErrorComponent } from './error/error.component';
 					path: 'error',
 					component: ErrorComponent
 				},
-				/*{
+				{
 					path: '**',
 					component: ErrorComponent
-				}*/
+				}
 			],
 			{
 				useHash: false,

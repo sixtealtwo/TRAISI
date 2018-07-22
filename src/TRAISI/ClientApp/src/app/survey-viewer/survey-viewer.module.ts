@@ -11,7 +11,6 @@ import { SurveyWelcomePageComponent } from './components/survey-welcome-page/sur
 import { SurveyTermsPageComponent } from './components/survey-terms-page/survey-terms-page.component';
 import { SurveyCompletePageComponent } from './components/survey-complete-page/survey-complete-page.component';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
-import { RouterModule } from '../../../node_modules/@angular/router';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, ROUTES],
@@ -28,6 +27,6 @@ import { RouterModule } from '../../../node_modules/@angular/router';
 		SurveyViewerService,
 		SurveyViewerEndpointService
 	],
-	exports: [RouterModule]
+	exports: []
 })
 export class SurveyViewerModule {}
