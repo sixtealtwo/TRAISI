@@ -9,7 +9,7 @@ import { AlertService, DialogType } from '../../../services/alert.service';
 	styleUrls: ['./nested-drag-and-drop-list.component.scss']
 })
 export class NestedDragAndDropListComponent implements OnInit {
-	public testTargets = [];
+	public pageQuestions = [];
 	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>();
 	private elementUniqueIndex: number = 0;
 
@@ -31,12 +31,12 @@ export class NestedDragAndDropListComponent implements OnInit {
 				qType.partId = this.elementUniqueIndex;
 				this.qPartQuestions.set(this.elementUniqueIndex++, []);
 			}
-			this.testTargets.push(qType);
+			this.pageQuestions.push(qType);
 		});
 	}
 
 	getQuestionPayload(index) {
-		return this.testTargets[index];
+		return this.pageQuestions[index];
 	}
 
 	getQuestionInPartPayload(partId: number) {
@@ -82,11 +82,13 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	onDrop(dropResult: any) {
-		console.log(dropResult);
 		if (this.dragResult) {
+			// create shadow list to give illusion of transfer before decision made
+			let pageQuestionsCache = [...this.pageQuestions];
+			this.proceedWithDrop(dropResult);
 			this.dragResult.subscribe(proceed => {
-				if (proceed === true) {
-					this.proceedWithDrop(dropResult);
+				if (proceed === false) {
+					this.pageQuestions = pageQuestionsCache;
 				}
 				this.dragResult = undefined;
 			});
@@ -103,18 +105,20 @@ export class NestedDragAndDropListComponent implements OnInit {
 				this.qPartQuestions.set(dropResult.payload.partId, []);
 			}
 		}
-		this.testTargets = this.applyDrag(this.testTargets, dropResult);
+		this.pageQuestions = this.applyDrag(this.pageQuestions, dropResult);
 	}
 
 	onDropInPart(partId: number, dropResult: any) {
 		if (this.dragResult) {
+			let questionParts = this.qPartQuestions.get(partId);
+			let partQuestionsCache = [...questionParts];
+			if (partId !== dropResult.payload.partId) {
+				questionParts = this.applyDrag(questionParts, dropResult);
+				this.qPartQuestions.set(partId, questionParts);
+			}
 			this.dragResult.subscribe(proceed => {
-				if (proceed === true) {
-					if (partId !== dropResult.payload.partId) {
-						let questionParts = this.qPartQuestions.get(partId);
-						questionParts = this.applyDrag(questionParts, dropResult);
-						this.qPartQuestions.set(partId, questionParts);
-					}
+				if (proceed === false) {
+					this.qPartQuestions.set(partId, partQuestionsCache);
 				}
 			});
 		}
@@ -132,7 +136,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		}
 
 		/*let thisContainer: any = this;
-		
+
 		let groupName: string = thisContainer.groupName;
 		if (groupName.startsWith('builder-part-')) {
 			let split: string[] = groupName.split('-');
@@ -152,7 +156,9 @@ export class NestedDragAndDropListComponent implements OnInit {
 
 	applyDrag = (arr, dragResult) => {
 		const { removedIndex, addedIndex, payload } = dragResult;
-		if (removedIndex === null && addedIndex === null) return arr;
+		if (removedIndex === null && addedIndex === null) {
+			return arr;
+		}
 
 		const result = [...arr];
 		let itemToAdd = payload;
@@ -166,5 +172,5 @@ export class NestedDragAndDropListComponent implements OnInit {
 		}
 
 		return result;
-	};
+	}
 }

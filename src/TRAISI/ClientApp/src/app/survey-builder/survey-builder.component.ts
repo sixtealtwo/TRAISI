@@ -21,7 +21,9 @@ import { ThankYouPage } from './models/thank-you-page.model';
 export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public surveyId: number;
 	public froalaOptions: any;
-	public allPages = [];
+	public allPages: QuestionPartView[] = [];
+	public newPageTitle: string;
+	public currentLanguage: string = 'en';
 
 	public welcomePage: WelcomePage;
 	public termsAndConditionsPage: TermsAndConditionsPage;
@@ -46,17 +48,22 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.froalaOptions = this.generateFroalaOptions();
-
-		this.allPages.push(new QuestionPartView(0, 'First Page', [], 0));
-		this.allPages.push(new QuestionPartView(1, 'Second Page', [], 1));
+		this.loadPageStructure();
 		this.switchPage('welcome');
-
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy() {}
 
+	loadPageStructure(): void {
+		this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(
+			page => {
+				this.allPages = page.pages;
+				this.welcomePage = page.welcomePage;
+				this.termsAndConditionsPage = page.termsAndConditionsPage;
+				this.thankYouPage = page.surveyCompletionPage;
+			}
+		);
 	}
-
 	generateFroalaOptions() {
 		return {
 			toolbarInline: true,
@@ -70,7 +77,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				'Georgia,serif': 'Georgia',
 				'Impact,Charcoal,sans-serif': 'Impact',
 				'Tahoma,Geneva,sans-serif': 'Tahoma',
-				"'Times New Roman',Times,serif": 'Times New Roman',
+				'Times New Roman,Times,serif': 'Times New Roman',
 				'Verdana,Geneva,sans-serif': 'Verdana'
 			},
 			toolbarButtonsSM: [
@@ -130,16 +137,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				'froalaEditor.image.removed': (e, editor, img) => this.deleteImage(e, editor, img),
 				'froalaEditor.video.removed': (e, editor, vid) => this.deleteVideo(e, editor, vid),
 				'froalaEditor.save.before': (e, editor, data) => this.saveMandatoryPages(e, editor, data),
-				'froalaEditor.commands.after': (e, editor, cmd) => this.imageInserted(e,editor,cmd)
+				'froalaEditor.commands.after': (e, editor, cmd) => this.imageInserted(e, editor, cmd)
 			}
 		};
 	}
 
-	imageInserted(e,editor,cmd) { 
+	imageInserted(e, editor, cmd) {
 		console.log(editor);
 		console.log(e);
 	}
-
 
 	deleteImage(e, editor, img) {
 		let uploadPath = new UploadPath(img.attr('src'));
@@ -157,80 +163,60 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveWelcomePage() {
 		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
-			result =>
-			{
-				this.alertService.showMessage('Success', `Welcome page was saved successfully!`, MessageSeverity.success);
-				
+			result => {
+				this.alertService.showMessage(
+					'Success',
+					`Welcome page was saved successfully!`,
+					MessageSeverity.success
+				);
 			},
-			error => 
-			{
-
-			}
+			error => {}
 		);
 	}
 
 	saveTAndCPage() {
-		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
-			result =>
-			{
-				this.alertService.showMessage('Success', `Terms and conditions page was saved successfully!`, MessageSeverity.success);
-				
-			},
-			error => 
-			{
-
-			}
-		);
+		this.surveyBuilderService
+			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
+			.subscribe(
+				result => {
+					this.alertService.showMessage(
+						'Success',
+						`Terms and conditions page was saved successfully!`,
+						MessageSeverity.success
+					);
+				},
+				error => {}
+			);
 	}
 
 	saveThankYouPage() {
 		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
-			result =>
-			{
-				this.alertService.showMessage('Success', `Thank you page was saved successfully!`, MessageSeverity.success);
-				
+			result => {
+				this.alertService.showMessage(
+					'Success',
+					`Thank you page was saved successfully!`,
+					MessageSeverity.success
+				);
 			},
-			error => 
-			{
-
-			}
+			error => {}
 		);
 	}
 
 	saveMandatoryPages(e, editor, data) {
 		if (this.currentPage === 'welcome') {
-			this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
-				result =>
-				{
-				},
-				error => 
-				{
-
-				}
-			);
+			this.surveyBuilderService
+				.updateStandardWelcomePage(this.surveyId, this.welcomePage)
+				.subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'termsAndConditions') {
-			this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
-				result =>
-				{
-				},
-				error => 
-				{
-
-				}
-			);
+			this.surveyBuilderService
+				.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
+				.subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
-				result =>
-				{
-				},
-				error => 
-				{
-
-				}
-			);
+			this.surveyBuilderService
+				.updateStandardThankYouPage(this.surveyId, this.thankYouPage)
+				.subscribe(result => {}, error => {});
 		}
 	}
-
 
 	addQuestionTypeToList(qType) {
 		this.surveyPage.addQuestionTypeToList(qType);
@@ -238,29 +224,44 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	switchPage(pageName: string): void {
 		this.currentPage = pageName;
-		if (this.currentPage === 'welcome') {
-			this.surveyBuilderService.getStandardWelcomePage(this.surveyId, 'en').subscribe(
-				result => {
-					this.welcomePage = result;
-				}
-			);
+		/*if (this.currentPage === 'welcome') {
+			this.surveyBuilderService.getStandardWelcomePage(this.surveyId, this.currentLanguage).subscribe(result => {
+				this.welcomePage = result;
+			});
 		} else if (this.currentPage === 'termsAndConditions') {
-			this.surveyBuilderService.getStandardTermsAndConditionsPage(this.surveyId, 'en').subscribe(
-				result => {
-					this.termsAndConditionsPage = result;
-				}
-			);
+			this.surveyBuilderService.getStandardTermsAndConditionsPage(this.surveyId, this.currentLanguage).subscribe(result => {
+				this.termsAndConditionsPage = result;
+			});
 		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService.getStandardThankYouPage(this.surveyId, 'en').subscribe(
-				result => {
-					this.thankYouPage = result;
-				}
-			);
-		}
+			this.surveyBuilderService.getStandardThankYouPage(this.surveyId, this.currentLanguage).subscribe(result => {
+				this.thankYouPage = result;
+			});
+		}*/
 	}
 
 	switchSurveyPage(pageId: number): void {
 		this.surveyPage.testTargets = [];
 		this.currentPage = 'surveyPage';
+	}
+
+	createPage(title: string): void {
+		let newPage: QuestionPartView = new QuestionPartView(0, title);
+		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
+			result => {
+				this.loadPageStructure();
+				this.alertService.showMessage(
+					'Success',
+					`Page was added successfully!`,
+					MessageSeverity.success
+				);
+			},
+			error => {
+				this.alertService.showMessage(
+					'Error',
+					`Problem adding page!`,
+					MessageSeverity.error
+				);
+			}
+		);
 	}
 }

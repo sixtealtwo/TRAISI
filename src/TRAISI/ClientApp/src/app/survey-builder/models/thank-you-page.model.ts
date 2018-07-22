@@ -1,4 +1,4 @@
-import { Label } from "../../models/label.model";
+import { Label } from '../../models/label.model';
 
 export class ThankYouPage {
 	constructor(

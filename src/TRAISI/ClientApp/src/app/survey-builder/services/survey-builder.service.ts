@@ -9,6 +9,8 @@ import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
 import { TermsAndConditionsPage } from '../models/terms-and-condiitions-page.model';
 import { ThankYouPage } from '../models/thank-you-page.model';
+import { SurveyViewStructure } from '../models/survey-view-structure.model';
+import { QuestionPartView } from '../models/question-part-view.model';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -52,5 +54,13 @@ export class SurveyBuilderService {
 
 	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage): Observable<ThankYouPage>  {
 		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(surveyId, thankYouPage);
+	}
+
+	public getStandardViewPageStructure(surveyId: number, language: string): Observable<SurveyViewStructure> {
+		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(surveyId, language);
+	}
+
+	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
+		return this.surveyBuilderEndpointService.getAddStandardPageEndpoint<QuestionPartView>(surveyId, language, pageInfo);
 	}
 }

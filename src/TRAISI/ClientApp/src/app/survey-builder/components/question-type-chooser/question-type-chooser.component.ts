@@ -15,7 +15,8 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public config: any;
 	public $el: any;
 	public dragItemIndex: number = 0;
-	
+	public wasDragging: boolean = false;
+
 	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
 
 
@@ -61,34 +62,49 @@ export class QuestionTypeChooserComponent implements OnInit {
 	}
 
 	addQuestionTypeToList(qType: QuestionTypeDefinition) {
-		this.addQuestionType.emit(qType);
+		if (!this.wasDragging) {
+			this.addQuestionType.emit(qType);
+		}
 	}
 
 	addSectionToList() {
-		let surveyPart: QuestionTypeDefinition = {
-			id: -1,
-			typeName: 'Survey Part',
-			icon: 'fa-archive',
-			iconType: QuestionIconType.FONT_ICON
-		};
-		this.addQuestionType.emit(surveyPart);
+		if (!this.wasDragging) {
+			let surveyPart: QuestionTypeDefinition = {
+				id: -1,
+				typeName: 'Survey Part',
+				icon: 'fa-archive',
+				iconType: QuestionIconType.FONT_ICON
+			};
+			this.addQuestionType.emit(surveyPart);
+		}
 	}
 
 	onDragStart(event: any) {
 		$('.collapse.details').collapse('hide');
 		$('.collapse:not(.details)').collapse('show');
+		if (event.isSource) {
+			this.wasDragging = true;
+		}
+	}
+
+	onDragEnd(event: any) {
+		if (event.isSource) {
+			setTimeout(() => {
+				this.wasDragging = false;
+			}, 0);
+		}
 	}
 
 
 	getQuestionPayload(index) {
-		if (index == 0) {
+		if (index === 0) {
 			let surveyPart = {
 				typeName: 'Survey Part',
 				icon: 'fa-archive'
 			};
 			return surveyPart;
 		} else {
-			return this.questionTypeDefinitions[index-1];
+			return this.questionTypeDefinitions[index - 1];
 		}
 	}
 }

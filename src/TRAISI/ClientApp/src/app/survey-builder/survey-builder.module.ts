@@ -10,11 +10,23 @@ import { SurveyBuilderService } from './services/survey-builder.service';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule } from 'ngx-bootstrap';
+import { TooltipModule, ModalModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-	imports: [CommonModule, WidgetModule, SharedModule, NgxSmoothDnDModule, TooltipModule, FroalaEditorModule, FroalaViewModule, ROUTES],
+	imports: [
+		CommonModule,
+		WidgetModule,
+		SharedModule,
+		ModalModule,
+		FormsModule,
+		NgxSmoothDnDModule,
+		TooltipModule,
+		FroalaEditorModule,
+		FroalaViewModule,
+		ROUTES
+	],
 	declarations: [SurveyBuilderComponent, QuestionTypeChooserComponent, NestedDragAndDropListComponent],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService]
 })

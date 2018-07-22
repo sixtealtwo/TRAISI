@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
+import { QuestionPartView } from '../models/question-part-view.model';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
@@ -112,6 +113,26 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getUpdateStandardThankYouPageEndpoint(surveyId, welcomePage));
+			})
+		);
+	}
+
+	public getStandardViewPageStructureEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardViewPageStructureEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getAddStandardPageEndpoint<T>(surveyId: number, language: string, pageInfo: QuestionPartView): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Page/Standard/${language}`;
+
+		return this.http.post<T>(endpointUrl, JSON.stringify(pageInfo), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getAddStandardPageEndpoint(surveyId, language, pageInfo));
 			})
 		);
 	}

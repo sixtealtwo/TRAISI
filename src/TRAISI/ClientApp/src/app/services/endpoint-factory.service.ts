@@ -87,7 +87,7 @@ export class EndpointFactory {
 	}
 
 	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
-		if (error.status === 401 && this.lastCall != error.url) {
+		if (error.status === 401 && this.lastCall !== error.url) {
 			this.lastCall = error.url;
 			if (this.isRefreshingLogin) {
 				return this.pauseTask(continuation);
