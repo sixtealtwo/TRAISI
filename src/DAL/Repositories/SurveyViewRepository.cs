@@ -42,9 +42,9 @@ namespace DAL.Repositories {
 		public async Task<SurveyView> GetSurveyViewWithPagesStructureAsync (int surveyId, string viewName) {
 			var surveyView = await _appContext.SurveyViews
 					.Where(sv => sv.ViewName == viewName && sv.Survey.Id == surveyId)
-					.Include(sv => sv.WelcomePageLabel)
-					.Include(sv => sv.TermsAndConditionsLabel)
-					.Include(sv => sv.ThankYouPageLabel)
+					.Include(sv => sv.WelcomePageLabels)
+					.Include(sv => sv.TermsAndConditionsLabels)
+					.Include(sv => sv.ThankYouPageLabels)
 					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
 					.SingleOrDefaultAsync();
 			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();

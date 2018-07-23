@@ -77,9 +77,9 @@ namespace DAL {
 
 						builder.Entity<SurveyView> ().Property (s => s.ViewName).IsRequired().HasMaxLength (100);
 						builder.Entity<SurveyView> ().HasMany (s => s.QuestionPartViews).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
-						builder.Entity<SurveyView> ().HasMany (s => s.WelcomePageLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
-						builder.Entity<SurveyView> ().HasMany (s => s.TermsAndConditionsLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
-						builder.Entity<SurveyView> ().HasMany (s => s.ThankYouPageLabel).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.WelcomePageLabels).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.TermsAndConditionsLabels).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<SurveyView> ().HasMany (s => s.ThankYouPageLabels).WithOne(qv => qv.SurveyView).OnDelete(DeleteBehavior.Cascade);
 						builder.Entity<SurveyView> ().ToTable ($"{nameof(this.SurveyViews)}");
             
 						builder.Entity<SurveyPermission> ().ToTable ($"{nameof(this.SurveyPermissions)}");

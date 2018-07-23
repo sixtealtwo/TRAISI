@@ -31,17 +31,15 @@ namespace DAL.Models.Surveys
         public void PopulateDefaults()
         {
             DefaultLanguage = "en";
-            TitleLabels = new LabelCollection<TitlePageLabel>();
+            TitleLabels = new LabelCollection<TitlePageLabel>
+            {
+                [DefaultLanguage] = new TitlePageLabel
+                {
+                    Value = "Default Welcome", Survey = this
+                }
+            };
 
-            TitleLabels[DefaultLanguage] = new TitlePageLabel
-            {
-                Language = DefaultLanguage,
-                Value = "Default Welcome",
-                Survey = this
-            };
-            {
-              
-            };
+
             SurveyPermissions = new HashSet<SurveyPermission>();
             SurveyViews = new List<SurveyView>
             {
@@ -49,34 +47,35 @@ namespace DAL.Models.Surveys
                 {
                     ViewName = "Standard",
                     Survey = this,
-                    WelcomePageLabel = new HashSet<WelcomePageLabel>
+                    WelcomePageLabels = new LabelCollection<WelcomePageLabel>
                     {
-                        new WelcomePageLabel
-                        {
-                            Language = DefaultLanguage,
-                            Value = "Default Welcome"
-                        },
-                        new WelcomePageLabel
-                        {
-                            Language = "fr",
-                            Value = "Bonjour"
-                        }
+                        [DefaultLanguage] =
+                            new WelcomePageLabel
+                            {
+                                Value = "Default Welcome"
+                            },
+                        ["fr"] =
+                            new WelcomePageLabel
+                            {
+                                Value = "Bonjour"
+                            }
                     },
-                    ThankYouPageLabel = new HashSet<ThankYouPageLabel>
+                    ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>
                     {
-                        new ThankYouPageLabel
-                        {
-                            Language = DefaultLanguage,
-                            Value = "Default Thanks"
-                        }
+                        [DefaultLanguage] =
+                            new ThankYouPageLabel
+                            {
+                                Value = "Default Thanks"
+                            }
                     },
-                    TermsAndConditionsLabel = new HashSet<TermsAndConditionsPageLabel>
+                    TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>
                     {
-                        new TermsAndConditionsPageLabel
-                        {
-                            Language = DefaultLanguage,
-                            Value = "Default Terms and Conditions"
-                        }
+                        [DefaultLanguage] =
+                            new TermsAndConditionsPageLabel
+                            {
+                                // language is set on the object with the helper
+                                Value = "Default Terms and Conditions"
+                            }
                     }
                 }
             };

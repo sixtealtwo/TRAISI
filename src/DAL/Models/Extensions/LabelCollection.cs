@@ -15,9 +15,11 @@ namespace DAL.Models.Extensions
             get { return this.FirstOrDefault(t => t.Language == key); }
             set
             {
+                value.Language = key;
                 RemoveWhere(t => t.Language == key);
                 Add(value);
             }
         }
+
     }
 }
