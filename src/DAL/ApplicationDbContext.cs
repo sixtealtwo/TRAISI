@@ -72,7 +72,7 @@ namespace DAL {
 						builder.Entity<Survey> ().HasMany (s => s.SurveyPermissions).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
 						builder.Entity<Survey> ().HasMany (s => s.GroupCodes).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
 						builder.Entity<Survey> ().HasMany (s => s.Shortcodes).WithOne(sc => sc.Survey).OnDelete(DeleteBehavior.Cascade);
-						builder.Entity<Survey> ().HasMany (s => s.TitleLabel).WithOne(t => t.Survey).OnDelete(DeleteBehavior.Cascade);
+						builder.Entity<Survey> ().HasMany (s => s.TitleLabels).WithOne(t => t.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey> ().ToTable ($"{nameof(this.Surveys)}");
 
 						builder.Entity<SurveyView> ().Property (s => s.ViewName).IsRequired().HasMaxLength (100);

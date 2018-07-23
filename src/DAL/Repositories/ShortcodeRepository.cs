@@ -44,18 +44,18 @@ namespace DAL.Repositories
             return await codes.ToListAsync();
         }
 
-				/// <summary>
-				/// Get all shortcodes for survey
-				/// </summary>
-				/// <param name="surveyId"></param>
-				/// <param name="isTest"></param>
-				/// <returns></returns>
-				public IEnumerable<Shortcode> GetShortcodesForSurvey(int surveyId, bool isTest)
+        /// <summary>
+        /// Get all shortcodes for survey
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="isTest"></param>
+        /// <returns></returns>
+        public IEnumerable<Shortcode> GetShortcodesForSurvey(int surveyId, bool isTest)
         {
             return _appContext.Shortcodes
-								.Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
-								.OrderByDescending(sc => sc.CreatedDate)
-								.ToList();
+                                .Where(s => s.Survey.Id == surveyId && s.IsTest == isTest)
+                                .OrderByDescending(sc => sc.CreatedDate)
+                                .ToList();
         }
 
         public async Task<int> GetCountOfShortcodesForSurveyAsync(int surveyId, bool isTest)

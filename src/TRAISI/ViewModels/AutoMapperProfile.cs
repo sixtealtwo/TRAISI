@@ -116,7 +116,7 @@ namespace TRAISI.ViewModels {
 
             CreateMap<SurveyView, SurveyViewerViewModel> ()
                 .ForMember (vm => vm.Questions, map => map.MapFrom (v => v.QuestionPartViews))
-                .AfterMap ((s, svm, opt) => { svm.TitleText = s.Survey.TitleLabel.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; })
+                .AfterMap ((s, svm, opt) => { svm.TitleText = s.Survey.TitleLabels.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; })
                 .AfterMap ((s, svm, opt) => { svm.SurveyCompletionText = s.ThankYouPageLabel.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; })
                 .AfterMap ((s, svm, opt) => { svm.TermsAndConditionsText = s.TermsAndConditionsLabel.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; })
                 .AfterMap ((s, svm, opt) => { svm.WelcomeText = s.WelcomePageLabel.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; });
