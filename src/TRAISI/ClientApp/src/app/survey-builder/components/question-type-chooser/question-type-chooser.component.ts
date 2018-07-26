@@ -82,7 +82,9 @@ export class QuestionTypeChooserComponent implements OnInit {
 
 	onDragStart(event: any) {
 		$('.collapse.details').collapse('hide');
-		$('.collapse:not(.details)').collapse('show');
+		/*if (event.payload.typeName !== 'Survey Part') {
+			$('.collapse:not(.details)').collapse('show');
+		}*/
 		if (event.isSource) {
 			this.wasDragging = true;
 		}

@@ -63,4 +63,8 @@ export class SurveyBuilderService {
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
 		return this.surveyBuilderEndpointService.getAddStandardPageEndpoint<QuestionPartView>(surveyId, language, pageInfo);
 	}
+
+	public deleteStandardPage(surveyId: number, pageId: number) {
+		return this.surveyBuilderEndpointService.getDeleteStandardPageEndpoint<number>(surveyId, pageId);
+	}
 }

@@ -14,15 +14,23 @@
 			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
 			 role="tab" aria-controls="tAndC" aria-expanded="true">Terms and Conditions</a>
 		</li>
-		<li *ngFor="let page of allPages" class="nav-item">
-			<a class="nav-link fw-semi-bold" (click)="switchSurveyPage(page.id)" id="{{ page.id + '-tab' }}" data-toggle="tab" href="#pages"
-			 role="tab" aria-controls="page.label" aria-expanded="true">
-				{{ page.label }}
-				<sup class="badge badge-pill badge-primary">
-					P
-				</sup>
-			</a>
-		</li>
+		<smooth-dnd-container id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'" [dragBeginDelay]="500" [dragClass]="'raised-tab'">
+			<smooth-dnd-draggable *ngFor="let page of allPages">
+				<li class="nav-item dropdown pagetab">
+					<a class="nav-link fw-semi-bold" id="{{ page.id + '-tab' }}" data-toggle="dropdown" href="#"
+					role="tab" aria-controls="page.label" aria-expanded="true">
+						{{ page.label }}
+						<sup class="badge badge-pill badge-primary">
+							P
+						</sup>
+					</a>
+					<div class="dropdown-menu" [attr.aria-labelledby]="page.id + '-tab'">
+							<a class="dropdown-item"  (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages">Edit Page</a>
+							<a class="dropdown-item" (click)="deletePage(page.id)">Delete Page</a>
+						</div>
+				</li>
+			</smooth-dnd-draggable>
+		</smooth-dnd-container>
 		<li class="nav-item">
 			<a class="nav-link fw-semi-bold" (click)="switchPage('thank-you')" id="thankYou-tab" data-toggle="tab" href="#thankYou" role="tab"
 			 aria-controls="thankYou" aria-expanded="true">Thank You</a>
@@ -36,6 +44,7 @@
 </div>
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.value"></div>
 		<div class="row justify-content-center">
 			<div>
 				<button class="btn btn-primary" (click)="saveWelcomePage()">
@@ -43,9 +52,9 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.value"></div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.value"></div>
 		<div class="row justify-content-center">
 			<div>
 				<button class="btn btn-primary" (click)="saveTAndCPage()">
@@ -53,12 +62,12 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.value"></div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
 		<app-nested-drag-and-drop-list #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>
 		<div class="row justify-content-center">
 			<div>
 				<button class="btn btn-primary" (click)="saveThankYouPage()">
@@ -66,7 +75,6 @@
 				</button>
 			</div>
 		</div>
-		<div *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>
 	</div>
 </div>
 
@@ -96,7 +104,7 @@
             <div class="form-group row">
               <div class="col-sm-12">
                 <div class="pull-right">
-                  <button type="submit" class="btn btn-primary" (click)="createPageModal.hide()" title="Create New Page">Create Page</button>
+                  <button type="submit" class="btn btn-primary action-button" (click)="createPageModal.hide()" title="Create New Page">Create Page</button>
                   <button type="button" class="btn btn-danger" (click)="createPageModal.hide()" title="Cancel">Cancel</button>
                 </div>
               </div>

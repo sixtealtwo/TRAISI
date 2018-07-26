@@ -137,4 +137,15 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getDeleteStandardPageEndpoint<T>(surveyId: number, pageId: number): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Page/Standard/${pageId}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDeleteStandardPageEndpoint(surveyId, pageId));
+			})
+		);
+
+	}
+
 }

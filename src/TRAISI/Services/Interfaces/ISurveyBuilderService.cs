@@ -24,6 +24,8 @@ namespace TRAISI.Services.Interfaces
 
         void AddSurveyPage(SurveyView view, QuestionPartView newPage);
 
+				void RemoveSurveyPage(SurveyView view, int pageId);
+
         QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position);
 
         void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition);

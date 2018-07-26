@@ -207,6 +207,26 @@ namespace TRAISI.Services {
 		}
 
 		/// <summary>
+		/// Removes a page from a survey
+		/// </summary>
+		/// <param name="view"></param>
+		/// <param name="pageId"></param>
+		public void RemoveSurveyPage(SurveyView view, int pageId) {
+			List<QuestionPartView> pages = view.QuestionPartViews as List<QuestionPartView>;
+			QuestionPartView toDelete = null;
+			int pageIndex = Int32.MaxValue;
+			for (int i=0; i<pages.Count; i++) {
+				if (pages[i].Order > pageIndex) {
+					pages[i].Order--;
+				}	else if  (pages[i].Id == pageId) {
+					toDelete = pages[i];
+					pageIndex = toDelete.Order;
+				}
+			}
+			view.QuestionPartViews.Remove(toDelete);
+		}
+
+		/// <summary>
 		/// Adds a question part to the specified SurveyView - this creates a new QuestionPartView from the part
 		/// </summary>
 		/// <param name="view"></param>

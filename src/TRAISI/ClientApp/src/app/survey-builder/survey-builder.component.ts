@@ -11,6 +11,7 @@ import { QuestionPartView } from './models/question-part-view.model';
 import { WelcomePage } from './models/welcome-page.model';
 import { TermsAndConditionsPage } from './models/terms-and-conditions-page.model';
 import { ThankYouPage } from './models/thank-you-page.model';
+import { Utilities } from '../services/utilities';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -30,6 +31,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public thankYouPage: ThankYouPage;
 
 	private currentPage: string = 'welcome';
+	private currentPageIndex: number = -1;
 	private deletedImages: UploadPath[] = [];
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
@@ -242,6 +244,40 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	switchSurveyPage(pageId: number): void {
 		this.surveyPage.pageQuestions = [];
 		this.currentPage = 'surveyPage';
+		this.currentPageIndex = pageId;
+		setTimeout(() => {
+			let test = <any>$('#' + pageId + '-tab');
+			test.tab('show');
+		}, 0);
+
+	}
+
+	private navigateToFirst(): void {
+		let firstTab = <any>$('#myTab li:first-child a');
+		firstTab.tab('show');
+	}
+
+	deletePage(pageId: number): void {
+		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
+			result => {
+				this.loadPageStructure();
+				if (pageId === this.currentPageIndex) {
+					this.navigateToFirst();
+				}
+				this.alertService.showMessage(
+					'Success',
+					`Page was removed successfully!`,
+					MessageSeverity.success
+				);
+			},
+			error => {
+				this.alertService.showMessage(
+					'Error',
+					`Problem removing page!\r\nErrors: "${ Utilities.getHttpResponseMessage(error)}"`,
+					MessageSeverity.error
+				);
+			}
+		);
 	}
 
 	createPage(title: string): void {
@@ -258,7 +294,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			error => {
 				this.alertService.showMessage(
 					'Error',
-					`Problem adding page!`,
+					`Problem adding page!\r\nErrors: "${ Utilities.getHttpResponseMessage(error)}"`,
 					MessageSeverity.error
 				);
 			}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FluentValidation;
 
 namespace TRAISI.ViewModels.SurveyBuilder
 {
@@ -12,4 +13,13 @@ namespace TRAISI.ViewModels.SurveyBuilder
 
         public int Order { get; set; }
     }
+
+		public class SBQuestionPartViewViewModelValidator : AbstractValidator<SBQuestionPartViewViewModel>
+	{
+		public SBQuestionPartViewViewModelValidator()
+		{
+			RuleFor(part => part.Label).NotNull().WithMessage("Title must not be empty");
+		}
+	}
+
 }

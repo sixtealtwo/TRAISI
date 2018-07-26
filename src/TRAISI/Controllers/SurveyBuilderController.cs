@@ -55,13 +55,13 @@ namespace TRAISI.Controllers
             return questionTypes;
         }
 
-        [HttpGet("{id}/PageStructure/{surveyViewName}/{language}")]
+        [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}")]
         [Produces(typeof(SBSurveyViewViewModel))]
-        public async Task<IActionResult> GetSurveyViewPageStructure(int id, string surveyViewName, string language) {
-            var survey = await this._unitOfWork.Surveys.GetAsync(id);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+        public async Task<IActionResult> GetSurveyViewPageStructure(int surveyId, string surveyViewName, string language) {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(id, surveyViewName);
+                var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
                 return Ok(surveyPageStructure.ToLocalizedModel<SBSurveyViewViewModel>(language));
             }
             else
@@ -70,14 +70,14 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpGet("{id}/WelcomePage/{surveyViewName}/{language}")]
+        [HttpGet("{surveyId}/WelcomePage/{surveyViewName}/{language}")]
         [Produces(typeof(WelcomePageLabelViewModel))]
-        public async Task<IActionResult> GetWelcomePageLabel(int id, string surveyViewName, string language)
+        public async Task<IActionResult> GetWelcomePageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(id);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var welcomePageLabel = await this._unitOfWork.WelcomePageLabels.GetWelcomePageLabelAsync(id, surveyViewName, language);
+                var welcomePageLabel = await this._unitOfWork.WelcomePageLabels.GetWelcomePageLabelAsync(surveyId, surveyViewName, language);
                 return Ok(Mapper.Map<WelcomePageLabelViewModel>(welcomePageLabel));
             }
             else
@@ -86,14 +86,14 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpGet("{id}/ThankYouPage/{surveyViewName}/{language}")]
+        [HttpGet("{surveyId}/ThankYouPage/{surveyViewName}/{language}")]
         [Produces(typeof(ThankYouPageLabelViewModel))]
-        public async Task<IActionResult> GetThankYouPageLabel(int id, string surveyViewName, string language)
+        public async Task<IActionResult> GetThankYouPageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(id);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var thankYouPageLabel = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(id, surveyViewName, language);
+                var thankYouPageLabel = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, surveyViewName, language);
                 return Ok(Mapper.Map<ThankYouPageLabelViewModel>(thankYouPageLabel));
             }
             else
@@ -102,14 +102,14 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpGet("{id}/TermsAndConditionsPage/{surveyViewName}/{language}")]
+        [HttpGet("{surveyId}/TermsAndConditionsPage/{surveyViewName}/{language}")]
         [Produces(typeof(TermsAndConditionsPageLabelViewModel))]
-        public async Task<IActionResult> GetTermsAndConditionsPageLabel(int id, string surveyViewName, string language)
+        public async Task<IActionResult> GetTermsAndConditionsPageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(id);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var termsAndConditionsPageLabel = await this._unitOfWork.TermsAndConditionsPageLabels.GetTermsAndConditionsPageLabelAsync(id, surveyViewName, language);
+                var termsAndConditionsPageLabel = await this._unitOfWork.TermsAndConditionsPageLabels.GetTermsAndConditionsPageLabelAsync(surveyId, surveyViewName, language);
                 return Ok(Mapper.Map<TermsAndConditionsPageLabelViewModel>(termsAndConditionsPageLabel));
             }
             else
@@ -119,13 +119,13 @@ namespace TRAISI.Controllers
         }
 
 
-        [HttpPut("{id}/WelcomePage")]
-        public async Task<IActionResult> UpdateWelcomePageLabel(int id, [FromBody] WelcomePageLabelViewModel welcomePageLabel)
+        [HttpPut("{surveyId}/WelcomePage")]
+        public async Task<IActionResult> UpdateWelcomePageLabel(int surveyId, [FromBody] WelcomePageLabelViewModel welcomePageLabel)
         {
             if (ModelState.IsValid)
             {
-                var survey = await this._unitOfWork.Surveys.GetAsync(id);
-                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     WelcomePageLabel welcomePageUpdated = Mapper.Map<WelcomePageLabel>(welcomePageLabel);
                     welcomePageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(welcomePageUpdated.SurveyViewId);
@@ -141,13 +141,13 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut("{id}/ThankYouPage")]
-        public async Task<IActionResult> UpdateThankYouPageLabel(int id, [FromBody] ThankYouPageLabelViewModel thankYouPageLabel)
+        [HttpPut("{surveyId}/ThankYouPage")]
+        public async Task<IActionResult> UpdateThankYouPageLabel(int surveyId, [FromBody] ThankYouPageLabelViewModel thankYouPageLabel)
         {
             if (ModelState.IsValid)
             {
-                var survey = await this._unitOfWork.Surveys.GetAsync(id);
-                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     ThankYouPageLabel thankYouPageUpdated = Mapper.Map<ThankYouPageLabel>(thankYouPageLabel);
                     thankYouPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(thankYouPageUpdated.SurveyViewId);
@@ -163,13 +163,13 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut("{id}/TermsAndConditionsPage")]
-        public async Task<IActionResult> UpdateTermsAndConditionsPageLabel(int id, [FromBody] TermsAndConditionsPageLabelViewModel termsAndConditionsPageLabel)
+        [HttpPut("{surveyId}/TermsAndConditionsPage")]
+        public async Task<IActionResult> UpdateTermsAndConditionsPageLabel(int surveyId, [FromBody] TermsAndConditionsPageLabelViewModel termsAndConditionsPageLabel)
         {
             if (ModelState.IsValid)
             {
-                var survey = await this._unitOfWork.Surveys.GetAsync(id);
-                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     TermsAndConditionsPageLabel termsAndConditionsPageUpdated = Mapper.Map<TermsAndConditionsPageLabel>(termsAndConditionsPageLabel);
                     termsAndConditionsPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(termsAndConditionsPageUpdated.SurveyViewId);
@@ -185,25 +185,22 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("{id}/Page/{surveyViewName}/{language}")]
-        public async Task<IActionResult> AddPage(int id, string surveyViewName, string language, [FromBody] SBQuestionPartViewViewModel pageInfo)
+        [HttpPost("{surveyId}/Page/{surveyViewName}/{initialLanguage}")]
+        public async Task<IActionResult> AddPage(int surveyId, string surveyViewName, string initialLanguage, [FromBody] SBQuestionPartViewViewModel pageInfo)
         {
             if (ModelState.IsValid)
             {
-                var survey = await this._unitOfWork.Surveys.GetAsync(id);
-                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(id))
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(id, surveyViewName);
+                    var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
                     QuestionPartView newPage = Mapper.Map<QuestionPartView>(pageInfo);
                     newPage.Labels = new List<QuestionPartViewLabel>()
                     {
                         new QuestionPartViewLabel()
                         {
-                            //Label = new Label()
-                            //{
-                                Language = language,
-                                Value = pageInfo.Label
-                            //}
+													Language = initialLanguage,
+													Value = pageInfo.Label
                         }
                     };
                     this._surveyBuilderService.AddSurveyPage(surveyView, newPage);
@@ -217,6 +214,23 @@ namespace TRAISI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+				[HttpDelete("{surveyId}/Page/{surveyViewName}/{pageId}")]
+				public async Task<IActionResult> DeletePage(int surveyId, string surveyViewName, int pageId) {
+					var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+					if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+					{
+						var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
+						this._surveyBuilderService.RemoveSurveyPage(surveyView, pageId);
+						await this._unitOfWork.SaveChangesAsync();
+						return new OkResult();
+					}
+					else
+					{
+							return BadRequest("Insufficient permissions.");
+					}
+
+				}
 
         /// <summary>
         /// Check if user has modify survey permissions
