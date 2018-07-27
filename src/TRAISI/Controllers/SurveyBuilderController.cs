@@ -57,12 +57,31 @@ namespace TRAISI.Controllers
 
         [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}")]
         [Produces(typeof(SBSurveyViewViewModel))]
-        public async Task<IActionResult> GetSurveyViewPageStructure(int surveyId, string surveyViewName, string language) {
+        public async Task<IActionResult> GetSurveyViewPageStructure(int surveyId, string surveyViewName, string language)
+        {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
                 return Ok(surveyPageStructure.ToLocalizedModel<SBSurveyViewViewModel>(language));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+        [HttpPost("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder")]
+        public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, [FromBody] List<SBQuestionPartViewViewModel> pageOrder)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
+                List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(pageOrder);
+                this._surveyBuilderService.ReOrderPages(surveyPageStructure, newOrder);
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
             }
             else
             {
@@ -199,8 +218,8 @@ namespace TRAISI.Controllers
                     {
                         new QuestionPartViewLabel()
                         {
-													Language = initialLanguage,
-													Value = pageInfo.Label
+                                                    Language = initialLanguage,
+                                                    Value = pageInfo.Label
                         }
                     };
                     this._surveyBuilderService.AddSurveyPage(surveyView, newPage);
@@ -215,22 +234,23 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-				[HttpDelete("{surveyId}/Page/{surveyViewName}/{pageId}")]
-				public async Task<IActionResult> DeletePage(int surveyId, string surveyViewName, int pageId) {
-					var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-					if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
-					{
-						var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
-						this._surveyBuilderService.RemoveSurveyPage(surveyView, pageId);
-						await this._unitOfWork.SaveChangesAsync();
-						return new OkResult();
-					}
-					else
-					{
-							return BadRequest("Insufficient permissions.");
-					}
+        [HttpDelete("{surveyId}/Page/{surveyViewName}/{pageId}")]
+        public async Task<IActionResult> DeletePage(int surveyId, string surveyViewName, int pageId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
+                this._surveyBuilderService.RemoveSurveyPage(surveyView, pageId);
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient permissions.");
+            }
 
-				}
+        }
 
         /// <summary>
         /// Check if user has modify survey permissions

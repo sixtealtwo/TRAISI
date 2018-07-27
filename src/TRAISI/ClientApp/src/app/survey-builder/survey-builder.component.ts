@@ -12,6 +12,7 @@ import { WelcomePage } from './models/welcome-page.model';
 import { TermsAndConditionsPage } from './models/terms-and-conditions-page.model';
 import { ThankYouPage } from './models/thank-you-page.model';
 import { Utilities } from '../services/utilities';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -31,8 +32,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public thankYouPage: ThankYouPage;
 
 	private currentPage: string = 'welcome';
-	private currentPageIndex: number = -1;
+	private currentSurveyPage: QuestionPartView;
 	private deletedImages: UploadPath[] = [];
+
+	private lastDragEnter: string[] = [];
+	private lastDragLeave: string[] = [];
+	private dragResult: Subject<boolean>;
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
 
@@ -46,6 +51,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
 		});
+		this.getPagePayload = this.getPagePayload.bind(this);
 	}
 
 	ngOnInit() {
@@ -244,10 +250,16 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	switchSurveyPage(pageId: number): void {
 		this.surveyPage.pageQuestions = [];
 		this.currentPage = 'surveyPage';
-		this.currentPageIndex = pageId;
+		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
+		this.currentSurveyPage = this.allPages.filter(r => r.id === pageId)[0];
 		setTimeout(() => {
-			let test = <any>$('#' + pageId + '-tab');
-			test.tab('show');
+			if (priorPageId !== -1) {
+				let thisPage = <any>$('#' + priorPageId + '-tab');
+				thisPage.removeClass('active');
+				thisPage.removeClass('show');
+			}
+			let nextPage = <any>$('#' + pageId + '-tab');
+			nextPage.tab('show');
 		}, 0);
 
 	}
@@ -261,7 +273,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
 			result => {
 				this.loadPageStructure();
-				if (pageId === this.currentPageIndex) {
+				if (pageId === this.currentSurveyPage.id) {
 					this.navigateToFirst();
 				}
 				this.alertService.showMessage(
@@ -299,5 +311,62 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				);
 			}
 		);
+	}
+
+	updatePageOrder() {
+		this.allPages.forEach((page, index) => {
+			page.order = index;
+		});
+	}
+
+	onDragEnd(event) {
+		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
+			this.dragResult = new Subject<boolean>();
+			this.alertService.showDialog(
+				'Are you sure you want to move the page?',
+				DialogType.confirm,
+				() => this.dragResult.next(true),
+				() => this.dragResult.next(false)
+			);
+		}
+		this.lastDragEnter = [];
+		this.lastDragLeave = [];
+	}
+
+	onDragEnter() {
+		this.lastDragEnter.push('page-container');
+	}
+
+	onDragLeave() {
+		this.lastDragLeave.push('page-container');
+	}
+
+	onDrop(dropResult: any) {
+		if (this.dragResult) {
+			// create shadow list to give illusion of transfer before decision made
+			let pageCache = [...this.allPages];
+			this.allPages = Utilities.applyDrag(this.allPages, dropResult);
+			this.dragResult.subscribe(proceed => {
+				if (proceed === false) {
+					this.allPages = pageCache;
+				} else {
+					this.updatePageOrder();
+					this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, this.allPages).subscribe(
+						result => {
+							// this.loadPageStructure();
+						},
+						error => {
+							this.loadPageStructure();
+						}
+					);
+				}
+				this.dragResult = undefined;
+			});
+		}
+	}
+
+
+	getPagePayload(index) {
+		return this.allPages[index];
 	}
 }

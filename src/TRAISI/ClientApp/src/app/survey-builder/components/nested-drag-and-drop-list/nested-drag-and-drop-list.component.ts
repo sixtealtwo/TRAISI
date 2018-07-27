@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType } from '../../../services/alert.service';
+import { Utilities } from '../../../services/utilities';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -105,7 +106,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 				this.qPartQuestions.set(dropResult.payload.partId, []);
 			}
 		}
-		this.pageQuestions = this.applyDrag(this.pageQuestions, dropResult);
+		this.pageQuestions = Utilities.applyDrag(this.pageQuestions, dropResult);
 	}
 
 	onDropInPart(partId: number, dropResult: any) {
@@ -113,7 +114,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 			let questionParts = this.qPartQuestions.get(partId);
 			let partQuestionsCache = [...questionParts];
 			if (partId !== dropResult.payload.partId) {
-				questionParts = this.applyDrag(questionParts, dropResult);
+				questionParts = Utilities.applyDrag(questionParts, dropResult);
 				this.qPartQuestions.set(partId, questionParts);
 			}
 			this.dragResult.subscribe(proceed => {
@@ -154,23 +155,4 @@ export class NestedDragAndDropListComponent implements OnInit {
 */
 	}
 
-	applyDrag = (arr, dragResult) => {
-		const { removedIndex, addedIndex, payload } = dragResult;
-		if (removedIndex === null && addedIndex === null) {
-			return arr;
-		}
-
-		const result = [...arr];
-		let itemToAdd = payload;
-
-		if (removedIndex !== null) {
-			itemToAdd = result.splice(removedIndex, 1)[0];
-		}
-
-		if (addedIndex !== null) {
-			result.splice(addedIndex, 0, itemToAdd);
-		}
-
-		return result;
-	}
 }

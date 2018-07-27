@@ -145,7 +145,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 				return this.handleError(error, () => this.getDeleteStandardPageEndpoint(surveyId, pageId));
 			})
 		);
+	}
 
+	public getUpdateStandardViewPageOrderEndpoint<T>(surveyId: number, pageOrder: QuestionPartView[]): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/UpdateOrder`;
+
+		return this.http.post<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateStandardViewPageOrderEndpoint(surveyId, pageOrder));
+			})
+		);
 	}
 
 }

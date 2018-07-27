@@ -44,20 +44,24 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getStandardThankYouPageEndpoint<ThankYouPage>(surveyId, language);
 	}
 
-	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage): Observable<WelcomePage>  {
+	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage) {
 		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(surveyId, welcomePage);
 	}
 
-	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage): Observable<TermsAndConditionsPage>  {
+	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage)  {
 		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, tAndCPage);
 	}
 
-	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage): Observable<ThankYouPage>  {
+	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage)  {
 		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(surveyId, thankYouPage);
 	}
 
 	public getStandardViewPageStructure(surveyId: number, language: string): Observable<SurveyViewStructure> {
 		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(surveyId, language);
+	}
+
+	public updateStandardViewPageOrder(surveyId: number, pageOrder: QuestionPartView[]) {
+		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<QuestionPartView[]>(surveyId, pageOrder);
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {

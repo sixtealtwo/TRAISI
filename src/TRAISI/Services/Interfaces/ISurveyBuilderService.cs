@@ -24,7 +24,9 @@ namespace TRAISI.Services.Interfaces
 
         void AddSurveyPage(SurveyView view, QuestionPartView newPage);
 
-				void RemoveSurveyPage(SurveyView view, int pageId);
+		void RemoveSurveyPage(SurveyView view, int pageId);
+
+        void ReOrderPages(SurveyView view, List<QuestionPartView> newOrder);
 
         QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position);
 
