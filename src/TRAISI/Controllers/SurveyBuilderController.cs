@@ -89,6 +89,88 @@ namespace TRAISI.Controllers
             }
         }
 
+				[HttpPost("{surveyId}/Part/{questionPartViewId}/{initialLanguage}")]
+        public async Task<IActionResult> AddQuestionPartView(int surveyId, int questionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                    QuestionPartView newQuestion = Mapper.Map<QuestionPartView>(questionInfo);
+                    newQuestion.Labels = new List<QuestionPartViewLabel>()
+                    {
+                        new QuestionPartViewLabel()
+                        {
+                                                    Language = initialLanguage,
+                                                    Value = questionInfo.Label.Value
+                        }
+                    };
+                    this._surveyBuilderService.AddQuestionPartView(questionPartView, newQuestion);
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    return BadRequest("Insufficient permissions.");
+                }
+            }
+            return BadRequest(ModelState);
+        }
+
+				[HttpDelete("{surveyId}/Part/{questionPartViewId}/{childQuestionPartViewId}")]
+        public async Task<IActionResult> DeleteQuestionPartView(int surveyId, int questionPartViewId, int childQuestionPartViewId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var parentQuestionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                this._surveyBuilderService.RemoveQuestionPartView(parentQuestionPartView, childQuestionPartViewId);
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient permissions.");
+            }
+
+        }
+				
+				[HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]
+        [Produces(typeof(SBQuestionPartViewViewModel))]
+        public async Task<IActionResult> GetQuestionPartViewPageStructure(int surveyId, int questionPartViewId, string language)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                return Ok(questionPartViewStructure.ToLocalizedModel<SBQuestionPartViewViewModel>(language));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+				[HttpPost("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
+        public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBQuestionPartViewViewModel> questionOrder)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
+                this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
         [HttpGet("{surveyId}/WelcomePage/{surveyViewName}/{language}")]
         [Produces(typeof(WelcomePageLabelViewModel))]
         public async Task<IActionResult> GetWelcomePageLabel(int surveyId, string surveyViewName, string language)
@@ -219,7 +301,7 @@ namespace TRAISI.Controllers
                         new QuestionPartViewLabel()
                         {
                                                     Language = initialLanguage,
-                                                    Value = pageInfo.Label
+                                                    Value = pageInfo.Label.Value
                         }
                     };
                     this._surveyBuilderService.AddSurveyPage(surveyView, newPage);

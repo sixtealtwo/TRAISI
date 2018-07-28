@@ -7,9 +7,13 @@ namespace TRAISI.ViewModels.SurveyBuilder
     {
         public int Id { get; set; }
 
-        public string Label { get; set; }
+        public SBQuestionPartViewModel QuestionPart { get; set; }
 
-        public List<SBQuestionPartViewViewModel> QuestionPartViewChildren;
+				public QuestionPartViewLabelViewModel Label { get; set; }
+
+				public SBQuestionPartViewViewModel ParentView { get; set; }
+				
+        public List<SBQuestionPartViewViewModel> QuestionPartViewChildren { get; set; }
 
         public int Order { get; set; }
     }

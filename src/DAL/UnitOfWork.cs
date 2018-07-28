@@ -26,6 +26,7 @@ namespace DAL
 				IThankYouPageLabelRepository _thankYouPageLabels;
 				ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
         IQuestionPartRepository _questionParts;
+				IQuestionPartViewRepository  _questionPartViews;
 
         public UnitOfWork(ISurveyRepository surveyRepository)
         {
@@ -165,6 +166,19 @@ namespace DAL
                 }
 
                 return _questionParts;
+            }
+        }
+
+				public IQuestionPartViewRepository QuestionPartViews
+        {
+            get
+            {
+                if (_questionPartViews == null)
+                {
+                    _questionPartViews = new QuestionPartViewRepository(_context);
+                }
+
+                return _questionPartViews;
             }
         }
 

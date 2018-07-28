@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using DAL.Models.Surveys;
+using DAL.Models.Interfaces;
 
 namespace DAL.Models.Questions
 {
     /// <summary>
     /// QuestionPartView model - container of QuestionParts 
     /// </summary>
-    public class QuestionPartView : IQuestionPartView
+    public class QuestionPartView : IQuestionPartView, IEntity
     {
         /// <summary>
         /// Id

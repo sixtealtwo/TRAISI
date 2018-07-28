@@ -274,6 +274,57 @@ namespace TRAISI.Services
             }
         }
 
+				/// <summary>
+        /// Adds a question to a page/question part
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="newPage"></param>
+        public void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView)
+        {
+            ParentQuestionPartView.QuestionPartViewChildren.Add(ChildQuestionPartView);
+            ParentQuestionPartView.Order = ParentQuestionPartView.QuestionPartViewChildren.Count - 1;
+        }
+
+				/// <summary>
+				/// Removes a question/question part from a survey
+				/// </summary>
+				/// <param name="questionPartView"></param>
+				/// <param name="childQuestionPartViewId"></param>
+        public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId)
+        {
+            List<QuestionPartView> childQuestions = questionPartView.QuestionPartViewChildren as List<QuestionPartView>;
+            QuestionPartView toDelete = null;
+            int questionIndex = Int32.MaxValue;
+            for (int i = 0; i < childQuestions.Count; i++)
+            {
+                if (childQuestions[i].Order > questionIndex)
+                {
+                    childQuestions[i].Order--;
+                }
+                else if (childQuestions[i].Id == childQuestionPartViewId)
+                {
+                    toDelete = childQuestions[i];
+                    questionIndex = toDelete.Order;
+                }
+            }
+            questionPartView.QuestionPartViewChildren.Remove(toDelete);
+        }
+
+				/// <summary>
+				/// Reorder question within question part
+				/// </summary>
+				/// <param name="questionPartView"></param>
+				/// <param name="newOrder"></param>
+				public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
+        {
+            Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
+            foreach (var qpartView in questionPartView.QuestionPartViewChildren)
+            {
+                qpartView.Order = newOrderDict[qpartView.Id];
+            }
+        }
+
+
         /// <summary>
         /// Adds a question part to the specified SurveyView - this creates a new QuestionPartView from the part
         /// </summary>

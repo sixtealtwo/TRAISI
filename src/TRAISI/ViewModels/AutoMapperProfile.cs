@@ -94,13 +94,17 @@ namespace TRAISI.ViewModels {
             CreateMap<QuestionPartView, QuestionPartViewViewModel> ()
                 .AfterMap ((s, svm, opt) => { svm.Label = s.Labels.FirstOrDefault (l => l.Language == (string) opt.Items["Language"]).Value; });
 
-            CreateMap<QuestionPartView, SBQuestionPartViewViewModel>()
-                .AfterMap((s, svm, opt) => { svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value; });
+            CreateMap<SBQuestionPartViewViewModel, QuestionPartView> ()
+								.ForMember (m => m.SurveyView, map => map.Ignore ())
+								.ForMember(s => s.QuestionPart, map => map.Ignore());
 
-            CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
-                .ForMember(s => s.Labels, map => map.Ignore())
-                .ForMember(s => s.QuestionPart, map => map.Ignore())
-                .ForMember(s => s.SurveyView, map => map.Ignore());
+						CreateMap<SBQuestionPartViewModel, QuestionPart> ()
+								.ForMember (m => m.QuestionConfigurations, map => map.Ignore())
+								.ForMember (m => m.QuestionOptions, map => map.Ignore())
+								.ReverseMap (); 
+
+						CreateMap<QuestionPartView, SBQuestionPartViewViewModel>()
+								.AfterMap((s, svm, opt) => { svm.Label = Mapper.Map<QuestionPartViewLabelViewModel>(s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"])); });
 
             CreateMap<SBSurveyViewViewModel, SurveyView> ()
                 .ForMember (m => m.TermsAndConditionsLabels, map => map.Ignore ())
