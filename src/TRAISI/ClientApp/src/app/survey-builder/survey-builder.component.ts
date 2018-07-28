@@ -13,6 +13,7 @@ import { TermsAndConditionsPage } from './models/terms-and-conditions-page.model
 import { ThankYouPage } from './models/thank-you-page.model';
 import { Utilities } from '../services/utilities';
 import { Subject } from 'rxjs';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -31,8 +32,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public termsAndConditionsPage: TermsAndConditionsPage;
 	public thankYouPage: ThankYouPage;
 
+	public currentSurveyPage: QuestionPartView;
+
+
 	private currentPage: string = 'welcome';
-	private currentSurveyPage: QuestionPartView;
 	private deletedImages: UploadPath[] = [];
 
 	private lastDragEnter: string[] = [];
@@ -232,19 +235,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	switchPage(pageName: string): void {
 		this.currentPage = pageName;
-		/*if (this.currentPage === 'welcome') {
-			this.surveyBuilderService.getStandardWelcomePage(this.surveyId, this.currentLanguage).subscribe(result => {
-				this.welcomePage = result;
-			});
-		} else if (this.currentPage === 'termsAndConditions') {
-			this.surveyBuilderService.getStandardTermsAndConditionsPage(this.surveyId, this.currentLanguage).subscribe(result => {
-				this.termsAndConditionsPage = result;
-			});
-		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService.getStandardThankYouPage(this.surveyId, this.currentLanguage).subscribe(result => {
-				this.thankYouPage = result;
-			});
-		}*/
 	}
 
 	switchSurveyPage(pageId: number): void {
@@ -270,6 +260,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	deletePage(pageId: number): void {
+		this.alertService.showDialog(
+			'Are you sure you want to delete the page?',
+			DialogType.confirm,
+			() => this.continueDelete(pageId)
+		);
+	}
+
+	continueDelete(pageId: number): void {
 		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
 			result => {
 				this.loadPageStructure();

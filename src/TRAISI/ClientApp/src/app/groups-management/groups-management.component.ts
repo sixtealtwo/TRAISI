@@ -49,7 +49,7 @@ export class GroupsManagementComponent implements OnInit {
 
 	public selectedTemplate: EmailTemplate;
 
-	editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout:true};
+	editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
 
 	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
 	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
@@ -217,14 +217,10 @@ export class GroupsManagementComponent implements OnInit {
 	}
 	onEditorModalShow() {
 
-		//this.editingUserName = null;
-		//this.userEditor.resetForm(true);
 	}
 
 	onEditorModalHidden() {
 		this.editingTemplate = false;
-		//this.editingUserName = null;
-		//this.userEditor.resetForm(true);
 	}
 
 	cancel() {

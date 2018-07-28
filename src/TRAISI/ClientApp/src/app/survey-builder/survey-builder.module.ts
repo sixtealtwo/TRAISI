@@ -4,6 +4,8 @@ import { SurveyBuilderComponent } from './survey-builder.component';
 import { ROUTES } from './survey-builder.routes';
 import { SharedModule } from '../shared/shared.module';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
+import { TranslateLanguageLoader } from '../services/app-translation.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
@@ -13,6 +15,7 @@ import { QuestionTypeChooserComponent } from './components/question-type-chooser
 import { TooltipModule, ModalModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
+import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
 
 @NgModule({
 	imports: [
@@ -25,9 +28,12 @@ import { FormsModule } from '@angular/forms';
 		TooltipModule,
 		FroalaEditorModule,
 		FroalaViewModule,
-		ROUTES
+		ROUTES,
+		TranslateModule.forChild({
+			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+		})
 	],
-	declarations: [SurveyBuilderComponent, QuestionTypeChooserComponent, NestedDragAndDropListComponent],
+	declarations: [SurveyBuilderComponent, QuestionTypeChooserComponent, NestedDragAndDropListComponent, QuestionConfigurationComponent],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService]
 })
 export class SurveyBuilderModule {}

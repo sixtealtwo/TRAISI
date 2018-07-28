@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType } from '../../../services/alert.service';
 import { Utilities } from '../../../services/utilities';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -12,6 +13,9 @@ import { Utilities } from '../../../services/utilities';
 export class NestedDragAndDropListComponent implements OnInit {
 	public pageQuestions = [];
 	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>();
+
+	public addingNewQuestion: boolean = true;
+	public questionBeingEdited: any;
 	private elementUniqueIndex: number = 0;
 
 	private dragResult: Subject<boolean>;
@@ -20,20 +24,37 @@ export class NestedDragAndDropListComponent implements OnInit {
 	private lastDragLeave: string[] = [];
 	private dragDidNotOriginateFromChooser: boolean = false;
 
+	@ViewChild('configurationModal') configurationModal: ModalDirective;
+
 	constructor(private alertService: AlertService) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 	}
 
 	ngOnInit() {}
 
+	editQuestionConfiguration(event: any, question: any) {
+		event.stopPropagation();
+		this.questionBeingEdited = question;
+		this.dragResult = new Subject<boolean>();
+		this.addingNewQuestion = false;
+		this.configurationModal.show();
+	}
+
 	addQuestionTypeToList(qType) {
-		this.alertService.showDialog('Are you sure you want to add a question?', DialogType.confirm, () => {
-			if (qType.typeName === 'Survey Part') {
-				qType.partId = this.elementUniqueIndex;
-				this.qPartQuestions.set(this.elementUniqueIndex++, []);
+		this.dragResult = new Subject<boolean>();
+		this.addingNewQuestion = true;
+		this.configurationModal.show();
+		this.dragResult.subscribe(
+			proceed => {
+				if (proceed) {
+					if (qType.typeName === 'Survey Part') {
+						qType.partId = this.elementUniqueIndex;
+						this.qPartQuestions.set(this.elementUniqueIndex++, []);
+					}
+					this.pageQuestions.push(qType);
+				}
 			}
-			this.pageQuestions.push(qType);
-		});
+		);
 	}
 
 	getQuestionPayload(index) {
@@ -46,16 +67,34 @@ export class NestedDragAndDropListComponent implements OnInit {
 		};
 	}
 
+	processConfiguration(result: string) {
+		if (result === 'save') {
+			this.saveConfiguration();
+		} else if (result === 'cancel') {
+			this.cancelConfiguration();
+		}
+	}
+
+	saveConfiguration() {
+		if (this.addingNewQuestion) {
+			this.dragResult.next(true);
+		}
+		this.configurationModal.hide();
+	}
+
+	cancelConfiguration() {
+		if (this.addingNewQuestion) {
+			this.dragResult.next(false);
+		}
+		this.configurationModal.hide();
+	}
+
 	onDragEnd(event) {
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
 			if (!this.dragDidNotOriginateFromChooser) {
-				this.alertService.showDialog(
-					'Are you sure you want to create a new question?',
-					DialogType.confirm,
-					() => this.dragResult.next(true),
-					() => this.dragResult.next(false)
-				);
+				this.addingNewQuestion = true;
+				this.configurationModal.show();
 			} else {
 				setTimeout(() => {
 					this.dragResult.next(true);
