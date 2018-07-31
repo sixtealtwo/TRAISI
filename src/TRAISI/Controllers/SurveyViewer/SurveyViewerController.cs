@@ -138,11 +138,8 @@ namespace TRAISI.Controllers.SurveyViewer {
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                
-               return new ObjectResult(result);
-            }
+
+            return new ObjectResult(result);
         }
 
     }

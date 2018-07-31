@@ -43,7 +43,9 @@ namespace DAL.Repositories
         {
             return await _appContext.Surveys
                 .Where(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase))
-                .Include(s => s.SurveyViews)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .FirstOrDefaultAsync();
         }
 

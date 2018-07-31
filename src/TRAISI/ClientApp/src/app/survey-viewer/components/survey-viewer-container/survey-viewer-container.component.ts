@@ -70,6 +70,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 			this.surveyViewerService.getWelcomeView(params['surveyName']).subscribe((value) => {
 
 				console.log("success");
+				console.log(value);
 				this.displaySurveyWelcomePageComponent();
 			}, (error) => {
 

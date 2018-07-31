@@ -103,6 +103,9 @@ namespace DAL
                     RejectionLink = "",
                     DefaultLanguage = "en",
                 };
+                
+                TestSurvey.PopulateDefaults();
+                
 
                 TestSurvey.SurveyPermissions = new List<SurveyPermission>();
 

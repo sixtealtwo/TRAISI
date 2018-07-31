@@ -64,6 +64,7 @@ namespace TRAISI.Services
         public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByNameFullAsync(name);
+            
             return survey.ToLocalizedModel<SurveyWelcomeViewModel>("en");
             //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
