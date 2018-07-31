@@ -10,7 +10,7 @@ namespace DAL.Models.Surveys
 
         string LastName { get; set; }
 
-        ISurveyRespondentGroup SurveyRespondentGroup { get; set; }
+        SurveyRespondentGroup SurveyRespondentGroup { get; set; }
 
 
 

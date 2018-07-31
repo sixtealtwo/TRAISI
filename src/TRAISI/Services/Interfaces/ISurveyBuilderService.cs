@@ -22,6 +22,12 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
 
+        void AddSurveyPage(SurveyView view, QuestionPartView newPage);
+
+		void RemoveSurveyPage(SurveyView view, int pageId);
+
+        void ReOrderPages(SurveyView view, List<QuestionPartView> newOrder);
+
         QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position);
 
         void AddQuestionPartChild(QuestionPart part, QuestionTypeDefinition definition);
@@ -31,5 +37,13 @@ namespace TRAISI.Services.Interfaces
         IEnumerable<QuestionConfiguration> GetQuestionConfigurations(QuestionPart questionPart);
 
         IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language);
+
+				void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView);
+				
+				void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId);
+
+				void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
+
+
     }
 }

@@ -34,6 +34,9 @@ Obj/
 /src/TRAISI/wwwroot/dist/
 /src/TRAISI/ClientApp/dist/
 
+#Upload directory
+/src/TRAISI/wwwroot/Upload/
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*

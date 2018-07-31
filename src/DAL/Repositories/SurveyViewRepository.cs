@@ -5,6 +5,7 @@ using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using DAL.Models.Questions;
 
 namespace DAL.Repositories {
 	class SurveyViewRepository : Repository<SurveyView>, ISurveyViewRepository {
@@ -36,6 +37,19 @@ namespace DAL.Repositories {
 				Survey=survey
 			};
 			return  _context.AddAsync<SurveyView>(view);
+		}
+
+		public async Task<SurveyView> GetSurveyViewWithPagesStructureAsync (int surveyId, string viewName) {
+			var allviews = _appContext.SurveyViews.ToList();
+			var surveyView = await _appContext.SurveyViews
+					.Where(sv => sv.ViewName == viewName && sv.Survey.Id == surveyId)
+					.Include(sv => sv.WelcomePageLabels)
+					.Include(sv => sv.TermsAndConditionsLabels)
+					.Include(sv => sv.ThankYouPageLabels)
+					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+					.SingleOrDefaultAsync();
+			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
+			return surveyView;
 		}
 	}
 }

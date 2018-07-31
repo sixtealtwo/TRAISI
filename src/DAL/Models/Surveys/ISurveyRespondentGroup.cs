@@ -7,6 +7,6 @@ namespace DAL.Models.Surveys
 
         int Id { get; set; }
 
-        ICollection<ISurveyRespondent> GroupMembers { get; set; }
+        //ICollection<ISurveyRespondent> GroupMembers { get; set; }
     }
 }

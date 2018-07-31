@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
 using DAL.Core.Interfaces;
@@ -5,6 +6,8 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using TRAISI.Services.Interfaces;
+using System.Collections;
+using TRAISI.ViewModels;
 
 namespace TRAISI.Services
 {
@@ -25,15 +28,17 @@ namespace TRAISI.Services
             throw new System.NotImplementedException();
         }
 
+        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="survey"></param>
-        /// <param name="viewId"></param>
+        /// <param name="surveyId"></param>
         /// <returns></returns>
-        public async Task<SurveyView> GetSurveyView(Survey survey, int viewId)
+        public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
         {
-            return await this._unitOfWork.SurveyViews.GetAsync(viewId);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            
+            return (survey.SurveyViews as List<SurveyView>)[0];
         }
 
 
@@ -46,6 +51,18 @@ namespace TRAISI.Services
         public SurveyView GetDefaultSurveyView(Survey survey)
         {
             return survey.SurveyViews.GetEnumerator().Current;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
+        {
+            Survey survey = await this._unitOfWork.Surveys.GetSingleOrDefaultAsync(s => s.Name == name);
+            return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey);
         }
 
         /// <summary>
@@ -72,4 +89,6 @@ namespace TRAISI.Services
             this._authorizationService = authorizationService;
         }
     }
+
+
 }

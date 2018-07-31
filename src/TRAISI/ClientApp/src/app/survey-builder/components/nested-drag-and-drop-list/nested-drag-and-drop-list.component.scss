@@ -6,7 +6,9 @@
 }
 .page-questions {
 	border: 1px dashed darkslategray;
+	border-radius: 5px;
 	padding: 0px;
+	margin: 3px;
 }
 
 .page-question {
@@ -58,6 +60,10 @@
 	margin-bottom:10px;
 	background-color: $gray-400;
 	overflow:hidden;
+}
+
+.drag-over {
+	background-color: #eaedff !important;
 }
 
 .question-part-container-placeholder {

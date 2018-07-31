@@ -142,6 +142,7 @@ namespace TRAISI.Controllers
 						if(await IsSuperAdmin() || await this.MemberOfGroup(group.Id))
 						{
 							appSurvey.Owner = this.User.Identity.Name;
+                            appSurvey.PopulateDefaults();
 							await this._unitOfWork.Surveys.AddAsync(appSurvey);
 							await this._unitOfWork.SaveChangesAsync();
 							return new OkResult();

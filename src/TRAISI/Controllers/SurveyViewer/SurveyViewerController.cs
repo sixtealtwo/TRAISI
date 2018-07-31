@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using CryptoHelper;
 using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
@@ -9,18 +11,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
-using TRAISI.ViewModels.SurveyViewer;
-using CryptoHelper;
 using TRAISI.ViewModels.Extensions;
-using AutoMapper;
+using TRAISI.ViewModels.SurveyViewer;
 
-namespace TRAISI.Controllers.SurveyViewer
-{
+namespace TRAISI.Controllers.SurveyViewer {
 
     [Authorize]
-    [Route("api/[controller]")]
-    public class SurveyViewerContoller
-    {
+    [Route ("api/[controller]")]
+    public class SurveyViewerContoller : Controller {
 
         private IUnitOfWork _unitOfWork;
 
@@ -32,14 +30,12 @@ namespace TRAISI.Controllers.SurveyViewer
         /// 
         /// </summary>
         /// <param name="viewService"></param>
-        public SurveyViewerContoller(ISurveyViewerService viewService,
-        IAccountManager accountManager
-        )
-        {
+        public SurveyViewerContoller (ISurveyViewerService viewService,
+            IAccountManager accountManager
+        ) {
             this._unitOfWork = null;
             this._viewService = viewService;
             this._accountManager = accountManager;
-   
 
         }
 
@@ -47,24 +43,24 @@ namespace TRAISI.Controllers.SurveyViewer
         /// Return all questions for a given survey view.
         /// </summary>
         [HttpGet]
-        [Produces(typeof(List<SurveyView>))]
-        public async Task<IActionResult> GetSurveyViews(int surveyId)
-        {
-            var surveys = await this._unitOfWork.SurveyViews.GetSurveyViews(surveyId);
+        [Produces (typeof (List<SurveyView>))]
+        [Route ("views/{surveyId}")]
+        public async Task<IActionResult> GetSurveyViews (int surveyId) {
+            var surveys = await this._unitOfWork.SurveyViews.GetSurveyViews (surveyId);
 
-            return new ObjectResult(surveys);
+            return new ObjectResult (surveys);
         }
 
         /// <summary>
         /// Return all questions for a given survey view.
         /// </summary>
         [HttpGet]
-        [Produces(typeof(List<SurveyView>))]
-        public async Task<IActionResult> GetSurveyViewQuestions(int viewId)
-        {
-            var surveys = await this._unitOfWork.SurveyViews.GetAsync(viewId);
+        [Produces (typeof (List<SurveyView>))]
+        [Route ("questions/{viewId}")]
+        public async Task<IActionResult> GetSurveyViewQuestions (int viewId) {
+            var surveys = await this._unitOfWork.SurveyViews.GetAsync (viewId);
 
-            return new ObjectResult(surveys);
+            return new ObjectResult (surveys);
         }
 
         /// <summary>
@@ -73,28 +69,39 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="questionId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Produces(typeof(QuestionConfiguration))]
-        public async Task<IActionResult> GetSurveyViewQuestionConfiguration(int questionId)
-        {
-            var QuestionPart = await this._unitOfWork.QuestionParts.GetAsync(questionId);
-            return new ObjectResult(QuestionPart.QuestionOptions);
+        [Produces (typeof (QuestionConfiguration))]
+        [Route ("configurations/{questionId}")]
+        public async Task<IActionResult> GetSurveyViewQuestionConfiguration (int questionId) {
+            var QuestionPart = await this._unitOfWork.QuestionParts.GetAsync (questionId);
+            return new ObjectResult (QuestionPart.QuestionOptions);
 
         }
 
+        
         /// <summary>
-        /// Retrieves the default survey view
+        /// Retrives a survey's required information to create the survey viewer
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        /// <param name="surveyId">The ID of the survey</param>
+        /// <param name="viewId">The ID of the view, or 0 for default</param>
+        /// <param name="language">The language of the survey, or null for default</param>
+        /// <returns>Returns the SurveyViewer View Model</returns>
 
         [HttpGet]
+<<<<<<< HEAD
         [Produces(typeof(SurveyViewerViewModel))]
         public SurveyViewerViewModel GetDefaultSurveyView(Survey s)
         {
 
            return this._viewService.GetDefaultSurveyView(s).ToLocalizedModel<SurveyViewerViewModel>("en");
-        }
+=======
+        [Produces (typeof (SurveyViewerViewModel))]
+        [Route ("viewer/{surveyId}/{language}")]
+        public async Task<IActionResult> GetDefaultSurveyView (int surveyId,  string language = "en") {
 
+            var view = await this._viewService.GetDefaultSurveyView(surveyId);
+            return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel> (language));
+>>>>>>> 2566f760b1f9a289df0a3bf9222f581b79a15dbc
+        }
 
         /// <summary>
         /// 
@@ -102,24 +109,32 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        [Produces(typeof(ObjectResult))]
-        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode)
+        [Produces (typeof (ObjectResult))]
+        [HttpPost]
+        [Route ("start")]
+        public async Task<IActionResult> StartSurvey (int surveyId, string shortcode) {
+
+            var survey = await this._unitOfWork.Surveys.GetAsync (surveyId);
+            if (survey == null) {
+                return new ChallengeResult ();
+            }
+
+            if (_viewService.AuthorizeSurveyUser (survey, shortcode)) {
+                return new OkResult ();
+            } else {
+                return new ChallengeResult ();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route ("welcome")]
+        public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
         {
-
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if(survey == null)
-            {
-                return new ChallengeResult();
-            }
-
-            if (this._viewService.AuthorizeSurveyUser(survey, shortcode))
-            {
-                return new OkResult();
-            }
-            else
-            {
-                return new ChallengeResult();
-            }
+            return  await this._viewService.GetSurveyWelcomeView(name);
         }
 
     }

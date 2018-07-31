@@ -13,13 +13,20 @@ import { SurveyCompletePageComponent } from './components/survey-complete-page/s
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
 
 @NgModule({
-	imports: [
-		CommonModule, SharedModule, ROUTES
-
+	imports: [CommonModule, SharedModule, ROUTES],
+	declarations: [
+		SurveyViewerComponent,
+		SurveyWelcomePageComponent,
+		SurveyTermsPageComponent,
+		SurveyCompletePageComponent,
+		SurveyViewerContainerComponent
 	],
-	declarations: [SurveyViewerComponent, SurveyWelcomePageComponent, SurveyTermsPageComponent, SurveyCompletePageComponent, SurveyViewerContainerComponent],
-	providers: [QuestionLoaderEndpointService,
-		QuestionLoaderService, SurveyViewerService, SurveyViewerEndpointService],
+	providers: [
+		QuestionLoaderEndpointService,
+		QuestionLoaderService,
+		SurveyViewerService,
+		SurveyViewerEndpointService
+	],
 	exports: []
 })
-export class SurveyViewerModule { }
+export class SurveyViewerModule {}

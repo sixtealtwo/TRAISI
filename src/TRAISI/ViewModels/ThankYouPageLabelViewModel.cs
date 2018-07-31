@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace TRAISI.ViewModels
 {
-    public class ThankYouPageLabelViewModel
+    public class ThankYouPageLabelViewModel: LabelViewModel
     {
       public int Id { get; set; }
-			public int LabelId { get; set; }
-      public LabelViewModel Label { get; set; }
 			public int SurveyViewId { get; set;}
     }
 

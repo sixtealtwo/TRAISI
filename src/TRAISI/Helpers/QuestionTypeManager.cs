@@ -63,8 +63,8 @@ namespace TRAISI.Helpers
             var typeDefinition = new QuestionTypeDefinition(Activator.CreateInstance(questionType) as ISurveyQuestion, attribute);
             var configurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
             typeDefinition.QuestionConfigurations = configurations;
-            var parameterConfigurations = this.ReadQuestionConfigurationData(questionType, sourceAssembly);
-            typeDefinition.QuestionConfigurations = parameterConfigurations;
+            var parameterOptions = this.ReadQuestionOptionData(questionType, sourceAssembly);
+            typeDefinition.QuestionOptions = parameterOptions;
             typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
             _questionTypeDefinitions.Add(typeDefinition);
 
@@ -169,7 +169,8 @@ namespace TRAISI.Helpers
                                 Name = configAttribute.Name,
                                 Description = configAttribute.Description,
                                 ValueType = configAttribute.ValueType,
-                                TypeId = configAttribute.TypeId,
+																IsMultipleAllowed = configAttribute.IsMultipleAllowed,
+																TypeId = configAttribute.TypeId
                             });
                         }
                     }

@@ -6,22 +6,27 @@ using System.Collections.Generic;
 using System.Linq;
 using TRAISI.Helpers;
 using TRAISI.SDK;
+using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Services
 {
+
+    /// <summary>
+    /// Service for building surveys.
+    /// </summary>
     public class SurveyBuilderService : ISurveyBuilderService
     {
         private IUnitOfWork _unitOfWork;
 
-        private QuestionTypeManager _questions;
+        private IQuestionTypeManager _questions;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="questions"></param>
-        public SurveyBuilderService(IUnitOfWork unitOfWork, QuestionTypeManager questions)
+        public SurveyBuilderService(IUnitOfWork unitOfWork, IQuestionTypeManager questions)
         {
             this._unitOfWork = unitOfWork;
             this._questions = questions;
@@ -32,6 +37,7 @@ namespace TRAISI.Services
         /// Adds a new view to the specified survey
         /// </summary>
         /// <param name="survey"></param>
+        /// <param name="viewName"></param>
         public SurveyView AddSurveyView(Survey survey, string viewName)
         {
             var surveyView = new SurveyView()
@@ -73,12 +79,9 @@ namespace TRAISI.Services
                 questionPart.QuestionConfigurations.Add(qc);
                 return qc;
             }
-            else
-            {
-                configuration.Value = value;
-                return configuration;
-            }
 
+            configuration.Value = value;
+            return configuration;
         }
 
 
@@ -97,29 +100,23 @@ namespace TRAISI.Services
             {
                 if (language == null)
                 {
-                    option.QuestionOptionLabels.First().Label.Value = value;
+                    option.QuestionOptionLabels.First().Value = value;
                 }
                 else
                 {
-                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Label.Language == language);
+                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language);
                     if (optionLabel == null)
                     {
                         option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                         {
-                            Label = new Label()
-                            {
-                                Language = language,
-                                Value = value,
-
-
-                            },
+                            Language = language,
+                            Value = value,
                             QuestionOption = option
-
                         });
                     }
                     else
                     {
-                        optionLabel.Label.Value = value;
+                        optionLabel.Value = value;
                     }
                 }
             }
@@ -127,14 +124,9 @@ namespace TRAISI.Services
             {
                 option.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {
-                    Label = new Label()
-                    {
-                        Language = language,
-                        Value = value,
-
-                    },
+                    Language = language,
+                    Value = value,
                     QuestionOption = option
-
                 });
 
                 questionPart.QuestionOptions.Add(option);
@@ -151,7 +143,8 @@ namespace TRAISI.Services
         {
             //check if the option has a value / allows multiple
 
-            var definition = this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
+            var definition =
+                this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
             if (definition != null)
             {
                 var hasOption = definition.QuestionOptions.Count(c => c.Key == name);
@@ -181,10 +174,7 @@ namespace TRAISI.Services
                 {
                     throw new ArgumentException("Question Option does not exist for this question type.");
                 }
-
-
             }
-
         }
 
         /// <summary>
@@ -202,7 +192,8 @@ namespace TRAISI.Services
             }
             else
             {
-                option.QuestionOptionLabels.Remove(option.QuestionOptionLabels.SingleOrDefault(v => v.Label.Language == language));
+                option?.QuestionOptionLabels.Remove(
+                    option.QuestionOptionLabels.SingleOrDefault(v => v.Language == language));
             }
         }
 
@@ -239,30 +230,126 @@ namespace TRAISI.Services
         }
 
         /// <summary>
+        /// Adds a page to a survey
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="newPage"></param>
+        public void AddSurveyPage(SurveyView view, QuestionPartView newPage)
+        {
+            view.QuestionPartViews.Add(newPage);
+            newPage.Order = view.QuestionPartViews.Count - 1;
+        }
+
+        /// <summary>
+        /// Removes a page from a survey
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="pageId"></param>
+        public void RemoveSurveyPage(SurveyView view, int pageId)
+        {
+            List<QuestionPartView> pages = view.QuestionPartViews as List<QuestionPartView>;
+            QuestionPartView toDelete = null;
+            int pageIndex = Int32.MaxValue;
+            for (int i = 0; i < pages.Count; i++)
+            {
+                if (pages[i].Order > pageIndex)
+                {
+                    pages[i].Order--;
+                }
+                else if (pages[i].Id == pageId)
+                {
+                    toDelete = pages[i];
+                    pageIndex = toDelete.Order;
+                }
+            }
+            view.QuestionPartViews.Remove(toDelete);
+        }
+
+        public void ReOrderPages(SurveyView view, List<QuestionPartView> newOrder)
+        {
+            Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
+            foreach (var qpartView in view.QuestionPartViews)
+            {
+                qpartView.Order = newOrderDict[qpartView.Id];
+            }
+        }
+
+				/// <summary>
+        /// Adds a question to a page/question part
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="newPage"></param>
+        public void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView)
+        {
+            ParentQuestionPartView.QuestionPartViewChildren.Add(ChildQuestionPartView);
+            ParentQuestionPartView.Order = ParentQuestionPartView.QuestionPartViewChildren.Count - 1;
+        }
+
+				/// <summary>
+				/// Removes a question/question part from a survey
+				/// </summary>
+				/// <param name="questionPartView"></param>
+				/// <param name="childQuestionPartViewId"></param>
+        public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId)
+        {
+            List<QuestionPartView> childQuestions = questionPartView.QuestionPartViewChildren as List<QuestionPartView>;
+            QuestionPartView toDelete = null;
+            int questionIndex = Int32.MaxValue;
+            for (int i = 0; i < childQuestions.Count; i++)
+            {
+                if (childQuestions[i].Order > questionIndex)
+                {
+                    childQuestions[i].Order--;
+                }
+                else if (childQuestions[i].Id == childQuestionPartViewId)
+                {
+                    toDelete = childQuestions[i];
+                    questionIndex = toDelete.Order;
+                }
+            }
+            questionPartView.QuestionPartViewChildren.Remove(toDelete);
+        }
+
+				/// <summary>
+				/// Reorder question within question part
+				/// </summary>
+				/// <param name="questionPartView"></param>
+				/// <param name="newOrder"></param>
+				public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
+        {
+            Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
+            foreach (var qpartView in questionPartView.QuestionPartViewChildren)
+            {
+                qpartView.Order = newOrderDict[qpartView.Id];
+            }
+        }
+
+
+        /// <summary>
         /// Adds a question part to the specified SurveyView - this creates a new QuestionPartView from the part
         /// </summary>
         /// <param name="view"></param>
         /// <param name="part"></param>
         /// <param name="position">0-index order, position of the qustion</param>
         /// <returns>A reference to the created QuestionPartView</returns>
-        public QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition, int position = -1)
+        public QuestionPartView AddQuestionPart(SurveyView view, QuestionPart part, QuestionTypeDefinition definition,
+            int position = -1)
         {
-            QuestionPartView questionPartView = new QuestionPartView()
+            QuestionPartView questionPartView = new QuestionPartView
             {
-                QuestionPart = part,
-
+                QuestionPart = part
             };
             if (position >= 0)
             {
                 questionPartView.Order = position;
-                (view.QuestionPartViews as List<QuestionPartView>).Insert(position, questionPartView);
-
+                (view.QuestionPartViews as List<QuestionPartView>)?.Insert(position, questionPartView);
             }
             else
             {
-                (view.QuestionPartViews as List<QuestionPartView>).Add(questionPartView);
-                questionPartView.Order = view.QuestionPartViews.Count-1;
+                (view.QuestionPartViews as List<QuestionPartView>)?.Add(questionPartView);
+                questionPartView.Order = view.QuestionPartViews.Count - 1;
             }
+
             return questionPartView;
         }
 
@@ -286,17 +373,11 @@ namespace TRAISI.Services
         /// <param name="language"></param>
         public void SetSurveyTitle(Survey survey, string title, string language)
         {
-            //remove the label if it already exists
-            survey.TitleLabel.Remove(survey.TitleLabel.SingleOrDefault(t => t.Language == language));
-
-            survey.TitleLabel.Add(new Label()
+            survey.TitleLabels[language] = new TitlePageLabel
             {
-                Value = title,
-                Language = language
-            });
+                Language = language,
+                Value = title
+            };
         }
-
-
-
     }
 }

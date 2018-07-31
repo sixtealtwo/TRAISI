@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Core;
+using DAL.Models.Extensions;
 using DAL.Models.Interfaces;
-using DAL.Models.Surveys;
 
 namespace DAL.Models.Surveys
 {
@@ -31,63 +26,59 @@ namespace DAL.Models.Surveys
         public ICollection<GroupCode> GroupCodes { get; set; }
         public ICollection<Shortcode> Shortcodes { get; set; }
 
+        public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
-        public ICollection<Label> TitleLabel { get; set; }
-
-        [NotMapped]
-        public string Title
+        public void PopulateDefaults()
         {
-            get
+            DefaultLanguage = "en";
+            TitleLabels = new LabelCollection<TitlePageLabel>
             {
-                return TitleLabel.FirstOrDefault()?.Value;
-            }
-            set
+                [DefaultLanguage] = new TitlePageLabel
+                {
+                    Value = "Default Welcome", Survey = this
+                }
+            };
+
+
+            SurveyPermissions = new HashSet<SurveyPermission>();
+            SurveyViews = new List<SurveyView>
             {
-
-            }
+                new SurveyView
+                {
+                    ViewName = "Standard",
+                    Survey = this,
+                    WelcomePageLabels = new LabelCollection<WelcomePageLabel>
+                    {
+                        [DefaultLanguage] =
+                            new WelcomePageLabel
+                            {
+                                Value = "Default Welcome"
+                            },
+                        ["fr"] =
+                            new WelcomePageLabel
+                            {
+                                Value = "Bonjour"
+                            }
+                    },
+                    ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>
+                    {
+                        [DefaultLanguage] =
+                            new ThankYouPageLabel
+                            {
+                                Value = "Default Thanks"
+                            }
+                    },
+                    TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>
+                    {
+                        [DefaultLanguage] =
+                            new TermsAndConditionsPageLabel
+                            {
+                                // language is set on the object with the helper
+                                Value = "Default Terms and Conditions"
+                            }
+                    }
+                }
+            };
         }
-
-        public Survey()
-        {
-						this.DefaultLanguage = "en";
-            this.TitleLabel = new HashSet<Label>();
-            this.SurveyPermissions = new HashSet<SurveyPermission>();
-            this.SurveyViews = new List<SurveyView>(){
-							new SurveyView() {
-								WelcomePageLabel = new HashSet<WelcomePageLabel>() {
-									new WelcomePageLabel() {
-										Label = new Label() {
-											Language = this.DefaultLanguage,
-											Value = "Default Welcome"
-										}
-									},
-										new WelcomePageLabel() {
-										Label = new Label() {
-											Language = "fr",
-											Value = "Bonjour"
-										}
-									}
-								},
-								ThankYouPageLabel = new HashSet<ThankYouPageLabel>() {
-									new ThankYouPageLabel() {
-										Label = new Label() {
-											Language = this.DefaultLanguage,
-											Value = "Default Thanks"
-										}
-									}
-								},
-								TermsAndConditionsLabel = new HashSet<TermsAndConditionsPageLabel>() {
-									new TermsAndConditionsPageLabel() {
-										Label = new Label() {
-											Language = this.DefaultLanguage,
-											Value = "Default Terms and Conditions"
-										}
-									}
-								}
-							}
-						};
-
-        }
-
     }
 }

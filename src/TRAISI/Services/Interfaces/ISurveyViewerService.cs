@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using TRAISI.ViewModels;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -23,13 +24,15 @@ namespace TRAISI.Services.Interfaces
         bool SurveyLogin(Survey survey, string shortcode);
 
 
-        Task<SurveyView> GetSurveyView(Survey survey, int viewId);
+        Task<SurveyView> GetDefaultSurveyView(int surveyId);
 
 
         SurveyView GetDefaultSurveyView(Survey survey);
 
         ///
         bool AuthorizeSurveyUser(Survey survey, string shortcode);
+
+        Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name);
 
     }
 }

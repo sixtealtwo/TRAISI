@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using DAL.Models.Surveys;
+using DAL.Models.Interfaces;
 
 namespace DAL.Models.Questions
 {
     /// <summary>
     /// QuestionPartView model - container of QuestionParts 
     /// </summary>
-    public class QuestionPartView : IQuestionPartView
+    public class QuestionPartView : IQuestionPartView, IEntity
     {
         /// <summary>
         /// Id
@@ -26,11 +27,16 @@ namespace DAL.Models.Questions
         /// <value></value>
         public QuestionPart QuestionPart { get; set; }
 
+
+        public QuestionPartView ParentView { get; set; }
+
         /// <summary>
         /// The Survey View this question belongs to.
         /// </summary>
         /// <value></value>
         public SurveyView SurveyView { get; set; }
+
+        public ICollection<QuestionPartView> QuestionPartViewChildren {get;set;}
 
         /// <summary>
         /// The order (position) of this question part view inside of its containing survey view.

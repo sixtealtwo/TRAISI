@@ -18,6 +18,7 @@ namespace DAL
         IGroupMemberRepository _groupMembers;
         IApiKeysRepository _apiKeys;
         IEmailTemplateRepository _emailTemplates;
+				ISiteSurveyTemplateRepository _siteSurveyTemplates;
         IShortcodeRepository _shortcodes;
         IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
@@ -25,6 +26,7 @@ namespace DAL
 				IThankYouPageLabelRepository _thankYouPageLabels;
 				ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
         IQuestionPartRepository _questionParts;
+				IQuestionPartViewRepository  _questionPartViews;
 
         public UnitOfWork(ISurveyRepository surveyRepository)
         {
@@ -118,6 +120,18 @@ namespace DAL
             }
         }
 
+				public ISiteSurveyTemplateRepository SiteSurveyTemplates
+				{
+					get
+					{
+						if (_siteSurveyTemplates == null)
+								_siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
+
+						return _siteSurveyTemplates;
+					}
+				}
+
+
         public IShortcodeRepository Shortcodes
         {
             get
@@ -152,6 +166,19 @@ namespace DAL
                 }
 
                 return _questionParts;
+            }
+        }
+
+				public IQuestionPartViewRepository QuestionPartViews
+        {
+            get
+            {
+                if (_questionPartViews == null)
+                {
+                    _questionPartViews = new QuestionPartViewRepository(_context);
+                }
+
+                return _questionPartViews;
             }
         }
 

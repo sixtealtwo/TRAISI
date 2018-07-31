@@ -124,11 +124,8 @@ namespace DAL
                 };
                 qo.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {
-                    Label = new Label()
-                    {
-                        Value = "Test",
-                        Language = "en"
-                    },
+										Value = "Test",
+										Language = "en",
                     QuestionOption = qo
                 });
                     
@@ -136,11 +133,8 @@ namespace DAL
 
                 qo.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {
-                    Label = new Label()
-                    {
-                        Value = "測試",
-                        Language = "zh"
-                    },
+										Value = "測試",
+										Language = "zh",
                     QuestionOption = qo
                 });
                 _context.QuestionOptions.Add(qo);

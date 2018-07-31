@@ -12,7 +12,7 @@ using System.IO;
 
 namespace DAL.Repositories
 {
-    public class ThankYouPageLabelRepository : Repository<ThankYouPageLabel>, IThankYouPageLabelRepository 
+    public class ThankYouPageLabelRepository : Repository<ThankYouPageLabel>, IThankYouPageLabelRepository
     {
         public ThankYouPageLabelRepository(ApplicationDbContext context) : base(context) { }
 
@@ -20,20 +20,20 @@ namespace DAL.Repositories
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-				public async Task<ThankYouPageLabel> GetThankYouPageLabelAsync(int surveyViewId, string language = null)
+        public async Task<ThankYouPageLabel> GetThankYouPageLabelAsync(int surveyId, string surveyViewName, string language = null)
         {
-					if (language != null) {
-            return await _appContext.ThankYouPageLabel
-									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == language)
-									.Include(w => w.Label)
-									.SingleOrDefaultAsync();
-					}
-					else {
-						return await _appContext.ThankYouPageLabel
-									.Where(w => w.SurveyViewId == surveyViewId && w.Label.Language == w.SurveyView.Survey.DefaultLanguage)
-									.Include(w => w.Label)
-									.SingleOrDefaultAsync();
-					}
+            if (language != null)
+            {
+                return await _appContext.ThankYouPageLabels
+                            .Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == language)
+                            .SingleOrDefaultAsync();
+            }
+            else
+            {
+                return await _appContext.ThankYouPageLabels
+                            .Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == w.SurveyView.Survey.DefaultLanguage)
+                            .SingleOrDefaultAsync();
+            }
         }
 
     }

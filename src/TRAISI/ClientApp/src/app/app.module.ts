@@ -43,13 +43,15 @@ import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
-import { FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
-
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { SurveyViewerModule } from './survey-viewer/survey-viewer.module';
 
 const monacoConfig: NgxMonacoEditorConfig = {
-  baseUrl: './assets', // configure base path for monaco editor
-  defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-  onMonacoLoad: () => { console.log((<any>window).monaco); } // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
+	baseUrl: './assets', // configure base path for monaco editor
+	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
+	onMonacoLoad: () => {
+		console.log((<any>window).monaco);
+	} // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
 };
 
 const APP_PROVIDERS = [AppConfig];
@@ -65,12 +67,13 @@ const APP_PROVIDERS = [AppConfig];
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
-		BootstrapSelectDirective,
+		BootstrapSelectDirective
 	],
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
 		FormsModule,
+		SurveyViewerModule,
 		AppRoutingModule,
 		HttpClientModule,
 		SharedModule,
