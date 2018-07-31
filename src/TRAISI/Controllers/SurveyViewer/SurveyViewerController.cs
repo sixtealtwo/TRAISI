@@ -118,5 +118,16 @@ namespace TRAISI.Controllers.SurveyViewer {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route ("welcome")]
+        public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
+        {
+            return await this._viewService.GetSurveyWelcomeView(name);
+        }
+
     }
 }
