@@ -44,6 +44,16 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<ApplicationUser> SurveyLogin(int surveyId, string shortcode)
         {
+            var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
+            if (survey == null)
+            {
+                return null;
+            }
+            else if (survey.Id != surveyId)
+            {
+                return null;
+            }
+            
             var user = new UserViewModel();
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
             
