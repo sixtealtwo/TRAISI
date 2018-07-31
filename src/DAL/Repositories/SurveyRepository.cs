@@ -50,6 +50,19 @@ namespace DAL.Repositories
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyForShortcode(string shortcode)
+        {
+            var result = await _appContext.Shortcodes.Where(s => s.Code == shortcode).FirstOrDefaultAsync();
+
+            return result?.Survey;
+
+        }
+
+        /// <summary>
         /// Gets all surveys owned by a specific user
         /// </summary>
         /// <param name="userName"></param>
