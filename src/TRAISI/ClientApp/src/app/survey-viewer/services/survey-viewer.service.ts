@@ -32,6 +32,16 @@ export class SurveyViewerService {
 	}
 
 	/**
+	 * Start the specified survey with the provided shortcode. This will also have a login action.
+	 * @param surveyId
+	 * @param shortcode
+	 */
+	public surveyStart(surveyId:number, shortcode:string): Observable<SurveyViewer>
+	{
+		return this._surveyViewerEndpointService.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode);
+	}
+
+	/**
 	 * Returns the question configuration for specified question.
 	 * @param questionId
 	 */

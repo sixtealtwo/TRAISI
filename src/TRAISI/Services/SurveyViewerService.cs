@@ -8,8 +8,11 @@ using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using TRAISI.Services.Interfaces;
 using System.Collections;
+using AutoMapper;
+using DAL.Models;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
+using TRAISI.ViewModels.Users;
 
 namespace TRAISI.Services
 {
@@ -20,14 +23,33 @@ namespace TRAISI.Services
         private IAuthorizationService _authorizationService;
         private IAccountManager _accountManager;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public QuestionPartView GetQuestion(SurveyView view, int number)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool SurveyLogin(Survey survey, string shortcode)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public async Task<ApplicationUser> SurveyLogin(int surveyId, string shortcode)
         {
-            throw new System.NotImplementedException();
+            var user = new UserViewModel();
+            ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+            
+            var result = await _accountManager.CreateUserAsync(appUser, user.Roles, shortcode);
+
+            return appUser;
         }
 
         
@@ -92,6 +114,8 @@ namespace TRAISI.Services
             this._accountManager = accountManager;
             this._authorizationService = authorizationService;
         }
+        
+
     }
 
 

@@ -26,6 +26,10 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/welcome';
 	}
 
+	private get getSurveyViewerStartSurveyUrl() {
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/start';
+	}
+
 	/**
 	 *
 	 * @param surveyName
@@ -39,6 +43,26 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getSurveyViewerWelcomeViewEndpoint(surveyName)
+				);
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param shortcode
+	 */
+	getSurveyViewerStartSurveyEndpoint<T>(
+		surveyId:number,
+		shortcode:string
+	): Observable<T> {
+		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyId}/${shortcode}`;
+
+		return this.http.post<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode)
 				);
 			})
 		);

@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using TRAISI.ViewModels;
@@ -15,13 +17,14 @@ namespace TRAISI.Services.Interfaces
         /// <returns></returns>
         QuestionPartView GetQuestion(SurveyView view, int number);
 
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="survey"></param>
+        /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        bool SurveyLogin(Survey survey, string shortcode);
+        Task<ApplicationUser> SurveyLogin(int surveyId, string shortcode);
 
 
         Task<SurveyView> GetDefaultSurveyView(int surveyId);
