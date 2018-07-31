@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AlertService, MessageSeverity} from "../../../services/alert.service";
 
 @Component({
 	selector: 'app-survey-welcome-page',
@@ -9,12 +10,31 @@ export class SurveyWelcomePageComponent implements OnInit {
 
 	surveyName: string;
 
-	@ViewChild('shortcode', {read: HTMLInputElement}) content;
+	isLoading:boolean = false;
 
-	constructor() {
+	shortcode:string;
+
+
+	/**
+	 *
+	 * @param alertService
+	 */
+	constructor(private alertService: AlertService) {
 	}
 
 	ngOnInit() {
+		this.shortcode = "";
+	}
+
+	showErrorAlert(caption: string, message: string):void
+	{
+		this.alertService.showMessage(caption, message, MessageSeverity.error);
+	}
+
+	startSurvey():void
+	{
+		console.log("start survey");
+		this.isLoading = true;
 	}
 
 }

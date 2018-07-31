@@ -12,9 +12,10 @@ import { SurveyTermsPageComponent } from './components/survey-terms-page/survey-
 import { SurveyCompletePageComponent } from './components/survey-complete-page/survey-complete-page.component';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
 import { SurveyErrorComponent } from './components/survey-error/survey-error.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-	imports: [CommonModule, SharedModule, ROUTES],
+	imports: [CommonModule, SharedModule,FormsModule, ROUTES],
 	declarations: [
 		SurveyViewerComponent,
 		SurveyWelcomePageComponent,
