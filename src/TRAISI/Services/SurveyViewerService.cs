@@ -42,7 +42,7 @@ namespace TRAISI.Services
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<ApplicationUser> SurveyLogin(int surveyId, string shortcode)
+        public async Task<Tuple<bool,ApplicationUser>> SurveyLogin(int surveyId, string shortcode)
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
             if (survey == null)
@@ -59,7 +59,7 @@ namespace TRAISI.Services
             
             var result = await _accountManager.CreateUserAsync(appUser, user.Roles, shortcode);
 
-            return appUser;
+            return new Tuple<bool, ApplicationUser>(true,appUser);
         }
 
         

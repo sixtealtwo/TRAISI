@@ -24,7 +24,7 @@ namespace TRAISI.Services.Interfaces
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        Task<ApplicationUser> SurveyLogin(int surveyId, string shortcode);
+        Task<Tuple<bool,ApplicationUser>> SurveyLogin(int surveyId, string shortcode);
 
 
         Task<SurveyView> GetDefaultSurveyView(int surveyId);
