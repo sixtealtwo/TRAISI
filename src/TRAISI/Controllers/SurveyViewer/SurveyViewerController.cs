@@ -111,7 +111,7 @@ namespace TRAISI.Controllers.SurveyViewer {
                 return new ChallengeResult ();
             }
 
-            if (this._viewService.AuthorizeSurveyUser (survey, shortcode)) {
+            if (_viewService.AuthorizeSurveyUser (survey, shortcode)) {
                 return new OkResult ();
             } else {
                 return new ChallengeResult ();
@@ -126,7 +126,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         [Route ("welcome")]
         public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
         {
-            return await this._viewService.GetSurveyWelcomeView(name);
+            return  await this._viewService.GetSurveyWelcomeView(name);
         }
 
     }

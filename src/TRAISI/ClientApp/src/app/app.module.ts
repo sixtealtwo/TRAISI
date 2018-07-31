@@ -44,6 +44,7 @@ import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { SurveyViewerModule } from './survey-viewer/survey-viewer.module';
 
 const monacoConfig: NgxMonacoEditorConfig = {
 	baseUrl: './assets', // configure base path for monaco editor
@@ -72,6 +73,7 @@ const APP_PROVIDERS = [AppConfig];
 		BrowserModule,
 		BrowserAnimationsModule,
 		FormsModule,
+		SurveyViewerModule,
 		AppRoutingModule,
 		HttpClientModule,
 		SharedModule,
