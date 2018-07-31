@@ -23,6 +23,15 @@ export class SurveyViewerService {
 	}
 
 	/**
+	 *
+	 * @param surveyName
+	 */
+	public getWelcomeView(surveyName:string): Observable<SurveyViewer>
+	{
+		return this._surveyViewerEndpointService.getSurveyViewerWelcomeViewEndpoint(surveyName);
+	}
+
+	/**
 	 * Returns the question configuration for specified question.
 	 * @param questionId
 	 */

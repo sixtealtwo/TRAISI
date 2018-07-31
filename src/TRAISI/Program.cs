@@ -33,17 +33,15 @@ namespace TRAISI
         {
             var host = BuildWebHost(args);
 
-			
 
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                
+
                 try
                 {
                     var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
                     databaseInitializer.SeedAsync().Wait();
-                    
                 }
                 catch (Exception ex)
                 {
@@ -59,14 +57,14 @@ namespace TRAISI
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-				.ConfigureAppConfiguration( (hostingContext,config) => {
-
-					// add local configuration if file exists, not tracked in repository
-					if(File.Exists("appsettings.local.json"))
-					{
-						config.AddJsonFile("appsettings.local.json");
-					}
-				})
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    // add local configuration if file exists, not tracked in repository
+                    if (File.Exists("appsettings.local.json"))
+                    {
+                        config.AddJsonFile("appsettings.local.json");
+                    }
+                })
                 .Build();
     }
 }

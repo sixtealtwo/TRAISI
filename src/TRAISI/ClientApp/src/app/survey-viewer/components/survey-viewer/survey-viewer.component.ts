@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, Syste
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { NextObserver } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -14,13 +16,17 @@ export class SurveyViewerComponent implements OnInit {
 	@ViewChild('vc', {read: ViewContainerRef}) vc;
 	@ViewChild('vcmap', {read: ViewContainerRef}) vcmap;
 
+
+
 	/**
 	 *
 	 * @param surveyViewerService
 	 * @param questionLoaderService
+	 * @param route
 	 */
 	constructor(private surveyViewerService: SurveyViewerService,
-		private questionLoaderService: QuestionLoaderService
+		private questionLoaderService: QuestionLoaderService,
+				private route: ActivatedRoute
 	) {
 
 	}
@@ -30,15 +36,8 @@ export class SurveyViewerComponent implements OnInit {
 	 */
 	ngOnInit() {
 
-		// loads the component into the view child slot
-		// tests with the Map type currently
-		this.questionLoaderService.getQuestionComponentFactory('Text').subscribe((value: ComponentFactory<any>) => {
-			this.vc.createComponent(value);
-		});
 
-		this.questionLoaderService.getQuestionComponentFactory('Location').subscribe((value: ComponentFactory<any>) => {
-			this.vcmap.createComponent(value);
-		});
+		//this.surveyViewerService.getWelcomeView()
 	}
 
 }

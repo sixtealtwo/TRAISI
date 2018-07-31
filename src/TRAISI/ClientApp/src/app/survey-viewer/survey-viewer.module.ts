@@ -11,6 +11,7 @@ import { SurveyWelcomePageComponent } from './components/survey-welcome-page/sur
 import { SurveyTermsPageComponent } from './components/survey-terms-page/survey-terms-page.component';
 import { SurveyCompletePageComponent } from './components/survey-complete-page/survey-complete-page.component';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
+import { SurveyErrorComponent } from './components/survey-error/survey-error.component';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, ROUTES],
@@ -19,7 +20,8 @@ import { SurveyViewerContainerComponent } from './components/survey-viewer-conta
 		SurveyWelcomePageComponent,
 		SurveyTermsPageComponent,
 		SurveyCompletePageComponent,
-		SurveyViewerContainerComponent
+		SurveyViewerContainerComponent,
+		SurveyErrorComponent
 	],
 	providers: [
 		QuestionLoaderEndpointService,

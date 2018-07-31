@@ -22,6 +22,29 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '/' + this._surveyViewerUrl;
 	}
 
+	private get getSurveyViewerWelcomeViewUrl() {
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/welcome';
+	}
+
+	/**
+	 *
+	 * @param surveyName
+	 */
+	getSurveyViewerWelcomeViewEndpoint<T>(
+		surveyName: string
+	): Observable<T> {
+		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyName}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewerWelcomeViewEndpoint(surveyName)
+				);
+			})
+		);
+	}
+
+
 	/**
 	 *
 	 * @param surveyId

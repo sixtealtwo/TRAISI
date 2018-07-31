@@ -274,7 +274,7 @@ namespace TRAISI.Services
             }
         }
 
-				/// <summary>
+        /// <summary>
         /// Adds a question to a page/question part
         /// </summary>
         /// <param name="view"></param>
@@ -285,11 +285,11 @@ namespace TRAISI.Services
             ParentQuestionPartView.Order = ParentQuestionPartView.QuestionPartViewChildren.Count - 1;
         }
 
-				/// <summary>
-				/// Removes a question/question part from a survey
-				/// </summary>
-				/// <param name="questionPartView"></param>
-				/// <param name="childQuestionPartViewId"></param>
+        /// <summary>
+        /// Removes a question/question part from a survey
+        /// </summary>
+        /// <param name="questionPartView"></param>
+        /// <param name="childQuestionPartViewId"></param>
         public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId)
         {
             List<QuestionPartView> childQuestions = questionPartView.QuestionPartViewChildren as List<QuestionPartView>;
@@ -310,12 +310,12 @@ namespace TRAISI.Services
             questionPartView.QuestionPartViewChildren.Remove(toDelete);
         }
 
-				/// <summary>
-				/// Reorder question within question part
-				/// </summary>
-				/// <param name="questionPartView"></param>
-				/// <param name="newOrder"></param>
-				public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
+        /// <summary>
+        /// Reorder question within question part
+        /// </summary>
+        /// <param name="questionPartView"></param>
+        /// <param name="newOrder"></param>
+        public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
         {
             Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
             foreach (var qpartView in questionPartView.QuestionPartViewChildren)

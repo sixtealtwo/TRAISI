@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -87,20 +88,12 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <returns>Returns the SurveyViewer View Model</returns>
 
         [HttpGet]
-<<<<<<< HEAD
-        [Produces(typeof(SurveyViewerViewModel))]
-        public SurveyViewerViewModel GetDefaultSurveyView(Survey s)
-        {
-
-           return this._viewService.GetDefaultSurveyView(s).ToLocalizedModel<SurveyViewerViewModel>("en");
-=======
         [Produces (typeof (SurveyViewerViewModel))]
         [Route ("viewer/{surveyId}/{language}")]
         public async Task<IActionResult> GetDefaultSurveyView (int surveyId,  string language = "en") {
 
             var view = await this._viewService.GetDefaultSurveyView(surveyId);
             return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel> (language));
->>>>>>> 2566f760b1f9a289df0a3bf9222f581b79a15dbc
         }
 
         /// <summary>
@@ -131,10 +124,21 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        [Route ("welcome")]
-        public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
+        [Route ("welcome/{name}")]
+        [Produces (typeof (ObjectResult))]
+        public async Task<IActionResult> GetSurveyWelcomeView(string name)
         {
-            return  await this._viewService.GetSurveyWelcomeView(name);
+           
+            var result=   await this._viewService.GetSurveyWelcomeView(name);
+            if (result == null)
+            {
+                return new NotFoundResult();
+            }
+            else
+            {
+                
+               return new ObjectResult(result);
+            }
         }
 
     }
