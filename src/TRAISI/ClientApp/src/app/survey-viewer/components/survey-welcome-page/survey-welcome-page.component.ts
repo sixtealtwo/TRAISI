@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 
 @Component({
-  selector: 'app-survey-welcome-page',
-  templateUrl: './survey-welcome-page.component.html',
-  styleUrls: ['./survey-welcome-page.component.scss']
+	selector: 'app-survey-welcome-page',
+	templateUrl: './survey-welcome-page.component.html',
+	styleUrls: ['./survey-welcome-page.component.scss']
 })
 export class SurveyWelcomePageComponent implements OnInit {
 
-  constructor() { }
+	surveyName: string;
 
-  ngOnInit() {
-  }
+	@ViewChild('shortcode', {read: HTMLInputElement}) content;
+
+	constructor() {
+	}
+
+	ngOnInit() {
+	}
 
 }

@@ -13,13 +13,14 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SurveyErrorComponent} from "../survey-error/survey-error.component";
 import {NgTemplateOutlet} from "@angular/common";
+import {SurveyWelcomePageComponent} from "../survey-welcome-page/survey-welcome-page.component";
 
 
 @Component({
 	selector: 'app-survey-viewer-container',
 	templateUrl: './survey-viewer-container.component.html',
 	styleUrls: ['./survey-viewer-container.component.scss'],
-	entryComponents: [SurveyErrorComponent]
+	entryComponents: [SurveyErrorComponent,SurveyWelcomePageComponent]
 })
 export class SurveyViewerContainerComponent implements OnInit {
 	get surveyName(): string {
@@ -35,17 +36,19 @@ export class SurveyViewerContainerComponent implements OnInit {
 
 	private welcomeView: any;
 
-	private surveyExists: boolean = false;
+
 
 	private _surveyName: string;
 
 	@ViewChild('content', {read: ViewContainerRef}) content;
+
 
 	/**
 	 *
 	 * @param surveyViewerService
 	 * @param questionLoaderService
 	 * @param route
+	 * @param componentFactoryResolver
 	 */
 	constructor(private surveyViewerService: SurveyViewerService,
 				private questionLoaderService: QuestionLoaderService,
@@ -56,31 +59,24 @@ export class SurveyViewerContainerComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// loads the component into the view child slot
-		// tests with the Map type currently
-		/*this.questionLoaderService.getQuestionComponentFactory('Text').subscribe((value: ComponentFactory<any>) => {
-            this.vc.createComponent(value);
-        });
 
-        this.questionLoaderService.getQuestionComponentFactory('Location').subscribe((value: ComponentFactory<any>) => {
-            this.vcmap.createComponent(value);
-        }); */
 
 		this.sub = this.route.params.subscribe(params => {
-			//this.id = +params['id']; // (+) converts string 'id' to a number
+
 
 			this._surveyName = params['surveyName'];
+
+			//get the welcome view
 			this.surveyViewerService.getWelcomeView(params['surveyName']).subscribe((value) => {
 
-				console.log(value);
+				console.log("success");
+				this.displaySurveyWelcomePageComponent();
 			}, (error) => {
-				let errorResponse: HttpErrorResponse = error as HttpErrorResponse;
 
-				this.loadErrorDisplay();
+				// show the error component if there is an error loading the survey
+				this.displaySurveyErrorComponent();
 			})
 
-
-			// In a real app: dispatch action to load the details here.
 		});
 
 	}
@@ -88,7 +84,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	/**
 	 * Loads the survey error component in the content display.
 	 */
-	private loadErrorDisplay(): void {
+	private displaySurveyErrorComponent(): void {
 		let componentFactory = this.componentFactoryResolver.resolveComponentFactory(SurveyErrorComponent);
 		let viewContainerRef = this.content;
 		//viewContainerRef.clear();
@@ -96,10 +92,19 @@ export class SurveyViewerContainerComponent implements OnInit {
 		let componentRef = viewContainerRef.createComponent(componentFactory);
 		(<SurveyErrorComponent>componentRef.instance).surveyName = this._surveyName;
 
+	}
 
-		console.log(componentRef);
-		console.log(this._surveyName);
-		//(<SurveyErrorComponent>componentRef.instance).data = adItem.data;
+
+	/**
+	 *
+	 */
+	private displaySurveyWelcomePageComponent(): void {
+		let componentFactory = this.componentFactoryResolver.resolveComponentFactory(SurveyWelcomePageComponent);
+		let viewContainerRef = this.content;
+		//viewContainerRef.clear();
+
+		let componentRef = viewContainerRef.createComponent(componentFactory);
+		(<SurveyWelcomePageComponent>componentRef.instance).surveyName = this._surveyName;
 	}
 
 }

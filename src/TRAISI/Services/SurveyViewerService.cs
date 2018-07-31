@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using TRAISI.Services.Interfaces;
 using System.Collections;
 using TRAISI.ViewModels;
+using TRAISI.ViewModels.Extensions;
 
 namespace TRAISI.Services
 {
@@ -61,8 +63,9 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
         {
-            Survey survey = await this._unitOfWork.Surveys.GetSingleOrDefaultAsync(s => s.Name == name);
-            return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey);
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyByNameFullAsync(name);
+            return survey.ToLocalizedModel<SurveyWelcomeViewModel>("en");
+            //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
 
         /// <summary>

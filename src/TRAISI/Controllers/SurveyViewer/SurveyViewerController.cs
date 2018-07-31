@@ -17,9 +17,9 @@ using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Controllers.SurveyViewer {
 
-    [Authorize]
+   
     [Route ("api/[controller]")]
-    public class SurveyViewerContoller : Controller {
+    public class SurveyViewerController : Controller {
 
         private IUnitOfWork _unitOfWork;
 
@@ -31,7 +31,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// 
         /// </summary>
         /// <param name="viewService"></param>
-        public SurveyViewerContoller (ISurveyViewerService viewService,
+        public SurveyViewerController (ISurveyViewerService viewService,
             IAccountManager accountManager
         ) {
             this._unitOfWork = null;
@@ -56,6 +56,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// Return all questions for a given survey view.
         /// </summary>
         [HttpGet]
+        [Authorize]
         [Produces (typeof (List<SurveyView>))]
         [Route ("questions/{viewId}")]
         public async Task<IActionResult> GetSurveyViewQuestions (int viewId) {
@@ -70,6 +71,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <param name="questionId"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Produces (typeof (QuestionConfiguration))]
         [Route ("configurations/{questionId}")]
         public async Task<IActionResult> GetSurveyViewQuestionConfiguration (int questionId) {
@@ -104,6 +106,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <returns></returns>
         [Produces (typeof (ObjectResult))]
         [HttpPost]
+        
         [Route ("start")]
         public async Task<IActionResult> StartSurvey (int surveyId, string shortcode) {
 
@@ -125,6 +128,7 @@ namespace TRAISI.Controllers.SurveyViewer {
         /// <param name="name"></param>
         /// <returns></returns>
         [Route ("welcome/{name}")]
+        [HttpGet]
         [Produces (typeof (ObjectResult))]
         public async Task<IActionResult> GetSurveyWelcomeView(string name)
         {

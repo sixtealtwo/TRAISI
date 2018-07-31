@@ -11,6 +11,7 @@ namespace DAL.Repositories.Interfaces
     public interface ISurveyRepository : IRepository<Survey>
     {
         void LoadSurveyFromJson(Stream data);
+        
         Task<IEnumerable<Survey>> GetAllUserSurveysAsync(string userName);
 
         Task<IEnumerable<Survey>> GetAllGroupSurveysAsync(string groupName);
@@ -22,6 +23,8 @@ namespace DAL.Repositories.Interfaces
         Task<Survey> GetSurveyWithUserPermissionsAsync(int id, string userName);
 
         Task<IEnumerable<Survey>> GetSharedSurveysAsync(string userName);
+
+        Task<Survey> GetSurveyByNameFullAsync(string name);
 
     }
 }
