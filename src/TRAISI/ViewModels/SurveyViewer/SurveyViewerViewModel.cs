@@ -10,6 +10,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public int Id { get; set; }
 
         public string ViewName { get; set; }
+
         public SurveyViewModel Survey { get; set; }
 
         public List<QuestionPartViewViewModel> Questions;
