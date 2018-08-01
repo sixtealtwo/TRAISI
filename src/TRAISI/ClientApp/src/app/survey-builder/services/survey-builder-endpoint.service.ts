@@ -22,17 +22,9 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	}
 
 	get getSurveyBuilderQuestionTypesUrl() {
-		return (
-			this.configurations.baseUrl +
-			this._surveyBuilderUrl +
-			'/question-types'
-		);
+		return this.configurations.baseUrl + this._surveyBuilderUrl + '/question-types';
 	}
-	constructor(
-		http: HttpClient,
-		configurations: ConfigurationService,
-		injector: Injector
-	) {
+	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
 		super(http, configurations, injector);
 	}
 
@@ -41,9 +33,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getQuestionTypesEndpoint()
-				);
+				return this.handleError(error, () => this.getQuestionTypesEndpoint());
 			})
 		);
 	}
@@ -157,4 +147,58 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getQuestionPartViewPageStructureEndpoint<T>(surveyId: number, questionPartViewId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/${questionPartViewId}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getQuestionPartViewPageStructureEndpoint(surveyId, questionPartViewId, language));
+			})
+		);
+	}
+
+	public getUpdateQuestionPartViewOrderEndpoint<T>(
+		surveyId: number,
+		questionPartViewId: number,
+		childrenViewOrder: QuestionPartView[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/${questionPartViewId}/UpdateOrder`;
+
+		return this.http.post<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getUpdateQuestionPartViewOrderEndpoint(surveyId, questionPartViewId, childrenViewOrder)
+				);
+			})
+		);
+	}
+
+	public getAddQuestionPartViewEndpoint<T>(
+		surveyId: number,
+		questionPartViewId: number,
+		language: string,
+		newPart: QuestionPartView
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part/${questionPartViewId}/${language}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(newPart), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getAddQuestionPartViewEndpoint(surveyId, questionPartViewId, language, newPart));
+			})
+		);
+	}
+
+	public getDeleteQuestionPartViewEndpoint<T>(
+		surveyId: number,
+		questionPartViewId: number,
+		childQuestionPartViewId: number
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDeleteQuestionPartViewEndpoint(surveyId, questionPartViewId, childQuestionPartViewId));
+			})
+		);
+	}
 }
