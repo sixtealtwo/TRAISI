@@ -6,6 +6,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { Utilities } from '../services/utilities';
 import { UserLogin } from '../models/user-login.model';
 import { Permission } from '../models/permission.model';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
 	selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		@Input()
 		isModal = false;
 
-		constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
+		constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService,
+		private router: Router) {
 
 		}
 
@@ -84,6 +86,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 							this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
 							if (!this.authService.userPermissions.some(p => p === Permission.accessAdminPermission)) {
 								this.alertService.showStickyMessage('Insufficient Privileges', 'You do not have access!', MessageSeverity.warn);
+							}
+							else{
+								this.router.navigate(['app', 'dashboard']);
 							}
 						} else {
 							this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);
