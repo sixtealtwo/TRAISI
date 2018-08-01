@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
 	selector: 'app-survey-error',
@@ -8,7 +9,7 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 export class SurveyErrorComponent implements OnInit {
 
 
-	constructor() {
+	constructor(private route: ActivatedRoute) {
 	}
 
 	public surveyName: string;
@@ -16,6 +17,12 @@ export class SurveyErrorComponent implements OnInit {
 	ngOnInit() {
 
 		console.log(this.surveyName);
+
+		this.route.parent.params.subscribe(params => {
+
+			this.surveyName = params['surveyName'];
+			console.log(params);
+		});
 
 	}
 

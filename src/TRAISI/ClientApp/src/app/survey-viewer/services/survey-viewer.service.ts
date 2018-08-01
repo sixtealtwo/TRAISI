@@ -3,6 +3,7 @@ import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { SurveyViewer } from '../models/survey-viewer.model';
+import {SurveyStart} from "../models/survey-start.model";
 
 @Injectable({
 	providedIn: 'root'
@@ -26,7 +27,7 @@ export class SurveyViewerService {
 	 *
 	 * @param surveyName
 	 */
-	public getWelcomeView(surveyName:string): Observable<SurveyViewer>
+	public getWelcomeView(surveyName:string): Observable<SurveyStart>
 	{
 		return this._surveyViewerEndpointService.getSurveyViewerWelcomeViewEndpoint(surveyName);
 	}

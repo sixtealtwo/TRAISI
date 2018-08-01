@@ -301,7 +301,7 @@ namespace TRAISI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IQuestionTypeManager questionTypeManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug(LogLevel.Trace);
+            loggerFactory.AddDebug(LogLevel.Debug);
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             Utilities.ConfigureLogger(loggerFactory);
