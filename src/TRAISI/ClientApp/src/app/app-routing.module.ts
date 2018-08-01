@@ -44,7 +44,7 @@ import { ErrorComponent } from './error/error.component';
 			],
 			{
 				useHash: false,
-				preloadingStrategy: PreloadAllModules
+				preloadingStrategy: NoPreloading
 			}
 		)
 	],
