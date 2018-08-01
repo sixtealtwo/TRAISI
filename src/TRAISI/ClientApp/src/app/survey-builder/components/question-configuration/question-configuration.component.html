@@ -1,5 +1,8 @@
 <div>
 	<form (ngSubmit)="saveConfiguration()" #f="ngForm" novalidate class="form-horizontal">
+		<ng-container *ngFor="let config of configurations">
+			<div>{{ config }}</div>
+		</ng-container>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="edit-last-separator-hr" />

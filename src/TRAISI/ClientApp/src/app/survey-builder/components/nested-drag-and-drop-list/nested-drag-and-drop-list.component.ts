@@ -4,6 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType } from '../../../services/alert.service';
 import { Utilities } from '../../../services/utilities';
 import { ModalDirective } from 'ngx-bootstrap';
+import { QuestionConfigurationComponent } from '../question-configuration/question-configuration.component';
+import { QuestionTypeDefinition } from '../../models/question-type-definition';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -11,10 +13,12 @@ import { ModalDirective } from 'ngx-bootstrap';
 	styleUrls: ['./nested-drag-and-drop-list.component.scss']
 })
 export class NestedDragAndDropListComponent implements OnInit {
-	public pageQuestions = [];
+	public pageQuestions: QuestionTypeDefinition[] = [];
 	public qPartQuestions: Map<number, any[]> = new Map<number, any[]>();
+	public qTypeDefinition: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	public addingNewQuestion: boolean = true;
+	public dealingWithPart: boolean = false;
 	public questionBeingEdited: any;
 	private elementUniqueIndex: number = 0;
 
@@ -25,6 +29,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 	private dragDidNotOriginateFromChooser: boolean = false;
 
 	@ViewChild('configurationModal') configurationModal: ModalDirective;
+	@ViewChild('qConfiguration') qConfiguration: QuestionConfigurationComponent;
 
 	constructor(private alertService: AlertService) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
@@ -32,17 +37,35 @@ export class NestedDragAndDropListComponent implements OnInit {
 
 	ngOnInit() {}
 
+	configurationShown() {
+		this.qConfiguration.questionBeingEdited = this.questionBeingEdited;
+		this.qConfiguration.questionType = this.questionBeingEdited;
+		this.qConfiguration.processConfigurations();
+	}
+
 	editQuestionConfiguration(event: any, question: any) {
 		event.stopPropagation();
 		this.questionBeingEdited = question;
+
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = false;
+		if (question.typeName === 'Survey Part') {
+			this.dealingWithPart = true;
+		} else {
+			this.dealingWithPart = false;
+		}
 		this.configurationModal.show();
 	}
 
 	addQuestionTypeToList(qType) {
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = true;
+		this.questionBeingEdited = qType;
+		if (qType.typeName === 'Survey Part') {
+			this.dealingWithPart = true;
+		} else {
+			this.dealingWithPart = false;
+		}
 		this.configurationModal.show();
 		this.dragResult.subscribe(
 			proceed => {
@@ -94,6 +117,12 @@ export class NestedDragAndDropListComponent implements OnInit {
 			this.dragResult = new Subject<boolean>();
 			if (!this.dragDidNotOriginateFromChooser) {
 				this.addingNewQuestion = true;
+				this.questionBeingEdited = event.payload;
+				if (event.payload.typeName === 'Survey Part') {
+					this.dealingWithPart = true;
+				} else {
+					this.dealingWithPart = false;
+				}
 				this.configurationModal.show();
 			} else {
 				setTimeout(() => {
@@ -129,6 +158,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 			this.dragResult.subscribe(proceed => {
 				if (proceed === false) {
 					this.pageQuestions = pageQuestionsCache;
+					this.questionBeingEdited = undefined;
 				}
 				this.dragResult = undefined;
 			});
@@ -174,24 +204,6 @@ export class NestedDragAndDropListComponent implements OnInit {
 		} else {
 			return true;
 		}
-
-		/*let thisContainer: any = this;
-
-		let groupName: string = thisContainer.groupName;
-		if (groupName.startsWith('builder-part-')) {
-			let split: string[] = groupName.split('-');
-			let partNum: number = +split[split.length -1];
-			if (partNum === payload.partId) {
-				return false;
-			}
-		}
-		return true;*/
-
-		/*if (sourceContainerOptions.groupName === 'builder-questions' || sourceContainerOptions.groupName === thisContainer) {
-			return true;
-		}
-		return false;
-*/
 	}
 
 }

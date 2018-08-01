@@ -55,17 +55,17 @@
 	</smooth-dnd-container>
 </div>
 
-<div class="modal fade" bsModal #configurationModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1">
+<div class="modal fade" bsModal #configurationModal="bs-modal" (onShown)="configurationShown()" [config]="{backdrop: 'static'}" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ addingNewQuestion ? 'Add New Question' : 'Editing Question Configuration' }}</h4>
+				<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ addingNewQuestion ? ( dealingWithPart ? 'Add New Section' : 'Add New Question') : (dealingWithPart ? 'Editing Section Configuration' : 'Editing Question Configuration') }}</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="cancelConfiguration()">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<app-question-configuration (configResult)="processConfiguration($event)"></app-question-configuration>
+				<app-question-configuration #qConfiguration (configResult)="processConfiguration($event)"></app-question-configuration>
 			</div>
 		</div>
 	</div>
