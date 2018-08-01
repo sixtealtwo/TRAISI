@@ -6,7 +6,7 @@ import {SurveyTermsPageComponent} from "./components/survey-terms-page/survey-te
 import {SurveyErrorComponent} from "./components/survey-error/survey-error.component";
 
 const routes: Routes = [
-	{ path: 'survey/:surveyName', component: SurveyViewerContainerComponent, data: { title: 'Survey Viewer' },
+	{ path: ':surveyName', component: SurveyViewerContainerComponent, data: { title: 'Survey Viewer' },
 		children: [
 			{ path: '', redirectTo: 'start', pathMatch: 'full' },
 			{ path: 'start', component: SurveyStartPageComponent },

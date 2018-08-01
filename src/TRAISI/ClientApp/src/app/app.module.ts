@@ -73,7 +73,7 @@ const APP_PROVIDERS = [AppConfig];
 		BrowserModule,
 		BrowserAnimationsModule,
 		FormsModule,
-		SurveyViewerModule,
+		//SurveyViewerModule,
 		AppRoutingModule,
 		HttpClientModule,
 		SharedModule,
