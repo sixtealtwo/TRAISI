@@ -39,16 +39,16 @@ namespace TRAISI.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
-        private void TryLogin(int surveyId, string shortcode)
+        /// <returns></returns>
+        private async Task<ApplicationUser> GetSurveyUser(int surveyId, string shortcode)
         {
-            
+            return await this._accountManager.GetUserByUserNameAsync(surveyId + "_" + shortcode);
         }
 
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
@@ -56,27 +56,27 @@ namespace TRAISI.Services
         public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode)
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
-            if (survey == null)
-            {
-                return (false, null);
-            }
-            else if (survey.Id != surveyId)
-            {
+            if (survey == null) {
                 return (false, null);
             }
 
-            var user = new UserViewModel();
-            user.UserName = surveyId+"_"+shortcode;
+            if (survey.Id != surveyId) {
+                return (false, null);
+            }
+
+            //see if a user exists
+            var existingUser = await this.GetSurveyUser(surveyId, shortcode);
+
+            if (existingUser != null) {
+                return (true, existingUser);
+            }
+
+            var user = new UserViewModel {UserName = surveyId + "_" + shortcode};
 
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
 
-            var result = await _accountManager.CreateSurveyUserAsync(appUser,  shortcode);
-            if (result.Item1)
-            {
-                return (true, appUser);
-            }
-
-            return (false, null);
+            var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode);
+            return result.Item1 ? (true, appUser) : (false, null);
         }
 
 

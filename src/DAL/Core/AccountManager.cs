@@ -183,7 +183,9 @@ namespace DAL.Core
         /// <returns></returns>
         public async Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode)
         {
+            user.IsEnabled = true;
             var result = await _surveyUserManager.CreateAsync(user, shortcode);
+
             if (!result.Succeeded)
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
 
@@ -192,7 +194,7 @@ namespace DAL.Core
 
             try
             {
-                result = await this._surveyUserManager.AddToRolesAsync(user,new string[0]);
+                result = await this._surveyUserManager.AddToRolesAsync(user,new string[] {"respondent"});
             }
             catch
             {

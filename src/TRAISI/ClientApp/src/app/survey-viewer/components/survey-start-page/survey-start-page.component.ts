@@ -4,6 +4,7 @@ import {SurveyViewerService} from "../../services/survey-viewer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyStart} from "../../models/survey-start.model";
 import {AuthService} from "../../../services/auth.service";
+import {User} from "../../../models/user.model";
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -51,6 +52,7 @@ export class SurveyStartPageComponent implements OnInit {
 				this.survey = value;
 
 
+
 			}, (error) => {
 
 				this.router.navigate([this.surveyName,'error'], {relativeTo: this.route});
@@ -70,13 +72,20 @@ export class SurveyStartPageComponent implements OnInit {
 	}
 
 	/**
-	 *
+	 * Starts the survey - this will authorize the current user with the associated
+	 * short code. This will create a new survey user if one does not exist.
 	 */
 	startSurvey(): void {
 		this.isLoading = true;
 		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe((value) => {
 
-				console.log(value);
+				this.authService.login(`${this.survey.id}_${this.shortcode}`,
+					this.shortcode,true).subscribe((value:User) => {
+					this.isLoading = false;
+					this.router.navigate(['/survey',this.surveyName,'terms']);
+
+
+				});
 			},
 			(error) => {
 
