@@ -57,6 +57,11 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * 
+	 * @param caption
+	 * @param message
+	 */
 	showErrorAlert(caption: string, message: string): void {
 		this.alertService.showMessage(caption, message, MessageSeverity.error);
 	}

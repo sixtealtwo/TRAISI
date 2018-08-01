@@ -9,19 +9,22 @@ import {ActivatedRoute} from "@angular/router";
 export class SurveyErrorComponent implements OnInit {
 
 
+	/**
+	 *
+	 * @param route
+	 */
 	constructor(private route: ActivatedRoute) {
 	}
 
 	public surveyName: string;
 
 	ngOnInit() {
-
-		console.log(this.surveyName);
+		
 
 		this.route.parent.params.subscribe(params => {
 
 			this.surveyName = params['surveyName'];
-			console.log(params);
+
 		});
 
 	}
