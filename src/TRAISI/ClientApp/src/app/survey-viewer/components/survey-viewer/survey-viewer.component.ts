@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, SystemJsNgModuleLoader } from '@angular/core';
-import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { QuestionLoaderService } from '../../services/question-loader.service';
-import { NextObserver } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, SystemJsNgModuleLoader} from '@angular/core';
+import {SurveyViewerService} from '../../services/survey-viewer.service';
+import {QuestionLoaderService} from '../../services/question-loader.service';
+import {NextObserver} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from "@angular/common/http";
 
 
@@ -17,7 +17,6 @@ export class SurveyViewerComponent implements OnInit {
 	@ViewChild('vcmap', {read: ViewContainerRef}) vcmap;
 
 
-
 	/**
 	 *
 	 * @param surveyViewerService
@@ -25,7 +24,7 @@ export class SurveyViewerComponent implements OnInit {
 	 * @param route
 	 */
 	constructor(private surveyViewerService: SurveyViewerService,
-		private questionLoaderService: QuestionLoaderService,
+				private questionLoaderService: QuestionLoaderService,
 				private route: ActivatedRoute
 	) {
 

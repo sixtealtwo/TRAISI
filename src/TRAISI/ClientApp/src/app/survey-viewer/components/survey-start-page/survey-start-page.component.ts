@@ -2,11 +2,11 @@ import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {AlertService, MessageSeverity} from "../../../services/alert.service";
 
 @Component({
-	selector: 'app-survey-welcome-page',
-	templateUrl: './survey-welcome-page.component.html',
-	styleUrls: ['./survey-welcome-page.component.scss']
+	selector: 'traisi-survey-start-page',
+	templateUrl: './survey-start-page.component.html',
+	styleUrls: ['./survey-start-page.component.scss']
 })
-export class SurveyWelcomePageComponent implements OnInit {
+export class SurveyStartPageComponent implements OnInit {
 
 	surveyName: string;
 

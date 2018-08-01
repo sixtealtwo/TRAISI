@@ -13,14 +13,14 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SurveyErrorComponent} from "../survey-error/survey-error.component";
 import {NgTemplateOutlet} from "@angular/common";
-import {SurveyWelcomePageComponent} from "../survey-welcome-page/survey-welcome-page.component";
+import {SurveyStartPageComponent} from "../survey-start-page/survey-start-page.component";
 
 
 @Component({
 	selector: 'app-survey-viewer-container',
 	templateUrl: './survey-viewer-container.component.html',
 	styleUrls: ['./survey-viewer-container.component.scss'],
-	entryComponents: [SurveyErrorComponent,SurveyWelcomePageComponent]
+	entryComponents: [SurveyErrorComponent,SurveyStartPageComponent]
 })
 export class SurveyViewerContainerComponent implements OnInit {
 	get surveyName(): string {
@@ -69,13 +69,12 @@ export class SurveyViewerContainerComponent implements OnInit {
 			//get the welcome view
 			this.surveyViewerService.getWelcomeView(params['surveyName']).subscribe((value) => {
 
-				console.log("success");
-				console.log(value);
-				this.displaySurveyWelcomePageComponent();
+
+				//this.displaySurveyWelcomePageComponent();
 			}, (error) => {
 
 				// show the error component if there is an error loading the survey
-				this.displaySurveyErrorComponent();
+				//this.displaySurveyErrorComponent();
 			})
 
 		});
@@ -88,7 +87,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	private displaySurveyErrorComponent(): void {
 		let componentFactory = this.componentFactoryResolver.resolveComponentFactory(SurveyErrorComponent);
 		let viewContainerRef = this.content;
-		//viewContainerRef.clear();
+
 
 		let componentRef = viewContainerRef.createComponent(componentFactory);
 		(<SurveyErrorComponent>componentRef.instance).surveyName = this._surveyName;
@@ -100,12 +99,8 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 *
 	 */
 	private displaySurveyWelcomePageComponent(): void {
-		let componentFactory = this.componentFactoryResolver.resolveComponentFactory(SurveyWelcomePageComponent);
-		let viewContainerRef = this.content;
-		//viewContainerRef.clear();
 
-		let componentRef = viewContainerRef.createComponent(componentFactory);
-		(<SurveyWelcomePageComponent>componentRef.instance).surveyName = this._surveyName;
+		console.log("test");
 	}
 
 }

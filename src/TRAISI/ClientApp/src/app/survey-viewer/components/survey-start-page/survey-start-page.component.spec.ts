@@ -1,20 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SurveyWelcomePageComponent } from './survey-welcome-page.component';
+import {
+	SurveyStartPageComponent,
+	SurveyStartPageComponent as SurveyWelcomePageComponent
+} from './survey-start-page.component';
 
-describe('SurveyWelcomePageComponent', () => {
+describe('SurveyStartPageComponent', () => {
   let component: SurveyWelcomePageComponent;
   let fixture: ComponentFixture<SurveyWelcomePageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SurveyWelcomePageComponent ]
+      declarations: [ SurveyStartPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SurveyWelcomePageComponent);
+    fixture = TestBed.createComponent(SurveyStartPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

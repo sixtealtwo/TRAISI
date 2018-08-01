@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SurveyViewerComponent } from './components/survey-viewer/survey-viewer.component';
 import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyViewerEndpointService } from './services/survey-viewer-endpoint.service';
-import { SurveyWelcomePageComponent } from './components/survey-welcome-page/survey-welcome-page.component';
+import { SurveyStartPageComponent } from './components/survey-start-page/survey-start-page.component';
 import { SurveyTermsPageComponent } from './components/survey-terms-page/survey-terms-page.component';
 import { SurveyCompletePageComponent } from './components/survey-complete-page/survey-complete-page.component';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
@@ -18,7 +18,7 @@ import {FormsModule} from "@angular/forms";
 	imports: [CommonModule, SharedModule,FormsModule, ROUTES],
 	declarations: [
 		SurveyViewerComponent,
-		SurveyWelcomePageComponent,
+		SurveyStartPageComponent,
 		SurveyTermsPageComponent,
 		SurveyCompletePageComponent,
 		SurveyViewerContainerComponent,
