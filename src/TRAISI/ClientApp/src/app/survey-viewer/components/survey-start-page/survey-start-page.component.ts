@@ -45,7 +45,7 @@ export class SurveyStartPageComponent implements OnInit {
 				this.survey = value;
 
 			}, (error) => {
-				console.log(error);
+
 				this.router.navigate(['/survey',this.surveyName,'error'], {relativeTo: this.route});
 
 			});
@@ -67,8 +67,9 @@ export class SurveyStartPageComponent implements OnInit {
 				console.log(value);
 			},
 			(error) => {
-				console.log(error);
+
 				this.isLoading = false;
+				this.showErrorAlert("Error","Some error with the shortcode");
 			});
 	}
 
