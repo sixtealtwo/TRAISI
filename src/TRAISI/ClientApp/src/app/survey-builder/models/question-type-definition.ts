@@ -5,4 +5,5 @@ export interface QuestionTypeDefinition {
 	typeName: string;
 	icon: string;
 	iconType: QuestionIconType;
+	questionConfigurations: any[];
 }
