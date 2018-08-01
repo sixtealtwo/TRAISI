@@ -46,6 +46,7 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
+                .Include(s => s.TitleLabels)
                 .FirstOrDefaultAsync();
         }
 

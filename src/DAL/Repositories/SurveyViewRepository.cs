@@ -39,6 +39,12 @@ namespace DAL.Repositories {
 			return  _context.AddAsync<SurveyView>(view);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="viewName"></param>
+		/// <returns></returns>
 		public async Task<SurveyView> GetSurveyViewWithPagesStructureAsync (int surveyId, string viewName) {
 			var allviews = _appContext.SurveyViews.ToList();
 			var surveyView = await _appContext.SurveyViews
@@ -46,6 +52,7 @@ namespace DAL.Repositories {
 					.Include(sv => sv.WelcomePageLabels)
 					.Include(sv => sv.TermsAndConditionsLabels)
 					.Include(sv => sv.ThankYouPageLabels)
+					.Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
 					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
 					.SingleOrDefaultAsync();
 			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();

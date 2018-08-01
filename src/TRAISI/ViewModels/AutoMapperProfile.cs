@@ -191,6 +191,18 @@ namespace TRAISI.ViewModels
                     {
                         svm.WelcomeText = "";
                     }
+                })
+                .AfterMap((s, svm, opt) =>
+                {
+                    var view = s.SurveyViews.FirstOrDefault();
+                    if (view != null)
+                    {
+                        svm.TitleText = view.Survey.TitleLabels[opt.Items["Language"] as string].Value;
+                    }
+                    else
+                    {
+                        svm.TitleText = "";
+                    }
                 });
         }
     }

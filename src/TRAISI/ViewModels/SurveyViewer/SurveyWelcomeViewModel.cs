@@ -6,5 +6,7 @@ namespace TRAISI.ViewModels
 
         public string WelcomeText { get; set; }
         
+        public string TitleText { get; set; }
+        
     }
 }

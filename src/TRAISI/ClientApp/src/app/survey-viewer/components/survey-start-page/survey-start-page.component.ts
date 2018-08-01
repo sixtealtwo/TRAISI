@@ -25,17 +25,20 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param alertService
 	 * @param surveyViewerService
 	 * @param route
+	 * @param router
 	 */
 	constructor(private alertService: AlertService,
 				private surveyViewerService: SurveyViewerService,
 				private route: ActivatedRoute,
 				private router: Router) {
+
 	}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
+		this.survey = new SurveyStart();
 		this.shortcode = "";
 		this.route.parent.params.subscribe(params => {
 
@@ -43,6 +46,7 @@ export class SurveyStartPageComponent implements OnInit {
 
 			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe( (value) => {
 				this.survey = value;
+
 
 			}, (error) => {
 

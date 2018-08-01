@@ -1,6 +1,7 @@
 
 <div class="welcome-container">
 
+	<h1> {{ survey.titleText }}</h1>
 	{{ surveyName }}
 
 	<form  #f="ngForm" name="startSurveyForm"  (ngSubmit)="f.form.valid ? startSurvey() : showErrorAlert('Shortcode is required', 'Please enter a valid shortcode')" >

@@ -28,6 +28,9 @@ namespace DAL.Models.Surveys
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
+        /**
+         * 
+         */
         public void PopulateDefaults()
         {
             DefaultLanguage = "en";
@@ -35,7 +38,7 @@ namespace DAL.Models.Surveys
             {
                 [DefaultLanguage] = new TitlePageLabel
                 {
-                    Value = "Default Welcome", Survey = this
+                    Value = "Default Survey Title", Survey = this
                 }
             };
 
