@@ -35,34 +35,51 @@ namespace TRAISI.Services
             throw new System.NotImplementedException();
         }
 
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="shortcode"></param>
+        private void TryLogin(int surveyId, string shortcode)
+        {
+            
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<Tuple<bool,ApplicationUser>> SurveyLogin(int surveyId, string shortcode)
+        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode)
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
             if (survey == null)
             {
-                return null;
+                return (false, null);
             }
             else if (survey.Id != surveyId)
             {
-                return null;
+                return (false, null);
             }
-            
-            var user = new UserViewModel();
-            ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
-            
-            var result = await _accountManager.CreateUserAsync(appUser, user.Roles, shortcode);
 
-            return new Tuple<bool, ApplicationUser>(true,appUser);
+            var user = new UserViewModel();
+            user.UserName = surveyId+"_"+shortcode;
+
+            ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+
+            var result = await _accountManager.CreateSurveyUserAsync(appUser,  shortcode);
+            if (result.Item1)
+            {
+                return (true, appUser);
+            }
+
+            return (false, null);
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -71,10 +88,9 @@ namespace TRAISI.Services
         public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            
+
             return (survey.SurveyViews as List<SurveyView>)[0];
         }
-
 
 
         /// <summary>
@@ -96,7 +112,7 @@ namespace TRAISI.Services
         public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByNameFullAsync(name);
-            
+
             return survey.ToLocalizedModel<SurveyWelcomeViewModel>("en");
             //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
@@ -117,16 +133,12 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="unitOfWork"></param>
         public SurveyViewerService(IUnitOfWork unitOfWork,
-        IAuthorizationService authorizationService,
-        IAccountManager accountManager)
+            IAuthorizationService authorizationService,
+            IAccountManager accountManager)
         {
             this._unitOfWork = unitOfWork;
             this._accountManager = accountManager;
             this._authorizationService = authorizationService;
         }
-        
-
     }
-
-
 }

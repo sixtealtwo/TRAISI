@@ -19,19 +19,34 @@ namespace DAL.Core
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _surveyUserManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
 
         public AccountManager(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> surveyUserManager,
             RoleManager<ApplicationRole> roleManager,
             IHttpContextAccessor httpAccessor)
         {
             _context = context;
-            _context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(OpenIdConnectConstants.Claims.Subject)?.Value?.Trim();
+            _context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(OpenIdConnectConstants.Claims.Subject)
+                ?.Value?.Trim();
             _userManager = userManager;
+            _surveyUserManager = surveyUserManager;
             _roleManager = roleManager;
+
+          
+            surveyUserManager.Options.SignIn.RequireConfirmedEmail = false;
+            surveyUserManager.Options.Password.RequireUppercase = false;
+            surveyUserManager.Options.Password.RequireDigit = false;
+            surveyUserManager.Options.Password.RequiredLength = 3;
+            surveyUserManager.Options.Password.RequireLowercase = false;
+            surveyUserManager.Options.Password.RequireNonAlphanumeric = false;
+            surveyUserManager.Options.Password.RequiredUniqueChars = 0;
+            surveyUserManager.Options.User.RequireUniqueEmail = false;
+            surveyUserManager.Options.SignIn.RequireConfirmedPhoneNumber = false;
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
@@ -160,6 +175,40 @@ namespace DAL.Core
             return Tuple.Create(true, new string[] { });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public async Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode)
+        {
+            var result = await _surveyUserManager.CreateAsync(user, shortcode);
+            if (!result.Succeeded)
+                return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
+
+
+            user = await _userManager.FindByNameAsync(user.UserName);
+
+            try
+            {
+                result = await this._surveyUserManager.AddToRolesAsync(user,new string[0]);
+            }
+            catch
+            {
+                await DeleteUserAsync(user);
+                throw;
+            }
+
+            if (!result.Succeeded)
+            {
+                await DeleteUserAsync(user);
+                return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
+            }
+
+            return Tuple.Create(true, new string[] { });
+        }
+
 
         public async Task<Tuple<bool, string[]>> UpdateUserAsync(ApplicationUser user)
         {
@@ -259,9 +308,6 @@ namespace DAL.Core
             var result = await _userManager.DeleteAsync(user);
             return Tuple.Create(result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
-
-
-
 
 
 

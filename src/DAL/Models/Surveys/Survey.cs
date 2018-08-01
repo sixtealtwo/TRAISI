@@ -28,6 +28,8 @@ namespace DAL.Models.Surveys
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
+
+
         /**
          * 
          */
@@ -39,6 +41,16 @@ namespace DAL.Models.Surveys
                 [DefaultLanguage] = new TitlePageLabel
                 {
                     Value = "Default Survey Title", Survey = this
+                }
+            };
+
+            Shortcodes = new List<Shortcode>
+            {
+                new Shortcode()
+                {
+                    Code = "TESTCODE",
+                    IsTest = true,
+                    Survey = this
                 }
             };
 

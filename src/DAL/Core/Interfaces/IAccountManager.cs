@@ -9,10 +9,12 @@ namespace DAL.Core.Interfaces
 {
     public interface IAccountManager
     {
-
         Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
         Task<Tuple<bool, string[]>> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<Tuple<bool, string[]>> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password);
+
+        Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode);
+
         Task<Tuple<bool, string[]>> DeleteRoleAsync(ApplicationRole role);
         Task<Tuple<bool, string[]>> DeleteRoleAsync(string roleName);
         Task<Tuple<bool, string[]>> DeleteUserAsync(ApplicationUser user);
@@ -31,7 +33,10 @@ namespace DAL.Core.Interfaces
         Task<Tuple<bool, string[]>> ResetPasswordAsync(ApplicationUser user, string newPassword);
         Task<bool> TestCanDeleteRoleAsync(string roleId);
         Task<bool> TestCanDeleteUserAsync(string userId);
-        Task<Tuple<bool, string[]>> UpdatePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
+
+        Task<Tuple<bool, string[]>> UpdatePasswordAsync(ApplicationUser user, string currentPassword,
+            string newPassword);
+
         Task<Tuple<bool, string[]>> UpdateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<Tuple<bool, string[]>> UpdateUserAsync(ApplicationUser user);
         Task<Tuple<bool, string[]>> UpdateUserAsync(ApplicationUser user, IEnumerable<string> roles);

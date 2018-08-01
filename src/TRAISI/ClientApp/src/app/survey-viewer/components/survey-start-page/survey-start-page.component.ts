@@ -3,6 +3,7 @@ import {AlertService, MessageSeverity} from "../../../services/alert.service";
 import {SurveyViewerService} from "../../services/survey-viewer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyStart} from "../../models/survey-start.model";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -24,11 +25,13 @@ export class SurveyStartPageComponent implements OnInit {
 	 *
 	 * @param alertService
 	 * @param surveyViewerService
+	 * @param authService
 	 * @param route
 	 * @param router
 	 */
 	constructor(private alertService: AlertService,
 				private surveyViewerService: SurveyViewerService,
+				private authService: AuthService,
 				private route: ActivatedRoute,
 				private router: Router) {
 
@@ -50,7 +53,7 @@ export class SurveyStartPageComponent implements OnInit {
 
 			}, (error) => {
 
-				this.router.navigate(['/survey',this.surveyName,'error'], {relativeTo: this.route});
+				this.router.navigate([this.surveyName,'error'], {relativeTo: this.route});
 
 			});
 
@@ -58,7 +61,7 @@ export class SurveyStartPageComponent implements OnInit {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param caption
 	 * @param message
 	 */

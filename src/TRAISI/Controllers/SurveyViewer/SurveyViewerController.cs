@@ -6,6 +6,7 @@ using CryptoHelper;
 using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
+using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,7 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private IAccountManager _accountManager;
 
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -113,20 +114,14 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("start/{surveyId}/{shortcode}")]
         public async Task<IActionResult> StartSurvey(int surveyId, string shortcode)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey == null)
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode);
+
+            if (!success)
             {
-                return new NotFoundResult();
+                return new BadRequestResult();
             }
 
-            if (_viewService.AuthorizeSurveyUser(survey, shortcode))
-            {
-                return new OkResult();
-            }
-            else
-            {
-                return new ChallengeResult();
-            }
+            return new OkResult();
         }
 
         /// <summary>

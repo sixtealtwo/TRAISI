@@ -57,7 +57,8 @@ namespace DAL.Repositories
         /// <returns></returns>
         public async Task<Survey> GetSurveyForShortcode(string shortcode)
         {
-            var result = await _appContext.Shortcodes.Where(s => s.Code == shortcode).FirstOrDefaultAsync();
+            var result = await _appContext.Shortcodes.Where(s => s.Code == shortcode)
+            .Include(s => s.Survey).FirstOrDefaultAsync();
 
             return result?.Survey;
 
