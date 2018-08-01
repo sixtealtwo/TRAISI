@@ -32,15 +32,15 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getDeleteUploadedFileEndopint<UploadPath>(filePath);
 	}
 
-	public getStandardWelcomePage(surveyId: number, language: string): Observable<WelcomePage>  {
+	public getStandardWelcomePage(surveyId: number, language: string): Observable<WelcomePage> {
 		return this.surveyBuilderEndpointService.getStandardWelcomePageEndpoint<WelcomePage>(surveyId, language);
 	}
 
-	public getStandardTermsAndConditionsPage(surveyId: number, language: string): Observable<TermsAndConditionsPage>  {
+	public getStandardTermsAndConditionsPage(surveyId: number, language: string): Observable<TermsAndConditionsPage> {
 		return this.surveyBuilderEndpointService.getStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, language);
 	}
 
-	public getStandardThankYouPage(surveyId: number, language: string): Observable<ThankYouPage>  {
+	public getStandardThankYouPage(surveyId: number, language: string): Observable<ThankYouPage> {
 		return this.surveyBuilderEndpointService.getStandardThankYouPageEndpoint<ThankYouPage>(surveyId, language);
 	}
 
@@ -48,11 +48,14 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(surveyId, welcomePage);
 	}
 
-	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage)  {
-		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, tAndCPage);
+	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage) {
+		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(
+			surveyId,
+			tAndCPage
+		);
 	}
 
-	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage)  {
+	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage) {
 		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(surveyId, thankYouPage);
 	}
 
@@ -70,5 +73,38 @@ export class SurveyBuilderService {
 
 	public deleteStandardPage(surveyId: number, pageId: number) {
 		return this.surveyBuilderEndpointService.getDeleteStandardPageEndpoint<number>(surveyId, pageId);
+	}
+
+	public getQuestionPartViewPageStructure(surveyId: number, questionPartViewId: number, language: string): Observable<QuestionPartView> {
+		return this.surveyBuilderEndpointService.getQuestionPartViewPageStructureEndpoint<QuestionPartView>(
+			surveyId,
+			questionPartViewId,
+			language
+		);
+	}
+
+	public updateQuestionPartViewOrderEndpoint(surveyId: number, questionPartViewId: number, childrenViewOrder: QuestionPartView[]) {
+		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewOrderEndpoint<QuestionPartView[]>(
+			surveyId,
+			questionPartViewId,
+			childrenViewOrder
+		);
+	}
+
+	public getAddQuestionPartView(surveyId: number, questionPartViewId: number, language: string, newPart: QuestionPartView) {
+		return this.surveyBuilderEndpointService.getAddQuestionPartViewEndpoint<QuestionPartView>(
+			surveyId,
+			questionPartViewId,
+			language,
+			newPart
+		);
+	}
+
+	public getDeleteQuestionPartView(surveyId: number, questionPartViewId: number, childQuestionPartViewId: number) {
+		return this.surveyBuilderEndpointService.getDeleteQuestionPartViewEndpoint<number>(
+			surveyId,
+			questionPartViewId,
+			childQuestionPartViewId
+		);
 	}
 }

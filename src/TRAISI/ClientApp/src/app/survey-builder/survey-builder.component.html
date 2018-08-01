@@ -2,7 +2,7 @@
 
 
 <div role="navigation" id="builderSidebar" class="sidebar order-correct">
-	<traisi-question-type-chooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
+	<traisi-question-type-chooser #questionChooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"></traisi-question-type-chooser>
 </div>
 <div class="clearfix">
 	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
@@ -16,18 +16,18 @@
 		</li>
 		<smooth-dnd-container id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'" [dragBeginDelay]="500" [dragClass]="'raised-tab'" [getChildPayload]="getPagePayload" (dragEnd)="onDragEnd($event)" (drop)="onDrop($event)" (dragEnter)="onDragEnter()" (dragLeave)="onDragLeave()">
 			<smooth-dnd-draggable *ngFor="let page of allPages">
-				<li class="nav-item dropdown pagetab">
-					<a class="nav-link fw-semi-bold" id="{{ page.id + '-tab' }}" data-toggle="dropdown" href="#"
+				<li class="nav-item pagetab">
+					<a class="nav-link fw-semi-bold" id="{{ page.id + '-tab' }}" (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages"
 					role="tab" aria-controls="page.label" aria-expanded="true">
-						{{ page.label }}
+						{{ page.label.value }}
 						<sup class="badge badge-pill badge-primary">
 							P
 						</sup>
 					</a>
-					<div class="dropdown-menu" [attr.aria-labelledby]="page.id + '-tab'">
-							<a class="dropdown-item"  (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages">Edit Page</a>
-							<a class="dropdown-item" (click)="deletePage(page.id)">Delete Page</a>
-						</div>
+					<!--<div class="dropdown-menu" [attr.aria-labelledby]="page.id + '-tab'">
+						<a class="dropdown-item"  (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages">Edit Page</a>
+						<a class="dropdown-item" (click)="deletePage(page.id)">Delete Page</a>
+					</div>-->
 				</li>
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
@@ -64,8 +64,28 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
-		<h1 *ngIf="currentSurveyPage">Survey Page: {{ currentSurveyPage.label }}</h1>
+		<div class="row" *ngIf="currentSurveyPage">
+			<div class="col-md-10">
+					<div class="form-group row pull-left">
+						<label for="page-title-field" class="col-md-5  col-form-label"><h3>Page Title:</h3></label>
+						<div class="col-md-7 ">
+							<input id="page-title-field" type="text" class="form-control"  [(ngModel)]="currentSurveyPage.label.value"/>
+						</div>
+					</div>
+				<!--<h3 *ngIf="currentSurveyPage">{{ currentSurveyPage.label }}</h3>-->
+			</div>
+		</div>
 		<app-nested-drag-and-drop-list #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+		<div class="row">
+				<div class="col-md-12">
+					<hr class="separator-hr" />
+				</div>
+			</div>
+		<div>
+			<button class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
+					Delete Page
+			</button> 
+		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
 		<div class="page-editor" *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>

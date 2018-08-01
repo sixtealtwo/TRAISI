@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { QuestionTypeDefinition } from '../../models/question-type-definition';
 
 @Component({
 	selector: 'app-question-configuration',
@@ -6,6 +7,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 	styleUrls: ['./question-configuration.component.scss']
 })
 export class QuestionConfigurationComponent implements OnInit {
+
+	public questionType: QuestionTypeDefinition;
+	public questionBeingEdited: any;
+
+	public configurations: any[];
+
 	@Output()
 	configResult = new EventEmitter<string>();
 
@@ -19,5 +26,9 @@ export class QuestionConfigurationComponent implements OnInit {
 
 	cancel() {
 		this.configResult.emit('cancel');
+	}
+
+	processConfigurations() {
+		this.configurations = Object.keys(this.questionType.questionConfigurations);
 	}
 }

@@ -14,6 +14,8 @@ import { ThankYouPage } from './models/thank-you-page.model';
 import { Utilities } from '../services/utilities';
 import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap';
+import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
+import { QuestionPartViewLabel } from './models/question-part-view-label.model';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -34,7 +36,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public currentSurveyPage: QuestionPartView;
 
-
 	private currentPage: string = 'welcome';
 	private deletedImages: UploadPath[] = [];
 
@@ -43,6 +44,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private dragResult: Subject<boolean>;
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
+	@ViewChild('questionChooser') questionChooser: QuestionTypeChooserComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -66,14 +68,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {}
 
 	loadPageStructure(): void {
-		this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(
-			page => {
-				this.allPages = page.pages;
-				this.welcomePage = page.welcomePage;
-				this.termsAndConditionsPage = page.termsAndConditionsPage;
-				this.thankYouPage = page.surveyCompletionPage;
-			}
-		);
+		this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(page => {
+			this.allPages = page.pages;
+			this.welcomePage = page.welcomePage;
+			this.termsAndConditionsPage = page.termsAndConditionsPage;
+			this.thankYouPage = page.surveyCompletionPage;
+		});
 	}
 	generateFroalaOptions() {
 		return {
@@ -175,39 +175,25 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	saveWelcomePage() {
 		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
 			result => {
-				this.alertService.showMessage(
-					'Success',
-					`Welcome page was saved successfully!`,
-					MessageSeverity.success
-				);
+				this.alertService.showMessage('Success', `Welcome page was saved successfully!`, MessageSeverity.success);
 			},
 			error => {}
 		);
 	}
 
 	saveTAndCPage() {
-		this.surveyBuilderService
-			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
-			.subscribe(
-				result => {
-					this.alertService.showMessage(
-						'Success',
-						`Terms and conditions page was saved successfully!`,
-						MessageSeverity.success
-					);
-				},
-				error => {}
-			);
+		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
+			result => {
+				this.alertService.showMessage('Success', `Terms and conditions page was saved successfully!`, MessageSeverity.success);
+			},
+			error => {}
+		);
 	}
 
 	saveThankYouPage() {
 		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
 			result => {
-				this.alertService.showMessage(
-					'Success',
-					`Thank you page was saved successfully!`,
-					MessageSeverity.success
-				);
+				this.alertService.showMessage('Success', `Thank you page was saved successfully!`, MessageSeverity.success);
 			},
 			error => {}
 		);
@@ -215,17 +201,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveMandatoryPages(e, editor, data) {
 		if (this.currentPage === 'welcome') {
-			this.surveyBuilderService
-				.updateStandardWelcomePage(this.surveyId, this.welcomePage)
-				.subscribe(result => {}, error => {});
+			this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'termsAndConditions') {
 			this.surveyBuilderService
 				.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
 				.subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService
-				.updateStandardThankYouPage(this.surveyId, this.thankYouPage)
-				.subscribe(result => {}, error => {});
+			this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(result => {}, error => {});
 		}
 	}
 
@@ -235,13 +217,21 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	switchPage(pageName: string): void {
 		this.currentPage = pageName;
+		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
+		this.currentSurveyPage = undefined;
+		setTimeout(() => {
+			if (priorPageId !== -1) {
+				let thisPage = <any>$('#' + priorPageId + '-tab');
+				thisPage.removeClass('active');
+				thisPage.removeClass('show');
+			}
+		}, 0);
 	}
 
 	switchSurveyPage(pageId: number): void {
-		this.surveyPage.pageQuestions = [];
 		this.currentPage = 'surveyPage';
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
-		this.currentSurveyPage = this.allPages.filter(r => r.id === pageId)[0];
+		// this.currentSurveyPage = this.allPages.filter(r => r.id === pageId)[0];
 		setTimeout(() => {
 			if (priorPageId !== -1) {
 				let thisPage = <any>$('#' + priorPageId + '-tab');
@@ -252,19 +242,25 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			nextPage.tab('show');
 		}, 0);
 
+		this.surveyBuilderService
+			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
+			.subscribe(page => {
+				this.currentSurveyPage = page;
+				page.questionPartViewChildren.forEach(qc => {
+					this.surveyPage.pageQuestions.push(
+						this.questionChooser.questionTypeDefinitions.filter(q => q.typeName === qc.questionPart.questionType)[0]
+					);
+				});
+			});
 	}
 
 	private navigateToFirst(): void {
-		let firstTab = <any>$('#myTab li:first-child a');
+		let firstTab = <any>$('#welcome-tab');
 		firstTab.tab('show');
 	}
 
 	deletePage(pageId: number): void {
-		this.alertService.showDialog(
-			'Are you sure you want to delete the page?',
-			DialogType.confirm,
-			() => this.continueDelete(pageId)
-		);
+		this.alertService.showDialog('Are you sure you want to delete the page?', DialogType.confirm, () => this.continueDelete(pageId));
 	}
 
 	continueDelete(pageId: number): void {
@@ -274,16 +270,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				if (pageId === this.currentSurveyPage.id) {
 					this.navigateToFirst();
 				}
-				this.alertService.showMessage(
-					'Success',
-					`Page was removed successfully!`,
-					MessageSeverity.success
-				);
+				this.alertService.showMessage('Success', `Page was removed successfully!`, MessageSeverity.success);
 			},
 			error => {
 				this.alertService.showMessage(
 					'Error',
-					`Problem removing page!\r\nErrors: "${ Utilities.getHttpResponseMessage(error)}"`,
+					`Problem removing page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 					MessageSeverity.error
 				);
 			}
@@ -291,20 +283,17 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	createPage(title: string): void {
-		let newPage: QuestionPartView = new QuestionPartView(0, title);
+		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
+		let newPage: QuestionPartView = new QuestionPartView(0, newlabel);
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			result => {
 				this.loadPageStructure();
-				this.alertService.showMessage(
-					'Success',
-					`Page was added successfully!`,
-					MessageSeverity.success
-				);
+				this.alertService.showMessage('Success', `Page was added successfully!`, MessageSeverity.success);
 			},
 			error => {
 				this.alertService.showMessage(
 					'Error',
-					`Problem adding page!\r\nErrors: "${ Utilities.getHttpResponseMessage(error)}"`,
+					`Problem adding page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
 					MessageSeverity.error
 				);
 			}
@@ -362,7 +351,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			});
 		}
 	}
-
 
 	getPagePayload(index) {
 		return this.allPages[index];
