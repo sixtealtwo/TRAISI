@@ -161,6 +161,11 @@ namespace TRAISI.ViewModels
                     svm.WelcomeText = s.WelcomePageLabels[opt.Items["Language"] as string].Value;
                 });
 
+						CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
+								.ForMember (w => w.QuestionPartView, map => map.Ignore ())
+								.ReverseMap ();
+
+
             CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
                 .ForMember(w => w.SurveyView, map => map.Ignore())
                 .ReverseMap();

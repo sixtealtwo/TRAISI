@@ -89,7 +89,7 @@ namespace TRAISI.Controllers
             }
         }
 
-				[HttpPost("{surveyId}/Part/{questionPartViewId}/{initialLanguage}")]
+				[HttpPut("{surveyId}/Part/{questionPartViewId}/{initialLanguage}")]
         public async Task<IActionResult> AddQuestionPartView(int surveyId, int questionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
         {
             if (ModelState.IsValid)
@@ -103,8 +103,8 @@ namespace TRAISI.Controllers
                     {
                         new QuestionPartViewLabel()
                         {
-                                                    Language = initialLanguage,
-                                                    Value = questionInfo.Label.Value
+                          Language = initialLanguage,
+                          Value = questionInfo.Label.Value
                         }
                     };
                     this._surveyBuilderService.AddQuestionPartView(questionPartView, newQuestion);
@@ -289,6 +289,7 @@ namespace TRAISI.Controllers
         [HttpPost("{surveyId}/Page/{surveyViewName}/{initialLanguage}")]
         public async Task<IActionResult> AddPage(int surveyId, string surveyViewName, string initialLanguage, [FromBody] SBQuestionPartViewViewModel pageInfo)
         {
+					//test
             if (ModelState.IsValid)
             {
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
