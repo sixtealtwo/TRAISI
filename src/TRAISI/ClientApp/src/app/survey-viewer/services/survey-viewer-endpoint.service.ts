@@ -57,7 +57,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		surveyId:number,
 		shortcode:string
 	): Observable<T> {
-		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyId}/${shortcode}`;
+		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}`;
 
 		return this.http.post<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
