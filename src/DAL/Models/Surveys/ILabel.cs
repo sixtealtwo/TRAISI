@@ -6,6 +6,6 @@ namespace DAL.Models.Surveys
     {
         string Value { get; set; }
 
-        string Language {get;set;}
+        string Language { get; set; }
     }
 }

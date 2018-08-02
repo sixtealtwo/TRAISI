@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {AlertService, MessageSeverity} from "../../../services/alert.service";
-import {SurveyViewerService} from "../../services/survey-viewer.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SurveyStart} from "../../models/survey-start.model";
-import {AuthService} from "../../../services/auth.service";
-import {User} from "../../../models/user.model";
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AlertService, MessageSeverity } from '../../../services/alert.service';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyStart } from '../../models/survey-start.model';
+import { AuthService } from '../../../services/auth.service';
+import { User } from '../../../models/user.model';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -12,7 +12,6 @@ import {User} from "../../../models/user.model";
 	styleUrls: ['./survey-start-page.component.scss']
 })
 export class SurveyStartPageComponent implements OnInit {
-
 	surveyName: string;
 
 	isLoading: boolean = false;
@@ -20,7 +19,6 @@ export class SurveyStartPageComponent implements OnInit {
 	shortcode: string;
 
 	survey: SurveyStart;
-
 
 	/**
 	 *
@@ -30,35 +28,31 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param route
 	 * @param router
 	 */
-	constructor(private alertService: AlertService,
-				private surveyViewerService: SurveyViewerService,
-				private authService: AuthService,
-				private route: ActivatedRoute,
-				private router: Router) {
-
-	}
+	constructor(
+		private alertService: AlertService,
+		private surveyViewerService: SurveyViewerService,
+		private authService: AuthService,
+		private route: ActivatedRoute,
+		private router: Router
+	) {}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
 		this.survey = new SurveyStart();
-		this.shortcode = "";
+		this.shortcode = '';
 		this.route.parent.params.subscribe(params => {
-
 			this.surveyName = params['surveyName'];
 
-			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe( (value) => {
-				this.survey = value;
-
-
-
-			}, (error) => {
-
-				this.router.navigate([this.surveyName,'error'], {relativeTo: this.route});
-
-			});
-
+			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(
+				value => {
+					this.survey = value;
+				},
+				error => {
+					this.router.navigate([this.surveyName, 'error'], { relativeTo: this.route });
+				}
+			);
 		});
 	}
 
@@ -77,21 +71,19 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	startSurvey(): void {
 		this.isLoading = true;
-		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe((value) => {
-
-				this.authService.login(`${this.survey.id}_${this.shortcode}`,
-					this.shortcode,true).subscribe((value:User) => {
-					this.isLoading = false;
-					this.router.navigate(['/survey',this.surveyName,'terms']);
-
-
-				});
+		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
+			value => {
+				this.authService
+					.login(`${this.survey.id}_${this.shortcode}`, this.shortcode, true)
+					.subscribe((user: User) => {
+						this.isLoading = false;
+						this.router.navigate(['/survey', this.surveyName, 'terms']);
+					});
 			},
-			(error) => {
-
+			error => {
 				this.isLoading = false;
-				this.showErrorAlert("Error","Some error with the shortcode");
-			});
+				this.showErrorAlert('Error', 'Some error with the shortcode');
+			}
+		);
 	}
-
 }

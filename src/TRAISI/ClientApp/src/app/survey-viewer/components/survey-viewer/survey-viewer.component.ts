@@ -1,10 +1,16 @@
-import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactory, SystemJsNgModuleLoader} from '@angular/core';
-import {SurveyViewerService} from '../../services/survey-viewer.service';
-import {QuestionLoaderService} from '../../services/question-loader.service';
-import {NextObserver} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {HttpErrorResponse} from "@angular/common/http";
-
+import {
+	Component,
+	OnInit,
+	ViewChild,
+	ViewContainerRef,
+	ComponentFactory,
+	SystemJsNgModuleLoader
+} from '@angular/core';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { QuestionLoaderService } from '../../services/question-loader.service';
+import { NextObserver } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'traisi-survey-viewer',
@@ -12,10 +18,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 	styleUrls: ['./survey-viewer.component.scss']
 })
 export class SurveyViewerComponent implements OnInit {
-
-	@ViewChild('vc', {read: ViewContainerRef}) vc;
-	@ViewChild('vcmap', {read: ViewContainerRef}) vcmap;
-
+	@ViewChild('vc', { read: ViewContainerRef })
+	vc;
+	@ViewChild('vcmap', { read: ViewContainerRef })
+	vcmap;
 
 	/**
 	 *
@@ -23,20 +29,16 @@ export class SurveyViewerComponent implements OnInit {
 	 * @param questionLoaderService
 	 * @param route
 	 */
-	constructor(private surveyViewerService: SurveyViewerService,
-				private questionLoaderService: QuestionLoaderService,
-				private route: ActivatedRoute
-	) {
-
-	}
+	constructor(
+		private surveyViewerService: SurveyViewerService,
+		private questionLoaderService: QuestionLoaderService,
+		private route: ActivatedRoute
+	) {}
 
 	/**
 	 * Initialization
 	 */
 	ngOnInit() {
-
-
-		//this.surveyViewerService.getWelcomeView()
+		// this.surveyViewerService.getWelcomeView()
 	}
-
 }

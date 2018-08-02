@@ -1,10 +1,9 @@
-import {Component, ComponentFactoryResolver, OnInit} from '@angular/core';
-import {SurveyViewerService} from "../../services/survey-viewer.service";
-import {QuestionLoaderService} from "../../services/question-loader.service";
-import {ActivatedRoute} from "@angular/router";
-import {SurveyErrorComponent} from "../survey-error/survey-error.component";
-import {SurveyStartPageComponent} from "../survey-start-page/survey-start-page.component";
-
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { QuestionLoaderService } from '../../services/question-loader.service';
+import { ActivatedRoute } from '@angular/router';
+import { SurveyErrorComponent } from '../survey-error/survey-error.component';
+import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 
 @Component({
 	selector: 'app-survey-viewer-container',
@@ -13,9 +12,7 @@ import {SurveyStartPageComponent} from "../survey-start-page/survey-start-page.c
 	entryComponents: [SurveyErrorComponent, SurveyStartPageComponent]
 })
 export class SurveyViewerContainerComponent implements OnInit {
-
 	private surveyName: string;
-
 
 	/**
 	 *
@@ -24,35 +21,24 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 * @param route
 	 * @param componentFactoryResolver
 	 */
-	constructor(private surveyViewerService: SurveyViewerService,
-				private questionLoaderService: QuestionLoaderService,
-				private route: ActivatedRoute,
-				private componentFactoryResolver: ComponentFactoryResolver
-	) {
-
-	}
+	constructor(
+		private surveyViewerService: SurveyViewerService,
+		private questionLoaderService: QuestionLoaderService,
+		private route: ActivatedRoute,
+		private componentFactoryResolver: ComponentFactoryResolver
+	) {}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
-
-
 		this.route.params.subscribe(params => {
-
-
 			this.surveyName = params['surveyName'];
 
-			//get the welcome view
-			this.surveyViewerService.getWelcomeView(params['surveyName']).subscribe((value) => {
-
-			}, (error) => {
-
-
-			})
-
+			// get the welcome view
+			this.surveyViewerService
+				.getWelcomeView(params['surveyName'])
+				.subscribe(value => {}, error => {});
 		});
-
 	}
-
 }
