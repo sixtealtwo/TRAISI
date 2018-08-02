@@ -38,7 +38,6 @@ export class QuestionTypeChooserComponent implements OnInit {
 			.getQuestionTypes()
 			.subscribe((value: QuestionTypeDefinition[]) => {
 				this.questionTypeDefinitions = value;
-				console.log(value);
 			});
 
 		jQuery(window).on('sn:resize', this.initSidebarScroll.bind(this));
@@ -71,11 +70,10 @@ export class QuestionTypeChooserComponent implements OnInit {
 	addSectionToList() {
 		if (!this.wasDragging) {
 			let surveyPart: QuestionTypeDefinition = {
-				id: -1,
 				typeName: 'Survey Part',
 				icon: 'fa-archive',
-				iconType: QuestionIconType.FONT_ICON,
-				questionConfigurations: []
+				questionConfigurations: [],
+				questionOptions: []
 			};
 			this.addQuestionType.emit(surveyPart);
 		}

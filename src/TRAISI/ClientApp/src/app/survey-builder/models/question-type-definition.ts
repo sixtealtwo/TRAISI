@@ -1,9 +1,10 @@
 import { QuestionIconType } from './question-icon-type.enum';
+import { QuestionOptionDefinition } from './question-option-definition.model';
+import { QuestionConfigurationDefinition } from './question-configuration-definition.model';
 
 export interface QuestionTypeDefinition {
-	id: number;
 	typeName: string;
 	icon: string;
-	iconType: QuestionIconType;
-	questionConfigurations: any[];
+	questionOptions: QuestionOptionDefinition[];
+	questionConfigurations: QuestionConfigurationDefinition[];
 }

@@ -14,6 +14,8 @@ using TRAISI.ViewModels.SurveyBuilder;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.Users;
 using TRAISI.ViewModels.Extensions;
+using TRAISI.ViewModels.Questions;
+using TRAISI.SDK;
 
 namespace TRAISI.ViewModels
 {
@@ -209,6 +211,15 @@ namespace TRAISI.ViewModels
                         svm.TitleText = "";
                     }
                 });
+
+            CreateMap<QuestionTypeDefinition, SBQuestionTypeDefinitionViewModel>()
+                .ReverseMap();
+
+            CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
+                .ReverseMap();
+
+            CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()
+                .ReverseMap();
         }
     }
 }

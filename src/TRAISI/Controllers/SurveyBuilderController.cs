@@ -18,6 +18,7 @@ using TRAISI.Helpers;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.SurveyBuilder;
+using TRAISI.ViewModels.Questions;
 using TRAISI.Services.Interfaces;
 
 namespace TRAISI.Controllers
@@ -48,11 +49,11 @@ namespace TRAISI.Controllers
         }
 
         [HttpGet("question-types")]
-        [Produces(typeof(List<QuestionTypeDefinition>))]
-        public IEnumerable<QuestionTypeDefinition> QuestionTypes()
+        [Produces(typeof(List<SBQuestionTypeDefinitionViewModel>))]
+        public IActionResult QuestionTypes()
         {
-            var questionTypes = this._questionTypeManager.QuestionTypeDefinitions;
-            return questionTypes;
+            var questionTypes = Mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions);
+            return Ok(questionTypes);
         }
 
         [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}")]
