@@ -26,6 +26,8 @@ namespace DAL.Repositories.Interfaces
 
         Task<Survey> GetSurveyByNameFullAsync(string name);
 
+        Task<Survey> GetSurveyFullAsync(int surveyId);
+
         Task<Survey> GetSurveyForShortcode(string shortcode);
 
     }

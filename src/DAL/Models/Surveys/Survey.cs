@@ -28,6 +28,11 @@ namespace DAL.Models.Surveys
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
+        public Survey()
+        {
+            this.SurveyViews = new List<SurveyView>();
+        }
+
 
 
         /**
@@ -40,7 +45,8 @@ namespace DAL.Models.Surveys
             {
                 [DefaultLanguage] = new TitlePageLabel
                 {
-                    Value = "Default Survey Title", Survey = this
+                    Value = "Default Survey Title",
+                    Survey = this
                 }
             };
 

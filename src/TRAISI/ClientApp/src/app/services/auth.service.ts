@@ -14,6 +14,7 @@ import { Utilities } from './utilities';
 import { LoginResponse, IdToken } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
+import { SurveyUser } from 'app/models/survey-user.model';
 
 @Injectable()
 export class AuthService {
@@ -105,6 +106,7 @@ export class AuthService {
 	}
 
 
+
 	login(userName: string, password: string, rememberMe?: boolean) {
 
 		if (this.isLoggedIn) {
@@ -153,6 +155,12 @@ export class AuthService {
 			Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
 		user.isEnabled = true;
 
+		if (user.roles.includes('respondent'))
+		{
+			(<SurveyUser>user).shortcode = user.userName.split('_')[1];
+			(<SurveyUser>user).surveyId = +user.userName.split('_')[0];
+		}
+
 		this.saveUserDetails(user, permissions, accessToken, idToken, refreshToken, accessTokenExpiry, rememberMe);
 
 		this.reevaluateLoginStatus(user);
@@ -199,7 +207,7 @@ export class AuthService {
 	}
 
 
-	private reevaluateLoginStatus(currentUser?: User) {
+	private reevaluateLoginStatus(currentUser?: User): User {
 
 		const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
 		const isLoggedIn = user != null;
@@ -211,11 +219,20 @@ export class AuthService {
 		}
 
 		this.previousIsLoggedInCheck = isLoggedIn;
+		return user;
 	}
 
 
 	getLoginStatusEvent(): Observable<boolean> {
 		return this._loginStatus.asObservable();
+	}
+
+	/**
+	 * Gets the active user as a Survey User type
+	 */
+	get currentSurveyUser(): SurveyUser {
+		const user = this.reevaluateLoginStatus();
+		return <SurveyUser>user;
 	}
 
 

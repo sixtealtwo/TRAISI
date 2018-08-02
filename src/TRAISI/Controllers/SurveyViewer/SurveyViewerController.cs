@@ -15,6 +15,7 @@ using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.SurveyViewer;
+using TRAISI.ViewModels.SurveyViewer.Enums;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -116,8 +117,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode);
 
-            if (!success)
-            {
+            if (!success) {
                 return new BadRequestResult();
             }
 
@@ -135,8 +135,27 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetSurveyWelcomeView(string name)
         {
             var result = await this._viewService.GetSurveyWelcomeView(name);
-            if (result == null)
-            {
+            if (result == null) {
+                return new NotFoundResult();
+            }
+
+            return new ObjectResult(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route("{surveyId:int}/terms/{viewType?}/{language?}")]
+        [HttpGet]
+        [Authorize]
+        [Produces(typeof(ObjectResult))]
+        public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,
+        SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
+        {
+            var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, language, viewType);
+            if (result == null) {
                 return new NotFoundResult();
             }
 

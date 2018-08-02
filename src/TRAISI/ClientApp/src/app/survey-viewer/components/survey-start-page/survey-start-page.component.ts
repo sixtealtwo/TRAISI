@@ -24,14 +24,12 @@ export class SurveyStartPageComponent implements OnInit {
 	 *
 	 * @param alertService
 	 * @param surveyViewerService
-	 * @param authService
 	 * @param route
 	 * @param router
 	 */
 	constructor(
 		private alertService: AlertService,
 		private surveyViewerService: SurveyViewerService,
-		private authService: AuthService,
 		private route: ActivatedRoute,
 		private router: Router
 	) {}
@@ -73,12 +71,10 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isLoading = true;
 		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
 			value => {
-				this.authService
-					.login(`${this.survey.id}_${this.shortcode}`, this.shortcode, true)
-					.subscribe((user: User) => {
-						this.isLoading = false;
-						this.router.navigate(['/survey', this.surveyName, 'terms']);
-					});
+				this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
+					this.isLoading = false;
+					this.router.navigate(['/survey', this.surveyName, 'terms']);
+				});
 			},
 			error => {
 				this.isLoading = false;

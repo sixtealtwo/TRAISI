@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 
 @Component({
 	selector: 'app-survey-terms-page',
@@ -9,18 +11,37 @@ import { ActivatedRoute } from '@angular/router';
 export class SurveyTermsPageComponent implements OnInit {
 	private surveyName: string;
 
+	private surveyId: number;
+
+	public model: SurveyViewTermsModel;
+
 	/**
 	 *
 	 * @param route
 	 */
-	constructor(private route: ActivatedRoute) {}
+	constructor(private route: ActivatedRoute, private surveyViewerService: SurveyViewerService) {
+		this.model = {} as SurveyViewTermsModel;
+	}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
+
+		console.log('active id: ' + this.surveyViewerService.activeSurveyId);
+		this.surveyId = this.surveyViewerService.activeSurveyId;
 		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 		});
+
+		this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
+			value => {
+				console.log(value);
+				this.model = value;
+			},
+			error => {
+				this.model = {} as SurveyViewTermsModel;
+			}
+		);
 	}
 }

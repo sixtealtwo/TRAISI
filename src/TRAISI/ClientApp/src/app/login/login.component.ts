@@ -6,7 +6,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { Utilities } from '../services/utilities';
 import { UserLogin } from '../models/user-login.model';
 import { Permission } from '../models/permission.model';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-login',

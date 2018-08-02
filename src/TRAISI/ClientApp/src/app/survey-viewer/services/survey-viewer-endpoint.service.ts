@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from '../../services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
+import { SurveyViewType } from '../models/survey-view-type.enum';
 
 @Injectable()
 export class SurveyViewerEndpointService extends EndpointFactory {
@@ -28,6 +29,28 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 
 	private get getSurveyViewerStartSurveyUrl() {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/start';
+	}
+
+	private get getSurveyViewerTermsAndConditionsUrl() {
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
+	}
+
+	public getSurveyViewerTermsAndConditionsEndpoint<T>(
+		surveyId: number,
+		viewType?: SurveyViewType,
+		language?: string
+	) {
+		let endpointUrl = `${
+			this.getSurveyViewerTermsAndConditionsUrl
+		}/${surveyId}/terms/${viewType}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language)
+				);
+			})
+		);
 	}
 
 	/**

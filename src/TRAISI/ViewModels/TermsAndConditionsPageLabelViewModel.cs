@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace TRAISI.ViewModels
 {
-    public class TermsAndConditionsPageLabelViewModel: LabelViewModel
+    public class TermsAndConditionsPageLabelViewModel : LabelViewModel
     {
-      public int Id { get; set; }
-			public int SurveyViewId { get; set;}
+        public int Id { get; set; }
+        public int SurveyViewId { get; set; }
     }
 
     public class TermsAndConditionsPageLabelViewModelValidator : AbstractValidator<TermsAndConditionsPageLabelViewModel>
     {
         public TermsAndConditionsPageLabelViewModelValidator()
         {
-            
+
         }
     }
 }

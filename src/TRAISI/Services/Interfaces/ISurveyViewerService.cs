@@ -4,6 +4,8 @@ using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using TRAISI.ViewModels;
+using TRAISI.ViewModels.SurveyViewer;
+using TRAISI.ViewModels.SurveyViewer.Enums;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -35,7 +37,12 @@ namespace TRAISI.Services.Interfaces
         ///
         bool AuthorizeSurveyUser(Survey survey, string shortcode);
 
-        Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name);
+        Task<SurveyStartViewModel> GetSurveyWelcomeView(string name);
+
+
+        Task<SurveyViewTermsAndConditionsViewModel> GetSurveyTermsAndConditionsText(int surveyId,
+        string language = null,
+        SurveyViewType viewType = SurveyViewType.CatiView);
 
     }
 }

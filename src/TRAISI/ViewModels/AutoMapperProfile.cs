@@ -19,7 +19,7 @@ using TRAISI.SDK;
 
 namespace TRAISI.ViewModels
 {
-    public class AutoMapperProfile : Profile
+    public partial class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
@@ -100,7 +100,7 @@ namespace TRAISI.ViewModels
             CreateMap<QuestionPartView, QuestionPartViewViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]).Value;
+                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
@@ -116,7 +116,7 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.Label = Mapper.Map<QuestionPartViewLabelViewModel>(
-                        s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]));
+                        s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
             CreateMap<SBSurveyViewViewModel, SurveyView>()
@@ -130,42 +130,25 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.SurveyCompletionPage = Mapper.Map<ThankYouPageLabelViewModel>(
-                        s.ThankYouPageLabels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]));
+                        s.ThankYouPageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 })
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.TermsAndConditionsPage = Mapper.Map<TermsAndConditionsPageLabelViewModel>(
                         s.TermsAndConditionsLabels.FirstOrDefault(l =>
-                            l.Language == (string) opt.Items["Language"]));
+                            l.Language == (string)opt.Items["Language"]));
                 })
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.WelcomePage = Mapper.Map<WelcomePageLabelViewModel>(
-                        s.WelcomePageLabels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]));
+                        s.WelcomePageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
-            CreateMap<SurveyView, SurveyViewerViewModel>()
-                .ForMember(vm => vm.Questions, map => map.MapFrom(v => v.QuestionPartViews))
-                .AfterMap((s, svm, opt) =>
-                {
-                    svm.TitleText = s.Survey.TitleLabels[opt.Items["Language"] as string].Value;
-                })
-                .AfterMap((s, svm, opt) =>
-                {
-                    svm.SurveyCompletionText = s.ThankYouPageLabels[opt.Items["Language"] as string].Value;
-                })
-                .AfterMap((s, svm, opt) =>
-                {
-                    svm.TermsAndConditionsText = s.TermsAndConditionsLabels[opt.Items["Language"] as string].Value;
-                })
-                .AfterMap((s, svm, opt) =>
-                {
-                    svm.WelcomeText = s.WelcomePageLabels[opt.Items["Language"] as string].Value;
-                });
+           
 
-						CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
-								.ForMember (w => w.QuestionPartView, map => map.Ignore ())
-								.ReverseMap ();
+            CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
+                    .ForMember(w => w.QuestionPartView, map => map.Ignore())
+                    .ReverseMap();
 
 
             CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
@@ -186,31 +169,8 @@ namespace TRAISI.ViewModels
             CreateMap<SiteSurveyTemplate, SiteSurveyTemplateViewModel>()
                 .ReverseMap();
 
-            CreateMap<Survey, SurveyWelcomeViewModel>()
-                .AfterMap((s, svm, opt) =>
-                {
-                    var view = s.SurveyViews.FirstOrDefault();
-                    if (view != null)
-                    {
-                        svm.WelcomeText = view.WelcomePageLabels[opt.Items["Language"] as string].Value;
-                    }
-                    else
-                    {
-                        svm.WelcomeText = "";
-                    }
-                })
-                .AfterMap((s, svm, opt) =>
-                {
-                    var view = s.SurveyViews.FirstOrDefault();
-                    if (view != null)
-                    {
-                        svm.TitleText = view.Survey.TitleLabels[opt.Items["Language"] as string].Value;
-                    }
-                    else
-                    {
-                        svm.TitleText = "";
-                    }
-                });
+
+
 
             CreateMap<QuestionTypeDefinition, SBQuestionTypeDefinitionViewModel>()
                 .ReverseMap();
@@ -220,6 +180,8 @@ namespace TRAISI.ViewModels
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()
                 .ReverseMap();
+
+            CreateSurveyViewerAutoMapperProfiles();
         }
     }
 }

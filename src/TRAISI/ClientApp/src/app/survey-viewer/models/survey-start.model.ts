@@ -2,10 +2,8 @@
  *
  */
 export class SurveyStart {
-
 	id: number;
 	welcomeText: string;
-	titleText:string;
+	titleText: string;
 	surveyName: string;
-
 }

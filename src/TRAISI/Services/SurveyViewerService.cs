@@ -13,6 +13,8 @@ using DAL.Models;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.Users;
+using TRAISI.ViewModels.SurveyViewer;
+using TRAISI.ViewModels.SurveyViewer.Enums;
 
 namespace TRAISI.Services
 {
@@ -33,6 +35,32 @@ namespace TRAISI.Services
         public QuestionPartView GetQuestion(SurveyView view, int number)
         {
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns the Terms and Conditions text for the specified survey id of the chosen language
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        public async Task<SurveyViewTermsAndConditionsViewModel> GetSurveyTermsAndConditionsText(int surveyId,
+        string language = null,
+        SurveyViewType viewType = SurveyViewType.RespondentView)
+        {
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
+
+            if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0) {
+                var s2 =  (survey.SurveyViews as List<SurveyView>);
+                return (survey.SurveyViews as List<SurveyView>)[0].ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+            }
+            else {
+                if (survey.SurveyViews.Count > 1) {
+                    return (survey.SurveyViews as List<SurveyView>)[0].ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+                }
+            }
+
+            // no valid view available
+            return null;
+
         }
 
 
@@ -71,7 +99,7 @@ namespace TRAISI.Services
                 return (true, existingUser);
             }
 
-            var user = new UserViewModel {UserName = surveyId + "_" + shortcode};
+            var user = new UserViewModel { UserName = surveyId + "_" + shortcode };
 
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
 
@@ -109,11 +137,11 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<SurveyWelcomeViewModel> GetSurveyWelcomeView(string name)
+        public async Task<SurveyStartViewModel> GetSurveyWelcomeView(string name)
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByNameFullAsync(name);
 
-            return survey.ToLocalizedModel<SurveyWelcomeViewModel>("en");
+            return survey.ToLocalizedModel<SurveyStartViewModel>("en");
             //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
 

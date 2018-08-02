@@ -53,6 +53,21 @@ namespace DAL.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyFullAsync(int surveyId)
+        {
+            return await _appContext.Surveys.Where(s => s.Id == surveyId)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
+                .Include(s => s.TitleLabels)
+                .SingleOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="shortcode"></param>
         /// <returns></returns>
         public async Task<Survey> GetSurveyForShortcode(string shortcode)

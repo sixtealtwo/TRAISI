@@ -12,12 +12,26 @@ namespace DAL.Models.Extensions
     {
         public T this[string key]
         {
-            get { return this.FirstOrDefault(t => t.Language == key); }
+            get
+            {
+                return this.FirstOrDefault(t => t.Language == key);
+            }
             set
             {
                 value.Language = key;
                 RemoveWhere(t => t.Language == key);
                 Add(value);
+            }
+        }
+
+        /// <summary>
+        /// Returns the default (or first) label in the collection. 
+        /// </summary>
+        /// <value>The label for the default language (usually first label).
+        /// Returns null if no labels are in the collection.</value>
+        public T Default {
+            get {
+                return this.FirstOrDefault();
             }
         }
 

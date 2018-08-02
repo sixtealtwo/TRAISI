@@ -1,7 +1,4 @@
 export interface SurveyWelcomeModel {
-
-	welcomeText: string,
-	surveyTitle: string
-
-
+	welcomeText: string;
+	surveyTitle: string;
 }

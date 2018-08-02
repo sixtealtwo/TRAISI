@@ -43,5 +43,4 @@
   <ItemGroup>
     <EmbeddedResource Include="dist/*.module.js" />
   </ItemGroup>
-
 </Project>
