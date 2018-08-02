@@ -26,19 +26,11 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		let endpointUrl = `${this.surveyResponseUrl}/${surveyId}/${questionId}`;
 
 		return this.http
-			.post<T>(
-				endpointUrl,
-				JSON.stringify(responseData),
-				this.getRequestHeaders()
-			)
+			.post<T>(endpointUrl, JSON.stringify(responseData), this.getRequestHeaders())
 			.pipe(
 				catchError(error => {
 					return this.handleError(error, () =>
-						this.getSubmitSurveyResponseEndpoint(
-							surveyId,
-							questionId,
-							responseData
-						)
+						this.getSubmitSurveyResponseEndpoint(surveyId, questionId, responseData)
 					);
 				})
 			);
@@ -50,11 +42,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	 * @param configurations
 	 * @param injector
 	 */
-	constructor(
-		http: HttpClient,
-		configurations: ConfigurationService,
-		injector: Injector
-	) {
+	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
 		super(http, configurations, injector);
 	}
 }

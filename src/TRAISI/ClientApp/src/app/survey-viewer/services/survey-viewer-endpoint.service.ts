@@ -34,9 +34,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 *
 	 * @param surveyName
 	 */
-	getSurveyViewerWelcomeViewEndpoint<T>(
-		surveyName: string
-	): Observable<T> {
+	getSurveyViewerWelcomeViewEndpoint<T>(surveyName: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyName}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -53,10 +51,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param surveyId
 	 * @param shortcode
 	 */
-	getSurveyViewerStartSurveyEndpoint<T>(
-		surveyId: number,
-		shortcode: string
-	): Observable<T> {
+	getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}`;
 
 		return this.http.post<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -68,16 +63,12 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		);
 	}
 
-
 	/**
 	 *
 	 * @param surveyId
 	 * @param language
 	 */
-	getDefaultSurveyViewEndpoint<T>(
-		surveyId: number,
-		language: string = 'en'
-	): Observable<T> {
+	getDefaultSurveyViewEndpoint<T>(surveyId: number, language: string = 'en'): Observable<T> {
 		let endpointUrl = `${this.surveyViewerUrl}/${surveyId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -93,12 +84,8 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 *
 	 * @param questionId
 	 */
-	getSurveyViewQuestionConfigurationEndpoint<T>(
-		questionId: number
-	): Observable<T> {
-		let endpointUrl = `${
-			this.surveyViewQuestionConfiguration
-		}/${questionId}`;
+	getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
+		let endpointUrl = `${this.surveyViewQuestionConfiguration}/${questionId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
@@ -119,9 +106,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getSurveyViewQuestionsEndpoint(surveyId)
-				);
+				return this.handleError(error, () => this.getSurveyViewQuestionsEndpoint(surveyId));
 			})
 		);
 	}
@@ -132,13 +117,8 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param {number} questionIndex
 	 * @returns {Observable<T>}
 	 */
-	getSurveyViewQuestionEndpoint<T>(
-		surveyId: number,
-		questionIndex: number
-	): Observable<T> {
-		let endpointUrl = `${
-			this.surveyViewQuestionsUrl
-		}/${surveyId}/${questionIndex}`;
+	getSurveyViewQuestionEndpoint<T>(surveyId: number, questionIndex: number): Observable<T> {
+		let endpointUrl = `${this.surveyViewQuestionsUrl}/${surveyId}/${questionIndex}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
@@ -155,11 +135,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param configurations
 	 * @param injector
 	 */
-	constructor(
-		http: HttpClient,
-		configurations: ConfigurationService,
-		injector: Injector
-	) {
+	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
 		super(http, configurations, injector);
 	}
 }
