@@ -37,7 +37,7 @@ namespace DAL.Core
             _surveyUserManager = surveyUserManager;
             _roleManager = roleManager;
 
-          
+
             surveyUserManager.Options.SignIn.RequireConfirmedEmail = false;
             surveyUserManager.Options.Password.RequireUppercase = false;
             surveyUserManager.Options.Password.RequireDigit = false;
@@ -118,10 +118,10 @@ namespace DAL.Core
 
         public async Task<List<Tuple<ApplicationUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize)
         {
-						//get respondent role Id for comparison
-						var respondentRoleId = _context.Roles
-														.Where(r => r.Name == "respondent")
-														.Select(r => r.Id).First();
+            //get respondent role Id for comparison
+            var respondentRoleId = _context.Roles
+                                            .Where(r => r.Name == "respondent")
+                                            .Select(r => r.Id).First();
 
             IQueryable<ApplicationUser> usersQuery = _context.Users
                 .Where(u => !u.Groups.Any() && !u.Roles.Select(r => r.RoleId).Contains(respondentRoleId))
@@ -181,20 +181,27 @@ namespace DAL.Core
         /// <param name="user"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode)
+        public async Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode, (string claimName, string claimValue) [] claims )
         {
             user.IsEnabled = true;
             var result = await _surveyUserManager.CreateAsync(user, shortcode);
 
             if (!result.Succeeded)
+            {
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
+            }
 
 
             user = await _userManager.FindByNameAsync(user.UserName);
 
             try
             {
-                result = await this._surveyUserManager.AddToRolesAsync(user,new string[] {"respondent"});
+                result = await this._surveyUserManager.AddToRolesAsync(user, new string[] { "respondent" });
+                foreach(var claim in claims)
+                {
+                    await this._surveyUserManager.AddClaimAsync(user, new Claim(claim.claimName, claim.claimValue));
+                }
+
             }
             catch
             {
@@ -287,10 +294,10 @@ namespace DAL.Core
 
         public async Task<bool> TestCanDeleteUserAsync(string userId)
         {
-           if (await _context.GroupMembers.Where(gm => gm.User.Id == userId).AnyAsync())
-					 	return false;
-					
-					return true;
+            if (await _context.GroupMembers.Where(gm => gm.User.Id == userId).AnyAsync())
+                return false;
+
+            return true;
         }
 
 

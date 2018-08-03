@@ -76,14 +76,31 @@ export class EndpointFactory {
 	protected getRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		const headers = new HttpHeaders({
-			Authorization: 'Bearer ' + this.authService.accessToken,
-			'Content-Type': 'application/json',
-			Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
-			'App-Version': ConfigurationService.appVersion
-		});
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
+			const headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this.authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${
+					this.apiVersion
+				}+json, application/json, text/plain, */*`,
+				'App-Version': ConfigurationService.appVersion,
+				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
+				Shortcode: this.authService.currentSurveyUser.shortcode
+			});
 
-		return { headers: headers, responseType: rType };
+			return { headers: headers, responseType: rType };
+		} else {
+			const headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this.authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${
+					this.apiVersion
+				}+json, application/json, text/plain, */*`,
+				'App-Version': ConfigurationService.appVersion
+			});
+
+			return { headers: headers, responseType: rType };
+		}
 	}
 
 	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
@@ -109,7 +126,9 @@ export class EndpointFactory {
 					if (
 						refreshLoginError.status === 401 ||
 						(refreshLoginError.url &&
-							refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
+							refreshLoginError.url
+								.toLowerCase()
+								.includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
 						return observableThrowError('session expired');

@@ -103,7 +103,8 @@ namespace TRAISI.Services
 
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
 
-            var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode);
+            var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
+             new (string claimName, string claimValue) []{("SurveyId",surveyId.ToString()),("Shortcode",shortcode)});
             return result.Item1 ? (true, appUser) : (false, null);
         }
 

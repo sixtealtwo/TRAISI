@@ -11,6 +11,7 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TRAISI.Authorization;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
@@ -63,6 +64,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// </summary>
         [HttpGet]
         [Authorize]
+        [SurveyUserAuthorization]
         [Produces(typeof(List<SurveyView>))]
         [Route("questions/{viewId}")]
         public async Task<IActionResult> GetSurveyViewQuestions(int viewId)
@@ -79,6 +81,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpGet]
         [Authorize]
+        [SurveyUserAuthorization]
         [Produces(typeof(QuestionConfiguration))]
         [Route("configurations/{questionId}")]
         public async Task<IActionResult> GetSurveyViewQuestionConfiguration(int questionId)
@@ -117,7 +120,8 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode);
 
-            if (!success) {
+            if (!success)
+            {
                 return new BadRequestResult();
             }
 
@@ -135,7 +139,8 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetSurveyWelcomeView(string name)
         {
             var result = await this._viewService.GetSurveyWelcomeView(name);
-            if (result == null) {
+            if (result == null)
+            {
                 return new NotFoundResult();
             }
 
@@ -149,13 +154,15 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Route("{surveyId:int}/terms/{viewType?}/{language?}")]
         [HttpGet]
-        [Authorize]
+        [Authorization]
+        [SurveyUserAuthorization]
         [Produces(typeof(ObjectResult))]
         public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,
         SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
         {
             var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, language, viewType);
-            if (result == null) {
+            if (result == null)
+            {
                 return new NotFoundResult();
             }
 
