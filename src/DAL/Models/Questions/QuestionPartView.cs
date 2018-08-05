@@ -27,7 +27,6 @@ namespace DAL.Models.Questions
         /// <value></value>
         public QuestionPart QuestionPart { get; set; }
 
-
         public QuestionPartView ParentView { get; set; }
 
         /// <summary>
@@ -50,11 +49,9 @@ namespace DAL.Models.Questions
         /// </summary>
         public QuestionPartView()
         {
-            this.Labels = new HashSet<QuestionPartViewLabel>();
-            this.QuestionPartViewChildren = new HashSet<QuestionPartView>();
+            this.Labels = new List<QuestionPartViewLabel>();
+            this.QuestionPartViewChildren = new List<QuestionPartView>();
         }
-
-
 
     }
 }

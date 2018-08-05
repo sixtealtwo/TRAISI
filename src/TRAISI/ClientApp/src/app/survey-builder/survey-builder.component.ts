@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { QuestionPartViewLabel } from './models/question-part-view-label.model';
+import { Order } from './models/order.model';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -75,6 +76,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			this.thankYouPage = page.surveyCompletionPage;
 		});
 	}
+
+	mapQuestionTypeDefinitions() {
+		this.questionChooser.questionTypeDefinitions.forEach(q => {
+			this.surveyPage.qTypeDefinitions.set(q.typeName, q);
+		});
+	}
+
 	generateFroalaOptions() {
 		return {
 			toolbarInline: true,
@@ -219,6 +227,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.currentPage = pageName;
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
 		this.currentSurveyPage = undefined;
+		this.surveyPage.currentPage = new QuestionPartView();
 		setTimeout(() => {
 			if (priorPageId !== -1) {
 				let thisPage = <any>$('#' + priorPageId + '-tab');
@@ -231,7 +240,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	switchSurveyPage(pageId: number): void {
 		this.currentPage = 'surveyPage';
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
-		// this.currentSurveyPage = this.allPages.filter(r => r.id === pageId)[0];
 		setTimeout(() => {
 			if (priorPageId !== -1) {
 				let thisPage = <any>$('#' + priorPageId + '-tab');
@@ -244,14 +252,20 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 		this.surveyBuilderService
 			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
-			.subscribe(page => {
-				this.currentSurveyPage = page;
-				page.questionPartViewChildren.forEach(qc => {
-					this.surveyPage.pageQuestions.push(
-						this.questionChooser.questionTypeDefinitions.filter(q => q.typeName === qc.questionPart.questionType)[0]
-					);
+				.subscribe(page => {
+					this.currentSurveyPage = page;
+					this.surveyPage.currentPage = page;
+					this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
+					page.questionPartViewChildren.forEach(qc => {
+						if (qc.questionPart === null) {
+							this.surveyPage.qPartQuestions.set(qc.id, qc);
+							this.surveyBuilderService.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
+								.subscribe(qPart => {
+									qc.questionPartViewChildren = qPart.questionPartViewChildren;
+								});
+						}
+					});
 				});
-			});
 	}
 
 	private navigateToFirst(): void {
@@ -338,9 +352,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.allPages = pageCache;
 				} else {
 					this.updatePageOrder();
-					this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, this.allPages).subscribe(
+					let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
+					this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder).subscribe(
 						result => {
-							// this.loadPageStructure();
 						},
 						error => {
 							this.loadPageStructure();

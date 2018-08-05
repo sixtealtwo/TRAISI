@@ -9,9 +9,9 @@ namespace TRAISI.ViewModels.SurveyBuilder
 
         public SBQuestionPartViewModel QuestionPart { get; set; }
 
-				public QuestionPartViewLabelViewModel Label { get; set; }
+		public QuestionPartViewLabelViewModel Label { get; set; }
 
-				public SBQuestionPartViewViewModel ParentView { get; set; }
+		public int ParentViewId { get; set; }
 				
         public List<SBQuestionPartViewViewModel> QuestionPartViewChildren { get; set; }
 

@@ -11,6 +11,7 @@ import { TermsAndConditionsPage } from '../models/terms-and-conditions-page.mode
 import { ThankYouPage } from '../models/thank-you-page.model';
 import { SurveyViewStructure } from '../models/survey-view-structure.model';
 import { QuestionPartView } from '../models/question-part-view.model';
+import { Order } from '../models/order.model';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -63,8 +64,8 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(surveyId, language);
 	}
 
-	public updateStandardViewPageOrder(surveyId: number, pageOrder: QuestionPartView[]) {
-		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<QuestionPartView[]>(surveyId, pageOrder);
+	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[]) {
+		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder);
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
@@ -83,15 +84,15 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public updateQuestionPartViewOrderEndpoint(surveyId: number, questionPartViewId: number, childrenViewOrder: QuestionPartView[]) {
-		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewOrderEndpoint<QuestionPartView[]>(
+	public updateQuestionPartViewOrderEndpoint(surveyId: number, questionPartViewId: number, childrenViewOrder: Order[]) {
+		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewOrderEndpoint<Order[]>(
 			surveyId,
 			questionPartViewId,
 			childrenViewOrder
 		);
 	}
 
-	public getAddQuestionPartView(surveyId: number, questionPartViewId: number, language: string, newPart: QuestionPartView) {
+	public addQuestionPartView(surveyId: number, questionPartViewId: number, language: string, newPart: QuestionPartView) {
 		return this.surveyBuilderEndpointService.getAddQuestionPartViewEndpoint<QuestionPartView>(
 			surveyId,
 			questionPartViewId,
@@ -100,7 +101,7 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public getDeleteQuestionPartView(surveyId: number, questionPartViewId: number, childQuestionPartViewId: number) {
+	public deleteQuestionPartView(surveyId: number, questionPartViewId: number, childQuestionPartViewId: number) {
 		return this.surveyBuilderEndpointService.getDeleteQuestionPartViewEndpoint<number>(
 			surveyId,
 			questionPartViewId,

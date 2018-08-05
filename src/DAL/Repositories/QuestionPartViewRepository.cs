@@ -24,8 +24,12 @@ namespace DAL.Repositories
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                    .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
                     .SingleOrDefaultAsync();
-            questionPartView.QuestionPartViewChildren = questionPartView.QuestionPartViewChildren.OrderBy(qp => qp.Order).ToList();
+            if (questionPartView != null)
+            {
+                questionPartView.QuestionPartViewChildren = questionPartView.QuestionPartViewChildren.OrderBy(qp => qp.Order).ToList();
+            }
             return questionPartView;
         }
     }

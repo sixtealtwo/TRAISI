@@ -10,6 +10,11 @@
 		</div>
 		<div class="form-group form-group-adjust row">
 			<div class="col-md-12">
+				<div class="pull-left">
+						<button *ngIf="!newQuestion" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
+								<i class='fa fa-times'></i>Delete
+						</button>
+				</div>
 				<div class="pull-right">
 					<button type="button" class="btn btn-danger action-button" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
 						<i class='fa fa-times'></i>Cancel</button>

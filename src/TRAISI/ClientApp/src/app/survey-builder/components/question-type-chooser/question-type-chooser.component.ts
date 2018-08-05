@@ -18,8 +18,8 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public wasDragging: boolean = false;
 
 	@Input() disabled: boolean = false;
-	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter();
-
+	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter<QuestionTypeDefinition>();
+	@Output() loadedQuestionTypes: EventEmitter<any> = new EventEmitter();
 
 	constructor(private surveyBuilderService: SurveyBuilderService, config: AppConfig, el: ElementRef) {
 		this.config = config.getConfig();
@@ -38,11 +38,13 @@ export class QuestionTypeChooserComponent implements OnInit {
 			.getQuestionTypes()
 			.subscribe((value: QuestionTypeDefinition[]) => {
 				this.questionTypeDefinitions = value;
+				this.loadedQuestionTypes.emit();
 			});
 
 		jQuery(window).on('sn:resize', this.initSidebarScroll.bind(this));
 		this.initSidebarScroll();
 	}
+
 	initSidebarScroll(): void {
 		const $sidebarContent = this.$el.find('.js-builder-sidebar-content');
 		if (this.$el.find('.slimScrollDiv').length !== 0) {

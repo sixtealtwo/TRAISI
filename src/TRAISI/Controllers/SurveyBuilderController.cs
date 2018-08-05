@@ -73,7 +73,7 @@ namespace TRAISI.Controllers
         }
 
         [HttpPost("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder")]
-        public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, [FromBody] List<SBQuestionPartViewViewModel> pageOrder)
+        public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, [FromBody] List<SBOrderViewModel> pageOrder)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
@@ -90,27 +90,39 @@ namespace TRAISI.Controllers
             }
         }
 
-				[HttpPut("{surveyId}/Part/{questionPartViewId}/{initialLanguage}")]
-        public async Task<IActionResult> AddQuestionPartView(int surveyId, int questionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
+        [HttpPut("{surveyId}/Part/{parentQuestionPartViewId}/{initialLanguage}")]
+        public async Task<IActionResult> AddQuestionPartView(int surveyId, int parentQuestionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
         {
             if (ModelState.IsValid)
             {
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-                    QuestionPartView newQuestion = Mapper.Map<QuestionPartView>(questionInfo);
-                    newQuestion.Labels = new List<QuestionPartViewLabel>()
+                    var parentPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(parentQuestionPartViewId);
+                    QuestionPartView question;
+                    question = await this._unitOfWork.QuestionPartViews.GetAsync(questionInfo.Id);
+                    if (question == null)
                     {
-                        new QuestionPartViewLabel()
-                        {
-                          Language = initialLanguage,
-                          Value = questionInfo.Label.Value
-                        }
-                    };
-                    this._surveyBuilderService.AddQuestionPartView(questionPartView, newQuestion);
+                        question = Mapper.Map<QuestionPartView>(questionInfo);
+                        question.Labels = new List<QuestionPartViewLabel>()
+                            {
+                                new QuestionPartViewLabel()
+                                {
+                                  Language = initialLanguage,
+                                  Value = questionInfo.Label.Value
+                                }
+                            };
+                    }
+                    else
+                    {
+                        //remove question from prior parent and fix order elements
+                        var pastParentPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionInfo.ParentViewId);
+                        this._surveyBuilderService.RemoveQuestionPartView(pastParentPartView, question.Id);
+                        question.Order = questionInfo.Order;
+                    }
+                    this._surveyBuilderService.AddQuestionPartView(parentPartView, question);
                     await this._unitOfWork.SaveChangesAsync();
-                    return new OkResult();
+                    return Ok(question.ToLocalizedModel<SBQuestionPartViewViewModel>(initialLanguage));
                 }
                 else
                 {
@@ -120,13 +132,13 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-				[HttpDelete("{surveyId}/Part/{questionPartViewId}/{childQuestionPartViewId}")]
-        public async Task<IActionResult> DeleteQuestionPartView(int surveyId, int questionPartViewId, int childQuestionPartViewId)
+        [HttpDelete("{surveyId}/Part/{parentQuestionPartViewId}/{childQuestionPartViewId}")]
+        public async Task<IActionResult> DeleteQuestionPartView(int surveyId, int parentQuestionPartViewId, int childQuestionPartViewId)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var parentQuestionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                var parentQuestionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(parentQuestionPartViewId);
                 this._surveyBuilderService.RemoveQuestionPartView(parentQuestionPartView, childQuestionPartViewId);
                 await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();
@@ -137,8 +149,8 @@ namespace TRAISI.Controllers
             }
 
         }
-				
-				[HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]
+
+        [HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]
         [Produces(typeof(SBQuestionPartViewViewModel))]
         public async Task<IActionResult> GetQuestionPartViewPageStructure(int surveyId, int questionPartViewId, string language)
         {
@@ -154,8 +166,8 @@ namespace TRAISI.Controllers
             }
         }
 
-				[HttpPost("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
-        public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBQuestionPartViewViewModel> questionOrder)
+        [HttpPost("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
+        public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBOrderViewModel> questionOrder)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
@@ -290,7 +302,7 @@ namespace TRAISI.Controllers
         [HttpPost("{surveyId}/Page/{surveyViewName}/{initialLanguage}")]
         public async Task<IActionResult> AddPage(int surveyId, string surveyViewName, string initialLanguage, [FromBody] SBQuestionPartViewViewModel pageInfo)
         {
-					//test
+            //test
             if (ModelState.IsValid)
             {
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);

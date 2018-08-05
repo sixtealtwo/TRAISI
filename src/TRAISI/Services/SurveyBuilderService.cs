@@ -281,8 +281,15 @@ namespace TRAISI.Services
         /// <param name="newPage"></param>
         public void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView)
         {
+            //update orders for existing questions
+            foreach (var question in ParentQuestionPartView.QuestionPartViewChildren)
+            {
+                if (question.Order >= ChildQuestionPartView.Order)
+                {
+                    question.Order++;
+                }
+            }
             ParentQuestionPartView.QuestionPartViewChildren.Add(ChildQuestionPartView);
-            ParentQuestionPartView.Order = ParentQuestionPartView.QuestionPartViewChildren.Count - 1;
         }
 
         /// <summary>
@@ -292,22 +299,25 @@ namespace TRAISI.Services
         /// <param name="childQuestionPartViewId"></param>
         public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId)
         {
-            List<QuestionPartView> childQuestions = questionPartView.QuestionPartViewChildren as List<QuestionPartView>;
-            QuestionPartView toDelete = null;
-            int questionIndex = Int32.MaxValue;
-            for (int i = 0; i < childQuestions.Count; i++)
+            if (questionPartView != null)
             {
-                if (childQuestions[i].Order > questionIndex)
+                var childQuestions = questionPartView.QuestionPartViewChildren.OrderBy(q => q.Order);
+                QuestionPartView toDelete = null;
+                int questionIndex = Int32.MaxValue;
+                foreach (var childQuestion in childQuestions)
                 {
-                    childQuestions[i].Order--;
+                    if (childQuestion.Order > questionIndex)
+                    {
+                        childQuestion.Order--;
+                    }
+                    else if (childQuestion.Id == childQuestionPartViewId)
+                    {
+                        toDelete = childQuestion;
+                        questionIndex = toDelete.Order;
+                    }
                 }
-                else if (childQuestions[i].Id == childQuestionPartViewId)
-                {
-                    toDelete = childQuestions[i];
-                    questionIndex = toDelete.Order;
-                }
+                questionPartView.QuestionPartViewChildren.Remove(toDelete);
             }
-            questionPartView.QuestionPartViewChildren.Remove(toDelete);
         }
 
         /// <summary>

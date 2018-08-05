@@ -154,7 +154,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Route("{surveyId:int}/terms/{viewType?}/{language?}")]
         [HttpGet]
-        [Authorization]
+        [Authorize]
         [SurveyUserAuthorization]
         [Produces(typeof(ObjectResult))]
         public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,

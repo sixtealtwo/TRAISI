@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
+import { QuestionPartView } from '../../models/question-part-view.model';
 
 @Component({
 	selector: 'app-question-configuration',
@@ -9,7 +10,9 @@ import { QuestionTypeDefinition } from '../../models/question-type-definition';
 export class QuestionConfigurationComponent implements OnInit {
 
 	public questionType: QuestionTypeDefinition;
-	public questionBeingEdited: any;
+	public questionBeingEdited: QuestionPartView;
+
+	public newQuestion: boolean = true;
 
 	public configurations: any[];
 
@@ -26,6 +29,10 @@ export class QuestionConfigurationComponent implements OnInit {
 
 	cancel() {
 		this.configResult.emit('cancel');
+	}
+
+	delete() {
+		this.configResult.emit('delete');
 	}
 
 	processConfigurations() {

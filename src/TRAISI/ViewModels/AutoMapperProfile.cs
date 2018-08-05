@@ -104,8 +104,7 @@ namespace TRAISI.ViewModels
                 });
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
-                .ForMember(m => m.SurveyView, map => map.Ignore())
-                .ForMember(s => s.QuestionPart, map => map.Ignore());
+                .ForMember(m => m.SurveyView, map => map.Ignore());
 
             CreateMap<SBQuestionPartViewModel, QuestionPart>()
                 .ForMember(m => m.QuestionConfigurations, map => map.Ignore())
@@ -113,6 +112,7 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateMap<QuestionPartView, SBQuestionPartViewViewModel>()
+                .ForMember(m => m.ParentViewId, map => map.MapFrom(s => s.ParentView.Id))
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.Label = Mapper.Map<QuestionPartViewLabelViewModel>(
@@ -144,7 +144,12 @@ namespace TRAISI.ViewModels
                         s.WelcomePageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
-           
+            CreateMap<SBOrderViewModel, QuestionPartView>()
+                .ForMember(o => o.Labels, map => map.Ignore())
+                .ForMember(o => o.ParentView, map => map.Ignore())
+                .ForMember(o => o.QuestionPart, map => map.Ignore())
+                .ForMember(o => o.SurveyView, map => map.Ignore())
+                .ForMember(o => o.QuestionPartViewChildren, map => map.Ignore());
 
             CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
                     .ForMember(w => w.QuestionPartView, map => map.Ignore())
