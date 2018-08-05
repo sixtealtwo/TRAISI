@@ -191,6 +191,7 @@ orleans.codegen.cs
 
 /src/TRAISI/node_modules
 /src/TRAISI.SDK/Module/node_modules
+/src/TRAISI.SDK/node_modules
 
 /src/TRAISI/package-lock.json
 /src/TRAISI/yarn.lock
