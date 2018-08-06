@@ -53,6 +53,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 
 	configurationShown() {
 		this.qConfiguration.questionBeingEdited = this.questionBeingEdited;
+		this.qConfiguration.editing = true;
 		this.qConfiguration.newQuestion = this.addingNewQuestion;
 		if (this.questionBeingEdited.questionPart === undefined || this.questionBeingEdited.questionPart === null) {
 			this.qConfiguration.questionType = this.qTypeDefinitions.get('Survey Part');
@@ -65,7 +66,8 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	configurationHidden() {
-		this.qConfiguration.questionBeingEdited = new QuestionPartView();
+		this.qConfiguration.editing = false;
+		this.qConfiguration.questionBeingEdited = undefined;
 		this.qConfiguration.configurations = [];
 		this.qConfiguration.questionType = null;
 	}
@@ -86,7 +88,6 @@ export class NestedDragAndDropListComponent implements OnInit {
 	addQuestionTypeToList(qType) {
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = true;
-		this.questionBeingEdited = qType;
 		if (qType.typeName === 'Survey Part') {
 			this.dealingWithPart = true;
 		} else {

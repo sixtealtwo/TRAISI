@@ -5,17 +5,21 @@ namespace TRAISI.ViewModels.SurveyBuilder
 {
     public class SBQuestionPartViewViewModel
     {
-        public int Id { get; set; }
+			public int Id { get; set; }
 
-        public SBQuestionPartViewModel QuestionPart { get; set; }
+			public SBQuestionPartViewModel QuestionPart { get; set; }
 
-		public QuestionPartViewLabelViewModel Label { get; set; }
+			public QuestionPartViewLabelViewModel Label { get; set; }
 
-		public int ParentViewId { get; set; }
-				
-        public List<SBQuestionPartViewViewModel> QuestionPartViewChildren { get; set; }
+			public int ParentViewId { get; set; }
+					
+			public List<SBQuestionPartViewViewModel> QuestionPartViewChildren { get; set; }
 
-        public int Order { get; set; }
+			public int Order { get; set; }
+
+			public bool isOptional { get; set; }
+			public bool isHousehold { get; set; }
+			public bool isRepeat { get; set; }
     }
 
 		public class SBQuestionPartViewViewModelValidator : AbstractValidator<SBQuestionPartViewViewModel>

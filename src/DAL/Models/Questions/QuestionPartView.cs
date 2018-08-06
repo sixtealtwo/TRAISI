@@ -43,6 +43,9 @@ namespace DAL.Models.Questions
         /// <value></value>
         public int Order {get;set;}
 
+				public bool isOptional { get; set; }
+				public bool isHousehold { get; set; }
+				public bool isRepeat { get; set; }
 
         /// <summary>
         /// 

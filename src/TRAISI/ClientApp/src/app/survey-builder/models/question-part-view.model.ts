@@ -8,6 +8,9 @@ export class QuestionPartView {
 		public parentViewId?: number,
 		public questionPartViewChildren?: QuestionPartView[],
 		public order?: number,
-		public questionPart?: QuestionPart
+		public questionPart?: QuestionPart,
+		public isOptional?: boolean,
+		public isHousehold?: boolean,
+		public isRepeat?: boolean
 	) {}
 }
