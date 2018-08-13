@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
-import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { SurveyViewer } from '../models/survey-viewer.model';
 import { SurveyStart } from '../models/survey-start.model';
@@ -8,11 +8,15 @@ import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { AuthService } from 'app/services/auth.service';
 import { User } from 'app/models/user.model';
-
+import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyViewerService {
+export class SurveyViewerService implements ISurveyViewerService {
+
+
+	configurationData: Subject<IQuestionConfiguration[]>;
+
 	private _activeSurveyId: number;
 
 	/**

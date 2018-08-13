@@ -13,6 +13,6 @@
     "typescript": "^2.9.1"
   },
   "dependencies": {
-    "rxjs": "^6.2.2"
+    "rxjs": "^6.0.0"
   }
 }

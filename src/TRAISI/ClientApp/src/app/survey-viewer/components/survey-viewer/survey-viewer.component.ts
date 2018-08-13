@@ -33,7 +33,10 @@ export class SurveyViewerComponent implements OnInit {
 		private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute
-	) {}
+	) {
+
+
+	}
 
 	/**
 	 * Initialization

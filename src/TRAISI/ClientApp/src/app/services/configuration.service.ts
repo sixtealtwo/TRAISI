@@ -5,7 +5,7 @@ import { LocalStoreManager } from './local-store-manager.service';
 import { DBkeys } from './db-keys';
 import { Utilities } from './utilities';
 
-import * as environment from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 
 interface UserConfiguration {
