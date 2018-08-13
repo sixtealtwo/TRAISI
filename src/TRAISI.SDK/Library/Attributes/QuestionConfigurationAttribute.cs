@@ -14,7 +14,6 @@ namespace TRAISI.SDK.Attributes
 
         public QuestionConfigurationValueType ValueType { get => this._valueType; }
 
-        public bool AllowTranslation {get;set; } = false;
 
         public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
         {
