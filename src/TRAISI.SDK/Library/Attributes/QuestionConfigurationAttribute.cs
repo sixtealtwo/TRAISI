@@ -9,9 +9,12 @@ namespace TRAISI.SDK.Attributes
         public string Name { get; set; }
 
         public string Description { get; set; }
+
         private QuestionConfigurationValueType _valueType;
 
         public QuestionConfigurationValueType ValueType { get => this._valueType; }
+
+        public bool AllowTranslation {get;set; } = false;
 
         public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
         {
