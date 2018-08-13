@@ -1,2 +1,2 @@
-export declare function test(): void;
-export { ISurveyQuestion } from "./survey-question";
+export { IQuestionConfiguration } from './question-configuration';
+export { ISurveyViewerService } from './survey-viewer.service';
