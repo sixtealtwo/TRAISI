@@ -13,20 +13,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />
     <None Remove="node_modules/**" />
     <Compile Remove="node_modules/**" />
-
     <EmbeddedResource Include="dist/**" />
   </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
-
   </Target>
+  <ItemGroup>
+    <EmbeddedResource Include=".\src\resources\resource.json" LogicalName="resourcename" />
+  </ItemGroup>
+
 
 </Project>

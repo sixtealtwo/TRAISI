@@ -19,6 +19,8 @@ namespace TRAISI.SDK
 
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
+        public Dictionary<string, byte []> ResourceData {get;}
+
         /// <summary>
         /// Set of Question Part Slots
         /// </summary>
@@ -48,6 +50,7 @@ namespace TRAISI.SDK
             Icon = type.Icon;
 
             ClientModules = new List<byte[]>();
+            ResourceData = new Dictionary<string,byte[]>();
 
         }
 
