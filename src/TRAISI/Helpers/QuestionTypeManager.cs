@@ -72,9 +72,6 @@ namespace TRAISI.Helpers
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
-
-
-
         }
 
         /// <summary>
@@ -112,6 +109,12 @@ namespace TRAISI.Helpers
             return this._questionTypeDefinitions.FirstOrDefault(s => s.TypeName == name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionType"></param>
+        /// <param name="sourceAssembly"></param>
+        /// <returns></returns>
         private Dictionary<string, QuestionConfigurationDefinition> ReadQuestionConfigurationData(Type questionType, Assembly sourceAssembly)
         {
             var properties = questionType.GetProperties();
