@@ -54,6 +54,7 @@ namespace DAL.Repositories {
 					.Include(sv => sv.ThankYouPageLabels)
 					.Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
 					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+
 					.SingleOrDefaultAsync();
 			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
 			return surveyView;

@@ -22,7 +22,7 @@ namespace DAL.Repositories
         {
         }
 
-        private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
         /// <summary>
         /// Loads a survey and all associated objects from a given inputstream with JSON data
@@ -62,9 +62,11 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .Include(s => s.TitleLabels)
-                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews)
-                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews).ThenInclude(q => q.Labels)
-                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews).ThenInclude(q => q.QuestionPart)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.Labels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPart)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionOptions)
                 .SingleOrDefaultAsync();
         }
 
