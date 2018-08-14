@@ -194,24 +194,24 @@ namespace TRAISI.Controllers.SurveyViewer
             var radioDefinition = this._manager.QuestionTypeDefinitions.FirstOrDefault(q => q.TypeName == "Radio Select");
 
             //adds a question to the root survey view, returns a question part view
-            var qpv =  this._builderService.AddQuestion(survey.SurveyViews.FirstOrDefault(),radioDefinition);
+            var qpv = this._builderService.AddQuestion(survey.SurveyViews.FirstOrDefault(), radioDefinition);
 
             //sets the question label text
-            this._builderService.SetQuestionPartViewLabel(qpv,"Title Text","en");
+            this._builderService.SetQuestionPartViewLabel(qpv, "Title Text", "en");
 
             //add a question opttion to the passed quetsion part
             //has a hidden value of value1..2..3
             //the visible hidden label is "label text"
             //language is "en"
-            this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value1","label text", "en");
-             this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value2","label text lala", "en");
-              this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value3","label text blala", "en");
+            this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value1", "label text", "en");
+            this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value2", "label text lala", "en");
+            this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value3", "label text blala", "en");
 
             //set the config value "true" for the configuration setting named "Allow Multiple Selections"
-            this._builderService.SetQuestionConfiguration(qpv.QuestionPart,"Allow Multiple Selections",true);
+            this._builderService.SetQuestionConfiguration(qpv.QuestionPart, "Allow Multiple Selections", true);
 
             await this._unitOfWork.SaveChangesAsync();
-            
+
             return new OkResult();
         }
     }

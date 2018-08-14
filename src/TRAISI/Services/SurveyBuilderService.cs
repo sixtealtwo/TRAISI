@@ -403,8 +403,6 @@ namespace TRAISI.Services
                 ((List<QuestionPartView>)view.QuestionPartViews).Insert(position, qpv);
             }
 
-
-
             return qpv;
         }
 
