@@ -330,7 +330,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 				return true;
 			}
 		} else {
-			if (payload.questionPart === null) {
+			if (payload.questionPart === undefined || payload.questionPart === null) {
 				return false;
 			} else {
 				return true;
