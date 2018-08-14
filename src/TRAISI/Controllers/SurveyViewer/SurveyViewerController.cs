@@ -200,10 +200,12 @@ namespace TRAISI.Controllers.SurveyViewer
             this._builderService.SetQuestionPartViewLabel(qpv,"Title Text","en");
 
             //add a question opttion to the passed quetsion part
-            //has a hidden value of value1
+            //has a hidden value of value1..2..3
             //the visible hidden label is "label text"
             //language is "en"
             this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value1","label text", "en");
+             this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value2","label text lala", "en");
+              this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value3","label text blala", "en");
 
             //set the config value "true" for the configuration setting named "Allow Multiple Selections"
             this._builderService.SetQuestionConfiguration(qpv.QuestionPart,"Allow Multiple Selections",true);
