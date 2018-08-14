@@ -43,5 +43,10 @@ export class SurveyViewerComponent implements OnInit {
 	 */
 	ngOnInit() {
 		// this.surveyViewerService.getWelcomeView()
+
+		this.surveyViewerService.getDefaultSurveyView(this.surveyViewerService.activeSurveyId).subscribe( value => {
+
+			console.log(value);
+		});
 	}
 }

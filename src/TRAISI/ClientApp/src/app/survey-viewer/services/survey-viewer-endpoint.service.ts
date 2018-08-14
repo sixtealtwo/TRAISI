@@ -11,6 +11,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/SurveyViewer';
 	private readonly _surveyViewerUrl: string = '/api/SurveyViewer';
 
+
 	get surveyViewQuestionsUrl() {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
 	}
@@ -34,6 +35,12 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	private get getSurveyViewerTermsAndConditionsUrl() {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
 	}
+
+	private get getDefaultSurveyViewUrl() {
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/view';
+	}
+
+
 
 	public getSurveyViewerTermsAndConditionsEndpoint<T>(
 		surveyId: number,
@@ -92,7 +99,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param language
 	 */
 	getDefaultSurveyViewEndpoint<T>(surveyId: number, language: string = 'en'): Observable<T> {
-		let endpointUrl = `${this.surveyViewerUrl}/${surveyId}/${language}`;
+		let endpointUrl = `${this.getDefaultSurveyViewUrl}/${surveyId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 
@@ -19,16 +19,24 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 * @param route
 	 */
-	constructor(private route: ActivatedRoute, private surveyViewerService: SurveyViewerService) {
+	constructor(
+		private route: ActivatedRoute,
+		private surveyViewerService: SurveyViewerService,
+		private router: Router
+	) {
 		this.model = {} as SurveyViewTermsModel;
+	}
+
+	public begin() {
+		this.router.navigate(['/survey', this.surveyName, 'viewer']);
 	}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
-
 		console.log('active id: ' + this.surveyViewerService.activeSurveyId);
+
 		this.surveyId = this.surveyViewerService.activeSurveyId;
 		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
