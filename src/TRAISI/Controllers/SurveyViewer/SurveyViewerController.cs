@@ -12,11 +12,14 @@ using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TRAISI.Authorization;
+using TRAISI.Helpers;
+using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.SurveyViewer.Enums;
+using System.Linq;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -29,6 +32,10 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private IAccountManager _accountManager;
 
+        private ISurveyBuilderService _builderService;
+
+        private IQuestionTypeManager _manager;
+
 
         /// <summary>
         /// 
@@ -38,12 +45,16 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="unitOfWork"></param>
         public SurveyViewerController(ISurveyViewerService viewService,
             IAccountManager accountManager,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            ISurveyBuilderService builderService,
+            IQuestionTypeManager manager
         )
         {
             this._unitOfWork = unitOfWork;
             this._viewService = viewService;
             this._accountManager = accountManager;
+            this._builderService = builderService;
+            this._manager = manager;
         }
 
         /// <summary>
@@ -120,8 +131,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode);
 
-            if (!success)
-            {
+            if (!success) {
                 return new BadRequestResult();
             }
 
@@ -139,8 +149,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetSurveyWelcomeView(string name)
         {
             var result = await this._viewService.GetSurveyWelcomeView(name);
-            if (result == null)
-            {
+            if (result == null) {
                 return new NotFoundResult();
             }
 
@@ -161,12 +170,48 @@ namespace TRAISI.Controllers.SurveyViewer
         SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
         {
             var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, language, viewType);
-            if (result == null)
-            {
+            if (result == null) {
                 return new NotFoundResult();
             }
 
             return new ObjectResult(result);
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> AddTestQuestion(int surveyId)
+        {
+            //this._builderService.AddQuestionPartView()
+
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
+
+            //pull the radio question definition
+            var radioDefinition = this._manager.QuestionTypeDefinitions.FirstOrDefault(q => q.TypeName == "Radio Select");
+
+            //adds a question to the root survey view, returns a question part view
+            var qpv =  this._builderService.AddQuestion(survey.SurveyViews.FirstOrDefault(),radioDefinition);
+
+            //sets the question label text
+            this._builderService.SetQuestionPartViewLabel(qpv,"Title Text","en");
+
+            //add a question opttion to the passed quetsion part
+            //has a hidden value of value1
+            //the visible hidden label is "label text"
+            //language is "en"
+            this._builderService.AddQuestionOption(qpv.QuestionPart,"Response Options","value1","label text", "en");
+
+            //set the config value "true" for the configuration setting named "Allow Multiple Selections"
+            this._builderService.SetQuestionConfiguration(qpv.QuestionPart,"Allow Multiple Selections",true);
+
+            await this._unitOfWork.SaveChangesAsync();
+            
+            return new OkResult();
+        }
     }
+
 }

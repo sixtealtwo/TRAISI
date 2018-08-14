@@ -60,7 +60,8 @@ namespace TRAISI.ViewModels
                 });
 
             CreateMap<SurveyView, SurveyViewerViewModel>()
-                .ForMember(vm => vm.Questions, map => map.MapFrom(v => v.QuestionPartViews))
+                .ForMember(vm => vm.Questions,
+                map => map.MapFrom(v => v.QuestionPartViews))
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.TitleText = s.Survey.TitleLabels[opt.Items["Language"] as string].Value;

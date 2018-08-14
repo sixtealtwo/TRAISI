@@ -116,7 +116,7 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
 
             return (survey.SurveyViews as List<SurveyView>)[0];
         }

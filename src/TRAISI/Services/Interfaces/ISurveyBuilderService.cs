@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using TRAISI.SDK;
@@ -12,11 +13,11 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveSurveyView(Survey survey, int id);
 
-        QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, string value);
+        QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
         void SetQuestionOption(QuestionPart questionPart, string name, string value, string language);
 
-        void AddQuestionOption(QuestionPart questionPart, string name, string value, string language);
+        void AddQuestionOption(QuestionPart questionPart, string name, string value, string label, string language);
 
         void RemoveQuestionConfiguration(QuestionPart questionPart, string name);
 
@@ -24,7 +25,7 @@ namespace TRAISI.Services.Interfaces
 
         void AddSurveyPage(SurveyView view, QuestionPartView newPage);
 
-				void RemoveSurveyPage(SurveyView view, int pageId);
+        void RemoveSurveyPage(SurveyView view, int pageId);
 
         void ReOrderPages(SurveyView view, List<QuestionPartView> newOrder);
 
@@ -38,11 +39,15 @@ namespace TRAISI.Services.Interfaces
 
         IEnumerable<QuestionOption> GetQuestionOptions(QuestionPart questionPart, string language);
 
-				void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView);
-				
-				void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId);
+        void AddQuestionPartView(QuestionPartView ParentQuestionPartView, QuestionPartView ChildQuestionPartView);
 
-				void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
+        QuestionPartView AddQuestion(SurveyView view, QuestionTypeDefinition definition, int position = -1);
+
+        void SetQuestionPartViewLabel(QuestionPartView qpv, string text, string language = null);
+
+        void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId);
+
+        void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
 
 
     }

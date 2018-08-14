@@ -62,6 +62,9 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .Include(s => s.TitleLabels)
+                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews)
+                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews).ThenInclude(q => q.Labels)
+                .Include( s=> s.SurveyViews).ThenInclude( v => v.QuestionPartViews).ThenInclude(q => q.QuestionPart)
                 .SingleOrDefaultAsync();
         }
 

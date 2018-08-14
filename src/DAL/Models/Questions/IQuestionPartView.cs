@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DAL.Models.Extensions;
 using DAL.Models.Surveys;
 
 namespace DAL.Models.Questions
@@ -7,7 +8,7 @@ namespace DAL.Models.Questions
     {
         int Id { get; set; }
 
-        ICollection<QuestionPartViewLabel> Labels { get; set; }
+        LabelCollection<QuestionPartViewLabel> Labels { get; set; }
 
         ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
 

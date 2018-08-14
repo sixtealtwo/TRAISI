@@ -15,7 +15,9 @@ namespace TRAISI.ViewModels.Extensions
         /// <returns></returns>
         public static TDest ToLocalizedModel<TDest>(this IEntity source, string language)
         {
-            return AutoMapper.Mapper.Map<TDest>(source,opts => opts.Items["Language"] = language);
+            return AutoMapper.Mapper.Map<TDest>(source,opts =>
+            
+             opts.Items["Language"] = language);
         }
        
     }

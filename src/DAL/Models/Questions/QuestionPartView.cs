@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DAL.Models.Surveys;
 using DAL.Models.Interfaces;
+using DAL.Models.Extensions;
 
 namespace DAL.Models.Questions
 {
@@ -19,7 +20,7 @@ namespace DAL.Models.Questions
         /// Collection of Label objects for this view.
         /// </summary>
         /// <value></value>
-        public ICollection<QuestionPartViewLabel> Labels { get; set; }
+        public LabelCollection<QuestionPartViewLabel> Labels { get; set; }
 
         /// <summary>
         /// The associated QuestionPart for this QuestionPartView
@@ -35,24 +36,24 @@ namespace DAL.Models.Questions
         /// <value></value>
         public SurveyView SurveyView { get; set; }
 
-        public ICollection<QuestionPartView> QuestionPartViewChildren {get;set;}
+        public ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
 
         /// <summary>
         /// The order (position) of this question part view inside of its containing survey view.
         /// </summary>
         /// <value></value>
-        public int Order {get;set;}
+        public int Order { get; set; }
 
-				public bool isOptional { get; set; }
-				public bool isHousehold { get; set; }
-				public bool isRepeat { get; set; }
+        public bool isOptional { get; set; }
+        public bool isHousehold { get; set; }
+        public bool isRepeat { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         public QuestionPartView()
         {
-            this.Labels = new List<QuestionPartViewLabel>();
+            this.Labels = new LabelCollection<QuestionPartViewLabel>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
         }
 

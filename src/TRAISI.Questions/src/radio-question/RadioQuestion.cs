@@ -21,6 +21,11 @@ namespace TRAISI.SDK.Questions
             Name = "Response Options",
             Description = "The list of available radio responses presented to the user.")]
         public ICollection ResponseOptions;
+
+
+        [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
+        Name="Allow Multiple Selections")]
+        public bool AllowMultipleSelections;
     }
 
 }
