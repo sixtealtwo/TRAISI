@@ -14,7 +14,11 @@ namespace TRAISI.SDK.Attributes
         public string Description { get; set; }
         private QuestionOptionValueType _valueType;
 
+        private QuestionOptionValueType _surveyBuilderValueType;
+
         public QuestionOptionValueType ValueType { get => this._valueType; }
+
+        public QuestionOptionValueType SurveyBuilderValueType { get => this._surveyBuilderValueType; set => this._surveyBuilderValueType = value;}
 
         public bool IsMultipleAllowed { get; set; } = false;
 

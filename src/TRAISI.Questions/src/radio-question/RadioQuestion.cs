@@ -19,12 +19,13 @@ namespace TRAISI.SDK.Questions
         [QuestionOption(QuestionOptionValueType.KeyValuePair,
         IsMultipleAllowed = true,
             Name = "Response Options",
-            Description = "The list of available radio responses presented to the user.")]
+            Description = "The list of available radio responses presented to the user.",
+            SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
 
 
         [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
-        Name="Allow Multiple Selections")]
+        Name = "Allow Multiple Selections")]
         public bool AllowMultipleSelections;
     }
 
