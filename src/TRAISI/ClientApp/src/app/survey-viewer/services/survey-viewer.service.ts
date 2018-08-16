@@ -9,6 +9,7 @@ import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { AuthService } from 'app/services/auth.service';
 import { User } from 'app/models/user.model';
 import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
+import { IQuestionOption } from 'traisi-question-sdk/dist/question-option';
 @Injectable({
 	providedIn: 'root'
 })
@@ -16,6 +17,7 @@ export class SurveyViewerService implements ISurveyViewerService {
 
 
 	configurationData: Subject<IQuestionConfiguration[]>;
+	options: Subject<IQuestionOption[]>;
 
 	private _activeSurveyId: number;
 
