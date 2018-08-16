@@ -403,6 +403,19 @@ namespace TRAISI.Services
                 ((List<QuestionPartView>)view.QuestionPartViews).Insert(position, qpv);
             }
 
+            //add more question part views
+            if (definition.QuestionPartSlots.Count > 0) {
+                foreach (var slot in definition.QuestionPartSlots) {
+                    var questionSlot = new QuestionPartView();
+                    questionSlot.ParentView = qpv;
+                    questionSlot.QuestionPart = new QuestionPart()
+                    {
+                        QuestionType = definition.TypeName
+                    };
+                    qpv.QuestionPartViewChildren.Add(questionSlot);
+                }
+            }
+
             return qpv;
         }
 
