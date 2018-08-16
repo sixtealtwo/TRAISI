@@ -120,7 +120,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () =>
-					this.getOptionsConfigurationEndpoint(questionId, query)
+					this.getQuestionOptionsEndpoint(questionId, query)
 				);
 			})
 		);
