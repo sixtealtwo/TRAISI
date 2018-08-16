@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
+using System.Linq;
 using DAL.Core.Interfaces;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
@@ -61,6 +62,22 @@ namespace TRAISI.Services
             // no valid view available
             return null;
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="count"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public async Task<QuestionOptionsViewModel> GetQuestionOptions(int questionId)
+        {
+            var qpv = await this._unitOfWork.QuestionPartViews.GetAsync(questionId);
+            
+            var questonOptions = (List<QuestionOption>)qpv.QuestionPart.QuestionOptions;
+
+            return AutoMapper.Mapper.Map<QuestionOptionsViewModel>(questonOptions);
         }
 
 

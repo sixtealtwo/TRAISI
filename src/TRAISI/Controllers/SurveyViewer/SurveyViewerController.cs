@@ -101,6 +101,21 @@ namespace TRAISI.Controllers.SurveyViewer
             return new ObjectResult(QuestionPart.QuestionOptions);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        ///         [HttpGet]
+        [Authorize]
+        [SurveyUserAuthorization]
+        [Produces(typeof(List<QuestionOption>))]
+        [Route("options/{questionId}/{query?}")]
+        public async Task<IActionResult> GetQuestionOptions(int questionId, string query = null)
+        {
+            return new ObjectResult(await this._viewService.GetQuestionOptions(questionId));
+        }
+
 
         /// <summary>
         /// Retrives a survey's required information to create the survey viewer

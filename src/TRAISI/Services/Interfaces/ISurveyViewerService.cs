@@ -28,6 +28,8 @@ namespace TRAISI.Services.Interfaces
         /// <returns></returns>
         Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode);
 
+        Task<QuestionOptionsViewModel> GetQuestionOptions(int questionId);
+
 
         Task<SurveyView> GetDefaultSurveyView(int surveyId);
 
