@@ -114,6 +114,22 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 *
 	 * @param questionId
 	 */
+	getQuestionOptionsEndpoint<T>(questionId: number, query: string = null): Observable<T> {
+		let endpointUrl = `${this.surveyViewQuestionConfiguration}/question-options/${questionId}/query`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getOptionsConfigurationEndpoint(questionId, query)
+				);
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param questionId
+	 */
 	getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
 		let endpointUrl = `${this.surveyViewQuestionConfiguration}/${questionId}`;
 

@@ -110,7 +110,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [Authorize]
         [SurveyUserAuthorization]
         [Produces(typeof(List<QuestionOption>))]
-        [Route("options/{questionId}/{query?}")]
+        [Route("question-options/{questionId}/{query?}")]
         public async Task<IActionResult> GetQuestionOptions(int questionId, string query = null)
         {
             return new ObjectResult(await this._viewService.GetQuestionOptions(questionId));

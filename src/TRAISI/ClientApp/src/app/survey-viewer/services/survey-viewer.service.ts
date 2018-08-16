@@ -119,6 +119,16 @@ export class SurveyViewerService implements ISurveyViewerService {
 	}
 
 	/**
+	 *
+	 * @param questionId
+	 * @param query
+	 */
+	public getQuestionOptions(questionId: number, query: string = null)
+	{
+		return this._surveyViewerEndpointService.getQuestionOptionsEndpoint(questionId, query);
+	}
+
+	/**
 	 * Restores the state of the service if the user is currently logged in.
 	 */
 	private restoreStatus(): void
