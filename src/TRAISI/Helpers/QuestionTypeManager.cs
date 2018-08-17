@@ -10,6 +10,9 @@ using TRAISI.Helpers;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK;
+using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
+
 namespace TRAISI.Helpers
 {
 
@@ -131,7 +134,8 @@ namespace TRAISI.Helpers
                                 Name = configAttribute.Name,
                                 Description = configAttribute.Description,
                                 TypeId = configAttribute.TypeId,
-                                ValueType = configAttribute.ValueType
+                                ValueType = configAttribute.ValueType,
+                                BuilderType = configAttribute.SurveyBuilderValueType
                             }
 
                                 );
@@ -185,8 +189,8 @@ namespace TRAISI.Helpers
         /// <param name="sourceAssembly"></param>
         private void ReadResourceData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
         {
-            string[] resourceNames = sourceAssembly.GetManifestResourceNames().Where(r => !r.EndsWith(".module.js")).ToArray();
-
+            string[] resourceNames = sourceAssembly.GetManifestResourceNames().Where(r => !r.Contains(".module.js")).ToArray();
+            BinaryFormatter formatter = new BinaryFormatter();
             foreach (var resourceName in resourceNames) {
                 using (MemoryStream ms = new MemoryStream()) {
                     sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);

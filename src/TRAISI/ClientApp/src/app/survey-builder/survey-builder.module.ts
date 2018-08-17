@@ -16,6 +16,7 @@ import { TooltipModule, ModalModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
+import { CheckboxComponent } from './components/question-configuration/checkbox-field/checkbox.component';
 
 @NgModule({
 	imports: [
@@ -33,7 +34,14 @@ import { QuestionConfigurationComponent } from './components/question-configurat
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
 		})
 	],
-	declarations: [SurveyBuilderComponent, QuestionTypeChooserComponent, NestedDragAndDropListComponent, QuestionConfigurationComponent],
-	providers: [SurveyBuilderEndpointService, SurveyBuilderService]
+	declarations: [
+		SurveyBuilderComponent,
+		QuestionTypeChooserComponent,
+		NestedDragAndDropListComponent,
+		QuestionConfigurationComponent,
+		CheckboxComponent
+	],
+	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
+	entryComponents: [CheckboxComponent]
 })
 export class SurveyBuilderModule {}
