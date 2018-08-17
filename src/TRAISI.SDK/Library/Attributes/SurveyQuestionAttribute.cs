@@ -19,11 +19,13 @@ namespace TRAISI.SDK.Attributes
         /// <returns></returns>
         public QuestionResponseType QuestionResponseType { get; }
 
-        public string[] UseResources { get; set; }
+        public string[] UseResources { get; set; } = {};
 
         public SurveyQuestionAttribute(QuestionResponseType responseType)
         {
             this.QuestionResponseType = responseType;
+
+
 
         }
 
