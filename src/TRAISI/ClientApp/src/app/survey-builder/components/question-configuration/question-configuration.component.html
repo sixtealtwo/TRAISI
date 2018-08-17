@@ -72,8 +72,9 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="advanced" aria-labelledby="advanced-tab" aria-expanded="true">
 				<ng-container *ngFor="let config of configurations">
-					<div>{{ config }}</div>
+					<ng-template #dynamic></ng-template>
 				</ng-container>
+				Test
 			</div>
 			<div role="tabpanel" class="tab-pane" id="conditionals" aria-labelledby="conditionals-tab" aria-expanded="true">
 

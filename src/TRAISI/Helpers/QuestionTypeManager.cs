@@ -10,6 +10,9 @@ using TRAISI.Helpers;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK;
+using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
+
 namespace TRAISI.Helpers
 {
 
@@ -70,7 +73,7 @@ namespace TRAISI.Helpers
 
             if (attribute.UseResources.Length > 0)
             {
-                this.ReadResourceData(typeDefinition, sourceAssembly,attribute.UseResources);
+                this.ReadResourceData(typeDefinition, sourceAssembly, attribute.UseResources);
             }
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
@@ -139,7 +142,8 @@ namespace TRAISI.Helpers
                                 Name = configAttribute.Name,
                                 Description = configAttribute.Description,
                                 TypeId = configAttribute.TypeId,
-                                ValueType = configAttribute.ValueType
+                                ValueType = configAttribute.ValueType,
+                                BuilderType = configAttribute.SurveyBuilderValueType
                             }
 
                                 );
@@ -195,10 +199,11 @@ namespace TRAISI.Helpers
         /// </summary>
         /// <param name="typeDefinition"></param>
         /// <param name="sourceAssembly"></param>
-        private void ReadResourceData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly, string [] resources)
+        private void ReadResourceData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly, string[] resources)
         {
             string[] resourceNames = sourceAssembly.GetManifestResourceNames().Where(r => !r.EndsWith(".module.js")).ToArray();
 
+            BinaryFormatter formatter = new BinaryFormatter();
             foreach (var resourceName in resources)
             {
                 using (MemoryStream ms = new MemoryStream())

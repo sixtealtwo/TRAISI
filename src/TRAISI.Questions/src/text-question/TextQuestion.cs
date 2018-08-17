@@ -21,7 +21,7 @@ namespace TRAISI.SDK.Questions
         [QuestionConfiguration(QuestionConfigurationValueType.Integer,
             Name = "Max Length",
             Description = "Max number of characters",
-			SurveyBuilderValueType=QuestionConfigurationValueType.Integer)]
+			SurveyBuilderValueType= QuestionBuilderType.Text)]
         public int MaxLength = 255;
 
         [QuestionOption(QuestionOptionValueType.Boolean,
