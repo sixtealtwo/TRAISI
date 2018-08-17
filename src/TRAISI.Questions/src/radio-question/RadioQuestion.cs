@@ -1,11 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.Integer)]
+    [SurveyQuestion(QuestionResponseType.Integer,
+     UseResources=new string[]{"resourcename"})]
     public class RadioQuestion : ISurveyQuestion
     {
         public string TypeName => "Radio Select";
