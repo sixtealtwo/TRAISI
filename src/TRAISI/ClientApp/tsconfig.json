@@ -22,7 +22,8 @@
 		"paths": {
 			"questions/*": [
 				"../../Questions/*"
-			]
+			],
+			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"]
 		}
 	},
 	"exclude": ["node_modules"]
