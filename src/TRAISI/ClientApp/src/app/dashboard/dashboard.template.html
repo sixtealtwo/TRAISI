@@ -1,7 +1,7 @@
 <h1 class="page-title">Dashboard <small><small>Your summary</small></small></h1>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <section widget class="widget">
       <header>
         <h4>
@@ -17,7 +17,9 @@
         <!--<img class="pull-left mr-sm" src="assets/img/a2.png" alt="Angular" width="100">-->
         <p class="lead">Welcome to your <strong>TRAISI</strong> homepage</p>
         <p class="fs-mini"></p>
-      </div>
+			</div>
+			<div echarts [options]="options" [loading]="!mapLoaded" class="tts-map" ></div>
     </section>
   </div>
 </div>
+
