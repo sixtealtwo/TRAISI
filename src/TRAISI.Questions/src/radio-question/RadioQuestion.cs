@@ -4,10 +4,10 @@ using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 
+
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.Integer,
-     UseResources=new string[]{"resourcename"})]
+    [SurveyQuestion(QuestionResponseType.Integer)]
     public class RadioQuestion : ISurveyQuestion
     {
         public string TypeName => "Radio Select";
@@ -29,6 +29,9 @@ namespace TRAISI.SDK.Questions
         [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
         Name = "Allow Multiple Selections")]
         public bool AllowMultipleSelections;
+
+        [HasResource("resourcename")]
+        public string resourceField;
     }
 
 }

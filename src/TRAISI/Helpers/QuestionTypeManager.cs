@@ -71,14 +71,14 @@ namespace TRAISI.Helpers
             typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
             _questionTypeDefinitions.Add(typeDefinition);
 
-            if (attribute.UseResources.Length > 0)
-            {
-                this.ReadResourceData(typeDefinition, sourceAssembly, attribute.UseResources);
-            }
+
+            this.ReadQuestionResourceData(typeDefinition, questionType,sourceAssembly);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
         }
+
+
 
         /// <summary>
         /// 
@@ -105,6 +105,43 @@ namespace TRAISI.Helpers
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="questionType"></param>
+        private void ReadQuestionResourceData(QuestionTypeDefinition definition, Type questionType, Assembly sourceAssembly)
+        {
+            var members = questionType.GetMembers();
+            foreach (var member in members)
+            {
+                var attributes = member.GetCustomAttributes();
+                foreach (var attribute in attributes)
+                {
+                    if (attribute.GetType() == typeof(HasResourceAttribute))
+                    {
+
+                        var hasResourceAttribute = (HasResourceAttribute)attribute;
+
+                        byte[] data;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            sourceAssembly.GetManifestResourceStream(hasResourceAttribute.ResourceName).CopyTo(ms);
+                            data = ms.ToArray();
+                        }
+                        definition.QuestionResources[hasResourceAttribute.ResourceName] =
+                        new QuestionResource()
+                        {
+                            ResourceName = hasResourceAttribute.ResourceName,
+                            Data = data,
+                            FieldName = member.Name
+
+                        };
+
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Returns the QuestionTypeDefinition associated with the passed name

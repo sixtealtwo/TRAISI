@@ -37,6 +37,8 @@ namespace TRAISI.SDK
         /// <returns></returns>
         public List<byte[]> ClientModules { get; set; }
 
+        public Dictionary<string, QuestionResource> QuestionResources {get;set;}
+
         /// <summary>
         /// 
         /// </summary>
@@ -51,6 +53,7 @@ namespace TRAISI.SDK
 
             ClientModules = new List<byte[]>();
             ResourceData = new Dictionary<string,byte[]>();
+            QuestionResources = new Dictionary<string,QuestionResource>();
 
         }
 
