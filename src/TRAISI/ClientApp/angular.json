@@ -58,7 +58,9 @@
 							"src/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
 							"node_modules/systemjs/dist/system.js",
-							"node_modules/froala-editor/js/froala_editor.pkgd.min.js"
+							"node_modules/froala-editor/js/froala_editor.pkgd.min.js",
+							"node_modules/echarts/dist/echarts-en.min.js",
+							"node_modules/echarts-gl/dist/echarts-gl.min.js"
 						]
 					},
 					"configurations": {
