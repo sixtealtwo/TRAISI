@@ -16,5 +16,7 @@ namespace TRAISI.SDK
         public object TypeId { get; set; }
 
         public string DefaultValue {get;set;}
+
+				public byte[] ResourceData { get; set; }
     }
 }

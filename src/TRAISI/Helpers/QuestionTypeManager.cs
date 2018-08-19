@@ -143,6 +143,18 @@ namespace TRAISI.Helpers
             }
         }
 
+				private byte[] GetQuestionConfigurationData(QuestionConfigurationAttribute configAttribute, Assembly sourceAssembly) {
+					byte[] data = null;
+					if (configAttribute.Resource != null) {
+						using (MemoryStream ms = new MemoryStream())
+						{
+								sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
+								data = ms.ToArray();
+						}
+					}
+					return data;
+				}
+
         /// <summary>
         /// Returns the QuestionTypeDefinition associated with the passed name
         /// </summary>
@@ -180,7 +192,9 @@ namespace TRAISI.Helpers
                                 Description = configAttribute.Description,
                                 TypeId = configAttribute.TypeId,
                                 ValueType = configAttribute.ValueType,
-                                BuilderType = configAttribute.SurveyBuilderValueType
+                                BuilderType = configAttribute.SurveyBuilderValueType,
+																DefaultValue = configAttribute.DefaultValue,
+																ResourceData = GetQuestionConfigurationData(configAttribute, sourceAssembly)
                             }
 
                                 );

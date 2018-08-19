@@ -27,11 +27,14 @@ namespace TRAISI.SDK.Questions
 
 
         [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
-        Name = "Allow Multiple Selections")]
+        Name = "Allow Multiple Selections",
+				SurveyBuilderValueType = QuestionBuilderType.Switch )]
         public bool AllowMultipleSelections;
 
-        [HasResource("resourcename")]
-        public string resourceField;
+				[QuestionConfiguration(QuestionConfigurationValueType.String,
+        Name = "Radio Colour",
+				SurveyBuilderValueType = QuestionBuilderType.Radio, Resource="radio-color-options")]
+				public string Colour;
     }
 
 }

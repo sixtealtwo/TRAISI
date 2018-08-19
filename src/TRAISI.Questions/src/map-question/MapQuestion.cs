@@ -35,7 +35,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 		[QuestionConfiguration(QuestionConfigurationValueType.Integer,
 		Name = "Mapbox Default Zoom",
 		Description = "Initial zoom level.",
-        SurveyBuilderValueType = QuestionBuilderType.Text)]
+        SurveyBuilderValueType = QuestionBuilderType.NumericText)]
 		public int Zoom = 8;
 
 		[QuestionConfiguration(QuestionConfigurationValueType.Tuple,

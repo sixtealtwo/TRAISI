@@ -23,7 +23,7 @@
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
   </Target>
   <ItemGroup>
-    <EmbeddedResource Include=".\src\resources\resource.json" LogicalName="resourcename" />
+    <EmbeddedResource Include=".\src\resources\radio-color-options.json" LogicalName="radio-color-options" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />

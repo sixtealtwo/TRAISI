@@ -12,9 +12,12 @@ namespace TRAISI.SDK.Enums
         Radio,
         Slider,
         Text,
+				NumericText,
         MultiSelect,
         Switch,
         Date,
-        Location
+        Location,
+				SingleSelect,
+				Time
     }
 }

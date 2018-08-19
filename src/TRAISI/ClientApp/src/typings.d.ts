@@ -7,4 +7,5 @@ interface NodeModule {
 interface JQuery {
 	collapse(options?: any): JQuery;
 	widgster: any;
+	slider: any;
 }

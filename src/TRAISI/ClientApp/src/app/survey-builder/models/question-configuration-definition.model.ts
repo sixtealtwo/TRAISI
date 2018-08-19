@@ -5,4 +5,6 @@ export interface QuestionConfigurationDefinition {
 	description: string;
 	valueType: string;
 	defaultValue: string;
+	builderType: string;
+	resourceData: string;
 }

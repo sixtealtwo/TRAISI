@@ -16,5 +16,7 @@ namespace TRAISI.ViewModels.Questions
         public string BuilderType { get; set; }
 
         public string DefaultValue { get; set; }
+
+				public string ResourceData { get; set; }
     }
 }

@@ -181,6 +181,7 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
+								.ForMember(q => q.ResourceData, map => map.ResolveUsing(s => s.ResourceData == null ? null : System.Text.Encoding.UTF8.GetString(s.ResourceData)))
                 .ReverseMap();
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()

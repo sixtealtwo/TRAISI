@@ -57,7 +57,7 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 
 	userLocate(e: Position) {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
-		this.mapEndpointService.reverseGeocode(e.coords.latitude,e.coords.longitude).subscribe((result: GeoLocation) => {
+		this.mapEndpointService.reverseGeocode(e.coords.latitude, e.coords.longitude).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
 			this.mapGeocoder.control._inputEl.value = result.address;
 			this.cdRef.detectChanges();

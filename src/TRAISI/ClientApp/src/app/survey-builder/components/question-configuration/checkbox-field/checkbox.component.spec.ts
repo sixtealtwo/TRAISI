@@ -6,7 +6,6 @@ describe('ParametersComponent', () => {
 
 	beforeEach(() => {
 		component.options = [{
-			id: 'test',
 			status: false,
 			label: 'testLabel'
 		}];

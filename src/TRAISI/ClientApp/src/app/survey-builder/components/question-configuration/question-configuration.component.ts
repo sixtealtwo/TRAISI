@@ -16,6 +16,17 @@ import { AuthService } from '../../../services/auth.service';
 import { ConfigurationService } from '../../../services/configuration.service';
 import { CheckboxComponent } from './checkbox-field/checkbox.component';
 import { QuestionConfigurationDefinition } from '../../models/question-configuration-definition.model';
+import { DateInputComponent } from './date-input-field/date-input.component';
+import { DropdownListComponent } from './dropdown-list-field/dropdown-list.component';
+import { MultiSelectComponent } from './multi-select-field/multi-select.component';
+import { TextboxComponent } from './textbox-field/textbox.component';
+import { TextAreaComponent } from './textarea-field/textarea.component';
+import { NumericTextboxComponent } from './numeric-textbox-field/numeric-textbox.component';
+import { SliderComponent } from './slider-field/slider.component';
+import { SwitchComponent } from './switch-field/switch.component';
+import { TimeInputComponent } from './time-input-field/time-input.component';
+import { LocationFieldComponent } from './location-field/location.component';
+import { RadioComponent } from './radio-field/radio.component';
 
 @Component({
 	selector: 'app-question-configuration',
@@ -49,7 +60,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.froalaQTestOptions = this.generateFroalaOptions('Question Text');
-		console.log('Is this working!?!?');
 	}
 
 	ngAfterViewInit() {
@@ -60,21 +70,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	updateAdvancedParams() {
-		const widgetComponents = this.parameterComponents();
+		const paramComponents = this.parameterComponents();
 		for (let i = 0; i < this.configTargets.toArray().length; i++) {
 			let conf = this.configurations[i];
-			let component = widgetComponents['checkbox'];
+			let component = paramComponents[conf.builderType];
 
 			if (component) {
 				let target = this.configTargets.toArray()[i];
-				let widgetComponent = this.componentFactoryResolver.resolveComponentFactory(
+				let paramComponent = this.componentFactoryResolver.resolveComponentFactory(
 					component
 				);
 
-				let cmpRef: any = target.createComponent(widgetComponent);
+				let cmpRef: any = target.createComponent(paramComponent);
 
-				cmpRef.instance.title = conf.name;
-				cmpRef.instance.name = conf.name;
+				cmpRef.instance.id = i;
+				cmpRef.instance.questionConfiguration = conf;
 				this.childrenComponents.push(cmpRef);
 			}
 		}
@@ -83,15 +93,18 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	parameterComponents() {
 		let widgetComponents = {
-			'checkbox': CheckboxComponent,
-			/*1: RadioButtonsComponent,
-			2: SliderComponent,
-			3: NumericTextboxComponent,
-			4: DropdownListComponent,
-			5: MultiSelectComponent,
-			6: SwitchComponent,
-			7: TextboxComponent,
-			8: DateInputComponent*/
+			'Checkbox': CheckboxComponent,
+			'Date': DateInputComponent,
+			'SingleSelect': DropdownListComponent,
+			'MultiSelect': MultiSelectComponent,
+			'Text': TextboxComponent,
+			'TextArea': TextAreaComponent,
+			'NumericText': NumericTextboxComponent,
+			'Slider': SliderComponent,
+			'Switch': SwitchComponent,
+			'Time': TimeInputComponent,
+			'Location': LocationFieldComponent,
+			'Radio': RadioComponent
 		};
 
 		return widgetComponents;
