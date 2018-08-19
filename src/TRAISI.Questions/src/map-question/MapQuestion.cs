@@ -35,7 +35,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question
 		[QuestionConfiguration(QuestionConfigurationValueType.Integer,
 		Name = "Mapbox Default Zoom",
 		Description = "Initial zoom level.",
-        SurveyBuilderValueType = QuestionBuilderType.NumericText)]
+    SurveyBuilderValueType = QuestionBuilderType.NumericText)]
 		public int Zoom = 8;
 
 		[QuestionConfiguration(QuestionConfigurationValueType.Tuple,
@@ -44,5 +44,12 @@ namespace TRAISI.ClientApp.question_definitions.map_question
         SurveyBuilderValueType = QuestionBuilderType.Location)]
 		public Tuple<double,double> Centre  = new Tuple<double,double>(-79.40, 43.67);
 
+		[QuestionConfiguration(QuestionConfigurationValueType.String,
+		Name = "Purpose",
+		Description = "Purpose of being at location.",
+		SurveyBuilderValueType = QuestionBuilderType.SingleSelect,
+		DefaultValue = "home",
+		Resource = "mapquestion-purpose")]
+		public string Purpose = "home"; 
 	}
 }

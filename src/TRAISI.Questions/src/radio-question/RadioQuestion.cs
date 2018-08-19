@@ -24,17 +24,6 @@ namespace TRAISI.SDK.Questions
             Description = "The list of available radio responses presented to the user.",
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
-
-
-        [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
-        Name = "Allow Multiple Selections",
-				SurveyBuilderValueType = QuestionBuilderType.Switch )]
-        public bool AllowMultipleSelections;
-
-				[QuestionConfiguration(QuestionConfigurationValueType.String,
-        Name = "Radio Colour",
-				SurveyBuilderValueType = QuestionBuilderType.Radio, Resource="radio-color-options")]
-				public string Colour;
     }
 
 }

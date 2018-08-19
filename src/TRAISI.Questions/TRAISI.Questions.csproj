@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <DotNetCliToolReference Include="DotNetTraisi" Version="*" />
+    <DotNetCliToolReference Include="DotNetTraisi" Version="1.0.1" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -23,11 +23,9 @@
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
   </Target>
   <ItemGroup>
-    <EmbeddedResource Include=".\src\resources\radio-color-options.json" LogicalName="radio-color-options" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
   </ItemGroup>
-
-
+  <ItemGroup>
+    <EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
+  </ItemGroup>
 </Project>

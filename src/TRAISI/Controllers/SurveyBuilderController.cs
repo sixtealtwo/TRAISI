@@ -142,7 +142,7 @@ namespace TRAISI.Controllers
 
         [HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]
         [Produces(typeof(SBQuestionPartViewViewModel))]
-        public async Task<IActionResult> GetQuestionPartViewPageStructure(int surveyId, int questionPartViewId, string language)
+        public async Task<IActionResult> GetQuestionPartViewStructure(int surveyId, int questionPartViewId, string language)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId)) {

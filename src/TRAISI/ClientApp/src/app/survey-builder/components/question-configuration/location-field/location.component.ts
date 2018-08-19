@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
 
@@ -9,7 +9,7 @@ import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 	templateUrl: './location.component.html',
 	styleUrls: ['./location.component.scss']
 })
-export class LocationFieldComponent implements OnInit, AfterContentInit {
+export class LocationFieldComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 	public markerPosition = {lng: -79.4, lat: 43.67};
@@ -24,9 +24,6 @@ export class LocationFieldComponent implements OnInit, AfterContentInit {
 		this.configureMapSettings();
 	}
 
-	ngAfterContentInit() {
-		window.dispatchEvent(new Event('resize'));
-	}
 
 	getValue(){
 		return JSON.stringify({position: this.markerPosition});

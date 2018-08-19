@@ -7,33 +7,35 @@ import { Select2OptionData } from 'ng2-select2';
 	templateUrl: './multi-select.component.html',
 	styleUrls: ['./multi-select.component.scss']
 })
-
 export class MultiSelectComponent implements OnInit {
-
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public multiSelectlistItems: Array<string> = [
-	];
-
-	data: Select2OptionData[] = [];
+	options: Select2OptionData[] = [];
 
 	select2Options: any = {
-		theme: 'bootstrap'
+		theme: 'bootstrap',
+		multiple: true
 	};
-	public multiSelectValue = [];
+	public multiSelectValues: string;
 
 	constructor() {}
 
 	ngOnInit() {
-
+		let optionData = JSON.parse(this.questionConfiguration.resourceData);
+		optionData.options.forEach(element => {
+			this.options.push({ text: element, id: element });
+		});
 	}
 
-	getValue(){
-		return JSON.stringify(this.multiSelectValue);
+	getValue() {
+		return JSON.stringify(this.multiSelectValues);
 	}
 
 	getSelect2GroupedList(): Select2OptionData[] {
-		return this.data;
+		return this.options;
+	}
+	changed(data: { value: string[] }) {
+		this.multiSelectValues = data.value.join(' | ');
 	}
 }

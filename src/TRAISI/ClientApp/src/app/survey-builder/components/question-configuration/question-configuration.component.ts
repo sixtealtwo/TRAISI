@@ -110,6 +110,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		return widgetComponents;
 	}
 
+	advancedConfig() {
+		setTimeout(() => {
+			window.dispatchEvent(new Event('resize'));
+		}, 0);
+	}
+
 	saveConfiguration() {
 		this.configResult.emit('save');
 	}
