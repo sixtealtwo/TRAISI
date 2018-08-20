@@ -73,7 +73,6 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	configurationHidden() {
-		this.configurationModalShowing = false;
 		this.qConfiguration.editing = false;
 		this.qConfiguration.questionBeingEdited = undefined;
 		this.qConfiguration.configurations = [];
@@ -130,6 +129,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 				if ((newQuestion.questionPart === undefined || newQuestion.questionPart === null) && !this.qPartQuestions.has(newQuestion.id)) {
 					this.qPartQuestions.set(newQuestion.id, newQuestion);
 				} else {
+					newPartView.questionPart = newQuestion.questionPart;
 					// send advanced configuration
 					this.surveyBuilderService
 						.updateQuestionPartConfigurations(
@@ -171,6 +171,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	processConfiguration(result: string) {
+		this.configurationModalShowing = false;
 		if (result === 'save') {
 			Object.assign(this.questionBeingEdited, this.qConfiguration.questionBeingEdited);
 			this.saveConfiguration();
@@ -259,12 +260,14 @@ export class NestedDragAndDropListComponent implements OnInit {
 						this.currentPage.questionPartViewChildren,
 						dropResult
 					);
+					this.updateQuestionOrder(this.currentPage);
 				} else {
 					let parentView = this.qPartQuestions.get(this.questionBeingEdited.parentViewId);
 					parentView.questionPartViewChildren = Utilities.applyDrag(
 						parentView.questionPartViewChildren,
 						dropResult
 					);
+					this.updateQuestionOrder(parentView);
 				}
 			});
 	}

@@ -77,11 +77,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	updateAdvancedParams() {
 		const paramComponents = this.parameterComponents();
+		this.childrenComponents = [];
 		if (this.configurations.length > 0) {
 			this.builderService
 				.getQuestionPartConfigurations(this.surveyId, this.questionBeingEdited.questionPart.id)
 				.subscribe(configurationValues => {
-					this.childrenComponents = [];
 					for (let i = 0; i < this.configTargets.toArray().length; i++) {
 						let conf = this.configurations[i];
 						let component = paramComponents[conf.builderType];
