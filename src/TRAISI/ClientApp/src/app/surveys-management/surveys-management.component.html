@@ -35,7 +35,7 @@
 					</div>
 					<ngx-datatable #soloTable *ngIf="!groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 					 [rows]="soloSurveyRows" [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
-					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
+					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
@@ -86,7 +86,7 @@
 						</div>
 						<ngx-datatable #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 						 [rows]="sharedSurveyRows" [columns]="sharedSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
-						 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'">
+						 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 							<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 								<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 									<div class="surveyDetails">
@@ -137,7 +137,7 @@
 					</div>
 					<ngx-datatable #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive" [rows]="groupSurveyRows"
 					 [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45" [headerHeight]="35"
-					 [footerHeight]="35" [columnMode]="'flex'">
+					 [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 					 <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
@@ -189,8 +189,8 @@
 	</div>
 
 	<ng-template #expandTemplate let-row="row" let-expanded="expanded">
-		<div class="cursor-pointer" (click)="toggleExpandRow(row)">
-			<a href="javascript:void(0)" title="Expand/Collapse Row">
+		<div>
+			<a title="Expand/Collapse Row">
 				<i [hidden]="expanded" class="fa fa-caret-right" aria-hidden="true"></i>
 				<i [hidden]="!expanded" class="fa fa-caret-down" aria-hidden="true"></i>
 			</a>
@@ -198,11 +198,11 @@
 	</ng-template>
 
 	<ng-template #textTemplate let-row="row" let-value="value" let-i="index" >
-		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value }}</div>
+		<div>{{ value }}</div>
 	</ng-template>
 
 	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
-		<div class="cursor-pointer" (click)="toggleExpandRow(row)">{{ value | date }}</div>
+		<div>{{ value | date }}</div>
 	</ng-template>
 
 
@@ -213,7 +213,7 @@
 
 	<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
 		<div>
-			<a class="badge badge-primary" href="javascript:;">
+			<a class="badge badge-primary" href="javascript:;" (click)="previewSurvey($event,row)">
 				<i class="fa fa-eye-o" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
 		</div>
 	</ng-template>
