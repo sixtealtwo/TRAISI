@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace DAL.Repositories.Interfaces {
 	public interface IQuestionPartRepository : IRepository<QuestionPart> {
 
+        Task<QuestionPart> GetQuestionPartWithConfigurations(int id);
         Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurations(int id);
         Task<IEnumerable<QuestionOption>> GetQuestionPartOptions(int id);
 	}

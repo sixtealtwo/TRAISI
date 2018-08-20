@@ -45,6 +45,8 @@ namespace TRAISI.Services.Interfaces
 
         void SetQuestionPartViewLabel(QuestionPartView qpv, string text, string language = null);
 
+        void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, bool isRepeat);
+
         void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId);
 
         void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);

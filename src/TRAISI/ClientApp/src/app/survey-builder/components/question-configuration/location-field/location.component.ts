@@ -12,7 +12,8 @@ import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 export class LocationFieldComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
-	public markerPosition = {lng: -79.4, lat: 43.67};
+	public markerPosition;
+
 
 	@ViewChild('mapbox') mapGL: MapComponent;
 
@@ -21,7 +22,9 @@ export class LocationFieldComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.markerPosition === undefined) {
+			this.setDefaultValue();
+		}
 		this.configureMapSettings();
 	}
 
@@ -33,7 +36,11 @@ export class LocationFieldComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({position: this.markerPosition});
+		return JSON.stringify(this.markerPosition);
+	}
+
+	processPriorValue(last: string) {
+		this.markerPosition = JSON.parse(last);
 	}
 
 	private configureMapSettings(): void {
@@ -42,7 +49,6 @@ export class LocationFieldComponent implements OnInit {
 		this.mapGL.center = [this.markerPosition.lng, this.markerPosition.lat];
 		this.mapGL.doubleClickZoom = false;
 		this.mapGL.attributionControl = false;
-
 	}
 
 	mapClick(event: MapMouseEvent) {

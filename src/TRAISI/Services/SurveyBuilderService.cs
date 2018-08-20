@@ -102,6 +102,13 @@ namespace TRAISI.Services
 
         }
 
+        public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, bool isRepeat)
+        {
+            qpv.isHousehold = isHousehold;
+            qpv.isOptional = isOptional;
+            qpv.isRepeat = isRepeat;
+        }
+
 
         /// <summary>
         /// Sets a question option value on the specified question part. If langauge is null then the default label is used, otherwise 

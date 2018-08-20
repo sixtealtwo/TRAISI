@@ -12,12 +12,14 @@ export class SwitchComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public switchValue = false;
+	public switchValue;
 
 	constructor() {}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.switchValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -25,6 +27,11 @@ export class SwitchComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({status: this.switchValue});
+		return JSON.stringify(this.switchValue);
 	}
+
+	processPriorValue(last: string) {
+		this.switchValue = JSON.parse(last);
+	}
+
 }

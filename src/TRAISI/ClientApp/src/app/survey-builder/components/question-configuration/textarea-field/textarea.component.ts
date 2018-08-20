@@ -15,7 +15,9 @@ export class TextAreaComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.textValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -24,6 +26,10 @@ export class TextAreaComponent implements OnInit {
 
 	getValue(){
 		return JSON.stringify({text: this.textValue});
+	}
+
+	processPriorValue(last: string) {
+		this.textValue = JSON.parse(last);
 	}
 
 }

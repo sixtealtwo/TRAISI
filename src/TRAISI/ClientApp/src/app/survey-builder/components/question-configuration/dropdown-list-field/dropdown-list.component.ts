@@ -12,7 +12,7 @@ export class DropdownListComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public dropDownListSelectedId: string = null;
+	public dropDownListSelectedId: string;
 
 	// Dropdown List
 	public dropDownListItems: Array<string> = [];
@@ -27,7 +27,9 @@ export class DropdownListComponent implements OnInit {
 			this.dropDownListItems.push(element);
 		});
 
-		this.setDefaultValue();
+		if (this.dropDownListSelectedId === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -45,6 +47,10 @@ export class DropdownListComponent implements OnInit {
 			return;
 		}
 		return JSON.stringify({id: this.dropDownListSelectedId});
+	}
+
+	processPriorValue(last: string) {
+		this.dropDownListSelectedId = JSON.parse(last).id;
 	}
 
 	valueChanged(e){

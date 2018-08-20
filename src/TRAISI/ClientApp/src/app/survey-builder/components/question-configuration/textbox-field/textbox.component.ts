@@ -15,7 +15,9 @@ export class TextboxComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.textValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -23,7 +25,11 @@ export class TextboxComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({text: this.textValue});
+		return JSON.stringify(this.textValue);
+	}
+
+	processPriorValue(last: string) {
+		this.textValue = JSON.parse(last);
 	}
 
 }

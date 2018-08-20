@@ -71,7 +71,7 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpPost("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder")]
+        [HttpPut("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder")]
         public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, [FromBody] List<SBOrderViewModel> pageOrder)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
@@ -137,7 +137,24 @@ namespace TRAISI.Controllers
             else {
                 return BadRequest("Insufficient permissions.");
             }
+        }
 
+        [HttpPut("{surveyId}/Part")]
+        public async Task<IActionResult> UpdateQuestionPartViewData(int surveyId, [FromBody] SBQuestionPartViewViewModel updatedQPartView)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
+                this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isOptional, updatedQPartView.isRepeat);
+                this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient permissions.");
+            }
         }
 
         [HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]
@@ -154,6 +171,7 @@ namespace TRAISI.Controllers
             }
         }
 
+
         [HttpGet("{surveyId}/QuestionConfigurations/{questionPartId}")]
         public async Task<IActionResult> GetQuestionPartConfigurations(int surveyId, int questionPartId)
         {
@@ -169,10 +187,28 @@ namespace TRAISI.Controllers
             }
         }
 
-        
+        [HttpPut("{surveyId}/QuestionConfigurations/{questionPartId}")]
+        public async Task<IActionResult> UpdateQuestionPartConfigurations(int surveyId, int questionPartId, [FromBody] List<QuestionConfigurationValueViewModel> updatedConfigurations)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurations(questionPartId);
+                updatedConfigurations.ForEach(config =>
+                {
+                    this._surveyBuilderService.SetQuestionConfiguration(questionPart, config.Name, config.Value);
+                });
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
 
 
-        [HttpPost("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
+        [HttpPut("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
         public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBOrderViewModel> questionOrder)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);

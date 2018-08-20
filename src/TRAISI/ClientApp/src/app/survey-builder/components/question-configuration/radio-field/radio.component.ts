@@ -13,7 +13,7 @@ export class RadioComponent implements OnInit {
 	public questionConfiguration: QuestionConfigurationDefinition;
 
 	public options = [];
-	selectedEntry: any = '';
+	selectedEntry: any;
 
 	constructor() {}
 
@@ -23,7 +23,9 @@ export class RadioComponent implements OnInit {
 			this.options.push(element);
 		});
 
-		this.setDefaultValue();
+		if (this.selectedEntry === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -37,5 +39,9 @@ export class RadioComponent implements OnInit {
 
 	getValue() {
 		return JSON.stringify(this.selectedEntry);
+	}
+
+	processPriorValue(last: string) {
+		this.selectedEntry = JSON.parse(last);
 	}
 }

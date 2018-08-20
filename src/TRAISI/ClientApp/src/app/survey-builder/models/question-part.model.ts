@@ -5,7 +5,6 @@ export class QuestionPart {
 		public id?: number,
 		public questionType?: string,
 		public isGroupQuestion?: boolean,
-		public questionPartChildren?: QuestionPart[],
-		public questionConfigurations?: QuestionConfigurationValue[]
+		public questionPartChildren?: QuestionPart[]
 	) {}
 }

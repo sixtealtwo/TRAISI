@@ -32,6 +32,10 @@ export class MultiSelectComponent implements OnInit {
 		return JSON.stringify(this.multiSelectValues);
 	}
 
+	processPriorValue(last: string) {
+		this.multiSelectValues = JSON.parse(last);
+	}
+
 	getSelect2GroupedList(): Select2OptionData[] {
 		return this.options;
 	}

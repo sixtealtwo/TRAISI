@@ -11,12 +11,14 @@ import { AmazingTimePickerService } from 'amazing-time-picker';
 export class TimeInputComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
-	public timePickerValue: string = '8:00';
+	public timePickerValue: string;
 
 	constructor() {}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.timePickerValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -24,7 +26,11 @@ export class TimeInputComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({date: this.timePickerValue});
+		return JSON.stringify(this.timePickerValue);
+	}
+
+	processPriorValue(last: string) {
+		this.timePickerValue = JSON.parse(last);
 	}
 
 }

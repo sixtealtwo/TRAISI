@@ -43,5 +43,13 @@ namespace DAL.Repositories
                 .Include(q => q.QuestionConfigurations)
                 .SingleOrDefaultAsync())?.QuestionOptions;
         }
+
+        public async Task<QuestionPart> GetQuestionPartWithConfigurations(int id)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => q.Id == id)
+                .Include(q => q.QuestionConfigurations)
+                .SingleOrDefaultAsync();
+        }
     }
 }

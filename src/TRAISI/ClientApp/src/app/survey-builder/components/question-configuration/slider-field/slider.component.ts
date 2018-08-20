@@ -12,7 +12,7 @@ export class SliderComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 	public sliding: boolean = false;
-	public sliderValue: number = 10;
+	public sliderValue;
 	public min: number = 0;
 	public max: number = 100;
 	public interval: number = 1;
@@ -25,6 +25,9 @@ export class SliderComponent implements OnInit {
 		this.min = sliderData.min;
 		this.max = sliderData.max;
 		this.interval = sliderData.interval;
+		if (this.sliderValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -32,7 +35,11 @@ export class SliderComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({value: this.sliderValue});
+		return JSON.stringify(this.sliderValue);
+	}
+
+	processPriorValue(last: string) {
+		this.sliderValue = JSON.parse(last);
 	}
 
 	change(value: any) {

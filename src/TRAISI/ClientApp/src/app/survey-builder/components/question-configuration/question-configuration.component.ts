@@ -27,6 +27,8 @@ import { SwitchComponent } from './switch-field/switch.component';
 import { TimeInputComponent } from './time-input-field/time-input.component';
 import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
+import { SurveyBuilderService } from '../../services/survey-builder.service';
+import { QuestionConfigurationValue } from '../../models/question-configuration-value';
 
 @Component({
 	selector: 'app-question-configuration',
@@ -34,13 +36,18 @@ import { RadioComponent } from './radio-field/radio.component';
 	styleUrls: ['./question-configuration.component.scss']
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
+	public surveyId: number;
+
 	public questionType: QuestionTypeDefinition;
 	public questionBeingEdited: QuestionPartView;
 	public editing: boolean = false;
 
 	public newQuestion: boolean = true;
 
-	public configurations: QuestionConfigurationDefinition[] =  [];
+	public configurations: QuestionConfigurationDefinition[] = [];
+
+	public configurationValues: QuestionConfigurationValue[] = [];
+
 	public childrenComponents = [];
 
 	public froalaQTestOptions: any;
@@ -52,8 +59,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public configTargets: QueryList<ViewContainerRef>;
 
 	constructor(
-		private authService: AuthService,
-		private configurationService: ConfigurationService,
+		private builderService: SurveyBuilderService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private cDRef: ChangeDetectorRef
 	) {}
@@ -71,40 +77,48 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	updateAdvancedParams() {
 		const paramComponents = this.parameterComponents();
-		for (let i = 0; i < this.configTargets.toArray().length; i++) {
-			let conf = this.configurations[i];
-			let component = paramComponents[conf.builderType];
+		if (this.configurations.length > 0) {
+			this.builderService
+				.getQuestionPartConfigurations(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.subscribe(configurationValues => {
+					this.childrenComponents = [];
+					for (let i = 0; i < this.configTargets.toArray().length; i++) {
+						let conf = this.configurations[i];
+						let component = paramComponents[conf.builderType];
 
-			if (component) {
-				let target = this.configTargets.toArray()[i];
-				let paramComponent = this.componentFactoryResolver.resolveComponentFactory(
-					component
-				);
+						if (component) {
+							let target = this.configTargets.toArray()[i];
+							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(component);
 
-				let cmpRef: any = target.createComponent(paramComponent);
+							let cmpRef: any = target.createComponent(paramComponent);
 
-				cmpRef.instance.id = i;
-				cmpRef.instance.questionConfiguration = conf;
-				this.childrenComponents.push(cmpRef);
-			}
+							cmpRef.instance.id = i;
+							cmpRef.instance.questionConfiguration = conf;
+							if (configurationValues.has(conf.name)) {
+								cmpRef.instance.processPriorValue(configurationValues.get(conf.name));
+							}
+							this.childrenComponents.push(cmpRef);
+						}
+					}
+				});
 		}
 		this.cDRef.detectChanges();
 	}
 
 	parameterComponents() {
 		let widgetComponents = {
-			'Checkbox': CheckboxComponent,
-			'Date': DateInputComponent,
-			'SingleSelect': DropdownListComponent,
-			'MultiSelect': MultiSelectComponent,
-			'Text': TextboxComponent,
-			'TextArea': TextAreaComponent,
-			'NumericText': NumericTextboxComponent,
-			'Slider': SliderComponent,
-			'Switch': SwitchComponent,
-			'Time': TimeInputComponent,
-			'Location': LocationFieldComponent,
-			'Radio': RadioComponent
+			Checkbox: CheckboxComponent,
+			Date: DateInputComponent,
+			SingleSelect: DropdownListComponent,
+			MultiSelect: MultiSelectComponent,
+			Text: TextboxComponent,
+			TextArea: TextAreaComponent,
+			NumericText: NumericTextboxComponent,
+			Slider: SliderComponent,
+			Switch: SwitchComponent,
+			Time: TimeInputComponent,
+			Location: LocationFieldComponent,
+			Radio: RadioComponent
 		};
 
 		return widgetComponents;
@@ -117,6 +131,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	saveConfiguration() {
+		this.configurationValues = [];
+		this.childrenComponents.forEach(compRef => {
+			this.configurationValues.push(
+				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
+			);
+		});
 		this.configResult.emit('save');
 	}
 

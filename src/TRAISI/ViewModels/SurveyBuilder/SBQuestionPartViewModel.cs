@@ -13,7 +13,7 @@ namespace TRAISI.ViewModels.SurveyBuilder
         public ICollection<SBQuestionPartViewModel> QuestionPartChildren { get; set; }
 
 
-        public ICollection<QuestionConfigurationValueViewModel> QuestionConfigurations { get; set; }
+        //public ICollection<QuestionConfigurationValueViewModel> QuestionConfigurations { get; set; }
 
         // public ICollection<QuestionOption> QuestionOptions { get; set; }
 

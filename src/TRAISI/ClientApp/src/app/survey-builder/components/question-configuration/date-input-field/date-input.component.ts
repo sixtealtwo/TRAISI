@@ -12,6 +12,7 @@ export class DateInputComponent implements OnInit {
 	public questionConfiguration: QuestionConfigurationDefinition;
 	public datePickerValue: Date;
 
+
 	public bsConfig: Partial<BsDatepickerConfig> = Object.assign(
 		{},
 		{
@@ -23,7 +24,9 @@ export class DateInputComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
-		this.setDefaultValue();
+		if (this.datePickerValue === undefined) {
+			this.setDefaultValue();
+		}
 	}
 
 	setDefaultValue() {
@@ -31,7 +34,11 @@ export class DateInputComponent implements OnInit {
 	}
 
 	getValue(){
-		return JSON.stringify({date: this.datePickerValue});
+		return JSON.stringify(this.datePickerValue);
+	}
+
+	processPriorValue(last: string) {
+		this.datePickerValue = JSON.parse(last);
 	}
 
 }

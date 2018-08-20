@@ -18,6 +18,7 @@ export class CheckboxComponent implements OnInit {
 	public questionConfiguration: QuestionConfigurationDefinition;
 
 	public options: Array<Item> = [];
+	private priorSelects: Array<string>;
 
 	constructor() {}
 
@@ -26,6 +27,14 @@ export class CheckboxComponent implements OnInit {
 		optionData.options.forEach((element) => {
 			this.options.push({ label: element, status: false});
 		});
+
+		if (this.priorSelects) {
+			this.options.forEach(option => {
+				if (this.priorSelects.includes(option.label)) {
+					option.status = true;
+				}
+			});
+		}
 
 	}
 
@@ -37,9 +46,17 @@ export class CheckboxComponent implements OnInit {
 		let data = [];
 		this.options.forEach(option => {
 			if (option.status) {
-				data.push({ label: option.label });
+				data.push(option.label);
 			}
 		});
 		return JSON.stringify(data);
+	}
+
+	processPriorValue(last: string) {
+		this.priorSelects = [];
+		let selectedList: string[] = JSON.parse(last);
+		selectedList.forEach(label => {
+			this.priorSelects.push(label);
+		});
 	}
 }
