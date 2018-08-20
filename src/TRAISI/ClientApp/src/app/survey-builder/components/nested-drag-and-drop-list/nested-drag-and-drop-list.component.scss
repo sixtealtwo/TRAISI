@@ -11,6 +11,16 @@
 	margin: 3px;
 }
 
+.question-number {
+	vertical-align: middle !important;
+	text-align: center !important;
+	color: white !important;
+	font-weight: bold !important;
+	padding: 10px;
+	margin-top: 7px;
+	margin-left: 2px;
+}
+
 .page-question {
 	background-color: $gray-800;
 	border-top: 1px solid lightgray;
@@ -20,6 +30,7 @@
 	color:white;
 
 	.icon {
+		margin-left: 20px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
@@ -36,10 +47,11 @@
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
 	padding:10px;
-	margin:4px 0px 4px 0px;
+	margin:2px 0px 4px 0px;
 	color:white;
 
 	.icon {
+		margin-left: 20px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
@@ -56,7 +68,6 @@
 }
 
 .question-part-container {
-	margin-left: 20px;
 	margin-bottom:10px;
 	background-color: $gray-400;
 	overflow:hidden;

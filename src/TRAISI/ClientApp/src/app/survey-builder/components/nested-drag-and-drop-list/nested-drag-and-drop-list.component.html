@@ -1,6 +1,7 @@
 <div class="row page-questions">
 	<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" id="page-question-container" class="col-md-12" [class.drag-over]="dragOverContainer['main list']" [class.page-questions-empty]="currentPage.questionPartViewChildren == undefined || currentPage.questionPartViewChildren.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" (dragEnter)="onDragEnter('main list')" (dragLeave)="onDragLeave('main list')">
 		<smooth-dnd-draggable *ngFor="let item of currentPage.questionPartViewChildren; index as i">
+			<div class="pull-left question-number badge badge-danger">Q{{ i+1 }}</div>
 			<ng-container *ngIf="item.questionPart; else surveyPart">
 				<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
 					<div class="icon">
@@ -32,6 +33,7 @@
 				<div class="question-part-container collapse show" [class.drag-over]="dragOverContainer[item.id]" [attr.id]= "'collapseExample-' + i" [class.page-questions-empty]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0">
 					<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item.id)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
 						<smooth-dnd-draggable *ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j">
+								<div class="pull-left question-number badge badge-primary">{{ getCharFromIndex(j) }}</div>
 							<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 								<div class="icon">
 										<i class="fa page-question-icon" [ngClass]="getIcon(innerItem.questionPart.questionType)"></i>
@@ -59,7 +61,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 *ngIf="questionBeingEdited" class="modal-title pull-left"><i class="fa config-title-icon" [ngClass]="getIcon(dealingWithPart ? 'Survey Part': questionBeingEdited.questionPart.questionType)"></i> {{ addingNewQuestion ? ( dealingWithPart ? 'Add New Section' : 'Add New Question') : (dealingWithPart ? 'Editing Section Configuration' : 'Editing Question Configuration') }}</h4>
+				<h4 *ngIf="configurationModalShowing" class="modal-title pull-left"><i class="fa config-title-icon" [ngClass]="getIcon(dealingWithPart ? 'Survey Part': questionBeingEdited.questionPart.questionType)"></i> {{ addingNewQuestion ? ( dealingWithPart ? 'Add New Section' : 'Add New Question') : (dealingWithPart ? 'Editing Section Configuration' : 'Editing Question Configuration') }}</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="cancelConfiguration()">
 					<span aria-hidden="true">&times;</span>
 				</button>

@@ -21,7 +21,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	public currentPage: QuestionPartView = new QuestionPartView();
-
+	public configurationModalShowing: boolean = false;
 	public addingNewQuestion: boolean = true;
 	public dealingWithPart: boolean = false;
 	public questionBeingEdited: QuestionPartView;
@@ -68,10 +68,12 @@ export class NestedDragAndDropListComponent implements OnInit {
 				this.questionBeingEdited.questionPart.questionType
 			);
 		}
+		this.configurationModalShowing = true;
 		this.qConfiguration.processConfigurations();
 	}
 
 	configurationHidden() {
+		this.configurationModalShowing = false;
 		this.qConfiguration.editing = false;
 		this.qConfiguration.questionBeingEdited = undefined;
 		this.qConfiguration.configurations = [];
@@ -309,6 +311,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 	onDragLeave(containerName: string) {
 		this.lastDragLeave.push(containerName);
 		this.dragOverContainer[containerName] = false;
+	}
+
+	public getCharFromIndex(index: number) {
+		return String.fromCharCode(65 + index);
 	}
 
 	onDrop(dropResult: any) {
