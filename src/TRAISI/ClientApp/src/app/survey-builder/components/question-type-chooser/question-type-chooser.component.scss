@@ -2,8 +2,12 @@
 
 .builder-qtypes .ngx-dnd-container {
 	background: none !important;
-	border: 0px solid black !important;
+	border: 0px solid rgb(236, 104, 104) !important;
 	padding: 5px;
+}
+
+.builder-qtypes {
+	margin-top: 50px;
 }
 
 li.chooser a{

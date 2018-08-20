@@ -34,6 +34,7 @@ import { TimeInputComponent } from './components/question-configuration/time-inp
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { LocationFieldComponent } from './components/question-configuration/location-field/location.component';
 import { RadioComponent } from './components/question-configuration/radio-field/radio.component';
+import { QuestionDetailsComponent } from './components/question-details/question-details.component';
 
 @NgModule({
 	imports: [
@@ -76,7 +77,8 @@ import { RadioComponent } from './components/question-configuration/radio-field/
 		SwitchComponent,
 		TimeInputComponent,
 		LocationFieldComponent,
-		RadioComponent
+		RadioComponent,
+		QuestionDetailsComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

@@ -62,3 +62,14 @@ li.pagetab > a{
 .edit-last-separator-hr {
 	margin-top: 15px;
 }
+
+.horiz-scroll {
+	max-width: 30vw;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap !important;
+}
+
+.nowrap {
+	white-space: nowrap !important;
+}
