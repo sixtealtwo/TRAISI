@@ -110,7 +110,7 @@ namespace TRAISI.Controllers
                     else {
                         //remove question from prior parent and fix order elements
                         var pastParentPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionInfo.ParentViewId);
-                        this._surveyBuilderService.RemoveQuestionPartView(pastParentPartView, question.Id);
+                        this._surveyBuilderService.RemoveQuestionPartView(pastParentPartView, question.Id, true);
                         question.Order = questionInfo.Order;
                     }
                     this._surveyBuilderService.AddQuestionPartView(parentPartView, question);
@@ -130,7 +130,7 @@ namespace TRAISI.Controllers
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId)) {
                 var parentQuestionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(parentQuestionPartViewId);
-                this._surveyBuilderService.RemoveQuestionPartView(parentQuestionPartView, childQuestionPartViewId);
+                this._surveyBuilderService.RemoveQuestionPartView(parentQuestionPartView, childQuestionPartViewId, false);
                 await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();
             }

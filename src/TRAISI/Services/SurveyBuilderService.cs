@@ -303,7 +303,7 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="questionPartView"></param>
         /// <param name="childQuestionPartViewId"></param>
-        public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId)
+        public void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId, bool transfer)
         {
             if (questionPartView != null) {
                 var childQuestions = questionPartView.QuestionPartViewChildren.OrderBy(q => q.Order);
@@ -319,8 +319,8 @@ namespace TRAISI.Services
                     }
                 }
                 questionPartView.QuestionPartViewChildren.Remove(toDelete);
-								//delete question part if no other part 
-								if (toDelete.QuestionPart != null) {
+								//delete question part if no other part and not a transfer
+								if (toDelete.QuestionPart != null && !transfer) {
 									int priorParentViewCount = this._unitOfWork.QuestionParts.GetNumberOfParentViews(toDelete.QuestionPart.Id);
 									if (priorParentViewCount == 1) {
 										this._unitOfWork.QuestionParts.Remove(toDelete.QuestionPart);

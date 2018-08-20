@@ -44,6 +44,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 
 	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
+		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 		let sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fa-archive',
@@ -156,9 +157,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 		return this.currentPage.questionPartViewChildren[index];
 	}
 
-	getQuestionInPartPayload(partId: number) {
+	getQuestionInPartPayload(part: QuestionPartView) {
 		return index => {
-			return this.qPartQuestions.get(partId).questionPartViewChildren[index];
+			let test = this.qPartQuestions;
+			return this.qPartQuestions.get(part.id).questionPartViewChildren[index];
 		};
 	}
 
