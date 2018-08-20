@@ -28,7 +28,7 @@ namespace DAL.Repositories
         /// <returns></returns>
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-        public async Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurations(int id)
+        public async Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurationsAsync(int id)
         {
             return (await _appContext.QuestionParts
                 .Where(q => q.Id == id)
@@ -36,7 +36,7 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync())?.QuestionConfigurations;
 
         }
-        public async Task<IEnumerable<QuestionOption>> GetQuestionPartOptions(int id)
+        public async Task<IEnumerable<QuestionOption>> GetQuestionPartOptionsAsync(int id)
         {
             return (await _appContext.QuestionParts
                 .Where(q => q.Id == id)
@@ -44,12 +44,26 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync())?.QuestionOptions;
         }
 
-        public async Task<QuestionPart> GetQuestionPartWithConfigurations(int id)
+        public async Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id)
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
                 .Include(q => q.QuestionConfigurations)
                 .SingleOrDefaultAsync();
         }
+
+				public async Task<int> GetNumberOfParentViewsAsync(int id)
+				{
+					return await _appContext.QuestionPartViews
+						.Where(q => q.QuestionPart.Id == id)
+						.CountAsync();
+				}
+
+				public int GetNumberOfParentViews(int id)
+				{
+					return _appContext.QuestionPartViews
+						.Where(q => q.QuestionPart.Id == id)
+						.Count();
+				}
     }
 }

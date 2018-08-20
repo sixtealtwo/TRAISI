@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 namespace DAL.Repositories.Interfaces {
 	public interface IQuestionPartRepository : IRepository<QuestionPart> {
 
-        Task<QuestionPart> GetQuestionPartWithConfigurations(int id);
-        Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurations(int id);
-        Task<IEnumerable<QuestionOption>> GetQuestionPartOptions(int id);
+        Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id);
+        Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurationsAsync(int id);
+        Task<IEnumerable<QuestionOption>> GetQuestionPartOptionsAsync(int id);
+				Task<int> GetNumberOfParentViewsAsync(int id);
+				int GetNumberOfParentViews(int id);
 	}
 }

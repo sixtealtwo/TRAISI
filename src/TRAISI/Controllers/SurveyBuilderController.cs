@@ -178,7 +178,7 @@ namespace TRAISI.Controllers
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var questionConfigurations = await this._unitOfWork.QuestionParts.GetQuestionPartConfigurations(questionPartId);
+                var questionConfigurations = await this._unitOfWork.QuestionParts.GetQuestionPartConfigurationsAsync(questionPartId);
                 return Ok(Mapper.Map<List<QuestionConfigurationValueViewModel>>(questionConfigurations));
             }
             else
@@ -193,7 +193,7 @@ namespace TRAISI.Controllers
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurations(questionPartId);
+                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionPartId);
                 updatedConfigurations.ForEach(config =>
                 {
                     this._surveyBuilderService.SetQuestionConfiguration(questionPart, config.Name, config.Value);

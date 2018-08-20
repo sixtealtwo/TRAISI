@@ -319,6 +319,13 @@ namespace TRAISI.Services
                     }
                 }
                 questionPartView.QuestionPartViewChildren.Remove(toDelete);
+								//delete question part if no other part 
+								if (toDelete.QuestionPart != null) {
+									int priorParentViewCount = this._unitOfWork.QuestionParts.GetNumberOfParentViews(toDelete.QuestionPart.Id);
+									if (priorParentViewCount == 1) {
+										this._unitOfWork.QuestionParts.Remove(toDelete.QuestionPart);
+									}
+								}
             }
         }
 
