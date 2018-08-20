@@ -23,6 +23,11 @@ export class DateInputComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.datePickerValue = new Date(Date.parse(this.questionConfiguration.defaultValue));
 	}
 
 	getValue(){

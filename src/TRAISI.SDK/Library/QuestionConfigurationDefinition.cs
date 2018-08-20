@@ -17,6 +17,6 @@ namespace TRAISI.SDK
 
         public string DefaultValue {get;set;}
 
-				public byte[] ResourceData { get; set; }
+		public byte[] ResourceData { get; set; }
     }
 }

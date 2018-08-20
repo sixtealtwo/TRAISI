@@ -77,7 +77,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.questionBeingEdited = question;
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = false;
-		if (question.typeName === 'Survey Part') {
+		if (question.questionPart === null) {
 			this.dealingWithPart = true;
 		} else {
 			this.dealingWithPart = false;

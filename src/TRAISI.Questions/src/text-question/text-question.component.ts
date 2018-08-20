@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: <string>require('./text-question.component.html')
+	template: <string>require('./text-question.component.html'),
+	styles: [require('./text-question.component.scss').toString()]
 })
 export class TextQuestionComponent implements OnInit {
 

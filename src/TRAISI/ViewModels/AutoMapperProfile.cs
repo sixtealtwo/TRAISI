@@ -119,6 +119,9 @@ namespace TRAISI.ViewModels
                         s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
+            CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()
+                .ReverseMap();
+
             CreateMap<SBSurveyViewViewModel, SurveyView>()
                 .ForMember(m => m.TermsAndConditionsLabels, map => map.Ignore())
                 .ForMember(m => m.ThankYouPageLabels, map => map.Ignore())

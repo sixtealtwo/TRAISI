@@ -139,6 +139,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			toolbarVisibleWithoutSelection: true,
 			placeholderText: placeHolder,
 			fontFamilySelection: true,
+			enter: (<any>$).FroalaEditor.ENTER_BR,
 			fontFamily: {
 				'Source Sans Pro,sans-serif': 'Source Sans Pro',
 				'Arial,Helvetica,sans-serif': 'Arial',

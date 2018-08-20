@@ -22,7 +22,7 @@ export class MapEndpointService {
 		return this.http.get<GeoLocation>(endpointUrl, this.getRequestHeaders());
 	}
 
-	protected getRequestHeaders(rType:any='json'): { headers: HttpHeaders | { [header: string]: string | string[]; }; responseType: any } {
+	protected getRequestHeaders(rType: any = 'json'): { headers: HttpHeaders | { [header: string]: string | string[]; }; responseType: any } {
 		const headers = new HttpHeaders({
 			'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('access_token')),
 			'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export class MapEndpointService {
 			'App-Version': '2.0.0'
 		});
 
-		return { headers: headers, responseType:rType };
+		return { headers: headers, responseType: rType };
 	}
 
 }

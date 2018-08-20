@@ -23,7 +23,7 @@
 					<li class="chooser section-tool-item">
 						<a (click)="addSectionToList()">
 							<span class="icon" [tooltip]="'Section'" placement="right" container="body" containerClass="tooltip-builder">
-								<i class="fa fa-archive"></i>
+								<i class="fa chooser-icon fa-archive"></i>
 							</span>
 								Section
 						</a>
@@ -33,7 +33,7 @@
 					<li class="chooser">
 						<a (click)="addQuestionTypeToList(item)">
 							<span class="icon" [tooltip]="item.typeName" placement="right" container="body" containerClass="tooltip-builder">
-								<i class="fa" [ngClass]="item.icon"></i>
+								<i class="fa chooser-icon" [ngClass]="item.icon"></i>
 							</span>
 								{{item.typeName}}
 						</a>

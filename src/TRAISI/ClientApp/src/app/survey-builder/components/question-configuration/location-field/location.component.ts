@@ -21,9 +21,16 @@ export class LocationFieldComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.setDefaultValue();
 		this.configureMapSettings();
 	}
 
+	setDefaultValue() {
+		let locSplit = this.questionConfiguration.defaultValue.split('|');
+		let lng = +locSplit[0];
+		let lat = +locSplit[1];
+		this.markerPosition = {lng: lng, lat: lat};
+	}
 
 	getValue(){
 		return JSON.stringify({position: this.markerPosition});
@@ -32,8 +39,7 @@ export class LocationFieldComponent implements OnInit {
 	private configureMapSettings(): void {
 		this.mapGL.zoom = [9];
 		this.mapGL.minZoom = 7;
-		this.mapGL.center = [-79.4, 43.67];
-		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
+		this.mapGL.center = [this.markerPosition.lng, this.markerPosition.lat];
 		this.mapGL.doubleClickZoom = false;
 		this.mapGL.attributionControl = false;
 

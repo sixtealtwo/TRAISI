@@ -26,7 +26,6 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'map';
-		console.log('loaded');
 	}
 
 	ngOnInit() {

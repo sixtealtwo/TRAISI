@@ -17,6 +17,11 @@ export class SwitchComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.switchValue = this.questionConfiguration.defaultValue === 'true';
 	}
 
 	getValue(){

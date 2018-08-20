@@ -26,6 +26,7 @@ export class CheckboxComponent implements OnInit {
 		optionData.options.forEach((element) => {
 			this.options.push({ label: element, status: false});
 		});
+
 	}
 
 	onChange(event, option) {

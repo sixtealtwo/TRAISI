@@ -26,6 +26,12 @@ export class DropdownListComponent implements OnInit {
 		optionData.options.forEach((element) => {
 			this.dropDownListItems.push(element);
 		});
+
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.dropDownListSelectedId = this.dropDownListItems[0];
 	}
 
 	getValue(){

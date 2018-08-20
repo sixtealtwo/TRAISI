@@ -15,7 +15,11 @@ export class TextAreaComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
+		this.setDefaultValue();
+	}
 
+	setDefaultValue() {
+		this.textValue = this.questionConfiguration.defaultValue;
 	}
 
 	getValue(){

@@ -22,9 +22,12 @@ export class RadioComponent implements OnInit {
 		optionData.options.forEach((element) => {
 			this.options.push(element);
 		});
-		if (this.options) {
-			this.onSelectionChange(this.options[0]);
-		}
+
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.selectedEntry = this.options[0];
 	}
 
 	onSelectionChange(entry) {

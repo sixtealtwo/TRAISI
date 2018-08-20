@@ -16,6 +16,11 @@ export class TimeInputComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.timePickerValue = this.questionConfiguration.defaultValue;
 	}
 
 	getValue(){

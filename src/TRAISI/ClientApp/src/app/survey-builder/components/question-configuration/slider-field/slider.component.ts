@@ -21,6 +21,14 @@ export class SliderComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
+		let sliderData = JSON.parse(this.questionConfiguration.resourceData);
+		this.min = sliderData.min;
+		this.max = sliderData.max;
+		this.interval = sliderData.interval;
+	}
+
+	setDefaultValue() {
+		this.sliderValue = +this.questionConfiguration.defaultValue;
 	}
 
 	getValue(){

@@ -72,7 +72,7 @@ namespace TRAISI.Helpers
             _questionTypeDefinitions.Add(typeDefinition);
 
 
-            this.ReadQuestionResourceData(typeDefinition, questionType,sourceAssembly);
+            this.ReadQuestionResourceData(typeDefinition, questionType, sourceAssembly);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
@@ -143,17 +143,19 @@ namespace TRAISI.Helpers
             }
         }
 
-				private byte[] GetQuestionConfigurationData(QuestionConfigurationAttribute configAttribute, Assembly sourceAssembly) {
-					byte[] data = null;
-					if (configAttribute.Resource != null) {
-						using (MemoryStream ms = new MemoryStream())
-						{
-								sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
-								data = ms.ToArray();
-						}
-					}
-					return data;
-				}
+        private byte[] GetQuestionConfigurationData(QuestionConfigurationAttribute configAttribute, Assembly sourceAssembly)
+        {
+            byte[] data = null;
+            if (configAttribute.Resource != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
+                    data = ms.ToArray();
+                }
+            }
+            return data;
+        }
 
         /// <summary>
         /// Returns the QuestionTypeDefinition associated with the passed name
@@ -193,8 +195,8 @@ namespace TRAISI.Helpers
                                 TypeId = configAttribute.TypeId,
                                 ValueType = configAttribute.ValueType,
                                 BuilderType = configAttribute.SurveyBuilderValueType,
-																DefaultValue = configAttribute.DefaultValue,
-																ResourceData = GetQuestionConfigurationData(configAttribute, sourceAssembly)
+                                DefaultValue = configAttribute.DefaultValue,
+                                ResourceData = GetQuestionConfigurationData(configAttribute, sourceAssembly)
                             }
 
                                 );

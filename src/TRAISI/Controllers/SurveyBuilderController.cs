@@ -154,6 +154,24 @@ namespace TRAISI.Controllers
             }
         }
 
+        [HttpGet("{surveyId}/QuestionConfigurations/{questionPartId}")]
+        public async Task<IActionResult> GetQuestionPartConfigurations(int surveyId, int questionPartId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionConfigurations = await this._unitOfWork.QuestionParts.GetQuestionPartConfigurations(questionPartId);
+                return Ok(Mapper.Map<List<QuestionConfigurationValueViewModel>>(questionConfigurations));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+        
+
+
         [HttpPost("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
         public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBOrderViewModel> questionOrder)
         {

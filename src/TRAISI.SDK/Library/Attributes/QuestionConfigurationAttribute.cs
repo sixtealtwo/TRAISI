@@ -18,9 +18,9 @@ namespace TRAISI.SDK.Attributes
 
         public QuestionBuilderType SurveyBuilderValueType {get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
 
-				public string Resource { get; set; }
+		public string Resource { get; set; }
 
-				public string DefaultValue { get; set; }
+		public string DefaultValue { get; set; }
         public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
         {
             this._valueType = valueType;

@@ -10,14 +10,16 @@ export class NumericTextboxComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	public min: number = 0;
-	public max: number = 100;
-	public autoCorrect: boolean = true;
 	public numericValue: number;
 
 	constructor() {}
 
 	ngOnInit() {
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.numericValue = +this.questionConfiguration.defaultValue;
 	}
 
 	getValue(){
