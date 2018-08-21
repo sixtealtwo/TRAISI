@@ -18,7 +18,7 @@
 					<div class="color-unset question-text" [innerHTML]="item.label.value | safe: 'html'"></div>
 				</div>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
-					<app-question-details [questionId]="item.id"></app-question-details>
+					<app-question-details [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 				</div>
 			</ng-container>
 			<ng-template #surveyPart>
@@ -39,7 +39,7 @@
 				<div class="question-part-container collapse show" [class.drag-over]="dragOverContainer[item.id]" [attr.id]= "'collapseExample-' + i" [class.page-questions-empty]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0">
 					<smooth-dnd-container  [dragHandleSelector]="'.question-move-icon'" [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
 						<smooth-dnd-draggable *ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j">
-								<div class="pull-left question-number badge badge-primary">{{ getCharFromIndex(j) }}</div>
+							<div class="pull-left question-number badge badge-primary">{{ getCharFromIndex(j) }}</div>
 							<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 								<div class="icon">
 										<i class="fa page-question-icon" [ngClass]="getIcon(innerItem.questionPart.questionType)"></i>
@@ -55,7 +55,7 @@
 								<div class="color-unset question-text" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
 							</div>
 							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
-								<div class="question-options">Open Question</div>
+									<app-question-details [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 							</div>
 						</smooth-dnd-draggable>
 					</smooth-dnd-container>

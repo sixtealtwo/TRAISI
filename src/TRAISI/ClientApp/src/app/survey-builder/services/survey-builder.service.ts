@@ -11,6 +11,7 @@ import { QuestionPartView } from '../models/question-part-view.model';
 import { Order } from '../models/order.model';
 import { QuestionConfigurationValue } from '../models/question-configuration-value';
 import { map } from '../../../../node_modules/rxjs/operators';
+import { QuestionOptionValue } from '../models/question-option-value';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -162,4 +163,20 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService
 		.getUpdateQuestionPartConfigurationsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId, updatedConfigurations);
 	}
+
+
+	public getQuestionPartOptions(surveyId: number, questionPartId: number, language: string) {
+		return this.surveyBuilderEndpointService
+			.getQuestionPartOptionsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId, language);
+	}
+
+	public updateQuestionPartOptions(
+		surveyId: number,
+		questionPartId: number,
+		updatedOptions: QuestionOptionValue[]
+	) {
+		return this.surveyBuilderEndpointService
+		.getUpdateQuestionPartConfigurationsEndpoint<QuestionOptionValue[]>(surveyId, questionPartId, updatedOptions);
+	}
+
 }

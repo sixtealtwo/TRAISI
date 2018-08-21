@@ -173,12 +173,14 @@ namespace TRAISI.Controllers
 
 
         [HttpGet("{surveyId}/QuestionConfigurations/{questionPartId}")]
+				[Produces(typeof(List<QuestionConfigurationValueViewModel>))]
         public async Task<IActionResult> GetQuestionPartConfigurations(int surveyId, int questionPartId)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var questionConfigurations = await this._unitOfWork.QuestionParts.GetQuestionPartConfigurationsAsync(questionPartId);
+								
                 return Ok(Mapper.Map<List<QuestionConfigurationValueViewModel>>(questionConfigurations));
             }
             else
@@ -197,6 +199,45 @@ namespace TRAISI.Controllers
                 updatedConfigurations.ForEach(config =>
                 {
                     this._surveyBuilderService.SetQuestionConfiguration(questionPart, config.Name, config.Value);
+                });
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+				[HttpGet("{surveyId}/QuestionOptions/{questionPartId}/{language}")]
+				[Produces(typeof(List<QuestionOptionValueViewModel>))]
+				public async Task<IActionResult> GetQuestionPartOptions(int surveyId, int questionPartId, string language)
+				{
+						var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionOptions = await this._unitOfWork.QuestionParts.GetQuestionPartOptionsAsync(questionPartId);
+
+								List<QuestionOptionValueViewModel> questionOptionVMs = new List<QuestionOptionValueViewModel>();
+								
+								return Ok(questionOptions.Select(q => q.ToLocalizedModel<QuestionOptionValueViewModel>(language)));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+				}
+
+				[HttpPut("{surveyId}/QuestionOptions/{questionPartId}")]
+        public async Task<IActionResult> UpdateQuestionPartOptions(int surveyId, int questionPartId, [FromBody] List<QuestionOptionValueViewModel> updatedConfigurations)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
+                updatedConfigurations.ForEach(config =>
+                {
+                    this._surveyBuilderService.SetQuestionOption(questionPart, config.Name, config.OptionLabel.Value, config.OptionLabel.Language);
                 });
                 await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();

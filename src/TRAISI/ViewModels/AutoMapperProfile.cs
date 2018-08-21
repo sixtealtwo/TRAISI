@@ -122,6 +122,12 @@ namespace TRAISI.ViewModels
             CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()
                 .ReverseMap();
 
+						CreateMap<QuestionOption, QuestionOptionValueViewModel>()
+								.AfterMap((s, svm, opt) =>
+								{
+									svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
+								});
+
             CreateMap<SBSurveyViewViewModel, SurveyView>()
                 .ForMember(m => m.TermsAndConditionsLabels, map => map.Ignore())
                 .ForMember(m => m.ThankYouPageLabels, map => map.Ignore())

@@ -52,6 +52,14 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
+				public async Task<QuestionPart> GetQuestionPartWithOptionsAsync(int id)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => q.Id == id)
+                .Include(q => q.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
+                .SingleOrDefaultAsync();
+        }
+
 				public async Task<int> GetNumberOfParentViewsAsync(int id)
 				{
 					return await _appContext.QuestionPartViews

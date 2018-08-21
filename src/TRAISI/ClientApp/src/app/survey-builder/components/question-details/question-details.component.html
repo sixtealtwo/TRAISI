@@ -1,18 +1,25 @@
-<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + questionId" (drop)="onDrop($event)" [getChildPayload]="getOptionPayload" [lockAxis]="'y'"> 
-	<smooth-dnd-draggable *ngFor="let item of items">
-		<div class="form-group row response-option-container">
-			<div class="input-group col-md-12">
-				<input type="text" class="form-control optionKey" id="key" [value]="item" (input)="indicateChange(item)"/>
-				<input type="text" class="form-control optionValue" id="label" (input)="indicateChange(item)"/>
-				<div class="input-group-append">
-					<button type="button" class="btn" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
-						<i class="fa fa-check"></i>
-					</button>
-					<button type="button" class="btn btn-gray option-handle">
-						<i class="fa fa-bars"></i>
-					</button>
+<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
+	<h4 class="text-center">{{ qOptionDefinition.name }}</h4>
+	<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.Id + '-' + i" (drop)="onDrop($event)" [getChildPayload]="getOptionPayload" [lockAxis]="'y'"> 
+		<smooth-dnd-draggable *ngFor="let item of items">
+			<div class="form-group row response-option-container">
+				<div class="input-group col-md-12">
+					<input type="text" class="form-control optionKey" id="key" [value]="item" (input)="indicateChange(item)"/>
+					<input type="text" class="form-control optionValue" id="label" (input)="indicateChange(item)"/>
+					<div class="input-group-append">
+						<button type="button" class="btn" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
+							<i class="fa fa-check"></i>
+						</button>
+						<button type="button" class="btn btn-danger">
+							<i class="fa fa-times"></i>
+						</button>
+						<button type="button" class="btn btn-gray option-handle">
+							<i class="fa fa-bars"></i>
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
-	</smooth-dnd-draggable>
-</smooth-dnd-container>
+		</smooth-dnd-draggable>
+	</smooth-dnd-container>
+</ng-container>
+<div class="open-question-placeholder" *ngIf="questionOptionDefinitions.length == 0">Open Question</div>

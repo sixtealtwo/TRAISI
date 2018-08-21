@@ -8,6 +8,7 @@ import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { QuestionConfigurationValue } from '../models/question-configuration-value';
+import { QuestionOptionValue } from '../models/question-option-value';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
@@ -262,4 +263,36 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+
+	public getQuestionPartOptionsEndpoint<T>(surveyId: number, questionPartId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getQuestionPartOptionsEndpoint(surveyId, questionPartId, language)
+				);
+			})
+		);
+	}
+
+	public getUpdateQuestionPartOptionsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		updatedOptions: QuestionOptionValue[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(updatedOptions), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getUpdateQuestionPartOptionsEndpoint(surveyId, questionPartId, updatedOptions)
+				);
+			})
+		);
+	}
+
+
+
 }

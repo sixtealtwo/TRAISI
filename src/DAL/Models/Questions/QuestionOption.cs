@@ -1,7 +1,8 @@
 using DAL.Models.Extensions;
+using DAL.Models.Interfaces;
 
 namespace DAL.Models.Questions {
-	public class QuestionOption : IQuestionOption {
+	public class QuestionOption : IQuestionOption, IEntity {
 		public int Id { get; set; }
 
 
