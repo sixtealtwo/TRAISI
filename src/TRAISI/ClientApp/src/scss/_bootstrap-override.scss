@@ -458,7 +458,7 @@ legend {
 	}
 	@include media-breakpoint-down(md){
 		> .tab-pane {
-			padding: $spacer $spacer;
+			padding: $spacer/2 $spacer/2;
 		}
 	}
 }
