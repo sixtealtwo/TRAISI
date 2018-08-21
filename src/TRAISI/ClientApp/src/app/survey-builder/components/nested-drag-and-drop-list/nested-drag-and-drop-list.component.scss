@@ -31,19 +31,27 @@
 	color:white;
 	min-height: 43px;
 
+	.question-text {
+		margin-left: 60px;
+		margin-right: 50px;
+		white-space: nowrap;
+		overflow-x: scroll;
+	}
 	.icon {
-		margin-left: 20px;
+		margin-left: 10px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
 	}
 	.question-move-icon {
+		flex:unset;
 		margin-right: 10px;
 		float: right;
 		margin-top:-1px;
 		cursor: move;
 	}
 	.config-icon {
+		flex: unset;
 		margin-right: 10px;
 		float: right;
 		margin-top:-1px;
@@ -59,19 +67,27 @@
 	color:white;
 	min-height: 43px;
 
+	.question-text {
+		margin-left: 60px;
+		margin-right: 50px;
+		white-space: nowrap;
+		overflow-x: scroll;
+	}
 	.icon {
-		margin-left: 20px;
+		margin-left: 10px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
 	}
 	.question-move-icon {
+		flex:unset;
 		margin-right: 10px;
 		float: right;
 		margin-top:-1px;
 		cursor: move;
 	}
 	.config-icon {
+		flex:unset;
 		margin-right: 10px;
 		float: right;
 		margin-top:-1px;

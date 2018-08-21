@@ -7,15 +7,15 @@
 					<div class="icon">
 							<i class="fa page-question-icon" [ngClass]="getIcon(item.questionPart.questionType)"></i>
 					</div>
-					<span class="color-unset" [innerHTML]="item.label.value | safe: 'html'"></span>
 					<div class="config-icon">
-						<a  (click)="editQuestionConfiguration($event, item)">
+						<a (click)="editQuestionConfiguration($event, item)">
 							<i class="fa fa-cog"></i>
 						</a>
 					</div>
 					<div class="question-move-icon">
 						<i class="fa fa-bars"></i>
 					</div>
+					<div class="color-unset question-text" [innerHTML]="item.label.value | safe: 'html'"></div>
 				</div>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
 					<app-question-details [questionId]="item.id"></app-question-details>
@@ -26,15 +26,15 @@
 					<div class="icon">
 							<i class="fa" [ngClass]="getIcon('Survey Part')"></i>
 					</div>
-					<span [innerHTML]="item.label.value"></span>
 					<div class="config-icon">
-						<a  (click)="editQuestionConfiguration($event,item)">
+						<a (click)="editQuestionConfiguration($event,item)">
 							<i class="fa fa-cog"></i>
 						</a>
 					</div>
 					<div class="question-move-icon">
 						<i class="fa fa-bars"></i>
 					</div>
+					<div class="color-unset question-text" [innerHTML]="item.label.value"></div>
 				</div>
 				<div class="question-part-container collapse show" [class.drag-over]="dragOverContainer[item.id]" [attr.id]= "'collapseExample-' + i" [class.page-questions-empty]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0">
 					<smooth-dnd-container  [dragHandleSelector]="'.question-move-icon'" [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
@@ -44,19 +44,19 @@
 								<div class="icon">
 										<i class="fa page-question-icon" [ngClass]="getIcon(innerItem.questionPart.questionType)"></i>
 								</div>
-							<span [innerHTML]="innerItem.label.value | safe: 'html'"></span>
-							<div class="config-icon">
-								<a  (click)="editQuestionConfiguration($event,innerItem)">
-									<i class="fa fa-cog"></i>
-								</a>
+								<div class="config-icon">
+									<a  (click)="editQuestionConfiguration($event,innerItem)">
+										<i class="fa fa-cog"></i>
+									</a>
+								</div>
+								<div class="question-move-icon">
+									<i class="fa fa-bars"></i>
+								</div>
+								<div class="color-unset question-text" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
 							</div>
-							<div class="question-move-icon">
-								<i class="fa fa-bars"></i>
+							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
+								<div class="question-options">Open Question</div>
 							</div>
-						</div>
-						<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
-							<div class="question-options">Open Question</div>
-						</div>
 						</smooth-dnd-draggable>
 					</smooth-dnd-container>
 					<div class="question-part-container-placeholder" [hidden]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length > 0">Drop Questions Here</div>
