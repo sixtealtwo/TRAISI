@@ -1,3 +1,18 @@
-<p>
-  question-details works!
-</p>
+<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + questionId" (drop)="onDrop($event)" [getChildPayload]="getOptionPayload" [lockAxis]="'y'"> 
+	<smooth-dnd-draggable *ngFor="let item of items">
+		<div class="form-group row response-option-container">
+			<div class="input-group col-md-12">
+				<input type="text" class="form-control optionKey" id="key" [value]="item" (input)="indicateChange(item)"/>
+				<input type="text" class="form-control optionValue" id="label" (input)="indicateChange(item)"/>
+				<div class="input-group-append">
+					<button type="button" class="btn" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
+						<i class="fa fa-check"></i>
+					</button>
+					<button type="button" class="btn btn-gray option-handle">
+						<i class="fa fa-bars"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</smooth-dnd-draggable>
+</smooth-dnd-container>

@@ -391,10 +391,16 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	shouldAcceptDrop(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
+			return false;
+		}
 		return true;
 	}
 
 	shouldAcceptDropPart(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
+			return false;
+		}
 		if (sourceContainerOptions.behaviour === 'copy') {
 			if (payload.typeName === 'Survey Part') {
 				return false;

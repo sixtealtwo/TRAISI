@@ -450,10 +450,17 @@ legend {
 
 .tab-content {
   position: relative;
-  background-color: $white;
-  > .tab-pane {
-    padding: $spacer*2 $spacer*2;
-  }
+	background-color: $white;
+	@include media-breakpoint-up(md){
+		> .tab-pane {
+			padding: $spacer*2 $spacer*2;
+		}
+	}
+	@include media-breakpoint-down(md){
+		> .tab-pane {
+			padding: $spacer $spacer;
+		}
+	}
 }
 
 

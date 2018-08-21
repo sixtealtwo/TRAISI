@@ -1,0 +1,18 @@
+.response-option-container {
+	margin: 5px 2px 5px 2px;
+	i {
+		font-size: 10px;
+		padding: 0px;
+	}
+
+	.optionKey {
+		float: left !important;
+		width: 60px !important;
+		flex: unset;
+	}
+
+	.optionValue {
+		margin-left:0px;
+		margin-right:0px;
+	}
+}
