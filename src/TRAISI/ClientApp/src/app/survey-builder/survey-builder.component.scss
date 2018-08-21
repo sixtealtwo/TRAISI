@@ -13,7 +13,28 @@
   }
 }
 
-.page-editor { 
+.nav-tabs
+{
+	float: none !important;
+	white-space: nowrap;
+	display:block;
+	overflow-x: scroll;
+}
+
+.nav-tabs .nav-item
+{
+	display: inline-block;
+}
+
+#pagesList
+{
+	max-width: none !important;
+	display: inline-block;
+	vertical-align:bottom;
+
+}
+
+.page-editor {
 	border: 1px inset gray;
 	border-radius: 5px;
 	padding: 10px;
