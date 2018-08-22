@@ -448,6 +448,31 @@ legend {
   }
 }
 
+.nav-tabs
+{
+	touch-action: none;
+	float: none !important;
+	white-space: nowrap;
+	display:block;
+	@media (hover: hover) {
+		overflow-x: hidden;
+	}
+	@media (hover: none) {
+		overflow-x: auto;
+	}
+	overflow-y: hidden;
+	-ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+.nav-tabs:hover {
+	overflow-x: auto;
+}
+
+.nav-tabs .nav-item
+{
+	display: inline-block;
+}
+
 .tab-content {
   position: relative;
 	background-color: $white;

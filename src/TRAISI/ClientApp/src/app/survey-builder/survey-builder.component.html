@@ -14,7 +14,7 @@
 			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
 			 role="tab" aria-controls="tAndC" aria-expanded="true">Terms and Conditions</a>
 		</li>
-		<smooth-dnd-container class="horiz-scroll" id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'" [dragBeginDelay]="500" [dragClass]="'raised-tab'" [getChildPayload]="getPagePayload" (dragEnd)="onDragEnd($event)" (drop)="onDrop($event)" (dragEnter)="onDragEnter()" (dragLeave)="onDragLeave()">
+		<smooth-dnd-container id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'" [dragBeginDelay]="500" [dragClass]="'raised-tab'" [getChildPayload]="getPagePayload" (dragEnd)="onDragEnd($event)" (drop)="onDrop($event)" (dragEnter)="onDragEnter()" (dragLeave)="onDragLeave()">
 			<smooth-dnd-draggable *ngFor="let page of allPages">
 				<li class="nav-item pagetab">
 					<a class="nav-link fw-semi-bold" id="{{ page.id + '-tab' }}" (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages"

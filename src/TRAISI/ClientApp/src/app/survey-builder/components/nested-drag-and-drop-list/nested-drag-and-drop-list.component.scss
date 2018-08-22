@@ -13,7 +13,7 @@
 
 .question-number {
 	position: absolute;
-	left: 0px;
+	left: 3px;
 	vertical-align: middle !important;
 	text-align: center !important;
 	color: white !important;
@@ -38,7 +38,13 @@
 		margin-left: 60px;
 		margin-right: 50px;
 		white-space: nowrap;
-		overflow-x: hidden;
+
+		@media (hover: hover) {
+			overflow-x: hidden;
+		}
+		@media (hover: none) {
+			overflow-x: auto;
+		}
 	}
 	.question-text:hover {
 		overflow-x: auto;
@@ -78,7 +84,12 @@
 		margin-left: 60px;
 		margin-right: 50px;
 		white-space: nowrap;
-		overflow-x: hidden;
+		@media (hover: hover) {
+			overflow-x: hidden;
+		}
+		@media (hover: none) {
+			overflow-x: auto;
+		}
 	}
 	.question-text:hover {
 		overflow-x: auto;
@@ -113,6 +124,8 @@
 	margin-right:5px;
 	margin-bottom:10px;
 	overflow:hidden;
+	background-color: white;
+	border: 1px dotted $gray-200;
 }
 
 .drag-over {

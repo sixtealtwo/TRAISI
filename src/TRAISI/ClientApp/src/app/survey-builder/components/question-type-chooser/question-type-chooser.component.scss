@@ -121,6 +121,7 @@ smooth-dnd-container {
 
 smooth-dnd-draggable {
 	touch-action: none;
+	touch-action: manipulation;
 }
 
 .chooser-icon {
