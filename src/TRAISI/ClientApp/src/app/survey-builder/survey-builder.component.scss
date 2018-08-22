@@ -18,7 +18,9 @@
 	float: none !important;
 	white-space: nowrap;
 	display:block;
-	overflow-x: scroll;
+	overflow-x: audo;
+	overflow-y: hidden;
+	-ms-overflow-style: -ms-autohiding-scrollbar !important;
 }
 
 .nav-tabs .nav-item
