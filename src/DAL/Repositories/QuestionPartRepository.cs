@@ -42,7 +42,7 @@ namespace DAL.Repositories
                 .Where(q => q.Id == id)
                 .Include(q => q.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
                 .SingleOrDefaultAsync())?.QuestionOptions;
-            return options.OrderBy(o => o.Name).ThenBy(o => o.Order);
+            return options?.OrderBy(o => o.Name).ThenBy(o => o.Order);
         }
 
         public async Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id)

@@ -233,7 +233,7 @@ namespace TRAISI.Controllers
 
                 List<QuestionOptionValueViewModel> questionOptionVMs = new List<QuestionOptionValueViewModel>();
 
-                return Ok(questionOptions.Select(q => q.ToLocalizedModel<QuestionOptionValueViewModel>(language)));
+                return Ok(questionOptions?.Select(q => q.ToLocalizedModel<QuestionOptionValueViewModel>(language)));
             }
             else
             {

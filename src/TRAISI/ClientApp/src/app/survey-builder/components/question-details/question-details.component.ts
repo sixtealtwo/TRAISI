@@ -44,10 +44,12 @@ export class QuestionDetailsComponent implements OnInit {
 		this.builderService
 			.getQuestionPartOptions(this.surveyId, this.question.id, this.language)
 			.subscribe(options => {
-				options.forEach(option => {
-					this.items.get(option.name).push(option);
-					this.savedItems.set(option.id, option.optionLabel.value);
-				});
+				if (options !== null) {
+					options.forEach(option => {
+						this.items.get(option.name).push(option);
+						this.savedItems.set(option.id, option.optionLabel.value);
+					});
+				}
 			});
 	}
 
