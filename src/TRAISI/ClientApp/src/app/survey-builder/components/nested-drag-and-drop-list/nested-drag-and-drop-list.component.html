@@ -18,7 +18,7 @@
 					<div class="color-unset question-text" [innerHTML]="item.label.value | safe: 'html'"></div>
 				</div>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
-					<app-question-details [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
+					<app-question-details [surveyId]="surveyId" [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 				</div>
 			</ng-container>
 			<ng-template #surveyPart>
@@ -55,7 +55,7 @@
 								<div class="color-unset question-text" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
 							</div>
 							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
-									<app-question-details [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
+									<app-question-details [surveyId]="surveyId" [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 							</div>
 						</smooth-dnd-draggable>
 					</smooth-dnd-container>

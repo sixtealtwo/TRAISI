@@ -122,11 +122,14 @@ namespace TRAISI.ViewModels
             CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()
                 .ReverseMap();
 
-						CreateMap<QuestionOption, QuestionOptionValueViewModel>()
-								.AfterMap((s, svm, opt) =>
-								{
-									svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
-								});
+            CreateMap<QuestionOptionLabel, QuestionOptionLabelViewModel>()
+                .ReverseMap();
+
+            CreateMap<QuestionOption, QuestionOptionValueViewModel>()
+                    .AfterMap((s, svm, opt) =>
+                    {
+                        svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
+                    });
 
             CreateMap<SBSurveyViewViewModel, SurveyView>()
                 .ForMember(m => m.TermsAndConditionsLabels, map => map.Ignore())
@@ -160,6 +163,10 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.SurveyView, map => map.Ignore())
                 .ForMember(o => o.QuestionPartViewChildren, map => map.Ignore());
 
+            CreateMap<SBOrderViewModel, QuestionOption>()
+                .ForMember(o => o.Name, map => map.Ignore())
+                .ForMember(o => o.QuestionOptionLabels, map => map.Ignore());
+
             CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
                     .ForMember(w => w.QuestionPartView, map => map.Ignore())
                     .ReverseMap();
@@ -190,7 +197,7 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
-								.ForMember(q => q.ResourceData, map => map.ResolveUsing(s => s.ResourceData == null ? null : System.Text.Encoding.UTF8.GetString(s.ResourceData)))
+                                .ForMember(q => q.ResourceData, map => map.ResolveUsing(s => s.ResourceData == null ? null : System.Text.Encoding.UTF8.GetString(s.ResourceData)))
                 .ReverseMap();
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()

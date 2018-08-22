@@ -18,9 +18,13 @@
 	float: none !important;
 	white-space: nowrap;
 	display:block;
-	overflow-x: audo;
+	overflow-x: hidden;
 	overflow-y: hidden;
 	-ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+.nav-tabs:hover {
+	overflow-x: auto;
 }
 
 .nav-tabs .nav-item
@@ -69,7 +73,7 @@ li.pagetab > a{
 }
 
 .separator-hr {
-	margin: 0px 0px 8px 0px;
+	margin: 7px 5px;
 	border-top-style: dashed;
 }
 

@@ -3,6 +3,11 @@ import { Utilities } from '../../../services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionOptionDefinition } from '../../models/question-option-definition.model';
+import { SurveyBuilderService } from '../../services/survey-builder.service';
+import { QuestionOptionValue } from '../../models/question-option-value';
+import { QuestionOptionLabel } from '../../models/question-option-label.model';
+import { AlertService, DialogType } from '../../../services/alert.service';
+import { Order } from '../../models/order.model';
 
 @Component({
 	selector: 'app-question-details',
@@ -10,11 +15,14 @@ import { QuestionOptionDefinition } from '../../models/question-option-definitio
 	styleUrls: ['./question-details.component.scss']
 })
 export class QuestionDetailsComponent implements OnInit {
-	public items = [1, 2, 3];
+	public items: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
+	public savedItems: Map<number, string> = new Map<number, string>();
 	public changeMade = [];
 
 	public questionOptionDefinitions: QuestionOptionDefinition[] = [];
 
+	@Input()
+	public surveyId: number;
 	@Input()
 	public question: QuestionPart;
 	@Input()
@@ -22,7 +30,7 @@ export class QuestionDetailsComponent implements OnInit {
 	@Input()
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
-	constructor() {
+	constructor(private builderService: SurveyBuilderService, private alertService: AlertService) {
 		this.getOptionPayload = this.getOptionPayload.bind(this);
 	}
 
@@ -30,24 +38,69 @@ export class QuestionDetailsComponent implements OnInit {
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
 		Object.keys(qOptions).forEach(q => {
 			this.questionOptionDefinitions.push(qOptions[q]);
+			this.items.set(q, []);
 		});
+
+		this.builderService
+			.getQuestionPartOptions(this.surveyId, this.question.id, this.language)
+			.subscribe(options => {
+				options.forEach(option => {
+					this.items.get(option.name).push(option);
+					this.savedItems.set(option.id, option.optionLabel.value);
+				});
+			});
 	}
 
 	public getOptionPayload(index: number) {
 		return this.items[index];
 	}
 
-	public onDrop(dropResult: any) {
-		this.items = Utilities.applyDrag(this.items, dropResult);
+	public onDrop(dropResult: any, optionName: string) {
+		let optionList = this.items.get(optionName);
+		optionList = Utilities.applyDrag(optionList, dropResult);
+		this.items.set(optionName, optionList);
+		this.updateQuestionOrder(optionList);
+		let newOrder: Order[] = optionList.map(ap => new Order(ap.id, ap.order));
+		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe();
 	}
 
-	public optionChanged(item: any): boolean {
-		return this.changeMade.find(r => r === item) !== undefined;
+	public optionChanged(item: QuestionOptionValue): boolean {
+		return this.savedItems.get(item.id) !== item.optionLabel.value;
 	}
 
-	public indicateChange(item: any) {
-		if (this.changeMade.find(r => r === item) === undefined) {
-			this.changeMade.push(item);
-		}
+	public updateQuestionOrder(options: QuestionOptionValue[]) {
+		options.forEach((q, index) => (q.order = index));
+	}
+
+	public addOption(optionDefName: string) {
+		let newOption = new QuestionOptionValue(
+			0,
+			optionDefName,
+			new QuestionOptionLabel(0, '', this.language),
+			this.items.get(optionDefName).length
+		);
+		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, newOption).subscribe(addedOption => {
+			this.items.get(optionDefName).push(addedOption);
+			this.savedItems.set(addedOption.id, addedOption.optionLabel.value);
+		});
+	}
+
+	public deleteOption(optionDefName: string, order: number) {
+		this.alertService.showDialog('Are you sure you want to delete this option?', DialogType.confirm,
+			() => {
+				let optionList = this.items.get(optionDefName);
+				this.builderService.deleteQuestionPartOption(this.surveyId, this.question.id, optionList[order].id).subscribe(success => {
+					let deleted = optionList.splice(order, 1);
+					this.savedItems.delete(deleted[0].id);
+					this.updateQuestionOrder(optionList);
+				});
+			});
+	}
+
+	public saveOption(option: QuestionOptionValue) {
+		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe( result => {
+			this.savedItems.set(option.id, option.optionLabel.value);
+		});
+
 	}
 }

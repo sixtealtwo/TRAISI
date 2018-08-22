@@ -5,7 +5,6 @@ export class QuestionOptionValue {
 		public id?: number,
 		public name?: string,
 		public optionLabel?: QuestionOptionLabel,
-		public description?: string,
 		public order?: number
 	) {}
 }

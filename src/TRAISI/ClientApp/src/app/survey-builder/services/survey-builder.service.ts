@@ -167,16 +167,24 @@ export class SurveyBuilderService {
 
 	public getQuestionPartOptions(surveyId: number, questionPartId: number, language: string) {
 		return this.surveyBuilderEndpointService
-			.getQuestionPartOptionsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId, language);
+			.getQuestionPartOptionsEndpoint<QuestionOptionValue[]>(surveyId, questionPartId, language);
 	}
 
-	public updateQuestionPartOptions(
+	public setQuestionPartOption(surveyId: number, questionPartId: number, optionInfo: QuestionOptionValue): Observable<QuestionOptionValue> {
+		return this.surveyBuilderEndpointService.getSetQuestionPartOptionEndpoint<QuestionOptionValue>(surveyId, questionPartId, optionInfo);
+	}
+
+	public deleteQuestionPartOption(surveyId: number, questionPartId: number, optionId: number) {
+		return this.surveyBuilderEndpointService.getDeleteQuestionPartOptionEndpoint<number>(surveyId, questionPartId, optionId);
+	}
+
+	public updateQuestionPartOptionsOrder(
 		surveyId: number,
 		questionPartId: number,
-		updatedOptions: QuestionOptionValue[]
+		updatedOrder: Order[]
 	) {
 		return this.surveyBuilderEndpointService
-		.getUpdateQuestionPartConfigurationsEndpoint<QuestionOptionValue[]>(surveyId, questionPartId, updatedOptions);
+		.getUpdateQuestionPartOptionsOrderEndpoint<Order[]>(surveyId, questionPartId, updatedOrder);
 	}
 
 }

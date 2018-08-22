@@ -122,8 +122,7 @@ namespace DAL
 
                 QuestionOption qo = new QuestionOption()
                 {
-                    Name = "TestQuestionOption",
-                    Description = "SomeDescription"
+                    Name = "TestQuestionOption"
                 };
                 qo.QuestionOptionLabels.Add(new QuestionOptionLabel()
                 {

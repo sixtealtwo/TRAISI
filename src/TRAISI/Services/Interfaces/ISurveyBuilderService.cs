@@ -15,13 +15,15 @@ namespace TRAISI.Services.Interfaces
 
         QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
-        void SetQuestionOption(QuestionPart questionPart, string name, string value, string language);
+        QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string name, string value, string language);
 
-        void AddQuestionOption(QuestionPart questionPart, string name, string value, string label, string language);
+        QuestionOption AddQuestionOption(QuestionPart questionPart, string name, string value, string language);
 
         void RemoveQuestionConfiguration(QuestionPart questionPart, string name);
 
-        void RemoveQuestionOption(QuestionPart questionPart, string name, string language);
+        void RemoveQuestionOption(QuestionPart questionPart, int optionId, string language = null);
+
+        void ReOrderOptions(QuestionPart part, List<QuestionOption> newOrder);
 
         void AddSurveyPage(SurveyView view, QuestionPartView newPage);
 

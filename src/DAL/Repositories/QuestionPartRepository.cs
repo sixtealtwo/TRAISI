@@ -38,10 +38,11 @@ namespace DAL.Repositories
         }
         public async Task<IEnumerable<QuestionOption>> GetQuestionPartOptionsAsync(int id)
         {
-            return (await _appContext.QuestionParts
+            var options = (await _appContext.QuestionParts
                 .Where(q => q.Id == id)
-                .Include(q => q.QuestionConfigurations)
+                .Include(q => q.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
                 .SingleOrDefaultAsync())?.QuestionOptions;
+            return options.OrderBy(o => o.Name).ThenBy(o => o.Order);
         }
 
         public async Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id)
