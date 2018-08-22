@@ -186,5 +186,19 @@ namespace TRAISI.Services
             this._accountManager = accountManager;
             this._authorizationService = authorizationService;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="viewId"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        public async Task<QuestionPartView> GetSurveyViewPageQuestions(int viewId, int pageNumber)
+        {
+            var view = await this._unitOfWork.SurveyViews.GetAsync(viewId);
+
+            return view.QuestionPartViews.FirstOrDefault(v => v.Order == pageNumber);
+
+        }
     }
 }

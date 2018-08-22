@@ -101,12 +101,14 @@ namespace TRAISI.Controllers.SurveyViewer
             return new ObjectResult(QuestionPart.QuestionOptions);
         }
 
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="questionId"></param>
         /// <returns></returns>
-        ///         [HttpGet]
+        [HttpGet]
         [Authorize]
         [SurveyUserAuthorization]
         [Produces(typeof(List<QuestionOption>))]

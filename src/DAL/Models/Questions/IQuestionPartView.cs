@@ -19,12 +19,10 @@ namespace DAL.Models.Questions
         SurveyView SurveyView { get; set; }
 
 
-				bool isOptional { get; set; }
-				bool isHousehold { get; set; }
-				bool isRepeat { get; set; }
+        bool isOptional { get; set; }
+        bool isHousehold { get; set; }
+        bool isRepeat { get; set; }
 
         int Order { get; set; }
-
-
     }
 }
