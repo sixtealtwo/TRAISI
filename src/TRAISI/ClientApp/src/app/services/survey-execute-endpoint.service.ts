@@ -117,5 +117,4 @@ export class SurveyExecuteEndpointService extends EndpointFactory {
 			})
 		);
 	}
-	
 }

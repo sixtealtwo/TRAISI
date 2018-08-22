@@ -1,9 +1,10 @@
-import { QuestionPartViewLabel } from './question-part-view-label.model';
+import { QuestionConfigurationValue } from './question-configuration-value';
 
 export class QuestionPart {
 	constructor(
 		public id?: number,
 		public questionType?: string,
-		public isGroupQuestion?: boolean
+		public isGroupQuestion?: boolean,
+		public questionPartChildren?: QuestionPart[]
 	) {}
 }

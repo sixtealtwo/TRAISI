@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TRAISI.ViewModels.Questions;
 using FluentValidation;
 
 namespace TRAISI.ViewModels.SurveyBuilder
@@ -12,7 +13,7 @@ namespace TRAISI.ViewModels.SurveyBuilder
         public ICollection<SBQuestionPartViewModel> QuestionPartChildren { get; set; }
 
 
-        // public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
+        //public ICollection<QuestionConfigurationValueViewModel> QuestionConfigurations { get; set; }
 
         // public ICollection<QuestionOption> QuestionOptions { get; set; }
 

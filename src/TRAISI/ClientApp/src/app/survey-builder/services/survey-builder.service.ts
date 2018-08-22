@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { SurveyBuilderEndpointService } from './survey-builder-endpoint.service';
 import { Observable } from 'rxjs';
 import { QuestionTypeDefinition } from '../models/question-type-definition';
@@ -12,15 +9,13 @@ import { ThankYouPage } from '../models/thank-you-page.model';
 import { SurveyViewStructure } from '../models/survey-view-structure.model';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { Order } from '../models/order.model';
+import { QuestionConfigurationValue } from '../models/question-configuration-value';
+import { map } from '../../../../node_modules/rxjs/operators';
+import { QuestionOptionValue } from '../models/question-option-value';
 
 @Injectable()
 export class SurveyBuilderService {
-	constructor(
-		private router: Router,
-		private http: HttpClient,
-		private authService: AuthService,
-		private surveyBuilderEndpointService: SurveyBuilderEndpointService
-	) {}
+	constructor(private surveyBuilderEndpointService: SurveyBuilderEndpointService) {}
 
 	/**
 	 * Returns a list of question types that are available on the server.
@@ -38,7 +33,10 @@ export class SurveyBuilderService {
 	}
 
 	public getStandardTermsAndConditionsPage(surveyId: number, language: string): Observable<TermsAndConditionsPage> {
-		return this.surveyBuilderEndpointService.getStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(surveyId, language);
+		return this.surveyBuilderEndpointService.getStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(
+			surveyId,
+			language
+		);
 	}
 
 	public getStandardThankYouPage(surveyId: number, language: string): Observable<ThankYouPage> {
@@ -46,22 +44,30 @@ export class SurveyBuilderService {
 	}
 
 	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage) {
-		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(surveyId, welcomePage);
-	}
-
-	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage) {
-		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<TermsAndConditionsPage>(
+		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(
 			surveyId,
-			tAndCPage
+			welcomePage
 		);
 	}
 
+	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage) {
+		return this.surveyBuilderEndpointService.getUpdateStandardTermsAndConditionsPageEndpoint<
+			TermsAndConditionsPage
+		>(surveyId, tAndCPage);
+	}
+
 	public updateStandardThankYouPage(surveyId: number, thankYouPage: ThankYouPage) {
-		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(surveyId, thankYouPage);
+		return this.surveyBuilderEndpointService.getUpdateStandardThankYouPageEndpoint<ThankYouPage>(
+			surveyId,
+			thankYouPage
+		);
 	}
 
 	public getStandardViewPageStructure(surveyId: number, language: string): Observable<SurveyViewStructure> {
-		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(surveyId, language);
+		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(
+			surveyId,
+			language
+		);
 	}
 
 	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[]) {
@@ -69,14 +75,22 @@ export class SurveyBuilderService {
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
-		return this.surveyBuilderEndpointService.getAddStandardPageEndpoint<QuestionPartView>(surveyId, language, pageInfo);
+		return this.surveyBuilderEndpointService.getAddStandardPageEndpoint<QuestionPartView>(
+			surveyId,
+			language,
+			pageInfo
+		);
 	}
 
 	public deleteStandardPage(surveyId: number, pageId: number) {
 		return this.surveyBuilderEndpointService.getDeleteStandardPageEndpoint<number>(surveyId, pageId);
 	}
 
-	public getQuestionPartViewPageStructure(surveyId: number, questionPartViewId: number, language: string): Observable<QuestionPartView> {
+	public getQuestionPartViewPageStructure(
+		surveyId: number,
+		questionPartViewId: number,
+		language: string
+	): Observable<QuestionPartView> {
 		return this.surveyBuilderEndpointService.getQuestionPartViewPageStructureEndpoint<QuestionPartView>(
 			surveyId,
 			questionPartViewId,
@@ -84,7 +98,11 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public updateQuestionPartViewOrderEndpoint(surveyId: number, questionPartViewId: number, childrenViewOrder: Order[]) {
+	public updateQuestionPartViewOrderEndpoint(
+		surveyId: number,
+		questionPartViewId: number,
+		childrenViewOrder: Order[]
+	) {
 		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewOrderEndpoint<Order[]>(
 			surveyId,
 			questionPartViewId,
@@ -92,7 +110,12 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public addQuestionPartView(surveyId: number, questionPartViewId: number, language: string, newPart: QuestionPartView) {
+	public addQuestionPartView(
+		surveyId: number,
+		questionPartViewId: number,
+		language: string,
+		newPart: QuestionPartView
+	) {
 		return this.surveyBuilderEndpointService.getAddQuestionPartViewEndpoint<QuestionPartView>(
 			surveyId,
 			questionPartViewId,
@@ -108,4 +131,60 @@ export class SurveyBuilderService {
 			childQuestionPartViewId
 		);
 	}
+
+	public updateQuestionPartViewData(surveyId: number, updatedInfo: QuestionPartView) {
+		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewDataEndpoint<QuestionPartView>(
+			surveyId,
+			updatedInfo
+		);
+	}
+
+	public getQuestionPartConfigurations(surveyId: number, questionPartId: number): Observable<Map<string, string>> {
+		return this.surveyBuilderEndpointService
+			.getQuestionPartConfigurationsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId)
+			.pipe(
+				map(configValuesArray => {
+					let configValuesMap: Map<string, string> = new Map<string, string>();
+					if (configValuesArray !== null) {
+						configValuesArray.forEach(configValue => {
+							configValuesMap.set(configValue.name, configValue.value);
+						});
+					}
+					return configValuesMap;
+				})
+			);
+	}
+
+	public updateQuestionPartConfigurations(
+		surveyId: number,
+		questionPartId: number,
+		updatedConfigurations: QuestionConfigurationValue[]
+	) {
+		return this.surveyBuilderEndpointService
+		.getUpdateQuestionPartConfigurationsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId, updatedConfigurations);
+	}
+
+
+	public getQuestionPartOptions(surveyId: number, questionPartId: number, language: string) {
+		return this.surveyBuilderEndpointService
+			.getQuestionPartOptionsEndpoint<QuestionOptionValue[]>(surveyId, questionPartId, language);
+	}
+
+	public setQuestionPartOption(surveyId: number, questionPartId: number, optionInfo: QuestionOptionValue): Observable<QuestionOptionValue> {
+		return this.surveyBuilderEndpointService.getSetQuestionPartOptionEndpoint<QuestionOptionValue>(surveyId, questionPartId, optionInfo);
+	}
+
+	public deleteQuestionPartOption(surveyId: number, questionPartId: number, optionId: number) {
+		return this.surveyBuilderEndpointService.getDeleteQuestionPartOptionEndpoint<number>(surveyId, questionPartId, optionId);
+	}
+
+	public updateQuestionPartOptionsOrder(
+		surveyId: number,
+		questionPartId: number,
+		updatedOrder: Order[]
+	) {
+		return this.surveyBuilderEndpointService
+		.getUpdateQuestionPartOptionsOrderEndpoint<Order[]>(surveyId, questionPartId, updatedOrder);
+	}
+
 }

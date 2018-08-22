@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { NullAstVisitor } from '@angular/compiler';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap';
+import { SafePipe } from '../pipes/safe.pipe';
 
 @NgModule({
 	imports: [CommonModule, TooltipModule, FormsModule, RouterModule],
 	providers: [],
-	declarations: [ItemListComponent, SearchBoxComponent],
-	exports: [ItemListComponent, SearchBoxComponent]
+	declarations: [ItemListComponent, SearchBoxComponent, SafePipe],
+	exports: [ItemListComponent, SearchBoxComponent, SafePipe]
 })
 export class SharedModule {}

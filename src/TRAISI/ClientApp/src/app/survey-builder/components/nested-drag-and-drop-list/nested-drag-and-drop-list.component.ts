@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
-import { AlertService, DialogType } from '../../../services/alert.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../services/alert.service';
 import { Utilities } from '../../../services/utilities';
 import { ModalDirective } from 'ngx-bootstrap';
 import { QuestionConfigurationComponent } from '../question-configuration/question-configuration.component';
@@ -21,7 +21,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	public currentPage: QuestionPartView = new QuestionPartView();
-
+	public configurationModalShowing: boolean = false;
 	public addingNewQuestion: boolean = true;
 	public dealingWithPart: boolean = false;
 	public questionBeingEdited: QuestionPartView;
@@ -32,14 +32,19 @@ export class NestedDragAndDropListComponent implements OnInit {
 	private lastDragLeave: string[] = [];
 	private dragDidNotOriginateFromChooser: boolean = false;
 
-	@Input() surveyId: number;
-	@Input() currentLanguage: string;
+	@Input()
+	surveyId: number;
+	@Input()
+	currentLanguage: string;
 
-	@ViewChild('configurationModal') configurationModal: ModalDirective;
-	@ViewChild('qConfiguration') qConfiguration: QuestionConfigurationComponent;
+	@ViewChild('configurationModal')
+	configurationModal: ModalDirective;
+	@ViewChild('qConfiguration')
+	qConfiguration: QuestionConfigurationComponent;
 
 	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
+		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 		let sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fa-archive',
@@ -52,7 +57,9 @@ export class NestedDragAndDropListComponent implements OnInit {
 	ngOnInit() {}
 
 	configurationShown() {
-		this.qConfiguration.questionBeingEdited = this.questionBeingEdited;
+		this.qConfiguration.surveyId = this.surveyId;
+		this.qConfiguration.questionBeingEdited = new QuestionPartView();
+		this.qConfiguration.questionBeingEdited = JSON.parse(JSON.stringify(this.questionBeingEdited));
 		this.qConfiguration.editing = true;
 		this.qConfiguration.newQuestion = this.addingNewQuestion;
 		if (this.questionBeingEdited.questionPart === undefined || this.questionBeingEdited.questionPart === null) {
@@ -62,6 +69,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 				this.questionBeingEdited.questionPart.questionType
 			);
 		}
+		this.configurationModalShowing = true;
 		this.qConfiguration.processConfigurations();
 	}
 
@@ -77,7 +85,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.questionBeingEdited = question;
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = false;
-		if (question.typeName === 'Survey Part') {
+		if (question.questionPart === undefined || question.questionPart === null) {
 			this.dealingWithPart = true;
 		} else {
 			this.dealingWithPart = false;
@@ -119,8 +127,18 @@ export class NestedDragAndDropListComponent implements OnInit {
 			.subscribe(newQuestion => {
 				newPartView.id = newQuestion.id;
 				newPartView.parentViewId = newQuestion.parentViewId;
-				if (newQuestion.questionPart === null && !this.qPartQuestions.has(newQuestion.id)) {
+				if ((newQuestion.questionPart === undefined || newQuestion.questionPart === null) && !this.qPartQuestions.has(newQuestion.id)) {
 					this.qPartQuestions.set(newQuestion.id, newQuestion);
+				} else {
+					newPartView.questionPart = newQuestion.questionPart;
+					// send advanced configuration
+					this.surveyBuilderService
+						.updateQuestionPartConfigurations(
+							this.surveyId,
+							newQuestion.questionPart.id,
+							this.qConfiguration.configurationValues
+						)
+						.subscribe();
 				}
 				if (addToList) {
 					if (parentView === this.currentPage) {
@@ -139,9 +157,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 		return this.currentPage.questionPartViewChildren[index];
 	}
 
-	getQuestionInPartPayload(partId: number) {
+	getQuestionInPartPayload(part: QuestionPartView) {
 		return index => {
-			return this.qPartQuestions.get(partId).questionPartViewChildren[index];
+			let test = this.qPartQuestions;
+			return this.qPartQuestions.get(part.id).questionPartViewChildren[index];
 		};
 	}
 
@@ -154,7 +173,9 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	processConfiguration(result: string) {
+		this.configurationModalShowing = false;
 		if (result === 'save') {
+			Object.assign(this.questionBeingEdited, this.qConfiguration.questionBeingEdited);
 			this.saveConfiguration();
 		} else if (result === 'cancel') {
 			this.cancelConfiguration();
@@ -166,6 +187,49 @@ export class NestedDragAndDropListComponent implements OnInit {
 	saveConfiguration() {
 		if (this.addingNewQuestion) {
 			this.dragResult.next(true);
+		} else {
+			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.questionBeingEdited).subscribe(
+				result => {
+					this.alertService.showMessage(
+						'Success',
+						`Question data updated successfully!`,
+						MessageSeverity.success
+					);
+				},
+				error => {
+					this.alertService.showStickyMessage(
+						'Update Error',
+						`Unable to update question data.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+			if (this.qConfiguration.configurationValues.length > 0) {
+				this.surveyBuilderService
+					.updateQuestionPartConfigurations(
+						this.surveyId,
+						this.questionBeingEdited.questionPart.id,
+						this.qConfiguration.configurationValues
+					)
+					.subscribe(
+						result => {
+							this.alertService.showMessage(
+								'Success',
+								`Question configurations updated successfully!`,
+								MessageSeverity.success
+							);
+						},
+						error => {
+							this.alertService.showStickyMessage(
+								'Update Error',
+								`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+								MessageSeverity.error,
+								error
+							);
+						}
+					);
+			}
 		}
 		this.configurationModal.hide();
 	}
@@ -178,32 +242,36 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	deleteQuestion() {
-		this.alertService.showDialog('Are you sure you want to delete the question?', DialogType.confirm, () => this.continueDelete());
+		this.alertService.showDialog('Are you sure you want to delete the question?', DialogType.confirm, () =>
+			this.continueDelete()
+		);
 		this.configurationModal.hide();
 	}
 
 	continueDelete() {
 		this.surveyBuilderService
 			.deleteQuestionPartView(this.surveyId, this.questionBeingEdited.parentViewId, this.questionBeingEdited.id)
-				.subscribe(result => {
-					let dropResult = {
-						removedIndex: this.questionBeingEdited.order,
-						addedIndex: null,
-						payload: this.questionBeingEdited
-					};
-					if (this.currentPage.id === this.questionBeingEdited.parentViewId) {
-						this.currentPage.questionPartViewChildren = Utilities.applyDrag(
-							this.currentPage.questionPartViewChildren,
-							dropResult
-						);
-					} else {
-						let parentView = this.qPartQuestions.get(this.questionBeingEdited.parentViewId);
-						parentView.questionPartViewChildren = Utilities.applyDrag(
-							parentView.questionPartViewChildren,
-							dropResult
-						);
-					}
-				});
+			.subscribe(result => {
+				let dropResult = {
+					removedIndex: this.questionBeingEdited.order,
+					addedIndex: null,
+					payload: this.questionBeingEdited
+				};
+				if (this.currentPage.id === this.questionBeingEdited.parentViewId) {
+					this.currentPage.questionPartViewChildren = Utilities.applyDrag(
+						this.currentPage.questionPartViewChildren,
+						dropResult
+					);
+					this.updateQuestionOrder(this.currentPage);
+				} else {
+					let parentView = this.qPartQuestions.get(this.questionBeingEdited.parentViewId);
+					parentView.questionPartViewChildren = Utilities.applyDrag(
+						parentView.questionPartViewChildren,
+						dropResult
+					);
+					this.updateQuestionOrder(parentView);
+				}
+			});
 	}
 
 	updateQuestionOrder(parentView: QuestionPartView) {
@@ -248,6 +316,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 	onDragLeave(containerName: string) {
 		this.lastDragLeave.push(containerName);
 		this.dragOverContainer[containerName] = false;
+	}
+
+	public getCharFromIndex(index: number) {
+		return String.fromCharCode(65 + index);
 	}
 
 	onDrop(dropResult: any) {
@@ -319,10 +391,16 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	shouldAcceptDrop(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
+			return false;
+		}
 		return true;
 	}
 
 	shouldAcceptDropPart(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
+			return false;
+		}
 		if (sourceContainerOptions.behaviour === 'copy') {
 			if (payload.typeName === 'Survey Part') {
 				return false;

@@ -10,6 +10,9 @@ using TRAISI.Helpers;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK;
+using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
+
 namespace TRAISI.Helpers
 {
 
@@ -68,11 +71,14 @@ namespace TRAISI.Helpers
             typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
             _questionTypeDefinitions.Add(typeDefinition);
 
-            this.ReadResourceData(typeDefinition, sourceAssembly);
+
+            this.ReadQuestionResourceData(typeDefinition, questionType, sourceAssembly);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
         }
+
+
 
         /// <summary>
         /// 
@@ -83,7 +89,8 @@ namespace TRAISI.Helpers
         {
             var list = new List<QuestionPartSlotDefinition>();
 
-            foreach (var att in questionType.GetCustomAttributes(typeof(QuestionPartSlotAttribute))) {
+            foreach (var att in questionType.GetCustomAttributes(typeof(QuestionPartSlotAttribute)))
+            {
 
                 list.Add(new QuestionPartSlotDefinition()
                 {
@@ -98,6 +105,57 @@ namespace TRAISI.Helpers
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="questionType"></param>
+        private void ReadQuestionResourceData(QuestionTypeDefinition definition, Type questionType, Assembly sourceAssembly)
+        {
+            var members = questionType.GetMembers();
+            foreach (var member in members)
+            {
+                var attributes = member.GetCustomAttributes();
+                foreach (var attribute in attributes)
+                {
+                    if (attribute.GetType() == typeof(HasResourceAttribute))
+                    {
+
+                        var hasResourceAttribute = (HasResourceAttribute)attribute;
+
+                        byte[] data;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            sourceAssembly.GetManifestResourceStream(hasResourceAttribute.ResourceName).CopyTo(ms);
+                            data = ms.ToArray();
+                        }
+                        definition.QuestionResources[hasResourceAttribute.ResourceName] =
+                        new QuestionResource()
+                        {
+                            ResourceName = hasResourceAttribute.ResourceName,
+                            Data = data,
+                            FieldName = member.Name
+
+                        };
+
+                    }
+                }
+            }
+        }
+
+        private byte[] GetQuestionConfigurationData(QuestionConfigurationAttribute configAttribute, Assembly sourceAssembly)
+        {
+            byte[] data = null;
+            if (configAttribute.Resource != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
+                    data = ms.ToArray();
+                }
+            }
+            return data;
+        }
 
         /// <summary>
         /// Returns the QuestionTypeDefinition associated with the passed name
@@ -120,18 +178,25 @@ namespace TRAISI.Helpers
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
             var configuration = new Dictionary<string, QuestionConfigurationDefinition>();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 var attributes = member.GetCustomAttributes();
-                if (attributes.Count() > 0) {
-                    foreach (var attribute in attributes) {
-                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute)) {
+                if (attributes.Count() > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
+                        {
                             var configAttribute = attribute as QuestionConfigurationAttribute;
                             configuration.Add(configAttribute.Name, new QuestionConfigurationDefinition()
                             {
                                 Name = configAttribute.Name,
                                 Description = configAttribute.Description,
                                 TypeId = configAttribute.TypeId,
-                                ValueType = configAttribute.ValueType
+                                ValueType = configAttribute.ValueType,
+                                BuilderType = configAttribute.SurveyBuilderValueType,
+                                DefaultValue = configAttribute.DefaultValue,
+                                ResourceData = GetQuestionConfigurationData(configAttribute, sourceAssembly)
                             }
 
                                 );
@@ -155,11 +220,15 @@ namespace TRAISI.Helpers
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
             var configuration = new Dictionary<string, QuestionOptionDefinition>();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 var attributes = member.GetCustomAttributes();
-                if (attributes.Count() > 0) {
-                    foreach (var attribute in attributes) {
-                        if (attribute.GetType() == typeof(QuestionOptionAttribute)) {
+                if (attributes.Count() > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(QuestionOptionAttribute))
+                        {
                             var configAttribute = attribute as QuestionOptionAttribute;
                             configuration.Add(configAttribute.Name, new QuestionOptionDefinition()
                             {
@@ -183,14 +252,17 @@ namespace TRAISI.Helpers
         /// </summary>
         /// <param name="typeDefinition"></param>
         /// <param name="sourceAssembly"></param>
-        private void ReadResourceData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly)
+        private void ReadResourceData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly, string[] resources)
         {
             string[] resourceNames = sourceAssembly.GetManifestResourceNames().Where(r => !r.EndsWith(".module.js")).ToArray();
 
-            foreach (var resourceName in resourceNames) {
-                using (MemoryStream ms = new MemoryStream()) {
+            BinaryFormatter formatter = new BinaryFormatter();
+            foreach (var resourceName in resources)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
                     sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
-                    typeDefinition.ResourceData[resourceName]= ms.ToArray();
+                    typeDefinition.ResourceData[resourceName] = ms.ToArray();
                 }
             }
             return;
@@ -207,7 +279,8 @@ namespace TRAISI.Helpers
             string[] resourceNames = sourceAssembly.GetManifestResourceNames();
             string resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.EndsWith(".module.js"));
 
-            using (MemoryStream ms = new MemoryStream()) {
+            using (MemoryStream ms = new MemoryStream())
+            {
                 sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
                 return ms.ToArray();
             }
@@ -219,7 +292,8 @@ namespace TRAISI.Helpers
         public void LoadExtensionAssemblies()
         {
             this._logger.LogInformation("Loading TRAISI extensions");
-            if (!Directory.Exists("extensions")) {
+            if (!Directory.Exists("extensions"))
+            {
                 this._logger.LogWarning("Extensions folder does not exist.");
                 return;
             }
@@ -230,12 +304,14 @@ namespace TRAISI.Helpers
 
             Directory.EnumerateFiles("extensions").Where(file => file.EndsWith("dll")).ToList<string>().ForEach((file) =>
             {
-                try {
+                try
+                {
                     string loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
                     Assembly.LoadFile(loadFrom);
                     this._logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     this._logger.LogWarning(e, "Error loading extension assembly.");
                 }
             });
@@ -252,22 +328,28 @@ namespace TRAISI.Helpers
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (var assembly in assemblies) {
-                try {
+            foreach (var assembly in assemblies)
+            {
+                try
+                {
                     Type[] types = assembly.GetTypes();
-                    foreach (var type in types) {
+                    foreach (var type in types)
+                    {
 
                         var e = type.GetCustomAttributes(typeof(SurveyQuestionAttribute));
 
-                        foreach (var attribute in e) {
-                            if (attribute.GetType() == typeof(SurveyQuestionAttribute)) {
+                        foreach (var attribute in e)
+                        {
+                            if (attribute.GetType() == typeof(SurveyQuestionAttribute))
+                            {
                                 CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly);
                             }
                         }
 
                     }
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     Console.WriteLine(e.Message);
                 }
             }

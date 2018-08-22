@@ -11,8 +11,12 @@ namespace TRAISI.SDK
 
         public QuestionConfigurationValueType ValueType { get; set; }
 
+        public QuestionBuilderType BuilderType { get; set; }
+
         public object TypeId { get; set; }
 
         public string DefaultValue {get;set;}
+
+		public byte[] ResourceData { get; set; }
     }
 }

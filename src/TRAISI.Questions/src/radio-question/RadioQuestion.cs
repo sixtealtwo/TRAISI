@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+
 
 namespace TRAISI.SDK.Questions
 {
@@ -22,11 +24,6 @@ namespace TRAISI.SDK.Questions
             Description = "The list of available radio responses presented to the user.",
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
-
-
-        [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
-        Name = "Allow Multiple Selections")]
-        public bool AllowMultipleSelections;
     }
 
 }

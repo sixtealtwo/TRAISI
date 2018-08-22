@@ -13,7 +13,8 @@ namespace TRAISI.SDK.Enums
         Decimal,
         Location,
         Json,
-        OptionList
+        OptionList,
+        DateTime
     }
 
 }

@@ -12,13 +12,15 @@ namespace TRAISI.SDK.Attributes
 
         private QuestionConfigurationValueType _valueType;
 
-        private QuestionConfigurationValueType _surveyBuilderValueType;
+        private QuestionBuilderType _surveyBuilderValueType;
 
         public QuestionConfigurationValueType ValueType { get => this._valueType; }
 
-        public QuestionConfigurationValueType SurveyBuilderValueType {get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
+        public QuestionBuilderType SurveyBuilderValueType {get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
 
+		public string Resource { get; set; }
 
+		public string DefaultValue { get; set; }
         public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
         {
             this._valueType = valueType;

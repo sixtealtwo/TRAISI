@@ -119,6 +119,18 @@ namespace TRAISI.ViewModels
                         s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
+            CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()
+                .ReverseMap();
+
+            CreateMap<QuestionOptionLabel, QuestionOptionLabelViewModel>()
+                .ReverseMap();
+
+            CreateMap<QuestionOption, QuestionOptionValueViewModel>()
+                    .AfterMap((s, svm, opt) =>
+                    {
+                        svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
+                    });
+
             CreateMap<SBSurveyViewViewModel, SurveyView>()
                 .ForMember(m => m.TermsAndConditionsLabels, map => map.Ignore())
                 .ForMember(m => m.ThankYouPageLabels, map => map.Ignore())
@@ -151,6 +163,10 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.SurveyView, map => map.Ignore())
                 .ForMember(o => o.QuestionPartViewChildren, map => map.Ignore());
 
+            CreateMap<SBOrderViewModel, QuestionOption>()
+                .ForMember(o => o.Name, map => map.Ignore())
+                .ForMember(o => o.QuestionOptionLabels, map => map.Ignore());
+
             CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
                     .ForMember(w => w.QuestionPartView, map => map.Ignore())
                     .ReverseMap();
@@ -181,6 +197,7 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
+                                .ForMember(q => q.ResourceData, map => map.ResolveUsing(s => s.ResourceData == null ? null : System.Text.Encoding.UTF8.GetString(s.ResourceData)))
                 .ReverseMap();
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()

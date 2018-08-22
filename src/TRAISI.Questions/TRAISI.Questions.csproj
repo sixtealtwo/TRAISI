@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
-    <DotNetCliToolReference Include="DotNetTraisi" Version="*" />
+    <DotNetCliToolReference Include="DotNetTraisi" Version="1.0.1" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -24,8 +23,10 @@
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
   </Target>
   <ItemGroup>
-    <EmbeddedResource Include=".\src\resources\resource.json" LogicalName="resourcename" />
+    <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
   </ItemGroup>
-
-
+  <ItemGroup>
+    <EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
+		<EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
+  </ItemGroup>
 </Project>

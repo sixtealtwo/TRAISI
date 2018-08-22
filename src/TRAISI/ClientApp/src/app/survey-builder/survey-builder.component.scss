@@ -13,7 +13,34 @@
   }
 }
 
-.page-editor { 
+.nav-tabs
+{
+	float: none !important;
+	white-space: nowrap;
+	display:block;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	-ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+.nav-tabs:hover {
+	overflow-x: auto;
+}
+
+.nav-tabs .nav-item
+{
+	display: inline-block;
+}
+
+#pagesList
+{
+	max-width: none !important;
+	display: inline-block;
+	vertical-align:bottom;
+
+}
+
+.page-editor {
 	border: 1px inset gray;
 	border-radius: 5px;
 	padding: 10px;
@@ -46,7 +73,7 @@ li.pagetab > a{
 }
 
 .separator-hr {
-	margin: 0px 0px 8px 0px;
+	margin: 7px 5px;
 	border-top-style: dashed;
 }
 
@@ -61,4 +88,21 @@ li.pagetab > a{
 
 .edit-last-separator-hr {
 	margin-top: 15px;
+}
+
+.horiz-scroll {
+	max-width: 30vw;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap !important;
+}
+
+.nowrap {
+	white-space: nowrap !important;
+}
+
+.new-page-button {
+	float:right;
+	width: 100px;
+	margin-top: 5px;
 }

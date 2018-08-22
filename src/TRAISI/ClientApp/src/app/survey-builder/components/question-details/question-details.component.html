@@ -1,0 +1,40 @@
+<div class="details-wrapper">
+	<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
+		<h4 class="text-center">{{ qOptionDefinition.name }}</h4>
+		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.Id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
+		 [getChildPayload]="getOptionPayload" [lockAxis]="'y'">
+			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name)">
+				<div class="form-group row response-option-container">
+					<div class="input-group col-md-12">
+						<!--<input type="text" class="form-control optionKey" id="key" [value]="item" (input)="indicateChange(item)"/>-->
+						<input type="text" class="form-control optionValue" id="label" [(ngModel)]="item.optionLabel.value" />
+						<div class="input-group-append">
+							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
+								<i class="fa fa-check"></i>
+							</button>
+							<button type="button" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
+								<i class="fa fa-times"></i>
+							</button>
+							<button type="button" class="btn btn-gray option-handle">
+								<i class="fa fa-bars"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</smooth-dnd-draggable>
+		</smooth-dnd-container>
+		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed">
+			<div>
+				<button class="btn btn-primary width-100" (click)="addOption(qOptionDefinition.name)">
+					<i class="fa fa-plus-circle"></i> Add Option
+				</button>
+			</div>
+		</div>
+		<div class="row" *ngIf="i < questionOptionDefinitions.length - 1">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+	</ng-container>
+	<div class="open-question-placeholder text-center" *ngIf="questionOptionDefinitions.length == 0">Open Question</div>
+</div>

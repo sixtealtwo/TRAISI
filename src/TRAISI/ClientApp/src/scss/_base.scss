@@ -44,6 +44,11 @@ app, .app {
   }
 }
 
+.page-controls-builder, .content-wrap-builder { 
+	margin-left: $sidebar-width-closed;
+	left: $sidebar-width - $sidebar-width-closed;
+}
+
 .page-controls{
   @include transition(
           left $sidebar-transition-time ease-in-out,

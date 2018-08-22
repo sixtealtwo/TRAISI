@@ -6,7 +6,6 @@ import { TranslateLanguageLoader } from '../services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
-import { SafePipe } from '../pipes/safe.pipe';
 import { GroupsManagementComponent } from './groups-management.component';
 import { ROUTES } from './groups-management.routes';
 import { ModalModule } from 'ngx-bootstrap';
@@ -26,6 +25,6 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 		NgxDatatableModule,
 		MonacoEditorModule
 	],
-	declarations: [GroupsManagementComponent, SafePipe]
+	declarations: [GroupsManagementComponent]
 })
 export class GroupsManagementModule {}

@@ -5,6 +5,15 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { RadioQuestionComponent } from './radio-question/radio-question.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MapEndpointService } from './services/mapservice.service';
+import { CheckboxQuestionComponent } from './checkbox-question/checkbox-question.component';
+import { LikertQuestionComponent } from './likert-question/likert-question.component';
+import { MatrixQuestionComponent } from './matrix-question/matrix-question.component';
+import { NumberQuestionComponent } from './number-question/number-question.component';
+import { RangeQuestionComponent } from './range-question/range-question.component';
+import { SelectQuestionComponent } from './select-question/select-question.component';
+import { HeadingQuestionComponent } from './heading-question/heading-question.component';
+import { DateQuestionComponent } from './date-question/date-question.component';
+import { TimeQuestionComponent } from './time-question/time-question.component';
 
 @NgModule({
 	declarations: [TextQuestionComponent, MapQuestionComponent],
@@ -27,6 +36,52 @@ import { MapEndpointService } from './services/mapservice.service';
 					name: 'traisi-radio-question',
 					id: 'radio',
 					component: RadioQuestionComponent
+				},
+				{
+					name: 'traisi-checkbox-question',
+					id: 'checkbox',
+					component: CheckboxQuestionComponent
+				},
+				{
+					name: 'traisi-likert-question',
+					id: 'likert',
+					component: LikertQuestionComponent
+				},
+				{
+					name: 'traisi-matrix-question',
+					id: 'matrix',
+					component: MatrixQuestionComponent
+				},
+				{
+					name: 'traisi-number-question',
+					id: 'number',
+					component: NumberQuestionComponent
+				},
+				{
+					name: 'traisi-range-question',
+					id: 'range',
+					component: RangeQuestionComponent
+				},
+				{
+					name: 'traisi-select-question',
+					id: 'select',
+					component: SelectQuestionComponent
+				},
+				{
+					name: 'traisi-heading-question',
+					id: 'heading',
+					component: HeadingQuestionComponent
+				},
+				{
+					name: 'traisi-date-question',
+					id: 'date',
+					component: DateQuestionComponent
+				}
+				,
+				{
+					name: 'traisi-time-question',
+					id: 'time',
+					component: TimeQuestionComponent
 				}
 			],
 			multi: true

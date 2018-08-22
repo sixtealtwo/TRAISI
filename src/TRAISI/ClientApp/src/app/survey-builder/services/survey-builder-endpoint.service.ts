@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
 import { QuestionPartView } from '../models/question-part-view.model';
+import { QuestionConfigurationValue } from '../models/question-configuration-value';
+import { QuestionOptionValue } from '../models/question-option-value';
+import { Order } from '../models/order.model';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
@@ -62,7 +65,9 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getStandardTermsAndConditionsPageEndpoint(surveyId, language));
+				return this.handleError(error, () =>
+					this.getStandardTermsAndConditionsPageEndpoint(surveyId, language)
+				);
 			})
 		);
 	}
@@ -87,12 +92,17 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
-	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(
+		surveyId: number,
+		welcomePage: WelcomePage
+	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/TermsAndConditionsPage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getUpdateStandardTermsAndConditionsPageEndpoint(surveyId, welcomePage));
+				return this.handleError(error, () =>
+					this.getUpdateStandardTermsAndConditionsPageEndpoint(surveyId, welcomePage)
+				);
 			})
 		);
 	}
@@ -117,7 +127,11 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
-	public getAddStandardPageEndpoint<T>(surveyId: number, language: string, pageInfo: QuestionPartView): Observable<T> {
+	public getAddStandardPageEndpoint<T>(
+		surveyId: number,
+		language: string,
+		pageInfo: QuestionPartView
+	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Page/Standard/${language}`;
 
 		return this.http.post<T>(endpointUrl, JSON.stringify(pageInfo), this.getRequestHeaders()).pipe(
@@ -137,22 +151,28 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
-	public getUpdateStandardViewPageOrderEndpoint<T>(surveyId: number, pageOrder: QuestionPartView[]): Observable<T> {
+	public getUpdateStandardViewPageOrderEndpoint<T>(surveyId: number, pageOrder: Order[]): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/UpdateOrder`;
 
-		return this.http.post<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
+		return this.http.put<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getUpdateStandardViewPageOrderEndpoint(surveyId, pageOrder));
 			})
 		);
 	}
 
-	public getQuestionPartViewPageStructureEndpoint<T>(surveyId: number, questionPartViewId: number, language: string): Observable<T> {
+	public getQuestionPartViewPageStructureEndpoint<T>(
+		surveyId: number,
+		questionPartViewId: number,
+		language: string
+	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/${questionPartViewId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getQuestionPartViewPageStructureEndpoint(surveyId, questionPartViewId, language));
+				return this.handleError(error, () =>
+					this.getQuestionPartViewPageStructureEndpoint(surveyId, questionPartViewId, language)
+				);
 			})
 		);
 	}
@@ -160,11 +180,11 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	public getUpdateQuestionPartViewOrderEndpoint<T>(
 		surveyId: number,
 		questionPartViewId: number,
-		childrenViewOrder: QuestionPartView[]
+		childrenViewOrder: Order[]
 	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/${questionPartViewId}/UpdateOrder`;
 
-		return this.http.post<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
+		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getUpdateQuestionPartViewOrderEndpoint(surveyId, questionPartViewId, childrenViewOrder)
@@ -183,7 +203,9 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(newPart), this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getAddQuestionPartViewEndpoint(surveyId, questionPartViewId, language, newPart));
+				return this.handleError(error, () =>
+					this.getAddQuestionPartViewEndpoint(surveyId, questionPartViewId, language, newPart)
+				);
 			})
 		);
 	}
@@ -193,11 +215,116 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		questionPartViewId: number,
 		childQuestionPartViewId: number
 	): Observable<T> {
-		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
+		const endpointUrl = `${
+			this.surveyBuilderUrl
+		}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getDeleteQuestionPartViewEndpoint(surveyId, questionPartViewId, childQuestionPartViewId));
+				return this.handleError(error, () =>
+					this.getDeleteQuestionPartViewEndpoint(surveyId, questionPartViewId, childQuestionPartViewId)
+				);
+			})
+		);
+	}
+
+	public getUpdateQuestionPartViewDataEndpoint<T>(surveyId: number, updatedInfo: QuestionPartView) {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part`;
+		return this.http.put<T>(endpointUrl, JSON.stringify(updatedInfo), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateQuestionPartViewDataEndpoint(surveyId, updatedInfo));
+			})
+		);
+	}
+
+	public getQuestionPartConfigurationsEndpoint<T>(surveyId: number, questionPartId: number): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConfigurations/${questionPartId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getQuestionPartConfigurationsEndpoint(surveyId, questionPartId)
+				);
+			})
+		);
+	}
+
+	public getUpdateQuestionPartConfigurationsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		updatedConfigurations: QuestionConfigurationValue[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConfigurations/${questionPartId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(updatedConfigurations), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getUpdateQuestionPartConfigurationsEndpoint(surveyId, questionPartId, updatedConfigurations)
+				);
+			})
+		);
+	}
+
+	public getQuestionPartOptionsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		language: string
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getQuestionPartOptionsEndpoint(surveyId, questionPartId, language)
+				);
+			})
+		);
+	}
+
+	public getSetQuestionPartOptionEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		optionInfo: QuestionOptionValue
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}`;
+
+		return this.http.post<T>(endpointUrl, JSON.stringify(optionInfo), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSetQuestionPartOptionEndpoint(surveyId, questionPartId, optionInfo)
+				);
+			})
+		);
+	}
+
+	public getDeleteQuestionPartOptionEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		optionId: number
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/${optionId}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getDeleteQuestionPartOptionEndpoint(surveyId, questionPartId, optionId)
+				);
+			})
+		);
+	}
+
+	public getUpdateQuestionPartOptionsOrderEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		updatedOrder: Order[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/Order`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(updatedOrder), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getUpdateQuestionPartOptionsOrderEndpoint(surveyId, questionPartId, updatedOrder)
+				);
 			})
 		);
 	}

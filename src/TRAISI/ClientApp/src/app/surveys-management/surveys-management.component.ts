@@ -379,6 +379,20 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	public previewSurvey(event: any, row: Survey) {
+		event.stopPropagation();
+	}
+
+	public rowExpand(event: any) {
+		if (event.type === 'click') {
+			this.toggleExpandRow(event.row);
+		}
+	}
+
+	public rowCursor(row: any) {
+		return 'cursor-pointer';
+	}
+
 	public canEdit(row: Survey): boolean {
 		return row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.modify');
 	}

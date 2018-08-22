@@ -3,7 +3,8 @@ import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sd
 import { PartialObserver } from '../../node_modules/rxjs';
 @Component({
 	selector: 'traisi-radio-question',
-	template: require('./radio-question.component.html').toString()
+	template: require('./radio-question.component.html').toString(),
+	styles: [require('./radio-question.component.scss').toString()]
 })
 export class RadioQuestionComponent implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
