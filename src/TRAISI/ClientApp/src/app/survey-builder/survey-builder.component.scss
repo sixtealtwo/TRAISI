@@ -13,25 +13,6 @@
   }
 }
 
-.nav-tabs
-{
-	float: none !important;
-	white-space: nowrap;
-	display:block;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	-ms-overflow-style: -ms-autohiding-scrollbar !important;
-}
-
-.nav-tabs:hover {
-	overflow-x: auto;
-}
-
-.nav-tabs .nav-item
-{
-	display: inline-block;
-}
-
 #pagesList
 {
 	max-width: none !important;

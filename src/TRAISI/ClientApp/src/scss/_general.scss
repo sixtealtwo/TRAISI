@@ -13,6 +13,7 @@ html, body{
 
 html {
 	font-size: $font-size-initial;
+	touch-action: manipulation;
 }
 
 
@@ -25,7 +26,11 @@ body{
 body.modal-open
 {
 	-webkit-overflow-scrolling: touch !important;
- 
+}
+
+body.smooth-dnd-disable-touch-action
+{
+	// overflow-y: hidden !important;
 }
 
 th{
