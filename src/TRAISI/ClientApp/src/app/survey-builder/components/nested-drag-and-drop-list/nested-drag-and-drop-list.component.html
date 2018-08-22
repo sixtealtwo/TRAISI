@@ -1,9 +1,9 @@
 <div class="row page-questions">
 	<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" [dragHandleSelector]="'.question-move-icon'" id="page-question-container" class="col-md-12" [class.drag-over]="dragOverContainer['main list']" [class.page-questions-empty]="currentPage.questionPartViewChildren == undefined || currentPage.questionPartViewChildren.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" (dragEnter)="onDragEnter('main list')" (dragLeave)="onDragLeave('main list')">
 		<smooth-dnd-draggable *ngFor="let item of currentPage.questionPartViewChildren; index as i">
-			<div class="pull-left question-number badge badge-danger">Q{{ i+1 }}</div>
+			<div class="question-number badge badge-danger">Q{{ i+1 }}</div>
 			<ng-container *ngIf="item.questionPart; else surveyPart">
-				<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
+				<button class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
 					<div class="icon">
 							<i class="fa page-question-icon" [ngClass]="getIcon(item.questionPart.questionType)"></i>
 					</div>
@@ -16,13 +16,13 @@
 						<i class="fa fa-bars"></i>
 					</div>
 					<div class="color-unset question-text" [innerHTML]="item.label.value | safe: 'html'"></div>
-				</div>
+				</button>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
 					<app-question-details *ngIf="item.questionPart.id > 0" [surveyId]="surveyId" [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 				</div>
 			</ng-container>
 			<ng-template #surveyPart>
-				<div class="page-part" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
+				<button class="page-part" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
 					<div class="icon">
 							<i class="fa" [ngClass]="getIcon('Survey Part')"></i>
 					</div>
@@ -35,12 +35,12 @@
 						<i class="fa fa-bars"></i>
 					</div>
 					<div class="color-unset question-text" [innerHTML]="item.label.value"></div>
-				</div>
+				</button>
 				<div class="question-part-container collapse show" [class.drag-over]="dragOverContainer[item.id]" [attr.id]= "'collapseExample-' + i" [class.page-questions-empty]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0">
 					<smooth-dnd-container  [dragHandleSelector]="'.question-move-icon'" [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
 						<smooth-dnd-draggable *ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j">
-							<div class="pull-left question-number badge badge-primary">{{ getCharFromIndex(j) }}</div>
-							<div class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
+							<div class="question-number badge badge-primary">{{ getCharFromIndex(j) }}</div>
+							<button class="page-question" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 								<div class="icon">
 										<i class="fa page-question-icon" [ngClass]="getIcon(innerItem.questionPart.questionType)"></i>
 								</div>
@@ -53,9 +53,9 @@
 									<i class="fa fa-bars"></i>
 								</div>
 								<div class="color-unset question-text" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
-							</div>
+							</button>
 							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
-									<app-question-details *ngIf="item.questionPart.id > 0" [surveyId]="surveyId" [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
+									<app-question-details *ngIf="innerItem.questionPart.id > 0" [surveyId]="surveyId" [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 							</div>
 						</smooth-dnd-draggable>
 					</smooth-dnd-container>

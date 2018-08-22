@@ -12,6 +12,8 @@
 }
 
 .question-number {
+	position: absolute;
+	left: 0px;
 	vertical-align: middle !important;
 	text-align: center !important;
 	color: white !important;
@@ -30,6 +32,7 @@
 	margin:2px 0px 2px 0px;
 	color:white;
 	min-height: 43px;
+	width:100%;
 
 	.question-text {
 		margin-left: 60px;
@@ -41,7 +44,7 @@
 		overflow-x: auto;
 	}
 	.icon {
-		margin-left: 10px;
+		margin-left: 40px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
@@ -69,6 +72,7 @@
 	margin:2px 0px 0px 0px;
 	color:white;
 	min-height: 43px;
+	width:100%;
 
 	.question-text {
 		margin-left: 60px;
@@ -80,7 +84,7 @@
 		overflow-x: auto;
 	}
 	.icon {
-		margin-left: 10px;
+		margin-left: 40px;
 		margin-right: 10px;
 		float: left;
 		margin-top:-1px;
