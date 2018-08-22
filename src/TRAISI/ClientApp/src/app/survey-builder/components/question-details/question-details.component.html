@@ -12,7 +12,7 @@
 							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
 								<i class="fa fa-check"></i>
 							</button>
-							<button type="button" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
+							<button type="button" [disabled]="items.get(qOptionDefinition.name).length <= 1" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
 								<i class="fa fa-times"></i>
 							</button>
 							<button type="button" class="btn btn-gray option-handle">

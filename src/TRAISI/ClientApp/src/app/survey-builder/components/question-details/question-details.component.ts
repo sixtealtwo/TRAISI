@@ -49,6 +49,12 @@ export class QuestionDetailsComponent implements OnInit {
 						this.items.get(option.name).push(option);
 						this.savedItems.set(option.id, option.optionLabel.value);
 					});
+
+					Object.keys(qOptions).forEach(qName => {
+						if (this.items.get(qName).length === 0) {
+							this.addOption(qName);
+						}
+					});
 				}
 			});
 	}
