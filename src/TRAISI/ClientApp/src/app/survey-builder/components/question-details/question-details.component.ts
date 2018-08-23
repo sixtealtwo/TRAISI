@@ -18,6 +18,8 @@ export class QuestionDetailsComponent implements OnInit {
 	public items: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
 	public savedItems: Map<number, string> = new Map<number, string>();
 	public changeMade = [];
+	public addingOption: boolean = false;
+	public reordering: boolean = true;
 
 	public questionOptionDefinitions: QuestionOptionDefinition[] = [];
 
@@ -56,6 +58,10 @@ export class QuestionDetailsComponent implements OnInit {
 						}
 					});
 				}
+				this.reordering = false;
+			},
+			error => {
+				this.reordering = false;
 			});
 	}
 
@@ -64,12 +70,20 @@ export class QuestionDetailsComponent implements OnInit {
 	}
 
 	public onDrop(dropResult: any, optionName: string) {
+		this.reordering = true;
 		let optionList = this.items.get(optionName);
 		optionList = Utilities.applyDrag(optionList, dropResult);
 		this.items.set(optionName, optionList);
 		this.updateQuestionOrder(optionList);
 		let newOrder: Order[] = optionList.map(ap => new Order(ap.id, ap.order));
-		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe();
+		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe(
+			result => {
+				this.reordering = false;
+			},
+			error => {
+				this.reordering = false;
+			}
+		);
 	}
 
 	public optionChanged(item: QuestionOptionValue): boolean {
@@ -81,6 +95,7 @@ export class QuestionDetailsComponent implements OnInit {
 	}
 
 	public addOption(optionDefName: string) {
+		this.addingOption = true;
 		let newOption = new QuestionOptionValue(
 			0,
 			optionDefName,
@@ -90,6 +105,10 @@ export class QuestionDetailsComponent implements OnInit {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, newOption).subscribe(addedOption => {
 			this.items.get(optionDefName).push(addedOption);
 			this.savedItems.set(addedOption.id, addedOption.optionLabel.value);
+			this.addingOption = false;
+		},
+		error => {
+			this.addingOption = false;
 		});
 	}
 

@@ -28,11 +28,6 @@ body.modal-open
 	-webkit-overflow-scrolling: touch !important;
 }
 
-body.smooth-dnd-disable-touch-action
-{
-	// overflow-y: hidden !important;
-}
-
 th{
   font-weight: $font-weight-semi-bold;
 }
