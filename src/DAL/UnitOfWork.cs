@@ -18,34 +18,53 @@ namespace DAL
         IGroupMemberRepository _groupMembers;
         IApiKeysRepository _apiKeys;
         IEmailTemplateRepository _emailTemplates;
-				ISiteSurveyTemplateRepository _siteSurveyTemplates;
+        ISiteSurveyTemplateRepository _siteSurveyTemplates;
         IShortcodeRepository _shortcodes;
         IGroupCodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
-				IWelcomePageLabelRepository _welcomePageLabels;
-				IThankYouPageLabelRepository _thankYouPageLabels;
-				ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
+        IWelcomePageLabelRepository _welcomePageLabels;
+        IThankYouPageLabelRepository _thankYouPageLabels;
+        ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
         IQuestionPartRepository _questionParts;
-				IQuestionPartViewRepository  _questionPartViews;
+        IQuestionPartViewRepository _questionPartViews;
+        ISurveyResponseRepository _surveyResponses;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyRepository"></param>
         public UnitOfWork(ISurveyRepository surveyRepository)
         {
             this._surveys = surveyRepository;
         }
 
-   
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public ISurveyResponseRepository SurveyResponses
+        {
+            get
+            {
+                if (_surveyResponses == null) {
+                    _surveyResponses = new SurveyResponseRepository(_context);
+                }
+
+                return _surveyResponses;
+            }
         }
 
         public ISurveyViewRepository SurveyViews
         {
             get
             {
-                if (_surveyViews == null)
-                {
+                if (_surveyViews == null) {
                     _surveyViews = new SurveyViewRepository(_context);
                 }
 
@@ -62,7 +81,6 @@ namespace DAL
 
                 return _surveys;
             }
-
         }
 
         public ISurveyPermissionsRepository SurveyPermissions
@@ -120,16 +138,16 @@ namespace DAL
             }
         }
 
-				public ISiteSurveyTemplateRepository SiteSurveyTemplates
-				{
-					get
-					{
-						if (_siteSurveyTemplates == null)
-								_siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
+        public ISiteSurveyTemplateRepository SiteSurveyTemplates
+        {
+            get
+            {
+                if (_siteSurveyTemplates == null)
+                    _siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
 
-						return _siteSurveyTemplates;
-					}
-				}
+                return _siteSurveyTemplates;
+            }
+        }
 
 
         public IShortcodeRepository Shortcodes
@@ -147,8 +165,7 @@ namespace DAL
         {
             get
             {
-                if (_groupCodes == null)
-                {
+                if (_groupCodes == null) {
                     _groupCodes = new GroupCodeRepository(_context);
                 }
 
@@ -160,8 +177,7 @@ namespace DAL
         {
             get
             {
-                if (_questionParts == null)
-                {
+                if (_questionParts == null) {
                     _questionParts = new QuestionPartRepository(_context);
                 }
 
@@ -169,12 +185,11 @@ namespace DAL
             }
         }
 
-				public IQuestionPartViewRepository QuestionPartViews
+        public IQuestionPartViewRepository QuestionPartViews
         {
             get
             {
-                if (_questionPartViews == null)
-                {
+                if (_questionPartViews == null) {
                     _questionPartViews = new QuestionPartViewRepository(_context);
                 }
 
@@ -182,12 +197,11 @@ namespace DAL
             }
         }
 
-				public IWelcomePageLabelRepository WelcomePageLabels
+        public IWelcomePageLabelRepository WelcomePageLabels
         {
             get
             {
-                if (_welcomePageLabels == null)
-                {
+                if (_welcomePageLabels == null) {
                     _welcomePageLabels = new WelcomePageLabelRepository(_context);
                 }
 
@@ -195,12 +209,11 @@ namespace DAL
             }
         }
 
-				public IThankYouPageLabelRepository ThankYouPageLabels
+        public IThankYouPageLabelRepository ThankYouPageLabels
         {
             get
             {
-                if (_thankYouPageLabels == null)
-                {
+                if (_thankYouPageLabels == null) {
                     _thankYouPageLabels = new ThankYouPageLabelRepository(_context);
                 }
 
@@ -208,12 +221,11 @@ namespace DAL
             }
         }
 
-				public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
+        public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
         {
             get
             {
-                if (_termsAndConditionsPageLabels == null)
-                {
+                if (_termsAndConditionsPageLabels == null) {
                     _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelRepository(_context);
                 }
 
