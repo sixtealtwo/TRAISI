@@ -30,7 +30,8 @@ import { QuestionContainerComponent } from './components/question-container/ques
 		QuestionLoaderEndpointService,
 		QuestionLoaderService,
 		SurveyViewerService,
-		SurveyViewerEndpointService
+		SurveyViewerEndpointService,
+		{provide: 'ISurveyViewerService', useClass: SurveyViewerService}
 	],
 	exports: []
 })

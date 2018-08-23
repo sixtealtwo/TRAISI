@@ -22,11 +22,15 @@ export class SurveyViewerService implements ISurveyViewerService {
 
 	/**
 	 *
+	 * @param _surveyViewerEndpointService
+	 * @param authService
 	 */
 	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService,
 		private authService: AuthService) {
 		this._activeSurveyId = -1;
 		this.restoreStatus();
+		this.configurationData = new Subject<IQuestionConfiguration[]>();
+		this.options = new Subject<IQuestionOption[]>();
 	}
 
 	private _activeSurveyId: number;

@@ -18,10 +18,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 	styleUrls: ['./survey-viewer.component.scss']
 })
 export class SurveyViewerComponent implements OnInit {
-	@ViewChild('vc', { read: ViewContainerRef })
-	vc;
-	@ViewChild('vcmap', { read: ViewContainerRef })
-	vcmap;
+
+
+	public questions: any[];
 
 	/**
 	 *
@@ -47,7 +46,7 @@ export class SurveyViewerComponent implements OnInit {
 
 		this.surveyViewerService.getDefaultSurveyView(this.surveyViewerService.activeSurveyId).subscribe( value => {
 
-			console.log(value);
+			//console.log(value);
 		});
 
 		this.route.params.subscribe(value => {
@@ -55,7 +54,7 @@ export class SurveyViewerComponent implements OnInit {
 
 			this.surveyViewerService.getSurveyViewerRespondentPageQuestions(this.surveyViewerService.activeSurveyId,
 				page,"en").subscribe(value => {
-					console.log(value);
+					this.questions = value.questions;
 			})
 		})
 	}

@@ -1,9 +1,7 @@
 <h1>Survey Viewer</h1>
 <!--<router-outlet></router-outlet> -->
 
+<div *ngFor="let question of questions">
+	<traisi-question-container [question]="question"></traisi-question-container>
+</div>
 
-
-
-<ng-container #vc></ng-container>
-
-<ng-container #vcmap></ng-container>

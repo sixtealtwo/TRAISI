@@ -6,7 +6,7 @@ import {
 	ViewChild,
 	ViewContainerRef,
 	Injectable,
-	ComponentFactory
+	ComponentFactory, NgModuleRef
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
@@ -23,16 +23,22 @@ declare const SystemJS;
 })
 export class QuestionLoaderService {
 
-	get viewContainerRef(): ViewContainerRef {
-		return this._viewContainerRef;
+	private _componentFactories: { [type: string] : ComponentFactory<any>; }  = {};
+
+	/**
+	 *
+	 * @param _questionLoaderEndpointService
+	 * @param compiler
+	 * @param injector
+	 * @param moduleLoader
+	 */
+	constructor(
+		private _questionLoaderEndpointService: QuestionLoaderEndpointService,
+		private compiler: Compiler,
+		private injector: Injector
+	) {
+
 	}
-
-	set viewContainerRef(value: ViewContainerRef) {
-		this._viewContainerRef = value;
-	}
-
-
-	private _viewContainerRef: ViewContainerRef;
 
 	/**
 	 *
@@ -43,6 +49,19 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 
+		//reuse the preloaded component factory
+		if(questionType in this._componentFactories)
+		{
+			return Observable.create(
+				(observer: Observer<ComponentFactory<any>>) => {
+
+					observer.next(this._componentFactories[questionType]);
+
+
+					observer.complete();
+				});
+		}
+
 		// create and obserer and return the component factory after it has finished importing
 		let obs: Observable<ComponentFactory<any>> = Observable.create(
 			(observer: Observer<ComponentFactory<any>>) => {
@@ -50,25 +69,24 @@ export class QuestionLoaderService {
 					this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)
 				)
 					.then(module => {
-						console.log(module);
-						const moduleFactory = this.compiler.compileModuleSync(module.default);
-						const moduleRef = moduleFactory.create(this.injector);
-						const widgets = moduleRef.injector.get('widgets');
+
+						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
+						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
+						const widgets = moduleRef.injector.get('widgets','notFound');
 						const resolver = moduleRef.componentFactoryResolver;
-						console.log(widgets);
+
 
 						let widget = _.find(widgets[0], item => {
 							return item.id.toLowerCase() === questionType.toLowerCase();
 						});
 
-						console.log(widget);
 
+						//resolver.
 						const componentFactory: ComponentFactory<
 							any
 						> = resolver.resolveComponentFactory(widget.component);
-						console.log(componentFactory);
-						observer.next(componentFactory);
 
+						observer.next(componentFactory);
 
 						observer.complete();
 					})
@@ -84,27 +102,16 @@ export class QuestionLoaderService {
 
 	/**
 	 *
-	 * @param componentFactory
+	 * @param questionType
+	 * @param viewContainerRef
 	 */
-	public appendQuestionComponent(componentFactory: ComponentFactory<any>): void
+	public loadQuestionComponent(questionType: string, viewContainerRef: ViewContainerRef): void
 	{
-		const component = componentFactory
-			.create(this.viewContainerRef.parentInjector);
 
+		this.getQuestionComponentFactory(questionType).subscribe(componentFactory => {
 
-		this.viewContainerRef.insert(component.hostView)
+			let componentRef = viewContainerRef.createComponent(componentFactory,undefined,this.injector);
+
+		})
 	}
-
-	/**
-	 *
-	 * @param _questionLoaderEndpointService
-	 * @param compiler
-	 * @param injector
-	 * @param moduleLoader
-	 */
-	constructor(
-		private _questionLoaderEndpointService: QuestionLoaderEndpointService,
-		private compiler: Compiler,
-		@SkipSelf() private injector: Injector
-	) {}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
 import { PartialObserver } from '../../node_modules/rxjs';
 @Component({
@@ -11,7 +11,12 @@ export class NumberQuestionComponent implements OnInit {
 
 	typeName: string;
 	icon: string;
-	constructor(private surveyViewerService: ISurveyViewerService) {
+
+    /**
+	 * 
+     * @param surveyViewerService
+     */
+	constructor(@Inject('ISurveyViewerService') private surveyViewerService: ISurveyViewerService) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'number';
 
