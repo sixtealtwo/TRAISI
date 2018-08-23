@@ -43,4 +43,7 @@
   <ItemGroup>
     <EmbeddedResource Include="dist/*.module.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Module\dist" />
+  </ItemGroup>
 </Project>

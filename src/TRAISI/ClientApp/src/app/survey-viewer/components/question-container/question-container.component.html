@@ -1,15 +1,6 @@
-<ng-template #loadingTemplate >
-	<traisi-question-placeholder></traisi-question-placeholder>
-</ng-template>
-
-<ng-template #questionTemplate >
-	<ng-container #container></ng-container>
-</ng-template>
-
-
 <div>
 	<div>
-	{{ question.label }}
+		{{ question.label }}
 
 	</div>
 
@@ -19,3 +10,11 @@
 		</ng-container>
 	</div>
 </div>
+
+<ng-template #loadingTemplate>
+	<traisi-question-placeholder></traisi-question-placeholder>
+</ng-template>
+
+<ng-template #questionTemplate>
+	<ng-container #container></ng-container>
+</ng-template>

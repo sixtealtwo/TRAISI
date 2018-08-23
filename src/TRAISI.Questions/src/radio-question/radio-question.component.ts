@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ISurveyViewerService, IQuestionOption} from "traisi-question-sdk";
-//import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
+import {ISurveyViewerService, QuestionOption} from "traisi-question-sdk";
+
 
 @Component({
     selector: 'traisi-radio-question',
@@ -8,33 +8,26 @@ import {ISurveyViewerService, IQuestionOption} from "traisi-question-sdk";
     styles: [require('./radio-question.component.scss').toString()]
 })
 export class RadioQuestionComponent implements OnInit {
-	
-	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
-	
-	questionOptions: IQuestionOption[];
+    readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
-	typeName: string;
-	icon: string;
-	constructor(@Inject('ISurveyViewerService') private _surveyViewerService: ISurveyViewerService) {
 
-	    this.questionOptions = [];
-	}
+    questionOptions: QuestionOption[];
 
-	/**
-	 * Loads configuration data once it is available.
-	 * @param data
-	 
-	loadConfigurationData(data: IQuestionConfiguration[]){
+    typeName: string;
+    icon: string;
 
-		console.log(data);
-	}*/
+    constructor(@Inject('ISurveyViewerService') private _surveyViewerService: ISurveyViewerService) {
 
-	ngOnInit() {
-		console.log('init');
-		
-		this._surveyViewerService.options.subscribe((value: IQuestionOption[]) => {
-		    this.questionOptions = value;
+        this.questionOptions = [];
+    }
+
+
+    ngOnInit() {
+
+
+        this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {
+            this.questionOptions = value;
         });
-	}
+    }
 }

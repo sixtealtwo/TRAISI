@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ISurveyViewerService, QuestionConfiguration } from 'traisi-question-sdk';
 import { PartialObserver } from '../../node_modules/rxjs';
 @Component({
 	selector: 'traisi-number-question',
@@ -12,10 +12,10 @@ export class NumberQuestionComponent implements OnInit {
 	typeName: string;
 	icon: string;
 
-    /**
-	 * 
-     * @param surveyViewerService
-     */
+	/**
+	 *
+	 * @param surveyViewerService
+	 */
 	constructor(@Inject('ISurveyViewerService') private surveyViewerService: ISurveyViewerService) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'number';
@@ -27,10 +27,7 @@ export class NumberQuestionComponent implements OnInit {
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: IQuestionConfiguration[]){
+	loadConfigurationData(data: QuestionConfiguration[]) {}
 
-	}
-
-	ngOnInit() {
-	}
+	ngOnInit() {}
 }

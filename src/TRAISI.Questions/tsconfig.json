@@ -13,7 +13,13 @@
             
             "es2016",
             "dom"
-        ]
+        ],
+        "baseUrl": "src",
+        "paths": {
+            "traisi-question-sdk":[
+                "../../TRAISI.SDK/Module/"
+                ]
+        }
     },
     "exclude": [
         "dist/**/*"
