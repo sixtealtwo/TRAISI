@@ -58,7 +58,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	) {
 		let endpointUrl = `${
 			this.getSurveyViewerRespondentPageQuestionsUrl
-			}/${surveyId}/page/${pageNumber}/${language}`;
+			}/${surveyId}/page/${pageNumber}?language=${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {

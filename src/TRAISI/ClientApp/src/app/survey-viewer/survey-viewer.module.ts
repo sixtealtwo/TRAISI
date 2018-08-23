@@ -13,6 +13,7 @@ import { SurveyCompletePageComponent } from './components/survey-complete-page/s
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
 import { SurveyErrorComponent } from './components/survey-error/survey-error.component';
 import { FormsModule } from '@angular/forms';
+import { QuestionContainerComponent } from './components/question-container/question-container.component';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, FormsModule, ROUTES],
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
 		SurveyTermsPageComponent,
 		SurveyCompletePageComponent,
 		SurveyViewerContainerComponent,
-		SurveyErrorComponent
+		SurveyErrorComponent,
+		QuestionContainerComponent
 	],
 	providers: [
 		QuestionLoaderEndpointService,

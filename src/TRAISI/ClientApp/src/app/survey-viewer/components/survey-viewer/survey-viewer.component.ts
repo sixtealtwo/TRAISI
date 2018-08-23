@@ -54,7 +54,7 @@ export class SurveyViewerComponent implements OnInit {
 			let page: number = value["page"];
 
 			this.surveyViewerService.getSurveyViewerRespondentPageQuestions(this.surveyViewerService.activeSurveyId,
-				1,"en").subscribe(value => {
+				page,"en").subscribe(value => {
 					console.log(value);
 			})
 		})
