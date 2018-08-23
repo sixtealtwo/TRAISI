@@ -190,7 +190,8 @@ namespace TRAISI.Controllers.SurveyViewer
                 return new NotFoundResult();
             }
 
-            return new ObjectResult(result.ToLocalizedModel<SurveyViewPageViewModel>("en"));
+            var localized = result.ToLocalizedModel<SurveyViewPageViewModel>(language);
+            return new ObjectResult(localized);
         }
         
         /// <summary>

@@ -11,5 +11,11 @@ namespace TRAISI.ViewModels.SurveyViewer
         public string Label {get ;set;}
         
         public string QuestionType { get; set; }
+        
+        public bool IsOptional { get; set; }
+        
+        public bool IsRepeat { get; set; }
+        
+        public int Order { get; set; }
     }
 }

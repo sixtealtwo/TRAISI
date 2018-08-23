@@ -102,6 +102,8 @@ namespace TRAISI.ViewModels
                 {
                     svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]).Value;
                 });
+            
+           
 
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
