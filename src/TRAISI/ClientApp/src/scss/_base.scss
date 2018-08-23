@@ -4,8 +4,13 @@
 app, .app {
   height: 100%;
 	display: block;
-	//position: fixed;
-	//width: 100vw;
+	position: fixed;
+	width: 100vw;
+	overflow-y: scroll;
+}
+
+.app.dnd-drag {
+
 }
 
 .sidebar{
@@ -130,8 +135,6 @@ app, .app {
   position: relative;
   z-index: 0;
 	height: 100%;
-	overflow-y: auto;
-	width: 100%;
 }
 
 .content{

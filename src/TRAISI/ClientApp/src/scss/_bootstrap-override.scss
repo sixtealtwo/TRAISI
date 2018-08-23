@@ -791,7 +791,11 @@ legend {
     .sidebar{
       z-index: -1;
     }
-  }
+	}
+	.app {
+		display: unset !important;
+		position: unset !important;
+	}
 }
 
 
