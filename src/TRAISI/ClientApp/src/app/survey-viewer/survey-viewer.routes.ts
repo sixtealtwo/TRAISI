@@ -16,6 +16,7 @@ const routes: Routes = [
 			{ path: 'terms', component: SurveyTermsPageComponent },
 			{ path: 'viewer', redirectTo: 'viewer/1', pathMatch: 'full' },
 			{ path: 'error', component: SurveyErrorComponent },
+			{ path: ':page', component: SurveyViewerComponent },
 			{ path: 'viewer/:viewId', component: SurveyViewerComponent }
 		]
 	}

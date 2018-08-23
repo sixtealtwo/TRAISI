@@ -180,7 +180,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="pageNumber"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        [Route("{surveyId}/page/{pageNumber}/{language?}")]
+        [Route("viewer/{surveyId}/page/{pageNumber}")]
         [HttpGet]
         [Produces(typeof(ObjectResult))]
         public async Task<IActionResult> GetRespondentSurveyViewPageQuestions(int surveyId, int pageNumber, string language="en")

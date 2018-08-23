@@ -36,6 +36,7 @@ export class SurveyViewerComponent implements OnInit {
 	) {
 
 
+
 	}
 
 	/**
@@ -48,5 +49,14 @@ export class SurveyViewerComponent implements OnInit {
 
 			console.log(value);
 		});
+
+		this.route.params.subscribe(value => {
+			let page: number = value["page"];
+
+			this.surveyViewerService.getSurveyViewerRespondentPageQuestions(this.surveyViewerService.activeSurveyId,
+				1,"en").subscribe(value => {
+					console.log(value);
+			})
+		})
 	}
 }

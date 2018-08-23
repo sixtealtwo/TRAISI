@@ -41,6 +41,34 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	}
 
 
+	private get getSurveyViewerRespondentPageQuestionsUrl() {
+		return this.configurations.baseUrl +'' + this._surveyViewerUrl + '/viewer';
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param pageNumber
+	 * @param language
+	 */
+	public getSurveyViewerRespondentPageQuestionsEndpoint<T>(
+		surveyId: number,
+		pageNumber: number,
+		language?: string
+	) {
+		let endpointUrl = `${
+			this.getSurveyViewerRespondentPageQuestionsUrl
+			}/${surveyId}/page/${pageNumber}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId,pageNumber,language)
+				);
+			})
+		);
+	}
+
 
 	public getSurveyViewerTermsAndConditionsEndpoint<T>(
 		surveyId: number,

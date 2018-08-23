@@ -11,5 +11,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public List<QuestionPartViewViewModel> QuestionChildren;
 
         public int Order {get;set;}
+        
+        public string QuestionType { get; set; }
     }
 }

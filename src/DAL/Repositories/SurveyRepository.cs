@@ -65,6 +65,8 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.Labels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPart)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.Labels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionOptions)
                 .SingleOrDefaultAsync();

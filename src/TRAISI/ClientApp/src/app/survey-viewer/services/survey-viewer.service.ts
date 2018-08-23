@@ -10,6 +10,7 @@ import { AuthService } from 'app/services/auth.service';
 import { User } from 'app/models/user.model';
 import { ISurveyViewerService, IQuestionConfiguration} from 'traisi-question-sdk';
 import { IQuestionOption } from 'traisi-question-sdk';
+import {L} from "@angular/core/src/render3";
 @Injectable({
 	providedIn: 'root'
 })
@@ -18,6 +19,15 @@ export class SurveyViewerService implements ISurveyViewerService {
 
 	configurationData: Subject<IQuestionConfiguration[]>;
 	options: Subject<IQuestionOption[]>;
+
+	/**
+	 *
+	 */
+	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService,
+		private authService: AuthService) {
+		this._activeSurveyId = -1;
+		this.restoreStatus();
+	}
 
 	private _activeSurveyId: number;
 
@@ -35,17 +45,6 @@ export class SurveyViewerService implements ISurveyViewerService {
 		this._activeSurveyId = id;
 	}
 
-
-
-	/**
-	 *
-	 */
-	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService,
-		private authService: AuthService) {
-		this._activeSurveyId = -1;
-		this.restoreStatus();
-	}
-
 	/**
 	 *
 	 * @param surveyId
@@ -61,6 +60,18 @@ export class SurveyViewerService implements ISurveyViewerService {
 	 */
 	public getWelcomeView(surveyName: string): Observable<SurveyStart> {
 		return this._surveyViewerEndpointService.getSurveyViewerWelcomeViewEndpoint(surveyName);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param page
+	 * @param language
+	 */
+	public getSurveyViewerRespondentPageQuestions(surveyId:number, page:number, language?: string): Observable<any> {
+
+		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId,
+			page,language);
 	}
 
 	/**

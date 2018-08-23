@@ -197,7 +197,7 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType, int pageNumber)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
             if (survey != null) {
                 return  ((List<SurveyView>)survey.SurveyViews)[(int)viewType].QuestionPartViews.FirstOrDefault(v => v.Order == pageNumber);
             }

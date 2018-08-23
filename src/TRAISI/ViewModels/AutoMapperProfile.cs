@@ -100,8 +100,9 @@ namespace TRAISI.ViewModels
             CreateMap<QuestionPartView, QuestionPartViewViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
+                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]).Value;
                 });
+
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
                 .ForMember(m => m.SurveyView, map => map.Ignore());

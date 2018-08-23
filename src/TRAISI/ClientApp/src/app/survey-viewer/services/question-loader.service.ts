@@ -22,6 +22,18 @@ declare const SystemJS;
 	providedIn: 'root'
 })
 export class QuestionLoaderService {
+
+	get viewContainerRef(): ViewContainerRef {
+		return this._viewContainerRef;
+	}
+
+	set viewContainerRef(value: ViewContainerRef) {
+		this._viewContainerRef = value;
+	}
+
+
+	private _viewContainerRef: ViewContainerRef;
+
 	/**
 	 *
 	 * @param questionType
@@ -56,6 +68,8 @@ export class QuestionLoaderService {
 						> = resolver.resolveComponentFactory(widget.component);
 						console.log(componentFactory);
 						observer.next(componentFactory);
+
+
 						observer.complete();
 					})
 					.catch(error => {
@@ -66,6 +80,19 @@ export class QuestionLoaderService {
 		);
 
 		return obs;
+	}
+
+	/**
+	 *
+	 * @param componentFactory
+	 */
+	public appendQuestionComponent(componentFactory: ComponentFactory<any>): void
+	{
+		const component = componentFactory
+			.create(this.viewContainerRef.parentInjector);
+
+
+		this.viewContainerRef.insert(component.hostView)
 	}
 
 	/**
