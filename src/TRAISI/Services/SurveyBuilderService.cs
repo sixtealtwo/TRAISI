@@ -307,6 +307,11 @@ namespace TRAISI.Services
                     pageIndex = toDelete.Order;
                 }
             }
+
+            //remove children question part views (to trigger question part deletes)
+            var pageData = this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructure(toDelete.Id);
+            var childIds = pageData.QuestionPartViewChildren.Select(q => q.Id).ToList();
+            childIds.ForEach(id => this.RemoveQuestionPartView(pageData, id, false));
             view.QuestionPartViews.Remove(toDelete);
         }
 

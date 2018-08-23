@@ -271,6 +271,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private navigateToFirst(): void {
 		let firstTab = <any>$('#welcome-tab');
 		firstTab.tab('show');
+		this.currentSurveyPage = undefined;
+		this.currentPage = 'welcome';
 	}
 
 	deletePage(pageId: number): void {

@@ -9,5 +9,9 @@ namespace DAL.Repositories.Interfaces {
 	public interface IQuestionPartViewRepository : IRepository<QuestionPartView> 
 	{
 		Task<QuestionPartView> GetQuestionPartViewWithStructureAsync (int questionPartViewId);
+
+        QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId);
+
+        List<QuestionPartView> GetQuestionPartViewsWithParent(int questionPartViewParentId);
 	}
 }

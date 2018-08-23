@@ -32,5 +32,28 @@ namespace DAL.Repositories
             }
             return questionPartView;
         }
+
+        public QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId)
+        {
+            var questionPartView = _appContext.QuestionPartViews
+                    .Where(qp => qp.Id == questionPartViewId)
+                    .Include(qp => qp.QuestionPart)
+                    .Include(qp => qp.Labels)
+                    .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                    .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                    .SingleOrDefault();
+            if (questionPartView != null)
+            {
+                questionPartView.QuestionPartViewChildren = questionPartView.QuestionPartViewChildren.OrderBy(qp => qp.Order).ToList();
+            }
+            return questionPartView;
+        }
+
+        public List<QuestionPartView> GetQuestionPartViewsWithParent(int questionPartViewParentId)
+        {
+            return _appContext.QuestionPartViews
+                .Where(qp => qp.ParentView.Id == questionPartViewParentId)
+                .ToList();
+        }
     }
 }
