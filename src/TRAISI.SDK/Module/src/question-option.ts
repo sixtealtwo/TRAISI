@@ -1,4 +1,4 @@
-export interface IQuestionOption
+export interface QuestionOption
 {
     id: number;
     name: string;

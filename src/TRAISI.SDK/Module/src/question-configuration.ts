@@ -1,4 +1,4 @@
-export interface IQuestionConfiguration
+export interface QuestionConfiguration
 {
 	// the key or name of this configuration
 	key: string;
