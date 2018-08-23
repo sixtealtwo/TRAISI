@@ -187,17 +187,23 @@ namespace TRAISI.Services
             this._authorizationService = authorizationService;
         }
 
+        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="viewId"></param>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
         /// <param name="pageNumber"></param>
         /// <returns></returns>
-        public async Task<QuestionPartView> GetSurveyViewPageQuestions(int viewId, int pageNumber)
+        public async Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType, int pageNumber)
         {
-            var view = await this._unitOfWork.SurveyViews.GetAsync(viewId);
-
-            return view.QuestionPartViews.FirstOrDefault(v => v.Order == pageNumber);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey != null) {
+                return  ((List<SurveyView>)survey.SurveyViews)[(int)viewType].QuestionPartViews.FirstOrDefault(v => v.Order == pageNumber);
+            }
+            else {
+                return null;
+            }
 
         }
     }

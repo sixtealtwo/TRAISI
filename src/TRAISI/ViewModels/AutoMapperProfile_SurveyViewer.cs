@@ -78,6 +78,9 @@ namespace TRAISI.ViewModels
                 {
                     svm.WelcomeText = s.WelcomePageLabels[opt.Items["Language"] as string].Value;
                 });
+
+            CreateMap<QuestionPartView, SurveyViewPageViewModel>()
+                .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren));
         }
     }
 }

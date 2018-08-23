@@ -81,10 +81,11 @@ namespace TRAISI.Services.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="viewId"></param>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
         /// <param name="pageNumber"></param>
         /// <returns></returns>
-        Task<QuestionPartView> GetSurveyViewPageQuestions(int viewId, int pageNumber);
+        Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType, int pageNumber);
 
     }
 }

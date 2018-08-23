@@ -172,6 +172,49 @@ namespace TRAISI.Controllers.SurveyViewer
 
             return new ObjectResult(result);
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        [Route("{surveyId}/page/{pageNumber}/{language?}")]
+        [HttpGet]
+        [Produces(typeof(ObjectResult))]
+        public async Task<IActionResult> GetRespondentSurveyViewPageQuestions(int surveyId, int pageNumber, string language="en")
+        {
+            var result = await this._viewService.GetSurveyViewPageQuestions(surveyId, SurveyViewType.RespondentView, pageNumber);
+            if (result == null) {
+                return new NotFoundResult();
+            }
+
+            return new ObjectResult(result.ToLocalizedModel<SurveyViewPageViewModel>("en"));
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="viewType"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        [Route("{surveyId}/page/{pageNumber}/{viewType}/{language?}")]
+        [HttpGet]
+        [Produces(typeof(ObjectResult))]
+        public async Task<IActionResult> GetSurveyViewPageQuestions(int surveyId, int pageNumber, 
+            SurveyViewType viewType, string language="en")
+        {
+            var result = await this._viewService.GetSurveyViewPageQuestions(surveyId, 
+                viewType, pageNumber);
+            if (result == null) {
+                return new NotFoundResult();
+            }
+
+            return new ObjectResult(result.ToLocalizedModel<SurveyViewPageViewModel>("en"));
+        }
 
         /// <summary>
         /// 
