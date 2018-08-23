@@ -1,3 +1,12 @@
+<ng-template #loadingTemplate >
+	<traisi-question-placeholder></traisi-question-placeholder>
+</ng-template>
+
+<ng-template #questionTemplate >
+	<ng-container #container></ng-container>
+</ng-template>
+
+
 <div>
 	<div>
 	{{ question.label }}
@@ -5,6 +14,8 @@
 	</div>
 
 	<div class="question-container-inner">
-		<ng-container #container></ng-container>
+		<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate">
+
+		</ng-container>
 	</div>
 </div>

@@ -6,7 +6,7 @@ import {
 	ViewChild,
 	ViewContainerRef,
 	Injectable,
-	ComponentFactory, NgModuleRef
+	ComponentFactory, NgModuleRef, ComponentRef
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
@@ -105,13 +105,21 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 * @param viewContainerRef
 	 */
-	public loadQuestionComponent(questionType: string, viewContainerRef: ViewContainerRef): void
+	public loadQuestionComponent(questionType: string, viewContainerRef: ViewContainerRef): Observable<ComponentRef<any>>
 	{
 
-		this.getQuestionComponentFactory(questionType).subscribe(componentFactory => {
+		return Observable.create(
+			(observer: Observer<ComponentRef<any>>) => {
+				this.getQuestionComponentFactory(questionType).subscribe(componentFactory => {
 
-			let componentRef = viewContainerRef.createComponent(componentFactory,undefined,this.injector);
+					let componentRef = viewContainerRef.createComponent(componentFactory,undefined,this.injector);
+					observer.next(componentRef);
+					observer.complete();
 
-		})
+				})
+			});
+
+
+
 	}
 }

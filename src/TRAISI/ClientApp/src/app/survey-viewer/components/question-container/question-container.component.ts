@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {QuestionLoaderService} from "../../services/question-loader.service";
 import {NgTemplateOutlet} from "@angular/common";
 
@@ -10,11 +10,14 @@ import {NgTemplateOutlet} from "@angular/common";
 export class QuestionContainerComponent implements OnInit {
 
 
-	@Input() 
+	@Input()
 	question: any;
 
 
-	@ViewChild("container", {read: ViewContainerRef}) questionOutlet: ViewContainerRef;
+	@ViewChild("questionTemplate", {read: ViewContainerRef}) questionOutlet: ViewContainerRef;
+
+
+	isLoaded: boolean = false;
 
 	constructor(private questionLoaderService: QuestionLoaderService,
 				public viewContainerRef: ViewContainerRef) {
@@ -26,7 +29,10 @@ export class QuestionContainerComponent implements OnInit {
 	ngOnInit() {
 
 
-		this.questionLoaderService.loadQuestionComponent(this.question.questionType, this.questionOutlet);
+		this.questionLoaderService.loadQuestionComponent(this.question.questionType, this.questionOutlet)
+			.subscribe((componentRef:ComponentRef<any>) => {
+				this.isLoaded = true;
+			});
 
 	}
 
