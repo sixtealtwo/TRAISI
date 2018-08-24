@@ -48,6 +48,8 @@ export class Permission {
 	public static readonly manageGroupSurveysPermission: PermissionValues = 'surveys.managegroup';
 	public static readonly createSurveysPermission: PermissionValues = 'surveys.create';
 
+
+
 	constructor(name?: PermissionNames, value?: PermissionValues, groupName?: string, description?: string) {
 		this.name = name;
 		this.value = value;
