@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ISurveyViewerService, QuestionOption} from "traisi-question-sdk";
+import { SurveyViewer, QuestionOption, SurveyResponder} from "traisi-question-sdk";
 
 
 @Component({
@@ -16,8 +16,10 @@ export class RadioQuestionComponent implements OnInit {
 
     typeName: string;
     icon: string;
+    selectdOption: any;
 
-    constructor(@Inject('ISurveyViewerService') private _surveyViewerService: ISurveyViewerService) {
+    constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
+                @Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
 
         this.questionOptions = [];
     }

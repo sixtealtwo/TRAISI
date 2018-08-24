@@ -2,12 +2,10 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
-
-
 module.exports = {
     entry: {
         a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
-       // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+        // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
     },
     output: {
         path: path.join(process.cwd(), 'dist'),
@@ -22,14 +20,14 @@ module.exports = {
         ]
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader'
+                use: 'awesome-typescript-loader'
             },
             {
                 test: /\.html?$/,
-                loader: 'raw-loader'
+                use: 'raw-loader'
             },
             {
                 test: /\.css$/,
@@ -45,11 +43,16 @@ module.exports = {
                     "css-loader", // translates CSS into CommonJS
                     "sass-loader" // compiles Sass to CSS
                 ]
-            },
+            } ,
             {
-                test: /\.png$/,
-                exclude: /node_modules/,
-                loader: 'file-loader?name=images/[name].[ext]'
+                test: /\.(png|jp(e*)g|svg)$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8000, // Convert images < 8kb to base64 strings
+                        name: 'images/[hash]-[name].[ext]'
+                    }
+                }]
             }
         ]
 

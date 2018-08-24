@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { QuestionContainerComponent } from './components/question-container/question-container.component';
 import { QuestionPlaceholderComponent } from './components/question-placeholder/question-placeholder.component';
 import { SurveyHeaderDisplayComponent } from './components/survey-header-display/survey-header-display.component';
+import {SurveyResponderService} from "./services/survey-responder.service";
+import {SurveyResponderEndpointService} from "./services/survey-responder-endpoint.service";
 
 @NgModule({
 	imports: [CommonModule, SharedModule, FormsModule, ROUTES],
@@ -35,7 +37,9 @@ import { SurveyHeaderDisplayComponent } from './components/survey-header-display
 		QuestionLoaderService,
 		SurveyViewerService,
 		SurveyViewerEndpointService,
-		{provide: 'ISurveyViewerService', useClass: SurveyViewerService}
+		SurveyResponderEndpointService,
+		{provide: 'SurveyViewerService', useClass: SurveyViewerService},
+		{provide: 'SurveyResponderService', useClass: SurveyResponderService}
 	],
 	exports: []
 })

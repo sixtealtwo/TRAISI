@@ -1,3 +1,8 @@
-<p>
-  <input type="radio" value="test"/>
-</p>
+<div>
+
+    <div *ngFor="let option of questionOptions">
+        <input id="{{option.id}}" type="radio" value="{{ option.name }}" />
+        <label for="{{option.id}}">{{option.label}}</label>
+    </div>
+    
+</div>

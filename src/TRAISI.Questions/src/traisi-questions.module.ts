@@ -14,6 +14,7 @@ import {SelectQuestionComponent} from './select-question/select-question.compone
 import {HeadingQuestionComponent} from './heading-question/heading-question.component';
 import {DateQuestionComponent} from './date-question/date-question.component';
 import {TimeQuestionComponent} from './time-question/time-question.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent],
@@ -89,6 +90,7 @@ import {TimeQuestionComponent} from './time-question/time-question.component';
         MapEndpointService
     ],
     imports: [
+        CommonModule,
         NgxMapboxGLModule.forRoot({
             accessToken:
                 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg' // Can also be set per map (accessToken input of mgl-map)

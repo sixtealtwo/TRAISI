@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/observable/of';
-import { SurveyViewer } from '../models/survey-viewer.model';
+
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { AuthService } from 'app/services/auth.service';
 import { User } from 'app/models/user.model';
-import { ISurveyViewerService, IQuestionConfiguration} from 'traisi-question-sdk';
-import { IQuestionOption } from 'traisi-question-sdk';
+import { SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
+import { QuestionOption } from 'traisi-question-sdk';
 import {L} from "@angular/core/src/render3";
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyViewerService implements ISurveyViewerService {
+export class SurveyViewerService implements SurveyViewer {
 
 
-	configurationData: Subject<IQuestionConfiguration[]>;
-	options: Subject<IQuestionOption[]>;
+	configurationData: Subject<QuestionConfiguration[]>;
+	options: Subject<QuestionOption[]>;
 
 	/**
 	 *
@@ -29,8 +29,8 @@ export class SurveyViewerService implements ISurveyViewerService {
 		private authService: AuthService) {
 		this._activeSurveyId = -1;
 		this.restoreStatus();
-		this.configurationData = new Subject<IQuestionConfiguration[]>();
-		this.options = new Subject<IQuestionOption[]>();
+		this.configurationData = new Subject<QuestionConfiguration[]>();
+		this.options = new Subject<QuestionOption[]>();
 	}
 
 	private _activeSurveyId: number;

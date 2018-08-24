@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef} from '@angular/core';
 import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
+
+let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
 	selector: 'traisi-map-question',
@@ -22,6 +24,8 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	@ViewChild('mapbox') mapGL: MapComponent;
 	@ViewChild('geocoder') mapGeocoder: any;
 	@ViewChild('geoLocator') mapGeoLocator: any;
+	
+	@ViewChild('mapMarker')mapMarker:ElementRef;
 
 	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
 		this.typeName = this.QUESTION_TYPE_NAME;
@@ -30,6 +34,11 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.configureMapSettings();
+		
+		console.log(this.mapMarker);
+		this.mapMarker.nativeElement.src = markerIconImage;
+		
+		console.log(markerIconImage);
 	}
 
 	ngAfterViewInit() {

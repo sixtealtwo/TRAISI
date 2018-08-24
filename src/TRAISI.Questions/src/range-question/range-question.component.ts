@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ISurveyViewerService, IQuestionConfiguration } from 'traisi-question-sdk';
+import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
 import { PartialObserver } from '../../node_modules/rxjs';
 @Component({
 	selector: 'traisi-range-question',
@@ -11,7 +11,7 @@ export class RangeQuestionComponent implements OnInit {
 
 	typeName: string;
 	icon: string;
-	constructor(private surveyViewerService: ISurveyViewerService) {
+	constructor(private surveyViewerService: SurveyViewer) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'range';
 
@@ -22,7 +22,7 @@ export class RangeQuestionComponent implements OnInit {
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: IQuestionConfiguration[]){
+	loadConfigurationData(data: QuestionConfiguration[]){
 
 	}
 

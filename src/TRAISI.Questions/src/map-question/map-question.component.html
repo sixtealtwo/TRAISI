@@ -1,7 +1,8 @@
 <div class="map-container">
-	<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)">
-		<mgl-layer id="3d-buildings" source="composite" sourceLayer="building" [filter]="['==', 'extrude', 'true']" type="fill-extrusion"
-		 [minzoom]="15" [paint]="{
+    <mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)">
+        <mgl-layer id="3d-buildings" source="composite" sourceLayer="building" [filter]="['==', 'extrude', 'true']"
+                   type="fill-extrusion"
+                   [minzoom]="15" [paint]="{
 			'fill-extrusion-color': '#aaa',
 			'fill-extrusion-height': [
 				'interpolate', ['linear'], ['zoom'],
@@ -16,29 +17,31 @@
 			],
 			'fill-extrusion-opacity': .6
 		}"></mgl-layer>
-		<mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
+        <mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
 	}" [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
-		<mgl-control mglNavigation position="top-left"></mgl-control>
-		<mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
-		<mgl-control position="bottom-right">
-			<div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
-				<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
-				<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>
-				<a class="mapbox-improve-map" href="https://www.mapbox.com/feedback" target="_blank">Improve this map</a>
-			</div>
-		</mgl-control>
-		<mgl-marker
-      [lngLat]="markerPosition"
-      mglDraggable
-      (dragStart)="onDragStart($event)"
-      (dragEnd)="onDragEnd($event)"
-			(drag)="onDrag($event)"
-		>
-		<img 	class="mapMarker" draggable="false" src="assets/img/map-markers/default-marker.png"/>
-    </mgl-marker>
-	</mgl-map>
-	<div class="locationDisplay">
-		<label>Location Selected: {{ locationSearch }}</label>
-	</div>
+        <mgl-control mglNavigation position="top-left"></mgl-control>
+        <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'"
+                     (result)="locationFound($event)"></mgl-control>
+        <mgl-control position="bottom-right">
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
+                <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
+                <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>
+                <a class="mapbox-improve-map" href="https://www.mapbox.com/feedback" target="_blank">Improve this
+                    map</a>
+            </div>
+        </mgl-control>
+        <mgl-marker
+                [lngLat]="markerPosition"
+                mglDraggable
+                (dragStart)="onDragStart($event)"
+                (dragEnd)="onDragEnd($event)"
+                (drag)="onDrag($event)"
+        >
+            <img #mapMarker class="mapMarker" draggable="false"/>
+        </mgl-marker>
+    </mgl-map>
+    <div class="locationDisplay">
+        <label>Location Selected: {{ locationSearch }}</label>
+    </div>
 </div>

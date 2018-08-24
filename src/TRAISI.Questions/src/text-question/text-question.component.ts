@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { OnVisibilityChanged, ISurveyViewerService } from 'traisi-question-sdk';
+import { OnVisibilityChanged, SurveyViewer } from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-text-question',
@@ -11,7 +11,7 @@ export class TextQuestionComponent implements OnInit, OnVisibilityChanged {
 
 	typeName: string;
 	icon: string;
-	constructor(@Inject('ISurveyViewerService') private surveyViewerService: ISurveyViewerService) {
+	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
 	}
