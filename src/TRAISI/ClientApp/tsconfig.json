@@ -21,12 +21,12 @@
 		"baseUrl": "src",
 		"paths": {
 			"traisi-question-sdk":[
-				"../../../TRAISI.SDK/Module/"
+				"../../TRAISI.SDK/Module/"
 			],
 			"questions/*": [
 				"../../Questions/*"
 			],
-			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"]
+			"echarts": ["./echarts/dist/echarts-en.min.js"]
 		}
 	},
 	"exclude": ["node_modules"]
