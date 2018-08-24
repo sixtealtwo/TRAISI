@@ -1,0 +1,120 @@
+<div>
+	<form (ngSubmit)="onNewSurveyFormSubmit()" #f="ngForm" novalidate class="form-horizontal">
+		<div class="form-group form-group-adjust row">
+			<label for="surveyName" class="col-md-2 col-form-label text-md-right">Survey Name</label>
+			<div class="col-md-7">
+				<input [(ngModel)]="model.name" type="text" class="form-control" id="surveyName" aria-describedby="surveyName" placeholder="Survey Name"
+				 name="surveyName" required>
+			</div>
+		</div>
+		<div class="row" *ngIf="isNewSurvey">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row" *ngIf="isNewSurvey">
+			<label class="col-md-2 col-form-label text-md-right" for="userGroup">Group</label>
+			<div class="col-md-7">
+				<select2 (valueChanged)="updateGroup($event)" [data]="groupsOptions" [value]="selectedGroup" id="userGroup" [options]="select2Options"
+				 [width]="240" [cssImport]=true></select2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right" for="rejectionLink">Rejection Link</label>
+			<div class="col-md-7">
+				<input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right" for="successLink">Success Link</label>
+			<div class="col-md-7">
+				<input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right" for="startAt">Start Date</label>
+			<div class="col-md-5">
+				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="startAt" id="startAt" #dpStart="bsDatepicker"
+				 [bsConfig]="bsConfig" [(ngModel)]="model.startAt">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right" for="endAt">End Date</label>
+			<div class="col-md-5">
+				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt" #dpEnd="bsDatepicker"
+				 [bsConfig]="bsConfig" [(ngModel)]="model.endAt">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right">Active</label>
+			<div class="col-md-5">
+				<label class="form-check-label switch" for="isActiveCheck">
+					<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
+					<i></i>
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label class="col-md-2 col-form-label text-md-right">Open Survey</label>
+			<div class="col-md-5">
+				<label class="form-check-label switch" for="isOpenCheck">
+					<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
+					<i></i>
+				</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-last-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<div class="col-md-3">
+				<button *ngIf="!isNewSurvey && canDeleteSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
+					<i class='fa fa-times'></i>Delete</button>
+			</div>
+			<div class="col-md-9">
+				<div class="pull-right">
+					<button type="button" class="btn btn-danger action-button" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
+						<i class='fa fa-times'></i>Cancel</button>
+					<button type="submit" class="btn btn-primary" [disabled]="isSaving">
+						<i *ngIf="!isSaving" class="fa fa-save"></i>
+						<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</form>
+</div>

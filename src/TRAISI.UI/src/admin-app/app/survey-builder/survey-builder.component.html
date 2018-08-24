@@ -1,0 +1,133 @@
+<h1>Survey Builder for Survey {{ surveyId }}</h1>
+
+
+<div role="navigation" id="builderSidebar" class="sidebar order-correct">
+	<traisi-question-type-chooser #questionChooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)" (loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
+</div>
+<div class="clearfix">
+	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active fw-semi-bold" (click)="switchPage('welcome')" id="welcome-tab" data-toggle="tab" href="#welcome"
+			 role="tab" aria-controls="welcome" aria-expanded="true">Welcome</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
+			 role="tab" aria-controls="tAndC" aria-expanded="true">Terms and Conditions</a>
+		</li>
+		<smooth-dnd-container id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'" [dragBeginDelay]="500" [dragClass]="'raised-tab'" [getChildPayload]="getPagePayload" (dragEnd)="onDragEnd($event)" (drop)="onDrop($event)" (dragEnter)="onDragEnter()" (dragLeave)="onDragLeave()">
+			<smooth-dnd-draggable *ngFor="let page of allPages">
+				<li class="nav-item pagetab">
+					<a class="nav-link fw-semi-bold" id="{{ page.id + '-tab' }}" (click)="switchSurveyPage(page.id)" data-toggle="tab" href="#pages"
+					role="tab" aria-controls="page.label" aria-expanded="true">
+						{{ page.label.value }}
+						<sup class="badge badge-pill badge-primary">
+							P
+						</sup>
+					</a>
+				</li>
+			</smooth-dnd-draggable>
+		</smooth-dnd-container>
+		<li class="nav-item">
+			<a class="nav-link fw-semi-bold" (click)="switchPage('thank-you')" id="thankYou-tab" data-toggle="tab" href="#thankYou" role="tab"
+			 aria-controls="thankYou" aria-expanded="true">Thank You</a>
+		</li>
+		<li class="nav-item">
+			<a class="btn btn-primary new-page-tab nav-link" (click)="createPageModal.show()">
+				<i class="fa fa-plus-circle"></i> New Page
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="tab-content mb-lg" id="pageTabContent">
+	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.value"></div>
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveWelcomePage()">
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.value"></div>
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveTAndCPage()">
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
+		<div class="row" *ngIf="currentSurveyPage">
+			<div class="col-md-10">
+					<div class="form-group row pull-left">
+						<label for="page-title-field" class="col-md-5  col-form-label"><h3>Page Title:</h3></label>
+						<div class="col-md-7 ">
+							<input id="page-title-field" type="text" class="form-control"  [(ngModel)]="currentSurveyPage.label.value"/>
+						</div>
+					</div>
+			</div>
+		</div>
+		<app-nested-drag-and-drop-list  [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+		<div class="row">
+				<div class="col-md-12">
+					<hr class="separator-hr" />
+				</div>
+			</div>
+		<div>
+			<button class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
+					Delete Page
+			</button> 
+		</div>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
+		<div class="page-editor" *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>
+		<div class="row justify-content-center">
+			<div>
+				<button class="btn btn-primary" (click)="saveThankYouPage()">
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div bsModal #createPageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Create Page Modal"
+			aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> New Survey Page</h4>
+				<button type="button" class="close pull-right" title="Close" (click)="createPageModal.hide()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal form-label-left" role="form" (ngSubmit)="createPage(newPageTitle)">
+					<div class="form-group row">
+						<label for="normal-field" class="col-md-4  col-form-label text-md-right">Page Title</label>
+						<div class="col-md-7 ">
+							<input type="text" id="normal-field" class="form-control" placeholder="Page Title" [(ngModel)]="newPageTitle" name="pageTitle">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<hr class="edit-last-separator-hr" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<div class="pull-right">
+								<button type="submit" class="btn btn-primary action-button" (click)="createPageModal.hide()" title="Create New Page">Create Page</button>
+								<button type="button" class="btn btn-danger" (click)="createPageModal.hide()" title="Cancel">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
