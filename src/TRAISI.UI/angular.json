@@ -190,7 +190,7 @@
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"deployUrl": "/survey/",
-
+						"progress": false,
 						"outputPath": "dist/survey-viewer-app",
 						"index": "src/survey-viewer-app/index.html",
 						"main": "src/survey-viewer-app/main.ts",
