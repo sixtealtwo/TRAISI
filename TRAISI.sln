@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -24,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.Questions", "src\TRA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FD1415FB-E7A1-4172-A24C-4ACB0E914DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRAISI.IntegrationTests", "test\TRAISI.IntegrationTests\TRAISI.IntegrationTests.csproj", "{FDF537FC-45CF-4891-902F-7F28733658EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.IntegrationTests", "test\TRAISI.IntegrationTests\TRAISI.IntegrationTests.csproj", "{FDF537FC-45CF-4891-902F-7F28733658EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRAISI.UnitTests", "test\TRAISI.UnitTests\TRAISI.UnitTests.csproj", "{77031B26-BD59-4439-9D1E-7A689EEE5DA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.UnitTests", "test\TRAISI.UnitTests\TRAISI.UnitTests.csproj", "{77031B26-BD59-4439-9D1E-7A689EEE5DA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,30 +87,6 @@ Global
 		{EC23B30D-19D5-478A-BE1A-58E06A661C63}.Release|x64.Build.0 = Release|Any CPU
 		{EC23B30D-19D5-478A-BE1A-58E06A661C63}.Release|x86.ActiveCfg = Release|Any CPU
 		{EC23B30D-19D5-478A-BE1A-58E06A661C63}.Release|x86.Build.0 = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|x64.Build.0 = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Debug|x86.Build.0 = Debug|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|x64.ActiveCfg = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|x64.Build.0 = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|x86.ActiveCfg = Release|Any CPU
-		{65AA16F7-8CB3-4066-B6F9-47AF72F025A6}.Release|x86.Build.0 = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|x64.Build.0 = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Debug|x86.Build.0 = Debug|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|x64.ActiveCfg = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|x64.Build.0 = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|x86.ActiveCfg = Release|Any CPU
-		{3301E0C5-A076-4171-966A-376CDD2D23E0}.Release|x86.Build.0 = Release|Any CPU
 		{FDF537FC-45CF-4891-902F-7F28733658EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FDF537FC-45CF-4891-902F-7F28733658EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDF537FC-45CF-4891-902F-7F28733658EA}.Debug|x64.ActiveCfg = Debug|Any CPU
