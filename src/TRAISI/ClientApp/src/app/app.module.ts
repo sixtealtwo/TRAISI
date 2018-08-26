@@ -33,7 +33,6 @@ import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
-import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
 import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
 
@@ -65,7 +64,6 @@ const APP_PROVIDERS = [AppConfig];
 		LastElementDirective,
 		AutofocusDirective,
 		BootstrapTabDirective,
-		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
 		BootstrapSelectDirective
 	],
