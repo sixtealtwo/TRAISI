@@ -1,0 +1,15 @@
+<div class="form-group form-group-adjust row">
+	<label for="{{ 'date-' + id }}" class="col-md-3 col-form-label text-md-right">{{ questionConfiguration.name}}</label>
+	<div class="col-md-9 map-container">
+		<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)">
+			<mgl-control mglNavigation position="top-left"></mgl-control>
+			<mgl-marker [lngLat]="markerPosition" mglDraggable>
+				<img class="mapMarker" draggable="false" src="assets/img/map-markers/default-marker.png" />
+			</mgl-marker>
+		</mgl-map>
+		<div class="locationDisplay">
+			<label>Location Selected: {{ markerPosition.lat | number }}, {{ markerPosition.lng | number }}</label>
+		</div>
+	</div>
+
+</div>

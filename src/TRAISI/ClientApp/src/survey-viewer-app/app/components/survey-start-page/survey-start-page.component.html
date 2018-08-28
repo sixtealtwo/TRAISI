@@ -1,0 +1,19 @@
+
+<div class="welcome-container">
+
+	<h1> {{ survey.titleText }}</h1>
+	{{ surveyName }}
+
+	<form  #f="ngForm" name="startSurveyForm"  (ngSubmit)="f.form.valid ? startSurvey() : showErrorAlert('Shortcode is required', 'Please enter a valid shortcode')" >
+
+	<input [(ngModel)]="shortcode" name="shortcode" required minlength="4" >
+
+	<div class="clearfix survey-start-button ">
+		<div class="col-md-4 text-center">
+			<button type="submit" class="btn btn-primary " [disabled]="isLoading"><i *ngIf="isLoading" class='fa fa-circle-o-notch fa-spin'></i> {{isLoading ? 'Loggin in...' : 'Start Survey'}}</button>
+		</div>
+	</div>
+
+	</form>
+
+</div>

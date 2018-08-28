@@ -4,7 +4,7 @@ import {SurveyViewerContainerComponent} from '../components/survey-viewer-contai
 import {SurveyStartPageComponent} from '../components/survey-start-page/survey-start-page.component';
 import {SurveyTermsPageComponent} from '../components/survey-terms-page/survey-terms-page.component';
 import {SurveyErrorComponent} from '../components/survey-error/survey-error.component';
-import {SurveyAuthGuard} from "../services/survey-auth-guard.service";
+import {SurveyAuthGuard} from "../../../admin-app/app/survey-viewer/services/survey-auth-guard.service";
 
 const routes: Routes = [
 	{
@@ -24,3 +24,4 @@ const routes: Routes = [
 ];
 
 export const ROUTES = RouterModule.forChild(routes);
+

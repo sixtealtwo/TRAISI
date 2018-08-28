@@ -1,0 +1,89 @@
+@import '../../scss/helpers.scss';
+
+.order-correct {
+	z-index:-1;
+}
+
+.new-page-tab {
+  color: white !important;
+
+  &:hover {
+    background-color: #447cb5 !important;
+    color: white !important;
+  }
+}
+
+#pagesList
+{
+	max-width: none !important;
+	display: inline-block;
+	vertical-align:bottom;
+
+}
+
+.page-editor {
+	border: 1px inset gray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+li.pagetab {
+	list-style:none;
+}
+
+li.pagetab a{
+	display: block;
+	text-decoration: none;
+}
+
+li.pagetab > a{
+	position: relative;
+	color: unset;
+	line-height: 28px;
+}
+
+.raised-tab {
+	margin-top:-8px;
+	background-color: $gray-100;
+	border-top-right-radius: 5px;
+	border-top-left-radius:5px;
+	border-left:1px solid $gray-600;
+	border-top:1px solid $gray-600;
+	border-right:1px solid $gray-600;
+}
+
+.separator-hr {
+	margin: 7px 5px;
+	border-top-style: dashed;
+}
+
+.edit-separator-hr {
+	margin: 10px 0px 10px 0px;
+	border-top-style: dashed;
+}
+
+.last-separator-hr {
+	margin-top: 5px;
+}
+
+.edit-last-separator-hr {
+	margin-top: 15px;
+}
+
+.horiz-scroll {
+	max-width: 30vw;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap !important;
+}
+
+.nowrap {
+	white-space: nowrap !important;
+}
+
+.new-page-button {
+	float:right;
+	width: 100px;
+	margin-top: 5px;
+}
