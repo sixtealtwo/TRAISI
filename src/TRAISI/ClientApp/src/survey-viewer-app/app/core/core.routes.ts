@@ -4,7 +4,7 @@ import {SurveyViewerContainerComponent} from '../components/survey-viewer-contai
 import {SurveyStartPageComponent} from '../components/survey-start-page/survey-start-page.component';
 import {SurveyTermsPageComponent} from '../components/survey-terms-page/survey-terms-page.component';
 import {SurveyErrorComponent} from '../components/survey-error/survey-error.component';
-import {SurveyAuthGuard} from "../../../admin-app/app/survey-viewer/services/survey-auth-guard.service";
+
 
 const routes: Routes = [
 	{
@@ -14,11 +14,11 @@ const routes: Routes = [
 		children: [
 			{path: '', redirectTo: 'start', pathMatch: 'full'},
 			{path: 'start', component: SurveyStartPageComponent},
-			{path: 'terms', component: SurveyTermsPageComponent, canActivate: [SurveyAuthGuard]},
-			{path: 'viewer', redirectTo: 'viewer/1', pathMatch: 'full', canActivate: [SurveyAuthGuard],},
+			{path: 'terms', component: SurveyTermsPageComponent},
+			{path: 'viewer', redirectTo: 'viewer/1', pathMatch: 'full'},
 			{path: 'error', component: SurveyErrorComponent},
-			{path: ':page', component: SurveyViewerComponent, canActivate: [SurveyAuthGuard],},
-			{path: 'viewer/:viewId', component: SurveyViewerComponent, canActivate: [SurveyAuthGuard],}
+			{path: ':page', component: SurveyViewerComponent},
+			{path: 'viewer/:viewId', component: SurveyViewerComponent}
 		]
 	}
 ];

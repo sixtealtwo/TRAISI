@@ -1,7 +1,7 @@
-import { EndpointFactory } from '../../services/endpoint-factory.service';
+import {EndpointFactory} from '../../../admin-app/app/services/endpoint-factory.service';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from '../../services/configuration.service';
+import {ConfigurationService} from '../../../admin-app/app/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 

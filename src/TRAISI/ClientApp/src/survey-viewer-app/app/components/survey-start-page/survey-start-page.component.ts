@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AlertService, MessageSeverity } from '../../../services/alert.service';
+
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
-import { AuthService } from '../../../services/auth.service';
-import { User } from '../../../models/user.model';
+import {AlertService, MessageSeverity} from "../../../../admin-app/app/services/alert.service";
+import {User} from "../../../../admin-app/app/models/user.model";
+
 
 @Component({
 	selector: 'traisi-survey-start-page',

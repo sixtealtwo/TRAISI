@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
-import {AuthService} from "../../admin-app/app/services/auth.service";
-import {AuthGuard} from "./services/survey-auth-guard.service";
+
 
 
 
@@ -19,6 +18,6 @@ import {AuthGuard} from "./services/survey-auth-guard.service";
 		)
 	],
 	exports: [RouterModule],
-	providers: [AuthService, AuthGuard]
+	providers: []
 })
 export class AppRoutingModule {}

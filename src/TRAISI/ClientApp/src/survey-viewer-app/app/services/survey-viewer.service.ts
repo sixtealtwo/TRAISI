@@ -6,11 +6,12 @@ import 'rxjs/add/observable/of';
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
-import { AuthService } from 'admin-app/app/services/auth.service';
-import { User } from 'admin-app/app/models/user.model';
+
 import { SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
 import { QuestionOption } from 'traisi-question-sdk';
 import {L} from "@angular/core/src/render3";
+import {AuthService} from "../../../admin-app/app/services/auth.service";
+import {User} from "../../../admin-app/app/models/user.model";
 @Injectable({
 	providedIn: 'root'
 })

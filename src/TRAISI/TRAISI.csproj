@@ -55,6 +55,8 @@
          <Content Remove="..\TRAISI.UI\questions\**" /> -->
         <Content Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <None Remove="ClientApp\dist\**"/>
+        <Content Remove="ClientApp\dist\**"/>
     </ItemGroup>
     <ItemGroup>
         <!--<EmbeddedResource Remove="..\TRAISI.UI\questions\**" />
@@ -63,6 +65,15 @@
     <ItemGroup>
         <Folder Include="Logs\" />
         <Folder Include="Migrations\" />
+    </ItemGroup>
+    <ItemGroup>
+        <DistFiles Remove="ClientApp\dist\**"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="ClientApp\dist\**"/>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="ClientApp\dist\**"/>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,7 +1,7 @@
-import { EndpointFactory } from 'admin-app/app/services/endpoint-factory.service';
+import {EndpointFactory} from '../../../admin-app/app/services/endpoint-factory.service';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from 'admin-app/app/services/configuration.service';
+import {ConfigurationService} from '../../../admin-app/app/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { SurveyViewType } from '../models/survey-view-type.enum';
@@ -209,7 +209,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param configurations
 	 * @param injector
 	 */
-	constructor(private http: HttpClient, configurations: ConfigurationService, injector: Injector) {
+	constructor(public http: HttpClient, configurations: ConfigurationService, injector: Injector) {
 		super(http, configurations, injector);
 	}
 }

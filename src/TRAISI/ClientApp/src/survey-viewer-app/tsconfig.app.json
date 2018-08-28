@@ -9,14 +9,21 @@
 		"module": "es2015",
 		"types": ["node"],
 		"paths": {
-			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/"],
+			"traisi-question-sdk": [
+				"../../../../TRAISI.SDK/Module/"
+			],
 			"admin-app": [
 				"../admin-app/app/"
 			]
 		}
 	},
+	"include": [
+		"../admin-app/**/*.ts",
+		"**/*.ts"
+	],
 	"exclude": [
 		"src/test.ts",
+		"../admin-app/**/*.spec.ts",
 		"**/*.spec.ts"
 	]
 }
