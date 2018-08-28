@@ -326,7 +326,7 @@ namespace TRAISI {
 					// To learn more about options for serving an Angular SPA from ASP.NET Core,
 					// see https://go.microsoft.com/fwlink/?linkid=864501
 
-					spa.Options.SourcePath = "../TRAISI.UI/";
+					spa.Options.SourcePath = "ClientApp/";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start");
@@ -338,7 +338,7 @@ namespace TRAISI {
 					// To learn more about options for serving an Angular SPA from ASP.NET Core,
 					// see https://go.microsoft.com/fwlink/?linkid=864501
 
-					spa.Options.SourcePath = "../TRAISI.UI/";
+					spa.Options.SourcePath = "ClientApp/";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app");

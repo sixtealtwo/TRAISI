@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/observable/of';
-
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
-import { AuthService } from 'app/services/auth.service';
-import { User } from 'app/models/user.model';
 import { SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
 import { QuestionOption } from 'traisi-question-sdk';
 import {L} from "@angular/core/src/render3";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user.model";
 @Injectable({
 	providedIn: 'root'
 })

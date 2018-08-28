@@ -6,6 +6,9 @@ import {CoreModule} from "./core/core-module.module";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
+import {LocalStoreManager} from "../../admin-app/app/services/local-store-manager.service";
+import {EndpointFactory} from "../../admin-app/app/services/endpoint-factory.service";
+import {AppRoutingModule} from "../../admin-app/app/app-routing.module";
 
 @NgModule({
 	declarations: [
@@ -14,12 +17,17 @@ import {FormsModule} from "@angular/forms";
 	],
 	imports: [
 		BrowserModule,
-		CoreModule,
 		HttpClientModule,
 		BrowserAnimationsModule,
-		FormsModule
+		FormsModule,
+		AppRoutingModule,
+		CoreModule
 	],
-	providers: [],
+	providers: [
+
+		LocalStoreManager,
+		EndpointFactory,
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

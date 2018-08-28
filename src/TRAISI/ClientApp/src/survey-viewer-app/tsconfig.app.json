@@ -1,5 +1,8 @@
 {
 	"extends": "../../tsconfig.json",
+	"references": [
+		{ "path": "../admin-app"}
+	],
 	"compilerOptions": {
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
@@ -7,7 +10,7 @@
 		"types": ["node"],
 		"paths": {
 			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/"],
-			"survey-app": [
+			"admin-app": [
 				"../admin-app/app/"
 			]
 		}

@@ -29,5 +29,7 @@
 			"echarts": ["./echarts/dist/echarts-en.min.js"]
 		}
 	},
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules",
+		"src/test.ts",
+		"**/*.spec.ts"]
 }
