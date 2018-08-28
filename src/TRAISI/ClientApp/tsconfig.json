@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+	"compileOnSave": false,
 	"compilerOptions": {
 		"outDir": "./dist/out-tsc",
 		"sourceMap": true,
@@ -20,16 +20,23 @@
 		],
 		"baseUrl": "src",
 		"paths": {
-			"traisi-question-sdk":[
+			"traisi-question-sdk": [
 				"../../../TRAISI.SDK/Module/"
 			],
 			"questions/*": [
 				"../../Questions/*"
 			],
-			"echarts": ["./echarts/dist/echarts-en.min.js"]
+			"echarts": [
+				"./echarts/dist/echarts-en.min.js"
+			]
 		}
 	},
-	"exclude": ["node_modules",
+	"include": [
+		"./src/shared/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
 		"src/test.ts",
-		"**/*.spec.ts"]
+		"**/*.spec.ts"
+	]
 }

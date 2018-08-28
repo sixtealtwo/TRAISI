@@ -1,28 +1,34 @@
 {
-	"extends": "../../tsconfig.json",
-	"references": [
-		{ "path": "../admin-app"}
-	],
+
+
 	"compilerOptions": {
+		"lib": [
+			"es2017",
+			"dom"
+		],
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"declaration": false,
+		"moduleResolution": "node",
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
+		"target": "es5",
 		"module": "es2015",
 		"types": ["node"],
 		"paths": {
+
 			"traisi-question-sdk": [
 				"../../../../TRAISI.SDK/Module/"
-			],
-			"admin-app": [
-				"../admin-app/app/"
 			]
 		}
 	},
 	"include": [
-		"../admin-app/**/*.ts",
-		"**/*.ts"
+		"../shared/**/*.ts",
+		"./**/*.ts"
 	],
 	"exclude": [
 		"src/test.ts",
+		"../admin-app/**/*.ts",
 		"../admin-app/**/*.spec.ts",
 		"**/*.spec.ts"
 	]

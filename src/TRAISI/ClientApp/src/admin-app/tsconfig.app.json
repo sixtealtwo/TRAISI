@@ -12,5 +12,9 @@
 			"smooth-dnd": ["../../local_node_modules/smooth-dnd/"]
 		}
 	},
+	"include": [
+		"../shared/**/*.ts",
+		"**/*.ts"
+	],
 	"exclude": ["test.ts", "**/*.spec.ts", "**/node_modules/**"]
 }
