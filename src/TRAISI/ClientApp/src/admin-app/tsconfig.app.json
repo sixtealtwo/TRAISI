@@ -6,7 +6,9 @@
 		"module": "es2015",
 		"types": ["node"],
 		"paths": {
-			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/"],
+			"traisi-question-sdk": [
+				"../../../../TRAISI.SDK/Module/"
+			],
 			"smooth-dnd": ["../../local_node_modules/smooth-dnd/"]
 		}
 	},
