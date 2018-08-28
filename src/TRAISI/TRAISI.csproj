@@ -49,54 +49,54 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\questions\**" />
+    <Compile Remove="../TRAISI.UI\questions\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\questions\**" />
+    <Content Remove="../TRAISI.UI\questions\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="ClientApp\questions\**" />
-    <None Remove="ClientApp\questions\**" />
+    <EmbeddedResource Remove="../TRAISI.UI\questions\**" />
+    <None Remove="../TRAISI.UI\questions\**" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="ClientApp\projects\survey-viewer-app-e2e\tsconfig.e2e.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\e2e\tsconfig.e2e.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\angular.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\icon\manifest.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\ar.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\de.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\en.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\fr.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\ko.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\locale\pt.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\maps\tts-zones-pd.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\dist\admin-app\assets\maps\tts-zones.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\local_node_modules\smooth-dnd\package.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\package-lock.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\package.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\icon\manifest.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\ar.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\de.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\en.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\fr.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\ko.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\locale\pt.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\maps\tts-zones-pd.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\assets\maps\tts-zones.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\tsconfig.app.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\tsconfig.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\admin-app\tsconfig.spec.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\e2e\tsconfig.e2e.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\survey-viewer-app-e2e\tsconfig.e2e.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\survey-viewer-app\tsconfig.app.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\survey-viewer-app\tsconfig.spec.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\src\survey-viewer-app\tslint.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\tsconfig.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\tslint.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\projects\survey-viewer-app-e2e\tsconfig.e2e.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\e2e\tsconfig.e2e.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\angular.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\icon\manifest.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\ar.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\de.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\en.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\fr.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\ko.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\locale\pt.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\maps\tts-zones-pd.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\dist\admin-app\assets\maps\tts-zones.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\local_node_modules\smooth-dnd\package.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\package-lock.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\package.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\icon\manifest.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\ar.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\de.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\en.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\fr.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\ko.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\locale\pt.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\maps\tts-zones-pd.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\assets\maps\tts-zones.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\tsconfig.app.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\tsconfig.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\admin-app\tsconfig.spec.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\e2e\tsconfig.e2e.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\survey-viewer-app-e2e\tsconfig.e2e.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\survey-viewer-app\tsconfig.app.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\survey-viewer-app\tsconfig.spec.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\src\survey-viewer-app\tslint.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\tsconfig.json" />
+    <_ContentIncludedByDefault Remove="../TRAISI.UI\tslint.json" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
@@ -116,8 +116,8 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**" />
-      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <!--<DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" /> -->
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

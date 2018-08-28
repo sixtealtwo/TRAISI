@@ -1,12 +1,19 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../out-tsc/app",
-    "module": "es2015",
-    "types": []
-  },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../out-tsc/app",
+		"baseUrl": "./",
+		"module": "es2015",
+		"types": ["node"],
+		"paths": {
+			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/"],
+			"survey-app": [
+				"../admin-app/app/"
+			]
+		}
+	},
+	"exclude": [
+		"src/test.ts",
+		"**/*.spec.ts"
+	]
 }

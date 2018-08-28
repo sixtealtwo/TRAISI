@@ -12,7 +12,7 @@ import {Observable} from "rxjs";
 import {Permission} from "../../models/permission.model";
 
 @Injectable()
-export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
+export class SurveyAuthGuard implements CanActivate, CanActivateChild, CanLoad {
 	constructor(private authService: AuthService, private router: Router) {
 	}
 
