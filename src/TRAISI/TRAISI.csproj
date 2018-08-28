@@ -63,7 +63,6 @@
         <None Remove="..\TRAISI.UI\questions\**" /> -->
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="ClientApp\src\shared\services" />
         <Folder Include="Logs\" />
         <Folder Include="Migrations\" />
     </ItemGroup>
