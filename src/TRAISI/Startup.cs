@@ -39,11 +39,11 @@ namespace TRAISI {
 		private readonly IHostingEnvironment _hostingEnvironment;
 
 
-	    /// <summary>
-	    /// </summary>
-	    /// <param name="configuration"></param>
-	    /// <param name="env"></param>
-	    public Startup(IConfiguration configuration, IHostingEnvironment env) {
+		/// <summary>
+		/// </summary>
+		/// <param name="configuration"></param>
+		/// <param name="env"></param>
+		public Startup(IConfiguration configuration, IHostingEnvironment env) {
 			Configuration = configuration;
 			_hostingEnvironment = env;
 		}
@@ -51,10 +51,10 @@ namespace TRAISI {
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-	    /// <summary>
-	    /// </summary>
-	    /// <param name="services"></param>
-	    public void ConfigureServices(IServiceCollection services) {
+		/// <summary>
+		/// </summary>
+		/// <param name="services"></param>
+		public void ConfigureServices(IServiceCollection services) {
 			services.AddDbContext<ApplicationDbContext>(options => {
 				bool.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value,
 					out var development);
@@ -145,7 +145,6 @@ namespace TRAISI {
 
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
-
 
 
 			// Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
@@ -330,14 +329,12 @@ namespace TRAISI {
 
 					spa.Options.SourcePath = "ClientApp/";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
-				    spa.Options.DefaultPage = "/admin/index.html";
-               
+					spa.Options.DefaultPage = "/admin/index.html";
+
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start");
 				});
-
-               
-            });
+			});
 
 			app.MapWhen(p => p.Request.Path.StartsWithSegments("/survey"), surveyApp => {
 				surveyApp.UseSpa(spa => {
@@ -345,8 +342,8 @@ namespace TRAISI {
 					// see https://go.microsoft.com/fwlink/?linkid=864501
 
 					spa.Options.SourcePath = "ClientApp/";
-				    spa.Options.DefaultPage = "/survey/index.html";
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
+					spa.Options.DefaultPage = "/survey/index.html";
+					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app");
 				});
