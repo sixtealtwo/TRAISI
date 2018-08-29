@@ -14,12 +14,22 @@ import {SurveyViewerService} from "./services/survey-viewer.service";
 import {AuthService} from "../../shared/services/auth.service";
 import {SurveyViewerEndpointService} from "./services/survey-viewer-endpoint.service";
 import {SurveyErrorComponent} from "./components/survey-error/survey-error.component";
+import {SurveyStartPageComponent} from "./components/survey-start-page/survey-start-page.component";
+import {LocalStoreManager} from "../../shared/services/local-store-manager.service";
+import {AppTranslationService} from "../../shared/services/app-translation.service";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateLanguageLoader} from "../../admin-app/app/services/app-translation.service";
+import {EndpointFactory} from "../../shared/services/endpoint-factory.service";
+import {ConfigurationService} from "../../shared/services/configuration.service";
+import {QuestionLoaderEndpointService} from "./services/question-loader-endpoint.service";
 
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		SurveyErrorComponent
+		SurveyViewerContainerComponent,
+		SurveyErrorComponent,
+		SurveyStartPageComponent
 
 	],
 	imports: [
@@ -27,25 +37,26 @@ import {SurveyErrorComponent} from "./components/survey-error/survey-error.compo
 		HttpClientModule,
 		BrowserAnimationsModule,
 		FormsModule,
-		RouterModule.forRoot(
-			[
-				{
-					path: '',
-					redirectTo: 'test',
-					pathMatch: 'full'
-				},
-				{
-					path: 'test',
-					component: SurveyErrorComponent
-				}
-			]),
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useClass: TranslateLanguageLoader
+			}
+		}),
+		AppRoutingModule
+
 
 	],
 	providers: [
-
+		EndpointFactory,
+		QuestionLoaderEndpointService,
+		ConfigurationService,
+		AppTranslationService,
+		LocalStoreManager,
+		SurveyViewerEndpointService,
 		AlertService
 	],
-	bootstrap: [AppComponent]
+	bootstrap: [SurveyViewerContainerComponent]
 })
 export class AppModule {
 }

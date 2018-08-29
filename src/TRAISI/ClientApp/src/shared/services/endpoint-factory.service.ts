@@ -3,7 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
 import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';

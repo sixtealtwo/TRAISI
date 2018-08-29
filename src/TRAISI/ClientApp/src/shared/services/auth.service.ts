@@ -3,8 +3,6 @@ import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable ,  Subject } from 'rxjs';
-
-
 import { LocalStoreManager } from './local-store-manager.service';
 import { EndpointFactory } from './endpoint-factory.service';
 import { ConfigurationService } from './configuration.service';
