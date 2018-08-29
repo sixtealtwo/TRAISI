@@ -19,6 +19,7 @@ import {AlertService} from "../../shared/services/alert.service";
 		BrowserAnimationsModule,
 		FormsModule,
 
+
 	],
 	providers: [
 		AlertService

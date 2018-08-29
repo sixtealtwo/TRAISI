@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
+import {AuthGuard} from "../../admin-app/app/services/auth-guard.service";
+import {SurveyViewerContainerComponent} from "./components/survey-viewer-container/survey-viewer-container.component";
 
 
 
@@ -10,8 +12,8 @@ import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 			[
 				{
 					path: '',
-					redirectTo: 'start',
-					pathMatch: 'full'
+					pathMatch: 'full',
+					component: SurveyViewerContainerComponent
 				}
 				]
 
@@ -21,3 +23,5 @@ import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 	providers: []
 })
 export class AppRoutingModule {}
+
+
