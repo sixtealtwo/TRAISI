@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SurveyViewerService} from "../../services/survey-viewer.service";
+import {SurveyViewerService} from '../../services/survey-viewer.service';
 
 @NgModule({
 	imports: [
