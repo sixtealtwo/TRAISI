@@ -1,6 +1,6 @@
 import {Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {QuestionLoaderService} from "../../services/question-loader.service";
-import {NgTemplateOutlet} from "@angular/common";
+import {QuestionLoaderService} from '../../services/question-loader.service';
+import {NgTemplateOutlet} from '@angular/common';
 
 @Component({
 	selector: 'traisi-question-container',
@@ -14,7 +14,7 @@ export class QuestionContainerComponent implements OnInit {
 	question: any;
 
 
-	@ViewChild("questionTemplate", {read: ViewContainerRef}) questionOutlet: ViewContainerRef;
+	@ViewChild('questionTemplate', {read: ViewContainerRef}) questionOutlet: ViewContainerRef;
 
 
 	isLoaded: boolean = false;

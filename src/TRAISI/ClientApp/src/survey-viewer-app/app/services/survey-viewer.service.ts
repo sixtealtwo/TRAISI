@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
-import { Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {SurveyViewerEndpointService} from './survey-viewer-endpoint.service';
+import {Observable, Subject} from 'rxjs';
 import 'rxjs/add/observable/of';
-import { SurveyStart } from '../models/survey-start.model';
-import { SurveyViewType } from '../models/survey-view-type.enum';
-import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
-import { SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
-import { QuestionOption } from 'traisi-question-sdk';
-import {L} from "@angular/core/src/render3";
-import {AuthService} from "../../../shared/services/auth.service";
-import {User} from "../../../shared/models/user.model";
+import {SurveyStart} from '../models/survey-start.model';
+import {SurveyViewType} from '../models/survey-view-type.enum';
+import {SurveyViewTermsModel} from '../models/survey-view-terms.model';
+import {SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
+import {QuestionOption} from 'traisi-question-sdk';
+import {L} from '@angular/core/src/render3';
+import {AuthService} from '../../../shared/services';
+import {User} from '../../../shared/models/user.model';
 
 
 @Injectable({
@@ -27,7 +27,7 @@ export class SurveyViewerService implements SurveyViewer {
 	 * @param authService
 	 */
 	constructor(private _surveyViewerEndpointService: SurveyViewerEndpointService,
-		private authService: AuthService) {
+				private authService: AuthService) {
 		this._activeSurveyId = -1;
 		this.restoreStatus();
 		this.configurationData = new Subject<QuestionConfiguration[]>();
@@ -73,10 +73,10 @@ export class SurveyViewerService implements SurveyViewer {
 	 * @param page
 	 * @param language
 	 */
-	public getSurveyViewerRespondentPageQuestions(surveyId:number, page:number, language?: string): Observable<any> {
+	public getSurveyViewerRespondentPageQuestions(surveyId: number, page: number, language?: string): Observable<any> {
 
 		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId,
-			page,language);
+			page, language);
 	}
 
 	/**
@@ -111,7 +111,8 @@ export class SurveyViewerService implements SurveyViewer {
 
 		result.subscribe((value: SurveyViewer) => {
 			this._activeSurveyId = surveyId;
-		}, error => {});
+		}, error => {
+		});
 		return result;
 	}
 
@@ -120,10 +121,9 @@ export class SurveyViewerService implements SurveyViewer {
 	 * @param surveyId
 	 * @param shortcode
 	 */
-	public surveyLogin(surveyId: number, shortcode: string): Observable<User>
-	{
+	public surveyLogin(surveyId: number, shortcode: string): Observable<User> {
 		return this.authService
-		.login(`${surveyId}_${shortcode}`, shortcode, true);
+			.login(`${surveyId}_${shortcode}`, shortcode, true);
 	}
 
 	/**
@@ -141,18 +141,15 @@ export class SurveyViewerService implements SurveyViewer {
 	 * @param questionId
 	 * @param query
 	 */
-	public getQuestionOptions(questionId: number, query: string = null)
-	{
+	public getQuestionOptions(questionId: number, query: string = null) {
 		return this._surveyViewerEndpointService.getQuestionOptionsEndpoint(questionId, query);
 	}
 
 	/**
 	 * Restores the state of the service if the user is currently logged in.
 	 */
-	private restoreStatus(): void
-	{
-		if (this.authService.isLoggedIn && this.authService.currentUser.roles.includes('respondent'))
-		{
+	private restoreStatus(): void {
+		if (this.authService.isLoggedIn && this.authService.currentUser.roles.includes('respondent')) {
 			this._activeSurveyId = +this.authService.currentSurveyUser.surveyId;
 
 			console.log(this._activeSurveyId);

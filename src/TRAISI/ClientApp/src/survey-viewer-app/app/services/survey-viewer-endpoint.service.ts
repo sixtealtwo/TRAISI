@@ -1,12 +1,11 @@
+import {Injectable, Injector} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { Observable } from 'rxjs';
-import { SurveyViewType } from '../models/survey-view-type.enum';
-import {EndpointFactory} from "../../../shared/services/endpoint-factory.service";
-import {ConfigurationService} from "../../../shared/services/configuration.service";
+import {catchError} from 'rxjs/internal/operators/catchError';
+import {Observable} from 'rxjs';
+import {SurveyViewType} from '../models/survey-view-type.enum';
+import {EndpointFactory} from '../../../shared/services/endpoint-factory.service';
+import {ConfigurationService} from '../../../shared/services/configuration.service';
 
 @Injectable()
 export class SurveyViewerEndpointService extends EndpointFactory {
@@ -44,7 +43,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 
 
 	private get getSurveyViewerRespondentPageQuestionsUrl() {
-		return this.configurations.baseUrl +'' + this._surveyViewerUrl + '/viewer';
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/viewer';
 	}
 
 	/**
@@ -65,7 +64,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () =>
-					this.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId,pageNumber,language)
+					this.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, pageNumber, language)
 				);
 			})
 		);
@@ -79,7 +78,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	) {
 		let endpointUrl = `${
 			this.getSurveyViewerTermsAndConditionsUrl
-		}/${surveyId}/terms/${viewType}/${language}`;
+			}/${surveyId}/terms/${viewType}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
@@ -96,6 +95,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 */
 	getSurveyViewerWelcomeViewEndpoint<T>(surveyName: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyName}`;
+
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {

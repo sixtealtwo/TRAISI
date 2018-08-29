@@ -42,7 +42,9 @@ export class SurveyStartPageComponent implements OnInit {
 
 		this.survey = new SurveyStart();
 		this.shortcode = '';
-		this.route.parent.params.subscribe(params => {
+
+		this.route.params.subscribe(params => {
+			console.log(params);
 			this.surveyName = params['surveyName'];
 
 			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(

@@ -28,23 +28,14 @@ export class SurveyViewerContainerComponent implements OnInit {
 		private route: ActivatedRoute,
 		private componentFactoryResolver: ComponentFactoryResolver
 	) {
+
+
 	}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
-		this.route.params.subscribe(params => {
 
-			console.log("in here");
-			this.surveyName = params['surveyName'];
-
-			// get the welcome view
-			this.surveyViewerService
-				.getWelcomeView(params['surveyName'])
-				.subscribe(value => {
-				}, error => {
-				});
-		});
 	}
 }

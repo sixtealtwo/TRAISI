@@ -4,38 +4,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {SurveyErrorComponent} from "../../components/survey-error/survey-error.component";
 import {AuthService} from "../../../../shared/services/auth.service";
 import {SurveyStartPageComponent} from "../../components/survey-start-page/survey-start-page.component";
+import {ROUTES} from './routes';
 
 @NgModule({
 	imports: [
 		CommonModule,
-		RouterModule.forRoot([
-
-			{
-				path: 'error',
-				component: SurveyErrorComponent
-
-			},
-			{
-				path: ':surveyName',
-				children: [
-					{
-						path: '',
-						redirectTo: 'start',
-						pathMatch: 'full'
-					}, {
-
-						path: 'error',
-						component: SurveyErrorComponent
-					},
-					{
-
-						path: 'start',
-						component: SurveyStartPageComponent
-					}
-				]
-
-			}
-		]),
+		ROUTES
 	],
 	declarations: [],
 	providers: [AuthService],

@@ -1,8 +1,6 @@
-
-import {of as observableOf,  Observable ,  Subject } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { TranslateService, TranslateLoader } from '@ngx-translate/core';
-
+import {of as observableOf, Observable, Subject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {TranslateService, TranslateLoader} from '@ngx-translate/core';
 
 
 @Injectable()
@@ -71,17 +69,14 @@ export class AppTranslationService {
 	}
 
 
-
 	languageChangedEvent() {
 		return this._languageChanged.asObservable();
 	}
 
-	}
+}
 
 
-
-
-	export class TranslateLanguageLoader implements TranslateLoader {
+export class TranslateLanguageLoader implements TranslateLoader {
 
 	/**
 	 * Gets the translations from webpack
@@ -97,14 +92,6 @@ export class AppTranslationService {
 				return observableOf(require('../../admin-app/assets/locale/en.json'));
 			case 'fr':
 				return observableOf(require('../../admin-app/assets/locale/fr.json'));
-			case 'de':
-				return observableOf(require('../../admin-app/assets/locale/de.json'));
-			case 'pt':
-				return observableOf(require('../../admin-app/assets/locale/pt.json'));
-			case 'ar':
-				return observableOf(require('../../admin-app/assets/locale/ar.json'));
-			case 'ko':
-				return observableOf(require('../../admin-app/assets/locale/ko.json'));
 			default:
 		}
 	}
