@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"paths": {
+				"traisi-question-sdk": [
+					"../../../../TRAISI.SDK/Module/"
+				],
+				"smooth-dnd": [
+					"../../local_node_modules/smooth-dnd/"
+				]
+			}
+		}
+	}
+}

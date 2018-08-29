@@ -261,3 +261,4 @@ dev.db
 src/TRAISI/extensions/
 
 traisi_testing.db
+!/src/TRAISI/ClientApp/local_node_modules/smooth-dnd/dist/

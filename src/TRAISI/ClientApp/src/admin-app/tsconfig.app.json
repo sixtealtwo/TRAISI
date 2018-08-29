@@ -1,0 +1,20 @@
+{
+"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../out-tsc/app",
+		"baseUrl": "./",
+		"module": "es2015",
+		"types": ["node"],
+		"paths": {
+			"traisi-question-sdk": [
+				"../../../../TRAISI.SDK/Module/"
+			],
+			"smooth-dnd": ["../../local_node_modules/smooth-dnd/"]
+		}
+	},
+	"include": [
+		"../shared/**/*.ts",
+		"**/*.ts"
+	],
+	"exclude": ["test.ts", "**/*.spec.ts", "**/node_modules/**"]
+}
