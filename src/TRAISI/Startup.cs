@@ -345,7 +345,7 @@ namespace TRAISI {
 					spa.Options.DefaultPage = "/survey/index.html";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
-					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app");
+					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app --watch --live-reload");
 				});
 			});
 		}
