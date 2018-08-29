@@ -39,7 +39,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
-		console.log("in start");
+
 		this.survey = new SurveyStart();
 		this.shortcode = '';
 		this.route.parent.params.subscribe(params => {
@@ -50,7 +50,7 @@ export class SurveyStartPageComponent implements OnInit {
 					this.survey = value;
 				},
 				error => {
-					this.router.navigate([this.surveyName, 'error'], {relativeTo: this.route});
+					this.router.navigate(['/', this.surveyName, 'error'], {relativeTo: this.route});
 				}
 			);
 		});

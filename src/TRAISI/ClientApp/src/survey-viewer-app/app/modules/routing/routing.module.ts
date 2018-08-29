@@ -22,6 +22,16 @@ import {SurveyStartPageComponent} from "../../components/survey-start-page/surve
 					children: [
 						{
 							path: '',
+							redirectTo: 'start',
+							pathMatch: 'full'
+						}, {
+
+							path: 'error',
+							component: SurveyErrorComponent
+						},
+						{
+
+							path: 'start',
 							component: SurveyStartPageComponent
 						}
 					]
