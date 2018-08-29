@@ -94,17 +94,17 @@ export class AppTranslationService {
 
 		switch (lang) {
 			case 'en':
-				return observableOf(require('../../assets/locale/en.json'));
+				return observableOf(require('../../admin-app/assets/locale/en.json'));
 			case 'fr':
-				return observableOf(require('../../assets/locale/fr.json'));
+				return observableOf(require('../../admin-app/assets/locale/fr.json'));
 			case 'de':
-				return observableOf(require('../../assets/locale/de.json'));
+				return observableOf(require('../../admin-app/assets/locale/de.json'));
 			case 'pt':
-				return observableOf(require('../../assets/locale/pt.json'));
+				return observableOf(require('../../admin-app/assets/locale/pt.json'));
 			case 'ar':
-				return observableOf(require('../../assets/locale/ar.json'));
+				return observableOf(require('../../admin-app/assets/locale/ar.json'));
 			case 'ko':
-				return observableOf(require('../../assets/locale/ko.json'));
+				return observableOf(require('../../admin-app/assets/locale/ko.json'));
 			default:
 		}
 	}

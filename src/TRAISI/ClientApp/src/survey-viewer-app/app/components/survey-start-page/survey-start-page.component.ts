@@ -39,6 +39,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+		console.log("in start");
 		this.survey = new SurveyStart();
 		this.shortcode = '';
 		this.route.parent.params.subscribe(params => {

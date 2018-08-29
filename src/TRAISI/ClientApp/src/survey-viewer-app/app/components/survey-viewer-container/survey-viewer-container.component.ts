@@ -35,6 +35,8 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 */
 	ngOnInit() {
 		this.route.params.subscribe(params => {
+
+			console.log("in here");
 			this.surveyName = params['surveyName'];
 
 			// get the welcome view
