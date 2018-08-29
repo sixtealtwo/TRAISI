@@ -63,6 +63,7 @@
         <None Remove="..\TRAISI.UI\questions\**" /> -->
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="ClientApp\src\survey-viewer-app\app\components" />
         <Folder Include="Logs\" />
         <Folder Include="Migrations\" />
     </ItemGroup>
