@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Observable, Subject } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { HubConnectionBuilder, HubConnection, LogLevel } from '@aspnet/signalr';
 import { DownloadNotification } from '../models/download-notification';
 

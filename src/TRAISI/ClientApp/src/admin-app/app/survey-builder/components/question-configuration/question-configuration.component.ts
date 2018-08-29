@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionPartView } from '../../models/question-part-view.model';
-import { AuthService } from '../../../services/auth.service';
-import { ConfigurationService } from '../../../services/configuration.service';
+import { AuthService } from '../../../../../shared/services/auth.service';
+import { ConfigurationService } from '../../../../../shared/services/configuration.service';
 import { CheckboxComponent } from './checkbox-field/checkbox.component';
 import { QuestionConfigurationDefinition } from '../../models/question-configuration-definition.model';
 import { DateInputComponent } from './date-input-field/date-input.component';

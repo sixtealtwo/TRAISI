@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnInit, ViewChild, EventEmitter, Output }
 import { SurveyService } from '../../services/survey.service';
 import { Survey } from '../../models/survey.model';
 import { UserGroupService } from '../../services/user-group.service';
-import { AlertService, MessageSeverity } from '../../services/alert.service';
+import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { Select2OptionData } from 'ng2-select2';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
-import { AlertService, DialogType, MessageSeverity } from '../../../services/alert.service';
-import { Utilities } from '../../../services/utilities';
+import { AlertService, DialogType, MessageSeverity } from '../../../../../shared/services/alert.service';
+import { Utilities } from '../../../../../shared/services/utilities';
 import { ModalDirective } from 'ngx-bootstrap';
 import { QuestionConfigurationComponent } from '../question-configuration/question-configuration.component';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';

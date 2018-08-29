@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, ElementRef, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../app.config';
-import { AppTranslationService } from '../../services/app-translation.service';
-import { ConfigurationService } from '../../services/configuration.service';
+import { AppTranslationService } from '../../../../shared/services/app-translation.service';
+import { ConfigurationService } from '../../../../shared/services/configuration.service';
 import { Location } from '@angular/common';
 declare let jQuery: JQueryStatic;
 

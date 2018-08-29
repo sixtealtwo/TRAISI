@@ -24,10 +24,10 @@ import { AppRoutingModule } from './app-routing.module';
 import {
 	AppTranslationService,
 	TranslateLanguageLoader
-} from './services/app-translation.service';
+} from '../../shared/services/app-translation.service';
 
-import { LocalStoreManager } from './services/local-store-manager.service';
-import { EndpointFactory } from './services/endpoint-factory.service';
+import { LocalStoreManager } from '../../shared/services/local-store-manager.service';
+import { EndpointFactory } from '../../shared/services/endpoint-factory.service';
 
 import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';

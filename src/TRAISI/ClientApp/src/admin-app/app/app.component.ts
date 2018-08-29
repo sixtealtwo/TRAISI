@@ -18,15 +18,15 @@ import {
 	DialogType,
 	AlertMessage,
 	MessageSeverity
-} from './services/alert.service';
+} from '../../shared/services/alert.service';
 import { NotificationService } from './services/notification.service';
-import { AppTranslationService } from './services/app-translation.service';
+import { AppTranslationService } from '../../shared/services/app-translation.service';
 import { AccountService } from './services/account.service';
-import { LocalStoreManager } from './services/local-store-manager.service';
+import { LocalStoreManager } from '../../shared/services/local-store-manager.service';
 import { AppTitleService } from './services/app-title.service';
-import { AuthService } from './services/auth.service';
-import { ConfigurationService } from './services/configuration.service';
-import { Permission } from './models/permission.model';
+import { AuthService } from '../../shared/services/auth.service';
+import { ConfigurationService } from '../../shared/services/configuration.service';
+import { Permission } from '../../shared/models/permission.model';
 
 declare let alertify: any;
 declare const SystemJS;

@@ -1,9 +1,9 @@
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { Observable } from 'rxjs';
-import { EndpointFactory } from './endpoint-factory.service';
+import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
@@ -165,7 +165,7 @@ export class UserGroupEndpointService extends EndpointFactory {
 				return this.handleError(error, () => this.getAddUserGroupEmailTemplateEndpoint(templateInfo));
 			})
 		);
-	} 
+	}
 
 	public getDeleteUserGroupEmailTemplateEndpoint<T>(id: number): Observable<T> {
 		const endpointUrl = `${this.userGroupTemplatesUrl}/${id}`;

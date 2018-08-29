@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
-import { AppTranslationService } from '../services/app-translation.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../shared/services/alert.service';
+import { AppTranslationService } from '../../../shared/services/app-translation.service';
 import { BootstrapSelectDirective } from '../directives/bootstrap-select.directive';
 import { AccountService } from '../services/account.service';
 
@@ -22,7 +22,7 @@ import { ItemListComponent } from '../shared/item-list/item-list.component';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { SurveyService } from '../services/survey.service';
 import { Survey } from '../models/survey.model';
-import { Utilities } from '../services/utilities';
+import { Utilities } from '../../../shared/services/utilities';
 
 import { SurveysEditorComponent } from './surveys-editor/surveys-editor.component';
 

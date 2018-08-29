@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HubConnectionBuilder, HubConnection, LogLevel } from '@aspnet/signalr';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
 	selector: 'app-chat-app',

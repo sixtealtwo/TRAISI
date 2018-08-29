@@ -10,10 +10,10 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { AccountEndpoint } from './account-endpoint.service';
-import { AuthService } from './auth.service';
-import { User } from '../models/user.model';
+import { AuthService } from '../../../shared/services/auth.service';
+import { User } from '../../../shared/models/user.model';
 import { Role } from '../models/role.model';
-import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
+import { Permission, PermissionNames, PermissionValues } from '../../../shared/models/permission.model';
 import { UserEdit } from '../models/user-edit.model';
 
 

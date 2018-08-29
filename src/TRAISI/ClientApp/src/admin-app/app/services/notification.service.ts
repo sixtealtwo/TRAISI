@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 
 
-import { AuthService } from './auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { NotificationEndpoint } from './notification-endpoint.service';
 import { Notification } from '../models/notification.model';
 

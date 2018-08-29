@@ -7,9 +7,9 @@ import {
 	Router,
 	RouterStateSnapshot
 } from "@angular/router";
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../../../shared/services/auth.service";
 import {Observable} from "rxjs";
-import {Permission} from "../../models/permission.model";
+import {Permission} from "../../../../shared/models/permission.model";
 
 @Injectable()
 export class SurveyAuthGuard implements CanActivate, CanActivateChild, CanLoad {

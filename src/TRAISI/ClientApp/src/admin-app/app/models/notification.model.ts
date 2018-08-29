@@ -1,4 +1,4 @@
-import { Utilities } from '../services/utilities';
+import { Utilities } from '../../../shared/services/utilities';
 
 
 export class Notification {

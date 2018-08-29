@@ -1,5 +1,5 @@
 import { UserGroup } from './user-group.model';
-import { User } from './user.model';
+import { User } from '../../../shared/models/user.model';
 
 export class GroupMember {
 

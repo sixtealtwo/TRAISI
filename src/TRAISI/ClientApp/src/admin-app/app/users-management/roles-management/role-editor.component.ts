@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
-import { AlertService, MessageSeverity } from '../../services/alert.service';
+import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { AccountService } from '../../services/account.service';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permission } from '../../../../shared/models/permission.model';
 import { GroupByPipe } from '../../pipes/group-by.pipe';
 
 

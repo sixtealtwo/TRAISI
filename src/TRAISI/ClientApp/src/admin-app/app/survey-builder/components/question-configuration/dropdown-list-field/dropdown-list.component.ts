@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
-import { AlertService, MessageSeverity } from '../../../../services/alert.service';
+import { AlertService, MessageSeverity } from '../../../../../../shared/services/alert.service';
 
 @Component({
 	selector: 'app-dropdown-list',

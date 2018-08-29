@@ -18,7 +18,7 @@ import {SurveyStartPageComponent} from "./components/survey-start-page/survey-st
 import {LocalStoreManager} from "../../shared/services/local-store-manager.service";
 import {AppTranslationService} from "../../shared/services/app-translation.service";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {TranslateLanguageLoader} from "../../admin-app/app/services/app-translation.service";
+import {TranslateLanguageLoader} from "../../shared/services/app-translation.service";
 import {EndpointFactory} from "../../shared/services/endpoint-factory.service";
 import {ConfigurationService} from "../../shared/services/configuration.service";
 import {QuestionLoaderEndpointService} from "./services/question-loader-endpoint.service";

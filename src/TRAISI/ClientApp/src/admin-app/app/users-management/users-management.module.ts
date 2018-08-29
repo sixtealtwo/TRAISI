@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { TranslateLanguageLoader } from '../services/app-translation.service';
+import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Select2Module } from 'ng2-select2';
 

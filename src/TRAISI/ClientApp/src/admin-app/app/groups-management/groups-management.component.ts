@@ -10,11 +10,11 @@ import {
 	ChangeDetectorRef
 } from '@angular/core';
 
-import { AlertService, DialogType, MessageSeverity } from '../services/alert.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../shared/services/alert.service';
 import { AccountService } from '../services/account.service';
-import { AppTranslationService } from '../services/app-translation.service';
+import { AppTranslationService } from '../../../shared/services/app-translation.service';
 
-import { Utilities } from '../services/utilities';
+import { Utilities } from '../../../shared/services/utilities';
 
 import { UserGroupService } from '../services/user-group.service';
 import { UserGroup } from '../models/user-group.model';
@@ -272,7 +272,7 @@ export class GroupsManagementComponent implements OnInit {
 </head>
 <body>
 </body>
-</html`;
+</html>`;
 		this.editingTemplate = true;
 		this.editorModal.show();
 	}

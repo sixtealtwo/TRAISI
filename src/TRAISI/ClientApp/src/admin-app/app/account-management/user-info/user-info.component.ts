@@ -10,15 +10,15 @@ import {
 	Directive
 } from '@angular/core';
 
-import { AlertService, MessageSeverity } from '../../services/alert.service';
+import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { AccountService } from '../../services/account.service';
-import { Utilities } from '../../services/utilities';
-import { User } from '../../models/user.model';
+import { Utilities } from '../../../../shared/services/utilities';
+import { User } from '../../../../shared/models/user.model';
 import { UserEdit } from '../../models/user-edit.model';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
-import { AppTranslationService } from '../../services/app-translation.service';
-import { AuthService } from '../../services/auth.service';
+import { Permission } from '../../../../shared/models/permission.model';
+import { AppTranslationService } from '../../../../shared/services/app-translation.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Select2OptionData } from 'ng2-select2';
 import { GroupMember } from '../../models/group-member.model';
 import { UserGroupService } from '../../services/user-group.service';

@@ -2,17 +2,17 @@ import { Component, ViewEncapsulation, OnInit, AfterViewInit, Injector, OnDestro
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
-import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
-import { ConfigurationService } from '../../services/configuration.service';
-import { AppTranslationService } from '../../services/app-translation.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../../shared/services/alert.service';
+import { ConfigurationService } from '../../../../shared/services/configuration.service';
+import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { BootstrapSelectDirective } from '../../directives/bootstrap-select.directive';
 import { AccountService } from '../../services/account.service';
-import { Utilities } from '../../services/utilities';
+import { Utilities } from '../../../../shared/services/utilities';
 import { Select2OptionData } from 'ng2-select2';
 
-import { User } from '../../models/user.model';
+import { User } from '../../../../shared/models/user.model';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permission } from '../../../../shared/models/permission.model';
 import { UserGroup } from '../../models/user-group.model';
 import { GroupMember } from '../../models/group-member.model';
 import { UserEdit } from '../../models/user-edit.model';

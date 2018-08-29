@@ -1,9 +1,9 @@
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { Observable } from 'rxjs';
-import { EndpointFactory } from './endpoint-factory.service';
+import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { CodeGenerator } from '../models/code-generator.model';
 

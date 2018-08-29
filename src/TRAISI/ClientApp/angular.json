@@ -159,7 +159,7 @@
 		},
 		"traisi-admin-e2e": {
 			"root": "",
-			"sourceRoot": "src/e2e",
+			"sourceRoot": "src/admin-app-e2e",
 			"projectType": "application",
 			"architect": {
 				"e2e": {

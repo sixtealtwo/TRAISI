@@ -5,7 +5,7 @@ import { AppConfig } from '../../app.config';
 import { AccountService } from '../../services/account.service';
 import { UserGroupService } from '../../services/user-group.service';
 
-import { Permission } from '../../models/permission.model';
+import { Permission } from '../../../../shared/models/permission.model';
 declare let jQuery: JQueryStatic;
 
 @Component({

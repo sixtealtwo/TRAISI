@@ -9,35 +9,7 @@ import {SurveyStartPageComponent} from "../../components/survey-start-page/surve
 @NgModule({
 	imports: [
 		CommonModule,
-		RouterModule.forRoot(
-			[
-
-				{
-					path: 'error',
-					component: SurveyErrorComponent
-
-				},
-				{
-					path: ':surveyName',
-					children: [
-						{
-							path: '',
-							redirectTo: 'start',
-							pathMatch: 'full'
-						}, {
-
-							path: 'error',
-							component: SurveyErrorComponent
-						},
-						{
-
-							path: 'start',
-							component: SurveyStartPageComponent
-						}
-					]
-
-				}
-			]),
+		RouterModule.forRoot(routes),
 	],
 	declarations: [],
 	providers: [AuthService],

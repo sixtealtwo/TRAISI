@@ -8,8 +8,8 @@ import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
 import { QuestionOption } from 'traisi-question-sdk';
 import {L} from "@angular/core/src/render3";
-import {AuthService} from "../../services/auth.service";
-import {User} from "../../models/user.model";
+import {AuthService} from "../../../../shared/services/auth.service";
+import {User} from "../../../../shared/models/user.model";
 @Injectable({
 	providedIn: 'root'
 })

@@ -1,11 +1,11 @@
 import { Component, HostBinding, OnInit, OnDestroy, Input } from '@angular/core';
 
-import { AlertService, MessageSeverity, DialogType } from '../services/alert.service';
-import { AuthService } from '../services/auth.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { Utilities } from '../services/utilities';
+import { AlertService, MessageSeverity, DialogType } from '../../../shared/services/alert.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
+import { Utilities } from '../../../shared/services/utilities';
 import { UserLogin } from '../models/user-login.model';
-import { Permission } from '../models/permission.model';
+import { Permission } from '../../../shared/models/permission.model';
 import { Router } from '@angular/router';
 
 @Component({

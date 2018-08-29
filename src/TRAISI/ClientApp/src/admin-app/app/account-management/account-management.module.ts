@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
-import { TranslateLanguageLoader } from '../services/app-translation.service';
+import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Select2Module } from 'ng2-select2';
 

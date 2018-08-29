@@ -4,7 +4,7 @@ import { SurveyBuilderComponent } from './survey-builder.component';
 import { ROUTES } from './survey-builder.routes';
 import { SharedModule } from '../shared/shared.module';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
-import { TranslateLanguageLoader } from '../services/app-translation.service';
+import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';

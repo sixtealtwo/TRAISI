@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, ElementRef, Renderer2, NgZone, ViewChild, HostBinding, OnInit } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { AppConfig } from '../app.config';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '..../../../shared/services/auth.service';
 import { SurveyBuilderComponent } from '../survey-builder/survey-builder.component';
 
 declare let jQuery: JQueryStatic;

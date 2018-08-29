@@ -1,4 +1,4 @@
-import { Permission } from './permission.model';
+import { Permission } from '../../../shared/models/permission.model';
 
 
 export class Role {

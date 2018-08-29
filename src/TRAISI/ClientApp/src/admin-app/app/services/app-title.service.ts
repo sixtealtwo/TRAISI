@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 
 
 
-import { Utilities } from './utilities';
+import { Utilities } from '../../../shared/services/utilities';
 
 @Injectable({ providedIn: 'root'})
 export class AppTitleService {

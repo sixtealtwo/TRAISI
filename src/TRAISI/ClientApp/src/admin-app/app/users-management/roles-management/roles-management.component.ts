@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation, OnInit, AfterViewInit, TemplateRef, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
-import { AppTranslationService } from '../../services/app-translation.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../../shared/services/alert.service';
+import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { AccountService } from '../../services/account.service';
-import { Utilities } from '../../services/utilities';
+import { Utilities } from '../../../../shared/services/utilities';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permission } from '../../../../shared/models/permission.model';
 import { RoleEditorComponent } from './role-editor.component';
 
 

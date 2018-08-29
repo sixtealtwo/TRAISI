@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild } from '@angular/core';
 
-import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
-import { ConfigurationService } from '../../services/configuration.service';
-import { AppTranslationService } from '../../services/app-translation.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../../shared/services/alert.service';
+import { ConfigurationService } from '../../../../shared/services/configuration.service';
+import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { BootstrapSelectDirective } from '../../directives/bootstrap-select.directive';
 import { AccountService } from '../../services/account.service';
-import { Utilities } from '../../services/utilities';
-import { Permission } from '../../models/permission.model';
+import { Utilities } from '../../../../shared/services/utilities';
+import { Permission } from '../../../../shared/models/permission.model';
 import { Select2OptionData } from 'ng2-select2';
 
 @Component({

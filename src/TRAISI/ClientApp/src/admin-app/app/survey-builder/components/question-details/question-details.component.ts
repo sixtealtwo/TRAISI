@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Utilities } from '../../../services/utilities';
+import { Utilities } from '../../../../../shared/services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionOptionDefinition } from '../../models/question-option-definition.model';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionOptionValue } from '../../models/question-option-value';
 import { QuestionOptionLabel } from '../../models/question-option-label.model';
-import { AlertService, DialogType } from '../../../services/alert.service';
+import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
 import { Order } from '../../models/order.model';
 
 @Component({
