@@ -16,7 +16,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/admin-app",
+						"outputPath": "dist/app",
 						"index": "src/admin-app/index.html",
 						"main": "src/admin-app/main.ts",
 						"tsConfig": "src/admin-app/tsconfig.app.json",
@@ -192,7 +192,7 @@
 						"deployUrl": "/survey/",
 						"baseHref": "/survey/",
 						"progress": false,
-						"outputPath": "dist/survey-viewer-app",
+						"outputPath": "dist/survey",
 						"index": "src/survey-viewer-app/index.html",
 						"main": "src/survey-viewer-app/main.ts",
 						"polyfills": "src/survey-viewer-app/polyfills.ts",

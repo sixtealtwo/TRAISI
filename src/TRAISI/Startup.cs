@@ -146,6 +146,8 @@ namespace TRAISI {
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
+
+
 			// Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
 			if (!_hostingEnvironment.IsDevelopment())
 				services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
@@ -328,10 +330,14 @@ namespace TRAISI {
 
 					spa.Options.SourcePath = "ClientApp/";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
+				    spa.Options.DefaultPage = "/admin-app/index.html";
+               
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start");
 				});
-			});
+
+               
+            });
 
 			app.MapWhen(p => p.Request.Path.StartsWithSegments("/survey"), surveyApp => {
 				surveyApp.UseSpa(spa => {
@@ -339,7 +345,8 @@ namespace TRAISI {
 					// see https://go.microsoft.com/fwlink/?linkid=864501
 
 					spa.Options.SourcePath = "ClientApp/";
-					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
+				    spa.Options.DefaultPage = "/survey-viewer-app/index.html";
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app");
 				});
