@@ -14,7 +14,7 @@ import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import 'rxjs/add/observable/of';
-import * as _ from 'lodash';
+import {find} from 'lodash';
 
 declare const SystemJS;
 
@@ -75,7 +75,7 @@ export class QuestionLoaderService {
 						const resolver = moduleRef.componentFactoryResolver;
 
 
-						let widget = _.find(widgets[0], item => {
+						let widget = find(widgets[0], item => {
 							return item.id.toLowerCase() === questionType.toLowerCase();
 						});
 

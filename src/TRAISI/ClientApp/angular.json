@@ -21,8 +21,8 @@
 						"main": "src/admin-app/main.ts",
 						"tsConfig": "src/admin-app/tsconfig.app.json",
 						"progress": false,
-						"baseHref": "/app/",
-						"deployUrl": "/app/",
+						"baseHref": "/admin/",
+						"deployUrl": "/admin/",
 						"showCircularDependencies": false,
 						"polyfills": "src/admin-app/polyfills.ts",
 						"assets": [
