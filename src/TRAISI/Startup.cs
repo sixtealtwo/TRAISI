@@ -330,7 +330,7 @@ namespace TRAISI {
 
 					spa.Options.SourcePath = "ClientApp/";
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
-				    spa.Options.DefaultPage = "/admin-app/index.html";
+				    spa.Options.DefaultPage = "/admin/index.html";
                
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start");
@@ -345,7 +345,7 @@ namespace TRAISI {
 					// see https://go.microsoft.com/fwlink/?linkid=864501
 
 					spa.Options.SourcePath = "ClientApp/";
-				    spa.Options.DefaultPage = "/survey-viewer-app/index.html";
+				    spa.Options.DefaultPage = "/survey/index.html";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
 					if (env.IsDevelopment()) spa.UseAngularCliServer("start traisi-survey-viewer-app");
