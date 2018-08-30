@@ -17,8 +17,8 @@ import {TimeQuestionComponent} from './time-question/time-question.component';
 import {CommonModule} from "@angular/common";
 
 @NgModule({
-    declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent],
-    entryComponents: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent],
+	declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent],
+	entryComponents: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent],
     providers: [
         {
             provide: 'widgets',

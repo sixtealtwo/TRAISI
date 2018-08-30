@@ -217,7 +217,9 @@
 							"src/survey-viewer-app/styles.css",
 							"src/shared/assets/scss/application.scss"
 						],
-						"scripts": [],
+						"scripts": [
+							"node_modules/systemjs/dist/system.js"
+						],
 						"stylePreprocessorOptions": {
 							"includePaths": [
 								".",

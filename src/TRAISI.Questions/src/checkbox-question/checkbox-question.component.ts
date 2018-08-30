@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
 import { PartialObserver } from '../../node_modules/rxjs';
 @Component({
@@ -11,7 +11,8 @@ export class CheckboxQuestionComponent implements OnInit {
 
 	typeName: string;
 	icon: string;
-	constructor(private surveyViewerService: SurveyViewer) {
+
+	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'checkbox';
 

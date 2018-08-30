@@ -24,6 +24,10 @@ import {SurveyHeaderDisplayComponent} from './components/survey-header-display/s
 import {SurveyTermsPageComponent} from './components/survey-terms-page/survey-terms-page.component';
 import {SurveyViewerComponent} from './components/survey-viewer/survey-viewer.component';
 import {SurveyCompletePageComponent} from './components/survey-complete-page/survey-complete-page.component';
+import {QuestionLoaderService} from './services/question-loader.service';
+import {SurveyViewerService} from './services/survey-viewer.service';
+import {SurveyResponderEndpointService} from './services/survey-responder-endpoint.service';
+import {SurveyResponderService} from './services/survey-responder.service';
 
 
 @NgModule({
@@ -62,7 +66,13 @@ import {SurveyCompletePageComponent} from './components/survey-complete-page/sur
 		AppTranslationService,
 		LocalStoreManager,
 		SurveyViewerEndpointService,
-		AlertService
+		AlertService,
+		QuestionLoaderService,
+		SurveyViewerService,
+		SurveyViewerEndpointService,
+		SurveyResponderEndpointService,
+		{provide: 'SurveyViewerService', useClass: SurveyViewerService},
+		{provide: 'SurveyResponderService', useClass: SurveyResponderService}
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })

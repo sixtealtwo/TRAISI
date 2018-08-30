@@ -44,6 +44,12 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				path: 'viewer',
 				component: SurveyViewerComponent,
 				data: {title: 'Survey Viewer'}
+			},
+			{
+
+				path: 'page/:page',
+				component: SurveyViewerComponent,
+				data: {title: 'Survey Viewer'}
 			}
 		]
 
