@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
 using DAL.Models.ResponseTypes;
@@ -54,7 +55,7 @@ namespace TRAISI.Services {
 		/// <param name="questionId"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		public async Task<bool> ListResponses(int surveyId, string shortcode, int questionId, object responseData) {
+		public async Task<List<SurveyResponse>> ListResponses(int surveyId, string shortcode, int questionId) {
 
 			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
 

@@ -30,9 +30,9 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Produces(typeof(ObjectResult))]
 		[HttpPost]
-		[Route("surveys/{surveyId}/questions/{questionId}/responses/")]
-		public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] string shortCode) {
-			bool success = await this._respondentService.SaveResponse(surveyId, shortCode, questionId, null);
+		[Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode/responses/")]
+		public async Task<IActionResult> SaveResponse(int surveyId, int questionId, string shortcode) {
+			bool success = await this._respondentService.SaveResponse(surveyId, shortcode, questionId, null);
 
 			if (!success) {
 				return new BadRequestResult();
@@ -50,8 +50,8 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Produces(typeof(ObjectResult))]
 		[HttpGet]
-		[Route("surveys/{surveyId}/questions/{questionId}/responses/")]
-		public async Task<IActionResult> GetResponses(int surveyId, int questionId, [FromBody] string shortCode) {
+		[Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode}/responses/")]
+		public async Task<IActionResult> GetResponses(int surveyId, int questionId, string shortCode) {
 			var responses = await this._respondentService.ListResponses(surveyId, shortCode, questionId);
 
 			if (responses != null) {
