@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models;
 using DAL.Models.Questions;
@@ -16,6 +18,24 @@ namespace DAL.Repositories
         {
 
         }
+        
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
+        
+        /// <summary>
+        /// Finds a survey with the specified name (case insensitive)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QuestionOption>> GetQuestionOptionsFullAsync(int questionId) {
+
+            var questionPart = await _appContext.QuestionParts
+                .Where(o => o.Id == questionId)
+                .Include(qo => qo.QuestionOptions)
+                .ThenInclude(qo => qo.QuestionOptionLabels).FirstOrDefaultAsync();
+
+            return questionPart.QuestionOptions.ToList();
+        }
+
 
         
     }

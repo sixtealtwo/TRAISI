@@ -35,7 +35,7 @@ namespace TRAISI.Services.Interfaces
         /// </summary>
         /// <param name="questionId"></param>
         /// <returns></returns>
-        Task<QuestionOptionsViewModel> GetQuestionOptions(int questionId);
+        Task<List<QuestionOption>> GetQuestionOptions(int questionId);
 
 
         /// <summary>

@@ -7,6 +7,8 @@ namespace TRAISI.ViewModels.SurveyViewer
     public class QuestionViewModel
     {
         public int Id {get;set;}
+        
+        public int QuestionId { get; set; }
 
         public string Label {get ;set;}
         

@@ -83,15 +83,45 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
                 .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
             
+            
 
 
             CreateMap<QuestionPartView, QuestionViewModel>()
                 .ForMember(m => m.QuestionType, map => map.MapFrom(v => v.QuestionPart.QuestionType))
                 .ForMember(m => m.IsOptional, map => map.MapFrom(v => v.isOptional))
                 .ForMember(m => m.Order, map => map.MapFrom(v => v.Order))
+                .ForMember(m => m.Label, map => map.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Label = s.Labels[opt.Items["Language"] as string].Value;
+                    try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }
+                    catch (Exception e) {
+                        Console.WriteLine(e);
+
+                    }
+                    
+                })
+                .AfterMap((s, svm, opt) =>
+                {
+                    if (s.QuestionPart != null) {
+                        svm.QuestionId = s.QuestionPart.Id;
+                    }
+                    
+                });
+            
+            
+            CreateMap<QuestionOption, QuestionOptionViewModel>()
+            .ForMember(o => o.Id, map => map.MapFrom(v => v.Id))
+                .ForMember(o => o.Name, map => map.MapFrom(v => v.Name))
+                .ForMember(o => o.Order, map => map.MapFrom(v => v.Order))
+                .ForMember(o => o.Label, map => map.Ignore())
+                .AfterMap((s, svm, opt) =>
+                {
+                    try { svm.Label = s.QuestionOptionLabels[opt.Items["Language"] as string].Value; }
+                    catch (Exception e) {
+                        Console.WriteLine(e);
+
+                    }
+                    
                 });
             
 

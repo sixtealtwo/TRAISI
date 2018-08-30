@@ -1,6 +1,15 @@
+import {QuestionOption} from './question-option';
+
 export interface OnVisibilityChanged
 {
-    questionShown(): void;
-    
-    questionHidden(): void;
+	onQuestionShown(): void;
+
+	onQuestionHidden(): void;
 }
+
+export interface OnOptionsLoaded {
+
+	onOptionsLoaded(options: QuestionOption[]): void;
+
+}
+

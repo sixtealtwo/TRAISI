@@ -1,5 +1,4 @@
-export interface QuestionOption
-{
+export interface SurveyViewQuestionOption {
 	id: number;
 	name: string;
 	order: number;

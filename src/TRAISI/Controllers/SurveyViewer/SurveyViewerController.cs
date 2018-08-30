@@ -92,8 +92,8 @@ namespace TRAISI.Controllers.SurveyViewer
         [Authorize]
         [SurveyUserAuthorization]
         [Produces(typeof(List<QuestionPartViewViewModel>))]
-        [Route("surveys/{surveyId}/{viewType?}/{language?}")]
-        public async Task<IActionResult> GetSurveyViewPages(int surveyId, SurveyViewType viewType = SurveyViewType.RespondentView, string language = "en") {
+        [Route("surveys/{surveyId}/")]
+        public async Task<IActionResult> GetSurveyViewPages(int surveyId, [FromQuery]SurveyViewType viewType = SurveyViewType.RespondentView, [FromQuery]string language = "en") {
             
             List<QuestionPartView> surveys = await this._viewService.GetSurveyViewPages(surveyId, viewType);
 
@@ -127,11 +127,16 @@ namespace TRAISI.Controllers.SurveyViewer
         [HttpGet]
         [Authorize]
         [SurveyUserAuthorization]
-        [Produces(typeof(List<QuestionOption>))]
-        [Route("question-options/{questionId}/{query?}")]
-        public async Task<IActionResult> GetQuestionOptions(int questionId, string query = null)
-        {
-            return new ObjectResult(await this._viewService.GetQuestionOptions(questionId));
+        [Produces(typeof(List<QuestionOptionsViewModel>))]
+        [Route("surveys/{surveyId}/questions/{questionId}/options/")]
+        public async Task<IActionResult> GetQuestionOptions(int surveyId, int questionId, [FromQuery]string query = null, [FromQuery]string language = "en") {
+            
+            var questionOptions = await this._viewService.GetQuestionOptions(questionId);
+            
+            var localizedModel =  questionOptions.ToLocalizedModel<List<QuestionOptionViewModel>, QuestionOption>(language);
+
+            return new ObjectResult(localizedModel);
+
         }
 
 

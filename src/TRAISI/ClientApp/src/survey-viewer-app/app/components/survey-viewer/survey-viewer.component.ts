@@ -56,8 +56,7 @@ export class SurveyViewerComponent implements OnInit {
 			this.surveyId = value['surveyId'];
 
 			this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
-				console.log('Pages:');
-				console.log(pages);
+
 				this.headerDisplay.pages = pages;
 				this.loadPageQuestions(pages[0]);
 

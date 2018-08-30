@@ -1,3 +1,8 @@
-<p>
-  Checkbox
-</p>
+<div class="checkbox-container ">
+
+    <div *ngFor="let option of options" class="abc-checkbox-primary abc-checkbox">
+        <input class="form-check-input" type="checkbox" name="{{option.id}}" value="{{option.name}}"/>
+        <label class="form-check-label" htmlFor="{{option.id}}">{{option.label}}</label>
+    </div>
+
+</div>

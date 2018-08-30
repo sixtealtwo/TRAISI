@@ -1,6 +1,9 @@
 import {Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {QuestionLoaderService} from '../../services/question-loader.service';
 import {NgTemplateOutlet} from '@angular/common';
+import {SurveyViewerService} from '../../services/survey-viewer.service';
+import {SurveyViewQuestionOption} from '../../models/survey-view-question-option.model';
+import {OnOptionsLoaded} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-question-container',
@@ -14,12 +17,17 @@ export class QuestionContainerComponent implements OnInit {
 	question: any;
 
 
+	@Input()
+	surveyId: number;
+
+
 	@ViewChild('questionTemplate', {read: ViewContainerRef}) questionOutlet: ViewContainerRef;
 
 
 	isLoaded: boolean = false;
 
 	constructor(private questionLoaderService: QuestionLoaderService,
+				private surveyViewerService: SurveyViewerService,
 				public viewContainerRef: ViewContainerRef) {
 	}
 
@@ -29,10 +37,24 @@ export class QuestionContainerComponent implements OnInit {
 	ngOnInit() {
 
 
-		console.log(this.question);
+
 		this.questionLoaderService.loadQuestionComponent(this.question.questionType, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
-				this.isLoaded = true;
+
+
+				console.log(componentRef);
+				this.surveyViewerService.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null).subscribe((options: SurveyViewQuestionOption[]) => {
+					this.isLoaded = true;
+
+					console.log(options);
+
+					if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
+						console.log('sending options loaded');
+						(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
+					}
+
+
+				});
 			});
 
 	}

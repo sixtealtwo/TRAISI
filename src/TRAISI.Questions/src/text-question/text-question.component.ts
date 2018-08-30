@@ -7,11 +7,11 @@ import { OnVisibilityChanged, SurveyViewer } from 'traisi-question-sdk';
 	styles: [require('./text-question.component.scss').toString()]
 })
 export class TextQuestionComponent implements OnInit, OnVisibilityChanged {
-	questionShown(): void {
+	onQuestionShown(): void {
 		throw new Error('Method not implemented.');
 	}
 
-	questionHidden(): void {
+	onQuestionHidden(): void {
 		throw new Error('Method not implemented.');
 	}
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';

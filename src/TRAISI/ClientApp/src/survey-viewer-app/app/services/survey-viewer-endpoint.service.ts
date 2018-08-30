@@ -51,6 +51,10 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/surveys';
 	}
 
+	private get getSurveyViewQuestionOptionsUrl() {
+		return this.configurations.baseUrl + this._surveyViewerUrl + '/surveys';
+	}
+
 
 	/**
 	 *
@@ -196,6 +200,26 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getSurveyViewQuestionsEndpoint(questionId)
+				);
+			})
+		);
+	}
+
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param questionId
+	 * @param language
+	 * @param query
+	 */
+	getSurveyViewQuestionOptionsEndpoint<SurveyViewQuestionOption>(surveyId: number, questionId: number, language?: string, query?: string): Observable<SurveyViewQuestionOption[]> {
+		let endpointUrl = `${this.getSurveyViewQuestionOptionsUrl}/${surveyId}/questions/${questionId}/options?language=${language}&query=${query}`;
+
+		return this.http.get<SurveyViewQuestionOption>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query)
 				);
 			})
 		);

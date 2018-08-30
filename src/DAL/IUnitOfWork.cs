@@ -25,6 +25,7 @@ namespace DAL
         IThankYouPageLabelRepository ThankYouPageLabels { get; }
         ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels { get; }
         ISurveyResponseRepository SurveyResponses { get; }
+        IQuestionOptionRepository QuestionOptions { get; }
 
 
         int SaveChanges();

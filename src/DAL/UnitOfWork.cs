@@ -28,6 +28,7 @@ namespace DAL
         IQuestionPartRepository _questionParts;
         IQuestionPartViewRepository _questionPartViews;
         ISurveyResponseRepository _surveyResponses;
+        IQuestionOptionRepository _questionOptions;
 
         /// <summary>
         /// 
@@ -46,6 +47,19 @@ namespace DAL
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IQuestionOptionRepository QuestionOptions {
+            get {
+                if (_questionOptions == null) {
+                    _questionOptions = new QuestionOptionRepository(_context);
+                }
+
+                return _questionOptions;
+            }
         }
 
         public ISurveyResponseRepository SurveyResponses

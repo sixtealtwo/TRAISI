@@ -9,6 +9,7 @@ import {QuestionConfiguration, QuestionOption, SurveyViewer} from 'traisi-questi
 import {AuthService} from '../../../shared/services';
 import {User} from '../../../shared/models/user.model';
 import {SurveyViewPage} from '../models/survey-view-page.model';
+import {SurveyViewQuestionOption} from '../models/survey-view-question-option.model';
 
 
 @Injectable({
@@ -135,14 +136,6 @@ export class SurveyViewerService implements SurveyViewer {
 		);
 	}
 
-	/**
-	 *
-	 * @param questionId
-	 * @param query
-	 */
-	public getQuestionOptions(questionId: number, query: string = null) {
-		return this._surveyViewerEndpointService.getQuestionOptionsEndpoint(questionId, query);
-	}
 
 	/**
 	 * Restores the state of the service if the user is currently logged in.
@@ -162,5 +155,17 @@ export class SurveyViewerService implements SurveyViewer {
 	 */
 	public getSurveyViewPages(surveyId: number, viewType: SurveyViewType = SurveyViewType.RespondentView): Observable<SurveyViewPage[]> {
 		return this._surveyViewerEndpointService.getSurveyViewPagesEndpoint(surveyId, viewType);
+	}
+
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param questionId
+	 * @param language
+	 * @param query
+	 */
+	public getQuestionOptions(surveyId: number, questionId: number, language?: string, query?: string): Observable<SurveyViewQuestionOption[]> {
+		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 }
