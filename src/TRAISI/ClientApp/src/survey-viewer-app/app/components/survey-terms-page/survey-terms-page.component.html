@@ -1,9 +1,11 @@
 <div class="welcome-container">
-	<h1> {{ model.termsAndConditionsText }}</h1>
+
+	<h1>Terms and Conditions</h1>
+	<p> {{ model.termsAndConditionsText }}</p>
 
 
 	<div class="clearfix survey-start-button ">
-		<div class="col-md-4 text-center">
+		<div class="text-center">
 			<button (click)="begin()" type="submit" class="btn btn-primary">START</button>
 		</div>
 	</div>

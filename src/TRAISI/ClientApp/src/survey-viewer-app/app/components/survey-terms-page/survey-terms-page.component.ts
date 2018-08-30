@@ -28,7 +28,7 @@ export class SurveyTermsPageComponent implements OnInit {
 	}
 
 	public begin() {
-		this.router.navigate(['/survey', this.surveyName, 'viewer']);
+		this.router.navigate([this.surveyName, 'viewer']);
 	}
 
 	/**

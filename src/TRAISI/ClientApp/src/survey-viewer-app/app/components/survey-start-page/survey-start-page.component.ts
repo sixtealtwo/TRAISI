@@ -44,8 +44,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this.shortcode = '';
 
 		this.route.params.subscribe(params => {
-			console.log(params);
-			console.log('test');
+
 			this.surveyName = params['surveyName'];
 
 			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(
@@ -78,7 +77,7 @@ export class SurveyStartPageComponent implements OnInit {
 			value => {
 				this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
 					this.isLoading = false;
-					this.router.navigate(['/survey', this.surveyName, 'terms']);
+					this.router.navigate([this.surveyName, 'terms']);
 				});
 			},
 			error => {
