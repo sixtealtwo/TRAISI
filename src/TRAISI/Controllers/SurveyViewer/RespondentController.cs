@@ -30,7 +30,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Produces(typeof(ObjectResult))]
 		[HttpPost]
-		[Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode/responses/")]
+		[Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode}/responses/")]
 		public async Task<IActionResult> SaveResponse(int surveyId, int questionId, string shortcode) {
 			bool success = await this._respondentService.SaveResponse(surveyId, shortcode, questionId, null);
 
