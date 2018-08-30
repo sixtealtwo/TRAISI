@@ -45,5 +45,21 @@ namespace TRAISI.Services {
 
 
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="shortcode"></param>
+		/// <param name="questionId"></param>
+		/// <param name="responseData"></param>
+		/// <returns></returns>
+		public async Task<bool> ListResponses(int surveyId, string shortcode, int questionId, object responseData) {
+
+			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
+
+			return true;
+
+		}
 	}
 }
