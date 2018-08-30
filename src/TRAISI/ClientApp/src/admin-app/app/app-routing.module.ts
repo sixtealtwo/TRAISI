@@ -30,10 +30,6 @@ import { ErrorComponent } from './error/error.component';
 					loadChildren: './login/login.module#LoginModule'
 				},
 				{
-					path: 'survey',
-					loadChildren: './survey-viewer/survey-viewer.module#SurveyViewerModule'
-				},
-				{
 					path: 'error',
 					component: ErrorComponent
 				},

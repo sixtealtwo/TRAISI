@@ -17,8 +17,10 @@ import {TimeQuestionComponent} from './time-question/time-question.component';
 import {CommonModule} from "@angular/common";
 
 @NgModule({
-	declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent],
-	entryComponents: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent],
+	declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent,
+		NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent],
+	entryComponents: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent,
+		RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent],
     providers: [
         {
             provide: 'widgets',
@@ -65,7 +67,7 @@ import {CommonModule} from "@angular/common";
                 },
                 {
                     name: 'traisi-select-question',
-                    id: 'select',
+					id: 'Select',
                     component: SelectQuestionComponent
                 },
                 {

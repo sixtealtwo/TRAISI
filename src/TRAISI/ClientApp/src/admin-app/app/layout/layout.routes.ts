@@ -37,11 +37,6 @@ const routes: Routes = [
 					'../survey-builder/survey-builder.module#SurveyBuilderModule'
 			},
 			{
-				path: 'survey-viewer',
-				loadChildren:
-					'../survey-viewer/survey-viewer.module#SurveyViewerModule'
-			},
-			{
 				path: 'survey-execute',
 				loadChildren:
 					'../survey-execute/survey-execute.module#SurveyExecuteModule'

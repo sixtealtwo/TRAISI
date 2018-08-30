@@ -215,10 +215,14 @@
 						],
 						"styles": [
 							"src/survey-viewer-app/styles.css",
-							"src/shared/assets/scss/application.scss"
+							"src/shared/assets/scss/application.scss",
+							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css"
 						],
 						"scripts": [
-							"node_modules/systemjs/dist/system.js"
+							"node_modules/systemjs/dist/system.js",
+							"node_modules/jquery/dist/jquery.min.js",
+							"node_modules/bootstrap/dist/js/bootstrap.min.js",
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"
 						],
 						"stylePreprocessorOptions": {
 							"includePaths": [
