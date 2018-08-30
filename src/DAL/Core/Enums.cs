@@ -8,4 +8,9 @@ namespace DAL.Core
         Female,
         Male
     }
+
+    public enum SurveyViewType {
+        RespondentView = 0,
+        CatiView = 1
+    }
 }

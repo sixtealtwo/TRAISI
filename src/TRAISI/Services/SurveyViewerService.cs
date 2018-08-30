@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using TRAISI.Services.Interfaces;
 using System.Collections;
 using AutoMapper;
+using DAL.Core;
 using DAL.Models;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Extensions;
@@ -206,5 +207,26 @@ namespace TRAISI.Services
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        public async Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType) {
+            
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
+            if (survey != null) {
+
+                return (List<QuestionPartView>)survey.SurveyViews[viewType].QuestionPartViews;
+            }
+            else {
+                return null;
+            }
+        }
+        
+        
     }
 }

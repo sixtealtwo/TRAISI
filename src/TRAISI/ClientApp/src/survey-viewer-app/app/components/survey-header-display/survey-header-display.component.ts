@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {SurveyViewPage} from '../../models/survey-view-page.model';
 
 @Component({
 	selector: 'traisi-survey-header-display',
@@ -6,6 +7,11 @@ import {Component, OnInit} from '@angular/core';
 	styleUrls: ['./survey-header-display.component.scss']
 })
 export class SurveyHeaderDisplayComponent implements OnInit {
+
+
+	public pages: Array<SurveyViewPage> = [];
+
+
 
 	constructor() {
 	}

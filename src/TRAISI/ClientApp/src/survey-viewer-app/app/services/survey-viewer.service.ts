@@ -5,11 +5,10 @@ import 'rxjs/add/observable/of';
 import {SurveyStart} from '../models/survey-start.model';
 import {SurveyViewType} from '../models/survey-view-type.enum';
 import {SurveyViewTermsModel} from '../models/survey-view-terms.model';
-import {SurveyViewer, QuestionConfiguration} from 'traisi-question-sdk';
-import {QuestionOption} from 'traisi-question-sdk';
-import {L} from '@angular/core/src/render3';
+import {QuestionConfiguration, QuestionOption, SurveyViewer} from 'traisi-question-sdk';
 import {AuthService} from '../../../shared/services';
 import {User} from '../../../shared/models/user.model';
+import {SurveyViewPage} from '../models/survey-view-page.model';
 
 
 @Injectable({
@@ -154,5 +153,14 @@ export class SurveyViewerService implements SurveyViewer {
 
 			console.log(this._activeSurveyId);
 		}
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param viewType
+	 */
+	public getSurveyViewPages(surveyId: number, viewType: SurveyViewType = SurveyViewType.RespondentView): Observable<SurveyViewPage[]> {
+		return this._surveyViewerEndpointService.getSurveyViewPagesEndpoint(surveyId, viewType);
 	}
 }

@@ -1,3 +1,9 @@
-<p>
-	survey-header-display works!
-</p>
+<div class="header-display-container">
+
+	<div class="header-display-body">
+	<span *ngFor="let page of pages" class="header-display-item">
+		{{ page.label }}
+	</span>
+	</div>
+
+</div>

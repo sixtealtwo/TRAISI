@@ -29,6 +29,7 @@ export class QuestionContainerComponent implements OnInit {
 	ngOnInit() {
 
 
+		console.log(this.question);
 		this.questionLoaderService.loadQuestionComponent(this.question.questionType, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
 				this.isLoaded = true;

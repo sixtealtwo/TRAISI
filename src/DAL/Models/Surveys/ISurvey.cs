@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAL.Models.Extensions;
 
 namespace DAL.Models.Surveys
 {
@@ -21,7 +22,7 @@ namespace DAL.Models.Surveys
         string StyleTemplate { get; set; }
 
 
-        ICollection<SurveyView> SurveyViews { get; set; }
+        SurveyViewCollection<SurveyView> SurveyViews { get; set; }
 
         string Name { get; set; }
     }

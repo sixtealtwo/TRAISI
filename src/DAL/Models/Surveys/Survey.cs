@@ -21,7 +21,7 @@ namespace DAL.Models.Surveys
         public string DefaultLanguage { get; set; }
         public string StyleTemplate { get; set; }
 
-        public ICollection<SurveyView> SurveyViews { get; set; }
+        public SurveyViewCollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
         public ICollection<GroupCode> GroupCodes { get; set; }
         public ICollection<Shortcode> Shortcodes { get; set; }
@@ -30,7 +30,7 @@ namespace DAL.Models.Surveys
 
         public Survey()
         {
-            this.SurveyViews = new List<SurveyView>();
+            this.SurveyViews = new SurveyViewCollection<SurveyView>();
         }
 
 
@@ -62,7 +62,7 @@ namespace DAL.Models.Surveys
 
 
             SurveyPermissions = new HashSet<SurveyPermission>();
-            SurveyViews = new List<SurveyView>
+            SurveyViews = new SurveyViewCollection<SurveyView>()
             {
                 new SurveyView
                 {

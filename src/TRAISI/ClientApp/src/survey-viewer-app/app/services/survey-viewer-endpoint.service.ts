@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {SurveyViewType} from '../models/survey-view-type.enum';
 import {EndpointFactory} from '../../../shared/services/endpoint-factory.service';
 import {ConfigurationService} from '../../../shared/services/configuration.service';
+import {SurveyViewPage} from '../models/survey-view-page.model';
 
 @Injectable()
 export class SurveyViewerEndpointService extends EndpointFactory {
@@ -44,6 +45,34 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 
 	private get getSurveyViewerRespondentPageQuestionsUrl() {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/viewer';
+	}
+
+	private get getSurveyViewPagesUrl() {
+		return this.configurations.baseUrl + this._surveyViewerUrl + '/surveys';
+	}
+
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param pageNumber
+	 * @param language
+	 */
+	public getSurveyViewPagesEndpoint<SurveyViewPage>(
+		surveyId: number,
+		viewType?: SurveyViewType
+	) {
+		let endpointUrl = `${
+			this.getSurveyViewPagesUrl
+			}/${surveyId}?viewType=${viewType}`;
+
+		return this.http.get<SurveyViewPage[]>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewPagesEndpoint(surveyId, viewType)
+				);
+			})
+		);
 	}
 
 	/**

@@ -84,6 +84,22 @@ namespace TRAISI.Controllers.SurveyViewer
 
             return new ObjectResult(surveys);
         }
+        
+        /// <summary>
+        /// Return all questions for a given survey view.
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        [SurveyUserAuthorization]
+        [Produces(typeof(List<QuestionPartViewViewModel>))]
+        [Route("surveys/{surveyId}/{viewType?}/{language?}")]
+        public async Task<IActionResult> GetSurveyViewPages(int surveyId, SurveyViewType viewType = SurveyViewType.RespondentView, string language = "en") {
+            
+            List<QuestionPartView> surveys = await this._viewService.GetSurveyViewPages(surveyId, viewType);
+
+            var localizedModel = surveys.ToLocalizedModel<List<SurveyViewPageViewModel>,QuestionPartView>(language);
+            return new ObjectResult(localizedModel);
+        }
 
         /// <summary>
         /// Retrieves a question configuration.
@@ -190,8 +206,8 @@ namespace TRAISI.Controllers.SurveyViewer
                 return new NotFoundResult();
             }
 
-            var localized = result.ToLocalizedModel<SurveyViewPageViewModel>(language);
-            return new ObjectResult(localized);
+            //var localized = result.ToLocalizedModel<SurveyViewPageViewModel>(language);
+            return new ObjectResult(result);
         }
         
         /// <summary>

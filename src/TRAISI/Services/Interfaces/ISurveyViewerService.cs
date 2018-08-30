@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using DAL.Core;
 using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
@@ -86,6 +88,15 @@ namespace TRAISI.Services.Interfaces
         /// <param name="pageNumber"></param>
         /// <returns></returns>
         Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType, int pageNumber);
+        
+        /// <summary>
+        /// Returns the list of top level question part views (pages) for a particular survey view.
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType);
 
     }
 }
