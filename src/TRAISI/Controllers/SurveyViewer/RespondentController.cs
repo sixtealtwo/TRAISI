@@ -1,22 +1,21 @@
-
 using DAL;
+using Microsoft.AspNetCore.Mvc;
 using TRAISI.Services.Interfaces;
 
-namespace TRAISI.Controllers.SurveyViewer
-{
+namespace TRAISI.Controllers.SurveyViewer {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class RespondentController
-	{
-		
-
-
+	[Route("api/[controller]")]
+	public class RespondentController {
 		private IRespondentService _respondentService;
 
-		public RespondentController (IRespondentService respondentService) {
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="respondentService"></param>
+		public RespondentController(IRespondentService respondentService) {
 			this._respondentService = respondentService;
-
 		}
 	}
 }

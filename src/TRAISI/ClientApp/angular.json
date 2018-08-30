@@ -5,10 +5,10 @@
 			"typescriptMismatch": false
 		}
 	},
-	"defaultProject": "traisi-admin",
+	"defaultProject": "admin-app",
 	"newProjectRoot": "projects",
 	"projects": {
-		"traisi-admin": {
+		"admin-app": {
 			"root": "",
 			"sourceRoot": "src/admin-app",
 			"projectType": "application",
@@ -34,15 +34,15 @@
 							}
 						],
 						"styles": [
-							"src/admin-app/scss/application.scss",
+							"src/shared/assets/scss/application.scss",
 							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
 							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
 							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
-							"src/admin-app/scss/alertify.core.css",
-							"src/admin-app/scss/alertify.bootstrap.css",
+							"src/shared/assets/scss/alertify.core.css",
+							"src/shared/assets/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/min/dropzone.min.css",
 							"node_modules/froala-editor/css/froala_editor.pkgd.min.css",
 							"node_modules/froala-editor/css/froala_style.min.css",
@@ -61,7 +61,13 @@
 							"node_modules/froala-editor/js/froala_editor.pkgd.min.js",
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js"
-						]
+						],
+						"stylePreprocessorOptions": {
+							"includePaths": [
+								".",
+								"./node_modules"
+							]
+						}
 					},
 					"configurations": {
 						"production": {
@@ -93,19 +99,19 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "traisi-admin:build:serve",
+						"browserTarget": "admin-app:build:serve",
 						"port": 3000
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "traisi-admin:build:production"
+							"browserTarget": "admin-app:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "traisi-admin:build"
+						"browserTarget": "admin-app:build"
 					}
 				},
 				"test": {
@@ -144,19 +150,25 @@
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js"
 						],
-						"assets": ["src/admin-app/assets"]
+						"assets": [
+							"src/admin-app/assets"
+						]
 					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
-						"tsConfig": ["src/admin-app/tsconfig.app.json"],
-						"exclude": ["**/node_modules/**"]
+						"tsConfig": [
+							"src/admin-app/tsconfig.app.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				}
 			}
 		},
-		"traisi-admin-e2e": {
+		"admin-app-e2e": {
 			"root": "",
 			"sourceRoot": "src/admin-app-e2e",
 			"projectType": "application",
@@ -172,12 +184,14 @@
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
 						"tsConfig": [],
-						"exclude": ["**/node_modules/**"]
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				}
 			}
 		},
-		"traisi-survey-viewer-app": {
+		"survey-viewer-app": {
 			"root": "src/survey-viewer-app/",
 			"sourceRoot": "src/survey-viewer-app/",
 			"projectType": "application",
@@ -185,7 +199,6 @@
 			"schematics": {},
 			"architect": {
 				"build": {
-
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"deployUrl": "/survey/",
@@ -200,8 +213,17 @@
 							"src/survey-viewer-app/favicon.ico",
 							"src/survey-viewer-app/assets"
 						],
-						"styles": ["src/survey-viewer-app/styles.css"],
-						"scripts": []
+						"styles": [
+							"src/survey-viewer-app/styles.css",
+							"src/shared/assets/scss/application.scss"
+						],
+						"scripts": [],
+						"stylePreprocessorOptions": {
+							"includePaths": [
+								".",
+								"./node_modules"
+							]
+						}
 					},
 					"configurations": {
 						"production": {
@@ -233,18 +255,18 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "traisi-survey-viewer-app:build:serve"
+						"browserTarget": "survey-viewer-app:build:serve"
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "traisi-survey-viewer-app:build:production"
+							"browserTarget": "survey-viewer-app:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "traisi-survey-viewer-app:build"
+						"browserTarget": "survey-viewer-app:build"
 					}
 				},
 				"test": {
@@ -254,7 +276,9 @@
 						"polyfills": "src/survey-viewer-app/src/polyfills.ts",
 						"tsConfig": "src/survey-viewer-app/tsconfig.spec.json",
 						"karmaConfig": "src/survey-viewer-app/karma.conf.js",
-						"styles": ["src/survey-viewer-app/src/styles.css"],
+						"styles": [
+							"src/survey-viewer-app/src/styles.css"
+						],
 						"scripts": [],
 						"assets": [
 							"src/survey-viewer-app/favicon.ico",
@@ -269,12 +293,14 @@
 							"src/survey-viewer-app/tsconfig.app.json",
 							"src/survey-viewer-app/tsconfig.spec.json"
 						],
-						"exclude": ["**/node_modules/**"]
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				}
 			}
 		},
-		"traisi-survey-viewer-app-e2e": {
+		"survey-viewer-app-e2e": {
 			"root": "src/survey-viewer-app-e2e/",
 			"projectType": "application",
 			"architect": {
@@ -294,7 +320,9 @@
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
 						"tsConfig": "src/survey-viewer-app-e2e/tsconfig.e2e.json",
-						"exclude": ["**/node_modules/**"]
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				}
 			}
