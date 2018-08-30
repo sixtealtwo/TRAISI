@@ -59,7 +59,7 @@ namespace TRAISI.Services {
 
 			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
 
-			return true;
+			return new List<SurveyResponse>();
 
 		}
 	}
