@@ -1,9 +1,8 @@
 import {Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {QuestionLoaderService} from '../../services/question-loader.service';
-import {NgTemplateOutlet} from '@angular/common';
 import {SurveyViewerService} from '../../services/survey-viewer.service';
 import {SurveyViewQuestionOption} from '../../models/survey-view-question-option.model';
-import {OnOptionsLoaded} from 'traisi-question-sdk';
+import {OnOptionsLoaded, OnSurveyQuestionInit} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-question-container',
@@ -26,6 +25,12 @@ export class QuestionContainerComponent implements OnInit {
 
 	isLoaded: boolean = false;
 
+	/**
+	 *
+	 * @param questionLoaderService
+	 * @param surveyViewerService
+	 * @param viewContainerRef
+	 */
 	constructor(private questionLoaderService: QuestionLoaderService,
 				private surveyViewerService: SurveyViewerService,
 				public viewContainerRef: ViewContainerRef) {
@@ -37,7 +42,9 @@ export class QuestionContainerComponent implements OnInit {
 	ngOnInit() {
 
 
-
+		/**
+		 * Load the question component into the specified question outlet.
+		 */
 		this.questionLoaderService.loadQuestionComponent(this.question.questionType, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
 
@@ -48,6 +55,11 @@ export class QuestionContainerComponent implements OnInit {
 					if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 
 						(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
+					}
+
+					if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
+
+						(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 					}
 
 

@@ -1,27 +1,49 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { OnVisibilityChanged, SurveyViewer } from 'traisi-question-sdk';
+import {Component, OnInit, OnDestroy, Inject, EventEmitter} from '@angular/core';
+import {OnVisibilityChanged, SurveyViewer, OnSurveyQuestionInit, SurveyQuestion} from 'traisi-question-sdk';
+import {QuestionConfiguration} from '../../../TRAISI.SDK/Module/src';
 
 @Component({
 	selector: 'traisi-text-question',
 	template: require('./text-question.component.html').toString(),
 	styles: [require('./text-question.component.scss').toString()]
 })
-export class TextQuestionComponent implements OnInit, OnVisibilityChanged {
+export class TextQuestionComponent implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
+	
+	
 	onQuestionShown(): void {
-		throw new Error('Method not implemented.');
+		console.log('shown');
 	}
 
 	onQuestionHidden(): void {
-		throw new Error('Method not implemented.');
+		console.log('hidde');
 	}
+
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
+
+	response: EventEmitter<any>;
 
 	typeName: string;
 	icon: string;
+
+	/**
+	 *
+	 * @param surveyViewerService
+	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
+
 	}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.onQuestionShown();
+	}
+
+	/**
+	 *
+	 * @param configuration
+	 */
+	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {
+
+	}
 }
