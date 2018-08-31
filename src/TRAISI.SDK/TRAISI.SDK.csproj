@@ -27,6 +27,12 @@
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
     <!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" /> -->
   </ItemGroup>
+
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec WorkingDirectory="Module/" Command="npm run build"/>
+    <Message Text="Compiled and built TRAISI SDK module" Importance="High" />
+  </Target>
   <ItemGroup Condition="'$(Configuration)' == 'cli'">
     <Compile Include="CLITool/**/*.cs" />
     <EmbeddedResource Include="CLITool/Resources/package.json">
