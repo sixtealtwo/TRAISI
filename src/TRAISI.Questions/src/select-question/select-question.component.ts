@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
+import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
 import {OnOptionsLoaded, QuestionOption} from 'traisi-question-sdk';
 @Component({
 	selector: 'traisi-select-question',
@@ -18,7 +18,8 @@ export class SelectQuestionComponent implements OnInit, OnOptionsLoaded {
 	 *
 	 * @param surveyViewerService
 	 */
-	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
+				@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'select';
 		this.options = [];

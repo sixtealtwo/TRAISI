@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
-import { PartialObserver } from '../../node_modules/rxjs';
+import {Component, Inject, OnInit} from '@angular/core';
+import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
+
 @Component({
 	selector: 'traisi-time-question',
 	template: require('./time-question.component.html').toString(),
@@ -11,7 +11,9 @@ export class TimeQuestionComponent implements OnInit {
 
 	typeName: string;
 	icon: string;
-	constructor(private surveyViewerService: SurveyViewer) {
+
+	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
+				@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'time';
 
@@ -22,7 +24,7 @@ export class TimeQuestionComponent implements OnInit {
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]){
+	loadConfigurationData(data: QuestionConfiguration[]) {
 
 		console.log(data);
 	}

@@ -28,6 +28,7 @@ import {QuestionLoaderService} from './services/question-loader.service';
 import {SurveyViewerService} from './services/survey-viewer.service';
 import {SurveyResponderEndpointService} from './services/survey-responder-endpoint.service';
 import {SurveyResponderService} from './services/survey-responder.service';
+import 'jquery';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import {SurveyResponderService} from './services/survey-responder.service';
 				useClass: TranslateLanguageLoader
 			}
 		}),
-		AppRoutingModule
+		AppRoutingModule,
 
 
 	],

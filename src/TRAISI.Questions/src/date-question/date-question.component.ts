@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
-import { PartialObserver } from '../../node_modules/rxjs';
+import {Component, Inject, OnInit} from '@angular/core';
+import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
+import {PartialObserver} from '../../node_modules/rxjs';
+
 @Component({
 	selector: 'traisi-date-question',
 	template: require('./date-question.component.html').toString(),
@@ -11,18 +12,20 @@ export class DateQuestionComponent implements OnInit {
 
 	typeName: string;
 	icon: string;
-	constructor(private surveyViewerService: SurveyViewer) {
+
+	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
+				@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'date';
 
-		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
+		this._surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
 	/**
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]){
+	loadConfigurationData(data: QuestionConfiguration[]) {
 
 	}
 
