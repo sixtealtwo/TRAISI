@@ -23,9 +23,11 @@
     "jquery": "^3.3.1",
     "mapbox-gl": "^0.45.0",
     "ng2-datetime": "^1.4.0",
+    "ng2-select2": "^1.0.0-beta.16",
     "ngx-mapbox-gl": "^1.2.0",
     "rxjs": "6.0.0",
     "rxjs-compat": "6.0.0",
+    "select2": "^4.0.6-rc.1",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

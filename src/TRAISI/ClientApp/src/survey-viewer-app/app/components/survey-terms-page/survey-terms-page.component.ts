@@ -28,7 +28,8 @@ export class SurveyTermsPageComponent implements OnInit {
 	}
 
 	public begin() {
-		this.router.navigate([this.surveyName, 'viewer'], {queryParams: {surveyId: this.surveyId}});
+		this.surveyViewerService.activeSurveyId = this.surveyId;
+		this.router.navigate([this.surveyName, 'viewer']);
 	}
 
 	/**
