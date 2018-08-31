@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
-import { PartialObserver } from '../../node_modules/rxjs';
+
 @Component({
 	selector: 'traisi-range-question',
 	template: require('./range-question.component.html').toString(),

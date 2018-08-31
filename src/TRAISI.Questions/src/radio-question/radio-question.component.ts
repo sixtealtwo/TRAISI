@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SurveyViewer, QuestionOption, SurveyResponder} from 'traisi-question-sdk';
-import {OnOptionsLoaded} from '../../../TRAISI.SDK/Module/src';
+import {SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded} from 'traisi-question-sdk';
+
 
 
 @Component({

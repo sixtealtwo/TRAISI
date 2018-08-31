@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {SurveyViewer, QuestionConfiguration, QuestionOption, OnOptionsLoaded} from 'traisi-question-sdk';
-import {PartialObserver} from '../../node_modules/rxjs';
 
 @Component({
 	selector: 'traisi-checkbox-question',

@@ -1,6 +1,7 @@
 import {QuestionOption} from './question-option';
 import {QuestionConfiguration} from './question-configuration';
-import {EventEmitter} from '@angular/core';
+
+//import {EventEmitter} from '@angular/core';
 
 export interface OnVisibilityChanged
 {
@@ -36,5 +37,5 @@ export interface OnSurveyQuestionInit {
 	/**
 	 *
 	 */
-	response: EventEmitter<any>;
+	response: any;
 }

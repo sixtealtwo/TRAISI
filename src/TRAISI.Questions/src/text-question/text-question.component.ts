@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, Inject, EventEmitter} from '@angular/core';
-import {OnVisibilityChanged, SurveyViewer, OnSurveyQuestionInit, SurveyQuestion} from 'traisi-question-sdk';
-import {QuestionConfiguration} from '../../../TRAISI.SDK/Module/src';
+import {OnVisibilityChanged, SurveyViewer, OnSurveyQuestionInit, SurveyQuestion, QuestionConfiguration} from 'traisi-question-sdk';
+
 
 @Component({
 	selector: 'traisi-text-question',
