@@ -80,5 +80,6 @@ namespace TRAISI.ViewModels.Surveys {
 		}
 
 		public SurveyViewCollection<SurveyView> SurveyViews { get; set; }
-	}
+        public string Code { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    }
 }

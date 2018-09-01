@@ -11,7 +11,7 @@ namespace TRAISI.ViewModels
     public class SurveyViewModel
     {
         public int Id { get; set; }
-        public int Code { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
@@ -34,6 +34,7 @@ namespace TRAISI.ViewModels
         public SurveyViewModelValidator()
         {
             RuleFor(register => register.Name).NotEmpty().WithMessage("Survey name cannot be empty");
+            RuleFor(register => register.Code).NotEmpty().Must(r => !r.Contains(' ')).WithMessage("Survey code cannot be empty or contain a space");
             RuleFor(register => register.StartAt).NotEmpty().WithMessage("Survey must have a start date");
             RuleFor(register => register.EndAt).NotEmpty().WithMessage("Survey must have an end date");
         }

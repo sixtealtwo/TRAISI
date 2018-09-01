@@ -120,7 +120,6 @@ namespace TRAISI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateSurvey([FromBody] SurveyViewModel survey)
 		{
-
 			if (ModelState.IsValid)
 			{
 				if (survey == null)
@@ -155,7 +154,6 @@ namespace TRAISI.Controllers
 					}
 				}
 			}
-
 			return BadRequest(ModelState);
 		}
 
@@ -165,47 +163,50 @@ namespace TRAISI.Controllers
 		[HttpPut]
 		public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel survey)
 		{
-			//check group of input survey and ensure that user has access before updating survey
-			
-			Survey appSurvey = Mapper.Map<Survey>(survey);
-			Survey originalSurvey = this._unitOfWork.Surveys.Get(appSurvey.Id);
-			if (await IsSuperAdmin() || originalSurvey.Owner == this.User.Identity.Name || await IsGroupAdmin(appSurvey.Group))
-			{
-				originalSurvey.Code = appSurvey.Code;
-				originalSurvey.DefaultLanguage = appSurvey.DefaultLanguage;
-				originalSurvey.EndAt = appSurvey.EndAt;
-				originalSurvey.IsActive = appSurvey.IsActive;
-				originalSurvey.IsOpen = appSurvey.IsOpen;
-				originalSurvey.Name = appSurvey.Name;
-				originalSurvey.RejectionLink = appSurvey.RejectionLink;
-				originalSurvey.StartAt = appSurvey.StartAt;
-				originalSurvey.StyleTemplate = appSurvey.StyleTemplate;
-				originalSurvey.SuccessLink = appSurvey.SuccessLink;
+            //check group of input survey and ensure that user has access before updating survey
+            if (ModelState.IsValid)
+            {
+                Survey appSurvey = Mapper.Map<Survey>(survey);
+                Survey originalSurvey = this._unitOfWork.Surveys.Get(appSurvey.Id);
+                if (await IsSuperAdmin() || originalSurvey.Owner == this.User.Identity.Name || await IsGroupAdmin(appSurvey.Group))
+                {
+                    originalSurvey.Code = appSurvey.Code;
+                    originalSurvey.DefaultLanguage = appSurvey.DefaultLanguage;
+                    originalSurvey.EndAt = appSurvey.EndAt;
+                    originalSurvey.IsActive = appSurvey.IsActive;
+                    originalSurvey.IsOpen = appSurvey.IsOpen;
+                    originalSurvey.Name = appSurvey.Name;
+                    originalSurvey.RejectionLink = appSurvey.RejectionLink;
+                    originalSurvey.StartAt = appSurvey.StartAt;
+                    originalSurvey.StyleTemplate = appSurvey.StyleTemplate;
+                    originalSurvey.SuccessLink = appSurvey.SuccessLink;
 
-				await this._unitOfWork.SaveChangesAsync();
-				return new OkResult();
-			}
-			else
-			{
-				var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, appSurvey.Id);
-				if (surveyPermissions.Permissions.Contains("survey.modify"))
-				{
-					
-					appSurvey.Owner = originalSurvey.Owner;
-					appSurvey.Group = originalSurvey.Group;
-					appSurvey.Code = originalSurvey.Code;
-					appSurvey.SurveyPermissions = originalSurvey.SurveyPermissions;
-					appSurvey.SurveyViews = originalSurvey.SurveyViews;
-					this._unitOfWork.Surveys.Update(appSurvey);
-					await this._unitOfWork.SaveChangesAsync();
-					return new OkResult();
-				}
-				else
-				{
-					return BadRequest("Insufficient privileges.");
-				}	
-			}
-		}
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, appSurvey.Id);
+                    if (surveyPermissions.Permissions.Contains("survey.modify"))
+                    {
+
+                        appSurvey.Owner = originalSurvey.Owner;
+                        appSurvey.Group = originalSurvey.Group;
+                        appSurvey.Code = originalSurvey.Code;
+                        appSurvey.SurveyPermissions = originalSurvey.SurveyPermissions;
+                        appSurvey.SurveyViews = originalSurvey.SurveyViews;
+                        this._unitOfWork.Surveys.Update(appSurvey);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return new OkResult();
+                    }
+                    else
+                    {
+                        return BadRequest("Insufficient privileges.");
+                    }
+                }
+            }
+            return BadRequest(ModelState);
+        }
 
 		/// <summary>
 		/// Delete a survey
@@ -248,26 +249,26 @@ namespace TRAISI.Controllers
 		[HttpGet("{id}/permissions/{userName}")]
 		[Produces(typeof(List<SurveyPermissionViewModel>))]
 		public async Task<IActionResult> GetUserSurveyPermissions(int id, string userName)
-		{	
-			var survey = await this._unitOfWork.Surveys.GetAsync(id);
-			var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(userName, id);
-			//Restrict to super admins, group admins, owners, and users with survey.share permissions
-			if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin() || await IsGroupAdmin(survey.Group))
-			{
-				return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
-			}
-			else
-			{
-				if (surveyPermissions.Permissions.Contains("survey.share"))
-				{
-					return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
-				}
-				else
-				{
-					return BadRequest("Insufficient privileges.");
-				}
-			}
-		}
+		{
+                var survey = await this._unitOfWork.Surveys.GetAsync(id);
+                var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(userName, id);
+            //Restrict to super admins, group admins, owners, and users with survey.share permissions
+            if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin() || await IsGroupAdmin(survey.Group))
+            {
+                return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
+            }
+            else
+            {
+                if (surveyPermissions.Permissions.Contains("survey.share"))
+                {
+                    return Ok(Mapper.Map<SurveyPermissionViewModel>(surveyPermissions));
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
+            }
+        }
 	
 
 		/// <summary>
@@ -278,30 +279,34 @@ namespace TRAISI.Controllers
 		[HttpPut("permissions")]
 		public async Task<IActionResult> UpdateUserSurveyPermissions([FromBody] SurveyPermissionViewModel surveyPermissions)
 		{
-			var survey = await this._unitOfWork.Surveys.GetAsync(surveyPermissions.SurveyId);
-			var surveyPermissionsModel = Mapper.Map<SurveyPermission>(surveyPermissions);
-			// Restrict to group admins, owners, and users with survey.share permissions.
-			if (survey.Owner == this.User.Identity.Name || await IsGroupAdmin(survey.Group))
-			{
-				this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
-				await this._unitOfWork.SaveChangesAsync();
-				return new OkResult();
-			}
-			else
-			{
-				var userPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyPermissions.SurveyId);
-				if(surveyPermissions.Permissions.Contains("survey.share"))
-				{
-					this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
-					await this._unitOfWork.SaveChangesAsync();
-					return new OkResult();
-				}
-				else
-				{
-					return BadRequest("Insufficient privileges.");
-				}
-			}
-		}
+            if (ModelState.IsValid)
+            {
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyPermissions.SurveyId);
+                var surveyPermissionsModel = Mapper.Map<SurveyPermission>(surveyPermissions);
+                // Restrict to group admins, owners, and users with survey.share permissions.
+                if (survey.Owner == this.User.Identity.Name || await IsGroupAdmin(survey.Group))
+                {
+                    this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    var userPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyPermissions.SurveyId);
+                    if (surveyPermissions.Permissions.Contains("survey.share"))
+                    {
+                        this._unitOfWork.SurveyPermissions.Update(surveyPermissionsModel);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return new OkResult();
+                    }
+                    else
+                    {
+                        return BadRequest("Insufficient privileges.");
+                    }
+                }
+            }
+            return BadRequest(ModelState);
+        }
 
 		/// <summary>
 		/// Check if group admin has given permission

@@ -7,6 +7,18 @@
 				 name="surveyName" required>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<div class="form-group form-group-adjust row">
+			<label for="surveyName" class="col-md-2 col-form-label text-md-right">Survey Code</label>
+			<div class="col-md-7">
+				<input [(ngModel)]="model.code" type="text" class="form-control" id="surveyCode" aria-describedby="surveyCode" placeholder="SurveyCode"
+				 name="surveyCode" required>
+			</div>
+		</div>
 		<div class="row" *ngIf="isNewSurvey">
 			<div class="col-md-12">
 				<hr class="edit-separator-hr" />

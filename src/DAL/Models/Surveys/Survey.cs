@@ -8,7 +8,7 @@ namespace DAL.Models.Surveys
     public class Survey : AuditableEntity, ISurvey, IEntity
     {
         public int Id { get; set; }
-        public int Code { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }

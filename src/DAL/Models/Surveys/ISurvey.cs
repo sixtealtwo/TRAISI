@@ -10,6 +10,7 @@ namespace DAL.Models.Surveys
     {
 
         int Id { get; set; }
+        string Code { get; set; }
         string Owner { get; set; }
         string Group { get; set; }
         DateTime StartAt { get; set; }
