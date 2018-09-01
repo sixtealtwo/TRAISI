@@ -1,7 +1,7 @@
 <div class="welcome-container">
 
 	<h1>Terms and Conditions</h1>
-	<p> {{ model.termsAndConditionsText }}</p>
+	<p [innerHTML]="model.termsAndConditionsText | safeHtml"></p>
 
 
 	<div class="clearfix survey-start-button ">

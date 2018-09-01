@@ -29,6 +29,7 @@ import {SurveyViewerService} from './services/survey-viewer.service';
 import {SurveyResponderEndpointService} from './services/survey-responder-endpoint.service';
 import {SurveyResponderService} from './services/survey-responder.service';
 import 'jquery';
+import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import 'jquery';
 		SurveyHeaderDisplayComponent,
 		SurveyTermsPageComponent,
 		SurveyViewerComponent,
-		SurveyCompletePageComponent
+		SurveyCompletePageComponent,
+		SafeHtmlPipe
 
 	],
 	imports: [

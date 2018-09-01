@@ -1,11 +1,11 @@
-import { Observable, Subject } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
-import { switchMap, catchError, mergeMap } from 'rxjs/operators';
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { ConfigurationService } from './configuration.service';
-import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
+import {switchMap, catchError, mergeMap} from 'rxjs/operators';
+import {Injectable, Injector} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {AuthService} from './auth.service';
+import {ConfigurationService} from './configuration.service';
+import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class EndpointFactory {
@@ -13,17 +13,17 @@ export class EndpointFactory {
 
 	private readonly _loginUrl: string = '/connect/token';
 
-	private get loginUrl() {
+	protected get loginUrl() {
 		return this.configurations.baseUrl + this._loginUrl;
 	}
 
-	private taskPauser: Subject<any>;
-	private isRefreshingLogin: boolean;
-	private lastCall: string = '';
+	protected taskPauser: Subject<any>;
+	protected isRefreshingLogin: boolean;
+	protected lastCall: string = '';
 
 	private _authService: AuthService;
 
-	private get authService() {
+	protected get authService() {
 		if (!this._authService) {
 			this._authService = this.injector.get(AuthService);
 		}
@@ -35,10 +35,16 @@ export class EndpointFactory {
 		protected http: HttpClient,
 		protected configurations: ConfigurationService,
 		private injector: Injector
-	) {}
+	) {
+	}
 
+	/**
+	 *
+	 * @param userName
+	 * @param password
+	 */
 	getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
-		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+		let header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
 		let params = new HttpParams()
 			.append('username', userName)
@@ -49,7 +55,7 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
+		return this.http.post<T>(this.loginUrl, requestBody, {headers: header});
 	}
 
 	getRefreshLoginEndpoint<T>(): Observable<T> {
@@ -65,13 +71,17 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
+		return this.http.post<T>(this.loginUrl, requestBody, {headers: header}).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
 			})
 		);
 	}
 
+	/**
+	 *
+	 * @param rType
+	 */
 	protected getRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
@@ -81,27 +91,32 @@ export class EndpointFactory {
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${
 					this.apiVersion
-				}+json, application/json, text/plain, */*`,
+					}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode
 			});
 
-			return { headers: headers, responseType: rType };
+			return {headers: headers, responseType: rType};
 		} else {
 			const headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${
 					this.apiVersion
-				}+json, application/json, text/plain, */*`,
+					}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion
 			});
 
-			return { headers: headers, responseType: rType };
+			return {headers: headers, responseType: rType};
 		}
 	}
 
+	/**
+	 *
+	 * @param error
+	 * @param continuation
+	 */
 	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
 		if (error.status === 401 && this.lastCall !== error.url) {
 			this.lastCall = error.url;
@@ -151,7 +166,11 @@ export class EndpointFactory {
 		}
 	}
 
-	private pauseTask(continuation: () => Observable<any>) {
+	/**
+	 *
+	 * @param continuation
+	 */
+	protected pauseTask(continuation: () => Observable<any>) {
 		if (!this.taskPauser) {
 			this.taskPauser = new Subject();
 		}
@@ -163,7 +182,11 @@ export class EndpointFactory {
 		);
 	}
 
-	private resumeTasks(continueOp: boolean) {
+	/**
+	 *
+	 * @param continueOp
+	 */
+	protected resumeTasks(continueOp: boolean) {
 		setTimeout(() => {
 			if (this.taskPauser) {
 				this.taskPauser.next(continueOp);
