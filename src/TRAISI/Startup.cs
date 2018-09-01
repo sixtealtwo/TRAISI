@@ -134,7 +134,6 @@ namespace TRAISI {
 				};
 			});
 
-
 			// Add framework services.
 			services.AddMvc().AddJsonOptions(opts => {
 				opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -210,6 +209,9 @@ namespace TRAISI {
 					policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageGroupSurveys));
 				options.AddPolicy(Policies.CreateGroupSurveysPolicy,
 					policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
+
+				options.AddPolicy(Policies.RespondToSurveysPolicy,
+					policy => policy.Requirements.Add(new SurveyRespondentAuthorizationRequirement()));
 			});
 
 			Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });

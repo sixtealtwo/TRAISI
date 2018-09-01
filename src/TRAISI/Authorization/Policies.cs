@@ -54,6 +54,9 @@ namespace TRAISI.Authorization
 
         /// <summary>Policy to allow adding surveys within the group.</summary>
         public const string CreateGroupSurveysPolicy = "Create Group Surveys";
+	    
+	    /// <summary>Policy to allow adding surveys within the group.</summary>
+	    public const string RespondToSurveysPolicy = "Respond to Surveys";
 
     }
 

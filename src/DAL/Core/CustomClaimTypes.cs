@@ -25,5 +25,12 @@ namespace DAL.Core
 
         ///<summary>A claim that specifies the configuration/customizations of an entity</summary>
         public const string Configuration = "configuration";
+
+        /// <summary>
+        /// A claim that specifies 
+        /// </summary>
+        public const string SurveyRespondent = "respondent";
+
+        public const string SurveyProxyRespondent = "proxyrespondent";
     }
 }
