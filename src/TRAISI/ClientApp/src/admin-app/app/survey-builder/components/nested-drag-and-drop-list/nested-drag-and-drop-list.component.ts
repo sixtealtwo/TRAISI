@@ -145,6 +145,14 @@ export class NestedDragAndDropListComponent implements OnInit {
 						this.currentPage.questionPartViewChildren.push(newQuestion);
 					}
 				}
+				this.configurationModal.hide();
+			},	error => {
+				this.alertService.showStickyMessage(
+					'Update Error',
+					`Unable to add question.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+					MessageSeverity.error,
+					error
+				);
 			});
 	}
 
@@ -173,13 +181,14 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	processConfiguration(result: string) {
-		this.configurationModalShowing = false;
 		if (result === 'save') {
 			Object.assign(this.questionBeingEdited, this.qConfiguration.questionBeingEdited);
 			this.saveConfiguration();
 		} else if (result === 'cancel') {
+			this.configurationModalShowing = false;
 			this.cancelConfiguration();
 		} else if (result === 'delete') {
+			this.configurationModalShowing = false;
 			this.deleteQuestion();
 		}
 	}
@@ -190,11 +199,39 @@ export class NestedDragAndDropListComponent implements OnInit {
 		} else {
 			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.questionBeingEdited).subscribe(
 				result => {
-					this.alertService.showMessage(
-						'Success',
-						`Question data updated successfully!`,
-						MessageSeverity.success
-					);
+					if (this.qConfiguration.configurationValues.length > 0) {
+						this.surveyBuilderService
+							.updateQuestionPartConfigurations(
+								this.surveyId,
+								this.questionBeingEdited.questionPart.id,
+								this.qConfiguration.configurationValues
+							)
+							.subscribe(
+								configResult => {
+									this.alertService.showMessage(
+										'Success',
+										`Question data and configurations updated successfully!`,
+										MessageSeverity.success
+									);
+									this.configurationModal.hide();
+								},
+								error => {
+									this.alertService.showStickyMessage(
+										'Update Error',
+										`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+										MessageSeverity.error,
+										error
+									);
+								}
+							);
+					} else {
+						this.alertService.showMessage(
+							'Success',
+							`Question data and configurations updated successfully!`,
+							MessageSeverity.success
+						);
+						this.configurationModal.hide();
+					}
 				},
 				error => {
 					this.alertService.showStickyMessage(
@@ -205,33 +242,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 					);
 				}
 			);
-			if (this.qConfiguration.configurationValues.length > 0) {
-				this.surveyBuilderService
-					.updateQuestionPartConfigurations(
-						this.surveyId,
-						this.questionBeingEdited.questionPart.id,
-						this.qConfiguration.configurationValues
-					)
-					.subscribe(
-						result => {
-							this.alertService.showMessage(
-								'Success',
-								`Question configurations updated successfully!`,
-								MessageSeverity.success
-							);
-						},
-						error => {
-							this.alertService.showStickyMessage(
-								'Update Error',
-								`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
-								MessageSeverity.error,
-								error
-							);
-						}
-					);
-			}
 		}
-		this.configurationModal.hide();
 	}
 
 	cancelConfiguration() {
@@ -345,7 +356,6 @@ export class NestedDragAndDropListComponent implements OnInit {
 							.subscribe();
 					}
 				}
-				this.dragResult = undefined;
 			});
 		}
 	}

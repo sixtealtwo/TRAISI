@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -185,6 +186,62 @@ namespace DAL.Repositories
             });
 
             return sharedSurveys;
+        }
+
+        public bool QuestionNameIsUnique(int surveyId, string name, string oldName)
+        {
+            if (name == oldName)
+            {
+                return true;
+            }
+
+            var surveyViewIds = _appContext.Surveys
+                .Where(s => s.Id == surveyId)
+                .SelectMany(s => s.SurveyViews)
+                .Select(v => v.Id)
+                .ToList();
+
+            var pages = _appContext.QuestionPartViews
+                .Where(v => surveyViewIds.Contains(v.SurveyView.Id))
+                .Include(qpv => qpv.QuestionPart)
+                .Include(qpv => qpv.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                .Include(qpv => qpv.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                .ToList();
+
+            var qpartNames = this.GetQuestionPartNames(pages);
+            return !qpartNames.Contains(name);
+        }
+
+        private List<string> GetQuestionPartNames(List<QuestionPartView> partviews)
+        {
+            List<string> qpartnames = new List<string>();
+
+            foreach (var partview in partviews)
+            {
+                if (partview.QuestionPart != null)
+                {
+                    qpartnames.Add(partview.QuestionPart.Name);
+                }
+                else
+                {
+                    /*foreach (var child in partview.QuestionPartViewChildren)
+                    {
+                        if (child.QuestionPart != null)
+                        {
+                            qpartnames.Add(child.QuestionPart.Name);
+                        }
+                        else
+                        {
+                            foreach (var subchild in child.QuestionPartViewChildren)
+                            {
+                                qpartnames.Add(subchild.QuestionPart.Name);
+                            }
+                        }
+                    }*/
+                    qpartnames.AddRange(this.GetQuestionPartNames(partview.QuestionPartViewChildren.ToList()));
+                }
+            }
+            return qpartnames.Distinct().ToList();
         }
     }
 }

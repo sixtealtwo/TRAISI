@@ -11,10 +11,10 @@ namespace DAL.Repositories.Interfaces {
 	public interface IQuestionPartRepository : IRepository<QuestionPart> {
 
         Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id);
-				Task<QuestionPart> GetQuestionPartWithOptionsAsync(int id);
+		Task<QuestionPart> GetQuestionPartWithOptionsAsync(int id);
         Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurationsAsync(int id);
         Task<IEnumerable<QuestionOption>> GetQuestionPartOptionsAsync(int id);
-				Task<int> GetNumberOfParentViewsAsync(int id);
-				int GetNumberOfParentViews(int id);
+		Task<int> GetNumberOfParentViewsAsync(int id);
+		int GetNumberOfParentViews(int id);
 	}
 }

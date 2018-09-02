@@ -46,6 +46,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
 	@ViewChild('questionChooser') questionChooser: QuestionTypeChooserComponent;
+	@ViewChild('createPageModal') createPageModal: ModalDirective;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -305,6 +306,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			result => {
 				this.loadPageStructure();
 				this.alertService.showMessage('Success', `Page was added successfully!`, MessageSeverity.success);
+				this.createPageModal.hide();
 			},
 			error => {
 				this.alertService.showMessage(

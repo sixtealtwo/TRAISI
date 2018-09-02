@@ -30,5 +30,7 @@ namespace DAL.Repositories.Interfaces
 
         Task<Survey> GetSurveyForShortcode(string shortcode);
 
+        bool QuestionNameIsUnique(int surveyId, string name, string oldName);
+
     }
 }

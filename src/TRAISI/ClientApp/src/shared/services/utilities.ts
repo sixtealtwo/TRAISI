@@ -77,7 +77,7 @@ export class Utilities {
 
 					for (let key in responseObject) {
 						if (key) {
-							responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
+							responses.push(`${responseObject[key]}`);
 						} else if (responseObject[key]) {
 							responses.push(responseObject[key].toString());
 						}

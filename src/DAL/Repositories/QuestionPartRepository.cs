@@ -53,7 +53,7 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
-				public async Task<QuestionPart> GetQuestionPartWithOptionsAsync(int id)
+        public async Task<QuestionPart> GetQuestionPartWithOptionsAsync(int id)
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
@@ -61,18 +61,18 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
-				public async Task<int> GetNumberOfParentViewsAsync(int id)
-				{
-					return await _appContext.QuestionPartViews
-						.Where(q => q.QuestionPart.Id == id)
-						.CountAsync();
-				}
+        public async Task<int> GetNumberOfParentViewsAsync(int id)
+        {
+            return await _appContext.QuestionPartViews
+                .Where(q => q.QuestionPart.Id == id)
+                .CountAsync();
+        }
 
-				public int GetNumberOfParentViews(int id)
-				{
-					return _appContext.QuestionPartViews
-						.Where(q => q.QuestionPart.Id == id)
-						.Count();
-				}
+        public int GetNumberOfParentViews(int id)
+        {
+            return _appContext.QuestionPartViews
+                .Where(q => q.QuestionPart.Id == id)
+                .Count();
+        }
     }
 }

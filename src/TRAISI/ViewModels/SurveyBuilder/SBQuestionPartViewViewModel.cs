@@ -27,6 +27,8 @@ namespace TRAISI.ViewModels.SurveyBuilder
 		public SBQuestionPartViewViewModelValidator()
 		{
 			RuleFor(part => part.Label).NotNull().WithMessage("Title must not be empty");
+            RuleFor(part => part.Label.Value).NotNull().WithMessage("Text cannot be empty").NotEmpty().WithMessage("Text cannot be empty");
+            RuleFor(part => part.QuestionPart).SetValidator(new SBQuestionPartViewModelValidator());
 		}
 	}
 

@@ -113,6 +113,11 @@ namespace TRAISI.Controllers
                                   Value = questionInfo.Label.Value
                                 }
                             };
+                        //ensure question part name is unique
+                        if (question.QuestionPart != null && !this._unitOfWork.Surveys.QuestionNameIsUnique(surveyId, question.QuestionPart.Name, null))
+                        {
+                            return BadRequest("Question name must be unique");
+                        }
                     }
                     else
                     {
@@ -153,19 +158,31 @@ namespace TRAISI.Controllers
         [HttpPut("{surveyId}/Part")]
         public async Task<IActionResult> UpdateQuestionPartViewData(int surveyId, [FromBody] SBQuestionPartViewViewModel updatedQPartView)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            if (ModelState.IsValid)
             {
-                var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
-                this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isOptional, updatedQPartView.isRepeat);
-                this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
+                    try
+                    {
+                        this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
+                        this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.isRepeat);
+                        this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return new OkResult();
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Insufficient permissions.");
+                }
             }
-            else
-            {
-                return BadRequest("Insufficient permissions.");
-            }
+            return BadRequest(ModelState);
         }
 
         [HttpGet("{surveyId}/PartStructure/{questionPartViewId}/{language}")]

@@ -10,8 +10,8 @@ namespace TRAISI.ViewModels
 {
     public class LabelViewModel
     {
-			 public string Value { get; set; }
-       public string Language { get; set; }
+        public string Value { get; set; }
+        public string Language { get; set; }
     }
 
     public class LabelViewModelValidator : AbstractValidator<LabelViewModel>

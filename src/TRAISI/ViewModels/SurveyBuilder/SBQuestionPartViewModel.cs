@@ -10,12 +10,9 @@ namespace TRAISI.ViewModels.SurveyBuilder
 
         public string QuestionType { get; set; }
 
+        public string Name { get; set; }
+
         public ICollection<SBQuestionPartViewModel> QuestionPartChildren { get; set; }
-
-
-        //public ICollection<QuestionConfigurationValueViewModel> QuestionConfigurations { get; set; }
-
-        // public ICollection<QuestionOption> QuestionOptions { get; set; }
 
         //Whether this question part is responded to by the respondent group
         public bool IsGroupQuestion { get; set; } = false;
@@ -25,7 +22,7 @@ namespace TRAISI.ViewModels.SurveyBuilder
 	{
 		public SBQuestionPartViewModelValidator()
 		{
-			
+            RuleFor(q => q.Name).NotNull().NotEmpty().WithMessage("Question must have a name");
 		}
 	}
 
