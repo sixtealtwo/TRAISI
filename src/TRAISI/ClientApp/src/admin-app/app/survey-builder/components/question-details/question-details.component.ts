@@ -6,7 +6,7 @@ import { QuestionOptionDefinition } from '../../models/question-option-definitio
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionOptionValue } from '../../models/question-option-value';
 import { QuestionOptionLabel } from '../../models/question-option-label.model';
-import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
+import { AlertService, DialogType, MessageSeverity } from '../../../../../shared/services/alert.service';
 import { Order } from '../../models/order.model';
 
 @Component({
@@ -43,9 +43,8 @@ export class QuestionDetailsComponent implements OnInit {
 			this.items.set(q, []);
 		});
 
-		this.builderService
-			.getQuestionPartOptions(this.surveyId, this.question.id, this.language)
-			.subscribe(options => {
+		this.builderService.getQuestionPartOptions(this.surveyId, this.question.id, this.language).subscribe(
+			options => {
 				if (options !== null) {
 					options.forEach(option => {
 						this.items.get(option.name).push(option);
@@ -62,7 +61,8 @@ export class QuestionDetailsComponent implements OnInit {
 			},
 			error => {
 				this.reordering = false;
-			});
+			}
+		);
 	}
 
 	public getOptionPayload(index: number) {
@@ -96,38 +96,50 @@ export class QuestionDetailsComponent implements OnInit {
 
 	public addOption(optionDefName: string) {
 		this.addingOption = true;
+		let optionOrder = this.items.get(optionDefName).length;
 		let newOption = new QuestionOptionValue(
 			0,
 			optionDefName,
-			new QuestionOptionLabel(0, '', this.language),
-			this.items.get(optionDefName).length
+			new QuestionOptionLabel(0, `Option ${optionOrder + 1}`, this.language),
+			optionOrder
 		);
-		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, newOption).subscribe(addedOption => {
-			this.items.get(optionDefName).push(addedOption);
-			this.savedItems.set(addedOption.id, addedOption.optionLabel.value);
-			this.addingOption = false;
-		},
-		error => {
-			this.addingOption = false;
-		});
+		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, newOption).subscribe(
+			addedOption => {
+				this.items.get(optionDefName).push(addedOption);
+				this.savedItems.set(addedOption.id, addedOption.optionLabel.value);
+				this.addingOption = false;
+			},
+			error => {
+				this.addingOption = false;
+			}
+		);
 	}
 
 	public deleteOption(optionDefName: string, order: number) {
-		this.alertService.showDialog('Are you sure you want to delete this option?', DialogType.confirm,
-			() => {
-				let optionList = this.items.get(optionDefName);
-				this.builderService.deleteQuestionPartOption(this.surveyId, this.question.id, optionList[order].id).subscribe(success => {
+		this.alertService.showDialog('Are you sure you want to delete this option?', DialogType.confirm, () => {
+			let optionList = this.items.get(optionDefName);
+			this.builderService
+				.deleteQuestionPartOption(this.surveyId, this.question.id, optionList[order].id)
+				.subscribe(success => {
 					let deleted = optionList.splice(order, 1);
 					this.savedItems.delete(deleted[0].id);
 					this.updateQuestionOrder(optionList);
 				});
-			});
+		});
 	}
 
 	public saveOption(option: QuestionOptionValue) {
-		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe( result => {
-			this.savedItems.set(option.id, option.optionLabel.value);
-		});
-
+		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe(
+			result => {
+				this.savedItems.set(option.id, option.optionLabel.value);
+			},
+			error => {
+				this.alertService.showMessage(
+					'Error',
+					`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+					MessageSeverity.error
+				);
+			}
+		);
 	}
 }

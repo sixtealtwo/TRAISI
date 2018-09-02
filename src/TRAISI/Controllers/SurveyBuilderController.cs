@@ -222,21 +222,25 @@ namespace TRAISI.Controllers
         [HttpPut("{surveyId}/QuestionConfigurations/{questionPartId}")]
         public async Task<IActionResult> UpdateQuestionPartConfigurations(int surveyId, int questionPartId, [FromBody] List<QuestionConfigurationValueViewModel> updatedConfigurations)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            if (ModelState.IsValid)
             {
-                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionPartId);
-                updatedConfigurations.ForEach(config =>
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    this._surveyBuilderService.SetQuestionConfiguration(questionPart, config.Name, config.Value);
-                });
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
+                    var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionPartId);
+                    updatedConfigurations.ForEach(config =>
+                    {
+                        this._surveyBuilderService.SetQuestionConfiguration(questionPart, config.Name, config.Value);
+                    });
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
             }
-            else
-            {
-                return BadRequest("Insufficient privileges.");
-            }
+            return BadRequest(ModelState);
         }
 
         [HttpGet("{surveyId}/QuestionOptions/{questionPartId}/{language}")]
@@ -262,18 +266,29 @@ namespace TRAISI.Controllers
         [Produces(typeof(QuestionOptionValueViewModel))]
         public async Task<IActionResult> SetQuestionPartOption(int surveyId, int questionPartId, [FromBody] QuestionOptionValueViewModel newOption)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            if (ModelState.IsValid)
             {
-                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
-                var option = this._surveyBuilderService.SetQuestionOptionLabel(questionPart, newOption.Id, newOption.Name, newOption.OptionLabel.Value, newOption.OptionLabel.Language);
-                await this._unitOfWork.SaveChangesAsync();
-                return Ok(option.ToLocalizedModel<QuestionOptionValueViewModel>(newOption.OptionLabel.Language));
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    try
+                    {
+                        var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
+                        var option = this._surveyBuilderService.SetQuestionOptionLabel(questionPart, newOption.Id, newOption.Name, newOption.OptionLabel.Value, newOption.OptionLabel.Language);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return Ok(option.ToLocalizedModel<QuestionOptionValueViewModel>(newOption.OptionLabel.Language));
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
             }
-            else
-            {
-                return BadRequest("Insufficient privileges.");
-            }
+            return BadRequest(ModelState);
         }
 
         [HttpDelete("{surveyId}/QuestionOptions/{questionPartId}/{optionId}")]
@@ -296,38 +311,46 @@ namespace TRAISI.Controllers
         [HttpPut("{surveyId}/QuestionOptions/{questionPartId}/Order")]
         public async Task<IActionResult> UpdateQuestionPartOptionsOrder(int surveyId, int questionPartId, [FromBody] List<SBOrderViewModel> updatedOrder)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            if (ModelState.IsValid)
             {
-                var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
-                List<QuestionOption> newOrder = Mapper.Map<List<QuestionOption>>(updatedOrder);
-                this._surveyBuilderService.ReOrderOptions(questionPart, newOrder);
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
+                    List<QuestionOption> newOrder = Mapper.Map<List<QuestionOption>>(updatedOrder);
+                    this._surveyBuilderService.ReOrderOptions(questionPart, newOrder);
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
             }
-            else
-            {
-                return BadRequest("Insufficient privileges.");
-            }
+            return BadRequest(ModelState);
         }
 
 
         [HttpPut("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
         public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBOrderViewModel> questionOrder)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            if (ModelState.IsValid)
             {
-                var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-                List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
-                this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
-                await this._unitOfWork.SaveChangesAsync();
-                return new OkResult();
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                    List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
+                    this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
             }
-            else
-            {
-                return BadRequest("Insufficient privileges.");
-            }
+            return BadRequest(ModelState);
         }
 
         [HttpGet("{surveyId}/WelcomePage/{surveyViewName}/{language}")]

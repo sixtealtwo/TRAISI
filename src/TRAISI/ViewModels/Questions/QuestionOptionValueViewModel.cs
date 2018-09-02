@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace TRAISI.ViewModels.Questions
 {
@@ -11,5 +12,13 @@ namespace TRAISI.ViewModels.Questions
         public string Name { get; set; }
 				public QuestionOptionLabelViewModel OptionLabel { get; set; }
 				public int Order { get; set; }
+    }
+
+    public class QuestionOptionValueViewModelValidator : AbstractValidator<QuestionOptionValueViewModel>
+    {
+        public QuestionOptionValueViewModelValidator()
+        {
+            RuleFor(o => o.OptionLabel).SetValidator(new QuestionOptionLabelViewModelValidator());
+        }
     }
 }

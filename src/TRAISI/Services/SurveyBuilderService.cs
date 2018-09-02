@@ -159,7 +159,15 @@ namespace TRAISI.Services
                     }
                     else
                     {
-                        optionLabel.Value = value;
+                        var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
+                        if (!allLabels.Contains(value))
+                        {
+                            optionLabel.Value = value;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Cannot have duplicate options");
+                        }
                     }
                 }
                 return option;
@@ -188,6 +196,11 @@ namespace TRAISI.Services
 
                 if (definition.QuestionOptions.Keys.Contains(name))
                 {
+                    var allLabels = part.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
+                    if (allLabels.Contains(value))
+                    {
+                        throw new ArgumentException("Cannot have duplicate options");
+                    }
                     var newOption = new QuestionOption()
                     {
                         Name = name,

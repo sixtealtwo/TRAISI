@@ -18,12 +18,12 @@ namespace TRAISI.ViewModels.SurveyBuilder
         public bool IsGroupQuestion { get; set; } = false;
     }
 
-		public class SBQuestionPartViewModelValidator : AbstractValidator<SBQuestionPartViewModel>
-	{
-		public SBQuestionPartViewModelValidator()
-		{
+    public class SBQuestionPartViewModelValidator : AbstractValidator<SBQuestionPartViewModel>
+    {
+        public SBQuestionPartViewModelValidator()
+        {
             RuleFor(q => q.Name).NotNull().NotEmpty().WithMessage("Question must have a name");
-		}
-	}
+        }
+    }
 
 }
