@@ -3,6 +3,7 @@ using System.IO;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using System.Collections.Generic;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK
 {
@@ -20,6 +21,8 @@ namespace TRAISI.SDK
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
         public Dictionary<string, byte []> ResourceData {get;}
+        
+        public QuestionResponseType ResponseType { get; set; }
 
         /// <summary>
         /// Set of Question Part Slots

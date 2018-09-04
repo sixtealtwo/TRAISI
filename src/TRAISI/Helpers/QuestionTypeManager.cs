@@ -72,11 +72,23 @@ namespace TRAISI.Helpers
             _questionTypeDefinitions.Add(typeDefinition);
 
 
+            this.ReadResponseType(attribute,typeDefinition);
             this.ReadQuestionResourceData(typeDefinition, questionType, sourceAssembly);
 
             typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <param name="definition"></param>
+        private void ReadResponseType(SurveyQuestionAttribute attribute, QuestionTypeDefinition definition) {
+
+            definition.ResponseType = attribute.QuestionResponseType;
+        }
+        
 
 
 
