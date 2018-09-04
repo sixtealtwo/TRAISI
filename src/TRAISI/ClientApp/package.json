@@ -11,7 +11,8 @@
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e",
-		"bundle-report": "webpack-bundle-analyzer dist/survey/stats.json"
+		"bundle-report": "webpack-bundle-analyzer dist/survey/stats.json",
+		"postinstall": "node patch.js"
 	},
 	"private": true,
 	"dependencies": {
@@ -25,6 +26,7 @@
 		"@angular/platform-browser-dynamic": "^6.1.4",
 		"@angular/router": "^6.1.4",
 		"@aspnet/signalr": "^1.0.3",
+		"@mapbox/mapbox-gl-draw": "^1.0.9",
 		"@mapbox/mapbox-gl-geocoder": "^2.3.0",
 		"@ngx-loading-bar/router": "2.0.0",
 		"@ngx-translate/core": "^10.0.2",
@@ -82,6 +84,7 @@
 		"ngx-mapbox-gl": "^1.2.0",
 		"ngx-monaco-editor": "^6.0.0",
 		"ngx-select-ex": "^3.5.9",
+		"ngx-treeview": "^6.0.0",
 		"node-sass": "^4.9.3",
 		"npm": "^6.4.1",
 		"nvd3": "1.8.6",

@@ -1,16 +1,18 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"lib": [
+			"es2017",
+			"dom"
+		],
 		"experimentalDecorators": true,
 		"paths": {
-			"paths": {
-				"traisi-question-sdk": [
-					"../../../../TRAISI.SDK/Module/"
-				],
-				"smooth-dnd": [
-					"../../local_node_modules/smooth-dnd/"
-				]
-			}
+			"traisi-question-sdk": [
+				"../../../../TRAISI.SDK/Module/"
+			],
+			"smooth-dnd": [
+				"../../local_node_modules/smooth-dnd/"
+			]
 		}
 	}
 }

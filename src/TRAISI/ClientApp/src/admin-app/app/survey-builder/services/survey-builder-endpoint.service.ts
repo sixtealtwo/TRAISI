@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
 import { QuestionPartView } from '../models/question-part-view.model';
-import { QuestionConfigurationValue } from '../models/question-configuration-value';
-import { QuestionOptionValue } from '../models/question-option-value';
+import { QuestionConfigurationValue } from '../models/question-configuration-value.model';
+import { QuestionOptionValue } from '../models/question-option-value.model';
 import { Order } from '../models/order.model';
+import { QuestionConditional } from '../models/question-conditional.model';
+import { QuestionOptionConditional } from '../models/question-option-conditional.model';
 
 @Injectable()
 export class SurveyBuilderEndpointService extends EndpointFactory {
@@ -123,6 +125,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getStandardViewPageStructureEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getStandardViewPagesStructureWithQuestionsOptionsEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/${language}/QuestionsOptions`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardViewPagesStructureWithQuestionsOptionsEndpoint(surveyId, language));
 			})
 		);
 	}
@@ -281,6 +293,36 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getQuestionPartConditionalsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConditionals/${questionPartId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getQuestionPartConditionalsEndpoint(surveyId, questionPartId)
+				);
+			})
+		);
+	}
+
+	public getQuestionPartOptionConditionalsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptionConditionals/${questionPartId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getQuestionPartOptionConditionalsEndpoint(surveyId, questionPartId)
+				);
+			})
+		);
+	}
+
 	public getSetQuestionPartOptionEndpoint<T>(
 		surveyId: number,
 		questionPartId: number,
@@ -292,6 +334,38 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getSetQuestionPartOptionEndpoint(surveyId, questionPartId, optionInfo)
+				);
+			})
+		);
+	}
+
+	public getSetQuestionPartConditionalsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		conditionals: QuestionConditional[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConditionals/${questionPartId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(conditionals), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSetQuestionPartConditionalsEndpoint(surveyId, questionPartId, conditionals)
+				);
+			})
+		);
+	}
+
+	public getSetQuestionPartOptionConditionalsEndpoint<T>(
+		surveyId: number,
+		questionPartId: number,
+		conditionals: QuestionOptionConditional[]
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptionConditionals/${questionPartId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(conditionals), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSetQuestionPartOptionConditionalsEndpoint(surveyId, questionPartId, conditionals)
 				);
 			})
 		);

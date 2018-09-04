@@ -9,9 +9,13 @@ import { ThankYouPage } from '../models/thank-you-page.model';
 import { SurveyViewStructure } from '../models/survey-view-structure.model';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { Order } from '../models/order.model';
-import { QuestionConfigurationValue } from '../models/question-configuration-value';
+import { QuestionConfigurationValue } from '../models/question-configuration-value.model';
 import { map } from 'rxjs/operators';
-import { QuestionOptionValue } from '../models/question-option-value';
+import { QuestionOptionValue } from '../models/question-option-value.model';
+import { QuestionConditional } from '../models/question-conditional.model';
+import { QuestionOptionConditional } from '../models/question-option-conditional.model';
+import { SurveyQuestionOptionStructure } from '../models/survey-question-option-structure.model';
+import { TreeviewItem, TreeItem } from 'ngx-treeview';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -68,6 +72,39 @@ export class SurveyBuilderService {
 			surveyId,
 			language
 		);
+	}
+
+	public getStandardViewPagesStructureWithQuestionsOptions(
+		surveyId: number,
+		language: string
+	): Observable<TreeviewItem[]> {
+		return this.surveyBuilderEndpointService
+			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<SurveyQuestionOptionStructure[]>(
+				surveyId,
+				language
+			)
+			.pipe(
+				map(items => {
+					return this.convertSurveyQuestionsStructureToTreeItems(items);
+				})
+			);
+	}
+
+	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[]): TreeviewItem[] {
+		if (items !== null) {
+			let tree: TreeviewItem[] = items.map(item => {
+				let treeItem: TreeItem = {
+					text: `${item.type}: ${item.label}`,
+					value: `${item.type}-${item.id}`,
+					children: this.convertSurveyQuestionsStructureToTreeItems(item.children),
+					checked: false
+				};
+				return new TreeviewItem(treeItem);
+			});
+			return tree;
+		} else {
+			return null;
+		}
 	}
 
 	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[]) {
@@ -160,31 +197,79 @@ export class SurveyBuilderService {
 		questionPartId: number,
 		updatedConfigurations: QuestionConfigurationValue[]
 	) {
-		return this.surveyBuilderEndpointService
-		.getUpdateQuestionPartConfigurationsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId, updatedConfigurations);
+		return this.surveyBuilderEndpointService.getUpdateQuestionPartConfigurationsEndpoint<
+			QuestionConfigurationValue[]
+		>(surveyId, questionPartId, updatedConfigurations);
 	}
-
 
 	public getQuestionPartOptions(surveyId: number, questionPartId: number, language: string) {
-		return this.surveyBuilderEndpointService
-			.getQuestionPartOptionsEndpoint<QuestionOptionValue[]>(surveyId, questionPartId, language);
+		return this.surveyBuilderEndpointService.getQuestionPartOptionsEndpoint<QuestionOptionValue[]>(
+			surveyId,
+			questionPartId,
+			language
+		);
 	}
 
-	public setQuestionPartOption(surveyId: number, questionPartId: number, optionInfo: QuestionOptionValue): Observable<QuestionOptionValue> {
-		return this.surveyBuilderEndpointService.getSetQuestionPartOptionEndpoint<QuestionOptionValue>(surveyId, questionPartId, optionInfo);
+	public getQuestionPartConditionals(surveyId: number, questionPartId): Observable<QuestionConditional[]> {
+		return this.surveyBuilderEndpointService.getQuestionPartConditionalsEndpoint<QuestionConditional[]>(
+			surveyId,
+			questionPartId
+		);
+	}
+
+	public getQuestionPartOptionConditionals(
+		surveyId: number,
+		questionPartId
+	): Observable<QuestionOptionConditional[]> {
+		return this.surveyBuilderEndpointService.getQuestionPartOptionConditionalsEndpoint<QuestionOptionConditional[]>(
+			surveyId,
+			questionPartId
+		);
+	}
+
+	public setQuestionPartOption(
+		surveyId: number,
+		questionPartId: number,
+		optionInfo: QuestionOptionValue
+	): Observable<QuestionOptionValue> {
+		return this.surveyBuilderEndpointService.getSetQuestionPartOptionEndpoint<QuestionOptionValue>(
+			surveyId,
+			questionPartId,
+			optionInfo
+		);
+	}
+
+	public setQuestionPartConditionals(surveyId: number, questionPartId: number, conditionals: QuestionConditional[]) {
+		return this.surveyBuilderEndpointService.getSetQuestionPartConditionalsEndpoint<QuestionConditional[]>(
+			surveyId,
+			questionPartId,
+			conditionals
+		);
+	}
+
+	public setQuestionPartOptionConditionals(
+		surveyId: number,
+		questionPartId: number,
+		conditionals: QuestionOptionConditional[]
+	) {
+		return this.surveyBuilderEndpointService.getSetQuestionPartOptionConditionalsEndpoint<
+			QuestionOptionConditional[]
+		>(surveyId, questionPartId, conditionals);
 	}
 
 	public deleteQuestionPartOption(surveyId: number, questionPartId: number, optionId: number) {
-		return this.surveyBuilderEndpointService.getDeleteQuestionPartOptionEndpoint<number>(surveyId, questionPartId, optionId);
+		return this.surveyBuilderEndpointService.getDeleteQuestionPartOptionEndpoint<number>(
+			surveyId,
+			questionPartId,
+			optionId
+		);
 	}
 
-	public updateQuestionPartOptionsOrder(
-		surveyId: number,
-		questionPartId: number,
-		updatedOrder: Order[]
-	) {
-		return this.surveyBuilderEndpointService
-		.getUpdateQuestionPartOptionsOrderEndpoint<Order[]>(surveyId, questionPartId, updatedOrder);
+	public updateQuestionPartOptionsOrder(surveyId: number, questionPartId: number, updatedOrder: Order[]) {
+		return this.surveyBuilderEndpointService.getUpdateQuestionPartOptionsOrderEndpoint<Order[]>(
+			surveyId,
+			questionPartId,
+			updatedOrder
+		);
 	}
-
 }

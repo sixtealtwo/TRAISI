@@ -7,11 +7,13 @@ import { NullAstVisitor } from '@angular/compiler';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap';
 import { SafePipe } from '../pipes/safe.pipe';
+import { TreeviewModule } from 'ngx-treeview';
+import { DropdownTreeviewSelectComponent } from './dropdown-treeview-select/dropdown-treeview-select.component';
 
 @NgModule({
-	imports: [CommonModule, TooltipModule, FormsModule, RouterModule],
+	imports: [CommonModule, TooltipModule, FormsModule, RouterModule, TreeviewModule],
 	providers: [],
-	declarations: [ItemListComponent, SearchBoxComponent, SafePipe],
-	exports: [ItemListComponent, SearchBoxComponent, SafePipe]
+	declarations: [ItemListComponent, SearchBoxComponent, SafePipe, DropdownTreeviewSelectComponent ],
+	exports: [ItemListComponent, SearchBoxComponent, SafePipe, DropdownTreeviewSelectComponent]
 })
 export class SharedModule {}

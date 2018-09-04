@@ -7,7 +7,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.String)]
+    [SurveyQuestion(QuestionResponseType.OptionList)]
     public class CheckboxQuestion : ISurveyQuestion
     {
         public string TypeName => "Checkbox";

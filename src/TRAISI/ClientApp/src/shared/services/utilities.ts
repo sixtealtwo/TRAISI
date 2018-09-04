@@ -1,10 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpResponseBase, HttpResponse, HttpErrorResponse} from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
+import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class Utilities {
-
 	public static readonly captionAndMessageSeparator = ':';
 	public static readonly noNetworkMessageCaption = 'No Network';
 	public static readonly noNetworkMessageDetail = 'The server cannot be reached';
@@ -12,9 +10,19 @@ export class Utilities {
 	public static readonly accessDeniedMessageDetail = '';
 
 	public static cookies = {
-		getItem: (sKey) => {
-			return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*'
-				+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+		getItem: sKey => {
+			return (
+				decodeURIComponent(
+					document.cookie.replace(
+						new RegExp(
+							'(?:(?:^|.*;)\\s*' +
+								encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
+								'\\s*\\=\\s*([^;]*).*$)|^.*$'
+						),
+						'$1'
+					)
+				) || null
+			);
 		},
 		setItem: (sKey, sValue, vEnd, sPath, sDomain, bSecure) => {
 			if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
@@ -37,23 +45,36 @@ export class Utilities {
 				}
 			}
 
-			document.cookie = encodeURIComponent(sKey) + '=' + encodeURIComponent(sValue) + sExpires
-				+ (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '') + (bSecure ? '; secure' : '');
+			document.cookie =
+				encodeURIComponent(sKey) +
+				'=' +
+				encodeURIComponent(sValue) +
+				sExpires +
+				(sDomain ? '; domain=' + sDomain : '') +
+				(sPath ? '; path=' + sPath : '') +
+				(bSecure ? '; secure' : '');
 			return true;
 		},
 		removeItem: (sKey, sPath, sDomain) => {
 			if (!sKey) {
 				return false;
 			}
-			document.cookie = encodeURIComponent(sKey) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-				+ (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '');
+			document.cookie =
+				encodeURIComponent(sKey) +
+				'=; expires=Thu, 01 Jan 1970 00:00:00 GMT' +
+				(sDomain ? '; domain=' + sDomain : '') +
+				(sPath ? '; path=' + sPath : '');
 			return true;
 		},
-		hasItem: (sKey) => {
-			return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=')).test(document.cookie);
+		hasItem: sKey => {
+			return new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(
+				document.cookie
+			);
 		},
 		keys: () => {
-			let aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '').split(/\s*(?:\=[^;]*)?;\s*/);
+			let aKeys = document.cookie
+				.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '')
+				.split(/\s*(?:\=[^;]*)?;\s*/);
 			for (let nIdx = 0; nIdx < aKeys.length; nIdx++) {
 				aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
 			}
@@ -62,19 +83,17 @@ export class Utilities {
 	};
 
 	public static getHttpResponseMessage(data: HttpResponseBase | any): string[] {
-
 		let responses: string[] = [];
 
 		if (data instanceof HttpResponseBase) {
-
 			if (this.checkNoNetwork(data)) {
-				responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
-			}
-			else {
+				responses.push(
+					`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`
+				);
+			} else {
 				let responseObject = this.getResponseBody(data);
 
 				if (responseObject && (typeof responseObject === 'object' || responseObject instanceof Object)) {
-
 					for (let key in responseObject) {
 						if (key) {
 							responses.push(`${responseObject[key]}`);
@@ -95,17 +114,22 @@ export class Utilities {
 		}
 
 		if (this.checkAccessDenied(data)) {
-			responses.splice(0, 0, `${this.accessDeniedMessageCaption}${this.captionAndMessageSeparator} ${this.accessDeniedMessageDetail}`);
+			responses.splice(
+				0,
+				0,
+				`${this.accessDeniedMessageCaption}${this.captionAndMessageSeparator} ${this.accessDeniedMessageDetail}`
+			);
 		}
-
 
 		return responses;
 	}
 
-
-	public static findHttpResponseMessage(messageToFind: string, data: HttpResponse<any> | any,
-										  seachInCaptionOnly = true, includeCaptionInResult = false): string {
-
+	public static findHttpResponseMessage(
+		messageToFind: string,
+		data: HttpResponse<any> | any,
+		seachInCaptionOnly = true,
+		includeCaptionInResult = false
+	): string {
 		let searchString = messageToFind.toLowerCase();
 		let httpMessages = this.getHttpResponseMessage(data);
 
@@ -119,12 +143,10 @@ export class Utilities {
 
 		if (!seachInCaptionOnly) {
 			for (let message of httpMessages) {
-
 				if (message.toLowerCase().indexOf(searchString) !== -1) {
 					if (includeCaptionInResult) {
 						return message;
-					}
-					else {
+					} else {
 						let fullMessage = Utilities.splitInTwo(message, this.captionAndMessageSeparator);
 						return fullMessage.secondPart || fullMessage.firstPart;
 					}
@@ -135,7 +157,6 @@ export class Utilities {
 		return null;
 	}
 
-
 	public static getResponseBody(response: HttpResponseBase) {
 		if (response instanceof HttpResponse) {
 			return response.body;
@@ -145,7 +166,6 @@ export class Utilities {
 			return response.error || response.message || response.statusText;
 		}
 	}
-
 
 	public static checkNoNetwork(response: HttpResponseBase) {
 		if (response instanceof HttpResponseBase) {
@@ -180,9 +200,7 @@ export class Utilities {
 		return false;
 	}
 
-
 	public static getQueryParamsFromString(paramString: string) {
-
 		if (!paramString) {
 			return null;
 		}
@@ -197,32 +215,26 @@ export class Utilities {
 		return params;
 	}
 
-
-	public static splitInTwo(text: string, separator: string): { firstPart: string, secondPart: string } {
+	public static splitInTwo(text: string, separator: string): { firstPart: string; secondPart: string } {
 		let separatorIndex = text.indexOf(separator);
 
 		if (separatorIndex === -1) {
-			return {firstPart: text, secondPart: null};
+			return { firstPart: text, secondPart: null };
 		}
 
 		let part1 = text.substr(0, separatorIndex).trim();
 		let part2 = text.substr(separatorIndex + 1).trim();
 
-		return {firstPart: part1, secondPart: part2};
+		return { firstPart: part1, secondPart: part2 };
 	}
 
-
 	public static safeStringify(object) {
-
 		let result: string;
 
 		try {
 			result = JSON.stringify(object);
 			return result;
-		}
-		catch (error) {
-
-		}
+		} catch (error) {}
 
 		let simpleObject = {};
 
@@ -230,10 +242,10 @@ export class Utilities {
 			if (!object.hasOwnProperty(prop)) {
 				continue;
 			}
-			if (typeof (object[prop]) === 'object') {
+			if (typeof object[prop] === 'object') {
 				continue;
 			}
-			if (typeof (object[prop]) === 'function') {
+			if (typeof object[prop] === 'function') {
 				continue;
 			}
 			simpleObject[prop] = object[prop];
@@ -244,12 +256,10 @@ export class Utilities {
 		return result;
 	}
 
-
 	public static JSonTryParse(value: string) {
 		try {
 			return JSON.parse(value);
-		}
-		catch (e) {
+		} catch (e) {
 			if (value === 'undefined') {
 				return void 0;
 			}
@@ -257,7 +267,6 @@ export class Utilities {
 			return value;
 		}
 	}
-
 
 	public static TestIsObjectEmpty(obj: any) {
 		for (let prop in obj) {
@@ -269,16 +278,13 @@ export class Utilities {
 		return true;
 	}
 
-
 	public static TestIsUndefined(value: any) {
 		return typeof value === 'undefined';
 	}
 
-
 	public static TestIsString(value: any) {
 		return typeof value === 'string' || value instanceof String;
 	}
-
 
 	public static capitalizeFirstLetter(text: string) {
 		if (text) {
@@ -288,17 +294,14 @@ export class Utilities {
 		}
 	}
 
-
 	public static toTitleCase(text: string) {
-		return text.replace(/\w\S*/g, (subString) => {
+		return text.replace(/\w\S*/g, subString => {
 			return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
 		});
 	}
 
-
 	public static toLowerCase(items: string | string[]);
 	public static toLowerCase(items: any): string | string[] {
-
 		if (items instanceof Array) {
 			let loweredRoles: string[] = [];
 
@@ -307,22 +310,18 @@ export class Utilities {
 			}
 
 			return loweredRoles;
-		}
-		else if (typeof items === 'string' || items instanceof String) {
+		} else if (typeof items === 'string' || items instanceof String) {
 			return items.toLowerCase();
 		}
 	}
-
 
 	public static uniqueId() {
 		return this.randomNumber(1000000, 9000000).toString();
 	}
 
-
 	public static randomNumber(min: number, max: number) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
-
 
 	public static baseUrl() {
 		let base = '';
@@ -330,19 +329,33 @@ export class Utilities {
 		if (window.location.origin) {
 			base = window.location.origin;
 		} else {
-			base = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+			base =
+				window.location.protocol +
+				'//' +
+				window.location.hostname +
+				(window.location.port ? ':' + window.location.port : '');
 		}
 		return base.replace(/\/$/, '');
 	}
 
-
 	public static printDateOnly(date: Date) {
-
 		date = new Date(date);
 
 		let dayNames = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
-		let monthNames = new Array('January', 'February', 'March', 'April',
-			'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+		let monthNames = new Array(
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		);
 
 		let dayOfWeek = date.getDay();
 		let dayOfMonth = date.getDate();
@@ -352,14 +365,11 @@ export class Utilities {
 
 		if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
 			sup = 'st';
-		}
-		else if (dayOfMonth === 2 || dayOfMonth === 22) {
+		} else if (dayOfMonth === 2 || dayOfMonth === 22) {
 			sup = 'nd';
-		}
-		else if (dayOfMonth === 3 || dayOfMonth === 23) {
+		} else if (dayOfMonth === 3 || dayOfMonth === 23) {
 			sup = 'rd';
-		}
-		else {
+		} else {
 			sup = 'th';
 		}
 
@@ -369,7 +379,6 @@ export class Utilities {
 	}
 
 	public static printTimeOnly(date: Date) {
-
 		date = new Date(date);
 
 		let period = '';
@@ -391,14 +400,12 @@ export class Utilities {
 
 		let timeString = hour + ':' + minute + ' ' + period;
 
-
 		return timeString;
 	}
 
 	public static printDate(date: Date, separator = 'at') {
 		return `${Utilities.printDateOnly(date)} ${separator} ${Utilities.printTimeOnly(date)}`;
 	}
-
 
 	public static printFriendlyDate(date: Date, separator = '-') {
 		let today = new Date();
@@ -418,7 +425,6 @@ export class Utilities {
 	}
 
 	public static printShortDate(date: Date, separator = '/', dateTimeSeparator = '-') {
-
 		let day = date.getDate().toString();
 		let month = (date.getMonth() + 1).toString();
 		let year = date.getFullYear();
@@ -434,11 +440,8 @@ export class Utilities {
 		return `${month}${separator}${day}${separator}${year} ${dateTimeSeparator} ${Utilities.printTimeOnly(date)}`;
 	}
 
-
 	public static parseDate(date) {
-
 		if (date) {
-
 			if (date instanceof Date) {
 				return date;
 			}
@@ -457,9 +460,7 @@ export class Utilities {
 		}
 	}
 
-
 	public static printDuration(start: Date, end: Date) {
-
 		start = new Date(start);
 		end = new Date(end);
 
@@ -479,8 +480,7 @@ export class Utilities {
 		delta -= minutes * 60;
 
 		// what's left is seconds
-		let seconds = delta % 60;  // in theory the modulus is not required
-
+		let seconds = delta % 60; // in theory the modulus is not required
 
 		let printedDays = '';
 
@@ -500,7 +500,6 @@ export class Utilities {
 			printedDays += printedDays ? ` and ${seconds} seconds` : `${seconds} seconds`;
 		}
 
-
 		if (!printedDays) {
 			printedDays = '0';
 		}
@@ -508,35 +507,32 @@ export class Utilities {
 		return printedDays;
 	}
 
-
 	public static getAge(birthDate, otherDate) {
 		birthDate = new Date(birthDate);
 		otherDate = new Date(otherDate);
 
-		let years = (otherDate.getFullYear() - birthDate.getFullYear());
+		let years = otherDate.getFullYear() - birthDate.getFullYear();
 
-		if (otherDate.getMonth() < birthDate.getMonth() ||
-			otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate()) {
+		if (
+			otherDate.getMonth() < birthDate.getMonth() ||
+			(otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate())
+		) {
 			years--;
 		}
 
 		return years;
 	}
 
-
 	public static searchArray(searchTerm: string, caseSensitive: boolean, ...values: any[]) {
-
 		if (!searchTerm) {
 			return true;
 		}
-
 
 		if (!caseSensitive) {
 			searchTerm = searchTerm.toLowerCase();
 		}
 
 		for (let value of values) {
-
 			if (value != null) {
 				let strValue = value.toString();
 
@@ -553,9 +549,7 @@ export class Utilities {
 		return false;
 	}
 
-
 	public static moveArrayItem(array: any[], oldIndex, newIndex) {
-
 		while (oldIndex < 0) {
 			oldIndex += this.length;
 		}
@@ -566,7 +560,7 @@ export class Utilities {
 
 		if (newIndex >= this.length) {
 			let k = newIndex - this.length;
-			while ((k--) + 1) {
+			while (k-- + 1) {
 				array.push(undefined);
 			}
 		}
@@ -574,31 +568,25 @@ export class Utilities {
 		array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
 	}
 
-
 	public static expandCamelCase(text: string) {
-
 		if (!text) {
 			return text;
 		}
 
-		return text.replace(/([A-Z][a-z]+)/g, ' $1')
+		return text
+			.replace(/([A-Z][a-z]+)/g, ' $1')
 			.replace(/([A-Z][A-Z]+)/g, ' $1')
 			.replace(/([^A-Za-z ]+)/g, ' $1');
 	}
 
-
 	public static testIsAbsoluteUrl(url: string) {
-
 		let r = new RegExp('^(?:[a-z]+:)?//', 'i');
 		return r.test(url);
 	}
 
-
 	public static convertToAbsoluteUrl(url: string) {
-
 		return Utilities.testIsAbsoluteUrl(url) ? url : '//' + url;
 	}
-
 
 	public static removeNulls(obj) {
 		let isArray = obj instanceof Array;
@@ -606,8 +594,7 @@ export class Utilities {
 		for (let k of Object.keys(obj)) {
 			if (obj[k] === null) {
 				isArray ? obj.splice(k, 1) : delete obj[k];
-			}
-			else if (typeof obj[k] === 'object') {
+			} else if (typeof obj[k] === 'object') {
 				Utilities.removeNulls(obj[k]);
 			}
 
@@ -619,15 +606,14 @@ export class Utilities {
 		return obj;
 	}
 
-
 	public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
 		let timeout;
 
-		return function () {
+		return function() {
 			let context = this;
 			let args_ = arguments;
 
-			let later = function () {
+			let later = function() {
 				timeout = null;
 				if (!immediate) {
 					func.apply(context, args_);
@@ -646,7 +632,7 @@ export class Utilities {
 	}
 
 	public static applyDrag = (arr, dragResult) => {
-		const {removedIndex, addedIndex, payload} = dragResult;
+		const { removedIndex, addedIndex, payload } = dragResult;
 		if (removedIndex === null && addedIndex === null) {
 			return arr;
 		}
@@ -664,6 +650,4 @@ export class Utilities {
 
 		return result;
 	}
-
-
 }

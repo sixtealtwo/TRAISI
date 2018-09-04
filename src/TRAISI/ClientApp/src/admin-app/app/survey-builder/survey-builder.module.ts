@@ -35,6 +35,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { LocationFieldComponent } from './components/question-configuration/location-field/location.component';
 import { RadioComponent } from './components/question-configuration/radio-field/radio.component';
 import { QuestionDetailsComponent } from './components/question-details/question-details.component';
+import { TreeviewModule } from 'ngx-treeview';
 
 @NgModule({
 	imports: [
@@ -52,6 +53,7 @@ import { QuestionDetailsComponent } from './components/question-details/question
 		NgxBootstrapSliderModule,
 		Select2Module,
 		ChartsModule,
+		TreeviewModule,
 		AmazingTimePickerModule,
 		NgxMapboxGLModule.forRoot({
 			accessToken:

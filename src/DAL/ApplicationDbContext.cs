@@ -42,6 +42,10 @@ namespace DAL
 
         public DbSet<QuestionOptionLabel> QuestionOptionLabels { get; set; }
 
+        public DbSet<QuestionConditional> QuestionConditionals { get; set; }
+
+        public DbSet<QuestionOptionConditional> QuestionOptionConditionals { get; set; }
+
         public DbSet<ResponseValue> ResponseValues { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
         public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
@@ -120,6 +124,9 @@ namespace DAL
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(qc => qc.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(qc => qc.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(qo => qo.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
             //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
 
@@ -129,6 +136,12 @@ namespace DAL
 
 
             builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels);
+            builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(qo => qo.TargetOption).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionOption>().ToTable($"{nameof(this.QuestionOptions)}");
+
+            builder.Entity<QuestionConditional>().ToTable($"{nameof(this.QuestionConditionals)}");
+
+            builder.Entity<QuestionOptionConditional>().ToTable($"{nameof(this.QuestionOptionConditionals)}");
 
             builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
                 .HasValue<StringResponse>(1)

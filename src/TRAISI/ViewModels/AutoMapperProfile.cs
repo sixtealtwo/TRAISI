@@ -102,9 +102,6 @@ namespace TRAISI.ViewModels
                 {
                     svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]).Value;
                 });
-            
-           
-
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
                 .ForMember(m => m.SurveyView, map => map.Ignore());
@@ -134,10 +131,39 @@ namespace TRAISI.ViewModels
                         svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
                     });
 
+            CreateMap<QuestionConditional, QuestionConditionalViewModel>().ReverseMap();
+            CreateMap<QuestionOptionConditional, QuestionOptionConditionalViewModel>().ReverseMap();
+
             CreateMap<SBSurveyViewViewModel, SurveyView>()
                 .ForMember(m => m.TermsAndConditionsLabels, map => map.Ignore())
                 .ForMember(m => m.ThankYouPageLabels, map => map.Ignore())
                 .ForMember(m => m.WelcomePageLabels, map => map.Ignore());
+
+            CreateMap<QuestionPartView, SBPageStructureViewModel>()
+                .AfterMap((s, svm, opt) =>
+                {
+                    var language = (string)opt.Items["Language"];
+                    if (s.QuestionPart == null)
+                    {
+                        svm.Label = s.Labels.FirstOrDefault(l => l.Language == language).Value;
+                        svm.Type = "part";
+                        svm.Children = s.QuestionPartViewChildren.OrderBy(q => q.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
+                    }
+                    else
+                    {
+                        svm.Label = s.QuestionPart.Name;
+                        svm.Type = "question";
+                        svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
+                    }
+                });
+
+            CreateMap<QuestionOption, SBPageStructureViewModel>()
+                .ForMember(o => o.Children, map => map.Ignore())
+                .AfterMap((s, svm, opt) =>
+                {
+                    svm.Type = "option";
+                    svm.Label = s.QuestionOptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
+                });
 
             CreateMap<SurveyView, SBSurveyViewViewModel>()
                 .ForMember(vm => vm.SurveyId, map => map.MapFrom(m => m.Survey.Id))
@@ -146,15 +172,9 @@ namespace TRAISI.ViewModels
                 {
                     svm.SurveyCompletionPage = Mapper.Map<ThankYouPageLabelViewModel>(
                         s.ThankYouPageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
-                })
-                .AfterMap((s, svm, opt) =>
-                {
                     svm.TermsAndConditionsPage = Mapper.Map<TermsAndConditionsPageLabelViewModel>(
                         s.TermsAndConditionsLabels.FirstOrDefault(l =>
                             l.Language == (string)opt.Items["Language"]));
-                })
-                .AfterMap((s, svm, opt) =>
-                {
                     svm.WelcomePage = Mapper.Map<WelcomePageLabelViewModel>(
                         s.WelcomePageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });

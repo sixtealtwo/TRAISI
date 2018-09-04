@@ -36,7 +36,19 @@ namespace DAL.Repositories
             return questionPart.QuestionOptions.ToList();
         }
 
+        /// <summary>
+        /// Returns all conditionals where option is the target (fills in SourceQuestion)
+        /// </summary>
+        /// <param name="optionId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QuestionOptionConditional>> GetQuestionOptionConditionalsAsync(int optionId)
+        {
+            return await _appContext.QuestionOptions
+            .Where(q => q.Id == optionId)
+            .Include(q => q.QuestionOptionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+            .Select(q => q.QuestionOptionConditionalsTarget)
+            .SingleOrDefaultAsync();
+        }
 
-        
     }
 }

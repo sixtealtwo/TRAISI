@@ -34,6 +34,15 @@ namespace DAL.Models.Questions
 
         public ICollection<QuestionOption> QuestionOptions { get; set; }
 
+        //conditionals where this question is the source and a question is the target
+        public ICollection<QuestionConditional> QuestionConditionalsSource { get; set; }
+
+        //conditionals where this question is the target
+        public ICollection<QuestionConditional> QuestionConditionalsTarget { get; set; }
+
+        //conditionals where this question is the source and a question option is the target
+        public ICollection<QuestionOptionConditional> QuestionOptionConditionalsSource { get; set; }
+
         //Whether this question part is responded to by the respondent group
         public bool IsGroupQuestion { get; set; } = false;
 

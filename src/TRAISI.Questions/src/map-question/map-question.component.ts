@@ -24,8 +24,8 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	@ViewChild('mapbox') mapGL: MapComponent;
 	@ViewChild('geocoder') mapGeocoder: any;
 	@ViewChild('geoLocator') mapGeoLocator: any;
-	
-	@ViewChild('mapMarker')mapMarker:ElementRef;
+
+	@ViewChild('mapMarker')mapMarker: ElementRef;
 
 	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
 		this.typeName = this.QUESTION_TYPE_NAME;
@@ -34,11 +34,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.configureMapSettings();
-		
-		console.log(this.mapMarker);
+
 		this.mapMarker.nativeElement.src = markerIconImage;
-		
-		console.log(markerIconImage);
+
 	}
 
 	ngAfterViewInit() {

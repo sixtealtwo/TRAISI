@@ -359,6 +359,15 @@ legend {
   }
 }
 
+ngx-dropdown-treeview {
+  .dropdown-menu.show {
+    width: 100% !important;
+	}
+	.btn {
+		color: black !important;
+	}
+}
+
 .dropdown-menu{
   font-size: $font-size-mini;
 

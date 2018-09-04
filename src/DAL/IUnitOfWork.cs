@@ -26,6 +26,8 @@ namespace DAL
         ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels { get; }
         ISurveyResponseRepository SurveyResponses { get; }
         IQuestionOptionRepository QuestionOptions { get; }
+        IQuestionConditionalRepository QuestionConditionals { get; }
+        IQuestionOptionConditionalRepository QuestionOptionConditionals { get; }
 
 
         int SaveChanges();

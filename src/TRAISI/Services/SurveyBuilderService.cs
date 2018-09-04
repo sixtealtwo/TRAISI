@@ -10,6 +10,7 @@ using TRAISI.Helpers;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
+using DAL.Core;
 
 namespace TRAISI.Services
 {
@@ -545,6 +546,43 @@ namespace TRAISI.Services
             }
 
             return qpv;
+        }
+
+        public void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals)
+        {
+            var newSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id == 0);
+            var updateSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id != 0);
+            var newTarget = conditionals.Where(c => c.TargetQuestionId == question.Id && c.Id == 0);
+            var updateTarget = conditionals.Where(c => c.TargetQuestionId == question.Id && c.Id == 0);
+
+            this._unitOfWork.QuestionConditionals.DeleteSourceConditionals(question.Id, updateSource.Select(c => c.Id).ToList());
+            this._unitOfWork.QuestionConditionals.DeleteTargetConditionals(question.Id, updateTarget.Select(c => c.Id).ToList());
+
+            this._unitOfWork.QuestionConditionals.AddRange(newSource);
+            this._unitOfWork.QuestionConditionals.AddRange(newTarget);
+            this._unitOfWork.QuestionConditionals.UpdateRange(updateSource);
+            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget);
+        }
+
+        public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)
+        {
+            var newSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id == 0);
+            var updateSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id != 0);
+            var newTarget = conditionals.Where(c => c.SourceQuestionId != question.Id && c.Id == 0);
+            var updateTarget = conditionals.Where(c => c.SourceQuestionId != question.Id && c.Id == 0);
+
+            this._unitOfWork.QuestionOptionConditionals.DeleteSourceConditionals(question.Id, updateSource.Select(c => c.Id).ToList());
+            this._unitOfWork.QuestionOptionConditionals.DeleteTargetConditionals(question.Id, updateTarget.Select(c => c.Id).ToList());
+
+            this._unitOfWork.QuestionOptionConditionals.AddRange(newSource);
+            this._unitOfWork.QuestionOptionConditionals.AddRange(newTarget);
+            this._unitOfWork.QuestionOptionConditionals.UpdateRange(updateSource);
+            this._unitOfWork.QuestionOptionConditionals.UpdateRange(updateTarget);
+        }
+
+        public List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName)
+        {
+            return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();
         }
 
     }

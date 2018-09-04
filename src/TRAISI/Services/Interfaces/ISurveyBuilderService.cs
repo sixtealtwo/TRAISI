@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using DAL.Core;
 using TRAISI.SDK;
 
 namespace TRAISI.Services.Interfaces
@@ -55,6 +56,9 @@ namespace TRAISI.Services.Interfaces
 
         void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
 
+        void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals);
 
+        void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals);
+        List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName);
     }
 }

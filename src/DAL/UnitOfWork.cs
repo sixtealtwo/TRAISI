@@ -29,6 +29,8 @@ namespace DAL
         IQuestionPartViewRepository _questionPartViews;
         ISurveyResponseRepository _surveyResponses;
         IQuestionOptionRepository _questionOptions;
+        IQuestionConditionalRepository _questionConditionals;
+        IQuestionOptionConditionalRepository _questionOptionConditionals;
 
         /// <summary>
         /// 
@@ -208,6 +210,30 @@ namespace DAL
                 }
 
                 return _questionPartViews;
+            }
+        }
+
+        public IQuestionConditionalRepository QuestionConditionals
+        {
+            get
+            {
+                if (_questionConditionals == null)
+                {
+                    _questionConditionals = new QuestionConditionalRepository(_context);
+                }
+                return _questionConditionals;
+            }
+        }
+
+        public IQuestionOptionConditionalRepository QuestionOptionConditionals
+        {
+            get
+            {
+                if (_questionOptionConditionals == null)
+                {
+                    _questionOptionConditionals = new QuestionOptionConditionalRepository(_context);
+                }
+                return _questionOptionConditionals;
             }
         }
 

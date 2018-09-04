@@ -243,6 +243,97 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpGet("{surveyId}/QuestionConditionals/{questionPartId}")]
+        [Produces(typeof(List<QuestionConditionalViewModel>))]
+        public async Task<IActionResult> GetQuestionPartConditionals(int surveyId, int questionPartId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionConditionals = await this._unitOfWork.QuestionConditionals.GetQuestionConditionalsAsync(questionPartId);
+
+                return Ok(Mapper.Map<List<QuestionConditionalViewModel>>(questionConditionals));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+        [HttpPut("{surveyId}/QuestionConditionals/{questionPartId}")]
+        public async Task<IActionResult> SetQuestionPartConditionals(int surveyId, int questionPartId, [FromBody] List<QuestionConditionalViewModel> conditionals)
+        {
+            if (ModelState.IsValid)
+            {
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    try
+                    {
+                        var questionPart = await this._unitOfWork.QuestionParts.GetAsync(questionPartId);
+                        List<QuestionConditional> newConditionals = Mapper.Map<List<QuestionConditional>>(conditionals);
+                        this._surveyBuilderService.SetQuestionConditionals(questionPart, newConditionals);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return new OkResult();
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("{surveyId}/QuestionOptionConditionals/{questionPartId}")]
+        public async Task<IActionResult> SetQuestionPartOptionConditionals(int surveyId, int questionPartId, [FromBody] List<QuestionOptionConditionalViewModel> conditionals)
+        {
+            if (ModelState.IsValid)
+            {
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    try
+                    {
+                        var questionPart = await this._unitOfWork.QuestionParts.GetAsync(questionPartId);
+                        List<QuestionOptionConditional> newConditionals = Mapper.Map<List<QuestionOptionConditional>>(conditionals);
+                        this._surveyBuilderService.SetQuestionOptionConditionals(questionPart, newConditionals);
+                        await this._unitOfWork.SaveChangesAsync();
+                        return new OkResult();
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}/QuestionsOptions")]
+        [Produces(typeof(List<SBPageStructureViewModel>))]
+        public async Task<IActionResult> GetSurveyViewPagesWithQuestionsAndOptions(int surveyId, string surveyViewName, string language)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var pages = this._surveyBuilderService.GetPageStructureWithOptions(surveyId, surveyViewName);
+                return Ok(pages.Select(p => p.ToLocalizedModel<SBPageStructureViewModel>(language)));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
         [HttpGet("{surveyId}/QuestionOptions/{questionPartId}/{language}")]
         [Produces(typeof(List<QuestionOptionValueViewModel>))]
         public async Task<IActionResult> GetQuestionPartOptions(int surveyId, int questionPartId, string language)

@@ -54,10 +54,21 @@ namespace DAL.Repositories {
 					.Include(sv => sv.ThankYouPageLabels)
 					.Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
 					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
-
 					.SingleOrDefaultAsync();
 			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
 			return surveyView;
 		}
-	}
+
+        public SurveyView GetSurveyViewQuestionAndOptionStructure(int surveyId, string viewName)
+        {
+            return _appContext.SurveyViews
+                .Where(s => s.Survey.Id == surveyId && s.ViewName == viewName)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
+                .SingleOrDefault();            
+        }
+    }
 }

@@ -61,6 +61,59 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
+        public async Task<QuestionPart> GetQuestionPartWithConditionalsAsync(int id)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => q.Id == id)
+                .Include(q => q.QuestionConditionalsSource).ThenInclude(c => c.TargetQuestion)
+                .Include(q => q.QuestionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+                .SingleOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Returns all conditionals where the question part is the source (fills in TargetQuestion)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QuestionConditional>> GetQuestionPartSourceConditionalsAsync(int id)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => q.Id == id)
+                .Include(q => q.QuestionConditionalsSource).ThenInclude(c => c.TargetQuestion)
+                .Select(q => q.QuestionConditionalsSource)
+                .SingleOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Returns all conditionals where the question part is the target (fills in SourceQuestion)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QuestionConditional>> GetQuestionPartTargetConditionalsAsync(int id)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => q.Id == id)
+                .Include(q => q.QuestionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+                .Select(q => q.QuestionConditionalsTarget)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<QuestionPart>> GetQuestionPartsWithTargetConditionalsAsync(List<int> ids)
+        {
+            return await _appContext.QuestionParts
+                .Where(q => ids.Contains(q.Id))
+                .Include(q => q.QuestionConditionalsTarget)
+                .ToListAsync();
+        }
+
+        public IEnumerable<QuestionPart> GetQuestionPartsWithTargetConditionals(List<int> ids)
+        {
+            return _appContext.QuestionParts
+               .Where(q => ids.Contains(q.Id))
+               .Include(q => q.QuestionConditionalsTarget)
+               .ToList();
+        }
+
         public async Task<int> GetNumberOfParentViewsAsync(int id)
         {
             return await _appContext.QuestionPartViews

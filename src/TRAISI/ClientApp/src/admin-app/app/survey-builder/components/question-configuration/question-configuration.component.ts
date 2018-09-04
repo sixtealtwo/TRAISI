@@ -28,12 +28,16 @@ import { TimeInputComponent } from './time-input-field/time-input.component';
 import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
-import { QuestionConfigurationValue } from '../../models/question-configuration-value';
+import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
+import { TreeviewItem, DownlineTreeviewItem, TreeviewEventParser, OrderDownlineTreeviewEventParser } from 'ngx-treeview';
 
 @Component({
 	selector: 'app-question-configuration',
 	templateUrl: './question-configuration.component.html',
-	styleUrls: ['./question-configuration.component.scss']
+	styleUrls: ['./question-configuration.component.scss'],
+	providers: [
+		{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }
+]
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public surveyId: number;
@@ -51,6 +55,15 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public childrenComponents = [];
 
 	public froalaQTestOptions: any;
+
+	public items: TreeviewItem[] = [];
+	public treedropdownConfig = {
+		hasAllCheckBox: false,
+		hasFilter: true,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
 
 	@Output()
 	configResult = new EventEmitter<string>();
@@ -73,6 +86,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.configTargets.changes.subscribe(item => {
 			this.updateAdvancedParams();
 		});
+	}
+
+	onSelectedChange(downlineItems: DownlineTreeviewItem[]) {
+	
 	}
 
 	updateAdvancedParams() {
@@ -150,6 +167,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	processConfigurations() {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
+		this.builderService.getStandardViewPagesStructureWithQuestionsOptions(this.surveyId, 'en').subscribe(
+			treelist => {
+				this.items = treelist;
+			}
+		);
 	}
 
 	generateFroalaOptions(placeHolder: string) {
