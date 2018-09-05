@@ -29,7 +29,7 @@
   </ItemGroup>
 
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
     <Exec WorkingDirectory="Module/" Command="npm run build"/>
     <Message Text="Compiled and built TRAISI SDK module" Importance="High" />
   </Target>
