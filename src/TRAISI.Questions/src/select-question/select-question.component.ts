@@ -1,5 +1,8 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, OnInit, ViewChild} from '@angular/core';
+import {
+	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
+	QuestionResponseState
+} from 'traisi-question-sdk';
 import {OnOptionsLoaded, QuestionOption} from 'traisi-question-sdk';
 import {Select2OptionData} from 'ng2-select2';
 
@@ -12,7 +15,9 @@ declare var $: any;
 	template: require('./select-question.component.html').toString(),
 	styles: [require('./select-question.component.scss').toString()]
 })
-export class SelectQuestionComponent implements OnInit, OnOptionsLoaded {
+export class SelectQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQuestion {
+	state: QuestionResponseState;
+	response: EventEmitter<any>;
 	readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
 	typeName: string;

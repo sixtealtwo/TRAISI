@@ -1,20 +1,26 @@
-import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef} from '@angular/core';
-import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
-import { MapComponent } from 'ngx-mapbox-gl';
-import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
-import { MapEndpointService } from '../services/mapservice.service';
-import { GeoLocation } from '../models/geo-location.model';
+import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter} from '@angular/core';
+import {Result} from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
+import {MapComponent} from 'ngx-mapbox-gl';
+import {LngLatLike, MapMouseEvent} from 'mapbox-gl';
+import {MapEndpointService} from '../services/mapservice.service';
+import {GeoLocation} from '../models/geo-location.model';
 
 let markerIconImage = require('./assets/default-marker.png');
+import {
+	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
+	QuestionResponseState
+} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-map-question',
 	template: require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent implements OnInit, AfterViewInit {
+export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuestion {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
+	state: QuestionResponseState;
 
+	response: EventEmitter<any>;
 	typeName: string;
 	icon: string;
 
@@ -25,7 +31,7 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 	@ViewChild('geocoder') mapGeocoder: any;
 	@ViewChild('geoLocator') mapGeoLocator: any;
 
-	@ViewChild('mapMarker')mapMarker: ElementRef;
+	@ViewChild('mapMarker') mapMarker: ElementRef;
 
 	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
 		this.typeName = this.QUESTION_TYPE_NAME;
@@ -45,17 +51,6 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	private configureMapSettings(): void {
-		this.mapGL.zoom = [9];
-		this.mapGL.minZoom = 7;
-		this.mapGL.center = [-79.4, 43.67];
-		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
-		this.mapGL.doubleClickZoom = false;
-		this.mapGL.attributionControl = false;
-
-		this.locationSearch = 'Toronto';
-	}
-
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
@@ -70,7 +65,8 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	onDragStart(event: any) {}
+	onDragStart(event: any) {
+	}
 
 	onDragEnd(event: MapMouseEvent) {
 		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
@@ -79,12 +75,24 @@ export class MapQuestionComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	onDrag(event: MapMouseEvent) {}
+	onDrag(event: MapMouseEvent) {
+	}
 
 	mapClick(event: MapMouseEvent) {
 		if (event.lngLat) {
 			this.markerPosition = event.lngLat;
 			this.onDragEnd(event);
 		}
+	}
+
+	private configureMapSettings(): void {
+		this.mapGL.zoom = [9];
+		this.mapGL.minZoom = 7;
+		this.mapGL.center = [-79.4, 43.67];
+		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
+		this.mapGL.doubleClickZoom = false;
+		this.mapGL.attributionControl = false;
+
+		this.locationSearch = 'Toronto';
 	}
 }

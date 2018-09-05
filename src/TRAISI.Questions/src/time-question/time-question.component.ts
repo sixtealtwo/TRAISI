@@ -1,12 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {
+	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
+	QuestionResponseState
+} from 'traisi-question-sdk';
+
 
 @Component({
 	selector: 'traisi-time-question',
 	template: require('./time-question.component.html').toString(),
 	styles: [require('./time-question.component.scss').toString()]
 })
-export class TimeQuestionComponent implements OnInit {
+export class TimeQuestionComponent implements OnInit, SurveyQuestion {
+	state: QuestionResponseState;
+	response: EventEmitter<any>;
 	readonly QUESTION_TYPE_NAME: string = 'Time Question';
 
 	typeName: string;

@@ -1,14 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, SurveyResponder} from 'traisi-question-sdk';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {
+	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
+	QuestionResponseState
+} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-date-question',
 	template: require('./date-question.component.html').toString(),
 	styles: [require('./date-question.component.scss').toString()]
 })
-export class DateQuestionComponent implements OnInit {
+export class DateQuestionComponent implements OnInit, SurveyQuestion {
+	state: QuestionResponseState;
 	readonly QUESTION_TYPE_NAME: string = 'Date Question';
-
+	response: EventEmitter<any>;
 	typeName: string;
 	icon: string;
 
