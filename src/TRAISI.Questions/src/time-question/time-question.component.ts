@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {
 	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
-	QuestionResponseState
+	QuestionResponseState, TRAISI
 } from 'traisi-question-sdk';
 
 
@@ -10,9 +10,8 @@ import {
 	template: require('./time-question.component.html').toString(),
 	styles: [require('./time-question.component.scss').toString()]
 })
-export class TimeQuestionComponent implements OnInit, SurveyQuestion {
-	state: QuestionResponseState;
-	response: EventEmitter<any>;
+export class TimeQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
+
 	readonly QUESTION_TYPE_NAME: string = 'Time Question';
 
 	typeName: string;
@@ -20,6 +19,7 @@ export class TimeQuestionComponent implements OnInit, SurveyQuestion {
 
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 				@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder) {
+		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'time';
 

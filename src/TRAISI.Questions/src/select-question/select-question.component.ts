@@ -1,9 +1,13 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {
-	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
-	QuestionResponseState
+	OnOptionsLoaded,
+	QuestionConfiguration,
+	QuestionOption,
+	SurveyQuestion,
+	SurveyResponder,
+	SurveyViewer,
+	TRAISI
 } from 'traisi-question-sdk';
-import {OnOptionsLoaded, QuestionOption} from 'traisi-question-sdk';
 import {Select2OptionData} from 'ng2-select2';
 
 
@@ -15,9 +19,8 @@ declare var $: any;
 	template: require('./select-question.component.html').toString(),
 	styles: [require('./select-question.component.scss').toString()]
 })
-export class SelectQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQuestion {
-	state: QuestionResponseState;
-	response: EventEmitter<any>;
+export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded, SurveyQuestion {
+
 	readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
 	typeName: string;
@@ -29,14 +32,18 @@ export class SelectQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQ
 
 	@ViewChild('select') selectElement: ElementRef;
 
+
 	/**
 	 *
 	 * @param surveyViewerService
+	 * @param surveyResponderService
+	 * @param cdr
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 				@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder,
 				private cdr: ChangeDetectorRef
 	) {
+		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'select';
 		this.options = [];

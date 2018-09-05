@@ -1,18 +1,23 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { SurveyViewer, QuestionConfiguration } from 'traisi-question-sdk';
+import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-range-question',
 	template: require('./range-question.component.html').toString(),
 	styles: [require('./range-question.component.scss').toString()]
 })
-export class RangeQuestionComponent implements OnInit {
+export class RangeQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Range Question';
 
 	typeName: string;
 	icon: string;
 
+	/**
+	 *
+	 * @param surveyViewerService
+	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'range';
 

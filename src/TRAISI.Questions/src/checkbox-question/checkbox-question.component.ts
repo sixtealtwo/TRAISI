@@ -5,7 +5,7 @@ import {
 	QuestionOption,
 	OnOptionsLoaded,
 	SurveyQuestion,
-	QuestionResponseState
+	QuestionResponseState, TRAISI
 } from 'traisi-question-sdk';
 
 @Component({
@@ -13,7 +13,7 @@ import {
 	template: require('./checkbox-question.component.html').toString(),
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
-export class CheckboxQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQuestion {
+export class CheckboxQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded, SurveyQuestion {
 	state: QuestionResponseState;
 
 	readonly QUESTION_TYPE_NAME: string = 'Checkbox Question';
@@ -28,6 +28,7 @@ export class CheckboxQuestionComponent implements OnInit, OnOptionsLoaded, Surve
 	 * @param surveyViewerService
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'checkbox';
 		this.options = [];
@@ -41,7 +42,7 @@ export class CheckboxQuestionComponent implements OnInit, OnOptionsLoaded, Surve
 	 */
 	loadConfigurationData(data: QuestionConfiguration[]) {
 
-		console.log(data);
+		this.data = data;
 	}
 
 	ngOnInit() {

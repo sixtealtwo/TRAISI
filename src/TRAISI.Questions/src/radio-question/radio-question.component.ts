@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {
 	SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded, SurveyQuestion,
-	QuestionResponseState
+	QuestionResponseState, TRAISI
 } from 'traisi-question-sdk';
 
 
@@ -10,8 +10,8 @@ import {
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQuestion {
-	state: QuestionResponseState;
+export class RadioQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded {
+
 
 	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
@@ -22,7 +22,6 @@ export class RadioQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQu
 	icon: string;
 	selectdOption: any;
 
-	response: EventEmitter<any>;
 
 	/**
 	 *
@@ -32,10 +31,14 @@ export class RadioQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQu
 	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
 				@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
 
+		super();
 		this.options = [];
 	}
 
 
+	/**
+	 *
+	 */
 	ngOnInit() {
 
 

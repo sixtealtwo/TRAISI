@@ -8,7 +8,7 @@ import {GeoLocation} from '../models/geo-location.model';
 let markerIconImage = require('./assets/default-marker.png');
 import {
 	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
-	QuestionResponseState
+	QuestionResponseState, TRAISI
 } from 'traisi-question-sdk';
 
 @Component({
@@ -16,7 +16,7 @@ import {
 	template: require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuestion {
+export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, AfterViewInit, SurveyQuestion {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
 	state: QuestionResponseState;
 
@@ -33,7 +33,13 @@ export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuesti
 
 	@ViewChild('mapMarker') mapMarker: ElementRef;
 
+	/**
+	 *
+	 * @param mapEndpointService
+	 * @param cdRef
+	 */
 	constructor(private mapEndpointService: MapEndpointService, private cdRef: ChangeDetectorRef) {
+		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'map';
 	}
@@ -51,11 +57,19 @@ export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuesti
 		});
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
 	}
 
+	/**
+	 *
+	 * @param e
+	 */
 	userLocate(e: Position) {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
 		this.mapEndpointService.reverseGeocode(e.coords.latitude, e.coords.longitude).subscribe((result: GeoLocation) => {
@@ -68,6 +82,10 @@ export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuesti
 	onDragStart(event: any) {
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	onDragEnd(event: MapMouseEvent) {
 		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
@@ -75,9 +93,17 @@ export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuesti
 		});
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	onDrag(event: MapMouseEvent) {
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	mapClick(event: MapMouseEvent) {
 		if (event.lngLat) {
 			this.markerPosition = event.lngLat;
@@ -85,6 +111,9 @@ export class MapQuestionComponent implements OnInit, AfterViewInit, SurveyQuesti
 		}
 	}
 
+	/**
+	 *
+	 */
 	private configureMapSettings(): void {
 		this.mapGL.zoom = [9];
 		this.mapGL.minZoom = 7;

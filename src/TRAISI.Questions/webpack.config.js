@@ -1,5 +1,5 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+var TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 
 
 module.exports = {
@@ -7,6 +7,7 @@ module.exports = {
         a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
         // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
     },
+
     output: {
         path: path.join(process.cwd(), 'dist'),
         filename: 'traisi-questions.module.js',
@@ -17,6 +18,9 @@ module.exports = {
         extensions: [
             '.ts',
             '.js'
+        ],
+        plugins: [
+            new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
         ]
     },
     module: {
@@ -43,7 +47,7 @@ module.exports = {
                     "css-loader", // translates CSS into CommonJS
                     "sass-loader" // compiles Sass to CSS
                 ]
-            } ,
+            },
             {
                 test: /\.(png|jp(e*)g|svg)$/,
                 use: [{
