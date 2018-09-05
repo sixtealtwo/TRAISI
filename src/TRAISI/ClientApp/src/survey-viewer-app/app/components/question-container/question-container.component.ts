@@ -49,7 +49,8 @@ export class QuestionContainerComponent implements OnInit {
 			.subscribe((componentRef: ComponentRef<any>) => {
 
 
-				this.surveyViewerService.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null).subscribe((options: SurveyViewQuestionOption[]) => {
+				this.surveyViewerService.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null).subscribe
+				((options: SurveyViewQuestionOption[]) => {
 					this.isLoaded = true;
 
 					if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {

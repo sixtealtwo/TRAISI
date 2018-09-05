@@ -7,6 +7,7 @@ export interface SurveyQuestion {
 	state: QuestionResponseState;
 
 	response: EventEmitter<any>;
+	
 
 }
 

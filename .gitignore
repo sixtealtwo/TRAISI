@@ -250,7 +250,7 @@ _Pvt_Extensions
 Thumbs.db
 /.cr
 .vscode/settings.json
-.vscode/settings.json
+!.vscode/settings.json
 .rider/
 .idea/
 

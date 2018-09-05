@@ -1,0 +1,4 @@
+{
+    "typescript.tsdk": "./src/TRAISI/ClientApp/node_modules/typescript/lib",
+    "tslint.configFile": "./src/TRAISI/ClientApp/tslint.json"
+}

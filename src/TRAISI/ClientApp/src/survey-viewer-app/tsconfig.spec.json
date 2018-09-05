@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "module": "commonjs",
+	"module": "commonjs",
+	"experimentalDecorators": true,
     "types": [
       "jasmine",
       "node"

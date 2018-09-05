@@ -1,18 +1,25 @@
 {
 	"extends": "../../tsconfig.json",
-	"compilerOptions": {
-		"lib": [
-			"es2017",
-			"dom"
-		],
-		"experimentalDecorators": true,
-		"paths": {
-			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Module/"
+		"compilerOptions": {
+			"lib": [
+				"es2017",
+				"dom"
 			],
-			"smooth-dnd": [
-				"../../local_node_modules/smooth-dnd/"
-			]
-		}
+			"outDir": "../out-tsc/app",
+			"baseUrl": "./",
+			"module": "es2015",
+			"types": ["node"],
+			"experimentalDecorators": true,
+			"paths": {
+				"traisi-question-sdk": [
+					"../../../../TRAISI.SDK/Module/"
+				],
+				"smooth-dnd": ["../../local_node_modules/smooth-dnd/"]
+			}
+		},
+		"include": [
+			"../shared/**/*.ts",
+			"**/*.ts"
+		],
+		"exclude": ["test.ts", "**/*.spec.ts", "**/node_modules/**"]
 	}
-}
