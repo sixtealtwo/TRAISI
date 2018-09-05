@@ -15,7 +15,7 @@
 					<div class="question-move-icon">
 						<i class="fa fa-sort"></i>
 					</div>
-					<div class="color-unset question-text" [innerHTML]="item.questionPart.name + ': ' + item.label.value | safe: 'html'"></div>
+					<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined" [innerHTML]="item.questionPart.name + ': ' + item.label.value | safe: 'html'"></div>
 				</button>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
 					<app-question-details *ngIf="item.questionPart.id > 0" [surveyId]="surveyId" [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>

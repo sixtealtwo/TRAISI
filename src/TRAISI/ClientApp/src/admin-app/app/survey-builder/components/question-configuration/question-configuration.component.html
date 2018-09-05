@@ -9,7 +9,7 @@
 					<a class="nav-link fw-semi-bold" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced"
 					 aria-expanded="true" (click)="advancedConfig()">Advanced</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" *ngIf="questionBeingEdited.id != 0">
 					<a class="nav-link fw-semi-bold" id="conditionals-tab" data-toggle="tab" href="#conditionals" role="tab" aria-controls="conditionals"
 					 aria-expanded="true">Conditionals</a>
 				</li>
