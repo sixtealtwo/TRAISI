@@ -1,6 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded} from 'traisi-question-sdk';
-
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {
+	SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded, SurveyQuestion,
+	QuestionResponseState
+} from 'traisi-question-sdk';
 
 
 @Component({
@@ -8,7 +10,8 @@ import {SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded} from 'tr
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent implements OnInit, OnOptionsLoaded {
+export class RadioQuestionComponent implements OnInit, OnOptionsLoaded, SurveyQuestion {
+	state: QuestionResponseState;
 
 	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
@@ -19,6 +22,13 @@ export class RadioQuestionComponent implements OnInit, OnOptionsLoaded {
 	icon: string;
 	selectdOption: any;
 
+	response: EventEmitter<any>;
+
+	/**
+	 *
+	 * @param _surveyViewerService
+	 * @param _surveyResponderService
+	 */
 	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
 				@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
 

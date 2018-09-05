@@ -1,5 +1,13 @@
 import {Component, OnInit, OnDestroy, Inject, EventEmitter} from '@angular/core';
-import {OnVisibilityChanged, SurveyViewer, OnSurveyQuestionInit, QuestionConfiguration} from 'traisi-question-sdk';
+import {
+	OnVisibilityChanged,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	QuestionConfiguration,
+	SurveyQuestion,
+	QuestionResponseState
+
+} from 'traisi-question-sdk';
 
 
 @Component({
@@ -7,9 +15,10 @@ import {OnVisibilityChanged, SurveyViewer, OnSurveyQuestionInit, QuestionConfigu
 	template: require('./text-question.component.html').toString(),
 	styles: [require('./text-question.component.scss').toString()]
 })
-export class TextQuestionComponent implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
-	
-	
+export class TextQuestionComponent implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit, SurveyQuestion {
+	state: QuestionResponseState;
+
+
 	onQuestionShown(): void {
 		console.log('shown');
 	}
@@ -30,6 +39,7 @@ export class TextQuestionComponent implements OnInit, OnVisibilityChanged, OnSur
 	 * @param surveyViewerService
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
 

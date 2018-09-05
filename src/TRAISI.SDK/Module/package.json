@@ -13,6 +13,8 @@
     "typescript": "^2.9.1"
   },
   "dependencies": {
+    "@angular/common": "^6.1.6",
+    "@angular/core": "^6.1.6",
     "rxjs": "^6.0.0"
   }
 }
