@@ -1,0 +1,48 @@
+<div class="condtionals-wrapper">
+	<h4 class="text-center">Question as Source</h4>
+	<div class="row d-none d-md-flex">
+		<div class="col-md-3">
+			Condition
+		</div>
+		<div class="col-md-4">
+			Value(s)
+		</div>
+		<div class="col-md-5">
+			Target(s)
+		</div>
+	</div>
+	<div class="row" *ngFor="let conditional of sourceConditionals; let i = index">
+		<div class="col-md-12">
+			<button type="button" class="pull-right btn btn-danger" (click)="deleteSourceConditional(i)">
+				<i class="fa fa-times"></i>
+			</button>
+			<app-conditional [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [responseType]="questionType.responseType"></app-conditional>
+		</div>
+	</div>
+	<br/>
+	<div class="row justify-content-center">
+		<div>
+			<button type="button" class="btn btn-primary" (click)="addSourceConditional()">
+				<i class="fa fa-plus-circle"></i> Add Conditional
+			</button>
+		</div>
+	</div>
+</div>
+
+<!--
+Before: <ngx-dropdown-treeview-select
+[items]="questionsBefore"
+[config]="treedropdownSingleConfig"
+(selectedChange)="onSelectedChange($event)">
+</ngx-dropdown-treeview-select>
+After: <ngx-dropdown-treeview
+[items]="questionOptionsAfter"
+[config]="treedropdownConfig"
+(selectedChange)="onSelectedChange($event)">
+</ngx-dropdown-treeview>
+This: <ngx-dropdown-treeview
+[items]="thisQuestion"
+[config]="treedropdownConfig"
+(selectedChange)="onSelectedChange($event)">
+</ngx-dropdown-treeview>
+-->

@@ -217,6 +217,7 @@ namespace TRAISI.ViewModels
 
 
             CreateMap<QuestionTypeDefinition, SBQuestionTypeDefinitionViewModel>()
+                .ForMember(q => q.ResponseType, map => map.ResolveUsing(s => s.ResponseType.ToString()))
                 .ReverseMap();
 
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()

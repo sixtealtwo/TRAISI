@@ -9,7 +9,7 @@
 	"newProjectRoot": "projects",
 	"projects": {
 		"admin-app": {
-			"root": "",
+			"root": "src/admin-app",
 			"sourceRoot": "src/admin-app",
 			"projectType": "application",
 			"architect": {

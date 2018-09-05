@@ -1,0 +1,84 @@
+<div class="row">
+	<div class="col-md-3 conditional-row">
+		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="valueChanged($event)"
+		 placeholder="Select Condition">
+			<ng-template ngx-select-option-not-found>
+				Nothing found
+			</ng-template>
+		</ngx-select>
+	</div>
+	<div class="col-md-4 conditional-row">
+		<ng-container *ngIf="responseType == 'String'; else rElseIf1">
+			<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="Enter value"
+			/>
+		</ng-container>
+		<ng-template #rElseIf1>
+			<ng-container *ngIf="responseType == 'Boolean'; else rElseIf2">
+				<div class="display-inline-block checkbox-ios">
+					<label class="form-check-label" for="{{ 'conditionalValue-' + sourceGroup.id }}" class="switch">
+						<input [(ngModel)]="booleanValue" class="form-check-input" type="checkbox" class="ios" checked id="{{ 'conditionalValue-' + sourceGroup.id }}"><i></i>
+					</label>
+				</div>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf2>
+			<ng-container *ngIf="responseType == 'Integer'; else rElseIf3">
+				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="0"
+				/>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf3>
+			<ng-container *ngIf="responseType == 'Decimal'; else rElseIf4">
+				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="0"
+				/>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf4>
+			<ng-container *ngIf="responseType == 'Location'; else rElseIf5">
+				<div class="row">
+					<button type="button" class="col-md-12 btn btn-danger" data-dismiss="modal" (click)="locationModal.show()">
+							<i class='fa fa-eye'></i>Set Bounds
+					</button>
+				</div>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf5>
+			<ng-container *ngIf="responseType == 'Json'; else rElseIf6">
+				<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="Enter value"
+				/>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf6>
+			<ng-container *ngIf="responseType == 'OptionList'; else rElseIf7">
+				<ngx-dropdown-treeview [items]="copiedOptionList" #questionOptions [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
+				</ngx-dropdown-treeview>
+			</ng-container>
+		</ng-template>
+		<ng-template #rElseIf7>
+			<ng-container *ngIf="responseType == 'DateTime'">DateTime</ng-container>
+		</ng-template>
+	</div>
+	<div class="col-md-5 conditional-row">
+		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [config]="treedropdownConfig" (selectedChange)="onSelectedChange($event)">
+		</ngx-dropdown-treeview>
+	</div>
+</div>
+
+<div class="modal fade"  bsModal #locationModal="bs-modal" (onShown)="locationBoundsShown()" [config]="{backdrop: 'static'}" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+					<div class="map-container">
+						<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'">
+						</mgl-map>
+					</div>
+					<div>
+							<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="locationModal.hide()">
+									<i class='fa fa-eye'></i>Set Bounds
+							</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+	

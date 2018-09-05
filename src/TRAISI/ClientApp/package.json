@@ -84,6 +84,7 @@
 		"ngx-mapbox-gl": "^1.2.0",
 		"ngx-monaco-editor": "^6.0.0",
 		"ngx-select-ex": "^3.5.9",
+		"ngx-tree-select": "^0.13.3",
 		"ngx-treeview": "^6.0.0",
 		"node-sass": "^4.9.3",
 		"npm": "^6.4.1",

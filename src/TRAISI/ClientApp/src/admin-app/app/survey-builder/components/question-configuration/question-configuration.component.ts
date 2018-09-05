@@ -29,15 +29,12 @@ import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
-import { TreeviewItem, DownlineTreeviewItem, TreeviewEventParser, OrderDownlineTreeviewEventParser } from 'ngx-treeview';
+import { TreeviewItem } from 'ngx-treeview';
 
 @Component({
 	selector: 'app-question-configuration',
 	templateUrl: './question-configuration.component.html',
-	styleUrls: ['./question-configuration.component.scss'],
-	providers: [
-		{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }
-]
+	styleUrls: ['./question-configuration.component.scss']
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public surveyId: number;
@@ -56,14 +53,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public froalaQTestOptions: any;
 
-	public items: TreeviewItem[] = [];
-	public treedropdownConfig = {
-		hasAllCheckBox: false,
-		hasFilter: true,
-		hasCollapseExpand: false,
-		decoupleChildFromParent: false,
-		maxHeight: 500
-	};
+	public fullStructure: TreeviewItem[] = [];
+	public questionOptionsAfter: TreeviewItem[] = [];
+	public questionsBefore: TreeviewItem[] = [];
+	public thisQuestion: TreeviewItem[] = [];
+
+	public conditionalsLoaded: boolean = false;
 
 	@Output()
 	configResult = new EventEmitter<string>();
@@ -82,14 +77,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.updateAdvancedParams();
-		this.configTargets.changes.subscribe(item => {
-			this.updateAdvancedParams();
-		});
-	}
-
-	onSelectedChange(downlineItems: DownlineTreeviewItem[]) {
-	
+		//this.updateAdvancedParams();
+		setTimeout(() => {
+			this.configTargets.changes.subscribe(item => {
+				this.updateAdvancedParams();
+			});
+		}, 2000);
 	}
 
 	updateAdvancedParams() {
@@ -105,6 +98,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 						if (component) {
 							let target = this.configTargets.toArray()[i];
+							target.clear();
 							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(component);
 
 							let cmpRef: any = target.createComponent(paramComponent);
@@ -119,7 +113,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					}
 				});
 		}
-		this.cDRef.detectChanges();
+		//this.cDRef.detectChanges();
 	}
 
 	parameterComponents() {
@@ -169,10 +163,109 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
 		this.builderService.getStandardViewPagesStructureWithQuestionsOptions(this.surveyId, 'en').subscribe(
 			treelist => {
-				this.items = treelist;
+				this.fullStructure = treelist;
+				this.processQuestionTree();
+				this.conditionalsLoaded = true;
 			}
 		);
 	}
+
+	private processQuestionTree() {
+		this.questionsBefore = [];
+		this.questionOptionsAfter = [];
+		this.thisQuestion = [];
+		let questionHitThisPage: boolean = false;
+		this.fullStructure.forEach(treeElement => {
+			let page = {
+				value: treeElement.value,
+				text: treeElement.text,
+				checked: false,
+				children: []
+			};
+
+			if (treeElement.children) {
+				let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(page, treeElement, questionHitThisPage);
+				page = pageReturn;
+				questionHitThisPage = questionHitReturn;
+			}
+			if (questionHitThisPage && page.children.length > 0) {
+				this.questionOptionsAfter.push(new TreeviewItem(page));
+			} else if (page.children.length > 0) {
+				this.questionsBefore.push(new TreeviewItem(page));
+			}
+		});
+	}
+
+	private processQuestionPageIntoTree(page: any, treeElement: TreeviewItem, questionHit: boolean)
+	{
+		for (let element of treeElement.children) {
+			if (element.value === `question-${this.questionBeingEdited.id}`) {
+				this.thisQuestion = [element];
+				if (page.children.length > 0) {
+					this.questionsBefore.push(new TreeviewItem(page));
+					page = {
+						value: treeElement.value,
+						text: treeElement.text,
+						checked: false,
+						children: []
+					};
+				}
+				questionHit = true;
+			} else {
+				if (!questionHit) {
+					this.clearOptionsFromElement(element);
+				}
+				let elementCopy = {
+					value: element.value,
+					text: element.text,
+					checked: false,
+					children: []
+				};
+				if (element.children) {
+					let { pageReturn, questionHitReturn } = this.processQuestionPartIntoTree(page, element, elementCopy, questionHit);
+					page = pageReturn;
+					questionHit = questionHitReturn;
+				}
+				page.children.push(new TreeviewItem(elementCopy));
+			}
+		}
+		return { pageReturn: page, questionHitReturn: questionHit};
+	}
+
+	private processQuestionPartIntoTree(page: any, partSource: TreeviewItem, part, questionHit: boolean)
+	{
+		for (let element of partSource.children) {
+			if (element.value === `question-${this.questionBeingEdited.id}`) {
+				this.thisQuestion = [element];
+				if (page.children.length > 0) {
+					this.questionsBefore.push(new TreeviewItem(page));
+					page = {
+						value: page.value,
+						text: page.text,
+						checked: false,
+						children: []
+					};
+				}
+				questionHit = true;
+			} else {
+				part.children.push(element);
+			}
+		}
+		return {pageReturn: page, questionHitReturn: questionHit};
+	}
+
+	private clearOptionsFromElement(element: TreeviewItem) {
+		if (element.children && element.children.length > 0) {
+			if ((<string>element.children[0].value).startsWith('option')) {
+				element.children = undefined;
+			} else {
+				element.children.forEach(child => {
+					this.clearOptionsFromElement(child);
+				});
+			}
+		}
+	}
+
 
 	generateFroalaOptions(placeHolder: string) {
 		return {

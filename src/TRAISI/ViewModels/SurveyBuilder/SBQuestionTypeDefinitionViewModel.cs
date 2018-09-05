@@ -14,5 +14,7 @@ namespace TRAISI.ViewModels.Questions
         public Dictionary<string, QuestionConfigurationDefinitionViewModel> QuestionConfigurations { get; set; }
 
         public string Icon { get; set; }
+
+        public string ResponseType { get; set; }
     }
 }

@@ -96,11 +96,7 @@
 				</ng-container>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="conditionals" aria-labelledby="conditionals-tab" aria-expanded="true">
-				<ngx-dropdown-treeview
-					[items]="items"
-					[config]="treedropdownConfig"
-					(selectedChange)="onSelectedChange($event)">
-				</ngx-dropdown-treeview>
+					<app-question-conditonals *ngIf="conditionalsLoaded" [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore" [thisQuestion]="thisQuestion" [questionType]="questionType" [questionBeingEdited]="questionBeingEdited"></app-question-conditonals>
 			</div>
 		</div>
 		<div class="row">

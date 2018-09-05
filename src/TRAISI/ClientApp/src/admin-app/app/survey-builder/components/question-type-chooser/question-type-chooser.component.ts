@@ -75,7 +75,8 @@ export class QuestionTypeChooserComponent implements OnInit {
 				typeName: 'Survey Part',
 				icon: 'fa-archive',
 				questionConfigurations: [],
-				questionOptions: []
+				questionOptions: [],
+				responseType: ''
 			};
 			this.addQuestionType.emit(surveyPart);
 		}
