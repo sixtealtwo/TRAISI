@@ -5,5 +5,7 @@ export interface SurveyViewer
 {
      configurationData: Subject<QuestionConfiguration[]>;
      options: Subject<QuestionOption[]>;
+     
+     accessToken: string;
 
 };

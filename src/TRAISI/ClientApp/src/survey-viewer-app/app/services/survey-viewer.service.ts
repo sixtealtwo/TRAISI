@@ -25,6 +25,13 @@ export class SurveyViewerService implements SurveyViewer {
 
 	/**
 	 *
+	 */
+	public get accessToken(): string{
+		return this.authService.accessToken;
+	}
+
+	/**
+	 *
 	 * @param _surveyViewerEndpointService
 	 * @param authService
 	 */
