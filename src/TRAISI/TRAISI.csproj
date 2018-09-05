@@ -76,40 +76,6 @@
     <ItemGroup>
         <EmbeddedResource Remove="ClientApp\dist\**"/>
     </ItemGroup>
-    <ItemGroup>
-        <_ContentIncludedByDefault Remove="ClientApp3\angular.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\icon\manifest.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\ar.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\de.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\en.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\fr.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\ko.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\locale\pt.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\maps\tts-zones-pd.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\dist\admin\assets\maps\tts-zones.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\local_node_modules\smooth-dnd\package.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\package-lock.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\package.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app-e2e\tsconfig.e2e.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\icon\manifest.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\ar.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\de.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\en.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\fr.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\ko.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\locale\pt.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\maps\tts-zones-pd.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\assets\maps\tts-zones.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\tsconfig.app.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\tsconfig.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\admin-app\tsconfig.spec.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\survey-viewer-app-e2e\tsconfig.e2e.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\survey-viewer-app\tsconfig.app.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\survey-viewer-app\tsconfig.spec.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\src\survey-viewer-app\tslint.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\tsconfig.json"/>
-        <_ContentIncludedByDefault Remove="ClientApp3\tslint.json"/>
-    </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
