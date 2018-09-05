@@ -5,7 +5,8 @@ import {
 	OnSurveyQuestionInit,
 	QuestionConfiguration,
 	SurveyQuestion,
-	QuestionResponseState
+	QuestionResponseState,
+	
 
 } from 'traisi-question-sdk';
 
@@ -39,7 +40,7 @@ export class TextQuestionComponent implements OnInit, OnVisibilityChanged, OnSur
 	 * @param surveyViewerService
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
-
+		
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
 

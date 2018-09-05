@@ -26,6 +26,8 @@ export class SurveyViewerComponent implements OnInit {
 
 	public surveyId: number;
 
+	public titleText: string;
+
 	@ViewChild(SurveyHeaderDisplayComponent) headerDisplay: SurveyHeaderDisplayComponent;
 
 	/**
@@ -50,6 +52,10 @@ export class SurveyViewerComponent implements OnInit {
 		// this.surveyViewerService.getWelcomeView()
 
 		console.log(this.headerDisplay);
+
+		this.titleText = this.surveyViewerService.activeSurveyTitle;
+
+		console.log(this.surveyViewerService);
 
 		this.route.queryParams.subscribe((value: Params) => {
 

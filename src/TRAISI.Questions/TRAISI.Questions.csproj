@@ -18,10 +18,20 @@
     <Compile Remove="node_modules/**" />
     <EmbeddedResource Include="dist/**" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="Compile">
-    <Exec Command="npm run build"/>
-    <Message Text="Compiled and bundled JS library" Importance="High" />
-  </Target>
+    <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' != 'Release'">
+        <Exec Command="npm run build"/>
+        <Message Text="Compiled and bundled JS library" Importance="High" />
+    </Target>
+
+    <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Release'">
+        <Exec Command="npm install"/>
+        <Exec Command="npm run build"/>
+        <Message Text="Compiled and bundled JS library" Importance="High" />
+    </Target>
+
+    
+    
+    
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />

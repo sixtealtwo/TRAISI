@@ -24,18 +24,18 @@
         <LangVersion>7.1</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1"/>
+        <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
         <!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" /> -->
     </ItemGroup>
 
 
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
-        <Exec WorkingDirectory="Module/" Command="npm install"/>
-        <Exec WorkingDirectory="Module/" Command="npm run build"/>
-        <Message Text="Compiled and built TRAISI SDK module" Importance="High"/>
+    <Target Name="PreBuild" AfterTargets="Compile" Condition="'$(Configuration)' == 'Release'">
+        <Exec WorkingDirectory="Module/" Command="npm install" />
+        <Exec WorkingDirectory="Module/" Command="npm run build" />
+        <Message Text="Compiled and built TRAISI SDK module" Importance="High" />
     </Target>
     <ItemGroup Condition="'$(Configuration)' == 'cli'">
-        <Compile Include="CLITool/**/*.cs"/>
+        <Compile Include="CLITool/**/*.cs" />
         <EmbeddedResource Include="CLITool/Resources/package.json">
             <LogicalName>package.json</LogicalName>
         </EmbeddedResource>
@@ -45,17 +45,17 @@
         <EmbeddedResource Include="CLITool/Resources/webpack.config.js">
             <LogicalName>webpack.config.js</LogicalName>
         </EmbeddedResource>
-        <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1"/>
-        <Compile Remove="node_modules\**"/>
-        <EmbeddedResource Remove="node_modules\**"/>
+        <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+        <Compile Remove="node_modules\**" />
+        <EmbeddedResource Remove="node_modules\**" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="dist/*.module.js"/>
+        <EmbeddedResource Include="dist/*.module.js" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Module\dist"/>
+        <Folder Include="Module\dist" />
     </ItemGroup>
     <ItemGroup>
-        <None Remove="node_modules\**"/>
+        <None Remove="node_modules\**" />
     </ItemGroup>
 </Project>

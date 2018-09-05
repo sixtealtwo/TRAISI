@@ -25,6 +25,8 @@ namespace DAL.Repositories.Interfaces
         Task<IEnumerable<Survey>> GetSharedSurveysAsync(string userName);
 
         Task<Survey> GetSurveyByNameFullAsync(string name);
+        
+        Task<Survey> GetSurveyByCodeFullAsync(string code);
 
         Task<Survey> GetSurveyFullAsync(int surveyId);
 

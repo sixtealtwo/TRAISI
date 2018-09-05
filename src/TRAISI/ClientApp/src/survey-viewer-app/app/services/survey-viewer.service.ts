@@ -21,6 +21,8 @@ export class SurveyViewerService implements SurveyViewer {
 	configurationData: Subject<QuestionConfiguration[]>;
 	options: Subject<QuestionOption[]>;
 
+	activeSurveyTitle: string;
+
 	/**
 	 *
 	 * @param _surveyViewerEndpointService

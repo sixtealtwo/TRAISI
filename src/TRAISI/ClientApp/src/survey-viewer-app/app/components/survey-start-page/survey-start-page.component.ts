@@ -50,6 +50,8 @@ export class SurveyStartPageComponent implements OnInit {
 			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(
 				value => {
 					this.survey = value;
+
+					this.surveyViewerService.activeSurveyTitle = value.titleText;
 				},
 				error => {
 					this.router.navigate(['/', this.surveyName, 'error'], {relativeTo: this.route});
