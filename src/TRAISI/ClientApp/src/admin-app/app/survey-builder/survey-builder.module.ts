@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { NgxTreeSelectModule } from 'ngx-tree-select';
 
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
@@ -36,6 +37,8 @@ import { LocationFieldComponent } from './components/question-configuration/loca
 import { RadioComponent } from './components/question-configuration/radio-field/radio.component';
 import { QuestionDetailsComponent } from './components/question-details/question-details.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { QuestionConditonalsComponent } from './components/question-configuration/question-conditonals/question-conditonals.component';
+import { ConditionalComponent } from './components/question-configuration/question-conditonals/conditional/conditional.component';
 
 @NgModule({
 	imports: [
@@ -55,6 +58,16 @@ import { TreeviewModule } from 'ngx-treeview';
 		ChartsModule,
 		TreeviewModule,
 		AmazingTimePickerModule,
+		NgxTreeSelectModule.forRoot({
+			allowFilter: false,
+			filterPlaceholder: 'Type your filter here...',
+			maxVisibleItemCount: 5,
+			idField: 'value',
+			textField: 'text',
+			childrenField: 'children',
+			allowParentSelection: true,
+			expandMode: 'None'
+		}),
 		NgxMapboxGLModule.forRoot({
 			accessToken:
 				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
@@ -81,7 +94,9 @@ import { TreeviewModule } from 'ngx-treeview';
 		TimeInputComponent,
 		LocationFieldComponent,
 		RadioComponent,
-		QuestionDetailsComponent
+		QuestionDetailsComponent,
+		QuestionConditonalsComponent,
+		ConditionalComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

@@ -7,4 +7,5 @@ export interface QuestionTypeDefinition {
 	icon: string;
 	questionOptions: QuestionOptionDefinition[];
 	questionConfigurations: QuestionConfigurationDefinition[];
+	responseType: string;
 }

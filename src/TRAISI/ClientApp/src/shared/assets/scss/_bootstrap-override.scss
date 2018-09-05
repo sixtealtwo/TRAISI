@@ -359,12 +359,36 @@ legend {
   }
 }
 
+tree-select {
+
+	.selected-container-text {
+		min-height: 30px;
+	}
+	.dropdown-menu {
+		display: block !important;
+		background-color: white !important;
+	}
+
+	.item { 
+		i {
+			margin-right: 5px;
+			font-size: 16px;
+		}
+	}
+
+	.caret {
+		color: black !important;
+		cursor: pointer;
+	}
+}
+
+
 ngx-dropdown-treeview {
   .dropdown-menu.show {
     width: 100% !important;
 	}
 	.btn {
-		color: black !important;
+		background-color: #777 !important;
 	}
 }
 
