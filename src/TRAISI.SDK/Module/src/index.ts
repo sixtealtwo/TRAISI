@@ -5,12 +5,3 @@ export {QuestionOption} from './question-option';
 export {OnVisibilityChanged, OnOptionsLoaded, OnSurveyQuestionInit} from './survey_lifecycle_hooks';
 export {QuestionResponseState} from './question-response-state';
 export {SurveyQuestion} from './survey-question';
-
-
-export namespace TRAISI
-{
-    export class TraisSurveyQuestion
-    {
-        
-    }
-}    

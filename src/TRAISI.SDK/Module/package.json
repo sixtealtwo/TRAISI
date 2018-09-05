@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "SDK and interface definitions for creating new extension questions in TRAISI.",
   "main": "./dist/index.js",
+  "files": [
+    "scss",
+    "src",
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
