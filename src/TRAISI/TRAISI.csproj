@@ -20,84 +20,85 @@
         <LangVersion>7.1</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System"/>
-        <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc2-final"/>
-        <PackageReference Include="AutoMapper" Version="7.0.1"/>
-        <PackageReference Include="CsvHelper" Version="7.1.1"/>
-        <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.103"/>
-        <PackageReference Include="Geocoding.Core" Version="4.0.1"/>
-        <PackageReference Include="Geocoding.Google" Version="4.0.1"/>
-        <PackageReference Include="HangFire" Version="1.6.19"/>
-        <PackageReference Include="Hangfire.PostgreSql" Version="1.4.8.2"/>
-        <PackageReference Include="MailKit" Version="2.0.4"/>
-        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1"/>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1"/>
-        <PackageReference Include="Npgsql" Version="4.0.1"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.1"/>
-        <PackageReference Include="OpenIddict" Version="2.0.0-rc2-final"/>
-        <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc2-final"/>
-        <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc2-final"/>
-        <PackageReference Include="RestSharp" Version="106.3.1"/>
-        <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1"/>
+        <Reference Include="System" />
+        <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc2-final" />
+        <PackageReference Include="AutoMapper" Version="7.0.1" />
+        <PackageReference Include="CsvHelper" Version="7.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.103" />
+        <PackageReference Include="Geocoding.Core" Version="4.0.1" />
+        <PackageReference Include="Geocoding.Google" Version="4.0.1" />
+        <PackageReference Include="HangFire" Version="1.6.19" />
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.4.8.2" />
+        <PackageReference Include="MailKit" Version="2.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+        <PackageReference Include="Npgsql" Version="4.0.1" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.1" />
+        <PackageReference Include="OpenIddict" Version="2.0.0-rc2-final" />
+        <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc2-final" />
+        <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc2-final" />
+        <PackageReference Include="RestSharp" Version="106.3.1" />
+        <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\DAL\DAL.csproj"/>
-        <ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj"/>
-        <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj"/>
+        <ProjectReference Include="..\DAL\DAL.csproj" />
+        <ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj" />
+        <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
     </ItemGroup>
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <!-- <Compile Remove="..\TRAISI.UI\questions\**" />
          <Content Remove="$(SpaRoot)**" />
          <Content Remove="..\TRAISI.UI\questions\**" /> -->
-        <Content Remove="$(SpaRoot)**"/>
-        <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
-        <None Remove="ClientApp\dist\**"/>
-        <Content Remove="ClientApp\dist\**"/>
+        <Content Remove="$(SpaRoot)**" />
+        <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <None Remove="ClientApp\dist\**" />
+        <Content Remove="ClientApp\dist\**" />
     </ItemGroup>
     <ItemGroup>
         <!--<EmbeddedResource Remove="..\TRAISI.UI\questions\**" />
         <None Remove="..\TRAISI.UI\questions\**" /> -->
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="ClientApp\src\survey-viewer-app\app\modules"/>
-        <Folder Include="Logs\"/>
-        <Folder Include="Migrations\"/>
+        <Folder Include="ClientApp\src\survey-viewer-app\app\directives" />
+        <Folder Include="ClientApp\src\survey-viewer-app\app\modules" />
+        <Folder Include="Logs\" />
+        <Folder Include="Migrations\" />
     </ItemGroup>
     <ItemGroup>
-        <DistFiles Remove="ClientApp\dist\**"/>
+        <DistFiles Remove="ClientApp\dist\**" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Remove="ClientApp\dist\**"/>
+        <Compile Remove="ClientApp\dist\**" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Remove="ClientApp\dist\**"/>
+        <EmbeddedResource Remove="ClientApp\dist\**" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
-        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
-        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..."/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
         <!--	<Exec WorkingDirectory="$(SpaRoot)" Command="npm link traisi-question-sdk" /> -->
     </Target>
     <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
         <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod"/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false"/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' "/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- survey-viewer-app --prod --aot=false --build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' "/>
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- survey-viewer-app --prod --aot=false --build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
-            <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**"/>
-            <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'"/>
+            <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**" />
+            <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
             <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
                 <RelativePath>%(DistFiles.Identity)</RelativePath>
                 <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -6,12 +6,13 @@ import {QuestionLoaderEndpointService} from '../../services/question-loader-endp
 import {QuestionLoaderService} from '../../services/question-loader.service';
 import {SurveyViewerEndpointService} from '../../services/survey-viewer-endpoint.service';
 import {SurveyResponderEndpointService} from '../../services/survey-responder-endpoint.service';
+import {LoadingPlaceholderDirective} from '../../directives/loading-placeholder.directive';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
-	declarations: [],
+	declarations: [LoadingPlaceholderDirective],
 	providers: []
 })
 export class CoreModule {

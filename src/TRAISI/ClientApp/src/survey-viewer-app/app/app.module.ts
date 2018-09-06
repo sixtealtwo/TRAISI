@@ -32,6 +32,7 @@ import 'jquery';
 import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 
 
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -44,7 +45,8 @@ import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 		SurveyTermsPageComponent,
 		SurveyViewerComponent,
 		SurveyCompletePageComponent,
-		SafeHtmlPipe
+		SafeHtmlPipe,
+
 
 	],
 	imports: [
