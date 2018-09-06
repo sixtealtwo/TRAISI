@@ -10,9 +10,9 @@ import {
 	styles: [require('./date-question.component.scss').toString()]
 })
 export class DateQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, SurveyQuestion {
-	state: QuestionResponseState;
+
 	readonly QUESTION_TYPE_NAME: string = 'Date Question';
-	response: EventEmitter<any>;
+
 	typeName: string;
 	icon: string;
 

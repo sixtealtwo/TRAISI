@@ -14,13 +14,13 @@ import {
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
 export class CheckboxQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded, SurveyQuestion {
-	state: QuestionResponseState;
+
 
 	readonly QUESTION_TYPE_NAME: string = 'Checkbox Question';
 
 	typeName: string;
 	icon: string;
-	response: EventEmitter<any>;
+	
 	options: QuestionOption [];
 
 	/**

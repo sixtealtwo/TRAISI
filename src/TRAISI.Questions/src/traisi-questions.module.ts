@@ -13,7 +13,6 @@ import {DateQuestionComponent} from './date-question/date-question.component';
 import {TimeQuestionComponent} from './time-question/time-question.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {NKDatetimeModule} from 'ng2-datetime/ng2-datetime';
 import {Select2Module} from 'ng2-select2';
 
 @NgModule({
@@ -91,9 +90,7 @@ import {Select2Module} from 'ng2-select2';
 	imports: [
 		CommonModule,
 		FormsModule,
-
 		HttpClientModule,
-		NKDatetimeModule,
 		Select2Module
 
 	]

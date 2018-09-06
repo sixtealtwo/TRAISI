@@ -15,9 +15,8 @@ let markerIconImage = require('./assets/default-marker.png');
 })
 export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, AfterViewInit, SurveyQuestion {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
-	state: QuestionResponseState;
+	
 
-	response: EventEmitter<any>;
 	typeName: string;
 	icon: string;
 

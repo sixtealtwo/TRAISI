@@ -1,12 +1,12 @@
 const path = require('path');
-var TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
     entry: {
         a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
         b: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
-        // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+
     },
 
     output: {
@@ -14,6 +14,7 @@ module.exports = {
         filename: 'traisi-questions-[name].module.js',
         libraryTarget: 'amd'
     },
+    mode: 'development',
     devtool: 'source-map',
 
     resolve: {
@@ -27,12 +28,13 @@ module.exports = {
 
         ]
     },
+    
 
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'awesome-typescript-loader'
+                use: 'ts-loader'
             },
             {
                 test: /\.html?$/,
