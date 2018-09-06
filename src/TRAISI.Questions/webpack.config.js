@@ -5,12 +5,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
     entry: {
         a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+        b: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
         // b: path.join(process.cwd(), './src/traisi-questions.module.ts'),
     },
 
     output: {
         path: path.join(process.cwd(), 'dist'),
-        filename: 'traisi-questions.module.js',
+        filename: 'traisi-questions-[name].module.js',
         libraryTarget: 'amd'
     },
     devtool: 'source-map',
@@ -22,15 +23,8 @@ module.exports = {
         ],
         plugins: [
             new TsConfigPathsPlugin(/* { tsconfig, compiler } */),
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    output: {
-                        comments: false, // remove comments
-                    },
-                    test: ['*.js']
-                }
-            })
-           
+
+
         ]
     },
 

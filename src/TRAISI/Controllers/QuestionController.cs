@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using DAL;
@@ -6,21 +7,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace TRAISI.Controllers
-{
-
+namespace TRAISI.Controllers {
 	[Route("api/[controller]")]
-	public class QuestionController : Controller
-	{
-
+	public class QuestionController : Controller {
 		private IQuestionTypeManager _questionTypeManager;
 
 		/// <summary>
 		/// Inject the QuestionTypeManager service
 		/// </summary>
 		/// <param name="questionTypeManager"></param>
-		public QuestionController(IQuestionTypeManager questionTypeManager)
-		{
+		public QuestionController(IQuestionTypeManager questionTypeManager) {
 			this._questionTypeManager = questionTypeManager;
 		}
 
@@ -31,17 +27,25 @@ namespace TRAISI.Controllers
 		/// <param name="questionType"></param>
 		/// <returns></returns>
 		[HttpGet("client-code/{questionType}")]
-		public ActionResult ClientCode(string questionType)
-		{
-			try
-			{
-				var response = File(this._questionTypeManager.QuestionTypeDefinitions
-				.Where(q => string.Equals(q.TypeName, questionType))
-				.Single().ClientModules[0], "application/javascript");
-				return response;
+		public ActionResult ClientCode(string questionType) {
+			try {
+				var questionTypeDefinition =
+					_questionTypeManager.QuestionTypeDefinitions.FirstOrDefault(q =>
+						string.Equals(q.TypeName, questionType));
+
+
+				if (questionTypeDefinition.CodeBundleName == null) {
+					return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
+				}
+
+				return File(
+					QuestionTypeDefinition.ClientModules[
+						QuestionTypeDefinition.ClientModules.Keys
+							.FirstOrDefault(k => k.EndsWith(questionTypeDefinition.CodeBundleName,
+								StringComparison.InvariantCultureIgnoreCase))],
+					"application/javascript");
 			}
-			catch
-			{
+			catch {
 				//return error if not found
 				return new EmptyResult();
 			}
@@ -50,8 +54,7 @@ namespace TRAISI.Controllers
 
 		[HttpGet("question-types")]
 		[Produces(typeof(List<QuestionTypeDefinition>))]
-		public IEnumerable<QuestionTypeDefinition> QuestionTypes()
-		{
+		public IEnumerable<QuestionTypeDefinition> QuestionTypes() {
 			var questionTypes = this._questionTypeManager.QuestionTypeDefinitions;
 			return questionTypes;
 		}

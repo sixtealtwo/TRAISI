@@ -61,7 +61,7 @@ namespace TRAISI.Helpers {
 			ReadResponseType(attribute, typeDefinition);
 			ReadQuestionResourceData(typeDefinition, questionType, sourceAssembly);
 
-			typeDefinition.ClientModules.Add(GetTypeClientData(typeDefinition, sourceAssembly));
+			GetTypeClientData(typeDefinition, sourceAssembly);
 		}
 
 		/// <summary>
@@ -227,13 +227,17 @@ namespace TRAISI.Helpers {
 		/// <param name="typeDefinition"></param>
 		/// <param name="sourceAssembly"></param>
 		/// <returns></returns>
-		private byte[] GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly) {
-			var resourceNames = sourceAssembly.GetManifestResourceNames();
-			var resourceName = sourceAssembly.GetManifestResourceNames().Single(r => r.EndsWith(".module.js"));
+		private void GetTypeClientData(QuestionTypeDefinition typeDefinition, Assembly sourceAssembly) {
 
-			using (var ms = new MemoryStream()) {
-				sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
-				return ms.ToArray();
+			var moduleResourceNames = sourceAssembly.GetManifestResourceNames().Where(r => r.EndsWith(".module.js"));
+
+			foreach (var resourceName in moduleResourceNames) {
+				using (var ms = new MemoryStream()) {
+					sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
+
+
+					QuestionTypeDefinition.ClientModules[resourceName] = ms.ToArray();
+				}
 			}
 		}
 
@@ -271,7 +275,7 @@ namespace TRAISI.Helpers {
 
 			foreach (var assembly in assemblies) {
 				//only consider TRAISI named modules for speed
-				if (!assembly.FullName.Contains("TRAISI",StringComparison.InvariantCultureIgnoreCase)) continue;
+				if (!assembly.FullName.Contains("TRAISI", StringComparison.InvariantCultureIgnoreCase)) continue;
 
 				try {
 					var types = assembly.GetTypes();

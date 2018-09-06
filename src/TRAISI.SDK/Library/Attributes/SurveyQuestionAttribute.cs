@@ -20,6 +20,8 @@ namespace TRAISI.SDK.Attributes
         public QuestionResponseType QuestionResponseType { get; }
 
         public string[] UseResources { get; set; } = {};
+        
+        public string CodeBundleName { get; set; }
 
         public SurveyQuestionAttribute(QuestionResponseType responseType)
         {

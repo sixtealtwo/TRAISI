@@ -20,9 +20,11 @@ namespace TRAISI.SDK
 
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
-        public Dictionary<string, byte []> ResourceData {get;}
-        
+        public Dictionary<string, byte[]> ResourceData { get; }
+
         public QuestionResponseType ResponseType { get; set; }
+        
+        public string CodeBundleName { get; set; }
 
         /// <summary>
         /// Set of Question Part Slots
@@ -38,7 +40,7 @@ namespace TRAISI.SDK
         /// that is to be served to the front end.
         /// </summary>
         /// <returns></returns>
-        public List<byte[]> ClientModules { get; set; }
+        public static Dictionary<string, byte[]> ClientModules { get; set; } = new Dictionary<string, byte[]>();
 
         public Dictionary<string, QuestionResource> QuestionResources {get;set;}
 
@@ -54,9 +56,10 @@ namespace TRAISI.SDK
             TypeName = type.TypeName;
             Icon = type.Icon;
 
-            ClientModules = new List<byte[]>();
             ResourceData = new Dictionary<string,byte[]>();
             QuestionResources = new Dictionary<string,QuestionResource>();
+
+            CodeBundleName = attribute.CodeBundleName;
 
         }
 

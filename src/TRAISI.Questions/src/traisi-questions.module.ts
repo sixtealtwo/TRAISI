@@ -1,10 +1,7 @@
 import {NgModule} from '@angular/core';
 import {TextQuestionComponent} from './text-question/text-question.component';
-import {MapQuestionComponent} from './map-question/map-question.component';
-import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
 import {RadioQuestionComponent} from './radio-question/radio-question.component';
 import {HttpClientModule} from '@angular/common/http';
-import {MapEndpointService} from './services/mapservice.service';
 import {CheckboxQuestionComponent} from './checkbox-question/checkbox-question.component';
 import {LikertQuestionComponent} from './likert-question/likert-question.component';
 import {MatrixQuestionComponent} from './matrix-question/matrix-question.component';
@@ -20,10 +17,10 @@ import {NKDatetimeModule} from 'ng2-datetime/ng2-datetime';
 import {Select2Module} from 'ng2-select2';
 
 @NgModule({
-	declarations: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent,
+	declarations: [TextQuestionComponent, RadioQuestionComponent,
 		NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent,
 		HeadingQuestionComponent, TimeQuestionComponent, DateQuestionComponent],
-	entryComponents: [TextQuestionComponent, MapQuestionComponent, RadioQuestionComponent, NumberQuestionComponent,
+	entryComponents: [TextQuestionComponent, RadioQuestionComponent, NumberQuestionComponent,
 		RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent, HeadingQuestionComponent,
 		TimeQuestionComponent, DateQuestionComponent],
 	providers: [
@@ -34,11 +31,6 @@ import {Select2Module} from 'ng2-select2';
 					name: 'traisi-text-question',
 					id: 'text',
 					component: TextQuestionComponent
-				},
-				{
-					name: 'traisi-map-question',
-					id: 'location',
-					component: MapQuestionComponent
 				},
 				{
 					name: 'traisi-radio-question',
@@ -94,16 +86,12 @@ import {Select2Module} from 'ng2-select2';
 			],
 			multi: true
 		},
-		MapEndpointService
+
 	],
 	imports: [
 		CommonModule,
 		FormsModule,
-		NgxMapboxGLModule.forRoot({
-			accessToken:
-				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg' // Can also be set per map (accessToken input of mgl-map)
-			// geocoderAccessToken: 'TOKEN' // Optionnal, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
-		}),
+
 		HttpClientModule,
 		NKDatetimeModule,
 		Select2Module

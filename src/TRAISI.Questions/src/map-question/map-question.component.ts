@@ -1,15 +1,12 @@
-import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {Result} from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import {MapComponent} from 'ngx-mapbox-gl';
 import {LngLatLike, MapMouseEvent} from 'mapbox-gl';
 import {MapEndpointService} from '../services/mapservice.service';
 import {GeoLocation} from '../models/geo-location.model';
+import {QuestionResponseState, SurveyQuestion, TRAISI} from 'traisi-question-sdk';
 
 let markerIconImage = require('./assets/default-marker.png');
-import {
-	SurveyViewer, QuestionConfiguration, SurveyResponder, SurveyQuestion,
-	QuestionResponseState, TRAISI
-} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-map-question',
