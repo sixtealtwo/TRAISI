@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-3 conditional-row">
+	<div class="col-lg-3 conditional-row">
 		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="valueChanged($event)"
 		 placeholder="Select Condition">
 			<ng-template ngx-select-option-not-found>
@@ -7,7 +7,7 @@
 			</ng-template>
 		</ngx-select>
 	</div>
-	<div class="col-md-4 conditional-row">
+	<div class="col-lg-4 conditional-row">
 		<ng-container *ngIf="responseType == 'String'; else rElseIf1">
 			<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="Enter value"
 			/>
@@ -35,11 +35,9 @@
 		</ng-template>
 		<ng-template #rElseIf4>
 			<ng-container *ngIf="responseType == 'Location'; else rElseIf5">
-				<div class="row">
-					<button type="button" class="col-md-12 btn btn-danger" data-dismiss="modal" (click)="locationModal.show()">
-							<i class='fa fa-eye'></i>Set Bounds
-					</button>
-				</div>
+				<button type="button" class="bounds-button btn btn-danger" data-dismiss="modal" (click)="locationModal.show()">
+						<i class='fa fa-eye'></i>Set Bounds
+				</button>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf5>
@@ -58,7 +56,7 @@
 			<ng-container *ngIf="responseType == 'DateTime'">DateTime</ng-container>
 		</ng-template>
 	</div>
-	<div class="col-md-5 conditional-row">
+	<div class="col-lg-5 conditional-row">
 		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [config]="treedropdownConfig" (selectedChange)="onSelectedChange($event)">
 		</ngx-dropdown-treeview>
 	</div>

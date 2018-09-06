@@ -1,6 +1,6 @@
 <div class="condtionals-wrapper">
 	<h4 class="text-center">Question as Source</h4>
-	<div class="row d-none d-md-flex">
+	<div class="row d-md-none d-none d-lg-flex conditional-header">
 		<div class="col-md-3">
 			Condition
 		</div>
@@ -13,10 +13,17 @@
 	</div>
 	<div class="row" *ngFor="let conditional of sourceConditionals; let i = index">
 		<div class="col-md-12">
-			<button type="button" class="pull-right btn btn-danger" (click)="deleteSourceConditional(i)">
-				<i class="fa fa-times"></i>
-			</button>
-			<app-conditional [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [responseType]="questionType.responseType"></app-conditional>
+				<button type="button" class="conditional-delete-button pull-right btn btn-danger" (click)="deleteSourceConditional(i)">
+						<i class="fa fa-times"></i>
+					</button>
+				<div class="conditional-row" >
+				<app-conditional [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [responseType]="questionType.responseType"></app-conditional>
+				<div class="row">
+						<div class="col-md-12">
+							<hr class="edit-separator-hr" />
+						</div>
+					</div>
+			</div>
 		</div>
 	</div>
 	<br/>
