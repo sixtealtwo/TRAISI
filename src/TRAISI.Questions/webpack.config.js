@@ -4,8 +4,8 @@ const path = require('path');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
     entry: {
-        a: path.join(process.cwd(), './src/traisi-questions.module.ts'),
-        b: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
+        general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
+        map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
 
     },
 
