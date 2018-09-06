@@ -26,6 +26,8 @@ export class QuestionLoaderService {
 
 	private _componentFactories: { [type: string]: ComponentFactory<any>; } = {};
 
+	private _moduleRefs: { [type: string]: NgModuleRef<any>; } = {};
+
 	/**
 	 *
 	 * @param _questionLoaderEndpointService
@@ -63,41 +65,69 @@ export class QuestionLoaderService {
 				});
 		}
 
-		// create and obserer and return the component factory after it has finished importing
-		let obs: Observable<ComponentFactory<any>> = Observable.create(
-			(observer: Observer<ComponentFactory<any>>) => {
-				SystemJS.import(
-					this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)
-				)
-					.then(module => {
 
-						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
-						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
-						const widgets = moduleRef.injector.get('widgets', 'notFound');
-						const resolver = moduleRef.componentFactoryResolver;
+		//if the module has already loaded.. but the question does not exist yet
+		else if (questionType in this._moduleRefs) {
+			return Observable.create(
+				(observer: Observer<ComponentFactory<any>>) => {
 
+					const componentFactory: ComponentFactory<any> = this.createComponentFactory(this._moduleRefs[questionType], questionType);
 
-						let widget = find(widgets[0], item => {
-							return item.id.toLowerCase() === questionType.toLowerCase();
+					this._componentFactories[questionType] = componentFactory;
+					observer.next(componentFactory);
+
+					observer.complete();
+				});
+		}
+		else {
+
+			//load and compile the module
+			return Observable.create(
+				(observer: Observer<ComponentFactory<any>>) => {
+					SystemJS.import(
+						this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)
+					)
+						.then(module => {
+
+							const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
+							const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
+
+							const componentFactory: ComponentFactory<any> = this.createComponentFactory(moduleRef, questionType);
+							this._componentFactories[questionType] = componentFactory;
+							observer.next(componentFactory);
+
+							observer.complete();
+						})
+						.catch(error => {
+							console.log(error);
+							console.log('Error: ' + error);
 						});
+				}
+			);
+		}
 
-
-						//resolver.
-						const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widget.component);
-
-						observer.next(componentFactory);
-
-						observer.complete();
-					})
-					.catch(error => {
-						console.log(error);
-						console.log('Error: ' + error);
-					});
-			}
-		);
-
-		return obs;
 	}
+
+	/**
+	 *
+	 * @param moduleRef
+	 * @param questionType
+	 */
+	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType): ComponentFactory<any> {
+
+		const widgets = moduleRef.injector.get('widgets', 'notFound');
+		const resolver = moduleRef.componentFactoryResolver;
+
+
+		let widget = find(widgets[0], item => {
+			return item.id.toLowerCase() === questionType.toLowerCase();
+		});
+
+		const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widget.component);
+
+		return componentFactory;
+	}
+
 
 	/**
 	 *
@@ -114,7 +144,7 @@ export class QuestionLoaderService {
 					observer.next(componentRef);
 					observer.complete();
 
-				})
+				});
 			});
 
 
