@@ -1,6 +1,6 @@
 const path = require('path');
 var TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -14,15 +14,26 @@ module.exports = {
         libraryTarget: 'amd'
     },
     devtool: 'source-map',
+
     resolve: {
         extensions: [
             '.ts',
             '.js'
         ],
         plugins: [
-            new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
+            new TsConfigPathsPlugin(/* { tsconfig, compiler } */),
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    output: {
+                        comments: false, // remove comments
+                    },
+                    test: ['*.js']
+                }
+            })
+           
         ]
     },
+
     module: {
         rules: [
             {
