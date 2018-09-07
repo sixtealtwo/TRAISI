@@ -625,7 +625,9 @@ export class DashboardComponent implements OnInit {
 							readOnly: true,
 							title: 'data view'
 						},
-						saveAsImage: {}
+						saveAsImage: {
+							pixelRatio: 7
+						}
 					}
 				},
 				geo: {
