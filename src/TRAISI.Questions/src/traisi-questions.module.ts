@@ -14,6 +14,7 @@ import {TimeQuestionComponent} from './time-question/time-question.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Select2Module} from 'ng2-select2';
+import {BsDatepickerModule} from 'ngx-bootstrap';
 
 @NgModule({
 	declarations: [TextQuestionComponent, RadioQuestionComponent,
@@ -91,7 +92,8 @@ import {Select2Module} from 'ng2-select2';
 		CommonModule,
 		FormsModule,
 		HttpClientModule,
-		Select2Module
+		Select2Module,
+		BsDatepickerModule.forRoot()
 
 	]
 })

@@ -5,7 +5,6 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
-import {AlertService} from '../../shared/services/alert.service';
 import {AppRoutingModule} from './modules/routing/routing.module';
 import {SurveyViewerContainerComponent} from './components/survey-viewer-container/survey-viewer-container.component';
 import {SurveyViewerEndpointService} from './services/survey-viewer-endpoint.service';
@@ -30,6 +29,7 @@ import {SurveyResponderEndpointService} from './services/survey-responder-endpoi
 import {SurveyResponderService} from './services/survey-responder.service';
 import 'jquery';
 import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
+import {BsDatepickerModule} from 'ngx-bootstrap';
 
 
 
@@ -61,6 +61,7 @@ import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 			}
 		}),
 		AppRoutingModule,
+		BsDatepickerModule.forRoot()
 
 
 	],
@@ -71,7 +72,6 @@ import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 		AppTranslationService,
 		LocalStoreManager,
 		SurveyViewerEndpointService,
-		AlertService,
 		QuestionLoaderService,
 		SurveyViewerService,
 		SurveyViewerEndpointService,

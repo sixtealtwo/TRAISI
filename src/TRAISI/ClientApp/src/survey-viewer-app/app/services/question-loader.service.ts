@@ -14,6 +14,9 @@ import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
+import * as NgxBootstrap from 'ngx-bootstrap';
+
+
 import 'rxjs/add/observable/of';
 import {find} from 'lodash';
 
@@ -40,7 +43,7 @@ export class QuestionLoaderService {
 		private compiler: Compiler,
 		private injector: Injector
 	) {
-
+		SystemJS.config({transpiler: false});
 	}
 
 	/**
@@ -52,6 +55,8 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
+		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(NgxBootstrap));
+
 
 		//reuse the preloaded component factory
 		if (questionType in this._componentFactories) {

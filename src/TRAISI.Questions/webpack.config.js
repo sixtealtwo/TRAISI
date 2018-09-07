@@ -1,5 +1,5 @@
 const path = require('path');
-
+const WebpackSystemRegister = require('webpack-system-register');
 
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
@@ -64,6 +64,14 @@ module.exports = {
                         name: 'images/[hash]-[name].[ext]'
                     }
                 }]
+            }, {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, "node_modules/ngx-bootstrap")
+                ],
+                use: {
+                    loader: "babel-loader"
+                }
             }
         ]
 
@@ -76,8 +84,14 @@ module.exports = {
             callback();
         }
     ],*/
-    externals: /^@angular/,
+    externals: [/^@angular/, /^ngx-bootstrap/],
     plugins: [
+        /* new WebpackSystemRegister({
+             systemjsDeps: [
+                 /^ngx-bootstrap/, // any import that starts with react
+             ],
+             registerName: 'test-module', // optional name that SystemJS will know this bundle as.
+         }), */
         /*
         new UglifyJsPlugin({
             uglifyOptions:{
