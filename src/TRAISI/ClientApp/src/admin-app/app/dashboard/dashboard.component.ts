@@ -626,7 +626,7 @@ export class DashboardComponent implements OnInit {
 							title: 'data view'
 						},
 						saveAsImage: {
-							pixelRatio: 7
+							pixelRatio: 5
 						}
 					}
 				},

@@ -1,15 +1,14 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import {
 	TreeviewItem,
 	DownlineTreeviewItem,
 	TreeviewEventParser,
 	OrderDownlineTreeviewEventParser,
 	DropdownTreeviewComponent,
-	TreeviewSelection
+	TreeviewSelection,
+	TreeviewI18nDefault
 } from 'ngx-treeview';
 import { QuestionConditionalSourceGroup } from '../../../../models/question-conditional-source-group.model';
-import { MapComponent } from 'ngx-mapbox-gl';
-import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 
 @Component({
 	selector: 'app-conditional',
@@ -29,10 +28,21 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 		maxHeight: 500
 	};
 
+	public treedropdownSingleConfig = {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
+
 	public copiedOptionList: any[] = [];
 
 	@Input()
 	public responseType: string;
+
+	@Input()
+	public questionType: string;
 
 	@Input()
 	public sourceGroup: QuestionConditionalSourceGroup;
@@ -40,20 +50,18 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 	@Input()
 	public optionList: TreeviewItem[];
 
+	@Output()
+	public setBoundsSelected: EventEmitter<QuestionConditionalSourceGroup> = new EventEmitter<QuestionConditionalSourceGroup>();
+
 	@ViewChild('optionTargets')
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
-	@ViewChild('questionOptions')
-	public questionOptionsTreeDropdown: DropdownTreeviewComponent;
-
-	@ViewChild('mapbox') mapGL: MapComponent;
-
 	public optionSelectValues: any[] = [];
-	constructor() {}
+	constructor(private changeDetectRef: ChangeDetectorRef) {}
 
 	ngOnInit() {
 		this.setConditionsForQuestionType();
-		if (this.responseType === 'OptionList') {
+		if (this.responseType === 'OptionList' || this.responseType === 'OptionSelect') {
 			this.optionList.forEach(element => {
 				let copiedItem = new TreeviewItem({
 					value: element.value,
@@ -63,39 +71,16 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 				this.copiedOptionList.push(copiedItem);
 			});
 		}
-		this.configureMapSettings();
 	}
 
 	ngAfterViewInit() {
-		//this.optionTargetsTreeDropdown.i18n.getText = (e) => this.targetsDropdown(e);
-		this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
-			this.mapGL.mapInstance.addControl(new MapboxDraw({
-				displayControlsDefault: false,
-				controls: {
-						polygon: true,
-						trash: true
-				}}));
-			this.mapGL.mapInstance.on('draw.update', e => this.updateBounds(e));
-			this.mapGL.mapInstance.on('draw.create', e => this.updateBounds(e));
-		});
+		this.optionTargetsTreeDropdown.i18n = new TreeviewI18nDefault();
+		this.optionTargetsTreeDropdown.i18n.getText = (e) => this.targetsDropdown(e);
+		this.changeDetectRef.detectChanges();
 	}
 
-	private configureMapSettings(): void {
-		this.mapGL.zoom = [9];
-		this.mapGL.minZoom = 7;
-		this.mapGL.center = [-79.3, 43.5];
-		this.mapGL.doubleClickZoom = false;
-		this.mapGL.attributionControl = false;
-	}
-
-	updateBounds(bounds: any) {
-		console.log(bounds.features[0].geometry.coordinates[0]);
-	}
-
-	locationBoundsShown() {
-		setTimeout(() => {
-			window.dispatchEvent(new Event('resize'));
-		}, 0);
+	showBoundsModal() {
+		this.setBoundsSelected.emit(this.sourceGroup);
 	}
 
 	targetsDropdown(e: TreeviewSelection) {
@@ -104,7 +89,7 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 		} else if (e.checkedItems.length > 1) {
 			return `${e.checkedItems.length} targets`;
 		} else {
-			return 'Select targets';
+			return 'Select hide targets';
 		}
 	}
 
@@ -118,13 +103,15 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 		} else if (this.responseType === 'Decimal') {
 			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To', 'Greater Than', 'Less Than'];
 		} else if (this.responseType === 'Location') {
-			this.dropDownListItems = ['In Bounds'];
+			this.dropDownListItems = ['In Bounds', 'Out of Bounds'];
 		} else if (this.responseType === 'Json') {
 			this.dropDownListItems = ['Contains', 'Does Not Contain'];
-		} else if (this.responseType === 'OptionList') {
+		} else if (this.responseType === 'OptionSelect') {
+			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To'];
+		}	else if (this.responseType === 'OptionList') {
 			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
 		} else if (this.responseType === 'DateTime') {
-			this.dropDownListItems = ['In Range'];
+			this.dropDownListItems = ['In Range', 'Outside Range'];
 		}
 	}
 
@@ -137,6 +124,10 @@ export class ConditionalComponent implements OnInit, AfterViewInit {
 	onSelectedChangeOptions(downlineItems: DownlineTreeviewItem[]) {}
 
 	// property conversions based on type
+
+	public getItemType(value: string) {
+		return value.split('-')[0];
+	}
 
 	get booleanValue(): boolean {
 		return this.sourceGroup.value === 'true';

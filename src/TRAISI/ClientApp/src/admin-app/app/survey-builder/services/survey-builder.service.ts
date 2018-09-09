@@ -93,27 +93,23 @@ export class SurveyBuilderService {
 	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[], level: string): TreeviewItem[] {
 		if (items !== null) {
 			let tree: TreeviewItem[] = items.map(item => {
-				let prefix = `: ${item.label}`;
-				if (item.type === 'part') {
-					prefix = level + prefix;
-				} else if (item.type === 'question') {
-					prefix = 'Question' + prefix;
-				} else {
-					prefix = 'Option' + prefix;
-				}
+				let prefix = `${item.label}`;
 				let treeItem: TreeItem = {
 					text: `${prefix}`,
 					value: `${item.type}-${item.id}`,
 					children: this.convertSurveyQuestionsStructureToTreeItems(item.children, 'Part'),
 					checked: false
 				};
-				return new TreeviewItem(treeItem);
+				let viewItem = new TreeviewItem(treeItem);
+				(<any>viewItem).type = item.type;
+				return viewItem;
 			});
 			return tree;
 		} else {
 			return null;
 		}
 	}
+
 
 	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[]) {
 		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder);

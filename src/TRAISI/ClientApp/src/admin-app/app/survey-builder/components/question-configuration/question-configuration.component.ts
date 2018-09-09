@@ -77,7 +77,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		//this.updateAdvancedParams();
+		// this.updateAdvancedParams();
 		setTimeout(() => {
 			this.configTargets.changes.subscribe(item => {
 				this.updateAdvancedParams();
@@ -113,7 +113,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					}
 				});
 		}
-		//this.cDRef.detectChanges();
+		// this.cDRef.detectChanges();
 	}
 
 	parameterComponents() {

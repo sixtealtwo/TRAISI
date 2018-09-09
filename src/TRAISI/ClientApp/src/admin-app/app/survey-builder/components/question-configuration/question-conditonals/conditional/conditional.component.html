@@ -35,7 +35,7 @@
 		</ng-template>
 		<ng-template #rElseIf4>
 			<ng-container *ngIf="responseType == 'Location'; else rElseIf5">
-				<button type="button" class="bounds-button btn btn-danger" data-dismiss="modal" (click)="locationModal.show()">
+				<button type="button" class="bounds-button btn btn-danger" data-dismiss="modal" (click)="showBoundsModal()">
 						<i class='fa fa-eye'></i>Set Bounds
 				</button>
 			</ng-container>
@@ -48,35 +48,38 @@
 		</ng-template>
 		<ng-template #rElseIf6>
 			<ng-container *ngIf="responseType == 'OptionList'; else rElseIf7">
-				<ngx-dropdown-treeview [items]="copiedOptionList" #questionOptions [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
+				<ngx-dropdown-treeview [items]="copiedOptionList" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
 				</ngx-dropdown-treeview>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf7>
-			<ng-container *ngIf="responseType == 'DateTime'">DateTime</ng-container>
+			<ng-container *ngIf="responseType == 'DateTime'; else rElseIf8">DateTime</ng-container>
+		</ng-template>
+		<ng-template #rElseIf8>
+			<ng-container *ngIf="responseType == 'OptionSelect'">
+				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" (selectedChange)="onSelectedChangeOptions($event)">
+				</ngx-dropdown-treeview-select>
+			</ng-container>
 		</ng-template>
 	</div>
 	<div class="col-lg-5 conditional-row">
-		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [config]="treedropdownConfig" (selectedChange)="onSelectedChange($event)">
+		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChange($event)">
 		</ngx-dropdown-treeview>
 	</div>
 </div>
-
-<div class="modal fade"  bsModal #locationModal="bs-modal" (onShown)="locationBoundsShown()" [config]="{backdrop: 'static'}" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-					<div class="map-container">
-						<mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'">
-						</mgl-map>
-					</div>
-					<div>
-							<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="locationModal.hide()">
-									<i class='fa fa-eye'></i>Set Bounds
-							</button>
-					</div>
-			</div>
+<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+	<div class="form-inline row-item">
+		<i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
+			[class.fa-caret-down]="!item.collapsed"></i>
+		<div class="form-check abc-checkbox abc-checkbox-primary">
+			<input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
+				[indeterminate]="item.indeterminate" />
+			<label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">
+				<span *ngIf="getItemType(item.value) == 'question'" class="badge badge-primary">Q</span>
+				<span *ngIf="getItemType(item.value) == 'option'" class="badge badge-secondary">O</span>
+				<span *ngIf="getItemType(item.value) == 'part'" class="badge badge-danger">P</span> {{ item.text }}
+			</label>
 		</div>
 	</div>
-</div>
-	
+</ng-template>
+

@@ -390,6 +390,14 @@ ngx-dropdown-treeview {
 	.btn {
 		background-color: #777 !important;
 	}
+
+	i {
+		margin-left: -16px;
+	}
+
+	.abc-checkbox input[type="checkbox"] {
+		margin-left: 10px !important;
+	}
 }
 
 .dropdown-menu{

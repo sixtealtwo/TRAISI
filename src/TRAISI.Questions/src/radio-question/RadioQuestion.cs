@@ -7,7 +7,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.Integer)]
+    [SurveyQuestion(QuestionResponseType.OptionSelect)]
     public class RadioQuestion : ISurveyQuestion
     {
         public string TypeName => "Radio Select";

@@ -1,3 +1,5 @@
+/// <reference path="../../../../../../node_modules/@types/jasmine/index.d.ts" />
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionTypeChooserComponent } from './question-type-chooser.component';

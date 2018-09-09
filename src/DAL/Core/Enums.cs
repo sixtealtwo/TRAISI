@@ -21,11 +21,13 @@ namespace DAL.Core
         GreaterThan = 2,
         LessThan = 3,
         InBounds = 4,
-        InRange = 5,
-        IsAnyOf = 6,
-        IsAllOf = 7,
-        Contains = 8,
-        DoesNotContain = 9
+				OutOfBounds = 5,
+				InRange = 6,
+				OutsideRange = 7,
+        IsAnyOf = 8,
+        IsAllOf = 9,
+        Contains = 10,
+        DoesNotContain = 11
     }
 
 }
