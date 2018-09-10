@@ -39,6 +39,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public thankYouPage: ThankYouPage;
 
 	public currentSurveyPage: QuestionPartView;
+	public currentSurveyPageEdit: QuestionPartView;
 
 	private currentPage: string = 'welcome';
 	private deletedImages: UploadPath[] = [];
@@ -47,9 +48,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private lastDragLeave: string[] = [];
 	private dragResult: Subject<boolean>;
 
-	@ViewChild('surveyPageDragAndDrop') surveyPage: NestedDragAndDropListComponent;
-	@ViewChild('questionChooser') questionChooser: QuestionTypeChooserComponent;
-	@ViewChild('createPageModal') createPageModal: ModalDirective;
+	@ViewChild('surveyPageDragAndDrop')
+	surveyPage: NestedDragAndDropListComponent;
+	@ViewChild('questionChooser')
+	questionChooser: QuestionTypeChooserComponent;
+	@ViewChild('createPageModal')
+	createPageModal: ModalDirective;
+	@ViewChild('editPageModal')
+	editPageModal: ModalDirective;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -61,7 +67,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	) {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
-			this.surveyService.getSurvey(this.surveyId).subscribe(survey => { this.survey = survey; });
+			this.surveyService.getSurvey(this.surveyId).subscribe(survey => {
+				this.survey = survey;
+			});
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
 	}
@@ -189,25 +197,39 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	saveWelcomePage() {
 		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
 			result => {
-				this.alertService.showMessage('Success', `Welcome page was saved successfully!`, MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					`Welcome page was saved successfully!`,
+					MessageSeverity.success
+				);
 			},
 			error => {}
 		);
 	}
 
 	saveTAndCPage() {
-		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage).subscribe(
-			result => {
-				this.alertService.showMessage('Success', `Terms and conditions page was saved successfully!`, MessageSeverity.success);
-			},
-			error => {}
-		);
+		this.surveyBuilderService
+			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
+			.subscribe(
+				result => {
+					this.alertService.showMessage(
+						'Success',
+						`Terms and conditions page was saved successfully!`,
+						MessageSeverity.success
+					);
+				},
+				error => {}
+			);
 	}
 
 	saveThankYouPage() {
 		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
 			result => {
-				this.alertService.showMessage('Success', `Thank you page was saved successfully!`, MessageSeverity.success);
+				this.alertService.showMessage(
+					'Success',
+					`Thank you page was saved successfully!`,
+					MessageSeverity.success
+				);
 			},
 			error => {}
 		);
@@ -215,13 +237,17 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveMandatoryPages(e, editor, data) {
 		if (this.currentPage === 'welcome') {
-			this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(result => {}, error => {});
+			this.surveyBuilderService
+				.updateStandardWelcomePage(this.surveyId, this.welcomePage)
+				.subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'termsAndConditions') {
 			this.surveyBuilderService
 				.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
 				.subscribe(result => {}, error => {});
 		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(result => {}, error => {});
+			this.surveyBuilderService
+				.updateStandardThankYouPage(this.surveyId, this.thankYouPage)
+				.subscribe(result => {}, error => {});
 		}
 	}
 
@@ -258,20 +284,21 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 		this.surveyBuilderService
 			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
-				.subscribe(page => {
-					this.currentSurveyPage = page;
-					this.surveyPage.currentPage = page;
-					this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
-					page.questionPartViewChildren.forEach(qc => {
-						if (qc.questionPart === null) {
-							this.surveyPage.qPartQuestions.set(qc.id, qc);
-							this.surveyBuilderService.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
-								.subscribe(qPart => {
-									qc.questionPartViewChildren = qPart.questionPartViewChildren;
-								});
-						}
-					});
+			.subscribe(page => {
+				this.currentSurveyPage = page;
+				this.surveyPage.currentPage = page;
+				this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
+				page.questionPartViewChildren.forEach(qc => {
+					if (qc.questionPart === null) {
+						this.surveyPage.qPartQuestions.set(qc.id, qc);
+						this.surveyBuilderService
+							.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
+							.subscribe(qPart => {
+								qc.questionPartViewChildren = qPart.questionPartViewChildren;
+							});
+					}
 				});
+			});
 	}
 
 	private navigateToFirst(): void {
@@ -281,8 +308,34 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.currentPage = 'welcome';
 	}
 
+	public editCurrentPage(): void {
+		this.currentSurveyPageEdit = new Survey();
+		Object.assign(this.currentSurveyPageEdit, this.currentSurveyPage);
+		this.editPageModal.show();
+	}
+
+	savePage(): void {
+		this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.currentSurveyPageEdit).subscribe(
+			result => {
+				Object.assign(this.currentSurveyPage, this.currentSurveyPageEdit);
+				let pageTab = this.allPages.filter(p => p.id === this.currentSurveyPageEdit.id)[0];
+				pageTab.label.value = this.currentSurveyPageEdit.label.value;
+				this.editPageModal.hide();
+			},
+			error => {
+				this.alertService.showMessage(
+					'Error',
+					`Problem updating page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+					MessageSeverity.error
+				);
+			}
+		);
+	}
+
 	deletePage(pageId: number): void {
-		this.alertService.showDialog('Are you sure you want to delete the page?', DialogType.confirm, () => this.continueDelete(pageId));
+		this.alertService.showDialog('Are you sure you want to delete the page?', DialogType.confirm, () =>
+			this.continueDelete(pageId)
+		);
 	}
 
 	continueDelete(pageId: number): void {
@@ -293,6 +346,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.navigateToFirst();
 				}
 				this.alertService.showMessage('Success', `Page was removed successfully!`, MessageSeverity.success);
+				this.editPageModal.hide();
 			},
 			error => {
 				this.alertService.showMessage(
@@ -332,12 +386,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	onDragEnd(event) {
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
-			this.alertService.showDialog(
-				'Are you sure you want to move the page?',
-				DialogType.confirm,
-				() => this.dragResult.next(true),
-				() => this.dragResult.next(false)
-			);
 		}
 		this.lastDragEnter = [];
 		this.lastDragLeave = [];
@@ -352,26 +400,34 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	onDrop(dropResult: any) {
-		if (this.dragResult) {
-			// create shadow list to give illusion of transfer before decision made
-			let pageCache = [...this.allPages];
-			this.allPages = Utilities.applyDrag(this.allPages, dropResult);
-			this.dragResult.subscribe(proceed => {
-				if (proceed === false) {
-					this.allPages = pageCache;
-				} else {
-					this.updatePageOrder();
-					let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
-					this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder).subscribe(
-						result => {
-						},
-						error => {
-							this.loadPageStructure();
-						}
-					);
-				}
-				this.dragResult = undefined;
-			});
+		if (dropResult.addedIndex !== dropResult.removedIndex) {
+			this.alertService.showDialog(
+				'Are you sure you want to move the page?',
+				DialogType.confirm,
+				() => this.dragResult.next(true),
+				() => this.dragResult.next(false)
+			);
+
+			if (this.dragResult) {
+				// create shadow list to give illusion of transfer before decision made
+				let pageCache = [...this.allPages];
+				this.allPages = Utilities.applyDrag(this.allPages, dropResult);
+				this.dragResult.subscribe(proceed => {
+					if (proceed === false) {
+						this.allPages = pageCache;
+					} else {
+						this.updatePageOrder();
+						let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
+						this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder).subscribe(
+							result => {},
+							error => {
+								this.loadPageStructure();
+							}
+						);
+					}
+					this.dragResult = undefined;
+				});
+			}
 		}
 	}
 
