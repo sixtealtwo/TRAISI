@@ -4,7 +4,6 @@ export class QuestionOptionConditional {
 	constructor(
 		public id?: number,
 		public targetOptionId?: number,
-		public targetQuestionId?: number,
 		public sourceQuestionId?: number,
 		public condition?: string,
 		public value?: string

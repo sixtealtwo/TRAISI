@@ -124,9 +124,9 @@ namespace DAL
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne().HasForeignKey(q => q.SourceQuestionId).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne().HasForeignKey(q => q.TargetQuestionId).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne().HasForeignKey(q => q.SourceQuestionId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
             //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
 
@@ -136,7 +136,7 @@ namespace DAL
 
 
             builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels);
-            builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne().HasForeignKey(q => q.TargetOptionId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(o => o.TargetOption).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().ToTable($"{nameof(this.QuestionOptions)}");
 
             builder.Entity<QuestionConditional>().ToTable($"{nameof(this.QuestionConditionals)}");

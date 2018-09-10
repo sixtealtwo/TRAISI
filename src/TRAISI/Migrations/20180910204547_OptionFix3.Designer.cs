@@ -3,15 +3,17 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180910204547_OptionFix3")]
+    partial class OptionFix3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -299,6 +301,8 @@ namespace TRAISI.Migrations
                     b.Property<int>("SourceQuestionId");
 
                     b.Property<int>("TargetOptionId");
+
+                    b.Property<int>("TargetQuestionId");
 
                     b.Property<string>("Value");
 
@@ -1121,12 +1125,12 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionConditional", b =>
                 {
-                    b.HasOne("DAL.Models.Questions.QuestionPart", "SourceQuestion")
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionOptionConditionalsSource")
                         .HasForeignKey("SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Models.Questions.QuestionOption", "TargetOption")
+                    b.HasOne("DAL.Models.Questions.QuestionOption")
                         .WithMany("QuestionOptionConditionalsTarget")
                         .HasForeignKey("TargetOptionId")
                         .OnDelete(DeleteBehavior.Cascade);

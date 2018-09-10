@@ -10,8 +10,6 @@ namespace DAL.Models.Groups
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-
         public virtual ApiKeys ApiKeySettings { get; set; }
         public virtual ICollection<GroupMember> Members { get; set; }
         public virtual ICollection<EmailTemplate> EmailTemplates { get; set; }

@@ -449,8 +449,18 @@ namespace TRAISI.Services
             {
                 qpartView.Order = newOrderDict[qpartView.Id];
             }
+            this._unitOfWork.SaveChanges();
+
         }
 
+        /// <summary>
+        /// Cleans up conditionals, removing any that are invalid (source question now after original)
+        /// </summary>
+        /// <param name="modifiedViews"></param>
+        private void ValidateConditionals(IEnumerable<QuestionPartView> modifiedViews)
+        {
+            
+        }
 
         /// <summary>
         /// Adds a question part to the specified SurveyView - this creates a new QuestionPartView from the part

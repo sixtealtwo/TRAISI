@@ -9,7 +9,7 @@ namespace DAL.Models.Groups
         public int Id { get; set; }
         public string Name { get; set; }
         public string HTML { get; set; }
-				public string CSS { get; set; }
+		public string CSS { get; set; }
         public UserGroup Group { get; set; }
     }
 }

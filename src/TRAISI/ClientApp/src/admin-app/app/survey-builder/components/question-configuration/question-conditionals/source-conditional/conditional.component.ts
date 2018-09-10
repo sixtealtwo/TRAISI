@@ -207,7 +207,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			if ((<string>selectedTarget.item.value).startsWith('option')) {
 				if (!selectedTarget.parent.item.checked) {
 					let id = +(selectedTarget.item.value.split('-')[1]);
-					let parentId = +(selectedTarget.parent.item.value.split('-')[2]);
+					// let parentId = +(selectedTarget.parent.item.value.split('-')[2]);
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
 						o => o.targetOptionId === id
 					)[0];
@@ -217,7 +217,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 						let newOptionConditional: QuestionOptionConditional = new QuestionOptionConditional(
 							0,
 							id,
-							parentId,
 							this.questionPartId,
 							this.sourceGroup.condition,
 							this.sourceGroup.value

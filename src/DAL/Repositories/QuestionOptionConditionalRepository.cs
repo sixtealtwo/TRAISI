@@ -27,7 +27,7 @@ namespace DAL.Repositories
         }
         public void DeleteTargetConditionals(int questionPartId, List<int> retainedConditionals)
         {
-            _appContext.QuestionOptionConditionals.RemoveRange(_appContext.QuestionOptionConditionals.Where(c => c.TargetQuestionId == questionPartId && !retainedConditionals.Contains(c.Id)));
+            _appContext.QuestionOptionConditionals.RemoveRange(_appContext.QuestionOptionConditionals.Where(c => c.TargetOption.QuestionPartId == questionPartId && !retainedConditionals.Contains(c.Id)));
         }
 
         public async Task<IEnumerable<QuestionOptionConditional>> GetQuestionOptionConditionalsAsync(int questionPartId)

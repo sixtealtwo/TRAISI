@@ -7,7 +7,6 @@ namespace DAL.Models.Questions {
 	public class QuestionOption : IQuestionOption, IEntity {
 		public int Id { get; set; }
 
-
 		public string Name { get; set; }
 
 		public LabelCollection<QuestionOptionLabel> QuestionOptionLabels { get; set; }
