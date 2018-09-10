@@ -37,8 +37,9 @@ import { LocationFieldComponent } from './components/question-configuration/loca
 import { RadioComponent } from './components/question-configuration/radio-field/radio.component';
 import { QuestionDetailsComponent } from './components/question-details/question-details.component';
 import { TreeviewModule } from 'ngx-treeview';
-import { QuestionConditonalsComponent } from './components/question-configuration/question-conditonals/question-conditonals.component';
-import { ConditionalComponent } from './components/question-configuration/question-conditonals/conditional/conditional.component';
+import { QuestionConditionalsComponent } from './components/question-configuration/question-conditionals/question-conditionals.component';
+import { SourceConditionalComponent } from './components/question-configuration/question-conditionals/source-conditional/conditional.component';
+import { TargetConditionalComponent } from './components/question-configuration/question-conditionals/target-conditional/target-conditional.component';
 
 @NgModule({
 	imports: [
@@ -95,8 +96,9 @@ import { ConditionalComponent } from './components/question-configuration/questi
 		LocationFieldComponent,
 		RadioComponent,
 		QuestionDetailsComponent,
-		QuestionConditonalsComponent,
-		ConditionalComponent
+		QuestionConditionalsComponent,
+		SourceConditionalComponent,
+		TargetConditionalComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

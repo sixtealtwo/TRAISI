@@ -10,6 +10,7 @@ namespace TRAISI.ViewModels.Questions
     {
 		public int Id { get; set; }
         public int TargetOptionId { get; set; }
+        public int TargetQuestionId { get; set; }
         public int SourceQuestionId { get; set; }
         public string Condition { get; set; }
         public string Value { get; set; }

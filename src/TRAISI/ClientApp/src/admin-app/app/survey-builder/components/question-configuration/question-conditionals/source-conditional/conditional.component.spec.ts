@@ -2,20 +2,20 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConditionalComponent } from './conditional.component';
+import { SourceConditionalComponent } from './conditional.component';
 
 describe('ConditionalComponent', () => {
-	let component: ConditionalComponent;
-	let fixture: ComponentFixture<ConditionalComponent>;
+	let component: SourceConditionalComponent;
+	let fixture: ComponentFixture<SourceConditionalComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [ConditionalComponent]
+			declarations: [SourceConditionalComponent]
 		}).compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(ConditionalComponent);
+		fixture = TestBed.createComponent(SourceConditionalComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-lg-3 conditional-row">
-		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="valueChanged($event)"
+		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="conditionValueChanged($event)"
 		 placeholder="Select Condition">
 			<ng-template ngx-select-option-not-found>
 				Nothing found
@@ -57,13 +57,13 @@
 		</ng-template>
 		<ng-template #rElseIf8>
 			<ng-container *ngIf="responseType == 'OptionSelect'">
-				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" (selectedChange)="onSelectedChangeOptions($event)">
+				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" [(value)]="sourceGroup.value" (valueChange)="onSelectedChangeSingleOption($event)">
 				</ngx-dropdown-treeview-select>
 			</ng-container>
 		</ng-template>
 	</div>
 	<div class="col-lg-5 conditional-row">
-		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChange($event)">
+		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeTargets($event)">
 		</ngx-dropdown-treeview>
 	</div>
 </div>

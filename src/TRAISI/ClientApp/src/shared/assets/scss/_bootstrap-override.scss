@@ -389,15 +389,28 @@ ngx-dropdown-treeview {
 	}
 	.btn {
 		background-color: #777 !important;
+		@media (hover: hover) {
+			overflow-x: hidden;
+		}
+		@media (hover: none) {
+			overflow-x: auto;
+		}
+		overflow-y: hidden;
+	}
+
+	.btn:hover {
+		overflow-x:auto;
 	}
 
 	i {
-		margin-left: -16px;
+		margin-left: -15px;
+		margin-right: 0px;
 	}
 
-	.abc-checkbox input[type="checkbox"] {
-		margin-left: 10px !important;
+	.form-inline .form-check {
+		padding-left: 5px;
 	}
+
 }
 
 .dropdown-menu{

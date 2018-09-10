@@ -289,6 +289,23 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpGet("{surveyId}/QuestionOptionConditionals/{questionPartId}")]
+        [Produces(typeof(List<QuestionOptionConditionalViewModel>))]
+        public async Task<IActionResult> GetQuestionPartOptionConditionals(int surveyId, int questionPartId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var questionOptionConditionals = await this._unitOfWork.QuestionOptionConditionals.GetQuestionOptionConditionalsAsync(questionPartId);
+
+                return Ok(Mapper.Map<List<QuestionOptionConditionalViewModel>>(questionOptionConditionals));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
         [HttpPut("{surveyId}/QuestionOptionConditionals/{questionPartId}")]
         public async Task<IActionResult> SetQuestionPartOptionConditionals(int surveyId, int questionPartId, [FromBody] List<QuestionOptionConditionalViewModel> conditionals)
         {

@@ -550,10 +550,35 @@ namespace TRAISI.Services
 
         public void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals)
         {
-            var newSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id == 0);
-            var updateSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id != 0);
-            var newTarget = conditionals.Where(c => c.TargetQuestionId == question.Id && c.Id == 0);
-            var updateTarget = conditionals.Where(c => c.TargetQuestionId == question.Id && c.Id == 0);
+            List<QuestionConditional> newSource = new List<QuestionConditional>();
+            List<QuestionConditional> updateSource = new List<QuestionConditional>();
+            List<QuestionConditional> newTarget = new List<QuestionConditional>();
+            List<QuestionConditional> updateTarget = new List<QuestionConditional>();
+
+            conditionals.ForEach(conditional => {
+                if (conditional.SourceQuestionId == question.Id)
+                {
+                    if (conditional.Id == 0)
+                    {
+                        newSource.Add(conditional);
+                    }
+                    else
+                    {
+                        updateSource.Add(conditional);
+                    }
+                }
+                else if (conditional.TargetQuestionId == question.Id)
+                {
+                    if (conditional.Id == 0)
+                    {
+                        newTarget.Add(conditional);
+                    }
+                    else
+                    {
+                        updateTarget.Add(conditional);
+                    }
+                }
+            });
 
             this._unitOfWork.QuestionConditionals.DeleteSourceConditionals(question.Id, updateSource.Select(c => c.Id).ToList());
             this._unitOfWork.QuestionConditionals.DeleteTargetConditionals(question.Id, updateTarget.Select(c => c.Id).ToList());
@@ -566,10 +591,35 @@ namespace TRAISI.Services
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)
         {
-            var newSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id == 0);
-            var updateSource = conditionals.Where(c => c.SourceQuestionId == question.Id && c.Id != 0);
-            var newTarget = conditionals.Where(c => c.SourceQuestionId != question.Id && c.Id == 0);
-            var updateTarget = conditionals.Where(c => c.SourceQuestionId != question.Id && c.Id == 0);
+            List<QuestionOptionConditional> newSource = new List<QuestionOptionConditional>();
+            List<QuestionOptionConditional> updateSource = new List<QuestionOptionConditional>();
+            List<QuestionOptionConditional> newTarget = new List<QuestionOptionConditional>();
+            List<QuestionOptionConditional> updateTarget = new List<QuestionOptionConditional>();
+
+            conditionals.ForEach(conditional => {
+                if (conditional.SourceQuestionId == question.Id)
+                {
+                    if (conditional.Id == 0)
+                    {
+                        newSource.Add(conditional);
+                    }
+                    else
+                    {
+                        updateSource.Add(conditional);
+                    }
+                }
+                else
+                {
+                    if (conditional.Id == 0)
+                    {
+                        newTarget.Add(conditional);
+                    }
+                    else
+                    {
+                        updateTarget.Add(conditional);
+                    }
+                }
+            });
 
             this._unitOfWork.QuestionOptionConditionals.DeleteSourceConditionals(question.Id, updateSource.Select(c => c.Id).ToList());
             this._unitOfWork.QuestionOptionConditionals.DeleteTargetConditionals(question.Id, updateTarget.Select(c => c.Id).ToList());

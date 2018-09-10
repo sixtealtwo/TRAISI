@@ -1,19 +1,19 @@
 import { TreeviewItem, TreeviewSelection, TreeviewI18nDefault } from 'ngx-treeview';
 
 export class DropdownTreeviewSelectI18n extends TreeviewI18nDefault {
-    private internalSelectedItem: TreeviewItem;
+	private internalSelectedItem: TreeviewItem;
 
-    set selectedItem(value: TreeviewItem) {
-        if (value && value.children === undefined) {
-            this.internalSelectedItem = value;
-        }
-    }
+	set selectedItem(value: TreeviewItem) {
+		if (value && value.children === undefined) {
+			this.internalSelectedItem = value;
+		}
+	}
 
-    get selectedItem(): TreeviewItem {
-        return this.internalSelectedItem;
-    }
+	get selectedItem(): TreeviewItem {
+		return this.internalSelectedItem;
+	}
 
-    getText(selection: TreeviewSelection): string {
-        return this.internalSelectedItem ? this.internalSelectedItem.text : 'All';
-    }
+	getText(selection: TreeviewSelection): string {
+		return this.internalSelectedItem ? this.internalSelectedItem.text : 'Select Option';
+	}
 }

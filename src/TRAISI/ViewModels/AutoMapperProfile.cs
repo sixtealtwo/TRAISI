@@ -151,6 +151,7 @@ namespace TRAISI.ViewModels
                     }
                     else
                     {
+                        svm.Id = s.QuestionPart.Id;
                         svm.Label = s.QuestionPart.Name;
                         svm.Type = "question";
                         svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();

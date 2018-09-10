@@ -17,7 +17,7 @@
 						<i class="fa fa-times"></i>
 					</button>
 				<div class="conditional-row" >
-				<app-conditional [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)" ></app-conditional>
+				<app-conditional #conditionals [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [questionPartId]="questionBeingEdited.questionPart.id" [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)" ></app-conditional>
 				<div class="row">
 						<div class="col-md-12">
 							<hr class="edit-separator-hr" />

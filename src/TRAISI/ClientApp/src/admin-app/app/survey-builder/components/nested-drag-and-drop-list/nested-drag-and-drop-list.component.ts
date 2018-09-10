@@ -79,6 +79,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.qConfiguration.questionBeingEdited = undefined;
 		this.qConfiguration.configurations = [];
 		this.qConfiguration.questionType = null;
+		this.qConfiguration.conditionalsLoaded = false;
 	}
 
 	editQuestionConfiguration(event: any, question: any) {
@@ -125,36 +126,42 @@ export class NestedDragAndDropListComponent implements OnInit {
 	addNewQuestionPartView(newPartView: QuestionPartView, parentView: QuestionPartView, addToList: boolean) {
 		this.surveyBuilderService
 			.addQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
-			.subscribe(newQuestion => {
-				newPartView.id = newQuestion.id;
-				newPartView.parentViewId = newQuestion.parentViewId;
-				if ((newQuestion.questionPart === undefined || newQuestion.questionPart === null) && !this.qPartQuestions.has(newQuestion.id)) {
-					this.qPartQuestions.set(newQuestion.id, newQuestion);
-				} else {
-					newPartView.questionPart = newQuestion.questionPart;
-					// send advanced configuration
-					this.surveyBuilderService
-						.updateQuestionPartConfigurations(
-							this.surveyId,
-							newQuestion.questionPart.id,
-							this.qConfiguration.configurationValues
-						)
-						.subscribe();
-				}
-				if (addToList) {
-					if (parentView === this.currentPage) {
-						this.currentPage.questionPartViewChildren.push(newQuestion);
+			.subscribe(
+				newQuestion => {
+					newPartView.id = newQuestion.id;
+					newPartView.parentViewId = newQuestion.parentViewId;
+					if (
+						(newQuestion.questionPart === undefined || newQuestion.questionPart === null) &&
+						!this.qPartQuestions.has(newQuestion.id)
+					) {
+						this.qPartQuestions.set(newQuestion.id, newQuestion);
+					} else {
+						newPartView.questionPart = newQuestion.questionPart;
+						// send advanced configuration
+						this.surveyBuilderService
+							.updateQuestionPartConfigurations(
+								this.surveyId,
+								newQuestion.questionPart.id,
+								this.qConfiguration.configurationValues
+							)
+							.subscribe();
 					}
+					if (addToList) {
+						if (parentView === this.currentPage) {
+							this.currentPage.questionPartViewChildren.push(newQuestion);
+						}
+					}
+					this.configurationModal.hide();
+				},
+				error => {
+					this.alertService.showStickyMessage(
+						'Update Error',
+						`Unable to add question.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+						MessageSeverity.error,
+						error
+					);
 				}
-				this.configurationModal.hide();
-			},	error => {
-				this.alertService.showStickyMessage(
-					'Update Error',
-					`Unable to add question.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
-					MessageSeverity.error,
-					error
-				);
-			});
+			);
 	}
 
 	getIcon(questionTypeName: string): string {
@@ -209,29 +216,137 @@ export class NestedDragAndDropListComponent implements OnInit {
 							)
 							.subscribe(
 								configResult => {
-									this.alertService.showMessage(
-										'Success',
-										`Question data and configurations updated successfully!`,
-										MessageSeverity.success
-									);
-									this.configurationModal.hide();
+									if (this.qConfiguration.conditionalsComponent) {
+										let [
+											qConditionals,
+											qoConditionals
+										] = this.qConfiguration.getUpdatedConditionals();
+										this.surveyBuilderService
+											.setQuestionPartConditionals(
+												this.surveyId,
+												this.questionBeingEdited.questionPart.id,
+												qConditionals
+											)
+											.subscribe(
+												condResult => {
+													this.surveyBuilderService
+														.setQuestionPartOptionConditionals(
+															this.surveyId,
+															this.questionBeingEdited.questionPart.id,
+															qoConditionals
+														)
+														.subscribe(
+															oCondResult => {
+																this.alertService.showMessage(
+																	'Success',
+																	`Question data, configurations and conditionals updated successfully!`,
+																	MessageSeverity.success
+																);
+																this.configurationModal.hide();
+															},
+															error => {
+																this.alertService.showStickyMessage(
+																	'Update Error',
+																	`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+																		error
+																	)}"`,
+																	MessageSeverity.error,
+																	error
+																);
+															}
+														);
+												},
+												error => {
+													this.alertService.showStickyMessage(
+														'Update Error',
+														`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+															error
+														)}"`,
+														MessageSeverity.error,
+														error
+													);
+												}
+											);
+									} else {
+										this.alertService.showMessage(
+											'Success',
+											`Question data and configurations updated successfully!`,
+											MessageSeverity.success
+										);
+										this.configurationModal.hide();
+									}
 								},
 								error => {
 									this.alertService.showStickyMessage(
 										'Update Error',
-										`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+										`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+											error
+										)}"`,
 										MessageSeverity.error,
 										error
 									);
 								}
 							);
 					} else {
-						this.alertService.showMessage(
-							'Success',
-							`Question data and configurations updated successfully!`,
-							MessageSeverity.success
-						);
-						this.configurationModal.hide();
+						if (this.qConfiguration.conditionalsComponent) {
+							let [
+								qConditionals,
+								qoConditionals
+							] = this.qConfiguration.getUpdatedConditionals();
+							this.surveyBuilderService
+								.setQuestionPartConditionals(
+									this.surveyId,
+									this.questionBeingEdited.questionPart.id,
+									qConditionals
+								)
+								.subscribe(
+									condResult => {
+										this.surveyBuilderService
+											.setQuestionPartOptionConditionals(
+												this.surveyId,
+												this.questionBeingEdited.questionPart.id,
+												qoConditionals
+											)
+											.subscribe(
+												oCondResult => {
+													this.alertService.showMessage(
+														'Success',
+														`Question data, configurations and conditionals updated successfully!`,
+														MessageSeverity.success
+													);
+													this.configurationModal.hide();
+												},
+												error => {
+													this.alertService.showStickyMessage(
+														'Update Error',
+														`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+															error
+														)}"`,
+														MessageSeverity.error,
+														error
+													);
+												}
+											);
+									},
+									error => {
+										this.alertService.showStickyMessage(
+											'Update Error',
+											`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+												error
+											)}"`,
+											MessageSeverity.error,
+											error
+										);
+									}
+								);
+						} else {
+							this.alertService.showMessage(
+								'Success',
+								`Question data and configurations updated successfully!`,
+								MessageSeverity.success
+							);
+							this.configurationModal.hide();
+						}
 					}
 				},
 				error => {

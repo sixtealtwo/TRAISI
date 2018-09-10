@@ -11,9 +11,7 @@ namespace DAL.Models.Questions
     {
         public int Id { get; set; }
         public int TargetQuestionId { get; set; }
-        public QuestionPart TargetQuestion { get; set; }
         public int SourceQuestionId { get; set; }
-        public QuestionPart SourceQuestion { get; set; }
         public QuestionConditionalType Condition { get; set; }
         public string Value { get; set; }
     }

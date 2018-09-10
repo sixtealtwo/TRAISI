@@ -37,7 +37,7 @@ namespace DAL.Repositories
         }
 
         /// <summary>
-        /// Returns all conditionals where option is the target (fills in SourceQuestion)
+        /// Returns all conditionals where option is the target
         /// </summary>
         /// <param name="optionId"></param>
         /// <returns></returns>
@@ -45,7 +45,7 @@ namespace DAL.Repositories
         {
             return await _appContext.QuestionOptions
             .Where(q => q.Id == optionId)
-            .Include(q => q.QuestionOptionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+            .Include(q => q.QuestionOptionConditionalsTarget)
             .Select(q => q.QuestionOptionConditionalsTarget)
             .SingleOrDefaultAsync();
         }

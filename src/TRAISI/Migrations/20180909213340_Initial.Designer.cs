@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180901011027_SurveyCode")]
-    partial class SurveyCode
+    [Migration("20180909213340_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,6 +233,28 @@ namespace TRAISI.Migrations
                     b.ToTable("UserGroups");
                 });
 
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditional", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Condition");
+
+                    b.Property<int>("SourceQuestionId");
+
+                    b.Property<int>("TargetQuestionId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceQuestionId");
+
+                    b.HasIndex("TargetQuestionId");
+
+                    b.ToTable("QuestionConditionals");
+                });
+
             modelBuilder.Entity("DAL.Models.Questions.QuestionConfiguration", b =>
                 {
                     b.Property<int>("Id")
@@ -260,13 +282,39 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int?>("QuestionPartId");
+                    b.Property<int>("QuestionPartId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionPartId");
 
                     b.ToTable("QuestionOptions");
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionOptionConditional", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Condition");
+
+                    b.Property<int>("SourceQuestionId");
+
+                    b.Property<int?>("TargetOptionId");
+
+                    b.Property<int?>("TargetOptionId1");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceQuestionId");
+
+                    b.HasIndex("TargetOptionId");
+
+                    b.HasIndex("TargetOptionId1");
+
+                    b.ToTable("QuestionOptionConditionals");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionLabel", b =>
@@ -1048,6 +1096,19 @@ namespace TRAISI.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditional", b =>
+                {
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
+                        .WithMany("QuestionConditionalsSource")
+                        .HasForeignKey("SourceQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
+                        .WithMany("QuestionConditionalsTarget")
+                        .HasForeignKey("TargetQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DAL.Models.Questions.QuestionConfiguration", b =>
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPart")
@@ -1062,6 +1123,23 @@ namespace TRAISI.Migrations
                         .WithMany("QuestionOptions")
                         .HasForeignKey("QuestionPartId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionOptionConditional", b =>
+                {
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
+                        .WithMany("QuestionOptionConditionalsSource")
+                        .HasForeignKey("SourceQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Questions.QuestionOption")
+                        .WithMany("QuestionOptionConditionalsTarget")
+                        .HasForeignKey("TargetOptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Questions.QuestionOption", "TargetOption")
+                        .WithMany()
+                        .HasForeignKey("TargetOptionId1");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionLabel", b =>

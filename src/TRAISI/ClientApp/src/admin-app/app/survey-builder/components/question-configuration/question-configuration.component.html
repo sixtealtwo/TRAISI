@@ -21,8 +21,8 @@
 					<div class="form-group form-group-adjust row">
 						<label for="questionName" class="col-md-2 col-form-label text-md-right">Question Name</label>
 						<div class="col-md-4">
-							<input type="text" name="questionName" [(ngModel)]="questionBeingEdited.questionPart.name" class="form-control" id="questionName" placeholder="Question Name"
-							/>
+							<input type="text" name="questionName" [(ngModel)]="questionBeingEdited.questionPart.name" class="form-control" id="questionName"
+							 placeholder="Question Name" />
 						</div>
 					</div>
 					<div class="row">
@@ -96,7 +96,9 @@
 				</ng-container>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="conditionals" aria-labelledby="conditionals-tab" aria-expanded="true">
-					<app-question-conditonals *ngIf="conditionalsLoaded" [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore" [thisQuestion]="thisQuestion" [questionType]="questionType" [questionBeingEdited]="questionBeingEdited"></app-question-conditonals>
+				<app-question-conditonals #conditionals *ngIf="conditionalsLoaded" [sourceQuestionConditionals]="sourceQuestionConditionals" [sourceQuestionOptionConditionals]="sourceQuestionOptionConditionals"
+				 [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore" [thisQuestion]="thisQuestion" [questionType]="questionType"
+				 [questionBeingEdited]="questionBeingEdited"></app-question-conditonals>
 			</div>
 		</div>
 		<div class="row">

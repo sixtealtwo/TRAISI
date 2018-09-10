@@ -65,13 +65,13 @@ namespace DAL.Repositories
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsSource).ThenInclude(c => c.TargetQuestion)
-                .Include(q => q.QuestionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+                .Include(q => q.QuestionConditionalsSource)
+                .Include(q => q.QuestionConditionalsTarget)
                 .SingleOrDefaultAsync();
         }
 
         /// <summary>
-        /// Returns all conditionals where the question part is the source (fills in TargetQuestion)
+        /// Returns all conditionals where the question part is the source
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -79,7 +79,7 @@ namespace DAL.Repositories
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsSource).ThenInclude(c => c.TargetQuestion)
+                .Include(q => q.QuestionConditionalsSource)
                 .Select(q => q.QuestionConditionalsSource)
                 .SingleOrDefaultAsync();
         }
@@ -93,7 +93,7 @@ namespace DAL.Repositories
         {
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
-                .Include(q => q.QuestionConditionalsTarget).ThenInclude(c => c.SourceQuestion)
+                .Include(q => q.QuestionConditionalsTarget)
                 .Select(q => q.QuestionConditionalsTarget)
                 .SingleOrDefaultAsync();
         }

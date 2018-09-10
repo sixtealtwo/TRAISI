@@ -120,27 +120,6 @@ namespace DAL
 
                 _context.Surveys.Add(TestSurvey);
 
-                QuestionOption qo = new QuestionOption()
-                {
-                    Name = "TestQuestionOption"
-                };
-                qo.QuestionOptionLabels.Add(new QuestionOptionLabel()
-                {
-										Value = "Test",
-										Language = "en",
-                    QuestionOption = qo
-                });
-                    
-                    
-
-                qo.QuestionOptionLabels.Add(new QuestionOptionLabel()
-                {
-										Value = "測試",
-										Language = "zh",
-                    QuestionOption = qo
-                });
-                _context.QuestionOptions.Add(qo);
-
 
 
                 await _context.SaveChangesAsync();

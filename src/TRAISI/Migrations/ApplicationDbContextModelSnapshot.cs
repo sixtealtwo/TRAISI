@@ -238,9 +238,9 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("Condition");
 
-                    b.Property<int?>("SourceQuestionId");
+                    b.Property<int>("SourceQuestionId");
 
-                    b.Property<int?>("TargetQuestionId");
+                    b.Property<int>("TargetQuestionId");
 
                     b.Property<string>("Value");
 
@@ -280,7 +280,7 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int?>("QuestionPartId");
+                    b.Property<int>("QuestionPartId");
 
                     b.HasKey("Id");
 
@@ -296,9 +296,11 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("Condition");
 
-                    b.Property<int?>("SourceQuestionId");
+                    b.Property<int>("SourceQuestionId");
 
-                    b.Property<int?>("TargetOptionId");
+                    b.Property<int>("TargetOptionId");
+
+                    b.Property<int>("TargetQuestionId");
 
                     b.Property<string>("Value");
 
@@ -1092,12 +1094,12 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditional", b =>
                 {
-                    b.HasOne("DAL.Models.Questions.QuestionPart", "SourceQuestion")
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionConditionalsSource")
                         .HasForeignKey("SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Models.Questions.QuestionPart", "TargetQuestion")
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionConditionalsTarget")
                         .HasForeignKey("TargetQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1121,12 +1123,12 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionOptionConditional", b =>
                 {
-                    b.HasOne("DAL.Models.Questions.QuestionPart", "SourceQuestion")
+                    b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionOptionConditionalsSource")
                         .HasForeignKey("SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Models.Questions.QuestionOption", "TargetOption")
+                    b.HasOne("DAL.Models.Questions.QuestionOption")
                         .WithMany("QuestionOptionConditionalsTarget")
                         .HasForeignKey("TargetOptionId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -8,7 +8,8 @@ import {
 	QueryList,
 	ComponentFactoryResolver,
 	ChangeDetectorRef,
-	AfterViewInit
+	AfterViewInit,
+	ViewChild
 } from '@angular/core';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionPartView } from '../../models/question-part-view.model';
@@ -30,6 +31,9 @@ import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
 import { TreeviewItem } from 'ngx-treeview';
+import { QuestionConditional } from '../../models/question-conditional.model';
+import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
+import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
 
 @Component({
 	selector: 'app-question-configuration',
@@ -49,6 +53,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public configurationValues: QuestionConfigurationValue[] = [];
 
+	public sourceQuestionConditionals: QuestionConditional[] = [];
+
+	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
+
 	public childrenComponents = [];
 
 	public froalaQTestOptions: any;
@@ -62,6 +70,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	@Output()
 	configResult = new EventEmitter<string>();
+
+	@ViewChild('conditionals')
+	public conditionalsComponent: QuestionConditionalsComponent;
 
 	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
@@ -148,7 +159,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
 			);
 		});
+
 		this.configResult.emit('save');
+	}
+
+	public getUpdatedConditionals(): [QuestionConditional[], QuestionOptionConditional[]] {
+		return this.conditionalsComponent.getUpdatedConditionals();
 	}
 
 	cancel() {
@@ -165,7 +181,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			treelist => {
 				this.fullStructure = treelist;
 				this.processQuestionTree();
-				this.conditionalsLoaded = true;
+				this.loadPastConditionals();
+			}
+		);
+	}
+
+	private loadPastConditionals() {
+		this.builderService.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.questionPart.id).subscribe(
+			conditionals => {
+				this.builderService.getQuestionPartOptionConditionals(this.surveyId, this.questionBeingEdited.questionPart.id).subscribe(
+					oConditionals => {
+						this.sourceQuestionConditionals = conditionals.filter(c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id);
+						this.sourceQuestionOptionConditionals = oConditionals.filter(c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id);
+						this.conditionalsLoaded = true;
+					}
+				);
 			}
 		);
 	}
@@ -199,7 +229,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private processQuestionPageIntoTree(page: any, treeElement: TreeviewItem, questionHit: boolean)
 	{
 		for (let element of treeElement.children) {
-			if (element.value === `question-${this.questionBeingEdited.id}`) {
+			if (element.value === `question-${this.questionBeingEdited.questionPart.id}`) {
 				this.thisQuestion = [element];
 				if (page.children.length > 0) {
 					this.questionsBefore.push(new TreeviewItem(page));
@@ -226,7 +256,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					page = pageReturn;
 					questionHit = questionHitReturn;
 				}
-				page.children.push(new TreeviewItem(elementCopy));
+				if (!((<string>element.value).startsWith('part') && !element.children)) {
+					page.children.push(new TreeviewItem(elementCopy));
+				}
 			}
 		}
 		return { pageReturn: page, questionHitReturn: questionHit};
@@ -235,7 +267,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private processQuestionPartIntoTree(page: any, partSource: TreeviewItem, part, questionHit: boolean)
 	{
 		for (let element of partSource.children) {
-			if (element.value === `question-${this.questionBeingEdited.id}`) {
+			if (element.value === `question-${this.questionBeingEdited.questionPart.id}`) {
 				this.thisQuestion = [element];
 				if (page.children.length > 0) {
 					this.questionsBefore.push(new TreeviewItem(page));
