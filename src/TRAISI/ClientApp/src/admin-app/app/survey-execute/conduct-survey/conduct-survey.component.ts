@@ -78,9 +78,12 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		timeout: 3000000
 	};
 
-	@ViewChild('indivUpload') dropZoneIndiv: DropzoneComponent;
-	@ViewChild('groupUpload') dropZoneGroup: DropzoneComponent;
-	@ViewChild('dateTemplate') dateTemplate: TemplateRef<any>;
+	@ViewChild('indivUpload')
+	dropZoneIndiv: DropzoneComponent;
+	@ViewChild('groupUpload')
+	dropZoneGroup: DropzoneComponent;
+	@ViewChild('dateTemplate')
+	dateTemplate: TemplateRef<any>;
 
 	constructor(
 		private surveyService: SurveyService,
@@ -92,7 +95,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		private router: Router,
 		private title: Title,
 		private titleCasePipe: TitleCasePipe,
-		private notificationService: RealTimeNotificationServce,
+		private notificationService: RealTimeNotificationServce
 	) {
 		this.survey = new Survey();
 		this.codeGenParams = new CodeGenerator();
@@ -115,8 +118,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 			this.executeMode = params['mode'];
 			if (this.executeMode === 'test') {
 				this.codeGenParams.isTest = true;
-			} else if (this.executeMode === 'live')
-			{
+			} else if (this.executeMode === 'live') {
 				this.codeGenParams.isTest = false;
 			} else {
 				this.router.navigate(['error']);
@@ -256,52 +258,60 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		this.alertService.startLoadingMessage('Loading codes...');
 		this.loadingIndicator = true;
 
-		this.surveyExecuteService.listSurveyGroupCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit).subscribe(
-			results => {
-				this.groupCodeRows = results;
-				this.groupCodeRows.forEach((code, index) => {
-					(<any>code).index = (pageNum - 1) * this.pageLimit + index + 1;
-				});
-				this.alertService.stopLoadingMessage();
-			},
-			error => {
-				this.alertService.stopLoadingMessage();
-				this.generatingIndicator = false;
+		this.surveyExecuteService
+			.listSurveyGroupCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit)
+			.subscribe(
+				results => {
+					this.groupCodeRows = results;
+					this.groupCodeRows.forEach((code, index) => {
+						(<any>code).index = (pageNum - 1) * this.pageLimit + index + 1;
+					});
+					this.alertService.stopLoadingMessage();
+				},
+				error => {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator = false;
 
-				this.alertService.showStickyMessage(
-					'Loading Error',
-					`An error occured whilst loading the codes.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
-					MessageSeverity.error,
-					error
-				);
-			}
-		);
+					this.alertService.showStickyMessage(
+						'Loading Error',
+						`An error occured whilst loading the codes.\r\nError: "${Utilities.getHttpResponseMessage(
+							error
+						)}"`,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
 	}
 
 	loadIndivCodeData(pageNum: number) {
 		this.alertService.startLoadingMessage('Loading codes...');
 		this.loadingIndicator = true;
 
-		this.surveyExecuteService.listSurveyShortCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit).subscribe(
-			results => {
-				this.indivCodeRows = results;
-				this.indivCodeRows.forEach((code, index) => {
-					(<any>code).index = (pageNum - 1) * this.pageLimit + index + 1;
-				});
-				this.alertService.stopLoadingMessage();
-			},
-			error => {
-				this.alertService.stopLoadingMessage();
-				this.generatingIndicator = false;
+		this.surveyExecuteService
+			.listSurveyShortCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit)
+			.subscribe(
+				results => {
+					this.indivCodeRows = results;
+					this.indivCodeRows.forEach((code, index) => {
+						(<any>code).index = (pageNum - 1) * this.pageLimit + index + 1;
+					});
+					this.alertService.stopLoadingMessage();
+				},
+				error => {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator = false;
 
-				this.alertService.showStickyMessage(
-					'Loading Error',
-					`An error occured whilst loading the codes.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
-					MessageSeverity.error,
-					error
-				);
-			}
-		);
+					this.alertService.showStickyMessage(
+						'Loading Error',
+						`An error occured whilst loading the codes.\r\nError: "${Utilities.getHttpResponseMessage(
+							error
+						)}"`,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
 	}
 
 	loadIndivCodeCount() {
@@ -452,7 +462,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 
 	downloadGroupCodes() {
 		this.alertService.startLoadingMessage('Creating codes file...');
-		this.downloadProgress = new DownloadNotification("", 1);
+		this.downloadProgress = new DownloadNotification('', 1);
 		this.downloadIndicator = true;
 		this.surveyExecuteService.downloadSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(
 			result => {
@@ -476,7 +486,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 
 	downloadIndividualCodes() {
 		this.alertService.startLoadingMessage('Creating codes file...');
-		this.downloadProgress = new DownloadNotification("", 1);
+		this.downloadProgress = new DownloadNotification('', 1);
 		this.downloadIndicator = true;
 		this.surveyExecuteService.downloadSurveyShortCodes(this.surveyId, this.executeMode).subscribe(
 			result => {
@@ -503,7 +513,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		if (update.progress === 100) {
 			this.alertService.stopLoadingMessage();
 			this.downloadIndicator = false;
-			//download file and unsubscribe
+			// download file and unsubscribe
 			window.open(this.downloadProgress.url, '_self');
 			this.downloadNotifier.unsubscribe();
 		}
@@ -523,6 +533,10 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	}
 
 	getFormattedTimeZone() {
-		return new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1].split(' (')[0].replace(/[A-Z]+/,'')
-	 }
+		return new Date()
+			.toString()
+			.match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+			.split(' (')[0]
+			.replace(/[A-Z]+/, '');
+	}
 }
