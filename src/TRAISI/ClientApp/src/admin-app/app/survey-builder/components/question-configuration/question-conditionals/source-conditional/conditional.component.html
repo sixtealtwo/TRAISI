@@ -53,11 +53,14 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf7>
-			<ng-container *ngIf="responseType == 'DateTime'; else rElseIf8">DateTime</ng-container>
+			<ng-container *ngIf="responseType == 'DateTime'; else rElseIf8">
+					<input type="text" placeholder="Date Range" class="form-control" bsDaterangepicker id="{{ 'conditionalValue-' + sourceGroup.id }}"
+					#dpStart="bsDaterangepicker" [bsConfig]="bsConfig" [(ngModel)]="dateRange" (bsValueChange)="onDateChange($event)">
+			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf8>
 			<ng-container *ngIf="responseType == 'OptionSelect'">
-				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" [(value)]="sourceGroup.value" (valueChange)="onSelectedChangeSingleOption($event)">
+				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" [(value)]="sourceGroup.value">
 				</ngx-dropdown-treeview-select>
 			</ng-container>
 		</ng-template>

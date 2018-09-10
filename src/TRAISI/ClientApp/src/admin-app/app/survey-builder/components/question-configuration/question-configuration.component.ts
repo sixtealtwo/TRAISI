@@ -67,6 +67,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public thisQuestion: TreeviewItem[] = [];
 
 	public conditionalsLoaded: boolean = false;
+	public isSaving: boolean = false;
 
 	@Output()
 	configResult = new EventEmitter<string>();
@@ -159,7 +160,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
 			);
 		});
-
+		this.isSaving = true;
 		this.configResult.emit('save');
 	}
 

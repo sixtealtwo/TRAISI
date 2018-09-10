@@ -20,6 +20,7 @@ import {
 import { QuestionConditionalSourceGroup } from '../../../../models/question-conditional-source-group.model';
 import { QuestionConditional } from '../../../../models/question-conditional.model';
 import { QuestionOptionConditional } from '../../../../models/question-option-conditional.model';
+import { BsDaterangepickerConfig } from 'ngx-bootstrap';
 
 @Component({
 	selector: 'app-conditional',
@@ -46,11 +47,21 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		maxHeight: 500
 	};
 
+	public bsConfig: Partial<BsDaterangepickerConfig> = Object.assign(
+		{},
+		{
+			containerClass: 'theme-default',
+			dateInputFormat: 'YYYY-MM-DD'
+		}
+	);
+
 	public copiedOptionList: any[] = [];
 	public sourceQuestionConditionalsList: QuestionConditional[] = [];
 	public sourceQuestionOptionConditionalsList: QuestionOptionConditional[] = [];
 
 	private checkedWithParents: DownlineTreeviewItem[] = [];
+	
+	public dateRange: Date[] = [];
 
 	@Input()
 	public responseType: string;
@@ -80,6 +91,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.setConditionsForQuestionType();
+		if (this.sourceGroup.condition === '') {
+			this.sourceGroup.condition = this.dropDownListItems[0];
+		}
 		if (this.responseType === 'OptionList' || this.responseType === 'OptionSelect') {
 			this.optionList.forEach(element => {
 				let copiedItem = new TreeviewItem({
@@ -89,6 +103,8 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 				});
 				this.copiedOptionList.push(copiedItem);
 			});
+		} else if (this.responseType === 'DateTime') {
+			this.dateRange = JSON.parse(this.sourceGroup.value);
 		}
 	}
 
@@ -169,9 +185,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	onSelectedChangeSingleOption($event) {
-		this.updateConditionalsValues();
-	}
 
 	updateConditionalsValues() {
 		this.sourceQuestionConditionalsList.forEach(conditional => {
@@ -298,4 +311,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	set optionSelectValue(value: any) {
 		this.sourceGroup.value = value;
 	}
+
+	public onDateChange(newRange: Date[]) {
+		this.sourceGroup.value = JSON.stringify(newRange);
+	}
+
 }

@@ -85,19 +85,19 @@ export class SurveyBuilderService {
 			)
 			.pipe(
 				map(items => {
-					return this.convertSurveyQuestionsStructureToTreeItems(items, 'Page');
+					return this.convertSurveyQuestionsStructureToTreeItems(items);
 				})
 			);
 	}
 
-	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[], level: string): TreeviewItem[] {
+	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[]): TreeviewItem[] {
 		if (items !== null) {
 			let tree: TreeviewItem[] = items.map(item => {
 				let prefix = `${item.label}`;
 				let treeItem: TreeItem = {
 					text: `${prefix}`,
 					value: `${item.type}-${item.id}`,
-					children: this.convertSurveyQuestionsStructureToTreeItems(item.children, 'Part'),
+					children: this.convertSurveyQuestionsStructureToTreeItems(item.children),
 					checked: false
 				};
 				let viewItem = new TreeviewItem(treeItem);

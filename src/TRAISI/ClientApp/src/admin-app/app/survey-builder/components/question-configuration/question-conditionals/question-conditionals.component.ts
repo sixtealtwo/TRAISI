@@ -106,6 +106,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		let omax: number = this.sourceQuestionOptionConditionals.length;
 
 		this.conditionalFields.forEach(field => {
+			field.updateConditionalsValues();
 			field.sourceQuestionConditionalsList.forEach(qConditional => {
 				let conditionWithoutSpaces = qConditional.condition.replace(/ /g, '');
 				// ensure condition doesn't already exist
@@ -225,7 +226,10 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		} else if (this.questionType.responseType === 'OptionList') {
 			responseValue = '';
 		} else if (this.questionType.responseType === 'DateTime') {
-			responseValue = '';
+			let startDate = new Date();
+			let endDate = new Date();
+			endDate.setDate(startDate.getDate() + 1);
+			responseValue = JSON.stringify([startDate, endDate]);
 		}
 		return responseValue;
 	}
@@ -272,7 +276,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		let conditionalComponent = this.conditionalFields.filter(
 			c => c.sourceGroup === this.currentLocationConditional
 		)[0];
-		conditionalComponent.updateConditionalsValues();
 
 		this.mapGL.mapInstance.removeControl(this.drawControl);
 		this.locationModal.hide();

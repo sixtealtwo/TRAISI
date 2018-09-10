@@ -634,6 +634,5 @@ namespace TRAISI.Services
         {
             return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();
         }
-
     }
 }

@@ -154,7 +154,7 @@ namespace TRAISI.ViewModels
                         svm.Id = s.QuestionPart.Id;
                         svm.Label = s.QuestionPart.Name;
                         svm.Type = "question";
-                        svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
+                        svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
                     }
                 });
 
@@ -195,7 +195,6 @@ namespace TRAISI.ViewModels
                     .ForMember(w => w.QuestionPartView, map => map.Ignore())
                     .ReverseMap();
 
-
             CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
                 .ForMember(w => w.SurveyView, map => map.Ignore())
                 .ReverseMap();
@@ -213,9 +212,6 @@ namespace TRAISI.ViewModels
 
             CreateMap<SiteSurveyTemplate, SiteSurveyTemplateViewModel>()
                 .ReverseMap();
-
-
-
 
             CreateMap<QuestionTypeDefinition, SBQuestionTypeDefinitionViewModel>()
                 .ForMember(q => q.ResponseType, map => map.ResolveUsing(s => s.ResponseType.ToString()))
