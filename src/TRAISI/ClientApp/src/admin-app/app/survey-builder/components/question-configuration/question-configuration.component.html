@@ -9,7 +9,7 @@
 					<a class="nav-link fw-semi-bold" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced"
 					 aria-expanded="true" (click)="advancedConfig()">Advanced</a>
 				</li>
-				<li class="nav-item" *ngIf="questionBeingEdited.id != 0">
+				<li class="nav-item" *ngIf="questionBeingEdited.questionPart">
 					<a class="nav-link fw-semi-bold" id="conditionals-tab" data-toggle="tab" href="#conditionals" role="tab" aria-controls="conditionals"
 					 aria-expanded="true">Conditionals</a>
 				</li>
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="form-group form-group-adjust row">
-					<div class="col-md-6 col-sm-6 col-6">
+					<div class="col-md-6 col-sm-6 col-6" *ngIf="questionBeingEdited.questionPart">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-4 col-form-label text-md-right">Optional</label>
 							<div class="col-md-5">
@@ -69,19 +69,16 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<hr class="edit-separator-hr" />
-					</div>
-				</div>
-				<div class="form-group form-group-adjust row">
-					<label class="col-md-2 col-form-label text-md-right">Repeat</label>
-					<div class="col-md-5">
-						<label class="form-check-label switch" for="isRepeatCheck">
-							<input class="form-check-input" type="checkbox" value="" id="isRepeatCheck" [(ngModel)]="questionBeingEdited.isRepeat" name="isRepeat">
-							<i></i>
-						</label>
+					<div class="col-md-6 col-sm-6 col-6">
+						<div class="form-group form-group-adjust row">
+							<label class="col-md-2 col-form-label text-md-right">Repeat</label>
+							<div class="col-md-5">
+								<label class="form-check-label switch" for="isRepeatCheck">
+									<input class="form-check-input" type="checkbox" value="" id="isRepeatCheck" [(ngModel)]="questionBeingEdited.isRepeat" name="isRepeat">
+									<i></i>
+								</label>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -96,9 +93,10 @@
 				</ng-container>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="conditionals" aria-labelledby="conditionals-tab" aria-expanded="true">
-				<app-question-conditionals #conditionals *ngIf="conditionalsLoaded" [sourceQuestionConditionals]="sourceQuestionConditionals" [sourceQuestionOptionConditionals]="sourceQuestionOptionConditionals"
-				 [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore" [thisQuestion]="thisQuestion" [questionType]="questionType"
-				 [questionBeingEdited]="questionBeingEdited"></app-question-conditionals>
+				<app-question-conditionals #conditionals *ngIf="conditionalsLoaded && questionBeingEdited.id != 0" [sourceQuestionConditionals]="sourceQuestionConditionals"
+				 [sourceQuestionOptionConditionals]="sourceQuestionOptionConditionals" [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore"
+				 [thisQuestion]="thisQuestion" [questionType]="questionType" [questionBeingEdited]="questionBeingEdited"></app-question-conditionals>
+				<div *ngIf="questionBeingEdited.id == 0">Conditionals are avaialble for a question only after being added to the survey.</div>
 			</div>
 		</div>
 		<div class="row">

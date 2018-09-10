@@ -24,7 +24,7 @@ export class SurveyExecuteComponent implements OnInit {
 
 	ngOnInit() {
 		this.survey = this.surveyService.getLastSurvey();
-		if (!this.survey || this.survey == null)
+		if (!this.survey || this.survey === null|| this.survey.id !== this.surveyId)
 		{
 			this.survey = new Survey();
 			this.surveyService.getSurvey(this.surveyId).subscribe(result =>

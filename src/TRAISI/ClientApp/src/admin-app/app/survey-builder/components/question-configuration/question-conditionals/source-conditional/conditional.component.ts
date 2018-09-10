@@ -60,7 +60,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public sourceQuestionOptionConditionalsList: QuestionOptionConditional[] = [];
 
 	private checkedWithParents: DownlineTreeviewItem[] = [];
-	
+
 	public dateRange: Date[] = [];
 
 	@Input()
@@ -132,7 +132,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		let pruned: TreeviewItem[] = [];
 
 		this.checkedWithParents.forEach(item => {
-			if (item.parent && item.parent.item.checked) {
+			if (item.parent && item.parent.item.checked && !item.parent.item.value.startsWith('part')) {
 				if (!pruned.includes(item.parent.item)) {
 					pruned.push(item.parent.item);
 				}
@@ -207,7 +207,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			if ((<string>selectedTarget.item.value).startsWith('option')) {
 				if (!selectedTarget.parent.item.checked) {
 					let id = +(selectedTarget.item.value.split('-')[1]);
-					let parentId = +(selectedTarget.parent.item.value.split('-')[1]);
+					let parentId = +(selectedTarget.parent.item.value.split('-')[2]);
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
 						o => o.targetOptionId === id
 					)[0];
@@ -226,7 +226,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 					}
 				} else {
 					let idSplit = selectedTarget.parent.item.value.split('-');
-					let id = +idSplit[1];
+					let id = +idSplit[2];
 					let existingPrevious: QuestionConditional = priorSourceQuestionConditionals.filter(
 						o => o.targetQuestionId === id
 					)[0];
@@ -251,7 +251,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			} else if ((<string>selectedTarget.item.value).startsWith('question')) {
 				// if question, always add, after searching for existing
 				let idSplit = selectedTarget.item.value.split('-');
-				let id = +(idSplit[1]);
+				let id = +(idSplit[2]);
 				let existing: QuestionConditional = priorSourceQuestionConditionals.filter(
 					o => o.targetQuestionId === id
 				)[0];

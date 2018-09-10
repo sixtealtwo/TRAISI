@@ -19,13 +19,19 @@ import { TreeviewItem, TreeItem } from 'ngx-treeview';
 
 @Injectable()
 export class SurveyBuilderService {
+
+	public questionTypeDefinitions: QuestionTypeDefinition[];
+
 	constructor(private surveyBuilderEndpointService: SurveyBuilderEndpointService) {}
 
 	/**
 	 * Returns a list of question types that are available on the server.
 	 */
 	public getQuestionTypes(): Observable<QuestionTypeDefinition[]> {
-		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint<QuestionTypeDefinition[]>();
+		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint<QuestionTypeDefinition[]>().pipe(map(definitions => {
+			this.questionTypeDefinitions = definitions;
+			return definitions;
+		}));
 	}
 
 	public deleteUploadedFile(filePath: UploadPath) {

@@ -17,6 +17,8 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { QuestionPartViewLabel } from './models/question-part-view-label.model';
 import { Order } from './models/order.model';
+import { Survey } from '../models/survey.model';
+import { SurveyService } from '../services/survey.service';
 
 @Component({
 	selector: 'traisi-survey-builder',
@@ -26,6 +28,7 @@ import { Order } from './models/order.model';
 })
 export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public surveyId: number;
+	public survey: Survey = new Survey();
 	public froalaOptions: any;
 	public allPages: QuestionPartView[] = [];
 	public newPageTitle: string;
@@ -51,12 +54,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
 		private configurationService: ConfigurationService,
+		private surveyService: SurveyService,
 		private authService: AuthService,
 		private route: ActivatedRoute,
 		private alertService: AlertService
 	) {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
+			this.surveyService.getSurvey(this.surveyId).subscribe(survey => { this.survey = survey; });
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
 	}

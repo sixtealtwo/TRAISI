@@ -3,7 +3,8 @@ import { TreeviewItem } from 'ngx-treeview';
 
 export class QuestionConditionalTargetGroup {
 	constructor(
-		public source?: TreeviewItem[],
+		public index?: number,
+		public source?: string,
 		public condition?: string,
 		public value?: string,
 		public targets?: TreeviewItem[]

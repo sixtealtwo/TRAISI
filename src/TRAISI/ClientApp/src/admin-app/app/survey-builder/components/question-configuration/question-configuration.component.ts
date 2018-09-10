@@ -178,13 +178,15 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	processConfigurations() {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
-		this.builderService.getStandardViewPagesStructureWithQuestionsOptions(this.surveyId, 'en').subscribe(
-			treelist => {
-				this.fullStructure = treelist;
-				this.processQuestionTree();
-				this.loadPastConditionals();
-			}
-		);
+		if (this.questionType.typeName !== 'Survey Part') {
+			this.builderService.getStandardViewPagesStructureWithQuestionsOptions(this.surveyId, 'en').subscribe(
+				treelist => {
+					this.fullStructure = treelist;
+					this.processQuestionTree();
+					this.loadPastConditionals();
+				}
+			);
+		}
 	}
 
 	private loadPastConditionals() {
@@ -230,7 +232,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private processQuestionPageIntoTree(page: any, treeElement: TreeviewItem, questionHit: boolean)
 	{
 		for (let element of treeElement.children) {
-			if (element.value === `question-${this.questionBeingEdited.questionPart.id}`) {
+			if (element.value === `question-${this.questionType.typeName}-${this.questionBeingEdited.questionPart.id}`) {
 				this.thisQuestion = [element];
 				if (page.children.length > 0) {
 					this.questionsBefore.push(new TreeviewItem(page));
@@ -243,7 +245,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				questionHit = true;
 			} else {
-				if (!questionHit) {
+				if (!questionHit && !element.children) {
 					this.clearOptionsFromElement(element);
 				}
 				let elementCopy = {
@@ -253,11 +255,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					children: []
 				};
 				if (element.children) {
-					let { pageReturn, questionHitReturn } = this.processQuestionPartIntoTree(page, element, elementCopy, questionHit);
+					let { pageReturn, partReturn, questionHitReturn } = this.processQuestionPartIntoTree(page, element, elementCopy, questionHit);
 					page = pageReturn;
+					elementCopy = partReturn;
 					questionHit = questionHitReturn;
 				}
-				if (!((<string>element.value).startsWith('part') && !element.children)) {
+				if (!((<string>element.value).startsWith('part') && elementCopy.children.length === 0)) {
 					page.children.push(new TreeviewItem(elementCopy));
 				}
 			}
@@ -268,13 +271,22 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private processQuestionPartIntoTree(page: any, partSource: TreeviewItem, part, questionHit: boolean)
 	{
 		for (let element of partSource.children) {
-			if (element.value === `question-${this.questionBeingEdited.questionPart.id}`) {
+			if (element.value === `question-${this.questionType.typeName}-${this.questionBeingEdited.questionPart.id}`) {
 				this.thisQuestion = [element];
-				if (page.children.length > 0) {
+				if (page.children.length > 0 || part.children.length > 0) {
+					if (part.children.length > 0) {
+						page.children.push(part);
+					}
 					this.questionsBefore.push(new TreeviewItem(page));
 					page = {
 						value: page.value,
 						text: page.text,
+						checked: false,
+						children: []
+					};
+					part = {
+						value: partSource.value,
+						text: partSource.text,
 						checked: false,
 						children: []
 					};
@@ -284,7 +296,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				part.children.push(element);
 			}
 		}
-		return {pageReturn: page, questionHitReturn: questionHit};
+		return {pageReturn: page, partReturn: part, questionHitReturn: questionHit};
 	}
 
 	private clearOptionsFromElement(element: TreeviewItem) {
