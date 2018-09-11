@@ -15,6 +15,8 @@ namespace DAL.Repositories.Interfaces {
         Task<IEnumerable<QuestionConfiguration>> GetQuestionPartConfigurationsAsync(int id);
         Task<IEnumerable<QuestionOption>> GetQuestionPartOptionsAsync(int id);
 
+        IEnumerable<QuestionPart> GetQuestionPartsWithConditionals(List<int> ids);
+        QuestionPart GetQuestionPartWithConditionals(int id);
         Task<QuestionPart> GetQuestionPartWithConditionalsAsync(int id);
         Task<IEnumerable<QuestionConditional>> GetQuestionPartSourceConditionalsAsync(int id);
         Task<IEnumerable<QuestionConditional>> GetQuestionPartTargetConditionalsAsync(int id);

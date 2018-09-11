@@ -442,24 +442,78 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="questionPartView"></param>
         /// <param name="newOrder"></param>
-        public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
+        public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder, int questionPartViewMovedId)
         {
             Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
             foreach (var qpartView in questionPartView.QuestionPartViewChildren)
             {
                 qpartView.Order = newOrderDict[qpartView.Id];
             }
-            this._unitOfWork.SaveChanges();
-
         }
 
         /// <summary>
         /// Cleans up conditionals, removing any that are invalid (source question now after original)
         /// </summary>
         /// <param name="modifiedViews"></param>
-        private void ValidateConditionals(IEnumerable<QuestionPartView> modifiedViews)
+        public void ValidateConditionals(SurveyView structure, int questionPartViewMovedId)
         {
-            
+            List<int> questionPartIdsBefore = new List<int>();
+            List<int> questionPartIdsAfter = new List<int>();
+
+            int questionPartId = 0;
+
+            bool foundQuestion = false;
+
+            structure.QuestionPartViews.OrderBy(q => q.Order).ToList().ForEach(page => {
+                page.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(firstLayerQuestion => {
+                    if (firstLayerQuestion.QuestionPart != null)
+                    {
+                        if (firstLayerQuestion.Id == questionPartViewMovedId)
+                        {
+                            foundQuestion = true;
+                            questionPartId = firstLayerQuestion.QuestionPart.Id;
+                        }
+                        else
+                        {
+                            if (!foundQuestion)
+                            {
+                                questionPartIdsBefore.Add(firstLayerQuestion.QuestionPart.Id);
+                            }
+                            else
+                            {
+                                questionPartIdsAfter.Add(firstLayerQuestion.QuestionPart.Id);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        firstLayerQuestion.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(secondLayerQuestion => {
+                            if (secondLayerQuestion.Id == questionPartViewMovedId)
+                            {
+                                foundQuestion = true;
+                                questionPartId = secondLayerQuestion.QuestionPart.Id;
+                            }
+                            else
+                            {
+                                if (!foundQuestion)
+                                {
+                                    questionPartIdsBefore.Add(secondLayerQuestion.QuestionPart.Id);
+                                }
+                                else
+                                {
+                                    questionPartIdsAfter.Add(secondLayerQuestion.QuestionPart.Id);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            // call repository functions to remove conditionals that don't belong for the specific question
+            this._unitOfWork.QuestionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
+            this._unitOfWork.QuestionOptionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
+            this._unitOfWork.QuestionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
+            this._unitOfWork.QuestionOptionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
         }
 
         /// <summary>

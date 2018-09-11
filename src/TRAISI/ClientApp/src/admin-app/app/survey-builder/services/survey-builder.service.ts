@@ -117,8 +117,8 @@ export class SurveyBuilderService {
 	}
 
 
-	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[]) {
-		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder);
+	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[], movedPagedId: number) {
+		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder, movedPagedId);
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
@@ -145,25 +145,27 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public updateQuestionPartViewOrderEndpoint(
+	public updateStandardQuestionPartViewOrderEndpoint(
 		surveyId: number,
 		questionPartViewId: number,
-		childrenViewOrder: Order[]
+		childrenViewOrder: Order[],
+		movedQuestionPartViewId: number
 	) {
-		return this.surveyBuilderEndpointService.getUpdateQuestionPartViewOrderEndpoint<Order[]>(
+		return this.surveyBuilderEndpointService.getUpdateStandardQuestionPartViewOrderEndpoint<Order[]>(
 			surveyId,
 			questionPartViewId,
-			childrenViewOrder
+			childrenViewOrder,
+			movedQuestionPartViewId
 		);
 	}
 
-	public addQuestionPartView(
+	public addStandardQuestionPartView(
 		surveyId: number,
 		questionPartViewId: number,
 		language: string,
 		newPart: QuestionPartView
 	) {
-		return this.surveyBuilderEndpointService.getAddQuestionPartViewEndpoint<QuestionPartView>(
+		return this.surveyBuilderEndpointService.getAddStandardQuestionPartViewEndpoint<QuestionPartView>(
 			surveyId,
 			questionPartViewId,
 			language,

@@ -61,6 +61,24 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
+        public IEnumerable<QuestionPart> GetQuestionPartsWithConditionals(List<int> ids)
+        {
+            return _appContext.QuestionParts
+               .Where(q => ids.Contains(q.Id))
+               .Include(q => q.QuestionConditionalsSource)
+               .Include(q => q.QuestionConditionalsTarget)
+               .ToList();
+        }
+
+        public QuestionPart GetQuestionPartWithConditionals(int id)
+        {
+            return  _appContext.QuestionParts
+               .Where(q => q.Id == id)
+               .Include(q => q.QuestionConditionalsSource)
+               .Include(q => q.QuestionConditionalsTarget)
+               .Single();
+        }
+
         public async Task<QuestionPart> GetQuestionPartWithConditionalsAsync(int id)
         {
             return await _appContext.QuestionParts

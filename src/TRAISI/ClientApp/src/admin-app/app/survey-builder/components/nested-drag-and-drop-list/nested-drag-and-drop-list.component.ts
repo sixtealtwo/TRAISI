@@ -126,7 +126,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 
 	addNewQuestionPartView(newPartView: QuestionPartView, parentView: QuestionPartView, addToList: boolean) {
 		this.surveyBuilderService
-			.addQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
+			.addStandardQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
 			.subscribe(
 				newQuestion => {
 					newPartView.id = newQuestion.id;
@@ -469,7 +469,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 							q => new Order(q.id, q.order)
 						);
 						this.surveyBuilderService
-							.updateQuestionPartViewOrderEndpoint(this.surveyId, this.currentPage.id, questionsOrder)
+							.updateStandardQuestionPartViewOrderEndpoint(this.surveyId, this.currentPage.id, questionsOrder, this.questionBeingEdited.id)
 							.subscribe();
 					}
 				}
@@ -508,7 +508,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 								q => new Order(q.id, q.order)
 							);
 							this.surveyBuilderService
-								.updateQuestionPartViewOrderEndpoint(this.surveyId, partId, questionsOrder)
+								.updateStandardQuestionPartViewOrderEndpoint(this.surveyId, partId, questionsOrder, this.questionBeingEdited.id)
 								.subscribe();
 						}
 					}

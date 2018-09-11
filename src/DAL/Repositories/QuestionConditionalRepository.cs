@@ -36,5 +36,14 @@ namespace DAL.Repositories
                 .Where(q => q.SourceQuestionId == questionPartId || q.TargetQuestionId == questionPartId)
                 .ToListAsync();
         }
+
+        public void ValidateSourceConditionals(int questionPartId, List<int> viableQuestionTargets)
+        {
+            _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => c.SourceQuestionId == questionPartId && !viableQuestionTargets.Contains(c.TargetQuestionId)));
+        }
+        public void ValidateTargetConditionals(int questionPartId, List<int> viableQuestionSources)
+        {
+            _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => !viableQuestionSources.Contains(c.SourceQuestionId) && c.TargetQuestionId == questionPartId));
+        }
     }
 }

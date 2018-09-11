@@ -73,8 +73,8 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpPut("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder")]
-        public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, [FromBody] List<SBOrderViewModel> pageOrder)
+        [HttpPut("{surveyId}/PageStructure/{surveyViewName}/UpdateOrder/{pageViewId}")]
+        public async Task<IActionResult> UpdateSurveyViewPageOrder(int surveyId, string surveyViewName, int pageViewId, [FromBody] List<SBOrderViewModel> pageOrder)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
@@ -82,6 +82,27 @@ namespace TRAISI.Controllers
                 var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
                 List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(pageOrder);
                 this._surveyBuilderService.ReOrderPages(surveyPageStructure, newOrder);
+                await this._unitOfWork.SaveChangesAsync();
+                var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
+                var page = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(pageViewId);
+                if (page.QuestionPartViewChildren.Count > 0)
+                {
+                    foreach (var questionSkeleton in page.QuestionPartViewChildren)
+                    {
+                        if (questionSkeleton.QuestionPartViewChildren.Count > 0)
+                        {
+                            var question = this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructure(questionSkeleton.Id);
+                            foreach (var child in question.QuestionPartViewChildren)
+                            {
+                                this._surveyBuilderService.ValidateConditionals(structure, child.Id);
+                            }
+                        }
+                        else
+                        {
+                            this._surveyBuilderService.ValidateConditionals(structure, questionSkeleton.Id);
+                        }
+                    }
+                }
                 await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();
             }
@@ -91,8 +112,8 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpPut("{surveyId}/Part/{parentQuestionPartViewId}/{initialLanguage}")]
-        public async Task<IActionResult> AddQuestionPartView(int surveyId, int parentQuestionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
+        [HttpPut("{surveyId}/Part/{surveyViewName}/{parentQuestionPartViewId}/{initialLanguage}")]
+        public async Task<IActionResult> AddQuestionPartView(int surveyId, string surveyViewName, int parentQuestionPartViewId, string initialLanguage, [FromBody] SBQuestionPartViewViewModel questionInfo)
         {
             if (ModelState.IsValid)
             {
@@ -102,6 +123,7 @@ namespace TRAISI.Controllers
                     var parentPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(parentQuestionPartViewId);
                     QuestionPartView question;
                     question = await this._unitOfWork.QuestionPartViews.GetAsync(questionInfo.Id);
+                    bool fixConditionals = false;
                     if (question == null)
                     {
                         question = Mapper.Map<QuestionPartView>(questionInfo);
@@ -122,12 +144,29 @@ namespace TRAISI.Controllers
                     else
                     {
                         //remove question from prior parent and fix order elements
+                        fixConditionals = true;
                         var pastParentPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionInfo.ParentViewId);
                         this._surveyBuilderService.RemoveQuestionPartView(pastParentPartView, question.Id, true);
                         question.Order = questionInfo.Order;
                     }
                     this._surveyBuilderService.AddQuestionPartView(parentPartView, question);
                     await this._unitOfWork.SaveChangesAsync();
+                    if (fixConditionals)
+                    {
+                        var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
+                        if (question.QuestionPartViewChildren.Count > 0)
+                        {
+                            foreach (var child in question.QuestionPartViewChildren)
+                            {
+                                this._surveyBuilderService.ValidateConditionals(structure, child.Id);
+                            }
+                        }
+                        else
+                        {
+                            this._surveyBuilderService.ValidateConditionals(structure, question.Id);
+                        }
+                        await this._unitOfWork.SaveChangesAsync();
+                    }
                     return Ok(question.ToLocalizedModel<SBQuestionPartViewViewModel>(initialLanguage));
                 }
                 else
@@ -439,8 +478,8 @@ namespace TRAISI.Controllers
         }
 
 
-        [HttpPut("{surveyId}/PartStructure/{questionPartViewId}/UpdateOrder")]
-        public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, int questionPartViewId, [FromBody] List<SBOrderViewModel> questionOrder)
+        [HttpPut("{surveyId}/PartStructure/{surveyViewName}/{questionPartViewId}/UpdateOrder/{questionPartViewMovedId}")]
+        public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, string surveyViewName, int questionPartViewId, int questionPartViewMovedId, [FromBody] List<SBOrderViewModel> questionOrder)
         {
             if (ModelState.IsValid)
             {
@@ -449,7 +488,21 @@ namespace TRAISI.Controllers
                 {
                     var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
                     List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
-                    this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
+                    this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder, questionPartViewMovedId);
+                    this._unitOfWork.SaveChanges();
+                    var findpartview = questionPartViewStructure.QuestionPartViewChildren.FirstOrDefault(c => c.Id == questionPartViewMovedId);
+                    var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
+                    if (findpartview.QuestionPartViewChildren.Count > 0)
+                    {
+                        foreach (var child in findpartview.QuestionPartViewChildren)
+                        {
+                            this._surveyBuilderService.ValidateConditionals(structure, child.Id);
+                        }
+                    }
+                    else
+                    {
+                        this._surveyBuilderService.ValidateConditionals(structure, questionPartViewMovedId);
+                    }
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }

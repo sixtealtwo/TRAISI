@@ -70,5 +70,14 @@ namespace DAL.Repositories {
                 .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(o => o.QuestionOptionLabels)
                 .SingleOrDefault();            
         }
+
+        public SurveyView GetSurveyViewQuestionStructure(int surveyId, string viewName)
+        {
+            return _appContext.SurveyViews
+                .Where(s => s.Survey.Id == surveyId && s.ViewName == viewName)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPart)
+                .Include(sv => sv.QuestionPartViews).ThenInclude(p => p.QuestionPartViewChildren).ThenInclude(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                .SingleOrDefault();
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace DAL.Repositories.Interfaces
 		Task<List<SurveyView>> GetSurveyViews(int surveyId);
 		Task<SurveyView> GetSurveyViewWithPagesStructureAsync(int surveyId, string viewName);
         SurveyView GetSurveyViewQuestionAndOptionStructure(int surveyId, string viewName);
+        SurveyView GetSurveyViewQuestionStructure(int surveyId, string viewName);
     }
 }

@@ -54,7 +54,9 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId, bool transfer);
 
-        void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
+        void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder, int questionPartViewMovedId);
+
+        void ValidateConditionals(SurveyView structure, int questionPartViewMovedId);
 
         void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals);
 

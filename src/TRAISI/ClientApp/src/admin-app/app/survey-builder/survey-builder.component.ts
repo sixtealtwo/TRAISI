@@ -418,7 +418,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					} else {
 						this.updatePageOrder();
 						let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
-						this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder).subscribe(
+						this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id).subscribe(
 							result => {},
 							error => {
 								this.loadPageStructure();
