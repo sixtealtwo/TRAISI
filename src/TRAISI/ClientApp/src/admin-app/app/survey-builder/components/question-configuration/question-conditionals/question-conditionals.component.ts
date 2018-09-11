@@ -116,38 +116,42 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		this.conditionalFields.forEach(field => {
 			field.updateConditionalsValues();
 			field.sourceQuestionConditionalsList.forEach(qConditional => {
-				let conditionWithoutSpaces = qConditional.condition.replace(/ /g, '');
-				// ensure condition doesn't already exist
-				let existing: QuestionConditional = updatedQConditionals.filter(
-					c =>
-						c.condition === conditionWithoutSpaces &&
-						c.value === qConditional.value &&
-						c.targetQuestionId === qConditional.targetQuestionId
-				)[0];
-				if (!existing) {
-					if (qi < qmax) {
-						qConditional.id = this.sourceQuestionConditionals[qi++].id;
+				if (this.validConditionValue(qConditional.value)){
+					let conditionWithoutSpaces = qConditional.condition.replace(/ /g, '');
+					// ensure condition doesn't already exist
+					let existing: QuestionConditional = updatedQConditionals.filter(
+						c =>
+							c.condition === conditionWithoutSpaces &&
+							c.value === qConditional.value &&
+							c.targetQuestionId === qConditional.targetQuestionId
+					)[0];
+					if (!existing) {
+						if (qi < qmax) {
+							qConditional.id = this.sourceQuestionConditionals[qi++].id;
+						}
+						qConditional.condition = conditionWithoutSpaces;
+						updatedQConditionals.push(qConditional);
 					}
-					qConditional.condition = conditionWithoutSpaces;
-					updatedQConditionals.push(qConditional);
 				}
 			});
 
 			field.sourceQuestionOptionConditionalsList.forEach(oConditional => {
-				let conditionWithoutSpaces = oConditional.condition.replace(/ /g, '');
-				// ensure condition doesn't already exist
-				let existing: QuestionConditional = updatedQOConditionals.filter(
-					c =>
-						c.condition === conditionWithoutSpaces &&
-						c.value === oConditional.value &&
-						c.targetOptionId === oConditional.targetOptionId
-				)[0];
-				if (!existing) {
-					if (oi < omax) {
-						oConditional.id = this.sourceQuestionOptionConditionals[oi++].id;
+				if (this.validConditionValue(oConditional.value)) {
+					let conditionWithoutSpaces = oConditional.condition.replace(/ /g, '');
+					// ensure condition doesn't already exist
+					let existing: QuestionOptionConditional = updatedQOConditionals.filter(
+						c =>
+							c.condition === conditionWithoutSpaces &&
+							c.value === oConditional.value &&
+							c.targetOptionId === oConditional.targetOptionId
+					)[0];
+					if (!existing) {
+						if (oi < omax) {
+							oConditional.id = this.sourceQuestionOptionConditionals[oi++].id;
+						}
+						oConditional.condition = conditionWithoutSpaces;
+						updatedQOConditionals.push(oConditional);
 					}
-					oConditional.condition = conditionWithoutSpaces;
-					updatedQOConditionals.push(oConditional);
 				}
 			});
 		});
@@ -158,6 +162,28 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		omax = this.targetQuestionOptionConditionals.length;
 
 		return [updatedQConditionals, updatedQOConditionals];
+	}
+
+	private validConditionValue(value: string): boolean {
+		let valid: boolean = true;
+		if (this.questionType.responseType === 'Location') {
+			if (value === null) {
+				valid = false;
+			} else {
+				if (JSON.parse(value).features.length === 0) {
+					valid = false;
+				}
+			}
+		} else if (this.questionType.responseType === 'Json') {
+			if (value === null) {
+				valid = false;
+			}
+		} else if (this.questionType.responseType === 'OptionList') {
+			if (value === '') {
+				valid = false;
+			}
+		}
+		return valid;
 	}
 
 	public loadPriorSourceConditionals() {

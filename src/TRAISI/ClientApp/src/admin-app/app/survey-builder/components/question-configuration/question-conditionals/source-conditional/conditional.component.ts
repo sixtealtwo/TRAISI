@@ -119,9 +119,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	targetsDropdown(e: TreeviewSelection) {
-		if (e.checkedItems.length === 1) {
-			return e.checkedItems[0].text;
-		} else if (e.checkedItems.length > 1) {
+		if (e.checkedItems.length > 0) {
 			return this.getPrunedCheckedTargets().map(i => this.getQuestionOptionLabel(i)).join(', '); // `${e.checkedItems.length} targets`;
 		} else {
 			return 'Select hide targets';
