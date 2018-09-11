@@ -87,6 +87,7 @@
   },
   "surveys": {
     "management" : {
+			"ManageSurveys": "Manage Surveys",
       "NewSurvey": "New Survey",
 			"Search": "Search for survey...",
 			"Edit": "Edit",

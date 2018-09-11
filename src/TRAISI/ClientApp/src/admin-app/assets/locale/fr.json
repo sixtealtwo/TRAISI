@@ -83,6 +83,18 @@
     "DashboardBannerHint": "Afficher le widget de bannière d'information de démonstration sur le tableau de bord",
     "ResetDefault": "Réinitialiser par défaut",
     "SetDefault": "Définir par défaut"
+	},
+	"surveys": {
+    "management" : {
+			"ManageSurveys": "Gérer les sondages",
+			"Solo": "Solo",
+			"Shared": "Partagé",
+      "NewSurvey": "Nouvelle enquête",
+			"Search": "Recherche de sondage...",
+			"Edit": "Modif.",
+			"Delete": "Supp.",
+			"View": "Vue"
+    }
   },
   "users": {
     "management": {

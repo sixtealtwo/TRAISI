@@ -161,6 +161,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 						MessageSeverity.error,
 						error
 					);
+					this.qConfiguration.isSaving = false;
 				}
 			);
 	}
@@ -254,6 +255,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 																	MessageSeverity.error,
 																	error
 																);
+																this.qConfiguration.isSaving = false;
 															}
 														);
 												},
@@ -266,6 +268,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 														MessageSeverity.error,
 														error
 													);
+													this.qConfiguration.isSaving = false;
 												}
 											);
 									} else {
@@ -286,6 +289,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 										MessageSeverity.error,
 										error
 									);
+									this.qConfiguration.isSaving = false;
 								}
 							);
 					} else {
@@ -326,6 +330,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 														MessageSeverity.error,
 														error
 													);
+													this.qConfiguration.isSaving = false;
 												}
 											);
 									},
@@ -338,6 +343,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 											MessageSeverity.error,
 											error
 										);
+										this.qConfiguration.isSaving = false;
 									}
 								);
 						} else {
@@ -357,6 +363,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 						MessageSeverity.error,
 						error
 					);
+					this.qConfiguration.isSaving = false;
 				}
 			);
 		}
