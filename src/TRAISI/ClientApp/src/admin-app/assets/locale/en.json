@@ -88,6 +88,8 @@
   "surveys": {
     "management" : {
 			"ManageSurveys": "Manage Surveys",
+			"Solo": "Solo",
+			"Shared": "Shared",
       "NewSurvey": "New Survey",
 			"Search": "Search for survey...",
 			"Edit": "Edit",
