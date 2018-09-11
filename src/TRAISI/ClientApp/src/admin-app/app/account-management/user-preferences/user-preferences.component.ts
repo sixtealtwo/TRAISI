@@ -64,11 +64,11 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
 		const gT = (key: string) => this.translationService.getTranslation(key);
 		this.languages = [
 			{text: gT('preferences.English'), id: 'en'},
-			{text: gT('preferences.French'), id: 'fr'},
-			{text: gT('preferences.German'), id: 'de'},
+			{text: gT('preferences.French'), id: 'fr'}// ,
+			/*{text: gT('preferences.German'), id: 'de'},
 			{text: gT('preferences.Portuguese'), id: 'pt'},
 			{text: gT('preferences.Arabic'), id: 'ar'},
-			{text: gT('preferences.Korean'), id: 'ko'}
+			{text: gT('preferences.Korean'), id: 'ko'}*/
 		];
 		this.language = this.configurations.language;
 		this.languagesReloaded = true;

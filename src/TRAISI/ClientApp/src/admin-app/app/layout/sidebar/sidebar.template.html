@@ -30,7 +30,7 @@
 				<span class="icon">
 					<i class="fa fa-cubes"></i>
 				</span>
-				Manage Surveys
+				{{ 'sidebar.ManageSurveys' | translate }}
 			</a>
 		</li>
 		<li *ngIf="isGroupAdmin && !canManageUsers">
@@ -38,7 +38,7 @@
 				<span class="icon">
 					<i class="fa fa-sliders"></i>
 				</span>
-				Manage Groups
+				{{ 'sidebar.ManageGroups' | translate }}
 			</a>
 		</li>
 		<li *ngIf="canManageUsers || isGroupAdmin">
@@ -46,7 +46,7 @@
 				<span class="icon">
 					<i class="fa fa-users"></i>
 				</span>
-				Manage Users
+				{{ 'sidebar.ManageUsers' | translate }}
 			</a>
 		</li>
 		<li *ngIf="canViewRoles">
@@ -54,16 +54,7 @@
 				<span class="icon">
 					<i class="fa fa-gg-circle"></i>
 				</span>
-				Manage Roles
-			</a>
-		</li>
-
-		<li>
-			<a [routerLink]=" ['chat'] ">
-				<span class="icon">
-					<i class="fa fa-commenting"></i>
-				</span>
-				Chat
+				{{ 'sidebar.ManageRoles' | translate }}
 			</a>
 		</li>
 		<li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
@@ -71,7 +62,7 @@
 				<span class="icon">
 					<i class="fa fa-sign-out"></i>
 				</span>
-				Logout
+				{{ 'sidebar.Logout' | translate }}
 			</a>
 		</li>
 	</ul>

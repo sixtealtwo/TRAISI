@@ -4,16 +4,13 @@
     "Notifications": "Notifications",
     "New": "New"
   },
-  "mainMenu": {
-    "Appointments": "Appointments",
-    "Customers": "Customers",
-    "Products": "Products",
-    "Orders": "Orders",
-    "About": "About",
-    "Logout": "Logout"
-  },
   "sidebar": {
-    "Dashboard": "Dashboard"
+		"Dashboard": "Dashboard",
+		"ManageSurveys": "Manage Surveys",
+		"ManageGroups": "Manage Groups",
+		"ManageUsers": "Manage Users",
+		"ManageRoles": "Manage Roles",
+		"Logout": "Logout"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -25,9 +22,9 @@
     "Settings": "Settings"
   },
   "home": {
-    "NoWidgets1": "You have no widgets displayed. Goto",
-    "NoWidgets2": "to configure available widgets",
-    "StatisticsTitle": "Some Important Stuff"
+    "Dashboard": "Dashboard",
+		"YourSummary": "Your Summary",
+		"OngoingSurveys": "Ongoing <span class='fw-semi-bold'>Surveys</span>"
   },
   "notFound": {
     "404": "404",

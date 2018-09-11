@@ -4,16 +4,13 @@
     "Notifications": "Notifications",
     "New": "Nouveau"
   },
-  "mainMenu": {
-    "Appointments": "Rendez-vous",
-    "Customers": "Les clients",
-    "Products": "Les produits",
-    "Orders": "Les ordres",
-    "About": "À Propos",
-    "Logout": "Se Déconnecter"
-  },
   "sidebar": {
-    "Dashboard": "Tableau de bord"
+		"Dashboard": "Tableau de bord",
+		"ManageSurveys": "Gérer les sondages",
+		"MangeGroups": "Gérer des groupes",
+		"ManageUsers": "Gérer les utilisateurs",
+		"ManageRoles": "Gérer les rôles",
+		"Logout": "Se Déconnecter"
   },
   "pageHeader": {
     "Dashboard": "Tableau de bord",
@@ -25,9 +22,9 @@
     "Settings": "Paramètres"
   },
   "home": {
-    "NoWidgets1": "Vous n'avez pas de widgets affichés. Aller à",
-    "NoWidgets2": "Configurer les widgets disponibles",
-    "StatisticsTitle": "Quelques trucs importants"
+    "Dashboard": "Tableau de bord",
+		"YourSummary": "Votre résumé",
+		"OngoingSurveys": "<span class='fw-semi-bold'>Enquêtes</span> en cours"
   },
   "notFound": {
     "404": "404",
