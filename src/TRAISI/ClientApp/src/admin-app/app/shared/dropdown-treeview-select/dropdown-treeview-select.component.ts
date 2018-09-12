@@ -73,4 +73,8 @@ export class DropdownTreeviewSelectComponent implements OnChanges {
 		const allItem = this.dropdownTreeviewComponent.treeviewComponent.allItem;
 		this.selectItem(allItem);
 	}
+
+	public getItemType(value: string) {
+		return value.split('-')[0];
+	}
 }

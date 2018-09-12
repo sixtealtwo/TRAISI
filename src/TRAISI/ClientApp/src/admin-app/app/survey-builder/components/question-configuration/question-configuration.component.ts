@@ -31,11 +31,13 @@ import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
-import { TreeviewItem } from 'ngx-treeview';
+import { TreeviewItem, TreeviewI18nDefault, TreeviewSelection } from 'ngx-treeview';
 import { QuestionConditional } from '../../models/question-conditional.model';
 import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
 import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
 import Quill from 'quill';
+import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select.component';
+import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -78,6 +80,16 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public questionsBefore: TreeviewItem[] = [];
 	public thisQuestion: TreeviewItem[] = [];
 
+	public treedropdownSingleConfig = {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
+
+	public pipeValue: string;
+
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
 
@@ -98,6 +110,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@ViewChild('conditionals')
 	public conditionalsComponent: QuestionConditionalsComponent;
 
+	@ViewChild('pipeTreeSelect')
+	public pipeTreeSelect: DropdownTreeviewSelectComponent;
+
+	private questionQuillEditor: any;
+
 	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
 
@@ -111,6 +128,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.froalaQTestOptions = this.generateFroalaOptions('Question Text');
 	}
 
+	pipeDropdown(e: TreeviewSelection): string {
+		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
+		return (selected !== undefined && selected !== null) ? selected.text : 'Select Question';
+	}
+
 	ngAfterViewInit() {
 		// this.updateAdvancedParams();
 		setTimeout(() => {
@@ -118,6 +140,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				this.updateAdvancedParams();
 			});
 		}, 2000);
+	}
+
+	questiontextEditorCreated(quillInstance: any) {
+		this.questionQuillEditor = quillInstance;
 	}
 
 	updateAdvancedParams() {
@@ -199,6 +225,17 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.configResult.emit('delete');
 	}
 
+	public pipeQuestion() {
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
+		if (pipeQSelected) {
+			let currentCursorPosition = this.questionQuillEditor.getSelection();
+			if (!currentCursorPosition) {
+				currentCursorPosition = this.questionQuillEditor.getLength() - 1;
+			}
+			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+		}
+	}
+
 	processConfigurations() {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
 		if (this.questionType.typeName !== 'Survey Part') {
@@ -207,6 +244,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					this.fullStructure = treelist;
 					this.processQuestionTree();
 					this.loadPastConditionals();
+					setTimeout(() => {
+						if (this.pipeTreeSelect) {
+							this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
+						}
+					}, 0);
 				}
 			);
 		}
@@ -268,8 +310,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				questionHit = true;
 			} else {
-				if (!questionHit && !element.children) {
-					this.clearOptionsFromElement(element);
+				if (!questionHit && element.children) {
+					if (((<string>element.children[0].value).startsWith('option'))) {
+						this.clearOptionsFromElement(element);
+					}
 				}
 				let elementCopy = {
 					value: element.value,
@@ -316,6 +360,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				questionHit = true;
 			} else {
+				if (!questionHit && element.children) {
+					if (((<string>element.children[0].value).startsWith('option'))) {
+						this.clearOptionsFromElement(element);
+					}
+				}
 				part.children.push(element);
 			}
 		}
