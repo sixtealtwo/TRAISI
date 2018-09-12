@@ -15,7 +15,10 @@
 					<div class="question-move-icon">
 						<i class="fa fa-sort"></i>
 					</div>
-					<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined" [innerHTML]="item.questionPart.name + ': ' + item.label.value | safe: 'html'"></div>
+					<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined">
+						<div class="pull-left">{{ item.questionPart.name }}:&nbsp;</div>
+						<div class="pull-left" [innerHTML]="item.label.value | safe: 'html'"></div>
+					</div>
 				</button>
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
 					<app-question-details *ngIf="item.questionPart.id > 0" [surveyId]="surveyId" [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
@@ -52,7 +55,10 @@
 								<div class="question-move-icon">
 									<i class="fa fa-sort"></i>
 								</div>
-								<div class="color-unset question-text" *ngIf="innerItem.questionPart.name != undefined" [innerHTML]="innerItem.questionPart.name + ': ' + innerItem.label.value | safe: 'html'"></div>
+								<div class="color-unset question-text" *ngIf="innerItem.questionPart.name != undefined">
+									<div class="pull-left">{{ innerItem.questionPart.name }}:&nbsp;</div>
+									<div class="pull-left" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
+								</div>
 							</button>
 							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
 									<app-question-details *ngIf="innerItem.questionPart.id > 0" [surveyId]="surveyId" [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>

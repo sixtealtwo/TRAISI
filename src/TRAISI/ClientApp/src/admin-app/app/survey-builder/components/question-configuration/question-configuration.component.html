@@ -34,9 +34,10 @@
 				<div class="form-group form-group-adjust row">
 					<label for="questionText" class="col-md-2 col-form-label text-md-right">Question Text</label>
 					<div class="col-md-10">
-						<div [froalaEditor]="froalaQTestOptions" [(froalaModel)]="questionBeingEdited.label.value" id="questionText" aria-describedby="questionText"
+						<!--<div [froalaEditor]="froalaQTestOptions" [(froalaModel)]="questionBeingEdited.label.value" id="questionText" aria-describedby="questionText"
 						 placeholder="Question Text" name="questionText">
-						</div>
+						</div>-->
+						<quill-editor class="form-control" id="questionText" theme="bubble" [modules]="quillQuestionTextModules" name="questionText" [(ngModel)]="questionBeingEdited.label.value"></quill-editor>
 					</div>
 				</div>
 				<div class="row">

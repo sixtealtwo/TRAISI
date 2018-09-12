@@ -11,6 +11,7 @@ import { NgxTreeSelectModule } from 'ngx-tree-select';
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { TooltipModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
@@ -50,6 +51,7 @@ import { TargetConditionalComponent } from './components/question-configuration/
 		FormsModule,
 		NgxSmoothDnDModule,
 		TooltipModule,
+		QuillModule,
 		FroalaEditorModule,
 		FroalaViewModule,
 		BsDatepickerModule.forRoot(),

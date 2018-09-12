@@ -9,7 +9,8 @@ import {
 	ComponentFactoryResolver,
 	ChangeDetectorRef,
 	AfterViewInit,
-	ViewChild
+	ViewChild,
+	ViewEncapsulation
 } from '@angular/core';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { QuestionPartView } from '../../models/question-part-view.model';
@@ -34,11 +35,22 @@ import { TreeviewItem } from 'ngx-treeview';
 import { QuestionConditional } from '../../models/question-conditional.model';
 import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
 import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
+import Quill from 'quill';
+
+// override p with div tag
+const Parchment = Quill.import('parchment');
+let Block = Parchment.query('block');
+
+class NewBlock extends Block {}
+NewBlock.tagName = 'DIV';
+Quill.register(NewBlock, true);
+
 
 @Component({
 	selector: 'app-question-configuration',
 	templateUrl: './question-configuration.component.html',
-	styleUrls: ['./question-configuration.component.scss']
+	styleUrls: ['./question-configuration.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public surveyId: number;
@@ -68,6 +80,17 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
+
+	public quillQuestionTextModules = {
+		toolbar: [
+			['bold', 'italic', 'underline'],        // toggled buttons
+			[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+			[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+			[{ 'color': [] }],          // dropdown with defaults from theme
+			[{ 'align': [] }],
+			['clean']                                         // remove formatting button
+		]
+	};
 
 	@Output()
 	configResult = new EventEmitter<string>();

@@ -1,3 +1,15 @@
 #conditionals {
 	min-height: 500px;
 }
+
+#questionText {
+	.ql-tooltip {
+		z-index: 1 !important;
+	}
+	.ql-container {
+		height: auto;
+	}
+
+	height: auto !important;
+	padding: 0px !important;
+}

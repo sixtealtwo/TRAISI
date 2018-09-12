@@ -83,6 +83,7 @@
 		"ngx-echarts": "^4.0.0",
 		"ngx-mapbox-gl": "^1.2.0",
 		"ngx-monaco-editor": "^6.0.0",
+		"ngx-quill": "^3.4.0",
 		"ngx-select-ex": "^3.5.9",
 		"ngx-tree-select": "^0.13.3",
 		"ngx-treeview": "^6.0.0",
