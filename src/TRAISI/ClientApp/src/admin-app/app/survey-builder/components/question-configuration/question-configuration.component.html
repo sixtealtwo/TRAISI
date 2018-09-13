@@ -37,7 +37,7 @@
 						<!--<div [froalaEditor]="froalaQTestOptions" [(froalaModel)]="questionBeingEdited.label.value" id="questionText" aria-describedby="questionText"
 						 placeholder="Question Text" name="questionText">
 						</div>-->
-						<quill-editor (onEditorCreated)="questiontextEditorCreated($event)" class="form-control" id="questionText" theme="snow" name="questionText"
+						<quill-editor (onEditorCreated)="questiontextEditorCreated($event)" (onSelectionChanged)="recordCursor($event)" class="form-control" id="questionText" theme="snow" name="questionText"
 						 [(ngModel)]="questionBeingEdited.label.value">
 							<div quill-editor-toolbar>
 								<span class="ql-formats">
@@ -92,9 +92,9 @@
 										<span class="ql-format-separator"></span>
 								</span>
 								<span class="ql-ngx-tree ql-formats" *ngIf="questionsBefore.length > 0">
-									<ngx-dropdown-treeview-select #pipeTreeSelect [items]="questionsBefore" [config]="treedropdownSingleConfig">
+									<ngx-dropdown-treeview-select #pipeTreeSelect [items]="questionsBefore" [config]="treedropdownSingleConfig" (valueChange)="pipeQuestion()">
 									</ngx-dropdown-treeview-select>
-									<button type="button" (click)="pipeQuestion()" id="pipe-button" class="pipe-button">PIPE</button>
+									<!--<button type="button" (click)="pipeQuestion()" id="pipe-button" class="pipe-button">PIPE</button>-->
 								</span>
 							</div>
 						</quill-editor>

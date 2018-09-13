@@ -89,6 +89,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	};
 
 	public pipeValue: string;
+	private cursorPosition: number;
 
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
@@ -130,7 +131,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	pipeDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
-		return (selected !== undefined && selected !== null) ? selected.text : 'Select Question';
+		return (selected !== undefined && selected !== null) ? selected.text : 'Pipe Question';
 	}
 
 	ngAfterViewInit() {
@@ -228,11 +229,20 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public pipeQuestion() {
 		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
 		if (pipeQSelected) {
-			let currentCursorPosition = this.questionQuillEditor.getSelection();
-			if (!currentCursorPosition) {
+			let currentCursorPosition = this.cursorPosition;
+			if (currentCursorPosition === undefined) {
 				currentCursorPosition = this.questionQuillEditor.getLength() - 1;
 			}
 			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+			(<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem = undefined;
+		}
+	}
+
+	public recordCursor(selection: any) {
+		console.log(selection);
+		let newPosition = selection.range;
+		if (newPosition !== null) {
+			this.cursorPosition = newPosition.index;
 		}
 	}
 
