@@ -64,6 +64,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.qConfiguration.editing = true;
 		this.qConfiguration.newQuestion = this.addingNewQuestion;
 		this.qConfiguration.isSaving = false;
+		this.qConfiguration.cursorPosition = undefined;
 		if (this.questionBeingEdited.questionPart === undefined || this.questionBeingEdited.questionPart === null) {
 			this.qConfiguration.questionType = this.qTypeDefinitions.get('Survey Part');
 		} else {

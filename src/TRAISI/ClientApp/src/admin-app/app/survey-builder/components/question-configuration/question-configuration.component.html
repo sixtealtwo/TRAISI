@@ -37,7 +37,7 @@
 						<!--<div [froalaEditor]="froalaQTestOptions" [(froalaModel)]="questionBeingEdited.label.value" id="questionText" aria-describedby="questionText"
 						 placeholder="Question Text" name="questionText">
 						</div>-->
-						<quill-editor (onEditorCreated)="questiontextEditorCreated($event)" (onSelectionChanged)="recordCursor($event)" class="form-control" id="questionText" theme="snow" name="questionText"
+						<quill-editor (onEditorCreated)="questiontextEditorCreated($event)" (onContentChanged)="updateCursorOnType()" (onSelectionChanged)="recordCursor($event)" class="form-control" id="questionText" theme="snow" name="questionText"
 						 [(ngModel)]="questionBeingEdited.label.value">
 							<div quill-editor-toolbar>
 								<span class="ql-formats">

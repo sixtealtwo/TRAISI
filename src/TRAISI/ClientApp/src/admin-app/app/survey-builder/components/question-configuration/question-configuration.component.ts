@@ -89,7 +89,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	};
 
 	public pipeValue: string;
-	private cursorPosition: number;
+	public cursorPosition: number;
 
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
@@ -234,15 +234,24 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				currentCursorPosition = this.questionQuillEditor.getLength() - 1;
 			}
 			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+			this.cursorPosition += pipeQSelected.text.length + 6;
 			(<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem = undefined;
+			this.pipeTreeSelect.value = undefined;
 		}
 	}
 
 	public recordCursor(selection: any) {
-		console.log(selection);
 		let newPosition = selection.range;
 		if (newPosition !== null) {
 			this.cursorPosition = newPosition.index;
+		}
+	}
+
+	public updateCursorOnType()
+	{
+		let selection = this.questionQuillEditor.getSelection();
+		if (selection) {
+			this.cursorPosition = this.questionQuillEditor.getSelection().index;
 		}
 	}
 
