@@ -11,11 +11,9 @@ import {SurveyViewerEndpointService} from './services/survey-viewer-endpoint.ser
 import {SurveyErrorComponent} from './components/survey-error/survey-error.component';
 import {SurveyStartPageComponent} from './components/survey-start-page/survey-start-page.component';
 import {LocalStoreManager} from '../../shared/services/local-store-manager.service';
-import {AppTranslationService} from '../../shared/services/app-translation.service';
+import {AppTranslationService, TranslateLanguageLoader} from '../../shared/services/app-translation.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateLanguageLoader} from '../../shared/services/app-translation.service';
 import {EndpointFactory} from '../../shared/services/endpoint-factory.service';
-import {ConfigurationService} from '../../shared/services/configuration.service';
 import {QuestionLoaderEndpointService} from './services/question-loader-endpoint.service';
 import {QuestionContainerComponent} from './components/question-container/question-container.component';
 import {QuestionPlaceholderComponent} from './components/question-placeholder/question-placeholder.component';
@@ -30,6 +28,8 @@ import {SurveyResponderService} from './services/survey-responder.service';
 import 'jquery';
 import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 import {BsDatepickerModule} from 'ngx-bootstrap';
+import {SurveyViewerTranslateLanguageLoader} from './services/survey-viewer-translation.service';
+import {SurveyViewerConfigurationService} from './services/survey-viewer-configuration.service';
 
 
 
@@ -57,7 +57,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
-				useClass: TranslateLanguageLoader
+				useClass: SurveyViewerTranslateLanguageLoader
 			}
 		}),
 		AppRoutingModule,
@@ -68,7 +68,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 	providers: [
 		EndpointFactory,
 		QuestionLoaderEndpointService,
-		ConfigurationService,
+		SurveyViewerConfigurationService,
 		AppTranslationService,
 		LocalStoreManager,
 		SurveyViewerEndpointService,
