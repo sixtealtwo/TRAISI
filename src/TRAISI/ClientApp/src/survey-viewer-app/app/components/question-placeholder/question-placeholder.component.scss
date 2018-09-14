@@ -1,3 +1,5 @@
+@import "../../../assets/scss/_viewer.scss";
+
 @keyframes placholderAnim {
 	0% {
 		background-position: -468px 0
@@ -18,4 +20,25 @@
 	background-size: 468px 64px;
 	height: 46px;
 	position: relative;
+}
+
+
+@include media-breakpoint-only(xs) {
+
+}
+
+@include media-breakpoint-only(sm) {
+
+}
+
+@include media-breakpoint-only(md) {
+
+}
+
+@include media-breakpoint-only(lg) {
+
+}
+
+@include media-breakpoint-only(xl) {
+
 }
