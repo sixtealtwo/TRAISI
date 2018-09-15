@@ -28,6 +28,7 @@ import {SurveyResponderService} from './services/survey-responder.service';
 import 'jquery';
 import {SafeHtmlPipe} from '../../shared/pipes/safe-html.pipe';
 import {BsDatepickerModule} from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import {SurveyViewerTranslateLanguageLoader} from './services/survey-viewer-translation.service';
 import {SurveyViewerConfigurationService} from './services/survey-viewer-configuration.service';
 
@@ -61,7 +62,8 @@ import {SurveyViewerConfigurationService} from './services/survey-viewer-configu
 			}
 		}),
 		AppRoutingModule,
-		BsDatepickerModule.forRoot()
+		BsDatepickerModule.forRoot(),
+		AlertModule.forRoot()
 
 
 	],

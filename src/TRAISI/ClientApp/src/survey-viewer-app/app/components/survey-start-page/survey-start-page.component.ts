@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyStart} from '../../models/survey-start.model';
 import {AuthService} from '../../../../shared/services/auth.service';
 import {User} from '../../../../shared/models/user.model';
+import { AlertComponent } from 'ngx-bootstrap/alert';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -20,6 +21,9 @@ export class SurveyStartPageComponent implements OnInit {
 
 	survey: SurveyStart;
 
+
+	@ViewChild('adminAlert') adminAlert: AlertComponent;
+
 	/**
 	 *
 	 * @param alertService
@@ -33,12 +37,16 @@ export class SurveyStartPageComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router
 	) {
+
+
 	}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
+
+		console.log(this.adminAlert);
 
 		this.survey = new SurveyStart();
 		this.shortcode = '';

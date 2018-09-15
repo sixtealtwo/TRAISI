@@ -41,6 +41,8 @@ export class SurveyViewerService implements SurveyViewer {
 		this.restoreStatus();
 		this.configurationData = new Subject<QuestionConfiguration[]>();
 		this.options = new Subject<QuestionOption[]>();
+
+		console.log(this.authService);
 	}
 
 	private _activeSurveyId: number;
