@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DAL.Core;
 using DAL.Models;
@@ -28,7 +29,7 @@ namespace TRAISI.Services.Interfaces
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode);
+        Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode, ClaimsPrincipal user);
 
         /// <summary>
         /// 
@@ -67,6 +68,14 @@ namespace TRAISI.Services.Interfaces
         /// <param name="name"></param>
         /// <returns></returns>
         Task<SurveyStartViewModel> GetSurveyWelcomeView(string name);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        Task<Survey> GetSurveyFromCode(string code);
 
 
         /// <summary>

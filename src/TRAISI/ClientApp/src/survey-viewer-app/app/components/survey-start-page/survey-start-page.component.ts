@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {AlertService, MessageSeverity} from '../../../../shared/services/alert.service';
-import {SurveyViewerService} from '../../services/survey-viewer.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SurveyStart} from '../../models/survey-start.model';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {User} from '../../../../shared/models/user.model';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyStart } from '../../models/survey-start.model';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { User } from '../../../../shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 
 @Component({
@@ -19,10 +19,12 @@ export class SurveyStartPageComponent implements OnInit {
 
 	shortcode: string;
 
+	isAdmin: boolean = false;
+
 	survey: SurveyStart;
 
-
-	@ViewChild('adminAlert') adminAlert: AlertComponent;
+	@ViewChild('adminAlert')
+	adminAlert: AlertComponent;
 
 	/**
 	 *
@@ -36,23 +38,20 @@ export class SurveyStartPageComponent implements OnInit {
 		private surveyViewerService: SurveyViewerService,
 		private route: ActivatedRoute,
 		private router: Router
-	) {
-
-
-	}
+	) {}
 
 	/**
 	 *
 	 */
 	ngOnInit() {
-
-		console.log(this.adminAlert);
-
 		this.survey = new SurveyStart();
 		this.shortcode = '';
 
-		this.route.params.subscribe(params => {
+		if (this.surveyViewerService.isAdminUser()) {
+			this.isAdmin = true;
+		}
 
+		this.route.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 
 			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(
@@ -62,7 +61,7 @@ export class SurveyStartPageComponent implements OnInit {
 					this.surveyViewerService.activeSurveyTitle = value.titleText;
 				},
 				error => {
-					this.router.navigate(['/', this.surveyName, 'error'], {relativeTo: this.route});
+					this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
 				}
 			);
 		});
@@ -83,12 +82,20 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	startSurvey(): void {
 		this.isLoading = true;
+		console.log('starting');
 		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
 			value => {
-				this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
-					this.isLoading = false;
+				this.isLoading = false;
+				if (!this.isAdmin) {
+					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
+
+
+					});
+				}
+				else{
 					this.router.navigate([this.surveyName, 'terms']);
-				});
+
+				}
 			},
 			error => {
 				this.isLoading = false;

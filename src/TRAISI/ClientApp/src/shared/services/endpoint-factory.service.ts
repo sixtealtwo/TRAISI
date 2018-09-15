@@ -85,8 +85,8 @@ export class EndpointFactory {
 	protected getRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
-			const headers = new HttpHeaders({
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent') ) {
+			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${
@@ -99,7 +99,8 @@ export class EndpointFactory {
 
 			return {headers: headers, responseType: rType};
 		} else {
-			const headers = new HttpHeaders({
+
+			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${

@@ -8,7 +8,7 @@ namespace TRAISI.Authorization
 {
     public class Policies
     {
-				///<summary>Policy to allow access of the admin interface.</summary>
+        ///<summary>Policy to allow access of the admin interface.</summary>
         public const string AccessAdminPolicy = "Access Admin Interface";
 
         ///<summary>Policy to allow viewing all user records.</summary>
@@ -17,10 +17,10 @@ namespace TRAISI.Authorization
         ///<summary>Policy to allow adding, removing and updating all user records.</summary>
         public const string ManageAllUsersPolicy = "Manage All Users";
 
-				/// <summary>
-				/// Policy to allow adding, removing and updating all groups.
-				/// </summary>
-				public const string ManageAllGroupsPolicy = "Manage All Groups";
+        /// <summary>
+        /// Policy to allow adding, removing and updating all groups.
+        /// </summary>
+        public const string ManageAllGroupsPolicy = "Manage All Groups";
 
         ///<summary>Policy to allow viewing all user records within the group.</summary>
         public const string ViewGroupUsersPolicy = "View Group Users";
@@ -42,21 +42,21 @@ namespace TRAISI.Authorization
 
         /// <summary>Policy to allow viewing all surveys.</summary>
         public const string ViewAllSurveysPolicy = "View All Surveys";
-                
+
         /// <summary>Policy to allow removing of any surveys.</summary>
         public const string ManageAllSurveysPolicy = "Manage All Surveys";
-        
-         /// <summary>Policy to allow viewing all surveys within the group.</summary>
+
+        /// <summary>Policy to allow viewing all surveys within the group.</summary>
         public const string ViewGroupSurveysPolicy = "View Group Surveys";
-                
+
         /// <summary>Policy to allow removing and modifying of any surveys within the group.</summary>
         public const string ManageGroupSurveysPolicy = "Manage Group Surveys";
 
         /// <summary>Policy to allow adding surveys within the group.</summary>
         public const string CreateGroupSurveysPolicy = "Create Group Surveys";
-	    
-	    /// <summary>Policy to allow adding surveys within the group.</summary>
-	    public const string RespondToSurveysPolicy = "Respond to Surveys";
+
+        /// <summary>Policy to allow adding surveys within the group.</summary>
+        public const string RespondToSurveyPolicy = "Respond to Survey";
 
     }
 

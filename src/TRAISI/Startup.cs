@@ -210,7 +210,7 @@ namespace TRAISI {
 				options.AddPolicy(Policies.CreateGroupSurveysPolicy,
 					policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
 
-				options.AddPolicy(Policies.RespondToSurveysPolicy,
+				options.AddPolicy(Policies.RespondToSurveyPolicy,
 					policy => policy.Requirements.Add(new SurveyRespondentAuthorizationRequirement()));
 			});
 

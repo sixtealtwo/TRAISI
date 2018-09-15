@@ -29,9 +29,18 @@ export class AuthService {
 	private _loginStatus = new Subject<boolean>();
 
 
+	/**
+	 *Creates an instance of AuthService.
+	 * @param {Router} router
+	 * @param {ConfigurationService} configurations
+	 * @param {EndpointFactory} endpointFactory
+	 * @param {LocalStoreManager} localStorage
+	 * @memberof AuthService
+	 */
 	constructor(private router: Router, private configurations: ConfigurationService,
 		private endpointFactory: EndpointFactory, private localStorage: LocalStoreManager) {
 		this.initializeLoginStatus();
+
 
 
 	}
@@ -40,6 +49,7 @@ export class AuthService {
 	private initializeLoginStatus() {
 		this.localStorage.getInitEvent().subscribe(() => {
 			this.reevaluateLoginStatus();
+
 		});
 	}
 

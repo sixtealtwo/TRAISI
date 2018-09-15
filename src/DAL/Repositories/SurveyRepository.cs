@@ -50,7 +50,7 @@ namespace DAL.Repositories
                 .Include(s => s.TitleLabels)
                 .FirstOrDefaultAsync();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,6 +63,20 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
+                .Include(s => s.TitleLabels)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyByCodeAsync(string code)
+        {
+            return await _appContext.Surveys
+                .Where(s => String.Equals(s.Code, code, StringComparison.CurrentCultureIgnoreCase))
+                .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.TitleLabels)
                 .FirstOrDefaultAsync();
         }

@@ -17,8 +17,12 @@ namespace TRAISI.Authorization {
 		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SurveyRespondentAuthorizationRequirement requirement) {
 
 
-
-			if (context.User.HasClaim(CustomClaimTypes.SurveyProxyRespondent, "") ||
+			if(context.User.IsInRole(TRAISI.Authorization.Enums.TraisiRoles.SuperAdministrator))
+			{
+				context.Succeed(requirement);
+				return Task.CompletedTask;
+			}
+			else if (context.User.HasClaim(CustomClaimTypes.SurveyProxyRespondent, "") ||
 			    context.User.HasClaim(CustomClaimTypes.SurveyRespondent, "")) {
 				context.Succeed(requirement);
 			}

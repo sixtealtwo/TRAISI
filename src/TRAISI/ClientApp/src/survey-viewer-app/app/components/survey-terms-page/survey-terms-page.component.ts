@@ -28,7 +28,7 @@ export class SurveyTermsPageComponent implements OnInit {
 	}
 
 	public begin() {
-		this.surveyViewerService.activeSurveyId = this.surveyId;
+
 		this.router.navigate([this.surveyName, 'viewer']);
 	}
 
@@ -36,21 +36,27 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
-		console.log('active id: ' + this.surveyViewerService.activeSurveyId);
 
-		this.surveyId = this.surveyViewerService.activeSurveyId;
+
+		this.surveyViewerService.activeSurveyId.subscribe(surveyId => {
+
+			this.surveyId = surveyId;
+
+			console.log("surveyID: " + surveyId);
+			this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
+				value => {
+					console.log(value);
+					this.model = value;
+				},
+				error => {
+					this.model = {} as SurveyViewTermsModel;
+				}
+			);
+		});
 		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 		});
 
-		this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
-			value => {
-				console.log(value);
-				this.model = value;
-			},
-			error => {
-				this.model = {} as SurveyViewTermsModel;
-			}
-		);
+
 	}
 }

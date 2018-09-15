@@ -58,7 +58,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(NgxBootstrap));
 
 
-		//reuse the preloaded component factory
+		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create(
 				(observer: Observer<ComponentFactory<any>>) => {
@@ -71,7 +71,7 @@ export class QuestionLoaderService {
 		}
 
 
-		//if the module has already loaded.. but the question does not exist yet
+		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
 			return Observable.create(
 				(observer: Observer<ComponentFactory<any>>) => {

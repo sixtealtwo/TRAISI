@@ -20,6 +20,8 @@ using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.SurveyViewer.Enums;
 using System.Linq;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Identity;
 
 namespace TRAISI.Controllers.SurveyViewer {
 	[Route("api/[controller]")]
@@ -34,6 +36,8 @@ namespace TRAISI.Controllers.SurveyViewer {
 
 		private IQuestionTypeManager _manager;
 
+		private UserManager<ApplicationUser> _userManager;
+
 
 		/// <summary>
 		/// 
@@ -45,13 +49,15 @@ namespace TRAISI.Controllers.SurveyViewer {
 			IAccountManager accountManager,
 			IUnitOfWork unitOfWork,
 			ISurveyBuilderService builderService,
-			IQuestionTypeManager manager
+			IQuestionTypeManager manager,
+			UserManager<ApplicationUser> userManager
 		) {
 			this._unitOfWork = unitOfWork;
 			this._viewService = viewService;
 			this._accountManager = accountManager;
 			this._builderService = builderService;
 			this._manager = manager;
+			this._userManager = userManager;
 		}
 
 		/// <summary>
@@ -66,12 +72,22 @@ namespace TRAISI.Controllers.SurveyViewer {
 			return new ObjectResult(surveys);
 		}
 
+
+		[HttpGet]
+		[Produces(typeof(int))]
+		[Route("codes/{code}")]
+		public async Task<IActionResult> GetSurveyFromCode(string code) {
+			var survey = await this._viewService.GetSurveyFromCode(code);
+
+			return new ObjectResult(survey.Id);
+		}
+
 		/// <summary>
 		/// Return all questions for a given survey view.
 		/// </summary>
 		[HttpGet]
 		[Authorize]
-		[SurveyUserAuthorization]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(List<SurveyView>))]
 		[Route("questions/{viewId}")]
 		public async Task<IActionResult> GetSurveyViewQuestions(int viewId) {
@@ -85,7 +101,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// </summary>
 		[HttpGet]
 		[Authorize]
-		[SurveyUserAuthorization]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(List<QuestionPartViewViewModel>))]
 		[Route("surveys/{surveyId}/")]
 		public async Task<IActionResult> GetSurveyViewPages(int surveyId,
@@ -102,7 +118,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <param name="questionId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Authorize(Policy = Policies.RespondToSurveysPolicy)]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(QuestionConfiguration))]
 		[Route("configurations/{questionId}")]
 		public async Task<IActionResult> GetSurveyViewQuestionConfiguration(int questionId) {
@@ -117,8 +133,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <param name="questionId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Authorize]
-		[SurveyUserAuthorization]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(List<QuestionOptionsViewModel>))]
 		[Route("surveys/{surveyId}/questions/{questionId}/options/")]
 		public async Task<IActionResult> GetQuestionOptions(int surveyId, int questionId, [FromQuery] string query = null,
@@ -146,6 +161,8 @@ namespace TRAISI.Controllers.SurveyViewer {
 			return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel>(language));
 		}
 
+
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -154,9 +171,11 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Produces(typeof(ObjectResult))]
 		[HttpPost]
-		[Route("start/{surveyId}/{shortcode}")]
-		public async Task<IActionResult> StartSurvey(int surveyId, string shortcode) {
-			(bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode);
+		[Route("start/{surveyId}/{shortcode?}")]
+		public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null) {
+
+			
+			(bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode,User);
 
 			if (!success) {
 				return new BadRequestResult();
@@ -214,7 +233,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Route("{surveyId}/page/{pageNumber}/{viewType}/{language?}")]
 		[HttpGet]
-		[Authorize]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(ObjectResult))]
 		public async Task<IActionResult> GetSurveyViewPageQuestions(int surveyId, int pageNumber,
 			SurveyViewType viewType, string language = "en") {
@@ -234,7 +253,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <returns></returns>
 		[Route("{surveyId:int}/terms/{viewType?}/{language?}")]
 		[HttpGet]
-		[Authorize(Policy = Policies.RespondToSurveysPolicy)]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[Produces(typeof(ObjectResult))]
 		public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,
 			SurveyViewType viewType = SurveyViewType.RespondentView, string language = null) {

@@ -1,0 +1,9 @@
+{
+    "prettier.tabWidth": 4,
+    "prettier.tslintIntegration": true,
+    "prettier.useTabs": true,
+    "prettier.singleQuote": true,
+    "prettier.stylelintIntegration": true,
+    "prettier.printWidth": 120,
+    "prettier.eslintIntegration": true
+}

@@ -2,8 +2,8 @@
 
 	<h1> {{ survey.titleText }}</h1>
 
-	<alert type="info" #adminAlert>
-		<strong>User Status</strong>An admin session is currently active - shortcode is not needed
+	<alert type="info" #adminAlert *ngIf="isAdmin">
+		<strong>User Status</strong> An admin session is currently active - shortcode is not needed
 	</alert>
 
 	<span [innerHTML]="surveyName"></span>
@@ -11,7 +11,7 @@
 	<form #f="ngForm" name="startSurveyForm"
 		  (ngSubmit)="f.form.valid ? startSurvey() : showErrorAlert('Shortcode is required', 'Please enter a valid shortcode')">
 
-		<input [(ngModel)]="shortcode" name="shortcode" required minlength="4">
+		<input [(ngModel)]="shortcode" name="shortcode">
 
 		<div class="clearfix survey-start-button ">
 			<div class="text-center">
