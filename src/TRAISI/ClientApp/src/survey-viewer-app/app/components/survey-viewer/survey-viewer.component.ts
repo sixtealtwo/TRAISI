@@ -55,7 +55,7 @@ export class SurveyViewerComponent implements OnInit {
 
 		this.route.queryParams.subscribe((value: Params) => {
 
-			console.log("here");
+
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
 

@@ -379,7 +379,16 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param {*} event
+	 * @param {Survey} row
+	 * @memberof SurveysManagementComponent
+	 */
 	public previewSurvey(event: any, row: Survey) {
+
+		window.open(`/survey/${row.code}/start`, '_blank');
 		event.stopPropagation();
 	}
 
