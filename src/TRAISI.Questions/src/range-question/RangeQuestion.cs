@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "fa-sliders";
+            get => "fas fa-arrows-alt-h";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
