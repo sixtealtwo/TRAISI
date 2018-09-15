@@ -221,7 +221,7 @@
                           {{'users.editor.Enabled' | translate}}
                       </label>
                   </div>
-									<button *ngIf="userEdit.isLockedOut" type="button" (click)="unlockUser()" class="btn btn-warning unblock-user" [disabled]="isSaving"><i class='fa fa-unlock-alt'></i> {{'users.editor.Unblock' | translate}}</button>
+									<button *ngIf="userEdit.isLockedOut" type="button" (click)="unlockUser()" class="btn btn-warning unblock-user" [disabled]="isSaving"><i class='fas fa-unlock-alt'></i> {{'users.editor.Unblock' | translate}}</button>
 									<div *ngIf="inGroupMode && !isNewUser" class="checkbox user-enabled">
 										<label>
 												<input type="checkbox" name="isGroupAdmin" [(ngModel)]="groupMemberInfo.groupAdmin">
@@ -232,9 +232,9 @@
           </div>
           <div class="col-sm-7">
               <div class="pull-right">
-                  <button *ngIf="!isEditMode && isGeneralEditor" type="button" (click)="close()" class="btn btn-primary action-button"><i class='fa fa-close'></i> {{'users.editor.Close' | translate}}</button>
-                  <button *ngIf="!isEditMode && !isGeneralEditor" type="button" (click)="edit()" class="btn btn-primary action-button"><i class='fa fa-edit'></i> {{'users.editor.Edit' | translate}}</button>
-                  <button *ngIf="isEditMode" type="button" (click)="cancel()" class="btn btn-danger action-button" [disabled]="isSaving"><i class='fa fa-times'></i> {{'users.editor.Cancel' | translate}}</button>
+                  <button *ngIf="!isEditMode && isGeneralEditor" type="button" (click)="close()" class="btn btn-primary action-button"><i class='fas fa-close'></i> {{'users.editor.Close' | translate}}</button>
+                  <button *ngIf="!isEditMode && !isGeneralEditor" type="button" (click)="edit()" class="btn btn-primary action-button"><i class='fas fa-edit'></i> {{'users.editor.Edit' | translate}}</button>
+                  <button *ngIf="isEditMode" type="button" (click)="cancel()" class="btn btn-danger action-button" [disabled]="isSaving"><i class='fas fa-times'></i> {{'users.editor.Cancel' | translate}}</button>
                   <button *ngIf="isEditMode" type="submit" class="btn btn-primary action-button" [disabled]="isSaving">
                       <i *ngIf="!isSaving" class='fa fa-save'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
                   </button>

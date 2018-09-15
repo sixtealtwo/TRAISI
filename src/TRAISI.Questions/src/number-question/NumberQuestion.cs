@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "fa-sort-numeric-asc";
+            get => "fas fa-sort-numeric-up";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

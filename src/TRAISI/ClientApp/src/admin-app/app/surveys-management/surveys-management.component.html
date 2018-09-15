@@ -43,31 +43,31 @@
 											<div class="surveyAction" (click)="editSurvey(row)">
 												<div class="surveyActionLabel"><strong>Settings</strong></div>
 													<div>
-														<i class="fa fa-cog fa-4" aria-hidden="true"></i>
+														<i class="fas fa-cog" aria-hidden="true"></i>
 													</div>
 												</div>
 												<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
 													<div class="surveyActionLabel"><strong>Design</strong></div>
 													<div>
-														<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+														<i class="fas fa-edit" aria-hidden="true"></i>
 													</div>
 												</div>
 												<div class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
 													<div class="surveyActionLabel"><strong>Execute</strong></div>
 													<div>
-														<i class="fa fa-envelope" aria-hidden="true"></i>
+														<i class="fas fa-envelope" aria-hidden="true"></i>
 													</div>
 												</div>
 												<div class="surveyAction">
 													<div class="surveyActionLabel"><strong>Analyze</strong></div>
 													<div>
-														<i class="fa fa-bar-chart" aria-hidden="true"></i>
+														<i class="fas fa-chart-bar" aria-hidden="true"></i>
 													</div>
 												</div>
 												<div class="surveyAction">
 													<div class="surveyActionLabel"><strong>Share</strong></div>
 													<div>
-														<i class="fa fa-share" aria-hidden="true"></i>
+														<i class="fas fa-share" aria-hidden="true"></i>
 													</div>
 												</div>
 									</div>
@@ -94,31 +94,31 @@
 												<div *ngIf="canEdit(row)" class="surveyAction" (click)="editSurvey(row)">
 													<div class="surveyActionLabel"><strong>Settings</strong></div>
 														<div>
-															<i class="fa fa-cog fa-4" aria-hidden="true"></i>
+															<i class="fas fa-cog fa-4" aria-hidden="true"></i>
 														</div>
 													</div>
 													<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
 														<div class="surveyActionLabel"><strong>Design</strong></div>
 														<div>
-															<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+															<i class="fas fa-edit" aria-hidden="true"></i>
 														</div>
 													</div>
 													<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
 														<div class="surveyActionLabel"><strong>Execute</strong></div>
 														<div>
-															<i class="fa fa-envelope" aria-hidden="true"></i>
+															<i class="fas fa-envelope" aria-hidden="true"></i>
 														</div>
 													</div>
 													<div *ngIf="canAnalyze(row)" class="surveyAction">
 														<div class="surveyActionLabel"><strong>Analyze</strong></div>
 														<div>
-															<i class="fa fa-bar-chart" aria-hidden="true"></i>
+															<i class="fas fa-chart-bar" aria-hidden="true"></i>
 														</div>
 													</div>
 													<div *ngIf="canShare(row)" class="surveyAction">
 														<div class="surveyActionLabel"><strong>Share</strong></div>
 														<div>
-															<i class="fa fa-share" aria-hidden="true"></i>
+															<i class="fas fa-share" aria-hidden="true"></i>
 														</div>
 													</div>
 										</div>
@@ -145,37 +145,37 @@
 										<div *ngIf="canEdit(row)" class="surveyAction" (click)="editSurvey(row)">
 											<div class="surveyActionLabel"><strong>Settings</strong></div>
 											<div>
-												<i class="fa fa-cog fa-4" aria-hidden="true"></i>
+												<i class="fas fa-cog fa-4" aria-hidden="true"></i>
 											</div>
 										</div>
 										<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
 											<div class="surveyActionLabel"><strong>Design</strong></div>
 											<div>
-												<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+												<i class="fas fa-edit" aria-hidden="true"></i>
 											</div>
 										</div>
 										<div *ngIf="canEdit(row)" class="surveyAction">
 											<div class="surveyActionLabel"><strong>Execute</strong></div>
 											<div>
-												<i class="fa fa-envelope" aria-hidden="true"></i>
+												<i class="fas fa-envelope" aria-hidden="true"></i>
 											</div>
 										</div>
 										<div *ngIf="canAnalyze(row)" class="surveyAction">
 											<div class="surveyActionLabel"><strong>Analyze</strong></div>
 											<div>
-												<i class="fa fa-bar-chart" aria-hidden="true"></i>
+												<i class="fas fa-chart-bar" aria-hidden="true"></i>
 											</div>
 										</div>
 										<div *ngIf="canShare(row)" class="surveyAction">
 											<div class="surveyActionLabel"><strong>Share</strong></div>
 											<div>
-												<i class="fa fa-share" aria-hidden="true"></i>
+												<i class="fas fa-share" aria-hidden="true"></i>
 											</div>
 										</div>
 										<div *ngIf="noAccess(row)" class="surveyAction">
 												<div class="surveyActionLabel"><strong>Request</strong></div>
 												<div>
-													<i class="fa fa-check-circle" aria-hidden="true"></i>
+													<i class="fas fa-check-circle" aria-hidden="true"></i>
 												</div>
 											</div>
 									</div>
@@ -214,7 +214,7 @@
 	<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
 		<div>
 			<a class="badge badge-primary" href="javascript:;" (click)="previewSurvey($event,row)">
-				<i class="fa fa-eye-o" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
+				<i class="far fa-eye" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
 		</div>
 	</ng-template>
 
@@ -222,7 +222,7 @@
 	<div class="row justify-content-center">
 		<div>
 			<button class="btn btn-primary" (click)="newSurvey()">
-				<i class="fa fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
+				<i class="fas fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
 			</button>
 		</div>
 	</div>
@@ -234,9 +234,9 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
-						<i class="fa fa-cubes"></i>Edit Survey</h4>
+						<i class="fas fa-cubes"></i>Edit Survey</h4>
 						<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
-								<i class="fa fa-cubes"></i>New Survey</h4>
+								<i class="fas fa-cubes"></i>New Survey</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
 						<span aria-hidden="true">&times;</span>
 					</button>

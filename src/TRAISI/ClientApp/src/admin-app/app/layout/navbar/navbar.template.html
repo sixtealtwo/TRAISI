@@ -6,11 +6,11 @@
     <!-- whether to automatically collapse sidebar on mouseleave. If activated acts more like usual admin templates -->
     <a  (click)="toggleSidebar('static')"  class="nav-link d-none ml-3 d-lg-flex" [tooltip]="sidebarToggleTooltip"
       placement="bottom">
-      <i class="fa fa-bars fa-lg"></i>
+      <i class="fas fa-bars fa-lg"></i>
     </a>
     <!-- shown on xs & sm screen. collapses and expands navigation -->
     <a (click)="toggleSidebar('collapse')" class="d-lg-none nav-link" href="#" data-html="true" title="Show/hide sidebar" data-placement="bottom">
-      <span class="rounded rounded-lg bg-gray text-white d-md-none"><i class="fa fa-bars fa-lg"></i></span>
+      <span class="rounded rounded-lg bg-gray text-white d-md-none"><i class="fas fa-bars fa-lg"></i></span>
       <i class="ml-3 fa fa-bars fa-lg d-none d-md-block d-lg-none"></i>
     </a>
 	</li>
@@ -19,18 +19,18 @@
 					Return to Surveys
 				</ng-template>
 				<a  (click)="goBackPage()"  class="nav-link">
-					<i class="fa fa-long-arrow-left fa-lg"></i>
+					<i class="fas fa-long-arrow-left fa-lg"></i>
 					&nbsp;Back
 				</a>
 	</li>-->
-  <!--<li class="nav-item d-none d-md-block"><a class="nav-link" (click)="refreshPage()"><i class="fa fa-refresh fa-lg"></i></a></li>-->
-  <!--<li class="nav-item d-none d-md-block"><a class="nav-link pl-1" href="#"><i class="fa fa-times fa-lg"></i></a></li>-->
+  <!--<li class="nav-item d-none d-md-block"><a class="nav-link" (click)="refreshPage()"><i class="fas fa-refresh fa-lg"></i></a></li>-->
+  <!--<li class="nav-item d-none d-md-block"><a class="nav-link pl-1" href="#"><i class="fas fa-times fa-lg"></i></a></li>-->
 </ul>
 <!--<ul class="navbar-nav flex-row d-md-none">
   <li class="nav-item">-->
     <!-- toggles chat -->
  <!--   <a class="nav-link" href="#" (click)="toggleChat()">
-      <span class="rounded rounded-lg bg-gray text-white"><i class="fa fa-globe fa-lg"></i></span>
+      <span class="rounded rounded-lg bg-gray text-white"><i class="fas fa-globe fa-lg"></i></span>
     </a>
   </li>
 </ul>-->
@@ -54,12 +54,12 @@
         <li class="dropdown-divider"></li>
         <li><a class="dropdown-item" [routerLink]=" ['/app/account/preferences'] "><i class="glyphicon glyphicon-cog"></i> &nbsp; Preferences</a></li>
         <li class="dropdown-divider"></li>
-        <li><a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+        <li><a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out"></i> &nbsp; Log Out</a></li>
       </ul>
 		</li>
 	<!--	<li class="nav-item">
       <a class="nav-link" href="#" (click)="toggleChat()" id="toggle-chat">
-        <i class="fa fa-globe fa-lg"></i>
+        <i class="fas fa-globe fa-lg"></i>
       </a>
     </li>-->
   </ul>

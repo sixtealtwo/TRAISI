@@ -20,7 +20,7 @@
 		<li>
 			<a [routerLink]=" ['dashboard'] ">
 				<span class="icon">
-					<i class="fa fa-dashboard"></i>
+					<i class="fas fa-tachometer-alt"></i>
 				</span>
 				{{ 'sidebar.Dashboard' | translate }}
 			</a>
@@ -28,7 +28,7 @@
 		<li>
 			<a [routerLink]=" ['surveys'] ">
 				<span class="icon">
-					<i class="fa fa-cubes"></i>
+					<i class="fas fa-cubes"></i>
 				</span>
 				{{ 'sidebar.ManageSurveys' | translate }}
 			</a>
@@ -36,7 +36,7 @@
 		<li *ngIf="isGroupAdmin && !canManageUsers">
 			<a [routerLink]=" ['groups'] ">
 				<span class="icon">
-					<i class="fa fa-sliders"></i>
+					<i class="fas fa-sliders"></i>
 				</span>
 				{{ 'sidebar.ManageGroups' | translate }}
 			</a>
@@ -44,7 +44,7 @@
 		<li *ngIf="canManageUsers || isGroupAdmin">
 			<a [routerLink]=" ['users'] ">
 				<span class="icon">
-					<i class="fa fa-users"></i>
+					<i class="fas fa-users"></i>
 				</span>
 				{{ 'sidebar.ManageUsers' | translate }}
 			</a>
@@ -52,7 +52,7 @@
 		<li *ngIf="canViewRoles">
 			<a [routerLink]=" ['users/roles'] ">
 				<span class="icon">
-					<i class="fa fa-gg-circle"></i>
+					<i class="fab fa-gg-circle"></i>
 				</span>
 				{{ 'sidebar.ManageRoles' | translate }}
 			</a>
@@ -60,7 +60,7 @@
 		<li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
 			<a (click)="logout()">
 				<span class="icon">
-					<i class="fa fa-sign-out"></i>
+					<i class="fas fa-sign-out"></i>
 				</span>
 				{{ 'sidebar.Logout' | translate }}
 			</a>

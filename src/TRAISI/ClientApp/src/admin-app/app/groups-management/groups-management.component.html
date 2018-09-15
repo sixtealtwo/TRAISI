@@ -86,7 +86,7 @@
 							<div class="row justify-content-center">
 								<div>
 									<button class="btn btn-primary" (click)="newTemplate()">
-										<i class="fa fa-plus-circle"></i> New Template
+										<i class="fas fa-plus-circle"></i> New Template
 									</button>
 								</div>
 							</div>
@@ -99,7 +99,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title pull-left"><i class="fa fa-user-circle-o"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }} - {{ selectedTemplate.name }}</h4>
+						<h4 class="modal-title pull-left"><i class="far fa-user-circle"></i> {{ editingTemplate ? ('groups.management.EditTemplate' | translate:editingUserName) : ('groups.management.NewTemplate' | translate) }} - {{ selectedTemplate.name }}</h4>
 						<button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -118,13 +118,13 @@
 						<div class="form-group form-group-adjust row">
 							<div class="col-md-3">
 								<button *ngIf="!isNewTemplate" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
-									<i class='fa fa-times'></i>Delete
+									<i class='fas fa-times'></i>Delete
 								</button>
 							</div>
 							<div class="col-md-9">
 								<div class="pull-right">
 									<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
-										<i class='fa fa-times'></i>Cancel
+										<i class='fas fa-times'></i>Cancel
 									</button>
 									<button (click)="save()" class="btn btn-primary" [disabled]="isSaving">
 										<i *ngIf="!isSaving" class="fa fa-save"></i>
@@ -143,7 +143,7 @@
 		</ng-template>
 		<ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
 			<div>
-				<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editTemplate(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'groups.management.EditTemplate' | translate}}</a>
+				<a class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editTemplate(row)"><i class="fas fa-edit" aria-hidden="true"></i> {{'groups.management.EditTemplate' | translate}}</a>
 			</div>
 		</ng-template>
 	</div>

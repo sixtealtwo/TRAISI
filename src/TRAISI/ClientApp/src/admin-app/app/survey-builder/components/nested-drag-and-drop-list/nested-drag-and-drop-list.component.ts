@@ -47,7 +47,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 		let sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
-			icon: 'fa-archive',
+			icon: 'fas fa-archive',
 			questionOptions: [],
 			questionConfigurations: [],
 			responseType: ''

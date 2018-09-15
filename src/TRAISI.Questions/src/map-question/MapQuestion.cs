@@ -11,7 +11,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question {
 		}
 
 		public virtual string Icon {
-			get => "fa-map-marker";
+			get => "fas fa-map-marker-alt";
 		}
 
 		public QuestionIconType IconType {

@@ -10,13 +10,13 @@
 						<input type="text" class="form-control optionValue" id="label" [(ngModel)]="item.optionLabel.value" />
 						<div class="input-group-append">
 							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
-								<i class="fa fa-check"></i>
+								<i class="fas fa-check"></i>
 							</button>
 							<button type="button" [disabled]="items.get(qOptionDefinition.name).length <= 1" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
-								<i class="fa fa-times"></i>
+								<i class="fas fa-times"></i>
 							</button>
 							<button type="button" class="btn btn-gray option-handle">
-								<i class="fa fa-bars"></i>
+								<i class="fas fa-bars"></i>
 							</button>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed">
 			<div>
 				<button [disabled]="addingOption" class="btn btn-primary width-100" (click)="addOption(qOptionDefinition.name)">
-					<i class="fa fa-plus-circle"></i> Add Option
+					<i class="fas fa-plus-circle"></i> Add Option
 				</button>
 			</div>
 		</div>

@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 		}
 		public string Icon
 		{
-			get => "fa-text-width";
+			get => "fas fa-align-left";
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

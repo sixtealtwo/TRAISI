@@ -73,7 +73,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 		if (!this.wasDragging) {
 			let surveyPart: QuestionTypeDefinition = {
 				typeName: 'Survey Part',
-				icon: 'fa-archive',
+				icon: 'fas fa-archive',
 				questionConfigurations: [],
 				questionOptions: [],
 				responseType: ''
@@ -105,7 +105,7 @@ export class QuestionTypeChooserComponent implements OnInit {
 		if (index === 0) {
 			let surveyPart = {
 				typeName: 'Survey Part',
-				icon: 'fa-archive'
+				icon: 'fas fa-archive'
 			};
 			return surveyPart;
 		} else {

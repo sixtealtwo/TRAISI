@@ -6,7 +6,7 @@
         <input class="form-control fs-mini" [(ngModel)]="searchText" type="text" placeholder="Search...">
         <span class="input-group-append">
             <span class="input-group-text">
-              <i class="fa fa-search"></i>
+              <i class="fas fa-search"></i>
             </span>
           </span>
       </div>
@@ -25,7 +25,7 @@
           <h6 class="message-sender">{{conversation.name}}</h6>
           <p class="message-preview">{{conversation.lastMessage}}</p>
         </div>
-        <i class="fa fa-circle ml-1 text-{{conversation.status}}"></i>
+        <i class="fas fa-circle ml-1 text-{{conversation.status}}"></i>
       </a>
     </div>
 
@@ -41,7 +41,7 @@
           <h6 class="message-sender">{{conversation.name}}</h6>
           <p class="message-preview">{{conversation.lastMessage}}</p>
         </div>
-        <i class="fa fa-circle ml-1 text-{{conversation.status}} float-right"></i>
+        <i class="fas fa-circle ml-1 text-{{conversation.status}} float-right"></i>
       </a>
     </div>
   </div>

@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "fa-clock-o";
+            get => "far fa-clock";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
     }

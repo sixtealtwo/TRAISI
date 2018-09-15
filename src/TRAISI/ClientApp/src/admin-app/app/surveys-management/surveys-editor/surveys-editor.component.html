@@ -114,12 +114,12 @@
 		<div class="form-group form-group-adjust row">
 			<div class="col-md-3">
 				<button *ngIf="!isNewSurvey && canDeleteSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
-					<i class='fa fa-times'></i>Delete</button>
+					<i class='fas fa-times'></i>Delete</button>
 			</div>
 			<div class="col-md-9">
 				<div class="pull-right">
 					<button type="button" class="btn btn-danger action-button" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
-						<i class='fa fa-times'></i>Cancel</button>
+						<i class='fas fa-times'></i>Cancel</button>
 					<button type="submit" class="btn btn-primary" [disabled]="isSaving">
 						<i *ngIf="!isSaving" class="fa fa-save"></i>
 						<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}

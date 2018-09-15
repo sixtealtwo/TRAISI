@@ -25,16 +25,16 @@
 
 
     <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-      <a *ngIf="canManageRoles && row.name != 'super administrator'" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
-      <a *ngIf="!canManageRoles" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
+      <a *ngIf="canManageRoles && row.name != 'super administrator'" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fas fa-edit" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
+      <a *ngIf="!canManageRoles" class="badge bg-gray-lighter text-gray" href="javascript:;" (click)="editRole(row)"><i class="fas fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
       <!--{{canManageRoles ? '|' : ''}}
-      <a *ngIf="canManageRoles" class="badge badge-danger" href="javascript:;" (click)="deleteRole(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>-->
+      <a *ngIf="canManageRoles" class="badge badge-danger" href="javascript:;" (click)="deleteRole(row)"><i class="far fa-trash-alt" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>-->
     </ng-template>
 
     <!--<div class="row justify-content-center">
         <div>
             <button *ngIf="canManageRoles" class="btn btn-primary" (click)="newRole(row)">
-                <i class="fa fa-plus-circle"></i> {{'roles.management.NewRole' | translate}}
+                <i class="fas fa-plus-circle"></i> {{'roles.management.NewRole' | translate}}
             </button>
         </div>
     </div>-->
@@ -43,8 +43,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 *ngIf="!canManageRoles" class="modal-title"><i class="fa fa-shield"></i> {{'roles.management.RoleDetails' | translate:editingRoleName}}</h4>
-                    <h4 *ngIf="canManageRoles" class="modal-title"><i class="fa fa-shield"></i> {{editingRoleName ? ('roles.management.EditRole' | translate:editingRoleName) : ('roles.management.NewRole' | translate)}}</h4>
+                    <h4 *ngIf="!canManageRoles" class="modal-title"><i class="fas fa-shield"></i> {{'roles.management.RoleDetails' | translate:editingRoleName}}</h4>
+                    <h4 *ngIf="canManageRoles" class="modal-title"><i class="fas fa-shield"></i> {{editingRoleName ? ('roles.management.EditRole' | translate:editingRoleName) : ('roles.management.NewRole' | translate)}}</h4>
                     <button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
                         <span aria-hidden="true">&times;</span>
                     </button>

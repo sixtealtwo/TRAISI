@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "fa-check-square-o";
+            get => "far fa-check-square";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 

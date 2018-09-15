@@ -14,7 +14,7 @@ namespace TRAISI.SDK.Questions
 
         public string Icon
         {
-            get => "fa-calendar";
+            get => "far fa-calendar-alt";
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
