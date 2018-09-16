@@ -21,10 +21,10 @@
 				<smooth-dnd-draggable *ngFor="let item of questionTypeDefinitions">
 					<li class="chooser">
 						<a (click)="addQuestionTypeToList(item)">
-							<span class="icon" [tooltip]="item.typeName" placement="right" container="body" containerClass="tooltip-builder">
+							<span class="icon" [tooltip]="getQuestionTypeName(item)" placement="right" container="body" containerClass="tooltip-builder">
 								<i class="chooser-icon" [ngClass]="item.icon"></i>
 							</span>
-								{{item.typeName}}
+								{{ getQuestionTypeName(item) }}
 						</a>
 					</li>
 				</smooth-dnd-draggable>

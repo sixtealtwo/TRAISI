@@ -5,7 +5,8 @@ import { QuestionConfigurationDefinition } from './question-configuration-defini
 export interface QuestionTypeDefinition {
 	typeName: string;
 	icon: string;
-	questionOptions: QuestionOptionDefinition[];
-	questionConfigurations: QuestionConfigurationDefinition[];
+	questionOptions: { [type: string]: QuestionOptionDefinition };
+	questionConfigurations: { [type: string]: QuestionConfigurationDefinition };
 	responseType: string;
+	typeNameLocales: { [type: string]: string };
 }

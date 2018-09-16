@@ -16,5 +16,7 @@ namespace TRAISI.ViewModels.Questions
         public string Icon { get; set; }
 
         public string ResponseType { get; set; }
+
+        public Dictionary<string, string> TypeNameLocales { get; set; }
     }
 }

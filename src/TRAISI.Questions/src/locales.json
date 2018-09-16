@@ -27,5 +27,19 @@
         "range":"範圍",
         "select":"下拉表",
         "time": "時間"
-    }
+		},
+		"fr": {
+			"text": "Texte",
+			"checkbox": "Case à Cocher",
+			"date":"Date",
+			"heading": "En-Tête",
+			"likert": "Likert",
+			"location": "Emplacement",
+			"matrix":"Matrice",
+			"number":"Nombre",
+			"radio":"Sélection Radio",
+			"range":"Sélection de Gamme",
+			"select":"Sélection Déroulante",
+			"time": "Temps"			
+		}
 }

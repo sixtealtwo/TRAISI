@@ -48,9 +48,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 		let sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fas fa-archive',
-			questionOptions: [],
-			questionConfigurations: [],
-			responseType: ''
+			questionOptions: {},
+			questionConfigurations: {},
+			responseType: '',
+			typeNameLocales: {'en': 'Section', 'fr': 'Section'}
 		};
 		this.qTypeDefinitions.set('Survey Part', sectionType);
 	}
