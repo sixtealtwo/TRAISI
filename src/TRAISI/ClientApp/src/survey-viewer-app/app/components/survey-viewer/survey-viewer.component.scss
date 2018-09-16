@@ -8,8 +8,7 @@
 
 .survey-body {
 	text-align: left;
-	width: 100%;
-	display: inline-block;
+	display: block;
 }
 
 
@@ -21,15 +20,21 @@
 
 
 @include media-breakpoint-only(xs) {
-
+	.survey-body {
+		margin: 10px;
+	}
 }
 
 @include media-breakpoint-only(sm) {
-
+	.survey-body {
+		margin: 15px;
+	}
 }
 
 @include media-breakpoint-only(md) {
-
+	.survey-body {
+		margin: 20px;
+	}
 }
 
 @include media-breakpoint-only(lg) {
