@@ -267,40 +267,5 @@ namespace TRAISI.Controllers.SurveyViewer {
 		}
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <returns></returns>
-		[HttpGet]
-		public async Task<IActionResult> AddTestQuestion(int surveyId) {
-			//this._builderService.AddQuestionPartView()
-
-			var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
-
-			//pull the radio question definition
-			var radioDefinition = this._manager.QuestionTypeDefinitions.FirstOrDefault(q => q.TypeName == "Radio Select");
-
-			//adds a question to the root survey view, returns a question part view
-			var qpv = this._builderService.AddQuestion(survey.SurveyViews.FirstOrDefault(), radioDefinition);
-
-			//sets the question label text
-			this._builderService.SetQuestionPartViewLabel(qpv, "Title Text", "en");
-
-			//add a question opttion to the passed quetsion part
-			//has a hidden value of value1..2..3
-			//the visible hidden label is "label text"
-			//language is "en"
-			this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value1", "en");
-			this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value2", "en");
-			this._builderService.AddQuestionOption(qpv.QuestionPart, "Response Options", "value3", "en");
-
-			//set the config value "true" for the configuration setting named "Allow Multiple Selections"
-			this._builderService.SetQuestionConfiguration(qpv.QuestionPart, "Allow Multiple Selections", true);
-
-			await this._unitOfWork.SaveChangesAsync();
-
-			return new OkResult();
-		}
 	}
 }

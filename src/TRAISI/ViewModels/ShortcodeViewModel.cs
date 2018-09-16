@@ -10,12 +10,12 @@ namespace TRAISI.ViewModels
 {
     public class ShortcodeViewModel
     {
-				public int Id { get; set; }
-				public int SurveyId { get; set; }
-				public string Respondent { get; set; }
-				public string Code { get; set; }
-				public Boolean IsTest { get; set; }
-				public DateTime CreatedDate { get; set; }
-		}
+        public int Id { get; set; }
+        public int SurveyId { get; set; }
+        public string Respondent { get; set; }
+        public string Code { get; set; }
+        public Boolean IsTest { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
 
 }
