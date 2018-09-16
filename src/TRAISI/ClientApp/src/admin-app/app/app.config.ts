@@ -5,7 +5,7 @@ declare let jQuery: JQueryStatic;
 @Injectable()
 export class AppConfig {
 	config = {
-		name: 'sing',
+		name: 'traisi',
 		logo: 'assets/img/logo_dark.png',
 		title: 'TRAISI Version 2 by UTTRI',
 		version: '2.0.0',

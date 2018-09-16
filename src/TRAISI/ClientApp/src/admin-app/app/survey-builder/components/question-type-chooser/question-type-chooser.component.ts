@@ -1,8 +1,17 @@
-import { Component, OnInit, ViewEncapsulation, ElementRef, Output, EventEmitter, HostListener, Input } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ViewEncapsulation,
+	ElementRef,
+	Output,
+	EventEmitter,
+	HostListener,
+	Input
+} from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { AppConfig } from '../../../app.config';
-import { QuestionIconType } from '../../models/question-icon-type.enum';
+import { ConfigurationService } from '../../../../../shared/services/configuration.service';
 
 @Component({
 	selector: 'traisi-question-type-chooser',
@@ -17,11 +26,19 @@ export class QuestionTypeChooserComponent implements OnInit {
 	public dragItemIndex: number = 0;
 	public wasDragging: boolean = false;
 
-	@Input() disabled: boolean = false;
-	@Output() addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter<QuestionTypeDefinition>();
-	@Output() loadedQuestionTypes: EventEmitter<any> = new EventEmitter();
+	@Input()
+	disabled: boolean = false;
+	@Output()
+	addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter<QuestionTypeDefinition>();
+	@Output()
+	loadedQuestionTypes: EventEmitter<any> = new EventEmitter();
 
-	constructor(private surveyBuilderService: SurveyBuilderService, config: AppConfig, el: ElementRef) {
+	constructor(
+		private surveyBuilderService: SurveyBuilderService,
+		config: AppConfig,
+		el: ElementRef,
+		private configurationService: ConfigurationService
+	) {
 		this.config = config.getConfig();
 		this.$el = jQuery(el.nativeElement);
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
@@ -34,12 +51,10 @@ export class QuestionTypeChooserComponent implements OnInit {
 		this.questionTypeDefinitions = [];
 
 		// retrieve all question types from the server
-		this.surveyBuilderService
-			.getQuestionTypes()
-			.subscribe((value: QuestionTypeDefinition[]) => {
-				this.questionTypeDefinitions = value;
-				this.loadedQuestionTypes.emit();
-			});
+		this.surveyBuilderService.getQuestionTypes().subscribe((value: QuestionTypeDefinition[]) => {
+			this.questionTypeDefinitions = value;
+			this.loadedQuestionTypes.emit();
+		});
 
 		jQuery(window).on('sn:resize', this.initSidebarScroll.bind(this));
 		this.initSidebarScroll();
@@ -74,9 +89,10 @@ export class QuestionTypeChooserComponent implements OnInit {
 			let surveyPart: QuestionTypeDefinition = {
 				typeName: 'Survey Part',
 				icon: 'fas fa-archive',
-				questionConfigurations: [],
-				questionOptions: [],
-				responseType: ''
+				questionOptions: {},
+				questionConfigurations: {},
+				responseType: '',
+				typeNameLocales: { en: 'Section', fr: 'Section' }
 			};
 			this.addQuestionType.emit(surveyPart);
 		}
@@ -100,17 +116,24 @@ export class QuestionTypeChooserComponent implements OnInit {
 		}
 	}
 
-
 	getQuestionPayload(index) {
 		if (index === 0) {
 			let surveyPart = {
 				typeName: 'Survey Part',
-				icon: 'fas fa-archive'
+				icon: 'fas fa-archive',
+				questionOptions: {},
+				questionConfigurations: {},
+				responseType: '',
+				typeNameLocales: { en: 'Section', fr: 'Section' }
 			};
 			return surveyPart;
 		} else {
 			return this.questionTypeDefinitions[index - 1];
 		}
 	}
-}
 
+	getQuestionTypeName(typeDef: QuestionTypeDefinition) {
+		return typeDef.typeNameLocales[this.configurationService.language];
+	}
+
+}
