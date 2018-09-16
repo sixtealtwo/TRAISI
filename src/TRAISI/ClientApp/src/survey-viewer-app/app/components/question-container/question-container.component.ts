@@ -2,7 +2,8 @@ import {Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} fro
 import {QuestionLoaderService} from '../../services/question-loader.service';
 import {SurveyViewerService} from '../../services/survey-viewer.service';
 import {SurveyViewQuestionOption} from '../../models/survey-view-question-option.model';
-import {OnOptionsLoaded, OnSurveyQuestionInit} from 'traisi-question-sdk';
+import {OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder} from 'traisi-question-sdk';
+import { SurveyResponderService } from '../../services/survey-responder.service';
 
 @Component({
 	selector: 'traisi-question-container',
@@ -26,13 +27,16 @@ export class QuestionContainerComponent implements OnInit {
 	isLoaded: boolean = false;
 
 	/**
-	 *
-	 * @param questionLoaderService
-	 * @param surveyViewerService
-	 * @param viewContainerRef
+	 *Creates an instance of QuestionContainerComponent.
+	 * @param {QuestionLoaderService} questionLoaderService
+	 * @param {SurveyViewerService} surveyViewerService
+	 * @param {SurveyResponderService} responderService
+	 * @param {ViewContainerRef} viewContainerRef
+	 * @memberof QuestionContainerComponent
 	 */
 	constructor(private questionLoaderService: QuestionLoaderService,
 				private surveyViewerService: SurveyViewerService,
+				private responderService: SurveyResponderService,
 				public viewContainerRef: ViewContainerRef) {
 	}
 

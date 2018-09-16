@@ -11,6 +11,7 @@ import { User } from '../../../shared/models/user.model';
 import { SurveyViewPage } from '../models/survey-view-page.model';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
 import { ActivatedRoute, Router, RouterEvent, ActivationStart } from '@angular/router';
+import { SurveyResponderService } from './survey-responder.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -35,14 +36,18 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	}
 
 	/**
-	 *
-	 * @param _surveyViewerEndpointService
-	 * @param authService
+	 *Creates an instance of SurveyViewerService.
+	 * @param {SurveyViewerEndpointService} _surveyViewerEndpointService
+	 * @param {AuthService} authService
+	 * @param {Router} router
+	 * @param {SurveyResponderService} _responderService
+	 * @memberof SurveyViewerService
 	 */
 	constructor(
 		private _surveyViewerEndpointService: SurveyViewerEndpointService,
 		private authService: AuthService,
-		private router: Router
+		private router: Router,
+		private _responderService: SurveyResponderService
 	) {
 		this._activeSurveyId = -1;
 
@@ -61,6 +66,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			}
 		});
 	}
+
 
 	/**
 	 *

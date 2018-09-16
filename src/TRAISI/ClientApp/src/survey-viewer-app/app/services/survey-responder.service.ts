@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SurveyResponder} from 'traisi-question-sdk';
+import {SurveyResponder, TRAISI} from 'traisi-question-sdk';
 import {SurveyResponderEndpointService} from './survey-responder-endpoint.service';
 import {Observable} from 'rxjs';
 
@@ -8,35 +8,81 @@ import {Observable} from 'rxjs';
 })
 export class SurveyResponderService implements SurveyResponder {
 	saveStringResponse(data: string): Observable<any> {
-		throw new Error('Method not implemented.');
+
+		return null;
 	}
 
 	saveBooleanResponse(data: boolean): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveIntegerResponse(data: number): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveDecimalResponse(data: number): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveLocationResponse(data: string): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveJsonResponse(data: object): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveOptionListResponse(data: any[]): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
 	}
 
 	saveDateTimeResponse(data: Date): Observable<any> {
-		throw new Error('Method not implemented.');
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param {*} questionComponent
+	 * @memberof SurveyResponderService
+	 */
+	public registerQuestion(questionComponent: TRAISI.SurveyQuestion)
+	{
+		questionComponent.response.subscribe(this.handleResponse, error => {
+			console.log('An error occurred subscribing to ' + questionComponent + ' responses');
+
+		});
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @param {*} respone
+	 * @memberof SurveyResponderService
+	 */
+	private handleResponse(response: TRAISI.Response)
+	{
+		switch (response.responseType) {
+			case 'text':
+				this.saveStringResponse(response.responseData);
+				break;
+			case 'boolean':
+				this.saveBooleanResponse(response.responseData);
+				break;
+			case 'integer':
+				this.saveIntegerResponse(response.responseData);
+				break;
+			case 'json':
+				this.saveJsonResponse(response.responseData);
+				break;
+			case 'datetime':
+				this.saveDateTimeResponse(response.responseData);
+				break;
+			case 'location':
+				this.saveLocationResponse(response.responseData);
+				break;
+		}
 	}
 
 	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {

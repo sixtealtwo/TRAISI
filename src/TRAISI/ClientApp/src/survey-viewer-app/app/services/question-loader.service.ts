@@ -19,6 +19,7 @@ import * as NgxBootstrap from 'ngx-bootstrap';
 
 import 'rxjs/add/observable/of';
 import {find} from 'lodash';
+import { SurveyResponderService } from './survey-responder.service';
 
 declare const SystemJS;
 
@@ -32,16 +33,18 @@ export class QuestionLoaderService {
 	private _moduleRefs: { [type: string]: NgModuleRef<any>; } = {};
 
 	/**
-	 *
-	 * @param _questionLoaderEndpointService
-	 * @param compiler
-	 * @param injector
-	 * @param moduleLoader
+	 *Creates an instance of QuestionLoaderService.
+	 * @param {QuestionLoaderEndpointService} _questionLoaderEndpointService
+	 * @param {Compiler} compiler
+	 * @param {Injector} injector
+	 * @param {SurveyResponderService} _responderService
+	 * @memberof QuestionLoaderService
 	 */
 	constructor(
 		private _questionLoaderEndpointService: QuestionLoaderEndpointService,
 		private compiler: Compiler,
-		private injector: Injector
+		private injector: Injector,
+		private _responderService: SurveyResponderService
 	) {
 		SystemJS.config({transpiler: false});
 	}
@@ -86,7 +89,7 @@ export class QuestionLoaderService {
 		}
 		else {
 
-			//load and compile the module
+			// load and compile the module
 			return Observable.create(
 				(observer: Observer<ComponentFactory<any>>) => {
 					SystemJS.import(

@@ -19,7 +19,9 @@ import {
 })
 export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
 
-
+	typeName: string;
+	icon: string;
+	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 	onQuestionShown(): void {
 		console.log('shown');
 	}
@@ -28,10 +30,9 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnIn
 		console.log('hidde');
 	}
 
-	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
-	typeName: string;
-	icon: string;
+
+
 
 	/**
 	 *
