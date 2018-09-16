@@ -220,8 +220,7 @@
 						],
 						"styles": [
 							"src/survey-viewer-app/styles.css",
-							"src/shared/assets/scss/application.scss",
-							"node_modules/bootstrap/dist/css/bootstrap.min.css",
+							"src/survey-viewer-app/assets/scss/application.scss",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
 
