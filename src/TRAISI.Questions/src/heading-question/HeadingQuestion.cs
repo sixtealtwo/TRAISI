@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
 	{
 		public string TypeName
 		{
-			get => "Heading";
+			get => "heading";
 		}
 		public string Icon
 		{

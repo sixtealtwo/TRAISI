@@ -7,7 +7,7 @@ namespace TRAISI.ClientApp.question_definitions.map_question {
 	[SurveyQuestion(QuestionResponseType.Location, CodeBundleName = "traisi-questions-map.module.js")]
 	public class MapQuestion : ISurveyQuestion {
 		public string TypeName {
-			get => "Location";
+			get => "location";
 		}
 
 		public virtual string Icon {

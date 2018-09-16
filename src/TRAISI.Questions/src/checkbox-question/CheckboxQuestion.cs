@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion(QuestionResponseType.OptionList)]
     public class CheckboxQuestion : ISurveyQuestion
     {
-        public string TypeName => "Checkbox";
+        public string TypeName => "checkbox";
 
         public string Icon
         {

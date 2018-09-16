@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
+import { Component, OnInit, Inject } from '@angular/core';
+import { SurveyViewer, QuestionConfiguration, TRAISI, SurveyResponder } from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-likert-question',
@@ -9,31 +9,33 @@ import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
 export class LikertQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
-
 	typeName: string;
 	icon: string;
 
 	/**
-	 *
-	 * @param surveyViewerService
+	 *Creates an instance of LikertQuestionComponent.
+	 * @param {SurveyViewer} _surveyViewerService
+	 * @param {SurveyResponder} _surveyResponderService
+	 * @memberof LikertQuestionComponent
 	 */
-	constructor(private surveyViewerService: SurveyViewer) {
+	constructor(
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
+		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
+	) {
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'likert';
 
-		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
+		this._surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
 	/**
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]){
-		
+	loadConfigurationData(data: QuestionConfiguration[]) {
 		this.data = data;
 	}
 
-	ngOnInit() {
-	}
+	ngOnInit() {}
 }

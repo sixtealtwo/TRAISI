@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion(QuestionResponseType.OptionList)]
     public class MatrixQuestion : ISurveyQuestion
     {
-        public string TypeName => "Matrix";
+        public string TypeName => "matrix";
 
         public string Icon
         {

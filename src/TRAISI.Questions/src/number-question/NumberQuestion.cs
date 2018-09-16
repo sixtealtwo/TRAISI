@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion(QuestionResponseType.Integer)]
     public class NumberQuestion : ISurveyQuestion
     {
-        public string TypeName => "Number";
+        public string TypeName => "number";
 
         public string Icon
         {

@@ -11,7 +11,7 @@ import {
 })
 export class DateQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, SurveyQuestion {
 
-	readonly QUESTION_TYPE_NAME: string = 'Date Question';
+	readonly QUESTION_TYPE_NAME: string = 'date';
 
 	typeName: string;
 	icon: string;

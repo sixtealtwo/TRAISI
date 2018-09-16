@@ -19,10 +19,10 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 @NgModule({
 	declarations: [TextQuestionComponent, RadioQuestionComponent,
 		NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent,
-		HeadingQuestionComponent, TimeQuestionComponent, DateQuestionComponent],
+		HeadingQuestionComponent, TimeQuestionComponent, DateQuestionComponent, LikertQuestionComponent],
 	entryComponents: [TextQuestionComponent, RadioQuestionComponent, NumberQuestionComponent,
 		RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent, HeadingQuestionComponent,
-		TimeQuestionComponent, DateQuestionComponent],
+		TimeQuestionComponent, DateQuestionComponent, LikertQuestionComponent],
 	providers: [
 		{
 			provide: 'widgets',
@@ -54,27 +54,27 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 				},
 				{
 					name: 'traisi-number-question',
-					id: 'Number',
+					id: 'number',
 					component: NumberQuestionComponent
 				},
 				{
 					name: 'traisi-range-question',
-					id: 'Range',
+					id: 'range',
 					component: RangeQuestionComponent
 				},
 				{
 					name: 'traisi-select-question',
-					id: 'Select',
+					id: 'select',
 					component: SelectQuestionComponent
 				},
 				{
 					name: 'traisi-heading-question',
-					id: 'Heading',
+					id: 'heading',
 					component: HeadingQuestionComponent
 				},
 				{
 					name: 'traisi-date-question',
-					id: 'Date',
+					id: 'date',
 					component: DateQuestionComponent
 				}
 				,
