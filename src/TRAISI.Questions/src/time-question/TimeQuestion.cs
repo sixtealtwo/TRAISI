@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion(QuestionResponseType.String)]
     public class TimeQuestion : ISurveyQuestion
     {
-        public string TypeName => "Time Select";
+        public string TypeName => "Time";
 
         public string Icon
         {

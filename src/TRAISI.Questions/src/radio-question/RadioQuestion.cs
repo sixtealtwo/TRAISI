@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
     [SurveyQuestion(QuestionResponseType.OptionSelect)]
     public class RadioQuestion : ISurveyQuestion
     {
-        public string TypeName => "Radio Select";
+        public string TypeName => "radio";
 
         public string Icon
         {

@@ -34,7 +34,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 				},
 				{
 					name: 'traisi-radio-question',
-					id: 'Radio Select',
+					id: 'radio',
 					component: RadioQuestionComponent
 				},
 				{
@@ -80,7 +80,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 				,
 				{
 					name: 'traisi-time-question',
-					id: 'Time Select',
+					id: 'time',
 					component: TimeQuestionComponent
 				}
 			],

@@ -17,21 +17,24 @@
     <None Remove="node_modules/**" />
     <Compile Remove="node_modules/**" />
     <EmbeddedResource Include="dist/**" />
+    <EmbeddedResource Include="src\locales.json">
+      <LogicalName>locales</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
-    <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' != 'Release'">
-        <Exec Command="npm run build"/>
-        <Message Text="Compiled and bundled JS library" Importance="High" />
-    </Target>
+  <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' != 'Release'">
+    <Exec Command="npm run build"/>
+    <Message Text="Compiled and bundled JS library" Importance="High" />
+  </Target>
 
-    <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Release'">
-        <Exec Command="npm install"/>
-        <Exec Command="npm run build"/>
-        <Message Text="Compiled and bundled JS library" Importance="High" />
-    </Target>
+  <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Release'">
+    <Exec Command="npm install"/>
+    <Exec Command="npm run build"/>
+    <Message Text="Compiled and bundled JS library" Importance="High" />
+  </Target>
 
-    
-    
-    
+
+
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
@@ -41,6 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
-		<EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
+    <EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
   </ItemGroup>
 </Project>

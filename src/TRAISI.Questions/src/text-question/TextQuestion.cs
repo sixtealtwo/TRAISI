@@ -10,7 +10,7 @@ namespace TRAISI.SDK.Questions
 	{
 		public string TypeName
 		{
-			get => "Text";
+			get => "text";
 		}
 		public string Icon
 		{
@@ -18,7 +18,8 @@ namespace TRAISI.SDK.Questions
 		}
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-		[QuestionConfiguration(QuestionConfigurationValueType.Integer,
+
+        [QuestionConfiguration(QuestionConfigurationValueType.Integer,
 			Name = "Max Length",
 			Description = "Max number of characters",
 			SurveyBuilderValueType = QuestionBuilderType.NumericText,

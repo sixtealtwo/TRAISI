@@ -26,6 +26,8 @@ namespace TRAISI.SDK
         
         public string CodeBundleName { get; set; }
 
+        public Dictionary<string,string> TypeNameLocales {get;} = new Dictionary<string, string>();
+
         /// <summary>
         /// Set of Question Part Slots
         /// </summary>

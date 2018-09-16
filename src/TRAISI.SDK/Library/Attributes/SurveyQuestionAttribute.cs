@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TRAISI.SDK.Enums;
-
+using System.Linq;
 namespace TRAISI.SDK.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
@@ -19,10 +19,25 @@ namespace TRAISI.SDK.Attributes
         /// <returns></returns>
         public QuestionResponseType QuestionResponseType { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public string[] UseResources { get; set; } = {};
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public string CodeBundleName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="responseType"></param>
+        /// <param name="language"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public SurveyQuestionAttribute(QuestionResponseType responseType)
         {
             this.QuestionResponseType = responseType;
