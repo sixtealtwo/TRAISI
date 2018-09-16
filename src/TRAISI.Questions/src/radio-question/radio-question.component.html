@@ -1,8 +1,8 @@
 <div class="radio-question-container">
 
-    <div *ngFor="let option of options" class="abc-radio abc-radio-primary">
-        <input class="form-radio-input" id="{{option.id}}" type="radio" value="{{ option.id }}" name="{{option.name}}"/>
-        <label for="{{option.id}}" class="form-radio-label">{{option.label}}</label>
+    <div *ngFor="let option of options" class="custom-control custom-radio">
+        <input class="custom-control-input" id="{{option.id}}" type="radio" value="{{ option.id }}" name="{{option.name}}"/>
+        <label for="{{option.id}}" class="custom-control-label">{{option.label}}</label>
     </div>
     
 </div>
