@@ -3,7 +3,7 @@
 	<h1> {{ survey.titleText }}</h1>
 
 	<alert type="info" #adminAlert *ngIf="isAdmin">
-		<strong>User Status</strong> An admin session is currently active - shortcode is not needed
+		<strong>{{ 'Start.AdminAlertUserStatus' | translate }}</strong> {{ 'Start.AdminAlertText' | translate }}
 	</alert>
 
 	<span [innerHTML]="surveyName"></span>
@@ -17,7 +17,7 @@
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary " [disabled]="isLoading"><i *ngIf="isLoading"
 																						 class='fa fa-circle-o-notch fa-spin'></i>
-					{{isLoading ? 'Loggin in...' : 'Start Survey'}}
+					{{ isLoading ? 'Start.LogginIn' : 'Start.StartSurvey' | translate}}
 				</button>
 			</div>
 		</div>

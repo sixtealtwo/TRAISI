@@ -6,6 +6,7 @@ import { SurveyStart } from '../../models/survey-start.model';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { User } from '../../../../shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -37,7 +38,8 @@ export class SurveyStartPageComponent implements OnInit {
 		private alertService: AlertService,
 		private surveyViewerService: SurveyViewerService,
 		private route: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private translate: TranslateService
 	) {}
 
 	/**

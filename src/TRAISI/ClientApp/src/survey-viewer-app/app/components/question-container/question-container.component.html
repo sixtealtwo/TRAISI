@@ -1,6 +1,7 @@
 <section class="widget">
 	<header>
-		<h5>{{ question.label }}</h5>
+		<h5 [innerHTML]="question.label | safeHtml"></h5>
+
 	</header>
 
 	<div class="widget-body">

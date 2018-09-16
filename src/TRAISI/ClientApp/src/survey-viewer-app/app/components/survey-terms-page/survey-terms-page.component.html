@@ -1,15 +1,15 @@
 <div class="welcome-container">
 
-	<h1>Terms and Conditions</h1>
+	<h1>{{ 'TermsAndConditions.TermsAndConditions' | translate }}</h1>
 
 	<div class="terms-and-conditions-text-container">
-	<p [innerHTML]="model.termsAndConditionsText | safeHtml"></p>
+		<p [innerHTML]="model.termsAndConditionsText | safeHtml"></p>
 	</div>
 
 
 	<div class="clearfix survey-start-button ">
 		<div class="text-center">
-			<button (click)="begin()" type="submit" class="btn btn-primary">START</button>
+			<button (click)="begin()" type="submit" class="btn btn-primary">{{ 'TermsAndConditions.Start' | translate }} </button>
 		</div>
 	</div>
 </div>

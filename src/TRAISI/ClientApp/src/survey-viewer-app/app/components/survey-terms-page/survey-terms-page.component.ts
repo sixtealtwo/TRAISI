@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyViewerService} from '../../services/survey-viewer.service';
 import {SurveyViewTermsModel} from '../../models/survey-view-terms.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-survey-terms-page',
@@ -16,13 +17,18 @@ export class SurveyTermsPageComponent implements OnInit {
 	public model: SurveyViewTermsModel;
 
 	/**
-	 *
-	 * @param route
+	 *Creates an instance of SurveyTermsPageComponent.
+	 * @param {ActivatedRoute} route
+	 * @param {SurveyViewerService} surveyViewerService
+	 * @param {Router} router
+	 * @param {TranslateService} translate
+	 * @memberof SurveyTermsPageComponent
 	 */
 	constructor(
 		private route: ActivatedRoute,
 		private surveyViewerService: SurveyViewerService,
-		private router: Router
+		private router: Router,
+		private translate: TranslateService
 	) {
 		this.model = {} as SurveyViewTermsModel;
 	}
@@ -42,7 +48,6 @@ export class SurveyTermsPageComponent implements OnInit {
 
 			this.surveyId = surveyId;
 
-			console.log("surveyID: " + surveyId);
 			this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
 				value => {
 					console.log(value);

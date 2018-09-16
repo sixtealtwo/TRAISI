@@ -6,13 +6,13 @@
         "directive-selector": [
             true,
             "attribute",
-            "app",
+            ["app","traisi"],
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "app",
+            ["app","traisi"],
             "kebab-case"
         ]
     }
