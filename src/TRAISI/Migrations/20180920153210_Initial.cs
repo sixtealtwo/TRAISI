@@ -128,11 +128,14 @@ namespace TRAISI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     ResponseType = table.Column<int>(nullable: false),
-                    Value = table.Column<double>(nullable: true),
+                    Value = table.Column<DateTime>(nullable: true),
+                    DecimalResponse_Value = table.Column<double>(nullable: true),
                     IntegerResponse_Value = table.Column<int>(nullable: true),
                     Latitude = table.Column<double>(nullable: true),
                     Longitude = table.Column<double>(nullable: true),
                     Address = table.Column<string>(nullable: true),
+                    Purpose = table.Column<string>(nullable: true),
+                    Time = table.Column<DateTime>(nullable: true),
                     StringResponse_Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -598,9 +601,9 @@ namespace TRAISI.Migrations
                 {
                     ApplicationId = table.Column<string>(nullable: true),
                     AuthorizationId = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(nullable: true),
                     ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
                     Id = table.Column<string>(nullable: false),
                     Payload = table.Column<string>(nullable: true),
                     Properties = table.Column<string>(nullable: true),
@@ -632,11 +635,10 @@ namespace TRAISI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    TargetOptionId1 = table.Column<int>(nullable: true),
+                    TargetOptionId = table.Column<int>(nullable: false),
                     SourceQuestionId = table.Column<int>(nullable: false),
                     Condition = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
-                    TargetOptionId = table.Column<int>(nullable: true)
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -653,12 +655,6 @@ namespace TRAISI.Migrations
                         principalTable: "QuestionOptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuestionOptionConditionals_QuestionOptions_TargetOptionId1",
-                        column: x => x.TargetOptionId1,
-                        principalTable: "QuestionOptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1066,11 +1062,6 @@ namespace TRAISI.Migrations
                 name: "IX_QuestionOptionConditionals_TargetOptionId",
                 table: "QuestionOptionConditionals",
                 column: "TargetOptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionOptionConditionals_TargetOptionId1",
-                table: "QuestionOptionConditionals",
-                column: "TargetOptionId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionOptionLabels_QuestionOptionId",

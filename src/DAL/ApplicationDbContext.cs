@@ -110,6 +110,8 @@ namespace DAL
 
             builder.Entity<GroupCode>().ToTable($"{nameof(this.GroupCodes)}");
 
+            builder.Entity<ResponseValue>().ToTable($"{nameof(this.ResponseValues)}");
+
             builder.Entity<QuestionOptionLabel>().ToTable($"{nameof(this.QuestionOptionLabels)}");
 
             builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}");
@@ -154,7 +156,7 @@ namespace DAL
                 .HasValue<DateTimeResponse>(8);
 
             builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
-
+            builder.Entity<SurveyResponse>().ToTable("SurveyResponses");
             builder.Entity<PrimaryRespondent>().ToTable("PrimaryRespondents").HasOne(s => s.User);
 
         }

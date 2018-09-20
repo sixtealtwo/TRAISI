@@ -7,8 +7,6 @@ namespace DAL.Models.ResponseTypes
 {
     public class OptionListResponse : ResponseValue
     {
-
-
         /// <summary>
         /// List of all OptionValues
         /// </summary>

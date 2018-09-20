@@ -2,7 +2,7 @@
 
 namespace TRAISI.Migrations
 {
-    public partial class OptionFix3 : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

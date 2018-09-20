@@ -16,7 +16,7 @@ namespace TRAISI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -641,7 +641,7 @@ namespace TRAISI.Migrations
                     b.HasIndex("ResponseValueId")
                         .IsUnique();
 
-                    b.ToTable("SurveyResponse");
+                    b.ToTable("SurveyResponses");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyView", b =>
@@ -993,11 +993,23 @@ namespace TRAISI.Migrations
                     b.ToTable("OpenIddictTokens");
                 });
 
+            modelBuilder.Entity("DAL.Models.ResponseTypes.DateTimeResponse", b =>
+                {
+                    b.HasBaseType("DAL.Models.ResponseTypes.ResponseValue");
+
+                    b.Property<DateTime>("Value");
+
+                    b.ToTable("DateTimeResponse");
+
+                    b.HasDiscriminator().HasValue(8);
+                });
+
             modelBuilder.Entity("DAL.Models.ResponseTypes.DecimalResponse", b =>
                 {
                     b.HasBaseType("DAL.Models.ResponseTypes.ResponseValue");
 
-                    b.Property<double>("Value");
+                    b.Property<double>("Value")
+                        .HasColumnName("DecimalResponse_Value");
 
                     b.ToTable("DecimalResponse");
 
@@ -1061,6 +1073,19 @@ namespace TRAISI.Migrations
                     b.ToTable("StringResponse");
 
                     b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("DAL.Models.ResponseTypes.TimelineResponse", b =>
+                {
+                    b.HasBaseType("DAL.Models.ResponseTypes.LocationResponse");
+
+                    b.Property<string>("Purpose");
+
+                    b.Property<DateTime>("Time");
+
+                    b.ToTable("TimelineResponse");
+
+                    b.HasDiscriminator().HasValue(7);
                 });
 
             modelBuilder.Entity("DAL.Models.Groups.ApiKeys", b =>
