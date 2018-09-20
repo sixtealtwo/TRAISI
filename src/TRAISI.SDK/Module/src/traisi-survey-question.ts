@@ -12,10 +12,13 @@ export namespace TRAISI {
 
 		data: QuestionConfiguration[];
 
+		isValid: boolean;
+
 		constructor() {
 			this.state = QuestionResponseState.PRISTINE;
 			this.response = new EventEmitter<Response>();
 			this.data = [];
+			this.isValid = false;
 		}
 	}
 
