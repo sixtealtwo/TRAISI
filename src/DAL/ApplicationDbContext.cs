@@ -149,7 +149,9 @@ namespace DAL
                 .HasValue<LocationResponse>(3)
                 .HasValue<IntegerResponse>(4)
                 .HasValue<OptionListResponse>(5)
-                .HasValue<JsonResponse>(6);
+                .HasValue<JsonResponse>(6)
+                .HasValue<TimelineResponse>(7)
+                .HasValue<DateTimeResponse>(8);
 
             builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
 
