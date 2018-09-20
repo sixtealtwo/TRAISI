@@ -388,7 +388,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	 */
 	public previewSurvey(event: any, row: Survey) {
 
-		window.open(`/survey/${row.code}/start`, '_blank');
+		window.open(`/survey/${row.code}/terms`, '_blank');
 		event.stopPropagation();
 	}
 
