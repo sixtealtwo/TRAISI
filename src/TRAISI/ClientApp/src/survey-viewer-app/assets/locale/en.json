@@ -3,7 +3,8 @@
 		"AdminAlertText": "An admin session is currently active - shortcode is not needed",
 		"AdminAlertUserStatus": "User Status",
 		"StartSurvey": "Start Survey",
-		"LogginIn": "Loggin In..."
+		"LogginIn": "Loggin In...",
+		"InvalidLogin": "The login information provided is invalid."
 	},
 	"TermsAndConditions": {
 		"TermsAndConditions": "Terms and Conditions",

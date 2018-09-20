@@ -24,6 +24,8 @@ export class SurveyStartPageComponent implements OnInit {
 
 	survey: SurveyStart;
 
+	isError: boolean = false;
+
 	@ViewChild('adminAlert')
 	adminAlert: AlertComponent;
 
@@ -84,6 +86,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	startSurvey(): void {
 		this.isLoading = true;
+		this.isError = false;
 		console.log('starting');
 		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
 			value => {
@@ -101,6 +104,7 @@ export class SurveyStartPageComponent implements OnInit {
 			},
 			error => {
 				this.isLoading = false;
+				this.isError = true;
 				this.showErrorAlert('Error', 'Some error with the shortcode');
 			}
 		);
