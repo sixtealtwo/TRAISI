@@ -23,6 +23,7 @@ namespace TRAISI.Controllers
         public MapServiceController(IGeoService geoService)
         {
             this._geoService = geoService;
+            
         }
 
         // GET: api/<controller>

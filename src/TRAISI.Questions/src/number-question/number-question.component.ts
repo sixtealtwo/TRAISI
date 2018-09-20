@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
-import { PartialObserver } from '../../node_modules/rxjs';
+import { PartialObserver } from 'rxjs';
 @Component({
 	selector: 'traisi-number-question',
 	template: require('./number-question.component.html').toString(),
