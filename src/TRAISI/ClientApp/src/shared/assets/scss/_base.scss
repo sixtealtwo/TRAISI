@@ -6,7 +6,7 @@ app, .app {
 	display: block;
 	position: fixed;
 	width: 100vw;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .sidebar{
@@ -816,7 +816,7 @@ app, .app {
 
   .list-group{
     height: 320px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .btn-link {

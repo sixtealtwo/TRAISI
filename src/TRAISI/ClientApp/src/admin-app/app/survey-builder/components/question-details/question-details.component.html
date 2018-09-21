@@ -1,7 +1,7 @@
 <div class="details-wrapper" [class.disable-clicks]="reordering">
 	<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
 		<h4 class="text-center">{{ qOptionDefinition.name }}</h4>
-		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.Id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
+		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
 		 [getChildPayload]="getOptionPayload" [lockAxis]="'y'">
 			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name)">
 				<div class="form-group row response-option-container">
