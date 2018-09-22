@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DAL.Models;
 using DAL.Models.Surveys;
+using Newtonsoft.Json.Linq;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -12,11 +14,11 @@ namespace TRAISI.Services.Interfaces
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
-        /// <param name="shortcode"></param>
         /// <param name="questionId"></param>
+        /// <param name="user"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        Task<bool> SaveResponse(int surveyId, string shortcode, int questionId, object responseData);
+        Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, JObject responseData);
 
         /// <summary>
         /// 

@@ -9,7 +9,7 @@ import {TRAISI} from 'traisi-question-sdk';
 export class HeadingQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.None> implements OnInit {
 
 	readonly QUESTION_TYPE_NAME: string = 'Heading';
-
+	public T: TRAISI.ResponseTypes.None;
 	typeName: string;
 	icon: string;
 

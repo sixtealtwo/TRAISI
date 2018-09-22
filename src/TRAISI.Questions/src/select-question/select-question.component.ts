@@ -27,6 +27,8 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 
 	optionData: Array<Select2OptionData>;
 
+
+
 	@ViewChild('select')
 	selectElement: ElementRef;
 

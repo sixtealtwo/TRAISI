@@ -1,7 +1,7 @@
 import { QuestionOption } from './question-option';
 import { QuestionConfiguration } from './question-configuration';
 
-//import {EventEmitter} from '@angular/core';
+
 
 export interface OnVisibilityChanged {
 	/**
@@ -26,12 +26,22 @@ export interface OnOptionsLoaded {
 export interface OnSurveyQuestionInit {
 	/**
 	 *
-	 * @param configuration
 	 */
-	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void;
+	response: any;
 
 	/**
 	 *
+	 * @param configuration
 	 */
-	response: any;
+	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void;
+}
+
+export interface OnSaveResponseStatus {
+	/**
+	 *
+	 *
+	 * @param {*} result
+	 * @memberof OnSaveResponseStatus
+	 */
+	onResponseSaved(result: any): void;
 }

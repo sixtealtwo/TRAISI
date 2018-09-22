@@ -7,7 +7,7 @@ namespace TRAISI.SDK.Interfaces
     /// </summary>
     public interface IQuestionTypeManager
     {
-        IList<QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+        Dictionary<string,QuestionTypeDefinition> QuestionTypeDefinitions { get; }
 
         void LoadQuestionExtensions();
     }

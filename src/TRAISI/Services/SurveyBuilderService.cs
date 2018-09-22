@@ -190,7 +190,7 @@ namespace TRAISI.Services
             //check if the option has a value / allows multiple
 
             var definition =
-                this._questions.QuestionTypeDefinitions.FirstOrDefault(d => d.TypeName == part.QuestionType);
+                this._questions.QuestionTypeDefinitions[part.QuestionType];
             if (definition != null)
             {
                 var hasOption = definition.QuestionOptions.Count(c => c.Key == name);

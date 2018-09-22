@@ -31,6 +31,7 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 	public typeName: string;
 	public icon: string;
 
+
 	@ViewChild('mapbox')
 	mapGL: MapComponent;
 	@ViewChild('geocoder')
@@ -87,11 +88,7 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 				this.locationSearch = result.address;
 				this.mapGeocoder.control._inputEl.value = result.address;
 
-	
-
 				this.cdRef.detectChanges();
-
-	
 			});
 	}
 
@@ -114,7 +111,6 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 
 			console.log('Sending ' + data);
 			this.saveResponse(data);
-
 		});
 	}
 
@@ -144,8 +140,6 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 		if (event.lngLat) {
 			this.markerPosition = event.lngLat;
 			this.onDragEnd(event);
-
-
 		}
 	}
 

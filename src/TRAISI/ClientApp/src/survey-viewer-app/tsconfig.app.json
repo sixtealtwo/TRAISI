@@ -19,7 +19,7 @@
 		"paths": {
 
 			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Module/src"
+				"../../../../TRAISI.SDK/Module/"
 			]
 		}
 	},

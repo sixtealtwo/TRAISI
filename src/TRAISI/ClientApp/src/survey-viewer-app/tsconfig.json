@@ -21,7 +21,7 @@
 			  "../../../../TRAISI.SDK/Module/src/*"
 			],
 			"traisi-question-sdk": [
-			  "../../../../TRAISI.SDK/Module/src/*"
+			  "../../../../TRAISI.SDK/Module/src/"
 			]
 		}
 	},

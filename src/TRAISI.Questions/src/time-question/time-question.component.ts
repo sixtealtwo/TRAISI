@@ -19,6 +19,7 @@ export class TimeQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	typeName: string;
 	icon: string;
 
+
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 		@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder

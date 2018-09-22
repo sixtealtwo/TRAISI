@@ -4,7 +4,9 @@ using DAL;
 using DAL.Models;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using TRAISI.Authorization;
 using TRAISI.Services.Interfaces;
 
@@ -14,17 +16,21 @@ namespace TRAISI.Controllers.SurveyViewer
     /// 
     /// </summary>
     [Route("api/[controller]")]
-    public class RespondentController
+    public class ResponderController : Controller
     {
         private IRespondentService _respondentService;
+
+        private UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="respondentService"></param>
-        public RespondentController(IRespondentService respondentService)
+        public ResponderController(IRespondentService respondentService,
+                                    UserManager<ApplicationUser> userManager)
         {
             this._respondentService = respondentService;
+            this._userManager = userManager;
         }
 
         /// <summary>
@@ -36,10 +42,13 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpPost]
-        [Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode}/responses/")]
-        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, string shortcode)
+        [Route("surveys/{surveyId}/questions/{questionId}/")]
+        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] JObject  content)
         {
-            bool success = await this._respondentService.SaveResponse(surveyId, shortcode, questionId, null);
+
+            var user = await _userManager.GetUserAsync(User);
+
+            bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, content);
 
             if (!success)
             {
@@ -49,16 +58,6 @@ namespace TRAISI.Controllers.SurveyViewer
             return new OkResult();
         }
 
-        [Produces(typeof(ObjectResult))]
-        [HttpPost]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("surveys/{surveyId}/questions/{questionId}/respondent/{shortcode}/")]
-        public async Task<IActionResult> SaveStringResponse(int surveyId, int questionId)
-        {
-            Console.WriteLine("here");
-
-            return new OkResult();
-        }
 
         /// <summary>
         /// Retrieve the list of responses belonging to a particular user for a specific question.

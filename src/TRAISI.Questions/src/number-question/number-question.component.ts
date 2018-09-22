@@ -9,6 +9,7 @@ import { PartialObserver } from 'rxjs';
 export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Decminal> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Number Question';
 
+
 	typeName: string;
 	icon: string;
 

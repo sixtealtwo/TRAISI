@@ -44,7 +44,7 @@ namespace TRAISI.UnitTests
 
             var mock = new Mock<QuestionTypeManager>(null,CreateLoggerFactory());
 
-            List<QuestionTypeDefinition> definitions = new List<QuestionTypeDefinition>();
+            Dictionary<string, QuestionTypeDefinition> definitions = new Dictionary<string, QuestionTypeDefinition>;
 
 
 
@@ -64,7 +64,7 @@ namespace TRAISI.UnitTests
 
             QuestionTypeDefinition definition = new QuestionTypeDefinition(mockSurveyQuestion.Object,questionAttribute);
 
-            definitions.Add(definition);
+            definitions[definition.TypeName] = definition;
 
 
 

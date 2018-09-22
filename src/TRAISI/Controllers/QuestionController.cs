@@ -30,8 +30,7 @@ namespace TRAISI.Controllers {
 		public ActionResult ClientCode(string questionType) {
 			try {
 				var questionTypeDefinition =
-					_questionTypeManager.QuestionTypeDefinitions.FirstOrDefault(q =>
-						string.Equals(q.TypeName, questionType));
+					_questionTypeManager.QuestionTypeDefinitions[questionType];
 
 
 				if (questionTypeDefinition.CodeBundleName == null) {
@@ -56,7 +55,7 @@ namespace TRAISI.Controllers {
 		[Produces(typeof(List<QuestionTypeDefinition>))]
 		public IEnumerable<QuestionTypeDefinition> QuestionTypes() {
 			var questionTypes = this._questionTypeManager.QuestionTypeDefinitions;
-			return questionTypes;
+			return questionTypes.Values;
 		}
 	}
 }

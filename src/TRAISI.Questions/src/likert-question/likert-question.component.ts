@@ -11,7 +11,6 @@ export class LikertQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 
 	typeName: string;
 	icon: string;
-
 	/**
 	 *Creates an instance of LikertQuestionComponent.
 	 * @param {SurveyViewer} _surveyViewerService

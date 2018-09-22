@@ -31,7 +31,7 @@ namespace TRAISI.Helpers
             _loggerFactory = loggerFactory;
 
             _logger = loggerFactory.CreateLogger<QuestionTypeManager>();
-            QuestionTypeDefinitions = new List<QuestionTypeDefinition>();
+            QuestionTypeDefinitions = new Dictionary<string, QuestionTypeDefinition>();
         }
 
 
@@ -43,7 +43,7 @@ namespace TRAISI.Helpers
             LoadQuestionTypeDefinitions(extensionList);
         }
 
-        public IList<QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+        public Dictionary<string,QuestionTypeDefinition> QuestionTypeDefinitions { get; }
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace TRAISI.Helpers
             var parameterOptions = ReadQuestionOptionData(questionType, sourceAssembly);
             typeDefinition.QuestionOptions = parameterOptions;
             typeDefinition.QuestionPartSlots = ListQuestionSlots(questionType);
-            QuestionTypeDefinitions.Add(typeDefinition);
+            QuestionTypeDefinitions[typeDefinition.TypeName] = typeDefinition;
 
 
             ReadResponseType(attribute, typeDefinition);
@@ -194,7 +194,7 @@ namespace TRAISI.Helpers
         /// <returns></returns>
         public QuestionTypeDefinition GetQuestionTypeDefinition(string name)
         {
-            return QuestionTypeDefinitions.FirstOrDefault(s => s.TypeName == name);
+            return QuestionTypeDefinitions[name];
         }
 
         /// <summary>

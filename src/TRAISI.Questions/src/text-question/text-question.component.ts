@@ -7,6 +7,7 @@ import {
 	QuestionResponseState,
 	TRAISI
 } from 'traisi-question-sdk';
+import { OnSaveResponseStatus } from 'traisi-sdk/survey_lifecycle_hooks';
 
 @Component({
 	selector: 'traisi-text-question',
@@ -14,15 +15,15 @@ import {
 	styles: [require('./text-question.component.scss').toString()]
 })
 export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.String>
-	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
+	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit, OnSaveResponseStatus {
 	typeName: string;
 	icon: string;
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
-	public inputText: string;
+	public textInput: string;
 
-	@ViewChild('textInput')
-	textInput: HTMLInputElement;
+	@ViewChild('inputElement')
+	private textInputElement: HTMLInputElement;
 
 	onQuestionShown(): void {
 		console.log('shown');
@@ -40,6 +41,7 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
+		this.textInput = '';
 	}
 
 	ngOnInit() {
@@ -53,7 +55,7 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	 */
 	handleComponentBlur(): void {
 		let data: TRAISI.StringResponseData = {
-			value: this.inputText + 'cat'
+			value: this.textInput
 		};
 		this.response.emit(data);
 	}
@@ -63,4 +65,14 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	 * @param configuration
 	 */
 	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {}
+
+	/**
+	 *
+	 *
+	 * @param {*} result
+	 * @memberof TextQuestionComponent
+	 */
+	onResponseSaved(result: any): void {
+		console.log('result from text question: ' + result);
+	}
 }

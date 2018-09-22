@@ -8,35 +8,17 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"target": "es5",
-		"types": [
-			"node"
-		],
-		"typeRoots": [
-			"node_modules/@types"
-		],
-		"lib": [
-			"es2017",
-			"dom"
-		],
+		"types": ["node"],
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["es2017", "dom"],
 		"baseUrl": "src",
 		"paths": {
-			"traisi-question-sdk": [
-				"../../TRAISI.SDK/Module/*"
-			],
-			"questions/*": [
-				"../../Questions/*"
-			],
-			"echarts": [
-				"../node_modules/echarts/dist/echarts-en.min.js"
-			]
+			"traisi-question-sdk": ["../../TRAISI.SDK/Module/"],
+			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
+			"questions/*": ["../../Questions/*"],
+			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"]
 		}
 	},
-	"include": [
-		"./src/shared/**/*.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"src/test.ts",
-		"**/*.spec.ts"
-	]
+	"include": ["./src/shared/**/*.ts"],
+	"exclude": ["node_modules", "src/test.ts", "**/*.spec.ts"]
 }
