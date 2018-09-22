@@ -91,6 +91,7 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.IsOptional, map => map.MapFrom(v => v.isOptional))
                 .ForMember(m => m.Order, map => map.MapFrom(v => v.Order))
                 .ForMember(m => m.Label, map => map.Ignore())
+                .ForMember(m => m.Configurations, map => map.MapFrom(v => v.QuestionPart.QuestionConfigurations))
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }

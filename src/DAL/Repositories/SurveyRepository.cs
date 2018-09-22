@@ -90,6 +90,7 @@ namespace DAL.Repositories
         {
             return await _appContext.Surveys.Where(s => s.Id == surveyId)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .Include(s => s.TitleLabels)

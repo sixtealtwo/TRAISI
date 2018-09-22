@@ -53,7 +53,7 @@ namespace TRAISI.Controllers
         [Produces(typeof(List<SBQuestionTypeDefinitionViewModel>))]
         public IActionResult QuestionTypes()
         {
-            var questionTypes = Mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions);
+            var questionTypes = Mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions.Values);
             return Ok(questionTypes);
         }
 

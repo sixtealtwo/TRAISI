@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TRAISI.ViewModels.SurveyViewer
 {
     /// <summary>
@@ -6,18 +8,20 @@ namespace TRAISI.ViewModels.SurveyViewer
     /// </summary>
     public class QuestionViewModel
     {
-        public int Id {get;set;}
-        
+        public int Id { get; set; }
+
         public int QuestionId { get; set; }
 
-        public string Label {get ;set;}
-        
+        public string Label { get; set; }
+
         public string QuestionType { get; set; }
-        
+
         public bool IsOptional { get; set; }
-        
+
         public bool IsRepeat { get; set; }
-        
+
         public int Order { get; set; }
+
+        public List<QuestionConfigurationViewModel> Configurations { get; set; }
     }
 }
