@@ -33,8 +33,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public registerQuestion(questionComponent: TRAISI.SurveyQuestion<any>, surveyId: number, questionId: number) {
-		console.log('Inside requesting loading');
-		console.log(questionComponent);
+
 
 		questionComponent.response.subscribe(
 			(value: TRAISI.ResponseData<any>) => {

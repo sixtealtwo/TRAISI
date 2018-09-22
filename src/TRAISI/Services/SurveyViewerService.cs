@@ -253,7 +253,8 @@ namespace TRAISI.Services
             var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
             if (survey != null)
             {
-                return (List<QuestionPartView>)survey.SurveyViews[viewType].QuestionPartViews;
+                var v =  (List<QuestionPartView>)survey.SurveyViews[viewType].QuestionPartViews;
+                return v;
             }
             else
             {

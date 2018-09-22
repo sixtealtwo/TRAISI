@@ -46,6 +46,8 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 
 	ngOnInit() {
 		this.onQuestionShown();
+
+		console.log(this.configuration);
 	}
 
 	/**

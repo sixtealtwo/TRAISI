@@ -2,7 +2,7 @@ import { Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } f
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
-import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder } from 'traisi-question-sdk';
+import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, TRAISI } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 
 @Component({
@@ -41,12 +41,14 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
 		this.questionLoaderService
 			.loadQuestionComponent(this.question.questionType, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
+				(<TRAISI.SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {

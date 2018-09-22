@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace TRAISI.ViewModels.SurveyViewer
@@ -22,6 +23,6 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public int Order { get; set; }
 
-        public List<QuestionConfigurationViewModel> Configurations { get; set; }
+        public ConcurrentDictionary<string,object> Configuration {get;set;}
     }
 }

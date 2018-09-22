@@ -12,15 +12,18 @@ export namespace TRAISI {
 
 		public response: EventEmitter<ResponseData<T>>;
 
-		data: QuestionConfiguration[];
+		configuration: QuestionConfiguration;
 
 		isValid: boolean;
+
+		data: Array<any>;
 
 		constructor() {
 			this.state = QuestionResponseState.PRISTINE;
 			this.response = new EventEmitter<ResponseData<T>>();
-			this.data = [];
+			this.configuration = <QuestionConfiguration>{};
 			this.isValid = false;
+			this.data = [];
 		}
 	}
 
