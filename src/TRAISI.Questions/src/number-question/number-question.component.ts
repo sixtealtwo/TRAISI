@@ -26,6 +26,12 @@ export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 		this.icon = 'number';
 	}
 
+	public traisiOnInit()
+	{
+		console.log('in number traisi on init');
+		console.log(this.configuration);
+	}
+
 
 	ngOnInit() {
 

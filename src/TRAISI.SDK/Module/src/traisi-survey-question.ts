@@ -36,6 +36,16 @@ export namespace TRAISI {
 			this.isValid = false;
 			this.data = [];
 		}
+
+		/**
+		 *
+		 *
+		 * @memberof SurveyQuestion
+		 */
+		public traisiOnInit()
+		{
+
+		}
 	}
 
 	/**
