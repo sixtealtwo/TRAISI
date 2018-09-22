@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
+import { SurveyViewer, QuestionConfiguration, TRAISI } from 'traisi-question-sdk';
 import { PartialObserver } from 'rxjs';
 @Component({
 	selector: 'traisi-number-question',
 	template: require('./number-question.component.html').toString(),
 	styles: [require('./number-question.component.scss').toString()]
 })
-export class NumberQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
+export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Decminal> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Number Question';
 
 	typeName: string;
@@ -20,8 +20,6 @@ export class NumberQuestionComponent extends TRAISI.SurveyQuestion implements On
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'number';
-
-
 	}
 
 	/**

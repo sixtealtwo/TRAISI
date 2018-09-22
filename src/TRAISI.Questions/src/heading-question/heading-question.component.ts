@@ -6,7 +6,7 @@ import {TRAISI} from 'traisi-question-sdk';
 	template: <string>require('./heading-question.component.html'),
 	styles: [require('./heading-question.component.scss').toString()]
 })
-export class HeadingQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
+export class HeadingQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.None> implements OnInit {
 
 	readonly QUESTION_TYPE_NAME: string = 'Heading';
 

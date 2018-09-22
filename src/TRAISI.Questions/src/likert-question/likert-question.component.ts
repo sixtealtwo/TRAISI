@@ -6,7 +6,7 @@ import { SurveyViewer, QuestionConfiguration, TRAISI, SurveyResponder } from 'tr
 	template: require('./likert-question.component.html').toString(),
 	styles: [require('./likert-question.component.scss').toString()]
 })
-export class LikertQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
+export class LikertQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
 	typeName: string;

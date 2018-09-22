@@ -5,7 +5,8 @@ using TRAISI.SDK.Interfaces;
 namespace TRAISI.SDK.Questions
 {
 
-	[SurveyQuestion(QuestionResponseType.String)]
+	[SurveyQuestion(QuestionResponseType.String,
+	CodeBundleName = "traisi-questions-general.module.js")]
 	public class TextQuestion : ISurveyQuestion
 	{
 		public string TypeName

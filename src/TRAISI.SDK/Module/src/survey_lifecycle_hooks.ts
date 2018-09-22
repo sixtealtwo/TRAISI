@@ -1,10 +1,9 @@
-import {QuestionOption} from './question-option';
-import {QuestionConfiguration} from './question-configuration';
+import { QuestionOption } from './question-option';
+import { QuestionConfiguration } from './question-configuration';
 
 //import {EventEmitter} from '@angular/core';
 
-export interface OnVisibilityChanged
-{
+export interface OnVisibilityChanged {
 	/**
 	 *
 	 */
@@ -17,17 +16,14 @@ export interface OnVisibilityChanged
 }
 
 export interface OnOptionsLoaded {
-
 	/**
 	 *
 	 * @param options
 	 */
 	onOptionsLoaded(options: QuestionOption[]): void;
-
 }
 
 export interface OnSurveyQuestionInit {
-
 	/**
 	 *
 	 * @param configuration

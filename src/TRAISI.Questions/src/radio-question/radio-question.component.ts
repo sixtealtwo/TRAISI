@@ -1,20 +1,21 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import {
-	SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded, SurveyQuestion,
-	QuestionResponseState, TRAISI
+	SurveyViewer,
+	QuestionOption,
+	SurveyResponder,
+	OnOptionsLoaded,
+	QuestionResponseState,
+	TRAISI
 } from 'traisi-question-sdk';
-
 
 @Component({
 	selector: 'traisi-radio-question',
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded {
-
-
+export class RadioQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List>
+	implements OnInit, OnOptionsLoaded {
 	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
-
 
 	options: QuestionOption[];
 
@@ -22,29 +23,24 @@ export class RadioQuestionComponent extends TRAISI.SurveyQuestion implements OnI
 	icon: string;
 	selectdOption: any;
 
-
 	/**
 	 *
 	 * @param _surveyViewerService
 	 * @param _surveyResponderService
 	 */
-	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-				@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
-
+	constructor(
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
+		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
+	) {
 		super();
 		this.options = [];
 	}
-
 
 	/**
 	 *
 	 */
 	ngOnInit() {
-
-
-		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {
-			//this.questionOptions = value;
-		});
+		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
 	}
 
 	/**

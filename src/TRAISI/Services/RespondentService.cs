@@ -55,7 +55,7 @@ namespace TRAISI.Services {
 		/// <param name="questionId"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		public async Task<List<SurveyResponse>> ListResponses(int surveyId, string shortcode, int questionId) {
+		public async Task<List<SurveyResponse>> ListResponses(int surveyId, string questionId) {
 
 			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
 

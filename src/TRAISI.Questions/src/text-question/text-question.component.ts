@@ -1,27 +1,29 @@
-import {Component, OnInit, OnDestroy, Inject, EventEmitter} from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
 import {
 	OnVisibilityChanged,
 	SurveyViewer,
 	OnSurveyQuestionInit,
 	QuestionConfiguration,
-	SurveyQuestion,
 	QuestionResponseState,
 	TRAISI
-
-
 } from 'traisi-question-sdk';
-
 
 @Component({
 	selector: 'traisi-text-question',
 	template: require('./text-question.component.html').toString(),
 	styles: [require('./text-question.component.scss').toString()]
 })
-export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
-
+export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.String>
+	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit {
 	typeName: string;
 	icon: string;
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
+
+	public inputText: string;
+
+	@ViewChild('textInput')
+	textInput: HTMLInputElement;
+
 	onQuestionShown(): void {
 		console.log('shown');
 	}
@@ -29,10 +31,6 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnIn
 	onQuestionHidden(): void {
 		console.log('hidde');
 	}
-
-
-
-
 
 	/**
 	 *
@@ -42,8 +40,6 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnIn
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
-
-
 	}
 
 	ngOnInit() {
@@ -51,10 +47,20 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion implements OnIn
 	}
 
 	/**
+	 * This will write a new response o the server
+	 *
+	 * @memberof TextQuestionComponent
+	 */
+	handleComponentBlur(): void {
+		let data: TRAISI.StringResponseData = {
+			value: this.inputText + 'cat'
+		};
+		this.response.emit(data);
+	}
+
+	/**
 	 *
 	 * @param configuration
 	 */
-	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {
-
-	}
+	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {}
 }

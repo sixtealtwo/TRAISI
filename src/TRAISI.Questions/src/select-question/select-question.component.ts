@@ -1,17 +1,14 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {
 	OnOptionsLoaded,
 	QuestionConfiguration,
 	QuestionOption,
-	SurveyQuestion,
 	SurveyResponder,
 	SurveyViewer,
 	TRAISI
 } from 'traisi-question-sdk';
-import {Select2OptionData} from 'ng2-select2';
+import { Select2OptionData } from 'ng2-select2';
 
-
-//declare the jQuery global variable
 declare var $: any;
 
 @Component({
@@ -19,8 +16,8 @@ declare var $: any;
 	template: require('./select-question.component.html').toString(),
 	styles: [require('./select-question.component.scss').toString()]
 })
-export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, OnOptionsLoaded, SurveyQuestion {
-
+export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List>
+	implements OnInit, OnOptionsLoaded {
 	readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
 	typeName: string;
@@ -30,8 +27,8 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements On
 
 	optionData: Array<Select2OptionData>;
 
-	@ViewChild('select') selectElement: ElementRef;
-
+	@ViewChild('select')
+	selectElement: ElementRef;
 
 	/**
 	 *
@@ -39,9 +36,10 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements On
 	 * @param surveyResponderService
 	 * @param cdr
 	 */
-	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
-				@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder,
-				private cdr: ChangeDetectorRef
+	constructor(
+		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
+		@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder,
+		private cdr: ChangeDetectorRef
 	) {
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
@@ -49,7 +47,6 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements On
 		this.options = [];
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 		this.optionData = [];
-
 	}
 
 	/**
@@ -57,14 +54,10 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements On
 	 * @param data
 	 */
 	loadConfigurationData(data: QuestionConfiguration[]) {
-
 		console.log(data);
 	}
 
-	ngOnInit() {
-
-
-	}
+	ngOnInit() {}
 
 	/**
 	 *
@@ -80,6 +73,5 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion implements On
 			});
 		}
 		this.cdr.detectChanges();
-
 	}
 }

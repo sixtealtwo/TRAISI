@@ -67,6 +67,7 @@ export class QuestionContainerComponent implements OnInit {
 						(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 					}
 
+					this.responderService.registerQuestion(componentRef.instance);
 
 				});
 			});

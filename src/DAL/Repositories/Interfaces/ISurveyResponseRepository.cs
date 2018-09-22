@@ -15,5 +15,13 @@ namespace DAL.Repositories.Interfaces {
 		/// <returns></returns>
 		Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync(int questionId, string shortcode);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="questionName"></param>
+		/// <returns></returns>
+        Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName);
+
 	}
 }

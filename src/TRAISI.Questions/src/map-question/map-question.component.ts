@@ -1,10 +1,18 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
-import {Result} from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
-import {MapComponent} from 'ngx-mapbox-gl';
-import {LngLatLike, MapMouseEvent} from 'mapbox-gl';
-import {MapEndpointService} from '../services/mapservice.service';
-import {GeoLocation} from '../models/geo-location.model';
-import {QuestionResponseState, SurveyQuestion, TRAISI} from 'traisi-question-sdk';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	EventEmitter,
+	OnInit,
+	ViewChild
+} from '@angular/core';
+import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
+import { MapComponent } from 'ngx-mapbox-gl';
+import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
+import { MapEndpointService } from '../services/mapservice.service';
+import { GeoLocation } from '../models/geo-location.model';
+import { QuestionResponseState, TRAISI } from 'traisi-question-sdk';
 
 let markerIconImage = require('./assets/default-marker.png');
 
@@ -13,21 +21,25 @@ let markerIconImage = require('./assets/default-marker.png');
 	template: require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnInit, AfterViewInit, SurveyQuestion {
+export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Location>
+	implements OnInit, AfterViewInit {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
-	
-
-	typeName: string;
-	icon: string;
 
 	public locationSearch: string;
 	public markerPosition: LngLatLike = [-79.4, 43.67];
 
-	@ViewChild('mapbox') mapGL: MapComponent;
-	@ViewChild('geocoder') mapGeocoder: any;
-	@ViewChild('geoLocator') mapGeoLocator: any;
+	public typeName: string;
+	public icon: string;
 
-	@ViewChild('mapMarker') mapMarker: ElementRef;
+	@ViewChild('mapbox')
+	mapGL: MapComponent;
+	@ViewChild('geocoder')
+	mapGeocoder: any;
+	@ViewChild('geoLocator')
+	mapGeoLocator: any;
+
+	@ViewChild('mapMarker')
+	mapMarker: ElementRef;
 
 	/**
 	 *
@@ -44,7 +56,6 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnIni
 		this.configureMapSettings();
 
 		this.mapMarker.nativeElement.src = markerIconImage;
-
 	}
 
 	ngAfterViewInit() {
@@ -60,6 +71,8 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnIni
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
+
+		console.log(event);
 	}
 
 	/**
@@ -68,15 +81,21 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnIni
 	 */
 	userLocate(e: Position) {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
-		this.mapEndpointService.reverseGeocode(e.coords.latitude, e.coords.longitude).subscribe((result: GeoLocation) => {
-			this.locationSearch = result.address;
-			this.mapGeocoder.control._inputEl.value = result.address;
-			this.cdRef.detectChanges();
-		});
+		this.mapEndpointService
+			.reverseGeocode(e.coords.latitude, e.coords.longitude)
+			.subscribe((result: GeoLocation) => {
+				this.locationSearch = result.address;
+				this.mapGeocoder.control._inputEl.value = result.address;
+
+	
+
+				this.cdRef.detectChanges();
+
+	
+			});
 	}
 
-	onDragStart(event: any) {
-	}
+	onDragStart(event: any) {}
 
 	/**
 	 *
@@ -86,15 +105,36 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnIni
 		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
 			this.mapGeocoder.control._inputEl.value = result.address;
+
+			let data: TRAISI.LocationResponseData = {
+				latitude: event.lngLat.lat,
+				longitude: event.lngLat.lng,
+				address: <string>result.address
+			};
+
+			console.log('Sending ' + data);
+			this.saveResponse(data);
+
 		});
+	}
+
+	/**
+	 * Save the response to the response handler
+	 *
+	 * @private
+	 * @param {*} coords
+	 * @param {*} address
+	 * @memberof MapQuestionComponent
+	 */
+	private saveResponse(data: TRAISI.LocationResponseData) {
+		this.response.emit(data);
 	}
 
 	/**
 	 *
 	 * @param event
 	 */
-	onDrag(event: MapMouseEvent) {
-	}
+	onDrag(event: MapMouseEvent) {}
 
 	/**
 	 *
@@ -104,6 +144,8 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion implements OnIni
 		if (event.lngLat) {
 			this.markerPosition = event.lngLat;
 			this.onDragEnd(event);
+
+
 		}
 	}
 

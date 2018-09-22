@@ -4,6 +4,7 @@
       "module": "es6",
       "declaration": true,
       "moduleResolution": "node",
+      "strictFunctionTypes": false,
       "outDir": "./dist",
       "strict": true,
       "lib": ["es5", "es2015", "dom", "scripthost"]

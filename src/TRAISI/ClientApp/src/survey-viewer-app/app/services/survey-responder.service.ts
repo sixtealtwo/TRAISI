@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
-import {SurveyResponder, TRAISI} from 'traisi-question-sdk';
-import {SurveyResponderEndpointService} from './survey-responder-endpoint.service';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { SurveyResponder, TRAISI } from 'traisi-question-sdk';
+import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class SurveyResponderService implements SurveyResponder {
 	saveStringResponse(data: string): Observable<any> {
-
 		return null;
 	}
 
@@ -46,11 +45,12 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param {*} questionComponent
 	 * @memberof SurveyResponderService
 	 */
-	public registerQuestion(questionComponent: TRAISI.SurveyQuestion)
-	{
+	public registerQuestion(questionComponent: TRAISI.SurveyQuestion<any>) {
+		console.log('Inside requesting loading');
+		console.log(questionComponent);
+
 		questionComponent.response.subscribe(this.handleResponse, error => {
 			console.log('An error occurred subscribing to ' + questionComponent + ' responses');
-
 		});
 	}
 
@@ -61,30 +61,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param {*} respone
 	 * @memberof SurveyResponderService
 	 */
-	private handleResponse(response: TRAISI.Response)
-	{
-		switch (response.responseType) {
-			case 'text':
-				this.saveStringResponse(response.responseData);
-				break;
-			case 'boolean':
-				this.saveBooleanResponse(response.responseData);
-				break;
-			case 'integer':
-				this.saveIntegerResponse(response.responseData);
-				break;
-			case 'json':
-				this.saveJsonResponse(response.responseData);
-				break;
-			case 'datetime':
-				this.saveDateTimeResponse(response.responseData);
-				break;
-			case 'location':
-				this.saveLocationResponse(response.responseData);
-				break;
+	private handleResponse(response: TRAISI.ResponseData<any>) {
+		if (response instanceof TRAISI.StringResponseData) {
+			console.log('string respoinse');
 		}
 	}
 
-	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {
-	}
+	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {}
 }

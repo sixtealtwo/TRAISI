@@ -17,9 +17,11 @@
 		"module": "es2015",
 		"types": ["node"],
 		"paths": {
-
+			"traisi-sdk/*": [
+			  "../../../../TRAISI.SDK/Module/src/*"
+			],
 			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Module/src"
+			  "../../../../TRAISI.SDK/Module/src/*"
 			]
 		}
 	},

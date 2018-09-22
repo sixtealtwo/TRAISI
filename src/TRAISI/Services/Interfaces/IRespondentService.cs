@@ -25,6 +25,6 @@ namespace TRAISI.Services.Interfaces
         /// <param name="shortcode"></param>
         /// <param name="questionId"></param>
         /// <returns></returns>
-        Task<List<SurveyResponse>> ListResponses(int surveyId, string shortcode, int questionId);
+        Task<List<SurveyResponse>> ListResponses(int surveyId, string questionName);
     }
 }

@@ -6,7 +6,7 @@ import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
 	template: require('./range-question.component.html').toString(),
 	styles: [require('./range-question.component.scss').toString()]
 })
-export class RangeQuestionComponent extends TRAISI.SurveyQuestion implements OnInit {
+export class RangeQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Range> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Range Question';
 
 	typeName: string;
