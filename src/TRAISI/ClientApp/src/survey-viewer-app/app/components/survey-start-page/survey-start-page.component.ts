@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
-import { AuthService } from '../../../../shared/services/auth.service';
-import { User } from '../../../../shared/models/user.model';
+import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -37,7 +35,6 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param router
 	 */
 	constructor(
-		private alertService: AlertService,
 		private surveyViewerService: SurveyViewerService,
 		private route: ActivatedRoute,
 		private router: Router,
@@ -71,14 +68,6 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 	}
 
-	/**
-	 *
-	 * @param caption
-	 * @param message
-	 */
-	showErrorAlert(caption: string, message: string): void {
-		this.alertService.showMessage(caption, message, MessageSeverity.error);
-	}
 
 	/**
 	 * Starts the survey - this will authorize the current user with the associated
@@ -105,7 +94,7 @@ export class SurveyStartPageComponent implements OnInit {
 			error => {
 				this.isLoading = false;
 				this.isError = true;
-				this.showErrorAlert('Error', 'Some error with the shortcode');
+
 			}
 		);
 	}

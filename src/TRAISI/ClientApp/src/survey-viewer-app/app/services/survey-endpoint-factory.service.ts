@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {EndpointFactory} from '../../../shared/services';
+
 import {Observable, throwError as observableThrowError} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
+import { EndpointFactory } from 'shared/services/endpoint-factory.service';
 
 @Injectable()
 export class SurveyEndpointFactoryService extends EndpointFactory {

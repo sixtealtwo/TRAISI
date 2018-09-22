@@ -1,11 +1,13 @@
-import {EndpointFactory} from '../../../shared/services/endpoint-factory.service';
-import {Injectable, Injector} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ConfigurationService} from '../../../shared/services/configuration.service';
-import {catchError} from 'rxjs/internal/operators/catchError';
-import {Observable} from 'rxjs';
+import { EndpointFactory } from 'shared/services/endpoint-factory.service';
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ConfigurationService } from 'shared/services/configuration.service';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class QuestionLoaderEndpointService extends EndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
 
@@ -17,7 +19,6 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 		return this._surveyViewQuestionsUrl + '/client-code';
 	}
 
-
 	/**
 	 * Returns all available question type definitions
 	 * @returns {Observable<T>}
@@ -27,9 +28,7 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getQuestionTypesEndpoint()
-				);
+				return this.handleError(error, () => this.getQuestionTypesEndpoint());
 			})
 		);
 	}
@@ -52,12 +51,8 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getClientCodeEndpoint(questionType)
-				);
+				return this.handleError(error, () => this.getClientCodeEndpoint(questionType));
 			})
 		);
 	}
-
-
 }

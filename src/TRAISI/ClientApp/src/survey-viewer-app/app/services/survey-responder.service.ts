@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SurveyResponder, TRAISI, OnSaveResponseStatus } from 'traisi-question-sdk';
+import { SurveyResponder, TRAISI, OnSaveResponseStatus } from '../../../../../../TRAISI.SDK/Module/src';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
@@ -8,6 +8,7 @@ import { SurveyViewerService } from './survey-viewer.service';
 	providedIn: 'root'
 })
 export class SurveyResponderService implements SurveyResponder {
+	id: number;
 	/**
 	 *
 	 *

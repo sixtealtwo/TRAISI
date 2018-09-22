@@ -22,7 +22,10 @@
 			],
 			"traisi-question-sdk": [
 			  "../../../../TRAISI.SDK/Module/src/"
-			]
+			],
+			"shared/*": [
+				"../shared/*"
+			  ]
 		}
 	},
 	"include": [

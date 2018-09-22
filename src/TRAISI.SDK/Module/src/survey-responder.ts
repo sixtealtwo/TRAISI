@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs';
-
-export interface SurveyResponder {}
+export interface SurveyResponder {
+	id: number;
+}
 
 /*
         String,

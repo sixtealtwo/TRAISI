@@ -9,10 +9,10 @@ import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
-import { LoginResponse, IdToken } from '../models/login-response.model';
-import { User } from '../models/user.model';
-import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
-import { SurveyUser } from '../models/survey-user.model';
+import { LoginResponse, IdToken } from 'shared/models/login-response.model';
+import { User } from 'shared/models/user.model';
+import { Permission, PermissionNames, PermissionValues } from 'shared/models/permission.model';
+import { SurveyUser } from 'shared/models/survey-user.model';
 
 @Injectable()
 export class AuthService {

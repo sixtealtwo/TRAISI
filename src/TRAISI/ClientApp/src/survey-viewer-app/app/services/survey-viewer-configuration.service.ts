@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {LocalStoreManager} from '../../../shared/services/local-store-manager.service';
-import {AppTranslationService} from '../../../shared/services/app-translation.service';
+import {LocalStoreManager} from 'shared/services/local-store-manager.service';
+import {AppTranslationService} from 'shared/services/app-translation.service';
 import {SurveyViewerTranslationService} from './survey-viewer-translation.service';
-import {DBkeys} from '../../../shared/services/db-keys';
+import {DBkeys} from 'shared/services/db-keys';
 
 @Injectable({providedIn: 'root'})
 export class SurveyViewerConfigurationService  {
