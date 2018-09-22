@@ -10,7 +10,7 @@ namespace DAL.Repositories
 {
     public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository
     {
-
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
         public SurveyResponseRepository(DbContext context) : base(context)
         {
 
@@ -44,6 +44,22 @@ namespace DAL.Repositories
 Where(q => q.QuestionPart.Name.ToLower() == questionName.ToLower())
 .Include(s => s.ResponseValue).
 ThenInclude(s => s.SurveyResponse).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, ApplicationUser user)
+        {
+
+           var result = await this._entities.
+           Where(r => r.QuestionPart.Parent.SurveyView.Survey.Id == surveyId && r.Respondent == user)
+           .ToListAsync();
+           
+            return result;
         }
 
     }

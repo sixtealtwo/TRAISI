@@ -23,5 +23,7 @@ namespace DAL.Repositories.Interfaces {
 		/// <returns></returns>
         Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName);
 
+
+		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, ApplicationUser user);
 	}
 }

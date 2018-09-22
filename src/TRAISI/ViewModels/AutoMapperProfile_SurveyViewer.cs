@@ -17,6 +17,7 @@ using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.Questions;
 using TRAISI.SDK;
 using System.Collections.Concurrent;
+using Newtonsoft.Json;
 
 namespace TRAISI.ViewModels
 {
@@ -124,8 +125,11 @@ namespace TRAISI.ViewModels
                         svm.Configuration = new ConcurrentDictionary<string, object>();
                         s.QuestionPart.QuestionConfigurations.AsParallel().ForAll(a =>
                         {
+                          
                             svm.Configuration[a.Name] = a.Value;
                         });
+
+                        
                     }
 
                 });

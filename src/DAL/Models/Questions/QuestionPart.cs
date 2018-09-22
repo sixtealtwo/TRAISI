@@ -46,5 +46,13 @@ namespace DAL.Models.Questions
         //Whether this question part is responded to by the respondent group
         public bool IsGroupQuestion { get; set; } = false;
 
+        /// <summary>
+        /// parent reference
+        /// </summary>
+        /// <value></value>
+        public QuestionPartView Parent {get;set;}
+
+        public int ParentQuestionPartViewRef { get; set; }
+
     }
 }

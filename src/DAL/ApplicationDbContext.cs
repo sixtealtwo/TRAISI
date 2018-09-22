@@ -129,14 +129,16 @@ namespace DAL
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
+          
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
             //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
+
 
             builder.Entity<QuestionPartView>().HasMany(s => s.Labels).WithOne(l => l.QuestionPartView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
 
-
+            builder.Entity<QuestionPartView>().HasOne(q => q.QuestionPart).WithOne(q2 => q2.Parent).HasForeignKey<QuestionPart>(k => k.ParentQuestionPartViewRef);
             builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels);
             builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(o => o.TargetOption).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().ToTable($"{nameof(this.QuestionOptions)}");

@@ -271,6 +271,38 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionConfigurations");
                 });
 
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConfigurationLabel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Language");
+
+                    b.Property<int?>("QuestionConfigurationId");
+
+                    b.Property<int>("QuestionOptionId");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("UpdatedDate");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionConfigurationId");
+
+                    b.HasIndex("QuestionOptionId");
+
+                    b.ToTable("QuestionConfigurationLabel");
+                });
+
             modelBuilder.Entity("DAL.Models.Questions.QuestionOption", b =>
                 {
                     b.Property<int>("Id")
@@ -348,11 +380,16 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("ParentQuestionPartViewRef");
+
                     b.Property<int?>("QuestionPartId");
 
                     b.Property<string>("QuestionType");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentQuestionPartViewRef")
+                        .IsUnique();
 
                     b.HasIndex("QuestionPartId");
 
@@ -368,8 +405,6 @@ namespace TRAISI.Migrations
 
                     b.Property<int?>("ParentViewId");
 
-                    b.Property<int?>("QuestionPartId");
-
                     b.Property<int?>("SurveyViewId");
 
                     b.Property<bool>("isHousehold");
@@ -381,8 +416,6 @@ namespace TRAISI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ParentViewId");
-
-                    b.HasIndex("QuestionPartId");
 
                     b.HasIndex("SurveyViewId");
 
@@ -1136,6 +1169,18 @@ namespace TRAISI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConfigurationLabel", b =>
+                {
+                    b.HasOne("DAL.Models.Questions.QuestionConfiguration")
+                        .WithMany("QuestionConfigurationLabels")
+                        .HasForeignKey("QuestionConfigurationId");
+
+                    b.HasOne("DAL.Models.Questions.QuestionOption", "QuestionOption")
+                        .WithMany()
+                        .HasForeignKey("QuestionOptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DAL.Models.Questions.QuestionOption", b =>
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPart")
@@ -1167,6 +1212,11 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPart", b =>
                 {
+                    b.HasOne("DAL.Models.Questions.QuestionPartView", "Parent")
+                        .WithOne("QuestionPart")
+                        .HasForeignKey("DAL.Models.Questions.QuestionPart", "ParentQuestionPartViewRef")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionPartChildren")
                         .HasForeignKey("QuestionPartId");
@@ -1178,10 +1228,6 @@ namespace TRAISI.Migrations
                         .WithMany("QuestionPartViewChildren")
                         .HasForeignKey("ParentViewId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
-                        .WithMany()
-                        .HasForeignKey("QuestionPartId");
 
                     b.HasOne("DAL.Models.Surveys.SurveyView", "SurveyView")
                         .WithMany("QuestionPartViews")
