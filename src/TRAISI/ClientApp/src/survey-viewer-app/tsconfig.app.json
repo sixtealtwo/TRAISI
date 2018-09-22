@@ -13,7 +13,7 @@
 		"types": ["node"],
 		"paths": {
 			"traisi-question-sdk": ["../../../../TRAISI.SDK/Module/"],
-			"shared/*": ["../shared/*"]
+			"shared/*": ["../shared/*"],
 		}
 	},
 	"include": ["../shared/**/*.ts", "./**/*.ts"],

@@ -16,7 +16,8 @@
 			"traisi-question-sdk": ["../../TRAISI.SDK/Module/"],
 			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
 			"questions/*": ["../../Questions/*"],
-			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"]
+			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
+			"shared/*": ["./src/shared/*"]
 		}
 	},
 	"include": ["./src/shared/**/*.ts"],

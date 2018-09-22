@@ -1,4 +1,4 @@
-import { PermissionValues } from 'shared/models/permission.model';
+import { PermissionValues } from './permission.model';
 
 
 export interface LoginResponse {

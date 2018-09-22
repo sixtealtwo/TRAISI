@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { SurveyViewer, QuestionConfiguration, TRAISI } from 'traisi-question-sdk';
 import { PartialObserver } from 'rxjs';
+import { NumberQuestionConfiguration } from './numer-question.configuration';
 @Component({
 	selector: 'traisi-number-question',
 	template: require('./number-question.component.html').toString(),
@@ -13,6 +14,8 @@ export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 	typeName: string;
 	icon: string;
 
+	configuration: NumberQuestionConfiguration;
+
 	/**
 	 *
 	 * @param surveyViewerService
@@ -23,11 +26,11 @@ export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 		this.icon = 'number';
 	}
 
-	/**
-	 * Loads configuration data once it is available.
-	 * @param data
-	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+
+		console.log(this.configuration);
+	}
 }
+
+ 
