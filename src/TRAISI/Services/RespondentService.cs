@@ -62,18 +62,43 @@ namespace TRAISI.Services
 
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
+            ResponseValue responseValue = null;
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:
-                    return await SaveStringResponse(survey, question, user, responseData);
+                    responseValue = SaveStringResponse(survey, question, user, responseData);
+                    break;
 
                 case QuestionResponseType.Location:
-                    return await SaveStringResponse(survey, question, user, responseData);
+                    responseValue = SaveLocationResponse(survey, question, user, responseData);
+                    break;
+                case QuestionResponseType.Timeline:
+                    responseValue = SaveTimelineResponse(survey, question, user, responseData);
+                    break;
                 default:
                     break;
             }
 
-            return false;
+            SurveyResponse response = new SurveyResponse()
+            {
+                ResponseValue = responseValue,
+                QuestionPart = question,
+                Respondent = user,
+            };
+            try
+            {
+                await this._unitOfWork.SurveyResponses.AddAsync(response);
+                await this._unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                this._logger.LogError(e, "Error saving response.");
+                return false;
+            }
+
+            return true;
+
+
 
 
         }
@@ -86,32 +111,29 @@ namespace TRAISI.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal async Task<bool> SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
+        internal ResponseValue SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
         {
-            SurveyResponse response = new SurveyResponse()
+            return new StringResponse()
             {
-                ResponseValue = new StringResponse()
-                {
-                    Value = "Placeholder"
-                },
-                QuestionPart = question,
-                Respondent = respondent
+                Value = responseData.GetValue("value").ToObject<string>()
             };
-            try
-            {
-                await this._unitOfWork.SurveyResponses.AddAsync(response);
-				await this._unitOfWork.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                this._logger.LogError(e, "Error saving String response type.");
-				return false;
-            }
-
-            
-
-            return true;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="question"></param>
+        /// <param name="respondent"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        internal ResponseValue SaveTimelineResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject response)
+        {
+            LocationResponse val = response.ToObject<TimelineResponse>();
+
+            return val;
+        }
+
 
         /// <summary>
         /// 
@@ -121,31 +143,14 @@ namespace TRAISI.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal async Task<bool> SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
+        internal ResponseValue SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
         {
-            SurveyResponse response = new SurveyResponse()
-            {
-                ResponseValue = new LocationResponse()
-                {
-                    Address = "Cat",
-                    Latitude = 0,
-                    Longitude = 0
-                },
-                QuestionPart = question,
-                Respondent = respondent,
-            };
-            try
-            {
-                await this._unitOfWork.SurveyResponses.AddAsync(response);
-				await this._unitOfWork.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                this._logger.LogError(e, "Error saving Location response type.");
-				return false;
-            }
-            
-            return true;
+
+            LocationResponse locationResponseValue = responseData.ToObject<LocationResponse>();
+
+            return locationResponseValue;
+
+
         }
 
 
