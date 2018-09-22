@@ -48,7 +48,7 @@ export class QuestionContainerComponent implements OnInit {
 		this.questionLoaderService
 			.loadQuestionComponent(this.question.questionType, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
-				(<TRAISI.SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
+				(<TRAISI.SurveyQuestion<any>>componentRef.instance).loadConfiguration(this.question.configuration);
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {

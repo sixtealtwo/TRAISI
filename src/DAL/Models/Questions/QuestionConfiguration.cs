@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using DAL.Models.Extensions;
 using DAL.Models.Questions;
 
 namespace DAL.Models.Questions
@@ -10,9 +11,15 @@ namespace DAL.Models.Questions
     {
         public int Id { get; set; }
 
+        /// <summary>
+        /// The name or "key" of this configuration - it should be object and javascript friendly -- ie no spaces
+        /// </summary>
+        /// <value></value>
         public string Name { get; set; }
 
         public string Value { get; set; }
+
+        public LabelCollection<QuestionConfigurationLabel> QuestionConfigurationLabels { get; set; }
 
     }
 

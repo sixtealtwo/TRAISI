@@ -24,16 +24,6 @@ export class LikertQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'likert';
-
-		this._surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
-	}
-
-	/**
-	 * Loads configuration data once it is available.
-	 * @param data
-	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {
-		this.data = data;
 	}
 
 	ngOnInit() {}

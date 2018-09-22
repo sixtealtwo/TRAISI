@@ -18,6 +18,17 @@ export namespace TRAISI {
 
 		data: Array<any>;
 
+		/**
+		 *
+		 *
+		 * @private
+		 * @param {QuestionConfiguration} configuration
+		 * @memberof SurveyQuestion
+		 */
+		public loadConfiguration(configuration: QuestionConfiguration): void {
+			this.configuration = configuration;
+		}
+
 		constructor() {
 			this.state = QuestionResponseState.PRISTINE;
 			this.response = new EventEmitter<ResponseData<T>>();
