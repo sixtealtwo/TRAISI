@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,13 +14,18 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Helpers
 {
-    public class QuestionTypeManager : IQuestionTypeManager
+    public class QuestionTypeManager : AssemblyLoadContext, IQuestionTypeManager
     {
         private readonly IConfiguration _configuration;
 
         private readonly ILogger<QuestionTypeManager> _logger;
 
         private readonly ILoggerFactory _loggerFactory;
+
+        private Dictionary<string, Assembly> _fileAssemblyMap;
+
+
+        private AppDomain _extensionAppDomain;
 
         /// <summary>
         /// </summary>
@@ -32,8 +38,59 @@ namespace TRAISI.Helpers
 
             _logger = loggerFactory.CreateLogger<QuestionTypeManager>();
             QuestionTypeDefinitions = new Dictionary<string, QuestionTypeDefinition>();
+
+            this._fileAssemblyMap = new Dictionary<string, Assembly>();
+
+
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            var path = Path.GetFullPath(e.FullPath);
+            if (_fileAssemblyMap.Keys.Contains(path))
+            {
+                _logger.LogWarning("Extension assembly was deleted.");
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            var path = Path.GetFullPath(e.FullPath);
+            if (_fileAssemblyMap.Keys.Contains(path))
+            {
+                _logger.LogWarning($"Extension {e.Name} has been changed. Reloading.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
+        {
+            Console.WriteLine("in created");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetExtensions()
+        {
+            _fileAssemblyMap.Clear();
+            this.QuestionTypeDefinitions.Clear();
+        }
 
         /// <summary>
         /// </summary>
@@ -43,7 +100,7 @@ namespace TRAISI.Helpers
             LoadQuestionTypeDefinitions(extensionList);
         }
 
-        public Dictionary<string,QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+        public Dictionary<string, QuestionTypeDefinition> QuestionTypeDefinitions { get; }
 
 
         /// <summary>
@@ -69,11 +126,11 @@ namespace TRAISI.Helpers
             ReadLocaleData(sourceAssembly);
             GetTypeClientData(typeDefinition, sourceAssembly);
 
-			foreach(var locale in locales.Keys)
-			{
-				typeDefinition.TypeNameLocales[locale] = locales[locale][typeDefinition.TypeName.ToLower()];
+            foreach (var locale in locales.Keys)
+            {
+                typeDefinition.TypeNameLocales[locale] = locales[locale][typeDefinition.TypeName.ToLower()];
 
-			}
+            }
 
             return typeDefinition;
         }
@@ -315,6 +372,11 @@ namespace TRAISI.Helpers
         /// </summary>
         private List<Assembly> LoadExtensionAssemblies()
         {
+
+
+
+
+
             var extensionAssemblies = new List<Assembly>();
             _logger.LogInformation("Loading TRAISI extensions");
             if (!Directory.Exists("extensions"))
@@ -334,7 +396,12 @@ namespace TRAISI.Helpers
                 try
                 {
                     var loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
-                    extensionAssemblies.Add(Assembly.LoadFile(loadFrom));
+                    byte[] assemblyData = File.ReadAllBytes(loadFrom);
+                    Assembly assembly = this.LoadFromStream(new MemoryStream(assemblyData));
+
+                    //Assembly assembly = Assembly.Load(assemblyData);
+                    _fileAssemblyMap[loadFrom] = assembly;
+                    extensionAssemblies.Add(assembly);
                     _logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
                 }
                 catch (Exception e)
@@ -372,9 +439,9 @@ namespace TRAISI.Helpers
                         {
                             if (attribute.GetType() == typeof(SurveyQuestionAttribute))
                             {
-                                var questionType = CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly,locales);
+                                var questionType = CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly, locales);
 
-							
+
                             }
                         }
                     }
@@ -390,6 +457,11 @@ namespace TRAISI.Helpers
 
 
             }
+        }
+
+        protected override Assembly Load(AssemblyName assemblyName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
