@@ -5,7 +5,6 @@ import {
 	SurveyResponder,
 	QuestionResponseState,
 	TRAISI
-	
 } from 'traisi-question-sdk';
 
 @Component({
@@ -18,7 +17,6 @@ export class TimeQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 
 	typeName: string;
 	icon: string;
-
 
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,

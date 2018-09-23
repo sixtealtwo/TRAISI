@@ -15,7 +15,7 @@ import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
 import * as NgxBootstrap from 'ngx-bootstrap';
-
+import * as PlatformBrowser from '@angular/platform-browser';
 
 import 'rxjs/add/observable/of';
 import {find} from 'lodash';
@@ -58,6 +58,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
+		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(AngularForms));
 		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(NgxBootstrap));
 
 
@@ -97,6 +98,8 @@ export class QuestionLoaderService {
 					)
 						.then(module => {
 
+
+
 							const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 							const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
 
@@ -130,6 +133,7 @@ export class QuestionLoaderService {
 		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
+
 
 		const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widget.component);
 

@@ -14,7 +14,7 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Helpers
 {
-    public class QuestionTypeManager : AssemblyLoadContext, IQuestionTypeManager
+    public class QuestionTypeManager : IQuestionTypeManager
     {
         private readonly IConfiguration _configuration;
 
@@ -374,9 +374,6 @@ namespace TRAISI.Helpers
         {
 
 
-
-
-
             var extensionAssemblies = new List<Assembly>();
             _logger.LogInformation("Loading TRAISI extensions");
             if (!Directory.Exists("extensions"))
@@ -397,7 +394,7 @@ namespace TRAISI.Helpers
                 {
                     var loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
                     byte[] assemblyData = File.ReadAllBytes(loadFrom);
-                    Assembly assembly = this.LoadFromStream(new MemoryStream(assemblyData));
+                    Assembly assembly = Assembly.Load(assemblyData);
 
                     //Assembly assembly = Assembly.Load(assemblyData);
                     _fileAssemblyMap[loadFrom] = assembly;
@@ -459,9 +456,6 @@ namespace TRAISI.Helpers
             }
         }
 
-        protected override Assembly Load(AssemblyName assemblyName)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

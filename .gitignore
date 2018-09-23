@@ -1,6 +1,8 @@
 /src/TRAISI/Properties/launchSettings.json
 /src/TRAISI/Properties/PublishProfiles
 /src/TRAISI/_Factory
+
+/src/TRAISI/development/
 ## /src/TRAISI/Migrations
 
 ## Ignore Visual Studio temporary files, build results, and
