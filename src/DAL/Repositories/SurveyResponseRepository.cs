@@ -58,7 +58,10 @@ namespace DAL.Repositories {
 		/// <returns></returns>
 		public async Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId,
 			ApplicationUser user) {
-			return null;
+			var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId)
+				.ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).FirstOrDefault();
+
+			return result;
 		}
 	}
 }

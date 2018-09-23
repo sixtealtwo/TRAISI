@@ -75,8 +75,6 @@ namespace TRAISI.Services
                 case QuestionResponseType.Timeline:
                     responseValue = SaveTimelineResponse(survey, question, user, responseData);
                     break;
-                default:
-                    break;
             }
 
             SurveyResponse response = new SurveyResponse()
@@ -169,6 +167,21 @@ namespace TRAISI.Services
 
             return new List<SurveyResponse>();
 
+        }
+        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="List"></typeparam>
+        /// <returns></returns>
+        public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int questionId,
+            ApplicationUser user) {
+            var response =
+                await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
+                    user);
+
+            return response;
         }
     }
 }
