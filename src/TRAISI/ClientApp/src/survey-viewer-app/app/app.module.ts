@@ -33,6 +33,7 @@ import { LocalStoreManager } from 'shared/services/local-store-manager.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from 'shared/services/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -54,6 +55,7 @@ import { AuthService } from 'shared/services/auth.service';
 		HttpClientModule,
 		BrowserAnimationsModule,
 		FormsModule,
+		FontAwesomeModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,

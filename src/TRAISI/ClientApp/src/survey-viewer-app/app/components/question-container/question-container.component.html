@@ -1,10 +1,10 @@
-<section class="widget">
-	<header>
-		<h5 [innerHTML]="question.label | safeHtml"></h5>
+<section class="widget card border-primary mb-3">
+	<div class="card-header">
+		<span [innerHTML]="question.label | safeHtml"></span>
 
-	</header>
+	</div>
 
-	<div class="widget-body">
+	<div class="card-body">
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate">
 

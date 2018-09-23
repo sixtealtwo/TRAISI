@@ -1,28 +1,47 @@
-import {NgModule} from '@angular/core';
-import {TextQuestionComponent} from './text-question/text-question.component';
-import {RadioQuestionComponent} from './radio-question/radio-question.component';
-import {HttpClientModule} from '@angular/common/http';
-import {CheckboxQuestionComponent} from './checkbox-question/checkbox-question.component';
-import {LikertQuestionComponent} from './likert-question/likert-question.component';
-import {MatrixQuestionComponent} from './matrix-question/matrix-question.component';
-import {NumberQuestionComponent} from './number-question/number-question.component';
-import {RangeQuestionComponent} from './range-question/range-question.component';
-import {SelectQuestionComponent} from './select-question/select-question.component';
-import {HeadingQuestionComponent} from './heading-question/heading-question.component';
-import {DateQuestionComponent} from './date-question/date-question.component';
-import {TimeQuestionComponent} from './time-question/time-question.component';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Select2Module} from 'ng2-select2';
-import {BsDatepickerModule} from 'ngx-bootstrap';
-
+import { NgModule } from '@angular/core';
+import { TextQuestionComponent } from './text-question/text-question.component';
+import { RadioQuestionComponent } from './radio-question/radio-question.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CheckboxQuestionComponent } from './checkbox-question/checkbox-question.component';
+import { LikertQuestionComponent } from './likert-question/likert-question.component';
+import { MatrixQuestionComponent } from './matrix-question/matrix-question.component';
+import { NumberQuestionComponent } from './number-question/number-question.component';
+import { RangeQuestionComponent } from './range-question/range-question.component';
+import { SelectQuestionComponent } from './select-question/select-question.component';
+import { HeadingQuestionComponent } from './heading-question/heading-question.component';
+import { DateQuestionComponent } from './date-question/date-question.component';
+import { TimeQuestionComponent } from './time-question/time-question.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Select2Module } from 'ng2-select2';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
-	declarations: [TextQuestionComponent, RadioQuestionComponent,
-		NumberQuestionComponent, RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent,
-		HeadingQuestionComponent, TimeQuestionComponent, DateQuestionComponent, LikertQuestionComponent],
-	entryComponents: [TextQuestionComponent, RadioQuestionComponent, NumberQuestionComponent,
-		RangeQuestionComponent, CheckboxQuestionComponent, SelectQuestionComponent, HeadingQuestionComponent,
-		TimeQuestionComponent, DateQuestionComponent, LikertQuestionComponent],
+	declarations: [
+		TextQuestionComponent,
+		RadioQuestionComponent,
+		NumberQuestionComponent,
+		RangeQuestionComponent,
+		CheckboxQuestionComponent,
+		SelectQuestionComponent,
+		HeadingQuestionComponent,
+		TimeQuestionComponent,
+		DateQuestionComponent,
+		LikertQuestionComponent
+	],
+	entryComponents: [
+		TextQuestionComponent,
+		RadioQuestionComponent,
+		NumberQuestionComponent,
+		RangeQuestionComponent,
+		CheckboxQuestionComponent,
+		SelectQuestionComponent,
+		HeadingQuestionComponent,
+		TimeQuestionComponent,
+		DateQuestionComponent,
+		LikertQuestionComponent
+	],
 	providers: [
 		{
 			provide: 'widgets',
@@ -76,8 +95,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 					name: 'traisi-date-question',
 					id: 'date',
 					component: DateQuestionComponent
-				}
-				,
+				},
 				{
 					name: 'traisi-time-question',
 					id: 'time',
@@ -85,17 +103,15 @@ import {BsDatepickerModule} from 'ngx-bootstrap';
 				}
 			],
 			multi: true
-		},
-
+		}
 	],
 	imports: [
 		CommonModule,
+		FontAwesomeModule,
 		FormsModule,
 		HttpClientModule,
 		Select2Module,
 		BsDatepickerModule.forRoot()
-
 	]
 })
-export default class TraisiQuestions {
-}
+export default class TraisiQuestions {}

@@ -15,8 +15,8 @@ import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
 import * as NgxBootstrap from 'ngx-bootstrap';
-import * as PlatformBrowser from '@angular/platform-browser';
-
+import * as BrowserModule from '@angular/platform-browser';
+import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import {find} from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
@@ -58,9 +58,9 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
-		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(AngularForms));
+		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
 		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(NgxBootstrap));
-
+		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
 
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {

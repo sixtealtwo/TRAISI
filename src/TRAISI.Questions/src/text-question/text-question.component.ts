@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
+
 import {
 	OnVisibilityChanged,
 	SurveyViewer,
@@ -21,6 +22,8 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
 	public textInput: string;
+
+
 
 	@ViewChild('inputElement')
 	private textInputElement: HTMLInputElement;

@@ -84,7 +84,7 @@ module.exports = {
             callback();
         }
     ],*/
-    externals: [/^@angular/, /^ngx-bootstrap/],
+    externals: [/^@angular/, /^ngx-bootstrap/,/^@fortawesome/],
     plugins: [
         new CopyWebpackPlugin([
             { from: 'dist/', to: '../../TRAISI/development', toType: 'dir' },

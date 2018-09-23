@@ -56,5 +56,4 @@
   <ItemGroup>
     <None Remove="node_modules\**" />
   </ItemGroup>
-
 </Project>
