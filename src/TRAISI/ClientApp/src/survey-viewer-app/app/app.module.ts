@@ -34,6 +34,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from 'shared/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -64,7 +65,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 		}),
 		AppRoutingModule.forRoot(),
 		BsDatepickerModule.forRoot(),
-		AlertModule.forRoot()
+		AlertModule.forRoot(),
+		PopoverModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,

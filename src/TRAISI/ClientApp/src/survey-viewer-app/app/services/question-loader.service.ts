@@ -15,6 +15,7 @@ import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
 import * as NgxBootstrap from 'ngx-bootstrap';
+import * as popover from 'ngx-bootstrap/popover';
 import * as BrowserModule from '@angular/platform-browser';
 import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
@@ -60,6 +61,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
 		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(NgxBootstrap));
+		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
 
 		// reuse the preloaded component factory
