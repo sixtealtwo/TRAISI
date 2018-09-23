@@ -7,7 +7,6 @@ using DAL.Models.Surveys;
 
 namespace DAL.Repositories.Interfaces {
 	public interface ISurveyResponseRepository : IRepository<SurveyResponse> {
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -21,9 +20,23 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="user"></param>
 		/// <param name="questionName"></param>
 		/// <returns></returns>
-        Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName);
+		Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName);
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="user"></param>
+		/// <returns></returns>
 		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, ApplicationUser user);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="questionId"></param>
+		/// <param name="user"></param>
+		/// <returns></returns>
+		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, ApplicationUser user);
 	}
 }
