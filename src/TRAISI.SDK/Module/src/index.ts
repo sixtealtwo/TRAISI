@@ -1,4 +1,4 @@
-import { TRAISI } from 'traisi-sdk/traisi-survey-question';
+
 
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
