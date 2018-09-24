@@ -22,6 +22,7 @@ import * as buttons from 'ngx-bootstrap/buttons';
 import * as modal from 'ngx-bootstrap/modal';
 import * as ngxBootstrap from 'ngx-bootstrap';
 import * as dropdown from 'ngx-bootstrap/dropdown';
+import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
 import * as icons from '@fortawesome/angular-fontawesome';
@@ -83,6 +84,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/buttons', SystemJS.newModule(buttons));
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
+		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
 		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(ngxBootstrap));
 		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
 
