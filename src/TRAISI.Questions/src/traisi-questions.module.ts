@@ -14,7 +14,7 @@ import { TimeQuestionComponent } from './time-question/time-question.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Select2Module } from 'ng2-select2';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserModule } from '@angular/platform-browser';
 @NgModule({

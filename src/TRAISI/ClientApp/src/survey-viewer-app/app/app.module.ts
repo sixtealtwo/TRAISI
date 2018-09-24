@@ -25,7 +25,7 @@ import { SurveyResponderEndpointService } from './services/survey-responder-endp
 import { SurveyResponderService } from './services/survey-responder.service';
 import 'jquery';
 import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SurveyViewerTranslateLanguageLoader } from './services/survey-viewer-translation.service';
 import { ConfigurationService } from 'shared/services/configuration.service';
@@ -78,7 +78,8 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 		ConfigurationService,
 		QuestionLoaderService,
 		SurveyResponderEndpointService,
-		{ provide: 'SurveyResponderService', useClass: SurveyResponderService }
+		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
+		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })
