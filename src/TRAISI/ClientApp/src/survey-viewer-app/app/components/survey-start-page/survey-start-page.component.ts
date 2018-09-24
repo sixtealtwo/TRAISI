@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, Inject } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
@@ -35,7 +35,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param router
 	 */
 	constructor(
-		private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private translate: TranslateService

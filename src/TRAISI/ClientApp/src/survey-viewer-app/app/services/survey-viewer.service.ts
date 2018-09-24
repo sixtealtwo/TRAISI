@@ -65,8 +65,9 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				}
 			}
 		});
-	}
 
+
+	}
 
 	/**
 	 *
@@ -176,14 +177,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 			this.activeSurveyId.next(this._activeSurveyId);
 
-			console.log(this._activeSurveyId);
+
 		}
 
 		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
 			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(value => {
 				this._activeSurveyId = <number>value;
 				this.activeSurveyId.next(this._activeSurveyId);
-				console.log(this._activeSurveyId);
+
 			});
 		}
 	}

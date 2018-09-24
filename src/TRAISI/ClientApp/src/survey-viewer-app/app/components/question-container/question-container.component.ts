@@ -32,7 +32,7 @@ export class QuestionContainerComponent implements OnInit {
 	 */
 	constructor(
 		@Inject('QuestionLoaderService')private questionLoaderService: QuestionLoaderService,
-		private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
 		private responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef
 	) {}

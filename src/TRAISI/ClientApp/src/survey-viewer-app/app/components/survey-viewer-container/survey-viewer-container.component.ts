@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnInit, ViewEncapsulation, Inject} from '@angular/core';
 import {SurveyViewerService} from '../../services/survey-viewer.service';
 import {QuestionLoaderService} from '../../services/question-loader.service';
 import {
@@ -33,7 +33,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 * @param componentFactoryResolver
 	 */
 	constructor(
-		private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
 		private componentFactoryResolver: ComponentFactoryResolver,

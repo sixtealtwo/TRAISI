@@ -4,7 +4,8 @@ import {
 	ViewChild,
 	ViewContainerRef,
 	ComponentFactory,
-	SystemJsNgModuleLoader
+	SystemJsNgModuleLoader,
+	Inject
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
@@ -36,7 +37,7 @@ export class SurveyViewerComponent implements OnInit {
 	 * @param route
 	 */
 	constructor(
-		private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute
 	) {}
