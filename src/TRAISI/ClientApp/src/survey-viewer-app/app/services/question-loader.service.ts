@@ -11,7 +11,7 @@ import {
 	ComponentRef
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
-import { Observable, of, Operator, Subscriber, Observer } from 'rxjs';
+import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
@@ -27,6 +27,7 @@ import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
+import { TRAISI } from 'traisi-question-sdk';
 
 declare const SystemJS;
 
@@ -41,6 +42,8 @@ export class QuestionLoaderService {
 	}
 
 	private _moduleRefs: { [type: string]: NgModuleRef<any> } = {};
+
+	public componentFactories$: ReplaySubject<ComponentFactory<TRAISI.SurveyQuestion<any>>>;
 
 	/**
 	 *Creates an instance of QuestionLoaderService.
@@ -57,6 +60,7 @@ export class QuestionLoaderService {
 		private _responderService: SurveyResponderService
 	) {
 		SystemJS.config({ transpiler: false });
+		this.componentFactories$ = new ReplaySubject(Number.MAX_VALUE);
 	}
 
 	/**
@@ -100,6 +104,7 @@ export class QuestionLoaderService {
 				if (!(questionType in this._componentFactories)) {
 					this._componentFactories[questionType] = componentFactory;
 					console.log('Adding component factory: ' + questionType);
+					this.componentFactories$.next(componentFactory);
 				}
 				observer.next(componentFactory);
 
@@ -120,6 +125,7 @@ export class QuestionLoaderService {
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
 							console.log('Adding component factory: ' + questionType);
+							this.componentFactories$.next(componentFactory);
 						}
 						observer.next(componentFactory);
 
@@ -151,6 +157,7 @@ export class QuestionLoaderService {
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;
 			console.log('Adding component factory: ' + questionType);
+			this.componentFactories$.next(componentFactory);
 		}
 		return componentFactory;
 	}
