@@ -1,5 +1,5 @@
 import { QuestionResponseState } from './question-response-state';
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 
 export namespace TRAISI {
@@ -10,6 +10,15 @@ export namespace TRAISI {
 
 		state: QuestionResponseState;
 
+		/**
+		 * Output binding - question components embedded in other question types can subscribe
+		 * to the questions response event to receive the generated "data" of that question type
+		 * when it is completed by the user.
+		 *
+		 * @type {EventEmitter<ResponseData<T>>}
+		 * @memberof SurveyQuestion
+		 */
+		@Output()
 		public response: EventEmitter<ResponseData<T>>;
 
 		configuration: QuestionConfiguration;
@@ -29,6 +38,9 @@ export namespace TRAISI {
 			this.configuration = configuration;
 		}
 
+		/**
+		 * 
+		 */
 		constructor() {
 			this.state = QuestionResponseState.PRISTINE;
 			this.response = new EventEmitter<ResponseData<T>>();
