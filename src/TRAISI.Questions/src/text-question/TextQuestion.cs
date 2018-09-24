@@ -19,6 +19,7 @@ namespace TRAISI.SDK.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
+        [SurveyQuestionValidator]
 
         [QuestionConfiguration(QuestionConfigurationValueType.Integer,
             Name = "Max Length",

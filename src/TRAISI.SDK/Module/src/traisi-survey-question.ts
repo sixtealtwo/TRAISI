@@ -1,8 +1,15 @@
 import { QuestionResponseState } from './question-response-state';
 import { EventEmitter, Output } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
+import {QuestionLoaderService } from './question-loader.service';
+
+import * as cat from './question-loader.service';
+
+const test = cat;
 
 export namespace TRAISI {
+
+
 	export abstract class SurveyQuestion<T extends ResponseTypes> {
 		public abstract get typeName(): string;
 

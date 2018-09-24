@@ -21,9 +21,10 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
+            
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.1/TRAISI.dll",
-            "args": [],
+            "args": ["--server.urls http://0.0.0.0:5000"],
             "cwd": "${workspaceFolder}/src/TRAISI",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",

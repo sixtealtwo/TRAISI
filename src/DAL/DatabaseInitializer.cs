@@ -62,7 +62,7 @@ namespace DAL
 
                 await CreateUserAsync("admin", "tempP@ss789", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
                 await CreateUserAsync("user", "tempP@ss789", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
-				await CreateUserAsync("respondent", "tempP@ss789", "Respondent User", "respondent@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { respondentRoleName });
+				await CreateUserAsync("respondent", "@ss789", "Respondent User", "respondent@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { respondentRoleName });
                 smto = await CreateUserAsync("smto", "tempP@ss789", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
                 tts = await CreateUserAsync("tts", "tempP@ss789", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 

@@ -1,3 +1,5 @@
+import { TRAISI } from 'traisi-sdk/traisi-survey-question';
+
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
 export { SurveyResponder } from './survey-responder';
@@ -6,3 +8,5 @@ export { OnVisibilityChanged, OnOptionsLoaded, OnSurveyQuestionInit, OnSaveRespo
 export { QuestionResponseState } from './question-response-state';
 
 export {TRAISI} from './traisi-survey-question';
+
+export { QuestionLoaderService } from './question-loader.service';
