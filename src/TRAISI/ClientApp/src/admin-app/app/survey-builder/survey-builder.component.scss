@@ -104,3 +104,22 @@ li.pagetab > a{
 	padding: 0px !important;
 	margin-bottom:10px;
 }
+
+.survey-builder-header
+{
+	display: flex;
+    flex-direction: row;
+    align-items: normal;
+    justify-content: space-between;
+}
+
+.survey-builder-header.h1
+{
+	display: inline-block;
+}
+
+.survey-builder-header-preview
+{
+	margin:5px;
+	display:inline-block;
+}
