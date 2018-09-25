@@ -35,22 +35,28 @@ namespace TRAISI.Controllers
         {
             try
             {
+                if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType))
+                {
+                     return new NotFoundResult(); 
+                }
+
                 var questionTypeDefinition =
                     _questionTypeManager.QuestionTypeDefinitions[questionType];
 
-			
+
                 if (questionTypeDefinition.CodeBundleName == null)
                 {
                     return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
                 }
-				else{
-				
-					var path = Path.Combine("development",questionTypeDefinition.CodeBundleName);
-					if(System.IO.File.Exists(path))
-					{
-						return  File(await System.IO.File.ReadAllBytesAsync(path), "application/javascript");
-					}
-				}
+                else
+                {
+
+                    var path = Path.Combine("development", questionTypeDefinition.CodeBundleName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        return File(await System.IO.File.ReadAllBytesAsync(path), "application/javascript");
+                    }
+                }
 
                 return File(
                     QuestionTypeDefinition.ClientModules[
@@ -59,10 +65,10 @@ namespace TRAISI.Controllers
                                 StringComparison.InvariantCultureIgnoreCase))],
                     "application/javascript");
             }
-            catch
+            catch(Exception e)
             {
                 //return error if not found
-                return new EmptyResult();
+                return new BadRequestObjectResult(e);
             }
         }
 
