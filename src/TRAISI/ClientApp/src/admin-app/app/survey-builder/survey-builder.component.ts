@@ -19,6 +19,16 @@ import { QuestionPartViewLabel } from './models/question-part-view-label.model';
 import { Order } from './models/order.model';
 import { Survey } from '../models/survey.model';
 import { SurveyService } from '../services/survey.service';
+import Quill from 'quill';
+
+// override p with div tag
+const Parchment = Quill.import('parchment');
+let Block = Parchment.query('block');
+
+class NewBlock extends Block {}
+NewBlock.tagName = 'DIV';
+Quill.register(NewBlock, true);
+
 
 @Component({
 	selector: 'traisi-survey-builder',
