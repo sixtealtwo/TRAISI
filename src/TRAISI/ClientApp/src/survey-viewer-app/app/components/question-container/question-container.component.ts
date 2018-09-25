@@ -4,6 +4,7 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
 import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, TRAISI } from '../../../../../../../TRAISI.SDK/Module/src';
 import { SurveyResponderService } from '../../services/survey-responder.service';
+import { SurveyQuestion } from 'app/models/survey-question.model';
 
 @Component({
 	selector: 'traisi-question-container',
@@ -12,7 +13,7 @@ import { SurveyResponderService } from '../../services/survey-responder.service'
 })
 export class QuestionContainerComponent implements OnInit {
 	@Input()
-	question: any;
+	question: SurveyQuestion;
 
 	@Input()
 	surveyId: number;
@@ -31,8 +32,8 @@ export class QuestionContainerComponent implements OnInit {
 	 * @memberof QuestionContainerComponent
 	 */
 	constructor(
-		@Inject('QuestionLoaderService')private questionLoaderService: QuestionLoaderService,
-		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
+		@Inject('QuestionLoaderService') private questionLoaderService: QuestionLoaderService,
+		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef
 	) {}
@@ -41,15 +42,20 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
-
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
 		this.questionLoaderService
-			.loadQuestionComponent(this.question.questionType, this.questionOutlet)
+			.loadQuestionComponent(this.question, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
-				(<TRAISI.SurveyQuestion<any>>componentRef.instance).loadConfiguration(this.question.configuration);
-				(<TRAISI.SurveyQuestion<any>>componentRef.instance).traisiOnInit();
+				let surveyQuestionInstance = <TRAISI.SurveyQuestion<any>>componentRef.instance;
+
+				surveyQuestionInstance.loadConfiguration(this.question.configuration);
+
+				// call traisiOnInit to notify of initialization finishing
+				surveyQuestionInstance.questionId = this.question.questionId;
+
+				surveyQuestionInstance.traisiOnInit();
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {
@@ -60,16 +66,10 @@ export class QuestionContainerComponent implements OnInit {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
-								this.question.configuration
-							);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
 
-						this.responderService.registerQuestion(
-							componentRef.instance,
-							this.surveyId,
-							this.question.questionId
-						);
+						this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId);
 					});
 			});
 	}

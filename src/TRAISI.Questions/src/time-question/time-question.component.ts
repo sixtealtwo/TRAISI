@@ -3,7 +3,7 @@ import {
 	SurveyViewer,
 	QuestionConfiguration,
 	SurveyResponder,
-	QuestionResponseState,
+	ResponseValidationState,
 	TRAISI
 } from 'traisi-question-sdk';
 

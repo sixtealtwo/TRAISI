@@ -1,21 +1,22 @@
-import { QuestionResponseState } from './question-response-state';
-import { EventEmitter, Output } from '@angular/core';
+import { ResponseValidationState } from './question-response-state';
+import { EventEmitter, Output, Inject } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
-import {QuestionLoaderService } from './question-loader.service';
+import { QuestionLoaderService } from './question-loader.service';
 
 import * as cat from './question-loader.service';
+import { SurveyViewer } from 'traisi-question-sdk';
+import { ReplaySubject } from 'rxjs';
 
 const test = cat;
 
 export namespace TRAISI {
-
-
+	/**
+	 * Base abstract class for Survey Questions available to TRAISI
+	 */
 	export abstract class SurveyQuestion<T extends ResponseTypes> {
 		public abstract get typeName(): string;
 
 		public abstract get icon(): string;
-
-		state: QuestionResponseState;
 
 		/**
 		 * Output binding - question components embedded in other question types can subscribe
@@ -26,7 +27,15 @@ export namespace TRAISI {
 		 * @memberof SurveyQuestion
 		 */
 		@Output()
-		public response: EventEmitter<ResponseData<T>>;
+		public readonly response: EventEmitter<ResponseData<T>>;
+
+		@Output()
+		public readonly validation: EventEmitter<ResponseValidationState>;
+
+		/**
+		 * This value is id associated with the survey question. Each id will be unique.
+		 */
+		questionId: number;
 
 		configuration: QuestionConfiguration;
 
@@ -45,12 +54,10 @@ export namespace TRAISI {
 			this.configuration = configuration;
 		}
 
-		/**
-		 * 
-		 */
 		constructor() {
-			this.state = QuestionResponseState.PRISTINE;
 			this.response = new EventEmitter<ResponseData<T>>();
+			this.validation = new EventEmitter<ResponseValidationState>();
+			this.questionId = 0;
 			this.configuration = <QuestionConfiguration>{};
 			this.isValid = false;
 			this.data = [];
@@ -61,10 +68,7 @@ export namespace TRAISI {
 		 *
 		 * @memberof SurveyQuestion
 		 */
-		public traisiOnInit()
-		{
-
-		}
+		public traisiOnInit() {}
 	}
 
 	/**

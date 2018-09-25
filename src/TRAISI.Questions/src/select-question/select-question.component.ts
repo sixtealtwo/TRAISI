@@ -7,7 +7,6 @@ import {
 	SurveyViewer,
 	TRAISI
 } from 'traisi-question-sdk';
-import { Select2OptionData } from 'ng2-select2';
 
 declare var $: any;
 
@@ -23,11 +22,7 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 	typeName: string;
 	icon: string;
 
-	options: QuestionOption[];
-
-	optionData: Array<Select2OptionData>;
-
-
+	selectOptions: QuestionOption[];
 
 	@ViewChild('select')
 	selectElement: ElementRef;
@@ -46,9 +41,8 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'select';
-		this.options = [];
+		this.selectOptions = [];
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
-		this.optionData = [];
 	}
 
 	/**
@@ -56,24 +50,18 @@ export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 	 * @param data
 	 */
 	loadConfigurationData(data: QuestionConfiguration[]) {
-		console.log(data);
+
 	}
 
 	ngOnInit() {}
 
 	/**
-	 *
+	 * This is called as soon as any options are ready (even if later queried).
 	 * @param options
 	 */
 	onOptionsLoaded(options: QuestionOption[]): void {
-		this.options = options;
-		this.optionData = [];
-		for (let option of options) {
-			this.optionData.push({
-				id: String(option.id),
-				text: option.label
-			});
-		}
-		this.cdr.detectChanges();
+		this.selectOptions = options;
+
+
 	}
 }

@@ -4,7 +4,7 @@ import {
 	QuestionConfiguration,
 	QuestionOption,
 	OnOptionsLoaded,
-	QuestionResponseState,
+	ResponseValidationState,
 	TRAISI
 } from 'traisi-question-sdk';
 

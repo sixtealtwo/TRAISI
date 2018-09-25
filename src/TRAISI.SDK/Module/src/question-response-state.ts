@@ -1,5 +1,7 @@
-export enum QuestionResponseState {
+export enum ResponseValidationState {
 	PRISTINE,
+	TOUCHED,
 	INVALID,
-	VALID
+	VALID,
+	SUBMITTED
 }

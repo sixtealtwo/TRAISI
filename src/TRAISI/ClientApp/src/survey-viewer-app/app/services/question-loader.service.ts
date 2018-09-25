@@ -30,6 +30,7 @@ import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
 import { TRAISI } from 'traisi-question-sdk';
+import { SurveyQuestion } from 'app/models/survey-question.model';
 
 declare const SystemJS;
 
@@ -137,7 +138,6 @@ export class QuestionLoaderService {
 					})
 					.catch(error => {
 						console.log(error);
-						console.log('Error: ' + error);
 					});
 			});
 		}
@@ -172,11 +172,14 @@ export class QuestionLoaderService {
 	 * @param viewContainerRef
 	 */
 	public loadQuestionComponent(
-		questionType: string,
+		question: SurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
+
+
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
-			this.getQuestionComponentFactory(questionType).subscribe(componentFactory => {
+			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
+				console.log(this.injector);
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
 				observer.next(componentRef);
 				observer.complete();

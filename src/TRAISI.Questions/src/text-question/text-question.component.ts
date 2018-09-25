@@ -5,7 +5,7 @@ import {
 	SurveyViewer,
 	OnSurveyQuestionInit,
 	QuestionConfiguration,
-	QuestionResponseState,
+	ResponseValidationState,
 	TRAISI
 } from 'traisi-question-sdk';
 import { OnSaveResponseStatus } from 'traisi-sdk/survey_lifecycle_hooks';
@@ -22,8 +22,6 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
 	public textInput: string;
-
-
 
 	@ViewChild('inputElement')
 	private textInputElement: HTMLInputElement;

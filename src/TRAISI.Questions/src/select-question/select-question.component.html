@@ -1,1 +1,6 @@
-<select2 [ngClass]="{'custom-select': true}" [data]="optionData" [width]="200"></select2>
+<div class="form-group">
+    <select class="custom-select">
+        <option [ngValue]="option.id" *ngFor="let option of selectOptions">{{option.label}}</option> 
+    </select>
+</div>
+

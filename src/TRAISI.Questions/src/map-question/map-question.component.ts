@@ -12,13 +12,13 @@ import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
-import { QuestionResponseState, TRAISI } from 'traisi-question-sdk';
+import { ResponseValidationState, TRAISI } from 'traisi-question-sdk';
 
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
 	selector: 'traisi-map-question',
-	template: require('./map-question.component.html').toString(),
+	template: '' + <string>(require('./map-question.component.html').toString()),
 	styles: [require('./map-question.component.scss').toString()]
 })
 export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Location>
@@ -30,7 +30,6 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 
 	public typeName: string;
 	public icon: string;
-
 
 	@ViewChild('mapbox')
 	mapGL: MapComponent;
@@ -99,19 +98,21 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 	 * @param event
 	 */
 	onDragEnd(event: MapMouseEvent) {
-		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
-			this.locationSearch = result.address;
-			this.mapGeocoder.control._inputEl.value = result.address;
+		this.mapEndpointService
+			.reverseGeocode(event.lngLat.lat, event.lngLat.lng)
+			.subscribe((result: GeoLocation) => {
+				this.locationSearch = result.address;
+				this.mapGeocoder.control._inputEl.value = result.address;
 
-			let data: TRAISI.LocationResponseData = {
-				latitude: event.lngLat.lat,
-				longitude: event.lngLat.lng,
-				address: <string>result.address
-			};
+				let data: TRAISI.LocationResponseData = {
+					latitude: event.lngLat.lat,
+					longitude: event.lngLat.lng,
+					address: <string>result.address
+				};
 
-			console.log('Sending ' + data);
-			this.saveResponse(data);
-		});
+				console.log('Sending ' + data);
+				this.saveResponse(data);
+			});
 	}
 
 	/**
