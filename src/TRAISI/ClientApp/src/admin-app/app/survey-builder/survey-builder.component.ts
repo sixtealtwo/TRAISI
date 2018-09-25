@@ -82,6 +82,11 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			});
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
+
+		// initialize to avoid accessing null object
+		this.welcomePage = new WelcomePage();
+		this.termsAndConditionsPage = new TermsAndConditionsPage();
+		this.thankYouPage = new ThankYouPage();
 	}
 
 	ngOnInit() {

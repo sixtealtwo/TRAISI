@@ -15,8 +15,10 @@ namespace TRAISI.SDK
 
         public object TypeId { get; set; }
 
-        public string DefaultValue {get;set;}
+        public string DefaultValue { get; set; }
 
-		public byte[] ResourceData { get; set; }
+        public string SharedResource { get; set; }
+
+        public byte[] ResourceData { get; set; }
     }
 }
