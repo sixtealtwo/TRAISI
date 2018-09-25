@@ -21,7 +21,7 @@
 }
 
 .page-editor {
-	border: 1px inset gray;
+	border: 1px solid $gray-200;
 	border-radius: 5px;
 	padding: 10px;
 	margin-bottom: 10px;
@@ -91,4 +91,16 @@ li.pagetab > a{
 	i {
 		margin-right: 10px;
 	}
+}
+
+.quill-page-editor {
+	.ql-tooltip {
+		z-index: 1 !important;
+	}
+	.ql-container {
+		height: auto;
+	}
+	height: auto !important;
+	padding: 0px !important;
+	margin-bottom:10px;
 }
