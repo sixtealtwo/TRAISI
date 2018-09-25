@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+
+
 @NgModule({
 	declarations: [
 		TextQuestionComponent,
@@ -36,7 +38,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 		RangeQuestionComponent,
 		CheckboxQuestionComponent,
 		SelectQuestionComponent,
-		HeadingQuestionComponent,
+		HeadingQuestionComponent, 
 		TimeQuestionComponent,
 		DateQuestionComponent,
 		LikertQuestionComponent

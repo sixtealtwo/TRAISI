@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import {
-	SurveyViewer,
-	QuestionConfiguration,
-	SurveyResponder,
-	ResponseValidationState,
-	TRAISI
-} from 'traisi-question-sdk';
+import { SurveyViewer, QuestionConfiguration, SurveyResponder, ResponseValidationState, TRAISI } from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-time-question',
