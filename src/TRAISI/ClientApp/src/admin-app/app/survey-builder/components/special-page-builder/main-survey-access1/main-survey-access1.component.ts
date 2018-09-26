@@ -1,45 +1,46 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-main-survey-access1',
-  templateUrl: './main-survey-access1.component.html',
+	selector: 'app-main-survey-access1',
+	templateUrl: './main-survey-access1.component.html',
 	styleUrls: ['./main-survey-access1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class MainSurveyAccess1Component implements OnInit {
-
 	public quillVideoModules = {
-		blotFormatter: { },
+		blotFormatter: {
+		},
 		toolbar: [
-			['video']                         // link and image, video
+			['video'], // link and image, video
+			[{ align: [] }]
 		]
 	};
 	public quillModules = {
 		toolbar: [
-			['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+			['bold', 'italic', 'underline', 'strike'], // toggled buttons
 			['blockquote', 'code-block'],
-	
-			[{ 'list': 'ordered'}, { 'list': 'bullet' }],
-			[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-			[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-			[{ 'direction': 'rtl' }],                         // text direction
-	
-			[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-	
-			[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-			[{ 'font': [] }],
-			[{ 'size': [] }],
-			[{ 'align': [] }],
-	
-			['clean'],                                         // remove formatting button
-	
-			['link']                         // link and image, video
+
+			[{ list: 'ordered' }, { list: 'bullet' }],
+			[{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+			[{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+			[{ direction: 'rtl' }], // text direction
+
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+			[{ color: [] }, { background: [] }], // dropdown with defaults from theme
+			[{ font: [] }],
+			[{ size: [] }],
+			[{ align: [] }],
+
+			['clean'], // remove formatting button
+
+			['link'] // link and image, video
 		]
 	};
 
 	public quillMinimalModules = {
 		toolbar: []
-	}
+	};
 
 	public videoHTML: string;
 	public introTextHTML: string;
@@ -47,12 +48,14 @@ export class MainSurveyAccess1Component implements OnInit {
 	public beginSurveyHTML: string;
 
 	private pageHTMLJson: any;
-	@Input() public pageHTML: string;
-	@Output() public pageHTMLChange = new EventEmitter();
+	@Input()
+	public pageHTML: string;
+	@Output()
+	public pageHTMLChange = new EventEmitter();
 
-  constructor() { }
+	constructor() {}
 
-  ngOnInit() {
+	ngOnInit() {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
@@ -67,7 +70,7 @@ export class MainSurveyAccess1Component implements OnInit {
 			this.accessCodeHTML = 'Enter Access Code';
 			this.beginSurveyHTML = 'Begin Survey';
 		}
-  }
+	}
 
 	updateVideoContent(contentInfo: any) {
 		this.pageHTMLJson.video = this.videoHTML;
