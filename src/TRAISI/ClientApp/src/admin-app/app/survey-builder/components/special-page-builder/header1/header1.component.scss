@@ -1,0 +1,18 @@
+@import 'src/shared/assets/scss/helpers';
+
+#welcome-header {
+	position: absolute;
+	background-color: #f0eff0;
+	height: 66px;
+
+	@include media-breakpoint-up(lg) {
+		width: calc(100% - 55px);
+	}
+	@include media-breakpoint-down(md) {
+		width: calc(100% - 13px);
+	}
+}
+
+#welcome-editor {
+	min-height: 66px !important;
+}

@@ -96,6 +96,7 @@
 		"parsleyjs": "2.8.1",
 		"popper": "^1.0.1",
 		"popper.js": "1.14.3",
+		"quill-blot-formatter": "^1.0.5",
 		"rickshaw": "1.6.6",
 		"rxjs": "6.0.0",
 		"rxjs-compat": "6.0.0",

@@ -20,6 +20,8 @@ import { Order } from './models/order.model';
 import { Survey } from '../models/survey.model';
 import { SurveyService } from '../services/survey.service';
 import Quill from 'quill';
+import BlotFormatter from 'quill-blot-formatter';
+import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -28,6 +30,7 @@ let Block = Parchment.query('block');
 class NewBlock extends Block {}
 NewBlock.tagName = 'DIV';
 Quill.register(NewBlock, true);
+Quill.register('modules/blotFormatter', BlotFormatter);
 
 
 @Component({
@@ -44,9 +47,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public newPageTitle: string;
 	public currentLanguage: string = 'en';
 
-	public welcomePage: WelcomePage;
-	public termsAndConditionsPage: TermsAndConditionsPage;
-	public thankYouPage: ThankYouPage;
+	public welcomePage: WelcomePage = new WelcomePage();
+	public termsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
+	public thankYouPage: ThankYouPage = new ThankYouPage();
+	public loadedSpecialPages: boolean = false;
 
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
@@ -66,6 +70,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	createPageModal: ModalDirective;
 	@ViewChild('editPageModal')
 	editPageModal: ModalDirective;
+	@ViewChild('welcomeEditor') welcomeEditor: SpecialPageBuilderComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -98,6 +103,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			this.welcomePage = page.welcomePage;
 			this.termsAndConditionsPage = page.termsAndConditionsPage;
 			this.thankYouPage = page.surveyCompletionPage;
+			this.loadedSpecialPages = true;
 		});
 	}
 
@@ -105,6 +111,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.questionChooser.questionTypeDefinitions.forEach(q => {
 			this.surveyPage.qTypeDefinitions.set(q.typeName, q);
 		});
+	}
+
+	updateWelcomeContent(contentInfo: any) {
+		console.log(contentInfo);
 	}
 
 	generateFroalaOptions() {
@@ -205,6 +215,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	saveWelcomePage() {
+		this.welcomeEditor.updatePageData();
 		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
 			result => {
 				this.alertService.showMessage(

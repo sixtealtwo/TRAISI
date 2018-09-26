@@ -41,6 +41,9 @@ import { TreeviewModule } from 'ngx-treeview';
 import { QuestionConditionalsComponent } from './components/question-configuration/question-conditionals/question-conditionals.component';
 import { SourceConditionalComponent } from './components/question-configuration/question-conditionals/source-conditional/conditional.component';
 import { TargetConditionalComponent } from './components/question-configuration/question-conditionals/target-conditional/target-conditional.component';
+import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
+import { Header1Component } from './components/special-page-builder/header1/header1.component';
+import { MainSurveyAccess1Component } from './components/special-page-builder/main-survey-access1/main-survey-access1.component';
 
 @NgModule({
 	imports: [
@@ -100,7 +103,10 @@ import { TargetConditionalComponent } from './components/question-configuration/
 		QuestionDetailsComponent,
 		QuestionConditionalsComponent,
 		SourceConditionalComponent,
-		TargetConditionalComponent
+		TargetConditionalComponent,
+		SpecialPageBuilderComponent,
+		Header1Component,
+		MainSurveyAccess1Component
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [
