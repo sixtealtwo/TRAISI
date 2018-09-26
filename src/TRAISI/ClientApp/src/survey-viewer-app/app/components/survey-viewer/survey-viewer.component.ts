@@ -14,7 +14,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
-
+import { sortBy } from 'lodash';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -57,7 +57,6 @@ export class SurveyViewerComponent implements OnInit {
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
 
-				console.log(surveyId);
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
 					this.loadPageQuestions(pages[0]);
@@ -73,6 +72,8 @@ export class SurveyViewerComponent implements OnInit {
 	 * @param page
 	 */
 	private loadPageQuestions(page: SurveyViewPage) {
-		this.questions = page.questions;
+		this.questions = sortBy(page.questions, ['order']);
+
+
 	}
 }
