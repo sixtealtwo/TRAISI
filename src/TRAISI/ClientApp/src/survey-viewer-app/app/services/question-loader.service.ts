@@ -90,8 +90,6 @@ export class QuestionLoaderService {
 	 * @memberof QuestionLoaderService
 	 */
 	public getQuestionComponentFactory(questionType: string): Observable<any> {
-
-
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
@@ -178,8 +176,6 @@ export class QuestionLoaderService {
 		question: SurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
-
-
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
 			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
 				console.log(this.injector);

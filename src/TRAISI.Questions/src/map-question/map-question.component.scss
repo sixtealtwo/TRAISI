@@ -1,6 +1,7 @@
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
-@import "~bootstrap/scss/bootstrap";
+
+//@import "~bootstrap/scss/bootstrap";
 .map-container {
     width: 100%;
     height: auto;
@@ -27,6 +28,7 @@ mgl-map {
     width: 100%;
 }
 
+/*
 @include media-breakpoint-down(xs) {
     mgl-map {
         height: 250px;
@@ -53,4 +55,4 @@ mgl-map {
         height: 400px;
         width: 100%;
     }
-}
+} */

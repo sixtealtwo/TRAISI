@@ -35,7 +35,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from 'shared/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
 @NgModule({
+	entryComponents: [
+		ModalBackdropComponent
+	],
 	declarations: [
 		AppComponent,
 		SurveyViewerContainerComponent,
@@ -56,6 +60,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 		HttpClientModule,
 		BrowserAnimationsModule,
 		FormsModule,
+		ModalModule.forRoot(),
 		FontAwesomeModule,
 		TranslateModule.forRoot({
 			loader: {
