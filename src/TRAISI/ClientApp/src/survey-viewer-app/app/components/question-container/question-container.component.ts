@@ -18,6 +18,12 @@ export class QuestionContainerComponent implements OnInit {
 	@Input()
 	surveyId: number;
 
+	@Input()
+	questionIndex: number;
+
+
+
+
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	questionOutlet: ViewContainerRef;
 
@@ -42,6 +48,8 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+
+
 		/**
 		 * Load the question component into the specified question outlet.
 		 */

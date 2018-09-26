@@ -1,6 +1,25 @@
 @import 'src/shared/assets/scss/helpers';
 @import "../../../assets/scss/application.scss";
 
+.card-header
+{
+	display:flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.question-index
+{
+	padding: 5px;
+	margin-right: 10px;
+}
+
+.header-label div
+{
+	display: inline-block !important;
+}
+
 @include media-breakpoint-only(xs) {
 
 }

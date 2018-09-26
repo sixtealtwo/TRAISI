@@ -1,6 +1,9 @@
 <section class="widget card border-primary mb-3">
 	<div class="card-header">
-		<span [innerHTML]="question.label | safeHtml"></span>
+		<span class="question-index badge badge-pill badge-primary">
+			{{ questionIndex+1 }}
+		</span>
+		<span [innerHTML]="question.label | safeHtml" class="header-label"></span>
 
 	</div>
 
@@ -19,5 +22,3 @@
 		</ng-template>
 	</div>
 </section>
-
-
