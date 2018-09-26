@@ -48,11 +48,8 @@ export class SurveyViewerComponent implements OnInit {
 	ngOnInit() {
 		// this.surveyViewerService.getWelcomeView()
 
-		console.log(this.headerDisplay);
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
-
-		console.log(this.surveyViewerService);
 
 		this.route.queryParams.subscribe((value: Params) => {
 

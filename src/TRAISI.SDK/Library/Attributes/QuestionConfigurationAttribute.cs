@@ -16,11 +16,29 @@ namespace TRAISI.SDK.Attributes
 
         public QuestionConfigurationValueType ValueType { get => this._valueType; }
 
-        public QuestionBuilderType SurveyBuilderValueType {get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
+        public QuestionBuilderType SurveyBuilderValueType { get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
 
-		public string Resource { get; set; }
+        /// <summary>
+        /// A resource (name) that is required for the configuration. This field points specifically to locally referenced resources. After loading,
+        /// the resource information is made global to other questions that reference it.
+        /// </summary>
+        /// <value></value>
+        public string Resource { get; set; }
 
-		public string DefaultValue { get; set; }
+        /// <summary>
+        /// A resource (name) that is required for the configuration. This field points specifically to locally referenced resources. This
+        /// resource type differs from the standard 'Resource' by making the loaded data only available to this question / extension.
+        /// </summary>
+        /// <value></value>
+        public string PrivateResource { get; set; }
+
+        /// <summary>
+        /// A shared resource indicates the identifier passed here refers to data that is created externally.
+        /// </summary>
+        /// <value></value>
+        public string SharedResource { get; set; }
+
+        public string DefaultValue { get; set; }
         public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
         {
             this._valueType = valueType;

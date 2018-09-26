@@ -12,6 +12,8 @@ namespace DAL.Models.ResponseTypes
 
         public string Purpose {get;set;}
 
-        public DateTime Time {get;set;}
+        public DateTime TimeA {get;set;}
+
+        public DateTime TimeB {get;set;}
     }
 }

@@ -209,6 +209,7 @@
 						"deployUrl": "/survey/",
 						"baseHref": "/survey/",
 						"progress": false,
+
 						"outputPath": "dist/survey",
 						"index": "src/survey-viewer-app/index.html",
 						"main": "src/survey-viewer-app/main.ts",
@@ -219,10 +220,10 @@
 							"src/survey-viewer-app/assets"
 						],
 						"styles": [
-							"src/survey-viewer-app/styles.css",
-							"src/survey-viewer-app/assets/scss/application.scss",
+
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
-							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
+							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+							"src/survey-viewer-app/assets/scss/application.scss"
 
 						],
 						"scripts": [
@@ -290,7 +291,7 @@
 						"tsConfig": "src/survey-viewer-app/tsconfig.spec.json",
 						"karmaConfig": "src/survey-viewer-app/karma.conf.js",
 						"styles": [
-							"src/survey-viewer-app/src/styles.css"
+							"src/survey-viewer-app/src/styles.scss"
 						],
 						"scripts": [],
 						"assets": [

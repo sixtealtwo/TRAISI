@@ -49,11 +49,22 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [
-                    "style-loader", // creates style nodes from JS strings
-                    "css-loader", // translates CSS into CommonJS
-                    "sass-loader" // compiles Sass to CSS
-                ]
+				use: [
+                    {
+                        loader: 'style-loader'
+                    },                    {
+                        loader: 'css-loader'
+                    },                    {
+                        loader: 'sass-loader',options: {
+                            sourceMap: true,
+                            data: '@import "_styles";',
+                            includePaths: [
+                              path.join(__dirname, 'src/assets')
+                            ]
+                          }
+                    }
+
+				]
             },
             {
                 test: /\.(png|jp(e*)g|svg)$/,
@@ -84,7 +95,7 @@ module.exports = {
             callback();
         }
     ],*/
-    externals: [/^@angular/, /^ngx-bootstrap/,/^@fortawesome/],
+    externals: [/^@angular/, /^ngx-bootstrap/,/^@fortawesome/, /^bootstrap/,/^bootswatch/],
     plugins: [
         new CopyWebpackPlugin([
             { from: 'dist/', to: '../../TRAISI/development', toType: 'dir' },

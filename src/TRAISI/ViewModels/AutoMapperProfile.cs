@@ -16,6 +16,7 @@ using TRAISI.ViewModels.Users;
 using TRAISI.ViewModels.Extensions;
 using TRAISI.ViewModels.Questions;
 using TRAISI.SDK;
+using TRAISI.Helpers;
 
 namespace TRAISI.ViewModels
 {
@@ -100,7 +101,7 @@ namespace TRAISI.ViewModels
             CreateMap<QuestionPartView, QuestionPartViewViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string) opt.Items["Language"]).Value;
+                    svm.Label = s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
@@ -219,7 +220,13 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
-                                .ForMember(q => q.ResourceData, map => map.ResolveUsing(s => s.ResourceData == null ? null : System.Text.Encoding.UTF8.GetString(s.ResourceData)))
+                                .ForMember(q => q.ResourceData, map => map.ResolveUsing(s =>
+                                {
+
+                                    return ((s.SharedResource == null)
+                                    ? ((s.ResourceData == null) ? (null) : (System.Text.Encoding.UTF8.GetString(s.ResourceData)))
+                                    : System.Text.Encoding.UTF8.GetString(QuestionTypeManager.SharedQuestionResources[s.SharedResource].Data));
+                                }))
                 .ReverseMap();
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()

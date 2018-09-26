@@ -35,52 +35,11 @@ namespace TRAISI.Helpers
         {
             _configuration = configuration;
             _loggerFactory = loggerFactory;
-
             _logger = loggerFactory.CreateLogger<QuestionTypeManager>();
+            _fileAssemblyMap = new Dictionary<string, Assembly>();
+
             QuestionTypeDefinitions = new Dictionary<string, QuestionTypeDefinition>();
 
-            this._fileAssemblyMap = new Dictionary<string, Assembly>();
-
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            var path = Path.GetFullPath(e.FullPath);
-            if (_fileAssemblyMap.Keys.Contains(path))
-            {
-                _logger.LogWarning("Extension assembly was deleted.");
-            }
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            var path = Path.GetFullPath(e.FullPath);
-            if (_fileAssemblyMap.Keys.Contains(path))
-            {
-                _logger.LogWarning($"Extension {e.Name} has been changed. Reloading.");
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
-        {
-            Console.WriteLine("in created");
         }
 
         /// <summary>
@@ -100,7 +59,14 @@ namespace TRAISI.Helpers
             LoadQuestionTypeDefinitions(extensionList);
         }
 
+        ///
         public Dictionary<string, QuestionTypeDefinition> QuestionTypeDefinitions { get; }
+
+        /// <summary>
+        /// The collection of shared resources made available by all contributing extensions and questions.
+        /// </summary>
+        /// <value></value>
+        public static Dictionary<string, QuestionResource> SharedQuestionResources { get; } = new Dictionary<string, QuestionResource>();
 
 
         /// <summary>
@@ -269,11 +235,23 @@ namespace TRAISI.Helpers
             {
                 var attributes = member.GetCustomAttributes();
                 if (attributes.Count() > 0)
+                {
                     foreach (var attribute in attributes)
+                    {
                         if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
                         {
                             var configAttribute = attribute as QuestionConfigurationAttribute;
-                            configuration.Add(configAttribute.Name, new QuestionConfigurationDefinition
+                            byte[] data = GetQuestionConfigurationData(configAttribute, sourceAssembly);
+                            if (configAttribute.Resource != null)
+                            {
+                                SharedQuestionResources[configAttribute.Resource] = new QuestionResource()
+                                {
+                                    Data = data,
+                                    ResourceName = configAttribute.Resource,
+
+                                };
+                            }
+                            var definition = new QuestionConfigurationDefinition
                             {
                                 Name = configAttribute.Name,
                                 Description = configAttribute.Description,
@@ -281,10 +259,14 @@ namespace TRAISI.Helpers
                                 ValueType = configAttribute.ValueType,
                                 BuilderType = configAttribute.SurveyBuilderValueType,
                                 DefaultValue = configAttribute.DefaultValue,
-                                ResourceData = GetQuestionConfigurationData(configAttribute, sourceAssembly)
-                            }
-                            );
+                                ResourceData = data,
+                                SharedResource = configAttribute.SharedResource
+                            };
+                            configuration.Add(configAttribute.Name, definition);
+                            ;
                         }
+                    }
+                }
             }
 
             return configuration;
@@ -306,7 +288,9 @@ namespace TRAISI.Helpers
             {
                 var attributes = member.GetCustomAttributes();
                 if (attributes.Count() > 0)
+                {
                     foreach (var attribute in attributes)
+                    {
                         if (attribute.GetType() == typeof(QuestionOptionAttribute))
                         {
                             var configAttribute = attribute as QuestionOptionAttribute;
@@ -318,7 +302,11 @@ namespace TRAISI.Helpers
                                 IsMultipleAllowed = configAttribute.IsMultipleAllowed,
                                 TypeId = configAttribute.TypeId
                             });
+
+
                         }
+                    }
+                }
             }
 
             return configuration;

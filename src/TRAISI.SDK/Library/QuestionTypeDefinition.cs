@@ -20,13 +20,20 @@ namespace TRAISI.SDK
 
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
-        public Dictionary<string, byte[]> ResourceData { get; }
+        private Dictionary<string, byte[]> _resourceData = new Dictionary<string, byte[]>();
+        public Dictionary<string, byte[]> ResourceData
+        {
+            get
+            {
+                return this._resourceData;
+            }
+        }
 
         public QuestionResponseType ResponseType { get; set; }
-        
+
         public string CodeBundleName { get; set; }
 
-        public Dictionary<string,string> TypeNameLocales {get;} = new Dictionary<string, string>();
+        public Dictionary<string, string> TypeNameLocales { get; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Set of Question Part Slots
@@ -44,7 +51,7 @@ namespace TRAISI.SDK
         /// <returns></returns>
         public static Dictionary<string, byte[]> ClientModules { get; set; } = new Dictionary<string, byte[]>();
 
-        public Dictionary<string, QuestionResource> QuestionResources {get;set;}
+        public Dictionary<string, QuestionResource> QuestionResources { get; set; }
 
         /// <summary>
         /// 
@@ -58,8 +65,7 @@ namespace TRAISI.SDK
             TypeName = type.TypeName;
             Icon = type.Icon;
 
-            ResourceData = new Dictionary<string,byte[]>();
-            QuestionResources = new Dictionary<string,QuestionResource>();
+            QuestionResources = new Dictionary<string, QuestionResource>();
 
             CodeBundleName = attribute.CodeBundleName;
 

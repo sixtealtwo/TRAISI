@@ -87,6 +87,11 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			});
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
+
+		// initialize to avoid accessing null object
+		this.welcomePage = new WelcomePage();
+		this.termsAndConditionsPage = new TermsAndConditionsPage();
+		this.thankYouPage = new ThankYouPage();
 	}
 
 	ngOnInit() {
@@ -454,5 +459,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	getPagePayload(index) {
 		return this.allPages[index];
+	}
+
+
+	/**
+	 *
+	 */
+	public previewSurvey(event: any) {
+
+		window.open(`/survey/${this.survey.code}/terms`, '_blank');
+		event.stopPropagation();
 	}
 }

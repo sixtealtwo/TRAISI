@@ -20,7 +20,6 @@ import * as popover from 'ngx-bootstrap/popover';
 import * as alert from 'ngx-bootstrap/alert';
 import * as buttons from 'ngx-bootstrap/buttons';
 import * as modal from 'ngx-bootstrap/modal';
-import * as ngxBootstrap from 'ngx-bootstrap';
 import * as dropdown from 'ngx-bootstrap/dropdown';
 import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
@@ -64,16 +63,10 @@ export class QuestionLoaderService {
 	) {
 		SystemJS.config({ transpiler: false });
 		this.componentFactories$ = new ReplaySubject(Number.MAX_VALUE);
+		this.init();
 	}
 
-	/**
-	 *
-	 *
-	 * @param {string} questionType
-	 * @returns {Observable<any>}
-	 * @memberof QuestionLoaderService
-	 */
-	public getQuestionComponentFactory(questionType: string): Observable<any> {
+	private init(): void {
 		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
 		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
@@ -86,8 +79,18 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
 		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
-		SystemJS.registry.set('ngx-bootstrap', SystemJS.newModule(ngxBootstrap));
 		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
+	}
+
+	/**
+	 *
+	 *
+	 * @param {string} questionType
+	 * @returns {Observable<any>}
+	 * @memberof QuestionLoaderService
+	 */
+	public getQuestionComponentFactory(questionType: string): Observable<any> {
+
 
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
