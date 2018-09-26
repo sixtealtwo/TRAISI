@@ -51,7 +51,7 @@
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
 		<!--<div class="page-editor" *ngIf="welcomePage" [froalaEditor]="froalaOptions" [(froalaModel)]="welcomePage.value"></div>-->
-		<app-special-page-builder *ngIf="loadedSpecialPages" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
+		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
 		<div class="row justify-content-center">
 			<div>
 				<button class="btn btn-primary" (click)="saveWelcomePage()">
