@@ -10,7 +10,9 @@ export class Header1Component implements OnInit {
 	public quillModules = {
 		blotFormatter: { },
 		toolbar: [
-			['image']                         // link and image, video
+			['image'],
+			[{ align: [] }]
+		]
 		]
 	};
 

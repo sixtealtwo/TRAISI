@@ -54,9 +54,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	changeActiveNavigationItem(location): void {
 		let $newActiveLink;
 		if (location._platformStrategy instanceof HashLocationStrategy) {
-			$newActiveLink = this.$el.find('a[href="#' + location.path().split('?')[0] + '"]');
+			$newActiveLink = this.$el.find('a[href="#' + location._baseHref + location.path().split('?')[0] + '"]');
 		} else {
-			$newActiveLink = this.$el.find('a[href="' + location.path().split('?')[0] + '"]');
+			console.log(location.path());
+			$newActiveLink = this.$el.find('a[href="' + location._baseHref + location.path().split('?')[0] + '"]');
 		}
 
 		// collapse .collapse only if new and old active links belong to different .collapse

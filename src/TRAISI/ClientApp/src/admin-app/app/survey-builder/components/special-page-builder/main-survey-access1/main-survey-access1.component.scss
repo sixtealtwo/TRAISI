@@ -19,6 +19,12 @@
 	text-align: center;
 }
 
+.xs-center {
+	@include media-breakpoint-down(xs) {
+		text-align: center;
+	}
+}
+
 .no-padding-quill {
 	.ql-editor {
 		padding: 0px !important;
