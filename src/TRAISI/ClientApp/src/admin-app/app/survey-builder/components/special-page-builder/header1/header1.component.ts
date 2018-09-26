@@ -23,7 +23,6 @@ export class Header1Component implements OnInit {
   }
 
 	updateContent(contentInfo: any) {
-		console.log(contentInfo);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 }

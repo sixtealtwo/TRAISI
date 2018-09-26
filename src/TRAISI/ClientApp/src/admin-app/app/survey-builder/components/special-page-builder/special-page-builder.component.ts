@@ -10,6 +10,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	public headerHTML: string;
 	public mainSurveyAccessHTML: string;
+	public aboutHTML: string;
 
 	@Input() public pageHTML: string;
 	@Output() public pageHTMLChange = new EventEmitter();
@@ -23,15 +24,19 @@ export class SpecialPageBuilderComponent implements OnInit {
 			let pageData = JSON.parse(this.pageHTML);
 			this.headerHTML = pageData.header;
 			this.mainSurveyAccessHTML = pageData.mainSurveyAccess;
+			this.aboutHTML = pageData.about;
 		} catch (e) {
 			this.headerHTML = '';
+			this.mainSurveyAccessHTML = '';
+			this.aboutHTML = '';
 		}
   }
 
 	updatePageData() {
 		let pageJson = {
 			header: this.headerHTML,
-			mainSurveyAccess: this.mainSurveyAccessHTML
+			mainSurveyAccess: this.mainSurveyAccessHTML,
+			about: this.aboutHTML
 		};
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);

@@ -1,7 +1,7 @@
 <div id="welcome-survey-access">
 	<div class="row">
 		<div class="col-xl-6 col-lg-12 col-md-12">
-			<div class="intro-video">
+			<div class="intro-video ml-3 mr-3">
 				<quill-editor class="quill-page-editor" [modules]="quillVideoModules" (onContentChanged)="updateVideoContent($event)" theme="bubble"
 				 placeholder="Insert survey introduction video" [(ngModel)]="videoHTML"></quill-editor>
 			</div>
@@ -13,14 +13,14 @@
 					placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
 				</div>
 			</div>
-			<div class="row justify-content-center mt-3">
-				<div class="col-sm-6">
-					<div class="form-control">
+			<div class="form-group row mt-3">
+				<div class="col-sm-6 col-11">
+					<div class="form-control mr-3 ml-3">
 						<quill-editor class="quill-page-editor no-padding-quill" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)" theme="bubble"
 						placeholder="Enter access code" [(ngModel)]="accessCodeHTML"></quill-editor>
 					</div>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-5 text-center mt-3 mt-sm-0">
 					<div class="begin-survey-button btn btn-primary">
 							<quill-editor class="quill-page-editor no-padding-quill" [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)" theme="bubble"
 							placeholder="Begin Survey" [(ngModel)]="beginSurveyHTML"></quill-editor>

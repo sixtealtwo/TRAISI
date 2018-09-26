@@ -44,6 +44,7 @@ import { TargetConditionalComponent } from './components/question-configuration/
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
 import { Header1Component } from './components/special-page-builder/header1/header1.component';
 import { MainSurveyAccess1Component } from './components/special-page-builder/main-survey-access1/main-survey-access1.component';
+import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 
 @NgModule({
 	imports: [
@@ -106,7 +107,8 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 		TargetConditionalComponent,
 		SpecialPageBuilderComponent,
 		Header1Component,
-		MainSurveyAccess1Component
+		MainSurveyAccess1Component,
+		TextBlock1Component
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [
