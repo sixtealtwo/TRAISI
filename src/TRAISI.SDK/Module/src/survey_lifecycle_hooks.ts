@@ -60,7 +60,6 @@ export interface OnOptionsLoaded {
 	onOptionsLoaded(options: QuestionOption[]): void;
 }
 
-
 /**
  * Interface that is called once the question is initialized
  *
@@ -90,4 +89,19 @@ export interface OnSaveResponseStatus {
 	 * @memberof OnSaveResponseStatus
 	 */
 	onResponseSaved(result: any): void;
+}
+
+/**
+ *
+ */
+export interface OnSurveyNext {
+	onSurveyNext(): boolean;
+}
+
+
+/**
+ *
+ */
+export interface OnSurveyPrevious {
+	onSurveyPrevious(): boolean;
 }
