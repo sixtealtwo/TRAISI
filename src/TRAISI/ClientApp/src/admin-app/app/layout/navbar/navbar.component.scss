@@ -1,5 +1,5 @@
 .nav-padding {
-    margin-top:10px;
+    margin-top:5px;
     margin-right:10px;
     display: flex;
     align-items: center;
@@ -13,5 +13,38 @@
 app-navbar.navbar
 {
   align-items:flex-start;
-  justify-content: normal !important;
+	justify-content: normal !important;
+}
+
+app-navbar {
+	overflow: hidden;
+}
+
+.top-nav {
+
+	list-style: none;
+	.traisi-logo {
+		a {
+			padding-left:25px !important;
+			padding-top: 15px;
+			overflow: hidden;
+		}
+	}
+	left: 0px;
+	li {
+		float: left;
+		margin-top: 5px;
+		a {
+			padding-right:30px;
+			padding-top: 14px;
+			white-space: nowrap;
+			overflow:hidden;
+			.icon {
+				margin-top: 12px;
+				.svg-inline--fa {
+					vertical-align: -0.35em;
+				}
+			}
+		}
+	}
 }

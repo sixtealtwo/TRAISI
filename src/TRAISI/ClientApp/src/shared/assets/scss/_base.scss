@@ -26,30 +26,35 @@ app, .app {
 }
 
 .page-controls, .content-wrap{
-  left: $sidebar-width;
-  @include transition(left $sidebar-transition-time ease-in-out);
-
+	
+	@include media-breakpoint-down(sm) {
+		left: $sidebar-width;
+ 	  @include transition(left $sidebar-transition-time ease-in-out);
+	}
   @include media-breakpoint-up(md) {
-    margin-left: $sidebar-width-closed;
-    left: $sidebar-width - $sidebar-width-closed;
+    margin-left: 0px;
+    left: 0px;;
   }
 
   .nav-collapsed &{
     left: 0
   }
 
-  .nav-static &{
+  
+}
+
+.page-controls-builder, .content-wrap-builder { 
+	margin-left: $sidebar-width-closed;
+	left: $sidebar-width - $sidebar-width-closed;
+	@include transition(left $sidebar-transition-time ease-in-out);
+
+	.nav-static &{
     @include media-breakpoint-up(lg) {
       @include transition(none);
       left: 0;
       margin-left: $sidebar-width;
     }
   }
-}
-
-.page-controls-builder, .content-wrap-builder { 
-	margin-left: $sidebar-width-closed;
-	left: $sidebar-width - $sidebar-width-closed;
 }
 
 .page-controls{
@@ -70,6 +75,10 @@ app, .app {
   }
 }
 
+.page-controls.navbar {
+	overflow: hidden;
+}
+
 .page-controls {
   position: fixed;
   z-index: 50;
@@ -83,7 +92,7 @@ app, .app {
     .navbar-brand{
       position: absolute;
       left: 0;
-      right: 0;
+			right: 0;
       font-weight: $font-weight-bold;
       text-align: center;
     }
@@ -233,7 +242,7 @@ app, .app {
 
       display: block;
       position: absolute;
-      top: 3px;
+      top: 5px;
       left: $sidebar-padding-horizontal;
       width: 28px;
       height: 28px;
@@ -247,7 +256,11 @@ app, .app {
 
       .fa-database {
         vertical-align: -1px;
-      }
+			}
+			
+			.svg-inline--fa {
+				vertical-align: -0.23em;
+			}
 
     }
 

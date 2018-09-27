@@ -160,17 +160,17 @@ $navbar-height:  50px !default;
 $navbar-padding-y: 0 !default;
 $navbar-padding-x: 0 !default;
 
-$navbar-dashboard-bg:                $white !default;
+$navbar-dashboard-bg:                $sidebar-bg-color !default;
 $navbar-dashboard-color:             #777 !default;
 $navbar-dashboard-border:            darken($navbar-dashboard-bg, 6.5%) !default;
 
 // Navbar links
-$navbar-dashboard-link-color:                #666 !default;
+$navbar-dashboard-link-color:                $white !default;
 
 // Navbar links
-$navbar-dashboard-link-hover-color:          #333 !default;
+$navbar-dashboard-link-hover-color:          rgb(218, 218, 218) !default;
 $navbar-dashboard-link-hover-bg:             transparent !default;
-$navbar-dashboard-link-active-color:         #555 !default;
+$navbar-dashboard-link-active-color:         $white !default;
 $navbar-dashboard-link-active-bg:            darken($navbar-dashboard-bg, 6.5%) !default;
 $navbar-dashboard-link-disabled-color:       #ccc !default;
 $navbar-dashboard-link-disabled-bg:          transparent !default;
