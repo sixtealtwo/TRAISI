@@ -3,6 +3,7 @@
 		<smooth-dnd-draggable *ngFor="let item of currentPage.questionPartViewChildren; index as i">
 			<div class="question-number badge badge-danger">{{ item.questionPart? 'Q': 'S' }}{{ i+1 }}</div>
 			<ng-container *ngIf="item.questionPart; else surveyPart">
+				<div class="question-wrapper">
 				<button class="btn btn-default page-question question-header" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
 					<div class="icon">
 							<i class="fas page-question-icon" [ngClass]="getIcon(item.questionPart.questionType)"></i>
@@ -23,6 +24,7 @@
 				<div class="collapse details" [attr.id]= "'collapseExample-' + i">
 					<app-question-details *ngIf="item.questionPart.id > 0" [surveyId]="surveyId" [question]="item.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 				</div>
+			</div>
 			</ng-container>
 			<ng-template #surveyPart>
 				<button class="btn btn-secondary page-part question-header" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
@@ -42,6 +44,7 @@
 				<div class="question-part-container collapse show" [class.drag-over]="dragOverContainer[item.id]" [attr.id]= "'collapseExample-' + i" [class.page-questions-empty]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0">
 					<smooth-dnd-container  [dragHandleSelector]="'.question-header'"  [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
 						<smooth-dnd-draggable *ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j">
+								<div class="question-wrapper">
 							<div class="question-number badge badge-primary">Q{{ i + 1 }}.{{ j + 1 }}</div>
 							<button class="btn btn-default page-question question-header" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 								<div class="icon">
@@ -63,6 +66,7 @@
 							<div class="collapse details" [attr.id]= "'collapseExample-' + i + '-' + j">
 									<app-question-details *ngIf="innerItem.questionPart.id > 0" [surveyId]="surveyId" [question]="innerItem.questionPart" [language]="currentLanguage" [qTypeDefinitions]="qTypeDefinitions"></app-question-details>
 							</div>
+						</div>
 						</smooth-dnd-draggable>
 					</smooth-dnd-container>
 					<div class="question-part-container-placeholder" [hidden]="qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length > 0">Drop Questions Here</div>

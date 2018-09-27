@@ -1,9 +1,11 @@
-import { Component, EventEmitter, OnInit, ElementRef, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, ElementRef, Input, Output, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { ConfigurationService } from '../../../../shared/services/configuration.service';
-import { Location } from '@angular/common';
+import { Location, HashLocationStrategy } from '@angular/common';
+import { Permission } from '../../../../shared/models/permission.model';
+import { AccountService } from '../../services/account.service';
 declare let jQuery: JQueryStatic;
 
 @Component({
@@ -11,7 +13,7 @@ declare let jQuery: JQueryStatic;
 	templateUrl: './navbar.template.html',
 	styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
 	@Output() toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
 	@Output() toggleChatEvent: EventEmitter<any> = new EventEmitter();
 	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
@@ -25,6 +27,7 @@ export class NavbarComponent implements OnInit {
 		el: ElementRef,
 		config: AppConfig,
 		private router: Router,
+		private accountService: AccountService,
 		private translationService: AppTranslationService,
 		public configurations: ConfigurationService,
 		private location: Location
@@ -82,5 +85,60 @@ export class NavbarComponent implements OnInit {
 				.parents('.input-group')
 				[e.type === 'focus' ? 'addClass' : 'removeClass']('focus');
 		});
+
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd) {
+				this.changeActiveNavigationItem(this.location);
+			}
+		});
+	}
+
+	ngAfterViewInit(): void {
+		this.changeActiveNavigationItem(this.location);
+	}
+
+	changeActiveNavigationItem(location): void {
+		let $newActiveLink;
+		if (location._platformStrategy instanceof HashLocationStrategy) {
+			$newActiveLink = this.$el.find('a[href="#' + location._baseHref + location.path().split('?')[0] + '"]');
+		} else {
+			console.log(location.path());
+			$newActiveLink = this.$el.find('a[href="' + location._baseHref + location.path().split('?')[0] + '"]');
+		}
+
+		// collapse .collapse only if new and old active links belong to different .collapse
+		if (!$newActiveLink.is('.active > .collapse > li > a')) {
+			this.$el
+				.find('.active .active')
+				.closest('.collapse')
+				.collapse('hide');
+		}
+		this.$el.find('.sidebar-nav .active').removeClass('active');
+
+		$newActiveLink
+			.closest('li')
+			.addClass('active')
+			.parents('li')
+			.addClass('active');
+
+		// uncollapse parent
+		$newActiveLink
+			.closest('.collapse')
+			.addClass('in')
+			.css('height', '')
+			.siblings('a[data-toggle=collapse]')
+			.removeClass('collapsed');
+	}
+
+	get canManageUsers() {
+		return this.accountService.userHasPermission(Permission.manageUsersPermission);
+	}
+
+	get canViewRoles() {
+		return this.accountService.userHasPermission(Permission.viewRolesPermission);
+	}
+
+	get canManageGroupUsers() {
+		return this.accountService.userHasPermission(Permission.manageGroupUsersPermission);
 	}
 }

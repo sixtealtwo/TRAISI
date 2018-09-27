@@ -1,4 +1,4 @@
-<div class="js-sidebar-content">
+<div class="js-sidebar-content d-md-none">
 	<header class="logo d-none d-md-block">
 		<a [routerLink]=" [''] ">
 			<img src="{{ config.logo }} " height="59">
@@ -60,7 +60,7 @@
 		<li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
 			<a (click)="logout()">
 				<span class="icon">
-					<i class="fas fa-sign-out"></i>
+					<i class="fas fa-sign-out-alt"></i>
 				</span>
 				{{ 'sidebar.Logout' | translate }}
 			</a>

@@ -108,8 +108,12 @@
 	}
 }
 
-.question-options {
-	
+.details {
+	background-color: white;
+}
+
+.question-wrapper {
+	background-color: white;
 }
 
 .question-part-container {
@@ -117,7 +121,7 @@
 	margin-right:5px;
 	margin-bottom:10px;
 	overflow:hidden;
-	
+	background-color: white;
 	
 	.page-question {
 		.icon {
