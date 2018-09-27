@@ -1,11 +1,16 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {
-	OnOptionsLoaded,
-	QuestionConfiguration,
-	QuestionOption,
+	SurveyQuestion,
+	ResponseTypes,
 	SurveyResponder,
+	QuestionConfiguration,
 	SurveyViewer,
-	TRAISI
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
 } from 'traisi-question-sdk';
 
 declare var $: any;
@@ -15,7 +20,7 @@ declare var $: any;
 	template: require('./select-question.component.html').toString(),
 	styles: [require('./select-question.component.scss').toString()]
 })
-export class SelectQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List>
+export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.List>
 	implements OnInit, OnOptionsLoaded {
 	readonly QUESTION_TYPE_NAME: string = 'Select Question';
 

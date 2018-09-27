@@ -1,12 +1,24 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import { SurveyViewer, QuestionOption, SurveyResponder, OnOptionsLoaded, ResponseValidationState, TRAISI } from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-radio-question',
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List> implements OnInit, OnOptionsLoaded {
+export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit, OnOptionsLoaded {
 	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
 	options: QuestionOption[];

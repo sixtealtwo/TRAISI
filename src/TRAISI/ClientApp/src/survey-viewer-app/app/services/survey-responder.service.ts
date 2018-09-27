@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SurveyResponder, TRAISI, OnSaveResponseStatus } from '../../../../../../TRAISI.SDK/Module/src';
+import { SurveyResponder, SurveyQuestion, OnSaveResponseStatus, ResponseTypes, ResponseData } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
@@ -33,11 +33,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param {number} questionId
 	 * @memberof SurveyResponderService
 	 */
-	public registerQuestion(questionComponent: TRAISI.SurveyQuestion<any>, surveyId: number, questionId: number) {
+	public registerQuestion(questionComponent: SurveyQuestion<any>, surveyId: number, questionId: number) {
 
 
 		questionComponent.response.subscribe(
-			(value: TRAISI.ResponseData<any>) => {
+			(value: ResponseData<any>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId);
 			},
 			error => {
@@ -54,8 +54,8 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private handleResponse(
-		questionComponent: TRAISI.SurveyQuestion<TRAISI.ResponseTypes.String> | OnSaveResponseStatus,
-		response: TRAISI.ResponseData<any>,
+		questionComponent: SurveyQuestion<ResponseTypes.String> | OnSaveResponseStatus,
+		response: ResponseData<any>,
 		surveyId: number,
 		questionId: number
 	) {

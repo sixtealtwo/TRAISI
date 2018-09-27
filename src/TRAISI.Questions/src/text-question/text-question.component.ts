@@ -1,21 +1,25 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
 
 import {
-	OnVisibilityChanged,
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
 	SurveyViewer,
 	OnSurveyQuestionInit,
-	QuestionConfiguration,
-	ResponseValidationState,
-	TRAISI
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
 } from 'traisi-question-sdk';
-import { OnSaveResponseStatus } from 'traisi-sdk/survey_lifecycle_hooks';
 
 @Component({
 	selector: 'traisi-text-question',
 	template: require('./text-question.component.html').toString(),
 	styles: [require('./text-question.component.scss').toString()]
 })
-export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.String>
+export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit, OnSaveResponseStatus {
 	typeName: string;
 	icon: string;
@@ -57,7 +61,7 @@ export class TextQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Response
 	 * @memberof TextQuestionComponent
 	 */
 	handleComponentBlur(): void {
-		let data: TRAISI.StringResponseData = {
+		let data: StringResponseData = {
 			value: this.textInput
 		};
 		this.response.emit(data);

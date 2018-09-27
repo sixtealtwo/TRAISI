@@ -12,8 +12,8 @@ export class Header1Component implements OnInit {
 		toolbar: [
 			['image'],
 			[{ align: [] }]
-		]
-		]
+		],
+
 	};
 
 	@Input() public pageHTML: string;

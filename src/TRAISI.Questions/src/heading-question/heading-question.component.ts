@@ -1,15 +1,26 @@
 import {Component, OnInit} from '@angular/core';
-import {TRAISI} from 'traisi-question-sdk';
-
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 @Component({
 	selector: 'traisi-heading-question',
 	template: <string>require('./heading-question.component.html'),
 	styles: [require('./heading-question.component.scss').toString()]
 })
-export class HeadingQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.None> implements OnInit {
+export class HeadingQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit {
 
 	readonly QUESTION_TYPE_NAME: string = 'Heading';
-	public T: TRAISI.ResponseTypes.None;
+	public T: ResponseTypes.None;
 	typeName: string;
 	icon: string;
 

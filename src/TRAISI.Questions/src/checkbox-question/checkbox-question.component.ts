@@ -1,19 +1,23 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import {
-	SurveyViewer,
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
 	QuestionConfiguration,
-	QuestionOption,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
 	OnOptionsLoaded,
-	ResponseValidationState,
-	TRAISI
+	QuestionOption
 } from 'traisi-question-sdk';
-
 @Component({
 	selector: 'traisi-checkbox-question',
 	template: require('./checkbox-question.component.html').toString(),
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
-export class CheckboxQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List>
+export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.List>
 	implements OnInit, OnOptionsLoaded {
 	readonly QUESTION_TYPE_NAME: string = 'Checkbox Question';
 

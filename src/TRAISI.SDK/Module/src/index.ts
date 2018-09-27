@@ -6,12 +6,25 @@ export {
 	OnVisibilityChanged,
 	OnOptionsLoaded,
 	OnSurveyQuestionInit,
-	OnSaveResponseStatus,
-	OnSurveyNext,
-	OnSurveyPrevious
+	OnSaveResponseStatus
 } from './survey_lifecycle_hooks';
 export { ResponseValidationState } from './question-response-state';
 
-export { TRAISI } from './traisi-survey-question';
+export {
+	TraisiBuildable,
+	BooleanResponseData,
+	SurveyQuestion,
+	ResponseTypes,
+	DateResponseData,
+	DecimalResponseData,
+	IntegerResponseData,
+	ListResponseData,
+	LocationResponseData,
+	RangeResponseData,
+	ResponseData,
+	StringResponseData,
+	TimelineResponseData,
+	TimeResponseData
+} from './traisi-survey-question';
 
 export { QuestionLoaderService } from './question-loader.service';

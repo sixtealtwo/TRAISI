@@ -41,7 +41,8 @@ export class SurveyViewerComponent implements OnInit {
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute
-	) {}
+	) {
+	}
 
 	/**
 	 * Initialization

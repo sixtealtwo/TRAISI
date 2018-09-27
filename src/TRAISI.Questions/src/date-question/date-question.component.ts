@@ -1,10 +1,16 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import {
-	SurveyViewer,
-	QuestionConfiguration,
+	SurveyQuestion,
+	ResponseTypes,
 	SurveyResponder,
-	ResponseValidationState,
-	TRAISI
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
 } from 'traisi-question-sdk';
 
 @Component({
@@ -12,7 +18,7 @@ import {
 	template: require('./date-question.component.html').toString(),
 	styles: [require('./date-question.component.scss').toString()]
 })
-export class DateQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Date> implements OnInit {
+export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'date';
 
 

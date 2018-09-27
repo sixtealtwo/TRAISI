@@ -1,6 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SurveyViewer, QuestionConfiguration, TRAISI } from 'traisi-question-sdk';
-
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 
 
 @Component({
@@ -8,7 +19,7 @@ import { SurveyViewer, QuestionConfiguration, TRAISI } from 'traisi-question-sdk
 	template: require('./matrix-question.component.html').toString(),
 	styles: [require('./matrix-question.component.scss').toString()]
 })
-export class MatrixQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Json>
+export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
 	implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Matrix Question';
 

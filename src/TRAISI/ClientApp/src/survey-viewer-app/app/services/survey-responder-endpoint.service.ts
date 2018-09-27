@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from 'shared/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
-import { TRAISI } from 'traisi-question-sdk';
+import { SurveyQuestion } from 'traisi-question-sdk';
 
 @Injectable({
 	providedIn: 'root'

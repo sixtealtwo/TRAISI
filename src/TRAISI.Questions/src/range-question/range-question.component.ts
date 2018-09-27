@@ -1,12 +1,24 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SurveyViewer, QuestionConfiguration, TRAISI} from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-range-question',
 	template: require('./range-question.component.html').toString(),
 	styles: [require('./range-question.component.scss').toString()]
 })
-export class RangeQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Range> implements OnInit {
+export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Range Question';
 
 	typeName: string;

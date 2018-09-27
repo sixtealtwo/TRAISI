@@ -1,5 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { SurveyViewer, QuestionConfiguration, TRAISI } from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 import { PartialObserver } from 'rxjs';
 import { NumberQuestionConfiguration } from './numer-question.configuration';
 @Component({
@@ -7,9 +19,8 @@ import { NumberQuestionConfiguration } from './numer-question.configuration';
 	template: require('./number-question.component.html').toString(),
 	styles: [require('./number-question.component.scss').toString()]
 })
-export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Decminal> implements OnInit {
+export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Number Question';
-
 
 	typeName: string;
 	icon: string;
@@ -26,17 +37,12 @@ export class NumberQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.Respon
 		this.icon = 'number';
 	}
 
-	public traisiOnInit()
-	{
+	public traisiOnInit() {
 		console.log('in number traisi on init');
 		console.log(this.configuration);
 	}
 
-
 	ngOnInit() {
-
 		console.log(this.configuration);
 	}
 }
-
- 

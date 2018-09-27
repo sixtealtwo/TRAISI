@@ -1,12 +1,24 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { SurveyViewer, QuestionConfiguration, TRAISI, SurveyResponder } from 'traisi-question-sdk';
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption
+} from 'traisi-question-sdk';
 
 @Component({
 	selector: 'traisi-likert-question',
 	template: require('./likert-question.component.html').toString(),
 	styles: [require('./likert-question.component.scss').toString()]
 })
-export class LikertQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.List> implements OnInit {
+export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
 	typeName: string;

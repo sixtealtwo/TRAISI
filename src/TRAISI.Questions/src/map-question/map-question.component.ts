@@ -12,8 +12,19 @@ import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
-import { ResponseValidationState, TRAISI } from 'traisi-question-sdk';
-
+import {
+	SurveyQuestion,
+	ResponseTypes,
+	SurveyResponder,
+	QuestionConfiguration,
+	SurveyViewer,
+	OnSurveyQuestionInit,
+	OnVisibilityChanged,
+	OnSaveResponseStatus,
+	StringResponseData,
+	OnOptionsLoaded,
+	QuestionOption, LocationResponseData
+} from 'traisi-question-sdk';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
@@ -21,7 +32,7 @@ let markerIconImage = require('./assets/default-marker.png');
 	template: '' + <string>(require('./map-question.component.html').toString()),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseTypes.Location>
+export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	implements OnInit, AfterViewInit {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
 
@@ -104,7 +115,7 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 				this.locationSearch = result.address;
 				this.mapGeocoder.control._inputEl.value = result.address;
 
-				let data: TRAISI.LocationResponseData = {
+				let data: LocationResponseData = {
 					latitude: event.lngLat.lat,
 					longitude: event.lngLat.lng,
 					address: <string>result.address
@@ -123,7 +134,7 @@ export class MapQuestionComponent extends TRAISI.SurveyQuestion<TRAISI.ResponseT
 	 * @param {*} address
 	 * @memberof MapQuestionComponent
 	 */
-	private saveResponse(data: TRAISI.LocationResponseData) {
+	private saveResponse(data: LocationResponseData) {
 		this.response.emit(data);
 	}
 

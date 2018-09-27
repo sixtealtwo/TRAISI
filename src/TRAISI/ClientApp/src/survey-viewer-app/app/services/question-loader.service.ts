@@ -28,8 +28,8 @@ import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
-import { TRAISI } from 'traisi-question-sdk';
-import { SurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
 
 declare const SystemJS;
 
@@ -45,7 +45,7 @@ export class QuestionLoaderService {
 
 	private _moduleRefs: { [type: string]: NgModuleRef<any> } = {};
 
-	public componentFactories$: ReplaySubject<ComponentFactory<TRAISI.SurveyQuestion<any>>>;
+	public componentFactories$: ReplaySubject<ComponentFactory<SurveyQuestion<any>>>;
 
 	/**
 	 *Creates an instance of QuestionLoaderService.
@@ -109,7 +109,7 @@ export class QuestionLoaderService {
 
 				if (!(questionType in this._componentFactories)) {
 					this._componentFactories[questionType] = componentFactory;
-					console.log('Adding component factory: ' + questionType);
+					console.debug('Adding component factory: ' + questionType);
 					this.componentFactories$.next(componentFactory);
 				}
 				observer.next(componentFactory);
@@ -161,7 +161,7 @@ export class QuestionLoaderService {
 
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;
-			console.log('Adding component factory: ' + questionType);
+
 			this.componentFactories$.next(componentFactory);
 		}
 		return componentFactory;
@@ -173,12 +173,12 @@ export class QuestionLoaderService {
 	 * @param viewContainerRef
 	 */
 	public loadQuestionComponent(
-		question: SurveyQuestion,
+		question: ISurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
 			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
-				console.log(this.injector);
+
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
 				observer.next(componentRef);
 				observer.complete();

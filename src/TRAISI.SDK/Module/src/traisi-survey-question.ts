@@ -3,152 +3,145 @@ import { EventEmitter, Output, Inject } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
 
-import * as cat from './question-loader.service';
-import { SurveyViewer } from 'traisi-question-sdk';
-import { ReplaySubject } from 'rxjs';
 
-const test = cat;
+/**
+ * Base abstract class for Survey Questions available to TRAISI
+ */
+export abstract class SurveyQuestion<T extends ResponseTypes> {
+	public abstract get typeName(): string;
 
-export namespace TRAISI {
+	public abstract get icon(): string;
+
 	/**
-	 * Base abstract class for Survey Questions available to TRAISI
+	 * Output binding - question components embedded in other question types can subscribe
+	 * to the questions response event to receive the generated "data" of that question type
+	 * when it is completed by the user.
+	 *
+	 * @type {EventEmitter<ResponseData<T>>}
+	 * @memberof SurveyQuestion
 	 */
-	export abstract class SurveyQuestion<T extends ResponseTypes> {
-		public abstract get typeName(): string;
+	@Output()
+	public readonly response: EventEmitter<ResponseData<T>>;
 
-		public abstract get icon(): string;
+	@Output()
+	public readonly validation: EventEmitter<ResponseValidationState>;
 
-		/**
-		 * Output binding - question components embedded in other question types can subscribe
-		 * to the questions response event to receive the generated "data" of that question type
-		 * when it is completed by the user.
-		 *
-		 * @type {EventEmitter<ResponseData<T>>}
-		 * @memberof SurveyQuestion
-		 */
-		@Output()
-		public readonly response: EventEmitter<ResponseData<T>>;
+	/**
+	 * This value is id associated with the survey question. Each id will be unique.
+	 */
+	questionId: number;
 
-		@Output()
-		public readonly validation: EventEmitter<ResponseValidationState>;
+	configuration: QuestionConfiguration;
 
-		/**
-		 * This value is id associated with the survey question. Each id will be unique.
-		 */
-		questionId: number;
+	isValid: boolean;
 
-		configuration: QuestionConfiguration;
+	data: Array<any>;
 
-		isValid: boolean;
+	/**
+	 *
+	 *
+	 * @private
+	 * @param {QuestionConfiguration} configuration
+	 * @memberof SurveyQuestion
+	 */
+	public loadConfiguration(configuration: QuestionConfiguration): void {
+		this.configuration = configuration;
+	}
 
-		data: Array<any>;
-
-		/**
-		 *
-		 *
-		 * @private
-		 * @param {QuestionConfiguration} configuration
-		 * @memberof SurveyQuestion
-		 */
-		public loadConfiguration(configuration: QuestionConfiguration): void {
-			this.configuration = configuration;
-		}
-
-		constructor() {
-			this.response = new EventEmitter<ResponseData<T>>();
-			this.validation = new EventEmitter<ResponseValidationState>();
-			this.questionId = 0;
-			this.configuration = <QuestionConfiguration>{};
-			this.isValid = false;
-			this.data = [];
-		}
-
-		/**
-		 *
-		 *
-		 * @memberof SurveyQuestion
-		 */
-		public traisiOnInit() {}
+	constructor() {
+		this.response = new EventEmitter<ResponseData<T>>();
+		this.validation = new EventEmitter<ResponseValidationState>();
+		this.questionId = 0;
+		this.configuration = <QuestionConfiguration>{};
+		this.isValid = false;
+		this.data = [];
 	}
 
 	/**
 	 *
 	 *
-	 * @export
-	 * @interface TraisiBuildable
+	 * @memberof SurveyQuestion
 	 */
-	export interface TraisiBuildable {
-		typeName: string;
-		icon: string;
-	}
+	public traisiOnInit() {}
+}
 
-	export abstract class ResponseData<T extends ResponseData<ResponseTypes.String>> {}
+/**
+ *
+ *
+ * @export
+ * @interface TraisiBuildable
+ */
+export interface TraisiBuildable {
+	typeName: string;
+	icon: string;
+}
 
-	export interface StringResponseData extends ResponseData<ResponseTypes.String> {
-		value: string;
-	}
+export abstract class ResponseData<T extends ResponseData<ResponseTypes.String>> {}
 
-	export interface DecimalResponseData extends ResponseData<ResponseTypes.Decminal> {
-		value: number;
-	}
+export interface StringResponseData extends ResponseData<ResponseTypes.String> {
+	value: string;
+}
 
-	export interface IntegerResponseData extends ResponseData<ResponseTypes.Integer> {
-		value: number;
-	}
+export interface DecimalResponseData extends ResponseData<ResponseTypes.Decminal> {
+	value: number;
+}
 
-	export interface TimeResponseData extends ResponseData<ResponseTypes.Time> {
-		value: Date;
-	}
+export interface IntegerResponseData extends ResponseData<ResponseTypes.Integer> {
+	value: number;
+}
 
-	export interface DateResponseData extends ResponseData<ResponseTypes.Date> {
-		value: Date;
-	}
+export interface TimeResponseData extends ResponseData<ResponseTypes.Time> {
+	value: Date;
+}
 
-	export interface LocationResponseData extends ResponseData<ResponseTypes.Location> {
-		latitude: number;
-		longitude: number;
-		address: string;
-	}
+export interface DateResponseData extends ResponseData<ResponseTypes.Date> {
+	value: Date;
+}
 
-	export interface TimelineResponseData extends ResponseData<ResponseTypes.Timeline> {
-		latitude: number;
-		longitude: number;
-		address: string;
-		time: Date;
-		purpose: string;
-	}
+export interface LocationResponseData extends ResponseData<ResponseTypes.Location> {
+	latitude: number;
+	longitude: number;
+	address: string;
+}
 
-	export interface RangeResponseData extends ResponseData<ResponseTypes.Range> {
-		min: number;
-		max: number;
-	}
+export interface TimelineResponseData extends ResponseData<ResponseTypes.Timeline> {
+	latitude: number;
+	longitude: number;
+	address: string;
+	time: Date;
+	purpose: string;
+}
 
-	export interface BooleanResponseData extends ResponseData<ResponseTypes.Boolean> {
-		value: boolean;
-	}
+export interface RangeResponseData extends ResponseData<ResponseTypes.Range> {
+	min: number;
+	max: number;
+}
 
-	export interface ListResponseData extends ResponseData<ResponseTypes.List> {
-		values: Array<any>;
-	}
+export interface BooleanResponseData extends ResponseData<ResponseTypes.Boolean> {
+	value: boolean;
+}
 
-	/**
-	 *
-	 *
-	 * @export
-	 * @enum {number}
-	 */
-	export enum ResponseTypes {
-		Location = 'location',
-		String = 'string',
-		Integer = 'integer',
-		Time = 'time',
-		Date = 'date',
-		Timeline = 'timeline',
-		Decminal = 'decimal',
-		Json = 'json',
-		Range = 'Range',
-		List = 'List',
-		Boolean = 'boolean',
-		None = 'none'
-	}
+export interface ListResponseData extends ResponseData<ResponseTypes.List> {
+	values: Array<any>;
+}
+
+/**
+ *
+ *
+ * @export
+ * @enum {number}
+ */
+export enum ResponseTypes {
+	Location = 'location',
+	String = 'string',
+	Integer = 'integer',
+	Time = 'time',
+	Date = 'date',
+	Timeline = 'timeline',
+	Decminal = 'decimal',
+	Json = 'json',
+	Range = 'Range',
+	List = 'List',
+	Boolean = 'boolean',
+	None = 'none'
 }
