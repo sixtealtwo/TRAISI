@@ -9,8 +9,14 @@
 	border: 18px solid black;
 	border-radius: 20px;
 	text-align:center;
+	vertical-align: middle;
 	min-height: 300px;
 	background-color: black;
+
+	video {
+		width: 100%;
+		height: auto;
+	}
 }
 
 .begin-survey-button {
@@ -39,3 +45,19 @@
 }
 
 .blot-formatter__toolbar-button { display: none !important; }
+
+.videoDropzone {
+	height: auto !important;
+	.dz-message {
+		padding-top: 50%;
+		overflow: hidden !important;
+		border: none !important;
+		background-color: transparent !important;
+		color: white !important;
+	}
+}
+
+.delete-video {
+	position: absolute;
+	right: 20px;
+}

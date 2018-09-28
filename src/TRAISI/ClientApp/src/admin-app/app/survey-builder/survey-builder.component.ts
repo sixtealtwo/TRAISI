@@ -71,6 +71,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	@ViewChild('editPageModal')
 	editPageModal: ModalDirective;
 	@ViewChild('welcomeEditor') welcomeEditor: SpecialPageBuilderComponent;
+	@ViewChild('privacyPolicyEditor') privacyPolicyEditor: SpecialPageBuilderComponent;
+	@ViewChild('thankYouEditor') thankYouEditor: SpecialPageBuilderComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -234,6 +236,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	saveTAndCPage() {
+		this.privacyPolicyEditor.updatePageData();
 		this.surveyBuilderService
 			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
 			.subscribe(
@@ -249,6 +252,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	saveThankYouPage() {
+		this.thankYouEditor.updatePageData();
 		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
 			result => {
 				this.alertService.showMessage(

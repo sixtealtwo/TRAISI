@@ -1,2 +1,13 @@
-<div id="welcome-editor"><div id="welcome-header"></div><quill-editor class="quill-page-editor welcome-editor" [modules]="quillModules"  (onContentChanged)="updateContent($event)" id="pageEditor" theme="bubble" name="pageEditor"
-	placeholder="Insert survey logo" [(ngModel)]="pageHTML"></quill-editor></div>
+<div id="welcome-editor">
+	<div id="welcome-header"></div>
+	<div class="row" id="welcome-editor">
+		<div class="col-12 text-center">
+			<dropzone *ngIf="!imageSource" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"
+			 (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+			<img class="welcome-header-logo" src="{{ imageSource }}" />
+			<sup><button *ngIf="imageSource" type="button" (click)="deleteImage()" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
+		</div>
+	</div>
+	<!--<quill-editor class="quill-page-editor welcome-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)"
+	 id="pageEditor" theme="bubble" name="pageEditor" placeholder="Insert survey logo" [(ngModel)]="pageHTML"></quill-editor>-->
+</div>
