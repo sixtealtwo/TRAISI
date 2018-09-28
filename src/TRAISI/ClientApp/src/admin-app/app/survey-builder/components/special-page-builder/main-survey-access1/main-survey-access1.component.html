@@ -2,8 +2,11 @@
 	<div class="row justify-content-center">
 		<div class="col-xl-6 col-lg-11 col-md-11 col-11">
 			<div class="intro-video text-center">
-				<quill-editor class="quill-page-editor" [modules]="quillVideoModules" (onContentChanged)="updateVideoContent($event)" theme="bubble"
-				 placeholder="Insert survey introduction video" [(ngModel)]="videoHTML"></quill-editor>
+					<dropzone class="videoDropzone" *ngIf="!videoSource" #videoUpload [config]="videoDropZoneconfig" [message]="'Click or drag video here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
+					<video *ngIf="videoSource" controls><source src="{{ videoSource }}"/></video> 
+					<button *ngIf="videoSource" type="button" (click)="deleteVideo()" class="btn btn-danger delete-video"><i class="fas fa-times"></i></button>
+				<!--<quill-editor class="quill-page-editor" [modules]="quillVideoModules" (onContentChanged)="updateVideoContent($event)" theme="bubble"
+				 placeholder="Insert survey introduction video" [(ngModel)]="videoHTML"></quill-editor>-->
 			</div>
 		</div>
 		<div class="col-xl-5 col-lg-12 col-md-12 mt-3 ml-0 ml-xl-5">

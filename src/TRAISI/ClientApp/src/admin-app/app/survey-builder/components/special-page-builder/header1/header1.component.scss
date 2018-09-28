@@ -4,6 +4,7 @@
 	position: absolute;
 	background-color: #f0eff0;
 	height: 66px;
+	z-index: 0;
 
 	@include media-breakpoint-up(lg) {
 		width: calc(100% - 55px);
@@ -15,4 +16,25 @@
 
 #welcome-editor {
 	min-height: 66px !important;
+}
+
+.welcome-header-logo {
+		padding-top: 15px;
+		width: auto;
+		max-width: 70vw;
+}
+
+.imageDropzone {
+	height: auto !important;
+	.dz-message {
+		overflow: hidden !important;
+		border: none !important;
+		background-color: transparent !important;
+		color: black !important;
+	}
+}
+
+.delete-image {
+	margin-top: -20px;
+	transform: scale(0.7);
 }

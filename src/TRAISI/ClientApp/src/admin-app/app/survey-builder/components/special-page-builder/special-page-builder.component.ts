@@ -15,6 +15,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 	@Input() public pageHTML: string;
 	@Output() public pageHTMLChange = new EventEmitter();
 
+	@Output() public forceSave = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -40,6 +42,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 		};
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	forcePageSave(event: any) {
+		this.forceSave.emit();
 	}
 
 }

@@ -1,6 +1,6 @@
 <div class="special-page-editor">
-	<app-header1 [(pageHTML)]="headerHTML"></app-header1>
-	<app-main-survey-access1 [(pageHTML)]="mainSurveyAccessHTML"></app-main-survey-access1>
-	<app-text-block1 [(pageHTML)]="aboutHTML"></app-text-block1>
+	<app-header1 [(pageHTML)]="headerHTML" (forceSave)="forcePageSave()"></app-header1>
+	<app-main-survey-access1 [(pageHTML)]="mainSurveyAccessHTML" (forceSave)="forcePageSave()"></app-main-survey-access1>
+	<app-text-block1 [(pageHTML)]="aboutHTML" (forceSave)="forcePageSave()"></app-text-block1>
 
 </div>

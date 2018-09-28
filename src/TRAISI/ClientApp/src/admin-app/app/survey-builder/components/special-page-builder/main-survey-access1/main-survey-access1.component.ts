@@ -1,4 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
+import { AuthService } from '../../../../../../shared/services';
+import { AlertService, MessageSeverity } from '../../../../../../shared/services/alert.service';
+import { Utilities } from '../../../../../../shared/services/utilities';
+import { SurveyBuilderService } from '../../../services/survey-builder.service';
+import { UploadPath } from '../../../models/upload-path';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -38,6 +45,31 @@ export class MainSurveyAccess1Component implements OnInit {
 		]
 	};
 
+	private baseUrl: string = '';
+	public videoSource: string;
+
+	public imageDropZoneconfig: DropzoneConfigInterface = {
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: 'image/*',
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	};
+
+	public videoDropZoneconfig: DropzoneConfigInterface = {
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: 'video/*',
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	};
+
 	public quillMinimalModules = {
 		toolbar: []
 	};
@@ -53,28 +85,77 @@ export class MainSurveyAccess1Component implements OnInit {
 	@Output()
 	public pageHTMLChange = new EventEmitter();
 
-	constructor() {}
+	@Output() public forceSave = new EventEmitter();
+
+	constructor(
+		private configurationService: ConfigurationService,
+		private authService: AuthService,
+		private alertService: AlertService,
+		private surveyBuilderService: SurveyBuilderService
+	) {
+		this.baseUrl = configurationService.baseUrl;
+		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
+		this.imageDropZoneconfig.headers = {
+			Authorization: 'Bearer ' + this.authService.accessToken
+		};
+		this.videoDropZoneconfig.url = this.baseUrl + '/api/Upload';
+		this.videoDropZoneconfig.headers = {
+			Authorization: 'Bearer ' + this.authService.accessToken
+		};
+	}
 
 	ngOnInit() {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
-			this.videoHTML = pageData.video;
+			this.videoSource = pageData.video;
 			this.introTextHTML = pageData.introText;
 			this.accessCodeHTML = pageData.accessCode;
 			this.beginSurveyHTML = pageData.beginSurvey;
 		} catch (e) {
 			this.pageHTMLJson = {};
-			this.videoHTML = '';
+			this.videoSource = undefined;
 			this.introTextHTML = '';
 			this.accessCodeHTML = 'Enter Access Code';
 			this.beginSurveyHTML = 'Begin Survey';
 		}
 	}
 
-	updateVideoContent(contentInfo: any) {
-		this.pageHTMLJson.video = this.videoHTML;
+	onUploadError(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			'Generation Error',
+			`An error occured while uploading the video.\r\nError: "${Utilities.getHttpResponseMessage(
+				this.processDZError(error[1])
+			)}"`,
+			MessageSeverity.error
+		);
+	}
+
+	private processDZError(errors: any): string {
+		let errorString: string = '';
+		for (const error of errors['']) {
+			errorString += error + '\n';
+		}
+		return errorString;
+	}
+
+	onUploadSuccessIndiv(event: any) {
+		this.videoSource = event[1].link;
+		this.updateVideoContent();
+	}
+
+	deleteVideo() {
+		let uploadPath = new UploadPath(this.videoSource);
+		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+		this.videoSource = undefined;
+		this.updateVideoContent();
+	}
+
+	updateVideoContent() {
+		this.pageHTMLJson.video = this.videoSource;
 		this.updatePageHTML();
+		this.forceSave.emit();
 	}
 
 	updateContent(contentInfo: any) {
