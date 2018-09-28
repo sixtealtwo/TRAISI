@@ -20,7 +20,7 @@
 		</li>
 		<li class="nav-item">
 			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
-			 role="tab" aria-controls="tAndC" aria-expanded="true">Terms and Conditions</a>
+			 role="tab" aria-controls="tAndC" aria-expanded="true">Privacy Policy</a>
 		</li>
 		<smooth-dnd-container id="pagesList" [groupName]="'pages-header'" [lockAxis]="'x'" [orientation]="'horizontal'"
 		 [dragBeginDelay]="500" [dragClass]="'raised-tab'" [getChildPayload]="getPagePayload" (dragEnd)="onDragEnd($event)"
@@ -50,7 +50,7 @@
 </div>
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
-		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" (forceSave)="saveWelcomePage()" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
+		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [pageType]="'welcome'" (forceSave)="saveWelcomePage()" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -65,12 +65,15 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
-		<!--<div class="page-editor" *ngIf="termsAndConditionsPage" [froalaEditor]="froalaOptions" [(froalaModel)]="termsAndConditionsPage.value"></div>-->
-		<quill-editor class="form-control quill-page-editor" id="tAndCPageEditor" theme="bubble" name="tAndCPageEditor"
-		[(ngModel)]="termsAndConditionsPage.value"></quill-editor>
-		<div class="row justify-content-center mt-5">
+		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage()" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="separator-hr"/>
+			</div>
+		</div>
+		<div class="row justify-content-center mt-3 mb-2">
 			<div>
-				<button class="btn btn-primary" (click)="saveTAndCPage()">
+				<button class="btn btn-secondary" (click)="saveTAndCPage()">
 					Save Privacy Policy
 				</button>
 			</div>
@@ -90,12 +93,15 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
-		<!--<div class="page-editor" *ngIf="thankYouPage" [froalaEditor]="froalaOptions" [(froalaModel)]="thankYouPage.value"></div>-->
-		<quill-editor class="form-control quill-page-editor" id="thankYouEditor" theme="bubble" name="thankYouEditor"
-		[(ngModel)]="thankYouPage.value"></quill-editor>
-		<div class="row justify-content-center">
+		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [pageType]="'thankYou'" (forceSave)="saveThankYouPage()" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="separator-hr"/>
+			</div>
+		</div>
+		<div class="row justify-content-center mt-3 mb-2">
 			<div>
-				<button class="btn btn-primary" (click)="saveThankYouPage()">
+				<button class="btn btn-secondary" (click)="saveThankYouPage()">
 					Save Thank You Page
 				</button>
 			</div>

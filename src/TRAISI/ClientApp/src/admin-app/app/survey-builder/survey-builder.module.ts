@@ -46,6 +46,7 @@ import { Header1Component } from './components/special-page-builder/header1/head
 import { MainSurveyAccess1Component } from './components/special-page-builder/main-survey-access1/main-survey-access1.component';
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DynamicModule } from 'ng-dynamic-component';
 
 @NgModule({
 	imports: [
@@ -66,6 +67,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 		ChartsModule,
 		TreeviewModule,
 		DropzoneModule,
+		DynamicModule.withComponents([Header1Component,	MainSurveyAccess1Component,	TextBlock1Component]),
 		AmazingTimePickerModule,
 		NgxTreeSelectModule.forRoot({
 			allowFilter: false,
