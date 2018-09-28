@@ -1,4 +1,9 @@
 <div class="special-page-editor" *ngIf="loadedComponents">
+	<smooth-dnd-container id="special-page-header" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['header']" (dragEnter)="onDragEnter('header')" (dragLeave)="onDragLeave('header')" [class.empty-header]="!headerComponent" [shouldAcceptDrop]="headerShouldAcceptDrop" [groupName]="'special-header'" (drop)="onHeaderDrop($event)">
+		<div *ngIf="!headerComponent && !dragOverContainer['header']" class="text-center pt-3">Drop Header Here</div>
+		<div *ngIf="headerComponent" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i class="fas fa-trash-alt"></i></div>
+			<ndc-dynamic *ngIf="headerComponent" (ndcDynamicCreated)="headerComponentCreated($event)" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs" [ndcDynamicOutputs]="headerOutputs"></ndc-dynamic>
+	</smooth-dnd-container>
 	<ndc-dynamic *ngFor="let component of componentList; index as i" [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)"
-		[ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
+	 [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
 </div>

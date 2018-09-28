@@ -43,4 +43,8 @@ export class TextBlock1Component implements OnInit {
 	updateContent(contentInfo: any) {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
+
+	clearUploads() {
+	}
+
 }

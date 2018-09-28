@@ -32,7 +32,6 @@ NewBlock.tagName = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
 
-
 @Component({
 	selector: 'traisi-survey-builder',
 	templateUrl: './survey-builder.component.html',
@@ -70,9 +69,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	createPageModal: ModalDirective;
 	@ViewChild('editPageModal')
 	editPageModal: ModalDirective;
-	@ViewChild('welcomeEditor') welcomeEditor: SpecialPageBuilderComponent;
-	@ViewChild('privacyPolicyEditor') privacyPolicyEditor: SpecialPageBuilderComponent;
-	@ViewChild('thankYouEditor') thankYouEditor: SpecialPageBuilderComponent;
+	@ViewChild('welcomeEditor')
+	welcomeEditor: SpecialPageBuilderComponent;
+	@ViewChild('privacyPolicyEditor')
+	privacyPolicyEditor: SpecialPageBuilderComponent;
+	@ViewChild('thankYouEditor')
+	thankYouEditor: SpecialPageBuilderComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -221,45 +223,51 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	saveWelcomePage() {
+	saveWelcomePage(showMessage: boolean) {
 		this.welcomeEditor.updatePageData();
 		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
 			result => {
-				this.alertService.showMessage(
-					'Success',
-					`Welcome page was saved successfully!`,
-					MessageSeverity.success
-				);
+				if (showMessage) {
+					this.alertService.showMessage(
+						'Success',
+						`Welcome page was saved successfully!`,
+						MessageSeverity.success
+					);
+				}
 			},
 			error => {}
 		);
 	}
 
-	saveTAndCPage() {
+	saveTAndCPage(showMessage: boolean) {
 		this.privacyPolicyEditor.updatePageData();
 		this.surveyBuilderService
 			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
 			.subscribe(
 				result => {
-					this.alertService.showMessage(
-						'Success',
-						`Terms and conditions page was saved successfully!`,
-						MessageSeverity.success
-					);
+					if (showMessage) {
+						this.alertService.showMessage(
+							'Success',
+							`Terms and conditions page was saved successfully!`,
+							MessageSeverity.success
+						);
+					}
 				},
 				error => {}
 			);
 	}
 
-	saveThankYouPage() {
+	saveThankYouPage(showMessage: boolean) {
 		this.thankYouEditor.updatePageData();
 		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
 			result => {
-				this.alertService.showMessage(
-					'Success',
-					`Thank you page was saved successfully!`,
-					MessageSeverity.success
-				);
+				if (showMessage) {
+					this.alertService.showMessage(
+						'Success',
+						`Thank you page was saved successfully!`,
+						MessageSeverity.success
+					);
+				}
 			},
 			error => {}
 		);
@@ -448,12 +456,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					} else {
 						this.updatePageOrder();
 						let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
-						this.surveyBuilderService.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id).subscribe(
-							result => {},
-							error => {
-								this.loadPageStructure();
-							}
-						);
+						this.surveyBuilderService
+							.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
+							.subscribe(
+								result => {},
+								error => {
+									this.loadPageStructure();
+								}
+							);
 					}
 					this.dragResult = undefined;
 				});
@@ -465,12 +475,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		return this.allPages[index];
 	}
 
-
 	/**
 	 *
 	 */
 	public previewSurvey(event: any) {
-
 		window.open(`/survey/${this.survey.code}/terms`, '_blank');
 		event.stopPropagation();
 	}

@@ -152,6 +152,10 @@ export class MainSurveyAccess1Component implements OnInit {
 		this.updateVideoContent();
 	}
 
+	clearUploads() {
+		this.deleteVideo();
+	}
+
 	updateVideoContent() {
 		this.pageHTMLJson.video = this.videoSource;
 		this.updatePageHTML();

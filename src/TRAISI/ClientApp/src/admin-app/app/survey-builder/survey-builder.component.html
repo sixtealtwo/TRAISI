@@ -50,7 +50,7 @@
 </div>
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
-		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [pageType]="'welcome'" (forceSave)="saveWelcomePage()" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
+		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -58,7 +58,7 @@
 		</div>
 		<div class="row justify-content-center mt-3 mb-2">
 			<div>
-				<button class="btn btn-secondary" (click)="saveWelcomePage()">
+				<button class="btn btn-secondary" (click)="saveWelcomePage(true)">
 					Save Welcome Page
 				</button>
 			</div>

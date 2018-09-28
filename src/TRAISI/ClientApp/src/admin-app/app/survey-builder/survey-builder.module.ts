@@ -47,6 +47,7 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
+import { Header2Component } from './components/special-page-builder/header2/header2.component';
 
 @NgModule({
 	imports: [
@@ -67,7 +68,7 @@ import { DynamicModule } from 'ng-dynamic-component';
 		ChartsModule,
 		TreeviewModule,
 		DropzoneModule,
-		DynamicModule.withComponents([Header1Component,	MainSurveyAccess1Component,	TextBlock1Component]),
+		DynamicModule.withComponents([Header1Component, Header2Component,	MainSurveyAccess1Component,	TextBlock1Component]),
 		AmazingTimePickerModule,
 		NgxTreeSelectModule.forRoot({
 			allowFilter: false,
@@ -112,7 +113,8 @@ import { DynamicModule } from 'ng-dynamic-component';
 		SpecialPageBuilderComponent,
 		Header1Component,
 		MainSurveyAccess1Component,
-		TextBlock1Component
+		TextBlock1Component,
+		Header2Component
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

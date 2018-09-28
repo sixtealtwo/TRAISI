@@ -6,15 +6,16 @@
 	</header>
 	<!-- main notification links are placed inside of .sidebar-nav -->
 	<div class="builder-qtypes">
-			<ul class="sidebar-nav">
-			<smooth-dnd-container *ngIf="!disabled" id="qTypesList" [behaviour]="'copy'" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" [groupName]="'builder-questions'" [getChildPayload]="getQuestionPayload">
+		<ul class="sidebar-nav">
+			<smooth-dnd-container *ngIf="!disabled" id="qTypesList" [behaviour]="'copy'" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)"
+			 [groupName]="'builder-questions'" [getChildPayload]="getQuestionPayload">
 				<smooth-dnd-draggable>
 					<li class="chooser section-tool-item">
 						<a (click)="addSectionToList()">
 							<span class="icon" [tooltip]="'Section'" placement="right" container="body" containerClass="tooltip-builder">
 								<i class="chooser-icon fas fa-archive"></i>
 							</span>
-								Section
+							Section
 						</a>
 					</li>
 				</smooth-dnd-draggable>
@@ -24,11 +25,46 @@
 							<span class="icon" [tooltip]="getQuestionTypeName(item)" placement="right" container="body" containerClass="tooltip-builder">
 								<i class="chooser-icon" [ngClass]="item.icon"></i>
 							</span>
-								{{ getQuestionTypeName(item) }}
+							{{ getQuestionTypeName(item) }}
 						</a>
 					</li>
 				</smooth-dnd-draggable>
 			</smooth-dnd-container>
+			<li>
+					<!-- an example of nested submenu. basic bootstrap collapse component -->
+					<a class="collapsed" data-target="#layout-headers" data-toggle="collapse">
+						<span class="icon">
+							<i class="fas fa-th-large"></i>
+						</span>
+						Headers
+						<i class="toggle fas fa-angle-down mt-3"></i>
+					</a>
+					<ul id="layout-headers"class="collapse">
+							<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
+									<smooth-dnd-draggable>
+										<li class="chooser">
+											<a>
+												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+													<i class="chooser-icon fas fa-th-large"></i>
+												</span>
+												Header 1
+											</a>
+										</li>
+									</smooth-dnd-draggable>
+									<smooth-dnd-draggable>
+										<li class="chooser">
+											<a>
+												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+													<i class="chooser-icon fas fa-th-large"></i>
+												</span>
+												Header 2
+											</a>
+										</li>
+									</smooth-dnd-draggable>
+								</smooth-dnd-container>
+					</ul>
+			</li>
+			
 		</ul>
 	</div>
 </div>

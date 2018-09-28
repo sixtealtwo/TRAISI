@@ -132,6 +132,10 @@ export class QuestionTypeChooserComponent implements OnInit {
 		}
 	}
 
+	getPageHeaderPayload(index) {
+		return 'header' + (index + 1);
+	}
+
 	getQuestionTypeName(typeDef: QuestionTypeDefinition) {
 		return typeDef.typeNameLocales[this.configurationService.language];
 	}
