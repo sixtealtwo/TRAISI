@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, Inject } from '@angular/core';
+import { Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
@@ -48,6 +48,7 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+
 
 
 		/**

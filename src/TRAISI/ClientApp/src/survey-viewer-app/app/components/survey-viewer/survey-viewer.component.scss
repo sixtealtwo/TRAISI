@@ -4,6 +4,8 @@
 	margin: auto;
 	text-align: center;
 	overflow-y: scroll;
+	width: 100%;
+	min-height: 500px;
 
 }
 
@@ -16,6 +18,18 @@
 .survey-title-container
 {
 	text-align: center;
+	margin:10px;
+}
+
+.survey-footer-container
+{
+	background: $light;
+}
+
+.footer-inner
+{
+	text-align: center;
+	font-size: 14px;
 	margin:10px;
 }
 

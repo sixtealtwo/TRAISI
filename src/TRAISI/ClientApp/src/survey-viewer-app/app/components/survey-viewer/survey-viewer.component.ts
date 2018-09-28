@@ -16,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { sortBy } from 'lodash';
+import { QuestionContainerComponent } from '../question-container/question-container.component';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -31,6 +32,19 @@ export class SurveyViewerComponent implements OnInit {
 	@ViewChild(SurveyHeaderDisplayComponent)
 	headerDisplay: SurveyHeaderDisplayComponent;
 
+	@ViewChild(QuestionContainerComponent)
+	questionContainer: QuestionContainerComponent;
+
+	public activeQuestion;
+
+	public activeQuestionIndex: number = -1;
+
+	public isLoaded: boolean = false;
+
+	public navigatePreviousEnabled: boolean = false;
+
+	public navigateNextEnabled: boolean = false;
+
 	/**
 	 *
 	 * @param surveyViewerService
@@ -41,8 +55,7 @@ export class SurveyViewerComponent implements OnInit {
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute
-	) {
-	}
+	) {}
 
 	/**
 	 * Initialization
@@ -70,5 +83,44 @@ export class SurveyViewerComponent implements OnInit {
 	 */
 	private loadPageQuestions(page: SurveyViewPage) {
 		this.questions = sortBy(page.questions, ['order']);
+
+		this.activeQuestionIndex = 0;
+		this.validateNavigation();
+
+		this.isLoaded = true;
+	}
+
+	/**
+	 *
+	 */
+	private navigateToActiveIndex() {
+		this.activeQuestion = this.questions[this.activeQuestionIndex];
+	}
+
+	public navigateNext() {
+		this.activeQuestionIndex += 1;
+		this.validateNavigation();
+	}
+
+	public navigatePrevious() {
+		this.activeQuestionIndex -= 1;
+		this.validateNavigation();
+	}
+
+	/**
+	 * Validates the disabled / enabled state of the navigation buttons.
+	 */
+	private validateNavigation() {
+		if (this.activeQuestionIndex > 0) {
+			this.navigatePreviousEnabled = true;
+		} else {
+			this.navigatePreviousEnabled = false;
+		}
+
+		if (this.activeQuestionIndex >= this.questions.length - 1) {
+			this.navigateNextEnabled = false;
+		} else {
+			this.navigateNextEnabled = true;
+		}
 	}
 }

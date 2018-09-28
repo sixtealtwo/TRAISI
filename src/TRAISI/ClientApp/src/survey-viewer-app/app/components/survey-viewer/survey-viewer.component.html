@@ -8,19 +8,24 @@
 	<div class="survey-body-container">
 		<div class="survey-body">
 			<div *ngFor="let question of questions; let i = index">
-				<traisi-question-container [question]="question" [surveyId]="surveyId" [questionIndex]="i"></traisi-question-container>
+
+				<traisi-question-container [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i"></traisi-question-container>
 			</div>
 		</div>
 	</div>
 	<div class="survey-navigation-container">
-			<div class="survey-previous-button navigation-button"><button type="button" class="btn btn-primary">
-					Previous
-				</button></div>
-			<div class="survey-next-button navigation-button"><button type="button" class="btn btn-primary">
-					Next
-				</button></div>
+		<div class="survey-previous-button navigation-button">
+			<button type="button" class="btn btn-primary" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled">
+				Previous
+			</button></div>
+		<div class="survey-next-button navigation-button">
+			<button type="button" class="btn btn-primary" (click)="navigateNext()" [disabled]="!navigateNextEnabled">
+				Next
+			</button></div>
 	</div>
 	<div class="survey-footer-container">
-
+		<div class="footer-inner">
+			Ministry of Transportation
+		</div>
 	</div>
 </div>
