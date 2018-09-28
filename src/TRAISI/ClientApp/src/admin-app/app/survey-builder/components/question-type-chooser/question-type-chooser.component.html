@@ -64,7 +64,30 @@
 								</smooth-dnd-container>
 					</ul>
 			</li>
-			
+			<li>
+					<!-- an example of nested submenu. basic bootstrap collapse component -->
+					<a class="collapsed" data-target="#layout-footers" data-toggle="collapse">
+						<span class="icon">
+							<i class="fas fa-th-large"></i>
+						</span>
+						Footers
+						<i class="toggle fas fa-angle-down mt-3"></i>
+					</a>
+					<ul id="layout-footers"class="collapse">
+							<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-footer'" [getChildPayload]="getPageFooterPayload">
+									<smooth-dnd-draggable>
+										<li class="chooser">
+											<a>
+												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+													<i class="chooser-icon fas fa-th-large"></i>
+												</span>
+												Footer 1
+											</a>
+										</li>
+									</smooth-dnd-draggable>
+								</smooth-dnd-container>
+					</ul>
+			</li>
 		</ul>
 	</div>
 </div>

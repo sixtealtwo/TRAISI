@@ -1,6 +1,6 @@
-<div id="welcome-editor">
+<div id="welcome-header-editor">
 		<div id="welcome-header"></div>
-		<div class="row" id="welcome-editor">
+		<div class="row">
 			<div class="col text-left">
 				<dropzone *ngIf="!imageSource1" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"
 				 (error)="onUploadError($event)" (success)="onUploadSuccess($event, 1)"></dropzone>

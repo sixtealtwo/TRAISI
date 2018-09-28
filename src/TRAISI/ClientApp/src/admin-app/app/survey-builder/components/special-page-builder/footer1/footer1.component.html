@@ -1,0 +1,12 @@
+<footer id="welcome-footer">
+	<div class="row">
+		<div class="col text-left">
+			<img src="assets/img/icon_dark.png" height=40/>
+		</div>
+		<div class="col text-center">
+				<quill-editor class="quill-page-editor" [modules]="quillMinimalModules" (onContentChanged)="updateFooterContent($event)" theme="bubble"
+				placeholder="Enter copyright" [(ngModel)]="pageHTML"></quill-editor>
+		</div>
+		<div class="col"></div>
+	</div>
+</footer>

@@ -4,6 +4,7 @@ import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-ac
 import { TextBlock1Component } from './text-block1/text-block1.component';
 import { Header2Component } from './header2/header2.component';
 import { IContainerOptions } from '../../../shared/ngx-smooth-dnd/container/container.component';
+import { Footer1Component } from './footer1/footer1.component';
 
 @Component({
   selector: 'app-special-page-builder',
@@ -34,6 +35,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	public footerKey: string;
 	public footerComponent: any;
+	private footerComponentInstance: any;
 	public footerHTML: string;
 	public footerInputs;
 	public footerOutputs;
@@ -60,6 +62,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 					this.headerKey = q;
 					this.headerComponent = this.getComponent(q);
 					this.headerHTML = pageData[q];
+				} else if (q.startsWith('footer')) {
+					this.footerKey = q;
+					this.footerComponent = this.getComponent(q);
+					this.footerHTML = pageData[q];
 				} else {
 					this.componentKeys.push(q);
 					this.componentList.push(this.getComponent(q));
@@ -127,6 +133,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 			case 'textBlock1':
 				return TextBlock1Component;
 				break;
+			case 'footer1':
+				return Footer1Component;
+				break;
 			default:
 				return null;
 				break;
@@ -156,6 +165,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.componentKeys.forEach((componentName, index) => {
 			pageJson[componentName] = this.componentHTML[index];
 		});
+		if (this.footerKey) {
+			pageJson[this.footerKey] = this.footerHTML;
+		}
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
@@ -168,8 +180,19 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.headerComponentInstance = compRef.instance;
 	}
 
+	footerComponentCreated(compRef: ComponentRef<any>) {
+		this.footerComponentInstance = compRef.instance;
+	}
+
 	headerShouldAcceptDrop(sourceContainerOptions, payload) {
 		if (sourceContainerOptions.groupName === 'special-header' && this.headerComponent === undefined) {
+			return true;
+		}
+		return false;
+	}
+
+	footerShouldAcceptDrop(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName === 'special-footer' && this.footerComponent === undefined) {
 			return true;
 		}
 		return false;
@@ -183,7 +206,6 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.dragOverContainer[containerName] = false;
 	}
 
-
 	onHeaderDrop(dropResult: any) {
 		this.headerKey = dropResult.payload;
 		this.headerComponent = this.getComponent(this.headerKey);
@@ -194,12 +216,31 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.dragOverContainer = new Object();
 	}
 
+	onFooterDrop(dropResult: any) {
+		this.footerKey = dropResult.payload;
+		this.footerComponent = this.getComponent(this.footerKey);
+		this.footerHTML = '';
+		this.footerInputs = {
+			pageHTML: this.footerHTML
+		};
+		this.dragOverContainer = new Object();
+	}
+
 	deleteHeaderComponent() {
 		this.headerKey = undefined;
 		this.headerComponentInstance.clearUploads();
 		this.headerComponentInstance = undefined;
 		this.headerComponent = undefined;
 		this.headerHTML = undefined;
+		this.forcePageSave();
+	}
+
+	deleteFooterComponent() {
+		this.footerKey = undefined;
+		this.footerComponentInstance.clearUploads();
+		this.footerComponentInstance = undefined;
+		this.footerComponent = undefined;
+		this.footerHTML = undefined;
 		this.forcePageSave();
 	}
 
