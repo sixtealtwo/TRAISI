@@ -18,7 +18,10 @@
 }
 
 @include media-breakpoint-only(xs) {
-
+	.header-display-body .header-display-item
+	{
+		font-size: 18px;
+	}
 }
 
 @include media-breakpoint-only(sm) {

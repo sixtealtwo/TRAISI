@@ -1,11 +1,13 @@
 @import "../../../assets/scss/application.scss";
 
 .survey-body-container {
-	margin: auto;
+	margin: 0;
 	text-align: center;
 	overflow-y: auto;
 	width: 100%;
 	min-height: 500px;
+	flex-grow: 1;
+
 
 }
 
@@ -59,20 +61,7 @@
 
 }
 
-
-@include media-breakpoint-only(xs) {
-	.survey-body {
-		margin: 10px;
-	}
-	.survey-body-container {
-		margin: auto;
-		text-align: center;
-		overflow-y: auto;
-		width: 100%;
-		min-height: 200px;
-
-	}
-}
+@import "survey-viewer-component.sm.scss";
 
 @include media-breakpoint-only(sm) {
 	.survey-body {
