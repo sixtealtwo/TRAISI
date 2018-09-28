@@ -17,6 +17,10 @@
 	border-radius: 10px;
 	min-width: 50px;
 	text-align: center;
+	user-select: text;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
 }
 
 .xs-center {

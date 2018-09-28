@@ -59,7 +59,7 @@ li.chooser > a{
 	position: relative;
 	border-top: 1px solid $gray-400;
 	padding-left: 50px;
-	line-height: 35px;
+	line-height: 44px;
 
 	&:hover{
 		background-color: $sidebar-item-hover-bg-color;
@@ -76,7 +76,7 @@ li.chooser > a{
 
 		display: block;
 		position: absolute;
-		top: 3px;
+		top: 8px;
 		left: $sidebar-padding-horizontal;
 		width: 28px;
 		height: 28px;
