@@ -28,6 +28,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public activeSurveyId: ReplaySubject<number> = new ReplaySubject<number>(1);
 
+	private _navigationState: boolean = true;
+
+	public navigationActiveState: Subject<boolean>;
+
 	/**
 	 *
 	 */
@@ -65,7 +69,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				}
 			}
 		});
-
+		this.navigationActiveState = new Subject<boolean>();
 
 	}
 
@@ -188,6 +192,21 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			});
 		}
 	}
+
+
+
+
+	/**
+	 *
+	 * @param canNavigate
+	 */
+	public updateNavigationState(canNavigate: boolean): void
+	{
+		this._navigationState = canNavigate;
+		this.navigationActiveState.next(canNavigate);
+		return;
+	}
+
 
 	/**
 	 *

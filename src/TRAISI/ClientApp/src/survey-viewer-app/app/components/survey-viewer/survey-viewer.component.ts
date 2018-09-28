@@ -45,6 +45,8 @@ export class SurveyViewerComponent implements OnInit {
 
 	public navigateNextEnabled: boolean = false;
 
+	private navigationActiveState: boolean = true;
+
 	/**
 	 *
 	 * @param surveyViewerService
@@ -75,7 +77,18 @@ export class SurveyViewerComponent implements OnInit {
 				});
 			});
 		});
+
+		// subscribe to the navigation state change that is alterable by sub questions
+		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
 	}
+
+	/**
+	 *
+	 * @param state
+	 */
+	private onNavigationStateChanged: (state: boolean) => void = (state: boolean) => {
+		this.navigationActiveState = state;
+	};
 
 	/**
 	 *
@@ -83,25 +96,22 @@ export class SurveyViewerComponent implements OnInit {
 	 */
 	private loadPageQuestions(page: SurveyViewPage) {
 		this.questions = sortBy(page.questions, ['order']);
-
 		this.activeQuestionIndex = 0;
 		this.validateNavigation();
-
 		this.isLoaded = true;
 	}
 
 	/**
-	 *
+	 * Navigate questions - next question in the questions list.
 	 */
-	private navigateToActiveIndex() {
-		this.activeQuestion = this.questions[this.activeQuestionIndex];
-	}
-
 	public navigateNext() {
 		this.activeQuestionIndex += 1;
 		this.validateNavigation();
 	}
 
+	/**
+	 * Navigate questions - to the previous item in the question list
+	 */
 	public navigatePrevious() {
 		this.activeQuestionIndex -= 1;
 		this.validateNavigation();
@@ -117,7 +127,9 @@ export class SurveyViewerComponent implements OnInit {
 			this.navigatePreviousEnabled = false;
 		}
 
-		if (this.activeQuestionIndex >= this.questions.length - 1) {
+		if (this.navigationActiveState == false) {
+			this.navigateNextEnabled = false;
+		} else if (this.activeQuestionIndex >= this.questions.length - 1) {
 			this.navigateNextEnabled = false;
 		} else {
 			this.navigateNextEnabled = true;
