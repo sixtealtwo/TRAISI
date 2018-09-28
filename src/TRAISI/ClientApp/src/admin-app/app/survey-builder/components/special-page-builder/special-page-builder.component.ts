@@ -50,6 +50,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
   constructor() {
 		this.headerShouldAcceptDrop = this.headerShouldAcceptDrop.bind(this);
+		this.footerShouldAcceptDrop = this.footerShouldAcceptDrop.bind(this);
 	 }
 
   ngOnInit() {

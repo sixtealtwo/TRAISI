@@ -1,6 +1,6 @@
 <div class="special-page-editor" *ngIf="loadedComponents">
 	<smooth-dnd-container id="special-page-header" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['header']"
-	 (dragEnter)="onDragEnter('header')" (dragLeave)="onDragLeave('header')" [class.empty-header]="!headerComponent" [shouldAcceptDrop]="headerShouldAcceptDrop"
+	 (dragEnter)="onDragEnter('header')" (dragLeave)="onDragLeave('header')" [class.empty-container]="!headerComponent" [shouldAcceptDrop]="headerShouldAcceptDrop"
 	 [groupName]="'special-header'" (drop)="onHeaderDrop($event)">
 		<div *ngIf="!headerComponent && !dragOverContainer['header']" class="text-center pt-3">Drop Header Here</div>
 		<div *ngIf="headerComponent" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i class="fas fa-trash-alt"></i></div>
