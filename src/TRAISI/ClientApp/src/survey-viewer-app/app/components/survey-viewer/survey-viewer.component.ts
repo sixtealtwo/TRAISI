@@ -5,7 +5,8 @@ import {
 	ViewContainerRef,
 	ComponentFactory,
 	SystemJsNgModuleLoader,
-	Inject
+	Inject,
+	ChangeDetectorRef
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
@@ -56,7 +57,8 @@ export class SurveyViewerComponent implements OnInit {
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private cdRef: ChangeDetectorRef
 	) {}
 
 	/**
@@ -88,6 +90,8 @@ export class SurveyViewerComponent implements OnInit {
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (state: boolean) => {
 		this.navigationActiveState = state;
+		this.validateNavigation();
+
 	};
 
 	/**
@@ -127,7 +131,7 @@ export class SurveyViewerComponent implements OnInit {
 			this.navigatePreviousEnabled = false;
 		}
 
-		if (this.navigationActiveState == false) {
+		if (this.navigationActiveState === false) {
 			this.navigateNextEnabled = false;
 		} else if (this.activeQuestionIndex >= this.questions.length - 1) {
 			this.navigateNextEnabled = false;

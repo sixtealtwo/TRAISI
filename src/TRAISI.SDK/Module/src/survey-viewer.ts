@@ -4,6 +4,6 @@ import { QuestionOption } from './question-option';
 export interface SurveyViewer {
 	configurationData: Subject<QuestionConfiguration[]>;
 	options: Subject<QuestionOption[]>;
-
 	accessToken: string;
+	updateNavigationState(canNavigate: boolean): void;
 }

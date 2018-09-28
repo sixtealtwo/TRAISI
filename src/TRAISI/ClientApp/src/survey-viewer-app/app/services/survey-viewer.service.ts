@@ -193,9 +193,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		}
 	}
 
-
-
-
 	/**
 	 *
 	 * @param canNavigate
@@ -206,7 +203,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.navigationActiveState.next(canNavigate);
 		return;
 	}
-
 
 	/**
 	 *
