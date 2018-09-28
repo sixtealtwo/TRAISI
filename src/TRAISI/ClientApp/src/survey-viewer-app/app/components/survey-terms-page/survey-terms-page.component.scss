@@ -18,14 +18,33 @@
 
 @include media-breakpoint-only(xs) {
 
+	.welcome-container h1
+	{
+		font-size: 2rem;
+	}
+
+	.terms-and-conditions-text-container
+	{
+		width: 100%;
+	}
 }
 
 @include media-breakpoint-only(sm) {
-
+	.welcome-container h1
+	{
+		font-size: 2rem;
+	}
+	.terms-and-conditions-text-container
+	{
+		width: 100%;
+	}
 }
 
 @include media-breakpoint-only(md) {
-
+	.terms-and-conditions-text-container
+	{
+		width: 100%;
+	}
 }
 
 @include media-breakpoint-only(lg) {
