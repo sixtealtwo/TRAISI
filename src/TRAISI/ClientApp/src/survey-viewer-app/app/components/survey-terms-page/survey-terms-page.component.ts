@@ -16,6 +16,8 @@ export class SurveyTermsPageComponent implements OnInit {
 
 	public model: SurveyViewTermsModel;
 
+	contentModel: any;
+
 	/**
 	 *Creates an instance of SurveyTermsPageComponent.
 	 * @param {ActivatedRoute} route
@@ -31,6 +33,10 @@ export class SurveyTermsPageComponent implements OnInit {
 		private translate: TranslateService
 	) {
 		this.model = {} as SurveyViewTermsModel;
+
+		this.contentModel = {
+			textBlock1: ''
+		};
 	}
 
 	public begin() {
@@ -50,8 +56,9 @@ export class SurveyTermsPageComponent implements OnInit {
 
 			this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
 				value => {
-					console.log(value);
+
 					this.model = value;
+					this.contentModel = JSON.parse(this.model.termsAndConditionsText);
 				},
 				error => {
 					this.model = {} as SurveyViewTermsModel;
