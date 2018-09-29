@@ -5,10 +5,7 @@
 	text-align: center;
 	overflow-y: auto;
 	width: 100%;
-	min-height: 500px;
 	flex-grow: 1;
-
-
 }
 
 .survey-body {
@@ -60,6 +57,11 @@
 	justify-content: center;
 
 }
+
+@media #{$xl-up} {
+
+}
+
 
 @import "survey-viewer-component.sm.scss";
 

@@ -1,4 +1,9 @@
-@include media-breakpoint-only(xs) {
+@import "../../../assets/scss/application.scss";
+
+
+@media #{$sm-down} {
+
+
 	.survey-body {
 		margin: 5px;
 	}
