@@ -11,8 +11,7 @@
 	 [class.drag-over]="dragOverContainer['surveyAccess']" (dragEnter)="onDragEnter('surveyAccess')" (dragLeave)="onDragLeave('surveyAccess')"
 	 [class.empty-container]="!surveyAccessComponent" [shouldAcceptDrop]="surveyAccessShouldAcceptDrop" [groupName]="'special-surveyAccess'"
 	 (drop)="onSurveyAccessDrop($event)">
-		<div *ngIf="!surveyAccessComponent && !dragOverContainer['surveyAccess']" class="text-center pt-3">Drop Main Survey Start Here
-			Section Here</div>
+		<div *ngIf="!surveyAccessComponent && !dragOverContainer['surveyAccess']" class="text-center pt-3">Drop Main Survey Start Section Here</div>
 		<div *ngIf="surveyAccessComponent" class="delete-component-button btn btn-danger" (click)="deleteSurveyAccessComponent()"><i
 			 class="far fa-trash-alt"></i></div>
 		<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
@@ -23,8 +22,8 @@
 	 [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['content']" (dragEnter)="onDragEnter('content')"
 	 (dragLeave)="onDragLeave('content')" [class.empty-container]="componentKeys.length == 0" [groupName]="'special-content'"
 	 (drop)="onContentDrop($event)">
-	 <div *ngIf="componentKeys.length == 0 && !dragOverContainer['content']" class="text-center pt-3">Drop Other Sections Here
-			Section Here</div>
+	 <div *ngIf="componentKeys.length == 0 && !dragOverContainer['content']" class="text-center pt-3">Drop Other
+			Sections Here</div>
 		<smooth-dnd-draggable *ngFor="let component of componentList; index as i">
 			<div class="page-content">
 				<div class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="far fa-trash-alt"></i></div>
