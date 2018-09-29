@@ -58,7 +58,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.configurationData = new Subject<QuestionConfiguration[]>();
 		this.options = new Subject<QuestionOption[]>();
 
-		this.router.events.subscribe((value: any) => {
+		let sub = this.router.events.subscribe((value: any) => {
 			if (value instanceof ActivationStart) {
 				let route: ActivationStart = <ActivationStart>value;
 
@@ -66,6 +66,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 				if (this._activeSurveyId < 0) {
 					this.restoreStatus();
+					sub.unsubscribe();
 				}
 			}
 		});
@@ -179,12 +180,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		if (this.authService.isLoggedIn && this.authService.currentUser.roles.includes('respondent')) {
 			this._activeSurveyId = +this.authService.currentSurveyUser.surveyId;
 
+
 			this.activeSurveyId.next(this._activeSurveyId);
 
 
 		}
 
 		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
+
 			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(value => {
 				this._activeSurveyId = <number>value;
 				this.activeSurveyId.next(this._activeSurveyId);

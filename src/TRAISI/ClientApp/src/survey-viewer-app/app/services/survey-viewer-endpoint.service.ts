@@ -66,7 +66,6 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	getSurveyIdFromCodeEndpoint<T>(code: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyIdFromCodeUrl}/${code}`;
 
-		console.log(this.getRequestHeaders());
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getSurveyIdFromCodeEndpoint(code));

@@ -28,10 +28,10 @@
 			"internalConsoleOptions": "openOnSessionStart",
 			"launchBrowser": {
 				"enabled": true,
-				"args": "${auto-detect-url}",
+				"args": "http://localhost:5000",
 				"windows": {
 					"command": "cmd.exe",
-					"args": "/C start ${auto-detect-url}"
+					"args": "/C start http://localhost:5000"
 				},
 				"osx": {
 					"command": "open"
@@ -43,7 +43,7 @@
 
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-				"ASPNETCORE_URLS": "http://192.168.0.139:5000/"
+				"ASPNETCORE_URLS": "http://0.0.0.0:5000/"
 			},
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"
