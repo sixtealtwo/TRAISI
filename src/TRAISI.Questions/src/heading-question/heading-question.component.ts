@@ -28,7 +28,6 @@ export class HeadingQuestionComponent extends SurveyQuestion<ResponseTypes.None>
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'heading';
-		console.log('loaded');
 
 	}
 
