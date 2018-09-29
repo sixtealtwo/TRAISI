@@ -71,7 +71,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			}
 		});
 		this.navigationActiveState = new Subject<boolean>();
-
 	}
 
 	/**
@@ -180,19 +179,20 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		if (this.authService.isLoggedIn && this.authService.currentUser.roles.includes('respondent')) {
 			this._activeSurveyId = +this.authService.currentSurveyUser.surveyId;
 
-
 			this.activeSurveyId.next(this._activeSurveyId);
-
-
 		}
 
 		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
-
-			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(value => {
-				this._activeSurveyId = <number>value;
-				this.activeSurveyId.next(this._activeSurveyId);
-
-			});
+			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(
+				value => {
+					this._activeSurveyId = <number>value;
+					this.activeSurveyId.next(this._activeSurveyId);
+				},
+				error => {
+					console.error(error);
+					this.router.navigate(['/', this.activeSurveyCode, 'error']);
+				}
+			);
 		}
 	}
 
@@ -200,8 +200,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 *
 	 * @param canNavigate
 	 */
-	public updateNavigationState(canNavigate: boolean): void
-	{
+	public updateNavigationState(canNavigate: boolean): void {
 		this._navigationState = canNavigate;
 		this.navigationActiveState.next(canNavigate);
 		return;
