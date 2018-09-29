@@ -1,12 +1,16 @@
-<footer id="welcome-footer">
+<footer id="welcome-footer"  [style.background-color]="footerColour">
 	<div class="row">
 		<div class="col text-left">
 			<img src="assets/img/icon_dark.png" height=40/>
 		</div>
 		<div class="col text-center">
-				<quill-editor class="quill-page-editor" [modules]="quillMinimalModules" (onContentChanged)="updateFooterContent($event)" theme="bubble"
-				placeholder="Enter copyright" [(ngModel)]="pageHTML"></quill-editor>
+			<quill-editor class="quill-page-editor" [modules]="quillMinimalModules" (onEditorCreated)="quillEditorCreated($event)" (onContentChanged)="updateFooterContent($event)"
+			 theme="bubble" placeholder="Enter copyright" [(ngModel)]="pageHTMLJson.html"></quill-editor>
 		</div>
-		<div class="col"></div>
+		<div class="col">
+			<button type="button" class="ml-4 mt-1 btn btn-inverse footer-color-picker" [cpPosition]="'top'" (colorPickerChange)="footerColourChange($event)" [(colorPicker)]="footerColour">
+				<img src="assets/img/colour-picker.png" height="15px" />
+			</button>
+		</div>
 	</div>
 </footer>

@@ -18,6 +18,7 @@ export class Header2Component implements OnInit {
 	private baseUrl: string = '';
 	public imageSource1: string;
 	public imageSource2: string;
+	public headerColour: string = '#f0eff0';
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -56,8 +57,10 @@ export class Header2Component implements OnInit {
 			this.pageHTMLJson = pageData;
 			this.imageSource1 = pageData.image1;
 			this.imageSource2 = pageData.image2;
+			this.headerColour = pageData.headerColour;
 		} catch(e) {
 			this.pageHTMLJson = {};
+			this.pageHTMLJson.headerColour = this.headerColour;
 			this.imageSource1 = undefined;
 			this.imageSource2 = undefined;
 		}
@@ -111,6 +114,13 @@ export class Header2Component implements OnInit {
 	}
 
 	updateImageContent() {
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	headerColourChange(newColour: string) {
+		this.headerColour = newColour;
+		this.pageHTMLJson.headerColour = this.headerColour;
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}

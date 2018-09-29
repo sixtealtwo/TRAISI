@@ -47,8 +47,10 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
+import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
 
 @NgModule({
 	imports: [
@@ -69,6 +71,7 @@ import { Footer1Component } from './components/special-page-builder/footer1/foot
 		ChartsModule,
 		TreeviewModule,
 		DropzoneModule,
+		ColorPickerModule,
 		DynamicModule.withComponents([
 			Header1Component,
 			Header2Component,
@@ -122,7 +125,8 @@ import { Footer1Component } from './components/special-page-builder/footer1/foot
 		MainSurveyAccess1Component,
 		TextBlock1Component,
 		Header2Component,
-		Footer1Component
+		Footer1Component,
+		SponsorsComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

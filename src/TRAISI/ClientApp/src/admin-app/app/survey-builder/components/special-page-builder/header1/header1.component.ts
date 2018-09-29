@@ -17,6 +17,7 @@ export class Header1Component implements OnInit {
 
 	private baseUrl: string = '';
 	public imageSource: string;
+	public headerColour: string = '#f0eff0';
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -30,6 +31,7 @@ export class Header1Component implements OnInit {
 		createImageThumbnails: false
 	};
 
+	private pageHTMLJson: any;
 	@Input() public pageHTML: string;
 	@Output() public pageHTMLChange = new EventEmitter();
 	@Output() public forceSave = new EventEmitter();
@@ -48,7 +50,16 @@ export class Header1Component implements OnInit {
 	}
 
   ngOnInit() {
-		this.imageSource = this.pageHTML;
+		try {
+			let pageData = JSON.parse(this.pageHTML);
+			this.pageHTMLJson = pageData;
+			this.imageSource = pageData.image;
+			this.headerColour = pageData.headerColour;
+		} catch (e) {
+			this.pageHTMLJson = {};
+			this.pageHTMLJson.headerColour = this.headerColour;
+			this.imageSource = undefined;
+		}
 	}
 
 	onUploadError(error: any) {
@@ -85,7 +96,15 @@ export class Header1Component implements OnInit {
 	}
 
 	updateImageContent() {
-		this.pageHTML = this.imageSource;
+		this.pageHTMLJson.image = this.imageSource;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	headerColourChange(newColor: string) {
+		this.headerColour = newColor;
+		this.pageHTMLJson.headerColour = this.headerColour;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 

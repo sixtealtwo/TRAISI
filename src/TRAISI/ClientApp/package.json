@@ -83,6 +83,7 @@
 		"ng2-toasty": "^4.0.3",
 		"ngx-bootstrap": "^3.0.1",
 		"ngx-bootstrap-slider": "^1.6.0",
+		"ngx-color-picker": "^6.7.0",
 		"ngx-dropzone-wrapper": "^6.2.0",
 		"ngx-echarts": "^4.0.0",
 		"ngx-mapbox-gl": "^1.2.0",
