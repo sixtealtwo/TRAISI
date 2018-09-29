@@ -16,6 +16,9 @@ export class Footer1Component implements OnInit {
 		]
 	};
 
+	public footerColour: string = '#242424';
+
+	private pageHTMLJson: any;
 	@Input()
 	public pageHTML: string;
 	@Output()
@@ -26,11 +29,36 @@ export class Footer1Component implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
+		try {
+			let pageData = JSON.parse(this.pageHTML);
+			this.pageHTMLJson = pageData;
+			this.footerColour = pageData.footerColour;
+		} catch (e) {
+			this.pageHTMLJson = {};
+			this.pageHTMLJson.html = '';
+			this.pageHTMLJson.footerColour = '#242424';
+		}
+	}
+
+	quillEditorCreated(quillInstance: any) {
+		setTimeout(() => {
+			if (this.pageHTML === undefined || this.pageHTML === '') {
+				quillInstance.format('align', 'center', 'api');
+			}
+		}, 0);
+	}
 
 	clearUploads() {}
 
 	updateFooterContent(contentInfo: any) {
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	footerColourChange(newColour: string) {
+		this.footerColour = newColour;
+		this.pageHTMLJson.footerColour = this.footerColour;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 }
