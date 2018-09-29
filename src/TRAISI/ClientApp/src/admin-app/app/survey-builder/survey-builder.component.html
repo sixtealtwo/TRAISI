@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
-		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage()" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
+		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage(false)" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -73,7 +73,7 @@
 		</div>
 		<div class="row justify-content-center mt-3 mb-2 special-page-save">
 			<div>
-				<button class="btn btn-secondary" (click)="saveTAndCPage()">
+				<button class="btn btn-secondary" (click)="saveTAndCPage(true)">
 					Save Privacy Policy
 				</button>
 			</div>
@@ -93,7 +93,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
-		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [pageType]="'thankYou'" (forceSave)="saveThankYouPage()" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
+		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [pageType]="'thankYou'" (forceSave)="saveThankYouPage(false)" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -101,7 +101,7 @@
 		</div>
 		<div class="row justify-content-center mt-3 mb-2 special-page-save">
 			<div>
-				<button class="btn btn-secondary" (click)="saveThankYouPage()">
+				<button class="btn btn-secondary" (click)="saveThankYouPage(true)">
 					Save Thank You Page
 				</button>
 			</div>

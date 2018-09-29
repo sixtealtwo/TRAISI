@@ -116,7 +116,11 @@ export class Header2Component implements OnInit {
 	}
 
 	clearUploads() {
-		this.deleteImage(1);
-		this.deleteImage(2);
+		if (this.imageSource1) {
+			this.deleteImage(1);
+		}
+		if (this.imageSource2) {
+			this.deleteImage(2);
+		}
 	}
 }

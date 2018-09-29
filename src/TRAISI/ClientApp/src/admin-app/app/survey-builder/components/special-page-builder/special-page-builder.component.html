@@ -7,8 +7,33 @@
 		<ndc-dynamic *ngIf="headerComponent" (ndcDynamicCreated)="headerComponentCreated($event)" [ndcDynamicComponent]="headerComponent"
 		 [ndcDynamicInputs]="headerInputs" [ndcDynamicOutputs]="headerOutputs"></ndc-dynamic>
 	</smooth-dnd-container>
-	<ndc-dynamic *ngFor="let component of componentList; index as i" [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)"
-	 [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
+	<smooth-dnd-container *ngIf="pageType == 'welcome'" id="special-page-surveyAccess" [shouldAnimateDrop]="shouldAnimateDrop"
+	 [class.drag-over]="dragOverContainer['surveyAccess']" (dragEnter)="onDragEnter('surveyAccess')" (dragLeave)="onDragLeave('surveyAccess')"
+	 [class.empty-container]="!surveyAccessComponent" [shouldAcceptDrop]="surveyAccessShouldAcceptDrop" [groupName]="'special-surveyAccess'"
+	 (drop)="onSurveyAccessDrop($event)">
+		<div *ngIf="!surveyAccessComponent && !dragOverContainer['surveyAccess']" class="text-center pt-3">Drop Main Survey Start Here
+			Section Here</div>
+		<div *ngIf="surveyAccessComponent" class="delete-component-button btn btn-danger" (click)="deleteSurveyAccessComponent()"><i
+			 class="fas fa-trash-alt"></i></div>
+		<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
+		 [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
+	</smooth-dnd-container>
+
+	<smooth-dnd-container id="special-page-content" [lockAxis]="'y'" [getChildPayload]="getContentComponentPayload" [dragHandleSelector]="'.move-component-button'"
+	 [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['content']" (dragEnter)="onDragEnter('content')"
+	 (dragLeave)="onDragLeave('content')" [class.empty-container]="componentKeys.length == 0" [groupName]="'special-content'"
+	 (drop)="onContentDrop($event)">
+	 <div *ngIf="componentKeys.length == 0 && !dragOverContainer['content']" class="text-center pt-3">Drop Other Sections Here
+			Section Here</div>
+		<smooth-dnd-draggable *ngFor="let component of componentList; index as i">
+			<div class="page-content">
+				<div class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="fas fa-trash-alt"></i></div>
+				<div class="move-component-button btn btn-primary"><i class="fas fa-bars"></i></div>
+				<ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)" [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
+			</div>
+		</smooth-dnd-draggable>
+	</smooth-dnd-container>
+
 	<smooth-dnd-container id="special-page-footer" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['footer']"
 	 (dragEnter)="onDragEnter('footer')" (dragLeave)="onDragLeave('footer')" [class.empty-container]="!footerComponent" [shouldAcceptDrop]="footerShouldAcceptDrop"
 	 [groupName]="'special-footer'" (drop)="onFooterDrop($event)">

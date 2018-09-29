@@ -90,7 +90,9 @@ export class Header1Component implements OnInit {
 	}
 
 	clearUploads() {
-		this.deleteImage();
+		if (this.imageSource) {
+			this.deleteImage();
+		}
 	}
 
 }

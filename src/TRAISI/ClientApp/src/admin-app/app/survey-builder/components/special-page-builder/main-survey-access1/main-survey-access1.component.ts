@@ -45,7 +45,7 @@ export class MainSurveyAccess1Component implements OnInit {
 		]
 	};
 
-	private baseUrl: string = '';
+	private baseUrl: string;
 	public videoSource: string;
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
@@ -153,7 +153,9 @@ export class MainSurveyAccess1Component implements OnInit {
 	}
 
 	clearUploads() {
-		this.deleteVideo();
+		if (this.videoSource) {
+			this.deleteVideo();
+		}
 	}
 
 	updateVideoContent() {

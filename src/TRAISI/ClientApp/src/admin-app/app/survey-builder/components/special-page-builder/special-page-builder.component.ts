@@ -5,15 +5,16 @@ import { TextBlock1Component } from './text-block1/text-block1.component';
 import { Header2Component } from './header2/header2.component';
 import { IContainerOptions } from '../../../shared/ngx-smooth-dnd/container/container.component';
 import { Footer1Component } from './footer1/footer1.component';
+import { Utilities } from '../../../../../shared/services/utilities';
+import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
 
 @Component({
-  selector: 'app-special-page-builder',
-  templateUrl: './special-page-builder.component.html',
+	selector: 'app-special-page-builder',
+	templateUrl: './special-page-builder.component.html',
 	styleUrls: ['./special-page-builder.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class SpecialPageBuilderComponent implements OnInit {
-
 	public loadedComponents: boolean = false;
 
 	public headerKey: string;
@@ -25,6 +26,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	public surveyAccessKey: string;
 	public surveyAccessComponent: any;
+	private surveyAccessComponentInstance: any;
 	public surveyAccessHTML: string;
 	public surveyAccessInputs;
 	public surveyAccessOutputs;
@@ -42,19 +44,24 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	private dragOverContainer: Object = new Object();
 
-	@Input() public pageType: string;
-	@Input() public pageHTML: string;
-	@Output() public pageHTMLChange = new EventEmitter();
+	@Input()
+	public pageType: string;
+	@Input()
+	public pageHTML: string;
+	@Output()
+	public pageHTMLChange = new EventEmitter();
 
-	@Output() public forceSave = new EventEmitter();
+	@Output()
+	public forceSave = new EventEmitter();
 
-  constructor() {
+	constructor(private alertService: AlertService) {
 		this.headerShouldAcceptDrop = this.headerShouldAcceptDrop.bind(this);
+		this.surveyAccessShouldAcceptDrop = this.surveyAccessShouldAcceptDrop.bind(this);
 		this.footerShouldAcceptDrop = this.footerShouldAcceptDrop.bind(this);
-	 }
+		this.getContentComponentPayload = this.getContentComponentPayload.bind(this);
+	}
 
-  ngOnInit() {
-
+	ngOnInit() {
 		// deserailize page data
 		try {
 			let pageData = JSON.parse(this.pageHTML);
@@ -63,31 +70,28 @@ export class SpecialPageBuilderComponent implements OnInit {
 					this.headerKey = q;
 					this.headerComponent = this.getComponent(q);
 					this.headerHTML = pageData[q];
+				} else if (q.startsWith('mainSurveyAccess')) {
+					this.surveyAccessKey = q;
+					this.surveyAccessComponent = this.getComponent(q.split('|')[0]);
+					this.surveyAccessHTML = pageData[q];
 				} else if (q.startsWith('footer')) {
 					this.footerKey = q;
 					this.footerComponent = this.getComponent(q);
 					this.footerHTML = pageData[q];
 				} else {
 					this.componentKeys.push(q);
-					this.componentList.push(this.getComponent(q));
+					this.componentList.push(this.getComponent(q.split('|')[0]));
 					this.componentHTML.push(pageData[q]);
 				}
 			});
 		} catch (e) {
 			if (this.pageType === 'welcome') {
-				this.componentKeys.push('mainSurveyAccess1');
-				this.componentList.push(this.getComponent('mainSurveyAccess1'));
-				this.componentHTML.push('');
-
-				this.componentKeys.push('textBlock1');
-				this.componentList.push(this.getComponent('textBlock1'));
-				this.componentHTML.push('');
 			} else if (this.pageType === 'privacyPolicy') {
-				this.componentKeys.push('textBlock1');
+				this.componentKeys.push('textBlock1|0');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			} else if (this.pageType === 'thankYou') {
-				this.componentKeys.push('textBlock1');
+				this.componentKeys.push('textBlock1|0');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			}
@@ -101,21 +105,21 @@ export class SpecialPageBuilderComponent implements OnInit {
 			pageHTML: this.headerHTML
 		};
 		this.headerOutputs = {
-			pageHTMLChange: (value: string) => this.headerHTML = value,
+			pageHTMLChange: (value: string) => (this.headerHTML = value),
 			forceSave: () => this.forcePageSave()
 		};
 		this.surveyAccessInputs = {
 			pageHTML: this.surveyAccessHTML
 		};
 		this.surveyAccessOutputs = {
-			pageHTMLChange: (value: string) => this.surveyAccessHTML = value,
+			pageHTMLChange: (value: string) => (this.surveyAccessHTML = value),
 			forceSave: () => this.forcePageSave()
 		};
 		this.footerInputs = {
 			pageHTML: this.footerHTML
 		};
 		this.footerOutputs = {
-			pageHTMLChange: (value: string) => this.footerHTML = value,
+			pageHTMLChange: (value: string) => (this.footerHTML = value),
 			forceSave: () => this.forcePageSave()
 		};
 	}
@@ -152,7 +156,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	getComponentOutputs(index: number) {
 		let outputs = {
-			pageHTMLChange: (value: string) => this.componentHTML[index] = value,
+			pageHTMLChange: (value: string) => (this.componentHTML[index] = value),
 			forceSave: () => this.forcePageSave()
 		};
 		return outputs;
@@ -163,14 +167,34 @@ export class SpecialPageBuilderComponent implements OnInit {
 		if (this.headerKey) {
 			pageJson[this.headerKey] = this.headerHTML;
 		}
+		if (this.surveyAccessKey) {
+			pageJson[this.surveyAccessKey] = this.surveyAccessHTML;
+		}
 		this.componentKeys.forEach((componentName, index) => {
-			pageJson[componentName] = this.componentHTML[index];
+			pageJson[`${componentName}|${index}`] = this.componentHTML[index];
 		});
 		if (this.footerKey) {
 			pageJson[this.footerKey] = this.footerHTML;
 		}
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	deleteComponent(index: number) {
+		this.alertService.showDialog('Are you sure you want to delete this section?', DialogType.confirm, () => {
+			let dropResult: any = {
+				removedIndex: index,
+				addedIndex: null,
+				payload: this.componentKeys[index]
+			};
+			let componentKey = dropResult.payload;
+			this.componentKeys = Utilities.applyDrag(this.componentKeys, dropResult);
+			dropResult.payload = this.getComponent(componentKey);
+			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
+			dropResult.payload = '';
+			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
+			this.forcePageSave();
+		});
 	}
 
 	forcePageSave() {
@@ -181,12 +205,23 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.headerComponentInstance = compRef.instance;
 	}
 
+	surveyAccessComponentCreated(compRef: ComponentRef<any>) {
+		this.surveyAccessComponentInstance = compRef.instance;
+	}
+
 	footerComponentCreated(compRef: ComponentRef<any>) {
 		this.footerComponentInstance = compRef.instance;
 	}
 
 	headerShouldAcceptDrop(sourceContainerOptions, payload) {
 		if (sourceContainerOptions.groupName === 'special-header' && this.headerComponent === undefined) {
+			return true;
+		}
+		return false;
+	}
+
+	surveyAccessShouldAcceptDrop(sourceContainerOptions, payload) {
+		if (sourceContainerOptions.groupName === 'special-surveyAccess' && this.surveyAccessComponent === undefined) {
 			return true;
 		}
 		return false;
@@ -207,6 +242,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.dragOverContainer[containerName] = false;
 	}
 
+	getContentComponentPayload(index) {
+		return this.componentKeys[index];
+	}
+
 	onHeaderDrop(dropResult: any) {
 		this.headerKey = dropResult.payload;
 		this.headerComponent = this.getComponent(this.headerKey);
@@ -214,6 +253,28 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.headerInputs = {
 			pageHTML: this.headerHTML
 		};
+		this.dragOverContainer = new Object();
+	}
+
+	onSurveyAccessDrop(dropResult: any) {
+		this.surveyAccessKey = dropResult.payload;
+		this.surveyAccessComponent = this.getComponent(this.surveyAccessKey);
+		this.surveyAccessHTML = '';
+		this.surveyAccessInputs = {
+			pageHTML: this.surveyAccessHTML
+		};
+		this.dragOverContainer = new Object();
+	}
+
+	onContentDrop(dropResult: any) {
+		if (dropResult.removedIndex !== dropResult.addedIndex) {
+			let componentKey = dropResult.payload;
+			this.componentKeys = Utilities.applyDrag(this.componentKeys, dropResult);
+			dropResult.payload = this.getComponent(componentKey);
+			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
+			dropResult.payload = '';
+			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
+		}
 		this.dragOverContainer = new Object();
 	}
 
@@ -228,24 +289,42 @@ export class SpecialPageBuilderComponent implements OnInit {
 	}
 
 	deleteHeaderComponent() {
-		this.headerKey = undefined;
-		this.headerComponentInstance.clearUploads();
-		this.headerComponentInstance = undefined;
-		this.headerComponent = undefined;
-		this.headerHTML = undefined;
-		this.forcePageSave();
+		this.alertService.showDialog('Are you sure you want to delete this header?', DialogType.confirm, () => {
+			this.headerKey = undefined;
+			this.headerComponentInstance.clearUploads();
+			this.headerComponentInstance = undefined;
+			this.headerComponent = undefined;
+			this.headerHTML = undefined;
+			this.forcePageSave();
+		});
+	}
+
+	deleteSurveyAccessComponent() {
+		this.alertService.showDialog('Are you sure you want to delete this section?', DialogType.confirm, () => {
+			this.surveyAccessKey = undefined;
+			this.surveyAccessComponentInstance.clearUploads();
+			this.surveyAccessComponentInstance = undefined;
+			this.surveyAccessComponent = undefined;
+			this.surveyAccessHTML = undefined;
+			this.forcePageSave();
+		});
 	}
 
 	deleteFooterComponent() {
-		this.footerKey = undefined;
-		this.footerComponentInstance.clearUploads();
-		this.footerComponentInstance = undefined;
-		this.footerComponent = undefined;
-		this.footerHTML = undefined;
-		this.forcePageSave();
+		this.alertService.showDialog('Are you sure you want to delete this footer?', DialogType.confirm, () => {
+			this.footerKey = undefined;
+			this.footerComponentInstance.clearUploads();
+			this.footerComponentInstance = undefined;
+			this.footerComponent = undefined;
+			this.footerHTML = undefined;
+			this.forcePageSave();
+		});
 	}
 
 	shouldAnimateDrop(sourceContainerOptions: IContainerOptions, payload: any) {
+		if (sourceContainerOptions.groupName === 'special-content') {
+			return true;
+		}
 		return false;
 	}
 }
