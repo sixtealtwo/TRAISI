@@ -17,7 +17,7 @@
 			"internalConsoleOptions": "openOnSessionStart"
 		},
 		{
-			"name": ".NET Core Launch TRAISI (web)",
+			"name": ".NET Core Launch TRAISI LOCAL (web)",
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
@@ -43,7 +43,7 @@
 
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-				"ASPNETCORE_URLS": "http://localhost:5000"
+				"ASPNETCORE_URLS": "http://192.168.0.139:5000/"
 			},
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"
