@@ -122,10 +122,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	updateWelcomeContent(contentInfo: any) {
-		console.log(contentInfo);
-	}
-
 	generateFroalaOptions() {
 		return {
 			toolbarInline: true,

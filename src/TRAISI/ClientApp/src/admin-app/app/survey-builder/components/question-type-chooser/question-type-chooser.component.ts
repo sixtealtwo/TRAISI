@@ -136,6 +136,20 @@ export class QuestionTypeChooserComponent implements OnInit {
 		return 'header' + (index + 1);
 	}
 
+	getPageSurveyAccessPayload(index) {
+		return 'mainSurveyAccess' + (index + 1);
+	}
+
+	getPageContentPayload(index) {
+		if (index === 0) {
+			return 'textBlock1';
+		}
+	}
+
+	getPageFooterPayload(index) {
+		return 'footer' + (index + 1);
+	}
+
 	getQuestionTypeName(typeDef: QuestionTypeDefinition) {
 		return typeDef.typeNameLocales[this.configurationService.language];
 	}
