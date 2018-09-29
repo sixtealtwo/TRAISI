@@ -264,3 +264,5 @@ src/TRAISI/extensions/
 
 traisi_testing.db
 !/src/TRAISI/ClientApp/local_node_modules/smooth-dnd/dist/
+
+!/src/TRAISI.SDK/bin/cli/gitkeep
