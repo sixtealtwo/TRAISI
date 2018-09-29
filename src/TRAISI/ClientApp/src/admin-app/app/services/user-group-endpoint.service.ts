@@ -81,7 +81,6 @@ export class UserGroupEndpointService extends EndpointFactory {
 	public getCreateUserGroupEndpoint<T>(userGroup: UserGroup): Observable<T> {
 		const endpointUrl = this.userGroupsUrl;
 
-		console.log(endpointUrl);
 		return this.http.post<T>(endpointUrl, JSON.stringify(userGroup), this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getCreateUserGroupEndpoint(userGroup));

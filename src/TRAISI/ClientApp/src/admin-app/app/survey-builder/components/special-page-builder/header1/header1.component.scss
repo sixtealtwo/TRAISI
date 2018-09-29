@@ -9,6 +9,9 @@
 
 #welcome-header-editor {
 	min-height: 66px !important;
+	.col-12 {
+		white-space: nowrap !important;
+	}
 }
 
 .welcome-header-logo {

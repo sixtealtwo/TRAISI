@@ -78,8 +78,8 @@
 
 <div class="modal fade" bsModal #configurationModal="bs-modal" (onShown)="configurationShown()" (onHidden)="configurationHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
 	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content" ngDraggable [handle]="modalHeader">
+			<div class="modal-header" #modalHeader>
 				<h4 *ngIf="configurationModalShowing" class="modal-title pull-left"><i class="config-title-icon" [ngClass]="getIcon(dealingWithPart ? 'Survey Part': questionBeingEdited.questionPart.questionType)"></i> {{ addingNewQuestion ? ( dealingWithPart ? 'Add New Section' : 'Add New Question') : (dealingWithPart ? 'Editing Section Configuration' : 'Editing Question Configuration') }}</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="cancelConfiguration()">
 					<span aria-hidden="true">&times;</span>

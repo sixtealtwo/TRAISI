@@ -112,8 +112,8 @@
 <div bsModal #createPageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Create Page Modal"
  aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content" ngDraggable [handle]="modalHeader">
+			<div class="modal-header" #modalHeader>
 				<h4 class="modal-title pull-left"><i class="far fa-file-alt"></i> New Survey Page</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="createPageModal.hide()">
 					<span aria-hidden="true">&times;</span>
