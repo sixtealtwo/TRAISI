@@ -10,10 +10,7 @@ import {
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
-import { NextObserver } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { sortBy } from 'lodash';
@@ -70,10 +67,12 @@ export class SurveyViewerComponent implements OnInit {
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
 
 		this.route.queryParams.subscribe((value: Params) => {
+
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
 
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
+
 					this.headerDisplay.pages = pages;
 					this.loadPageQuestions(pages[0]);
 				});
@@ -92,7 +91,7 @@ export class SurveyViewerComponent implements OnInit {
 		this.navigationActiveState = state;
 		this.validateNavigation();
 
-	};
+	}
 
 	/**
 	 *

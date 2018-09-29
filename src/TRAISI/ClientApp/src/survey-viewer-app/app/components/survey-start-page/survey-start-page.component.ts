@@ -5,7 +5,7 @@ import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
+
 
 
 @Component({
@@ -54,23 +54,22 @@ export class SurveyStartPageComponent implements OnInit {
 			this.isAdmin = true;
 		}
 
-		this.route.params
-			.pipe(
-				mergeMap(params => {
-					this.surveyName = params['surveyName'];
-					return this.surveyViewerService.getWelcomeView(this.surveyName);
-				})
-			)
-			.subscribe(
-				(surveyStartModel: SurveyStart) => {
-					this.survey = surveyStartModel;
-					this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
-				},
-				error => {
-					console.error(error);
-					this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
-				}
-			);
+		this.route.params.subscribe(params => {
+			this.surveyName = params['surveyName'];
+			 this.surveyViewerService.getWelcomeView(this.surveyName).
+			subscribe((surveyStartModel: SurveyStart) => {
+				this.survey = surveyStartModel;
+				this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
+			},
+			error => {
+				console.error(error);
+				this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
+			});
+		});
+
+
+
+
 	}
 
 	/**

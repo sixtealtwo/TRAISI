@@ -84,7 +84,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		if (!this.authService.isLoggedIn) {
 			return false;
 		}
-		console.log(this.authService.currentUser.roles);
+
 		return this.authService.currentUser.roles.includes('super administrator');
 	}
 
