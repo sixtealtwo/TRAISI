@@ -65,33 +65,33 @@ export class SpecialPageBuilderComponent implements OnInit {
 		// deserailize page data
 		try {
 			let pageData = JSON.parse(this.pageHTML);
-			Object.keys(pageData).forEach(q => {
-				if (q.startsWith('header')) {
-					this.headerKey = q;
-					this.headerComponent = this.getComponent(q);
-					this.headerHTML = pageData[q];
-				} else if (q.startsWith('mainSurveyAccess')) {
-					this.surveyAccessKey = q;
-					this.surveyAccessComponent = this.getComponent(q.split('|')[0]);
-					this.surveyAccessHTML = pageData[q];
-				} else if (q.startsWith('footer')) {
-					this.footerKey = q;
-					this.footerComponent = this.getComponent(q);
-					this.footerHTML = pageData[q];
+			(<any[]>pageData).forEach(sectionInfo => {
+				if (sectionInfo.sectionType.startsWith('header')) {
+					this.headerKey = sectionInfo.sectionType;
+					this.headerComponent = this.getComponent(sectionInfo.sectionType);
+					this.headerHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
+					this.surveyAccessKey = sectionInfo.sectionType;
+					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType);
+					this.surveyAccessHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType.startsWith('footer')) {
+					this.footerKey = sectionInfo.sectionType;
+					this.footerComponent = this.getComponent(sectionInfo.sectionType);
+					this.footerHTML = sectionInfo.html;
 				} else {
-					this.componentKeys.push(q);
-					this.componentList.push(this.getComponent(q.split('|')[0]));
-					this.componentHTML.push(pageData[q]);
+					this.componentKeys.push(sectionInfo.sectionType);
+					this.componentList.push(this.getComponent(sectionInfo.sectionType));
+					this.componentHTML.push(sectionInfo.html);
 				}
 			});
 		} catch (e) {
 			if (this.pageType === 'welcome') {
 			} else if (this.pageType === 'privacyPolicy') {
-				this.componentKeys.push('textBlock1|0');
+				this.componentKeys.push('textBlock1');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			} else if (this.pageType === 'thankYou') {
-				this.componentKeys.push('textBlock1|0');
+				this.componentKeys.push('textBlock1');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			}
@@ -163,18 +163,42 @@ export class SpecialPageBuilderComponent implements OnInit {
 	}
 
 	updatePageData() {
-		let pageJson = {};
+		let pageJson = [];
 		if (this.headerKey) {
-			pageJson[this.headerKey] = this.headerHTML;
+			// pageJson[this.headerKey] = this.headerHTML;
+			pageJson.push(
+				{
+					sectionType: this.headerKey,
+					html: this.headerHTML
+				}
+			);
 		}
 		if (this.surveyAccessKey) {
-			pageJson[this.surveyAccessKey] = this.surveyAccessHTML;
+			// pageJson[this.surveyAccessKey] = this.surveyAccessHTML;
+			pageJson.push(
+				{
+					sectionType: this.surveyAccessKey,
+					html: this.surveyAccessHTML
+				}
+			);
 		}
 		this.componentKeys.forEach((componentName, index) => {
-			pageJson[`${componentName}|${index}`] = this.componentHTML[index];
+			// pageJson[`${componentName}|${index}`] = this.componentHTML[index];
+			pageJson.push(
+				{
+					sectionType: componentName,
+					html: this.componentHTML[index]
+				}
+			);
 		});
 		if (this.footerKey) {
-			pageJson[this.footerKey] = this.footerHTML;
+			// pageJson[this.footerKey] = this.footerHTML;
+			pageJson.push(
+				{
+					sectionType: this.footerKey,
+					html: this.footerHTML
+				}
+			);
 		}
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
@@ -254,6 +278,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			pageHTML: this.headerHTML
 		};
 		this.dragOverContainer = new Object();
+		this.forcePageSave();
 	}
 
 	onSurveyAccessDrop(dropResult: any) {
@@ -264,6 +289,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			pageHTML: this.surveyAccessHTML
 		};
 		this.dragOverContainer = new Object();
+		this.forcePageSave();
 	}
 
 	onContentDrop(dropResult: any) {
@@ -276,6 +302,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
 		}
 		this.dragOverContainer = new Object();
+		this.forcePageSave();
 	}
 
 	onFooterDrop(dropResult: any) {
@@ -286,6 +313,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			pageHTML: this.footerHTML
 		};
 		this.dragOverContainer = new Object();
+		this.forcePageSave();
 	}
 
 	deleteHeaderComponent() {
@@ -322,7 +350,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	}
 
 	shouldAnimateDrop(sourceContainerOptions: IContainerOptions, payload: any) {
-		if (sourceContainerOptions.groupName === 'special-content') {
+		if (sourceContainerOptions.groupName === 'special-content' && sourceContainerOptions.behaviour === 'move') {
 			return true;
 		}
 		return false;

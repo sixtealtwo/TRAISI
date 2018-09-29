@@ -28,7 +28,7 @@
 		<smooth-dnd-draggable *ngFor="let component of componentList; index as i">
 			<div class="page-content">
 				<div class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="fas fa-trash-alt"></i></div>
-				<div class="move-component-button btn btn-primary"><i class="fas fa-bars"></i></div>
+				<div class="move-component-button btn btn-primary"><i class="fas fa-sort"></i></div>
 				<ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)" [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
 			</div>
 		</smooth-dnd-draggable>

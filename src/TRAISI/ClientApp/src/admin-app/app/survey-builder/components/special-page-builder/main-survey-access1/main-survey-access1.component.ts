@@ -142,10 +142,12 @@ export class MainSurveyAccess1Component implements OnInit {
 		} else if (this.imageSource) {
 			uploadPath = new UploadPath(this.imageSource);
 		}
-		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-		this.videoSource = undefined;
-		this.imageSource = undefined;
-		this.updateImageVideoContent();
+		if (uploadPath) {
+			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+			this.videoSource = undefined;
+			this.imageSource = undefined;
+			this.updateImageVideoContent();
+		}
 	}
 
 	clearUploads() {
