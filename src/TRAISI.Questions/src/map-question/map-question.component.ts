@@ -83,7 +83,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
 
-		console.log(event);
 	}
 
 	/**

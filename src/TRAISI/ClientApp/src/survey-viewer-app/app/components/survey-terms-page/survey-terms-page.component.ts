@@ -58,7 +58,9 @@ export class SurveyTermsPageComponent implements OnInit {
 				value => {
 
 					this.model = value;
+					console.log(this.model);
 					this.contentModel = JSON.parse(this.model.termsAndConditionsText);
+					console.log(this.contentModel);
 				},
 				error => {
 					this.model = {} as SurveyViewTermsModel;

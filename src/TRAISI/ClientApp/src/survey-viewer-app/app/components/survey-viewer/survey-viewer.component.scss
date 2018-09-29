@@ -58,35 +58,6 @@
 
 }
 
-@media #{$xl-up} {
-
-}
-
 
 @import "survey-viewer-component.sm.scss";
 
-@include media-breakpoint-only(sm) {
-	.survey-body {
-		margin: 15px;
-	}
-}
-
-@include media-breakpoint-only(md) {
-	.survey-body {
-		margin: 20px;
-	}
-}
-
-@include media-breakpoint-only(lg) {
-	.survey-body {
-		margin: 20px;
-	}
-}
-
-@include media-breakpoint-only(xl) {
-
-	.survey-body {
-		margin: 25px;
-	}
-
-}
