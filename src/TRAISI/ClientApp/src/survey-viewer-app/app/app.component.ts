@@ -1,4 +1,4 @@
-import {setTheme} from 'ngx-bootstrap/utils';
+import { setTheme } from 'ngx-bootstrap/utils';
 import { Component } from '@angular/core';
 
 @Component({
@@ -12,5 +12,4 @@ export class AppComponent {
 	constructor() {
 		setTheme('bs4');
 	}
-
 }

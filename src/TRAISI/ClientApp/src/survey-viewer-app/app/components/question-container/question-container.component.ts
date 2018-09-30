@@ -21,11 +21,15 @@ export class QuestionContainerComponent implements OnInit {
 	@Input()
 	questionIndex: number;
 
-
-
-
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	questionOutlet: ViewContainerRef;
+
+	private _questionInstance: SurveyQuestion<any>;
+
+	get surveyQuestionInstance(): SurveyQuestion<any>
+	{
+		return this._questionInstance;
+	}
 
 	isLoaded: boolean = false;
 
@@ -70,6 +74,7 @@ export class QuestionContainerComponent implements OnInit {
 					.subscribe((options: SurveyViewQuestionOption[]) => {
 						this.isLoaded = true;
 
+						this._questionInstance = componentRef.instance;
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
 						}
