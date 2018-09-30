@@ -322,7 +322,7 @@ export class Utilities {
 		let g = this.rgbTransform(+colorSplit[1]);
 		let b = this.rgbTransform(+colorSplit[2]);
 		let L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-		if ((L + 0.05) / (0.0 + 0.05) > (1.0 + 0.05) / (L + 0.05)){
+		if (L > 0.179) {
 			return 'rgb(0,0,0)';
 		} else {
 			return 'rgb(255,255,255)';

@@ -66,6 +66,12 @@ export class Header2Component implements OnInit {
 		if (!('headerColour' in this.pageThemeInfo)) {
 			this.pageThemeInfo.headerColour = 'rgb(240,239,240)';
 		}
+		if (!('headerMaxHeightScale1' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerMaxHeightScale1 = 1.0;
+		}
+		if (!('headerMaxHeightScale2' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerMaxHeightScale2 = 1.0;
+		}
 	}
 
 	onUploadError(error: any) {
@@ -122,6 +128,16 @@ export class Header2Component implements OnInit {
 
 	headerColourChange(newColour: string) {
 		this.pageThemeInfo.headerColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerMaxHeightChange1(newHeight: any) {
+		this.pageThemeInfo.headerMaxHeightScale1 = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerMaxHeightChange2(newHeight: any) {
+		this.pageThemeInfo.headerMaxHeightScale2 = newHeight.newValue;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 

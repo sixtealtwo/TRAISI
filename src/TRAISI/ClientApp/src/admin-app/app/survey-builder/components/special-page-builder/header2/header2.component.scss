@@ -39,7 +39,8 @@
 }
 
 .delete-image {
-	margin-top: -20px;
+	position: absolute;
+	left: -10px;
 	transform: scale(0.7);
 }
 
@@ -47,4 +48,23 @@
 	position: absolute;
 	right: 25px;
 	z-index: 50;
+}
+
+.maxHeight-slider {
+	position: absolute;
+	right: 40px;
+	width: 100%;
+	.slider.slider-horizontal {
+		width: 110px !important;
+	}
+
+	.slider.slider-horizontal .slider-track {
+		height: 5px !important;
+	}
+
+	.slider-handle {
+		width: 10px;
+		height: 10px;
+		top: 3px;
+	}
 }

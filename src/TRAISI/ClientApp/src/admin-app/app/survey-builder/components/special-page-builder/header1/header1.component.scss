@@ -16,7 +16,6 @@
 
 .welcome-header-logo {
 		padding-top: 25px;
-		max-height: 100px;
 		width: auto;
 		max-width: 70vw;
 }
@@ -26,13 +25,14 @@
 	.dz-message {
 		overflow: hidden !important;
 		border: none !important;
-		background-color: transparent !important;
+		background-color: $gray-300 !important;
 		color: black !important;
 	}
 }
 
 .delete-image {
-	margin-top: -20px;
+	position: absolute;
+	left: -10px;
 	transform: scale(0.7);
 }
 
@@ -40,4 +40,22 @@
 	position: absolute;
 	right: 25px;
 	z-index: 50;
+}
+
+.maxHeight-slider {
+	position: absolute;
+	width: 100%;
+	.slider.slider-horizontal {
+		width: 110px !important;
+	}
+
+	.slider.slider-horizontal .slider-track {
+		height: 5px !important;
+	}
+
+	.slider-handle {
+		width: 10px;
+		height: 10px;
+		top: 3px;
+	}
 }
