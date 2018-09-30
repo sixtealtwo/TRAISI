@@ -1,9 +1,10 @@
 <div id="welcome-header-editor">
-	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour">
+	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight">
 	</div>
+	<div *ngIf="!previewMode.value" class="headerBackground-slider"><mv-slider [orientation]="'vertical'"  [min]="50" [max]="100" [step]="1" [(value)]="pageThemeInfo.headerBackgroundHeight"  (change)="headerBackgroundHeightChange($event)"></mv-slider></div>
 	<div class="row">
-		<div class="col-12 text-center" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale * 100">
-			<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker"  [cpPosition]="'left'" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="pageThemeInfo.headerColour">
+		<div class="col-12 text-center" [style.height.px]="pageThemeInfo.headerMaxHeightScale * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale * 100 : pageThemeInfo.headerBackgroundHeight">
+			<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker"  [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="pageThemeInfo.headerColour">
 				<img src="assets/img/colour-picker.png" height="15px"/>
 			</button>
 			<dropzone *ngIf="!imageSource && !previewMode.value" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"

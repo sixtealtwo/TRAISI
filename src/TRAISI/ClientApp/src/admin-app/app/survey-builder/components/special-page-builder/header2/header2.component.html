@@ -1,6 +1,7 @@
 <div id="welcome-header-editor">
-		<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour"></div>
-		<div class="row" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale1 > pageThemeInfo.headerMaxHeightScale2 ? pageThemeInfo.headerMaxHeightScale1 * 100 : pageThemeInfo.headerMaxHeightScale2 * 100">
+		<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight"></div>
+		<div *ngIf="!previewMode.value" class="headerBackground-slider"><mv-slider [orientation]="'vertical'"  [min]="50" [max]="100" [step]="1" [(value)]="pageThemeInfo.headerBackgroundHeight"  (change)="headerBackgroundHeightChange($event)"></mv-slider></div>
+		<div class="row" [style.height.px]="pageThemeInfo.headerMaxHeightScale1 > pageThemeInfo.headerMaxHeightScale2 ? (pageThemeInfo.headerMaxHeightScale1 * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale1 * 100 : pageThemeInfo.headerBackgroundHeight) : (pageThemeInfo.headerMaxHeightScale2 * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale2 * 100 : pageThemeInfo.headerBackgroundHeight)">
 			<div class="col d-none d-xl-block"></div>
 			<div class="col text-center" >
 				<dropzone *ngIf="!imageSource1 && !previewMode.value" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"
@@ -11,14 +12,14 @@
 
 			</div>
 			<div class="col d-none d-lg-block text-right">
-					<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="pageThemeInfo.headerColour">
+					<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)" [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" [(colorPicker)]="pageThemeInfo.headerColour">
 							<img src="assets/img/colour-picker.png" height="15px"/>
 						</button>
 					<dropzone *ngIf="!imageSource2 && !previewMode.value" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag image here'"
 					 (error)="onUploadError($event)" (success)="onUploadSuccess($event, 2)"></dropzone>
 					 <div *ngIf="imageSource2 && !previewMode.value" class="maxHeight-slider right-slider-adjust"><mv-slider  [min]="0.2" [max]="0.9" [step]="0.02" [(value)]="pageThemeInfo.headerMaxHeightScale2" (change)="headerMaxHeightChange2($event)"></mv-slider></div>
 					 <sup *ngIf="!previewMode.value"><button *ngIf="imageSource2" type="button" (click)="deleteImage(2)" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
-					<img *ngIf="imageSource2" class="welcome-header-logo-right mr-3" src="{{ imageSource2 }}" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
+					 <span class="helper"></span><img *ngIf="imageSource2" class="welcome-header-logo-right mr-3" src="{{ imageSource2 }}" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
 					
 				</div>
 		</div>

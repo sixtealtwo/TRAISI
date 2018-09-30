@@ -74,6 +74,9 @@ export class Header2Component implements OnInit {
 		if (!('headerMaxHeightScale2' in this.pageThemeInfo)) {
 			this.pageThemeInfo.headerMaxHeightScale2 = 1.0;
 		}
+		if (!('headerBackgroundHeight' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerBackgroundHeight = 66;
+		}
 	}
 
 	onUploadError(error: any) {
@@ -140,6 +143,11 @@ export class Header2Component implements OnInit {
 
 	headerMaxHeightChange2(newHeight: any) {
 		this.pageThemeInfo.headerMaxHeightScale2 = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerBackgroundHeightChange(newHeight: any) {
+		this.pageThemeInfo.headerBackgroundHeight = newHeight.newValue;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 

@@ -64,3 +64,10 @@
 		display: none !important;
 	}
 }
+
+.page-background-color-picker {
+	position: absolute;
+	right: 15px;
+	z-index: 50;
+	transform: scale(0.7);
+}

@@ -11,6 +11,10 @@
 	 [class.drag-over]="dragOverContainer['surveyAccess']" (dragEnter)="onDragEnter('surveyAccess')" (dragLeave)="onDragLeave('surveyAccess')"
 	 [class.empty-container]="!surveyAccessComponent" [shouldAcceptDrop]="surveyAccessShouldAcceptDrop" [groupName]="'special-surveyAccess'"
 	 (drop)="onSurveyAccessDrop($event)">
+		<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-1 btn btn-inverse page-background-color-picker" [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="pageBackgroundColourChange($event)"
+		[(colorPicker)]="pageThemeInfo.pageBackgroundColour">
+			<img src="assets/img/colour-picker.png" height="15px" />
+		</button>
 		<div *ngIf="!surveyAccessComponent && !dragOverContainer['surveyAccess']" class="text-center pt-3">Drop Main Survey Start Section Here</div>
 		<div *ngIf="surveyAccessComponent  && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteSurveyAccessComponent()"><i
 			 class="far fa-trash-alt"></i></div>
