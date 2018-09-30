@@ -200,6 +200,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	resetThemeColors() {
+		this.alertService.showDialog('Are you sure you want to reset all custom colours?', DialogType.confirm, () => {
+			this.pageThemeInfo = {};
+			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+		}
+		);
+	}
+
 	addQuestionTypeToList(qType) {
 		this.surveyPage.addQuestionTypeToList(qType);
 	}

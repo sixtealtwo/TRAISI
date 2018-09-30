@@ -12,6 +12,7 @@ export class Footer1Component implements OnInit {
 		toolbar: [
 			['bold', 'italic', 'underline', 'strike'],
 			[{ size: [] }],
+			[{ 'color': [] }],
 			[{ align: [] }]
 		]
 	};
@@ -46,8 +47,9 @@ export class Footer1Component implements OnInit {
 
 	public quillEditorCreated(quillInstance: any): void {
 		setTimeout(() => {
-			if (this.pageHTML === undefined || this.pageHTML === '') {
+			if (this.pageHTMLJson.html === undefined || this.pageHTMLJson.html === '') {
 				quillInstance.format('align', 'center', 'api');
+				quillInstance.format('color', '#ffffff', 'api');
 			}
 		}, 0);
 	}

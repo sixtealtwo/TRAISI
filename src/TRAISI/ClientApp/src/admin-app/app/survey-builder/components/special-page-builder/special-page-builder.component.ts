@@ -98,6 +98,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 		if (!this.pageThemeInfo) {
 			this.pageThemeInfo = {};
+			this.pageThemeInfo.pageBackgroundColour = '#ffffff';
 		}
 		this.setComponentInputs();
 		this.loadedComponents = true;
@@ -117,10 +118,15 @@ export class SpecialPageBuilderComponent implements OnInit {
 			forceSave: () => this.forcePageSave()
 		};
 		this.surveyAccessInputs = {
-			pageHTML: this.surveyAccessHTML
+			pageHTML: this.surveyAccessHTML,
+			pageThemeInfo: this.pageThemeInfo
 		};
 		this.surveyAccessOutputs = {
 			pageHTMLChange: (value: string) => (this.surveyAccessHTML = value),
+			pageThemeInfoChange: (value: any) => {
+				this.pageThemeInfo = value;
+				this.pageThemeInfoChange.emit(this.pageThemeInfo);
+			 },
 			forceSave: () => this.forcePageSave()
 		};
 		this.footerInputs = {
@@ -303,7 +309,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.surveyAccessComponent = this.getComponent(this.surveyAccessKey);
 			this.surveyAccessHTML = '';
 			this.surveyAccessInputs = {
-				pageHTML: this.surveyAccessHTML
+				pageHTML: this.surveyAccessHTML,
+				pageThemeInfo: this.pageThemeInfo
 			};
 			this.dragOverContainer = new Object();
 			this.forcePageSave();
@@ -375,5 +382,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 			return true;
 		}
 		return false;
+	}
+
+	pageBackgroundColourChange(newColour: string): void  {
+		this.pageThemeInfo.pageBackgroundColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 }

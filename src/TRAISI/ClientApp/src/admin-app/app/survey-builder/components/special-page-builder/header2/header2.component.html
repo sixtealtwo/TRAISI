@@ -9,7 +9,7 @@
 				<sup><button *ngIf="imageSource1" type="button" (click)="deleteImage(1)" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
 			</div>
 			<div class="col text-right">
-					<button type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="headerColour">
+					<button type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="pageThemeInfo.headerColour">
 							<img src="assets/img/colour-picker.png" height="15px"/>
 						</button>
 					<dropzone *ngIf="!imageSource2" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag image here'"

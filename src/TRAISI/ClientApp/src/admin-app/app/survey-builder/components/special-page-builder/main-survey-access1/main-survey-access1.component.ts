@@ -34,7 +34,7 @@ export class MainSurveyAccess1Component implements OnInit {
 
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-			[{ color: [] }, { background: [] }], // dropdown with defaults from theme
+			[{ color: [] }], // dropdown with defaults from theme
 			[{ font: [] }],
 			[{ size: [] }],
 			[{ align: [] }],
@@ -69,10 +69,10 @@ export class MainSurveyAccess1Component implements OnInit {
 	public beginSurveyHTML: string;
 
 	private pageHTMLJson: any;
-	@Input()
-	public pageHTML: string;
-	@Output()
-	public pageHTMLChange = new EventEmitter();
+	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
+	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 
 	@Output() public forceSave = new EventEmitter();
 
@@ -178,5 +178,10 @@ export class MainSurveyAccess1Component implements OnInit {
 	private updatePageHTML() {
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	pageBackgroundColourChange(newColour: string): void  {
+		this.pageThemeInfo.pageBackgroundColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 }
