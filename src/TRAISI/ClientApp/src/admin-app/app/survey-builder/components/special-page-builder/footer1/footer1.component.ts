@@ -2,23 +2,18 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } fro
 import { Utilities } from '../../../../../../shared/services/utilities';
 
 @Component({
-  selector: 'app-footer1',
-  templateUrl: './footer1.component.html',
+	selector: 'app-footer1',
+	templateUrl: './footer1.component.html',
 	styleUrls: ['./footer1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class Footer1Component implements OnInit {
-
 	public quillMinimalModules = {
-		toolbar: [
-			['bold', 'italic', 'underline', 'strike'],
-			[{ size: [] }],
-			[{ align: [] }]
-		]
+		toolbar: [['bold', 'italic', 'underline', 'strike'], [{ size: [] }], [{ align: [] }]]
 	};
 
 	public footerTextColour: string;
-	
+
 	private pageHTMLJson: any;
 
 	@Input()
@@ -30,11 +25,12 @@ export class Footer1Component implements OnInit {
 	@Output()
 	public pageHTMLChange = new EventEmitter();
 
-	@Output() public forceSave = new EventEmitter();
+	@Output()
+	public forceSave = new EventEmitter();
 
-  constructor() { }
+	constructor() {}
 
-  public ngOnInit(): void {
+	public ngOnInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
@@ -63,10 +59,22 @@ export class Footer1Component implements OnInit {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	public footerColourChange(newColour: string): void  {
+	public footerColourChange(newColour: string): void {
 		this.pageThemeInfo.footerColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 		this.footerTextColour = Utilities.whiteOrBlackText(this.pageThemeInfo.footerColour);
-		console.log(this.footerTextColour);
+	}
+
+	public traisiLogo(): string {
+		if (this.pageThemeInfo.footerColour) {
+			let lightOrDark = Utilities.whiteOrBlackText(this.pageThemeInfo.footerColour);
+			if (lightOrDark === 'rgb(0,0,0)') {
+				return 'assets/img/icon_light.png';
+			} else {
+				return 'assets/img/icon_dark.png';
+			}
+		} else {
+			return 'assets/img/icon_dark.png';
+		}
 	}
 }
