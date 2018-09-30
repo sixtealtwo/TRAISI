@@ -1,5 +1,5 @@
 import { ResponseValidationState } from './question-response-state';
-import { EventEmitter, Output, Inject } from '@angular/core';
+import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
 
@@ -81,7 +81,6 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 * Called when previous is triggered in the survey viewer.
 	 */
 	public navigateInternalPrevious(): void {}
-
 
 	/**
 	 *

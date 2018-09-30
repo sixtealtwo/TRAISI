@@ -52,7 +52,6 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	ngOnInit() {
 		this.onQuestionShown();
 
-		console.log(this.configuration);
 	}
 
 	/**
