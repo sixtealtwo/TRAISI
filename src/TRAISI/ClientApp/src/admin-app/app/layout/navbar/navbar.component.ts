@@ -6,6 +6,7 @@ import { ConfigurationService } from '../../../../shared/services/configuration.
 import { Location, HashLocationStrategy } from '@angular/common';
 import { Permission } from '../../../../shared/models/permission.model';
 import { AccountService } from '../../services/account.service';
+import { UserGroupService } from '../../services/user-group.service';
 declare let jQuery: JQueryStatic;
 
 @Component({
@@ -14,6 +15,9 @@ declare let jQuery: JQueryStatic;
 	styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
+
+	isGroupAdmin: boolean = false;
+
 	@Output() toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
 	@Output() toggleChatEvent: EventEmitter<any> = new EventEmitter();
 	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
@@ -30,6 +34,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 		private accountService: AccountService,
 		private translationService: AppTranslationService,
 		public configurations: ConfigurationService,
+		private userGroupService: UserGroupService,
 		private location: Location
 	) {
 		this.$el = jQuery(el.nativeElement);
@@ -91,6 +96,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 				this.changeActiveNavigationItem(this.location);
 			}
 		});
+
+		this.userGroupService.isGroupAdmin().subscribe(result => (this.isGroupAdmin = result));
 	}
 
 	ngAfterViewInit(): void {

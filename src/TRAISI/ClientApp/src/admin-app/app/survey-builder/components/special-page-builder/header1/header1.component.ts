@@ -17,7 +17,6 @@ export class Header1Component implements OnInit {
 
 	private baseUrl: string = '';
 	public imageSource: string;
-	public headerColour: string = '#f0eff0';
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -33,7 +32,9 @@ export class Header1Component implements OnInit {
 
 	private pageHTMLJson: any;
 	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 	@Output() public forceSave = new EventEmitter();
 
   constructor(
@@ -54,11 +55,12 @@ export class Header1Component implements OnInit {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
 			this.imageSource = pageData.image;
-			this.headerColour = pageData.headerColour;
 		} catch (e) {
 			this.pageHTMLJson = {};
-			this.pageHTMLJson.headerColour = this.headerColour;
 			this.imageSource = undefined;
+		}
+		if (!('headerColour' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerColour = '#f0eff0';
 		}
 	}
 
@@ -101,11 +103,9 @@ export class Header1Component implements OnInit {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	headerColourChange(newColor: string) {
-		this.headerColour = newColor;
-		this.pageHTMLJson.headerColour = this.headerColour;
-		this.pageHTML = JSON.stringify(this.pageHTMLJson);
-		this.pageHTMLChange.emit(this.pageHTML);
+	headerColourChange(newColour: string) {
+		this.pageThemeInfo.headerColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
 	clearUploads() {

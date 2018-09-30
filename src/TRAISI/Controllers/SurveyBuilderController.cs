@@ -514,6 +514,37 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpGet("{surveyId}/Styles")]
+        [Produces(typeof(string))]
+        public async Task<IActionResult> GetSurveyStyles(int surveyId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                return Ok(survey.StyleTemplate);
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
+        [HttpPut("{surveyId}/Styles")]
+        public async Task<IActionResult> UpdateSurveyStyles(int surveyId, [FromBody] string updatedStyles)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                survey.StyleTemplate = updatedStyles;
+                await this._unitOfWork.SaveChangesAsync();
+                return new OkResult();
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
         [HttpGet("{surveyId}/WelcomePage/{surveyViewName}/{language}")]
         [Produces(typeof(WelcomePageLabelViewModel))]
         public async Task<IActionResult> GetWelcomePageLabel(int surveyId, string surveyViewName, string language)

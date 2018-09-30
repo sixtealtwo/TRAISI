@@ -46,10 +46,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	@Input()
 	public pageType: string;
-	@Input()
-	public pageHTML: string;
-	@Output()
-	public pageHTMLChange = new EventEmitter();
+	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
+	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 
 	@Output()
 	public forceSave = new EventEmitter();
@@ -96,16 +96,24 @@ export class SpecialPageBuilderComponent implements OnInit {
 				this.componentHTML.push('');
 			}
 		}
+		if (!this.pageThemeInfo) {
+			this.pageThemeInfo = {};
+		}
 		this.setComponentInputs();
 		this.loadedComponents = true;
 	}
 
 	private setComponentInputs() {
 		this.headerInputs = {
-			pageHTML: this.headerHTML
+			pageHTML: this.headerHTML,
+			pageThemeInfo: this.pageThemeInfo
 		};
 		this.headerOutputs = {
 			pageHTMLChange: (value: string) => (this.headerHTML = value),
+			pageThemeInfoChange: (value: any) => {
+				this.pageThemeInfo = value;
+				this.pageThemeInfoChange.emit(this.pageThemeInfo);
+			 },
 			forceSave: () => this.forcePageSave()
 		};
 		this.surveyAccessInputs = {
@@ -116,10 +124,15 @@ export class SpecialPageBuilderComponent implements OnInit {
 			forceSave: () => this.forcePageSave()
 		};
 		this.footerInputs = {
-			pageHTML: this.footerHTML
+			pageHTML: this.footerHTML,
+			pageThemeInfo: this.pageThemeInfo
 		};
 		this.footerOutputs = {
 			pageHTMLChange: (value: string) => (this.footerHTML = value),
+			pageThemeInfoChange: (value: any) => {
+				this.pageThemeInfo = value;
+				this.pageThemeInfoChange.emit(this.pageThemeInfo);
+			 },
 			forceSave: () => this.forcePageSave()
 		};
 	}
@@ -271,25 +284,30 @@ export class SpecialPageBuilderComponent implements OnInit {
 	}
 
 	onHeaderDrop(dropResult: any) {
-		this.headerKey = dropResult.payload;
-		this.headerComponent = this.getComponent(this.headerKey);
-		this.headerHTML = '';
-		this.headerInputs = {
-			pageHTML: this.headerHTML
-		};
-		this.dragOverContainer = new Object();
-		this.forcePageSave();
+		if (dropResult.addedIndex !== null) {
+			this.headerKey = dropResult.payload;
+			this.headerComponent = this.getComponent(this.headerKey);
+			this.headerHTML = '';
+			this.headerInputs = {
+				pageHTML: this.headerHTML,
+				pageThemeInfo: this.pageThemeInfo
+			};
+			this.dragOverContainer = new Object();
+			this.forcePageSave();
+		}
 	}
 
 	onSurveyAccessDrop(dropResult: any) {
-		this.surveyAccessKey = dropResult.payload;
-		this.surveyAccessComponent = this.getComponent(this.surveyAccessKey);
-		this.surveyAccessHTML = '';
-		this.surveyAccessInputs = {
-			pageHTML: this.surveyAccessHTML
-		};
-		this.dragOverContainer = new Object();
-		this.forcePageSave();
+		if (dropResult.addedIndex !== null) {
+			this.surveyAccessKey = dropResult.payload;
+			this.surveyAccessComponent = this.getComponent(this.surveyAccessKey);
+			this.surveyAccessHTML = '';
+			this.surveyAccessInputs = {
+				pageHTML: this.surveyAccessHTML
+			};
+			this.dragOverContainer = new Object();
+			this.forcePageSave();
+		}
 	}
 
 	onContentDrop(dropResult: any) {
@@ -306,14 +324,17 @@ export class SpecialPageBuilderComponent implements OnInit {
 	}
 
 	onFooterDrop(dropResult: any) {
-		this.footerKey = dropResult.payload;
-		this.footerComponent = this.getComponent(this.footerKey);
-		this.footerHTML = '';
-		this.footerInputs = {
-			pageHTML: this.footerHTML
-		};
-		this.dragOverContainer = new Object();
-		this.forcePageSave();
+		if (dropResult.addedIndex !== null) {
+			this.footerKey = dropResult.payload;
+			this.footerComponent = this.getComponent(this.footerKey);
+			this.footerHTML = '';
+			this.footerInputs = {
+				pageHTML: this.footerHTML,
+				pageThemeInfo: this.pageThemeInfo
+			};
+			this.dragOverContainer = new Object();
+			this.forcePageSave();
+		}
 	}
 
 	deleteHeaderComponent() {

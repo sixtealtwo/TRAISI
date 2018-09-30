@@ -52,6 +52,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getSurveyStylesEndpoint<T>(surveyId: number): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Styles`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getSurveyStylesEndpoint(surveyId));
+			})
+		);
+	}
+
 	public getStandardWelcomePageEndpoint<T>(surveyId: number, language: string): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage/Standard/${language}`;
 
@@ -80,6 +90,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getStandardWelcomePageEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getUpdateSurveyStylesEndpoint<T>(surveyId: number, updatedStyles: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Styles`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(updatedStyles), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateSurveyStylesEndpoint(surveyId, updatedStyles));
 			})
 		);
 	}

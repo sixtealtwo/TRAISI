@@ -16,11 +16,14 @@ export class Footer1Component implements OnInit {
 		]
 	};
 
-	public footerColour: string = '#242424';
-
 	private pageHTMLJson: any;
+
+	@Input()
+	public pageThemeInfo: any;
 	@Input()
 	public pageHTML: string;
+	@Output()
+	public pageThemeInfoChange = new EventEmitter();
 	@Output()
 	public pageHTMLChange = new EventEmitter();
 
@@ -28,19 +31,20 @@ export class Footer1Component implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
-			this.footerColour = pageData.footerColour;
 		} catch (e) {
 			this.pageHTMLJson = {};
 			this.pageHTMLJson.html = '';
-			this.pageHTMLJson.footerColour = '#242424';
+		}
+		if (!('footerColour' in this.pageThemeInfo)) {
+			this.pageThemeInfo.footerColour = '#242424';
 		}
 	}
 
-	quillEditorCreated(quillInstance: any) {
+	public quillEditorCreated(quillInstance: any): void {
 		setTimeout(() => {
 			if (this.pageHTML === undefined || this.pageHTML === '') {
 				quillInstance.format('align', 'center', 'api');
@@ -48,17 +52,15 @@ export class Footer1Component implements OnInit {
 		}, 0);
 	}
 
-	clearUploads() {}
+	public clearUploads(): void {}
 
-	updateFooterContent(contentInfo: any) {
+	public updateFooterContent(contentInfo: any): void {
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	footerColourChange(newColour: string) {
-		this.footerColour = newColour;
-		this.pageHTMLJson.footerColour = this.footerColour;
-		this.pageHTML = JSON.stringify(this.pageHTMLJson);
-		this.pageHTMLChange.emit(this.pageHTML);
+	public footerColourChange(newColour: string): void  {
+		this.pageThemeInfo.footerColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 }

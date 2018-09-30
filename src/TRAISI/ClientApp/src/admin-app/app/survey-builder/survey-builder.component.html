@@ -50,7 +50,7 @@
 </div>
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
-		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
+		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
-		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage(false)" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
+		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
@@ -93,7 +93,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
-		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [pageType]="'thankYou'" (forceSave)="saveThankYouPage(false)" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
+		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [pageType]="'thankYou'" (forceSave)="saveThankYouPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="separator-hr"/>
