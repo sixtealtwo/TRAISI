@@ -60,7 +60,7 @@ export class Header1Component implements OnInit {
 			this.imageSource = undefined;
 		}
 		if (!('headerColour' in this.pageThemeInfo)) {
-			this.pageThemeInfo.headerColour = '#f0eff0';
+			this.pageThemeInfo.headerColour = 'rgb(240,239,240)';
 		}
 	}
 

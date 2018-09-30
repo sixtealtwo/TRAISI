@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Utilities } from '../../../../../../shared/services/utilities';
 
 @Component({
   selector: 'app-footer1',
@@ -12,11 +13,12 @@ export class Footer1Component implements OnInit {
 		toolbar: [
 			['bold', 'italic', 'underline', 'strike'],
 			[{ size: [] }],
-			[{ 'color': [] }],
 			[{ align: [] }]
 		]
 	};
 
+	public footerTextColour: string;
+	
 	private pageHTMLJson: any;
 
 	@Input()
@@ -41,15 +43,15 @@ export class Footer1Component implements OnInit {
 			this.pageHTMLJson.html = '';
 		}
 		if (!('footerColour' in this.pageThemeInfo)) {
-			this.pageThemeInfo.footerColour = '#242424';
+			this.pageThemeInfo.footerColour = 'rgb(36,36,36)';
 		}
+		this.footerTextColour = Utilities.whiteOrBlackText(this.pageThemeInfo.footerColour);
 	}
 
 	public quillEditorCreated(quillInstance: any): void {
 		setTimeout(() => {
 			if (this.pageHTMLJson.html === undefined || this.pageHTMLJson.html === '') {
 				quillInstance.format('align', 'center', 'api');
-				quillInstance.format('color', '#ffffff', 'api');
 			}
 		}, 0);
 	}
@@ -64,5 +66,7 @@ export class Footer1Component implements OnInit {
 	public footerColourChange(newColour: string): void  {
 		this.pageThemeInfo.footerColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+		this.footerTextColour = Utilities.whiteOrBlackText(this.pageThemeInfo.footerColour);
+		console.log(this.footerTextColour);
 	}
 }

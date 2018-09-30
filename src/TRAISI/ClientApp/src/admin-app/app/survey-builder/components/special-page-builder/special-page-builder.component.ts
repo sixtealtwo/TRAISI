@@ -98,7 +98,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 		if (!this.pageThemeInfo) {
 			this.pageThemeInfo = {};
-			this.pageThemeInfo.pageBackgroundColour = '#ffffff';
+			this.pageThemeInfo.pageBackgroundColour = 'rbg(255,255,255)';
 		}
 		this.setComponentInputs();
 		this.loadedComponents = true;
@@ -387,5 +387,13 @@ export class SpecialPageBuilderComponent implements OnInit {
 	pageBackgroundColourChange(newColour: string): void  {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	getBestPageBodyTextColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
 	}
 }

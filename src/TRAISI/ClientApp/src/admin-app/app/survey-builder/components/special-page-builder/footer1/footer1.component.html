@@ -3,7 +3,7 @@
 		<div class="col text-left">
 			<img src="assets/img/icon_dark.png" height=40/>
 		</div>
-		<div class="col text-center">
+		<div class="col text-center" [style.color]="footerTextColour">
 			<quill-editor class="quill-page-editor" [modules]="quillMinimalModules" (onEditorCreated)="quillEditorCreated($event)" (onContentChanged)="updateFooterContent($event)"
 			 theme="bubble" placeholder="Copyright" [(ngModel)]="pageHTMLJson.html"></quill-editor>
 		</div>

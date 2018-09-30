@@ -315,6 +315,30 @@ export class Utilities {
 		}
 	}
 
+	public static whiteOrBlackText(colourString: string): string {
+		let colorTriplet = colourString.substring(4, colourString.length - 2);
+		let colorSplit = colorTriplet.split(',');
+		let r = this.rgbTransform(+colorSplit[0]);
+		let g = this.rgbTransform(+colorSplit[1]);
+		let b = this.rgbTransform(+colorSplit[2]);
+		let L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+		if ((L + 0.05) / (0.0 + 0.05) > (1.0 + 0.05) / (L + 0.05)){
+			return 'rgb(0,0,0)';
+		} else {
+			return 'rgb(255,255,255)';
+		}
+	}
+
+	private static rgbTransform(c: number) {
+		c = c / 255.0;
+		if (c <= 0.03928) {
+			c = c / 12.92;
+		} else {
+			c = ((c + 0.055) / 1.055) ** 2.4;
+		}
+		return c;
+	}
+
 	public static uniqueId() {
 		return this.randomNumber(1000000, 9000000).toString();
 	}

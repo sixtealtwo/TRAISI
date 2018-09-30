@@ -5,7 +5,7 @@
 	</button>
 	<div class="row justify-content-center">
 		<div class="col-xl-6 col-lg-11 col-md-11 col-11">
-			<div class="intro-imagevideo text-center">
+			<div class="intro-imagevideo text-center"  [style.border-color]="getBestBorderColor()" >
 				<dropzone class="imageVideoDropzone" *ngIf="!videoSource && !imageSource" #videoUpload [config]="imageVideoDropZoneconfig"
 				 [message]="'Click or drag image or video here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
 				<video *ngIf="videoSource" controls>
@@ -17,7 +17,7 @@
 		</div>
 		<div class="col-xl-5 col-lg-12 col-md-12 mt-3 ml-0 ml-xl-5">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12" [style.color]="getBestPageBodyTextColor()">
 					<quill-editor class="quill-page-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
 					 placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
 				</div>

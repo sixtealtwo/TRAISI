@@ -184,4 +184,27 @@ export class MainSurveyAccess1Component implements OnInit {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
+
+	getBestPageBodyTextColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
+	getBestBorderColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			let borderColor = Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+			if (borderColor === 'rgb(255,255,255)') {
+				return 'rgb(200,200,200)';
+			} else {
+				return borderColor;
+			}
+		} else {
+			return 'rgb(0,0,0)';
+		}
+
+
+	}
 }
