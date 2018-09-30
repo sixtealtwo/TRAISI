@@ -110,6 +110,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
 			try {
 				this.pageThemeInfo = JSON.parse(styles);
+				if (this.pageThemeInfo === null) {
+					this.pageThemeInfo = {};
+				}
 			} catch (e) {	}
 
 			this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(page => {
