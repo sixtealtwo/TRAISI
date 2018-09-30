@@ -60,6 +60,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public thankYouPage: ThankYouPage = new ThankYouPage();
 	public loadedSpecialPages: boolean = false;
 
+	public welcomePagePreview: any = { value: false };
+	public privacyPagePreview: any = { value: false };
+	public thankYouPagePreview: any = { value: false };
+
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
 

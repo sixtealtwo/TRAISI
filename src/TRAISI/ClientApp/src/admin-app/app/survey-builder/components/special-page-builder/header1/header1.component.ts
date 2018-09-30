@@ -31,6 +31,8 @@ export class Header1Component implements OnInit {
 	};
 
 	private pageHTMLJson: any;
+	@Input()
+	public previewMode: any;
 	@Input() public pageHTML: string;
 	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();
@@ -114,7 +116,6 @@ export class Header1Component implements OnInit {
 	headerMaxHeightChange(newHeight: any) {
 		this.pageThemeInfo.headerMaxHeightScale = newHeight.newValue;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
-		console.log(newHeight);
 	}
 
 	clearUploads() {

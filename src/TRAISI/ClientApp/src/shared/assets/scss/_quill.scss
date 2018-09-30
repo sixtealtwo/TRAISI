@@ -31,3 +31,9 @@
 	.ql-container {
 		font-family: unset !important;
 	}
+
+	
+	.ql-editor.ql-blank::before {
+		color: $gray-200 !important;
+		mix-blend-mode: luminosity;
+	}

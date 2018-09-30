@@ -14,7 +14,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
@@ -74,6 +74,7 @@ import { SponsorsComponent } from './components/special-page-builder/sponsors/sp
 		DropzoneModule,
 		ColorPickerModule,
 		AngularDraggableModule,
+		ButtonsModule.forRoot(),
 		DynamicModule.withComponents([
 			Header1Component,
 			Header2Component,

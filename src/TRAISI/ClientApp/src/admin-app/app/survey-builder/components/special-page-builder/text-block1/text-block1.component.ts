@@ -30,6 +30,8 @@ export class TextBlock1Component implements OnInit {
 	};
 
 	@Input()
+	public previewMode: any;
+	@Input()
 	public pageHTML: string;
 	@Output()
 	public pageHTMLChange = new EventEmitter();

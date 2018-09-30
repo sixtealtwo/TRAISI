@@ -19,6 +19,10 @@
 	}
 }
 
+.empty-container {
+	padding-top: 50%;
+}
+
 .begin-survey-button {
 	border-radius: 10px;
 	min-width: 50px;
@@ -38,6 +42,7 @@
 .no-padding-quill {
 	.ql-editor {
 		padding: 0px !important;
+		overflow: hidden;
 	}
 	.ql-tooltip {
 		display: none !important;

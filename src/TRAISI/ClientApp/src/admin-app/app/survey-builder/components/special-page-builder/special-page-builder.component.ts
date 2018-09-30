@@ -46,10 +46,16 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	@Input()
 	public pageType: string;
-	@Input() public pageHTML: string;
-	@Input() public pageThemeInfo: any;
-	@Output() public pageHTMLChange = new EventEmitter();
-	@Output()	public pageThemeInfoChange = new EventEmitter();
+	@Input()
+	public pageHTML: string;
+	@Input()
+	public pageThemeInfo: any;
+	@Input()
+	public previewMode: any;
+	@Output()
+	public pageHTMLChange = new EventEmitter();
+	@Output()
+	public pageThemeInfoChange = new EventEmitter();
 
 	@Output()
 	public forceSave = new EventEmitter();
@@ -107,38 +113,41 @@ export class SpecialPageBuilderComponent implements OnInit {
 	private setComponentInputs() {
 		this.headerInputs = {
 			pageHTML: this.headerHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
+			previewMode: this.previewMode
 		};
 		this.headerOutputs = {
 			pageHTMLChange: (value: string) => (this.headerHTML = value),
 			pageThemeInfoChange: (value: any) => {
 				this.pageThemeInfo = value;
 				this.pageThemeInfoChange.emit(this.pageThemeInfo);
-			 },
+			},
 			forceSave: () => this.forcePageSave()
 		};
 		this.surveyAccessInputs = {
 			pageHTML: this.surveyAccessHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
+			previewMode: this.previewMode
 		};
 		this.surveyAccessOutputs = {
 			pageHTMLChange: (value: string) => (this.surveyAccessHTML = value),
 			pageThemeInfoChange: (value: any) => {
 				this.pageThemeInfo = value;
 				this.pageThemeInfoChange.emit(this.pageThemeInfo);
-			 },
+			},
 			forceSave: () => this.forcePageSave()
 		};
 		this.footerInputs = {
 			pageHTML: this.footerHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
+			previewMode: this.previewMode
 		};
 		this.footerOutputs = {
 			pageHTMLChange: (value: string) => (this.footerHTML = value),
 			pageThemeInfoChange: (value: any) => {
 				this.pageThemeInfo = value;
 				this.pageThemeInfoChange.emit(this.pageThemeInfo);
-			 },
+			},
 			forceSave: () => this.forcePageSave()
 		};
 	}
@@ -168,7 +177,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	getComponentInputs(index: number) {
 		let inputs = {
-			pageHTML: this.componentHTML[index]
+			pageHTML: this.componentHTML[index],
+			pageThemeInfo: this.pageThemeInfo,
+			previewMode: this.previewMode
 		};
 		return inputs;
 	}
@@ -185,39 +196,31 @@ export class SpecialPageBuilderComponent implements OnInit {
 		let pageJson = [];
 		if (this.headerKey) {
 			// pageJson[this.headerKey] = this.headerHTML;
-			pageJson.push(
-				{
-					sectionType: this.headerKey,
-					html: this.headerHTML
-				}
-			);
+			pageJson.push({
+				sectionType: this.headerKey,
+				html: this.headerHTML
+			});
 		}
 		if (this.surveyAccessKey) {
 			// pageJson[this.surveyAccessKey] = this.surveyAccessHTML;
-			pageJson.push(
-				{
-					sectionType: this.surveyAccessKey,
-					html: this.surveyAccessHTML
-				}
-			);
+			pageJson.push({
+				sectionType: this.surveyAccessKey,
+				html: this.surveyAccessHTML
+			});
 		}
 		this.componentKeys.forEach((componentName, index) => {
 			// pageJson[`${componentName}|${index}`] = this.componentHTML[index];
-			pageJson.push(
-				{
-					sectionType: componentName,
-					html: this.componentHTML[index]
-				}
-			);
+			pageJson.push({
+				sectionType: componentName,
+				html: this.componentHTML[index]
+			});
 		});
 		if (this.footerKey) {
 			// pageJson[this.footerKey] = this.footerHTML;
-			pageJson.push(
-				{
-					sectionType: this.footerKey,
-					html: this.footerHTML
-				}
-			);
+			pageJson.push({
+				sectionType: this.footerKey,
+				html: this.footerHTML
+			});
 		}
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
@@ -296,7 +299,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.headerHTML = '';
 			this.headerInputs = {
 				pageHTML: this.headerHTML,
-				pageThemeInfo: this.pageThemeInfo
+				pageThemeInfo: this.pageThemeInfo,
+				previewMode: this.previewMode
 			};
 			this.dragOverContainer = new Object();
 			this.forcePageSave();
@@ -310,7 +314,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.surveyAccessHTML = '';
 			this.surveyAccessInputs = {
 				pageHTML: this.surveyAccessHTML,
-				pageThemeInfo: this.pageThemeInfo
+				pageThemeInfo: this.pageThemeInfo,
+				previewMode: this.previewMode
 			};
 			this.dragOverContainer = new Object();
 			this.forcePageSave();
@@ -337,7 +342,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.footerHTML = '';
 			this.footerInputs = {
 				pageHTML: this.footerHTML,
-				pageThemeInfo: this.pageThemeInfo
+				pageThemeInfo: this.pageThemeInfo,
+				previewMode: this.previewMode
 			};
 			this.dragOverContainer = new Object();
 			this.forcePageSave();
@@ -384,7 +390,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		return false;
 	}
 
-	pageBackgroundColourChange(newColour: string): void  {
+	pageBackgroundColourChange(newColour: string): void {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}

@@ -17,6 +17,8 @@ export class Footer1Component implements OnInit {
 	private pageHTMLJson: any;
 
 	@Input()
+	public previewMode: any;
+	@Input()
 	public pageThemeInfo: any;
 	@Input()
 	public pageHTML: string;

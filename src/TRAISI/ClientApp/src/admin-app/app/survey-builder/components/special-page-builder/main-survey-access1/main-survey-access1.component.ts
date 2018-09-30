@@ -69,6 +69,8 @@ export class MainSurveyAccess1Component implements OnInit {
 	public beginSurveyHTML: string;
 
 	private pageHTMLJson: any;
+	@Input()
+	public previewMode: any;
 	@Input() public pageHTML: string;
 	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();

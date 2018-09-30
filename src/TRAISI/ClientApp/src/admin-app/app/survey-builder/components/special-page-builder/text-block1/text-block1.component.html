@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="text-block">
-				<quill-editor class="quill-page-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
-				 placeholder="Insert text" [(ngModel)]="pageHTML"></quill-editor>
+				<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
+				 placeholder="Insert text" [readOnly]="previewMode.value"  [(ngModel)]="pageHTML"></quill-editor>
 			</div>
 		</div>
 	</div>

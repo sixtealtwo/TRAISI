@@ -33,6 +33,8 @@ export class Header2Component implements OnInit {
 
 	private pageHTMLJson: any;
 
+	@Input()
+	public previewMode: any;
 	@Input() public pageHTML: string;
 	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();

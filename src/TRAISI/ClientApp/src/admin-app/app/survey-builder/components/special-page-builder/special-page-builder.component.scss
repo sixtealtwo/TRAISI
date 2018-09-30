@@ -58,3 +58,9 @@
 		background-color: #eaedff !important;
 	}
 }
+
+.ql-previewmode {
+	.ql-editor.ql-blank::before {
+		display: none !important;
+	}
+}

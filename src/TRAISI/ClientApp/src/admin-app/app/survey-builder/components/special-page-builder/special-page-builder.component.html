@@ -3,7 +3,7 @@
 	 (dragEnter)="onDragEnter('header')" (dragLeave)="onDragLeave('header')" [class.empty-container]="!headerComponent" [shouldAcceptDrop]="headerShouldAcceptDrop"
 	 [groupName]="'special-header'" (drop)="onHeaderDrop($event)">
 		<div *ngIf="!headerComponent && !dragOverContainer['header']" class="text-center pt-3">Drop Header Here</div>
-		<div *ngIf="headerComponent" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i class="far fa-trash-alt"></i></div>
+		<div *ngIf="headerComponent && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i class="far fa-trash-alt"></i></div>
 		<ndc-dynamic *ngIf="headerComponent" (ndcDynamicCreated)="headerComponentCreated($event)" [ndcDynamicComponent]="headerComponent"
 		 [ndcDynamicInputs]="headerInputs" [ndcDynamicOutputs]="headerOutputs"></ndc-dynamic>
 	</smooth-dnd-container>
@@ -12,7 +12,7 @@
 	 [class.empty-container]="!surveyAccessComponent" [shouldAcceptDrop]="surveyAccessShouldAcceptDrop" [groupName]="'special-surveyAccess'"
 	 (drop)="onSurveyAccessDrop($event)">
 		<div *ngIf="!surveyAccessComponent && !dragOverContainer['surveyAccess']" class="text-center pt-3">Drop Main Survey Start Section Here</div>
-		<div *ngIf="surveyAccessComponent" class="delete-component-button btn btn-danger" (click)="deleteSurveyAccessComponent()"><i
+		<div *ngIf="surveyAccessComponent  && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteSurveyAccessComponent()"><i
 			 class="far fa-trash-alt"></i></div>
 		<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
 		 [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
@@ -26,8 +26,8 @@
 			Sections Here</div>
 		<smooth-dnd-draggable *ngFor="let component of componentList; index as i">
 			<div [style.background-color]="pageThemeInfo.pageBackgroundColour" [style.color]="getBestPageBodyTextColor()">
-				<div class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="far fa-trash-alt"></i></div>
-				<div class="move-component-button btn btn-primary"><i class="fas fa-sort"></i></div>
+				<div *ngIf="!previewMode.value" class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="far fa-trash-alt"></i></div>
+				<div *ngIf="!previewMode.value" class="move-component-button btn btn-primary"><i class="fas fa-sort"></i></div>
 				<ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)" [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>
 			</div>
 		</smooth-dnd-draggable>
@@ -37,7 +37,7 @@
 	 (dragEnter)="onDragEnter('footer')" (dragLeave)="onDragLeave('footer')" [class.empty-container]="!footerComponent" [shouldAcceptDrop]="footerShouldAcceptDrop"
 	 [groupName]="'special-footer'" (drop)="onFooterDrop($event)">
 		<div *ngIf="!footerComponent && !dragOverContainer['footer']" class="text-center pt-3">Drop Footer Here</div>
-		<div *ngIf="footerComponent" class="delete-component-button btn btn-danger" (click)="deleteFooterComponent()"><i class="far fa-trash-alt"></i></div>
+		<div *ngIf="footerComponent && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteFooterComponent()"><i class="far fa-trash-alt"></i></div>
 		<ndc-dynamic *ngIf="footerComponent" (ndcDynamicCreated)="footerComponentCreated($event)" [ndcDynamicComponent]="footerComponent"
 		 [ndcDynamicInputs]="footerInputs" [ndcDynamicOutputs]="footerOutputs"></ndc-dynamic>
 	</smooth-dnd-container>
