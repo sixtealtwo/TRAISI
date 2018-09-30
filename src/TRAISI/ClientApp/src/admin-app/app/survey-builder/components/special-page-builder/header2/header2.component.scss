@@ -53,7 +53,6 @@
 
 .maxHeight-slider {
 	position: absolute;
-	right: 40px;
 	width: 100%;
 	.slider.slider-horizontal {
 		width: 110px !important;
@@ -68,4 +67,8 @@
 		height: 10px;
 		top: 3px;
 	}
+}
+
+.right-slider-adjust {
+	right: 30px;
 }

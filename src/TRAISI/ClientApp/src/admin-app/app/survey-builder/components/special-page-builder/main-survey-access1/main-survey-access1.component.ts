@@ -35,7 +35,7 @@ export class MainSurveyAccess1Component implements OnInit {
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 
 			[{ color: [] }], // dropdown with defaults from theme
-			[{ font: [] }],
+			[{ font: ['montserrat', 'sofia', 'roboto'] }],
 			[{ size: [] }],
 			[{ align: [] }],
 

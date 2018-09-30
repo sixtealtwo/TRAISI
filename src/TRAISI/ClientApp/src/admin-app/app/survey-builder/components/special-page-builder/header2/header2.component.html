@@ -16,7 +16,7 @@
 						</button>
 					<dropzone *ngIf="!imageSource2" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag image here'"
 					 (error)="onUploadError($event)" (success)="onUploadSuccess($event, 2)"></dropzone>
-					 <div *ngIf="imageSource2" class="maxHeight-slider"><mv-slider  [min]="0.2" [max]="0.9" [step]="0.02" [(value)]="pageThemeInfo.headerMaxHeightScale2" (change)="headerMaxHeightChange2($event)"></mv-slider></div>
+					 <div *ngIf="imageSource2" class="maxHeight-slider right-slider-adjust"><mv-slider  [min]="0.2" [max]="0.9" [step]="0.02" [(value)]="pageThemeInfo.headerMaxHeightScale2" (change)="headerMaxHeightChange2($event)"></mv-slider></div>
 					 <sup><button *ngIf="imageSource2" type="button" (click)="deleteImage(2)" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
 					<img *ngIf="imageSource2" class="welcome-header-logo-right mr-3" src="{{ imageSource2 }}" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
 					

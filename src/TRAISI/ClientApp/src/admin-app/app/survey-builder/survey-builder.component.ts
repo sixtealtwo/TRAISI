@@ -32,6 +32,13 @@ NewBlock.tagName = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
 
+// expand fonts available
+// Add fonts to whitelist
+let Font = Quill.import('formats/font');
+// We do not add Sans Serif since it is the default
+Font.whitelist = ['montserrat',  'sofia', 'roboto'];
+Quill.register(Font, true);
+
 @Component({
 	selector: 'traisi-survey-builder',
 	templateUrl: './survey-builder.component.html',
