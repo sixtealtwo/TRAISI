@@ -206,7 +206,9 @@ export class MainSurveyAccess1Component implements OnInit {
 		} else {
 			return 'rgb(0,0,0)';
 		}
+	}
 
-
+	stripHTML(htmlString: string) {
+		return $(htmlString).text();
 	}
 }

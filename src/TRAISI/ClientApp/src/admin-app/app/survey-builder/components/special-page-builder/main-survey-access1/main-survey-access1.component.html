@@ -24,16 +24,17 @@
 			</div>
 			<div class="form-group row mt-3">
 				<div class="col-sm-6 col-11">
-					<div class="form-control mr-3 ml-3">
-						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"
-						 theme="bubble" placeholder="Enter access code" [(ngModel)]="accessCodeHTML"></quill-editor>
+					<div class="form-control mr-3 ml-3 input-mimic" *ngIf="!previewMode.value">
+						<quill-editor class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"
+						 theme="bubble" placeholder="Access code prompt" [(ngModel)]="accessCodeHTML"></quill-editor>
 					</div>
+					<input *ngIf="previewMode.value" type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}" />
 				</div>
 				<div class="col-sm-5 mt-3 mt-sm-0 xs-center">
-					<div class="begin-survey-button btn btn-primary">
+					<button type="button" class="begin-survey-button btn btn-primary">
 						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)"
 						 theme="bubble" placeholder="" [(ngModel)]="beginSurveyHTML"></quill-editor>
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>
