@@ -79,7 +79,7 @@
 				<button class="btn btn-secondary" (click)="saveTAndCPage(true)">
 					Save Privacy Policy
 				</button>
-				<label class="btn ml-2 mt-2" [ngClass]="welcomePagePreview.value ? 'btn-success' : 'btn-warning'" name="privacyPreviewEdit" btnCheckbox [(ngModel)]="privacyPagePreview.value">
+				<label class="btn ml-2 mt-2" [ngClass]="privacyPagePreview.value ? 'btn-success' : 'btn-warning'" name="privacyPreviewEdit" btnCheckbox [(ngModel)]="privacyPagePreview.value">
 						{{ privacyPagePreview.value ? 'Preview Mode' : 'Edit Mode' }}
 				 </label>
 			</div>
@@ -110,7 +110,7 @@
 				<button class="btn btn-secondary" (click)="saveThankYouPage(true)">
 					Save Thank You Page
 				</button>
-				<label class="btn ml-2 mt-2" [ngClass]="welcomePagePreview.value ? 'btn-success' : 'btn-warning'" name="thankYouPreviewEdit" btnCheckbox [(ngModel)]="thankYouPagePreview.value">
+				<label class="btn ml-2 mt-2" [ngClass]="thankYouPagePreview.value ? 'btn-success' : 'btn-warning'" name="thankYouPreviewEdit" btnCheckbox [(ngModel)]="thankYouPagePreview.value">
 						{{ thankYouPagePreview.value ? 'Preview Mode' : 'Edit Mode' }}
 				 </label>
 			</div>
