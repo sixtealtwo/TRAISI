@@ -423,6 +423,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	pageBackgroundColourChange(newColour: string): void {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
+		this.bestSectionTextColour.forEach((v, i) => this.bestSectionTextColour[i] = this.getBestSectionBodyTextColor(i));
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 

@@ -411,6 +411,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.content-wrap-builder').addClass('remove-left-margin');
 			$('.page-controls').addClass('ml-0');
 			$('.page-controls').addClass('hide-using-height');
+			$('.navbar-brand').addClass('d-none');
 			$('.content').addClass('eliminate-content-padding');
 			$('.tab-pane').css('margin-top', '-50px');
 			$('.tab-pane').addClass('remove-padding');
@@ -420,14 +421,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.survey-builder-header').addClass('hide-overflow');
 			setTimeout(() => {
 				$('.sidebar').addClass('d-none');
-				$('.page-controls').addClass('d-none');
+
 			}, 500);
 		} else {
 			$('.content-wrap-builder').removeClass('ml-0');
 			$('.content-wrap-builder').removeClass('remove-left-margin');
 			$('.page-controls').removeClass('ml-0');
 			$('.page-controls').removeClass('hide-using-height');
-			$('.page-controls').removeClass('d-none');
+			$('.navbar-brand').removeClass('d-none');
 			$('.content').removeClass('eliminate-content-padding');
 			$('.tab-pane').css('margin-top', 'unset');
 			$('.tab-pane').removeClass('remove-padding');
