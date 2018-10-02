@@ -1,4 +1,4 @@
-<ul class="navbar-nav flex-row" [class.d-md-none]="!onBuilder" (click)="$event.preventDefault()">
+<ul class="navbar-nav flex-row sidebar-toggle-button" [class.d-md-none]="!onBuilder" (click)="$event.preventDefault()">
 	<li class="nav-item">
 		<ng-template #sidebarToggleTooltip>
 			Turn on/off <br> sidebar <br>collapsing
@@ -77,7 +77,7 @@
 </a>
 
 
-<ul class="navbar-nav mr-3 d-none d-md-flex flex-row" (click)="$event.preventDefault()">
+<ul class="navbar-nav mr-3 d-none d-md-flex flex-row nav-user" (click)="$event.preventDefault()">
 	<li class="nav-item dropdown" dropdown placement="bottom right">
 		<a href="#" class="nav-link dropdown-toggle" dropdownToggle>
 			<div class="nav-padding">

@@ -133,4 +133,17 @@ export class Header1Component implements OnInit {
 		}
 	}
 
+	whiteDragHandle(): boolean {
+		if (this.pageThemeInfo.headerColour) {
+			let handleColour = Utilities.whiteOrBlackText(this.pageThemeInfo.headerColour);
+			if (handleColour === 'rgb(255,255,255)') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 }

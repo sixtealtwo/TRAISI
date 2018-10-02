@@ -18,3 +18,13 @@
 	right: 25px;
 	transform: scale(0.7);
 }
+
+.footer-color-picker-wrapper {
+	.color-picker {
+		margin-left: -180px !important;
+		.arrow-top {
+			margin-left: 180px !important;
+		}
+	}
+	
+}

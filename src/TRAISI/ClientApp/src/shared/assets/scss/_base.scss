@@ -142,8 +142,8 @@ app, .app {
 .content{
   position: relative;
   min-height: 100%;
-  padding: $content-padding-top $content-padding $content-padding;
-  background-color: $body-bg;
+  padding: $content-padding-top $content-padding $content-padding-bottom;
+	background-color: $body-bg;
 
   @include media-breakpoint-down(sm) {
     padding-left: 20px;

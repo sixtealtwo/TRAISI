@@ -1,6 +1,6 @@
 <div class="welcome-text-block">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 ml-3 mr-3">
 			<div class="text-block">
 				<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
 				 placeholder="Insert text" [readOnly]="previewMode.value"  [(ngModel)]="pageHTML"></quill-editor>

@@ -405,6 +405,32 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		return this.allPages[index];
 	}
 
+	toggleSidebarForPreview() {
+		if (this.welcomePagePreview.value === true || this.privacyPagePreview.value === true || this.thankYouPagePreview.value === true) {
+			$('.content-wrap-builder').addClass('ml-0');
+			$('.content-wrap-builder').addClass('remove-left-margin');
+			$('.page-controls').addClass('d-none');
+			$('.content').addClass('expand-padding');
+			$('.tab-pane').css('margin-top', '-50px');
+			$('.tab-pane').addClass('remove-padding');
+			$('.nav').addClass('hide-using-height');
+			$('.sidebar-toggle-button').addClass('invisible');
+			$('.nav-user').addClass('invisible');
+			$('.survey-builder-header').addClass('hide-overflow');
+		} else {
+			$('.content-wrap-builder').removeClass('ml-0');
+			$('.content-wrap-builder').removeClass('remove-left-margin');
+			$('.page-controls').removeClass('d-none');
+			$('.content').removeClass('expand-padding');
+			$('.tab-pane').css('margin-top', 'unset');
+			$('.tab-pane').removeClass('remove-padding');
+			$('.nav').removeClass('hide-using-height');
+			$('.sidebar-toggle-button').removeClass('invisible');
+			$('.nav-user').removeClass('invisible');
+			$('.survey-builder-header').removeClass('hide-overflow');
+		}
+	}
+
 	/**
 	 *
 	 */

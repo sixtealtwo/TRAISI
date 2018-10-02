@@ -77,9 +77,33 @@
 		width: 10px;
 		height: 10px;
 		left: 2px;
-		cursor: pointer;
+		cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+		background-image: none !important;
+		background-color: transparent !important;
+		border: none;
 	}
+
+	.slider-handle:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+	}
+
+	.slider-handle::before {
+		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f58d";
+		font-size: 10px;
+	}
+
 	.slider.slider-vertical .slider-tick, .slider.slider-vertical .slider-handle {
-		margin-top: -6px !important;
+		margin-top: -16px !important;
+	}
+}
+
+.headerBackground-slider-white-handle {
+	.slider-handle::before {
+		color: white;
 	}
 }

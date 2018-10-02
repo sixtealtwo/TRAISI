@@ -318,6 +318,13 @@ export class Utilities {
 	public static whiteOrBlackText(colourString: string): string {
 		let colorTriplet = colourString.substring(4, colourString.length - 2);
 		let colorSplit = colorTriplet.split(',');
+
+		/*if (+colorSplit[0] * 0.299 + +colorSplit[1] * 0.587 + +colorSplit[2] * 0.114 > 149) {
+			return 'rgb(0,0,0)';
+		} else {
+			return 'rgb(255,255,255)';
+		}*/
+
 		let r = this.rgbTransform(+colorSplit[0]);
 		let g = this.rgbTransform(+colorSplit[1]);
 		let b = this.rgbTransform(+colorSplit[2]);
