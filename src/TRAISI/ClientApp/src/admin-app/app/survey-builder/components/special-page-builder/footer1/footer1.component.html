@@ -1,7 +1,7 @@
 <footer id="welcome-footer"  [style.background-color]="pageThemeInfo.footerColour">
 	<div class="row">
 		<div class="col text-left">
-			<img [src]="traisiLogo()" height=40/>
+			<img class="ml-1 mt-1" [src]="traisiLogo()" height=40/>
 		</div>
 		<div class="col-8 text-center" [style.color]="footerTextColour">
 			<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [modules]="quillMinimalModules" (onEditorCreated)="quillEditorCreated($event)" (onContentChanged)="updateFooterContent($event)"

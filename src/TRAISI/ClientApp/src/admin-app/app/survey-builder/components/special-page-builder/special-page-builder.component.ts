@@ -104,7 +104,15 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 		if (!this.pageThemeInfo) {
 			this.pageThemeInfo = {};
+		}
+		if (!this.pageThemeInfo.pageBackgroundColour) {
 			this.pageThemeInfo.pageBackgroundColour = 'rbg(255,255,255)';
+		}
+		if (!this.pageThemeInfo.sectionBackgroundColour) {
+			this.pageThemeInfo.sectionBackgroundColour = {};
+		}
+		if (!this.pageThemeInfo.sectionBackgroundColour[this.pageType]) {
+			this.pageThemeInfo.sectionBackgroundColour[this.pageType] = [];
 		}
 		this.setComponentInputs();
 		this.loadedComponents = true;
@@ -239,6 +247,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
 			dropResult.payload = '';
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
+			delete this.pageThemeInfo.sectionBackgroundColour[this.pageType][index];
 			this.forcePageSave();
 		});
 	}
@@ -330,6 +339,14 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
 			dropResult.payload = '';
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
+			// swap any background colour info
+			dropResult.payload = this.pageThemeInfo.sectionBackgroundColour[this.pageType][dropResult.removedIndex];
+			if (dropResult.payload) {
+				this.pageThemeInfo.sectionBackgroundColour[this.pageType] = Utilities.applyDrag(
+					this.pageThemeInfo.sectionBackgroundColour[this.pageType],
+					dropResult
+				);
+			}
 		}
 		this.dragOverContainer = new Object();
 		this.forcePageSave();
@@ -395,11 +412,23 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
+	sectionBackgroundColourChange(newColour: string, index: number): void {
+		this.pageThemeInfo.sectionBackgroundColour[this.pageType][index] = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
 	getBestPageBodyTextColor() {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
 		} else {
 			return 'rgb(0,0,0)';
 		}
+	}
+
+	getBestSectionBodyTextColor(index: number) {
+		return Utilities.whiteOrBlackText(
+			this.pageThemeInfo.sectionBackgroundColour[this.pageType][index],
+			this.pageThemeInfo.pageBackgroundColour
+		);
 	}
 }

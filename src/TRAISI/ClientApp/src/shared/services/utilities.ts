@@ -315,9 +315,52 @@ export class Utilities {
 		}
 	}
 
-	public static whiteOrBlackText(colourString: string): string {
-		let colorTriplet = colourString.substring(4, colourString.length - 2);
+	private static blendColours(colourString: string, lowerBackground: string): number[] {
+		if (!lowerBackground) {
+			return this.getRgbaArray(colourString);
+		} else if (!colourString) {
+			return this.getRgbaArray(lowerBackground);
+		}	else {
+			let base = this.getRgbaArray(lowerBackground);
+			let added = this.getRgbaArray(colourString);
+			if (added[3] === 0) {
+				return this.getRgbaArray(lowerBackground);
+			} else {
+				let mix = [];
+				mix[3] = 1 - (1 - added[3]) * (1 - base[3]); // alpha
+				mix[0] = Math.round((added[0] * added[3] / mix[3]) + (base[0] * base[3] * (1 - added[3]) / mix[3])); // red
+				mix[1] = Math.round((added[1] * added[3] / mix[3]) + (base[1] * base[3] * (1 - added[3]) / mix[3])); // green
+				mix[2] = Math.round((added[2] * added[3] / mix[3]) + (base[2] * base[3] * (1 - added[3]) / mix[3])); // blue
+				return mix;
+			}
+		}
+	}
+
+	private static getRgbaArray(colourString: string): number[] {
+		let rgba = [];
+		let colorTriplet;
+		let a;
+		if (colourString.startsWith('rgba')) {
+			colorTriplet = colourString.substring(5, colourString.length - 1);
+		} else {
+			colorTriplet = colourString.substring(4, colourString.length - 1);
+		}
+
 		let colorSplit = colorTriplet.split(',');
+
+		if (colourString.startsWith('rgba')) {
+			a = +colorSplit[3];
+		} else {
+			a = 1.0;
+		}
+		return [+colorSplit[0], +colorSplit[1], +colorSplit[2], a];
+	}
+
+	public static whiteOrBlackText(colourString: string, lowerBackground?: string): string {
+		if (!colourString && !lowerBackground) {
+			return 'rgb(0,0,0)';
+		}
+		let [r, g, b, a] = this.blendColours(colourString, lowerBackground);
 
 		/*if (+colorSplit[0] * 0.299 + +colorSplit[1] * 0.587 + +colorSplit[2] * 0.114 > 149) {
 			return 'rgb(0,0,0)';
@@ -325,10 +368,10 @@ export class Utilities {
 			return 'rgb(255,255,255)';
 		}*/
 
-		let r = this.rgbTransform(+colorSplit[0]);
-		let g = this.rgbTransform(+colorSplit[1]);
-		let b = this.rgbTransform(+colorSplit[2]);
-		let L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+		let rT = this.rgbTransform(r);
+		let gT = this.rgbTransform(g);
+		let bT = this.rgbTransform(b);
+		let L = (0.2126 * rT + 0.7152 * gT + 0.0722 * bT) / a;
 		if (L > 0.179) {
 			return 'rgb(0,0,0)';
 		} else {
