@@ -33,7 +33,7 @@
 				[(colorPicker)]="pageThemeInfo.sectionBackgroundColour[pageType][i]">
 					<img src="assets/img/colour-picker.png" height="15px" />
 				</button>
-			<div [style.background-color]="pageThemeInfo.sectionBackgroundColour[pageType][i]" [style.color]="getBestSectionBodyTextColor(i)">
+			<div [style.background-color]="pageThemeInfo.sectionBackgroundColour[pageType][i]" [style.color]="bestSectionTextColour[i]">
 				<div *ngIf="!previewMode.value" class="delete-content-component-button btn btn-danger" (click)="deleteComponent(i)"><i class="far fa-trash-alt"></i></div>
 				<div *ngIf="!previewMode.value" class="move-component-button btn btn-primary"><i class="fas fa-sort"></i></div>
 				<ndc-dynamic [ndcDynamicComponent]="component" [ndcDynamicInputs]="getComponentInputs(i)" [ndcDynamicOutputs]="getComponentOutputs(i)"></ndc-dynamic>

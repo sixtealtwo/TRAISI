@@ -43,6 +43,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public footerOutputs;
 
 	private dragOverContainer: Object = new Object();
+	private bestSectionTextColour = [];
 
 	@Input()
 	public pageType: string;
@@ -113,6 +114,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 		if (!this.pageThemeInfo.sectionBackgroundColour[this.pageType]) {
 			this.pageThemeInfo.sectionBackgroundColour[this.pageType] = [];
+		} else {
+			(<string[]>this.pageThemeInfo.sectionBackgroundColour[this.pageType]).forEach((i, index) => {
+				this.bestSectionTextColour[index] = this.getBestSectionBodyTextColor(index);
+			});
 		}
 		this.setComponentInputs();
 		this.loadedComponents = true;
@@ -247,7 +252,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
 			dropResult.payload = '';
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
-			delete this.pageThemeInfo.sectionBackgroundColour[this.pageType][index];
+			this.pageThemeInfo.sectionBackgroundColour[this.pageType] = Utilities.applyDrag(
+				this.pageThemeInfo.sectionBackgroundColour[this.pageType],
+				dropResult
+			);
 			this.forcePageSave();
 		});
 	}
@@ -341,12 +349,18 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
 			// swap any background colour info
 			dropResult.payload = this.pageThemeInfo.sectionBackgroundColour[this.pageType][dropResult.removedIndex];
-			if (dropResult.payload) {
-				this.pageThemeInfo.sectionBackgroundColour[this.pageType] = Utilities.applyDrag(
-					this.pageThemeInfo.sectionBackgroundColour[this.pageType],
-					dropResult
-				);
+			if (!dropResult.payload) {
+				dropResult.payload = this.pageThemeInfo.pageBackgroundColour;
 			}
+			this.pageThemeInfo.sectionBackgroundColour[this.pageType] = Utilities.applyDrag(
+				this.pageThemeInfo.sectionBackgroundColour[this.pageType],
+				dropResult
+			);
+			dropResult.payload = this.bestSectionTextColour[dropResult.removedIndex];
+			if (!dropResult.payload) {
+				dropResult.payload = this.getBestSectionBodyTextColor(dropResult.addedIndex);
+			}
+			this.bestSectionTextColour = Utilities.applyDrag(this.bestSectionTextColour, dropResult);
 		}
 		this.dragOverContainer = new Object();
 		this.forcePageSave();
@@ -414,15 +428,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	sectionBackgroundColourChange(newColour: string, index: number): void {
 		this.pageThemeInfo.sectionBackgroundColour[this.pageType][index] = newColour;
+		this.bestSectionTextColour[index] = this.getBestSectionBodyTextColor(index);
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
-	}
-
-	getBestPageBodyTextColor() {
-		if (this.pageThemeInfo.pageBackgroundColour) {
-			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
-		} else {
-			return 'rgb(0,0,0)';
-		}
 	}
 
 	getBestSectionBodyTextColor(index: number) {
