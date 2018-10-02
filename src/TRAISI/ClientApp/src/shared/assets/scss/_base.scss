@@ -244,9 +244,9 @@ app, .app {
       width: 28px;
       height: 28px;
       line-height: 24px;
-      text-align: center;
+			text-align: center;
 
-      .fa, .glyphicon{
+      .fa, .fas, .far, .fab, .glyphicon{
         font-size: 16px;
         color: rgba($sidebar-color, .7);
       }
@@ -255,7 +255,7 @@ app, .app {
         vertical-align: -1px;
 			}
 			
-			.svg-inline--fa {
+			.fas, .far, .fab {
 				vertical-align: -0.23em;
 			}
 
@@ -287,7 +287,7 @@ app, .app {
       border-radius: 50%;
       background-color: $sidebar-item-active-color;
 
-      .fa, .glyphicon, .fi, .svg-inline--fa {
+      .fa, .fas, .far, .fab, .glyphicon, .fi, .svg-inline--fa {
         color: $sidebar-bg-color;
       }
     }

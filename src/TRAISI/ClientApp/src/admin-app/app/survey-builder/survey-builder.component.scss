@@ -139,11 +139,12 @@ li.pagetab > a{
 	min-height: 0px;
 }
 
-.expand-padding {
+.eliminate-content-padding {
 	padding-top: 0px;
 	padding-bottom: 185px;
 	padding-left: 0px;
 	padding-right: 1px;
+	overflow-x: hidden;
 }
 
 .hide-overflow {
