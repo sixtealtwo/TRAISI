@@ -409,7 +409,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		if (this.welcomePagePreview.value === true || this.privacyPagePreview.value === true || this.thankYouPagePreview.value === true) {
 			$('.content-wrap-builder').addClass('ml-0');
 			$('.content-wrap-builder').addClass('remove-left-margin');
-			$('.page-controls').addClass('d-none');
+			$('.page-controls').addClass('ml-0');
+			$('.page-controls').addClass('hide-using-height');
 			$('.content').addClass('eliminate-content-padding');
 			$('.tab-pane').css('margin-top', '-50px');
 			$('.tab-pane').addClass('remove-padding');
@@ -417,9 +418,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.sidebar-toggle-button').addClass('invisible');
 			$('.nav-user').addClass('invisible');
 			$('.survey-builder-header').addClass('hide-overflow');
+			setTimeout(() => {
+				$('.sidebar').addClass('d-none');
+				$('.page-controls').addClass('d-none');
+			}, 500);
 		} else {
 			$('.content-wrap-builder').removeClass('ml-0');
 			$('.content-wrap-builder').removeClass('remove-left-margin');
+			$('.page-controls').removeClass('ml-0');
+			$('.page-controls').removeClass('hide-using-height');
 			$('.page-controls').removeClass('d-none');
 			$('.content').removeClass('eliminate-content-padding');
 			$('.tab-pane').css('margin-top', 'unset');
@@ -428,6 +435,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.sidebar-toggle-button').removeClass('invisible');
 			$('.nav-user').removeClass('invisible');
 			$('.survey-builder-header').removeClass('hide-overflow');
+			$('.sidebar').removeClass('d-none');
 		}
 	}
 
