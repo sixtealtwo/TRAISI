@@ -168,7 +168,8 @@
 							"src/admin-app/tsconfig.app.json"
 						],
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}
@@ -191,7 +192,8 @@
 					"options": {
 						"tsConfig": [],
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}
@@ -336,7 +338,8 @@
 					"options": {
 						"tsConfig": "src/survey-viewer-app-e2e/tsconfig.e2e.json",
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}

@@ -115,16 +115,48 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigate questions - next question in the questions list.
 	 */
 	public navigateNext() {
-		this.activeQuestionIndex += 1;
-		this.validateNavigation();
+		if (!this.validateInternalNavigationNext()) {
+			this.activeQuestionIndex += 1;
+			this.validateNavigation();
+		}
+		else
+		{
+			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+		}
 	}
 
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
 	public navigatePrevious() {
-		this.activeQuestionIndex -= 1;
-		this.validateNavigation();
+		if (!this.validateInternalNavigationPrevious()) {
+			this.activeQuestionIndex -= 1;
+			this.validateNavigation();
+		} else {
+			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalPrevious();
+		}
+	}
+
+	/**
+	 *
+	 */
+	private validateInternalNavigationNext(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+		}
+
+		return false;
+	}
+
+	/**
+	 *
+	 */
+	private validateInternalNavigationPrevious(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalPrevious());
+		}
+
+		return false;
 	}
 
 	/**
@@ -143,11 +175,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.navigateNextEnabled = false;
 		} else {
 			this.navigateNextEnabled = true;
-		}
-
-		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext();
-
 		}
 	}
 
