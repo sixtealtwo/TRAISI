@@ -36,6 +36,10 @@ namespace DAL.Models.Questions
         /// <value></value>
         public QuestionConfigurationValueType ValueType { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public LabelCollection<QuestionConfigurationLabel> QuestionConfigurationLabels { get; set; }
 
     }
