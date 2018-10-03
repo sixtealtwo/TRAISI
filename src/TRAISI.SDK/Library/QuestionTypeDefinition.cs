@@ -5,6 +5,7 @@ using TRAISI.SDK.Interfaces;
 using System.Collections.Generic;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Library.ResponseTypes;
+using System.Reflection;
 
 namespace TRAISI.SDK
 {
@@ -13,15 +14,46 @@ namespace TRAISI.SDK
     /// </summary>
     public class QuestionTypeDefinition
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public string TypeName { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public DirectoryInfo Location { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public Dictionary<string, QuestionOptionDefinition> QuestionOptions { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="string"></typeparam>
+        /// <typeparam name="byte[]"></typeparam>
+        /// <returns></returns>
         private Dictionary<string, byte[]> _resourceData = new Dictionary<string, byte[]>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public Dictionary<string, byte[]> ResourceData
         {
             get
@@ -30,8 +62,16 @@ namespace TRAISI.SDK
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public QuestionResponseType ResponseType { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public string CodeBundleName { get; set; }
 
         public Dictionary<string, string> TypeNameLocales { get; } = new Dictionary<string, string>();
@@ -42,13 +82,17 @@ namespace TRAISI.SDK
         /// <value></value>
         public List<QuestionPartSlotDefinition> QuestionPartSlots { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public ISurveyQuestion Type { get; }
 
         /// <summary>
         /// How many "internal" views are available for this question - each view requires its own title text
         /// </summary>
         /// <value></value>
-        public int InternalNavigationViewCount {get;set;} = 1;
+        public int InternalNavigationViewCount { get; set; } = 1;
 
         /// <summary>
         /// A list of in memory byte [] data of client code and modules
@@ -57,7 +101,24 @@ namespace TRAISI.SDK
         /// <returns></returns>
         public static Dictionary<string, byte[]> ClientModules { get; set; } = new Dictionary<string, byte[]>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public Dictionary<string, QuestionResource> QuestionResources { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public string Icon { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public ResponseValidator ResponseValidator { get; private set; }
 
         /// <summary>
         /// 
@@ -75,18 +136,17 @@ namespace TRAISI.SDK
 
             CodeBundleName = attribute.CodeBundleName;
 
+            if (attribute.ResponseValidator != null) {
+
+                var instance = (ResponseValidator)Activator.CreateInstance(attribute.ResponseValidator);
+                this.ResponseValidator = instance;
+            }
+
         }
 
-        public string Icon { get; set; }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
-        public ResponseValidator ResponseValidator{get;set;}
 
-        
 
 
     }

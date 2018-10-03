@@ -1,19 +1,26 @@
+using System;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK.Questions
 {
 
-    public class TextQuestionValidator<T> : ResponseValidator<T>
+    public class TextQuestionValidator : ResponseValidator
     {
         public TextQuestionValidator()
         {
         }
 
-        public override bool ValidateResponse(T data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override bool ValidateResponse(IResponseType data)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

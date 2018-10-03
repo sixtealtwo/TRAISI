@@ -62,6 +62,11 @@ namespace TRAISI.Services
 
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
+            if(type.ResponseValidator != null)
+            {
+                type.ResponseValidator.ValidateResponse(null);
+            }
+
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
                            user);
             bool isUpdate = false;

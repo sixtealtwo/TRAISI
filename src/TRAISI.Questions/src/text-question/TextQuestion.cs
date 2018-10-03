@@ -8,7 +8,7 @@ namespace TRAISI.SDK.Questions
 
     [SurveyQuestion(QuestionResponseType.String,
     CodeBundleName = "traisi-questions-general.module.js",
-     ResponseValidator = typeof(TextQuestionValidator<IStringResponse>)),
+     ResponseValidator = typeof(TextQuestionValidator)),
    ]
     public class TextQuestion : ISurveyQuestion
     {
