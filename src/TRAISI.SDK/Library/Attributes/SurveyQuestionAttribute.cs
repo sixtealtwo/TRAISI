@@ -23,13 +23,19 @@ namespace TRAISI.SDK.Attributes
         /// 
         /// </summary>
         /// <value></value>
-        public string[] UseResources { get; set; } = {};
-        
+        public string[] UseResources { get; set; } = { };
+
         /// <summary>
         /// 
         /// </summary>
         /// <value></value>
         public string CodeBundleName { get; set; }
+
+        /// <summary>
+        /// How many "internal" views are available for this question - each view requires its own title text
+        /// </summary>
+        /// <value></value>
+        public int InternalNavigationViewCount { get; set; } = 1;
 
         /// <summary>
         /// 
