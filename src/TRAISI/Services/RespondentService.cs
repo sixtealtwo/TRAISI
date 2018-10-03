@@ -62,11 +62,26 @@ namespace TRAISI.Services
 
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
-            ResponseValue responseValue = null;
-            switch (type.ResponseType)
+            var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
+                           user);
+            bool isUpdate = false;
+            
+            if (surveyResponse == null) {
+                surveyResponse = new SurveyResponse()
+                {
+                    QuestionPart = question,
+                    Respondent = user,
+                };
+            }
+            else
             {
+                isUpdate = true;
+            }
+
+            ResponseValue responseValue = null;
+            switch (type.ResponseType) {
                 case QuestionResponseType.String:
-                    responseValue = SaveStringResponse(survey, question, user, responseData);
+                    SaveStringResponse(survey, question, user, responseData, surveyResponse);
                     break;
 
                 case QuestionResponseType.Location:
@@ -77,19 +92,16 @@ namespace TRAISI.Services
                     break;
             }
 
-            SurveyResponse response = new SurveyResponse()
-            {
-                ResponseValue = responseValue,
-                QuestionPart = question,
-                Respondent = user,
-            };
-            try
-            {
-                await this._unitOfWork.SurveyResponses.AddAsync(response);
+            try {
+
+                if (!isUpdate) {
+                     this._unitOfWork.SurveyResponses.Add(surveyResponse);
+                }
+
+
                 await this._unitOfWork.SaveChangesAsync();
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 this._logger.LogError(e, "Error saving response.");
                 return false;
             }
@@ -109,12 +121,13 @@ namespace TRAISI.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal ResponseValue SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
+        internal void SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            return new StringResponse()
-            {
-                Value = responseData.GetValue("value").ToObject<string>()
-            };
+            if (response.ResponseValue == null) {
+                response.ResponseValue = new StringResponse();
+            }
+            (response.ResponseValue as StringResponse).Value = responseData.GetValue("value").ToObject<string>();
+
         }
 
         /// <summary>
@@ -168,15 +181,16 @@ namespace TRAISI.Services
             return new List<SurveyResponse>();
 
         }
-        
-        
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="List"></typeparam>
         /// <returns></returns>
         public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int questionId,
-            ApplicationUser user) {
+            ApplicationUser user)
+        {
             var response =
                 await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
                     user);

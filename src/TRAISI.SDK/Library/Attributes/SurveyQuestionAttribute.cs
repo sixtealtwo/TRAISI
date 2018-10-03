@@ -37,6 +37,8 @@ namespace TRAISI.SDK.Attributes
         /// <value></value>
         public int InternalNavigationViewCount { get; set; } = 1;
 
+        public Type ResponseValidator { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -47,10 +49,9 @@ namespace TRAISI.SDK.Attributes
         public SurveyQuestionAttribute(QuestionResponseType responseType)
         {
             this.QuestionResponseType = responseType;
-
-
-
         }
+
+
 
     }
 }

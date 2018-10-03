@@ -4,6 +4,7 @@ using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using System.Collections.Generic;
 using TRAISI.SDK.Enums;
+using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK
 {
@@ -41,7 +42,6 @@ namespace TRAISI.SDK
         /// <value></value>
         public List<QuestionPartSlotDefinition> QuestionPartSlots { get; set; }
 
-
         public ISurveyQuestion Type { get; }
 
         /// <summary>
@@ -78,6 +78,15 @@ namespace TRAISI.SDK
         }
 
         public string Icon { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public ResponseValidator ResponseValidator{get;set;}
+
+        
 
 
     }

@@ -459,9 +459,13 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("OptionListResponseId");
+
                     b.Property<int>("ResponseType");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OptionListResponseId");
 
                     b.ToTable("ResponseValues");
 
@@ -571,7 +575,9 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
@@ -608,8 +614,6 @@ namespace TRAISI.Migrations
                     b.Property<DateTime>("UpdatedDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Surveys");
                 });
@@ -1069,6 +1073,9 @@ namespace TRAISI.Migrations
                 {
                     b.HasBaseType("DAL.Models.ResponseTypes.ResponseValue");
 
+                    b.Property<string>("Value")
+                        .HasColumnName("JsonResponse_Value")
+                        .HasColumnType("jsonb");
 
                     b.ToTable("JsonResponse");
 
@@ -1247,6 +1254,13 @@ namespace TRAISI.Migrations
                         .WithMany("Labels")
                         .HasForeignKey("QuestionPartViewId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DAL.Models.ResponseTypes.ResponseValue", b =>
+                {
+                    b.HasOne("DAL.Models.ResponseTypes.OptionListResponse")
+                        .WithMany("OptionResponseValues")
+                        .HasForeignKey("OptionListResponseId");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.GroupCode", b =>

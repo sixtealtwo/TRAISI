@@ -5,8 +5,6 @@ using TRAISI.SDK.Interfaces;
 namespace TRAISI.SDK.Questions
 {
 
-
-    
     public class TextQuestionValidator<T> : ResponseValidator<T>
     {
         public TextQuestionValidator()

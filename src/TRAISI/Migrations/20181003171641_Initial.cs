@@ -105,20 +105,29 @@ namespace TRAISI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    OptionListResponseId = table.Column<int>(nullable: true),
                     ResponseType = table.Column<int>(nullable: false),
                     Value = table.Column<DateTime>(nullable: true),
                     DecimalResponse_Value = table.Column<double>(nullable: true),
                     IntegerResponse_Value = table.Column<int>(nullable: true),
+                    JsonResponse_Value = table.Column<string>(type: "jsonb", nullable: true),
                     Latitude = table.Column<double>(nullable: true),
                     Longitude = table.Column<double>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Purpose = table.Column<string>(nullable: true),
-                    Time = table.Column<DateTime>(nullable: true),
+                    TimeA = table.Column<DateTime>(nullable: true),
+                    TimeB = table.Column<DateTime>(nullable: true),
                     StringResponse_Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ResponseValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ResponseValues_ResponseValues_OptionListResponseId",
+                        column: x => x.OptionListResponseId,
+                        principalTable: "ResponseValues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,7 +171,7 @@ namespace TRAISI.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(maxLength: 30, nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Owner = table.Column<string>(nullable: true),
                     Group = table.Column<string>(nullable: true),
@@ -796,6 +805,8 @@ namespace TRAISI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true),
+                    IsResourceOnly = table.Column<bool>(nullable: false),
+                    ValueType = table.Column<int>(nullable: false),
                     QuestionPartId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -1142,6 +1153,11 @@ namespace TRAISI.Migrations
                 column: "SurveyViewId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ResponseValues_OptionListResponseId",
+                table: "ResponseValues",
+                column: "OptionListResponseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shortcodes_GroupCodeId",
                 table: "Shortcodes",
                 column: "GroupCodeId");
@@ -1181,11 +1197,6 @@ namespace TRAISI.Migrations
                 table: "SurveyResponses",
                 column: "ResponseValueId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Surveys_Name",
-                table: "Surveys",
-                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyViews_SurveyId",

@@ -7,8 +7,8 @@ using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK
 {
-    public abstract class ResponseValidator<T>
+    public abstract class ResponseValidator
     {
-         public abstract bool ValidateResponse(T data);
+         public abstract bool ValidateResponse<T>(T data);
     }
 }

@@ -1,12 +1,15 @@
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK.Questions
 {
 
     [SurveyQuestion(QuestionResponseType.String,
-    CodeBundleName = "traisi-questions-general.module.js")]
+    CodeBundleName = "traisi-questions-general.module.js",
+     ResponseValidator = typeof(TextQuestionValidator<IStringResponse>)),
+   ]
     public class TextQuestion : ISurveyQuestion
     {
         public string TypeName
@@ -19,7 +22,7 @@ namespace TRAISI.SDK.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-        [SurveyQuestionValidator]
+
 
         [QuestionConfiguration(QuestionConfigurationValueType.Integer,
             Name = "Max Length",

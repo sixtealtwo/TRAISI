@@ -15,20 +15,20 @@ namespace DAL.Repositories
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public Repository(DbContext context)
         {
             _context = context;
             _entities = context.Set<TEntity>();
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="entity"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
         public virtual void Add(TEntity entity)
         {
             _entities.Add(entity);
@@ -53,6 +53,7 @@ namespace DAL.Repositories
         {
             _entities.Update(entity);
         }
+
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities)
         {
@@ -87,8 +88,10 @@ namespace DAL.Repositories
             return _entities.Where(predicate);
         }
 
+
         public virtual TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
+
             return _entities.SingleOrDefault(predicate);
         }
 
@@ -114,7 +117,10 @@ namespace DAL.Repositories
 
         public async virtual Task<IEnumerable<TEntity>> GetAllAsync()
         {
+
             return await _entities.ToListAsync();
         }
+
+
     }
 }
