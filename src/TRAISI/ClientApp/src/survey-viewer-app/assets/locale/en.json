@@ -6,6 +6,10 @@
 		"LogginIn": "Loggin In...",
 		"InvalidLogin": "The login information provided is invalid."
 	},
+	"Viewer": {
+		"Next": "Next",
+		"Previous": "Previous"
+	},
 	"TermsAndConditions": {
 		"TermsAndConditions": "Terms and Conditions",
 		"Start": "Start"

@@ -9,18 +9,18 @@
 		<div class="survey-body">
 			<div *ngFor="let question of questions; let i = index">
 
-				<traisi-question-container [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i"></traisi-question-container>
+				<traisi-question-container [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i" #questions></traisi-question-container>
 			</div>
 		</div>
 	</div>
 	<div class="survey-navigation-container">
 		<div class="survey-previous-button navigation-button">
 			<button type="button" class="btn btn-primary" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled">
-				Previous
+				{{ 'Viewer.Previous' | translate }}
 			</button></div>
 		<div class="survey-next-button navigation-button">
 			<button type="button" class="btn btn-primary" (click)="navigateNext()" [disabled]="!navigateNextEnabled">
-				Next
+				{{ 'Viewer.Next' | translate }}
 			</button></div>
 	</div>
 	<div class="survey-footer-container">

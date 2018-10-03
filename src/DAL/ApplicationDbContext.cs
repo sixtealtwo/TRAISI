@@ -75,7 +75,7 @@ namespace DAL
             builder.Entity<ApplicationRole>().HasMany(r => r.Users).WithOne().HasForeignKey(r => r.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Survey>().Property(s => s.Name).IsRequired().HasMaxLength(100);
-            builder.Entity<Survey>().HasIndex(s => s.Name);
+            builder.Entity<Survey>().Property(s => s.Code).IsRequired().HasMaxLength(30);
             builder.Entity<Survey>().HasMany(s => s.SurveyViews).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(s => s.SurveyPermissions).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(s => s.GroupCodes).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);

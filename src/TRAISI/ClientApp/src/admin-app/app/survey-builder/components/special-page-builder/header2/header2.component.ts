@@ -33,8 +33,12 @@ export class Header2Component implements OnInit {
 
 	private pageHTMLJson: any;
 
+	@Input()
+	public previewMode: any;
 	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 	@Output() public forceSave = new EventEmitter();
 
   constructor(
@@ -56,10 +60,22 @@ export class Header2Component implements OnInit {
 			this.pageHTMLJson = pageData;
 			this.imageSource1 = pageData.image1;
 			this.imageSource2 = pageData.image2;
-		} catch(e) {
+		} catch (e) {
 			this.pageHTMLJson = {};
 			this.imageSource1 = undefined;
 			this.imageSource2 = undefined;
+		}
+		if (!('headerColour' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerColour = 'rgb(240,239,240)';
+		}
+		if (!('headerMaxHeightScale1' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerMaxHeightScale1 = 1.0;
+		}
+		if (!('headerMaxHeightScale2' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerMaxHeightScale2 = 1.0;
+		}
+		if (!('headerBackgroundHeight' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerBackgroundHeight = 66;
 		}
 	}
 
@@ -115,8 +131,32 @@ export class Header2Component implements OnInit {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
+	headerColourChange(newColour: string) {
+		this.pageThemeInfo.headerColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerMaxHeightChange1(newHeight: any) {
+		this.pageThemeInfo.headerMaxHeightScale1 = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerMaxHeightChange2(newHeight: any) {
+		this.pageThemeInfo.headerMaxHeightScale2 = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerBackgroundHeightChange(newHeight: any) {
+		this.pageThemeInfo.headerBackgroundHeight = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
 	clearUploads() {
-		this.deleteImage(1);
-		this.deleteImage(2);
+		if (this.imageSource1) {
+			this.deleteImage(1);
+		}
+		if (this.imageSource2) {
+			this.deleteImage(2);
+		}
 	}
 }

@@ -1,33 +1,36 @@
-<div id="welcome-survey-access">
-	<div class="row justify-content-center">
+<div id="welcome-survey-access" [style.background-color]="pageThemeInfo.pageBackgroundColour">
+	<div class="row justify-content-center mt-4">
 		<div class="col-xl-6 col-lg-11 col-md-11 col-11">
-			<div class="intro-video text-center">
-					<dropzone class="videoDropzone" *ngIf="!videoSource" #videoUpload [config]="videoDropZoneconfig" [message]="'Click or drag video here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
-					<video *ngIf="videoSource" controls><source src="{{ videoSource }}"/></video> 
-					<button *ngIf="videoSource" type="button" (click)="deleteVideo()" class="btn btn-danger delete-video"><i class="fas fa-times"></i></button>
-				<!--<quill-editor class="quill-page-editor" [modules]="quillVideoModules" (onContentChanged)="updateVideoContent($event)" theme="bubble"
-				 placeholder="Insert survey introduction video" [(ngModel)]="videoHTML"></quill-editor>-->
+			<div class="intro-imagevideo text-center" [class.empty-container]="!videoSource && !imageSource && previewMode.value"  [style.border-color]="getBestBorderColor()" >
+				<dropzone class="imageVideoDropzone" *ngIf="!videoSource && !imageSource && !previewMode.value" #videoUpload [config]="imageVideoDropZoneconfig"
+				 [message]="'Click or drag image or video here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
+				<video *ngIf="videoSource" controls>
+					<source src="{{ videoSource }}" /></video>
+				<img *ngIf="imageSource" src="{{ imageSource }}" />
+				<button *ngIf="(videoSource || imageSource)  && !previewMode.value" type="button" (click)="deleteImageVideo()" class="btn btn-danger delete-imagevideo"><i
+					 class="fas fa-times"></i></button>
 			</div>
 		</div>
-		<div class="col-xl-5 col-lg-12 col-md-12 mt-3 ml-0 ml-xl-5">
+		<div class="col-xl-5 col-lg-12 col-md-12 mt-3 ml-0 ml-xl-3">
 			<div class="row">
-				<div class="col-12">
-					<quill-editor class="quill-page-editor" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
-					placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
+				<div class="col-12" [style.color]="getBestPageBodyTextColor()">
+					<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [readOnly]="previewMode.value" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
+					 placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
 				</div>
 			</div>
 			<div class="form-group row mt-3">
 				<div class="col-sm-6 col-11">
-					<div class="form-control mr-3 ml-3">
-						<quill-editor class="quill-page-editor no-padding-quill" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)" theme="bubble"
-						placeholder="Enter access code" [(ngModel)]="accessCodeHTML"></quill-editor>
+					<div class="form-control mr-3 ml-3 input-mimic" *ngIf="!previewMode.value">
+						<quill-editor class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"
+						 theme="bubble" placeholder="Access code prompt" [(ngModel)]="accessCodeHTML"></quill-editor>
 					</div>
+					<input *ngIf="previewMode.value" type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}" />
 				</div>
 				<div class="col-sm-5 mt-3 mt-sm-0 xs-center">
-					<div class="begin-survey-button btn btn-primary">
-							<quill-editor class="quill-page-editor no-padding-quill" [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)" theme="bubble"
-							placeholder="" [(ngModel)]="beginSurveyHTML"></quill-editor>
-					</div>
+					<button type="button" class="begin-survey-button btn btn-primary">
+						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)"
+						 theme="bubble" placeholder="" [(ngModel)]="beginSurveyHTML"></quill-editor>
+					</button>
 				</div>
 			</div>
 		</div>

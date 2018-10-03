@@ -2,21 +2,31 @@
 
 #welcome-header {
 	position: absolute;
-	background-color: #f0eff0;
 	height: 66px;
 	z-index: 0;
 		width: 100%;
 }
 
-#wwelcome-header-editor {
+#welcome-header-editor {
 	min-height: 66px !important;
+	.col {
+		white-space: nowrap !important;
+	}
 }
 
 .welcome-header-logo {
 		padding-top: 25px;
-		max-height: 60px;
+		max-height: 100px;
 		width: auto;
 		max-width: 70vw;
+}
+
+.welcome-header-logo-right {
+	margin-top: -15px;
+	max-height: 60px;
+	width: auto;
+	max-width: 70vw;
+	vertical-align: middle;
 }
 
 .imageDropzone {
@@ -30,6 +40,66 @@
 }
 
 .delete-image {
-	margin-top: -20px;
+	position: absolute;
+	left: -10px;
 	transform: scale(0.7);
+}
+
+.header-color-picker {
+	position: absolute;
+	right: 25px;
+	z-index: 50;
+	transform: scale(0.7);
+}
+
+.maxHeight-slider {
+	position: absolute;
+	width: 100%;
+	.slider.slider-horizontal {
+		width: 110px !important;
+	}
+
+	.slider.slider-horizontal .slider-track {
+		height: 5px !important;
+	}
+
+	.slider-handle {
+		width: 10px;
+		height: 10px;
+		top: 3px;
+	}
+}
+
+.right-slider-adjust {
+	right: 30px;
+}
+
+.helper {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+
+.headerBackground-slider {
+	margin-top: 50px;
+	position: absolute;
+	z-index: 50;
+	.slider.slider-vertical {
+		height: 50px !important;
+	}
+
+	.slider.slider-vertical .slider-track {
+		width: 0px !important;
+	}
+
+	.slider-handle {
+		width: 10px;
+		height: 10px;
+		left: 2px;
+		cursor: pointer;
+	}
+	.slider.slider-vertical .slider-tick, .slider.slider-vertical .slider-handle {
+		margin-top: -6px !important;
+	}
 }

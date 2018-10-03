@@ -30,21 +30,21 @@
 					</li>
 				</smooth-dnd-draggable>
 			</smooth-dnd-container>
-			<li>
+			<li *ngIf="disabled" >
 					<!-- an example of nested submenu. basic bootstrap collapse component -->
 					<a class="collapsed" data-target="#layout-headers" data-toggle="collapse">
 						<span class="icon">
 							<i class="fas fa-th-large"></i>
 						</span>
 						Headers
-						<i class="toggle fas fa-angle-down mt-3"></i>
+						<i class="toggle fas fa-angle-down"></i>
 					</a>
 					<ul id="layout-headers"class="collapse">
-							<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
+							<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
 									<smooth-dnd-draggable>
 										<li class="chooser">
 											<a>
-												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+												<span class="icon" placement="right" tooltip="Centred Logo Header" container="body" containerClass="tooltip-builder">
 													<i class="chooser-icon fas fa-th-large"></i>
 												</span>
 												Header 1
@@ -54,7 +54,7 @@
 									<smooth-dnd-draggable>
 										<li class="chooser">
 											<a>
-												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+												<span class="icon" placement="right" tooltip="Two Logo Header" container="body" containerClass="tooltip-builder">
 													<i class="chooser-icon fas fa-th-large"></i>
 												</span>
 												Header 2
@@ -64,21 +64,69 @@
 								</smooth-dnd-container>
 					</ul>
 			</li>
-			<li>
+			<li *ngIf="disabled" >
+					<!-- an example of nested submenu. basic bootstrap collapse component -->
+					<a class="collapsed" data-target="#layout-surveyAccess" data-toggle="collapse">
+						<span class="icon">
+							<i class="fas fa-th-large"></i>
+						</span>
+						Survey Starts
+						<i class="toggle fas fa-angle-down"></i>
+					</a>
+					<ul id="layout-surveyAccess"class="collapse">
+							<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-surveyAccess'" [getChildPayload]="getPageSurveyAccessPayload">
+									<smooth-dnd-draggable>
+										<li class="chooser">
+											<a>
+												<span class="icon" placement="right" tooltip="Two Column Media Survey Start Section" container="body" containerClass="tooltip-builder">
+													<i class="chooser-icon fas fa-th-large"></i>
+												</span>
+												Survey Start 1
+											</a>
+										</li>
+									</smooth-dnd-draggable>
+								</smooth-dnd-container>
+					</ul>
+			</li>
+			<li *ngIf="disabled" >
+					<!-- an example of nested submenu. basic bootstrap collapse component -->
+					<a class="collapsed" data-target="#layout-content" data-toggle="collapse">
+						<span class="icon">
+							<i class="fas fa-th-large"></i>
+						</span>
+						Other Content
+						<i class="toggle fas fa-angle-down"></i>
+					</a>
+					<ul id="layout-content"class="collapse">
+							<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-content'" [getChildPayload]="getPageContentPayload">
+									<smooth-dnd-draggable>
+										<li class="chooser">
+											<a>
+												<span class="icon" placement="right" tooltip="Generic Text Area" container="body" containerClass="tooltip-builder">
+													<i class="chooser-icon fas fa-th-large"></i>
+												</span>
+												Text Area
+											</a>
+										</li>
+									</smooth-dnd-draggable>
+								</smooth-dnd-container>
+					</ul>
+			</li>
+			<li *ngIf="disabled" >
 					<!-- an example of nested submenu. basic bootstrap collapse component -->
 					<a class="collapsed" data-target="#layout-footers" data-toggle="collapse">
 						<span class="icon">
 							<i class="fas fa-th-large"></i>
 						</span>
 						Footers
-						<i class="toggle fas fa-angle-down mt-3"></i>
+						<i class="toggle fas fa-angle-down"></i>
 					</a>
 					<ul id="layout-footers"class="collapse">
 							<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-footer'" [getChildPayload]="getPageFooterPayload">
 									<smooth-dnd-draggable>
 										<li class="chooser">
 											<a>
-												<span class="icon" placement="right" container="body" containerClass="tooltip-builder">
+												<span class="icon" placement="right" tooltip="Centred Copyright Footer" container="body" containerClass="tooltip-builder">
 													<i class="chooser-icon fas fa-th-large"></i>
 												</span>
 												Footer 1

@@ -1,22 +1,26 @@
 @import 'src/shared/assets/scss/helpers';
 
 #welcome-survey-access {
-	margin-top: 20px;
+	margin-top: 5px;
 	margin-bottom: 40px;
 }
 
-.intro-video {
-	border: 18px solid black;
+.intro-imagevideo {
+	border-width: 18px;
+	border-style: solid;
 	border-radius: 20px;
 	text-align:center;
 	vertical-align: middle;
-	min-height: 300px;
 	background-color: black;
 
-	video {
+	video, img {
 		width: 100%;
 		height: auto;
 	}
+}
+
+.empty-container {
+	padding-top: 50%;
 }
 
 .begin-survey-button {
@@ -38,6 +42,7 @@
 .no-padding-quill {
 	.ql-editor {
 		padding: 0px !important;
+		overflow: hidden;
 	}
 	.ql-tooltip {
 		display: none !important;
@@ -46,7 +51,7 @@
 
 .blot-formatter__toolbar-button { display: none !important; }
 
-.videoDropzone {
+.imageVideoDropzone {
 	height: auto !important;
 	.dz-message {
 		padding-top: 50%;
@@ -57,7 +62,18 @@
 	}
 }
 
-.delete-video {
+.delete-imagevideo {
 	position: absolute;
 	right: 20px;
+}
+
+.page-background-color-picker {
+	position: absolute;
+	right: 15px;
+	z-index: 50;
+	transform: scale(0.7);
+}
+
+.input-mimic {
+	border-left-width: 5px;
 }

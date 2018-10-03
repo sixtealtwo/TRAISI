@@ -56,7 +56,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 		if (location._platformStrategy instanceof HashLocationStrategy) {
 			$newActiveLink = this.$el.find('a[href="#' + location._baseHref + location.path().split('?')[0] + '"]');
 		} else {
-			console.log(location.path());
 			$newActiveLink = this.$el.find('a[href="' + location._baseHref + location.path().split('?')[0] + '"]');
 		}
 

@@ -1,6 +1,11 @@
-@include media-breakpoint-only(xs) {
+@import "../../../assets/scss/application.scss";
+
+
+@media #{$sm-down} {
+
+
 	.survey-body {
-		margin: 5px;
+		margin: 0px;
 	}
 	.survey-body-container {
 		margin-top: 0;
@@ -8,6 +13,7 @@
 		overflow-y: auto;
 		width: 100%;
 		min-height: 200px;
+		padding: 4px;
 
 	}
 

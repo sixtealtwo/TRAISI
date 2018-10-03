@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable, throwError as observableThrowError} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { EndpointFactory } from 'shared/services/endpoint-factory.service';
 
 @Injectable()
 export class SurveyEndpointFactoryService extends EndpointFactory {
-
 	private _surveyLoginUrl: string = '/survey/';
 
 	/**
@@ -43,10 +42,7 @@ export class SurveyEndpointFactoryService extends EndpointFactory {
 
 					if (
 						refreshLoginError.status === 401 ||
-						(refreshLoginError.url &&
-							refreshLoginError.url
-								.toLowerCase()
-								.includes(this.loginUrl.toLowerCase()))
+						(refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
 						return observableThrowError('session expired');
@@ -61,13 +57,10 @@ export class SurveyEndpointFactoryService extends EndpointFactory {
 			this.authService.reLogin();
 
 			return observableThrowError(
-				error.error && error.error.error_description
-					? `session expired (${error.error.error_description})`
-					: 'session expired'
+				error.error && error.error.error_description ? `session expired (${error.error.error_description})` : 'session expired'
 			);
 		} else {
 			return observableThrowError(error);
 		}
 	}
-
 }

@@ -32,6 +32,13 @@ NewBlock.tagName = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
 
+// expand fonts available
+// Add fonts to whitelist
+let Font = Quill.import('formats/font');
+// We do not add Sans Serif since it is the default
+Font.whitelist = ['montserrat',  'sofia', 'roboto'];
+Quill.register(Font, true);
+
 @Component({
 	selector: 'traisi-survey-builder',
 	templateUrl: './survey-builder.component.html',
@@ -41,21 +48,26 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public surveyId: number;
 	public survey: Survey = new Survey();
-	public froalaOptions: any;
+
 	public allPages: QuestionPartView[] = [];
 	public newPageTitle: string;
 	public currentLanguage: string = 'en';
+
+	public pageThemeInfo: any = {};
 
 	public welcomePage: WelcomePage = new WelcomePage();
 	public termsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
 	public thankYouPage: ThankYouPage = new ThankYouPage();
 	public loadedSpecialPages: boolean = false;
 
+	public welcomePagePreview: any = { value: false };
+	public privacyPagePreview: any = { value: false };
+	public thankYouPagePreview: any = { value: false };
+
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
 
 	private currentPage: string = 'welcome';
-	private deletedImages: UploadPath[] = [];
 
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
@@ -99,7 +111,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.froalaOptions = this.generateFroalaOptions();
 		this.loadPageStructure();
 		this.switchPage('welcome');
 	}
@@ -107,12 +118,21 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {}
 
 	loadPageStructure(): void {
-		this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(page => {
-			this.allPages = page.pages;
-			this.welcomePage = page.welcomePage;
-			this.termsAndConditionsPage = page.termsAndConditionsPage;
-			this.thankYouPage = page.surveyCompletionPage;
-			this.loadedSpecialPages = true;
+		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
+			try {
+				this.pageThemeInfo = JSON.parse(styles);
+				if (this.pageThemeInfo === null) {
+					this.pageThemeInfo = {};
+				}
+			} catch (e) {	}
+
+			this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(page => {
+				this.allPages = page.pages;
+				this.welcomePage = page.welcomePage;
+				this.termsAndConditionsPage = page.termsAndConditionsPage;
+				this.thankYouPage = page.surveyCompletionPage;
+				this.loadedSpecialPages = true;
+			});
 		});
 	}
 
@@ -120,107 +140,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.questionChooser.questionTypeDefinitions.forEach(q => {
 			this.surveyPage.qTypeDefinitions.set(q.typeName, q);
 		});
-	}
-
-	updateWelcomeContent(contentInfo: any) {
-		console.log(contentInfo);
-	}
-
-	generateFroalaOptions() {
-		return {
-			toolbarInline: true,
-			charCounterCount: false,
-			toolbarVisibleWithoutSelection: true,
-			placeholderText: 'Welcome Message',
-			fontFamilySelection: true,
-			fontFamily: {
-				'Source Sans Pro,sans-serif': 'Source Sans Pro',
-				'Arial,Helvetica,sans-serif': 'Arial',
-				'Georgia,serif': 'Georgia',
-				'Impact,Charcoal,sans-serif': 'Impact',
-				'Tahoma,Geneva,sans-serif': 'Tahoma',
-				'Times New Roman,Times,serif': 'Times New Roman',
-				'Verdana,Geneva,sans-serif': 'Verdana'
-			},
-			toolbarButtonsSM: [
-				'fullscreen',
-				'bold',
-				'italic',
-				'underline',
-				'strikeThrough',
-				'subscript',
-				'superscript',
-				'-',
-				'fontFamily',
-				'fontSize',
-				'color',
-				'inlineStyle',
-				'paragraphStyle',
-				'-',
-				'paragraphFormat',
-				'align',
-				'formatOL',
-				'formatUL',
-				'outdent',
-				'indent',
-				'quote',
-				'-',
-				'insertLink',
-				'insertImage',
-				'insertVideo',
-				'embedly',
-				'insertFile',
-				'insertTable',
-				'-',
-				'emoticons',
-				'specialCharacters',
-				'insertHR',
-				'selectAll',
-				'clearFormatting',
-				'-',
-				'print',
-				'spellChecker',
-				'help',
-				'html',
-				'|',
-				'undo',
-				'redo'
-			],
-			requestHeaders: {
-				Authorization: 'Bearer ' + this.authService.accessToken
-			},
-			videoUploadURL: this.configurationService.baseUrl + '/api/Upload',
-			videoUploadMethod: 'POST',
-			imageUploadURL: this.configurationService.baseUrl + '/api/Upload',
-			imageUploadMethod: 'POST',
-			saveInterval: 5000,
-
-			events: {
-				'froalaEditor.image.removed': (e, editor, img) => this.deleteImage(e, editor, img),
-				'froalaEditor.video.removed': (e, editor, vid) => this.deleteVideo(e, editor, vid),
-				'froalaEditor.save.before': (e, editor, data) => this.saveMandatoryPages(e, editor, data),
-				'froalaEditor.commands.after': (e, editor, cmd) => this.imageInserted(e, editor, cmd)
-			}
-		};
-	}
-
-	imageInserted(e, editor, cmd) {
-		console.log(editor);
-		console.log(e);
-	}
-
-	deleteImage(e, editor, img) {
-		let uploadPath = new UploadPath(img.attr('src'));
-		this.deletedImages.push(uploadPath);
-		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-	}
-
-	deleteVideo(e, editor, vid) {
-		if (vid[0].localName === 'video') {
-			let uploadPath = new UploadPath(vid.attr('src'));
-			this.deletedImages.push(uploadPath);
-			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-		}
 	}
 
 	saveWelcomePage(showMessage: boolean) {
@@ -237,6 +156,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			},
 			error => {}
 		);
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
 	saveTAndCPage(showMessage: boolean) {
@@ -255,6 +175,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				},
 				error => {}
 			);
+			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
 	saveThankYouPage(showMessage: boolean) {
@@ -271,6 +192,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			},
 			error => {}
 		);
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
 	saveMandatoryPages(e, editor, data) {
@@ -287,6 +209,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				.updateStandardThankYouPage(this.surveyId, this.thankYouPage)
 				.subscribe(result => {}, error => {});
 		}
+	}
+
+	resetThemeColors() {
+		this.alertService.showDialog('Are you sure you want to reset all custom colours?', DialogType.confirm, () => {
+			this.pageThemeInfo = {};
+			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+		}
+		);
 	}
 
 	addQuestionTypeToList(qType) {
@@ -473,6 +403,41 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	getPagePayload(index) {
 		return this.allPages[index];
+	}
+
+	toggleSidebarForPreview() {
+		if (this.welcomePagePreview.value === true || this.privacyPagePreview.value === true || this.thankYouPagePreview.value === true) {
+			$('.content-wrap-builder').addClass('ml-0');
+			$('.content-wrap-builder').addClass('remove-left-margin');
+			$('.page-controls').addClass('ml-0');
+			$('.page-controls').addClass('hide-using-height');
+			$('.navbar-brand').addClass('d-none');
+			$('.content').addClass('eliminate-content-padding');
+			$('.tab-pane').css('margin-top', '-50px');
+			$('.tab-pane').addClass('remove-padding');
+			$('.nav').addClass('hide-using-height');
+			$('.sidebar-toggle-button').addClass('invisible');
+			$('.nav-user').addClass('invisible');
+			$('.survey-builder-header').addClass('hide-overflow');
+			setTimeout(() => {
+				$('.sidebar').addClass('d-none');
+
+			}, 500);
+		} else {
+			$('.content-wrap-builder').removeClass('ml-0');
+			$('.content-wrap-builder').removeClass('remove-left-margin');
+			$('.page-controls').removeClass('ml-0');
+			$('.page-controls').removeClass('hide-using-height');
+			$('.navbar-brand').removeClass('d-none');
+			$('.content').removeClass('eliminate-content-padding');
+			$('.tab-pane').css('margin-top', 'unset');
+			$('.tab-pane').removeClass('remove-padding');
+			$('.nav').removeClass('hide-using-height');
+			$('.sidebar-toggle-button').removeClass('invisible');
+			$('.nav-user').removeClass('invisible');
+			$('.survey-builder-header').removeClass('hide-overflow');
+			$('.sidebar').removeClass('d-none');
+		}
 	}
 
 	/**

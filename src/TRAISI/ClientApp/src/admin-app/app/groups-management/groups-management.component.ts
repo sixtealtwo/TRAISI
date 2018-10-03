@@ -106,7 +106,7 @@ export class GroupsManagementComponent implements OnInit {
 		this.loadingIndicator = true;
 
 		this.userGroupService
-			.listUserGroups()
+			.listUserGroupsWhereAdmin()
 			.subscribe(userGroups => this.onDataLoadSuccessful(userGroups), error => this.onDataLoadFailed(error));
 	}
 

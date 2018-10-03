@@ -18,7 +18,7 @@ export class TextBlock1Component implements OnInit {
 
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-			[{ color: [] }, { background: [] }], // dropdown with defaults from theme
+			[{ color: [] }], // dropdown with defaults from theme
 			[{ font: [] }],
 			[{ size: [] }],
 			[{ align: [] }],
@@ -29,6 +29,8 @@ export class TextBlock1Component implements OnInit {
 		]
 	};
 
+	@Input()
+	public previewMode: any;
 	@Input()
 	public pageHTML: string;
 	@Output()

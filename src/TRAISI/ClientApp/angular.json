@@ -50,7 +50,8 @@
 							"node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
 							"node_modules/quill/dist/quill.core.css",
 							"node_modules/quill/dist/quill.snow.css",
-							"node_modules/quill/dist/quill.bubble.css"
+							"node_modules/quill/dist/quill.bubble.css",
+							"node_modules/angular2-draggable/css/resizable.min.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.min.js",
@@ -167,7 +168,8 @@
 							"src/admin-app/tsconfig.app.json"
 						],
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}
@@ -190,7 +192,8 @@
 					"options": {
 						"tsConfig": [],
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}
@@ -335,7 +338,8 @@
 					"options": {
 						"tsConfig": "src/survey-viewer-app-e2e/tsconfig.e2e.json",
 						"exclude": [
-							"**/node_modules/**"
+							"**/node_modules/**",
+							"**/ngx-smooth-dnd/**"
 						]
 					}
 				}

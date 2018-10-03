@@ -34,8 +34,8 @@ export class MainSurveyAccess1Component implements OnInit {
 
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-			[{ color: [] }, { background: [] }], // dropdown with defaults from theme
-			[{ font: [] }],
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ font: ['montserrat', 'sofia', 'roboto'] }],
 			[{ size: [] }],
 			[{ align: [] }],
 
@@ -45,25 +45,15 @@ export class MainSurveyAccess1Component implements OnInit {
 		]
 	};
 
-	private baseUrl: string = '';
+	private baseUrl: string;
 	public videoSource: string;
+	public imageSource: string;
 
-	public imageDropZoneconfig: DropzoneConfigInterface = {
+	public imageVideoDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
 		maxFilesize: 50,
 		maxFiles: 1,
-		acceptedFiles: 'image/*',
-		autoReset: 2000,
-		errorReset: 2000,
-		cancelReset: 2000,
-		timeout: 3000000
-	};
-
-	public videoDropZoneconfig: DropzoneConfigInterface = {
-		// Change this to your upload POST address:
-		maxFilesize: 50,
-		maxFiles: 1,
-		acceptedFiles: 'video/*',
+		acceptedFiles: 'video/*, image/*',
 		autoReset: 2000,
 		errorReset: 2000,
 		cancelReset: 2000,
@@ -74,16 +64,17 @@ export class MainSurveyAccess1Component implements OnInit {
 		toolbar: []
 	};
 
-	public videoHTML: string;
 	public introTextHTML: string;
 	public accessCodeHTML: string;
 	public beginSurveyHTML: string;
 
 	private pageHTMLJson: any;
 	@Input()
-	public pageHTML: string;
-	@Output()
-	public pageHTMLChange = new EventEmitter();
+	public previewMode: any;
+	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
+	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 
 	@Output() public forceSave = new EventEmitter();
 
@@ -94,12 +85,8 @@ export class MainSurveyAccess1Component implements OnInit {
 		private surveyBuilderService: SurveyBuilderService
 	) {
 		this.baseUrl = configurationService.baseUrl;
-		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
-		this.imageDropZoneconfig.headers = {
-			Authorization: 'Bearer ' + this.authService.accessToken
-		};
-		this.videoDropZoneconfig.url = this.baseUrl + '/api/Upload';
-		this.videoDropZoneconfig.headers = {
+		this.imageVideoDropZoneconfig.url = this.baseUrl + '/api/Upload';
+		this.imageVideoDropZoneconfig.headers = {
 			Authorization: 'Bearer ' + this.authService.accessToken
 		};
 	}
@@ -141,23 +128,36 @@ export class MainSurveyAccess1Component implements OnInit {
 	}
 
 	onUploadSuccessIndiv(event: any) {
-		this.videoSource = event[1].link;
-		this.updateVideoContent();
+		console.log(event);
+		if ((<string>event[0].type).startsWith('video')) {
+			this.videoSource = event[1].link;
+		} else {
+			this.imageSource = event[1].link;
+		}
+		this.updateImageVideoContent();
 	}
 
-	deleteVideo() {
-		let uploadPath = new UploadPath(this.videoSource);
-		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
-		this.videoSource = undefined;
-		this.updateVideoContent();
+	deleteImageVideo() {
+		let uploadPath;
+		if (this.videoSource) {
+			uploadPath = new UploadPath(this.videoSource);
+		} else if (this.imageSource) {
+			uploadPath = new UploadPath(this.imageSource);
+		}
+		if (uploadPath) {
+			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+			this.videoSource = undefined;
+			this.imageSource = undefined;
+			this.updateImageVideoContent();
+		}
 	}
 
 	clearUploads() {
-		this.deleteVideo();
+		this.deleteImageVideo();
 	}
 
-	updateVideoContent() {
-		this.pageHTMLJson.video = this.videoSource;
+	updateImageVideoContent() {
+		this.pageHTMLJson.media = this.videoSource ? this.videoSource : this.imageSource;
 		this.updatePageHTML();
 		this.forceSave.emit();
 	}
@@ -180,5 +180,35 @@ export class MainSurveyAccess1Component implements OnInit {
 	private updatePageHTML() {
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	pageBackgroundColourChange(newColour: string): void  {
+		this.pageThemeInfo.pageBackgroundColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	getBestPageBodyTextColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
+	getBestBorderColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			let borderColor = Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+			if (borderColor === 'rgb(255,255,255)') {
+				return 'rgb(200,200,200)';
+			} else {
+				return borderColor;
+			}
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
+	stripHTML(htmlString: string) {
+		return $(htmlString).text();
 	}
 }

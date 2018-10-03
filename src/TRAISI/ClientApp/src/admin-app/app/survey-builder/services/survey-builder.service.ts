@@ -38,6 +38,10 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getDeleteUploadedFileEndopint<UploadPath>(filePath);
 	}
 
+	public getSurveyStyles(surveyId: number): Observable<string> {
+		return this.surveyBuilderEndpointService.getSurveyStylesEndpoint<string>(surveyId);
+	}
+
 	public getStandardWelcomePage(surveyId: number, language: string): Observable<WelcomePage> {
 		return this.surveyBuilderEndpointService.getStandardWelcomePageEndpoint<WelcomePage>(surveyId, language);
 	}
@@ -51,6 +55,10 @@ export class SurveyBuilderService {
 
 	public getStandardThankYouPage(surveyId: number, language: string): Observable<ThankYouPage> {
 		return this.surveyBuilderEndpointService.getStandardThankYouPageEndpoint<ThankYouPage>(surveyId, language);
+	}
+
+	public updateSurveyStyles(surveyId: number, updatedStyles: string) {
+		return this.surveyBuilderEndpointService.getUpdateSurveyStylesEndpoint<string>(surveyId, updatedStyles);
 	}
 
 	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage) {

@@ -16,6 +16,7 @@ namespace TRAISI.SDK.Enums
         Time,
         Date,
         Custom,
+        Label,
         Question
     }
 }

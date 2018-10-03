@@ -58,7 +58,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.configurationData = new Subject<QuestionConfiguration[]>();
 		this.options = new Subject<QuestionOption[]>();
 
-		this.router.events.subscribe((value: any) => {
+		let sub = this.router.events.subscribe((value: any) => {
 			if (value instanceof ActivationStart) {
 				let route: ActivationStart = <ActivationStart>value;
 
@@ -66,11 +66,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 				if (this._activeSurveyId < 0) {
 					this.restoreStatus();
+					sub.unsubscribe();
 				}
 			}
 		});
 		this.navigationActiveState = new Subject<boolean>();
-
 	}
 
 	/**
@@ -84,7 +84,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		if (!this.authService.isLoggedIn) {
 			return false;
 		}
-		console.log(this.authService.currentUser.roles);
+
 		return this.authService.currentUser.roles.includes('super administrator');
 	}
 
@@ -180,16 +180,19 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			this._activeSurveyId = +this.authService.currentSurveyUser.surveyId;
 
 			this.activeSurveyId.next(this._activeSurveyId);
-
-
 		}
 
 		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
-			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(value => {
-				this._activeSurveyId = <number>value;
-				this.activeSurveyId.next(this._activeSurveyId);
-
-			});
+			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(
+				value => {
+					this._activeSurveyId = <number>value;
+					this.activeSurveyId.next(this._activeSurveyId);
+				},
+				error => {
+					console.error(error);
+					this.router.navigate(['/', this.activeSurveyCode, 'error']);
+				}
+			);
 		}
 	}
 
@@ -197,8 +200,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 *
 	 * @param canNavigate
 	 */
-	public updateNavigationState(canNavigate: boolean): void
-	{
+	public updateNavigationState(canNavigate: boolean): void {
 		this._navigationState = canNavigate;
 		this.navigationActiveState.next(canNavigate);
 		return;

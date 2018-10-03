@@ -33,8 +33,6 @@
   </Target>
 
 
-
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
     <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />

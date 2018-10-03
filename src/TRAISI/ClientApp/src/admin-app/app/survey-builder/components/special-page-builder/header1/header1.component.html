@@ -1,11 +1,18 @@
 <div id="welcome-header-editor">
-	<div id="welcome-header"></div>
+	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight">
+	</div>
+	<div *ngIf="!previewMode.value" class="headerBackground-slider" [class.headerBackground-slider-white-handle]="whiteDragHandle()"><mv-slider [orientation]="'vertical'"  [min]="50" [max]="100" [step]="1" [(value)]="pageThemeInfo.headerBackgroundHeight"  (change)="headerBackgroundHeightChange($event)"></mv-slider></div>
 	<div class="row">
-		<div class="col-12 text-center">
-			<dropzone *ngIf="!imageSource" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"
+		<div class="col-12 text-center" [style.height.px]="pageThemeInfo.headerMaxHeightScale * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale * 100 : pageThemeInfo.headerBackgroundHeight">
+			<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker"  [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="headerColourChange($event)"  [(colorPicker)]="pageThemeInfo.headerColour">
+				<img src="assets/img/colour-picker.png" height="15px"/>
+			</button>
+			<dropzone *ngIf="!imageSource && !previewMode.value" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag logo here'"
 			 (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
-			<img class="welcome-header-logo" src="{{ imageSource }}" />
-			<sup><button *ngIf="imageSource" type="button" (click)="deleteImage()" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
+			 <div *ngIf="imageSource && !previewMode.value" class="maxHeight-slider"><mv-slider  [min]="0.2" [max]="0.9" [step]="0.02" [(value)]="pageThemeInfo.headerMaxHeightScale" (change)="headerMaxHeightChange($event)"></mv-slider></div>
+			 <sup *ngIf="!previewMode.value"><button *ngIf="imageSource" type="button" (click)="deleteImage()" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
+			 <img *ngIf="imageSource" class="welcome-header-logo" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale * 100" src="{{ imageSource }}" />
+			
 		</div>
 	</div>
 </div>

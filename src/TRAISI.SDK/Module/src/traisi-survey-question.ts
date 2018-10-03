@@ -1,8 +1,7 @@
 import { ResponseValidationState } from './question-response-state';
-import { EventEmitter, Output, Inject } from '@angular/core';
+import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
-
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
@@ -56,6 +55,32 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 		this.isValid = false;
 		this.data = [];
 	}
+
+	/**
+	 * A question can override this method to signal to the survey viewer that
+	 * the question implements special next functionality.
+	 */
+	public canNavigateInternalNext(): boolean {
+		return false;
+	}
+
+	/**
+	 * An override to signal to the viewer that this question has an internal navigation
+	 * handler.
+	 */
+	public canNavigateInternalPrevious(): boolean {
+		return false;
+	}
+
+	/**
+	 * Called when the next is triggered in the survey viewer.
+	 */
+	public navigateInternalNext(): void {}
+
+	/**
+	 * Called when previous is triggered in the survey viewer.
+	 */
+	public navigateInternalPrevious(): void {}
 
 	/**
 	 *

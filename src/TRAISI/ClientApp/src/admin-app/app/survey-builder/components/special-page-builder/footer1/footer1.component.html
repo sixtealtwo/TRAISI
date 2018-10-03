@@ -1,12 +1,16 @@
-<footer id="welcome-footer">
+<footer id="welcome-footer" [style.background-color]="pageThemeInfo.footerColour">
 	<div class="row">
 		<div class="col text-left">
-			<img src="assets/img/icon_dark.png" height=40/>
+			<img class="ml-1 mt-1" [src]="traisiLogo()" height=40/>
 		</div>
-		<div class="col text-center">
-				<quill-editor class="quill-page-editor" [modules]="quillMinimalModules" (onContentChanged)="updateFooterContent($event)" theme="bubble"
-				placeholder="Enter copyright" [(ngModel)]="pageHTML"></quill-editor>
+		<div class="col-8 text-center" [style.color]="footerTextColour">
+			<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [modules]="quillMinimalModules" (onEditorCreated)="quillEditorCreated($event)" (onContentChanged)="updateFooterContent($event)"
+			 theme="bubble" [readOnly]="previewMode.value" placeholder="Copyright" [(ngModel)]="pageHTMLJson.html"></quill-editor>
 		</div>
-		<div class="col"></div>
+		<div class="col footer-color-picker-wrapper">
+			<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-1 btn btn-inverse footer-color-picker" [cpPosition]="'top'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="footerColourChange($event)" [(colorPicker)]="pageThemeInfo.footerColour">
+				<img src="assets/img/colour-picker.png" height="15px" />
+			</button>
+		</div>
 	</div>
 </footer>

@@ -13,7 +13,10 @@
 }
 
 .special-page-editor {
-	max-width: 1500px;
+//	max-width: 1500px;
+	.smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
+		overflow: visible !important;
+	}
 }
 
 .empty-container {
@@ -21,7 +24,7 @@
 		min-height: 50px;
 		background-color: $gray-300;
 		border-radius: 10px;
-		margin: 0 0 0 0;
+		margin: 10px 0 10px 0;
 		padding: 0 0 0 0;
 		overflow: hidden;
 	}
@@ -29,14 +32,49 @@
 
 .delete-component-button {
 	position: absolute;
-	right: -25px;
 	top: 15px;
+	right: -25px;
 	z-index: 10;
 	transform: scale(0.8);
 }
 
+.delete-content-component-button {
+	position: absolute;
+	right: -25px;
+	z-index: 10;
+	transform: scale(0.8);
+}
+
+.move-component-button {
+	position: absolute;
+	right: 5px;
+	z-index: 10;
+	transform: scale(0.8);
+	cursor: move !important;
+}
+
 .drag-over {
 	.smooth-dnd-container {
-		background-color: #eaedff !important;
+		background-color: rgba(234, 237, 255, 0.3) !important;
 	}
+}
+
+.ql-previewmode {
+	.ql-editor.ql-blank::before {
+		display: none !important;
+	}
+}
+
+.page-background-color-picker {
+	position: absolute;
+	right: 15px;
+	z-index: 50;
+	transform: scale(0.7);
+}
+
+.section-background-color-picker {
+	position: absolute;
+	right: 32px;
+	z-index: 50;
+	transform: scale(0.8);
 }

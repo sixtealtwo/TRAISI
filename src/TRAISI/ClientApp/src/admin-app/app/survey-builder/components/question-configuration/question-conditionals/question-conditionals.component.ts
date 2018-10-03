@@ -385,6 +385,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	}
 
 	onSelectedChange(downlineItems: DownlineTreeviewItem[]) {
-		console.log(downlineItems);
+
 	}
 }

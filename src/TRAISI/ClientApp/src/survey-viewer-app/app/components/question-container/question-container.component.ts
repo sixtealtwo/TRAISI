@@ -1,4 +1,14 @@
-import { Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, Inject, ChangeDetectionStrategy } from '@angular/core';
+import {
+	Component,
+	ComponentRef,
+	Input,
+	OnInit,
+	ViewChild,
+	ViewContainerRef,
+	Inject,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef
+} from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
@@ -21,11 +31,14 @@ export class QuestionContainerComponent implements OnInit {
 	@Input()
 	questionIndex: number;
 
-
-
-
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	questionOutlet: ViewContainerRef;
+
+	private _questionInstance: SurveyQuestion<any>;
+
+	get surveyQuestionInstance(): SurveyQuestion<any> {
+		return this._questionInstance;
+	}
 
 	isLoaded: boolean = false;
 
@@ -40,6 +53,7 @@ export class QuestionContainerComponent implements OnInit {
 	constructor(
 		@Inject('QuestionLoaderService') private questionLoaderService: QuestionLoaderService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
+		private cdRef: ChangeDetectorRef,
 		private responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef
 	) {}
@@ -48,8 +62,6 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
-
-
 
 		/**
 		 * Load the question component into the specified question outlet.
@@ -70,6 +82,7 @@ export class QuestionContainerComponent implements OnInit {
 					.subscribe((options: SurveyViewQuestionOption[]) => {
 						this.isLoaded = true;
 
+						this._questionInstance = componentRef.instance;
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
 						}

@@ -14,7 +14,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
@@ -47,8 +47,12 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { AngularDraggableModule } from 'angular2-draggable';
+import {NgxToggleModule} from 'ngx-toggle';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
+import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
 
 @NgModule({
 	imports: [
@@ -69,6 +73,10 @@ import { Footer1Component } from './components/special-page-builder/footer1/foot
 		ChartsModule,
 		TreeviewModule,
 		DropzoneModule,
+		ColorPickerModule,
+		AngularDraggableModule,
+		NgxToggleModule,
+		ButtonsModule.forRoot(),
 		DynamicModule.withComponents([
 			Header1Component,
 			Header2Component,
@@ -122,7 +130,8 @@ import { Footer1Component } from './components/special-page-builder/footer1/foot
 		MainSurveyAccess1Component,
 		TextBlock1Component,
 		Header2Component,
-		Footer1Component
+		Footer1Component,
+		SponsorsComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

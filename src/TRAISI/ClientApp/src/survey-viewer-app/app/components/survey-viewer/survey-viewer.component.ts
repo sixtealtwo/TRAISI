@@ -6,25 +6,30 @@ import {
 	ComponentFactory,
 	SystemJsNgModuleLoader,
 	Inject,
-	ChangeDetectorRef
+	ChangeDetectorRef,
+	QueryList,
+	AfterViewInit,
+	AfterContentInit,
+	ViewChildren,
+	ContentChildren,
+	AfterContentChecked,
+	AfterViewChecked
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
-import { NextObserver } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { sortBy } from 'lodash';
 import { QuestionContainerComponent } from '../question-container/question-container.component';
+import { SurveyQuestion } from 'traisi-question-sdk';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
 	styleUrls: ['./survey-viewer.component.scss']
 })
-export class SurveyViewerComponent implements OnInit {
-	public questions: any[];
+export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
+	public questions: SurveyQuestion<any>[];
 
 	public surveyId: number;
 
@@ -33,8 +38,8 @@ export class SurveyViewerComponent implements OnInit {
 	@ViewChild(SurveyHeaderDisplayComponent)
 	headerDisplay: SurveyHeaderDisplayComponent;
 
-	@ViewChild(QuestionContainerComponent)
-	questionContainer: QuestionContainerComponent;
+	@ViewChildren('questions')
+	questionContainers!: QueryList<QuestionContainerComponent>;
 
 	public activeQuestion;
 
@@ -47,6 +52,8 @@ export class SurveyViewerComponent implements OnInit {
 	public navigateNextEnabled: boolean = false;
 
 	private navigationActiveState: boolean = true;
+
+	private _activeQuestionContainer: QuestionContainerComponent;
 
 	/**
 	 *
@@ -91,7 +98,6 @@ export class SurveyViewerComponent implements OnInit {
 	private onNavigationStateChanged: (state: boolean) => void = (state: boolean) => {
 		this.navigationActiveState = state;
 		this.validateNavigation();
-
 	};
 
 	/**
@@ -101,7 +107,7 @@ export class SurveyViewerComponent implements OnInit {
 	private loadPageQuestions(page: SurveyViewPage) {
 		this.questions = sortBy(page.questions, ['order']);
 		this.activeQuestionIndex = 0;
-		this.validateNavigation();
+
 		this.isLoaded = true;
 	}
 
@@ -109,16 +115,48 @@ export class SurveyViewerComponent implements OnInit {
 	 * Navigate questions - next question in the questions list.
 	 */
 	public navigateNext() {
-		this.activeQuestionIndex += 1;
-		this.validateNavigation();
+		if (!this.validateInternalNavigationNext()) {
+			this.activeQuestionIndex += 1;
+			this.validateNavigation();
+		}
+		else
+		{
+			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+		}
 	}
 
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
 	public navigatePrevious() {
-		this.activeQuestionIndex -= 1;
-		this.validateNavigation();
+		if (!this.validateInternalNavigationPrevious()) {
+			this.activeQuestionIndex -= 1;
+			this.validateNavigation();
+		} else {
+			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalPrevious();
+		}
+	}
+
+	/**
+	 *
+	 */
+	private validateInternalNavigationNext(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+		}
+
+		return false;
+	}
+
+	/**
+	 *
+	 */
+	private validateInternalNavigationPrevious(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalPrevious());
+		}
+
+		return false;
 	}
 
 	/**
@@ -139,4 +177,20 @@ export class SurveyViewerComponent implements OnInit {
 			this.navigateNextEnabled = true;
 		}
 	}
+
+	/**
+	 *
+	 */
+	ngAfterViewInit(): void {
+		this.questionContainers.changes.subscribe(s => {
+			this._activeQuestionContainer = s.first;
+			setTimeout(() => {
+				this.validateNavigation();
+			});
+		});
+	}
+
+	ngAfterContentInit(): void {}
+
+	ngAfterViewChecked(): void {}
 }

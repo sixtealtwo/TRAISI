@@ -30,8 +30,13 @@ export class Header1Component implements OnInit {
 		createImageThumbnails: false
 	};
 
+	private pageHTMLJson: any;
+	@Input()
+	public previewMode: any;
 	@Input() public pageHTML: string;
+	@Input() public pageThemeInfo: any;
 	@Output() public pageHTMLChange = new EventEmitter();
+	@Output()	public pageThemeInfoChange = new EventEmitter();
 	@Output() public forceSave = new EventEmitter();
 
   constructor(
@@ -48,7 +53,24 @@ export class Header1Component implements OnInit {
 	}
 
   ngOnInit() {
-		this.imageSource = this.pageHTML;
+		try {
+			let pageData = JSON.parse(this.pageHTML);
+			this.pageHTMLJson = pageData;
+			this.imageSource = pageData.image;
+		} catch (e) {
+			this.pageHTMLJson = {};
+			this.imageSource = undefined;
+		}
+		if (!('headerColour' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerColour = 'rgb(240,239,240)';
+		}
+		if (!('headerMaxHeightScale' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerMaxHeightScale = 1.0;
+		}
+		if (!('headerBackgroundHeight' in this.pageThemeInfo)) {
+			this.pageThemeInfo.headerBackgroundHeight = 66;
+		}
+		
 	}
 
 	onUploadError(error: any) {
@@ -85,12 +107,43 @@ export class Header1Component implements OnInit {
 	}
 
 	updateImageContent() {
-		this.pageHTML = this.imageSource;
+		this.pageHTMLJson.image = this.imageSource;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
+	headerColourChange(newColour: string) {
+		this.pageThemeInfo.headerColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerMaxHeightChange(newHeight: any) {
+		this.pageThemeInfo.headerMaxHeightScale = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	headerBackgroundHeightChange(newHeight: any) {
+		this.pageThemeInfo.headerBackgroundHeight = newHeight.newValue;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
 	clearUploads() {
-		this.deleteImage();
+		if (this.imageSource) {
+			this.deleteImage();
+		}
+	}
+
+	whiteDragHandle(): boolean {
+		if (this.pageThemeInfo.headerColour) {
+			let handleColour = Utilities.whiteOrBlackText(this.pageThemeInfo.headerColour);
+			if (handleColour === 'rgb(255,255,255)') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 }

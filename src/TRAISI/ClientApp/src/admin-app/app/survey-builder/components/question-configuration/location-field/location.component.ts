@@ -33,8 +33,9 @@ export class LocationFieldComponent implements OnInit, AfterViewInit {
 	}
 
 	updateBounds(bounds: any) {
-		console.log(bounds.features[0].geometry.coordinates[0]);
+
 	}
+
 	setDefaultValue() {
 		let locSplit = this.questionConfiguration.defaultValue.split('|');
 		let lng = +locSplit[0];
