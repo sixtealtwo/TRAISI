@@ -2,11 +2,13 @@ import { ResponseValidationState } from './question-response-state';
 import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
+import { BehaviorSubject, ReplaySubject } from '../node_modules/rxjs';
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
  */
 export abstract class SurveyQuestion<T extends ResponseTypes> {
+
 	public abstract get typeName(): string;
 
 	public abstract get icon(): string;
@@ -15,7 +17,6 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 * Output binding - question components embedded in other question types can subscribe
 	 * to the questions response event to receive the generated "data" of that question type
 	 * when it is completed by the user.
-	 *
 	 * @type {EventEmitter<ResponseData<T>>}
 	 * @memberof SurveyQuestion
 	 */
@@ -30,9 +31,17 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 */
 	questionId: number;
 
+	/**
+	 * The configuration for this question
+	 */
 	configuration: QuestionConfiguration;
 
+	/**
+	 * The validity state of the question
+	 */
 	isValid: boolean;
+
+	previousResponse: ReplaySubject<ResponseData<T>>;
 
 	data: Array<any>;
 
@@ -50,6 +59,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	constructor() {
 		this.response = new EventEmitter<ResponseData<T>>();
 		this.validation = new EventEmitter<ResponseValidationState>();
+		this.previousResponse = new ReplaySubject<ResponseData<T>>(1);
 		this.questionId = 0;
 		this.configuration = <QuestionConfiguration>{};
 		this.isValid = false;
@@ -88,6 +98,8 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 * @memberof SurveyQuestion
 	 */
 	public traisiOnInit() {}
+
+
 }
 
 /**
