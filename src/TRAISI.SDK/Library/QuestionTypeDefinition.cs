@@ -45,6 +45,12 @@ namespace TRAISI.SDK
         public ISurveyQuestion Type { get; }
 
         /// <summary>
+        /// How many "internal" views are available for this question - each view requires its own title text
+        /// </summary>
+        /// <value></value>
+        public int InternalNavigationViewCount {get;set;} = 1;
+
+        /// <summary>
         /// A list of in memory byte [] data of client code and modules
         /// that is to be served to the front end.
         /// </summary>
