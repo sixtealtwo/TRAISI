@@ -5,18 +5,6 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": ".NET Core Launch (console)",
-			"type": "coreclr",
-			"request": "launch",
-			"preLaunchTask": "build",
-			"program": "/src/TRAISI/bin/Debug/netcoreapp2.1/TRAISI.dll",
-			"args": [],
-			"cwd": "${workspaceFolder}",
-			"console": "internalConsole",
-			"stopAtEntry": false,
-			"internalConsoleOptions": "openOnSessionStart"
-		},
-		{
 			"name": ".NET Core Launch TRAISI LOCAL (web)",
 			"type": "coreclr",
 			"request": "launch",
@@ -48,12 +36,6 @@
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"
 			}
-		},
-		{
-			"name": ".NET Core Attach",
-			"type": "coreclr",
-			"request": "attach",
-			"processId": "${command:pickProcess}"
 		}
 	]
 }
