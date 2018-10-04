@@ -25,6 +25,6 @@ export {
 	StringResponseData,
 	TimelineResponseData,
 	TimeResponseData
-} from './traisi-survey-question';
+} from './survey-question';
 
 export { QuestionLoaderService } from './question-loader.service';
