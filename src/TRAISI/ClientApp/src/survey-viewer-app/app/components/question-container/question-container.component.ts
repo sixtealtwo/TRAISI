@@ -12,10 +12,17 @@ import {
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
-import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, SurveyQuestion } from 'traisi-question-sdk';
+import {
+	OnOptionsLoaded,
+	OnSurveyQuestionInit,
+	SurveyResponder,
+	SurveyQuestion,
+	ResponseValidationState
+} from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
 
+export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
 	selector: 'traisi-question-container',
 	templateUrl: './question-container.component.html',
@@ -42,6 +49,10 @@ export class QuestionContainerComponent implements OnInit {
 
 	isLoaded: boolean = false;
 
+	public validationStates = ResponseValidationState;
+
+	public responseValidationState: ResponseValidationState;
+
 	/**
 	 *Creates an instance of QuestionContainerComponent.
 	 * @param {QuestionLoaderService} questionLoaderService
@@ -65,6 +76,9 @@ export class QuestionContainerComponent implements OnInit {
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
+
+		this.responseValidationState = ResponseValidationState.PRISTINE;
+
 		this.questionLoaderService
 			.loadQuestionComponent(this.question, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {

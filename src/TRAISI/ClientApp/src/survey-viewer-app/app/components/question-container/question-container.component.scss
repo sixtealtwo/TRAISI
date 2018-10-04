@@ -20,3 +20,19 @@
 	display: inline-block !important;
 }
 
+.validation-icon.pristine
+{
+	display: none;
+}
+
+
+
+.validation-icon.valid
+{
+	color: $info;
+}
+
+.validation-icon.invalid
+{
+	color: $info;
+}

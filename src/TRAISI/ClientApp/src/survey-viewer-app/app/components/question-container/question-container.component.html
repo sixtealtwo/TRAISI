@@ -1,5 +1,8 @@
 <section class="widget card border-primary mb-3">
 	<div class="card-header">
+		<span class="question-validation">
+				<fa-icon [icon]="['far','check-circle']" class="validation-icon" [ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE}"  size="lg"></fa-icon>
+		</span>
 		<span class="question-index badge badge-pill badge-secondary">
 			Q{{ questionIndex+1 }}
 		</span>

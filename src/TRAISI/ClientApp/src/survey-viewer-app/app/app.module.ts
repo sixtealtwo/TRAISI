@@ -36,6 +36,11 @@ import { AuthService } from 'shared/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+library.add(faCheckCircle);
+
 @NgModule({
 	entryComponents: [
 		ModalBackdropComponent
