@@ -118,7 +118,20 @@ export class QuestionContainerComponent implements OnInit {
 								surveyQuestionInstance.savedResponse.next(response.responseValue);
 								surveyQuestionInstance.traisiOnLoaded();
 							});
+
+							surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
+
 					});
 			});
+	}
+
+	/**
+	 * Callback for when the response's validation state changes
+	 */
+	private onResponseValidationStateChanged: (state: ResponseValidationState) => void
+	 = (validationState: ResponseValidationState) => {
+		this.responseValidationState = validationState;
+
+
 	}
 }

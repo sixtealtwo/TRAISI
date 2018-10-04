@@ -24,7 +24,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	public readonly response: EventEmitter<ResponseData<T>>;
 
 	@Output()
-	public readonly validation: EventEmitter<ResponseValidationState>;
+	public readonly validationState: EventEmitter<ResponseValidationState>;
 
 	/**
 	 * This value is id associated with the survey question. Each id will be unique.
@@ -64,7 +64,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 */
 	constructor() {
 		this.response = new EventEmitter<ResponseData<T>>();
-		this.validation = new EventEmitter<ResponseValidationState>();
+		this.validationState = new EventEmitter<ResponseValidationState>();
 		this.savedResponse = new ReplaySubject<ResponseData<T> | "none">(1);
 		this.questionId = 0;
 		this.configuration = <QuestionConfiguration>{};

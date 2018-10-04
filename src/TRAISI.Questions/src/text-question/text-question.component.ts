@@ -12,7 +12,8 @@ import {
 	OnOptionsLoaded,
 	QuestionOption,
 	ResponseData,
-	StringResponseData
+	StringResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 
 @Component({
@@ -62,11 +63,9 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.String> | 'none') => void = (
 		response: ResponseData<ResponseTypes.String> | 'none'
 	) => {
-		console.log('got data': response);
 		if (response !== 'none') {
 			let stringResponse = <StringResponseData>response;
 			this.textInput = stringResponse.value;
-			console.log('Got saved data: ' + stringResponse.value);
 		}
 	}
 	/**
@@ -79,6 +78,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			value: this.textInput
 		};
 		this.response.emit(data);
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 	/**
