@@ -9,9 +9,10 @@ import {
 	OnSurveyQuestionInit,
 	OnVisibilityChanged,
 	OnSaveResponseStatus,
-	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	ResponseData,
+	StringResponseData
 } from 'traisi-question-sdk';
 
 @Component({
@@ -26,6 +27,8 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	readonly QUESTION_TYPE_NAME: string = 'Text Question';
 
 	public textInput: string;
+
+	public isLoaded: boolean;
 
 	@ViewChild('inputElement')
 	private textInputElement: HTMLInputElement;
@@ -47,13 +50,25 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'text';
 		this.textInput = '';
+		this.isLoaded = false;
 	}
 
 	ngOnInit() {
 		this.onQuestionShown();
 
+		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.String> | 'none') => void = (
+		response: ResponseData<ResponseTypes.String> | 'none'
+	) => {
+		console.log('got data': response);
+		if (response !== 'none') {
+			let stringResponse = <StringResponseData>response;
+			this.textInput = stringResponse.value;
+			console.log('Got saved data: ' + stringResponse.value);
+		}
+	}
 	/**
 	 * This will write a new response o the server
 	 *
@@ -80,5 +95,11 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 */
 	onResponseSaved(result: any): void {
 		console.log('result from text question: ' + result);
+	}
+
+	traisiOnLoaded()
+	{
+		console.log('traisi on loaded called');
+		this.isLoaded = true;
 	}
 }

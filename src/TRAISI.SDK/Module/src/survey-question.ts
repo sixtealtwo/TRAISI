@@ -105,6 +105,14 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 */
 	public traisiOnInit() {}
 
+	/**
+	 * Called when the question has completed loading all of its data.
+	 * This includes any saved response data and configuration data.
+	 */
+	public traisiOnLoaded() {
+
+	}
+
 
 }
 
@@ -166,6 +174,13 @@ export interface BooleanResponseData extends ResponseData<ResponseTypes.Boolean>
 
 export interface ListResponseData extends ResponseData<ResponseTypes.List> {
 	values: Array<any>;
+}
+
+/**
+ * Wrapper interface format for save response returned from survey - responseValue in includes the dat
+ */
+export interface ResponseValue<T extends ResponseTypes> {
+	responseValue: ResponseData<T>;
 }
 
 /**

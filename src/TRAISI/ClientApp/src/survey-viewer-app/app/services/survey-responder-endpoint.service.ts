@@ -20,6 +20,10 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + this._surveyResponseUrl;
 	}
 
+	get responderSavedResponseUrl() {
+		return this.configurations.baseUrl + this._surveyResponseUrl;
+	}
+
 	/**
 	 * Returns the endpoint for retrieving survey questions of a particular survey view
 	 * @param {number} surveyId
@@ -37,8 +41,6 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		);
 	}
 
-
-
 	/**
 	 * Returns the endpoint for retrieving survey questions of a particular survey view
 	 * @param {number} surveyId
@@ -52,6 +54,24 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getSubmitSurveyResponseEndpoint(surveyId, questionId, responseData)
+				);
+			})
+		);
+	}
+
+
+		/**
+	 * Returns the endpoint for retrieving survey questions of a particular survey view
+	 * @param {number} surveyId
+	 * @returns {Observable<T>}
+	 */
+	public getSavedResponseUrlEndpoint<T>(surveyId: number, questionId: number): Observable<T> {
+		let endpointUrl = `${this.responderSaveResponseUrl}/surveys/${surveyId}/questions/${questionId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSavedResponseUrlEndpoint(surveyId, questionId)
 				);
 			})
 		);

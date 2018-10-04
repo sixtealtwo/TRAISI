@@ -233,6 +233,8 @@ namespace TRAISI.ViewModels
                 .ReverseMap();
 
             CreateSurveyViewerAutoMapperProfiles();
+
+            CreateSurveyResponderAutoMapperProfiles();
         }
     }
 }

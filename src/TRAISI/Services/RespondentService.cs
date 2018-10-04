@@ -193,7 +193,7 @@ namespace TRAISI.Services
         /// </summary>
         /// <typeparam name="List"></typeparam>
         /// <returns></returns>
-        public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int questionId,
+        public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,
             ApplicationUser user)
         {
             var response =

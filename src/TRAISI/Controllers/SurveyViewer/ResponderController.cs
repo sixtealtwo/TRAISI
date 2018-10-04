@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using TRAISI.Authorization;
 using TRAISI.Services.Interfaces;
+using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -43,19 +44,41 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/")]
-        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] JObject  content)
+        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] JObject content)
         {
 
             var user = await _userManager.GetUserAsync(User);
 
             bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, content);
 
-            if (!success)
-            {
+            if (!success) {
                 return new BadRequestResult();
             }
 
             return new OkResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        [Produces(typeof(ObjectResult))]
+        [HttpGet]
+        [Route("surveys/{surveyId}/questions/{questionId}/")]
+        public async Task<IActionResult> SavedResponse(int surveyId, int questionId)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+
+            SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, user);
+
+            if (response == null) {
+                return new ObjectResult(null);
+            }
+            var mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
+            return new ObjectResult(mapped);
         }
 
 
@@ -73,8 +96,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetResponses(int surveyId, string questionName)
         {
             var responses = await this._respondentService.ListResponses(surveyId, questionName);
-            if (responses != null)
-            {
+            if (responses != null) {
                 return new BadRequestResult();
             }
 

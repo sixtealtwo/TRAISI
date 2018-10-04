@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SurveyResponder, SurveyQuestion, OnSaveResponseStatus, ResponseTypes, ResponseData } from 'traisi-question-sdk';
+import {
+	SurveyResponder,
+	SurveyQuestion,
+	OnSaveResponseStatus,
+	ResponseTypes,
+	ResponseData,
+	ResponseValue
+} from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
@@ -23,8 +30,6 @@ export class SurveyResponderService implements SurveyResponder {
 		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, data);
 	}
 
-
-
 	/**
 	 *
 	 *
@@ -34,8 +39,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public registerQuestion(questionComponent: SurveyQuestion<any>, surveyId: number, questionId: number) {
-
-
 		questionComponent.response.subscribe(
 			(value: ResponseData<any>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId);
@@ -44,6 +47,15 @@ export class SurveyResponderService implements SurveyResponder {
 				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
 			}
 		);
+	}
+
+	/**
+	 * Returns the previously saved response for the active user for the specified survey id and question id
+	 * @param surveyId
+	 * @param questionId
+	 */
+	public getSavedResponse(surveyId: number, questionId: number): Observable<ResponseValue<any>> {
+		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId);
 	}
 
 	/**
@@ -59,8 +71,6 @@ export class SurveyResponderService implements SurveyResponder {
 		surveyId: number,
 		questionId: number
 	) {
-
-
 		this.saveResponse(<string>response, surveyId, questionId).subscribe(
 			value => {
 				if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {

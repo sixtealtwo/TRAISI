@@ -62,7 +62,6 @@ export class QuestionContainerComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
-
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
@@ -88,10 +87,23 @@ export class QuestionContainerComponent implements OnInit {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
+								this.question.configuration
+							);
 						}
 
-						this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId);
+						this.responderService.registerQuestion(
+							componentRef.instance,
+							this.surveyId,
+							this.question.questionId
+						);
+
+						this.responderService
+							.getSavedResponse(this.surveyId, this.question.questionId)
+							.subscribe(response => {
+								surveyQuestionInstance.savedResponse.next(response.responseValue);
+								surveyQuestionInstance.traisiOnLoaded();
+							});
 					});
 			});
 	}

@@ -1,6 +1,6 @@
 <p>
 
-  <input type="text" [(ngModel)]="textInput"  class="form-control" placeholder="Enter response..." (blur)="handleComponentBlur()" #inputElement />
+  <input [disabled]="!isLoaded" type="text" [(ngModel)]="textInput"  class="form-control" placeholder="Enter response..." (blur)="handleComponentBlur()" #inputElement />
 
 </p>
  
