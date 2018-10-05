@@ -65,7 +65,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
-		private cdRef: ChangeDetectorRef
+		private cdRef: ChangeDetectorRef,
 	) {}
 
 	/**
