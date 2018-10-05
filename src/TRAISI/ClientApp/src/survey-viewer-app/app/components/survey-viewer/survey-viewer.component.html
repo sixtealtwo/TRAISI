@@ -5,7 +5,7 @@
 
 	<traisi-survey-header-display #header></traisi-survey-header-display>
 
-	<div class="survey-body-container">
+	<div class="survey-body-container" (scroll)="onQuestionScroll($event)">
 		<div class="survey-body">
 			<div *ngFor="let question of questions; let i = index">
 

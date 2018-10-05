@@ -13,7 +13,8 @@ import {
 	ViewChildren,
 	ContentChildren,
 	AfterContentChecked,
-	AfterViewChecked
+	AfterViewChecked,
+	HostListener
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
@@ -65,7 +66,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
-		private cdRef: ChangeDetectorRef,
+		private cdRef: ChangeDetectorRef
 	) {}
 
 	/**
@@ -118,9 +119,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (!this.validateInternalNavigationNext()) {
 			this.activeQuestionIndex += 1;
 			this.validateNavigation();
-		}
-		else
-		{
+		} else {
 			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 		}
 	}
@@ -193,4 +192,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	ngAfterContentInit(): void {}
 
 	ngAfterViewChecked(): void {}
+
+
+	public onQuestionScroll($event) {
+		console.log($event);
+	}
 }

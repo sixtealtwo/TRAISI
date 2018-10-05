@@ -66,7 +66,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private cdRef: ChangeDetectorRef,
 		private responderService: SurveyResponderService,
-		public viewContainerRef: ViewContainerRef
+		public viewContainerRef: ViewContainerRef,
 	) {}
 
 	/**
