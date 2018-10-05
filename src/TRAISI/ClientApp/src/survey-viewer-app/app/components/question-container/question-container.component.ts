@@ -3,6 +3,7 @@ import {
 	ComponentRef,
 	Input,
 	OnInit,
+	OnDestroy,
 	ViewChild,
 	ViewContainerRef,
 	Inject,
@@ -24,7 +25,8 @@ export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 	templateUrl: './question-container.component.html',
 	styleUrls: ['./question-container.component.scss']
 })
-export class QuestionContainerComponent implements OnInit {
+export class QuestionContainerComponent implements OnInit, OnDestroy {
+
 	@Input()
 	question: ISurveyQuestion;
 
@@ -66,6 +68,13 @@ export class QuestionContainerComponent implements OnInit {
 		private responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef
 	) {}
+
+	/**
+	 * Unregister question etc and unsubscribe certain subs
+	 */
+	ngOnDestroy(): void {
+
+	}
 
 	/**
 	 *
