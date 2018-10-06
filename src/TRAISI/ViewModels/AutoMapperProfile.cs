@@ -164,7 +164,7 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.Children, map => map.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Type = "option";
+                    svm.Type = "option-" + s.Name;
                     svm.Label = s.QuestionOptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 

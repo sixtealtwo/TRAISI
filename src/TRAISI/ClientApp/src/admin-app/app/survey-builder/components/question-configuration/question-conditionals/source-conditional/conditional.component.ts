@@ -204,7 +204,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			// if option, add only if parent question is unchecked
 			if ((<string>selectedTarget.item.value).startsWith('option')) {
 				if (!selectedTarget.parent.item.checked) {
-					let id = +(selectedTarget.item.value.split('-')[1]);
+					let id = +(selectedTarget.item.value.split('-')[2]);
 					// let parentId = +(selectedTarget.parent.item.value.split('-')[2]);
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
 						o => o.targetOptionId === id

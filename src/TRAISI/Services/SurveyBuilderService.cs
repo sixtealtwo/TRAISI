@@ -105,11 +105,11 @@ namespace TRAISI.Services
 
         }
 
-        public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, bool isRepeat)
+        public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName)
         {
             qpv.isHousehold = isHousehold;
             qpv.isOptional = isOptional;
-            qpv.isRepeat = isRepeat;
+            qpv.RepeatSourceQuestionName = repeatSourceQuestionName;
         }
 
         public void UpdateQuestionPartName(int surveyId, QuestionPart qp, string newName)

@@ -19,7 +19,7 @@ namespace TRAISI.ViewModels.SurveyBuilder
 
 			public bool isOptional { get; set; }
 			public bool isHousehold { get; set; }
-			public bool isRepeat { get; set; }
+			public string repeatSourceQuestionName { get; set; }
     }
 
 		public class SBQuestionPartViewViewModelValidator : AbstractValidator<SBQuestionPartViewViewModel>

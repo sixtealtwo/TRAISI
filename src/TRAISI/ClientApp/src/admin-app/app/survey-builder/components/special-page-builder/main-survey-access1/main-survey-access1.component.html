@@ -11,22 +11,22 @@
 					 class="fas fa-times"></i></button>
 			</div>
 		</div>
-		<div class="col-xl-5 col-lg-12 col-md-12 mt-3 ml-0 ml-xl-3">
-			<div class="row">
+		<div class="col-xl-5 col-lg-12 col-md-12">
+			<div class="row mt-3 mt-xl-0 ml-3 ml-xl-0">
 				<div class="col-12" [style.color]="getBestPageBodyTextColor()">
 					<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [readOnly]="previewMode.value" [modules]="quillModules" (onContentChanged)="updateContent($event)" theme="bubble"
 					 placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
 				</div>
 			</div>
-			<div class="form-group row mt-3">
-				<div class="col-sm-6 col-11">
-					<div class="form-control mr-3 ml-3 input-mimic" *ngIf="!previewMode.value">
+			<div class="form-group row mt-3 ml-3 ml-xl-0">
+				<div class="col-6">
+					<div class="form-control ml-3 input-mimic" *ngIf="!previewMode.value">
 						<quill-editor class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"
 						 theme="bubble" placeholder="Access code prompt" [(ngModel)]="accessCodeHTML"></quill-editor>
 					</div>
 					<input *ngIf="previewMode.value" type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}" />
 				</div>
-				<div class="col-sm-5 mt-3 mt-sm-0 xs-center">
+				<div class="col-5 xs-center">
 					<button type="button" class="begin-survey-button btn btn-primary">
 						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)"
 						 theme="bubble" placeholder="" [(ngModel)]="beginSurveyHTML"></quill-editor>

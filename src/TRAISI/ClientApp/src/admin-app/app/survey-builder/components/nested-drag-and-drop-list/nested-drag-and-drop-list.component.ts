@@ -51,7 +51,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 			questionOptions: {},
 			questionConfigurations: {},
 			responseType: '',
-			typeNameLocales: {'en': 'Section', 'fr': 'Section'}
+			typeNameLocales: { en: 'Section', fr: 'Section' }
 		};
 		this.qTypeDefinitions.set('Survey Part', sectionType);
 	}
@@ -62,6 +62,9 @@ export class NestedDragAndDropListComponent implements OnInit {
 		this.qConfiguration.surveyId = this.surveyId;
 		this.qConfiguration.questionBeingEdited = new QuestionPartView();
 		this.qConfiguration.questionBeingEdited = JSON.parse(JSON.stringify(this.questionBeingEdited));
+		this.qConfiguration.questionBeingEdited.questionPartViewChildren = this.getQuestionPartViewChildren(
+			this.qConfiguration.questionBeingEdited.id
+		);
 		this.qConfiguration.editing = true;
 		this.qConfiguration.newQuestion = this.addingNewQuestion;
 		this.qConfiguration.isSaving = false;
@@ -296,10 +299,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 							);
 					} else {
 						if (this.qConfiguration.conditionalsComponent) {
-							let [
-								qConditionals,
-								qoConditionals
-							] = this.qConfiguration.getUpdatedConditionals();
+							let [qConditionals, qoConditionals] = this.qConfiguration.getUpdatedConditionals();
 							this.surveyBuilderService
 								.setQuestionPartConditionals(
 									this.surveyId,
@@ -478,7 +478,12 @@ export class NestedDragAndDropListComponent implements OnInit {
 							q => new Order(q.id, q.order)
 						);
 						this.surveyBuilderService
-							.updateStandardQuestionPartViewOrderEndpoint(this.surveyId, this.currentPage.id, questionsOrder, this.questionBeingEdited.id)
+							.updateStandardQuestionPartViewOrderEndpoint(
+								this.surveyId,
+								this.currentPage.id,
+								questionsOrder,
+								this.questionBeingEdited.id
+							)
 							.subscribe();
 					}
 				}
@@ -517,7 +522,12 @@ export class NestedDragAndDropListComponent implements OnInit {
 								q => new Order(q.id, q.order)
 							);
 							this.surveyBuilderService
-								.updateStandardQuestionPartViewOrderEndpoint(this.surveyId, partId, questionsOrder, this.questionBeingEdited.id)
+								.updateStandardQuestionPartViewOrderEndpoint(
+									this.surveyId,
+									partId,
+									questionsOrder,
+									this.questionBeingEdited.id
+								)
 								.subscribe();
 						}
 					}

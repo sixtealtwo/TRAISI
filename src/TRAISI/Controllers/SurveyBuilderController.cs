@@ -206,7 +206,7 @@ namespace TRAISI.Controllers
                     try
                     {
                         this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
-                        this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.isRepeat);
+                        this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName);
                         this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
                         await this._unitOfWork.SaveChangesAsync();
                         return new OkResult();

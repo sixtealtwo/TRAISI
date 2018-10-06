@@ -44,7 +44,7 @@ namespace DAL.Models.Questions {
 
 		public bool isOptional { get; set; }
 		public bool isHousehold { get; set; }
-		public bool isRepeat { get; set; }
+		public string RepeatSourceQuestionName { get; set; }
 
 		/// <summary>
 		/// 

@@ -21,7 +21,7 @@ namespace DAL.Models.Questions
 
         bool isOptional { get; set; }
         bool isHousehold { get; set; }
-        bool isRepeat { get; set; }
+				string RepeatSourceQuestionName { get; set; }
 
         int Order { get; set; }
     }

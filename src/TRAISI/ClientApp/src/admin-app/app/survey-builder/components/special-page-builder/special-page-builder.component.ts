@@ -252,6 +252,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.componentList = Utilities.applyDrag(this.componentList, dropResult);
 			dropResult.payload = '';
 			this.componentHTML = Utilities.applyDrag(this.componentHTML, dropResult);
+
 			this.pageThemeInfo.sectionBackgroundColour[this.pageType] = Utilities.applyDrag(
 				this.pageThemeInfo.sectionBackgroundColour[this.pageType],
 				dropResult
@@ -423,7 +424,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 
 	pageBackgroundColourChange(newColour: string): void {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
-		this.bestSectionTextColour.forEach((v, i) => this.bestSectionTextColour[i] = this.getBestSectionBodyTextColor(i));
+		this.bestSectionTextColour.forEach(
+			(v, i) => (this.bestSectionTextColour[i] = this.getBestSectionBodyTextColor(i))
+		);
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
@@ -439,4 +442,5 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.pageThemeInfo.pageBackgroundColour
 		);
 	}
+
 }

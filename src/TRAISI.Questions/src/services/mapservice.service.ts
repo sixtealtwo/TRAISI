@@ -1,7 +1,7 @@
 import { HttpResponseBase, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { EndpointFactory } from '../../../TRAISI/ClientApp/src/shared/services/endpoint-factory.service';
 import { GeoLocation } from '../models/geo-location.model';
 import { SurveyViewer } from 'traisi-question-sdk';
 
@@ -35,11 +35,7 @@ export class MapEndpointService {
 	 */
 	protected getRequestHeaders(
 		rType: any = 'json'
-	): {
-		headers: HttpHeaders | { [header: string]: string | string[] };
-		responseType: any;
-	} {
-		console.log(sessionStorage.getItem('access_token'));
+	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
 		const headers = new HttpHeaders({
 			Authorization: 'Bearer ' + this.token,
 			'Content-Type': 'application/json',

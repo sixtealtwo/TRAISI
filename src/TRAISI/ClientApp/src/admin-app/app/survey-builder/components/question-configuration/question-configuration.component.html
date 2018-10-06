@@ -37,7 +37,8 @@
 						<!--<div [froalaEditor]="froalaQTestOptions" [(froalaModel)]="questionBeingEdited.label.value" id="questionText" aria-describedby="questionText"
 						 placeholder="Question Text" name="questionText">
 						</div>-->
-						<quill-editor (onEditorCreated)="questiontextEditorCreated($event)" (onContentChanged)="updateCursorOnType()" (onSelectionChanged)="recordCursor($event)" class="form-control" id="questionText" theme="snow" name="questionText"
+						<input *ngIf="!questionBeingEdited.questionPart" type="text" name="questionTextInput" class="form-control" id="questionTextInput" placeholder="Section Name" [(ngModel)]="questionBeingEdited.label.value" />
+						<quill-editor *ngIf="questionBeingEdited.questionPart" (onEditorCreated)="questiontextEditorCreated($event)" (onContentChanged)="updateCursorOnType()" (onSelectionChanged)="recordCursor($event)" class="form-control" id="questionText" theme="snow" name="questionText"
 						 [(ngModel)]="questionBeingEdited.label.value">
 							<div quill-editor-toolbar>
 								<span class="ql-formats">
@@ -105,11 +106,11 @@
 						<hr class="edit-separator-hr" />
 					</div>
 				</div>
-				<div class="form-group form-group-adjust row">
-					<div class="col-md-6 col-sm-6 col-6" *ngIf="questionBeingEdited.questionPart">
+				<div class="form-group form-group-adjust row" *ngIf="questionBeingEdited.questionPart">
+					<div class="col-12" >
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-4 col-form-label text-md-right">Optional</label>
-							<div class="col-md-5">
+							<label class="col-md-2 col-form-label text-md-right">Optional</label>
+							<div class="col-md-10">
 								<label class="form-check-label switch" for="isOptionalCheck">
 									<input class="form-check-input" type="checkbox" value="" id="isOptionalCheck" [(ngModel)]="questionBeingEdited.isOptional"
 									 name="isOptional">
@@ -118,10 +119,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-6" *ngIf="!questionBeingEdited.questionPart">
+				</div>
+				<div class="form-group form-group-adjust row" *ngIf="!questionBeingEdited.questionPart">
+					<div class="col-12" >
 						<div class="form-group form-group-adjust row">
-							<label class="col-md-4 col-form-label text-md-right">Household</label>
-							<div class="col-md-5">
+							<label class="col-md-2 col-form-label text-md-right">Household</label>
+							<div class="col-md-10">
 								<label class="form-check-label switch" for="isHouseholdCheck">
 									<input class="form-check-input" type="checkbox" value="" id="isHouseholdCheck" [(ngModel)]="questionBeingEdited.isHousehold"
 									 name="isHousehold">
@@ -130,14 +133,27 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-6">
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<hr class="edit-separator-hr" />
+					</div>
+				</div>
+				<div class="form-group form-group-adjust row">
+					<div class="col-12">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Repeat</label>
-							<div class="col-md-5">
-								<label class="form-check-label switch" for="isRepeatCheck">
-									<input class="form-check-input" type="checkbox" value="" id="isRepeatCheck" [(ngModel)]="questionBeingEdited.isRepeat" name="isRepeat">
+							<div class="col-md-10" [hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length == 0">
+								<label class="pull-left form-check-label switch" for="isRepeatCheck">
+									<input class="form-check-input" type="checkbox" value="" id="isRepeatCheck" #isRepeat name="isRepeat" (change)="repeatQuestion(isRepeat.checked)" [checked]="questionBeingEdited.repeatSourceQuestionName != null">
 									<i></i>
 								</label>
+								<ngx-dropdown-treeview-select class="pull-left ml-3" [hidden]="!isRepeat.checked" #repeatTreeSelect [items]="repeatSourcesBefore" [config]="treedropdownSingleConfig" (valueChange)="repeatQuestion(true)">
+								</ngx-dropdown-treeview-select>
+							</div>
+							<div class="col-md-10 mt-2">
+								<span [hidden]="questionBeingEdited.id != 0" class="form-check-label">Setting Repeat Available After Save</span>
+								<span [hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length > 0" class="form-check-label">No Repeat Sources Available</span>
 							</div>
 						</div>
 					</div>

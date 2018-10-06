@@ -86,7 +86,7 @@
 				</button>
 			</div>
 			<div class="modal-body config-background">
-				<app-question-configuration #qConfiguration (configResult)="processConfiguration($event)"></app-question-configuration>
+				<app-question-configuration #qConfiguration [qTypeDefinitions]="qTypeDefinitions" (configResult)="processConfiguration($event)"></app-question-configuration>
 			</div>
 		</div>
 	</div>

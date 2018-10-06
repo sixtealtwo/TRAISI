@@ -341,7 +341,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				let split = (<string>treeItem.value).split('-');
 				checkValue = `${split[0]}-${split[2]}`;
 			} else {
-				checkValue = treeItem.value;
+				let split = (<string>treeItem.value).split('-');
+				checkValue = `${split[0]}-${split[2]}`;
 			}
 			let treeItemCopy = new TreeviewItem({
 				value: treeItem.value,

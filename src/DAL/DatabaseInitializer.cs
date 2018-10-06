@@ -90,37 +90,7 @@ namespace DAL
                 _context.UserGroups.Add(TTS);
                 _context.UserGroups.Add(SMTO);
 
-                Survey TestSurvey = new Survey()
-                {
-                    Name = "Test",
-                    Owner = "tts",
-                    Group = "StudentMove",
-                    StartAt = DateTime.Now,
-                    EndAt = DateTime.Now.Add(TimeSpan.FromDays(1)),
-                    IsActive = true,
-                    IsOpen = true,
-                    SuccessLink = "",
-                    RejectionLink = "",
-                    DefaultLanguage = "en",
-                };
                 
-                TestSurvey.PopulateDefaults();
-                
-
-                TestSurvey.SurveyPermissions = new List<SurveyPermission>();
-
-                SurveyPermission test = new SurveyPermission()
-                {
-                    Permissions = new string[] { "survey.view", "survey.modify", "survey.interview" },
-                    User = smto
-                };
-
-                TestSurvey.SurveyPermissions.Add(test);
-
-
-                _context.Surveys.Add(TestSurvey);
-
-
 
                 await _context.SaveChangesAsync();
 
