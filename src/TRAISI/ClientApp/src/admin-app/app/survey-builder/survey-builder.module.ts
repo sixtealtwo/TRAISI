@@ -53,6 +53,7 @@ import {NgxToggleModule} from 'ngx-toggle';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
+import { QuestionViewerComponent } from './components/special-page-builder/question-viewer/question-viewer.component';
 
 @NgModule({
 	imports: [
@@ -131,7 +132,8 @@ import { SponsorsComponent } from './components/special-page-builder/sponsors/sp
 		TextBlock1Component,
 		Header2Component,
 		Footer1Component,
-		SponsorsComponent
+		SponsorsComponent,
+		QuestionViewerComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

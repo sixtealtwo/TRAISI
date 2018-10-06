@@ -36,7 +36,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 // Add fonts to whitelist
 let Font = Quill.import('formats/font');
 // We do not add Sans Serif since it is the default
-Font.whitelist = ['montserrat',  'sofia', 'roboto'];
+Font.whitelist = ['montserrat', 'sofia', 'roboto'];
 Quill.register(Font, true);
 
 @Component({
@@ -63,6 +63,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public welcomePagePreview: any = { value: false };
 	public privacyPagePreview: any = { value: false };
 	public thankYouPagePreview: any = { value: false };
+	public questionViewerPreview: any = { value: false };
 
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
@@ -85,6 +86,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	welcomeEditor: SpecialPageBuilderComponent;
 	@ViewChild('privacyPolicyEditor')
 	privacyPolicyEditor: SpecialPageBuilderComponent;
+	@ViewChild('questionViewerEditor')
+	questionViewerEditor: SpecialPageBuilderComponent;
 	@ViewChild('thankYouEditor')
 	thankYouEditor: SpecialPageBuilderComponent;
 
@@ -123,16 +126,19 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				this.pageThemeInfo = JSON.parse(styles);
 				if (this.pageThemeInfo === null) {
 					this.pageThemeInfo = {};
+					this.pageThemeInfo.viewerTemplate = '';
 				}
-			} catch (e) {	}
+			} catch (e) {}
 
-			this.surveyBuilderService.getStandardViewPageStructure(this.surveyId, this.currentLanguage).subscribe(page => {
-				this.allPages = page.pages;
-				this.welcomePage = page.welcomePage;
-				this.termsAndConditionsPage = page.termsAndConditionsPage;
-				this.thankYouPage = page.surveyCompletionPage;
-				this.loadedSpecialPages = true;
-			});
+			this.surveyBuilderService
+				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
+				.subscribe(page => {
+					this.allPages = page.pages;
+					this.welcomePage = page.welcomePage;
+					this.termsAndConditionsPage = page.termsAndConditionsPage;
+					this.thankYouPage = page.surveyCompletionPage;
+					this.loadedSpecialPages = true;
+				});
 		});
 	}
 
@@ -175,7 +181,23 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				},
 				error => {}
 			);
-			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+	}
+
+	saveQuestionViewerPage(showMessage: boolean) {
+		this.questionViewerEditor.updatePageData();
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe(
+			result => {
+				if (showMessage) {
+					this.alertService.showMessage(
+						'Success',
+						`Question viewer theme saved successfully!`,
+						MessageSeverity.success
+					);
+				}
+			},
+			error => {}
+		);
 	}
 
 	saveThankYouPage(showMessage: boolean) {
@@ -215,8 +237,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.alertService.showDialog('Are you sure you want to reset all custom colours?', DialogType.confirm, () => {
 			this.pageThemeInfo = {};
 			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
-		}
-		);
+		});
 	}
 
 	addQuestionTypeToList(qType) {
@@ -288,6 +309,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				Object.assign(this.currentSurveyPage, this.currentSurveyPageEdit);
 				let pageTab = this.allPages.filter(p => p.id === this.currentSurveyPageEdit.id)[0];
 				pageTab.label.value = this.currentSurveyPageEdit.label.value;
+				pageTab.icon = this.currentSurveyPageEdit.icon;
 				this.editPageModal.hide();
 			},
 			error => {
@@ -406,7 +428,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	toggleSidebarForPreview() {
-		if (this.welcomePagePreview.value === true || this.privacyPagePreview.value === true || this.thankYouPagePreview.value === true) {
+		if (
+			this.welcomePagePreview.value === true ||
+			this.privacyPagePreview.value === true ||
+			this.thankYouPagePreview.value === true ||
+			this.questionViewerPreview.value === true
+		) {
 			$('.content-wrap-builder').addClass('ml-0');
 			$('.content-wrap-builder').addClass('remove-left-margin');
 			$('.page-controls').addClass('ml-0');
@@ -421,7 +448,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.survey-builder-header').addClass('hide-overflow');
 			setTimeout(() => {
 				$('.sidebar').addClass('d-none');
-
 			}, 500);
 		} else {
 			$('.content-wrap-builder').removeClass('ml-0');

@@ -7,6 +7,7 @@ import { IContainerOptions } from '../../../shared/ngx-smooth-dnd/container/cont
 import { Footer1Component } from './footer1/footer1.component';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
+import { QuestionPartView } from '../../models/question-part-view.model';
 
 @Component({
 	selector: 'app-special-page-builder',
@@ -51,6 +52,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public pageHTML: string;
 	@Input()
 	public pageThemeInfo: any;
+	@Input()
+	public allPages: QuestionPartView;
 	@Input()
 	public previewMode: any;
 	@Output()

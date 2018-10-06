@@ -46,10 +46,12 @@ namespace DAL.Models.Questions {
 		public bool isHousehold { get; set; }
 		public string RepeatSourceQuestionName { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public QuestionPartView() {
+        public string Icon { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public QuestionPartView() {
 			this.Labels = new LabelCollection<QuestionPartViewLabel>();
 			this.QuestionPartViewChildren = new List<QuestionPartView>();
 		}

@@ -11,6 +11,7 @@ export class QuestionPartView {
 		public questionPart?: QuestionPart,
 		public isOptional?: boolean,
 		public isHousehold?: boolean,
-		public repeatSourceQuestionName?: string
+		public repeatSourceQuestionName?: string,
+		public icon?: string
 	) {}
 }

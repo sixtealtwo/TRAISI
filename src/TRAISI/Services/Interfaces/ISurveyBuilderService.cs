@@ -48,7 +48,7 @@ namespace TRAISI.Services.Interfaces
 
         void SetQuestionPartViewLabel(QuestionPartView qpv, string text, string language = null);
 
-        void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName);
+        void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName, string icon);
 
         void UpdateQuestionPartName(int surveyId, QuestionPart qp, string newName);
 

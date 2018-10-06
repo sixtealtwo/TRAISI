@@ -21,8 +21,8 @@
 		<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
 		 [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
 	</smooth-dnd-container>
-
-	<smooth-dnd-container id="special-page-content" [lockAxis]="'y'" [getChildPayload]="getContentComponentPayload" [dragHandleSelector]="'.move-component-button'"
+	<app-question-viewer [previewMode]="previewMode" [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>
+	<smooth-dnd-container *ngIf="pageType != 'questionViewer'" id="special-page-content" [lockAxis]="'y'" [getChildPayload]="getContentComponentPayload" [dragHandleSelector]="'.move-component-button'"
 	 [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['content']" (dragEnter)="onDragEnter('content')"
 	 (dragLeave)="onDragLeave('content')" [class.empty-container]="componentKeys.length == 0 && !previewMode.value" [groupName]="'special-content'"
 	 (drop)="onContentDrop($event)">

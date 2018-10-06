@@ -1,0 +1,133 @@
+@import 'src/shared/assets/scss/helpers';
+
+#pages-progress-bar {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.page {
+	border: 2px solid darkblue;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	padding: 15px;
+	font-size: 20px;
+	background-color: white;
+}
+
+.page-progress-label {
+	margin-top: 20px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.page-wrapper:not(:last-child) {
+	.page::after {
+		position: absolute;
+		display: inline-block;
+		content: "";
+		border-top: 1px solid black;
+		width: 50%;
+		top: 15px;
+		left: calc(50% + 26px);
+	}
+}
+
+.page-wrapper:not(:first-child) {
+	.page::before {
+		position: absolute;
+		display: inline-block;
+		content: "";
+		border-top: 1px solid black;
+		width: 50%;
+		top: 15px;
+		right: calc(50% + 26px);
+	}
+}
+
+#question-viewer-container {
+	border-width: 2px;
+	border-style: solid;
+	border-color: rgb(200,200,200);
+	min-height: 50vh;
+}
+
+.household-member-header {
+	text-align: center;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.household-header-background-color-picker {
+	position: absolute;
+	right: 75px;
+	z-index: 50;
+	transform: scale(0.7);
+	margin-top: 0px !important;
+}
+
+.question-header {
+	.question-number {
+		vertical-align: middle !important;
+		text-align: center !important;
+		font-weight: bold !important;
+		font-size: 20px;
+		padding: 15px;
+		max-width: 60px;
+		max-height: 45px;
+	}
+	.question-header-text {
+		max-width: calc(100% - 50px);
+		font-weight: 400;
+	}
+	
+}
+
+.question-header-divider {
+	margin: 20px;
+	height: 5px;
+	border-top: 1px solid rgb(200,200,200);
+}
+
+.question-body {
+
+}
+
+.question-header-teaser {
+
+}
+
+#question-viewer-household-tabs {
+  width: 30px;
+	white-space: nowrap;
+	overflow: visible;
+	transform: rotate(90deg);
+	transform-origin: 0 0;
+	margin-right: -10px;
+	.member-tab {
+		display: inline;
+		margin-right: 5px;
+		transform:  none;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		padding: 5px 10px;
+		color: white;
+		font-weight: bold;
+	}
+	.member-tab-complete {
+		background-color: $green;
+	}
+	.member-tab-active {
+		background-color: $blue;
+	}
+	.member-tab-pending {
+		background-color: $gray-200;
+		color: $gray-600;
+	}
+}
+
+#question-viewer-nav {
+	font-size: 18px;
+}

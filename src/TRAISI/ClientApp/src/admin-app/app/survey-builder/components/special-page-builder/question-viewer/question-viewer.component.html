@@ -1,0 +1,50 @@
+<div id="pages-progress-bar" class="d-none d-md-block">
+	<div class="row">
+		<div class="col text-center page-wrapper" *ngFor="let page of allPages"><span class="page"><i [ngClass]="page.icon"></i></span><div
+			 class="page-progress-label" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
+		</div>
+		<div class="col text-center page-wrapper"><span class="page"><i class="fas fa-check"></i></span></div>
+	</div>
+</div>
+
+<div id="question-viewer-household-tabs" class="d-none d-md-block float-right">
+	<div class="member-tab member-tab-complete">Complete</div>
+	<div class="member-tab member-tab-active">Active</div>
+	<div class="member-tab member-tab-pending">Pending</div>
+</div>
+<div id="question-viewer-container" class="mb-5 ml-3 p-3 mr-md-5 mr-3">
+	<div class="household-member-header" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
+		Member
+		<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+		 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
+		 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
+			<img src="assets/img/colour-picker.png" height="15px" />
+		</button>
+	</div>
+	<div class="question-container">
+		<div class="question-header container-fluid">
+			<div class="row flex-nowrap">
+				<div class="question-number col-12 badge mt-3" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">Q1</div>
+				<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.
+					Petentium suscipiantur nam ex, ei novum qualisque iracundia sit, homero definitiones in his.</div>
+			</div>
+		</div>
+		<div class="question-header-divider"></div>
+		<div class="question-body">
+
+		</div>
+	</div>
+</div>
+<div id="question-viewer-nav">
+	<div class="row justify-content-center mb-5">
+		<div class="col-12 text-center">
+				<button class="btn btn-default pl-4 pr-4 pt-3 pb-3" type="button">
+						<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> Previous
+				</button>
+				<button class="btn btn-default ml-3 pl-4 pr-4 pt-3 pb-3" type="button">
+						 Next <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+				</button>
+		</div>
+	</div>
+</div>
