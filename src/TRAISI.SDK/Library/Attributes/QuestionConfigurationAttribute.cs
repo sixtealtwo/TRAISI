@@ -44,5 +44,11 @@ namespace TRAISI.SDK.Attributes
             this._valueType = valueType;
         }
 
+        /// <summary>
+        /// Determines whether or not this configuration has multiple translation values
+        /// </summary>
+        /// <value></value>
+        public bool IsTranslatable { get; set; }
+
     }
 }

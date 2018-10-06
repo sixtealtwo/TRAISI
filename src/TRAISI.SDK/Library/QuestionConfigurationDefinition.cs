@@ -20,5 +20,8 @@ namespace TRAISI.SDK
         public string SharedResource { get; set; }
 
         public byte[] ResourceData { get; set; }
+
+        
+        public bool IsTranslatable {get;set;}
     }
 }

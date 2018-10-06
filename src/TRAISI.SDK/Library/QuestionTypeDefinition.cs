@@ -42,6 +42,7 @@ namespace TRAISI.SDK
         /// <value></value>
         public Dictionary<string, QuestionConfigurationDefinition> QuestionConfigurations { get; set; }
 
+
         /// <summary>
         /// 
         /// </summary>

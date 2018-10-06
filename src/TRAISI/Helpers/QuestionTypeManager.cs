@@ -260,7 +260,8 @@ namespace TRAISI.Helpers
                                 BuilderType = configAttribute.SurveyBuilderValueType,
                                 DefaultValue = configAttribute.DefaultValue,
                                 ResourceData = data,
-                                SharedResource = configAttribute.SharedResource
+                                SharedResource = configAttribute.SharedResource,
+                                IsTranslatable = configAttribute.IsTranslatable
                             };
                             configuration.Add(configAttribute.Name, definition);
                             ;
