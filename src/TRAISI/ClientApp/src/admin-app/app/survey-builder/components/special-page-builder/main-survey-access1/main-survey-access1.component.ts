@@ -2,10 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } fro
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../../../shared/services';
-import { AlertService, MessageSeverity } from '../../../../../../shared/services/alert.service';
+import { AlertService, MessageSeverity, DialogType } from '../../../../../../shared/services/alert.service';
 import { Utilities } from '../../../../../../shared/services/utilities';
 import { SurveyBuilderService } from '../../../services/survey-builder.service';
 import { UploadPath } from '../../../models/upload-path';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -15,8 +16,7 @@ import { UploadPath } from '../../../models/upload-path';
 })
 export class MainSurveyAccess1Component implements OnInit {
 	public quillVideoModules = {
-		blotFormatter: {
-		},
+		blotFormatter: {},
 		toolbar: [
 			['video'], // link and image, video
 			[{ align: [] }]
@@ -46,6 +46,7 @@ export class MainSurveyAccess1Component implements OnInit {
 	};
 
 	private baseUrl: string;
+	public videoEmbedded: boolean = false;
 	public videoSource: string;
 	public imageSource: string;
 
@@ -71,18 +72,24 @@ export class MainSurveyAccess1Component implements OnInit {
 	private pageHTMLJson: any;
 	@Input()
 	public previewMode: any;
-	@Input() public pageHTML: string;
-	@Input() public pageThemeInfo: any;
-	@Output() public pageHTMLChange = new EventEmitter();
-	@Output()	public pageThemeInfoChange = new EventEmitter();
+	@Input()
+	public pageHTML: string;
+	@Input()
+	public pageThemeInfo: any;
+	@Output()
+	public pageHTMLChange = new EventEmitter();
+	@Output()
+	public pageThemeInfoChange = new EventEmitter();
 
-	@Output() public forceSave = new EventEmitter();
+	@Output()
+	public forceSave = new EventEmitter();
 
 	constructor(
 		private configurationService: ConfigurationService,
 		private authService: AuthService,
 		private alertService: AlertService,
-		private surveyBuilderService: SurveyBuilderService
+		private surveyBuilderService: SurveyBuilderService,
+		private sanitizer: DomSanitizer
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.imageVideoDropZoneconfig.url = this.baseUrl + '/api/Upload';
@@ -95,7 +102,17 @@ export class MainSurveyAccess1Component implements OnInit {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
-			this.videoSource = pageData.video;
+			if (this.pageHTMLJson.mediaType) {
+				if (this.pageHTMLJson.mediaType === 'video') {
+					this.videoSource = pageData.media;
+				} else if (this.pageHTMLJson.mediaType === 'embededVideo') {
+					this.videoSource = pageData.media;
+					this.videoEmbedded = true;
+				} else if (this.pageHTMLJson.mediaType === 'image') {
+					this.imageSource = pageData.media;
+				}
+			}
+
 			this.introTextHTML = pageData.introText;
 			this.accessCodeHTML = pageData.accessCode;
 			this.beginSurveyHTML = pageData.beginSurvey;
@@ -106,6 +123,25 @@ export class MainSurveyAccess1Component implements OnInit {
 			this.accessCodeHTML = 'Enter Access Code';
 			this.beginSurveyHTML = 'Begin Survey';
 		}
+	}
+
+	private isAValidUrl(value: string): boolean {
+		try {
+			const url = new URL(value);
+			return true;
+		} catch (TypeError) {
+			return false;
+		}
+	}
+
+	embedVideo() {
+		this.alertService.showDialog('Please enter the video embed url', DialogType.prompt, link => {
+			if (this.isAValidUrl(link)) {
+				this.videoSource = link;
+				this.videoEmbedded = true;
+				this.updateImageVideoContent();
+			}
+		});
 	}
 
 	onUploadError(error: any) {
@@ -139,16 +175,24 @@ export class MainSurveyAccess1Component implements OnInit {
 
 	deleteImageVideo() {
 		let uploadPath;
-		if (this.videoSource) {
-			uploadPath = new UploadPath(this.videoSource);
-		} else if (this.imageSource) {
-			uploadPath = new UploadPath(this.imageSource);
-		}
-		if (uploadPath) {
-			this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+		if (this.videoSource && this.videoEmbedded) {
 			this.videoSource = undefined;
 			this.imageSource = undefined;
+			this.videoEmbedded = false;
 			this.updateImageVideoContent();
+		} else {
+			if (this.videoSource && !this.videoEmbedded) {
+				uploadPath = new UploadPath(this.videoSource);
+				this.videoEmbedded = false;
+			} else if (this.imageSource) {
+				uploadPath = new UploadPath(this.imageSource);
+			}
+			if (uploadPath) {
+				this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+				this.videoSource = undefined;
+				this.imageSource = undefined;
+				this.updateImageVideoContent();
+			}
 		}
 	}
 
@@ -158,6 +202,13 @@ export class MainSurveyAccess1Component implements OnInit {
 
 	updateImageVideoContent() {
 		this.pageHTMLJson.media = this.videoSource ? this.videoSource : this.imageSource;
+		this.pageHTMLJson.mediaType = this.pageHTMLJson.media
+			? this.videoSource
+				? this.videoEmbedded
+					? 'embededVideo'
+					: 'video'
+				: 'image'
+			: undefined;
 		this.updatePageHTML();
 		this.forceSave.emit();
 	}
@@ -182,7 +233,7 @@ export class MainSurveyAccess1Component implements OnInit {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	pageBackgroundColourChange(newColour: string): void  {
+	pageBackgroundColourChange(newColour: string): void {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
