@@ -46,7 +46,12 @@
 }
 
 #question-viewer-container {
-	border-width: 2px;
+	position: relative;
+	border-width: 0px;
+	@include media-breakpoint-up(md) {
+		border-width: 2px;
+	}
+
 	border-style: solid;
 	border-color: rgb(200,200,200);
 	min-height: 50vh;
@@ -62,13 +67,14 @@
 
 .household-header-background-color-picker {
 	position: absolute;
-	right: 75px;
+	right: 5px;
 	z-index: 50;
 	transform: scale(0.7);
 	margin-top: 0px !important;
 }
 
 .question-header {
+	position: relative;
 	.question-number {
 		vertical-align: middle !important;
 		text-align: center !important;
@@ -77,6 +83,17 @@
 		padding: 15px;
 		max-width: 60px;
 		max-height: 45px;
+	}
+	.question-complete {
+		position: absolute;
+		left: 50px;
+		top:0px;
+		font-size: 24px;
+		color: black;
+		i {
+			background-color: lightgreen;
+			border-radius: 50%;
+		}
 	}
 	.question-header-text {
 		max-width: calc(100% - 50px);

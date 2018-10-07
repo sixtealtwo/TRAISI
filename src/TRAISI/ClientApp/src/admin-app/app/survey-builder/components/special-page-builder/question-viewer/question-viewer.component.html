@@ -12,7 +12,7 @@
 	<div class="member-tab member-tab-active">Active</div>
 	<div class="member-tab member-tab-pending">Pending</div>
 </div>
-<div id="question-viewer-container" class="ml-md-3 p-3 mr-md-5 mr-md-3">
+<div id="question-viewer-container" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
 	<div class="household-member-header" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
 		Member
 		<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
@@ -25,9 +25,9 @@
 		<div class="question-header container-fluid">
 			<div class="row flex-nowrap">
 				<div class="question-number col-12 badge mt-3" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">Q99</div>
+				<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 				<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
-					aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.
-					Petentium suscipiantur nam ex, ei novum qualisque iracundia sit, homero definitiones in his.</div>
+					aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 			</div>
 		</div>
 		<div class="question-header-divider"></div>
