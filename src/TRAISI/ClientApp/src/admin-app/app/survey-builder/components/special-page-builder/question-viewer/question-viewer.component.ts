@@ -26,6 +26,11 @@ export class QuestionViewerComponent implements OnInit {
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
+	questionViewerNavButtonColourChange(newColour: string): void  {
+		this.pageThemeInfo.questionViewerNavButtonColour = newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
 	getBestBorderColor() {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			let borderColor = Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
@@ -54,6 +59,20 @@ export class QuestionViewerComponent implements OnInit {
 			return 'rgb(0,0,0)';
 		}
 	}
+
+	useDarkButtons() {
+		return this.getBestPageBodyTextColor() !== 'rgb(0,0,0)';
+	}
+
+	getBestNavigationTextColor() {
+		if (this.pageThemeInfo.questionViewerNavButtonColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.questionViewerNavButtonColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
+
 
 	getPageIcon(page: QuestionPartView) {
 		return page.icon;
