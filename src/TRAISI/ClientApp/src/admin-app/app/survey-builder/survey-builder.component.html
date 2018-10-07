@@ -19,7 +19,7 @@
 			 role="tab" aria-controls="welcome" aria-expanded="true">Welcome</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link fw-semi-bold" (click)="switchPage('termsAndConditions')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
+			<a class="nav-link fw-semi-bold" (click)="switchPage('privacyPolicy')" id="tAndC-tab" data-toggle="tab" href="#tAndC"
 			 role="tab" aria-controls="tAndC" aria-expanded="true">Privacy Policy</a>
 		</li>
 		<li class="nav-item">
@@ -42,7 +42,7 @@
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
 		<li class="nav-item">
-			<a class="nav-link fw-semi-bold" (click)="switchPage('thank-you')" id="thankYou-tab" data-toggle="tab" href="#thankYou" role="tab"
+			<a class="nav-link fw-semi-bold" (click)="switchPage('thankYou')" id="thankYou-tab" data-toggle="tab" href="#thankYou" role="tab"
 			 aria-controls="thankYou" aria-expanded="true">Thank You</a>
 		</li>
 		<li class="nav-item">
@@ -54,7 +54,7 @@
 </div>
 <div class="tab-content mb-lg" id="pageTabContent">
 	<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
-		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages" [previewMode]="welcomePagePreview" [pageType]="'welcome'"
+		<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages && currentPage == 'welcome'" [previewMode]="welcomePagePreview" [pageType]="'welcome'"
 		 (forceSave)="saveWelcomePage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
@@ -75,7 +75,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
-		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages" [previewMode]="privacyPagePreview" [pageType]="'privacyPolicy'"
+		<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages && currentPage == 'privacyPolicy'" [previewMode]="privacyPagePreview" [pageType]="'privacyPolicy'"
 		 (forceSave)="saveTAndCPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
@@ -96,7 +96,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="questionViewer" aria-labelledby="questionViewer-tab" aria-expanded="true">
-		<app-special-page-builder #questionViewerEditor [allPages]="allPages" *ngIf="loadedSpecialPages" [previewMode]="questionViewerPreview"
+		<app-special-page-builder #questionViewerEditor [allPages]="allPages" *ngIf="loadedSpecialPages && currentPage == 'questionViewer'" [previewMode]="questionViewerPreview"
 		 [pageType]="'questionViewer'" (forceSave)="saveQuestionViewerPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="pageThemeInfo.viewerTemplate"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">
@@ -130,7 +130,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
-		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages" [previewMode]="thankYouPagePreview" [pageType]="'thankYou'"
+		<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages && currentPage == 'thankYou'" [previewMode]="thankYouPagePreview" [pageType]="'thankYou'"
 		 (forceSave)="saveThankYouPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
 		<div class="row">
 			<div class="col-md-12">

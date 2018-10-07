@@ -84,7 +84,12 @@ export class SurveyStartPageComponent implements OnInit {
 			value => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
-					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {});
+					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode)
+					.subscribe(
+						(user: User) => {
+							this.router.navigate([this.surveyName, 'terms']);
+						}
+					);
 				} else {
 					this.router.navigate([this.surveyName, 'terms']);
 				}

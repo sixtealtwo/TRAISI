@@ -54,6 +54,7 @@ import { Header2Component } from './components/special-page-builder/header2/head
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
 import { QuestionViewerComponent } from './components/special-page-builder/question-viewer/question-viewer.component';
+import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
 
 @NgModule({
 	imports: [
@@ -133,7 +134,8 @@ import { QuestionViewerComponent } from './components/special-page-builder/quest
 		Header2Component,
 		Footer1Component,
 		SponsorsComponent,
-		QuestionViewerComponent
+		QuestionViewerComponent,
+		PrivacyConfirmationComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
 	entryComponents: [

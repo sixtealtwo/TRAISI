@@ -3,11 +3,11 @@
 		<div class="col-xl-6 col-lg-11 col-md-11 col-11">
 			<div class="intro-imagevideo text-center" [class.empty-container]="!videoSource && !imageSource && previewMode.value" [style.border-color]="getBestBorderColor()">
 				<div class="row" *ngIf="!videoSource && !imageSource && !previewMode.value">
-					<div class="col-6">
+					<div class="col-12">
 						<dropzone class="imageVideoDropzone" #videoUpload [config]="imageVideoDropZoneconfig" [message]="'Click or drag image or video here to upload'"
 						 (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
 					</div>
-					<div class="col-6">
+					<div class="col-12">
 						<button (click)="embedVideo()" class="w-100 h-100 btn btn-inverse" type="button">
 							Click Here to Embed Video
 						</button>

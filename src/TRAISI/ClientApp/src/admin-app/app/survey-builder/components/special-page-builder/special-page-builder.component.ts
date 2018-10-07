@@ -43,6 +43,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public footerInputs;
 	public footerOutputs;
 
+	public termsFooterHTML: string;
+
 	private dragOverContainer: Object = new Object();
 	private bestSectionTextColour = [];
 
@@ -88,6 +90,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 					this.footerKey = sectionInfo.sectionType;
 					this.footerComponent = this.getComponent(sectionInfo.sectionType);
 					this.footerHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType === 'termsFooter') {
+					this.termsFooterHTML = sectionInfo.html;
 				} else {
 					this.componentKeys.push(sectionInfo.sectionType);
 					this.componentList.push(this.getComponent(sectionInfo.sectionType));
@@ -231,6 +235,10 @@ export class SpecialPageBuilderComponent implements OnInit {
 				html: this.componentHTML[index]
 			});
 		});
+		pageJson.push({
+			sectionType: 'termsFooter',
+			html: this.termsFooterHTML
+		});
 		if (this.footerKey) {
 			// pageJson[this.footerKey] = this.footerHTML;
 			pageJson.push({
@@ -238,6 +246,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 				html: this.footerHTML
 			});
 		}
+
 		this.pageHTML = JSON.stringify(pageJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}

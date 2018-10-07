@@ -1,0 +1,18 @@
+<div id="privacy-confirmation-container"[style.background-color]="pageThemeInfo.termsAcceptColour" >
+	<div class="row">
+		<div class="col-md-8 col-12" [style.color]="footerTextColour">
+				<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [modules]="quillModules"  (onContentChanged)="updateTermsHTML()"
+				theme="bubble" [readOnly]="previewMode.value" placeholder="Questions/Concerns/Contact" [(ngModel)]="pageHTMLJson.termsHtml"></quill-editor> 
+		</div>
+		<div class="col-12 col-md-4 justify-content-center d-flex align-items-center">
+				<button type="button" class="accept-privacy-button btn btn-primary">
+						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value"
+						 [modules]="quillMinimalModules" (onContentChanged)="updateAcceptTermsContent($event)" theme="bubble" placeholder="Accept"
+						 [(ngModel)]="acceptTermsHTML"></quill-editor>
+					</button>
+		</div>
+		<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse terms-accept-color-picker"  [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="termsAcceptColourChange($event)"  [(colorPicker)]="pageThemeInfo.termsAcceptColour">
+				<img src="assets/img/colour-picker.png" height="15px"/>
+			</button>
+	</div>
+</div>
