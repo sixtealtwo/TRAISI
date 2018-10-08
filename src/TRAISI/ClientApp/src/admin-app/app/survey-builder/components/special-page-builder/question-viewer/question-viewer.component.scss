@@ -127,19 +127,29 @@
 
 .question-header {
 	position: relative;
+	
+	.question-number-container {
+		max-width:75px;
+		position: relative;
+	}
+
+	.question-number-container-section {
+		max-width:80px;
+		position: relative;
+	}
+
 	.question-number {
 		vertical-align: middle !important;
 		text-align: center !important;
 		font-weight: bold !important;
 		font-size: 16px;
-		padding: 15px;
-		max-width: 60px;
-		max-height: 45px;
+		padding: 10px;
+		max-height: 32px;
 	}
 	.question-complete {
 		position: absolute;
-		left: 50px;
-		top:0px;
+		left: 0px;
+		top: 0px;
 		font-size: 24px;
 		color: black;
 		i {

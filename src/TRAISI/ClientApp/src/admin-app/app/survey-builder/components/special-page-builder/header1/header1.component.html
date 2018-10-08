@@ -12,7 +12,6 @@
 			 <div *ngIf="imageSource && !previewMode.value" class="maxHeight-slider"><mv-slider  [min]="0.2" [max]="0.9" [step]="0.02" [(value)]="pageThemeInfo.headerMaxHeightScale" (change)="headerMaxHeightChange($event)"></mv-slider></div>
 			 <sup *ngIf="!previewMode.value"><button *ngIf="imageSource" type="button" (click)="deleteImage()" class="btn btn-danger delete-image"><i class="fas fa-times fa-xs"></i></button></sup>
 			 <img *ngIf="imageSource" class="welcome-header-logo" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale * 100" src="{{ imageSource }}" />
-			
 		</div>
 	</div>
 </div>

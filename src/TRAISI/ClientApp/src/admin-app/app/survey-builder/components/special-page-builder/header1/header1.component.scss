@@ -11,6 +11,7 @@
 }
 
 #welcome-header-editor {
+	position: relative;
 	min-height: 66px !important;
 	.col-12 {
 		white-space: nowrap !important;
@@ -28,7 +29,7 @@
 			padding-top: 20px;
 		}
 		width: auto;
-		max-width: 90vw;
+		max-width: 80vw;
 }
 
 .imageDropzone {
