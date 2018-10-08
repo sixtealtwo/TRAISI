@@ -30,7 +30,7 @@
 		</div>
 
 		<div class="household-member-header" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
-			Member
+			Section Title: Member
 			<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
 			 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
 			 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
