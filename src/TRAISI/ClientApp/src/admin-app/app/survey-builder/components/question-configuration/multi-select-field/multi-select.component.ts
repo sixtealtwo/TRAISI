@@ -12,6 +12,7 @@ export class MultiSelectComponent implements OnInit {
 	public questionConfiguration: QuestionConfigurationDefinition;
 
 	options: Select2OptionData[] = [];
+	selected: string[] = [];
 
 	select2Options: any = {
 		theme: 'bootstrap',
@@ -26,6 +27,12 @@ export class MultiSelectComponent implements OnInit {
 		optionData.options.forEach(element => {
 			this.options.push({ text: element, id: element });
 		});
+		this.setDefaultValue();
+	}
+
+	setDefaultValue() {
+		this.multiSelectValues = this.questionConfiguration.defaultValue;
+		this.selected.push(this.questionConfiguration.defaultValue);
 	}
 
 	getValue() {
@@ -34,6 +41,7 @@ export class MultiSelectComponent implements OnInit {
 
 	processPriorValue(last: string) {
 		this.multiSelectValues = JSON.parse(last);
+		this.selected = this.multiSelectValues.split(' | ');
 	}
 
 	getSelect2GroupedList(): Select2OptionData[] {

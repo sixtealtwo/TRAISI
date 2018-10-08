@@ -18,8 +18,11 @@
 
 .footer-color-picker {
 	position: absolute;
-	right: 25px;
+	right: 15px;
 	transform: scale(0.7);
+	@include media-breakpoint-up(md) {
+		top: 10px;
+	}
 }
 
 .footer-color-picker-wrapper {

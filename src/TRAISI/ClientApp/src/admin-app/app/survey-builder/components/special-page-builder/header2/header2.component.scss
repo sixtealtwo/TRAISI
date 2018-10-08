@@ -8,6 +8,7 @@
 }
 
 #welcome-header-editor {
+	position: relative;
 	min-height: 66px !important;
 	.col {
 		white-space: nowrap !important;
@@ -47,7 +48,8 @@
 
 .header-color-picker {
 	position: absolute;
-	right: 25px;
+	left: 10px;
+	top: 0px;
 	z-index: 50;
 	transform: scale(0.7);
 }

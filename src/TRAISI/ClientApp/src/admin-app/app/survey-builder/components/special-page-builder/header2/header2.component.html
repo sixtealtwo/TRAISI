@@ -15,10 +15,6 @@
 			<sup *ngIf="!previewMode.value"><button *ngIf="imageSource1" type="button" (click)="deleteImage(1)" class="btn btn-danger delete-image"><i
 					 class="fas fa-times fa-xs"></i></button></sup>
 			<img *ngIf="imageSource1" class="welcome-header-logo ml-3" src="{{ imageSource1 }}" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale1 * 100"	/>
-			<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"
-			 [cpPosition]="'left'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" [(colorPicker)]="pageThemeInfo.headerColour">
-				<img src="assets/img/colour-picker.png" height="15px" />
-			</button>
 		</div>
 		<div class="col d-none d-lg-block text-right">
 			<dropzone *ngIf="!imageSource2 && !previewMode.value" class="imageDropzone" #videoUpload [config]="imageDropZoneconfig" [message]="'Click or drag image here'"
@@ -32,4 +28,8 @@
 			 [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
 		</div>
 	</div>
+	<button *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"
+	[cpPosition]="'right'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" [(colorPicker)]="pageThemeInfo.headerColour">
+	 <img src="assets/img/colour-picker.png" height="15px" />
+ </button>
 </div>

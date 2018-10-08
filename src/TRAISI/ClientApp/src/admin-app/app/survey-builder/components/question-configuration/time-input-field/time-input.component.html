@@ -7,7 +7,7 @@
 					<i class="fas fa-clock-o"></i>
 				</span>
 			</span>
-			<input type="time" class="form-control" atp-time-picker theme="dark" [(ngModel)]="timePickerValue" value="{{ timePickerValue }}"/>
+			<input *ngIf="timePickerValue" type="time" class="form-control" atp-time-picker theme="dark" [(ngModel)]="timePickerValue" [value]="timePickerValue"/>
 		</div>
 	</div>
 </div>

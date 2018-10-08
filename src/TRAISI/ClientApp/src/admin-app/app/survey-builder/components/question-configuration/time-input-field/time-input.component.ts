@@ -23,6 +23,9 @@ export class TimeInputComponent implements OnInit {
 
 	setDefaultValue() {
 		this.timePickerValue = this.questionConfiguration.defaultValue;
+		if (this.timePickerValue.length === 4) {
+			this.timePickerValue = `0${this.timePickerValue}`;
+		}
 	}
 
 	getValue(){
