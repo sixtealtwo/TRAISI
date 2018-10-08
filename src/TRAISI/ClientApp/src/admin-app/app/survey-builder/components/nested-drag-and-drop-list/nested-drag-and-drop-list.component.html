@@ -17,7 +17,7 @@
 						<i class="fas fa-sort"></i>
 					</div>
 					<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined">
-						<div class="pull-left">{{ item.questionPart.name }}:&nbsp;</div>
+						<div class="pull-left"><span class="badge badge-inverse align-middle">{{ item.questionPart.name }}</span>&nbsp;</div>
 						<div class="pull-left" [innerHTML]="item.label.value | safe: 'html'"></div>
 					</div>
 				</button>
@@ -59,7 +59,7 @@
 									<i class="fas fa-sort"></i>
 								</div>
 								<div class="color-unset question-text" *ngIf="innerItem.questionPart.name != undefined">
-									<div class="pull-left">{{ innerItem.questionPart.name }}:&nbsp;</div>
+									<div class="pull-left"><span class="badge badge-inverse align-middle">{{ innerItem.questionPart.name }}</span>&nbsp;</div>
 									<div class="pull-left" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
 								</div>
 							</button>

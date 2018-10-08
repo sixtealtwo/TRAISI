@@ -154,7 +154,7 @@ app, .app {
   .content-footer {
 		position: absolute;
 		text-align: center;
-		width: 100%;
+		width: calc(100% - 80px);
     bottom: 10px;
     color: $text-muted;
   }

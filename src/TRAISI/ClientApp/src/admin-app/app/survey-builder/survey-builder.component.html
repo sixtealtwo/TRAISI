@@ -12,7 +12,7 @@
 	<traisi-question-type-chooser #questionChooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
 	 (loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
 </div>
-<div class="clearfix">
+<div class="clearfix" [class.disable-clicks]="!loadedSpecialPages">
 	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active fw-semi-bold" (click)="switchPage('welcome')" id="welcome-tab" data-toggle="tab" href="#welcome"

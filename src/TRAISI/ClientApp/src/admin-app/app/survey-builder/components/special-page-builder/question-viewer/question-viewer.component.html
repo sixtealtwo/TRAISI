@@ -1,50 +1,67 @@
-<div id="pages-progress-bar" class="d-none d-md-block">
-	<div class="row">
-		<div class="col text-center page-wrapper" *ngFor="let page of allPages"><span class="page"><i [ngClass]="page.icon"></i></span><div
-			 class="page-progress-label" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
+<div id="question-viewer-wrapper">
+	<div id="pages-progress-bar" class="d-none d-md-block">
+		<div class="row">
+			<div class="col text-center page-wrapper" *ngFor="let page of allPages"><span class="page"><i [ngClass]="page.icon"></i></span><div
+				 class="page-progress-label" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
+			</div>
+			<div class="col text-center page-wrapper"><span class="page"><i class="fas fa-check"></i></span></div>
 		</div>
-		<div class="col text-center page-wrapper"><span class="page"><i class="fas fa-check"></i></span></div>
 	</div>
-</div>
 
-<div id="question-viewer-household-tabs" class="d-none d-md-block float-right">
-	<div class="member-tab member-tab-complete">Complete</div>
-	<div class="member-tab member-tab-active">Active</div>
-	<div class="member-tab member-tab-pending">Pending</div>
-</div>
-<div id="question-viewer-container" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
-	<div class="household-member-header" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
-		Member
-		<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
-		 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
-		 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
-			<img src="assets/img/colour-picker.png" height="15px" />
-		</button>
+	<div id="question-viewer-household-tabs" class="d-none d-md-block float-right">
+		<div class="member-tab member-tab-complete">Complete</div>
+		<div class="member-tab member-tab-active">Active</div>
+		<div class="member-tab member-tab-pending">Pending</div>
 	</div>
-	<div class="question-container">
-		<div class="question-header container-fluid">
-			<div class="row flex-nowrap">
-				<div class="question-number col-12 badge mt-3" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">Q99</div>
-				<div class="question-complete"><i class="fas fa-check-circle"></i></div>
-				<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
-					aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+	<div id="question-viewer-container" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number col-12 badge badge-danger mt-3">Q5</div>
+					<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body">
+				Question Body Rendered Here
 			</div>
 		</div>
-		<div class="question-header-divider"></div>
-		<div class="question-body">
 
+		<div class="household-member-header" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
+			Member
+			<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+			 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
+			 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
+				<img src="assets/img/colour-picker.png" height="15px" />
+			</button>
+		</div>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number col-12 badge badge-primary mt-3">Q6.1</div>
+					<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body">
+				Question Body Rendered Here
+			</div>
 		</div>
 	</div>
-</div>
-<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
-	<div class="row justify-content-center">
-		<div class="col-12 text-center">
+	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
 				<button [ngClass]="useDarkButtons() ? 'btn-inverse' : 'btn-default'" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
-						<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> Previous
+					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> Previous
 				</button>
 				<button [ngClass]="useDarkButtons() ? 'btn-inverse' : 'btn-default'" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
-						 Next <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+					Next <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
 				</button>
+			</div>
 		</div>
 	</div>
 </div>

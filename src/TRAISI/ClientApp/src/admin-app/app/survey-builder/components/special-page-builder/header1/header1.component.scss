@@ -4,7 +4,10 @@
 	position: absolute;
 	height: 66px;
 	z-index: 0;
-		width: 100%;
+	width: 100%;
+	@include media-breakpoint-down(sm) {
+		max-height: 50px !important;
+	}
 }
 
 #welcome-header-editor {
@@ -12,12 +15,20 @@
 	.col-12 {
 		white-space: nowrap !important;
 	}
+
+	@include media-breakpoint-down(sm) {
+		height: 50px;
+		min-height: 50px !important;
+	}
 }
 
 .welcome-header-logo {
 		padding-top: 25px;
+		@include media-breakpoint-down(sm) {
+			padding-top: 20px;
+		}
 		width: auto;
-		max-width: 70vw;
+		max-width: 90vw;
 }
 
 .imageDropzone {

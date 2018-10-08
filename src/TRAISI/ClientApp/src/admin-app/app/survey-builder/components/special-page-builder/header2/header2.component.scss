@@ -13,13 +13,20 @@
 	.col {
 		white-space: nowrap !important;
 	}
+
+	@include media-breakpoint-down(sm) {
+		height: 50px;
+		min-height: 50px !important;
+	}
 }
 
 .welcome-header-logo {
-		padding-top: 25px;
-		max-height: 100px;
-		width: auto;
-		max-width: 70vw;
+	padding-top: 25px;
+	@include media-breakpoint-down(sm) {
+		padding-top: 20px;
+	}
+	width: auto;
+	max-width: 90vw;
 }
 
 .welcome-header-logo-right {
