@@ -1,11 +1,12 @@
 <div id="question-viewer-wrapper">
 	<div id="pages-progress-bar" class="d-none d-md-block">
 		<div class="row">
-			<div class="col text-center page-wrapper" *ngFor="let page of allPages"><span class="page"><i [ngClass]="page.icon"></i></span><div
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()" *ngFor="let page of allPages; index as i"><span class="page" [class.active]="currentPage == i" [class.complete]="completedPages[i]"><i [ngClass]="page.icon"></i></span><div
 				 class="page-progress-label" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
 			</div>
-			<div class="col text-center page-wrapper"><span class="page"><i class="fas fa-check"></i></span></div>
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()" ><span class="page"><i class="fas fa-check"></i></span></div>
 		</div>
+		<div id="survey-progress-indicator" [style.left.%]="surveyProgressPercent"></div>
 	</div>
 
 	<div id="question-viewer-household-tabs" class="d-none d-md-block float-right">
@@ -24,7 +25,7 @@
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body">
+			<div class="question-body"  [style.color]="getBestPageBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -47,7 +48,7 @@
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body">
+			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>

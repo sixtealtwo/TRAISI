@@ -9,16 +9,28 @@ import { Utilities } from '../../../../../../shared/services/utilities';
 })
 export class QuestionViewerComponent implements OnInit {
 
+	public completedPages: boolean[] = [];
+	public currentPage: number = 0;
+	public surveyProgressPercent: number = 70;
 	@Input()
-	public allPages: QuestionPartView;
+	public allPages: QuestionPartView[];
 	@Input()
 	public previewMode: any;
 	@Input() public pageThemeInfo: any;
 	@Output()	public pageThemeInfoChange = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+	}
 
   ngOnInit() {
+		this.allPages.forEach((page, index) => {
+			if (index === 0) {
+				this.completedPages.push(true);
+			} else {
+				this.completedPages.push(false);
+			}
+		});
+		this.currentPage = 1;
 	}
 
 	householdHeaderBackgroundColourChange(newColour: string): void  {
@@ -49,6 +61,14 @@ export class QuestionViewerComponent implements OnInit {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
 		} else {
 			return 'rgb(0,0,0)';
+		}
+	}
+
+	whiteProgressLine(): boolean {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour) === 'rgb(255,255,255)';
+		} else {
+			return false;
 		}
 	}
 

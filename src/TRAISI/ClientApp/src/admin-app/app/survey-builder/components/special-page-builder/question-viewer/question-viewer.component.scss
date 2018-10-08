@@ -6,6 +6,7 @@
 }
 
 #pages-progress-bar {
+	position: relative;
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
@@ -18,12 +19,37 @@
 	padding: 15px;
 	font-size: 20px;
 	background-color: white;
+	z-index: 1;
+}
+
+.page.complete {
+	background-color: $green;
+	color: white;
+}
+
+.page.active {
+	background-color: $blue;
+	color: white;
 }
 
 .page-progress-label {
 	margin-top: 20px;
 	font-size: 12px;
 	font-weight: bold;
+}
+
+#survey-progress-indicator {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	background: radial-gradient(circle at 50% 30%, $yellow, gray);
+	border-radius: 50%;
+	top: 8px;
+	z-index: 2;
+}
+
+.page-wrapper {
+	z-index: 1;
 }
 
 .page-wrapper:not(:last-child) {
@@ -34,7 +60,7 @@
 		border-top: 1px solid black;
 		width: 50%;
 		top: 15px;
-		left: calc(50% + 26px);
+		left: calc(50% + 27px);
 	}
 }
 
@@ -46,8 +72,18 @@
 		border-top: 1px solid black;
 		width: 50%;
 		top: 15px;
-		right: calc(50% + 26px);
+		right: calc(50% + 27px);
 	}
+}
+
+.white-progress-line {
+	.page::after {
+		border-color: white !important;
+	}
+	.page::before {
+		border-color: white !important;
+	}
+
 }
 
 #question-viewer-container {
