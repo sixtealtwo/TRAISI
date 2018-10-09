@@ -12,6 +12,7 @@ import {
 	OnOptionsLoaded,
 	QuestionOption
 } from 'traisi-question-sdk';
+import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 
 @Component({
 	selector: 'traisi-household-question',
@@ -22,13 +23,60 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	public typeName: string;
 	public icon: string;
 
+	public respondents: Array<SurveyRespondentEdit>;
+
 	/**
 	 *
 	 * @param _surveyResponderService
 	 */
 	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
 		super();
+
+		this.respondents = [];
 	}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.respondents.push({
+			respondent: {
+				firstName: '',
+				lastName: '',
+				id: undefined
+			},
+			isSaved: false
+		});
+	}
+
+	public addNewRespondentToList(): void {
+		this.respondents.push({
+			respondent: {
+				firstName: '',
+				lastName: '',
+				id: undefined
+			},
+			isSaved: false
+		});
+	}
+
+	/** */
+	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
+		console.log('in save respondent');
+		console.log(respondentEdit);
+
+		this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
+			value => {
+				console.log(value);
+			},
+			error => {
+				console.error(error);
+			}
+		);
+	}
+
+	public deleteRespondent(respondent: SurveyRespondentEdit): void {
+		console.log('in delete respondent');
+	}
+
+	public modelChanged(respondent: SurveyRespondentEdit): void {
+		
+	}
 }

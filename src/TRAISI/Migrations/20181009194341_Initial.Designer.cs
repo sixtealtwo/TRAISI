@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181009162133_Initial")]
+    [Migration("20181009194341_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -645,7 +645,7 @@ namespace TRAISI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SurveyRespondentGroup");
+                    b.ToTable("SurveyRespondentGroups");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyResponse", b =>
@@ -1322,7 +1322,8 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Surveys.SurveyRespondentGroup", "SurveyRespondentGroup")
                         .WithMany("GroupMembers")
-                        .HasForeignKey("SurveyRespondentGroupId");
+                        .HasForeignKey("SurveyRespondentGroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyResponse", b =>

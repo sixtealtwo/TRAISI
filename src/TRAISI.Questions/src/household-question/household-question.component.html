@@ -1,0 +1,20 @@
+<div *ngFor="let respondent of respondents">
+	<div class="form-group row">
+		<div class="col-sm-5">
+			<input type="text" (ngModelChange)="modelChange(respondent)" class="form-control" placeholder="First Name" id="inputDefault" [(ngModel)]="respondent.respondent.firstName">
+		</div>
+		<div class="col-sm-5">
+			<input type="text" (ngModelChange)="modelChange(respondent)"  class="form-control" placeholder="Last Name" id="inputDefault" [(ngModel)]="respondent.respondent.lastName"></div>
+		<div class="col-sm-2">
+			<div class="btn-group" role="group">
+					<button type="button" class="btn btn-success" (click)="saveRespondent(respondent)"><span class="fas fa-user-plus"></span></button>
+					<button type="button" class="btn btn-secondary" (click)="deleteRespondent(respondent)"><span class="fas fa-user-minus"></span></button>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+<div class="add-to-respondent-list">
+	<button (click)="addNewRespondentToList()" class="btn btn-primary btn-sm">Add</button>
+</div>

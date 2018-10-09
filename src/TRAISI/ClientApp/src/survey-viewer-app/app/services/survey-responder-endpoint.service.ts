@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from 'shared/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
-import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion, SurveyRespondent } from 'traisi-question-sdk';
 
 @Injectable({
 	providedIn: 'root'
@@ -21,6 +21,10 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	}
 
 	get responderSavedResponseUrl() {
+		return this.configurations.baseUrl + this._surveyResponseUrl;
+	}
+
+	get responderAddSurveyGroupmemberUrl() {
 		return this.configurations.baseUrl + this._surveyResponseUrl;
 	}
 
@@ -76,6 +80,58 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	/**
+	 *
+	 */
+	public getAddSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
+
+		console.log(respondent);
+		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getAddSurveyGroupMemberUrlEndpoint(respondent)
+				);
+			})
+		);
+	}
+
+
+	/**
+	 *
+	 */
+	public getSurveyGroupMembersUrlEndpoint<T>(): Observable<T> {
+
+
+		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyGroupMembersUrlEndpoint()
+				);
+			})
+		);
+	}
+
+	/**
+	 *
+	 */
+	public getRemoveSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
+
+		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getRemoveSurveyGroupMemberUrlEndpoint(respondent)
+				);
+			})
+		);
+	}
+
 
 	/**
 	 * Service constructor

@@ -1,6 +1,6 @@
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
-export { SurveyResponder } from './survey-responder';
+export { SurveyResponder } from './survey-respondent';
 export { QuestionOption } from './question-option';
 export {
 	OnVisibilityChanged,
@@ -29,3 +29,5 @@ export {
 } from './survey-question';
 
 export { QuestionLoaderService } from './question-loader.service';
+
+export {SurveyRespondent } from './survey-respondent';

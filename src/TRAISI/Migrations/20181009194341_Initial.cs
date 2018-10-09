@@ -150,7 +150,7 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SurveyRespondentGroup",
+                name: "SurveyRespondentGroups",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -158,7 +158,7 @@ namespace TRAISI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SurveyRespondentGroup", x => x.Id);
+                    table.PrimaryKey("PK_SurveyRespondentGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -710,11 +710,11 @@ namespace TRAISI.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SurveyRespondents_SurveyRespondentGroup_SurveyRespondentGro~",
+                        name: "FK_SurveyRespondents_SurveyRespondentGroups_SurveyRespondentGr~",
                         column: x => x.SurveyRespondentGroupId,
-                        principalTable: "SurveyRespondentGroup",
+                        principalTable: "SurveyRespondentGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1321,7 +1321,7 @@ namespace TRAISI.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "SurveyRespondentGroup");
+                name: "SurveyRespondentGroups");
 
             migrationBuilder.DropTable(
                 name: "QuestionPartViews");

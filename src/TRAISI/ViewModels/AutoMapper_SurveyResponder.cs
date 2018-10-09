@@ -38,6 +38,12 @@ namespace TRAISI.ViewModels
 
             CreateMap<SurveyRespondent, SurveyRespondentViewModel>();
 
+            CreateMap<SubRespondent, SurveyRespondentViewModel>();
+            CreateMap<SurveyRespondentViewModel, SubRespondent>()
+                .ForMember(m => m.SurveyRespondentGroup, c => c.Ignore());
+
+            CreateMap<PrimaryRespondent, SurveyRespondentViewModel>();
+
         }
     }
 

@@ -1,4 +1,4 @@
-import * as TRAISI from './index';
+import * as TRAISI from '.';
 
 export default TRAISI;
 

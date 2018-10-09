@@ -5,7 +5,8 @@ import {
 	OnSaveResponseStatus,
 	ResponseTypes,
 	ResponseData,
-	ResponseValue
+	ResponseValue,
+	SurveyRespondent
 } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable } from 'rxjs';
@@ -55,7 +56,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param questionId
 	 */
 	public getSavedResponse(surveyId: number, questionId: number): Observable<ResponseValue<any>> {
-		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId);
+		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
+			surveyId,
+			questionId
+		);
 	}
 
 	/**
@@ -81,6 +85,21 @@ export class SurveyResponderService implements SurveyResponder {
 				console.log(error);
 			}
 		);
+	}
+
+	/**
+	 *
+	 */
+	public addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+		console.log('in add survey group member');
+		return this._surveyResponseEndpointService.getAddSurveyGroupMemberUrlEndpoint(respondent);
+	}
+
+	public getSurveyGroupMembers(): Observable<{}> {
+		return null;
+	}
+	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+		return null;
 	}
 
 	/**

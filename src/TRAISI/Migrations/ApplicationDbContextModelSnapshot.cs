@@ -643,7 +643,7 @@ namespace TRAISI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SurveyRespondentGroup");
+                    b.ToTable("SurveyRespondentGroups");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyResponse", b =>
@@ -1320,7 +1320,8 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Surveys.SurveyRespondentGroup", "SurveyRespondentGroup")
                         .WithMany("GroupMembers")
-                        .HasForeignKey("SurveyRespondentGroupId");
+                        .HasForeignKey("SurveyRespondentGroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyResponse", b =>

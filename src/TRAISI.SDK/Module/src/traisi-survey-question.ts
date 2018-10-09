@@ -2,7 +2,7 @@ import { ResponseValidationState } from './question-response-state';
 import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
-import { BehaviorSubject, ReplaySubject } from '../node_modules/rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 /**
  * Base abstract class for Survey Questions available to TRAISI

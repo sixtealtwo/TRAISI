@@ -171,6 +171,9 @@ namespace DAL
             .HasValue<PrimaryRespondent>(0)
             .HasValue<SubRespondent>(1);
 
+            builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
+            .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);
+
             //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 
         }
