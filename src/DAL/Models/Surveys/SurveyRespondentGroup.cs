@@ -6,11 +6,12 @@ namespace DAL.Models.Surveys
     {
         public int Id { get; set; }
 
-        //public ICollection<SurveyRespondent> GroupMembers { get; set; }
+        public List<SurveyRespondent> GroupMembers { get; set; }
 
         public SurveyRespondentGroup()
         {
             //this.GroupMembers = new HashSet<SurveyRespondent>();
+            this.GroupMembers = new List<SurveyRespondent>();
         }
     }
 }

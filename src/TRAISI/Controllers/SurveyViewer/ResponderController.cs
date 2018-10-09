@@ -102,5 +102,21 @@ namespace TRAISI.Controllers.SurveyViewer
 
             return new OkResult();
         }
+
+        [HttpPost]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        public async Task<IActionResult> SaveRespondentGroupMembers()
+        {
+
+            return new OkResult();
+        }
+
+
+        [HttpGet]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        public async Task<IActionResult> GetRespondentGroupMembers()
+        {
+            return new OkResult();
+        }
     }
 }

@@ -586,7 +586,8 @@ namespace TRAISI.Migrations
                     Order = table.Column<int>(nullable: false),
                     isOptional = table.Column<bool>(nullable: false),
                     isHousehold = table.Column<bool>(nullable: false),
-                    isRepeat = table.Column<bool>(nullable: false)
+                    RepeatSourceQuestionName = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -681,7 +682,7 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrimaryRespondents",
+                name: "SurveyRespondents",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -689,28 +690,29 @@ namespace TRAISI.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     SurveyRespondentGroupId = table.Column<int>(nullable: true),
+                    RespondentType = table.Column<int>(nullable: false),
                     ShortcodeId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrimaryRespondents", x => x.Id);
+                    table.PrimaryKey("PK_SurveyRespondents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PrimaryRespondents_Shortcodes_ShortcodeId",
+                        name: "FK_SurveyRespondents_Shortcodes_ShortcodeId",
                         column: x => x.ShortcodeId,
                         principalTable: "Shortcodes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PrimaryRespondents_SurveyRespondentGroup_SurveyRespondentGr~",
-                        column: x => x.SurveyRespondentGroupId,
-                        principalTable: "SurveyRespondentGroup",
+                        name: "FK_SurveyRespondents_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PrimaryRespondents_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_SurveyRespondents_SurveyRespondentGroup_SurveyRespondentGro~",
+                        column: x => x.SurveyRespondentGroupId,
+                        principalTable: "SurveyRespondentGroup",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -853,18 +855,11 @@ namespace TRAISI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     QuestionPartId = table.Column<int>(nullable: true),
                     ResponseValueId = table.Column<int>(nullable: false),
-                    RespondentId = table.Column<string>(nullable: true),
-                    PrimaryRespondentId = table.Column<int>(nullable: true)
+                    RespondentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SurveyResponses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SurveyResponses_PrimaryRespondents_PrimaryRespondentId",
-                        column: x => x.PrimaryRespondentId,
-                        principalTable: "PrimaryRespondents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SurveyResponses_QuestionParts_QuestionPartId",
                         column: x => x.QuestionPartId,
@@ -872,9 +867,9 @@ namespace TRAISI.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SurveyResponses_AspNetUsers_RespondentId",
+                        name: "FK_SurveyResponses_SurveyRespondents_RespondentId",
                         column: x => x.RespondentId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "SurveyRespondents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1067,21 +1062,6 @@ namespace TRAISI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrimaryRespondents_ShortcodeId",
-                table: "PrimaryRespondents",
-                column: "ShortcodeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PrimaryRespondents_SurveyRespondentGroupId",
-                table: "PrimaryRespondents",
-                column: "SurveyRespondentGroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PrimaryRespondents_UserId",
-                table: "PrimaryRespondents",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_QuestionConditionals_SourceQuestionId",
                 table: "QuestionConditionals",
                 column: "SourceQuestionId");
@@ -1178,9 +1158,19 @@ namespace TRAISI.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SurveyResponses_PrimaryRespondentId",
-                table: "SurveyResponses",
-                column: "PrimaryRespondentId");
+                name: "IX_SurveyRespondents_ShortcodeId",
+                table: "SurveyRespondents",
+                column: "ShortcodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyRespondents_UserId",
+                table: "SurveyRespondents",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyRespondents_SurveyRespondentGroupId",
+                table: "SurveyRespondents",
+                column: "SurveyRespondentGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyResponses_QuestionPartId",
@@ -1313,7 +1303,7 @@ namespace TRAISI.Migrations
                 name: "QuestionOptions");
 
             migrationBuilder.DropTable(
-                name: "PrimaryRespondents");
+                name: "SurveyRespondents");
 
             migrationBuilder.DropTable(
                 name: "ResponseValues");
@@ -1328,10 +1318,10 @@ namespace TRAISI.Migrations
                 name: "Shortcodes");
 
             migrationBuilder.DropTable(
-                name: "SurveyRespondentGroup");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "SurveyRespondentGroup");
 
             migrationBuilder.DropTable(
                 name: "QuestionPartViews");

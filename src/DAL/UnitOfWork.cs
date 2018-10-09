@@ -32,6 +32,10 @@ namespace DAL
         IQuestionConditionalRepository _questionConditionals;
         IQuestionOptionConditionalRepository _questionOptionConditionals;
 
+        ISurveyRespondentGroupRepository _suveyRespondentGroupRepository;
+
+        ISurveyRespondentRepository _surveyRespondentRepository;
+
         /// <summary>
         /// 
         /// </summary>
@@ -54,8 +58,10 @@ namespace DAL
         /// <summary>
         /// 
         /// </summary>
-        public IQuestionOptionRepository QuestionOptions {
-            get {
+        public IQuestionOptionRepository QuestionOptions
+        {
+            get
+            {
                 if (_questionOptions == null) {
                     _questionOptions = new QuestionOptionRepository(_context);
                 }
@@ -217,8 +223,7 @@ namespace DAL
         {
             get
             {
-                if (_questionConditionals == null)
-                {
+                if (_questionConditionals == null) {
                     _questionConditionals = new QuestionConditionalRepository(_context);
                 }
                 return _questionConditionals;
@@ -229,8 +234,7 @@ namespace DAL
         {
             get
             {
-                if (_questionOptionConditionals == null)
-                {
+                if (_questionOptionConditionals == null) {
                     _questionOptionConditionals = new QuestionOptionConditionalRepository(_context);
                 }
                 return _questionOptionConditionals;
@@ -270,6 +274,31 @@ namespace DAL
                 }
 
                 return _termsAndConditionsPageLabels;
+            }
+        }
+
+        public ISurveyRespondentRepository SurveyRespondents
+        {
+            get
+            {
+                if (_surveyRespondentRepository == null) {
+                    _surveyRespondentRepository = new SurveyRespondentRepository(_context);
+                }
+
+                return _surveyRespondentRepository;
+            }
+        }
+
+        public ISurveyRespondentGroupRepository SurveyRespondentGroups
+        {
+            get
+            {
+
+                if (_suveyRespondentGroupRepository == null) {
+                    _suveyRespondentGroupRepository = new SurveyRespondentGroupRepository(_context);
+                }
+
+                return _suveyRespondentGroupRepository;
             }
         }
 

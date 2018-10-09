@@ -11,7 +11,7 @@ namespace DAL.Models.Surveys {
 
 		public int ResponseValueId { get; set; }
 		
-		public ApplicationUser Respondent { get; set; }
+		public SurveyRespondent Respondent { get; set; }
 		
 		
 	}

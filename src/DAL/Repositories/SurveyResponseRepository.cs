@@ -23,13 +23,15 @@ namespace DAL.Repositories {
 		}
 
 
+
+
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="user"></param>
 		/// <param name="questionName"></param>
 		/// <returns></returns>
-		public async Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName) {
+		public async Task<SurveyResponse> GetQuestionResponeByQuestionName(SurveyRespondent user, string questionName) {
 			return await this._entities.Where(u => u.Respondent == user)
 				.Where(q => q.QuestionPart.Name.ToLower() == questionName.ToLower())
 				.Include(s => s.ResponseValue).ThenInclude(s => s.SurveyResponse).FirstOrDefaultAsync();
@@ -42,7 +44,7 @@ namespace DAL.Repositories {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		public async Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId,
-			ApplicationUser user) {
+			SurveyRespondent user) {
 			var result = await this._entities
 				.Where(r => r.QuestionPart.Parent.SurveyView.Survey.Id == surveyId && r.Respondent == user)
 				.ToListAsync();
@@ -57,7 +59,7 @@ namespace DAL.Repositories {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		public async Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId,
-			ApplicationUser user) {
+			SurveyRespondent user) {
 			var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId)
 			.Include(v => v.ResponseValue)
 				.ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).FirstOrDefault();

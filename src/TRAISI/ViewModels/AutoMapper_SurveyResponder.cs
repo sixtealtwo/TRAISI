@@ -32,6 +32,12 @@ namespace TRAISI.ViewModels
         {
             CreateMap<SurveyResponse, SurveyResponseViewModel>()
                .ForMember(s => s.ResponseValue, r => r.ResolveUsing<ResponseValueResolver>());
+
+
+            CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
+
+            CreateMap<SurveyRespondent, SurveyRespondentViewModel>();
+
         }
     }
 

@@ -45,6 +45,21 @@ namespace TRAISI.Services
             _logger = loggerFactory.CreateLogger<RespondentService>();
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="subRespondentId"></param>
+        /// <param name="responseData"></param>
+        /// <returns></returns>
+        public async Task<bool> SaveSubResponse(int questionId, int subRespondentId, JObject responseData)
+        {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(subRespondentId);
+
+            return true;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -59,27 +74,31 @@ namespace TRAISI.Services
 
             var question = await this._unitOfWork.QuestionParts.GetAsync(questionId);
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
-            if(type.ResponseValidator != null)
-            {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+
+            if (respondent == null) {
+                await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
+            }
+
+
+            if (type.ResponseValidator != null) {
                 type.ResponseValidator.ValidateResponse(null);
             }
 
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
-                           user);
+                           (SurveyRespondent)respondent);
             bool isUpdate = false;
-            
+
             if (surveyResponse == null) {
                 surveyResponse = new SurveyResponse()
                 {
                     QuestionPart = question,
-                    Respondent = user,
+                    Respondent = respondent,
                 };
             }
-            else
-            {
+            else {
                 isUpdate = true;
             }
 
@@ -100,7 +119,7 @@ namespace TRAISI.Services
             try {
 
                 if (!isUpdate) {
-                     this._unitOfWork.SurveyResponses.Add(surveyResponse);
+                    this._unitOfWork.SurveyResponses.Add(surveyResponse);
                 }
 
 
@@ -196,9 +215,11 @@ namespace TRAISI.Services
         public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,
             ApplicationUser user)
         {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+
             var response =
                 await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
-                    user);
+                    respondent);
 
             return response;
         }

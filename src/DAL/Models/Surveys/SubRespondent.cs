@@ -4,14 +4,8 @@ namespace DAL.Models.Surveys {
     /// <summary>
     /// Sub Respondent type, associated with another primary respondent
     /// </summary>
-    public class SubRespondent : ISurveyRespondent {
-        public int Id { get; set; }
+    public class SubRespondent : SurveyRespondent {
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public SurveyRespondentGroup SurveyRespondentGroup { get; set; }
 
         public SubRespondent () {
 

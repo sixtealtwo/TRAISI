@@ -29,6 +29,10 @@ namespace DAL
         IQuestionConditionalRepository QuestionConditionals { get; }
         IQuestionOptionConditionalRepository QuestionOptionConditionals { get; }
 
+        ISurveyRespondentRepository SurveyRespondents {get;}
+
+        ISurveyRespondentGroupRepository SurveyRespondentGroups {get;}
+
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

@@ -60,6 +60,10 @@ namespace DAL
 
         public DbSet<PrimaryRespondent> PrimaryRespondents { get; set; }
 
+        public DbSet<SubRespondent> SubRespondents { get; set; }
+
+        public DbSet<SurveyRespondent> SurveyRespondents { get; set; }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }
@@ -129,7 +133,7 @@ namespace DAL
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
-          
+
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
             //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
 
@@ -147,6 +151,8 @@ namespace DAL
 
             builder.Entity<QuestionOptionConditional>().ToTable($"{nameof(this.QuestionOptionConditionals)}");
 
+
+
             builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
                 .HasValue<StringResponse>(1)
                 .HasValue<DecimalResponse>(2)
@@ -159,7 +165,13 @@ namespace DAL
 
             builder.Entity<SurveyResponse>().HasOne(s => s.ResponseValue).WithOne(v => v.SurveyResponse).HasForeignKey<SurveyResponse>(s => s.ResponseValueId);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses");
-            builder.Entity<PrimaryRespondent>().ToTable("PrimaryRespondents").HasOne(s => s.User);
+
+            builder.Entity<SurveyRespondent>().ToTable("SurveyRespondents")
+            .HasDiscriminator<int>("RespondentType")
+            .HasValue<PrimaryRespondent>(0)
+            .HasValue<SubRespondent>(1);
+
+            //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 
         }
 
@@ -192,18 +204,15 @@ namespace DAL
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in modifiedEntries)
-            {
+            foreach (var entry in modifiedEntries) {
                 var entity = (IAuditableEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Added)
-                {
+                if (entry.State == EntityState.Added) {
                     entity.CreatedDate = now;
                     entity.CreatedBy = CurrentUserId;
                 }
-                else
-                {
+                else {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                 }

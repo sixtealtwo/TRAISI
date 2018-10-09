@@ -10,6 +10,6 @@ namespace DAL.Models.Surveys {
 
 		ResponseValue ResponseValue { get; set; }
 
-		ApplicationUser Respondent { get; set; }
+		SurveyRespondent Respondent { get; set; }
 	}
 }

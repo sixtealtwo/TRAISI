@@ -20,6 +20,16 @@ namespace TRAISI.Services.Interfaces {
 		/// 
 		/// </summary>
 		/// <param name="surveyId"></param>
+		/// <param name="questionId"></param>
+		/// <param name="subRespondentId"></param>
+		/// <param name="responseData"></param>
+		/// <returns></returns>
+		Task<bool> SaveSubResponse(int questionId, int subRespondentId, JObject responseData);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
 		/// <param name="shortcode"></param>
 		/// <param name="questionId"></param>
 		/// <returns></returns>

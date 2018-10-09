@@ -20,7 +20,7 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="user"></param>
 		/// <param name="questionName"></param>
 		/// <returns></returns>
-		Task<SurveyResponse> GetQuestionResponeByQuestionName(ApplicationUser user, string questionName);
+		Task<SurveyResponse> GetQuestionResponeByQuestionName(SurveyRespondent user, string questionName);
 
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="surveyId"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, ApplicationUser user);
+		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, SurveyRespondent user);
 
 		/// <summary>
 		/// 
@@ -37,6 +37,6 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="questionId"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, ApplicationUser user);
+		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, SurveyRespondent user);
 	}
 }

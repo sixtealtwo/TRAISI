@@ -13,9 +13,5 @@ namespace DAL.Models.Surveys
         SurveyRespondentGroup SurveyRespondentGroup { get; set; }
 
 
-
-
-
-
     }
 }
