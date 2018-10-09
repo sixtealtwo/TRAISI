@@ -18,7 +18,7 @@ import { Order } from '../../models/order.model';
 })
 export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public qPartQuestions: Map<number, QuestionPartView> = new Map<number, QuestionPartView>();
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
+
 
 	public currentPage: QuestionPartView = new QuestionPartView();
 	public configurationModalShowing: boolean = false;
@@ -36,6 +36,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	surveyId: number;
 	@Input()
 	currentLanguage: string;
+	@Input()
+	qTypeDefinitions: Map<string, QuestionTypeDefinition>;
 
 	@ViewChild('configurationModal')
 	configurationModal: ModalDirective;
@@ -45,6 +47,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService, private elementRef: ElementRef) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
+	}
+
+	ngOnInit() {
 		let sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fas fa-archive',
@@ -55,8 +60,6 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		};
 		this.qTypeDefinitions.set('Survey Part', sectionType);
 	}
-
-	ngOnInit() {}
 
 	ngAfterViewInit() {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
@@ -129,7 +132,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			newQPart = new QuestionPart(0, qType.typeName);
 		}
 		let newQPartLabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, '', this.currentLanguage);
-		let newQPartView: QuestionPartView = new QuestionPartView(0, newQPartLabel, 0, [], 0, newQPart);
+		let newQPartView: QuestionPartView = new QuestionPartView(0, newQPartLabel, '', 0, [], 0, newQPart);
 		return newQPartView;
 	}
 

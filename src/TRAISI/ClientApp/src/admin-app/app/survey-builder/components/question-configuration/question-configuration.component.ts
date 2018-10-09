@@ -152,7 +152,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			this.configTargets.changes.subscribe(item => {
 				this.updateAdvancedParams();
 			});
-		}, 2000);
+		}, 200);
 	}
 
 	questiontextEditorCreated(quillInstance: any) {
