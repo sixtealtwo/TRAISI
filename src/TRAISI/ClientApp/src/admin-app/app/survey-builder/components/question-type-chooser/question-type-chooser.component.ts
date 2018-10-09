@@ -6,7 +6,8 @@ import {
 	Output,
 	EventEmitter,
 	HostListener,
-	Input
+	Input,
+	AfterViewInit
 } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
@@ -19,7 +20,7 @@ import { ConfigurationService } from '../../../../../shared/services/configurati
 	styleUrls: ['./question-type-chooser.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class QuestionTypeChooserComponent implements OnInit {
+export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	public questionTypeDefinitions: QuestionTypeDefinition[];
 	public config: any;
 	public $el: any;
@@ -59,6 +60,12 @@ export class QuestionTypeChooserComponent implements OnInit {
 		jQuery(window).on('sn:resize', this.initSidebarScroll.bind(this));
 		this.initSidebarScroll();
 	}
+
+	ngAfterViewInit() {
+		this.el.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+	}
+
+
 
 	initSidebarScroll(): void {
 		const $sidebarContent = this.$el.find('.js-builder-sidebar-content');

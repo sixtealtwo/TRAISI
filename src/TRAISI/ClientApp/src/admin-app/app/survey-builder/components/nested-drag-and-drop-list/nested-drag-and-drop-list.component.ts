@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType, MessageSeverity } from '../../../../../shared/services/alert.service';
@@ -16,7 +16,7 @@ import { Order } from '../../models/order.model';
 	templateUrl: './nested-drag-and-drop-list.component.html',
 	styleUrls: ['./nested-drag-and-drop-list.component.scss']
 })
-export class NestedDragAndDropListComponent implements OnInit {
+export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public qPartQuestions: Map<number, QuestionPartView> = new Map<number, QuestionPartView>();
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
@@ -42,7 +42,7 @@ export class NestedDragAndDropListComponent implements OnInit {
 	@ViewChild('qConfiguration')
 	qConfiguration: QuestionConfigurationComponent;
 
-	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService) {
+	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService, private elementRef: ElementRef) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 		let sectionType: QuestionTypeDefinition = {
@@ -57,6 +57,10 @@ export class NestedDragAndDropListComponent implements OnInit {
 	}
 
 	ngOnInit() {}
+
+	ngAfterViewInit() {
+		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+	}
 
 	configurationShown() {
 		this.qConfiguration.surveyId = this.surveyId;
