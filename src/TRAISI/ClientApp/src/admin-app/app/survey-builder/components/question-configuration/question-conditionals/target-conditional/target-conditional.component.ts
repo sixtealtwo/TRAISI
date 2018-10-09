@@ -217,7 +217,7 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 		let selectedSourceId: number;
 
 		if (this.selectedSourceQuestion) {
-			selectedSourceId = +(this.selectedSourceQuestion.split('-')[1]);
+			selectedSourceId = +(this.selectedSourceQuestion.split('|')[1]);
 		} else {
 			selectedSourceId = -1;
 		}
@@ -225,8 +225,8 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 		downlineItems.forEach(selectedTarget => {
 			// if option, add only if parent question is unchecked
 			if (!selectedTarget.parent.item.checked) {
-				let id = +(selectedTarget.item.value.split('-')[1]);
-				// let parentId = +(selectedTarget.parent.item.value.split('-')[1]);
+				let id = +(selectedTarget.item.value.split('|')[1]);
+
 				let existing: QuestionOptionConditional = priorTargetQuestionOptionConditionals.filter(
 					o => o.targetOptionId === id
 				)[0];
@@ -243,7 +243,7 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 					this.targetQuestionOptionConditionalsList.push(newOptionConditional);
 				}
 			} else {
-				let idSplit = selectedTarget.parent.item.value.split('-');
+				let idSplit = selectedTarget.parent.item.value.split('|');
 				let id = +idSplit[1];
 				let existingPrevious: QuestionConditional = priorTargetQuestionConditionals.filter(
 					o => o.targetQuestionId === id
@@ -283,7 +283,7 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 	// property conversions based on type
 
 	public getItemType(value: string) {
-		return value.split('-')[0];
+		return value.split('|')[0];
 	}
 
 	get booleanValue(): boolean {

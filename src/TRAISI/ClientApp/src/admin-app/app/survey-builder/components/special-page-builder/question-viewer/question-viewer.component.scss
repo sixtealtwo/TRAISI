@@ -42,7 +42,7 @@
 	position: absolute;
 	width: 15px;
 	height: 15px;
-	background: radial-gradient(circle at 50% 30%, $yellow, gray);
+	background: radial-gradient(circle at 50% 30%, lightgreen, gray);
 	border-radius: 50%;
 	top: 8px;
 	z-index: 2;
@@ -89,7 +89,7 @@
 #question-viewer-container {
 	position: relative;
 	border-width: 0px;
-	height: calc(100vh - 125px);
+	height: calc(100vh - 235px);
 	overflow-y: auto;
 	overflow-x: hidden;
 	@include media-breakpoint-up(md) {

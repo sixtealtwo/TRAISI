@@ -199,7 +199,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				sourceConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = sourceConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`question-${conditional.targetQuestionId}`);
+			conditionalIds.push(`question|${conditional.targetQuestionId}`);
 		});
 		this.sourceQuestionOptionConditionals.forEach(conditional => {
 			// put spaces in condition between capitals
@@ -210,7 +210,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				sourceConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = sourceConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`option-${conditional.targetOptionId}`);
+			conditionalIds.push(`option|${conditional.targetOptionId}`);
 		});
 
 		// go through map and create conditionals
@@ -235,23 +235,23 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 			// put spaces in condition between capitals
 			let conditionSpaced: string = conditional.condition.replace(/([A-Z])/g, ' $1').trim();
 			// create key
-			let conditionalKey: string = `question-${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}`;
+			let conditionalKey: string = `question|${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}`;
 			if (!targetConditionalsMap.has(conditionalKey)) {
 				targetConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = targetConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`question-${conditional.targetQuestionId}`);
+			conditionalIds.push(`question|${conditional.targetQuestionId}`);
 		});
 		this.targetQuestionOptionConditionals.forEach(conditional => {
 			// put spaces in condition between capitals
 			let conditionSpaced: string = conditional.condition.replace(/([A-Z])/g, ' $1').trim();
 			// create key
-			let conditionalKey: string = `question-${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}`;
+			let conditionalKey: string = `question|${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}`;
 			if (!targetConditionalsMap.has(conditionalKey)) {
 				targetConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = targetConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`option-${conditional.targetOptionId}`);
+			conditionalIds.push(`option|${conditional.targetOptionId}`);
 		});
 
 		// go through map and create conditionals
@@ -338,11 +338,11 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		for (let treeItem of parentList) {
 			let checkValue: string;
 			if ((<string>treeItem.value).startsWith('question')) {
-				let split = (<string>treeItem.value).split('-');
-				checkValue = `${split[0]}-${split[2]}`;
+				let split = (<string>treeItem.value).split('|');
+				checkValue = `${split[0]}|${split[2]}`;
 			} else {
-				let split = (<string>treeItem.value).split('-');
-				checkValue = `${split[0]}-${split[2]}`;
+				let split = (<string>treeItem.value).split('|');
+				checkValue = `${split[0]}|${split[2]}`;
 			}
 			let treeItemCopy = new TreeviewItem({
 				value: treeItem.value,

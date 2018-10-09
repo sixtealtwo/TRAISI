@@ -320,7 +320,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	private getQuestionResponseType(typeValue: string): string {
-		let questionType = typeValue.split('-')[1];
+		let questionType = typeValue.split('|')[1];
 		return this.qTypeDefinitions.get(questionType).responseType;
 	}
 
@@ -346,11 +346,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			this.questionType.typeName === 'Survey Part' &&
 			this.questionBeingEdited.questionPartViewChildren.length > 0
 		) {
-			questionBreak = `question-${
+			questionBreak = `question|${
 				this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType
-			}-${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
+			}|${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
 		} else if (this.questionType.typeName !== 'Survey Part') {
-			questionBreak = `question-${this.questionType.typeName}-${this.questionBeingEdited.questionPart.id}`;
+			questionBreak = `question|${this.questionType.typeName}|${this.questionBeingEdited.questionPart.id}`;
 		}
 
 		// if (questionBreak !== '') {
@@ -365,7 +365,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (treeElement.children) {
 					let sectionName = '';
 					if (this.questionType.typeName === 'Survey Part') {
-						sectionName = `part-${this.questionBeingEdited.id}`;
+						sectionName = `part|${this.questionBeingEdited.id}`;
 					}
 					let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
 						page,

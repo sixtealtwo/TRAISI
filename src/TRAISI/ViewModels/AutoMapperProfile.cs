@@ -155,7 +155,7 @@ namespace TRAISI.ViewModels
                     {
                         svm.Id = s.QuestionPart.Id;
                         svm.Label = s.QuestionPart.Name;
-                        svm.Type = "question-" + s.QuestionPart.QuestionType;
+                        svm.Type = "question|" + s.QuestionPart.QuestionType;
                         svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
                     }
                 });
@@ -164,7 +164,7 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.Children, map => map.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Type = "option-" + s.Name;
+                    svm.Type = "option|" + s.Name;
                     svm.Label = s.QuestionOptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 

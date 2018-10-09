@@ -505,6 +505,7 @@ ngx-dropdown-treeview {
 .nav-tabs
 {
 	touch-action: none;
+	-webkit-overflow-scrolling: touch !important;
 	float: none !important;
 	white-space: nowrap;
 	display:block;

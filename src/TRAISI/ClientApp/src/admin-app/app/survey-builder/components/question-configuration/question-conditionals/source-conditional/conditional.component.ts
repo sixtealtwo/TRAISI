@@ -204,8 +204,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			// if option, add only if parent question is unchecked
 			if ((<string>selectedTarget.item.value).startsWith('option')) {
 				if (!selectedTarget.parent.item.checked) {
-					let id = +(selectedTarget.item.value.split('-')[2]);
-					// let parentId = +(selectedTarget.parent.item.value.split('-')[2]);
+					let id = +(selectedTarget.item.value.split('|')[2]);
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
 						o => o.targetOptionId === id
 					)[0];
@@ -222,7 +221,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 						this.sourceQuestionOptionConditionalsList.push(newOptionConditional);
 					}
 				} else {
-					let idSplit = selectedTarget.parent.item.value.split('-');
+					let idSplit = selectedTarget.parent.item.value.split('|');
 					let id = +idSplit[2];
 					let existingPrevious: QuestionConditional = priorSourceQuestionConditionals.filter(
 						o => o.targetQuestionId === id
@@ -247,7 +246,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 				}
 			} else if ((<string>selectedTarget.item.value).startsWith('question')) {
 				// if question, always add, after searching for existing
-				let idSplit = selectedTarget.item.value.split('-');
+				let idSplit = selectedTarget.item.value.split('|');
 				let id = +(idSplit[2]);
 				let existing: QuestionConditional = priorSourceQuestionConditionals.filter(
 					o => o.targetQuestionId === id
@@ -281,7 +280,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	// property conversions based on type
 
 	public getItemType(value: string) {
-		return value.split('-')[0];
+		return value.split('|')[0];
 	}
 
 	get booleanValue(): boolean {
