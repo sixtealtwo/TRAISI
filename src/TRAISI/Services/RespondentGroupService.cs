@@ -29,9 +29,9 @@ namespace TRAISI.Services
 
         }
 
-        public void RemoveRespondent(SurveyRespondentGroup group, SubRespondent respondent)
+        public void RemoveRespondent(SurveyRespondentGroup group, int respondentId)
         {
-            var index = group.GroupMembers.FindIndex(r => r.Id == respondent.Id);
+            var index = group.GroupMembers.FindIndex(r => r.Id == respondentId);
             group.GroupMembers.RemoveAt(index);
 
         }

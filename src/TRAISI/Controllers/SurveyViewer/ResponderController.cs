@@ -140,13 +140,12 @@ namespace TRAISI.Controllers.SurveyViewer
 
         [HttpDelete]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("respondents/groups")]
-        public async Task<IActionResult> RemoveSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
+        [Route("respondents/groups/{respondentId}")]
+        public async Task<IActionResult> RemoveSurveyGroupMember(int respondentId)
         {
-            var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             var user = await _userManager.GetUserAsync(User);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            this._respondentGroupService.RemoveRespondent(group, model);
+            this._respondentGroupService.RemoveRespondent(group, respondentId);
 
             await this._unitOfWork.SaveChangesAsync();
 
@@ -165,6 +164,7 @@ namespace TRAISI.Controllers.SurveyViewer
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
 
             var members = AutoMapper.Mapper.Map<List<SurveyRespondentViewModel>>(group.GroupMembers);
+
 
             return new OkObjectResult(members);
         }

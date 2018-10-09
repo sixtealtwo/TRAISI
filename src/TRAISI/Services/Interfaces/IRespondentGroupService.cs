@@ -24,7 +24,7 @@ namespace TRAISI.Services.Interfaces
 		void AddRespondent(SurveyRespondentGroup group, SubRespondent respondent);
 
 
-		void RemoveRespondent(SurveyRespondentGroup group, SubRespondent respondent);
+		void RemoveRespondent(SurveyRespondentGroup group, int respondentId);
 
 		/// <summary>
 		/// 

@@ -121,9 +121,9 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	 */
 	public getRemoveSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
 
-		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
+		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups/${respondent.id}`;
 
-		return this.http.put<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
+		return this.http.delete<T>(endpointUrl , this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getRemoveSurveyGroupMemberUrlEndpoint(respondent)

@@ -96,10 +96,10 @@ export class SurveyResponderService implements SurveyResponder {
 	}
 
 	public getSurveyGroupMembers(): Observable<{}> {
-		return null;
+		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint();
 	}
 	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
-		return null;
+		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
 	/**

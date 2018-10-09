@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -10,7 +10,8 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	SurveyRespondent
 } from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 
@@ -19,7 +20,7 @@ import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 	template: require('./household-question.component.html').toString(),
 	styles: [require('./household-question.component.scss').toString()]
 })
-export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit {
+export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck {
 	public typeName: string;
 	public icon: string;
 
@@ -29,20 +30,35 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	 *
 	 * @param _surveyResponderService
 	 */
-	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder) {
+	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder, private _cdRef: ChangeDetectorRef) {
 		super();
 
 		this.respondents = [];
 	}
 
 	ngOnInit(): void {
+		/*
 		this.respondents.push({
 			respondent: {
 				firstName: '',
 				lastName: '',
 				id: undefined
 			},
-			isSaved: false
+			isSaved: false,
+			isValid: false
+		}); */
+
+		this._surveyResponderService.getSurveyGroupMembers().subscribe(value => {
+			const arr = <Array<SurveyRespondent>>value;
+			arr.splice(0, 1);
+
+			arr.forEach(element => {
+				this.respondents.push({
+					respondent: element,
+					isSaved: true,
+					isValid: true
+				});
+			});
 		});
 	}
 
@@ -53,18 +69,17 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				lastName: '',
 				id: undefined
 			},
-			isSaved: false
+			isSaved: false,
+			isValid: false
 		});
 	}
 
 	/** */
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
-		console.log('in save respondent');
-		console.log(respondentEdit);
-
 		this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
 			value => {
-				console.log(value);
+				respondentEdit.respondent.id = <number>value;
+				respondentEdit.isSaved = true;
 			},
 			error => {
 				console.error(error);
@@ -73,10 +88,26 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	public deleteRespondent(respondent: SurveyRespondentEdit): void {
-		console.log('in delete respondent');
+		const index = this.respondents.indexOf(respondent);
+
+		this.respondents.splice(index, 1);
+
+		if (respondent.respondent.id !== undefined) {
+			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe(value => {
+				console.log('removed');
+			});
+		}
 	}
 
+	/**
+	 * 
+	 */
 	public modelChanged(respondent: SurveyRespondentEdit): void {
-		
+		if (respondent.respondent.firstName !== '' && respondent.respondent.lastName !== '') {
+			respondent.isValid = true;
+		}
+		respondent.isSaved = false;
 	}
+
+	ngDoCheck(): void {}
 }
