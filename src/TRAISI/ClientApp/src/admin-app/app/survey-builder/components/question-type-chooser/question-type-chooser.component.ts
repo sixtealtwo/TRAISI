@@ -37,7 +37,7 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
 		config: AppConfig,
-		el: ElementRef,
+		private el: ElementRef,
 		private configurationService: ConfigurationService
 	) {
 		this.config = config.getConfig();
