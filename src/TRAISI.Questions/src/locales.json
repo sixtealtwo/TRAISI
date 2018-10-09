@@ -1,45 +1,32 @@
 {
-    "en": {
-        "text": "Text",
-        "checkbox": "Checkbox",
-        "date":"Date",
-        "heading": "Heading",
-        "likert": "Likert",
-        "location": "Location",
-        "matrix":"Matrix",
-        "number":"Number",
-        "radio":"Radio Select",
-        "range":"Range Select",
-        "select":"Dropdown Select",
-        "time": "Time"
-
-    },
-    "zh-TW": {
-        "text": "字串",
-        "checkbox": "複選框",
-        "date":"日期",
-        "heading": "標題",
-        "likert": "里克特量表",
-        "location": "位置",
-        "matrix":"Matrix",
-        "number":"號",
-        "radio":"單選框",
-        "range":"範圍",
-        "select":"下拉表",
-        "time": "時間"
-		},
-		"fr": {
-			"text": "Texte",
-			"checkbox": "Case à Cocher",
-			"date":"Date",
-			"heading": "En-Tête",
-			"likert": "Likert",
-			"location": "Emplacement",
-			"matrix":"Matrice",
-			"number":"Nombre",
-			"radio":"Sélection Radio",
-			"range":"Sélection de Gamme",
-			"select":"Sélection Déroulante",
-			"time": "Temps"			
-		}
+	"en": {
+		"text": "Text",
+		"checkbox": "Checkbox",
+		"date": "Date",
+		"heading": "Heading",
+		"likert": "Likert",
+		"location": "Location",
+		"matrix": "Matrix",
+		"number": "Number",
+		"radio": "Radio Select",
+		"range": "Range Select",
+		"select": "Dropdown Select",
+		"time": "Time",
+		"household": "Household"
+	},
+	"fr": {
+		"text": "Texte",
+		"checkbox": "Case à Cocher",
+		"date": "Date",
+		"heading": "En-Tête",
+		"likert": "Likert",
+		"location": "Emplacement",
+		"matrix": "Matrice",
+		"number": "Nombre",
+		"radio": "Sélection Radio",
+		"range": "Sélection de Gamme",
+		"select": "Sélection Déroulante",
+		"time": "Temps",
+		"household": "Household"
+	}
 }

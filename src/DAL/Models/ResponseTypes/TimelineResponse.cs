@@ -10,10 +10,10 @@ namespace DAL.Models.ResponseTypes
     public class TimelineResponse : LocationResponse, ITimelineResponse
     {
 
-        public string Purpose {get;set;}
+        public string Purpose { get; set; }
 
-        public DateTime TimeA {get;set;}
+        public DateTime TimeA { get; set; }
 
-        public DateTime TimeB {get;set;}
+        public DateTime TimeB { get; set; }
     }
 }

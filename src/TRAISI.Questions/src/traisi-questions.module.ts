@@ -15,8 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-
+import { HouseholdQuestionComponent } from 'household-question/household-question.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +28,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 		HeadingQuestionComponent,
 		TimeQuestionComponent,
 		DateQuestionComponent,
-		LikertQuestionComponent
+		LikertQuestionComponent,
+		HouseholdQuestionComponent
 	],
 	entryComponents: [
 		TextQuestionComponent,
@@ -38,10 +38,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 		RangeQuestionComponent,
 		CheckboxQuestionComponent,
 		SelectQuestionComponent,
-		HeadingQuestionComponent, 
+		HeadingQuestionComponent,
 		TimeQuestionComponent,
 		DateQuestionComponent,
-		LikertQuestionComponent
+		LikertQuestionComponent,
+		HouseholdQuestionComponent
 	],
 	providers: [
 		{
@@ -101,17 +102,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 					name: 'traisi-time-question',
 					id: 'time',
 					component: TimeQuestionComponent
+				},
+				{
+					name: 'household-question',
+					id: 'household',
+					component: HouseholdQuestionComponent
 				}
 			],
 			multi: true
 		}
 	],
-	imports: [
-		CommonModule,
-		FontAwesomeModule,
-		FormsModule,
-		HttpClientModule,
-		BsDatepickerModule.forRoot()
-	]
+	imports: [CommonModule, FontAwesomeModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot()]
 })
 export default class TraisiQuestions {}

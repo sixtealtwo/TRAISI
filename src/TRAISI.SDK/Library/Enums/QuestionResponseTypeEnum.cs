@@ -17,7 +17,8 @@ namespace TRAISI.SDK.Enums
         OptionSelect,
         OptionList,
         DateTime,
-        Timeline
+        Timeline,
+        None
     }
 
 }
