@@ -70,7 +70,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				firstName: '',
 				lastName: '',
 				id: undefined,
-				relationship: null 
+				relationship: null
 			},
 			isSaved: false,
 			isValid: false

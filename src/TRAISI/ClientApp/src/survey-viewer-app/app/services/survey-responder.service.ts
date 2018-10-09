@@ -16,6 +16,7 @@ import { SurveyViewerService } from './survey-viewer.service';
 	providedIn: 'root'
 })
 export class SurveyResponderService implements SurveyResponder {
+
 	id: number;
 	/**
 	 *
@@ -100,6 +101,10 @@ export class SurveyResponderService implements SurveyResponder {
 	}
 	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
 		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
+	}
+
+	public editSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+		throw new Error('Method not implemented.');
 	}
 
 	/**

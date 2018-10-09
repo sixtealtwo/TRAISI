@@ -6,6 +6,7 @@ export interface SurveyResponder {
         addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
         getSurveyGroupMembers(): Observable<{}>;
         removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
+        editSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
 };
 
 export interface SurveyRespondent {
