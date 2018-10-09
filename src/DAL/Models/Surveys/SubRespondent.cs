@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 
-namespace DAL.Models.Surveys {
+namespace DAL.Models.Surveys
+{
     /// <summary>
     /// Sub Respondent type, associated with another primary respondent
     /// </summary>
-    public class SubRespondent : SurveyRespondent {
+    public class SubRespondent : SurveyRespondent
+    {
 
 
-        public SubRespondent () {
+        public string Relationship { get; set; }
+
+        public SubRespondent()
+        {
 
         }
     }

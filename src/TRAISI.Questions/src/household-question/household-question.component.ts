@@ -26,6 +26,8 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	public respondents: Array<SurveyRespondentEdit>;
 
+	public relationships: Array<string> = ['Spouse/Partner', 'Child', 'Parent', 'Grandparent', 'Grandchild', 'Roommate', 'Other'];
+
 	/**
 	 *
 	 * @param _surveyResponderService
@@ -67,7 +69,8 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			respondent: {
 				firstName: '',
 				lastName: '',
-				id: undefined
+				id: undefined,
+				relationship: null 
 			},
 			isSaved: false,
 			isValid: false
@@ -100,7 +103,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public modelChanged(respondent: SurveyRespondentEdit): void {
 		if (respondent.respondent.firstName !== '' && respondent.respondent.lastName !== '') {

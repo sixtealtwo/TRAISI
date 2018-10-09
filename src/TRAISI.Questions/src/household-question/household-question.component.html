@@ -2,28 +2,39 @@
 	<div class="alert alert-dismissible alert-light">
 
 		Click the button below to add new household members.
-	  </div>
+	</div>
 </div>
 <div *ngFor="let respondent of respondents">
 	<div class="form-group row">
-		<div class="col-sm-5">
-			<input type="text" (ngModelChange)="modelChanged(respondent)" class="form-control" placeholder="First Name" id="inputDefault" [(ngModel)]="respondent.respondent.firstName">
+		<div class="col-sm-3">
+			<input type="text" (ngModelChange)="modelChanged(respondent)" class="form-control" placeholder="First Name" id="inputDefault"
+			 [(ngModel)]="respondent.respondent.firstName">
 		</div>
-		<div class="col-sm-5">
-			<input type="text" (ngModelChange)="modelChanged(respondent)"  class="form-control" placeholder="Last Name" id="inputDefault" [(ngModel)]="respondent.respondent.lastName"></div>
+		<div class="col-sm-3">
+			<input type="text" (ngModelChange)="modelChanged(respondent)" class="form-control" placeholder="Last Name" id="inputDefault"
+			 [(ngModel)]="respondent.respondent.lastName"></div>
+		<div class="col-sm-4">
+			<select class="form-control" id="relationship-select" [(ngModel)]="respondent.respondent.relationship">
+				<option [ngValue]="null" selected>Select Relationship</option>
+				<option [ngValue]="relationship" *ngFor="let relationship of relationships">{{relationship}}</option>
+
+			</select>
+		</div>
+
 		<div class="col-sm-2">
 			<div class="btn-group" role="group">
-					<button [attr.disabled]="!respondent.isValid || respondent.isSaved? '' : null" type="button" class="btn btn-success" (click)="saveRespondent(respondent)">
-						<span [ngClass]="{'fas fa-user-plus': !respondent.isSaved, 'fas fa-user-check': 'respondent.isSaved'}"></span>
-					
-					</button>
-					<button type="button" class="btn btn-secondary" (click)="deleteRespondent(respondent)"><span class="fas fa-user-minus"></span></button>
+				<button [attr.disabled]="!respondent.isValid || respondent.isSaved? '' : null" type="button" class="btn btn-success"
+				 (click)="saveRespondent(respondent)">
+					<span [ngClass]="{'fas fa-user-plus': !respondent.isSaved, 'fas fa-user-check': 'respondent.isSaved'}"></span>
+
+				</button>
+				<button type="button" class="btn btn-secondary" (click)="deleteRespondent(respondent)"><span class="fas fa-user-minus"></span></button>
 			</div>
-		
+
 		</div>
 	</div>
 </div>
 
 <div class="add-to-respondent-list">
-	<button (click)="addNewRespondentToList()" class="btn btn-primary btn-sm">Add</button>
+	<button (click)="addNewRespondentToList()" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Add</button>
 </div>

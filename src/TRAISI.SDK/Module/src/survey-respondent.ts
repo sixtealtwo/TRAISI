@@ -11,7 +11,8 @@ export interface SurveyResponder {
 export interface SurveyRespondent {
 	firstName: string;
 	lastName: string;
-	id: number;
+        id: number;
+        relationship: string;
 };
 
 
