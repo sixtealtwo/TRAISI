@@ -114,7 +114,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 			this.pageThemeInfo = {};
 		}
 		if (!this.pageThemeInfo.pageBackgroundColour) {
-			this.pageThemeInfo.pageBackgroundColour = 'rbg(255,255,255)';
+			this.pageThemeInfo.pageBackgroundColour = 'rgb(255,255,255)';
 		}
 		if (!this.pageThemeInfo.sectionBackgroundColour) {
 			this.pageThemeInfo.sectionBackgroundColour = {};

@@ -51,6 +51,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public allPages: QuestionPartView[] = [];
 	public newPageTitle: string;
+	public newPageIcon: string;
 	public currentLanguage: string = 'en';
 
 	public pageThemeInfo: any = {};
@@ -59,6 +60,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public termsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
 	public thankYouPage: ThankYouPage = new ThankYouPage();
 	public loadedSpecialPages: boolean = false;
+	public loadedIndividualPage: boolean = true;
 
 	public welcomePagePreview: any = { value: false };
 	public privacyPagePreview: any = { value: false };
@@ -67,6 +69,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
+
+	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	private currentPage: string = 'welcome';
 
@@ -144,7 +148,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	mapQuestionTypeDefinitions() {
 		this.questionChooser.questionTypeDefinitions.forEach(q => {
-			this.surveyPage.qTypeDefinitions.set(q.typeName, q);
+			this.qTypeDefinitions.set(q.typeName, q);
 		});
 	}
 
@@ -248,7 +252,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.currentPage = pageName;
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
 		this.currentSurveyPage = undefined;
-		this.surveyPage.currentPage = new QuestionPartView();
+		if (this.surveyPage) {
+			this.surveyPage.currentPage = new QuestionPartView();
+		}
 		setTimeout(() => {
 			if (priorPageId !== -1) {
 				let thisPage = <any>$('#' + priorPageId + '-tab');
@@ -271,6 +277,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			nextPage.tab('show');
 		}, 0);
 
+		this.loadedIndividualPage = false;
 		this.surveyBuilderService
 			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
 			.subscribe(page => {
@@ -287,6 +294,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 							});
 					}
 				});
+				this.loadedIndividualPage = true;
 			});
 	}
 
@@ -348,9 +356,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	createPage(title: string): void {
+	createPage(title: string, icon: string): void {
 		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
-		let newPage: QuestionPartView = new QuestionPartView(0, newlabel);
+		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, icon);
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			result => {
 				this.loadPageStructure();

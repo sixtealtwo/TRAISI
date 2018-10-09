@@ -93,7 +93,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	@include media-breakpoint-up(md) {
-		height: calc(100vh - 305px);
+		height: calc(100vh - 350px);
 		border-width: 2px;
 	}
 

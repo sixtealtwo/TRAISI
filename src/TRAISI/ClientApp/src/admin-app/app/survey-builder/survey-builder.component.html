@@ -12,7 +12,7 @@
 	<traisi-question-type-chooser #questionChooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
 	 (loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
 </div>
-<div class="clearfix" [class.disable-clicks]="!loadedSpecialPages">
+<div class="clearfix" [class.disable-clicks]="!loadedSpecialPages || !loadedIndividualPage">
 	<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active fw-semi-bold" (click)="switchPage('welcome')" id="welcome-tab" data-toggle="tab" href="#welcome"
@@ -117,7 +117,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
-		<app-nested-drag-and-drop-list [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+		<app-nested-drag-and-drop-list *ngIf="loadedSpecialPages && currentPage == 'surveyPage'" [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
 		<br />
 		<div class="row">
 			<div class="col-md-12">
@@ -155,7 +155,7 @@
 <div bsModal #createPageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Create Page Modal"
  aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content" ngDraggable [handle]="modalHeader">
+		<div class="modal-content">
 			<div class="modal-header" #modalHeader>
 				<h4 class="modal-title pull-left"><i class="far fa-file-alt"></i> New Survey Page</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="createPageModal.hide()">
@@ -163,13 +163,26 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal form-label-left" role="form" (ngSubmit)="createPage(newPageTitle)">
+				<form class="form-horizontal form-label-left" role="form" (ngSubmit)="createPage(newPageTitle, newPageIcon)">
 					<div class="form-group row">
 						<label for="normal-field" class="col-md-4  col-form-label text-md-right">Page Title</label>
 						<div class="col-md-7 ">
 							<input type="text" id="normal-field" class="form-control" placeholder="Page Title" [(ngModel)]="newPageTitle" name="pageTitle">
 						</div>
 					</div>
+					<div class="row">
+							<div class="col-md-12">
+								<hr class="edit-separator-hr" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
+							<div class="col-md-5">
+								<input type="text" id="normal-field" class="form-control" placeholder="Page FA 5 Icon" [(ngModel)]="newPageIcon"
+								 name="pageIcon">
+							</div>
+							<div class="mt-2"><i [ngClass]="newPageIcon"></i></div>
+						</div>
 					<div class="row">
 						<div class="col-md-12">
 							<hr class="edit-last-separator-hr" />
