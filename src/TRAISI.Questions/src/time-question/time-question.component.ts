@@ -24,6 +24,12 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 	typeName: string;
 	icon: string;
 
+	public hours: number;
+
+	public minutes: number;
+
+	public am: boolean;
+
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
 		@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder
@@ -45,5 +51,10 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 
 	ngOnInit() {
 		console.log('init');
+
+		this.hours = 12;
+		this.minutes = 0;
+		this.am = true;
+
 	}
 }
