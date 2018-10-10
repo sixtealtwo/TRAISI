@@ -55,6 +55,5 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		this.hours = 12;
 		this.minutes = 0;
 		this.am = true;
-
 	}
 }
