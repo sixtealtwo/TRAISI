@@ -91,7 +91,9 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	/**
 	 * Called when the next is triggered in the survey viewer.
 	 */
-	public navigateInternalNext(): void {}
+	public navigateInternalNext(): boolean {
+		return true;
+	}
 
 	/**
 	 * Called when previous is triggered in the survey viewer.

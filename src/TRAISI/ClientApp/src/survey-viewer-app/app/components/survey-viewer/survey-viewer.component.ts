@@ -120,7 +120,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.activeQuestionIndex += 1;
 			this.validateNavigation();
 		} else {
-			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+			const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+
+			if (result) {
+				this.activeQuestionIndex += 1;
+				this.validateNavigation();
+			}
 		}
 	}
 
@@ -193,7 +198,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	ngAfterContentInit(): void {}
 
 	ngAfterViewChecked(): void {}
-
 
 	public onQuestionScroll($event) {
 		console.log($event);
