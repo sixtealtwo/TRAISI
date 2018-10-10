@@ -6,9 +6,8 @@ namespace DAL.Models.Surveys
     {
         int Id { get; set; }
 
-        string FirstName { get; set; }
+        string Name { get; set; }
 
-        string LastName { get; set; }
 
         SurveyRespondentGroup SurveyRespondentGroup { get; set; }
 

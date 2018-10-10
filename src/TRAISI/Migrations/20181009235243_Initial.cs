@@ -687,8 +687,8 @@ namespace TRAISI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Relationship = table.Column<string>(nullable: true),
                     SurveyRespondentGroupId = table.Column<int>(nullable: true),
                     RespondentType = table.Column<int>(nullable: false),
                     ShortcodeId = table.Column<int>(nullable: true),

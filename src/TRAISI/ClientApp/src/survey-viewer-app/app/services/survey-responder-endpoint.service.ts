@@ -63,8 +63,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		);
 	}
 
-
-		/**
+	/**
 	 * Returns the endpoint for retrieving survey questions of a particular survey view
 	 * @param {number} surveyId
 	 * @returns {Observable<T>}
@@ -74,9 +73,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getSavedResponseUrlEndpoint(surveyId, questionId)
-				);
+				return this.handleError(error, () => this.getSavedResponseUrlEndpoint(surveyId, questionId));
 			})
 		);
 	}
@@ -85,33 +82,39 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	 *
 	 */
 	public getAddSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
-
 		console.log(respondent);
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
 
-		return this.http.put<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
+		return this.http.post<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getAddSurveyGroupMemberUrlEndpoint(respondent)
-				);
+				return this.handleError(error, () => this.getAddSurveyGroupMemberUrlEndpoint(respondent));
 			})
 		);
 	}
 
+	/**
+	 *
+	 */
+	public getUpdateSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
+		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
+
+		console.log(respondent);
+		return this.http.put<T>(endpointUrl, JSON.stringify(respondent), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getAddSurveyGroupMemberUrlEndpoint(respondent));
+			})
+		);
+	}
 
 	/**
 	 *
 	 */
 	public getSurveyGroupMembersUrlEndpoint<T>(): Observable<T> {
-
-
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getSurveyGroupMembersUrlEndpoint()
-				);
+				return this.handleError(error, () => this.getSurveyGroupMembersUrlEndpoint());
 			})
 		);
 	}
@@ -120,18 +123,15 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	 *
 	 */
 	public getRemoveSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
-
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups/${respondent.id}`;
 
-		return this.http.delete<T>(endpointUrl , this.getRequestHeaders()).pipe(
+		console.log('deleting');
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () =>
-					this.getRemoveSurveyGroupMemberUrlEndpoint(respondent)
-				);
+				return this.handleError(error, () => this.getRemoveSurveyGroupMemberUrlEndpoint(respondent));
 			})
 		);
 	}
-
 
 	/**
 	 * Service constructor

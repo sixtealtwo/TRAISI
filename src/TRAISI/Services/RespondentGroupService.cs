@@ -4,7 +4,8 @@ using DAL;
 using DAL.Models;
 using DAL.Models.Surveys;
 using TRAISI.Services.Interfaces;
-
+using TRAISI.ViewModels.SurveyViewer;
+using System.Linq;
 namespace TRAISI.Services
 {
     public class RespondentGroupService : IRespondentGroupService
@@ -34,6 +35,22 @@ namespace TRAISI.Services
             var index = group.GroupMembers.FindIndex(r => r.Id == respondentId);
             group.GroupMembers.RemoveAt(index);
 
+        }
+
+        public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel)
+        {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(respondentModel.Id);
+
+            if(respondent == null)
+            {
+                return false;
+            }
+
+            respondent.Relationship = respondentModel.Relationship;
+            respondent.Name = respondentModel.Name;
+
+            return true;
+           
         }
 
         /// <summary>

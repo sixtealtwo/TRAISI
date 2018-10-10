@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models;
 using DAL.Models.Surveys;
+using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -24,7 +25,18 @@ namespace TRAISI.Services.Interfaces
 		void AddRespondent(SurveyRespondentGroup group, SubRespondent respondent);
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="group"></param>
+		/// <param name="respondentId"></param>
 		void RemoveRespondent(SurveyRespondentGroup group, int respondentId);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		Task<bool> UpdateRespondent(SurveyRespondentViewModel model);
 
 		/// <summary>
 		/// 
@@ -32,6 +44,8 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<SurveyRespondentGroup> GetSurveyRespondentGroupForUser(ApplicationUser user);
+
+		
 
     }
 }

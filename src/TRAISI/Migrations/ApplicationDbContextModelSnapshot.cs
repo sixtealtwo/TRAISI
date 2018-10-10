@@ -619,9 +619,9 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("Relationship");
 
                     b.Property<int>("RespondentType");
 

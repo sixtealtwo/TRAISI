@@ -9,8 +9,6 @@ namespace DAL.Models.Surveys
     {
 
 
-        public string Relationship { get; set; }
-
         public SubRespondent()
         {
 

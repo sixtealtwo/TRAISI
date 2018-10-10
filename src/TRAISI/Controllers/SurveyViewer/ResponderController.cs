@@ -112,16 +112,8 @@ namespace TRAISI.Controllers.SurveyViewer
             return new OkResult();
         }
 
+
         [HttpPost]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("respondents/groups")]
-        public async Task<IActionResult> SaveSurveyGroupMembers([FromBody] SurveyRespondentGroupViewModel group)
-        {
-
-            return new OkResult();
-        }
-
-        [HttpPut]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
@@ -131,10 +123,26 @@ namespace TRAISI.Controllers.SurveyViewer
             var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.AddRespondent(group, model);
-            await this._unitOfWork.SaveChangesAsync();
+            await this._unitOfWork.SaveChangesAsync(); 
 
 
             return new ObjectResult(model.Id);
+        }
+
+        [HttpPut]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("respondents/groups")]
+        public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            //var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
+            //var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
+            var result = await this._respondentGroupService.UpdateRespondent(respondent);
+            await this._unitOfWork.SaveChangesAsync();
+
+
+            return new OkResult();
         }
 
 

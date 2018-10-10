@@ -103,8 +103,8 @@ export class SurveyResponderService implements SurveyResponder {
 		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
-	public editSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
-		throw new Error('Method not implemented.');
+	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
 	/**

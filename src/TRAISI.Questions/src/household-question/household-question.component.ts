@@ -26,13 +26,24 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	public respondents: Array<SurveyRespondentEdit>;
 
-	public relationships: Array<string> = ['Spouse/Partner', 'Child', 'Parent', 'Grandparent', 'Grandchild', 'Roommate', 'Other'];
+	public relationships: Array<string> = [
+		'Spouse/Partner',
+		'Child',
+		'Parent',
+		'Grandparent',
+		'Grandchild',
+		'Roommate',
+		'Other'
+	];
 
 	/**
 	 *
 	 * @param _surveyResponderService
 	 */
-	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder, private _cdRef: ChangeDetectorRef) {
+	constructor(
+		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder,
+		private _cdRef: ChangeDetectorRef
+	) {
 		super();
 
 		this.respondents = [];
@@ -54,6 +65,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			const arr = <Array<SurveyRespondent>>value;
 			arr.splice(0, 1);
 
+			console.log(arr);
 			arr.forEach(element => {
 				this.respondents.push({
 					respondent: element,
@@ -67,8 +79,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	public addNewRespondentToList(): void {
 		this.respondents.push({
 			respondent: {
-				firstName: '',
-				lastName: '',
+				name: '',
 				id: undefined,
 				relationship: null
 			},
@@ -79,15 +90,27 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	/** */
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
-		this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
-			value => {
-				respondentEdit.respondent.id = <number>value;
-				respondentEdit.isSaved = true;
-			},
-			error => {
-				console.error(error);
-			}
-		);
+		if (respondentEdit.respondent.id === undefined) {
+			this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
+				value => {
+					respondentEdit.respondent.id = <number>value;
+					respondentEdit.isSaved = true;
+				},
+				error => {
+					console.error(error);
+				}
+			);
+		} else {
+			console.log('updating ');
+			this._surveyResponderService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
+				value => {
+					respondentEdit.isSaved = true;
+				},
+				error => {
+					console.error(error);
+				}
+			);
+		}
 	}
 
 	public deleteRespondent(respondent: SurveyRespondentEdit): void {
@@ -106,9 +129,10 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	 *
 	 */
 	public modelChanged(respondent: SurveyRespondentEdit): void {
-		if (respondent.respondent.firstName !== '' && respondent.respondent.lastName !== '') {
+		if (respondent.respondent.name !== '' && respondent.respondent.relationship !== null) {
 			respondent.isValid = true;
 		}
+
 		respondent.isSaved = false;
 	}
 

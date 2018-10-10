@@ -1,22 +1,19 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export interface SurveyResponder {
-        id: number;
-        
-        addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
-        getSurveyGroupMembers(): Observable<{}>;
-        removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
-        editSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
-};
+	id: number;
+
+	addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
+	getSurveyGroupMembers(): Observable<{}>;
+	removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
+	updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
+}
 
 export interface SurveyRespondent {
-	firstName: string;
-	lastName: string;
-        id: number;
-        relationship: string;
-};
-
-
+	name: string;
+	id: number;
+	relationship: string;
+} 
 
 /*
         String,
