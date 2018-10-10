@@ -56,7 +56,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] JObject content)
         {
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
             bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, content);
 
@@ -79,7 +79,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> SavedResponse(int surveyId, int questionId)
         {
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
             SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, user);
 
@@ -119,7 +119,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.AddRespondent(group, model);
@@ -135,7 +135,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             //var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             //var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             var result = await this._respondentGroupService.UpdateRespondent(respondent);
@@ -151,7 +151,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("respondents/groups/{respondentId}")]
         public async Task<IActionResult> RemoveSurveyGroupMember(int respondentId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.RemoveRespondent(group, respondentId);
 
@@ -168,7 +168,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("respondents/groups")]
         public async Task<IActionResult> GetSurveyGroupMembers()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
 
             var members = AutoMapper.Mapper.Map<List<SurveyRespondentViewModel>>(group.GroupMembers);
