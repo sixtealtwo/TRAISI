@@ -155,6 +155,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
+	/**
+	 *
+	 */
 	private callVisibilityHooks() {
 		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
 			if (
