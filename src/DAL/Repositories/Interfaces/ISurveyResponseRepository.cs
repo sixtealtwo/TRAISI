@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 
 namespace DAL.Repositories.Interfaces {
@@ -30,6 +31,8 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, SurveyRespondent user);
+
+		Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, ResponseTypes type );
 
 		/// <summary>
 		/// 

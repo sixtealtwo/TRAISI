@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL;
 using DAL.Models;
+using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -112,6 +113,23 @@ namespace TRAISI.Controllers.SurveyViewer
             return new OkResult();
         }
 
+        [Produces(typeof(ObjectResult))]
+        [HttpGet]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("surveys/{surveyId}/responses/types/{responseType}")]
+        public async Task<IActionResult> ListResponsesOfType(int surveyId, string responseType)
+        {
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+
+
+            var responses = await this._respondentService.ListResponsesOfType(surveyId, responseType, user);
+            if (responses == null) {
+                return new BadRequestResult();
+            }
+            var mapped = AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses);
+            return new OkObjectResult(mapped);
+        }
+
 
         [HttpPost]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
@@ -123,7 +141,7 @@ namespace TRAISI.Controllers.SurveyViewer
             var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.AddRespondent(group, model);
-            await this._unitOfWork.SaveChangesAsync(); 
+            await this._unitOfWork.SaveChangesAsync();
 
 
             return new ObjectResult(model.Id);

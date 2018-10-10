@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from 'shared/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
-import { SurveyQuestion, SurveyRespondent } from 'traisi-question-sdk';
+import { SurveyQuestion, SurveyRespondent, ResponseTypes } from 'traisi-question-sdk';
 
 @Injectable({
 	providedIn: 'root'
@@ -132,6 +132,23 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	/**
+	 *
+	 */
+	public getListSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
+		// surveys/{surveyId}/responses/types/{type}
+		let endpointUrl = `${this.surveyResponseUrl}/surveys/${surveyId}/responses/types/${type}`;
+
+
+		console.log(endpointUrl);
+		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getListSurveyResponsesOfType(surveyId, type));
+			})
+		);
+	}
+
 
 	/**
 	 * Service constructor
