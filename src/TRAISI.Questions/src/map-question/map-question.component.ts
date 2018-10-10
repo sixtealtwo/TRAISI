@@ -1,12 +1,4 @@
-import {
-	AfterViewInit,
-	ChangeDetectorRef,
-	Component,
-	ElementRef,
-	EventEmitter,
-	OnInit,
-	ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
@@ -23,17 +15,18 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption, LocationResponseData
+	QuestionOption,
+	LocationResponseData,
+	ResponseData
 } from 'traisi-question-sdk';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
 	selector: 'traisi-map-question',
-	template: '' + <string>(require('./map-question.component.html').toString()),
+	template: '' + <string>require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
-	implements OnInit, AfterViewInit {
+export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
 
 	public locationSearch: string;
@@ -67,7 +60,26 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.configureMapSettings();
 
 		this.mapMarker.nativeElement.src = markerIconImage;
+		this.savedResponse.subscribe(this.onSavedResponseData);
+
+		console.log('here');
 	}
+
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.Location> | 'none') => void = (
+		response: ResponseData<ResponseTypes.Location> | 'none'
+	) => {
+
+		console.log('got response');
+		if (response !== 'none') {
+			let locationResponse = <LocationResponseData>response;
+
+			console.log(locationResponse);
+			
+
+			this.locationSearch = locationResponse.address;
+			this.markerPosition = [locationResponse.longitude, locationResponse.latitude];
+		}
+	};
 
 	ngAfterViewInit() {
 		this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
@@ -82,7 +94,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
-
 	}
 
 	/**
@@ -91,14 +102,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	userLocate(e: Position) {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
-		this.mapEndpointService
-			.reverseGeocode(e.coords.latitude, e.coords.longitude)
-			.subscribe((result: GeoLocation) => {
-				this.locationSearch = result.address;
-				this.mapGeocoder.control._inputEl.value = result.address;
+		this.mapEndpointService.reverseGeocode(e.coords.latitude, e.coords.longitude).subscribe((result: GeoLocation) => {
+			this.locationSearch = result.address;
+			this.mapGeocoder.control._inputEl.value = result.address;
 
-				this.cdRef.detectChanges();
-			});
+			this.cdRef.detectChanges();
+		});
 	}
 
 	onDragStart(event: any) {}
@@ -108,21 +117,19 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param event
 	 */
 	onDragEnd(event: MapMouseEvent) {
-		this.mapEndpointService
-			.reverseGeocode(event.lngLat.lat, event.lngLat.lng)
-			.subscribe((result: GeoLocation) => {
-				this.locationSearch = result.address;
-				this.mapGeocoder.control._inputEl.value = result.address;
+		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
+			this.locationSearch = result.address;
+			this.mapGeocoder.control._inputEl.value = result.address;
 
-				let data: LocationResponseData = {
-					latitude: event.lngLat.lat,
-					longitude: event.lngLat.lng,
-					address: <string>result.address
-				};
+			let data: LocationResponseData = {
+				latitude: event.lngLat.lat,
+				longitude: event.lngLat.lng,
+				address: <string>result.address
+			};
 
-				console.log('Sending ' + data);
-				this.saveResponse(data);
-			});
+			console.log('Sending ' + data);
+			this.saveResponse(data);
+		});
 	}
 
 	/**

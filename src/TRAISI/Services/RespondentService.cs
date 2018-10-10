@@ -109,7 +109,7 @@ namespace TRAISI.Services
                     break;
 
                 case QuestionResponseType.Location:
-                    responseValue = SaveLocationResponse(survey, question, user, responseData);
+                    SaveLocationResponse(survey, question, user, responseData, surveyResponse);
                     break;
                 case QuestionResponseType.Timeline:
                     responseValue = SaveTimelineResponse(survey, question, user, responseData);
@@ -178,12 +178,19 @@ namespace TRAISI.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal ResponseValue SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData)
+        internal void SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
+            if (response.ResponseValue == null) {
+                response.ResponseValue = new LocationResponse();
+            }
+            var value = responseData.ToObject<LocationResponse>();
+            (response.ResponseValue as LocationResponse).Latitude = value.Latitude;
+            (response.ResponseValue as LocationResponse).Longitude = value.Longitude;
+            (response.ResponseValue as LocationResponse).Address = value.Address;
 
-            LocationResponse locationResponseValue = responseData.ToObject<LocationResponse>();
+            //LocationResponse locationResponseValue = responseData.ToObject<LocationResponse>();
 
-            return locationResponseValue;
+            return;
 
 
         }
