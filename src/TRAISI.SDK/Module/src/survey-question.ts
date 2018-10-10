@@ -54,6 +54,9 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 
 	data: Array<any>;
 
+
+	pageIndex?: number;
+
 	/**
 	 *
 	 *

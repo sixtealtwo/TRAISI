@@ -88,9 +88,12 @@ namespace TRAISI.ViewModels
                 });
 
             CreateMap<QuestionPartView, SurveyViewPageViewModel>()
+                .ForMember(m => m.Sections, map => map.MapFrom(v => v.QuestionPartViewChildren))
+                .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
+                
+            CreateMap<QuestionPartView, SurveyViewSectionViewModel>()
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
                 .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
-
 
 
 

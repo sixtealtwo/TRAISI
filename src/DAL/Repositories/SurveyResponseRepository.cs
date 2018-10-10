@@ -71,7 +71,8 @@ namespace DAL.Repositories
             var responses = new List<SurveyResponse>();
             if (type == ResponseTypes.LocationResponse) {
 
-                var result = await this._appContext.LocationResponseValues.Where(r => r.SurveyResponse.QuestionPart.Parent.ParentView.SurveyView.Survey.Id == surveyId
+                var result = await this._appContext.LocationResponseValues.Where(r => (r.SurveyResponse.QuestionPart.Parent.SurveyView.Survey.Id == surveyId ||
+                r.SurveyResponse.QuestionPart.Parent.ParentView.SurveyView.Survey.Id == surveyId || r.SurveyResponse.QuestionPart.Parent.ParentView.ParentView.SurveyView.Survey.Id == surveyId)
                 && user == r.SurveyResponse.Respondent
                 ).Include(r => r.SurveyResponse)
                     .ThenInclude(r => r.Respondent)

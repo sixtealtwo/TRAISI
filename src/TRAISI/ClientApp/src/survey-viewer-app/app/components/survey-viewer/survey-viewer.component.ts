@@ -46,6 +46,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public activeQuestionIndex: number = -1;
 
+	public activeSectionIndex: number = -1;
+
+	public activePageIndex: number = -1;
+
 	public isLoaded: boolean = false;
 
 	public navigatePreviousEnabled: boolean = false;
@@ -55,6 +59,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private navigationActiveState: boolean = true;
 
 	private _activeQuestionContainer: QuestionContainerComponent;
+
+	private pages: Array<any>;
 
 	/**
 	 *
@@ -83,13 +89,44 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
-					this.loadPageQuestions(pages[0]);
+					this.pages = pages;
+
+					this.loadQuestions(pages);
+
+					console.log(pages);
 				});
 			});
 		});
 
 		// subscribe to the navigation state change that is alterable by sub questions
 		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
+	}
+
+	private loadQuestions(pages: Array<any>) {
+		this.questions = [];
+		let order: number = 0;
+		let pageCount: number = 0;
+		pages.forEach(page => {
+
+			page.sections.forEach(section => {
+
+				section.questions.forEach(question => {
+
+					question.order += order;
+					question.pageIndex = pageCount;
+					console.log(pageCount);
+					this.questions.push(question);
+				});
+				order += section.questions.length;
+			});
+			pageCount += 1;
+		});
+
+		this.activeQuestionIndex = 0;
+		this.activePageIndex = 0;
+		this.questions = sortBy(this.questions, ['order']);
+
+		this.isLoaded = true;
 	}
 
 	/**
@@ -100,17 +137,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.navigationActiveState = state;
 		this.validateNavigation();
 	};
-
-	/**
-	 *
-	 * @param page
-	 */
-	private loadPageQuestions(page: SurveyViewPage) {
-		this.questions = sortBy(page.questions, ['order']);
-		this.activeQuestionIndex = 0;
-
-		this.isLoaded = true;
-	}
 
 	/**
 	 * Navigate questions - next question in the questions list.
@@ -131,7 +157,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	private callVisibilityHooks() {
 		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			console.log('here in visiblity');
 			if (
 				(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')
 			) {
@@ -192,6 +217,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		} else {
 			this.navigateNextEnabled = true;
 		}
+
+		this.activePageIndex = this.questions[this.activeQuestionIndex].pageIndex;
+
+		this.headerDisplay.activePageIndex = this.activePageIndex;
+		console.log(this.activePageIndex);
 	}
 
 	/**

@@ -2,10 +2,12 @@ export interface SurveyViewPage {
 
 	id: number;
 
-	questions: Array<any>;
+	sections: Array<any>;
 
 	order: number;
 
 	label: string;
+
+	icon: string;
 
 }
