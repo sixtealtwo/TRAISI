@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using Newtonsoft.Json.Linq;
 
@@ -34,6 +35,15 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="questionId"></param>
 		/// <returns></returns>
 		Task<List<SurveyResponse>> ListResponses(int surveyId, string questionName);
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, string type, ApplicationUser user);
 
 
 		/// <summary>

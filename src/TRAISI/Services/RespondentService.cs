@@ -27,6 +27,8 @@ namespace TRAISI.Services
 
         private ILogger<RespondentService> _logger;
 
+        public static readonly string LOCATION_RESPONSE = "location";
+
         /// <summary>
         /// 
         /// </summary>
@@ -213,6 +215,30 @@ namespace TRAISI.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="type"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, string type, ApplicationUser user)
+        {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+
+            if (respondent == null) {
+                await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
+            }
+            if(type == LOCATION_RESPONSE)
+            {
+                var result =  await this._unitOfWork.SurveyResponses.ListSurveyResponsesForRespondentByTypeAsync(surveyId, respondent,
+                 ResponseTypes.LocationResponse);
+                return result;
+            }
+
+            return new List<SurveyResponse>();
+        }
+
 
         /// <summary>
         /// 
@@ -222,6 +248,7 @@ namespace TRAISI.Services
         public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,
             ApplicationUser user)
         {
+            
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
             var response =

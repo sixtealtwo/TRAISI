@@ -31,6 +31,12 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 */
 	questionId: number;
 
+
+	/**
+	 * The survey id
+	 */
+	surveyId: number;
+
 	/**
 	 * The configuration for this question
 	 */
@@ -44,7 +50,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	/**
 	 * The saved response - if any
 	 */
-	savedResponse: ReplaySubject<ResponseData<T> | "none">;
+	savedResponse: ReplaySubject<ResponseData<T> | 'none'>;
 
 	data: Array<any>;
 
@@ -60,13 +66,14 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	constructor() {
 		this.response = new EventEmitter<ResponseData<T>>();
 		this.validationState = new EventEmitter<ResponseValidationState>();
-		this.savedResponse = new ReplaySubject<ResponseData<T> | "none">(1);
-		this.questionId = 0;
+		this.savedResponse = new ReplaySubject<ResponseData<T> | 'none'>(1);
+		this.questionId = -1;
+		this.surveyId = -1;
 		this.configuration = <QuestionConfiguration>{};
 		this.isValid = false;
 		this.data = [];

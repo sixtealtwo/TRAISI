@@ -47,6 +47,8 @@ namespace DAL
         public DbSet<QuestionOptionConditional> QuestionOptionConditionals { get; set; }
 
         public DbSet<ResponseValue> ResponseValues { get; set; }
+
+        public DbSet<LocationResponse> LocationResponseValues { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
         public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
         public DbSet<ThankYouPageLabel> ThankYouPageLabels { get; set; }

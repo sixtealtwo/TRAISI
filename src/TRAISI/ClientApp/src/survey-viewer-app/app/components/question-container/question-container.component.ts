@@ -98,6 +98,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				// call traisiOnInit to notify of initialization finishing
 				surveyQuestionInstance.questionId = this.question.questionId;
 
+				surveyQuestionInstance.surveyId = this.surveyId;
+
 				surveyQuestionInstance.traisiOnInit();
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)

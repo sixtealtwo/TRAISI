@@ -17,6 +17,7 @@ import { SurveyViewerService } from './survey-viewer.service';
 })
 export class SurveyResponderService implements SurveyResponder {
 
+
 	id: number;
 	/**
 	 *
@@ -105,6 +106,14 @@ export class SurveyResponderService implements SurveyResponder {
 
 	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
 		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
+	}
+
+	/**
+	 *
+	 */
+	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
+
+		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
 	}
 
 	/**
