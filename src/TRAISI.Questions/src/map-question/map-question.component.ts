@@ -171,7 +171,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	onQuestionShown(): void {
-		window.dispatchEvent(new Event('resize'));
+
+
 	}
 	onQuestionHidden(): void {}
 }
