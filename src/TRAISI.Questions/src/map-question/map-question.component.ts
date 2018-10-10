@@ -26,7 +26,7 @@ let markerIconImage = require('./assets/default-marker.png');
 	template: '' + <string>require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit {
+export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
 	readonly QUESTION_TYPE_NAME: string = 'Location Question';
 
 	public locationSearch: string;
@@ -61,20 +61,16 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this.mapMarker.nativeElement.src = markerIconImage;
 		this.savedResponse.subscribe(this.onSavedResponseData);
-
-		console.log('here');
 	}
 
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Location> | 'none') => void = (
 		response: ResponseData<ResponseTypes.Location> | 'none'
 	) => {
-
 		console.log('got response');
 		if (response !== 'none') {
 			let locationResponse = <LocationResponseData>response;
 
 			console.log(locationResponse);
-			
 
 			this.locationSearch = locationResponse.address;
 			this.markerPosition = [locationResponse.longitude, locationResponse.latitude];
@@ -127,7 +123,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				address: <string>result.address
 			};
 
-			console.log('Sending ' + data);
 			this.saveResponse(data);
 		});
 	}
@@ -174,4 +169,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this.locationSearch = 'Toronto';
 	}
+
+	onQuestionShown(): void {
+		window.dispatchEvent(new Event('resize'));
+	}
+	onQuestionHidden(): void {}
 }
