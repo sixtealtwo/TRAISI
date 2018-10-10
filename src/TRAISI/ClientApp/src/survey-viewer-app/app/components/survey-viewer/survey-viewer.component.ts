@@ -130,6 +130,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigatePrevious() {
 		if (!this.validateInternalNavigationPrevious()) {
 			this.activeQuestionIndex -= 1;
+			this.navigationActiveState = true;
 			this.validateNavigation();
 		} else {
 			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalPrevious();
