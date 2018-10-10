@@ -129,6 +129,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
+	private callVisibilityHooks() {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			console.log('here in visiblity');
+			if (
+				(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')
+			) {
+				(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
+			}
+		}
+	}
+
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
@@ -189,7 +200,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	ngAfterViewInit(): void {
 		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
+
 			setTimeout(() => {
+				this.callVisibilityHooks();
 				this.validateNavigation();
 			});
 		});
