@@ -73,7 +73,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
 		private cdRef: ChangeDetectorRef
-	) {}
+	) { }
 
 	/**
 	 * Initialization
@@ -107,11 +107,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let order: number = 0;
 		let pageCount: number = 0;
 		pages.forEach(page => {
-
 			page.sections.forEach(section => {
-
 				section.questions.forEach(question => {
-
 					question.order += order;
 					question.pageIndex = pageCount;
 					console.log(pageCount);
@@ -150,8 +147,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 			if (result) {
 				this.activeQuestionIndex += 1;
-				this.validateNavigation();
+
 			}
+
+			this.validateNavigation();
+
 		}
 	}
 
@@ -212,16 +212,18 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		if (this.navigationActiveState === false) {
 			this.navigateNextEnabled = false;
-		} else if (this.activeQuestionIndex >= this.questions.length - 1) {
+		} else if (this.activeQuestionIndex >= this.questions.length - 1 && !this.validateInternalNavigationNext()) {
 			this.navigateNextEnabled = false;
+
 		} else {
 			this.navigateNextEnabled = true;
+
 		}
 
 		this.activePageIndex = this.questions[this.activeQuestionIndex].pageIndex;
 
 		this.headerDisplay.activePageIndex = this.activePageIndex;
-		console.log(this.activePageIndex);
+
 	}
 
 	/**
@@ -238,9 +240,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
-	ngAfterContentInit(): void {}
+	ngAfterContentInit(): void { }
 
-	ngAfterViewChecked(): void {}
+	ngAfterViewChecked(): void { }
 
 	public onQuestionScroll($event) {
 		console.log($event);
