@@ -70,6 +70,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
 
+	public householdAdded: boolean = false;
+
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	private currentPage: string = 'welcome';

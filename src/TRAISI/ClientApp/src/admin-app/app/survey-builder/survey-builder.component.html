@@ -9,7 +9,7 @@
 
 </div>
 <div role="navigation" id="builderSidebar" class="sidebar order-correct">
-	<traisi-question-type-chooser #questionChooser [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
+	<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded" [disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
 	 (loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
 </div>
 <div class="clearfix" [class.disable-clicks]="!loadedSpecialPages || !loadedIndividualPage">
@@ -117,7 +117,7 @@
 		</div>
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
-		<app-nested-drag-and-drop-list *ngIf="loadedSpecialPages && currentPage == 'surveyPage'" [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+		<app-nested-drag-and-drop-list *ngIf="loadedSpecialPages && currentPage == 'surveyPage'" [(householdAdded)]="householdAdded" [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
 		<br />
 		<div class="row">
 			<div class="col-md-12">

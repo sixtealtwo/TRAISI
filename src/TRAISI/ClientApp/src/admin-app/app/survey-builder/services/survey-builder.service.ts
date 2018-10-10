@@ -90,7 +90,18 @@ export class SurveyBuilderService {
 
 	public getStandardViewPagesStructureWithQuestionsOptions(
 		surveyId: number,
-		language: string
+		language: string,
+	): Observable<SurveyQuestionOptionStructure[]> {
+		return this.surveyBuilderEndpointService
+			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<SurveyQuestionOptionStructure[]>(
+				surveyId,
+				language
+			);
+	}
+
+	public getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
+		surveyId: number,
+		language: string,
 	): Observable<TreeviewItem[]> {
 		return this.surveyBuilderEndpointService
 			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<SurveyQuestionOptionStructure[]>(
@@ -103,6 +114,7 @@ export class SurveyBuilderService {
 				})
 			);
 	}
+	
 
 	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[]): TreeviewItem[] {
 		if (items !== null) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, HostListener, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType, MessageSeverity } from '../../../../../shared/services/alert.service';
@@ -10,6 +10,7 @@ import { QuestionPartView } from '../../models/question-part-view.model';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionPartViewLabel } from '../../models/question-part-view-label.model';
 import { Order } from '../../models/order.model';
+import { TreeviewItem } from 'ngx-treeview';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -31,6 +32,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
 	private dragDidNotOriginateFromChooser: boolean = false;
+	private fullStructure: TreeviewItem[] = [];
 
 	@Input()
 	surveyId: number;
@@ -38,6 +40,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	currentLanguage: string;
 	@Input()
 	qTypeDefinitions: Map<string, QuestionTypeDefinition>;
+
+	@Input()
+	householdAdded: boolean = false;
+	@Output()
+	householdAddedChange = new EventEmitter();
 
 	@ViewChild('configurationModal')
 	configurationModal: ModalDirective;
@@ -63,6 +70,33 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+		this.surveyBuilderService
+		.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
+		.subscribe(treelist => {
+			this.fullStructure = treelist;
+			this.processHouseholdCheck();
+			this.householdAddedChange.emit(this.householdAdded);
+		});
+	}
+
+	processHouseholdCheck() {
+		this.fullStructure.forEach(page => {
+			if (this.householdAdded === false) {
+				this.processHouseholdCheckItems(page.children);
+			}
+		});
+	}
+
+	processHouseholdCheckItems(items: TreeviewItem[]) {
+		items.forEach(item => {
+			if (this.householdAdded === false) {
+				if (item.value.split('|')[1] === 'household'){
+					this.householdAdded = true;
+				} else if (item.children && item.children.length > 0) {
+					this.processHouseholdCheckItems(item.children);
+				}
+			}
+		});
 	}
 
 	configurationShown() {
@@ -84,7 +118,13 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			);
 		}
 		this.configurationModalShowing = true;
-		this.qConfiguration.processConfigurations();
+		this.surveyBuilderService
+			.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
+			.subscribe(treelist => {
+				this.fullStructure = treelist;
+				this.qConfiguration.fullStructure = this.fullStructure;
+				this.qConfiguration.processConfigurations();
+			});
 	}
 
 	configurationHidden() {
@@ -132,7 +172,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			newQPart = new QuestionPart(0, qType.typeName);
 		}
 		let newQPartLabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, '', this.currentLanguage);
-		let newQPartView: QuestionPartView = new QuestionPartView(0, newQPartLabel, '', 0, [], 0, newQPart);
+		let newQPartView: QuestionPartView = new QuestionPartView(0, newQPartLabel, null, 0, [], 0, newQPart);
 		return newQPartView;
 	}
 
@@ -150,6 +190,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 						this.qPartQuestions.set(newQuestion.id, newQuestion);
 					} else {
 						newPartView.questionPart = newQuestion.questionPart;
+						if (newQuestion.questionPart.questionType === 'household') {
+							this.householdAdded = true;
+							this.householdAddedChange.emit(this.householdAdded);
+						}
 						// send advanced configuration
 						this.surveyBuilderService
 							.updateQuestionPartConfigurations(
@@ -406,6 +450,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 						this.currentPage.questionPartViewChildren,
 						dropResult
 					);
+					if (this.questionBeingEdited.questionPart && this.questionBeingEdited.questionPart.questionType === 'household') {
+						this.householdAdded = false;
+						this.householdAddedChange.emit(this.householdAdded);
+					}
 					this.updateQuestionOrder(this.currentPage);
 				} else {
 					let parentView = this.qPartQuestions.get(this.questionBeingEdited.parentViewId);
@@ -555,13 +603,15 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			return false;
 		}
 		if (sourceContainerOptions.behaviour === 'copy') {
-			if (payload.typeName === 'Survey Part') {
+			if (payload.typeName === 'Survey Part' || payload.typeName === 'household') {
 				return false;
 			} else {
 				return true;
 			}
 		} else {
 			if (payload.questionPart === undefined || payload.questionPart === null) {
+				return false;
+			} else if (payload.questionPart.questionType === 'household') {
 				return false;
 			} else {
 				return true;

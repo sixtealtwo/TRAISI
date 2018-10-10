@@ -9,7 +9,7 @@
 					<a class="nav-link fw-semi-bold" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced"
 					 aria-expanded="true" (click)="advancedConfig()">Advanced</a>
 				</li>
-				<li class="nav-item" *ngIf="questionBeingEdited.questionPart">
+				<li class="nav-item" *ngIf="allowConditionals()">
 					<a class="nav-link fw-semi-bold" id="conditionals-tab" data-toggle="tab" href="#conditionals" role="tab" aria-controls="conditionals"
 					 aria-expanded="true">Conditionals</a>
 				</li>
@@ -120,7 +120,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group form-group-adjust row" *ngIf="!questionBeingEdited.questionPart">
+				<div class="form-group form-group-adjust row" *ngIf="!questionBeingEdited.questionPart && householdExistsBefore">
 					<div class="col-12" >
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Household</label>
@@ -134,7 +134,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" *ngIf="questionBeingEdited.questionPart || (!questionBeingEdited.questionPart && householdExistsBefore)">
 					<div class="col-md-12">
 						<hr class="edit-separator-hr" />
 					</div>

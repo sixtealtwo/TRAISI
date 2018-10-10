@@ -28,6 +28,8 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	public wasDragging: boolean = false;
 
 	@Input()
+	householdAdded: boolean = false;
+	@Input()
 	disabled: boolean = false;
 	@Output()
 	addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter<QuestionTypeDefinition>();

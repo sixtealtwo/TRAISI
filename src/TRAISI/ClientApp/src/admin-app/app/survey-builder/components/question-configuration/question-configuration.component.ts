@@ -80,6 +80,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public questionsBefore: TreeviewItem[] = [];
 	public repeatSourcesBefore: TreeviewItem[] = [];
 	public thisQuestion: TreeviewItem[] = [];
+	public householdExistsBefore: boolean = false;
 
 	public treedropdownSingleConfig = {
 		hasAllCheckBox: false,
@@ -281,24 +282,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	processConfigurations() {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
-		this.builderService
-			.getStandardViewPagesStructureWithQuestionsOptions(this.surveyId, 'en')
-			.subscribe(treelist => {
-				this.fullStructure = treelist;
-				this.processQuestionTree();
-				if (this.questionType.typeName !== 'Survey Part') {
-					this.loadPastConditionals();
-				}
-				this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
-				setTimeout(() => {
-					if (this.pipeTreeSelect) {
-						this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
-					}
-					if (this.repeatTreeSelect) {
-						this.repeatTreeSelect.i18n.getText = e => this.repeatDropdown(e);
-					}
-				}, 0);
-			});
+
+		this.processQuestionTree();
+		if (this.questionType.typeName !== 'Survey Part') {
+			this.loadPastConditionals();
+		}
+		this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
+		setTimeout(() => {
+			if (this.pipeTreeSelect) {
+				this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
+			}
+			if (this.repeatTreeSelect) {
+				this.repeatTreeSelect.i18n.getText = e => this.repeatDropdown(e);
+			}
+		}, 0);
+
 	}
 
 	private loadPastConditionals() {
@@ -324,6 +322,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		return this.qTypeDefinitions.get(questionType).responseType;
 	}
 
+	private getQuestionType(typeValue: string): string {
+		let questionType = typeValue.split('|')[1];
+		return this.qTypeDefinitions.get(questionType).typeName;
+	}
+
 	private allowAsRepeatSource(typeValue: string): boolean {
 		let responseType = this.getQuestionResponseType(typeValue);
 		if (responseType === 'Integer') {
@@ -333,12 +336,30 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	private isHouseholdSource(typeValue: string): boolean {
+		let questionType = this.getQuestionType(typeValue);
+		if (questionType === 'household') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public allowConditionals(): boolean {
+		if (this.questionType.typeName === 'Survey Part' || this.questionType.responseType === 'None') {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	// private getOptionResponseType(questionTypeValue: string, optionTypeValue: string): string {}
 
 	private processQuestionTree() {
 		this.questionsBefore = [];
 		this.questionOptionsAfter = [];
 		this.repeatSourcesBefore = [];
+		this.householdExistsBefore = false;
 		this.thisQuestion = [];
 		let questionHitThisPage: boolean = false;
 		let questionBreak = '';
@@ -454,6 +475,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				if (!(<string>element.value).startsWith('part') && !questionHit && this.allowAsRepeatSource(element.value)) {
 					repeatSources.push(new TreeviewItem(elementCopy));
+				}
+				if (!(<string>element.value).startsWith('part') && !questionHit && this.isHouseholdSource(element.value)) {
+					this.householdExistsBefore = true;
 				}
 			}
 		}
