@@ -24,13 +24,15 @@ import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-he
 import { sortBy } from 'lodash';
 import { QuestionContainerComponent } from '../question-container/question-container.component';
 import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyViewQuestion } from '../../models/survey-question.model';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
 	styleUrls: ['./survey-viewer.component.scss']
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
-	public questions: SurveyQuestion<any>[];
+
+	public questions: Array<SurveyViewQuestion>;
 
 	public surveyId: number;
 
@@ -60,7 +62,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	private _activeQuestionContainer: QuestionContainerComponent;
 
-	private pages: Array<any>;
+	private pages: Array<SurveyViewPage>;
 
 	/**
 	 *
@@ -102,16 +104,22 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
 	}
 
-	private loadQuestions(pages: Array<any>) {
+	/**
+	 *
+	 */
+	private loadQuestions(pages: Array<SurveyViewPage>) {
 		this.questions = [];
 		let order: number = 0;
 		let pageCount: number = 0;
 		pages.forEach(page => {
+			page.questions.forEach(question => {
+				question.pageIndex = pageCount;
+				this.questions.push(question);
+			});
 			page.sections.forEach(section => {
 				section.questions.forEach(question => {
 					question.order += order;
 					question.pageIndex = pageCount;
-					console.log(pageCount);
 					this.questions.push(question);
 				});
 				order += section.questions.length;

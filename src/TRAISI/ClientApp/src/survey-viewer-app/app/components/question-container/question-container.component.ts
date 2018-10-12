@@ -15,7 +15,7 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
 import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
-import { SurveyQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject } from '../../../../../node_modules/rxjs';
 

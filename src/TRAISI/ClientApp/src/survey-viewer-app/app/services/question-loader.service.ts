@@ -16,6 +16,7 @@ import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
+import * as Upgrade from '@angular/upgrade/static';
 import * as popover from 'ngx-bootstrap/popover';
 import * as alert from 'ngx-bootstrap/alert';
 import * as buttons from 'ngx-bootstrap/buttons';
@@ -24,12 +25,14 @@ import * as dropdown from 'ngx-bootstrap/dropdown';
 import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
+
 import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
 import { SurveyQuestion } from 'traisi-question-sdk';
-import { SurveyQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { UpgradeModule } from '@angular/upgrade/static';
 
 declare const SystemJS;
 
@@ -72,6 +75,8 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
+		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
+		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
 		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
 		SystemJS.registry.set('ngx-bootstrap/datepicker', SystemJS.newModule(datepicker));
