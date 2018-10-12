@@ -231,7 +231,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		}
 
-		//this.navigateNextEnabled = true;
+
 
 		this.activePageIndex = this.questions[this.activeQuestionIndex].pageIndex;
 
@@ -258,6 +258,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	ngAfterViewChecked(): void { }
 
 	public onQuestionScroll($event) {
-		console.log($event);
+
 	}
 }
