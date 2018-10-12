@@ -8,7 +8,8 @@ import {
 	Injectable,
 	ComponentFactory,
 	NgModuleRef,
-	ComponentRef
+	ComponentRef,
+	ElementRef
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
@@ -30,9 +31,10 @@ import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
-import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
+import { SurveyQuestionComponent } from '../models/survey-question-component';
 
 declare const SystemJS;
 
@@ -89,6 +91,14 @@ export class QuestionLoaderService {
 
 	/**
 	 *
+	 */
+	public getQuestionComponentModule(questionType: string): NgModuleRef<any> {
+
+		return this._moduleRefs[questionType];
+	}
+
+	/**
+	 *
 	 *
 	 * @param {string} questionType
 	 * @returns {Observable<any>}
@@ -98,6 +108,7 @@ export class QuestionLoaderService {
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
+
 				observer.next(this._componentFactories[questionType]);
 
 				observer.complete();
@@ -128,6 +139,13 @@ export class QuestionLoaderService {
 					.then(module => {
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
+
+						const moduleInstance = <SurveyModule>module.default;
+
+						this._moduleRefs[<string>questionType] = moduleRef;
+
+						console.log(this._moduleRefs);
+
 
 						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
 							moduleRef,
@@ -184,7 +202,13 @@ export class QuestionLoaderService {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
 			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
 
+
+
+				console.log('before created');
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
+				const moduleRef = this._moduleRefs[question.questionType];
+
+				console.log('component created');
 				observer.next(componentRef);
 				observer.complete();
 			});

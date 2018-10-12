@@ -93,6 +93,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			.subscribe((componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
 
+
+
 				surveyQuestionInstance.loadConfiguration(this.question.configuration);
 
 				// call traisiOnInit to notify of initialization finishing

@@ -23,7 +23,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	@Output()
 	public readonly response: EventEmitter<ResponseData<T>>;
 
-	@Output()
+	@Output() 
 	public readonly validationState: EventEmitter<ResponseValidationState>;
 
 	/**
