@@ -11,6 +11,12 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public List<SurveyViewSectionViewModel> Sections { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public List<QuestionViewModel> Questions { get; set; }
+
         public int Order { get; set; }
 
         public string Label { get; set; }

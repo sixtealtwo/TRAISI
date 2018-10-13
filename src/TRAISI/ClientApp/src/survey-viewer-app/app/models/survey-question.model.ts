@@ -1,4 +1,4 @@
-export interface SurveyQuestion {
+export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
 	isOptional: boolean;
@@ -7,4 +7,6 @@ export interface SurveyQuestion {
 	order: number;
 	questionId: number;
 	questionType: string;
+	pageIndex: number;
+	typeName: string;
 }

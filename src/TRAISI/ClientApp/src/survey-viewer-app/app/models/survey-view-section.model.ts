@@ -1,11 +1,8 @@
 import { SurveyViewQuestion } from "./survey-question.model";
-import { SurveyViewSection } from "./survey-view-section.model";
 
-export interface SurveyViewPage {
+export interface SurveyViewSection {
 
 	id: number;
-
-	sections: Array<SurveyViewSection>;
 
 	questions: Array<SurveyViewQuestion>;
 
@@ -13,6 +10,5 @@ export interface SurveyViewPage {
 
 	label: string;
 
-	icon: string;
 
 }

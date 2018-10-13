@@ -111,7 +111,7 @@ namespace DAL.Repositories
 
         public async Task<Survey> GetSurveyFullAsync(int surveyId)
         {
-            return await _appContext.Surveys.Where(s => s.Id == surveyId)
+            var result = await _appContext.Surveys.Where(s => s.Id == surveyId)
                 .Include(s => s.TitleLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
@@ -124,6 +124,8 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations).ThenInclude(qc => qc.QuestionConfigurationLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(qo => qo.QuestionOptionLabels)
                 .SingleOrDefaultAsync();
+
+                return result;
         }
 
         /// <summary>

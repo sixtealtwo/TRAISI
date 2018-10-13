@@ -8,7 +8,8 @@ import {
 	Injectable,
 	ComponentFactory,
 	NgModuleRef,
-	ComponentRef
+	ComponentRef,
+	ElementRef
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
@@ -16,6 +17,7 @@ import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
+import * as Upgrade from '@angular/upgrade/static';
 import * as popover from 'ngx-bootstrap/popover';
 import * as alert from 'ngx-bootstrap/alert';
 import * as buttons from 'ngx-bootstrap/buttons';
@@ -24,12 +26,15 @@ import * as dropdown from 'ngx-bootstrap/dropdown';
 import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
+
 import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
-import { SurveyQuestion } from 'traisi-question-sdk';
-import { SurveyQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
+import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { UpgradeModule } from '@angular/upgrade/static';
+import { SurveyQuestionComponent } from '../models/survey-question-component';
 
 declare const SystemJS;
 
@@ -72,6 +77,8 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
 		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
+		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
+		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
 		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
 		SystemJS.registry.set('ngx-bootstrap/datepicker', SystemJS.newModule(datepicker));
@@ -80,6 +87,14 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
 		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
 		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
+	}
+
+	/**
+	 *
+	 */
+	public getQuestionComponentModule(questionType: string): NgModuleRef<any> {
+
+		return this._moduleRefs[questionType];
 	}
 
 	/**
@@ -93,6 +108,7 @@ export class QuestionLoaderService {
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
+
 				observer.next(this._componentFactories[questionType]);
 
 				observer.complete();
@@ -123,6 +139,13 @@ export class QuestionLoaderService {
 					.then(module => {
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
+
+						const moduleInstance = <SurveyModule>module.default;
+
+						this._moduleRefs[<string>questionType] = moduleRef;
+
+						console.log(this._moduleRefs);
+
 
 						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
 							moduleRef,
@@ -179,7 +202,13 @@ export class QuestionLoaderService {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
 			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
 
+
+
+				console.log('before created');
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
+				const moduleRef = this._moduleRefs[question.questionType];
+
+				console.log('component created');
 				observer.next(componentRef);
 				observer.complete();
 			});
