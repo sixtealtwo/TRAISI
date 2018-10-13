@@ -14,10 +14,10 @@
 		"import-blacklist": [true, "rxjs/Rx"],
 		"import-spacing": true,
 		"indent": [true, "tabs",4],
-		"interface-over-type-literal": true,
+		"interface-over-type-literal": false,
 		"label-position": true,
 		"max-line-length": [true, 140],
-		"member-access": false,
+		"member-access": true,
 		"member-ordering": [
 			true,
 			{
@@ -62,6 +62,7 @@
 		"radix": true,
 		"semicolon": [true, "always"],
 		"triple-equals": [true, "allow-null-check"],
+		"typedef": [true, "call-signature", "parameter", "member-variable-declaration"],
 		"typedef-whitespace": [
 			true,
 			{

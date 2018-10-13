@@ -30,7 +30,7 @@ import { SurveysEditorComponent } from './surveys-editor/surveys-editor.componen
 		AccountManagementModule,
 		NgxDatatableModule,
 		TooltipModule,
-	BsDropdownModule.forRoot()
+		BsDropdownModule.forRoot()
 	],
 	declarations: [
 		SurveysManagementComponent,

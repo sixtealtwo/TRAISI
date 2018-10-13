@@ -105,7 +105,8 @@ namespace TRAISI.ViewModels
                 });
 
             CreateMap<SBQuestionPartViewViewModel, QuestionPartView>()
-                .ForMember(m => m.SurveyView, map => map.Ignore());
+                .ForMember(m => m.SurveyView, map => map.Ignore())
+                .ForMember(m => m.RepeatSource, map => map.Ignore());
 
             CreateMap<SBQuestionPartViewModel, QuestionPart>()
                 .ForMember(m => m.QuestionConfigurations, map => map.Ignore())
@@ -114,6 +115,17 @@ namespace TRAISI.ViewModels
 
             CreateMap<QuestionPartView, SBQuestionPartViewViewModel>()
                 .ForMember(m => m.ParentViewId, map => map.MapFrom(s => s.ParentView.Id))
+                .ForMember(m => m.repeatSourceQuestionName, map => map.ResolveUsing(s =>
+                {
+                    if (s.RepeatSource != null)
+                    {
+                        return $"question~{s.RepeatSource.QuestionType}~{s.RepeatSource.Id}";
+                    } 
+                    else
+                    {
+                        return null;
+                    }
+                }))
                 .AfterMap((s, svm, opt) =>
                 {
                     svm.Label = Mapper.Map<QuestionPartViewLabelViewModel>(
@@ -153,9 +165,9 @@ namespace TRAISI.ViewModels
                     }
                     else
                     {
-                        svm.Id = s.QuestionPart.Id;
+                        svm.Id = s.QuestionPart.Id.ToString();
                         svm.Label = s.QuestionPart.Name;
-                        svm.Type = "question|" + s.QuestionPart.QuestionType;
+                        svm.Type = "question~" + s.QuestionPart.QuestionType;
                         svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
                     }
                 });
@@ -164,7 +176,8 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.Children, map => map.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Type = "option|" + s.Name;
+                    svm.Id = s.Id.ToString();
+                    svm.Type = "option~" + s.Name;
                     svm.Label = s.QuestionOptionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]).Value;
                 });
 

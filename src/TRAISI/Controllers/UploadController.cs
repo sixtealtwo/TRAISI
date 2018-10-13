@@ -44,7 +44,7 @@ namespace TRAISI.Controllers
                 {
                     string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     string extension = Path.GetExtension(fileName);
-                    fileName = _fileHelper.CodeFunction() + extension;
+                    fileName = _fileHelper.GenerateFileCode() + extension;
                     string fullPath = Path.Combine(newPath, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {

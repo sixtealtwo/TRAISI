@@ -62,7 +62,7 @@ export class SurveyService {
 	 * Creates a new survey with the passed survey details.
 	 * @param  {any} survey
 	 */
-	public createSurvey(survey: any) {
+	public createSurvey(survey: any): Observable<Survey> {
 		return this._surveyEndpointService.getCreateSurveyEndpoint<Survey>(survey);
 	}
 
@@ -70,7 +70,7 @@ export class SurveyService {
 	 * Edits (submits) updated survey information.
 	 * @param  {any} survey Survey object with updated data.
 	 */
-	public editSurvey(survey: any) {
+	public editSurvey(survey: any): Observable<Survey> {
 		return this._surveyEndpointService.getEditSurveyEndpoint<Survey>(survey);
 	}
 
@@ -78,7 +78,7 @@ export class SurveyService {
 	 * Deletes the passed survey.
 	 * @param  {Survey} survey
 	 */
-	public deleteSurvey(id: number) {
+	public deleteSurvey(id: number): Observable<number> {
 		return this._surveyEndpointService.getDeleteSurveyEndpoint<number>(id);
 	}
 
@@ -86,14 +86,18 @@ export class SurveyService {
 	 * Retrieves survey with specified id.
 	 * @param id
 	 */
-	public getSurvey(id: number) {
+	public getSurvey(id: number): Observable<Survey> {
 		return this._surveyEndpointService.getSurveyEndpoint<Survey>(id).pipe(map(survey => {
 			this.lastSurvey = survey;
 			return survey;
 		}));
 	}
 
-	public getLastSurvey() {
+	public exportSurvey(id: number): Observable<string> {
+		return this._surveyEndpointService.getExportSurveyEndpoint<string>(id);
+	}
+
+	public getLastSurvey(): Survey {
 		return this.lastSurvey;
 	}
 }

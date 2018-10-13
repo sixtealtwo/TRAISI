@@ -30,6 +30,9 @@ import { UserGroupService } from '../services/user-group.service';
 import { UserGroup } from '../models/user-group.model';
 import { GroupMember } from '../models/group-member.model';
 import { SurveyPermissions } from '../models/survey-permissions.model';
+import { DownloadNotification } from '../models/download-notification';
+import { Subject } from 'rxjs';
+import { RealTimeNotificationServce } from '../services/real-time-notification.service';
 
 @Component({
 	selector: 'app-surveys-management',
@@ -56,31 +59,39 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	public model: Survey;
 	public editModel: Survey;
 
+	public sharedSurvey: Survey;
+
 	public surveyEditMode: boolean = false;
 	public loadingIndicator: boolean;
 	public sharedBeingViewed: boolean = false;
 	public groupBeingViewed: boolean = false;
 	public groupActive: string;
 
-	@ViewChild('soloTable') table: any;
+	private downloadProgress: DownloadNotification = null;
+	private downloadNotifier: Subject<DownloadNotification>;
+	public downloadIndicator: boolean = false;
 
-	@ViewChild('sharedTable') sTable: any;
+	@ViewChild('soloTable') public table: any;
 
-	@ViewChild('groupTable') gTable: any;
+	@ViewChild('sharedTable') public sTable: any;
 
-	@ViewChild('editorModal') editorModal: ModalDirective;
+	@ViewChild('groupTable') public gTable: any;
 
-	@ViewChild('surveyEditor') surveyEditor: SurveysEditorComponent;
+	@ViewChild('editorModal') public editorModal: ModalDirective;
 
-	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
+	@ViewChild('shareModal') public shareModal: ModalDirective;
 
-	@ViewChild('surveyTagTemplate') surveyTagTemplate: TemplateRef<any>;
+	@ViewChild('surveyEditor') public surveyEditor: SurveysEditorComponent;
 
-	@ViewChild('dateTemplate') dateTemplate: TemplateRef<any>;
+	@ViewChild('actionsTemplate') public actionsTemplate: TemplateRef<any>;
 
-	@ViewChild('expandTemplate') expandTemplate: TemplateRef<any>;
+	@ViewChild('surveyTagTemplate') public surveyTagTemplate: TemplateRef<any>;
 
-	@ViewChild('textTemplate') textTemplate: TemplateRef<any>;
+	@ViewChild('dateTemplate') public dateTemplate: TemplateRef<any>;
+
+	@ViewChild('expandTemplate') public expandTemplate: TemplateRef<any>;
+
+	@ViewChild('textTemplate') public textTemplate: TemplateRef<any>;
 
 	/**
 	 *
@@ -91,7 +102,8 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		private alertService: AlertService,
 		private translationService: AppTranslationService,
 		private accountService: AccountService,
-		private userGroupService: UserGroupService
+		private userGroupService: UserGroupService,
+		private notificationService: RealTimeNotificationServce
 	) {
 		this.model = new Survey();
 	}
@@ -99,7 +111,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	/**
 	 * Initializer
 	 */
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		// retrieve surveys
 
 		const gT = (key: string) => this.translationService.getTranslation(key);
@@ -141,7 +153,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.loadData();
 	}
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 		this.surveyEditor.changesSavedCallback = () => {
 			Object.assign(this.model, this.editModel);
 			this.editorModal.hide();
@@ -171,7 +183,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	/**
 	 * Load initial survey info (surveys for user and group list)
 	 */
-	loadData() {
+	public loadData(): void {
 		this.alertService.startLoadingMessage();
 		this.loadingIndicator = true;
 
@@ -192,7 +204,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	onDataLoadSuccessful(soloSurveys: Survey[], sharedSurveys: Survey[], groups: UserGroup[]) {
+	public onDataLoadSuccessful(soloSurveys: Survey[], sharedSurveys: Survey[], groups: UserGroup[]): void {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
 
@@ -212,7 +224,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	onDataLoadFailed(error: any) {
+	public onDataLoadFailed(error: any): void {
 		this.alertService.stopLoadingMessage();
 		this.loadingIndicator = false;
 
@@ -224,16 +236,76 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	public showSurveyShareDialog(survey: Survey): void {
+		this.sharedSurvey = survey;
+		this.shareModal.show();
+	}
+
+	public closeShareModal(): void {
+		this.shareModal.hide();
+		this.sharedSurvey = undefined;
+	}
+
+	public onShareModalShow(): void {
+
+	}
+
+	public onShareModalHidden(): void {
+
+	}
+
+	public importSurvey(): void {
+
+	}
+	
+	public exportSurvey(): void {
+		this.downloadProgress = new DownloadNotification('', 1);
+		this.downloadIndicator = true;
+		this.surveyService.exportSurvey(this.sharedSurvey.id).subscribe(
+			result => {
+				this.downloadProgress.id = result;
+				this.downloadProgress.progress = 25;
+				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
+				this.downloadNotifier.subscribe(
+					update => {
+						this.downloadSuccessHelper(update);
+					},
+					error => {
+						this.downloadErrorHelper(error);
+					}
+				);
+			},
+			error => {
+				this.downloadErrorHelper(error);
+			}
+		);
+	}
+
+	private downloadSuccessHelper(update: DownloadNotification): void {
+		this.downloadProgress = update;
+		if (update.progress === 100) {
+			this.downloadIndicator = false;
+			// download file and unsubscribe
+			window.open(this.downloadProgress.url, '_self');
+			this.downloadNotifier.unsubscribe();
+		}
+	}
+
+	private downloadErrorHelper(error: any): void {
+		this.downloadIndicator = false;
+		this.downloadNotifier.unsubscribe();
+	}
+
 	/**
 	 * Launches the new survey modal.
 	 */
-	newSurvey(): void {
+	public newSurvey(): void {
 		this.surveyEditMode = false;
 		this.surveyEditor.isNewSurvey = true;
 		this.editorModal.show();
 	}
 
-	editSurvey(survey: Survey): void {
+	public editSurvey(survey: Survey): void {
 		this.surveyEditMode = true;
 		this.surveyEditor.isNewSurvey = false;
 		this.surveyEditor.canDeleteSurvey = (survey.owner === this.accountService.currentUser.userName) || this.canDelete(survey);
@@ -243,14 +315,14 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.editorModal.show();
 	}
 
-	closeEditorModal(): void {
+	public closeEditorModal(): void {
 		this.editorModal.hide();
 	}
 
 	/**
 	 *
 	 */
-	onEditorModalHidden(): void {}
+	public onEditorModalHidden(): void {}
 
 	/**
 	 * Called before new survey modal is displayed. The input data and model will be reset.
@@ -284,7 +356,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.editorModal.hide();
 	}
 
-	public deleteSurvey(row: Survey) {
+	public deleteSurvey(row: Survey): void {
 		this.alertService.showDialog(
 			'Are you sure you want to delete "' + row.name + '"?',
 			DialogType.confirm,
@@ -315,7 +387,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	switchGroup(name: string) {
+	public switchGroup(name: string): void {
 		if (name === 'unGrouped') {
 			this.groupBeingViewed = false;
 			this.sharedBeingViewed = false;
@@ -369,7 +441,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	public toggleExpandRow(row) {
+	public toggleExpandRow(row: Survey): void {
 		if (this.groupBeingViewed) {
 			this.gTable.rowDetail.toggleExpandRow(row);
 		} else if (this.sharedBeingViewed) {
@@ -386,19 +458,19 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	 * @param {Survey} row
 	 * @memberof SurveysManagementComponent
 	 */
-	public previewSurvey(event: any, row: Survey) {
+	public previewSurvey(event: any, row: Survey): void {
 
 		window.open(`/survey/${row.code}/terms`, '_blank');
 		event.stopPropagation();
 	}
 
-	public rowExpand(event: any) {
+	public rowExpand(event: any): void {
 		if (event.type === 'click') {
 			this.toggleExpandRow(event.row);
 		}
 	}
 
-	public rowCursor(row: any) {
+	public rowCursor(row: any): string {
 		return 'cursor-pointer';
 	}
 

@@ -6,11 +6,11 @@
 			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name)">
 				<div class="form-group row response-option-container">
 					<div class="input-group col-md-12">
-						<!--<input type="text" class="form-control optionKey" id="key" [value]="item" (input)="indicateChange(item)"/>-->
+						<input type="text" class="form-control optionKey" id="code" [(ngModel)]="item.code"/>
 						<input type="text" class="form-control optionValue" id="label" [(ngModel)]="item.optionLabel.value" />
 						<div class="input-group-append">
 							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
-								<i class="fas fa-check"></i>
+								<i class="fas fa-save"></i>
 							</button>
 							<button type="button" [disabled]="items.get(qOptionDefinition.name).length <= 1" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
 								<i class="fas fa-trash-alt"></i>
@@ -23,9 +23,23 @@
 				</div>
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
-		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed">
+		<div class="form-group row response-option-container" *ngIf="pendingOption">
+			<div class="input-group col-md-12">
+				<input type="text" class="form-control optionKey" id="code" [(ngModel)]="pendingOption.code"/>
+				<input type="text" class="form-control optionValue" id="label" [(ngModel)]="pendingOption.optionLabel.value" />
+				<div class="input-group-append">
+					<button type="button" class="btn" (click)="savePendingOption()" [class.btn-success]="pendingOptionValid()" [disabled]="!pendingOptionValid()">
+						<i class="fas fa-save"></i>
+					</button>
+					<button type="button" class="btn btn-danger" (click)="deletePendingOption()">
+						<i class="fas fa-trash-alt"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed && !pendingOption">
 			<div>
-				<button [disabled]="addingOption" class="btn btn-primary" (click)="addOption(qOptionDefinition.name)">
+				<button class="btn btn-primary" (click)="addOption(qOptionDefinition.name)">
 					<i class="fas fa-plus-circle"></i> Add Option
 				</button>
 			</div>

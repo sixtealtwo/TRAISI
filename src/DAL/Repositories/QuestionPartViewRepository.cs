@@ -17,7 +17,7 @@ namespace DAL.Repositories
         public QuestionPartViewRepository(ApplicationDbContext context) : base(context) { }
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-        public async Task<QuestionPartView> GetQuestionPartViewWithStructureAsync(int questionPartViewId)
+        public async Task<QuestionPartView> GetQuestionPartViewWithStructureAsync(int? questionPartViewId)
         {
             var questionPartView = await _appContext.QuestionPartViews
                     .Where(qp => qp.Id == questionPartViewId)
@@ -25,6 +25,7 @@ namespace DAL.Repositories
                     .Include(qp => qp.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                    .Include(qp => qp.RepeatSource)
                     .SingleOrDefaultAsync();
             if (questionPartView != null)
             {

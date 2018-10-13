@@ -47,23 +47,23 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf6>
-			<ng-container *ngIf="responseType == 'OptionList'; else rElseIf7">
+			<ng-container *ngIf="responseType == 'OptionList' || responseType == 'OptionSelect'; else rElseIf7">
 				<ngx-dropdown-treeview [items]="copiedOptionList" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
 				</ngx-dropdown-treeview>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf7>
-			<ng-container *ngIf="responseType == 'DateTime'; else rElseIf8">
+			<ng-container *ngIf="responseType == 'DateTime'">
 					<input type="text" placeholder="Date Range" class="form-control" bsDaterangepicker id="{{ 'conditionalValue-' + sourceGroup.id }}"
 					#dpStart="bsDaterangepicker" [bsConfig]="bsConfig" [(ngModel)]="dateRange" (bsValueChange)="onDateChange($event)">
 			</ng-container>
 		</ng-template>
-		<ng-template #rElseIf8>
+		<!--<ng-template #rElseIf8>
 			<ng-container *ngIf="responseType == 'OptionSelect'">
 				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" [(value)]="sourceGroup.value">
 				</ngx-dropdown-treeview-select>
 			</ng-container>
-		</ng-template>
+		</ng-template>-->
 	</div>
 	<div class="col-lg-5 conditional-row">
 		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeTargets($event)">

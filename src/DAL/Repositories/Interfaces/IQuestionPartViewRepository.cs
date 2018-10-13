@@ -8,7 +8,7 @@ using DAL.Models.Questions;
 namespace DAL.Repositories.Interfaces {
 	public interface IQuestionPartViewRepository : IRepository<QuestionPartView> 
 	{
-		Task<QuestionPartView> GetQuestionPartViewWithStructureAsync (int questionPartViewId);
+		Task<QuestionPartView> GetQuestionPartViewWithStructureAsync (int? questionPartViewId);
 
         QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId);
 

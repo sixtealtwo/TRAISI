@@ -15,12 +15,15 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Hangfire;
 using Hangfire.Common;
+using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace TRAISI.Helpers
 {
     public interface IFileDownloader
     {
-        string CodeFunction();
+        string GenerateFileCode();
+        void ExportSurvey(string code, string userName, Survey survey);
         void WriteShortcodeFile(string code, string userName, string mode, Survey survey);
         void WriteGroupCodeFile(string code, string userName, string mode, Survey survey);
 
@@ -44,16 +47,52 @@ namespace TRAISI.Helpers
             this._serviceScopeFactory = serviceScopeFactory;
         }
 
-        public string CodeFunction()
+        public string GenerateFileCode()
         {
             string code = Guid.NewGuid().ToString("N").Substring(0, 10);
             return code.ToUpper();
         }
 
+        public void ExportSurvey(string code, string userName, Survey survey)
+        {
+            Task.Run(async () => {
+                using (var scope = this._serviceScopeFactory.CreateScope())
+                {
+                    IUnitOfWork unitOfWorkInScope = (IUnitOfWork)scope.ServiceProvider.GetRequiredService(typeof(IUnitOfWork));
+                    var fullSurveyStructure = await unitOfWorkInScope.Surveys.GetSurveyFullExportAsync(survey.Id);
+                    string folderName = "Download";
+                    string webRootPath = _hostingEnvironment.WebRootPath;
+                    string newPath = Path.Combine(webRootPath, folderName, userName, code);
+                    string compressDirectory = Path.Combine(newPath, "Export");
+                    string fileName = Path.Combine(compressDirectory, $"SurveyExport_{survey.Name}.json");
+                    string zipFileName = Path.Combine(newPath, $"SurveyExport_{survey.Name}.zip");
+                    string url = $"/{folderName}/{userName}/{code}/SurveyExport_{survey.Name}.zip";
+                    if (!Directory.Exists(newPath))
+                    {
+                        Directory.CreateDirectory(newPath);
+                        Directory.CreateDirectory(compressDirectory);
+                    }
+                    var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
+                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+
+                    // Write out survey structure to json
+                    using (var output = new StreamWriter(fileName))
+                    {
+                        output.Write(JsonConvert.SerializeObject(fullSurveyStructure, new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.All }));
+                    }
+
+                    ZipFile.CreateFromDirectory(compressDirectory, zipFileName);
+                    progress.Progress = 100;
+                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    BackgroundJob.Schedule(() => Directory.Delete(newPath, true), TimeSpan.FromSeconds(30));
+                }
+            });
+        }
+
         public void WriteShortcodeFile(string code, string userName, string mode, Survey survey)
         {
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 using (var scope = this._serviceScopeFactory.CreateScope())
                 {
@@ -70,7 +109,7 @@ namespace TRAISI.Helpers
                         Directory.CreateDirectory(newPath);
                     }
                     var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
-                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
 
                     // Write shortcodes to csv
                     using (var sw = new StreamWriter(fileName))
@@ -81,7 +120,7 @@ namespace TRAISI.Helpers
                         writer.WriteRecords(shortcodes);
                     }
                     progress.Progress = 100;
-                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
                     BackgroundJob.Schedule(() => Directory.Delete(newPath,true), TimeSpan.FromSeconds(30));
                 }
                

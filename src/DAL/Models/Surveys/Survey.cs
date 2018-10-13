@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using DAL.Models.Extensions;
 using DAL.Models.Interfaces;
+using Newtonsoft.Json;
 
 namespace DAL.Models.Surveys
 {
     public class Survey : AuditableEntity, ISurvey, IEntity
     {
+        [JsonIgnore]
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -50,17 +52,6 @@ namespace DAL.Models.Surveys
                 }
             };
 
-            Shortcodes = new List<Shortcode>
-            {
-                new Shortcode()
-                {
-                    Code = "TESTCODE",
-                    IsTest = true,
-                    Survey = this
-                }
-            };
-
-
             SurveyPermissions = new HashSet<SurveyPermission>();
             SurveyViews = new SurveyViewCollection<SurveyView>()
             {
@@ -73,12 +64,7 @@ namespace DAL.Models.Surveys
                         [DefaultLanguage] =
                             new WelcomePageLabel
                             {
-                                Value = "Default Welcome"
-                            },
-                        ["fr"] =
-                            new WelcomePageLabel
-                            {
-                                Value = "Bonjour"
+                                Value = null
                             }
                     },
                     ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>
@@ -86,7 +72,7 @@ namespace DAL.Models.Surveys
                         [DefaultLanguage] =
                             new ThankYouPageLabel
                             {
-                                Value = "Default Thanks"
+                                Value = null
                             }
                     },
                     TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>
@@ -95,7 +81,7 @@ namespace DAL.Models.Surveys
                             new TermsAndConditionsPageLabel
                             {
                                 // language is set on the object with the helper
-                                Value = "Default Terms and Conditions"
+                                Value = null
                             }
                     }
                 }

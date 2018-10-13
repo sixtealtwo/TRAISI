@@ -39,6 +39,7 @@ import { QuestionConditionalsComponent } from './question-conditionals/question-
 import Quill from 'quill';
 import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select.component';
 import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
+import { QuestionOptionValue } from '../../models/question-option-value.model';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -71,9 +72,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
 
-	public childrenComponents = [];
+	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
 
-	public froalaQTestOptions: any;
+	public childrenComponents = [];
 
 	public fullStructure: TreeviewItem[] = [];
 	public questionOptionsAfter: TreeviewItem[] = [];
@@ -110,6 +111,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@Input()
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
+	@Input()
+	public language: string;
+
 	@Output()
 	configResult = new EventEmitter<string>();
 
@@ -133,8 +137,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private cDRef: ChangeDetectorRef
 	) {}
 
-	ngOnInit() {
-		this.froalaQTestOptions = this.generateFroalaOptions('Question Text');
+	ngOnInit() {	
 	}
 
 	pipeDropdown(e: TreeviewSelection): string {
@@ -297,6 +300,26 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 		}, 0);
 
+		this.questionOptions = new Map<string, QuestionOptionValue[]>();
+
+		if (this.questionBeingEdited.questionPart) {
+			let qOptions = this.qTypeDefinitions.get(this.questionBeingEdited.questionPart.questionType).questionOptions;
+			Object.keys(qOptions).forEach(q => {
+				this.questionOptions.set(q, []);
+			});
+
+			this.builderService.getQuestionPartOptions(this.surveyId, this.questionBeingEdited.questionPart.id, this.language).subscribe(
+				options => {
+					if (options !== null) {
+						options.forEach(option => {
+							this.questionOptions.get(option.name).push(option);
+						});
+					}
+				},
+				error => {
+				}
+			);
+		}
 	}
 
 	private loadPastConditionals() {
@@ -318,12 +341,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	private getQuestionResponseType(typeValue: string): string {
-		let questionType = typeValue.split('|')[1];
+		let questionType = typeValue.split('~')[1];
 		return this.qTypeDefinitions.get(questionType).responseType;
 	}
 
 	private getQuestionType(typeValue: string): string {
-		let questionType = typeValue.split('|')[1];
+		let questionType = typeValue.split('~')[1];
 		return this.qTypeDefinitions.get(questionType).typeName;
 	}
 
@@ -367,11 +390,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			this.questionType.typeName === 'Survey Part' &&
 			this.questionBeingEdited.questionPartViewChildren.length > 0
 		) {
-			questionBreak = `question|${
+			questionBreak = `question~${
 				this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType
-			}|${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
+			}~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
 		} else if (this.questionType.typeName !== 'Survey Part') {
-			questionBreak = `question|${this.questionType.typeName}|${this.questionBeingEdited.questionPart.id}`;
+			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}
 
 		// if (questionBreak !== '') {
@@ -386,7 +409,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (treeElement.children) {
 					let sectionName = '';
 					if (this.questionType.typeName === 'Survey Part') {
-						sectionName = `part|${this.questionBeingEdited.id}`;
+						sectionName = `part~${this.questionBeingEdited.id}`;
 					}
 					let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
 						page,
@@ -545,25 +568,4 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	generateFroalaOptions(placeHolder: string) {
-		return {
-			toolbarInline: false,
-			charCounterCount: false,
-			toolbarVisibleWithoutSelection: true,
-			placeholderText: placeHolder,
-			fontFamilySelection: true,
-			enter: (<any>$).FroalaEditor.ENTER_BR,
-			fontFamily: {
-				'Source Sans Pro,sans-serif': 'Source Sans Pro',
-				'Arial,Helvetica,sans-serif': 'Arial',
-				'Georgia,serif': 'Georgia',
-				'Impact,Charcoal,sans-serif': 'Impact',
-				'Tahoma,Geneva,sans-serif': 'Tahoma',
-				'Times New Roman,Times,serif': 'Times New Roman',
-				'Verdana,Geneva,sans-serif': 'Verdana'
-			},
-			toolbarButtons: ['bold', 'italic', 'underline', 'subscript', 'superscript', 'color'],
-			toolbarButtonsSM: ['bold', 'italic', 'underline', 'subscript', 'superscript', 'color']
-		};
-	}
 }

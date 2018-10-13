@@ -11,7 +11,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link fw-semi-bold" (click)="switchGroup('shared')" id="shared-tab" data-toggle="tab" href="#shared" role="tab"
-							aria-controls="shared" aria-expanded="true">{{ 'surveys.management.Shared' | translate }}</a>
+						 aria-controls="shared" aria-expanded="true">{{ 'surveys.management.Shared' | translate }}</a>
 					</li>
 					<li *ngFor="let group of allGroups" class="nav-item">
 						<a class="nav-link fw-semi-bold" (click)="switchGroup(group.name)" id="{{ group.name + '-tab' }}" data-toggle="tab" href="#group"
@@ -40,36 +40,36 @@
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
 									<div class="row justify-content-end">
-											<div class="surveyAction" (click)="editSurvey(row)">
-												<div class="surveyActionLabel"><strong>Settings</strong></div>
-													<div>
-														<i class="fas fa-cog" aria-hidden="true"></i>
-													</div>
-												</div>
-												<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
-													<div class="surveyActionLabel"><strong>Design</strong></div>
-													<div>
-														<i class="fas fa-edit" aria-hidden="true"></i>
-													</div>
-												</div>
-												<div class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
-													<div class="surveyActionLabel"><strong>Execute</strong></div>
-													<div>
-														<i class="fas fa-envelope" aria-hidden="true"></i>
-													</div>
-												</div>
-												<div class="surveyAction">
-													<div class="surveyActionLabel"><strong>Analyze</strong></div>
-													<div>
-														<i class="fas fa-chart-bar" aria-hidden="true"></i>
-													</div>
-												</div>
-												<div class="surveyAction">
-													<div class="surveyActionLabel"><strong>Share</strong></div>
-													<div>
-														<i class="fas fa-share" aria-hidden="true"></i>
-													</div>
-												</div>
+										<div class="surveyAction" (click)="editSurvey(row)">
+											<div class="surveyActionLabel"><strong>Settings</strong></div>
+											<div>
+												<i class="fas fa-cog" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
+											<div class="surveyActionLabel"><strong>Design</strong></div>
+											<div>
+												<i class="fas fa-edit" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
+											<div class="surveyActionLabel"><strong>Execute</strong></div>
+											<div>
+												<i class="fas fa-envelope" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction">
+											<div class="surveyActionLabel"><strong>Analyze</strong></div>
+											<div>
+												<i class="fas fa-chart-bar" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div class="surveyAction" (click)="showSurveyShareDialog(row)">
+											<div class="surveyActionLabel"><strong>Share</strong></div>
+											<div>
+												<i class="fas fa-share" aria-hidden="true"></i>
+											</div>
+										</div>
 									</div>
 								</div>
 							</ng-template>
@@ -77,56 +77,56 @@
 					</ngx-datatable>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="shared" aria-labelledby="shared-tab" aria-expanded="true">
-						<div class="row ">
-							<div class="col-sm-4">
-								<div class="form-group search-box">
-									<search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
-								</div>
+					<div class="row ">
+						<div class="col-sm-4">
+							<div class="form-group search-box">
+								<search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
 							</div>
 						</div>
-						<ngx-datatable #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
-						 [rows]="sharedSurveyRows" [columns]="sharedSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
-						 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
-							<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
-								<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-									<div class="surveyDetails">
-										<div class="row justify-content-end">
-												<div *ngIf="canEdit(row)" class="surveyAction" (click)="editSurvey(row)">
-													<div class="surveyActionLabel"><strong>Settings</strong></div>
-														<div>
-															<i class="fas fa-cog fa-4" aria-hidden="true"></i>
-														</div>
-													</div>
-													<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
-														<div class="surveyActionLabel"><strong>Design</strong></div>
-														<div>
-															<i class="fas fa-edit" aria-hidden="true"></i>
-														</div>
-													</div>
-													<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
-														<div class="surveyActionLabel"><strong>Execute</strong></div>
-														<div>
-															<i class="fas fa-envelope" aria-hidden="true"></i>
-														</div>
-													</div>
-													<div *ngIf="canAnalyze(row)" class="surveyAction">
-														<div class="surveyActionLabel"><strong>Analyze</strong></div>
-														<div>
-															<i class="fas fa-chart-bar" aria-hidden="true"></i>
-														</div>
-													</div>
-													<div *ngIf="canShare(row)" class="surveyAction">
-														<div class="surveyActionLabel"><strong>Share</strong></div>
-														<div>
-															<i class="fas fa-share" aria-hidden="true"></i>
-														</div>
-													</div>
+					</div>
+					<ngx-datatable #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					 [rows]="sharedSurveyRows" [columns]="sharedSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true"
+					 [rowHeight]="45" [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
+						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+								<div class="surveyDetails">
+									<div class="row justify-content-end">
+										<div *ngIf="canEdit(row)" class="surveyAction" (click)="editSurvey(row)">
+											<div class="surveyActionLabel"><strong>Settings</strong></div>
+											<div>
+												<i class="fas fa-cog fa-4" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
+											<div class="surveyActionLabel"><strong>Design</strong></div>
+											<div>
+												<i class="fas fa-edit" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div *ngIf="canEdit(row)" class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
+											<div class="surveyActionLabel"><strong>Execute</strong></div>
+											<div>
+												<i class="fas fa-envelope" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div *ngIf="canAnalyze(row)" class="surveyAction">
+											<div class="surveyActionLabel"><strong>Analyze</strong></div>
+											<div>
+												<i class="fas fa-chart-bar" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div *ngIf="canShare(row)" class="surveyAction">
+											<div class="surveyActionLabel"><strong>Share</strong></div>
+											<div>
+												<i class="fas fa-share" aria-hidden="true"></i>
+											</div>
 										</div>
 									</div>
-								</ng-template>
-							</ngx-datatable-row-detail>
-						</ngx-datatable>
-					</div>
+								</div>
+							</ng-template>
+						</ngx-datatable-row-detail>
+					</ngx-datatable>
+				</div>
 				<div role="tabpanel" class="tab-pane" id="group" aria-labelledby="group-tab" aria-expanded="true">
 					<div class="row">
 						<div class="col-sm-4">
@@ -135,10 +135,10 @@
 							</div>
 						</div>
 					</div>
-					<ngx-datatable #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive" [rows]="groupSurveyRows"
-					 [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45" [headerHeight]="35"
-					 [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
-					 <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+					<ngx-datatable #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					 [rows]="groupSurveyRows" [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
+					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
+						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
 									<div class="row justify-content-end">
@@ -173,11 +173,11 @@
 											</div>
 										</div>
 										<div *ngIf="noAccess(row)" class="surveyAction">
-												<div class="surveyActionLabel"><strong>Request</strong></div>
-												<div>
-													<i class="fas fa-check-circle" aria-hidden="true"></i>
-												</div>
+											<div class="surveyActionLabel"><strong>Request</strong></div>
+											<div>
+												<i class="fas fa-check-circle" aria-hidden="true"></i>
 											</div>
+										</div>
 									</div>
 								</div>
 							</ng-template>
@@ -197,11 +197,11 @@
 		</div>
 	</ng-template>
 
-	<ng-template #textTemplate let-row="row" let-value="value" let-i="index" >
+	<ng-template #textTemplate let-row="row" let-value="value" let-i="index">
 		<div>{{ value }}</div>
 	</ng-template>
 
-	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index" >
+	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
 		<div>{{ value | date }}</div>
 	</ng-template>
 
@@ -235,8 +235,8 @@
 				<div class="modal-header">
 					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
 						<i class="fas fa-cubes"></i>Edit Survey</h4>
-						<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
-								<i class="fas fa-cubes"></i>New Survey</h4>
+					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
+						<i class="fas fa-cubes"></i>New Survey</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -244,6 +244,31 @@
 				</div>
 				<div class="modal-body">
 					<app-surveys-editor #surveyEditor></app-surveys-editor>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal fade" bsModal #shareModal="bs-modal" (onHidden)="onShareModalHidden()" [config]="{backdrop: 'static'}"
+	 (onShow)="onShareModalShow()" tabindex="-1">
+
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content share-dialog" *ngIf="sharedSurvey">
+				<div class="modal-header">
+					<div>
+					<h4 class="modal-title pull-left">
+						<i class="fas fa-cubes mr-2"></i>Share Survey</h4>
+						<br/><strong>{{ sharedSurvey.name }}</strong>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeShareModal()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+
+				</div>
+				<div class="modal-body">
+					<button [disabled]="downloadIndicator" class="btn btn-primary w-100" (click)="exportSurvey()">
+							<i *ngIf="downloadIndicator" class="fas fa-circle-notch fa-spin mr-2"></i>Export</button>
 				</div>
 			</div>
 		</div>

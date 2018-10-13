@@ -29,7 +29,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	public codeGenParams: CodeGenerator;
 	public executeMode: string;
 
-	public codeProperties = 'pattern';
+	public codeProperties: string = 'pattern';
 	public generateType: string = 'numberCodes';
 	public baseUrl: string = '';
 	public loadingIndicator: boolean = false;

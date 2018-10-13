@@ -12,6 +12,7 @@
 	flex-direction: column;
 	align-items: center;
 	margin-right:10px;
+	position: relative;
 	cursor: pointer;
 
 	i {
@@ -45,4 +46,9 @@
 {
   font-size:22px;
   text-align: center;
+}
+
+.share-dialog {
+	max-width: 300px;
+	margin: auto;
 }

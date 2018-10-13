@@ -13,7 +13,9 @@ using Microsoft.Extensions.Options;
 using TRAISI.Helpers;
 using TRAISI.ViewModels;
 using Microsoft.AspNetCore.SignalR;
-
+using System.IO;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TRAISI.Controllers
 {
@@ -23,17 +25,18 @@ namespace TRAISI.Controllers
 	{
 
 		private readonly IUnitOfWork _unitOfWork;
-    private readonly IHubContext<NotifyHub> _notifyHub;
+        private readonly IHubContext<NotifyHub> _notifyHub;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
+        private readonly IFileDownloader _fileDownloader;
 
-		public SurveyController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
+        public SurveyController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
             this._notifyHub = notifyHub;
-            
+            this._fileDownloader = fileDownloaderService;
 		}
 
 		/// <summary>
@@ -60,7 +63,6 @@ namespace TRAISI.Controllers
 					return BadRequest("User does not have permissions to access survey.");
 				}
 			}
-
 		}
 
 		/// <summary>
@@ -141,7 +143,7 @@ namespace TRAISI.Controllers
 						if(await IsSuperAdmin() || await this.MemberOfGroup(group.Id))
 						{
 							appSurvey.Owner = this.User.Identity.Name;
-                            appSurvey.PopulateDefaults();
+              appSurvey.PopulateDefaults();
 							await this._unitOfWork.Surveys.AddAsync(appSurvey);
 							await this._unitOfWork.SaveChangesAsync();
 							return new OkResult();
@@ -239,14 +241,45 @@ namespace TRAISI.Controllers
 
 			}
 		}
-	
-		/// <summary>
-		/// Get user permissions for given survey
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="userName"></param>
-		/// <returns></returns>
-		[HttpGet("{id}/permissions/{userName}")]
+
+        [HttpGet("{id}/export")]
+        [Produces(typeof(string))]
+        public async Task<IActionResult> ExportSurvey(int id)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(id);
+
+            if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin() || await IsGroupAdmin(survey.Group))
+            {
+                string code = this._fileDownloader.GenerateFileCode();
+                this._fileDownloader.ExportSurvey(code, this.User.Identity.Name, survey);
+                return Ok(code);
+            }
+            else
+            {
+                return BadRequest("User does not have permissions to download this survey.");
+            }
+        }
+
+        [HttpGet("import"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ImportSurvey()
+        {
+            try
+            {
+                return BadRequest("Import Not Implemented");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest("Import Failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get user permissions for given survey
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/permissions/{userName}")]
 		[Produces(typeof(List<SurveyPermissionViewModel>))]
 		public async Task<IActionResult> GetUserSurveyPermissions(int id, string userName)
 		{

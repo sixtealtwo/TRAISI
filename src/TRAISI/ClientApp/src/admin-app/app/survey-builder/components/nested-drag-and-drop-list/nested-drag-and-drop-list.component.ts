@@ -35,16 +35,16 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	private fullStructure: TreeviewItem[] = [];
 
 	@Input()
-	surveyId: number;
+	public surveyId: number;
 	@Input()
-	currentLanguage: string;
+	public currentLanguage: string;
 	@Input()
-	qTypeDefinitions: Map<string, QuestionTypeDefinition>;
+	public qTypeDefinitions: Map<string, QuestionTypeDefinition>;
 
 	@Input()
-	householdAdded: boolean = false;
+	public householdAdded: boolean = false;
 	@Output()
-	householdAddedChange = new EventEmitter();
+	public householdAddedChange = new EventEmitter();
 
 	@ViewChild('configurationModal')
 	configurationModal: ModalDirective;
@@ -56,8 +56,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 	}
 
-	ngOnInit() {
-		let sectionType: QuestionTypeDefinition = {
+	public ngOnInit(): void {
+		const sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fas fa-archive',
 			questionOptions: {},
@@ -90,7 +90,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	processHouseholdCheckItems(items: TreeviewItem[]) {
 		items.forEach(item => {
 			if (this.householdAdded === false) {
-				if (item.value.split('|')[1] === 'household'){
+				if (item.value.split('~')[1] === 'household'){
 					this.householdAdded = true;
 				} else if (item.children && item.children.length > 0) {
 					this.processHouseholdCheckItems(item.children);

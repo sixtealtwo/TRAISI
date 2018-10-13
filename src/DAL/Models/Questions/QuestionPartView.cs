@@ -2,17 +2,19 @@ using System.Collections.Generic;
 using DAL.Models.Surveys;
 using DAL.Models.Interfaces;
 using DAL.Models.Extensions;
+using Newtonsoft.Json;
 
 namespace DAL.Models.Questions {
 	/// <summary>
 	/// QuestionPartView model - container of QuestionParts 
 	/// </summary>
 	public class QuestionPartView : IQuestionPartView, IEntity {
-		/// <summary>
-		/// Id
-		/// </summary>
-		/// <value></value>
-		public int Id { get; set; }
+        /// <summary>
+        /// Id
+        /// </summary>
+        /// <value></value>
+        [JsonIgnore]
+        public int Id { get; set; }
 
 		/// <summary>
 		/// Collection of Label objects for this view.
@@ -28,11 +30,17 @@ namespace DAL.Models.Questions {
 
 		public QuestionPartView ParentView { get; set; }
 
+        [JsonIgnore]
+        public int? ParentViewId { get; set; }
+
 		/// <summary>
 		/// The Survey View this question belongs to.
 		/// </summary>
 		/// <value></value>
 		public SurveyView SurveyView { get; set; }
+
+        [JsonIgnore]
+        public int? SurveyViewId { get; set; }
 
 		public ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
 
@@ -44,7 +52,8 @@ namespace DAL.Models.Questions {
 
 		public bool isOptional { get; set; }
 		public bool isHousehold { get; set; }
-		public string RepeatSourceQuestionName { get; set; }
+
+		public QuestionPart RepeatSource { get; set; }
 
         public string Icon { get; set; }
 

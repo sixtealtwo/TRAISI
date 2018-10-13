@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
-
+using Newtonsoft.Json;
 
 namespace DAL.Models.Questions
 {
@@ -21,6 +21,7 @@ namespace DAL.Models.Questions
             QuestionConfigurations = new HashSet<QuestionConfiguration>();
         }
 
+        [JsonIgnore]
         public int Id { get; set; }
 
         public string QuestionType { get; set; }
@@ -52,6 +53,10 @@ namespace DAL.Models.Questions
         /// <value></value>
         public QuestionPartView Parent {get;set;}
 
+        [JsonIgnore]
+        public int ParentId { get; set; }
+
+        [JsonIgnore]
         public int ParentQuestionPartViewRef { get; set; }
 
     }

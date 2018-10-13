@@ -109,7 +109,15 @@ namespace TRAISI.Services
         {
             qpv.isHousehold = isHousehold;
             qpv.isOptional = isOptional;
-            qpv.RepeatSourceQuestionName = repeatSourceQuestionName;
+
+            if (repeatSourceQuestionName != null)
+            {
+                int sourceQuestionId = int.Parse(repeatSourceQuestionName.Split('~').Last());
+                qpv.RepeatSource = this._unitOfWork.QuestionParts.Get(sourceQuestionId);
+            } else
+            {
+                qpv.RepeatSource = null;
+            }
             qpv.Icon = icon;
         }
 
@@ -138,45 +146,56 @@ namespace TRAISI.Services
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="language"></param>
-        public QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string name, string value, string language = null)
+        public QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string code, string name, string value, string language = null)
         {
             var option = questionPart.QuestionOptions.SingleOrDefault(o => o.Id == id);
             if (option != null)
             {
                 if (language == null)
                 {
-                    option.QuestionOptionLabels.First().Value = value;
+                    language = option.QuestionOptionLabels.First().Language;
                 }
-                else
+                // replace code if different and unique from other codes
+                if (option.Code != code)
                 {
-                    var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language);
-                    if (optionLabel == null)
+                    var allCodes = questionPart.QuestionOptions.Select(o => o.Code);
+                    if (!allCodes.Contains(code))
                     {
-                        option.QuestionOptionLabels.Add(new QuestionOptionLabel()
-                        {
-                            Language = language,
-                            Value = value,
-                            QuestionOption = option
-                        });
+                        option.Code = code;
                     }
                     else
                     {
-                        var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
-                        if (!allLabels.Contains(value))
-                        {
-                            optionLabel.Value = value;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Cannot have duplicate options");
-                        }
+                        throw new ArgumentException("Cannot have duplicate options!");
                     }
                 }
+                var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language );
+                if (optionLabel == null)
+                {
+                    option.QuestionOptionLabels.Add(new QuestionOptionLabel()
+                    {
+                        Language = language,
+                        Value = value,
+                        QuestionOption = option
+                    });
+                }
+                else
+                {
+                    var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name && q.Id != id).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
+                    if (!allLabels.Contains(value))
+                    {
+                        optionLabel.Value = value;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Cannot have duplicate options");
+                    }
+                }
+                
                 return option;
             }
             else
             {
-                return this.AddQuestionOption(questionPart, name, value, language);
+                return this.AddQuestionOption(questionPart, code, name, value, language);
             }
         }
 
@@ -186,7 +205,7 @@ namespace TRAISI.Services
         /// <param name="part"></param>
         /// <param name="name"></param>
         /// <param name="language"></param>
-        public QuestionOption AddQuestionOption(QuestionPart part, string name, string value, string language = null)
+        public QuestionOption AddQuestionOption(QuestionPart part, string code, string name, string value, string language = null)
         {
             //check if the option has a value / allows multiple
 
@@ -198,6 +217,13 @@ namespace TRAISI.Services
 
                 if (definition.QuestionOptions.Keys.Contains(name))
                 {
+                    //ensure code hasn't been used already
+                    var allCodes = part.QuestionOptions.Select(o => o.Code);
+                    if (allCodes.Contains(code))
+                    {
+                        throw new ArgumentException("Cannot have duplicate options");
+                    }
+
                     var allLabels = part.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
                     if (allLabels.Contains(value))
                     {
@@ -206,6 +232,7 @@ namespace TRAISI.Services
                     var newOption = new QuestionOption()
                     {
                         Name = name,
+                        Code = code,
                         Order = part.QuestionOptions.Count(o => o.Name == name),
                         QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
                             {
@@ -443,7 +470,7 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="questionPartView"></param>
         /// <param name="newOrder"></param>
-        public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder, int questionPartViewMovedId)
+        public void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder)
         {
             Dictionary<int, int> newOrderDict = newOrder.ToDictionary(r => r.Id, r => r.Order);
             foreach (var qpartView in questionPartView.QuestionPartViewChildren)

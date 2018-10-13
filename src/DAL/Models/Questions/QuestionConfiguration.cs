@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Extensions;
 using DAL.Models.Questions;
 using TRAISI.SDK.Enums;
+using Newtonsoft.Json;
 
 namespace DAL.Models.Questions
 {
@@ -10,6 +11,7 @@ namespace DAL.Models.Questions
     /// </summary>
     public class QuestionConfiguration : IQuestionConfiguration
     {
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

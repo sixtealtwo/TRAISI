@@ -16,9 +16,9 @@ namespace TRAISI.Services.Interfaces
 
         QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
-        QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string name, string value, string language);
+        QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string code, string name, string value, string language);
 
-        QuestionOption AddQuestionOption(QuestionPart questionPart, string name, string value, string language);
+        QuestionOption AddQuestionOption(QuestionPart questionPart, string code, string name, string value, string language);
 
         void RemoveQuestionConfiguration(QuestionPart questionPart, string name);
 
@@ -54,9 +54,11 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveQuestionPartView(QuestionPartView questionPartView, int childQuestionPartViewId, bool transfer);
 
-        void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder, int questionPartViewMovedId);
+        void ReOrderQuestions(QuestionPartView questionPartView, List<QuestionPartView> newOrder);
 
         void ValidateConditionals(SurveyView structure, int questionPartViewMovedId);
+
+        // void ValidateHouseholdFlag(SurveyView structure, int questionPartViewModedId);
 
         void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals);
 
