@@ -91,7 +91,7 @@ namespace TRAISI.Controllers
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
 			if(survey.Owner == this.User.Identity.Name || await HasExecuteSurveyPermissions(id))
 			{
-				string code = this._fileDownloader.CodeFunction();
+				string code = this._fileDownloader.GenerateFileCode();
 				this._fileDownloader.WriteShortcodeFile(code, this.User.Identity.Name, mode, survey);
 				return Ok(code);
 			}
@@ -114,7 +114,7 @@ namespace TRAISI.Controllers
 			var survey = await this._unitOfWork.Surveys.GetAsync(id);
 			if(survey.Owner == this.User.Identity.Name || await HasExecuteSurveyPermissions(id))
 			{
-				string code = this._fileDownloader.CodeFunction();
+				string code = this._fileDownloader.GenerateFileCode();
 				this._fileDownloader.WriteGroupCodeFile(code, this.User.Identity.Name, mode, survey);
 				return Ok(code);
 			}

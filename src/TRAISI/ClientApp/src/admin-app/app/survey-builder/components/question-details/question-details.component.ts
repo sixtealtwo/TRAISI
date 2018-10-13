@@ -16,8 +16,9 @@ import { Order } from '../../models/order.model';
 })
 export class QuestionDetailsComponent implements OnInit {
 	public items: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
+	public pendingOption: QuestionOptionValue;
 	public savedItems: Map<number, string> = new Map<number, string>();
-	public changeMade = [];
+
 	public addingOption: boolean = false;
 	public reordering: boolean = true;
 
@@ -48,13 +49,7 @@ export class QuestionDetailsComponent implements OnInit {
 				if (options !== null) {
 					options.forEach(option => {
 						this.items.get(option.name).push(option);
-						this.savedItems.set(option.id, option.optionLabel.value);
-					});
-
-					Object.keys(qOptions).forEach(qName => {
-						if (this.items.get(qName).length === 0) {
-							this.addOption(qName);
-						}
+						this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
 					});
 				}
 				this.reordering = false;
@@ -65,6 +60,7 @@ export class QuestionDetailsComponent implements OnInit {
 		);
 	}
 
+	
 	public getOptionPayload(index: number) {
 		return this.items[index];
 	}
@@ -87,31 +83,44 @@ export class QuestionDetailsComponent implements OnInit {
 	}
 
 	public optionChanged(item: QuestionOptionValue): boolean {
-		return this.savedItems.get(item.id) !== item.optionLabel.value;
+		return this.savedItems.get(item.id) !== `${item.code}|${item.optionLabel.value}`;
 	}
 
 	public updateQuestionOrder(options: QuestionOptionValue[]) {
 		options.forEach((q, index) => (q.order = index));
 	}
 
-	public addOption(optionDefName: string) {
-		this.addingOption = true;
-		let optionOrder = this.items.get(optionDefName).length;
-		let newOption = new QuestionOptionValue(
-			0,
-			optionDefName,
-			new QuestionOptionLabel(0, `Option ${optionOrder + 1}`, this.language),
-			optionOrder
-		);
-		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, newOption).subscribe(
+	public savePendingOption() {
+		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOption).subscribe(
 			addedOption => {
-				this.items.get(optionDefName).push(addedOption);
-				this.savedItems.set(addedOption.id, addedOption.optionLabel.value);
-				this.addingOption = false;
+				this.items.get(this.pendingOption.name).push(addedOption);
+				this.savedItems.set(addedOption.id, `${addedOption.code}|${addedOption.optionLabel.value}`);
+				this.pendingOption = undefined;
+				// this.addingOption = false;
 			},
 			error => {
-				this.addingOption = false;
+		  	// 	this.addingOption = false;
 			}
+		);
+	}
+
+	public pendingOptionValid(): boolean {
+		return this.pendingOption.code !== '' && this.pendingOption.optionLabel.value !== '';
+	}
+
+	public deletePendingOption(): void {
+		this.pendingOption = undefined;
+	}
+
+	public addOption(optionDefName: string) {
+		// this.addingOption = true;
+		let optionOrder = this.items.get(optionDefName).length;
+		this.pendingOption = new QuestionOptionValue(
+			0,
+			'',
+			optionDefName,
+			new QuestionOptionLabel(0, '', this.language),
+			optionOrder
 		);
 	}
 
@@ -131,7 +140,7 @@ export class QuestionDetailsComponent implements OnInit {
 	public saveOption(option: QuestionOptionValue) {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe(
 			result => {
-				this.savedItems.set(option.id, option.optionLabel.value);
+				this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
 			},
 			error => {
 				this.alertService.showMessage(

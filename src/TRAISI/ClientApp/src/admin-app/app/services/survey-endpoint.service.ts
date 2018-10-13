@@ -118,4 +118,14 @@ export class SurveyEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
+	public getExportSurveyEndpoint<T>(surveyId: number): Observable<T> {
+		const endpointUrl = `${this.surveysUrl}/${surveyId}/Export`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getExportSurveyEndpoint(surveyId));
+			})
+		);
+	}
 }

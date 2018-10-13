@@ -90,7 +90,8 @@
 			"ManageSurveys": "Manage Surveys",
 			"Solo": "Solo",
 			"Shared": "Shared",
-      "NewSurvey": "New Survey",
+			"NewSurvey": "New Survey",
+			"ImportSurvey": "Import Survey",
 			"Search": "Search for survey...",
 			"Edit": "Edit",
 			"Delete": "Delete",
@@ -141,7 +142,9 @@
       "Edit": "Edit",
       "Cancel": "Cancel",
       "Save": "Save",
-      "Saving": "Saving..."
+			"Saving": "Saving...",
+			"Import": "Import",
+      "Importing": "Importing..."
     }
   },
   "roles": {

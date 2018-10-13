@@ -114,7 +114,7 @@ export class SurveyBuilderService {
 				})
 			);
 	}
-	
+
 
 	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[]): TreeviewItem[] {
 		if (items !== null) {
@@ -122,7 +122,7 @@ export class SurveyBuilderService {
 				let prefix = `${item.label}`;
 				let treeItem: TreeItem = {
 					text: `${prefix}`,
-					value: `${item.type}|${item.id}`,
+					value: `${item.type}~${item.id}`,
 					children: this.convertSurveyQuestionsStructureToTreeItems(item.children),
 					checked: false
 				};

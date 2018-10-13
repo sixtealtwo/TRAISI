@@ -131,7 +131,7 @@ namespace DAL
             builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne(q => q.QuestionPartParent).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);

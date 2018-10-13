@@ -21,6 +21,8 @@ using TRAISI.ViewModels.SurveyBuilder;
 using TRAISI.ViewModels.Questions;
 using TRAISI.Services.Interfaces;
 using DAL.Models.Extensions;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace TRAISI.Controllers
 {
@@ -421,7 +423,7 @@ namespace TRAISI.Controllers
                     try
                     {
                         var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
-                        var option = this._surveyBuilderService.SetQuestionOptionLabel(questionPart, newOption.Id, newOption.Name, newOption.OptionLabel.Value, newOption.OptionLabel.Language);
+                        var option = this._surveyBuilderService.SetQuestionOptionLabel(questionPart, newOption.Id, newOption.Code, newOption.Name, newOption.OptionLabel.Value, newOption.OptionLabel.Language);
                         await this._unitOfWork.SaveChangesAsync();
                         return Ok(option.ToLocalizedModel<QuestionOptionValueViewModel>(newOption.OptionLabel.Language));
                     }
@@ -477,7 +479,15 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
-
+        /// <summary>
+        /// Updates the order of question part views
+        /// </summary>
+        /// <param name="surveyId">Id of the survey</param>
+        /// <param name="surveyViewName">Name of Survey View</param>
+        /// <param name="questionPartViewId">Id of parent view (page or section)</param>
+        /// <param name="questionPartViewMovedId">Id of part view that was moved</param>
+        /// <param name="questionOrder">List of updated order of question part views</param>
+        /// <returns></returns>
         [HttpPut("{surveyId}/PartStructure/{surveyViewName}/{questionPartViewId}/UpdateOrder/{questionPartViewMovedId}")]
         public async Task<IActionResult> UpdateQuestionPartViewOrder(int surveyId, string surveyViewName, int questionPartViewId, int questionPartViewMovedId, [FromBody] List<SBOrderViewModel> questionOrder)
         {
@@ -488,10 +498,12 @@ namespace TRAISI.Controllers
                 {
                     var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
                     List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
-                    this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder, questionPartViewMovedId);
+                    this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
                     this._unitOfWork.SaveChanges();
                     var findpartview = questionPartViewStructure.QuestionPartViewChildren.FirstOrDefault(c => c.Id == questionPartViewMovedId);
                     var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
+
+                    //if a section was moved, validate/update conditionals on child questions; otherwise validate the conditonals on the question
                     if (findpartview.QuestionPartViewChildren.Count > 0)
                     {
                         foreach (var child in findpartview.QuestionPartViewChildren)

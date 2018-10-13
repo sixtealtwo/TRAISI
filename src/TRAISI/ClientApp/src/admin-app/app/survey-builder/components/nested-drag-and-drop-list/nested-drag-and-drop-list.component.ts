@@ -32,19 +32,21 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
 	private dragDidNotOriginateFromChooser: boolean = false;
+	private updateStructure: boolean = true;
 	private fullStructure: TreeviewItem[] = [];
+	private startingNumber: number = 0;
 
 	@Input()
-	surveyId: number;
+	public surveyId: number;
 	@Input()
-	currentLanguage: string;
+	public currentLanguage: string;
 	@Input()
-	qTypeDefinitions: Map<string, QuestionTypeDefinition>;
+	public qTypeDefinitions: Map<string, QuestionTypeDefinition>;
 
 	@Input()
-	householdAdded: boolean = false;
+	public householdAdded: boolean = false;
 	@Output()
-	householdAddedChange = new EventEmitter();
+	public householdAddedChange = new EventEmitter();
 
 	@ViewChild('configurationModal')
 	configurationModal: ModalDirective;
@@ -56,8 +58,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 	}
 
-	ngOnInit() {
-		let sectionType: QuestionTypeDefinition = {
+	public ngOnInit(): void {
+		const sectionType: QuestionTypeDefinition = {
 			typeName: 'Survey Part',
 			icon: 'fas fa-archive',
 			questionOptions: {},
@@ -70,13 +72,33 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
-		this.surveyBuilderService
-		.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
-		.subscribe(treelist => {
-			this.fullStructure = treelist;
-			this.processHouseholdCheck();
-			this.householdAddedChange.emit(this.householdAdded);
-		});
+		
+	}
+
+	public updateFullStructure(forceUpdate: boolean = false): void {
+		if (this.updateStructure || forceUpdate) {
+			this.surveyBuilderService
+				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
+				.subscribe(treelist => {
+					this.fullStructure = treelist;
+					this.processHouseholdCheck();
+					this.householdAddedChange.emit(this.householdAdded);
+					this.updateStructure = false;
+					this.updateQuestionOffset();
+				});
+		} else {
+			this.updateQuestionOffset();
+		}
+	}
+
+	private updateQuestionOffset(): void {
+		this.startingNumber = 0;
+		let pageIndex: number = 0;
+
+		while (this.fullStructure[pageIndex].text !== this.currentPage.label.value) {
+			this.startingNumber += this.fullStructure[pageIndex++].children.length;
+		}
+
 	}
 
 	processHouseholdCheck() {
@@ -90,7 +112,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	processHouseholdCheckItems(items: TreeviewItem[]) {
 		items.forEach(item => {
 			if (this.householdAdded === false) {
-				if (item.value.split('|')[1] === 'household'){
+				if (item.value.split('~')[1] === 'household'){
 					this.householdAdded = true;
 				} else if (item.children && item.children.length > 0) {
 					this.processHouseholdCheckItems(item.children);
@@ -208,6 +230,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 							this.currentPage.questionPartViewChildren.push(newQuestion);
 						}
 					}
+					this.updateStructure = true;
 					this.configurationModal.hide();
 				},
 				error => {
@@ -468,6 +491,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	updateQuestionOrder(parentView: QuestionPartView) {
 		parentView.questionPartViewChildren.forEach((q, index) => (q.order = index));
+		this.updateStructure = true;
 	}
 
 	onDragEnd(event) {

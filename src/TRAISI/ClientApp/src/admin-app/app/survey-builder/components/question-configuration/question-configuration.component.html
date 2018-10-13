@@ -170,7 +170,7 @@
 				</ng-container>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="conditionals" aria-labelledby="conditionals-tab" aria-expanded="true">
-				<app-question-conditionals #conditionals *ngIf="conditionalsLoaded && questionBeingEdited.id != 0" [sourceQuestionConditionals]="sourceQuestionConditionals"
+				<app-question-conditionals #conditionals *ngIf="conditionalsLoaded && questionBeingEdited.id != 0" [questionOptions]="questionOptions" [sourceQuestionConditionals]="sourceQuestionConditionals"
 				 [sourceQuestionOptionConditionals]="sourceQuestionOptionConditionals" [questionOptionsAfter]="questionOptionsAfter" [questionsBefore]="questionsBefore"
 				 [thisQuestion]="thisQuestion" [questionType]="questionType" [questionBeingEdited]="questionBeingEdited"></app-question-conditionals>
 				<div *ngIf="questionBeingEdited.id == 0">Conditionals are avaialble for a question only after being added to the survey.</div>

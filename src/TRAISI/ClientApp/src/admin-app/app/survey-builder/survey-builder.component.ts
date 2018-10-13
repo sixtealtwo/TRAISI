@@ -285,6 +285,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			.subscribe(page => {
 				this.currentSurveyPage = page;
 				this.surveyPage.currentPage = page;
+				this.surveyPage.updateFullStructure(true);
 				this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
 				page.questionPartViewChildren.forEach(qc => {
 					if (qc.questionPart === null) {
@@ -421,9 +422,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						this.surveyBuilderService
 							.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
 							.subscribe(
-								result => {},
+								result => {
+									this.surveyPage.updateFullStructure(true);
+								},
 								error => {
-									this.loadPageStructure();
+									this.allPages = pageCache;
+									this.surveyPage.updateFullStructure(true);
 								}
 							);
 					}

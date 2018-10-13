@@ -89,7 +89,8 @@
 			"ManageSurveys": "Gérer les sondages",
 			"Solo": "Solo",
 			"Shared": "Partagé",
-      "NewSurvey": "Nouvelle enquête",
+			"NewSurvey": "Nouvelle enquête",
+			"ImportSurvey": "Enquête d'importation",
 			"Search": "Recherche de sondage...",
 			"Edit": "Modif.",
 			"Delete": "Supp.",
@@ -137,7 +138,9 @@
       "Edit": "Modifier",
       "Cancel": "Annuler",
       "Save": "Enregistrer",
-      "Saving": "En cours d'enregistrement..."
+			"Saving": "En cours d'enregistrement...",
+			"Import": "Importer",
+      "Importing": "Importation..."
     }
   },
   "roles": {

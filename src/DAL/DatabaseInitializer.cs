@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using DAL.Models.Questions;
+using Newtonsoft.Json;
 
 namespace DAL
 {
@@ -90,10 +92,16 @@ namespace DAL
                 _context.UserGroups.Add(TTS);
                 _context.UserGroups.Add(SMTO);
 
-                
+                Survey TTSSurvey;
+                using (StreamReader r = new StreamReader("structure.json"))
+                {
+                    var jsonFile = r.ReadToEnd();
+                    TTSSurvey = JsonConvert.DeserializeObject<Survey>(jsonFile, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects});
+                }
 
+               _context.Surveys.Add(TTSSurvey);
                 await _context.SaveChangesAsync();
-
+                
                 _logger.LogInformation("Seeding initial data completed");
             }
         }

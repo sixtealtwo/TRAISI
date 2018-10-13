@@ -75,6 +75,6 @@ export class DropdownTreeviewSelectComponent implements OnChanges {
 	}
 
 	public getItemType(value: string) {
-		return value.split('|')[0];
+		return value.split('~')[0];
 	}
 }

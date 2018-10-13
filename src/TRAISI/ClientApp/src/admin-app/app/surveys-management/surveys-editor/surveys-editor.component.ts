@@ -1,10 +1,13 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { SurveyService } from '../../services/survey.service';
 import { Survey } from '../../models/survey.model';
 import { UserGroupService } from '../../services/user-group.service';
 import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { Select2OptionData } from 'ng2-select2';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { FileUploader, FileUploaderOptions, FileItem, Headers } from 'ng2-file-upload';
+import { ConfigurationService } from '../../../../shared/services/configuration.service';
+import { AuthService } from '../../../../shared/services';
 
 @Component({
 	selector: 'app-surveys-editor',
@@ -20,9 +23,9 @@ export class SurveysEditorComponent implements OnInit {
 
 	public model: Survey = new Survey();
 	public editMode: boolean = false;
-	public isNewSurvey = false;
-	public canDeleteSurvey = false;
-	public isSaving = false;
+	public isNewSurvey: boolean = false;
+	public canDeleteSurvey: boolean = false;
+	public isSaving: boolean = false;
 
 	public groupsOptions: Array<Select2OptionData>;
 	public selectedGroup: string;
@@ -38,12 +41,33 @@ export class SurveysEditorComponent implements OnInit {
 		}
 	);
 
+	private importOptions: FileUploaderOptions = {
+		autoUpload: false,
+		allowedFileType: ['zip'],
+		authTokenHeader: 'Authorization',
+		queueLimit: 1
 
-	@ViewChild('f') private form;
+	}
+	public uploader: FileUploader = new FileUploader({ url: this.configurationService.baseUrl + '/api/survey/import'});
+	public importFile: FileItem;
 
-	constructor(private alertService: AlertService, private userGroupService: UserGroupService, private surveyService: SurveyService) {}
+	@Input()
+	public importing: boolean = false;
 
-	ngOnInit() {}
+	@ViewChild('f')
+	private form;
+
+	constructor(
+		private alertService: AlertService,
+		private userGroupService: UserGroupService,
+		private surveyService: SurveyService,
+		private configurationService: ConfigurationService,
+		private authService: AuthService
+	) {}
+
+	public ngOnInit(): void {
+
+	}
 
 	/**
 	 * Called when the new survey form is submitted.
@@ -51,17 +75,49 @@ export class SurveysEditorComponent implements OnInit {
 	public onNewSurveyFormSubmit(): void {
 		this.isSaving = true;
 		if (!this.editMode) {
-			this.surveyService.createSurvey(this.model).subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+			if (this.importing) {
+				this.uploader.authToken = `Bearer ${this.authService.accessToken}`;
+				let surveyInfo: Headers = {
+					name: 'parameters',
+					value: JSON.stringify(this.model)
+				};
+				this.uploader.options.headers = [surveyInfo];
+				this.uploader.onSuccessItem = (item, response, status, headers) => {
+					if (this.changesSavedCallback) {
+						this.changesSavedCallback();
+						this.isSaving = false;
+					}
+				};
+				this.uploader.onErrorItem = (item, response, status, headers) => {
+					if (this.changesFailedCallback) {
+						this.changesFailedCallback();
+						this.isSaving = false;
+					}
+				};
+				this.uploader.uploadAll();
+
+
+			} else {
+			this.surveyService
+				.createSurvey(this.model)
+				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+			}
 		} else {
-			this.surveyService.editSurvey(this.model).subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+			this.surveyService
+				.editSurvey(this.model)
+				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
 		}
 	}
 
-	private saveSuccessHelper() {
+	private saveSuccessHelper(): void {
 		this.alertService.stopLoadingMessage();
 		this.isSaving = false;
 		if (this.isNewSurvey) {
-			this.alertService.showMessage('Success', `Survey \"${this.model.name}\" was created successfully`, MessageSeverity.success);
+			this.alertService.showMessage(
+				'Success',
+				`Survey \"${this.model.name}\" was created successfully`,
+				MessageSeverity.success
+			);
 		} else {
 			this.alertService.showMessage(
 				'Success',
@@ -114,5 +170,12 @@ export class SurveysEditorComponent implements OnInit {
 	public updateGroup(e: any): void {
 		this.model.group = e.value;
 		this.selectedGroup = e.value;
+	}
+
+	public setImportFile(files: FileItem[]): void {
+		this.importFile = files[0];
+		while (this.uploader.queue.length > 1) {
+			this.uploader.removeFromQueue(this.uploader.queue[0]);
+		}
 	}
 }

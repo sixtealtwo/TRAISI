@@ -13,7 +13,10 @@ using Microsoft.Extensions.Options;
 using TRAISI.Helpers;
 using TRAISI.ViewModels;
 using Microsoft.AspNetCore.SignalR;
-
+using System.IO;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
+using FluentValidation.Results;
 
 namespace TRAISI.Controllers
 {
@@ -23,17 +26,18 @@ namespace TRAISI.Controllers
 	{
 
 		private readonly IUnitOfWork _unitOfWork;
-    private readonly IHubContext<NotifyHub> _notifyHub;
+        private readonly IHubContext<NotifyHub> _notifyHub;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
+        private readonly IFileDownloader _fileDownloader;
 
-		public SurveyController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
+        public SurveyController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
             this._notifyHub = notifyHub;
-            
+            this._fileDownloader = fileDownloaderService;
 		}
 
 		/// <summary>
@@ -60,7 +64,6 @@ namespace TRAISI.Controllers
 					return BadRequest("User does not have permissions to access survey.");
 				}
 			}
-
 		}
 
 		/// <summary>
@@ -239,14 +242,97 @@ namespace TRAISI.Controllers
 
 			}
 		}
-	
-		/// <summary>
-		/// Get user permissions for given survey
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="userName"></param>
-		/// <returns></returns>
-		[HttpGet("{id}/permissions/{userName}")]
+
+        [HttpGet("{id}/export")]
+        [Produces(typeof(string))]
+        public async Task<IActionResult> ExportSurvey(int id)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(id);
+
+            if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin() || await IsGroupAdmin(survey.Group))
+            {
+                string code = this._fileDownloader.GenerateFileCode();
+                this._fileDownloader.ExportSurvey(code, this.User.Identity.Name, survey);
+                return Ok(code);
+            }
+            else
+            {
+                return BadRequest("User does not have permissions to download this survey.");
+            }
+        }
+
+        [HttpPost("import"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ImportSurvey()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                if (Request.Headers.ContainsKey("parameters"))
+                {
+                    SurveyViewModel surveyParameters = JsonConvert.DeserializeObject<SurveyViewModel>(Request.Headers["parameters"]);
+                    SurveyViewModelValidator parameterValidator = new SurveyViewModelValidator();
+                    ValidationResult validParameters = parameterValidator.Validate(surveyParameters);
+                    if (validParameters.IsValid)
+                    {
+
+                        var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(surveyParameters.Group);
+
+                        if (group == null)
+                        {
+                            return BadRequest("Group does not exist.");
+                        }
+                        else
+                        {
+                            if (await IsSuperAdmin() || await this.MemberOfGroup(group.Id))
+                            {
+                                Survey imported = await this._fileDownloader.ExtractSurveyImportAsync(file, this.User.Identity.Name);
+                                imported.Owner = this.User.Identity.Name;
+                                imported.Name = surveyParameters.Name;
+                                imported.Code = surveyParameters.Code;
+                                imported.Group = surveyParameters.Group;
+                                imported.RejectionLink = surveyParameters.RejectionLink;
+                                imported.SuccessLink = surveyParameters.SuccessLink;
+                                imported.StartAt = surveyParameters.StartAt;
+                                imported.EndAt = surveyParameters.EndAt;
+                                imported.IsActive = surveyParameters.IsActive;
+                                imported.IsOpen = surveyParameters.IsOpen;
+
+                                this._unitOfWork.Surveys.Add(imported);
+                                await this._unitOfWork.SaveChangesAsync();
+                                return new OkResult();
+                            }
+                            else
+                            {
+                                return BadRequest("User must be a member of the group to create the survey.");
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        AddErrors(validParameters.Errors.Select(e => e.ErrorMessage));
+                        return BadRequest(ModelState);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Missing Code Generation Parameters");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest("Import Failed: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get user permissions for given survey
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/permissions/{userName}")]
 		[Produces(typeof(List<SurveyPermissionViewModel>))]
 		public async Task<IActionResult> GetUserSurveyPermissions(int id, string userName)
 		{
@@ -357,5 +443,13 @@ namespace TRAISI.Controllers
 			bool memberOfGroup = groupMembers.Where(m => m.Item1.UserName == this.User.Identity.Name).Any();
 			return memberOfGroup;
 		}
-	}
+
+        private void AddErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+        }
+    }
 }

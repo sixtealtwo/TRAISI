@@ -20,7 +20,7 @@
 					</li>
 				</smooth-dnd-draggable>
 				<ng-container *ngFor="let item of questionTypeDefinitions">
-					<smooth-dnd-draggable *ngIf="!(item.typeName == 'household' && householdAdded)">
+					<smooth-dnd-draggable [hidden]="(item.typeName == 'household' && householdAdded)">
 						<li class="chooser">
 							<a (click)="addQuestionTypeToList(item)">
 								<span class="icon" [tooltip]="getQuestionTypeName(item)" placement="right" container="body" containerClass="tooltip-builder">
