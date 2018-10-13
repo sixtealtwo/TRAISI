@@ -225,6 +225,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 	public ngAfterViewInit(): void {
 		this.surveyEditor.changesSavedCallback = () => {
+			this.importing = false;
 			Object.assign(this.model, this.editModel);
 			this.editorModal.hide();
 			this.surveyService.listSurveys().subscribe(surveys => {
@@ -238,6 +239,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		};
 
 		this.surveyEditor.changesCancelledCallback = () => {
+			this.importing = false;
 			this.model = null;
 			this.editModel = null;
 			this.editorModal.hide();
@@ -319,8 +321,8 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 	public importSurvey(): void {
 		this.surveyEditMode = false;
-		this.importing = true;
 		this.surveyEditor.isNewSurvey = true;
+		this.importing = true;
 		this.editorModal.show();
 	}
 

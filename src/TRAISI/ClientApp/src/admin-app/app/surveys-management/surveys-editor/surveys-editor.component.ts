@@ -5,7 +5,7 @@ import { UserGroupService } from '../../services/user-group.service';
 import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { Select2OptionData } from 'ng2-select2';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { FileUploader, FileUploaderOptions, FileItem, Headers } from 'ng2-file-upload';
+import { FileUploader, FileUploaderOptions, FileItem, Headers, FileLikeObject } from 'ng2-file-upload';
 import { ConfigurationService } from '../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../shared/services';
 
@@ -43,19 +43,22 @@ export class SurveysEditorComponent implements OnInit {
 
 	private importOptions: FileUploaderOptions = {
 		autoUpload: false,
-		allowedFileType: ['zip'],
+		allowedFileType: ['compress'],
 		authTokenHeader: 'Authorization',
-		queueLimit: 1
+		queueLimit: 1,
+		url: this.configurationService.baseUrl + '/api/survey/import',
+		removeAfterUpload: true
 
-	}
-	public uploader: FileUploader = new FileUploader({ url: this.configurationService.baseUrl + '/api/survey/import'});
-	public importFile: FileItem;
+	};
+
+	public uploader: FileUploader = new FileUploader(this.importOptions);
+	public importFile: FileLikeObject;
 
 	@Input()
 	public importing: boolean = false;
 
 	@ViewChild('f')
-	private form;
+	private form: any;
 
 	constructor(
 		private alertService: AlertService,
@@ -86,12 +89,14 @@ export class SurveysEditorComponent implements OnInit {
 					if (this.changesSavedCallback) {
 						this.changesSavedCallback();
 						this.isSaving = false;
+						this.importFile = undefined;
 					}
 				};
 				this.uploader.onErrorItem = (item, response, status, headers) => {
 					if (this.changesFailedCallback) {
 						this.changesFailedCallback();
 						this.isSaving = false;
+						this.importFile = undefined;
 					}
 				};
 				this.uploader.uploadAll();
@@ -132,7 +137,7 @@ export class SurveysEditorComponent implements OnInit {
 		}
 	}
 
-	private saveFailedHelper(error: any) {
+	private saveFailedHelper(error: any): void {
 		this.isSaving = false;
 		this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
@@ -148,11 +153,11 @@ export class SurveysEditorComponent implements OnInit {
 		}
 	}
 
-	public cancel() {
+	public cancel(): void {
 		this.model = new Survey();
 
 		this.form.reset();
-
+		this.importFile = undefined;
 		this.alertService.showMessage('Cancelled', 'Operation cancelled by user', MessageSeverity.default);
 		this.alertService.resetStickyMessage();
 
@@ -172,10 +177,12 @@ export class SurveysEditorComponent implements OnInit {
 		this.selectedGroup = e.value;
 	}
 
-	public setImportFile(files: FileItem[]): void {
-		this.importFile = files[0];
-		while (this.uploader.queue.length > 1) {
-			this.uploader.removeFromQueue(this.uploader.queue[0]);
+	public setImportFile(files: FileLikeObject[]): void {
+		if (files[0] && files[0].type === 'application/x-zip-compressed') {
+			this.importFile = files[0];
+			while (this.uploader.queue.length > 1) {
+				this.uploader.removeFromQueue(this.uploader.queue[0]);
+			}
 		}
 	}
 }

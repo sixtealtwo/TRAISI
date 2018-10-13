@@ -48,11 +48,18 @@ $black: #000 !default;
 $gray-light: #ddd !default;
 
 
-$blue: #5d8fc2 !default;
+/*$blue: #5d8fc2 !default;
 $red: #dd5826 !default;
 $yellow: #f0b518 !default;
 $green: #64bd63 !default;
 $cyan: #5dc4bf !default;
+*/
+
+$blue: #01688b !default;
+$red: #c11029 !default;
+$yellow: #fec939 !default;
+$green: #64bd63 !default;
+$cyan: #1389c1 !default;
 
 $theme-colors: (
   primary: $blue,
@@ -129,7 +136,7 @@ $sidebar-bg-color: #242424;
 $sidebar-color: #aaa;
 
 $sidebar-item-border-color: transparent;
-$sidebar-item-active-color: #f2be35;
+$sidebar-item-active-color: $yellow;
 $sidebar-item-hover-bg-color: #111;
 
 $chat-sidebar-bg-color: $gray-900 !default;
