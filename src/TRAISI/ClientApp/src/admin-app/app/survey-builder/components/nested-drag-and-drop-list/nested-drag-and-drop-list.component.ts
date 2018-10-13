@@ -32,7 +32,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
 	private dragDidNotOriginateFromChooser: boolean = false;
+	private updateStructure: boolean = true;
 	private fullStructure: TreeviewItem[] = [];
+	private startingNumber: number = 0;
 
 	@Input()
 	public surveyId: number;
@@ -70,13 +72,33 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
-		this.surveyBuilderService
-		.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
-		.subscribe(treelist => {
-			this.fullStructure = treelist;
-			this.processHouseholdCheck();
-			this.householdAddedChange.emit(this.householdAdded);
-		});
+		
+	}
+
+	public updateFullStructure(forceUpdate: boolean = false): void {
+		if (this.updateStructure || forceUpdate) {
+			this.surveyBuilderService
+				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, 'en')
+				.subscribe(treelist => {
+					this.fullStructure = treelist;
+					this.processHouseholdCheck();
+					this.householdAddedChange.emit(this.householdAdded);
+					this.updateStructure = false;
+					this.updateQuestionOffset();
+				});
+		} else {
+			this.updateQuestionOffset();
+		}
+	}
+
+	private updateQuestionOffset(): void {
+		this.startingNumber = 0;
+		let pageIndex: number = 0;
+
+		while (this.fullStructure[pageIndex].text !== this.currentPage.label.value) {
+			this.startingNumber += this.fullStructure[pageIndex++].children.length;
+		}
+
 	}
 
 	processHouseholdCheck() {
@@ -208,6 +230,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 							this.currentPage.questionPartViewChildren.push(newQuestion);
 						}
 					}
+					this.updateStructure = true;
 					this.configurationModal.hide();
 				},
 				error => {
@@ -468,6 +491,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	updateQuestionOrder(parentView: QuestionPartView) {
 		parentView.questionPartViewChildren.forEach((q, index) => (q.order = index));
+		this.updateStructure = true;
 	}
 
 	onDragEnd(event) {

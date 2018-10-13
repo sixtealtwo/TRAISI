@@ -13,6 +13,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ROUTES } from './surveys-management.routes';
 import { SurveysManagementComponent } from './surveys-management.component';
 import { BsDatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { FileUploadModule } from 'ng2-file-upload';
 import { SurveysEditorComponent } from './surveys-editor/surveys-editor.component';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SurveysEditorComponent } from './surveys-editor/surveys-editor.componen
 		FormsModule,
 		Select2Module,
 		SharedModule,
+		FileUploadModule,
 		ROUTES,
 		TranslateModule.forChild({
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }

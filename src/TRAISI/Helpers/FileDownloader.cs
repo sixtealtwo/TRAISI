@@ -17,6 +17,7 @@ using Hangfire;
 using Hangfire.Common;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using Microsoft.AspNetCore.Http;
 
 namespace TRAISI.Helpers
 {
@@ -24,6 +25,7 @@ namespace TRAISI.Helpers
     {
         string GenerateFileCode();
         void ExportSurvey(string code, string userName, Survey survey);
+        Task<Survey> ExtractSurveyImportAsync(IFormFile importFile, string userName);
         void WriteShortcodeFile(string code, string userName, string mode, Survey survey);
         void WriteGroupCodeFile(string code, string userName, string mode, Survey survey);
 
@@ -87,6 +89,51 @@ namespace TRAISI.Helpers
                     BackgroundJob.Schedule(() => Directory.Delete(newPath, true), TimeSpan.FromSeconds(30));
                 }
             });
+        }
+
+        public async Task<Survey> ExtractSurveyImportAsync(IFormFile importFile, string userName)
+        {
+            Survey importSurvey = null;
+
+            string folderName = "Upload";
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string code = this.GenerateFileCode();
+            string newPath = Path.Combine(webRootPath, folderName, userName, code);
+            string expandDirectory = Path.Combine(newPath, "Import");
+            string zipFileName = Path.Combine(newPath, $"SurveyImport.zip");
+
+            if (!Directory.Exists(expandDirectory))
+            {
+                Directory.CreateDirectory(expandDirectory);
+            }
+
+            using (FileStream fileStream = new FileStream(zipFileName, FileMode.Create))
+            {
+                await importFile.CopyToAsync(fileStream);
+            }
+
+
+
+            ZipFile.ExtractToDirectory(zipFileName, expandDirectory);
+
+            var files = Directory.EnumerateFiles(expandDirectory);
+
+            foreach (string file in files)
+            {
+                if (file.EndsWith(".json"))
+                {
+                    using (StreamReader r = new StreamReader(file))
+                    {
+                        var jsonFile = r.ReadToEnd();
+                        importSurvey = JsonConvert.DeserializeObject<Survey>(jsonFile, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+                    }
+                    break;
+                }
+            }
+
+            Directory.Delete(newPath, true);
+
+            return importSurvey;
         }
 
         public void WriteShortcodeFile(string code, string userName, string mode, Survey survey)

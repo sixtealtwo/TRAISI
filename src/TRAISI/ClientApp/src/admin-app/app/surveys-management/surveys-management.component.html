@@ -27,7 +27,7 @@
 			<div class="tab-content mb-lg" id="myTabContent">
 				<div role="tabpanel" class="tab-pane active in clearfix" id="solo" aria-labelledby="solo-tab" aria-expanded="true">
 					<div class="row ">
-						<div class="col-sm-4">
+						<div class="col-sm-8">
 							<div class="form-group search-box">
 								<search-input (searchChange)="onSearchChanged($event)" placeholder="{{'surveys.management.Search' | translate}}"></search-input>
 							</div>
@@ -39,37 +39,38 @@
 						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
 							<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
 								<div class="surveyDetails">
-									<div class="row justify-content-end">
-										<div class="surveyAction" (click)="editSurvey(row)">
-											<div class="surveyActionLabel"><strong>Settings</strong></div>
-											<div>
+									<div class="row justify-content-between pl-3 pr-3">
+										<button class="btn btn-gray col" (click)="editSurvey(row)">
+											<span>
 												<i class="fas fa-cog" aria-hidden="true"></i>
-											</div>
-										</div>
-										<div class="surveyAction" [routerLink]="['/app/survey-builder',row.id]">
-											<div class="surveyActionLabel"><strong>Design</strong></div>
-											<div>
+											</span> Settings
+										</button>
+										<button class="btn btn-primary col" [routerLink]="['/app/survey-builder',row.id]">
+											<span>
 												<i class="fas fa-edit" aria-hidden="true"></i>
-											</div>
-										</div>
-										<div class="surveyAction" [routerLink]="['/app/survey-execute',row.id]">
-											<div class="surveyActionLabel"><strong>Execute</strong></div>
-											<div>
+											</span> Design
+										</button>
+										<button class="btn btn-success col" [routerLink]="['/app/survey-execute',row.id]">
+											<span>
 												<i class="fas fa-envelope" aria-hidden="true"></i>
-											</div>
-										</div>
-										<div class="surveyAction">
-											<div class="surveyActionLabel"><strong>Analyze</strong></div>
-											<div>
+											</span> Execute
+										</button>
+										<button class="btn btn-info col">
+											<span>
 												<i class="fas fa-chart-bar" aria-hidden="true"></i>
-											</div>
-										</div>
-										<div class="surveyAction" (click)="showSurveyShareDialog(row)">
-											<div class="surveyActionLabel"><strong>Share</strong></div>
-											<div>
+											</span> Analyze
+										</button>
+										<button class="btn btn-warning col" (click)="showSurveyShareDialog(row)">
+											<span>
 												<i class="fas fa-share" aria-hidden="true"></i>
-											</div>
-										</div>
+											</span> Share
+										</button>
+										<button class="btn btn-inverse col" (click)="previewSurvey(row)">
+												<span>
+													<i class="fas fa-eye" aria-hidden="true"></i>
+												</span> Preview
+											</button>
+										
 									</div>
 								</div>
 							</ng-template>
@@ -221,8 +222,11 @@
 
 	<div class="row justify-content-center">
 		<div>
-			<button class="btn btn-primary" (click)="newSurvey()">
+			<button class="btn btn-primary mr-3" (click)="newSurvey()">
 				<i class="fas fa-plus-circle"></i> {{'surveys.management.NewSurvey' | translate}}
+			</button>
+			<button class="btn btn-secondary" (click)="importSurvey()">
+				<i class="fas fa-file-import"></i> {{'surveys.management.ImportSurvey' | translate}}
 			</button>
 		</div>
 	</div>
@@ -235,15 +239,17 @@
 				<div class="modal-header">
 					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
 						<i class="fas fa-cubes"></i>Edit Survey</h4>
-					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode">
-						<i class="fas fa-cubes"></i>New Survey</h4>
+					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode && !importing">
+						<i class="fas fa-cubes"></i>{{'surveys.management.NewSurvey' | translate}}</h4>
+					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode && importing">
+							<i class="fas fa-cubes"></i>{{'surveys.management.ImportSurvey' | translate}}</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
 						<span aria-hidden="true">&times;</span>
 					</button>
 
 				</div>
 				<div class="modal-body">
-					<app-surveys-editor #surveyEditor></app-surveys-editor>
+					<app-surveys-editor [importing]="importing" #surveyEditor></app-surveys-editor>
 				</div>
 			</div>
 		</div>
@@ -254,12 +260,12 @@
 	 (onShow)="onShareModalShow()" tabindex="-1">
 
 		<div class="modal-dialog modal-lg">
-			<div class="modal-content share-dialog" *ngIf="sharedSurvey">
+			<div class="modal-content share-dialog">
 				<div class="modal-header">
 					<div>
 					<h4 class="modal-title pull-left">
 						<i class="fas fa-cubes mr-2"></i>Share Survey</h4>
-						<br/><strong>{{ sharedSurvey.name }}</strong>
+						<br/><strong *ngIf="sharedSurvey">{{ sharedSurvey.name }}</strong>
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeShareModal()">
 						<span aria-hidden="true">&times;</span>

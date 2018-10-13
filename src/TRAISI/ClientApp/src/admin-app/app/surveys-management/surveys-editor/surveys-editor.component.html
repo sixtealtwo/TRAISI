@@ -83,12 +83,27 @@
 			</div>
 		</div>
 		<div class="form-group form-group-adjust row">
-			<label class="col-md-2 col-form-label text-md-right">Active</label>
-			<div class="col-md-5">
-				<label class="form-check-label switch" for="isActiveCheck">
-					<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
-					<i></i>
-				</label>
+			<div class="col-6">
+				<div class="form-group form-group-adjust row">
+					<label class="col-md-6 col-form-label text-md-right">Active</label>
+					<div class="col-md-5">
+						<label class="form-check-label switch" for="isActiveCheck">
+							<input class="form-check-input" type="checkbox" value="" id="isActiveCheck" [(ngModel)]="model.isActive" name="isActive">
+							<i></i>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="form-group form-group-adjust row">
+					<label class="col-md-6 col-form-label text-md-right">Open Survey</label>
+					<div class="col-md-5">
+						<label class="form-check-label switch" for="isOpenCheck">
+							<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
+							<i></i>
+						</label>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -96,34 +111,50 @@
 				<hr class="edit-separator-hr" />
 			</div>
 		</div>
-		<div class="form-group form-group-adjust row">
-			<label class="col-md-2 col-form-label text-md-right">Open Survey</label>
-			<div class="col-md-5">
-				<label class="form-check-label switch" for="isOpenCheck">
-					<input class="form-check-input" type="checkbox" value="" id="isOpenCheck" [(ngModel)]="model.isOpen" name="isOpen">
-					<i></i>
-				</label>
+		<div class="form-group row" *ngIf="importing">
+			<label class="col-form-label col-md-2 text-md-right" for="fileupload1">
+				Survey Zip File
+			</label>
+			<div class="col-md-7 ">
+				<div class="fileinput fileinput-new input-group">
+					<div class="form-control reset-height">
+						<i class="glyphicon glyphicon-file"></i>
+						<div *ngIf="importFile" class="text-nowrap float-right filename">{{ importFile.name }}</div>
+					</div>
+					<span class="input-group-addon btn btn-default btn-file">
+						<span *ngIf="!importFile" class="fileinput-new">Select file</span>
+						<span *ngIf="importFile" class="fileinput-new">Change</span>
+						<input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="setImportFile($event)" />
+					</span>
+					<a *ngIf="importFile" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+				</div>
 			</div>
 		</div>
-
-		<div class="row">
+		<div class="row" *ngIf="importing">
 			<div class="col-md-12">
 				<hr class="edit-last-separator-hr" />
 			</div>
 		</div>
 		<div class="form-group form-group-adjust row">
 			<div class="col-md-3">
-				<button *ngIf="!isNewSurvey && canDeleteSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()" [disabled]="isSaving">
+				<button *ngIf="!isNewSurvey && canDeleteSurvey" type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()"
+				 [disabled]="isSaving">
 					<i class='fas fa-times'></i>Delete</button>
 			</div>
 			<div class="col-md-9">
 				<div class="pull-right">
 					<button type="button" class="btn btn-danger action-button" data-dismiss="modal" (click)="cancel()" [disabled]="isSaving">
 						<i class='fas fa-times'></i>Cancel</button>
-					<button type="submit" class="btn btn-primary" [disabled]="isSaving">
-						<i *ngIf="!isSaving" class="fa fa-save"></i>
-						<i *ngIf="isSaving" class="fa fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save' | translate)}}
+					<button *ngIf="!importing" type="submit" class="btn btn-primary" [disabled]="isSaving">
+						<i *ngIf="!isSaving" class="fas fa-save"></i>
+						<i *ngIf="isSaving" class="fas fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Saving' | translate) : ('users.editor.Save'
+						| translate)}}
 					</button>
+					<button *ngIf="importing" type="submit" class="btn btn-primary" [disabled]="isSaving || !importFile">
+							<i *ngIf="!isSaving" class="fas fa-file-import"></i>
+							<i *ngIf="isSaving" class="fas fa-circle-o-notch fa-spin"></i> {{isSaving ? ('users.editor.Importing' | translate) : ('users.editor.Import'
+							| translate)}}
+						</button>
 				</div>
 			</div>
 		</div>

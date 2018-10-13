@@ -1,10 +1,8 @@
 @import 'src/shared/assets/scss/helpers';
 .surveyDetails {
-	border: 1px dotted lightslategray;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
-	margin: 0px 5px 5px 5px;
-	padding: 10px;
+  width: calc(100% - 0px);
+	padding: 0px;
+	overflow: hidden;
 }
 
 .surveyAction {
@@ -51,4 +49,10 @@
 .share-dialog {
 	max-width: 300px;
 	margin: auto;
+}
+
+#solo {
+	.datatable-body {
+		overflow: hidden;
+	}
 }

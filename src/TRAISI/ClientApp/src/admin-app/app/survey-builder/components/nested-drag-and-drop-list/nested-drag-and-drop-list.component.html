@@ -1,7 +1,7 @@
 <div class="row page-questions">
 	<smooth-dnd-container [shouldAcceptDrop]="shouldAcceptDrop" [dragHandleSelector]="'.question-header'" id="page-question-container" class="col-md-12" [class.drag-over]="dragOverContainer['main list']" [class.page-questions-empty]="currentPage.questionPartViewChildren == undefined || currentPage.questionPartViewChildren.length == 0" [groupName]="'builder-page'" [lockAxis]="'y'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)" (dragEnter)="onDragEnter('main list')" (dragLeave)="onDragLeave('main list')">
 		<smooth-dnd-draggable *ngFor="let item of currentPage.questionPartViewChildren; index as i">
-			<div class="question-number badge badge-danger">{{ item.questionPart? 'Q': 'S' }}{{ i+1 }}</div>
+			<div class="question-number badge badge-danger">{{ item.questionPart? 'Q': 'S' }}{{ startingNumber + i + 1 }}</div>
 			<ng-container *ngIf="item.questionPart; else surveyPart">
 				<div class="question-wrapper">
 				<button class="btn btn-default page-question question-header" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i">
@@ -45,7 +45,7 @@
 					<smooth-dnd-container  [dragHandleSelector]="'.question-header'"  [shouldAcceptDrop]="shouldAcceptDropPart" [lockAxis]="'y'" [groupName]="'builder-part-'+item.id" [getChildPayload]="getQuestionInPartPayload(item)" (dragStart)="onDragStart($event)" (drop)="onDropInPart(item.id,$event)" (dragEnter)="onDragEnter(item.id)" (dragLeave)="onDragLeave(item.id)">
 						<smooth-dnd-draggable *ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j">
 								<div class="question-wrapper">
-							<div class="question-number badge badge-primary">Q{{ i + 1 }}.{{ j + 1 }}</div>
+							<div class="question-number badge badge-primary">Q{{ startingNumber + i + 1 }}.{{ j + 1 }}</div>
 							<button class="btn btn-default page-question question-header" data-toggle="collapse" [attr.data-target]= "'#collapseExample-' + i + '-' + j" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + i + '-' + j">
 								<div class="icon">
 										<i class="page-question-icon" [ngClass]="getIcon(innerItem.questionPart.questionType)"></i>

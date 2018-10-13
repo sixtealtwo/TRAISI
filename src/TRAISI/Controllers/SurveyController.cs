@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.SignalR;
 using System.IO;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
+using FluentValidation.Results;
 
 namespace TRAISI.Controllers
 {
@@ -143,7 +144,7 @@ namespace TRAISI.Controllers
 						if(await IsSuperAdmin() || await this.MemberOfGroup(group.Id))
 						{
 							appSurvey.Owner = this.User.Identity.Name;
-              appSurvey.PopulateDefaults();
+                            appSurvey.PopulateDefaults();
 							await this._unitOfWork.Surveys.AddAsync(appSurvey);
 							await this._unitOfWork.SaveChangesAsync();
 							return new OkResult();
@@ -260,12 +261,64 @@ namespace TRAISI.Controllers
             }
         }
 
-        [HttpGet("import"), DisableRequestSizeLimit]
+        [HttpPost("import"), DisableRequestSizeLimit]
         public async Task<IActionResult> ImportSurvey()
         {
             try
             {
-                return BadRequest("Import Not Implemented");
+                var file = Request.Form.Files[0];
+                if (Request.Headers.ContainsKey("parameters"))
+                {
+                    SurveyViewModel surveyParameters = JsonConvert.DeserializeObject<SurveyViewModel>(Request.Headers["parameters"]);
+                    SurveyViewModelValidator parameterValidator = new SurveyViewModelValidator();
+                    ValidationResult validParameters = parameterValidator.Validate(surveyParameters);
+                    if (validParameters.IsValid)
+                    {
+
+                        var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(surveyParameters.Group);
+
+                        if (group == null)
+                        {
+                            return BadRequest("Group does not exist.");
+                        }
+                        else
+                        {
+                            if (await IsSuperAdmin() || await this.MemberOfGroup(group.Id))
+                            {
+                                Survey imported = await this._fileDownloader.ExtractSurveyImportAsync(file, this.User.Identity.Name);
+                                imported.Owner = this.User.Identity.Name;
+                                imported.Name = surveyParameters.Name;
+                                imported.Code = surveyParameters.Code;
+                                imported.Group = surveyParameters.Group;
+                                imported.RejectionLink = surveyParameters.RejectionLink;
+                                imported.SuccessLink = surveyParameters.SuccessLink;
+                                imported.StartAt = surveyParameters.StartAt;
+                                imported.EndAt = surveyParameters.EndAt;
+                                imported.IsActive = surveyParameters.IsActive;
+                                imported.IsOpen = surveyParameters.IsOpen;
+
+                                this._unitOfWork.Surveys.Add(imported);
+                                await this._unitOfWork.SaveChangesAsync();
+                                return new OkResult();
+                            }
+                            else
+                            {
+                                return BadRequest("User must be a member of the group to create the survey.");
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        AddErrors(validParameters.Errors.Select(e => e.ErrorMessage));
+                        return BadRequest(ModelState);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Missing Code Generation Parameters");
+                }
             }
             catch (System.Exception ex)
             {
@@ -390,5 +443,13 @@ namespace TRAISI.Controllers
 			bool memberOfGroup = groupMembers.Where(m => m.Item1.UserName == this.User.Identity.Name).Any();
 			return memberOfGroup;
 		}
-	}
+
+        private void AddErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+        }
+    }
 }
