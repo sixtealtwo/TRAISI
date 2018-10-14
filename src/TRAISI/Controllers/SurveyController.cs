@@ -131,6 +131,11 @@ namespace TRAISI.Controllers
 				}
 				else
 				{
+                    // ensure survey code is unique
+                    var existingSurveyWithCode = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(survey.Code);
+                    if (existingSurveyWithCode != null) {
+                        return BadRequest("Survey code already in use.");
+                    }
 					// Check if survey has a valid group
 					Survey appSurvey = Mapper.Map<Survey>(survey);
 					var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(appSurvey.Group);
@@ -173,6 +178,13 @@ namespace TRAISI.Controllers
                 Survey originalSurvey = this._unitOfWork.Surveys.Get(appSurvey.Id);
                 if (await IsSuperAdmin() || originalSurvey.Owner == this.User.Identity.Name || await IsGroupAdmin(appSurvey.Group))
                 {
+                    // ensure survey code is unique
+                    var existingSurveyWithCode = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(survey.Code);
+                    if (existingSurveyWithCode != null && existingSurveyWithCode.Id != survey.Id)
+                    {
+                        return BadRequest("Survey code already in use.");
+                    }
+
                     originalSurvey.Code = appSurvey.Code;
                     originalSurvey.DefaultLanguage = appSurvey.DefaultLanguage;
                     originalSurvey.EndAt = appSurvey.EndAt;

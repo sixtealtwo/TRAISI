@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 
 namespace TRAISI.ViewModels
@@ -34,9 +35,20 @@ namespace TRAISI.ViewModels
         public SurveyViewModelValidator()
         {
             RuleFor(register => register.Name).NotEmpty().WithMessage("Survey name cannot be empty");
-            RuleFor(register => register.Code).NotEmpty().Must(r => !r.Contains(' ')).WithMessage("Survey code cannot be empty or contain a space");
+            RuleFor(register => register.Code).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().Must(code => this.IsValidCode(code)).WithMessage("Survey code cannot be empty and can only contain numbers and letters");
             RuleFor(register => register.StartAt).NotEmpty().WithMessage("Survey must have a start date");
             RuleFor(register => register.EndAt).NotEmpty().WithMessage("Survey must have an end date");
         }
+
+        private bool IsValidCode(string code)
+        {
+            Regex patternValidator = new Regex("^[a-zA-Z0-9]*$");
+            if (patternValidator.IsMatch(code))
+            {
+                return true;
+            }
+            return false;
+        }
     }
+
 }

@@ -229,10 +229,11 @@
 					<div class="form-group row">
 						<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
 						<div class="col-md-5">
-							<input type="text" id="normal-field" class="form-control" placeholder="Page FA 5 Icon" [(ngModel)]="currentSurveyPageEdit.icon"
+							<input type="text" id="normal-field" class="form-control w-75" placeholder="Page FA 5 Icon" [(ngModel)]="currentSurveyPageEdit.icon"
 							 name="pageIcon">
+							 <div class="mt-2 w-25"><i [ngClass]="currentSurveyPageEdit.icon"></i></div>
 						</div>
-						<div class="mt-2"><i [ngClass]="currentSurveyPageEdit.icon"></i></div>
+
 					</div>
 					<div class="row">
 						<div class="col-md-12">

@@ -285,7 +285,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			.subscribe(page => {
 				this.currentSurveyPage = page;
 				this.surveyPage.currentPage = page;
-				this.surveyPage.updateFullStructure(true);
+				this.surveyPage.updateFullStructure(false);
 				this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
 				page.questionPartViewChildren.forEach(qc => {
 					if (qc.questionPart === null) {

@@ -218,6 +218,8 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 						this.userGroupService
 							.updateGroupMember(this.groupMemberInfo)
 							.subscribe(mresponse => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+					} else {
+						this.saveSuccessHelper(null);
 					}
 				},
 				error => this.saveFailedHelper(error)
@@ -257,7 +259,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		}
 
 		this.userEdit = new UserEdit();
-		this.isNewUser = true;
+
 		this.groupMemberInfo = new GroupMember();
 		this.resetForm();
 
@@ -316,7 +318,6 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		} else {
 			this.userEdit = new UserEdit();
 		}
-		this.isNewUser = true;
 		this.groupMemberInfo = new GroupMember();
 		this.showValidationErrors = false;
 		this.resetForm();

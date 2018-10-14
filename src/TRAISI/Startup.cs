@@ -93,8 +93,8 @@ namespace TRAISI
                 //    //options.Password.RequireLowercase = false;
 
                 //    //// Lockout settings
-                //    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                //    //options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
 
                 options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
