@@ -28,4 +28,8 @@ export class RealTimeNotificationServce {
 		this.channels.set(channelId, downloadNotifier);
 		return downloadNotifier;
 	}
+
+	public deRegisterDownloadChannel(channelId: string): void {
+		this.channels.delete(channelId);
+	}
 }

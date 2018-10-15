@@ -427,6 +427,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				let pageCache = [...this.allPages];
 				this.allPages = Utilities.applyDrag(this.allPages, dropResult);
 				this.dragResult.subscribe(proceed => {
+					this.dragResult.unsubscribe();
 					if (proceed === false) {
 						this.allPages = pageCache;
 					} else {

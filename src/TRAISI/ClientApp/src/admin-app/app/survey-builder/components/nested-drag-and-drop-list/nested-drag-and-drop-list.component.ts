@@ -1,4 +1,14 @@
-import { Component, OnInit, ViewChild, Input, HostListener, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ViewChild,
+	Input,
+	HostListener,
+	ElementRef,
+	AfterViewInit,
+	Output,
+	EventEmitter
+} from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { Observable, Subject } from 'rxjs';
 import { AlertService, DialogType, MessageSeverity } from '../../../../../shared/services/alert.service';
@@ -19,7 +29,6 @@ import { TreeviewItem } from 'ngx-treeview';
 })
 export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public qPartQuestions: Map<number, QuestionPartView> = new Map<number, QuestionPartView>();
-
 
 	public currentPage: QuestionPartView = new QuestionPartView();
 	public configurationModalShowing: boolean = false;
@@ -53,7 +62,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	@ViewChild('qConfiguration')
 	qConfiguration: QuestionConfigurationComponent;
 
-	constructor(private alertService: AlertService, private surveyBuilderService: SurveyBuilderService, private elementRef: ElementRef) {
+	constructor(
+		private alertService: AlertService,
+		private surveyBuilderService: SurveyBuilderService,
+		private elementRef: ElementRef
+	) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
 	}
@@ -72,7 +85,6 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
-		
 	}
 
 	public updateFullStructure(forceUpdate: boolean = false): void {
@@ -98,7 +110,6 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		while (this.fullStructure[pageIndex].text !== this.currentPage.label.value) {
 			this.startingNumber += this.fullStructure[pageIndex++].children.length;
 		}
-
 	}
 
 	processHouseholdCheck() {
@@ -110,15 +121,17 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	}
 
 	processHouseholdCheckItems(items: TreeviewItem[]) {
-		items.forEach(item => {
-			if (this.householdAdded === false) {
-				if (item.value.split('~')[1] === 'household'){
-					this.householdAdded = true;
-				} else if (item.children && item.children.length > 0) {
-					this.processHouseholdCheckItems(item.children);
+		if (items) {
+			items.forEach(item => {
+				if (this.householdAdded === false) {
+					if (item.value.split('~')[1] === 'household') {
+						this.householdAdded = true;
+					} else if (item.children && item.children.length > 0) {
+						this.processHouseholdCheckItems(item.children);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	configurationShown() {
@@ -473,7 +486,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 						this.currentPage.questionPartViewChildren,
 						dropResult
 					);
-					if (this.questionBeingEdited.questionPart && this.questionBeingEdited.questionPart.questionType === 'household') {
+					if (
+						this.questionBeingEdited.questionPart &&
+						this.questionBeingEdited.questionPart.questionType === 'household'
+					) {
 						this.householdAdded = false;
 						this.householdAddedChange.emit(this.householdAdded);
 					}
@@ -544,6 +560,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			let pageQuestionsCache = [...this.currentPage.questionPartViewChildren];
 			this.proceedWithDrop(dropResult);
 			this.dragResult.subscribe(proceed => {
+				this.dragResult.unsubscribe();
 				if (proceed === false) {
 					this.currentPage.questionPartViewChildren = pageQuestionsCache;
 					this.questionBeingEdited = undefined;
@@ -589,6 +606,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					dropResult
 				);
 				this.dragResult.subscribe(proceed => {
+					this.dragResult.unsubscribe();
 					if (proceed === false) {
 						questionPart.questionPartViewChildren = partQuestionsCache;
 					} else {

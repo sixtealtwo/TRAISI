@@ -340,6 +340,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 					},
 					error => {
 						this.downloadErrorHelper(error);
+						this.notificationService.deRegisterDownloadChannel(this.downloadProgress.id)
 					}
 				);
 			},
@@ -356,6 +357,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			// download file and unsubscribe
 			window.open(this.downloadProgress.url, '_self');
 			this.downloadNotifier.unsubscribe();
+			this.notificationService.deRegisterDownloadChannel(update.id);
 		}
 	}
 

@@ -6,7 +6,8 @@ import {
 	ViewChildren,
 	AfterViewInit,
 	QueryList,
-	ElementRef
+	ElementRef,
+	HostListener
 } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
@@ -41,6 +42,13 @@ export class AppComponent implements OnInit {
 
 	appTitle = 'TRAISI';
 	stickyToasties: number[] = [];
+
+	@HostListener('window:beforeunload', [ '$event' ])
+  public beforeUnloadHander(event: any): void {
+
+
+
+  }
 
 	constructor(
 		storageManager: LocalStoreManager,
