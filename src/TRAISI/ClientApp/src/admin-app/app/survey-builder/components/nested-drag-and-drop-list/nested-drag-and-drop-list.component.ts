@@ -264,10 +264,14 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	}
 
 	getQuestionPayload(index) {
+		// $('.smooth-dnd-draggable-wrapper .collapse.details').collapse('hide');
+		// $('.collapse:not(.details)').collapse('show');
 		return this.currentPage.questionPartViewChildren[index];
 	}
 
 	getQuestionInPartPayload(part: QuestionPartView) {
+		// $('.smooth-dnd-draggable-wrapper .collapse.details').collapse('hide');
+		// $('.collapse:not(.details)').collapse('show');
 		return index => {
 			let test = this.qPartQuestions;
 			return this.qPartQuestions.get(part.id).questionPartViewChildren[index];

@@ -6,8 +6,8 @@
 			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name)">
 				<div class="form-group row response-option-container">
 					<div class="input-group col-md-12">
-						<input type="text" class="form-control optionKey" id="code" [(ngModel)]="item.code"/>
-						<input type="text" class="form-control optionValue" id="label" [(ngModel)]="item.optionLabel.value" />
+						<input #key type="text" class="form-control optionKey" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, key)"  (keydown.ArrowRight)="onArrowRight($event, key)" (keydown.ArrowUp)="onArrowUp($event, key, 0)"  (keydown.ArrowDown)="onArrowDown($event, key, 0)" id="code" [(ngModel)]="item.code"/>
+						<input #value type="text" class="form-control optionValue" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, value)" (keydown.ArrowLeft)="onArrowLeft($event, value)" (keydown.ArrowUp)="onArrowUp($event, value, 1)" (keydown.ArrowDown)="onArrowDown($event, value, 1)" id="label" [(ngModel)]="item.optionLabel.value" />
 						<div class="input-group-append">
 							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
 								<i class="fas fa-save"></i>
@@ -25,8 +25,8 @@
 		</smooth-dnd-container>
 		<div class="form-group row response-option-container" *ngIf="pendingOption">
 			<div class="input-group col-md-12">
-				<input type="text" class="form-control optionKey" id="code" [(ngModel)]="pendingOption.code"/>
-				<input type="text" class="form-control optionValue" id="label" [(ngModel)]="pendingOption.optionLabel.value" />
+				<input #newOptionKey type="text" (keydown.ArrowRight)="onArrowRight($event, newOptionKey)" (keyup.enter)="pendingOptionValid(item) ? savePendingOption(0) : null" class="form-control optionKey" id="code" [(ngModel)]="pendingOption.code"/>
+				<input #newOptionValue type="text" (keydown.ArrowLeft)="onArrowLeft($event, newOptionValue)" (keyup.enter)="pendingOptionValid(item) ? savePendingOption(1) : null" class="form-control optionValue" id="label" [(ngModel)]="pendingOption.optionLabel.value" />
 				<div class="input-group-append">
 					<button type="button" class="btn" (click)="savePendingOption()" [class.btn-success]="pendingOptionValid()" [disabled]="!pendingOptionValid()">
 						<i class="fas fa-save"></i>

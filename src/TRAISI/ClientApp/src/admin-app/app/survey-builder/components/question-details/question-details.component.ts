@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
@@ -33,11 +33,14 @@ export class QuestionDetailsComponent implements OnInit {
 	@Input()
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
+	@ViewChild('newOptionKey')
+	public newOptionKey: ElementRef;
+
 	constructor(private builderService: SurveyBuilderService, private alertService: AlertService) {
 		this.getOptionPayload = this.getOptionPayload.bind(this);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
 		Object.keys(qOptions).forEach(q => {
 			this.questionOptionDefinitions.push(qOptions[q]);
@@ -60,7 +63,94 @@ export class QuestionDetailsComponent implements OnInit {
 		);
 	}
 
-	
+	public onArrowRight(event: KeyboardEvent, element: HTMLInputElement): void {
+		let nextInput: HTMLInputElement;
+
+		if (element.selectionEnd === element.value.length) {
+			event.preventDefault();
+			try {
+				nextInput = element.nextElementSibling as HTMLInputElement;
+
+				nextInput.focus();
+				nextInput.selectionStart = 0;
+				nextInput.selectionEnd = 0;
+			} catch {}
+		}
+	}
+
+	public onArrowLeft(event: KeyboardEvent, element: HTMLInputElement): void {
+		let previousInput: HTMLInputElement;
+
+		if (element.selectionStart === 0) {
+			event.preventDefault();
+			try {
+				previousInput = element.previousElementSibling as HTMLInputElement;
+
+				previousInput.focus();
+				previousInput.selectionStart = previousInput.selectionEnd = previousInput.value.length;
+				previousInput.selectionEnd = previousInput.selectionEnd = previousInput.value.length;
+			} catch {}
+		}
+	}
+
+	public onArrowDown(
+		event: KeyboardEvent,
+		element: HTMLInputElement,
+		elementNum: number,
+		addNewIfAtEnd?: boolean,
+		newName?: string
+	): void {
+		let nextInput: HTMLInputElement;
+
+		if (element.selectionEnd === element.value.length || addNewIfAtEnd) {
+			event.preventDefault();
+
+			try {
+				nextInput = element.parentElement.parentElement.parentElement.nextElementSibling.firstElementChild
+					.firstElementChild.firstElementChild as HTMLInputElement;
+
+				for (let i = 0; i < elementNum; i++) {
+					nextInput = nextInput.nextElementSibling as HTMLInputElement;
+				}
+				nextInput.focus();
+				nextInput.selectionStart = 0;
+				nextInput.selectionEnd = 0;
+			} catch {
+				if (addNewIfAtEnd && !this.pendingOption) {
+					this.addOption(newName);
+					setTimeout(() => {
+						this.newOptionKey.nativeElement.focus();
+					}, 0);
+				} else if (this.newOptionKey) {
+					this.newOptionKey.nativeElement.focus();
+				}
+			}
+		}
+	}
+
+	public onArrowUp(event: KeyboardEvent, element: HTMLInputElement, elementNum: number): void {
+		let previousInput: HTMLInputElement;
+
+		if (element.selectionStart === 0) {
+			event.preventDefault();
+			try {
+				previousInput = element.parentElement.parentElement.parentElement.previousElementSibling
+					.firstElementChild.firstElementChild.firstElementChild as HTMLInputElement;
+
+				for (let i = 0; i < elementNum; i++) {
+					previousInput = previousInput.nextElementSibling as HTMLInputElement;
+				}
+				previousInput.focus();
+				previousInput.selectionStart = previousInput.value.length;
+				previousInput.selectionEnd = previousInput.value.length;
+			} catch {}
+		}
+	}
+
+	public onEnter(event: KeyboardEvent, item: QuestionOptionValue, element: HTMLInputElement): void {
+		this.onArrowDown(event, element, 0, true, item.name);
+	}
+
 	public getOptionPayload(index: number) {
 		return this.items[index];
 	}
@@ -90,16 +180,31 @@ export class QuestionDetailsComponent implements OnInit {
 		options.forEach((q, index) => (q.order = index));
 	}
 
-	public savePendingOption() {
+	public savePendingOption(activeInputElement?: number) {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOption).subscribe(
 			addedOption => {
 				this.items.get(this.pendingOption.name).push(addedOption);
 				this.savedItems.set(addedOption.id, `${addedOption.code}|${addedOption.optionLabel.value}`);
 				this.pendingOption = undefined;
+				if (activeInputElement !== undefined) {
+					let smoothDndWrapper: Element = this.newOptionKey.nativeElement.parentElement.parentElement
+						.previousElementSibling;
+					setTimeout(() => {
+						let newlyAdded: HTMLInputElement =
+							smoothDndWrapper.firstElementChild.lastElementChild.firstElementChild.firstElementChild
+								.children[activeInputElement] as HTMLInputElement;
+						newlyAdded.focus();
+					}, 0);
+				}
+
 				// this.addingOption = false;
 			},
 			error => {
-		  	// 	this.addingOption = false;
+				this.alertService.showMessage(
+					'Error',
+					`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+					MessageSeverity.error
+				);
 			}
 		);
 	}

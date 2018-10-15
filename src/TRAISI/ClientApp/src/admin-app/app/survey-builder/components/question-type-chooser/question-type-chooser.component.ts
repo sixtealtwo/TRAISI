@@ -126,6 +126,8 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	}
 
 	getQuestionPayload(index) {
+		$('.collapse.details').collapse('hide');
+		$('.collapse:not(.details)').collapse('show');
 		if (index === 0) {
 			let surveyPart = {
 				typeName: 'Survey Part',
