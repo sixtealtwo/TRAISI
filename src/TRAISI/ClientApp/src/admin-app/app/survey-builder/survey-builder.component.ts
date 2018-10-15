@@ -124,7 +124,20 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.switchPage('welcome');
 	}
 
-	ngOnDestroy() {}
+	ngOnDestroy() {
+		if (
+			this.welcomePagePreview.value === true ||
+			this.privacyPagePreview.value === true ||
+			this.thankYouPagePreview.value === true ||
+			this.questionViewerPreview.value === true
+		) {
+			this.welcomePagePreview.value = false;
+			this.privacyPagePreview.value = false;
+			this.thankYouPagePreview.value = false;
+			this.questionViewerPreview.value = false;
+			this.toggleSidebarForPreview();
+		}
+	}
 
 	loadPageStructure(): void {
 		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
