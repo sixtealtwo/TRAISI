@@ -9,7 +9,7 @@
 		<div class="survey-body">
 			<div *ngFor="let question of questions; let i = index">
 
-				<traisi-question-container [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i" #questions></traisi-question-container>
+				<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i" #questions></traisi-question-container>
 			</div>
 		</div>
 	</div>

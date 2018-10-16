@@ -11,7 +11,8 @@ import {
 	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
-	SurveyRespondent
+	SurveyRespondent,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 
@@ -52,21 +53,13 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	ngOnInit(): void {
-		/*
-		this.respondents.push({
-			respondent: {
-				firstName: '',
-				lastName: '',
-				id: undefined
-			},
-			isSaved: false,
-			isValid: false
-		}); */
+		this.validationState.emit(ResponseValidationState.INVALID);
 
 		this._surveyResponderService.getSurveyGroupMembers().subscribe(value => {
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {
+				this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: arr[0],
 					isSaved: true,
@@ -110,7 +103,6 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				}
 			);
 		} else {
-			console.log('updating ');
 			this._surveyResponderService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
 				value => {
 					respondentEdit.isSaved = true;
@@ -122,6 +114,9 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		}
 	}
 
+	/**
+	 *
+	 */
 	public deleteRespondent(respondent: SurveyRespondentEdit): void {
 		const index = this.respondents.indexOf(respondent);
 
@@ -141,22 +136,24 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		}
 
 		respondent.isSaved = false;
+
 	}
 
-	public primaryModelChanged(): void {
-		console.log(this.primaryRespondent);
-	}
+	public primaryModelChanged(): void {}
 
 	public primaryBlur(): void {
 		if (this.primaryRespondent.respondent.name !== '') {
 			this._surveyResponderService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
 				value => {
 					this.primaryRespondent.isSaved = true;
+					this.validationState.emit(ResponseValidationState.VALID);
 				},
 				error => {
 					console.error(error);
 				}
 			);
+		} else {
+			this.validationState.emit(ResponseValidationState.INVALID);
 		}
 	}
 

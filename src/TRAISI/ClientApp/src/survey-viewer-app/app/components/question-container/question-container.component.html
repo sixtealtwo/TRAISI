@@ -4,6 +4,7 @@
 				<fa-icon [icon]="['far','check-circle']" class="validation-icon"
 
 				[ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE,
+				'invalid':responseValidationState == validationStates.INVALID,
 							'valid': responseValidationState == validationStates.VALID}"  size="lg"></fa-icon>
 		</span>
 		<span class="question-index badge badge-pill badge-secondary">

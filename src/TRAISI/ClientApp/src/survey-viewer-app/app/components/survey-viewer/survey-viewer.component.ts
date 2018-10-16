@@ -23,7 +23,7 @@ import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { sortBy } from 'lodash';
 import { QuestionContainerComponent } from '../question-container/question-container.component';
-import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewQuestion } from '../../models/survey-question.model';
 @Component({
 	selector: 'traisi-survey-viewer',
@@ -31,7 +31,6 @@ import { SurveyViewQuestion } from '../../models/survey-question.model';
 	styleUrls: ['./survey-viewer.component.scss']
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
-
 	public questions: Array<SurveyViewQuestion>;
 
 	public surveyId: number;
@@ -64,6 +63,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	private pages: Array<SurveyViewPage>;
 
+	public ref: SurveyViewerComponent;
+
 	/**
 	 *
 	 * @param surveyViewerService
@@ -75,7 +76,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
 		private cdRef: ChangeDetectorRef
-	) { }
+	) {
+		this.ref = this;
+	}
 
 	/**
 	 * Initialization
@@ -155,11 +158,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 			if (result) {
 				this.activeQuestionIndex += 1;
-
 			}
 
 			this.validateNavigation();
-
 		}
 	}
 
@@ -214,7 +215,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
-	private validateNavigation() {
+	public validateNavigation(): void {
 		if (this.activeQuestionIndex > 0) {
 			this.navigatePreviousEnabled = true;
 		} else {
@@ -225,24 +226,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.navigateNextEnabled = false;
 		} else if (this.activeQuestionIndex >= this.questions.length - 1 && !this.validateInternalNavigationNext()) {
 			this.navigateNextEnabled = false;
-
+		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
+			this.navigateNextEnabled = false;
 		} else {
 			this.navigateNextEnabled = true;
-
 		}
-
-
 
 		this.activePageIndex = this.questions[this.activeQuestionIndex].pageIndex;
 
 		this.headerDisplay.activePageIndex = this.activePageIndex;
-
 	}
 
 	/**
 	 *
 	 */
-	ngAfterViewInit(): void {
+	public ngAfterViewInit(): void {
 		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
 
@@ -253,11 +251,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
-	ngAfterContentInit(): void { }
+	public ngAfterContentInit(): void {}
 
-	ngAfterViewChecked(): void { }
+	public ngAfterViewChecked(): void {}
 
-	public onQuestionScroll($event) {
-
-	}
+	public onQuestionScroll($event) {}
 }

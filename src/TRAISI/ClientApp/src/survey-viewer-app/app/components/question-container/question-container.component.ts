@@ -18,6 +18,7 @@ import { SurveyResponderService } from '../../services/survey-responder.service'
 import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject } from '../../../../../node_modules/rxjs';
+import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -28,16 +29,19 @@ export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
-	question: ISurveyQuestion;
+	public question: ISurveyQuestion;
 
 	@Input()
-	surveyId: number;
+	public surveyId: number;
 
 	@Input()
-	questionIndex: number;
+	public questionIndex: number;
+
+	@Input()
+	public surveyViewer: SurveyViewerComponent;
 
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
-	questionOutlet: ViewContainerRef;
+	public questionOutlet: ViewContainerRef;
 
 	public titleLabel: BehaviorSubject<string>;
 
@@ -47,7 +51,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		return this._questionInstance;
 	}
 
-	isLoaded: boolean = false;
+	public isLoaded: boolean = false;
 
 	public validationStates = ResponseValidationState;
 
@@ -72,14 +76,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	ngOnDestroy(): void {
+	public ngOnDestroy(): void {
 
 	}
 
 	/**
 	 *
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
@@ -135,5 +139,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	private onResponseValidationStateChanged: (state: ResponseValidationState) => void = (validationState: ResponseValidationState) => {
 		this.responseValidationState = validationState;
+		this.surveyViewer.validateNavigation();
 	};
 }
