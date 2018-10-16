@@ -23,6 +23,8 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public int Order { get; set; }
 
+        public bool IsHousehold {get;set;}
+
         public ConcurrentDictionary<string,object> Configuration {get;set;}
     }
 }

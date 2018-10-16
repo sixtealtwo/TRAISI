@@ -4,14 +4,18 @@ namespace TRAISI.ViewModels.SurveyViewer
 {
     public class QuestionPartViewViewModel
     {
-        public int Id {get;set;}
+        public int Id { get; set; }
 
-        public string Label {get ;set;}
+        public string Label { get; set; }
 
         public List<QuestionPartViewViewModel> QuestionChildren;
 
-        public int Order {get;set;}
-        
+        public int Order { get; set; }
+
         public string QuestionType { get; set; }
+
+        public bool IsHousehold { get; set; }
+
+        public bool IsRepeat { get; set; }
     }
 }
