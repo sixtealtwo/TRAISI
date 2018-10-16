@@ -893,6 +893,7 @@ namespace TRAISI.Migrations
                     Longitude = table.Column<double>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Purpose = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     TimeA = table.Column<DateTime>(nullable: true),
                     TimeB = table.Column<DateTime>(nullable: true),
                     StringResponse_Value = table.Column<string>(nullable: true)
@@ -911,7 +912,7 @@ namespace TRAISI.Migrations
                         column: x => x.SurveyResponseId,
                         principalTable: "SurveyResponses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

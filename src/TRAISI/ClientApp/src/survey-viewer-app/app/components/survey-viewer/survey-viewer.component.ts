@@ -180,7 +180,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
-	public navigatePrevious():void {
+	public navigatePrevious(): void {
 		if (!this.validateInternalNavigationPrevious()) {
 			this.activeQuestionIndex -= 1;
 			this.navigationActiveState = true;
@@ -235,6 +235,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.activePageIndex = this.questions[this.activeQuestionIndex].pageIndex;
 
 		this.headerDisplay.activePageIndex = this.activePageIndex;
+
 	}
 
 	/**

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181016185527_AddDeleteCascade")]
-    partial class AddDeleteCascade
+    [Migration("20181016221459_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1152,6 +1152,8 @@ namespace TRAISI.Migrations
             modelBuilder.Entity("DAL.Models.ResponseTypes.TimelineResponse", b =>
                 {
                     b.HasBaseType("DAL.Models.ResponseTypes.LocationResponse");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("Purpose");
 

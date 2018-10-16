@@ -165,6 +165,7 @@ export interface TimelineResponseData extends ResponseData<ResponseTypes.Timelin
 	longitude: number;
 	address: string;
 	time: Date;
+	name: string;
 	purpose: string;
 }
 

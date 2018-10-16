@@ -6,7 +6,7 @@ using DAL.Models.Surveys;
 using Newtonsoft.Json.Linq;
 
 namespace TRAISI.Services.Interfaces {
-	public interface IRespondentService {
+	public interface IResponderService {
 		/// <summary>
 		/// 
 		/// </summary>

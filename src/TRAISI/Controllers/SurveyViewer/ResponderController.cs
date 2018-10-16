@@ -21,7 +21,7 @@ namespace TRAISI.Controllers.SurveyViewer
     [Route("api/[controller]")]
     public class ResponderController : Controller
     {
-        private IRespondentService _respondentService;
+        private IResponderService _respondentService;
 
         private IRespondentGroupService _respondentGroupService;
 
@@ -33,7 +33,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// 
         /// </summary>
         /// <param name="respondentService"></param>
-        public ResponderController(IRespondentService respondentService,
+        public ResponderController(IResponderService respondentService,
                                     IRespondentGroupService respondentGroupService,
                                     IUnitOfWork unitOfWork,
                                     UserManager<ApplicationUser> userManager)

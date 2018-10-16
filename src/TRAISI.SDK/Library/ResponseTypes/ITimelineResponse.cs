@@ -6,6 +6,8 @@ namespace TRAISI.SDK.Library.ResponseTypes
     {
         string Purpose { get; set; }
 
+        string Name { get; set; }
+
         DateTime TimeA { get; set; }
 
         DateTime TimeB { get; set; }

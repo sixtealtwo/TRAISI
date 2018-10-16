@@ -268,7 +268,7 @@ namespace TRAISI
             services.AddScoped<IRespondentGroupService, RespondentGroupService>();
 
             services.AddScoped<ISurveyViewerService, SurveyViewerService>();
-            services.AddScoped<IRespondentService, RespondentService>();
+            services.AddScoped<IResponderService, ResponderService>();
 
             // Persistent Business Services
             services.AddSingleton<IMailgunMailer, MailgunMailer>();

@@ -1151,6 +1151,8 @@ namespace TRAISI.Migrations
                 {
                     b.HasBaseType("DAL.Models.ResponseTypes.LocationResponse");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("Purpose");
 
                     b.Property<DateTime>("TimeA");

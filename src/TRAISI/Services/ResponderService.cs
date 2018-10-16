@@ -18,14 +18,14 @@ namespace TRAISI.Services
     /// Service for handling business logic related to respondents and the updating and querying
     /// of survey responses.
     /// </summary>
-    public class RespondentService : IRespondentService
+    public class ResponderService : IResponderService
     {
         private IUnitOfWork _unitOfWork;
         private IQuestionTypeManager _questionTypeManager;
 
         private ILoggerFactory _loggerFactory;
 
-        private ILogger<RespondentService> _logger;
+        private ILogger<ResponderService> _logger;
 
         public static readonly string LOCATION_RESPONSE = "location";
         public static readonly string TIMELINE_RESPONSE = "location";
@@ -36,7 +36,7 @@ namespace TRAISI.Services
         /// <param name="_unitOfWork"></param>
         /// <param name="manager"></param>
         /// <param name="loggerFactory"></param>
-        public RespondentService(IUnitOfWork _unitOfWork,
+        public ResponderService(IUnitOfWork _unitOfWork,
         IQuestionTypeManager manager,
         ILoggerFactory loggerFactory)
         {
@@ -45,7 +45,7 @@ namespace TRAISI.Services
 
             _loggerFactory = loggerFactory;
 
-            _logger = loggerFactory.CreateLogger<RespondentService>();
+            _logger = loggerFactory.CreateLogger<ResponderService>();
         }
 
 
@@ -175,7 +175,7 @@ namespace TRAISI.Services
         }
 
         /// <summary>
-        /// 
+        ///  
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="question"></param>
@@ -185,6 +185,7 @@ namespace TRAISI.Services
         internal void SaveTimelineResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
             List<TimelineResponse> values = responseData["values"].ToObject<List<TimelineResponse>>();
+
 
             response.ResponseValues.Clear();
 

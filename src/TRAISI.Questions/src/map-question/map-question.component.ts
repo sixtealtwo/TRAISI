@@ -79,8 +79,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 			this.locationSearch = locationResponse.address;
 			this.markerPosition = [locationResponse.longitude, locationResponse.latitude];
-			this.validationState.emit(ResponseValidationState.VALID);
 			this.surveyViewerService.updateNavigationState(true);
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
 
@@ -133,6 +133,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			};
 
 			this.saveResponse(data);
+			this.surveyViewerService.updateNavigationState(true);
+			this.validationState.emit(ResponseValidationState.VALID);
 		});
 	}
 
