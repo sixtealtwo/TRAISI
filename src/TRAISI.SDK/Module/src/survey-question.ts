@@ -7,8 +7,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 /**
  * Base abstract class for Survey Questions available to TRAISI
  */
-export abstract class SurveyQuestion<T extends ResponseTypes> {
-
+export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
 	public abstract get typeName(): string;
 
 	public abstract get icon(): string;
@@ -23,39 +22,37 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	@Output()
 	public readonly response: EventEmitter<ResponseData<T>>;
 
-	@Output() 
+	@Output()
 	public readonly validationState: EventEmitter<ResponseValidationState>;
 
 	/**
 	 * This value is id associated with the survey question. Each id will be unique.
 	 */
-	questionId: number;
-
+	public questionId: number;
 
 	/**
 	 * The survey id
 	 */
-	surveyId: number;
+	public surveyId: number;
 
 	/**
 	 * The configuration for this question
 	 */
-	configuration: QuestionConfiguration;
+	public configuration: QuestionConfiguration;
 
 	/**
 	 * The validity state of the question
 	 */
-	isValid: boolean;
+	public isValid: boolean;
 
 	/**
 	 * The saved response - if any
 	 */
-	savedResponse: ReplaySubject<ResponseData<T> | 'none'>;
+	public savedResponse: ReplaySubject<ResponseData<T> | 'none'>;
 
-	data: Array<any>;
+	public data: Array<any>;
 
-
-	pageIndex?: number;
+	public pageIndex?: number;
 
 	/**
 	 *
@@ -115,19 +112,13 @@ export abstract class SurveyQuestion<T extends ResponseTypes> {
 	 *
 	 * @memberof SurveyQuestion
 	 */
-	public traisiOnInit() {}
+	public traisiOnInit(): void {}
 
 	/**
 	 * Called when the question has completed loading all of its data.
 	 * This includes any saved response data and configuration data.
 	 */
-	public traisiOnLoaded() {
-
-	}
-
-
-
-
+	public traisiOnLoaded(): void {}
 }
 
 /**
@@ -141,7 +132,7 @@ export interface TraisiBuildable {
 	icon: string;
 }
 
-export abstract class ResponseData<T extends ResponseData<ResponseTypes.String>> {}
+export abstract class ResponseData<T extends ResponseTypes | ResponseTypes[]> {}
 
 export interface StringResponseData extends ResponseData<ResponseTypes.String> {
 	value: string;
@@ -194,7 +185,7 @@ export interface ListResponseData extends ResponseData<ResponseTypes.List> {
  * Wrapper interface format for save response returned from survey - responseValue in includes the dat
  */
 export interface ResponseValue<T extends ResponseTypes> {
-	responseValue: ResponseData<T>;
+	responseValues: ResponseData<T>;
 }
 
 /**

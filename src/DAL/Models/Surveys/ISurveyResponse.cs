@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DAL.Models.Questions;
 using DAL.Models.ResponseTypes;
 
@@ -8,7 +9,7 @@ namespace DAL.Models.Surveys {
 
 		QuestionPart QuestionPart { get; set; }
 
-		ResponseValue ResponseValue { get; set; }
+		List<ResponseValue> ResponseValues { get; set; }
 
 		SurveyRespondent Respondent { get; set; }
 	}

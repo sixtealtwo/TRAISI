@@ -32,7 +32,7 @@ namespace DAL.Repositories.Interfaces {
 		/// <returns></returns>
 		Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync(int surveyId, SurveyRespondent user);
 
-		Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, ResponseTypes type );
+		Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, string type );
 
 		/// <summary>
 		/// 

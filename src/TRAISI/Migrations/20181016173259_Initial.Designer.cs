@@ -10,15 +10,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181012162040_RepeatSourceFix")]
-    partial class RepeatSourceFix
+    [Migration("20181016173259_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -473,9 +473,13 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("ResponseType");
 
+                    b.Property<int?>("SurveyResponseId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OptionListResponseId");
+
+                    b.HasIndex("SurveyResponseId");
 
                     b.ToTable("ResponseValues");
 
@@ -680,9 +684,6 @@ namespace TRAISI.Migrations
                     b.HasIndex("QuestionPartId");
 
                     b.HasIndex("RespondentId");
-
-                    b.HasIndex("ResponseValueId")
-                        .IsUnique();
 
                     b.ToTable("SurveyResponses");
                 });
@@ -1294,6 +1295,10 @@ namespace TRAISI.Migrations
                     b.HasOne("DAL.Models.ResponseTypes.OptionListResponse")
                         .WithMany("OptionResponseValues")
                         .HasForeignKey("OptionListResponseId");
+
+                    b.HasOne("DAL.Models.Surveys.SurveyResponse", "SurveyResponse")
+                        .WithMany("ResponseValues")
+                        .HasForeignKey("SurveyResponseId");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.GroupCode", b =>
@@ -1345,11 +1350,6 @@ namespace TRAISI.Migrations
                     b.HasOne("DAL.Models.Surveys.SurveyRespondent", "Respondent")
                         .WithMany()
                         .HasForeignKey("RespondentId");
-
-                    b.HasOne("DAL.Models.ResponseTypes.ResponseValue", "ResponseValue")
-                        .WithOne("SurveyResponse")
-                        .HasForeignKey("DAL.Models.Surveys.SurveyResponse", "ResponseValueId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyView", b =>

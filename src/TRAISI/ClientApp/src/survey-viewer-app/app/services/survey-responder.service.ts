@@ -16,9 +16,7 @@ import { SurveyViewerService } from './survey-viewer.service';
 	providedIn: 'root'
 })
 export class SurveyResponderService implements SurveyResponder {
-
-
-	id: number;
+	public id: number;
 	/**
 	 *
 	 *
@@ -41,9 +39,13 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param {number} questionId
 	 * @memberof SurveyResponderService
 	 */
-	public registerQuestion(questionComponent: SurveyQuestion<any>, surveyId: number, questionId: number) {
+	public registerQuestion(
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]>,
+		surveyId: number,
+		questionId: number
+	): void {
 		questionComponent.response.subscribe(
-			(value: ResponseData<any>) => {
+			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId);
 			},
 			error => {
@@ -72,28 +74,53 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private handleResponse(
-		questionComponent: SurveyQuestion<ResponseTypes.String> | OnSaveResponseStatus,
-		response: ResponseData<any>,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
+		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number
-	) {
-		this.saveResponse(<string>response, surveyId, questionId).subscribe(
-			value => {
-				if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {
-					(<OnSaveResponseStatus>questionComponent).onResponseSaved(value);
-				}
-			},
-			error => {
+	): void {
+		if (response instanceof Array) {
+			this.saveResponse({values: response}, surveyId, questionId).subscribe(value => {
+				this.onSavedResponse(questionComponent, value);
+			}, error => {
 				console.log(error);
-			}
-		);
+			});
+		} else {
+			this.saveResponse(response, surveyId, questionId).subscribe(
+				value => {
+					this.onSavedResponse(questionComponent, value);
+				},
+				error => {
+					console.log(error);
+				}
+			);
+		}
+	}
+
+	/**
+	 *
+	 */
+	private onSavedResponse(
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
+		value: any
+	): void {
+		if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {
+			(<OnSaveResponseStatus>questionComponent).onResponseSaved(value);
+		}
 	}
 
 	/**
 	 *
 	 */
 	public addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
-		console.log('in add survey group member');
 		return this._surveyResponseEndpointService.getAddSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
@@ -112,7 +139,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 */
 	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
-
 		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
 	}
 

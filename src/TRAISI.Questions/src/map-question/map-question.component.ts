@@ -74,7 +74,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		response: ResponseData<ResponseTypes.Location> | 'none'
 	) => {
 		if (response !== 'none') {
-			let locationResponse = <LocationResponseData>response;
+			console.log(response);
+			let locationResponse = <LocationResponseData>response[0];
 
 			this.locationSearch = locationResponse.address;
 			this.markerPosition = [locationResponse.longitude, locationResponse.latitude];
@@ -97,7 +98,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
 		this.validationState.emit(ResponseValidationState.VALID);
-		// this.surveyViewerService.updateNavigationState(false);
+		this.surveyViewerService.updateNavigationState(true);
 	}
 
 	/**

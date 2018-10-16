@@ -28,6 +28,7 @@ namespace TRAISI.Services
         private ILogger<RespondentService> _logger;
 
         public static readonly string LOCATION_RESPONSE = "location";
+        public static readonly string TIMELINE_RESPONSE = "location";
 
         /// <summary>
         /// 
@@ -80,12 +81,14 @@ namespace TRAISI.Services
 
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
 
 
-            if (type.ResponseValidator != null) {
+            if (type.ResponseValidator != null)
+            {
                 type.ResponseValidator.ValidateResponse(null);
             }
 
@@ -93,19 +96,22 @@ namespace TRAISI.Services
                            (SurveyRespondent)respondent);
             bool isUpdate = false;
 
-            if (surveyResponse == null) {
+            if (surveyResponse == null)
+            {
                 surveyResponse = new SurveyResponse()
                 {
                     QuestionPart = question,
                     Respondent = respondent,
                 };
             }
-            else {
+            else
+            {
                 isUpdate = true;
             }
 
             ResponseValue responseValue = null;
-            switch (type.ResponseType) {
+            switch (type.ResponseType)
+            {
                 case QuestionResponseType.String:
                     SaveStringResponse(survey, question, user, responseData, surveyResponse);
                     break;
@@ -114,20 +120,23 @@ namespace TRAISI.Services
                     SaveLocationResponse(survey, question, user, responseData, surveyResponse);
                     break;
                 case QuestionResponseType.Timeline:
-                    responseValue = SaveTimelineResponse(survey, question, user, responseData);
+                    SaveTimelineResponse(survey, question, user, responseData, surveyResponse);
                     break;
             }
 
-            try {
+            try
+            {
 
-                if (!isUpdate) {
+                if (!isUpdate)
+                {
                     this._unitOfWork.SurveyResponses.Add(surveyResponse);
                 }
 
 
                 await this._unitOfWork.SaveChangesAsync();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 this._logger.LogError(e, "Error saving response.");
                 return false;
             }
@@ -141,7 +150,7 @@ namespace TRAISI.Services
 
         internal void SavePrimaryRespondentName()
         {
-            
+
         }
 
         /// <summary>
@@ -154,10 +163,14 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValue == null) {
-                response.ResponseValue = new StringResponse();
+            if (response.ResponseValues.Count == 0)
+            {
+                //response.ResponseValues = new List<ResponseValue>();
+                response.ResponseValues.Add(new StringResponse());
             }
-            (response.ResponseValue as StringResponse).Value = responseData.GetValue("value").ToObject<string>();
+
+
+            (response.ResponseValues[0] as StringResponse).Value = responseData.GetValue("value").ToObject<string>();
 
         }
 
@@ -167,13 +180,17 @@ namespace TRAISI.Services
         /// <param name="survey"></param>
         /// <param name="question"></param>
         /// <param name="respondent"></param>
-        /// <param name="response"></param>
+        /// <param name="response"></param> 
         /// <returns></returns>
-        internal ResponseValue SaveTimelineResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject response)
+        internal void SaveTimelineResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            LocationResponse val = response.ToObject<TimelineResponse>();
+            List<TimelineResponse> values = responseData["values"].ToObject<List<TimelineResponse>>();
 
-            return val;
+            response.ResponseValues.Clear();
+
+            response.ResponseValues.AddRange(values);
+
+            return;
         }
 
 
@@ -187,13 +204,15 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValue == null) {
-                response.ResponseValue = new LocationResponse();
+            if (response.ResponseValues.Count == 0)
+            {
+                //response.ResponseValues = new List<ResponseValue>();
+                response.ResponseValues.Add(new LocationResponse());
             }
             var value = responseData.ToObject<LocationResponse>();
-            (response.ResponseValue as LocationResponse).Latitude = value.Latitude;
-            (response.ResponseValue as LocationResponse).Longitude = value.Longitude;
-            (response.ResponseValue as LocationResponse).Address = value.Address;
+            (response.ResponseValues[0] as LocationResponse).Latitude = value.Latitude;
+            (response.ResponseValues[0] as LocationResponse).Longitude = value.Longitude;
+            (response.ResponseValues[0] as LocationResponse).Address = value.Address;
 
             //LocationResponse locationResponseValue = responseData.ToObject<LocationResponse>();
 
@@ -201,6 +220,7 @@ namespace TRAISI.Services
 
 
         }
+
 
 
         /// <summary>
@@ -231,17 +251,14 @@ namespace TRAISI.Services
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
-            if(type == LOCATION_RESPONSE)
-            {
-                var result =  await this._unitOfWork.SurveyResponses.ListSurveyResponsesForRespondentByTypeAsync(surveyId, respondent,
-                 ResponseTypes.LocationResponse);
-                return result;
-            }
 
-            return new List<SurveyResponse>();
+            var result = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForRespondentByTypeAsync(surveyId, respondent, type);
+            return result;
+
         }
 
 
@@ -253,7 +270,7 @@ namespace TRAISI.Services
         public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,
             ApplicationUser user)
         {
-            
+
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
             var response =

@@ -16,7 +16,7 @@ import {ROUTES} from './routes';
 })
 export class AppRoutingModule {
 
-	static forRoot(): ModuleWithProviders {
+	public static forRoot(): ModuleWithProviders {
 		return {
 		  ngModule: AppRoutingModule,
 		  providers: [

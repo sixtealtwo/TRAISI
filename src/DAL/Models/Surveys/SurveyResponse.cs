@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DAL.Models.Questions;
 using DAL.Models.ResponseTypes;
 using TRAISI.SDK.Library.ResponseTypes;
@@ -7,11 +8,16 @@ namespace DAL.Models.Surveys {
 
 		public QuestionPart QuestionPart { get; set; }
 
-		public ResponseValue ResponseValue { get; set; }
+		public List<ResponseValue> ResponseValues { get; set; }
 
 		public int ResponseValueId { get; set; }
 		
 		public SurveyRespondent Respondent { get; set; }
+
+		public SurveyResponse()
+		{
+			this.ResponseValues = new List<ResponseValue>();
+		}
 		
 		
 	}

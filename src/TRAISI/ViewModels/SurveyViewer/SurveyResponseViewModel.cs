@@ -5,6 +5,6 @@ using Newtonsoft.Json.Linq;
 namespace TRAISI.ViewModels.SurveyViewer {
 	public class SurveyResponseViewModel {
 		
-		public Dictionary<string,object> ResponseValue{get;set;}
+		public List<Dictionary<string,object>> ResponseValues{get;set;}
 	}
 }

@@ -10,7 +10,7 @@ export class QuestionPlaceholderComponent implements OnInit {
 	constructor() {
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 	}
 
 }

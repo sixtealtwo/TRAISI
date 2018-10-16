@@ -100,37 +100,6 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResponseValues",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    OptionListResponseId = table.Column<int>(nullable: true),
-                    ResponseType = table.Column<int>(nullable: false),
-                    Value = table.Column<DateTime>(nullable: true),
-                    DecimalResponse_Value = table.Column<double>(nullable: true),
-                    IntegerResponse_Value = table.Column<int>(nullable: true),
-                    JsonResponse_Value = table.Column<string>(type: "jsonb", nullable: true),
-                    Latitude = table.Column<double>(nullable: true),
-                    Longitude = table.Column<double>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Purpose = table.Column<string>(nullable: true),
-                    TimeA = table.Column<DateTime>(nullable: true),
-                    TimeB = table.Column<DateTime>(nullable: true),
-                    StringResponse_Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ResponseValues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ResponseValues_ResponseValues_OptionListResponseId",
-                        column: x => x.OptionListResponseId,
-                        principalTable: "ResponseValues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SiteSurveyTemplates",
                 columns: table => new
                 {
@@ -518,9 +487,9 @@ namespace TRAISI.Migrations
                 {
                     ApplicationId = table.Column<string>(nullable: true),
                     AuthorizationId = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(nullable: true),
                     ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
                     Id = table.Column<string>(nullable: false),
                     Payload = table.Column<string>(nullable: true),
                     Properties = table.Column<string>(nullable: true),
@@ -905,12 +874,44 @@ namespace TRAISI.Migrations
                         principalTable: "SurveyRespondents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResponseValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SurveyResponseId = table.Column<int>(nullable: true),
+                    OptionListResponseId = table.Column<int>(nullable: true),
+                    ResponseType = table.Column<int>(nullable: false),
+                    Value = table.Column<DateTime>(nullable: true),
+                    DecimalResponse_Value = table.Column<double>(nullable: true),
+                    IntegerResponse_Value = table.Column<int>(nullable: true),
+                    JsonResponse_Value = table.Column<string>(type: "jsonb", nullable: true),
+                    Latitude = table.Column<double>(nullable: true),
+                    Longitude = table.Column<double>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Purpose = table.Column<string>(nullable: true),
+                    TimeA = table.Column<DateTime>(nullable: true),
+                    TimeB = table.Column<DateTime>(nullable: true),
+                    StringResponse_Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResponseValues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SurveyResponses_ResponseValues_ResponseValueId",
-                        column: x => x.ResponseValueId,
+                        name: "FK_ResponseValues_ResponseValues_OptionListResponseId",
+                        column: x => x.OptionListResponseId,
                         principalTable: "ResponseValues",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ResponseValues_SurveyResponses_SurveyResponseId",
+                        column: x => x.SurveyResponseId,
+                        principalTable: "SurveyResponses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -1091,6 +1092,11 @@ namespace TRAISI.Migrations
                 column: "OptionListResponseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ResponseValues_SurveyResponseId",
+                table: "ResponseValues",
+                column: "SurveyResponseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shortcodes_GroupCodeId",
                 table: "Shortcodes",
                 column: "GroupCodeId");
@@ -1134,12 +1140,6 @@ namespace TRAISI.Migrations
                 name: "IX_SurveyResponses_RespondentId",
                 table: "SurveyResponses",
                 column: "RespondentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SurveyResponses_ResponseValueId",
-                table: "SurveyResponses",
-                column: "ResponseValueId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyViews_SurveyId",
@@ -1308,13 +1308,13 @@ namespace TRAISI.Migrations
                 name: "QuestionPartViewLabels");
 
             migrationBuilder.DropTable(
+                name: "ResponseValues");
+
+            migrationBuilder.DropTable(
                 name: "SiteSurveyTemplates");
 
             migrationBuilder.DropTable(
                 name: "SurveyPermissions");
-
-            migrationBuilder.DropTable(
-                name: "SurveyResponses");
 
             migrationBuilder.DropTable(
                 name: "TermsAndConditionsPageLabels");
@@ -1344,13 +1344,13 @@ namespace TRAISI.Migrations
                 name: "QuestionOptions");
 
             migrationBuilder.DropTable(
-                name: "SurveyRespondents");
-
-            migrationBuilder.DropTable(
-                name: "ResponseValues");
+                name: "SurveyResponses");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "SurveyRespondents");
 
             migrationBuilder.DropTable(
                 name: "Shortcodes");

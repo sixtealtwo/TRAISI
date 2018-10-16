@@ -38,12 +38,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public titleText: string;
 
 	@ViewChild(SurveyHeaderDisplayComponent)
-	headerDisplay: SurveyHeaderDisplayComponent;
+	public headerDisplay: SurveyHeaderDisplayComponent;
 
 	@ViewChildren('questions')
-	questionContainers!: QueryList<QuestionContainerComponent>;
+	public questionContainers!: QueryList<QuestionContainerComponent>;
 
-	public activeQuestion;
+	public activeQuestion: any;
 
 	public activeQuestionIndex: number = -1;
 
@@ -83,7 +83,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Initialization
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 		// this.surveyViewerService.getWelcomeView()
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
@@ -110,7 +110,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 *
 	 */
-	private loadQuestions(pages: Array<SurveyViewPage>) {
+	private loadQuestions(pages: Array<SurveyViewPage>): void {
 		this.questions = [];
 		let order: number = 0;
 		let pageCount: number = 0;
@@ -149,7 +149,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Navigate questions - next question in the questions list.
 	 */
-	public navigateNext() {
+	public navigateNext(): void {
 		if (!this.validateInternalNavigationNext()) {
 			this.activeQuestionIndex += 1;
 			this.validateNavigation();
@@ -167,7 +167,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 *
 	 */
-	private callVisibilityHooks() {
+	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
 			if (
 				(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')
@@ -180,7 +180,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
-	public navigatePrevious() {
+	public navigatePrevious():void {
 		if (!this.validateInternalNavigationPrevious()) {
 			this.activeQuestionIndex -= 1;
 			this.navigationActiveState = true;

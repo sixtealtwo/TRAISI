@@ -93,7 +93,6 @@ export class QuestionLoaderService {
 	 *
 	 */
 	public getQuestionComponentModule(questionType: string): NgModuleRef<any> {
-
 		return this._moduleRefs[questionType];
 	}
 
@@ -108,7 +107,6 @@ export class QuestionLoaderService {
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-
 				observer.next(this._componentFactories[questionType]);
 
 				observer.complete();
@@ -125,7 +123,7 @@ export class QuestionLoaderService {
 
 				if (!(questionType in this._componentFactories)) {
 					this._componentFactories[questionType] = componentFactory;
-					console.debug('Adding component factory: ' + questionType);
+
 					this.componentFactories$.next(componentFactory);
 				}
 				observer.next(componentFactory);
@@ -143,9 +141,6 @@ export class QuestionLoaderService {
 						const moduleInstance = <SurveyModule>module.default;
 
 						this._moduleRefs[<string>questionType] = moduleRef;
-
-						console.log(this._moduleRefs);
-
 
 						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
 							moduleRef,
@@ -201,14 +196,9 @@ export class QuestionLoaderService {
 	): Observable<ComponentRef<any>> {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
 			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
-
-
-
-				console.log('before created');
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
 				const moduleRef = this._moduleRefs[question.questionType];
 
-				console.log('component created');
 				observer.next(componentRef);
 				observer.complete();
 			});

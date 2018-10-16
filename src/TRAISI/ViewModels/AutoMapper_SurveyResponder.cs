@@ -31,7 +31,7 @@ namespace TRAISI.ViewModels
         private void CreateSurveyResponderAutoMapperProfiles()
         {
             CreateMap<SurveyResponse, SurveyResponseViewModel>()
-               .ForMember(s => s.ResponseValue, r => r.ResolveUsing<ResponseValueResolver>());
+               .ForMember(s => s.ResponseValues, r => r.ResolveUsing<ResponseValueResolver>());
 
 
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
@@ -52,7 +52,7 @@ namespace TRAISI.ViewModels
     /// </summary>
     /// <typeparam name="string"></typeparam>
     /// <typeparam name="object"></typeparam>
-    public class ResponseValueResolver : IValueResolver<SurveyResponse, SurveyResponseViewModel, Dictionary<string, object>>
+    public class ResponseValueResolver : IValueResolver<SurveyResponse, SurveyResponseViewModel, List<Dictionary<string, object>>>
     {
         static CamelCasePropertyNamesContractResolver NamesContractResolver;
         static ResponseValueResolver()
@@ -67,17 +67,24 @@ namespace TRAISI.ViewModels
         /// <param name="destMember"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Dictionary<string, object> Resolve(SurveyResponse source,
-        SurveyResponseViewModel destination, Dictionary<string, object> destMember, ResolutionContext context)
+        public List<Dictionary<string, object>> Resolve(SurveyResponse source,
+        SurveyResponseViewModel destination, List<Dictionary<string, object>> destMember, ResolutionContext context)
         {
 
-            var obj = source.ResponseValue.GetType()
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(f =>
+            List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
+            foreach (var response in source.ResponseValues)
             {
-                return f.PropertyType != typeof(SurveyResponse) && f.Name != "Id";
-            })
-          .ToDictionary(prop => NamesContractResolver.GetResolvedPropertyName(prop.Name), prop => prop.GetValue(source.ResponseValue, null));
-            return obj;
+                var obj = response.GetType()
+                            .GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(f =>
+                            {
+                                return f.PropertyType != typeof(SurveyResponse) && f.Name != "Id";
+                            })
+                          .ToDictionary(prop => NamesContractResolver.GetResolvedPropertyName(prop.Name), prop => prop.GetValue(response, null));
+
+                responseValues.Add(obj);
+            }
+
+            return responseValues;
         }
     }
 }
