@@ -97,7 +97,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
 		this.validationState.emit(ResponseValidationState.VALID);
-		this.surveyViewerService.updateNavigationState(false);
+		// this.surveyViewerService.updateNavigationState(false);
 	}
 
 	/**
