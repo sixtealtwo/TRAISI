@@ -15,7 +15,7 @@ module.exports = {
         libraryTarget: 'amd'
     },
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
 
     resolve: {
         extensions: [

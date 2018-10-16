@@ -36,7 +36,7 @@ namespace TRAISI.Services.Interfaces
 		/// 
 		/// </summary>
 		/// <param name="model"></param>
-		Task<bool> UpdateRespondent(SurveyRespondentViewModel model);
+		Task<bool> UpdateRespondent(SurveyRespondentViewModel model, ApplicationUser user);
 
 		/// <summary>
 		/// 

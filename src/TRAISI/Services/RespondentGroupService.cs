@@ -37,20 +37,36 @@ namespace TRAISI.Services
 
         }
 
-        public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel)
+        public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel, ApplicationUser user)
         {
-            var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(respondentModel.Id);
-
-            if(respondent == null)
+            if (respondentModel.Id >= 0)
             {
-                return false;
+                var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(respondentModel.Id);
+
+                if (respondent == null)
+                {
+                    return false;
+                }
+
+                respondent.Relationship = respondentModel.Relationship;
+                respondent.Name = respondentModel.Name;
+
+                return true;
+            }
+            else if (respondentModel.Id == -1)
+            {
+
+                var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+
+                primary.Name = respondentModel.Name;
+
+                
+                return true;
             }
 
-            respondent.Relationship = respondentModel.Relationship;
-            respondent.Name = respondentModel.Name;
 
-            return true;
-           
+            return false;
+
         }
 
         /// <summary>
@@ -77,14 +93,17 @@ namespace TRAISI.Services
         {
             var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (primary != null) {
-                if (primary.SurveyRespondentGroup == null) {
+            if (primary != null)
+            {
+                if (primary.SurveyRespondentGroup == null)
+                {
                     primary.SurveyRespondentGroup = new SurveyRespondentGroup();
 
                 }
                 return primary.SurveyRespondentGroup;
             }
-            else {
+            else
+            {
                 return null;
             }
         }

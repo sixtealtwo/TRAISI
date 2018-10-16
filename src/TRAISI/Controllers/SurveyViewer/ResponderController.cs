@@ -156,10 +156,10 @@ namespace TRAISI.Controllers.SurveyViewer
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             //var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             //var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            var result = await this._respondentGroupService.UpdateRespondent(respondent);
+            var result = await this._respondentGroupService.UpdateRespondent(respondent,user);
             await this._unitOfWork.SaveChangesAsync();
 
-
+    
             return new OkResult();
         }
 

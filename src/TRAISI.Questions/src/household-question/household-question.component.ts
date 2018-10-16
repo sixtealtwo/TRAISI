@@ -26,27 +26,29 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 	public respondents: Array<SurveyRespondentEdit>;
 
-	public relationships: Array<string> = [
-		'Spouse/Partner',
-		'Child',
-		'Parent',
-		'Grandparent',
-		'Grandchild',
-		'Roommate',
-		'Other'
-	];
+	public primaryRespondent;
+	SurveyRespondentEdit;
+
+	public relationships: Array<string> = ['Spouse/Partner', 'Child', 'Parent', 'Grandparent', 'Grandchild', 'Roommate', 'Other'];
 
 	/**
 	 *
 	 * @param _surveyResponderService
 	 */
-	constructor(
-		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder,
-		private _cdRef: ChangeDetectorRef
-	) {
+	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder, private _cdRef: ChangeDetectorRef) {
 		super();
 
 		this.respondents = [];
+
+		this.primaryRespondent = {
+			respondent: {
+				firstName: '',
+				lastName: '',
+				id: -1
+			},
+			isSaved: false,
+			isValid: false
+		};
 	}
 
 	ngOnInit(): void {
@@ -63,9 +65,16 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 
 		this._surveyResponderService.getSurveyGroupMembers().subscribe(value => {
 			const arr = <Array<SurveyRespondent>>value;
+
+			if (arr.length >= 1) {
+				this.primaryRespondent = {
+					respondent: arr[0],
+					isSaved: true,
+					isValid: true
+				};
+			}
 			arr.splice(0, 1);
 
-			console.log(arr);
 			arr.forEach(element => {
 				this.respondents.push({
 					respondent: element,
@@ -119,9 +128,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		this.respondents.splice(index, 1);
 
 		if (respondent.respondent.id !== undefined) {
-			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe(value => {
-				console.log('removed');
-			});
+			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe(value => {});
 		}
 	}
 
@@ -134,6 +141,23 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		}
 
 		respondent.isSaved = false;
+	}
+
+	public primaryModelChanged(): void {
+		console.log(this.primaryRespondent);
+	}
+
+	public primaryBlur(): void {
+		if (this.primaryRespondent.respondent.name !== '') {
+			this._surveyResponderService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
+				value => {
+					this.primaryRespondent.isSaved = true;
+				},
+				error => {
+					console.error(error);
+				}
+			);
+		}
 	}
 
 	ngDoCheck(): void {}
