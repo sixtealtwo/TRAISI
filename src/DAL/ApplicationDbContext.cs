@@ -66,6 +66,8 @@ namespace DAL
 
         public DbSet<SurveyRespondent> SurveyRespondents { get; set; }
 
+        public DbSet<SurveyResponse> SurveyResponses { get; set; }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }
@@ -161,7 +163,7 @@ namespace DAL
                 .HasValue<LocationResponse>(3)
                 .HasValue<IntegerResponse>(4)
                 .HasValue<OptionListResponse>(5)
-                .HasValue<JsonResponse>(6) 
+                .HasValue<JsonResponse>(6)
                 .HasValue<TimelineResponse>(7)
                 .HasValue<DateTimeResponse>(8);
 
@@ -209,15 +211,18 @@ namespace DAL
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in modifiedEntries) {
+            foreach (var entry in modifiedEntries)
+            {
                 var entity = (IAuditableEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Added) {
+                if (entry.State == EntityState.Added)
+                {
                     entity.CreatedDate = now;
                     entity.CreatedBy = CurrentUserId;
                 }
-                else {
+                else
+                {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                 }
