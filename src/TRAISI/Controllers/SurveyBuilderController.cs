@@ -23,6 +23,7 @@ using TRAISI.Services.Interfaces;
 using DAL.Models.Extensions;
 using System.IO;
 using Newtonsoft.Json;
+using FluentValidation.Results;
 
 namespace TRAISI.Controllers
 {
@@ -35,13 +36,14 @@ namespace TRAISI.Controllers
         private readonly IAccountManager _accountManager;
         private readonly IQuestionTypeManager _questionTypeManager;
         private readonly ISurveyBuilderService _surveyBuilderService;
+        private readonly IFileDownloader _fileDownloader;
 
         /// <summary>
         /// Constructor the controller.
         /// </summary>
         /// <param name="unitOfWork">Unit of work service.</param>
         /// <param name="questionTypeManager">Question type manager service.</param>
-        public SurveyBuilderController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager,
+        public SurveyBuilderController(IUnitOfWork unitOfWork, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager,
                                         IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService)
         {
             this._unitOfWork = unitOfWork;
@@ -49,6 +51,7 @@ namespace TRAISI.Controllers
             this._accountManager = accountManager;
             this._questionTypeManager = questionTypeManager;
             this._surveyBuilderService = surveyBuilderService;
+            this._fileDownloader = fileDownloaderService;
         }
 
         [HttpGet("question-types")]
@@ -440,6 +443,51 @@ namespace TRAISI.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpPost("{surveyId}/QuestionOptions/{questionPartId}/massImport"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ImportQuestionPartOptions(int surveyId, int questionPartId)
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                if (Request.Form.ContainsKey("parameters"))
+                {
+                    QuestionOptionValueViewModel optionParameters = JsonConvert.DeserializeObject<QuestionOptionValueViewModel>(Request.Form["parameters"]);
+
+                    QuestionOptionValueViewModelValidator parameterValidator = new QuestionOptionValueViewModelValidator();
+                    ValidationResult validParameters = parameterValidator.Validate(optionParameters);
+                    if (validParameters.IsValid)
+                    {
+                        var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
+                        var errorCodes = this._surveyBuilderService.ImportQuestionOptions(questionPart, optionParameters.Name, optionParameters.OptionLabel.Language, file);
+                        await this._unitOfWork.SaveChangesAsync();
+                        if (errorCodes.Count == 0)
+                        {
+                            return Ok("success");
+                        }
+                        else
+                        {
+                            string code = this._fileDownloader.GenerateFileCode();
+                            this._fileDownloader.WriteErrorCodes(code, this.User.Identity.Name, errorCodes);
+                            return Ok(code);
+                        }
+                    }
+                    else
+                    {
+                        AddErrors(validParameters.Errors.Select(e => e.ErrorMessage));
+                        return BadRequest(ModelState);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Missing Import Parameters");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest("Upload Failed: " + ex.Message);
+            }
+        }
+
         [HttpDelete("{surveyId}/QuestionOptions/{questionPartId}/{optionId}")]
         public async Task<IActionResult> DeleteQuestionPartOption(int surveyId, int questionPartId, int optionId)
         {
@@ -733,6 +781,12 @@ namespace TRAISI.Controllers
             return hasModifySurveyPermissions;
         }
 
-
+        private void AddErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace TRAISI.Helpers
         Task<Survey> ExtractSurveyImportAsync(IFormFile importFile, string userName);
         void WriteShortcodeFile(string code, string userName, string mode, Survey survey);
         void WriteGroupCodeFile(string code, string userName, string mode, Survey survey);
-
+        void WriteErrorCodes(string code, string userName, List<(string, string, string)> codesWithErrors);
     }
 
     public class FileDownloaderService : IFileDownloader
@@ -91,6 +91,53 @@ namespace TRAISI.Helpers
             });
         }
 
+        public void WriteErrorCodes(string code, string userName, List<(string,string, string)> codesWithErrors)
+        {
+            Task.Run(async () =>
+            {
+                string folderName = "Download";
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string newPath = Path.Combine(webRootPath, folderName, userName, code);
+                string fileName = Path.Combine(newPath, $"optionErrorList.csv");
+                string url = $"/{folderName}/{userName}/{code}/optionErrorList.csv";
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+                var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
+                await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+
+                // Write shortcodes to csv
+                using (var sw = new StreamWriter(fileName))
+                {
+                    var writer = new CsvWriter(sw);
+                    writer.Configuration.RegisterClassMap<QuestionOptionMap>();
+                    var codeList = codesWithErrors.Select(r => new QuestionOptionData() { Code = r.Item1, Label = r.Item2, Reason = r.Item3 });
+                    writer.WriteRecords(codeList);
+                }
+                progress.Progress = 100;
+                await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                BackgroundJob.Schedule(() => Directory.Delete(newPath, true), TimeSpan.FromSeconds(30));
+            });
+        }
+
+        public class QuestionOptionData
+        {
+            public string Code { get; set; }
+            public string Label { get; set; }
+            public string Reason { get; set; }
+        }
+
+        public sealed class QuestionOptionMap : ClassMap<QuestionOptionData>
+        {
+            public QuestionOptionMap()
+            {
+                Map(m => m.Code);
+                Map(m => m.Label);
+                Map(m => m.Reason);
+            }
+        }
+
         public async Task<Survey> ExtractSurveyImportAsync(IFormFile importFile, string userName)
         {
             Survey importSurvey = null;
@@ -111,8 +158,6 @@ namespace TRAISI.Helpers
             {
                 await importFile.CopyToAsync(fileStream);
             }
-
-
 
             ZipFile.ExtractToDirectory(zipFileName, expandDirectory);
 
@@ -226,7 +271,7 @@ namespace TRAISI.Helpers
             public GroupCodeMap()
             {
                 Map(m => m.Code);
-								Map(m => m.Name);
+				Map(m => m.Name);
                 Map(m => m.IsTest);
                 Map(m => m.CreatedDate);
             }

@@ -14,7 +14,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule } from 'ngx-bootstrap';
+import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
@@ -49,7 +49,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { AngularDraggableModule } from 'angular2-draggable';
-import {NgxToggleModule} from 'ngx-toggle';
+import { NgxToggleModule } from 'ngx-toggle';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
@@ -78,6 +78,7 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 		ColorPickerModule,
 		AngularDraggableModule,
 		NgxToggleModule,
+		PaginationModule.forRoot(),
 		ButtonsModule.forRoot(),
 		DynamicModule.withComponents([
 			Header1Component,

@@ -1,21 +1,24 @@
 <div class="details-wrapper" [class.disable-clicks]="reordering">
 	<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
 		<h5 class="text-center">{{ qOptionDefinition.name }}</h5>
+		<div class="form-group row search-box p-3">
+			<search-input class="col-8" (searchChange)="onSearchChanged($event, qOptionDefinition.name, i)" placeholder="Search Options"></search-input>
+		</div>
 		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
 		 [getChildPayload]="getOptionPayload" [lockAxis]="'y'">
-			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name)">
+			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name) | slice:(optionPage[i]-1)*numberPerPage:optionPage[i]*numberPerPage">
 				<div class="form-group row response-option-container">
 					<div class="input-group col-md-12">
-						<input #key type="text" class="form-control optionKey" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, key)"  (keydown.ArrowRight)="onArrowRight($event, key)" (keydown.ArrowUp)="onArrowUp($event, key, 0)"  (keydown.ArrowDown)="onArrowDown($event, key, 0)" id="code" [(ngModel)]="item.code"/>
-						<input #value type="text" class="form-control optionValue" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, value)" (keydown.ArrowLeft)="onArrowLeft($event, value)" (keydown.ArrowUp)="onArrowUp($event, value, 1)" (keydown.ArrowDown)="onArrowDown($event, value, 1)" id="label" [(ngModel)]="item.optionLabel.value" />
+						<input #key type="text" class="form-control optionKey" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, key, i)"  (keydown.ArrowRight)="onArrowRight($event, key)" (keydown.ArrowUp)="onArrowUp($event, key, 0)"  (keydown.ArrowDown)="onArrowDown($event, key, 0, i)" id="code" [(ngModel)]="item.code"/>
+						<input #value type="text" class="form-control optionValue" (keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, value, i)" (keydown.ArrowLeft)="onArrowLeft($event, value)" (keydown.ArrowUp)="onArrowUp($event, value, 1)" (keydown.ArrowDown)="onArrowDown($event, value, 1, i)" id="label" [(ngModel)]="item.optionLabel.value" />
 						<div class="input-group-append">
 							<button type="button" class="btn" (click)="saveOption(item)" [class.btn-success]="optionChanged(item)" [disabled]="!optionChanged(item)">
 								<i class="fas fa-save"></i>
 							</button>
-							<button type="button" [disabled]="items.get(qOptionDefinition.name).length <= 1" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, item.order)">
+							<button type="button" class="btn btn-danger" (click)="deleteOption(qOptionDefinition.name, i, item.order)">
 								<i class="fas fa-trash-alt"></i>
 							</button>
-							<button type="button" class="btn btn-gray option-handle">
+							<button type="button" class="btn btn-gray option-handle" *ngIf="searchValue[i] == ''">
 								<i class="fas fa-bars"></i>
 							</button>
 						</div>
@@ -23,25 +26,27 @@
 				</div>
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
-		<div class="form-group row response-option-container" *ngIf="pendingOption">
+		<pagination *ngIf="items.get(qOptionDefinition.name).length > numberPerPage" [totalItems]="items.get(qOptionDefinition.name).length" [(ngModel)]="optionPage[i]" [maxSize]="maxSize" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+		<div class="form-group row response-option-container" *ngIf="pendingOptions[i]">
 			<div class="input-group col-md-12">
-				<input #newOptionKey type="text" (keydown.ArrowRight)="onArrowRight($event, newOptionKey)" (keyup.enter)="pendingOptionValid(item) ? savePendingOption(0) : null" class="form-control optionKey" id="code" [(ngModel)]="pendingOption.code"/>
-				<input #newOptionValue type="text" (keydown.ArrowLeft)="onArrowLeft($event, newOptionValue)" (keyup.enter)="pendingOptionValid(item) ? savePendingOption(1) : null" class="form-control optionValue" id="label" [(ngModel)]="pendingOption.optionLabel.value" />
+				<input #newOptionKey type="text" (keydown.ArrowRight)="onArrowRight($event, newOptionKey)" (keyup.enter)="pendingOptionValid(i) ? savePendingOption(i, 0) : null" class="form-control optionKey" id="code" [(ngModel)]="pendingOptions[i].code"/>
+				<input #newOptionValue type="text" (keydown.ArrowLeft)="onArrowLeft($event, newOptionValue)" (keyup.enter)="pendingOptionValid(i) ? savePendingOption(i, 1) : null" class="form-control optionValue" id="label" [(ngModel)]="pendingOptions[i].optionLabel.value" />
 				<div class="input-group-append">
-					<button type="button" class="btn" (click)="savePendingOption()" [class.btn-success]="pendingOptionValid()" [disabled]="!pendingOptionValid()">
+					<button type="button" class="btn" (click)="savePendingOption(i)" [class.btn-success]="pendingOptionValid(i)" [disabled]="!pendingOptionValid(i)">
 						<i class="fas fa-save"></i>
 					</button>
-					<button type="button" class="btn btn-danger" (click)="deletePendingOption()">
+					<button type="button" class="btn btn-danger" (click)="deletePendingOption(i)">
 						<i class="fas fa-trash-alt"></i>
 					</button>
 				</div>
 			</div>
 		</div>
-		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed && !pendingOption">
-			<div>
-				<button class="btn btn-primary" (click)="addOption(qOptionDefinition.name)">
+		<div class="row justify-content-center" *ngIf="qOptionDefinition.isMultipleAllowed && !pendingOptions[i]">
+			<div class="text-center">
+				<button class="btn btn-primary" (click)="addOption(qOptionDefinition.name, i)">
 					<i class="fas fa-plus-circle"></i> Add Option
 				</button>
+				<dropzone class="option-drop" #optionUpload [config]="dropZoneconfig" [message]="'Upload csv (columns Code and Label)'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
 			</div>
 		</div>
 		<div class="row" *ngIf="i < questionOptionDefinitions.length - 1">

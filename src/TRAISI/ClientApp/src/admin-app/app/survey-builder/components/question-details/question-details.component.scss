@@ -7,7 +7,7 @@
 
 	.optionKey {
 		float: left !important;
-		width: 50px !important;
+		width: 100px !important;
 		flex: unset;
 		height:unset;
 	}
@@ -25,4 +25,12 @@
 
 .disable-clicks { 
 	pointer-events: none;
+}
+
+.option-drop  {
+	width: 400px;
+	height: 70px !important;
+	.dz-message {
+		overflow: hidden !important;
+	}
 }

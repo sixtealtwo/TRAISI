@@ -378,6 +378,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			result => {
 				this.loadPageStructure();
+				if (this.surveyPage) {
+					this.surveyPage.updateFullStructure(true);
+				}
 				this.alertService.showMessage('Success', `Page was added successfully!`, MessageSeverity.success);
 				this.createPageModal.hide();
 			},

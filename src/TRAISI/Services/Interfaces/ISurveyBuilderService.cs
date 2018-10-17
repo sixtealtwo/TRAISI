@@ -4,6 +4,7 @@ using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using DAL.Core;
 using TRAISI.SDK;
+using Microsoft.AspNetCore.Http;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -17,6 +18,8 @@ namespace TRAISI.Services.Interfaces
         QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
         QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string code, string name, string value, string language);
+
+        List<(string, string, string)> ImportQuestionOptions(QuestionPart questionPart, string name, string language, IFormFile fileStream);
 
         QuestionOption AddQuestionOption(QuestionPart questionPart, string code, string name, string value, string language);
 

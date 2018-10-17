@@ -5,12 +5,16 @@ using DAL.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using TRAISI.Helpers;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
 using DAL.Core;
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.IO;
 
 namespace TRAISI.Services
 {
@@ -21,7 +25,6 @@ namespace TRAISI.Services
     public class SurveyBuilderService : ISurveyBuilderService
     {
         private IUnitOfWork _unitOfWork;
-
         private IQuestionTypeManager _questions;
 
         /// <summary>
@@ -114,7 +117,8 @@ namespace TRAISI.Services
             {
                 int sourceQuestionId = int.Parse(repeatSourceQuestionName.Split('~').Last());
                 qpv.RepeatSource = this._unitOfWork.QuestionParts.Get(sourceQuestionId);
-            } else
+            }
+            else
             {
                 qpv.RepeatSource = null;
             }
@@ -168,7 +172,7 @@ namespace TRAISI.Services
                         throw new ArgumentException("Cannot have duplicate options!");
                     }
                 }
-                var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language );
+                var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language);
                 if (optionLabel == null)
                 {
                     option.QuestionOptionLabels.Add(new QuestionOptionLabel()
@@ -190,12 +194,126 @@ namespace TRAISI.Services
                         throw new ArgumentException("Cannot have duplicate options");
                     }
                 }
-                
+
                 return option;
             }
             else
             {
                 return this.AddQuestionOption(questionPart, code, name, value, language);
+            }
+        }
+
+        /// <summary>
+        /// Imports options into question part from stream
+        /// </summary>
+        /// <param name="questionPart">Question part</param>
+        /// <param name="name">Option Group Name</param>
+        /// <param name="language"></param>
+        /// <param name="fileStream">File stream of csv file</param>
+        /// <returns></returns>
+        public List<(string, string, string)> ImportQuestionOptions(QuestionPart questionPart, string name, string language, IFormFile file)
+        {
+            //check if the option has a value / allows multiple
+            List<(string, string, string)> errorList = new List<(string, string, string)>();
+            var definition = this._questions.QuestionTypeDefinitions[questionPart.QuestionType];
+            
+            if (definition != null)
+            {
+                if (definition.QuestionOptions.Keys.Contains(name))
+                {
+                    int startOptionOrderIndex = questionPart.QuestionOptions.Count(o => o.Name == name);
+
+                    IEnumerable<QuestionOptionData> optionData;
+                    using (var fileStream = new StreamReader(file.OpenReadStream()))
+                    {
+                        var reader = new CsvReader(fileStream);
+                        reader.Configuration.RegisterClassMap<QuestionOptionMap>();
+                        optionData = reader.GetRecords<QuestionOptionData>().ToList();
+                    }
+
+                    // get unique codes from input list
+                    var allCodes = questionPart.QuestionOptions.Select(o => o.Code);
+
+                    var importCodes = optionData.Select(o => o.Code).ToList();
+                    var duplicateImportCodes = importCodes.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
+
+                    var duplicateCodes = importCodes.Intersect(allCodes).Union(duplicateImportCodes).ToList();
+
+                    // get unique labels from input list for question option group
+                    var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
+
+                    var importLabels = optionData.Select(o => o.Label).ToList();
+                    var duplicateImportLabels = importLabels.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
+
+                    var duplicateLabels = importLabels.Intersect(allLabels).Union(duplicateImportLabels).ToList();
+
+                    foreach (var option in optionData)
+                    {
+                        bool duplicateCode = duplicateCodes.Contains(option.Code);
+                        bool duplicateLabel = duplicateLabels.Contains(option.Label);
+                        if (duplicateCode || duplicateLabel)
+                        {
+                            string reason = duplicateCode && duplicateLabel ? "Duplicate option" : (duplicateCode ? "Duplicate Code" : "Duplicate Label");
+                            errorList.Add((option.Code, option.Label, reason));
+                        }
+                        else
+                        {
+                            var newOption = new QuestionOption()
+                            {
+                                Name = name,
+                                Code = option.Code,
+                                Order = startOptionOrderIndex++,
+                                QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
+                                {
+                                    new QuestionOptionLabel()
+                                    {
+                                        Language = language ?? "en",
+                                        Value = option.Label
+                                    }
+                                }
+                            };
+                            if (definition.QuestionOptions[name].IsMultipleAllowed)
+                            {
+                                questionPart.QuestionOptions.Add(newOption);
+                            }
+                            else if (newOption.Order == 0)
+                            {
+                                questionPart.QuestionOptions.Add(newOption);
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Cannot assign new question option, remove first.");
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    throw new ArgumentException("Question Option does not exist for this question type.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Question Type does not exist.");
+            }
+
+            return errorList;
+        }
+
+
+        public class QuestionOptionData
+        {
+            public string Code { get; set; }
+            public string Label { get; set; }
+        }
+
+        public sealed class QuestionOptionMap : ClassMap<QuestionOptionData>
+        {
+            public QuestionOptionMap()
+            {
+                Map(m => m.Code).Name("Code", "code");
+                Map(m => m.Label).Name("Value", "value", "Label", "label");
             }
         }
 
@@ -213,8 +331,6 @@ namespace TRAISI.Services
                 this._questions.QuestionTypeDefinitions[part.QuestionType];
             if (definition != null)
             {
-                var hasOption = definition.QuestionOptions.Count(c => c.Key == name);
-
                 if (definition.QuestionOptions.Keys.Contains(name))
                 {
                     //ensure code hasn't been used already
@@ -492,8 +608,10 @@ namespace TRAISI.Services
 
             bool foundQuestion = false;
 
-            structure.QuestionPartViews.OrderBy(q => q.Order).ToList().ForEach(page => {
-                page.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(firstLayerQuestion => {
+            structure.QuestionPartViews.OrderBy(q => q.Order).ToList().ForEach(page =>
+            {
+                page.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(firstLayerQuestion =>
+                {
                     if (firstLayerQuestion.QuestionPart != null)
                     {
                         if (firstLayerQuestion.Id == questionPartViewMovedId)
@@ -515,7 +633,8 @@ namespace TRAISI.Services
                     }
                     else
                     {
-                        firstLayerQuestion.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(secondLayerQuestion => {
+                        firstLayerQuestion.QuestionPartViewChildren.OrderBy(q => q.Order).ToList().ForEach(secondLayerQuestion =>
+                        {
                             if (secondLayerQuestion.Id == questionPartViewMovedId)
                             {
                                 foundQuestion = true;
@@ -647,7 +766,8 @@ namespace TRAISI.Services
             List<QuestionConditional> newTarget = new List<QuestionConditional>();
             List<QuestionConditional> updateTarget = new List<QuestionConditional>();
 
-            conditionals.ForEach(conditional => {
+            conditionals.ForEach(conditional =>
+            {
                 if (conditional.SourceQuestionId == question.Id)
                 {
                     if (conditional.Id == 0)
@@ -688,7 +808,8 @@ namespace TRAISI.Services
             List<QuestionOptionConditional> newTarget = new List<QuestionOptionConditional>();
             List<QuestionOptionConditional> updateTarget = new List<QuestionOptionConditional>();
 
-            conditionals.ForEach(conditional => {
+            conditionals.ForEach(conditional =>
+            {
                 if (conditional.SourceQuestionId == question.Id)
                 {
                     if (conditional.Id == 0)
