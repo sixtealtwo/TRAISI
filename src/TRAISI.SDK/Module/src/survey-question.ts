@@ -8,9 +8,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
  * Base abstract class for Survey Questions available to TRAISI
  */
 export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
-	public abstract get typeName(): string;
 
-	public abstract get icon(): string;
 
 	/**
 	 * Output binding - question components embedded in other question types can subscribe

@@ -19,11 +19,8 @@ import {
 	styles: [require('./date-question.component.scss').toString()]
 })
 export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> implements OnInit {
-	readonly QUESTION_TYPE_NAME: string = 'date';
-
-
-	typeName: string;
-	icon: string;
+	public typeName: string;
+	public icon: string;
 
 	/**
 	 *
@@ -35,8 +32,6 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
 	) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'date';
 
 		this._surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
@@ -45,9 +40,9 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {
+	public loadConfigurationData(data: QuestionConfiguration[]): void {
 		this.data = data;
 	}
 
-	ngOnInit() {}
+	public ngOnInit(): void {}
 }

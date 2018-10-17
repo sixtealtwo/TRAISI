@@ -19,13 +19,12 @@ import {
 	styles: [require('./radio-question.component.scss').toString()]
 })
 export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit, OnOptionsLoaded {
-	readonly QUESTION_TYPE_NAME: string = 'Radio Question';
 
-	options: QuestionOption[];
 
-	typeName: string;
-	icon: string;
-	selectdOption: any;
+	public options: QuestionOption[];
+
+
+	public selectdOption: any;
 
 	/**
 	 *
@@ -43,18 +42,20 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> i
 	/**
 	 *
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
+
+
 	}
 
 	/**
 	 *
 	 * @param options
 	 */
-	onOptionsLoaded(options: QuestionOption[]): void {
+	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
 	}
 
-	traisiOnInit(): void {
+	public traisiOnInit(): void {
 	}
 }
