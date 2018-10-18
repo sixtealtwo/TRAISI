@@ -22,6 +22,7 @@ import { SurveyService } from '../services/survey.service';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
+import { fadeInOut } from '../services/animations';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -43,7 +44,8 @@ Quill.register(Font, true);
 	selector: 'traisi-survey-builder',
 	templateUrl: './survey-builder.component.html',
 	styleUrls: ['./survey-builder.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
+	animations: [fadeInOut]
 })
 export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public surveyId: number;
@@ -298,17 +300,21 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			.subscribe(page => {
 				this.currentSurveyPage = page;
 				this.surveyPage.currentPage = page;
+				this.surveyPage.partsLeftToLoad = 1;
 				this.surveyPage.updateFullStructure(false);
 				this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
 				page.questionPartViewChildren.forEach(qc => {
 					if (qc.questionPart === null) {
+						this.surveyPage.partsLeftToLoad++;
 						this.surveyPage.qPartQuestions.set(qc.id, qc);
 						this.surveyBuilderService
 							.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
 							.subscribe(qPart => {
 								qc.questionPartViewChildren = qPart.questionPartViewChildren;
+								this.surveyPage.partsLeftToLoad--;
 							});
 					}
+
 				});
 				this.loadedIndividualPage = true;
 			});

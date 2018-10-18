@@ -21,11 +21,13 @@ import { QuestionPart } from '../../models/question-part.model';
 import { QuestionPartViewLabel } from '../../models/question-part-view-label.model';
 import { Order } from '../../models/order.model';
 import { TreeviewItem } from 'ngx-treeview';
+import { fadeInOut } from '../../../services/animations';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
 	templateUrl: './nested-drag-and-drop-list.component.html',
-	styleUrls: ['./nested-drag-and-drop-list.component.scss']
+	styleUrls: ['./nested-drag-and-drop-list.component.scss'],
+	animations: [fadeInOut]
 })
 export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public qPartQuestions: Map<number, QuestionPartView> = new Map<number, QuestionPartView>();
@@ -35,6 +37,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public addingNewQuestion: boolean = true;
 	public dealingWithPart: boolean = false;
 	public questionBeingEdited: QuestionPartView;
+	public partsLeftToLoad: number = 0;
 
 	private dragResult: Subject<boolean>;
 	private dragOverContainer: Object = new Object();

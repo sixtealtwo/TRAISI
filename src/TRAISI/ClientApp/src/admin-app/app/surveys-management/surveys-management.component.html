@@ -1,4 +1,4 @@
-<div>
+<div [@fadeInOut]>
 	<h1 class="page-title">{{ 'surveys.management.ManageSurveys' | translate }}</h1>
 
 	<div class="row mb-lg">
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					<ngx-datatable #soloTable *ngIf="!groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					<ngx-datatable [@fadeInOut]  #soloTable *ngIf="!groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 					 [rows]="soloSurveyRows" [columns]="soloSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
 					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
@@ -85,7 +85,7 @@
 							</div>
 						</div>
 					</div>
-					<ngx-datatable #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					<ngx-datatable [@fadeInOut] #sharedTable *ngIf="!groupBeingViewed && sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 					 [rows]="sharedSurveyRows" [columns]="sharedSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true"
 					 [rowHeight]="45" [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
@@ -136,7 +136,7 @@
 							</div>
 						</div>
 					</div>
-					<ngx-datatable #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
+					<ngx-datatable [@fadeInOut] #groupTable *ngIf="groupBeingViewed && !sharedBeingViewed" class="bootstrap sm table table-striped table-hover table-responsive"
 					 [rows]="groupSurveyRows" [columns]="groupSurveyColumns" [loadingIndicator]="loadingIndicator" [scrollbarH]="true" [rowHeight]="45"
 					 [headerHeight]="35" [footerHeight]="35" [columnMode]="'flex'" (activate)="rowExpand($event)" [rowClass]="rowCursor">
 						<ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>

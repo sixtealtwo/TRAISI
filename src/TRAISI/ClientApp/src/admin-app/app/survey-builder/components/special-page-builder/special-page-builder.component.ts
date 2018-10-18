@@ -8,12 +8,14 @@ import { Footer1Component } from './footer1/footer1.component';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
 import { QuestionPartView } from '../../models/question-part-view.model';
+import { fadeInOut } from '../../../services/animations';
 
 @Component({
 	selector: 'app-special-page-builder',
 	templateUrl: './special-page-builder.component.html',
 	styleUrls: ['./special-page-builder.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
+	animations: [fadeInOut]
 })
 export class SpecialPageBuilderComponent implements OnInit {
 	public loadedComponents: boolean = false;

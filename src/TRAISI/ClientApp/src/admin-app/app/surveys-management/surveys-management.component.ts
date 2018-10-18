@@ -33,12 +33,14 @@ import { SurveyPermissions } from '../models/survey-permissions.model';
 import { DownloadNotification } from '../models/download-notification';
 import { Subject } from 'rxjs';
 import { RealTimeNotificationServce } from '../services/real-time-notification.service';
+import { fadeInOut } from '../services/animations';
 
 @Component({
 	selector: 'app-surveys-management',
 	templateUrl: './surveys-management.component.html',
 	styleUrls: ['./surveys-management.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
+	animations: [fadeInOut]
 })
 export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	public soloSurveyColumns: any[] = [];
