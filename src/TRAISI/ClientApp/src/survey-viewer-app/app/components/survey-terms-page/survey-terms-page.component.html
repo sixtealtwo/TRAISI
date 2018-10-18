@@ -1,4 +1,4 @@
-<div class="welcome-container">
+<!--<div class="welcome-container">
 
 	<h1>{{ 'TermsAndConditions.TermsAndConditions' | translate }}</h1>
 
@@ -12,4 +12,8 @@
 			<button (click)="begin()" type="submit" class="btn btn-primary">{{ 'TermsAndConditions.Start' | translate }} </button>
 		</div>
 	</div>
-</div>
+</div>-->
+<app-special-page-builder #privacyPage *ngIf="finishedLoading" [pageType]="'privacyPolicy'"
+		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="model.termsAndConditionsText" (termsAccepted)="begin()" (startSurveyPressed)="startSurvey($event)"></app-special-page-builder>
+
+

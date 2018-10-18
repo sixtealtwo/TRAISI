@@ -16,7 +16,9 @@ export class SurveyTermsPageComponent implements OnInit {
 
 	public model: SurveyViewTermsModel;
 
-	contentModel: any;
+	public finishedLoading: boolean = false;
+	public pageThemeInfo: any = {};
+
 
 	/**
 	 *Creates an instance of SurveyTermsPageComponent.
@@ -34,12 +36,9 @@ export class SurveyTermsPageComponent implements OnInit {
 	) {
 		this.model = {} as SurveyViewTermsModel;
 
-		this.contentModel = {
-			textBlock1: ''
-		};
 	}
 
-	public begin() {
+	public begin(): void {
 
 		this.router.navigate([this.surveyName, 'viewer']);
 	}
@@ -47,7 +46,7 @@ export class SurveyTermsPageComponent implements OnInit {
 	/**
 	 *
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 
 
 		this.surveyViewerService.activeSurveyId.subscribe(surveyId => {
@@ -58,9 +57,18 @@ export class SurveyTermsPageComponent implements OnInit {
 				value => {
 
 					this.model = value;
-					console.log(this.model);
-					this.contentModel = JSON.parse(this.model.termsAndConditionsText);
-					console.log(this.contentModel);
+					this.surveyViewerService.getSurveyStyles(this.surveyId).subscribe(
+						styles => {
+							try {
+								this.pageThemeInfo = JSON.parse(styles);
+								if (this.pageThemeInfo === null) {
+									this.pageThemeInfo = {};
+									this.pageThemeInfo.viewerTemplate = '';
+								}
+							} catch (e) {}
+							this.finishedLoading = true;
+						}
+					);
 				},
 				error => {
 					this.model = {} as SurveyViewTermsModel;

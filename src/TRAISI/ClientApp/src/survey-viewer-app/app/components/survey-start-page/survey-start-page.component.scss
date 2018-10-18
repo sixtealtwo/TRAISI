@@ -1,4 +1,6 @@
 @import "../../../assets/scss/application.scss";
+@import 'src/shared/assets/scss/helpers';
+
 @include media-breakpoint-only(xs) {
     .welcome-container {
         text-align: center;

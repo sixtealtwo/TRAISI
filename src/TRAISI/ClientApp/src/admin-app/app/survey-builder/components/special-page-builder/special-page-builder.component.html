@@ -41,7 +41,7 @@
 		</smooth-dnd-draggable>
 	</smooth-dnd-container>
 	<app-privacy-confirmation [previewMode]="previewMode" [pageThemeInfo]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
-	<smooth-dnd-container id="special-page-footer" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['footer']"
+	<smooth-dnd-container  *ngIf="pageType != 'privacyPolicy'" id="special-page-footer" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['footer']"
 	 (dragEnter)="onDragEnter('footer')" (dragLeave)="onDragLeave('footer')" [class.empty-container]="!footerComponent && !previewMode.value" [shouldAcceptDrop]="footerShouldAcceptDrop"
 	 [groupName]="'special-footer'" (drop)="onFooterDrop($event)">
 		<div *ngIf="!footerComponent && !dragOverContainer['footer'] && !previewMode.value" class="text-center pt-3">Drop Footer Here</div>

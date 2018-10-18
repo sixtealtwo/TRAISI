@@ -57,6 +57,10 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/codes';
 	}
 
+	private get getSurveyStylesUrl() {
+		return this.configurations.baseUrl + this._surveyViewerUrl + '/styles';
+	}
+
 
 		/**
 	 *
@@ -106,6 +110,16 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 				return this.handleError(error, () =>
 					this.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, pageNumber, language)
 				);
+			})
+		);
+	}
+
+	public getSurveyStylesEndpoint<T>(surveyId: number): Observable<T> {
+		let endpointUrl = `${this.getSurveyStylesUrl}/${surveyId}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getSurveyStylesEndpoint(surveyId));
 			})
 		);
 	}

@@ -1,4 +1,6 @@
-<div class="welcome-container">
+<app-special-page-builder #welcomeEditor *ngIf="finishedLoading" [pageType]="'welcome'"
+		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="survey.welcomeText" (startSurveyPressed)="startSurvey($event)"></app-special-page-builder>
+<!--<div class="welcome-container">
 
 	<h1> {{ survey.titleText }}</h1>
 
@@ -25,4 +27,4 @@
 
 	</form>
 
-</div>
+</div>-->

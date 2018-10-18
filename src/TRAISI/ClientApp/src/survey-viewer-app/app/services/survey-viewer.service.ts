@@ -97,12 +97,17 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		return this._surveyViewerEndpointService.getDefaultSurveyViewEndpoint(surveyId, language);
 	}
 
+
+	public getSurveyStyles(surveyId: number): Observable<string> {
+		return this._surveyViewerEndpointService.getSurveyStylesEndpoint<string>(surveyId);
+	}
+
 	/**
 	 *
 	 * @param surveyName
 	 */
 	public getWelcomeView(surveyName: string): Observable<SurveyStart> {
-		return this._surveyViewerEndpointService.getSurveyViewerWelcomeViewEndpoint(surveyName);
+		return this._surveyViewerEndpointService.getSurveyViewerWelcomeViewEndpoint<SurveyStart>(surveyName);
 	}
 
 	/**

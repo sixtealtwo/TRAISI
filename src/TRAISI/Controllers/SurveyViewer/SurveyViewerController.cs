@@ -178,7 +178,17 @@ namespace TRAISI.Controllers.SurveyViewer
             return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel>(language));
         }
 
-
+        [HttpGet("styles/{surveyId}")]
+        [Produces(typeof(string))]
+        public async Task<IActionResult> GetSurveyStyles(int surveyId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            return Ok(survey.StyleTemplate);
+        }
 
         /// <summary>
         /// 

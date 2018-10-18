@@ -38,6 +38,16 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { QuillModule } from 'ngx-quill';
+import { DynamicModule } from 'ng-dynamic-component';
+import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
+import { Header1Component } from './components/special-page-builder/header1/header1.component';
+import { Header2Component } from './components/special-page-builder/header2/header2.component';
+import { MainSurveyAccess1Component } from './components/special-page-builder/main-survey-access1/main-survey-access1.component';
+import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
+import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
+import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
+import { SafePipe } from 'shared/pipes/safe.pipe';
 
 library.add(faCheckCircle);
 
@@ -56,7 +66,15 @@ library.add(faCheckCircle);
 		SurveyTermsPageComponent,
 		SurveyViewerComponent,
 		SurveyCompletePageComponent,
-		SafeHtmlPipe
+		SafeHtmlPipe,
+		SafePipe,
+		SpecialPageBuilderComponent,
+		PrivacyConfirmationComponent,
+		Header1Component,
+		Header2Component,
+		MainSurveyAccess1Component,
+		TextBlock1Component,
+		Footer1Component
 	],
 	imports: [
 		BrowserModule,
@@ -76,7 +94,15 @@ library.add(faCheckCircle);
 		AppRoutingModule.forRoot(),
 		BsDatepickerModule.forRoot(),
 		AlertModule.forRoot(),
-		PopoverModule.forRoot()
+		PopoverModule.forRoot(),
+		QuillModule,
+		DynamicModule.withComponents([
+			Header1Component,
+			Header2Component,
+			MainSurveyAccess1Component,
+			TextBlock1Component,
+			Footer1Component
+		]),
 	],
 	providers: [
 		LocalStoreManager,

@@ -1,8 +1,9 @@
+@import 'src/shared/assets/scss/helpers';
 @import "../../../assets/scss/application.scss";
 
 .survey-viewer-container
 {
-	overflow: hidden;
+	// overflow: hidden;
     /* height: 100%; */
     display: block;
     position: absolute;

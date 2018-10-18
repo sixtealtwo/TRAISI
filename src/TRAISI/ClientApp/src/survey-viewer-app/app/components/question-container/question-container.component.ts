@@ -112,7 +112,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId);
 
 				this.responderService.getSavedResponse(this.surveyId, this.question.questionId).subscribe(response => {
-					surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
+					// surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
 
 					surveyQuestionInstance.traisiOnLoaded();
 				});

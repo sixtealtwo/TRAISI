@@ -1,0 +1,13 @@
+<div id="welcome-header-editor">
+	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight"></div>
+	<div class="row" [style.height.px]="pageThemeInfo.headerMaxHeightScale1 > pageThemeInfo.headerMaxHeightScale2 ? (pageThemeInfo.headerMaxHeightScale1 * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale1 * 100 : pageThemeInfo.headerBackgroundHeight) : (pageThemeInfo.headerMaxHeightScale2 * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale2 * 100 : pageThemeInfo.headerBackgroundHeight)">
+		<div class="col d-none d-xl-block"></div>
+		<div class="col text-center">
+			<img *ngIf="imageSource1" class="welcome-header-logo ml-3" src="{{ imageSource1 }}" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale1 * 100"	/>
+		</div>
+		<div class="col d-none d-lg-block text-right">
+			<span class="helper"></span><img *ngIf="imageSource2" class="welcome-header-logo-right mr-3" src="{{ imageSource2 }}"
+			 [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
+		</div>
+	</div>
+</div>
