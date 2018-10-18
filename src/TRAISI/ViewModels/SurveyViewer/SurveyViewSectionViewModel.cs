@@ -12,5 +12,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public string Label { get; set; }
 
         public string Icon { get; set; }
+
+        public bool IsHousehold {get;set;}
     }
 }

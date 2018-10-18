@@ -14,8 +14,5 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public string QuestionType { get; set; }
 
-        public bool IsHousehold { get; set; }
-
-        public bool IsRepeat { get; set; }
     }
 }
