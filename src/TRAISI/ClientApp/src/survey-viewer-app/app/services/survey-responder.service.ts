@@ -40,7 +40,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public registerQuestion(
-		questionComponent: any,
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]>,
 		surveyId: number,
 		questionId: number
 	): void {
@@ -74,11 +74,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private handleResponse(
-		questionComponent: any,
-		//	| SurveyQuestion<ResponseTypes>
-		//	| SurveyQuestion<ResponseTypes[]>
-		//	| SurveyQuestion<any>
-		//	| OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number
@@ -105,11 +105,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 */
 	private onSavedResponse(
-		questionComponent: any,
-		//	| SurveyQuestion<ResponseTypes>
-	//		| SurveyQuestion<ResponseTypes[]>
-	//		| SurveyQuestion<any>
-	//		| OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		value: any
 	): void {
 		if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {
