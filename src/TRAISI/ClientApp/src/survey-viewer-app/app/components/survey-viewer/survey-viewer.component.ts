@@ -25,6 +25,7 @@ import { sortBy } from 'lodash';
 import { QuestionContainerComponent } from '../question-container/question-container.component';
 import { SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewQuestion } from '../../models/survey-question.model';
+import { SurveyViewSection } from 'app/models/survey-view-section.model';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -53,6 +54,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public isLoaded: boolean = false;
 
+	public isSection: boolean = false;
+
 	public navigatePreviousEnabled: boolean = false;
 
 	public navigateNextEnabled: boolean = false;
@@ -64,6 +67,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private pages: Array<SurveyViewPage>;
 
 	public ref: SurveyViewerComponent;
+
+	public activeSection: SurveyViewSection;
 
 	/**
 	 *

@@ -7,6 +7,7 @@
 
 	<div class="survey-body-container" (scroll)="onQuestionScroll($event)">
 		<div class="survey-body">
+			<div class="survey-section-header" [hidden]="isSection"></div>
 			<div *ngFor="let question of questions; let i = index">
 
 				<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i" #questions></traisi-question-container>

@@ -1,5 +1,5 @@
-import { SurveyViewQuestion } from "./survey-question.model";
-import { SurveyViewSection } from "./survey-view-section.model";
+import { SurveyViewQuestion } from './survey-question.model';
+import { SurveyViewSection } from './survey-view-section.model';
 
 export interface SurveyViewPage {
 
