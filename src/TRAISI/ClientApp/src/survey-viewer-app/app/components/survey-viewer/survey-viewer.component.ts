@@ -32,6 +32,7 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 
 import { trigger, state, style, animate, transition, stagger, query, keyframes } from '@angular/animations';
+import { SurveyViewerTheme } from '../../models/survey-viewer-theme.model';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -98,9 +99,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return this._viewerStateService.viewerState;
 	}
 
-	public set viewerState(state: SurveyViewerState) {
-		this._viewerStateService.viewerState = state;
+	public set viewerState(viewerState: SurveyViewerState) {
+		this._viewerStateService.viewerState = viewerState;
 	}
+
+	public viewerTheme: SurveyViewerTheme;
 
 	/**
 	 * Creates an instance of survey viewer component.
@@ -161,9 +164,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// subscribe to the navigation state change that is alterable by sub questions
 		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
 
-		// update the current viewer state
-		this._viewerStateService.surveyViewerState.subscribe((state: SurveyViewerState) => {
-			// this.viewerState = state;
+		this.surveyViewerService.pageThemeInfo.subscribe((theme: SurveyViewerTheme) => {
+			this.viewerTheme = theme;
+
 		});
 	}
 
@@ -268,7 +271,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.groupMembers = [];
 			this.viewerState.activeGroupQuestions = [];
 		}
-
+		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
 		this.updateRespondentGroup();
 
 		// this._viewerStateService.updateState(this.viewerState);

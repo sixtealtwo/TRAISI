@@ -3,7 +3,7 @@
 	<div class="header-display-body">
 		<span *ngFor="let page of viewerState.surveyPages; index as i" class="header-display-item">
 
-			<span class="page-item" [class.active]="activePageIndex == i" [class.inactive]="viewerState.activePageIndex != i">
+			<span class="page-item" [class.active]="viewerState.activePageIndex == i" [class.inactive]="viewerState.activePageIndex != i">
 
 				<span class="page-icon" tooltip="{{page.label}}" placement="bottom">
 					<i [ngClass]="page.icon"></i>

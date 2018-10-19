@@ -12,6 +12,7 @@ import { SurveyViewPage } from '../models/survey-view-page.model';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
 import { ActivatedRoute, Router, RouterEvent, ActivationStart } from '@angular/router';
 import { SurveyResponderService } from './survey-responder.service';
+import { SurveyViewerTheme } from '../models/survey-viewer-theme.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -31,6 +32,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	private _navigationState: boolean = true;
 
 	public navigationActiveState: Subject<boolean>;
+
+	public pageThemeInfo: ReplaySubject<SurveyViewerTheme>;
+
+	public pageThemeInfoJson: ReplaySubject<any>;
+
+	private _pageThemeInfo: SurveyViewerTheme;
+
+	private _pageThemeInfoJson: any;
 
 	/**
 	 *
@@ -58,6 +67,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.configurationData = new Subject<QuestionConfiguration[]>();
 		this.options = new Subject<QuestionOption[]>();
 
+		this.pageThemeInfo = new ReplaySubject<SurveyViewerTheme>(1);
+
+		this.pageThemeInfoJson = new ReplaySubject<any>(1);
+
 		let sub = this.router.events.subscribe((value: any) => {
 			if (value instanceof ActivationStart) {
 				let route: ActivationStart = <ActivationStart>value;
@@ -71,6 +84,45 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			}
 		});
 		this.navigationActiveState = new Subject<boolean>();
+
+		this._pageThemeInfo = {
+			sectionBackgroundColour: ''
+		};
+
+		this.pageThemeInfo.next(this._pageThemeInfo);
+
+		this.activeSurveyId.subscribe((id) => {
+			this.restoreThemeInfo(id);
+		});
+	}
+
+	/**
+	 * Restores theme info
+	 * @param surveyId
+	 */
+	private restoreThemeInfo(surveyId: number): void {
+		this.getSurveyStyles(surveyId).subscribe((styles) => {
+			try {
+				this._pageThemeInfoJson = JSON.parse(styles);
+				if (this._pageThemeInfoJson === null) {
+					this._pageThemeInfoJson.viewerTemplate = '';
+				}
+				console.log(this._pageThemeInfoJson);
+				this.pageThemeInfoJson.next(this._pageThemeInfoJson);
+
+				this.loadPageThemeInfo(this._pageThemeInfoJson);
+			} catch (e) {}
+			// this.finishedLoading = true;
+		});
+	}
+
+	/**
+	 * Loads page theme info
+	 * @param themeInfo
+	 */
+	public loadPageThemeInfo(themeInfo: any): void {
+		this._pageThemeInfo.sectionBackgroundColour = themeInfo['householdHeaderColour'];
+		this.pageThemeInfo.next(this._pageThemeInfo);
 	}
 
 	/**
@@ -97,7 +149,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		return this._surveyViewerEndpointService.getDefaultSurveyViewEndpoint(surveyId, language);
 	}
 
-
+	/**
+	 * Gets survey styles
+	 * @param surveyId
+	 * @returns survey styles
+	 */
 	public getSurveyStyles(surveyId: number): Observable<string> {
 		return this._surveyViewerEndpointService.getSurveyStylesEndpoint<string>(surveyId);
 	}
@@ -117,11 +173,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param language
 	 */
 	public getSurveyViewerRespondentPageQuestions(surveyId: number, page: number, language?: string): Observable<any> {
-		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(
-			surveyId,
-			page,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, page, language);
 	}
 
 	/**
@@ -135,11 +187,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		viewType?: SurveyViewType,
 		language?: string
 	): Observable<SurveyViewTermsModel> {
-		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(
-			surveyId,
-			viewType,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language);
 	}
 
 	/**
@@ -155,7 +203,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			(value: SurveyViewer) => {
 				this._activeSurveyId = surveyId;
 			},
-			error => {}
+			(error) => {}
 		);
 		return result;
 	}
@@ -189,11 +237,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
 			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(
-				value => {
+				(value) => {
 					this._activeSurveyId = <number>value;
 					this.activeSurveyId.next(this._activeSurveyId);
 				},
-				error => {
+				(error) => {
 					this.authService.logout();
 
 					this.router.navigate(['/', this.activeSurveyCode, 'error']);
@@ -217,10 +265,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 * @param viewType
 	 */
-	public getSurveyViewPages(
-		surveyId: number,
-		viewType: SurveyViewType = SurveyViewType.RespondentView
-	): Observable<SurveyViewPage[]> {
+	public getSurveyViewPages(surveyId: number, viewType: SurveyViewType = SurveyViewType.RespondentView): Observable<SurveyViewPage[]> {
 		return this._surveyViewerEndpointService.getSurveyViewPagesEndpoint(surveyId, viewType);
 	}
 
@@ -237,11 +282,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		language?: string,
 		query?: string
 	): Observable<SurveyViewQuestionOption[]> {
-		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(
-			surveyId,
-			questionId,
-			language,
-			query
-		);
+		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 }

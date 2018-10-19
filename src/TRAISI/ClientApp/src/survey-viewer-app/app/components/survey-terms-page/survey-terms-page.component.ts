@@ -1,9 +1,9 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SurveyViewerService} from '../../services/survey-viewer.service';
-import {SurveyViewTermsModel} from '../../models/survey-view-terms.model';
+import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 import { TranslateService } from '@ngx-translate/core';
-
+import { flatMap } from 'rxjs/operators';
 @Component({
 	selector: 'app-survey-terms-page',
 	templateUrl: './survey-terms-page.component.html',
@@ -19,7 +19,6 @@ export class SurveyTermsPageComponent implements OnInit {
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
 
-
 	/**
 	 *Creates an instance of SurveyTermsPageComponent.
 	 * @param {ActivatedRoute} route
@@ -30,16 +29,14 @@ export class SurveyTermsPageComponent implements OnInit {
 	 */
 	constructor(
 		private route: ActivatedRoute,
-		@Inject('SurveyViewerService')private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private router: Router,
 		private translate: TranslateService
 	) {
 		this.model = {} as SurveyViewTermsModel;
-
 	}
 
 	public begin(): void {
-
 		this.router.navigate([this.surveyName, 'viewer']);
 	}
 
@@ -47,40 +44,25 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 */
 	public ngOnInit(): void {
+		this.surveyViewerService.activeSurveyId
+			.pipe(
+				flatMap((id) => {
+					this.surveyId = id;
+					return this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId);
+				})
+			)
+			.pipe(
+				flatMap((terms) => {
+					return this.surveyViewerService.pageThemeInfoJson;
+				})
+			)
+			.subscribe((value) => {
+				this.pageThemeInfo = value;
+				this.finishedLoading = true;
+			});
 
-
-		this.surveyViewerService.activeSurveyId.subscribe(surveyId => {
-
-			this.surveyId = surveyId;
-
-			this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId).subscribe(
-				value => {
-
-					this.model = value;
-					this.surveyViewerService.getSurveyStyles(this.surveyId).subscribe(
-						styles => {
-							console.log(styles);
-							try {
-								this.pageThemeInfo = JSON.parse(styles);
-								console.log(this.pageThemeInfo);
-								if (this.pageThemeInfo === null) {
-									this.pageThemeInfo = {};
-									this.pageThemeInfo.viewerTemplate = '';
-								}
-							} catch (e) {}
-							this.finishedLoading = true;
-						}
-					);
-				},
-				error => {
-					this.model = {} as SurveyViewTermsModel;
-				}
-			);
-		});
-		this.route.parent.params.subscribe(params => {
+		this.route.parent.params.subscribe((params) => {
 			this.surveyName = params['surveyName'];
 		});
-
-
 	}
 }

@@ -7,7 +7,9 @@
 
 	<div class="survey-body-container">
 		<div class="survey-body">
-			<div class="survey-section-header" [hidden]="isSection"></div>
+			<div class="survey-section-header" [hidden]="!viewerState.isSectionActive" [style.background-color]='viewerTheme.sectionBackgroundColour'>
+				hello
+			</div>
 			<div class="questions-container">
 				<div class="question-section" *ngIf="isLoaded">
 					<div *ngFor="let question of viewerState.surveyQuestions; let i = index">
@@ -20,9 +22,8 @@
 							 #questions></traisi-question-container>
 						</div>
 
-
 						<div *ngIf="viewerState.activeQuestionIndex == i">
-							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index" >
+							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
 
 								<div [hidden]="m != viewerState.activeGroupMemberIndex">
 									<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
