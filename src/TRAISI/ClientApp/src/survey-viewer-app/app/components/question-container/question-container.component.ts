@@ -13,18 +13,13 @@ import {
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
-import {
-	OnOptionsLoaded,
-	OnSurveyQuestionInit,
-	SurveyResponder,
-	SurveyQuestion,
-	ResponseValidationState
-} from 'traisi-question-sdk';
+import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyViewQuestion as ISurveyQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject } from 'rxjs';
 import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -44,6 +39,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public surveyViewer: SurveyViewerComponent;
+
+	@Input()
+	public respondent: SurveyViewGroupMember;
 
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	public questionOutlet: ViewContainerRef;
@@ -109,13 +107,16 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				(<SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
 
-				this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId);
+				console.log(this.respondent);
+				this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId, this.respondent.id);
 
-				this.responderService.getSavedResponse(this.surveyId, this.question.questionId).subscribe(response => {
-					surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
+				this.responderService
+					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id)
+					.subscribe((response) => {
+						surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
 
-					surveyQuestionInstance.traisiOnLoaded();
-				});
+						surveyQuestionInstance.traisiOnLoaded();
+					});
 
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 
@@ -132,9 +133,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
-								this.question.configuration
-							);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
 					});
 			});
@@ -143,9 +142,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Callback for when the response's validation state changes
 	 */
-	private onResponseValidationStateChanged: (state: ResponseValidationState) => void = (
-		validationState: ResponseValidationState
-	) => {
+	private onResponseValidationStateChanged: (state: ResponseValidationState) => void = (validationState: ResponseValidationState) => {
 		this.responseValidationState = validationState;
 		this.surveyViewer.validateNavigation();
 	};

@@ -28,6 +28,7 @@ import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { SurveyViewSection } from '../../models/survey-view-section.model';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyResponderService } from '../../services/survey-responder.service';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -103,7 +104,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			surveyQuestions: [],
 			activeQuestionIndex: -1,
 			activePageIndex: -1,
-			groupMembers: []
+			groupMembers: [],
+			activeGroupMemberIndex: -1,
+			primaryRespondent: undefined,
+			groupValidationStates: {},
+			isLoaded: false
 		};
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
@@ -116,8 +121,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.headerDisplay.pages = pages;
 
 					this.loadQuestions(pages);
-
-					console.log(pages);
 				});
 			});
 		});
@@ -165,7 +168,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
 
-		this.isLoaded = true;
+		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
+			if (members.length > 0) {
+				this.viewerState.primaryRespondent = members[0];
+				this.isLoaded = true;
+			}
+		});
 	}
 
 	/**
@@ -209,21 +217,36 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (this.viewerState.activeQuestion.parentSection !== undefined) {
 			this.viewerState.activeSection = this.viewerState.activeQuestion.parentSection;
 			this.viewerState.isSectionActive = true;
+			this.viewerState.activeGroupMemberIndex = 0;
 		} else {
 			this.viewerState.activeSection = null;
 			this.viewerState.isSectionActive = false;
+			this.viewerState.activeGroupMemberIndex = -1;
+
+			// clear the group members to prevent rendering
+			this.viewerState.groupMembers = [];
 		}
 
 		this.updateRespondentGroup();
 	}
 
 	/**
+	 * Shows group member
+	 * @param memberIndex
+	 */
+	public showGroupMember(memberIndex: number): void {
+		this.viewerState.activeGroupMemberIndex = memberIndex;
+	}
+
+	/**
 	 *
 	 */
 	private callVisibilityHooks(): void {
-		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
-				(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
+		if (this._activeQuestionContainer !== undefined) {
+			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
+					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
+				}
 			}
 		}
 	}
@@ -286,6 +309,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
 	public validateNavigation(): void {
+		if (this._activeQuestionContainer === undefined) {
+			return;
+		}
+
 		if (this.viewerState.activeQuestionIndex > 0) {
 			this.navigatePreviousEnabled = true;
 		} else {

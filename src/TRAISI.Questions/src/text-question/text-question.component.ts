@@ -54,26 +54,29 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		this.isLoaded = false;
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.onQuestionShown();
 
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
-	private onSavedResponseData: (response: ResponseData<ResponseTypes.String> | 'none') => void = (
-		response: ResponseData<ResponseTypes.String> | 'none'
+	/**
+	 * Determines whether saved response data on
+	 */
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.String>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.String>[] | 'none'
 	) => {
 		if (response !== 'none') {
-			let stringResponse = <StringResponseData>response;
+			let stringResponse = <StringResponseData>response[0];
 			this.textInput = stringResponse.value;
 		}
-	}
+	};
 	/**
 	 * This will write a new response o the server
 	 *
 	 * @memberof TextQuestionComponent
 	 */
-	handleComponentBlur(): void {
+	public handleComponentBlur(): void {
 		let data: StringResponseData = {
 			value: this.textInput
 		};
@@ -85,7 +88,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 *
 	 * @param configuration
 	 */
-	onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {}
+	public onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {}
 
 	/**
 	 *
@@ -93,12 +96,14 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	onResponseSaved(result: any): void {
+	public onResponseSaved(result: any): void {
 		console.log('result from text question: ' + result);
 	}
 
-	traisiOnLoaded()
-	{
+	/**
+	 * Traisis on loaded
+	 */
+	public traisiOnLoaded(): void {
 		console.log('traisi on loaded called');
 		this.isLoaded = true;
 	}

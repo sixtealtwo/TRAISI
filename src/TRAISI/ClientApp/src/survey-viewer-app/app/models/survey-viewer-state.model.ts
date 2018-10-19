@@ -2,6 +2,7 @@ import { SurveyViewQuestion } from './survey-view-question.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
+import { ResponseValidationState } from 'traisi-question-sdk';
 
 export interface SurveyViewerState {
 	surveyPages: Array<SurveyViewPage>;
@@ -13,4 +14,8 @@ export interface SurveyViewerState {
 	activeQuestionIndex: number;
 	activePageIndex: number;
 	groupMembers: Array<SurveyViewGroupMember>;
+	activeGroupMemberIndex: number;
+	primaryRespondent: SurveyViewGroupMember;
+	groupValidationStates: { [id: string]: ResponseValidationState };
+	isLoaded: boolean;
 }

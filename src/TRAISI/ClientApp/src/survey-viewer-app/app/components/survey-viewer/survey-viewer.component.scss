@@ -1,10 +1,7 @@
 @import 'src/shared/assets/scss/helpers';
-@import "../../../assets/scss/application.scss";
+@import '../../../assets/scss/application.scss';
 
-
-.group-member-names-section
-{
-
+.group-member-names-section {
 }
 
 .questions-container {
@@ -16,57 +13,64 @@
 	justify-items: stretch;
 }
 
-.question-section
-{
+.question-section {
 	flex-grow: 1;
 	position: relative;
 }
 
-.question-widget
-{
+.question-widget {
 	position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
 }
 
 .group-member-names-section {
-	transform-origin:  left;
+	transform-origin: left;
 	transform: rotate(90deg);
 	white-space: nowrap;
 	display: inline-block;
 }
 
-.group-member-names-container
-{
+.group-member-names-container {
 	width: 30px;
 }
 
-.group-member-name
-{
+.group-member-name {
 	display: inline;
-    margin-right: 5px;
-    -webkit-transform: none;
-    transform: none;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding: 5px 10px;
-    color: white;
+	margin-right: 5px;
+	-webkit-transform: none;
+	transform: none;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	padding: 5px 10px;
+	color: white;
 	font-weight: bold;
-	background-color: #64bd63;
+	cursor: pointer;
+	background-color: #dfdfdf;
+	color: #777;
 }
 
-.survey-viewer-container
-{
+.group-member-name.group-member-active {
+	background-color: #01688b;
+	color: white;
+}
+
+.group-member-name.group-member-complete {
+	background-color: #64bd63;
+	color: white;
+}
+
+.survey-viewer-container {
 	// overflow: hidden;
-    /* height: 100%; */
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
-    left: 0px;
+	/* height: 100%; */
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+	right: 0px;
+	left: 0px;
 	max-height: 100%;
 }
 
@@ -84,51 +88,40 @@
 	display: block;
 }
 
-
-.survey-title-container
-{
+.survey-title-container {
 	text-align: center;
-	margin:10px;
+	margin: 10px;
 }
 
-.survey-footer-container
-{
+.survey-footer-container {
 	background: $light;
 }
 
-.footer-inner
-{
+.footer-inner {
 	text-align: center;
 	font-size: 14px;
-	margin:10px;
+	margin: 10px;
 }
 
-.traisi-survey-viewer-container
-{
+.traisi-survey-viewer-container {
 	display: flex;
 	flex-direction: column;
-	max-height:100%;
+	max-height: 100%;
 }
 
-.navigation-button
-{
+.navigation-button {
 	display: inline-block;
-	margin:20px;
-	button{
+	margin: 20px;
+	button {
 		width: 100px;
 	}
-
 }
 
-.survey-navigation-container
-{
+.survey-navigation-container {
 	display: flex;
-    align-items: center;
-    align-content: center;
+	align-items: center;
+	align-content: center;
 	justify-content: center;
-
 }
 
-
-@import "survey-viewer-component.sm.scss";
-
+@import 'survey-viewer-component.sm.scss';

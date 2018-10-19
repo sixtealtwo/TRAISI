@@ -15,7 +15,7 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="user"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, JObject responseData);
+		Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData);
 
 		/// <summary>
 		/// 
@@ -52,7 +52,7 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="questionId"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,
+		Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,  int respondentId,
 			ApplicationUser user);
 	}
 }

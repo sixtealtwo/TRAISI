@@ -27,8 +27,9 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns
 	 * @memberof SurveyResponderService
 	 */
-	private saveResponse(data: any, surveyId: number, questionId: number): Observable<{}> {
-		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, data);
+	private saveResponse(data: any, surveyId: number, questionId: number, respondentId: number): Observable<{}> {
+		console.log('saving ' + respondentId);
+		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data);
 	}
 
 	/**
@@ -42,13 +43,14 @@ export class SurveyResponderService implements SurveyResponder {
 	public registerQuestion(
 		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]>,
 		surveyId: number,
-		questionId: number
+		questionId: number,
+		respondentId: number
 	): void {
 		questionComponent.response.subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
-				this.handleResponse(questionComponent, value, surveyId, questionId);
+				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId);
 			},
-			error => {
+			(error) => {
 				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
 			}
 		);
@@ -59,11 +61,8 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param surveyId
 	 * @param questionId
 	 */
-	public getSavedResponse(surveyId: number, questionId: number): Observable<ResponseValue<any>> {
-		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
-			surveyId,
-			questionId
-		);
+	public getSavedResponse(surveyId: number, questionId: number, respondentId: number): Observable<ResponseValue<any>> {
+		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId, respondentId);
 	}
 
 	/**
@@ -74,27 +73,28 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private handleResponse(
-		questionComponent:
-			| SurveyQuestion<ResponseTypes>
-			| SurveyQuestion<ResponseTypes[]>
-			| SurveyQuestion<any>
-			| OnSaveResponseStatus,
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
-		questionId: number
+		questionId: number,
+		respondentId: number
 	): void {
+		console.log(respondentId);
 		if (response instanceof Array) {
-			this.saveResponse({values: response}, surveyId, questionId).subscribe(value => {
-				this.onSavedResponse(questionComponent, value);
-			}, error => {
-				console.log(error);
-			});
-		} else {
-			this.saveResponse(response, surveyId, questionId).subscribe(
-				value => {
+			this.saveResponse({ values: response }, surveyId, questionId, respondentId).subscribe(
+				(value) => {
 					this.onSavedResponse(questionComponent, value);
 				},
-				error => {
+				(error) => {
+					console.log(error);
+				}
+			);
+		} else {
+			this.saveResponse(response, surveyId, questionId, respondentId).subscribe(
+				(value) => {
+					this.onSavedResponse(questionComponent, value);
+				},
+				(error) => {
 					console.log(error);
 				}
 			);
@@ -105,11 +105,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 */
 	private onSavedResponse(
-		questionComponent:
-			| SurveyQuestion<ResponseTypes>
-			| SurveyQuestion<ResponseTypes[]>
-			| SurveyQuestion<any>
-			| OnSaveResponseStatus,
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
 		value: any
 	): void {
 		if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {

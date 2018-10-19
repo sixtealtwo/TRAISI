@@ -53,13 +53,13 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpPost]
-        [Route("surveys/{surveyId}/questions/{questionId}/")]
-        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, [FromBody] JObject content)
+        [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}")]
+        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, int respondentId, [FromBody] JObject content)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-            bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, content);
+            bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, respondentId, content);
 
             if (!success) {
                 return new BadRequestResult();
@@ -76,13 +76,13 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpGet]
-        [Route("surveys/{surveyId}/questions/{questionId}/")]
-        public async Task<IActionResult> SavedResponse(int surveyId, int questionId)
+        [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}")]
+        public async Task<IActionResult> SavedResponse(int surveyId, int questionId, int respondentId)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-            SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, user);
+            SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, respondentId, user);
 
             if (response == null) {
                 return new ObjectResult(null);
@@ -156,10 +156,10 @@ namespace TRAISI.Controllers.SurveyViewer
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             //var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             //var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            var result = await this._respondentGroupService.UpdateRespondent(respondent,user);
+            var result = await this._respondentGroupService.UpdateRespondent(respondent, user);
             await this._unitOfWork.SaveChangesAsync();
 
-    
+
             return new OkResult();
         }
 

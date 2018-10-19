@@ -1,8 +1,8 @@
 <div class="primary-respondent">
 	<div class="form-group row">
-		<label for="primaryName" class="col-sm-2 col-form-label">Enter your first name:</label>
+		<label for="primaryName" class="col-sm-3 col-form-label">Enter your first name:</label>
 		<div class="col-sm-9">
-			<input type="text" (ngModelChange)="primaryModelChanged" class="form-control col-sm-8" placeholder="First Name" id="primaryName"
+			<input type="text" (ngModelChange)="primaryModelChanged" class="form-control" placeholder="First Name" id="primaryName"
 			 [(ngModel)]="primaryRespondent.respondent.name" (blur)="primaryBlur()">
 		</div>
 	</div>
@@ -48,5 +48,5 @@
 	</li>
 </ul>
 <div class="add-to-respondent-list">
-	<button (click)="addNewRespondentToList()" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Add</button>
+	<button (click)="addNewRespondentToList()" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</button>
 </div>

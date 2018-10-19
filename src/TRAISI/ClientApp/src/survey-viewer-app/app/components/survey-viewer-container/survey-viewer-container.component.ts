@@ -48,7 +48,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	/**
 	 *
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.router.events.subscribe((event: RouterEvent) => {
 
 			if (event instanceof ActivationEnd) {
