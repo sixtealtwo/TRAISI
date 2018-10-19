@@ -45,9 +45,9 @@ namespace DAL.Repositories
         /// </summary>
         /// <param name="respondentId"></param>
         /// <returns></returns>
-        public async Task<SubRespondent> GetSubRespondentAsync(int respondentId)
+        public async Task<SurveyRespondent> GetSubRespondentAsync(int respondentId)
         {
-            return await this._appContext.SubRespondents.Where(r => r.Id == respondentId)
+            return await this._appContext.SurveyRespondents.Where(r => r.Id == respondentId)
             .Include(s => s.SurveyRespondentGroup)
             .ThenInclude(s => s.GroupMembers)
             .FirstOrDefaultAsync();

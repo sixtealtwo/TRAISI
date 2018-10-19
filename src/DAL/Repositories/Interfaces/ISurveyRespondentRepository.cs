@@ -8,7 +8,7 @@ namespace DAL.Repositories.Interfaces {
 
 		Task<PrimaryRespondent> GetPrimaryRespondentForUserAsync(ApplicationUser user);
 
-        Task<SubRespondent> GetSubRespondentAsync(int respondentId);
+        Task<SurveyRespondent> GetSubRespondentAsync(int respondentId);
 
         Task <PrimaryRespondent> CreatePrimaryResponentForUserAsnyc(ApplicationUser user);
 

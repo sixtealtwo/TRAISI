@@ -30,6 +30,11 @@ namespace TRAISI.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="respondentId"></param>
         public void RemoveRespondent(SurveyRespondentGroup group, int respondentId)
         {
             var index = group.GroupMembers.FindIndex(r => r.Id == respondentId);
@@ -37,6 +42,12 @@ namespace TRAISI.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="respondentModel"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel, ApplicationUser user)
         {
             if (respondentModel.Id >= 0)
