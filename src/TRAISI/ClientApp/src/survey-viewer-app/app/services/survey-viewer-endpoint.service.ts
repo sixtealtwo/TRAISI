@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { SurveyViewType } from '../models/survey-view-type.enum';
-import { EndpointFactory } from 'shared/services/endpoint-factory.service';
-import { ConfigurationService } from 'shared/services/configuration.service';
+import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { SurveyViewPage } from '../models/survey-view-page.model';
 
 @Injectable()

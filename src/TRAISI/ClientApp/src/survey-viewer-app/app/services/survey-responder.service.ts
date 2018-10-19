@@ -7,7 +7,7 @@ import {
 	ResponseData,
 	ResponseValue,
 	SurveyRespondent
-} from 'traisi-question-sdk';
+} from '../../../../../../TRAISI.SDK/Module/src';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';

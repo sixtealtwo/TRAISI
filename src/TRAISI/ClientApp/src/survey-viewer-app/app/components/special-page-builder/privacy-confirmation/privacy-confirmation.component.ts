@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 
+
 @Component({
   selector: 'app-privacy-confirmation',
   templateUrl: './privacy-confirmation.component.html',

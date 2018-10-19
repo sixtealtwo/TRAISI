@@ -5,12 +5,21 @@
 
 	<traisi-survey-header-display #header></traisi-survey-header-display>
 
-	<div class="survey-body-container" (scroll)="onQuestionScroll($event)">
+	<div class="survey-body-container">
 		<div class="survey-body">
 			<div class="survey-section-header" [hidden]="isSection"></div>
-			<div *ngFor="let question of questions; let i = index">
-
-				<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="activeQuestionIndex == i" #questions></traisi-question-container>
+			<div class="questions-container">
+				<div class="question-section">
+					<div *ngFor="let question of viewerState.surveyQuestions; let i = index">
+						<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
+						 *ngIf="viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
+					</div>
+				</div>
+				<div class="group-member-names-section">
+					<span class="group-member-name">Member 1</span>
+					<span class="group-member-name">Member 1</span>
+					<span class="group-member-name">Member 1</span>
+				</div>
 			</div>
 		</div>
 	</div>

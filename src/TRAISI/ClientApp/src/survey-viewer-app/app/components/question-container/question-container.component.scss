@@ -1,40 +1,35 @@
 @import 'src/shared/assets/scss/helpers';
-@import "../../../assets/scss/application.scss";
+@import '../../../assets/scss/application.scss';
 
-.card-header
-{
-	display:flex;
-    align-content: center;
-    align-items: center;
-    flex-direction: row;
+.question-header {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	flex-direction: row;
 }
 
-.question-index
-{
+.question-widget {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.question-index {
 	padding: 5px;
 	margin-right: 10px;
 }
 
-.header-label div
-{
+.header-label div {
 	display: inline-block !important;
 }
 
-.validation-icon.pristine
-{
+.validation-icon.pristine {
 	display: none;
 }
 
-
-
-.validation-icon.valid
-{
+.validation-icon.valid {
 	color: $info;
 }
 
-.validation-icon.invalid
-{
+.validation-icon.invalid {
 	color: $info;
 }
-
-

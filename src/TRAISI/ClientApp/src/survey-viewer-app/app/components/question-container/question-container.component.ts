@@ -21,9 +21,9 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
-import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyViewQuestion as ISurveyQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { BehaviorSubject } from '../../../../../node_modules/rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';

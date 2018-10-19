@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 
+
 @Component({
 	selector: 'app-footer1',
 	templateUrl: './footer1.component.html',

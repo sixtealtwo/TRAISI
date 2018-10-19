@@ -15,9 +15,6 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "traisi-sdk/*": [
-        "../../TRAISI.SDK/Module/src/*"
-      ],
       "traisi-question-sdk": [
         "../../TRAISI.SDK/Module/src"
       ]

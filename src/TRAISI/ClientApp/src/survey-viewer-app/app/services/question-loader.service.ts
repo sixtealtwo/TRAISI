@@ -32,7 +32,7 @@ import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
 import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
-import { SurveyViewQuestion as ISurveyQuestion } from 'app/models/survey-question.model';
+import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { SurveyQuestionComponent } from '../models/survey-question-component';
 

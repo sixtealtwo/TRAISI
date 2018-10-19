@@ -5,10 +5,10 @@ import { TextBlock1Component } from './text-block1/text-block1.component';
 import { Header2Component } from './header2/header2.component';
 
 import { Footer1Component } from './footer1/footer1.component';
-import { Utilities } from '../../../../shared/services/utilities';
-// import { QuestionPartView } from '../../models/question-part-view.model';
+
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
+import { Utilities } from '../../../../shared/services/utilities';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');

@@ -32,4 +32,4 @@ export { QuestionLoaderService } from './question-loader.service';
 
 export {SurveyRespondent } from './survey-respondent';
 
-export { SurveyModule } from './survey-module'
+export { SurveyModule } from './survey-module';

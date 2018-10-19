@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
-import { EndpointFactory } from 'shared/services/endpoint-factory.service';
+import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from 'shared/services/configuration.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
 
 @Injectable({
 	providedIn: 'root'

@@ -1,4 +1,4 @@
-import { SurveyViewQuestion } from './survey-question.model';
+import { SurveyViewQuestion } from './survey-view-question.model';
 
 export interface SurveyViewSection {
 

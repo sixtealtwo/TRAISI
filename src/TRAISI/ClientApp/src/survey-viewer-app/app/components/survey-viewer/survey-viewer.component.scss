@@ -1,6 +1,52 @@
 @import 'src/shared/assets/scss/helpers';
 @import "../../../assets/scss/application.scss";
 
+
+.group-member-names-section
+{
+
+}
+
+.questions-container {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	align-content: stretch;
+	justify-content: stretch;
+	justify-items: stretch;
+}
+
+.question-section
+{
+	flex-grow: 1;
+}
+
+.group-member-names-section {
+	transform-origin: top left;
+	transform: rotate(90deg);
+	white-space: nowrap;
+	width: 40px;
+	display: inline-block;
+}
+
+.group-member-name
+{
+	height: 40px;
+}
+
+.survey-viewer-container
+{
+	// overflow: hidden;
+    /* height: 100%; */
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+	max-height: 100%;
+}
+
 .survey-body-container {
 	margin: 0;
 	text-align: center;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck, AfterContentInit } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -21,7 +21,7 @@ import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 	template: require('./household-question.component.html').toString(),
 	styles: [require('./household-question.component.scss').toString()]
 })
-export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck {
+export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck, AfterContentInit {
 	public typeName: string;
 	public icon: string;
 
@@ -52,14 +52,19 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		};
 	}
 
-	ngOnInit(): void {
-		this.validationState.emit(ResponseValidationState.INVALID);
+	/**
+	 * after content init
+	 */
+	public ngAfterContentInit(): void {
+		// this.validationState.emit(ResponseValidationState.INVALID);
+	}
 
-		this._surveyResponderService.getSurveyGroupMembers().subscribe(value => {
+	public ngOnInit(): void {
+		this._surveyResponderService.getSurveyGroupMembers().subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {
-				this.validationState.emit(ResponseValidationState.VALID);
+				// this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: arr[0],
 					isSaved: true,
@@ -68,7 +73,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			}
 			arr.splice(0, 1);
 
-			arr.forEach(element => {
+			arr.forEach((element) => {
 				this.respondents.push({
 					respondent: element,
 					isSaved: true,
@@ -94,20 +99,20 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
 		if (respondentEdit.respondent.id === undefined) {
 			this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
-				value => {
+				(value) => {
 					respondentEdit.respondent.id = <number>value;
 					respondentEdit.isSaved = true;
 				},
-				error => {
+				(error) => {
 					console.error(error);
 				}
 			);
 		} else {
 			this._surveyResponderService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
-				value => {
+				(value) => {
 					respondentEdit.isSaved = true;
 				},
-				error => {
+				(error) => {
 					console.error(error);
 				}
 			);
@@ -123,7 +128,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		this.respondents.splice(index, 1);
 
 		if (respondent.respondent.id !== undefined) {
-			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe(value => {});
+			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe((value) => {});
 		}
 	}
 
@@ -136,26 +141,28 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		}
 
 		respondent.isSaved = false;
-
 	}
 
 	public primaryModelChanged(): void {}
 
+	/**
+	 * Primarys blur
+	 */
 	public primaryBlur(): void {
 		if (this.primaryRespondent.respondent.name !== '') {
 			this._surveyResponderService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
-				value => {
+				(value) => {
 					this.primaryRespondent.isSaved = true;
-					this.validationState.emit(ResponseValidationState.VALID);
+					// this.validationState.emit(ResponseValidationState.VALID);
 				},
-				error => {
+				(error) => {
 					console.error(error);
 				}
 			);
 		} else {
-			this.validationState.emit(ResponseValidationState.INVALID);
+			// this.validationState.emit(ResponseValidationState.INVALID);
 		}
 	}
 
-	ngDoCheck(): void {}
+	public ngDoCheck(): void {}
 }

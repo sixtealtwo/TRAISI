@@ -8,13 +8,17 @@ using DAL.Models.Interfaces;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 
-namespace DAL.Models {
-    public class ApplicationUser : IdentityUser, IAuditableEntity {
-        public virtual string FriendlyName {
-            get {
-                string friendlyName = string.IsNullOrWhiteSpace (FullName) ? UserName : FullName;
+namespace DAL.Models
+{
+    public class ApplicationUser : IdentityUser, IAuditableEntity
+    {
+        public virtual string FriendlyName
+        {
+            get
+            {
+                string friendlyName = string.IsNullOrWhiteSpace(FullName) ? UserName : FullName;
 
-                if (!string.IsNullOrWhiteSpace (JobTitle))
+                if (!string.IsNullOrWhiteSpace(JobTitle))
                     friendlyName = $"{JobTitle} {friendlyName}";
 
                 return friendlyName;

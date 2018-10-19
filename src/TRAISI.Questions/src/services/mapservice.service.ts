@@ -1,7 +1,6 @@
 import { HttpResponseBase, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EndpointFactory } from '../../../TRAISI/ClientApp/src/shared/services/endpoint-factory.service';
 import { GeoLocation } from '../models/geo-location.model';
 import { SurveyViewer } from 'traisi-question-sdk';
 

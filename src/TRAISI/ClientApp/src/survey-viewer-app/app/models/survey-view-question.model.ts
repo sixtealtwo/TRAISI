@@ -5,6 +5,7 @@ export interface SurveyViewQuestion {
 	isRepeat: boolean;
 	label: string;
 	order: number;
+	viewOrder: number;
 	questionId: number;
 	questionType: string;
 	pageIndex: number;

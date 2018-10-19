@@ -1,5 +1,5 @@
-<section class="widget card border-primary mb-3">
-	<div class="card-header">
+<section class="widget  border-primary mb-3 question-widget">
+	<header class="question-header">
 		<span class="question-validation">
 				<fa-icon [icon]="['far','check-circle']" class="validation-icon"
 
@@ -12,9 +12,9 @@
 		</span>
 		<span [innerHTML]="titleLabel | async | safeHtml" class="header-label"></span>
 
-	</div>
+	</header>
 
-	<div class="card-body">
+	<div class="widget-body">
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate">
 

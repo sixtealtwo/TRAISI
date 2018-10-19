@@ -1,10 +1,9 @@
 @import 'src/shared/assets/scss/helpers';
-@import "../../../assets/scss/application.scss";
+@import '../../../assets/scss/application.scss';
+
 
 
 @media #{$sm-down} {
-
-
 	.survey-body {
 		margin: 0px;
 	}
@@ -15,14 +14,10 @@
 		width: 100%;
 		min-height: 200px;
 		padding: 4px;
-
 	}
 
-	.survey-title-container
-	{
+	.survey-title-container {
 		text-align: center;
-		margin:0px;
+		margin: 0px;
 	}
-
-
 }

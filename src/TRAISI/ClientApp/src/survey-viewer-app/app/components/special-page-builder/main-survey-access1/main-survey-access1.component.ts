@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 
+
 @Component({
 	selector: 'app-main-survey-access1',
 	templateUrl: './main-survey-access1.component.html',

@@ -1,18 +1,7 @@
 @import 'src/shared/assets/scss/helpers';
 @import "../../../assets/scss/application.scss";
 
-.survey-viewer-container
-{
-	// overflow: hidden;
-    /* height: 100%; */
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-	max-height: 100%;
-}
+
 
 .traisi-survey-viewer-container{
 	position: absolute;
