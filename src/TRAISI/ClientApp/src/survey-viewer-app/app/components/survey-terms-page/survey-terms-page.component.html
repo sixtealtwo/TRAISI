@@ -14,6 +14,6 @@
 	</div>
 </div>-->
 <app-special-page-builder #privacyPage *ngIf="finishedLoading" [pageType]="'privacyPolicy'"
-		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="model.termsAndConditionsText" (termsAccepted)="begin()" (startSurveyPressed)="startSurvey($event)"></app-special-page-builder>
+		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="model.termsAndConditionsText" (termsAccepted)="begin()"></app-special-page-builder>
 
 

@@ -30,10 +30,30 @@ import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
+
+import { trigger, state, style, animate, transition, stagger, query, keyframes } from '@angular/animations';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
-	styleUrls: ['./survey-viewer.component.scss']
+	styleUrls: ['./survey-viewer.component.scss'],
+	animations: [
+		trigger('visibleHidden', [
+			/*transition('hidden => visible', [
+				// query(':enter', style({ opacity: 0 }), { optional: true }),
+				// query(':leave', style({ opacity: 1 }), { optional: true }),
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 0 }), style({ opacity: 1 })]))]), {
+					optional: true
+				})
+			]), */
+			transition('* => hidden', [
+				// query(':enter', style({ opacity: 0 }), { optional: true }),
+				// query(':leave', style({ opacity: 1 }), { optional: true }),
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
+					optional: true
+				})
+			])
+		])
+	]
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public questions: Array<SurveyViewQuestion>;

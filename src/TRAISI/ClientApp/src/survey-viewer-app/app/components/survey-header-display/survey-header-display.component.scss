@@ -1,10 +1,11 @@
 @import 'src/shared/assets/scss/helpers';
-@import "../../../assets/scss/application.scss";
+@import '../../../assets/scss/application.scss';
 
 .header-display-container {
 	text-align: center;
 	margin: 30px;
 	margin: auto;
+	margin-bottom: 15px;
 }
 
 .header-display-body {
@@ -18,8 +19,7 @@
 	font-size: 20px;
 }
 
-.page-item .page-icon
-{
+.page-item .page-icon {
 	background-color: gray;
 	border-radius: 40px;
 	width: 50px;
@@ -28,43 +28,47 @@
 	justify-content: center;
 	align-content: center;
 	vertical-align: center;
-	align-items:center;
+	align-items: center;
 	color: white;
 }
 
-.page-item
-{
+.page-item {
 	display: inline-flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items:center;
-
+	align-items: center;
 }
 
-.page-item.active .page-icon{
-	background-color:#3498DB
+.page-item.active .page-icon {
+	background-color: #3498db;
+}
+.page-item .page-name {
+	font-size: 14px;
+	font-weight: bold;
 }
 
+.page-item.active .page-name {
+	display: block;
+}
+
+.page-item.inactive .page-name {
+	display: none;
+}
 
 @include media-breakpoint-only(xs) {
-	.header-display-body .header-display-item
-	{
+	.header-display-body .header-display-item {
 		font-size: 18px;
 	}
 }
 
 @include media-breakpoint-only(sm) {
-
 }
 
 @include media-breakpoint-only(md) {
-
 }
 
 @include media-breakpoint-only(lg) {
-
 }
 
 @include media-breakpoint-only(xl) {
-
 }

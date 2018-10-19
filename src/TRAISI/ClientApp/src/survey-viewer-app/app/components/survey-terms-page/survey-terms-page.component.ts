@@ -59,8 +59,10 @@ export class SurveyTermsPageComponent implements OnInit {
 					this.model = value;
 					this.surveyViewerService.getSurveyStyles(this.surveyId).subscribe(
 						styles => {
+							console.log(styles);
 							try {
 								this.pageThemeInfo = JSON.parse(styles);
+								console.log(this.pageThemeInfo);
 								if (this.pageThemeInfo === null) {
 									this.pageThemeInfo = {};
 									this.pageThemeInfo.viewerTemplate = '';

@@ -22,11 +22,12 @@
 
 
 						<div *ngIf="viewerState.activeQuestionIndex == i">
-							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
+							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index" >
 
-								<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
-								 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" [hidden]="m != viewerState.activeGroupMemberIndex"
-								 #questions></traisi-question-container>
+								<div [hidden]="m != viewerState.activeGroupMemberIndex">
+									<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
+									 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" #questions></traisi-question-container>
+								</div>
 							</div>
 						</div>
 					</div>

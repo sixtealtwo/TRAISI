@@ -50,7 +50,7 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 import { SafePipe } from 'shared/pipes/safe.pipe';
 import { SurveyViewerState } from './models/survey-viewer-state.model';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 library.add(faCheckCircle);
 
 @NgModule({
@@ -102,7 +102,8 @@ library.add(faCheckCircle);
 			MainSurveyAccess1Component,
 			TextBlock1Component,
 			Footer1Component
-		])
+		]),
+		TooltipModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,

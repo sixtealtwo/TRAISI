@@ -1,22 +1,22 @@
 <div class="header-display-container">
 
 	<div class="header-display-body">
-	<span *ngFor="let page of pages; index as i" class="header-display-item">
+		<span *ngFor="let page of viewerState.surveyPages; index as i" class="header-display-item">
 
-		<span class="page-item" [class.active]="activePageIndex == i">
+			<span class="page-item" [class.active]="activePageIndex == i" [class.inactive]="viewerState.activePageIndex != i">
 
-			<span class="page-icon" >
-					<i [ngClass]="page.icon" ></i>
-			</span>
+				<span class="page-icon" tooltip="{{page.label}}" placement="bottom">
+					<i [ngClass]="page.icon"></i>
+				</span>
 
-			<span class="page-name">
+				<span class="page-name">
 					{{ page.label }}
-			</span>
+				</span>
 
+
+			</span>
 
 		</span>
-
-	</span>
 	</div>
 
 </div>
