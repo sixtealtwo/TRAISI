@@ -48,13 +48,13 @@ import { TextBlock1Component } from './components/special-page-builder/text-bloc
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
 import { SafePipe } from 'shared/pipes/safe.pipe';
+import { SurveyViewerState } from './models/survey-viewer-state.model';
+import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 
 library.add(faCheckCircle);
 
 @NgModule({
-	entryComponents: [
-		ModalBackdropComponent
-	],
+	entryComponents: [ModalBackdropComponent],
 	declarations: [
 		AppComponent,
 		SurveyViewerContainerComponent,
@@ -102,7 +102,7 @@ library.add(faCheckCircle);
 			MainSurveyAccess1Component,
 			TextBlock1Component,
 			Footer1Component
-		]),
+		])
 	],
 	providers: [
 		LocalStoreManager,
@@ -115,7 +115,8 @@ library.add(faCheckCircle);
 		QuestionLoaderService,
 		SurveyResponderEndpointService,
 		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
-		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
+		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
+		SurveyViewerStateService
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })

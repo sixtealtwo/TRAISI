@@ -34,13 +34,9 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	@ViewChild('inputElement')
 	private textInputElement: HTMLInputElement;
 
-	onQuestionShown(): void {
-		console.log('shown');
-	}
+	onQuestionShown(): void {}
 
-	onQuestionHidden(): void {
-		console.log('hidde');
-	}
+	onQuestionHidden(): void {}
 
 	/**
 	 *
@@ -69,6 +65,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		if (response !== 'none') {
 			let stringResponse = <StringResponseData>response[0];
 			this.textInput = stringResponse.value;
+			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
 	/**

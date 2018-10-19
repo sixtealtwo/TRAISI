@@ -16,6 +16,6 @@ export interface SurveyViewerState {
 	groupMembers: Array<SurveyViewGroupMember>;
 	activeGroupMemberIndex: number;
 	primaryRespondent: SurveyViewGroupMember;
-	groupValidationStates: { [id: string]: ResponseValidationState };
+	activeGroupQuestions: Array<SurveyViewQuestion>;
 	isLoaded: boolean;
 }

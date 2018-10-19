@@ -29,6 +29,7 @@ import { SurveyViewSection } from '../../models/survey-view-section.model';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -71,12 +72,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public activeSection: SurveyViewSection;
 
-	public viewerState: SurveyViewerState;
+	public validationStates: typeof ResponseValidationState = ResponseValidationState;
+
+	public get viewerState(): SurveyViewerState {
+		return this._viewerStateService.viewerState;
+	}
+
+	public set viewerState(state: SurveyViewerState) {
+		this._viewerStateService.viewerState = state;
+	}
 
 	/**
 	 * Creates an instance of survey viewer component.
 	 * @param surveyViewerService
 	 * @param _surveyResponderService
+	 * @param _viewerStateService
 	 * @param questionLoaderService
 	 * @param route
 	 * @param cdRef
@@ -84,6 +94,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponderService,
+		private _viewerStateService: SurveyViewerStateService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
 		private cdRef: ChangeDetectorRef
@@ -109,7 +120,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			groupMembers: [],
 			activeGroupMemberIndex: -1,
 			primaryRespondent: undefined,
-			groupValidationStates: {},
+			activeGroupQuestions: [],
 			isLoaded: false
 		};
 
@@ -129,6 +140,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		// subscribe to the navigation state change that is alterable by sub questions
 		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
+
+		// update the current viewer state
+		this._viewerStateService.surveyViewerState.subscribe((state: SurveyViewerState) => {
+			// this.viewerState = state;
+		});
 	}
 
 	/**
@@ -145,6 +161,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
+				question.viewId = Symbol();
 				this.questions.push(question);
 
 				viewOrder++;
@@ -154,6 +171,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
+					question.viewId = Symbol();
 					this.questions.push(question);
 					viewOrder++;
 				});
@@ -203,6 +221,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (result) {
 				this.activeQuestionIndex += 1;
 				this.viewerState.activeQuestionIndex++;
+
 				this.updateViewerState();
 			}
 
@@ -227,9 +246,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 			// clear the group members to prevent rendering
 			this.viewerState.groupMembers = [];
+			this.viewerState.activeGroupQuestions = [];
 		}
 
 		this.updateRespondentGroup();
+
+		// this._viewerStateService.updateState(this.viewerState);
 	}
 
 	/**
@@ -260,10 +282,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (this.viewerState.isSectionActive) {
 			if (this.viewerState.activeSection.isHousehold) {
 				this._surveyResponderService.getSurveyGroupMembers().subscribe((group: any) => {
-					console.log(' got group ');
-					console.log(group);
-
 					this.viewerState.groupMembers = group;
+					this._viewerStateService.setActiveGroupQuestions(this.viewerState.activeQuestion, group);
 				});
 			}
 		}
@@ -336,7 +356,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
 		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+
 		this.headerDisplay.activePageIndex = this.viewerState.activeQuestion.pageIndex;
+
+		this._viewerStateService.updateState(this.viewerState);
 	}
 
 	/**
@@ -345,6 +368,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngAfterViewInit(): void {
 		this.questionContainers.changes.subscribe((s) => {
 			this._activeQuestionContainer = s.first;
+
+			if (s.length > 1) {
+			}
 
 			setTimeout(() => {
 				this.callVisibilityHooks();

@@ -15,11 +15,12 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
 import { OnOptionsLoaded, OnSurveyQuestionInit, SurveyResponder, SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
-import { SurveyViewQuestion as ISurveyQuestion } from '../../models/survey-view-question.model';
+import { SurveyViewQuestion as ISurveyQuestion, SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject } from 'rxjs';
 import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -39,6 +40,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public surveyViewer: SurveyViewerComponent;
+
+	@Input()
+	public surveyViewQuestion: SurveyViewQuestion;
 
 	@Input()
 	public respondent: SurveyViewGroupMember;
@@ -61,16 +65,18 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public responseValidationState: ResponseValidationState;
 
 	/**
-	 *Creates an instance of QuestionContainerComponent.
-	 * @param {QuestionLoaderService} questionLoaderService
-	 * @param {SurveyViewerService} surveyViewerService
-	 * @param {SurveyResponderService} responderService
-	 * @param {ViewContainerRef} viewContainerRef
-	 * @memberof QuestionContainerComponent
+	 * Creates an instance of question container component.
+	 * @param questionLoaderService
+	 * @param surveyViewerService
+	 * @param _viewerStateService
+	 * @param cdRef
+	 * @param responderService
+	 * @param viewContainerRef
 	 */
 	constructor(
 		@Inject('QuestionLoaderService') private questionLoaderService: QuestionLoaderService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
+		private _viewerStateService: SurveyViewerStateService,
 		private cdRef: ChangeDetectorRef,
 		private responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef
@@ -107,7 +113,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				(<SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
 
-				console.log(this.respondent);
 				this.responderService.registerQuestion(componentRef.instance, this.surveyId, this.question.questionId, this.respondent.id);
 
 				this.responderService
@@ -140,9 +145,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Callback for when the response's validation state changes
+	 * Determines whether response validation state changed on
 	 */
-	private onResponseValidationStateChanged: (state: ResponseValidationState) => void = (validationState: ResponseValidationState) => {
+	private onResponseValidationStateChanged: (validationState: ResponseValidationState) => void = (
+		validationState: ResponseValidationState
+	): void => {
+
+		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
 		this.responseValidationState = validationState;
 		this.surveyViewer.validateNavigation();
 	};

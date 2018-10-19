@@ -16,24 +16,28 @@
 
 
 							<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="question"
-							 [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
+							 [surveyViewQuestion]=[activeQuestion] [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i"
+							 #questions></traisi-question-container>
 						</div>
 
 
 						<div *ngIf="viewerState.activeQuestionIndex == i">
-							<div *ngFor="let member of viewerState.groupMembers; let m = index">
+							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
 
 								<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
-								 [respondent]="member" [hidden]="m != viewerState.activeGroupMemberIndex" #questions></traisi-question-container>
+								 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" [hidden]="m != viewerState.activeGroupMemberIndex"
+								 #questions></traisi-question-container>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="group-member-names-container" [hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
 					<div class="group-member-names-section">
-						<span *ngFor="let member of viewerState.groupMembers; let m = index" class="group-member-name" (click)="showGroupMember(m)"
-						 [ngClass]="{
-								'group-member-active': m == viewerState.activeGroupMemberIndex}">{{ member.name }}</span>
+						<span *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index" class="group-member-name"
+						 (click)="showGroupMember(m)" [ngClass]="{
+								'group-member-active': m == viewerState.activeGroupMemberIndex,
+								'group-member-complete': groupQuestion.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex}">
+							{{ groupQuestion.parentMember.name }}</span>
 
 					</div>
 				</div>
