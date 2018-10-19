@@ -1,9 +1,63 @@
 <!doctype html>
 <html>
-<head><title>Test</title></head>
-<body>
-<div><h1>Welcome to the TRAISI Platform!</h1></div>
-<div>Your user name is: {{ user_name }}</div>
-<div>Your password is: {{ password }}</div>
-</body>
+    <head>
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Admin Invitation</title>
+        <style>
+            * {
+                font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 100%;
+                line-height: 1.6em;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body style="background-color: #f6f6f6;margin-top: 20px;-webkit-font-smoothing: antialiased;height: 100%;-webkit-text-size-adjust: none;width: 100% !important;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
+        <!-- body -->
+        <table class="body-wrap" style="width: 100%; text-align: center; background-color: #f6f6f6;">
+            <tr>
+                <td></td>
+                <td class="container" style="clear: both !important;background-color: #FFFFFF;display: block !important;margin: 0 auto !important;max-width: 600px !important;box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);border: 1px solid #f0f0f0;padding: 0;">
+                    <!-- content -->
+                    <div class="content" style="display: block; margin: 0 auto; max-width: 600px;">
+                        <table class="padding" style="width: 100%; padding: 20px; background-color: #2196F3;">
+                            <tr>
+																<td>
+																	<img src="https://traisi.dmg.utoronto.ca/admin/assets/img/icon_dark.png" />
+																</td>
+                                <td style="text-align: center;">
+                                    <span class="title" style="color: #FFF; font-size: 36px; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200;line-height: 1.2em; margin: 10px 0 10px;">TRAISI Invitation</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="padding" bgcolor="#61626F" style="color: #FFFFFF;padding: 20px;width: 100%;background-color: #61626F;text-align: center;">
+                            <tr>
+                                <td style="text-align: center;">
+                                    <p style="font-size: 14px;font-weight: normal;margin-bottom: 10px;">
+                                        <div><h1>Welcome to the TRAISI Platform!</h1></div>
+																				<div>Your user name is: {{ user_name }}</div>
+																				<div>Your password is: {{ password }}</div>
+                                    </p>
+                                    <!-- button -->
+                                    <table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="margin-top: 20px;margin-bottom: 10px;width: auto !important;margin-left: auto;margin-right: auto;">
+                                        <tr>
+                                            <td style="background-color: #348eda;border-radius: 25px;font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-size: 14px;text-align: center;vertical-align: top;padding: 0;">
+                                                <a href="https://traisi.dmg.utoronto.ca" target="_blank" style="background-color: #348eda;border: solid 1px #348eda;border-radius: 25px;border-width: 10px 20px;display: inline-block;color: #ffffff;cursor: pointer;font-weight: bold;line-height: 2;text-decoration: none;">Access Admin</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- /button -->
+                               </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- /content -->
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <!-- /body -->
+    </body>
 </html>

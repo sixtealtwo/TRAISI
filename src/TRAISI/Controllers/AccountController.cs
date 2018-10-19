@@ -266,46 +266,53 @@ namespace TRAISI.Controllers
             //if (!(await _authorizationService.AuthorizeAsync (this.User, Tuple.Create (user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
             //    return new ChallengeResult ();
 
-            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
-            bool isGroupAdmin = await this.CanAdminGroups();
-
-            if (!viewAllUsersPolicy.Succeeded && !isGroupAdmin)
-                return new ChallengeResult();
-
-            if (ModelState.IsValid)
+            try
             {
-                if (user == null)
-                    return BadRequest($"{nameof(user)} cannot be null");
+                var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
+                bool isGroupAdmin = await this.CanAdminGroups();
 
-                // force user type to be 'user' to avoid any other type being set through here
-                user.Roles = new string[] { "user" };
+                if (!viewAllUsersPolicy.Succeeded && !isGroupAdmin)
+                    return new ChallengeResult();
 
-                ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
-
-                var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
-                if (result.Item1)
+                if (ModelState.IsValid)
                 {
-                    MailgunEmail regEmail = new MailgunEmail()
+                    if (user == null)
+                        return BadRequest($"{nameof(user)} cannot be null");
+
+                    // force user type to be 'user' to avoid any other type being set through here
+                    user.Roles = new string[] { "user" };
+
+                    ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+
+                    var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
+                    if (result.Item1)
                     {
-                        Receipient = appUser.Email,
-                        Subject = _localizer["RegistrationEmailSubject"],
-                        Template = "RegistrationEmail",
-                        TemplateReplacements = new Dictionary<string, string>() { { "user_name", appUser.UserName }, { "password", user.NewPassword } }
-                    };
-                    this._emailer.SendEmail(regEmail);
-                    /*var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
-                    if (!emailRegSuccess)
-                    {
-                        AddErrors(new string[] { errorMessage });
-                    }*/
-                    UserViewModel userVM = await GetUserViewModelHelper(appUser.Id);
-                    return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
+                        MailgunEmail regEmail = new MailgunEmail()
+                        {
+                            Receipient = appUser.Email,
+                            Subject = _localizer["RegistrationEmailSubject"],
+                            Template = "RegistrationEmail",
+                            TemplateReplacements = new Dictionary<string, string>() { { "user_name", appUser.UserName }, { "password", user.NewPassword } }
+                        };
+                        this._emailer.SendEmail(regEmail);
+                        /*var (emailRegSuccess, errorMessage) = await this._emailer.SendEmailAsync(regEmail);
+                        if (!emailRegSuccess)
+                        {
+                            AddErrors(new string[] { errorMessage });
+                        }*/
+                        UserViewModel userVM = await GetUserViewModelHelper(appUser.Id);
+                        return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
+                    }
+
+                    AddErrors(result.Item2);
                 }
 
-                AddErrors(result.Item2);
+                return BadRequest(ModelState);
             }
-
-            return BadRequest(ModelState);
+            catch (System.Exception ex)
+            {
+                return BadRequest("User Creation Failed: " + ex.Message);
+            }
         }
 
         [HttpDelete("users/{id}")]

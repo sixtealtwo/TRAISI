@@ -296,6 +296,11 @@ namespace TRAISI.Controllers
                     ValidationResult validParameters = parameterValidator.Validate(surveyParameters);
                     if (validParameters.IsValid)
                     {
+                        var existingSurveyWithCode = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(surveyParameters.Code);
+                        if (existingSurveyWithCode != null)
+                        {
+                            return BadRequest("Survey code already in use.");
+                        }
 
                         var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(surveyParameters.Group);
 

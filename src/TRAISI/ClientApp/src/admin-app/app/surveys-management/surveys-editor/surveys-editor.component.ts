@@ -45,7 +45,7 @@ export class SurveysEditorComponent implements OnInit {
 		autoUpload: false,
 		allowedFileType: ['compress'],
 		authTokenHeader: 'Authorization',
-		queueLimit: 1,
+		queueLimit: 2,
 		url: this.configurationService.baseUrl + '/api/survey/import',
 		removeAfterUpload: true
 
@@ -86,18 +86,12 @@ export class SurveysEditorComponent implements OnInit {
 				};
 				this.uploader.options.headers = [surveyInfo];
 				this.uploader.onSuccessItem = (item, response, status, headers) => {
-					if (this.changesSavedCallback) {
-						this.changesSavedCallback();
-						this.isSaving = false;
-						this.importFile = undefined;
-					}
+					this.saveSuccessHelper();
 				};
 				this.uploader.onErrorItem = (item, response, status, headers) => {
-					if (this.changesFailedCallback) {
-						this.changesFailedCallback();
-						this.isSaving = false;
-						this.importFile = undefined;
-					}
+					this.saveFailedHelper(response);
+					let files: File[] = [item._file];
+					this.uploader.addToQueue(files);
 				};
 				this.uploader.uploadAll();
 
@@ -117,6 +111,7 @@ export class SurveysEditorComponent implements OnInit {
 	private saveSuccessHelper(): void {
 		this.alertService.stopLoadingMessage();
 		this.isSaving = false;
+		this.importFile = undefined;
 		if (this.isNewSurvey) {
 			this.alertService.showMessage(
 				'Success',
@@ -178,7 +173,7 @@ export class SurveysEditorComponent implements OnInit {
 	}
 
 	public setImportFile(files: FileLikeObject[]): void {
-		if (files[0] && files[0].type === 'application/x-zip-compressed') {
+		if (files[0] && (files[0].type === 'application/x-zip-compressed' || files[0].type === 'application/zip')) {
 			this.importFile = files[0];
 			while (this.uploader.queue.length > 1) {
 				this.uploader.removeFromQueue(this.uploader.queue[0]);
