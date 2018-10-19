@@ -1,3 +1,5 @@
+import { SurveyViewSection } from 'app/models/survey-view-section.model';
+import { SurveyViewPage } from './survey-view-page.model';
 export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
@@ -10,4 +12,9 @@ export interface SurveyViewQuestion {
 	questionType: string;
 	pageIndex: number;
 	typeName: string;
+
+	 // convenient ref to section or page
+
+	 parentSection: SurveyViewSection;
+	 parentPage: SurveyViewPage;
 }

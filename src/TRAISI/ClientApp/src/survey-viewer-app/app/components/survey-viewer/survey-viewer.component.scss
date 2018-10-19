@@ -19,19 +19,42 @@
 .question-section
 {
 	flex-grow: 1;
+	position: relative;
+}
+
+.question-widget
+{
+	position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
 }
 
 .group-member-names-section {
-	transform-origin: top left;
+	transform-origin:  left;
 	transform: rotate(90deg);
 	white-space: nowrap;
-	width: 40px;
 	display: inline-block;
+}
+
+.group-member-names-container
+{
+	width: 30px;
 }
 
 .group-member-name
 {
-	height: 40px;
+	display: inline;
+    margin-right: 5px;
+    -webkit-transform: none;
+    transform: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 5px 10px;
+    color: white;
+	font-weight: bold;
+	background-color: #64bd63;
 }
 
 .survey-viewer-container
@@ -51,6 +74,7 @@
 	margin: 0;
 	text-align: center;
 	overflow-y: auto;
+	overflow-x: hidden;
 	width: 100%;
 	flex-grow: 1;
 }

@@ -15,10 +15,11 @@
 						 *ngIf="viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
 					</div>
 				</div>
-				<div class="group-member-names-section">
-					<span class="group-member-name">Member 1</span>
-					<span class="group-member-name">Member 1</span>
-					<span class="group-member-name">Member 1</span>
+				<div class="group-member-names-container" [hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
+					<div class="group-member-names-section">
+						<span *ngFor="let member of viewerState.groupMembers" class="group-member-name">{{ member.name }}</span>
+
+					</div>
 				</div>
 			</div>
 		</div>

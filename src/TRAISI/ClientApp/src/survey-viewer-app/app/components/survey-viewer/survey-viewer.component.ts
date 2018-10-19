@@ -27,6 +27,7 @@ import { SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { SurveyViewSection } from '../../models/survey-view-section.model';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
+import { SurveyResponderService } from '../../services/survey-responder.service';
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -65,8 +66,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	private _activeQuestionContainer: QuestionContainerComponent;
 
-	private pages: Array<SurveyViewPage>;
-
 	public ref: SurveyViewerComponent;
 
 	public activeSection: SurveyViewSection;
@@ -81,6 +80,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
+		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponderService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
 		private cdRef: ChangeDetectorRef
@@ -102,8 +102,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			isSectionActive: false,
 			surveyQuestions: [],
 			activeQuestionIndex: -1,
-			activePageIndex: -1
-
+			activePageIndex: -1,
+			groupMembers: []
 		};
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
@@ -114,7 +114,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
-					this.pages = pages;
 
 					this.loadQuestions(pages);
 
@@ -133,7 +132,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
 		this.questions = [];
-		let order: number = 0;
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 		this.viewerState.surveyPages = pages;
@@ -141,17 +139,18 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			page.questions.forEach((question) => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
+				question.parentPage = page;
 				this.questions.push(question);
 
 				viewOrder++;
 			});
 			page.sections.forEach((section) => {
 				section.questions.forEach((question) => {
-
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
+					question.parentSection = section;
 					this.questions.push(question);
-					viewOrder ++;
+					viewOrder++;
 				});
 			});
 			pageCount += 1;
@@ -162,7 +161,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.questions = sortBy(this.questions, ['viewOrder']);
 
 		this.viewerState.surveyQuestions = sortBy(this.questions, ['viewOrder']);
-
 
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
@@ -185,18 +183,38 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		if (!this.validateInternalNavigationNext()) {
 			this.activeQuestionIndex += 1;
-			this.viewerState.activeQuestionIndex ++;
+			this.viewerState.activeQuestionIndex++;
+
+			this.updateViewerState();
 			this.validateNavigation();
 		} else {
 			const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
 			if (result) {
 				this.activeQuestionIndex += 1;
-				this.viewerState.activeQuestionIndex ++;
+				this.viewerState.activeQuestionIndex++;
+				this.updateViewerState();
 			}
 
 			this.validateNavigation();
 		}
+	}
+
+	/**
+	 * Updates viewer state
+	 */
+	private updateViewerState(): void {
+		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+
+		if (this.viewerState.activeQuestion.parentSection !== undefined) {
+			this.viewerState.activeSection = this.viewerState.activeQuestion.parentSection;
+			this.viewerState.isSectionActive = true;
+		} else {
+			this.viewerState.activeSection = null;
+			this.viewerState.isSectionActive = false;
+		}
+
+		this.updateRespondentGroup();
 	}
 
 	/**
@@ -211,13 +229,29 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	/**
+	 * Performs a check on the current question for its status as a group / or section for rendering household members
+	 */
+	private updateRespondentGroup(): void {
+		if (this.viewerState.isSectionActive) {
+			if (this.viewerState.activeSection.isHousehold) {
+				this._surveyResponderService.getSurveyGroupMembers().subscribe((group: any) => {
+					console.log(' got group ');
+					console.log(group);
+
+					this.viewerState.groupMembers = group;
+				});
+			}
+		}
+	}
+
+	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
 	public navigatePrevious(): void {
 		if (!this.validateInternalNavigationPrevious()) {
-			this.activeQuestionIndex -= 1;
-			this.viewerState.activeQuestionIndex = -1;
+			this.viewerState.activeQuestionIndex -= 1;
 			this.navigationActiveState = true;
+			this.updateViewerState();
 			this.validateNavigation();
 		} else {
 			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalPrevious();
@@ -260,8 +294,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		if (this.navigationActiveState === false) {
 			this.navigateNextEnabled = false;
-		} else if (this.viewerState.activeQuestionIndex >= this.viewerState.surveyQuestions.length - 1 &&
-			 !this.validateInternalNavigationNext()) {
+		} else if (
+			this.viewerState.activeQuestionIndex >= this.viewerState.surveyQuestions.length - 1 &&
+			!this.validateInternalNavigationNext()
+		) {
 			this.navigateNextEnabled = false;
 		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
 			this.navigateNextEnabled = false;
@@ -269,9 +305,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.navigateNextEnabled = true;
 		}
 
-		this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
-
-		this.headerDisplay.activePageIndex = this.viewerState.activeQuestionIndex;
+		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
+		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+		this.headerDisplay.activePageIndex = this.viewerState.activeQuestion.pageIndex;
 	}
 
 	/**
