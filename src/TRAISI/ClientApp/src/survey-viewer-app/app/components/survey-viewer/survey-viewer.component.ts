@@ -74,10 +74,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public viewerState: SurveyViewerState;
 
 	/**
-	 *
+	 * Creates an instance of survey viewer component.
 	 * @param surveyViewerService
+	 * @param _surveyResponderService
 	 * @param questionLoaderService
 	 * @param route
+	 * @param cdRef
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
