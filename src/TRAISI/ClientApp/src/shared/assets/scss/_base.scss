@@ -149,7 +149,11 @@ app, .app {
   @include media-breakpoint-down(sm) {
     padding-left: 20px;
     padding-right: 20px;
-  }
+	}
+	
+	@media(hover: none) {
+		overflow-x: hidden;
+	}
 
   .content-footer {
 		position: absolute;
