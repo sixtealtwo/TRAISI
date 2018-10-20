@@ -36,6 +36,11 @@
 	margin-top: 20px;
 	font-size: 12px;
 	font-weight: bold;
+	visibility: hidden;
+}
+
+.page:hover + .page-progress-label {
+	visibility: visible;
 }
 
 #survey-progress-indicator {

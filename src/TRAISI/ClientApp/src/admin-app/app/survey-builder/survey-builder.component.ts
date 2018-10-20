@@ -475,9 +475,9 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.content-wrap-builder').addClass('remove-left-margin');
 			$('.page-controls').addClass('ml-0');
 			$('.page-controls').addClass('hide-using-height');
-			$('.navbar-brand').addClass('d-none');
+			$('.navbar-brand').addClass('invisible');
 			$('.content').addClass('eliminate-content-padding');
-			$('.tab-pane').css('margin-top', '-50px');
+			$('.tab-pane').css('margin-top', '-30px');
 			$('.tab-pane').addClass('remove-padding');
 			$('.nav').addClass('hide-using-height');
 			$('.sidebar-toggle-button').addClass('invisible');
@@ -491,7 +491,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.content-wrap-builder').removeClass('remove-left-margin');
 			$('.page-controls').removeClass('ml-0');
 			$('.page-controls').removeClass('hide-using-height');
-			$('.navbar-brand').removeClass('d-none');
+			$('.navbar-brand').removeClass('invisible');
 			$('.content').removeClass('eliminate-content-padding');
 			$('.tab-pane').css('margin-top', 'unset');
 			$('.tab-pane').removeClass('remove-padding');
