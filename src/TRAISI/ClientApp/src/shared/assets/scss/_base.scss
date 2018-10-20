@@ -78,7 +78,7 @@ app, .app {
 }
 
 .page-controls {
-  position: fixed;
+  position: absolute;
   z-index: 50;
   height: $navbar-height;
   font-size: 13px;

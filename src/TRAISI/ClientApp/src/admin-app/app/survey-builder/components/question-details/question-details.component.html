@@ -2,10 +2,10 @@
 	<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
 		<h5 class="text-center">{{ qOptionDefinition.name }}</h5>
 		<div class="form-group row search-box p-3">
-			<search-input class="col-8" (searchChange)="onSearchChanged($event, qOptionDefinition.name, i)" placeholder="Search Options"></search-input>
+			<search-input class="col-12" (searchChange)="onSearchChanged($event, qOptionDefinition.name, i)" placeholder="Search Options"></search-input>
 		</div>
 		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
-		 [getChildPayload]="getOptionPayload" [lockAxis]="'y'">
+		 [getChildPayload]="getOptionPayload">
 			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name) | slice:(optionPage[i]-1)*numberPerPage:optionPage[i]*numberPerPage">
 				<div class="form-group row response-option-container">
 					<div class="input-group col-md-12">

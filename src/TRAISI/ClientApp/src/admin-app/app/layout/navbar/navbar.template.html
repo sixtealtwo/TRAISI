@@ -33,7 +33,7 @@
     </a>
   </li>
 </ul>-->
-<ul *ngIf="!onBuilder" class="sidebar-nav top-nav d-none d-md-flex flex-row">
+<ul *ngIf="!onBuilder" class="sidebar-nav top-nav flex-row d-none d-md-flex">
 	<li class="traisi-logo">
 		<a [routerLink]=" ['dashboard'] ">
 				<img src="{{ config.logo }} " height="35">
@@ -72,10 +72,15 @@
 		</a>
 	</li>
 </ul>
-<a class="navbar-brand d-md-none" [routerLink]=" ['dashboard'] ">
+<a *ngIf="!onBuilder" class="navbar-brand d-md-none" [routerLink]=" ['dashboard'] ">
 	<img src="assets/img/logo_dark.png" height="45">
 </a>
-
+<div *ngIf="onBuilder && surveyService.lastSurvey" class="navbar-brand d-md-block d-none">
+	<div class="badge badge-primary mr-3">Design</div>{{ surveyService.lastSurvey.name }}
+</div>
+<div *ngIf="onBuilder && surveyService.lastSurvey" class="navbar-brand d-md-none">
+	<div class="badge badge-primary mr-3">Design</div>{{ surveyService.lastSurvey.code }}
+</div>
 
 <ul class="navbar-nav mr-3 d-none d-md-flex flex-row nav-user" (click)="$event.preventDefault()">
 	<li class="nav-item dropdown" dropdown placement="bottom right">

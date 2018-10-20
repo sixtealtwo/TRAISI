@@ -7,6 +7,7 @@ import { Location, HashLocationStrategy } from '@angular/common';
 import { Permission } from '../../../../shared/models/permission.model';
 import { AccountService } from '../../services/account.service';
 import { UserGroupService } from '../../services/user-group.service';
+import { SurveyService } from '../../services/survey.service';
 declare let jQuery: JQueryStatic;
 
 @Component({
@@ -35,7 +36,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 		private translationService: AppTranslationService,
 		public configurations: ConfigurationService,
 		private userGroupService: UserGroupService,
-		private location: Location
+		private location: Location,
+		private surveyService: SurveyService
 	) {
 		this.$el = jQuery(el.nativeElement);
 		this.config = config.getConfig();

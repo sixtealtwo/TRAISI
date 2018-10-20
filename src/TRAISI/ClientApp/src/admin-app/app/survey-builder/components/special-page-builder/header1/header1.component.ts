@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, AfterViewInit, ElementRef } from '@angular/core';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../../../shared/services';
@@ -13,7 +13,7 @@ import { UploadPath } from '../../../models/upload-path';
   styleUrls: ['./header1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class Header1Component implements OnInit {
+export class Header1Component implements OnInit, AfterViewInit {
 
 	private baseUrl: string = '';
 	public imageSource: string;
@@ -43,7 +43,8 @@ export class Header1Component implements OnInit {
 		private configurationService: ConfigurationService,
 		private authService: AuthService,
 		private alertService: AlertService,
-		private surveyBuilderService: SurveyBuilderService
+		private surveyBuilderService: SurveyBuilderService,
+		private elementRef: ElementRef
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
@@ -71,6 +72,18 @@ export class Header1Component implements OnInit {
 			this.pageThemeInfo.headerBackgroundHeight = 66;
 		}
 		
+	}
+
+	public ngAfterViewInit(): void {
+		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+	}
+
+	public disableScreenTouch(): void {
+
+	}
+
+	public enableScreenTouch(): void {
+	
 	}
 
 	onUploadError(error: any) {
