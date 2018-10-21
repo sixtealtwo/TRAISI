@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-header1',
@@ -6,11 +6,11 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./header1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class Header1Component implements OnInit {
+export class Header1Component implements OnInit, AfterViewInit {
 
 	private baseUrl: string = '';
 	public imageSource: string;
-
+	public imageTransform: any;
 	private pageHTMLJson: any;
 
 	@Input() public pageHTML: string;
@@ -25,6 +25,7 @@ export class Header1Component implements OnInit {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
 			this.imageSource = pageData.image;
+			this.imageTransform = `translate(${this.pageHTMLJson.imageTransform.x}px,${this.pageHTMLJson.imageTransform.y}px)`;
 		} catch (e) {
 			this.pageHTMLJson = {};
 			this.imageSource = undefined;
@@ -41,4 +42,7 @@ export class Header1Component implements OnInit {
 
 	}
 
+	public ngAfterViewInit(): void {
+		
+	}
 }

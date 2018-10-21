@@ -24,10 +24,6 @@
 }
 
 .welcome-header-logo {
-		padding-top: 25px;
-		@include media-breakpoint-down(sm) {
-			padding-top: 20px;
-		}
 		width: auto;
 		max-width: 80vw;
 }

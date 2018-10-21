@@ -1,4 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, AfterViewInit, ElementRef } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	Input,
+	Output,
+	EventEmitter,
+	ViewEncapsulation,
+	AfterViewInit,
+	ElementRef,
+	ViewChild,
+	ChangeDetectorRef
+} from '@angular/core';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../../../shared/services';
@@ -6,17 +17,20 @@ import { AlertService, MessageSeverity } from '../../../../../../shared/services
 import { Utilities } from '../../../../../../shared/services/utilities';
 import { SurveyBuilderService } from '../../../services/survey-builder.service';
 import { UploadPath } from '../../../models/upload-path';
+import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 
 @Component({
-  selector: 'app-header1',
-  templateUrl: './header1.component.html',
-  styleUrls: ['./header1.component.scss'],
+	selector: 'app-header1',
+	templateUrl: './header1.component.html',
+	styleUrls: ['./header1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class Header1Component implements OnInit, AfterViewInit {
-
 	private baseUrl: string = '';
+	private draggingImage: boolean = false;
+	private dragStart: any;
 	public imageSource: string;
+	public imageTransform: any;
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -33,18 +47,28 @@ export class Header1Component implements OnInit, AfterViewInit {
 	private pageHTMLJson: any;
 	@Input()
 	public previewMode: any;
-	@Input() public pageHTML: string;
-	@Input() public pageThemeInfo: any;
-	@Output() public pageHTMLChange = new EventEmitter();
-	@Output()	public pageThemeInfoChange = new EventEmitter();
-	@Output() public forceSave = new EventEmitter();
+	@Input()
+	public pageHTML: string;
+	@Input()
+	public pageThemeInfo: any;
+	@Output()
+	public pageHTMLChange = new EventEmitter();
+	@Output()
+	public pageThemeInfoChange = new EventEmitter();
+	@Output()
+	public forceSave = new EventEmitter();
 
-  constructor(
+	@ViewChild('imageMenu')
+	public imageMenu: ContextMenuComponent;
+
+	constructor(
 		private configurationService: ConfigurationService,
 		private authService: AuthService,
 		private alertService: AlertService,
 		private surveyBuilderService: SurveyBuilderService,
-		private elementRef: ElementRef
+		private elementRef: ElementRef,
+		private contextMenuService: ContextMenuService,
+		private cdRef: ChangeDetectorRef
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
@@ -53,7 +77,7 @@ export class Header1Component implements OnInit, AfterViewInit {
 		};
 	}
 
-  ngOnInit() {
+	ngOnInit() {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
@@ -71,20 +95,57 @@ export class Header1Component implements OnInit, AfterViewInit {
 		if (!('headerBackgroundHeight' in this.pageThemeInfo)) {
 			this.pageThemeInfo.headerBackgroundHeight = 66;
 		}
-		
 	}
+
+	public onImageMenu($event: MouseEvent, item: any): void {
+		if (!this.draggingImage) {
+			this.contextMenuService.show.next({
+				// Optional - if unspecified, all context menu components will open
+				contextMenu: this.imageMenu,
+				event: $event,
+				item: item
+			});
+			$event.preventDefault();
+			$event.stopPropagation();
+		} else {
+			this.draggingImage = false;
+		}
+	}
+
+	public lockYAxis(event: any): void {
+		event.x = 0;
+		this.imageTransform = event;
+	}
+	public onImageMoveEnd(event: any): void {
+		if (this.dragStart === JSON.stringify(event)) {
+			this.draggingImage = false;
+		}
+		event.x = 0;
+		this.dragStart = JSON.stringify(event);
+		this.imageTransform = event;
+		this.pageHTMLJson.imageTransform = this.imageTransform;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	public startImageDrag(event: any): void {
+		this.draggingImage = true;
+	}
+
+	public stopImageDrag(event: any): void {
+
+	}
+
 
 	public ngAfterViewInit(): void {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+		this.imageTransform = this.pageHTMLJson.imageTransform;
+		this.cdRef.detectChanges();
 	}
 
-	public disableScreenTouch(): void {
+	public disableScreenTouch(): void {}
 
-	}
-
-	public enableScreenTouch(): void {
-	
-	}
+	public enableScreenTouch(): void {}
 
 	onUploadError(error: any) {
 		this.alertService.stopLoadingMessage();
@@ -158,5 +219,4 @@ export class Header1Component implements OnInit, AfterViewInit {
 			return false;
 		}
 	}
-
 }

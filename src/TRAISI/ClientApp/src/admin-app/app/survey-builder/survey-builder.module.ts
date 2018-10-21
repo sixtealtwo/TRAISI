@@ -54,6 +54,7 @@ import { Footer1Component } from './components/special-page-builder/footer1/foot
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
 import { QuestionViewerComponent } from './components/special-page-builder/question-viewer/question-viewer.component';
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 @NgModule({
 	imports: [
@@ -75,6 +76,7 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 		ColorPickerModule,
 		AngularDraggableModule,
 		NgxToggleModule,
+		ContextMenuModule,
 		PaginationModule.forRoot(),
 		ButtonsModule.forRoot(),
 		DynamicModule.withComponents([

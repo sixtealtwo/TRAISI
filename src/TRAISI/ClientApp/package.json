@@ -18,6 +18,7 @@
 	"dependencies": {
 		"@agm/core": "1.0.0-beta.2",
 		"@angular/animations": "^6.1.4",
+		"@angular/cdk": "^7.0.0",
 		"@angular/common": "^6.1.4",
 		"@angular/core": "^6.1.4",
 		"@angular/forms": "^6.1.4",
@@ -88,6 +89,7 @@
 		"ngx-bootstrap": "^3.0.1",
 		"ngx-bootstrap-slider": "^1.6.0",
 		"ngx-color-picker": "^6.7.0",
+		"ngx-contextmenu": "^5.0.3",
 		"ngx-dropzone-wrapper": "^6.2.0",
 		"ngx-echarts": "^4.0.0",
 		"ngx-mapbox-gl": "^1.2.0",

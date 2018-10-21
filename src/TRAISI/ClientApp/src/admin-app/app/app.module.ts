@@ -38,6 +38,7 @@ import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { TreeviewModule } from 'ngx-treeview';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 const monacoConfig: NgxMonacoEditorConfig = {
 	baseUrl: './assets', // configure base path for monaco editor
@@ -83,6 +84,7 @@ const APP_PROVIDERS = [AppConfig];
 		ButtonsModule.forRoot(),
 		ModalModule.forRoot(),
 		TreeviewModule.forRoot(),
+		ContextMenuModule.forRoot(),
 		MonacoEditorModule.forRoot(monacoConfig)
 	],
 	providers: [APP_PROVIDERS, AppTranslationService, LocalStoreManager, EndpointFactory, TranslatePipe, TitleCasePipe]

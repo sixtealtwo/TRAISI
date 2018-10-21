@@ -21,10 +21,14 @@
 		height: 50px;
 		min-height: 50px !important;
 	}
+
+	img {
+		user-select: none;
+		-webkit-user-drag: none;
+	}
 }
 
 .welcome-header-logo {
-		padding-top: 25px;
 		@include media-breakpoint-down(sm) {
 			padding-top: 20px;
 		}

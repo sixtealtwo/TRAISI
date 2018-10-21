@@ -382,6 +382,24 @@ tree-select {
 	}
 }
 
+.ngx-contextmenu {
+	.dropdown-menu {
+		li {
+			text-align: center;
+			text-transform: uppercase;
+			font-weight: bold;
+			padding: 5px;
+
+			a {
+				color: black !important;
+				text-decoration: none;
+			}
+		}
+		li:hover {
+			background-color: $gray-200;
+		}
+	}
+}
 
 ngx-dropdown-treeview {
   .dropdown-menu.show {
