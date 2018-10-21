@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, Inject, ViewEncapsulation, ElementRef } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
@@ -44,7 +44,8 @@ export class SurveyStartPageComponent implements OnInit {
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private route: ActivatedRoute,
 		private router: Router,
-		private translate: TranslateService
+		private translate: TranslateService,
+		private elementRef: ElementRef
 	) {}
 
 	/**
@@ -73,6 +74,7 @@ export class SurveyStartPageComponent implements OnInit {
 								this.pageThemeInfo.viewerTemplate = '';
 							}
 						} catch (e) {}
+						this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 						this.finishedLoading = true;
 					}
 				);

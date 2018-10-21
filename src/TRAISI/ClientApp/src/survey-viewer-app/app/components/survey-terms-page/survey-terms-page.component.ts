@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
@@ -31,7 +31,8 @@ export class SurveyTermsPageComponent implements OnInit {
 		private route: ActivatedRoute,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private router: Router,
-		private translate: TranslateService
+		private translate: TranslateService,
+		private elementRef: ElementRef
 	) {
 		this.model = {} as SurveyViewTermsModel;
 	}
@@ -59,6 +60,7 @@ export class SurveyTermsPageComponent implements OnInit {
 			)
 			.subscribe((value) => {
 				this.pageThemeInfo = value;
+				this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 				this.finishedLoading = true;
 			});
 
