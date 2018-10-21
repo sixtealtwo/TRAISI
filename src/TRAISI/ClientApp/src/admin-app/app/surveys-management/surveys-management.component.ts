@@ -139,12 +139,12 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 				draggable: false,
 				canAutoResize: false
 			},
-			{ prop: 'code', name: 'Code', midWidth: 50, flexGrow: 30, cellTemplate: this.textTemplate },
+			{ prop: 'code', name: 'Code', width: 80, cellTemplate: this.textTemplate, canAutoResize: false },
 			{
 				prop: 'name',
 				name: 'Survey Title',
-				minWidth: 50,
-				flexGrow: 50,
+				minWidth: 200,
+				flexGrow: 100,
 				cellTemplate: this.textTemplate,
 				headerClass: 'col',
 				cellClass: 'col'
@@ -187,21 +187,73 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 
 		this.sharedSurveyColumns = [
 			{
-				width: 50,
+				width: 20,
 				cellTemplate: this.expandTemplate,
 				sortable: false,
 				resizeable: false,
 				draggable: false,
 				canAutoResize: false
 			},
-			{ prop: 'code', name: 'Code', midWidth: 20, flexGrow: 20, cellTemplate: this.textTemplate },
-			{ prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 50, cellTemplate: this.textTemplate },
-			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
-			{ prop: 'group', name: 'Group', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
-			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ minWidth: 50, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status', sortable: false },
-			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
+			{
+				prop: 'code',
+				name: 'Code',
+				width: 80,
+				flexGrow: 20,
+				cellTemplate: this.textTemplate,
+				canAutoResize: false
+			},
+			{
+				prop: 'name',
+				name: 'Survey Title',
+				minWidth: 200,
+				flexGrow: 100,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col',
+				cellClass: 'col'
+			},
+			{
+				prop: 'owner',
+				name: 'Owner',
+				minWidth: 30,
+				flexGrow: 30,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col',
+				cellClass: 'col'
+			},
+			{
+				prop: 'group',
+				name: 'Group',
+				minWidth: 30,
+				flexGrow: 30,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				prop: 'startAt',
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.dateTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				prop: 'endAt',
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.dateTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.surveyTagTemplate,
+				name: 'Status',
+				sortable: false,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			}
 		];
 
 		this.groupSurveyColumns = [
@@ -213,13 +265,66 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 				draggable: false,
 				canAutoResize: false
 			},
-			{ prop: 'code', name: 'Code', midWidth: 20, flexGrow: 20, cellTemplate: this.textTemplate },
-			{ prop: 'name', name: 'Survey Title', minWidth: 50, flexGrow: 50, cellTemplate: this.textTemplate },
-			{ prop: 'owner', name: 'Owner', minWidth: 30, flexGrow: 30, cellTemplate: this.textTemplate },
-			{ prop: 'startAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ prop: 'endAt', minWidth: 50, flexGrow: 30, cellTemplate: this.dateTemplate },
-			{ minWidth: 30, flexGrow: 30, cellTemplate: this.surveyTagTemplate, name: 'Status', sortable: false },
-			{ name: 'Actions', cellTemplate: this.actionsTemplate, minWidth: 50, flexGrow: 40, prop: 'id' }
+			{
+				prop: 'code',
+				name: 'Code',
+				width: 80,
+				flexGrow: 20,
+				cellTemplate: this.textTemplate,
+				canAutoResize: false
+			},
+			{
+				prop: 'name',
+				name: 'Survey Title',
+				minWidth: 200,
+				flexGrow: 100,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col',
+				cellClass: 'col'
+			},
+			{
+				prop: 'owner',
+				name: 'Owner',
+				minWidth: 30,
+				flexGrow: 30,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col',
+				cellClass: 'col'
+			},
+			{
+				prop: 'group',
+				name: 'Group',
+				minWidth: 30,
+				flexGrow: 30,
+				cellTemplate: this.textTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				prop: 'startAt',
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.dateTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				prop: 'endAt',
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.dateTemplate,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			},
+			{
+				minWidth: 50,
+				flexGrow: 30,
+				cellTemplate: this.surveyTagTemplate,
+				name: 'Status',
+				sortable: false,
+				headerClass: 'col d-none d-md-block',
+				cellClass: 'col d-none d-md-block'
+			}
 		];
 
 		this.loadData();
@@ -342,7 +447,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 					},
 					error => {
 						this.downloadErrorHelper(error);
-						this.notificationService.deRegisterDownloadChannel(this.downloadProgress.id)
+						this.notificationService.deRegisterDownloadChannel(this.downloadProgress.id);
 					}
 				);
 			},

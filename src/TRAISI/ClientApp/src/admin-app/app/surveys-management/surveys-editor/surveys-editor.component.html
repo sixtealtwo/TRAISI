@@ -37,46 +37,12 @@
 			</div>
 		</div>
 		<div class="form-group form-group-adjust row">
-			<label class="col-md-2 col-form-label text-md-right" for="rejectionLink">Rejection Link</label>
-			<div class="col-md-7">
-				<input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr class="edit-separator-hr" />
-			</div>
-		</div>
-		<div class="form-group form-group-adjust row">
-			<label class="col-md-2 col-form-label text-md-right" for="successLink">Success Link</label>
-			<div class="col-md-7">
-				<input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr class="edit-separator-hr" />
-			</div>
-		</div>
-		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="startAt">Active Period</label>
-			<div class="col-md-8">
+			<div class="col-md-7">
 				<input type="text" placeholder="Datepicker" class="form-control" bsDaterangepicker name="startAt" id="startAt" #dpStart="bsDaterangepicker"
 				 [bsConfig]="bsConfig" [(ngModel)]="activePeriod">
 			</div>
 		</div>
-		<!--<div class="row">
-			<div class="col-md-12">
-				<hr class="edit-separator-hr" />
-			</div>
-		</div>
-		<div class="form-group form-group-adjust row">
-			<label class="col-md-2 col-form-label text-md-right" for="endAt">End Date</label>
-			<div class="col-md-5">
-				<input type="text" placeholder="Datepicker" class="form-control" bsDatepicker name="endAt" id="endAt" #dpEnd="bsDatepicker"
-				 [bsConfig]="bsConfig" [(ngModel)]="model.endAt">
-			</div>
-		</div>-->
 		<div class="row">
 			<div class="col-md-12">
 				<hr class="edit-separator-hr" />
@@ -106,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" *ngIf="importing">
 			<div class="col-md-12">
 				<hr class="edit-separator-hr" />
 			</div>
@@ -130,7 +96,32 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" *ngIf="importing">
+		<div class="row">
+			<div class="col-md-12">
+				<hr class="edit-separator-hr" />
+			</div>
+		</div>
+		<fieldset>
+			<legend>External Integration (Optional)</legend>
+			<div class="form-group form-group-adjust row">
+				<label class="col-md-2 col-form-label text-md-right" for="rejectionLink">Rejection Link</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="rejectionLink" aria-describedby="emailHelp" placeholder="Rejection link" name="rejectionLink">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<hr class="edit-separator-hr" />
+				</div>
+			</div>
+			<div class="form-group form-group-adjust row">
+				<label class="col-md-2 col-form-label text-md-right" for="successLink">Success Link</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="successLink" aria-describedby="emailHelp" placeholder="Success link" name="successLink">
+				</div>
+			</div>
+	</fieldset>
+		<div class="row">
 			<div class="col-md-12">
 				<hr class="edit-last-separator-hr" />
 			</div>

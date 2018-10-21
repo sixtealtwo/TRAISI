@@ -199,7 +199,7 @@
 	</ng-template>
 
 	<ng-template #textTemplate let-row="row" let-value="value" let-i="index">
-		<div>{{ value }}</div>
+		<div class="text-truncate">{{ value }}</div>
 	</ng-template>
 
 	<ng-template #dateTemplate let-row="row" let-value="value" let-i="index">
@@ -238,11 +238,11 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title pull-left" *ngIf="surveyEditMode">
-						<i class="fas fa-cubes"></i>Edit Survey</h4>
+						<i class="fab fa-wpforms mr-2"></i>Edit Survey</h4>
 					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode && !importing">
-						<i class="fas fa-cubes"></i>{{'surveys.management.NewSurvey' | translate}}</h4>
+						<i class="fab fa-wpforms mr-2"></i>{{'surveys.management.NewSurvey' | translate}}</h4>
 					<h4 class="modal-title pull-left" *ngIf="!surveyEditMode && importing">
-							<i class="fas fa-cubes"></i>{{'surveys.management.ImportSurvey' | translate}}</h4>
+							<i class="fab fa-wpforms mr-2"></i>{{'surveys.management.ImportSurvey' | translate}}</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeEditorModal()">
 						<span aria-hidden="true">&times;</span>
 					</button>
