@@ -53,6 +53,11 @@
 
 #solo {
 	.datatable-body {
-		overflow: auto;
+		@include media-breakpoint-up(sm) {
+			overflow-x: auto;
+		}
+		@include media-breakpoint-only(xs) {
+			overflow-x: hidden;
+		}
 	}
 }

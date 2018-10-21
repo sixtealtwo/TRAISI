@@ -31,6 +31,7 @@ export class Header1Component implements OnInit, AfterViewInit {
 	private dragStart: any;
 	public imageSource: string;
 	public imageTransform: any;
+	public disableMenu: boolean = false;
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -57,6 +58,8 @@ export class Header1Component implements OnInit, AfterViewInit {
 	public pageThemeInfoChange = new EventEmitter();
 	@Output()
 	public forceSave = new EventEmitter();
+	@Output()
+	public deleteComponent = new EventEmitter();
 
 	@ViewChild('imageMenu')
 	public imageMenu: ContextMenuComponent;
@@ -112,30 +115,42 @@ export class Header1Component implements OnInit, AfterViewInit {
 		}
 	}
 
-	public lockYAxis(event: any): void {
-		event.x = 0;
-		this.imageTransform = event;
-	}
 	public onImageMoveEnd(event: any): void {
-		if (this.dragStart === JSON.stringify(event)) {
-			this.draggingImage = false;
-		}
 		event.x = 0;
-		this.dragStart = JSON.stringify(event);
 		this.imageTransform = event;
 		this.pageHTMLJson.imageTransform = this.imageTransform;
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	public startImageDrag(event: any): void {
+	public startDrag(event: any): void {
 		this.draggingImage = true;
+		let dStart: any = {};
+		dStart.x = event.x;
+		dStart.y = event.y;
+		this.dragStart = JSON.stringify(dStart);
 	}
 
-	public stopImageDrag(event: any): void {
-
+	public endDrag(event: any): void {
+		let dragEnd: any = {};
+		dragEnd.x = event.x;
+		dragEnd.y = event.y;
+		if (this.dragStart === JSON.stringify(dragEnd)) {
+			this.draggingImage = false;
+		}
 	}
 
+	public enableContextMenu(): void {
+		this.disableMenu = false;
+	}
+
+	public disableContextMenu(): void {
+		this.disableMenu = true;
+	}
+
+	public deleteHeader(): void {
+		this.deleteComponent.emit();
+	}
 
 	public ngAfterViewInit(): void {
 		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());

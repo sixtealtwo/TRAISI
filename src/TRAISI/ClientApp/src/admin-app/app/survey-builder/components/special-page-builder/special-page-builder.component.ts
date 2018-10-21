@@ -144,7 +144,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 				this.pageThemeInfo = value;
 				this.pageThemeInfoChange.emit(this.pageThemeInfo);
 			},
-			forceSave: () => this.forcePageSave()
+			forceSave: () => this.forcePageSave(),
+			deleteComponent: () => this.deleteHeaderComponent()
 		};
 		this.surveyAccessInputs = {
 			pageHTML: this.surveyAccessHTML,

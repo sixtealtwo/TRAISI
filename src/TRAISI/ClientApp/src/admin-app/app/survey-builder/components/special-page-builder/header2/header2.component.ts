@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../../../shared/services';
@@ -6,6 +6,7 @@ import { AlertService, MessageSeverity } from '../../../../../../shared/services
 import { Utilities } from '../../../../../../shared/services/utilities';
 import { SurveyBuilderService } from '../../../services/survey-builder.service';
 import { UploadPath } from '../../../models/upload-path';
+import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 
 
 @Component({
@@ -16,6 +17,10 @@ import { UploadPath } from '../../../models/upload-path';
 export class Header2Component implements OnInit {
 
 	private baseUrl: string = '';
+	private draggingImage: boolean = false;
+	private dragStart: any;
+	public disableMenu: boolean = false;
+
 	public imageSource1: string;
 	public imageSource2: string;
 
@@ -40,12 +45,18 @@ export class Header2Component implements OnInit {
 	@Output() public pageHTMLChange = new EventEmitter();
 	@Output()	public pageThemeInfoChange = new EventEmitter();
 	@Output() public forceSave = new EventEmitter();
+	@Output()
+	public deleteComponent = new EventEmitter();
+
+	@ViewChild('imageMenu')
+	public imageMenu: ContextMenuComponent;
 
   constructor(
 		private configurationService: ConfigurationService,
 		private authService: AuthService,
 		private alertService: AlertService,
-		private surveyBuilderService: SurveyBuilderService
+		private surveyBuilderService: SurveyBuilderService,
+		private contextMenuService: ContextMenuService
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
@@ -110,6 +121,52 @@ export class Header2Component implements OnInit {
 		this.forceSave.emit();
 	}
 
+	public deleteHeader(): void {
+		this.deleteComponent.emit();
+	}
+
+	public onImageMenu($event: MouseEvent, item: any): void {
+		if (!this.draggingImage) {
+			this.contextMenuService.show.next({
+				// Optional - if unspecified, all context menu components will open
+				contextMenu: this.imageMenu,
+				event: $event,
+				item: item
+			});
+			$event.preventDefault();
+			$event.stopPropagation();
+		} else {
+			this.draggingImage = false;
+		}
+	}
+
+	public startDrag(event: any): void {
+		this.draggingImage = true;
+		let dStart: any = {};
+		dStart.x = event.x;
+		dStart.y = event.y;
+		this.dragStart = JSON.stringify(dStart);
+	}
+
+	public endDrag(event: any): void {
+		let dragEnd: any = {};
+		dragEnd.x = event.x;
+		dragEnd.y = event.y;
+		if (this.dragStart === JSON.stringify(dragEnd)) {
+			this.draggingImage = false;
+		}
+	}
+
+
+	public enableContextMenu(): void {
+		this.disableMenu = false;
+	}
+
+	public disableContextMenu(): void {
+		this.disableMenu = true;
+	}
+
+
 	deleteImage(imageIndex: number) {
 		if (imageIndex === 1) {
 			let uploadPath = new UploadPath(this.imageSource1);
@@ -157,6 +214,19 @@ export class Header2Component implements OnInit {
 		}
 		if (this.imageSource2) {
 			this.deleteImage(2);
+		}
+	}
+
+	whiteDragHandle(): boolean {
+		if (this.pageThemeInfo.headerColour) {
+			let handleColour = Utilities.whiteOrBlackText(this.pageThemeInfo.headerColour);
+			if (handleColour === 'rgb(255,255,255)') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 }

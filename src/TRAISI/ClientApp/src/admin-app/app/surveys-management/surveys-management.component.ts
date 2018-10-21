@@ -139,7 +139,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 				draggable: false,
 				canAutoResize: false
 			},
-			{ prop: 'code', name: 'Code', width: 80, cellTemplate: this.textTemplate, canAutoResize: false },
+			{ prop: 'code', name: 'Code', width: 60, cellTemplate: this.textTemplate, canAutoResize: false },
 			{
 				prop: 'name',
 				name: 'Survey Title',
@@ -197,7 +197,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{
 				prop: 'code',
 				name: 'Code',
-				width: 80,
+				width: 60,
 				flexGrow: 20,
 				cellTemplate: this.textTemplate,
 				canAutoResize: false
@@ -268,7 +268,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			{
 				prop: 'code',
 				name: 'Code',
-				width: 80,
+				width: 60,
 				flexGrow: 20,
 				cellTemplate: this.textTemplate,
 				canAutoResize: false

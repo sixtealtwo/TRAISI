@@ -5,8 +5,8 @@
 		 [shouldAcceptDrop]="headerShouldAcceptDrop" [groupName]="'special-header'" (drop)="onHeaderDrop($event)">
 			<div *ngIf="!headerComponent && !dragOverContainer['header'] && !previewMode.value" class="text-center pt-3">Drop Header
 				Here</div>
-			<div *ngIf="headerComponent && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i
-				 class="far fa-trash-alt"></i></div>
+			<!--<div *ngIf="headerComponent && !previewMode.value" class="delete-component-button btn btn-danger" (click)="deleteHeaderComponent()"><i
+				 class="far fa-trash-alt"></i></div>-->
 			<ndc-dynamic *ngIf="headerComponent" (ndcDynamicCreated)="headerComponentCreated($event)" [ndcDynamicComponent]="headerComponent"
 			 [ndcDynamicInputs]="headerInputs" [ndcDynamicOutputs]="headerOutputs"></ndc-dynamic>
 		</smooth-dnd-container>

@@ -395,9 +395,17 @@ tree-select {
 				text-decoration: none;
 			}
 		}
-		li:hover {
+		li:not([role='separator']):hover {
 			background-color: $gray-200;
 		}
+		li.divider {
+			height: 0;
+			margin: 0.4rem 1rem;
+			padding: 0px;
+			overflow: hidden;
+			border-top: 1px solid #dfdfdf
+		}
+
 	}
 }
 
