@@ -387,6 +387,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.model = survey;
 		this.editModel = new Survey();
 		Object.assign(this.editModel, this.model);
+		this.surveyEditor.activePeriod = [this.editModel.startAt, this.editModel.endAt];
 		this.editorModal.show();
 	}
 
@@ -410,6 +411,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			this.model.group = this.surveyEditor.selectedGroup;
 			this.editModel = new Survey();
 			Object.assign(this.editModel, this.model);
+			this.surveyEditor.activePeriod = [this.editModel.startAt, this.editModel.endAt];
 			this.surveyEditor.editMode = false;
 		} else {
 			this.surveyEditor.editMode = true;

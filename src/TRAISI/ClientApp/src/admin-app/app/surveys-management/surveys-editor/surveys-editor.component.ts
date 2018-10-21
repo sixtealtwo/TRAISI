@@ -22,6 +22,7 @@ export class SurveysEditorComponent implements OnInit {
 	public deleteSurveyCallback: () => void;
 
 	public model: Survey = new Survey();
+	public activePeriod: Date[] = [];
 	public editMode: boolean = false;
 	public isNewSurvey: boolean = false;
 	public canDeleteSurvey: boolean = false;
@@ -77,6 +78,8 @@ export class SurveysEditorComponent implements OnInit {
 	 */
 	public onNewSurveyFormSubmit(): void {
 		this.isSaving = true;
+		this.model.startAt = this.activePeriod[0];
+		this.model.endAt = this.activePeriod[1];
 		if (!this.editMode) {
 			if (this.importing) {
 				this.uploader.authToken = `Bearer ${this.authService.accessToken}`;
