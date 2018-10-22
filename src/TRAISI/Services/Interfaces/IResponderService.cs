@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Models.Questions;
 using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using Newtonsoft.Json.Linq;
@@ -54,5 +55,14 @@ namespace TRAISI.Services.Interfaces {
 		/// <returns></returns>
 		Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,  int respondentId,
 			ApplicationUser user);
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="currentQuestionId"></param>
+		/// <param name="respondentId"></param>
+		/// <returns></returns>
+		Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId);
 	}
 }

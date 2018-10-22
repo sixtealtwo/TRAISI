@@ -194,5 +194,13 @@ namespace TRAISI.Controllers.SurveyViewer
 
             return new OkObjectResult(members);
         }
+
+        [HttpGet]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("respondents/groups")]
+        public async Task<IActionResult> GetNextSurveyQuestion(int currentQuestion, int respondentId)
+        {
+            return new OkObjectResult(this._respondentService.GetNextSurveyQuestion(currentQuestion,respondentId));
+        }
     }
 }

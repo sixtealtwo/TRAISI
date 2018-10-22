@@ -271,5 +271,17 @@ namespace TRAISI.Services
 
             return response;
         }
+ 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentQuestionId"></param>
+        /// <param name="respondentId"></param>
+        /// <returns></returns>
+        public async Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId){
+
+            return null;
+        }
+	
     }
 }
