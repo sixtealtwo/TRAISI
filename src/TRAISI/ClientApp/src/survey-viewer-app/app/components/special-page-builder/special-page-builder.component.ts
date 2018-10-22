@@ -41,26 +41,19 @@ interface SpecialPageDataInput {
 export class SpecialPageBuilderComponent implements OnInit {
 	public loadedComponents: boolean = false;
 
-	public headerKey: string;
 	public headerComponent: any;
-	private headerComponentInstance: any;
 	public headerHTML: string;
 	public headerInputs: SpecialPageDataInput;
 
-	public surveyAccessKey: string;
 	public surveyAccessComponent: any;
-	private surveyAccessComponentInstance: any;
 	public surveyAccessHTML: string;
 	public surveyAccessInputs: SpecialPageDataInput;
 	public surveyAccessOutputs: any;
 
-	public componentKeys: string[] = [];
 	public componentList: any[] = [];
 	public componentHTML: string[] = [];
 
-	public footerKey: string;
 	public footerComponent: any;
-	private footerComponentInstance: any;
 	public footerHTML: string;
 	public footerInputs: SpecialPageDataInput;
 
@@ -88,21 +81,17 @@ export class SpecialPageBuilderComponent implements OnInit {
 			let pageData = JSON.parse(this.pageHTML);
 			(<any[]>pageData).forEach(sectionInfo => {
 				if (sectionInfo.sectionType.startsWith('header')) {
-					this.headerKey = sectionInfo.sectionType;
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('mainSurveyAccess')) {
-					this.surveyAccessKey = sectionInfo.sectionType;
 					this.surveyAccessComponent = this.getComponent(sectionInfo.sectionType);
 					this.surveyAccessHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType.startsWith('footer')) {
-					this.footerKey = sectionInfo.sectionType;
 					this.footerComponent = this.getComponent(sectionInfo.sectionType);
 					this.footerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
 				} else {
-					this.componentKeys.push(sectionInfo.sectionType);
 					this.componentList.push(this.getComponent(sectionInfo.sectionType));
 					this.componentHTML.push(sectionInfo.html);
 				}
@@ -110,11 +99,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 		} catch (e) {
 			if (this.pageType === 'welcome') {
 			} else if (this.pageType === 'privacyPolicy') {
-				this.componentKeys.push('textBlock1');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			} else if (this.pageType === 'thankYou') {
-				this.componentKeys.push('textBlock1');
 				this.componentList.push(this.getComponent('textBlock1'));
 				this.componentHTML.push('');
 			}
@@ -198,20 +185,6 @@ export class SpecialPageBuilderComponent implements OnInit {
 		};
 		return inputs;
 	}
-
-
-	public headerComponentCreated(compRef: ComponentRef<any>): void {
-		this.headerComponentInstance = compRef.instance;
-	}
-
-	public surveyAccessComponentCreated(compRef: ComponentRef<any>): void {
-		this.surveyAccessComponentInstance = compRef.instance;
-	}
-
-	public footerComponentCreated(compRef: ComponentRef<any>): void {
-		this.footerComponentInstance = compRef.instance;
-	}
-
 
 	private getBestSectionBodyTextColor(index: number): string {
 		return Utilities.whiteOrBlackText(

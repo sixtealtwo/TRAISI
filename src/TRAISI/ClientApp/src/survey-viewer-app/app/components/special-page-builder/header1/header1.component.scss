@@ -24,6 +24,9 @@
 }
 
 .welcome-header-logo {
+	@include media-breakpoint-down(sm) {
+		margin-top: -5px;
+	}
 		width: auto;
 		max-width: 80vw;
 }

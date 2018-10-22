@@ -11,23 +11,24 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 })
 export class SurveyHeaderDisplayComponent implements OnInit {
 
-	public get viewerState(): SurveyViewerState {
-		return this._surveyViewerStateService.viewerState;
-	}
+	public completedPages: boolean[] = [];
+
+
 
 	public pages: Array<SurveyViewPage> = [];
 
 
 	public activePageIndex: number = 0;
 
-	/**
-	 * Updates active page index
-	 * @param activePageIndex
-	 */
-	public updateActivePageIndex(activePageIndex: number): void {
-		// this.activePageIndex = activePageIndex;
-		this._cdRef.markForCheck();
+	public get viewerState(): SurveyViewerState {
+		return this._surveyViewerStateService.viewerState;
 	}
+
+
+
+	public useWhiteProgressLine: boolean;
+
+	@Input() public pageTextColour: string;
 
 	/**
 	 * Creates an instance of survey header display component.
@@ -43,5 +44,17 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 
 	public ngOnInit(): void {
 		console.log(this._surveyViewerService);
+		this.useWhiteProgressLine = this.pageTextColour === 'rgb(255,255,255)';
 	}
+
+		/**
+	 * Updates active page index
+	 * @param activePageIndex
+	 */
+	public updateActivePageIndex(activePageIndex: number): void {
+		// this.activePageIndex = activePageIndex;
+		this._cdRef.markForCheck();
+	}
+
+
 }

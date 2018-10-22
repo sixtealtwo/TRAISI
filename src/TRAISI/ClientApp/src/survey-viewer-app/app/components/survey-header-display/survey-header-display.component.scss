@@ -72,3 +72,80 @@
 
 @include media-breakpoint-only(xl) {
 }
+
+
+#pages-progress-bar {
+	position: relative;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.page {
+	border: 2px solid darkblue;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	padding: 15px;
+	font-size: 20px;
+	background-color: white;
+	z-index: 1;
+}
+
+.page.complete {
+	background-color: $green;
+	color: white;
+}
+
+.page.active {
+	background-color: $blue;
+	color: white;
+}
+
+.page-progress-label {
+	margin-top: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	visibility: hidden;
+}
+
+.page:hover + .page-progress-label {
+	visibility: visible;
+}
+
+.page-wrapper {
+	z-index: 1;
+}
+
+.page-wrapper:not(:last-child) {
+	.page::after {
+		position: absolute;
+		display: inline-block;
+		content: "";
+		border-top: 1px solid black;
+		width: 50%;
+		top: 15px;
+		left: calc(50% + 27px);
+	}
+}
+
+.page-wrapper:not(:first-child) {
+	.page::before {
+		position: absolute;
+		display: inline-block;
+		content: "";
+		border-top: 1px solid black;
+		width: 50%;
+		top: 15px;
+		right: calc(50% + 27px);
+	}
+}
+
+.white-progress-line {
+	.page::after {
+		border-color: white !important;
+	}
+	.page::before {
+		border-color: white !important;
+	}
+
+}

@@ -11,6 +11,8 @@ export class Header2Component implements OnInit {
 
 	public imageSource1: string;
 	public imageSource2: string;
+	public imageTransform1: any;
+	public imageTransform2: any;
 
 	private pageHTMLJson: any;
 
@@ -25,6 +27,8 @@ export class Header2Component implements OnInit {
 			this.pageHTMLJson = pageData;
 			this.imageSource1 = pageData.image1;
 			this.imageSource2 = pageData.image2;
+			this.imageTransform1 = `translate(${this.pageHTMLJson.imageTransform1.x}px,${this.pageHTMLJson.imageTransform1.y}px)`;
+			this.imageTransform2 = `translate(${this.pageHTMLJson.imageTransform2.x}px,${this.pageHTMLJson.imageTransform2.y}px)`;
 		} catch (e) {
 			this.pageHTMLJson = {};
 			this.imageSource1 = undefined;

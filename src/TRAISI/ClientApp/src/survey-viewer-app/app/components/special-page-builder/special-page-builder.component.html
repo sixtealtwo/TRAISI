@@ -1,11 +1,9 @@
 <div class="special-page-editor" [style.background-color]="pageThemeInfo.pageBackgroundColour" *ngIf="loadedComponents">
 	<div id="special-page-header">
-		<ndc-dynamic *ngIf="headerComponent" (ndcDynamicCreated)="headerComponentCreated($event)" [ndcDynamicComponent]="headerComponent"
-		 [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
+		<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
 	</div>
 	<div *ngIf="pageType == 'welcome'" id="special-page-surveyAccess">
-		<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
-		 [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
+		<ndc-dynamic *ngIf="surveyAccessComponent" [ndcDynamicComponent]="surveyAccessComponent" [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
 	</div>
 	<!--<app-question-viewer [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>-->
 	<div *ngIf="pageType != 'questionViewer'" id="special-page-content">
@@ -17,7 +15,6 @@
 	</div>
 	<app-privacy-confirmation (termsAccepted)="acceptTerms()" [pageThemeInfo]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
 	<div id="special-page-footer"  *ngIf="pageType != 'privacyPolicy'">
-		<ndc-dynamic *ngIf="footerComponent" (ndcDynamicCreated)="footerComponentCreated($event)" [ndcDynamicComponent]="footerComponent"
-		 [ndcDynamicInputs]="footerInputs" ></ndc-dynamic>
+		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs" ></ndc-dynamic>
 		</div>
 </div>

@@ -14,7 +14,8 @@ import {
 	ContentChildren,
 	AfterContentChecked,
 	AfterViewChecked,
-	HostListener
+	HostListener,
+	ElementRef
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
@@ -33,6 +34,16 @@ import { SurveyViewerStateService } from '../../services/survey-viewer-state.ser
 
 import { trigger, state, style, animate, transition, stagger, query, keyframes } from '@angular/animations';
 import { SurveyViewerTheme } from '../../models/survey-viewer-theme.model';
+import { Header1Component } from '../special-page-builder/header1/header1.component';
+import { Header2Component } from '../special-page-builder/header2/header2.component';
+import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
+import { Utilities } from 'shared/services/utilities';
+
+interface SpecialPageDataInput {
+	pageHTML: string;
+	pageThemeInfo: string;
+}
+
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
@@ -62,6 +73,18 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public surveyId: number;
 
 	public titleText: string;
+
+	public loadedComponents: boolean = false;
+	public headerComponent: any;
+	public headerHTML: string;
+	public headerInputs: SpecialPageDataInput;
+
+	public footerComponent: any;
+	public footerHTML: string;
+	public footerInputs: SpecialPageDataInput;
+
+	public navButtonClass: string;
+	public pageTextColour: string;
 
 	@ViewChild(SurveyHeaderDisplayComponent)
 	public headerDisplay: SurveyHeaderDisplayComponent;
@@ -103,6 +126,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.viewerState = viewerState;
 	}
 
+	public pageThemeInfo: any;
 	public viewerTheme: SurveyViewerTheme;
 
 	/**
@@ -120,7 +144,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _viewerStateService: SurveyViewerStateService,
 		private questionLoaderService: QuestionLoaderService,
 		private route: ActivatedRoute,
-		private cdRef: ChangeDetectorRef
+		private cdRef: ChangeDetectorRef,
+		private elementRef: ElementRef
 	) {
 		this.ref = this;
 	}
@@ -164,10 +189,62 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// subscribe to the navigation state change that is alterable by sub questions
 		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
 
-		this.surveyViewerService.pageThemeInfo.subscribe((theme: SurveyViewerTheme) => {
-			this.viewerTheme = theme;
+		this.surveyViewerService.pageThemeInfoJson.subscribe((pageTheme: any) => {
+			this.pageThemeInfo = pageTheme;
 
+			let theme: SurveyViewerTheme = {
+				sectionBackgroundColour: null,
+				viewerTemplate: null
+			};
+
+			theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
+			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
+
+			this.viewerTheme = theme;
+			theme.viewerTemplate.forEach(sectionInfo => {
+				if (sectionInfo.sectionType.startsWith('header')) {
+					this.headerComponent = this.getComponent(sectionInfo.sectionType);
+					this.headerHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType.startsWith('footer')) {
+					this.footerComponent = this.getComponent(sectionInfo.sectionType);
+					this.footerHTML = sectionInfo.html;
+				}
+			});
+			this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+			this.pageTextColour = this.getBestPageBodyTextColor();
+			this.navButtonClass = this.useDarkButtons() ? 'btn-inverse' : 'btn-default';
+			this.setComponentInputs();
+			this.loadedComponents = true;
 		});
+	}
+
+	private getComponent(componentName: string): any {
+		switch (componentName) {
+			case 'header1':
+				return Header1Component;
+				break;
+			case 'header2':
+				return Header2Component;
+				break;
+			case 'footer1':
+				return Footer1Component;
+				break;
+			default:
+				return null;
+				break;
+		}
+	}
+
+	private setComponentInputs(): void {
+		this.headerInputs = {
+			pageHTML: this.headerHTML,
+			pageThemeInfo: this.pageThemeInfo
+		};
+
+		this.footerInputs = {
+			pageHTML: this.footerHTML,
+			pageThemeInfo: this.pageThemeInfo
+		};
 	}
 
 	/**
@@ -405,6 +482,19 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngAfterContentInit(): void {}
 
 	public ngAfterViewChecked(): void {}
+
+
+	private useDarkButtons(): boolean {
+		return this.pageTextColour !== 'rgb(0,0,0)';
+	}
+
+	private getBestPageBodyTextColor(): string {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
 
 	// public onQuestionScroll($event) {}
 }

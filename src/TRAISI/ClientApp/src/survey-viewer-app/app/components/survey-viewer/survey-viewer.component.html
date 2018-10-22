@@ -1,9 +1,10 @@
-<div class="traisi-survey-viewer-container">
-	<div class="survey-title-container">
+<div id="question-viewer-wrapper" *ngIf="loadedComponents">
+	<!--<div class="survey-title-container">
 		<h1>{{ titleText }}</h1>
-	</div>
+	</div>-->
+	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
 
-	<traisi-survey-header-display #header></traisi-survey-header-display>
+	<traisi-survey-header-display [pageTextColour]="pageTextColour" #header></traisi-survey-header-display>
 
 	<div class="survey-body-container">
 		<div class="survey-body">
@@ -46,19 +47,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="survey-navigation-container">
-		<div class="survey-previous-button navigation-button">
-			<button type="button" class="btn btn-primary" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled">
-				{{ 'Viewer.Previous' | translate }}
-			</button></div>
-		<div class="survey-next-button navigation-button">
-			<button type="button" class="btn btn-primary" (click)="navigateNext()" [disabled]="!navigateNextEnabled">
-				{{ 'Viewer.Next' | translate }}
-			</button></div>
-	</div>
-	<div class="survey-footer-container">
-		<div class="footer-inner">
-			Ministry of Transportation
+	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
+			<div class="row justify-content-center">
+				<div class="col-12 text-center">
+					<button [ngClass]="navButtonClass" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
+						<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
+					</button>
+					<button [ngClass]="navButtonClass"  (click)="navigateNext()" [disabled]="!navigateNextEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
+					{{ 'Viewer.Next' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+					</button>
+				</div>
+			</div>
 		</div>
-	</div>
+	<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs"></ndc-dynamic>
+
 </div>

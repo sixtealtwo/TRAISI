@@ -1,22 +1,9 @@
-<div class="header-display-container">
-
-	<div class="header-display-body">
-		<span *ngFor="let page of viewerState.surveyPages; index as i" class="header-display-item">
-
-			<span class="page-item" [class.active]="viewerState.activePageIndex == i" [class.inactive]="viewerState.activePageIndex != i">
-
-				<span class="page-icon" tooltip="{{page.label}}" placement="bottom">
-					<i [ngClass]="page.icon"></i>
-				</span>
-
-				<span class="page-name">
-					{{ page.label }}
-				</span>
-
-
-			</span>
-
-		</span>
+<div id="pages-progress-bar" class="d-none d-md-block">
+		<div class="row">
+			<div class="col text-center page-wrapper" [class.white-progress-line]="useWhiteProgressLine" *ngFor="let page of viewerState.surveyPages; index as i"><span
+				 class="page" [class.active]="viewerState.activePageIndex == i" [class.complete]="completedPages[i]"><i [ngClass]="page.icon"></i></span>
+				 <div class="page-progress-label" [class.visible]="viewerState.activePageIndex == i" [style.color]="pageTextColour">{{ page.label }}</div>
+			</div>
+			<div class="col text-center page-wrapper" [class.white-progress-line]="useWhiteProgressLine"><span class="page"><i class="fas fa-check"></i></span></div>
+		</div>
 	</div>
-
-</div>

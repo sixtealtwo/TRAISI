@@ -5,6 +5,9 @@
 	height: 66px;
 	z-index: 0;
 		width: 100%;
+		@include media-breakpoint-down(sm) {
+			max-height: 50px !important;
+		}
 }
 
 #welcome-header-editor {
@@ -21,9 +24,8 @@
 }
 
 .welcome-header-logo {
-	padding-top: 25px;
 	@include media-breakpoint-down(sm) {
-		padding-top: 20px;
+		margin-top: -5px;
 	}
 	width: auto;
 	max-width: 90vw;
