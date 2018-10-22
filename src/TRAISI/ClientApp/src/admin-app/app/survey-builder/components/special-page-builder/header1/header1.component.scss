@@ -29,6 +29,9 @@
 }
 
 .welcome-header-logo {
+	@include media-breakpoint-down(sm) {
+		margin-top: -5px;
+	}
 		width: auto;
 		max-width: 80vw;
 }
@@ -57,6 +60,7 @@
 }
 
 .maxHeight-slider {
+	
 	position: absolute;
 	width: 100%;
 	.slider.slider-horizontal {
@@ -74,49 +78,3 @@
 	}
 }
 
-.headerBackground-slider {
-	margin-top: 50px;
-	position: absolute;
-	z-index: 50;
-	.slider.slider-vertical {
-		height: 50px !important;
-	}
-
-	.slider.slider-vertical .slider-track {
-		width: 0px !important;
-	}
-
-	.slider-handle {
-		width: 10px;
-		height: 10px;
-		left: 2px;
-		cursor: move; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-		background-image: none !important;
-		background-color: transparent !important;
-		border: none;
-	}
-
-	.slider-handle:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-	}
-
-	.slider-handle::before {
-		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f58d";
-		font-size: 10px;
-	}
-
-	.slider.slider-vertical .slider-tick, .slider.slider-vertical .slider-handle {
-		margin-top: -16px !important;
-	}
-}
-
-.headerBackground-slider-white-handle {
-	.slider-handle::before {
-		color: white;
-	}
-}

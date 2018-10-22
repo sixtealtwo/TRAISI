@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewEncapsulation, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ConfigurationService } from '../../../../../../shared/services/configuration.service';
 import { AuthService } from '../../../../../../shared/services';
@@ -12,9 +12,10 @@ import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 @Component({
   selector: 'app-header2',
   templateUrl: './header2.component.html',
-  styleUrls: ['./header2.component.scss']
+	styleUrls: ['./header2.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
-export class Header2Component implements OnInit {
+export class Header2Component implements OnInit, AfterViewInit {
 
 	private baseUrl: string = '';
 	private draggingImage: boolean = false;
@@ -23,6 +24,8 @@ export class Header2Component implements OnInit {
 
 	public imageSource1: string;
 	public imageSource2: string;
+	public imageTransform1: any;
+	public imageTransform2: any;
 
 	public imageDropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
@@ -56,7 +59,10 @@ export class Header2Component implements OnInit {
 		private authService: AuthService,
 		private alertService: AlertService,
 		private surveyBuilderService: SurveyBuilderService,
-		private contextMenuService: ContextMenuService
+		private contextMenuService: ContextMenuService,
+		private elementRef: ElementRef,
+		private cdRef: ChangeDetectorRef
+
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.imageDropZoneconfig.url = this.baseUrl + '/api/Upload';
@@ -89,6 +95,30 @@ export class Header2Component implements OnInit {
 			this.pageThemeInfo.headerBackgroundHeight = 66;
 		}
 	}
+
+	public ngAfterViewInit(): void {
+		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+		this.imageTransform1 = this.pageHTMLJson.imageTransform1;
+		this.imageTransform2 = this.pageHTMLJson.imageTransform2;
+		this.cdRef.detectChanges();
+	}
+
+	public onImage1MoveEnd(event: any): void {
+		event.x = 0;
+		this.imageTransform1 = event;
+		this.pageHTMLJson.imageTransform1 = this.imageTransform1;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	public onImage2MoveEnd(event: any): void {
+		event.x = 0;
+		this.imageTransform2 = event;
+		this.pageHTMLJson.imageTransform2 = this.imageTransform2;
+		this.pageHTML = JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
 
 	onUploadError(error: any) {
 		this.alertService.stopLoadingMessage();

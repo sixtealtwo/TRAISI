@@ -238,10 +238,13 @@ export class SpecialPageBuilderComponent implements OnInit {
 				html: this.componentHTML[index]
 			});
 		});
-		pageJson.push({
-			sectionType: 'termsFooter',
-			html: this.termsFooterHTML
-		});
+		if (this.pageType === 'privacyPolicy') {
+			pageJson.push({
+				sectionType: 'termsFooter',
+				html: this.termsFooterHTML
+			});
+		}
+
 		if (this.footerKey) {
 			// pageJson[this.footerKey] = this.footerHTML;
 			pageJson.push({
