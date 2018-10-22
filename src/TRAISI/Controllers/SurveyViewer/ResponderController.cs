@@ -197,7 +197,7 @@ namespace TRAISI.Controllers.SurveyViewer
 
         [HttpGet]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("respondents/groups")]
+        [Route("questions/respondents/{respondentId}/questions/{currentQuestion}/next")]
         public async Task<IActionResult> GetNextSurveyQuestion(int currentQuestion, int respondentId)
         {
             return new OkObjectResult(this._respondentService.GetNextSurveyQuestion(currentQuestion,respondentId));

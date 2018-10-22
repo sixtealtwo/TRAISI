@@ -50,7 +50,7 @@ export class SurveyResponderService implements SurveyResponder {
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId);
 			},
-			(error) => {
+			error => {
 				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
 			}
 		);
@@ -61,8 +61,16 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param surveyId
 	 * @param questionId
 	 */
-	public getSavedResponse(surveyId: number, questionId: number, respondentId: number): Observable<ResponseValue<any>> {
-		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId, respondentId);
+	public getSavedResponse(
+		surveyId: number,
+		questionId: number,
+		respondentId: number
+	): Observable<ResponseValue<any>> {
+		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
+			surveyId,
+			questionId,
+			respondentId
+		);
 	}
 
 	/**
@@ -73,7 +81,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private handleResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number,
@@ -82,19 +94,19 @@ export class SurveyResponderService implements SurveyResponder {
 		console.log(respondentId);
 		if (response instanceof Array) {
 			this.saveResponse({ values: response }, surveyId, questionId, respondentId).subscribe(
-				(value) => {
+				value => {
 					this.onSavedResponse(questionComponent, value);
 				},
-				(error) => {
+				error => {
 					console.log(error);
 				}
 			);
 		} else {
 			this.saveResponse(response, surveyId, questionId, respondentId).subscribe(
-				(value) => {
+				value => {
 					this.onSavedResponse(questionComponent, value);
 				},
-				(error) => {
+				error => {
 					console.log(error);
 				}
 			);
@@ -105,12 +117,25 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 */
 	private onSavedResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		value: any
 	): void {
 		if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {
 			(<OnSaveResponseStatus>questionComponent).onResponseSaved(value);
 		}
+	}
+
+	/**
+	 *
+	 * @param currentQuestionId
+	 * @param respondentId
+	 */
+	private getSurveyNextQuestion(currentQuestionId: number, respondentId: number): Observable<any> {
+		return this._surveyResponseEndpointService.getSurveyNextQuestionUrlEndpoint(currentQuestionId, respondentId);
 	}
 
 	/**

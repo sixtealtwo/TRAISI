@@ -97,6 +97,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 
 	/**
 	 *
+	 * @param respondent
 	 */
 	public getUpdateSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups`;
@@ -108,6 +109,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 			})
 		);
 	}
+
 
 	/**
 	 *
@@ -124,6 +126,7 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 
 	/**
 	 *
+	 * @param respondent
 	 */
 	public getRemoveSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups/${respondent.id}`;
@@ -138,6 +141,8 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 
 	/**
 	 *
+	 * @param surveyId
+	 * @param type
 	 */
 	public getListSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
 		// surveys/{surveyId}/responses/types/{type}
@@ -147,6 +152,23 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getListSurveyResponsesOfType(surveyId, type));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param currentQuestion
+	 * @param respondentId
+	 */
+	public getSurveyNextQuestionUrlEndpoint(currentQuestion: number, respondentId: number): Observable<any> {
+		// surveys/{surveyId}/responses/types/{type}
+		let endpointUrl = `${this.surveyResponseUrl}questions/respondents/${respondentId}/questions/${currentQuestion}/next`;
+
+		console.log(endpointUrl);
+		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () => this.getSurveyNextQuestionUrlEndpoint(currentQuestion, respondentId));
 			})
 		);
 	}
