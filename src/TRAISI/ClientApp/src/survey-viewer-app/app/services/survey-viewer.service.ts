@@ -86,7 +86,9 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.navigationActiveState = new Subject<boolean>();
 
 		this._pageThemeInfo = {
-			sectionBackgroundColour: ''
+			sectionBackgroundColour: '',
+			questionViewerColour: '',
+			viewerTemplate: null
 		};
 
 		this.pageThemeInfo.next(this._pageThemeInfo);
