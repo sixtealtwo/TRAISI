@@ -494,3 +494,15 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 .hide {
   display: none !important;
 }
+
+.mouse-only {
+	@media(hover:none) {
+		display: none;
+	}
+}
+
+.touch-only {
+	@media(hover:hover) {
+		display: none;
+	}
+}
