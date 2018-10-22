@@ -1230,6 +1230,17 @@ datatable-scroller {
   margin-right:5px;
 }
 
+/**Icon Picker**/
+
+.icon-picker {
+		.btn {
+			width: 46px !important;
+			span {
+				font-size: 15px !important;
+			}
+		}
+}
+
 /**
  * Switchery.
  */

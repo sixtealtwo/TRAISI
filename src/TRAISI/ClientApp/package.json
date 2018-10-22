@@ -92,6 +92,7 @@
 		"ngx-contextmenu": "^5.0.3",
 		"ngx-dropzone-wrapper": "^6.2.0",
 		"ngx-echarts": "^4.0.0",
+		"ngx-icon-picker": "0.0.8",
 		"ngx-mapbox-gl": "^1.2.0",
 		"ngx-monaco-editor": "^6.0.0",
 		"ngx-quill": "^3.4.0",

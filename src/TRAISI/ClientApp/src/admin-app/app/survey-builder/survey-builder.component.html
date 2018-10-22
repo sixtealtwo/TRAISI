@@ -13,7 +13,7 @@
 		<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded" [disabled]="currentPage != 'surveyPage'"
 		 (addQuestionType)="addQuestionTypeToList($event)" (loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
 	</div>
-	<div [@fadeInOut]  class="clearfix" [class.disable-clicks]="!loadedSpecialPages || !loadedIndividualPage">
+	<div [@fadeInOut] class="clearfix" [class.disable-clicks]="!loadedSpecialPages || !loadedIndividualPage">
 		<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link active fw-semi-bold" (click)="switchPage('welcome')" id="welcome-tab" data-toggle="tab" href="#welcome"
@@ -53,7 +53,7 @@
 			</li>
 		</ul>
 	</div>
-	<div [@fadeInOut]  class="tab-content mb-lg" id="pageTabContent">
+	<div [@fadeInOut] class="tab-content mb-lg" id="pageTabContent">
 		<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
 			<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages && currentPage == 'welcome'" [previewMode]="welcomePagePreview"
 			 [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
@@ -181,9 +181,9 @@
 						<div class="form-group row">
 							<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
 							<div class="col-md-5">
-								<input type="text" id="normal-field" class="form-control" placeholder="Page FA 5 Icon" [(ngModel)]="newPageIcon" name="pageIcon">
+									<button type="button" class="btn btn-primary" [iconPicker]="newPageIcon" (iconPickerSelect)="newPageIcon = $event" name="pageIcon"  [ipPosition]="'bottom'"
+									 [ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i [ngClass]="newPageIcon"></i></button>
 							</div>
-							<div class="mt-2"><i [ngClass]="newPageIcon"></i></div>
 						</div>
 						<div class="row">
 							<div class="col-md-12">
@@ -210,7 +210,7 @@
 	<div class="modal-dialog" *ngIf="currentSurveyPageEdit">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title pull-left"><i class="far fa-file-alt"></i>Edit Survey Page</h4>
+				<h4 class="modal-title pull-left"><i class="far fa-file-alt mr-2"></i>Edit Survey Page</h4>
 				<button type="button" class="close pull-right" title="Close" (click)="editPageModal.hide()">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -232,9 +232,8 @@
 					<div class="form-group row">
 						<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
 						<div class="col-md-5">
-							<input type="text" id="normal-field" class="form-control w-75" placeholder="Page FA 5 Icon" [(ngModel)]="currentSurveyPageEdit.icon"
-							 name="pageIcon">
-							<div class="mt-2 w-25"><i [ngClass]="currentSurveyPageEdit.icon"></i></div>
+								<button type="button" class="btn btn-primary icon-picker-button" [iconPicker]="currentSurveyPageEdit.icon" (iconPickerSelect)="currentSurveyPageEdit.icon = $event" name="pageIcon"  [ipPosition]="'bottom'"
+								[ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i [ngClass]="currentSurveyPageEdit.icon"></i></button>
 						</div>
 
 					</div>
