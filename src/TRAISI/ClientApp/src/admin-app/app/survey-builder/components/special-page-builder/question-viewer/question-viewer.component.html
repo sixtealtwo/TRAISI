@@ -1,11 +1,11 @@
 <div id="question-viewer-wrapper">
 	<div id="pages-progress-bar" class="d-none d-md-block">
 		<div class="row">
-			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()" *ngFor="let page of allPages; index as i"><span
-				 class="page" [class.active]="currentPage == i" [class.complete]="completedPages[i]"><i [ngClass]="page.icon"></i></span>
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()" *ngFor="let page of allPages; index as i"><div
+				 class="page d-inline-block" [class.active]="currentPage == i" [class.complete]="completedPages[i]"><i [ngClass]="page.icon"></i></div>
 				 <div class="page-progress-label" [class.visible]="currentPage == i" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
 			</div>
-			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()"><span class="page"><i class="fas fa-check"></i></span></div>
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()"><div class="page d-inline-block"><i class="fas fa-check"></i></div></div>
 		</div>
 		<div id="survey-progress-indicator" [style.left.%]="surveyProgressPercent"></div>
 	</div>
