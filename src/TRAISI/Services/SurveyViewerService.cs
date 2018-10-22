@@ -253,8 +253,19 @@ namespace TRAISI.Services
             var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
             if (survey != null)
             {
-                var v =  (List<QuestionPartView>)survey.SurveyViews[viewType].QuestionPartViews;
-                return v;
+                List<QuestionPartView> pages =  survey.SurveyViews[viewType].QuestionPartViews.OrderBy(p => p.Order).ToList();
+                // order everything
+                pages.ForEach(page => {
+                    page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
+                    ((List<QuestionPartView>)page.QuestionPartViewChildren).ForEach(child =>
+                    {
+                        if (child.QuestionPartViewChildren != null && child.QuestionPartViewChildren.Count > 1)
+                        {
+                            child.QuestionPartViewChildren = child.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
+                        }
+                    });
+                });
+                return pages;
             }
             else
             {

@@ -33,7 +33,7 @@ namespace DAL.Repositories
                 .Include(qo => qo.QuestionOptions)
                 .ThenInclude(qo => qo.QuestionOptionLabels).FirstOrDefaultAsync();
 
-            return questionPart.QuestionOptions.ToList();
+            return questionPart.QuestionOptions.OrderBy(o => o.Order).ToList();
         }
 
         /// <summary>
