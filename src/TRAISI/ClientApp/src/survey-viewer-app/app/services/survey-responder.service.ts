@@ -140,6 +140,7 @@ export class SurveyResponderService implements SurveyResponder {
 
 	/**
 	 *
+	 * @param respondent
 	 */
 	public addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
 		return this._surveyResponseEndpointService.getAddSurveyGroupMemberUrlEndpoint(respondent);
@@ -148,16 +149,27 @@ export class SurveyResponderService implements SurveyResponder {
 	public getSurveyGroupMembers(): Observable<{}> {
 		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint();
 	}
+
+	/**
+	 *
+	 * @param respondent
+	 */
 	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
 		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
+	/**
+	 *
+	 * @param respondent
+	 */
 	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
 		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
 	/**
 	 *
+	 * @param surveyId
+	 * @param type
 	 */
 	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
 		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
