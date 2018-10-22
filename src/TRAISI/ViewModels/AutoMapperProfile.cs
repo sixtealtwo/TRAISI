@@ -168,7 +168,7 @@ namespace TRAISI.ViewModels
                         svm.Id = s.QuestionPart.Id.ToString();
                         svm.Label = s.QuestionPart.Name;
                         svm.Type = "question~" + s.QuestionPart.QuestionType;
-                        svm.Children = s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
+                        svm.Children = s.QuestionPart.QuestionOptions.Count <= 20 ? s.QuestionPart.QuestionOptions.OrderBy(o => o.Name).ThenBy(o => o.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList() : null;
                     }
                 });
 

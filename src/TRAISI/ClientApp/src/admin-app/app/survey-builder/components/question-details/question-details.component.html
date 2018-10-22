@@ -1,11 +1,11 @@
 <div class="details-wrapper" [class.disable-clicks]="reordering">
 	<ng-container *ngFor="let qOptionDefinition of questionOptionDefinitions; let i = index">
 		<h5 class="text-center">{{ qOptionDefinition.name }}</h5>
-		<div class="form-group row search-box p-3">
+		<div class="form-group row search-box p-3" *ngIf="items.get(qOptionDefinition.name).length > 0">
 			<search-input class="col-12" (searchChange)="onSearchChanged($event, qOptionDefinition.name, i)" placeholder="Search Options"></search-input>
 		</div>
 		<smooth-dnd-container [dragHandleSelector]="'.option-handle'" [groupName]="'optionlist-' + question.id + '-' + i" (drop)="onDrop($event, qOptionDefinition.name)"
-		 [getChildPayload]="getOptionPayload">
+		 [getChildPayload]="getOptionPayload" [lockAxis]="'y'">
 			<smooth-dnd-draggable *ngFor="let item of items.get(qOptionDefinition.name) | slice:(optionPage[i]-1)*numberPerPage:optionPage[i]*numberPerPage">
 				<div class="form-group row response-option-container">
 					<div class="input-group col-md-12">

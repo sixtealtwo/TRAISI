@@ -39,7 +39,7 @@
 		<div class="form-group form-group-adjust row">
 			<label class="col-md-2 col-form-label text-md-right" for="startAt">Active Period</label>
 			<div class="col-md-7">
-				<input type="text" placeholder="Datepicker" class="form-control" bsDaterangepicker name="startAt" id="startAt" #dpStart="bsDaterangepicker"
+				<input type="text" placeholder="Datepicker" readonly class="form-control disable-override" bsDaterangepicker name="startAt" id="startAt" #dpStart="bsDaterangepicker"
 				 [bsConfig]="bsConfig" [(ngModel)]="activePeriod">
 			</div>
 		</div>

@@ -213,57 +213,61 @@ namespace TRAISI.Services
         /// <returns></returns>
         public List<(string, string, string)> ImportQuestionOptions(QuestionPart questionPart, string name, string language, IFormFile file)
         {
-            //check if the option has a value / allows multiple
-            List<(string, string, string)> errorList = new List<(string, string, string)>();
-            var definition = this._questions.QuestionTypeDefinitions[questionPart.QuestionType];
-            
-            if (definition != null)
+            try
             {
-                if (definition.QuestionOptions.Keys.Contains(name))
+                //check if the option has a value / allows multiple
+                List<(string, string, string)> errorList = new List<(string, string, string)>();
+
+
+                var definition = this._questions.QuestionTypeDefinitions[questionPart.QuestionType];
+
+                if (definition != null)
                 {
-                    int startOptionOrderIndex = questionPart.QuestionOptions.Count(o => o.Name == name);
-
-                    IEnumerable<QuestionOptionData> optionData;
-                    using (var fileStream = new StreamReader(file.OpenReadStream()))
+                    if (definition.QuestionOptions.Keys.Contains(name))
                     {
-                        var reader = new CsvReader(fileStream);
-                        reader.Configuration.RegisterClassMap<QuestionOptionMap>();
-                        optionData = reader.GetRecords<QuestionOptionData>().ToList();
-                    }
+                        int startOptionOrderIndex = questionPart.QuestionOptions.Count(o => o.Name == name);
 
-                    // get unique codes from input list
-                    var allCodes = questionPart.QuestionOptions.Select(o => o.Code);
-
-                    var importCodes = optionData.Select(o => o.Code).ToList();
-                    var duplicateImportCodes = importCodes.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
-
-                    var duplicateCodes = importCodes.Intersect(allCodes).Union(duplicateImportCodes).ToList();
-
-                    // get unique labels from input list for question option group
-                    var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
-
-                    var importLabels = optionData.Select(o => o.Label).ToList();
-                    var duplicateImportLabels = importLabels.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
-
-                    var duplicateLabels = importLabels.Intersect(allLabels).Union(duplicateImportLabels).ToList();
-
-                    foreach (var option in optionData)
-                    {
-                        bool duplicateCode = duplicateCodes.Contains(option.Code);
-                        bool duplicateLabel = duplicateLabels.Contains(option.Label);
-                        if (duplicateCode || duplicateLabel)
+                        IEnumerable<QuestionOptionData> optionData;
+                        using (var fileStream = new StreamReader(file.OpenReadStream()))
                         {
-                            string reason = duplicateCode && duplicateLabel ? "Duplicate option" : (duplicateCode ? "Duplicate Code" : "Duplicate Label");
-                            errorList.Add((option.Code, option.Label, reason));
+                            var reader = new CsvReader(fileStream);
+                            reader.Configuration.RegisterClassMap<QuestionOptionMap>();
+                            optionData = reader.GetRecords<QuestionOptionData>().ToList();
                         }
-                        else
+
+                        // get unique codes from input list
+                        var allCodes = questionPart.QuestionOptions.Select(o => o.Code);
+
+                        var importCodes = optionData.Select(o => o.Code).ToList();
+                        var duplicateImportCodes = importCodes.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
+
+                        var duplicateCodes = importCodes.Intersect(allCodes).Union(duplicateImportCodes).ToList();
+
+                        // get unique labels from input list for question option group
+                        var allLabels = questionPart.QuestionOptions.Where(q => q.Name == name).SelectMany(o => o.QuestionOptionLabels.Where(q => q.Language == language).Select(l => l.Value));
+
+                        var importLabels = optionData.Select(o => o.Label).ToList();
+                        var duplicateImportLabels = importLabels.GroupBy(c => c).Where(g => g.Count() > 1).Select(c => c.Key).ToList();
+
+                        var duplicateLabels = importLabels.Intersect(allLabels).Union(duplicateImportLabels).ToList();
+
+                        foreach (var option in optionData)
                         {
-                            var newOption = new QuestionOption()
+                            bool duplicateCode = duplicateCodes.Contains(option.Code);
+                            bool duplicateLabel = duplicateLabels.Contains(option.Label);
+                            if (duplicateCode || duplicateLabel)
                             {
-                                Name = name,
-                                Code = option.Code,
-                                Order = startOptionOrderIndex++,
-                                QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
+                                string reason = duplicateCode && duplicateLabel ? "Duplicate option" : (duplicateCode ? "Duplicate Code" : "Duplicate Label");
+                                errorList.Add((option.Code, option.Label, reason));
+                            }
+                            else
+                            {
+                                var newOption = new QuestionOption()
+                                {
+                                    Name = name,
+                                    Code = option.Code,
+                                    Order = startOptionOrderIndex++,
+                                    QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
                                 {
                                     new QuestionOptionLabel()
                                     {
@@ -271,34 +275,43 @@ namespace TRAISI.Services
                                         Value = option.Label
                                     }
                                 }
-                            };
-                            if (definition.QuestionOptions[name].IsMultipleAllowed)
-                            {
-                                questionPart.QuestionOptions.Add(newOption);
-                            }
-                            else if (newOption.Order == 0)
-                            {
-                                questionPart.QuestionOptions.Add(newOption);
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("Cannot assign new question option, remove first.");
+                                };
+                                if (definition.QuestionOptions[name].IsMultipleAllowed)
+                                {
+                                    questionPart.QuestionOptions.Add(newOption);
+                                }
+                                else if (newOption.Order == 0)
+                                {
+                                    questionPart.QuestionOptions.Add(newOption);
+                                }
+                                else
+                                {
+                                    throw new InvalidOperationException("Cannot assign new question option, remove first.");
+                                }
                             }
                         }
-                    }
 
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Question Option does not exist for this question type.");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Question Option does not exist for this question type.");
+                    throw new ArgumentException("Question Type does not exist.");
+                }
+                return errorList;
+            } catch (ValidationException exception)
+            {
+                if (exception.Message.StartsWith("Header"))
+                {
+                    throw new ArgumentException("Error in CSV file.  Must contain 'Code' and 'Label' header row");
+                } else
+                {
+                    throw new Exception("Error during import");
                 }
             }
-            else
-            {
-                throw new ArgumentException("Question Type does not exist.");
-            }
-
-            return errorList;
         }
 
 
@@ -312,8 +325,8 @@ namespace TRAISI.Services
         {
             public QuestionOptionMap()
             {
-                Map(m => m.Code).Name("Code", "code");
-                Map(m => m.Label).Name("Value", "value", "Label", "label");
+                Map(m => m.Code).Name("Code", "code").Index(0);
+                Map(m => m.Label).Name("Value", "value", "Label", "label").Index(1);
             }
         }
 

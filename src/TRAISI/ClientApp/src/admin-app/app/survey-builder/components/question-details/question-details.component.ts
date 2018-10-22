@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewEncapsulation, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
@@ -79,6 +79,12 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.baseUrl = configurationService.baseUrl;
 		this.getOptionPayload = this.getOptionPayload.bind(this);
 	}
+
+	@HostListener('touchmove', ['$event'])
+  public onTouchMove(e: MouseEvent) {
+		e.preventDefault();
+	}
+
 
 	public ngOnInit(): void {
 
@@ -177,6 +183,9 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.alertService.stopLoadingMessage();
 		if (event[1] === 'success') {
 			this.alertService.showMessage('Success', 'Successfully imported options', MessageSeverity.success);
+			setTimeout(() => {
+				this.loadOptionData();
+			}, 1000);
 		} else {
 			this.alertService.showMessage('Partial Success', 'Successfully imported some options. Error list downloading...', MessageSeverity.warn);
 			let result = event[1];
@@ -187,6 +196,9 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			this.downloadNotifier.subscribe(
 				update => {
 					this.downloadSuccessHelper(update);
+					setTimeout(() => {
+						this.loadOptionData();
+					}, 1000);
 				},
 				error => {
 					// this.downloadIndicator = false;
@@ -195,7 +207,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				}
 			);
 		}
-		this.loadOptionData();
+
 	}
 
 	private downloadSuccessHelper(update: DownloadNotification): void {
@@ -222,11 +234,15 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	}
 
 	private processDZError(errors: any): string {
-		let errorString: string = '';
-		for (const error of errors['']) {
-			errorString += error + '\n';
+		if (Array.isArray(errors)) {
+			let errorString: string = '';
+			for (const error of errors['']) {
+				errorString += error + '\n';
+			}
+			return errorString;
+		} else {
+			return errors;
 		}
-		return errorString;
 	}
 
 	public onArrowLeft(event: KeyboardEvent, element: HTMLInputElement): void {
