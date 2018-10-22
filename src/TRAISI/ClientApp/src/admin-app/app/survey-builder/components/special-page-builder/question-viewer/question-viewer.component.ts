@@ -38,8 +38,9 @@ export class QuestionViewerComponent implements OnInit {
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	questionViewerNavButtonColourChange(newColour: string): void  {
-		this.pageThemeInfo.questionViewerNavButtonColour = newColour;
+
+	questionViewerBackgroundColourChange(newColour: string): void  {
+		this.pageThemeInfo.questionViewerColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
@@ -64,6 +65,14 @@ export class QuestionViewerComponent implements OnInit {
 		}
 	}
 
+	getBestQuestionBodyTextColor() {
+		if (this.pageThemeInfo.questionViewerColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.questionViewerColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
 	whiteProgressLine(): boolean {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour) === 'rgb(255,255,255)';
@@ -83,16 +92,6 @@ export class QuestionViewerComponent implements OnInit {
 	useDarkButtons() {
 		return this.getBestPageBodyTextColor() !== 'rgb(0,0,0)';
 	}
-
-	getBestNavigationTextColor() {
-		if (this.pageThemeInfo.questionViewerNavButtonColour) {
-			return Utilities.whiteOrBlackText(this.pageThemeInfo.questionViewerNavButtonColour);
-		} else {
-			return 'rgb(0,0,0)';
-		}
-	}
-
-
 
 	getPageIcon(page: QuestionPartView) {
 		return page.icon;

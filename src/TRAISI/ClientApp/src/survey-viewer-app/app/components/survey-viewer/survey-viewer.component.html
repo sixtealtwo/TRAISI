@@ -4,7 +4,7 @@
 	</div>-->
 	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
 
-	<traisi-survey-header-display [pageTextColour]="pageTextColour" #header></traisi-survey-header-display>
+	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines" #header></traisi-survey-header-display>
 
 	<div class="survey-body-container">
 		<div class="survey-body">

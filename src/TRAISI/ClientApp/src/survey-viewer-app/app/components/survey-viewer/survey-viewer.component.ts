@@ -85,6 +85,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public navButtonClass: string;
 	public pageTextColour: string;
+	public questionTextColour: string;
+	public useLightNavigationLines: boolean;
 
 	@ViewChild(SurveyHeaderDisplayComponent)
 	public headerDisplay: SurveyHeaderDisplayComponent;
@@ -194,10 +196,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 			let theme: SurveyViewerTheme = {
 				sectionBackgroundColour: null,
+				questionViewerColour: null,
 				viewerTemplate: null
 			};
 
 			theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
+			theme.questionViewerColour = pageTheme['questionViewerColour'];
 			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 			this.viewerTheme = theme;
@@ -211,8 +215,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				}
 			});
 			this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
-			this.pageTextColour = this.getBestPageBodyTextColor();
+			this.pageTextColour = this.getBestPageTextColour();
+			this.questionTextColour = this.getBestQuestionBodyTextColor();
 			this.navButtonClass = this.useDarkButtons() ? 'btn-inverse' : 'btn-default';
+			this.useLightNavigationLines = this.pageTextColour === 'rgb(255,255,255)';
 			this.setComponentInputs();
 			this.loadedComponents = true;
 		});
@@ -488,9 +494,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return this.pageTextColour !== 'rgb(0,0,0)';
 	}
 
-	private getBestPageBodyTextColor(): string {
+	private getBestPageTextColour(): string {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+
+	}
+	private getBestQuestionBodyTextColor(): string {
+		if (this.pageThemeInfo.questionViewerColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.questionViewerColour);
 		} else {
 			return 'rgb(0,0,0)';
 		}

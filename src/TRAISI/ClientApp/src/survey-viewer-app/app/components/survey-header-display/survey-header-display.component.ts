@@ -26,7 +26,7 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 
 
 
-	public useWhiteProgressLine: boolean;
+	@Input() public useWhiteProgressLine: boolean;
 
 	@Input() public pageTextColour: string;
 
@@ -44,7 +44,6 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 
 	public ngOnInit(): void {
 		console.log(this._surveyViewerService);
-		this.useWhiteProgressLine = this.pageTextColour === 'rgb(255,255,255)';
 	}
 
 		/**

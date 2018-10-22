@@ -15,7 +15,12 @@
 		<div class="member-tab member-tab-active">Active</div>
 		<div class="member-tab member-tab-pending">Pending</div>
 	</div>
-	<div id="question-viewer-container" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
+	<div id="question-viewer-container" [style.background-color]="pageThemeInfo.questionViewerColour" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
+			<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+			[cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="questionViewerBackgroundColourChange($event)"
+			[(colorPicker)]="pageThemeInfo.questionViewerColour">
+			 <img src="assets/img/colour-picker.png" height="15px" />
+		 </button>
 		<div class="question-container">
 			<div class="question-header container-fluid">
 				<div class="row flex-nowrap">
@@ -23,12 +28,12 @@
 						<div class="question-number badge badge-danger mt-3">Q1</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -49,12 +54,12 @@
 								<div class="question-number badge badge-primary mt-3">Q2.1</div>
 								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 							</div>
-							<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 						</div>
 					</div>
 					<div class="question-header-divider"></div>
-					<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 						Question Body Rendered Here
 					</div>
 				</div>
@@ -65,12 +70,12 @@
 								<div class="question-number badge badge-primary mt-3">Q2.2</div>
 								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 							</div>
-							<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 						</div>
 					</div>
 					<div class="question-header-divider"></div>
-					<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 						Question Body Rendered Here
 					</div>
 				</div>
@@ -82,12 +87,12 @@
 							<div class="question-number badge badge-primary mt-3">Q2.3</div>
 							<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 						</div>
-						<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+						<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 							aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 					</div>
 				</div>
 				<div class="question-header-divider"></div>
-				<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+				<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 					Question Body Rendered Here
 				</div>
 			</div>
@@ -109,12 +114,12 @@
 								<div class="question-number badge badge-primary mt-3">Q3.1</div>
 								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 							</div>
-							<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 						</div>
 					</div>
 					<div class="question-header-divider"></div>
-					<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 						Question Body Rendered Here
 					</div>
 				</div>
@@ -125,12 +130,12 @@
 								<div class="question-number badge badge-primary mt-3">Q3.2</div>
 								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 							</div>
-							<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 						</div>
 					</div>
 					<div class="question-header-divider"></div>
-					<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 						Question Body Rendered Here
 					</div>
 				</div>
@@ -143,12 +148,12 @@
 							<div class="question-number badge badge-primary mt-3">Q3.3</div>
 							<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 						</div>
-						<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+						<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 							aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 					</div>
 				</div>
 				<div class="question-header-divider"></div>
-				<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+				<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 					Question Body Rendered Here
 				</div>
 			</div>
@@ -160,12 +165,12 @@
 						<div class="question-number badge badge-danger mt-3">Q4</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -176,12 +181,12 @@
 						<div class="question-number badge badge-danger mt-3">Q5</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -192,12 +197,12 @@
 						<div class="question-number badge badge-danger mt-3">Q6</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -208,12 +213,12 @@
 						<div class="question-number badge badge-danger mt-3">Q7</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
@@ -224,12 +229,12 @@
 						<div class="question-number badge badge-danger mt-3">Q8</div>
 						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
 					</div>
-					<div class="question-header-text col-12 mt-3" [style.color]="getBestPageBodyTextColor()">Lorem ipsum dolor sit amet,
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
 						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
 				</div>
 			</div>
 			<div class="question-header-divider"></div>
-			<div class="question-body" [style.color]="getBestPageBodyTextColor()">
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
 				Question Body Rendered Here
 			</div>
 		</div>
