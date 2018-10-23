@@ -143,7 +143,7 @@ namespace TRAISI
                             context.Token = accessToken;
                         return Task.CompletedTask;
                     }
-                }; 
+                };
 
             });
 
@@ -243,6 +243,25 @@ namespace TRAISI
             services.Configure<MailgunConfig>(Configuration.GetSection("MailgunConfig"));
             services.Configure<GeoConfig>(Configuration.GetSection("GeoConfig"));
 
+            IList<CultureInfo> supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("en-CA"),
+                new CultureInfo("en"),
+                new CultureInfo("fr")
+            };
+
+            services.Configure<RequestLocalizationOptions>(options =>
+                        {
+                            options.DefaultRequestCulture = new RequestCulture("en");
+                            options.SupportedCultures = supportedCultures;
+                            options.SupportedUICultures = supportedCultures;
+                            options.RequestCultureProviders = new List<IRequestCultureProvider>
+                                {
+                                        new QueryStringRequestCultureProvider(),
+                                        new CookieRequestCultureProvider()
+                                };
+                        });
+
             // Business Services
             services.AddScoped<IEmailer, Emailer>();
 
@@ -327,19 +346,7 @@ namespace TRAISI
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
-
-            var supportedCultures = new[] {
-                new CultureInfo("en-CA"),
-                new CultureInfo("en"),
-                new CultureInfo("fr")
-            };
-
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture("en"),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            });
+            app.UseRequestLocalization();
 
 
             app.UseSwagger();
