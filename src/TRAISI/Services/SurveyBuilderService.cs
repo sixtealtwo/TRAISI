@@ -46,12 +46,17 @@ namespace TRAISI.Services
         /// <param name="viewName"></param>
         public SurveyView AddSurveyView(Survey survey, string viewName)
         {
-            var surveyView = new SurveyView()
-            {
-                ViewName = viewName
-            };
-            survey.SurveyViews.Add(surveyView);
+            // ensure view doesn't already exist with that name
+            var surveyView = survey.SurveyViews.Where(s => s.ViewName == viewName).FirstOrDefault();
 
+            if (surveyView == null)
+            {
+                surveyView = new SurveyView()
+                {
+                    ViewName = viewName
+                };
+                survey.SurveyViews.Add(surveyView);
+            }
             return surveyView;
         }
 
@@ -63,6 +68,88 @@ namespace TRAISI.Services
         public void RemoveSurveyView(Survey survey, int id)
         {
             survey.SurveyViews.Remove(survey.SurveyViews.Single(s => s.Id == id));
+        }
+
+        public void DuplicateSurveyViewStructure(SurveyView sourceView, SurveyView targetView, string language)
+        {
+            bool structureExists = true;
+            bool structureAndLanguageExists = false;
+
+            //deal with base labels (welcome, t&c, thank you)
+
+            if (targetView.WelcomePageLabels == null)
+            {
+                structureExists = false;
+                targetView.WelcomePageLabels = new LabelCollection<WelcomePageLabel>();
+                targetView.TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>();
+                targetView.ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>();
+            } else if (targetView.WelcomePageLabels[language] != null)
+            {
+                structureAndLanguageExists = true;
+            }
+
+            if (!structureAndLanguageExists)
+            {
+                targetView.WelcomePageLabels[language] = new WelcomePageLabel { Value = null };
+                targetView.TermsAndConditionsLabels[language] = new TermsAndConditionsPageLabel { Value = null };
+                targetView.ThankYouPageLabels[language] = new ThankYouPageLabel { Value = null };
+
+                // if structure exists, just create new labels under the language
+
+                if (structureExists)
+                {
+                    foreach (var page in targetView.QuestionPartViews)
+                    {
+                        page.Labels[language] = new QuestionPartViewLabel { Value = null };
+                        foreach (var question in page.QuestionPartViewChildren)
+                        {
+                            question.Labels[language] = new QuestionPartViewLabel { Value = null };
+
+                            foreach (var subQuestion in question.QuestionPartViewChildren)
+                            {
+                                subQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                            }
+                        }
+                    }
+                } else
+                {
+                    foreach (var page in sourceView.QuestionPartViews)
+                    {
+                        QuestionPartView targetPage = new QuestionPartView
+                        {
+                            Order = page.Order,
+                            Icon = page.Icon
+                        };
+                        targetView.QuestionPartViews.Add(targetPage);
+                        targetPage.Labels[language] = new QuestionPartViewLabel { Value = null };
+                        foreach (var question in page.QuestionPartViewChildren)
+                        {
+                            QuestionPartView targetQuestion = new QuestionPartView
+                            {
+                                Order = question.Order,
+                                isOptional = question.isOptional,
+                                isHousehold = question.isHousehold,
+                                RepeatSource = question.RepeatSource,
+                                QuestionPart = question.QuestionPart
+                            };
+                            targetPage.QuestionPartViewChildren.Add(targetQuestion);
+                            targetQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                            foreach (var subQuestion in question.QuestionPartViewChildren)
+                            {
+                                QuestionPartView targetSubQuestion = new QuestionPartView
+                                {
+                                    Order = subQuestion.Order,
+                                    isOptional = subQuestion.isOptional,
+                                    RepeatSource = subQuestion.RepeatSource,
+                                    QuestionPart = subQuestion.QuestionPart
+                                };
+                                targetQuestion.QuestionPartViewChildren.Add(targetSubQuestion);
+                                targetSubQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

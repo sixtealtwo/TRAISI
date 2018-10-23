@@ -26,5 +26,8 @@ namespace DAL.Repositories.Interfaces {
 
         Task<int> GetNumberOfParentViewsAsync(int id);
 		int GetNumberOfParentViews(int id);
+
+        void ClearQuestionParts(List<int> ids);
+        List<int> ClearQuestionPartSurveyField(int surveyId);
 	}
 }

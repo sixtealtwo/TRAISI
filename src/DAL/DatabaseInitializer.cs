@@ -92,14 +92,14 @@ namespace DAL
                 _context.UserGroups.Add(TTS);
                 _context.UserGroups.Add(SMTO);
 
-                Survey TTSSurvey;
+                /*Survey TTSSurvey;
                 using (StreamReader r = new StreamReader("structure.json"))
                 {
                     var jsonFile = r.ReadToEnd();
                     TTSSurvey = JsonConvert.DeserializeObject<Survey>(jsonFile, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects});
                 }
 
-               _context.Surveys.Add(TTSSurvey);
+               _context.Surveys.Add(TTSSurvey);*/
                 await _context.SaveChangesAsync();
                 
                 _logger.LogInformation("Seeding initial data completed");

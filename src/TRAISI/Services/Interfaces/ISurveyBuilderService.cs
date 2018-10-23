@@ -15,6 +15,8 @@ namespace TRAISI.Services.Interfaces
 
         void RemoveSurveyView(Survey survey, int id);
 
+        void DuplicateSurveyViewStructure(SurveyView sourceView, SurveyView targetView, string language);
+
         QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
         QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string code, string name, string value, string language);

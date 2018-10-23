@@ -16,7 +16,7 @@ namespace TRAISI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -386,20 +386,17 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ParentId");
-
-                    b.Property<int>("ParentQuestionPartViewRef");
-
                     b.Property<int?>("QuestionPartId");
 
                     b.Property<string>("QuestionType");
 
+                    b.Property<int?>("SurveyId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentQuestionPartViewRef")
-                        .IsUnique();
-
                     b.HasIndex("QuestionPartId");
+
+                    b.HasIndex("SurveyId");
 
                     b.ToTable("QuestionParts");
                 });
@@ -415,6 +412,8 @@ namespace TRAISI.Migrations
 
                     b.Property<int?>("ParentViewId");
 
+                    b.Property<int?>("QuestionPartId");
+
                     b.Property<int?>("RepeatSourceId");
 
                     b.Property<int?>("SurveyViewId");
@@ -426,6 +425,8 @@ namespace TRAISI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ParentViewId");
+
+                    b.HasIndex("QuestionPartId");
 
                     b.HasIndex("RepeatSourceId");
 
@@ -1255,14 +1256,13 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPart", b =>
                 {
-                    b.HasOne("DAL.Models.Questions.QuestionPartView", "Parent")
-                        .WithOne("QuestionPart")
-                        .HasForeignKey("DAL.Models.Questions.QuestionPart", "ParentQuestionPartViewRef")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Models.Questions.QuestionPart")
                         .WithMany("QuestionPartChildren")
                         .HasForeignKey("QuestionPartId");
+
+                    b.HasOne("DAL.Models.Surveys.Survey", "Survey")
+                        .WithMany()
+                        .HasForeignKey("SurveyId");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPartView", b =>
@@ -1271,6 +1271,10 @@ namespace TRAISI.Migrations
                         .WithMany("QuestionPartViewChildren")
                         .HasForeignKey("ParentViewId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
+                        .WithMany()
+                        .HasForeignKey("QuestionPartId");
 
                     b.HasOne("DAL.Models.Questions.QuestionPart", "RepeatSource")
                         .WithMany()

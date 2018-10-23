@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DAL.Models.Extensions;
 using DAL.Models.Interfaces;
+using DAL.Models.Questions;
 using Newtonsoft.Json;
 
 namespace DAL.Models.Surveys

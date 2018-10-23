@@ -329,6 +329,35 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuestionParts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    QuestionType = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    IsGroupQuestion = table.Column<bool>(nullable: false),
+                    SurveyId = table.Column<int>(nullable: true),
+                    QuestionPartId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionParts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionParts_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurveyPermissions",
                 columns: table => new
                 {
@@ -487,9 +516,9 @@ namespace TRAISI.Migrations
                 {
                     ApplicationId = table.Column<string>(nullable: true),
                     AuthorizationId = table.Column<string>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(nullable: true),
                     ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(nullable: true),
                     Id = table.Column<string>(nullable: false),
                     Payload = table.Column<string>(nullable: true),
                     Properties = table.Column<string>(nullable: true),
@@ -540,6 +569,123 @@ namespace TRAISI.Migrations
                         name: "FK_Shortcodes_Surveys_SurveyId",
                         column: x => x.SurveyId,
                         principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionConditionals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    TargetQuestionId = table.Column<int>(nullable: false),
+                    SourceQuestionId = table.Column<int>(nullable: false),
+                    Condition = table.Column<int>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionConditionals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionConditionals_QuestionParts_SourceQuestionId",
+                        column: x => x.SourceQuestionId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionConditionals_QuestionParts_TargetQuestionId",
+                        column: x => x.TargetQuestionId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionConfigurations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true),
+                    IsResourceOnly = table.Column<bool>(nullable: false),
+                    ValueType = table.Column<int>(nullable: false),
+                    QuestionPartId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionConfigurations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionConfigurations_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionOptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false),
+                    QuestionPartParentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionOptions_QuestionParts_QuestionPartParentId",
+                        column: x => x.QuestionPartParentId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionPartViews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    QuestionPartId = table.Column<int>(nullable: true),
+                    ParentViewId = table.Column<int>(nullable: true),
+                    SurveyViewId = table.Column<int>(nullable: true),
+                    Order = table.Column<int>(nullable: false),
+                    isOptional = table.Column<bool>(nullable: false),
+                    isHousehold = table.Column<bool>(nullable: false),
+                    RepeatSourceId = table.Column<int>(nullable: true),
+                    Icon = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionPartViews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionPartViews_QuestionPartViews_ParentViewId",
+                        column: x => x.ParentViewId,
+                        principalTable: "QuestionPartViews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionPartViews_QuestionParts_QuestionPartId",
+                        column: x => x.QuestionPartId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionPartViews_QuestionParts_RepeatSourceId",
+                        column: x => x.RepeatSourceId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionPartViews_SurveyViews_SurveyViewId",
+                        column: x => x.SurveyViewId,
+                        principalTable: "SurveyViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -673,6 +819,18 @@ namespace TRAISI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionConfigurationLabel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionConfigurationLabel_QuestionConfigurations_QuestionC~",
+                        column: x => x.QuestionConfigurationId,
+                        principalTable: "QuestionConfigurations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuestionConfigurationLabel_QuestionOptions_QuestionOptionId",
+                        column: x => x.QuestionOptionId,
+                        principalTable: "QuestionOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -689,6 +847,18 @@ namespace TRAISI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionOptionConditionals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionOptionConditionals_QuestionParts_SourceQuestionId",
+                        column: x => x.SourceQuestionId,
+                        principalTable: "QuestionParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionOptionConditionals_QuestionOptions_TargetOptionId",
+                        column: x => x.TargetOptionId,
+                        principalTable: "QuestionOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -708,116 +878,12 @@ namespace TRAISI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionOptionLabels", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionConditionals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    TargetQuestionId = table.Column<int>(nullable: false),
-                    SourceQuestionId = table.Column<int>(nullable: false),
-                    Condition = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionConditionals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionConfigurations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
-                    IsResourceOnly = table.Column<bool>(nullable: false),
-                    ValueType = table.Column<int>(nullable: false),
-                    QuestionPartId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionConfigurations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionOptions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
-                    Order = table.Column<int>(nullable: false),
-                    QuestionPartParentId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionOptions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionPartViews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ParentViewId = table.Column<int>(nullable: true),
-                    SurveyViewId = table.Column<int>(nullable: true),
-                    Order = table.Column<int>(nullable: false),
-                    isOptional = table.Column<bool>(nullable: false),
-                    isHousehold = table.Column<bool>(nullable: false),
-                    RepeatSourceId = table.Column<int>(nullable: true),
-                    Icon = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionPartViews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuestionPartViews_QuestionPartViews_ParentViewId",
-                        column: x => x.ParentViewId,
-                        principalTable: "QuestionPartViews",
+                        name: "FK_QuestionOptionLabels_QuestionOptions_QuestionOptionId",
+                        column: x => x.QuestionOptionId,
+                        principalTable: "QuestionOptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuestionPartViews_SurveyViews_SurveyViewId",
-                        column: x => x.SurveyViewId,
-                        principalTable: "SurveyViews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionParts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    QuestionType = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    IsGroupQuestion = table.Column<bool>(nullable: false),
-                    ParentId = table.Column<int>(nullable: false),
-                    ParentQuestionPartViewRef = table.Column<int>(nullable: false),
-                    QuestionPartId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionParts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuestionParts_QuestionPartViews_ParentQuestionPartViewRef",
-                        column: x => x.ParentQuestionPartViewRef,
-                        principalTable: "QuestionPartViews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuestionParts_QuestionParts_QuestionPartId",
-                        column: x => x.QuestionPartId,
-                        principalTable: "QuestionParts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1057,15 +1123,14 @@ namespace TRAISI.Migrations
                 column: "QuestionPartParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionParts_ParentQuestionPartViewRef",
-                table: "QuestionParts",
-                column: "ParentQuestionPartViewRef",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_QuestionParts_QuestionPartId",
                 table: "QuestionParts",
                 column: "QuestionPartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionParts_SurveyId",
+                table: "QuestionParts",
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionPartViewLabels_QuestionPartViewId",
@@ -1076,6 +1141,11 @@ namespace TRAISI.Migrations
                 name: "IX_QuestionPartViews_ParentViewId",
                 table: "QuestionPartViews",
                 column: "ParentViewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionPartViews_QuestionPartId",
+                table: "QuestionPartViews",
+                column: "QuestionPartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionPartViews_RepeatSourceId",
@@ -1171,98 +1241,10 @@ namespace TRAISI.Migrations
                 name: "IX_WelcomePageLabels_SurveyViewId",
                 table: "WelcomePageLabels",
                 column: "SurveyViewId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionConfigurationLabel_QuestionConfigurations_QuestionC~",
-                table: "QuestionConfigurationLabel",
-                column: "QuestionConfigurationId",
-                principalTable: "QuestionConfigurations",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionConfigurationLabel_QuestionOptions_QuestionOptionId",
-                table: "QuestionConfigurationLabel",
-                column: "QuestionOptionId",
-                principalTable: "QuestionOptions",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionOptionConditionals_QuestionParts_SourceQuestionId",
-                table: "QuestionOptionConditionals",
-                column: "SourceQuestionId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionOptionConditionals_QuestionOptions_TargetOptionId",
-                table: "QuestionOptionConditionals",
-                column: "TargetOptionId",
-                principalTable: "QuestionOptions",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionOptionLabels_QuestionOptions_QuestionOptionId",
-                table: "QuestionOptionLabels",
-                column: "QuestionOptionId",
-                principalTable: "QuestionOptions",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionConditionals_QuestionParts_SourceQuestionId",
-                table: "QuestionConditionals",
-                column: "SourceQuestionId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionConditionals_QuestionParts_TargetQuestionId",
-                table: "QuestionConditionals",
-                column: "TargetQuestionId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionConfigurations_QuestionParts_QuestionPartId",
-                table: "QuestionConfigurations",
-                column: "QuestionPartId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionOptions_QuestionParts_QuestionPartParentId",
-                table: "QuestionOptions",
-                column: "QuestionPartParentId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_QuestionPartViews_QuestionParts_RepeatSourceId",
-                table: "QuestionPartViews",
-                column: "RepeatSourceId",
-                principalTable: "QuestionParts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_SurveyViews_Surveys_SurveyId",
-                table: "SurveyViews");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_QuestionPartViews_QuestionParts_RepeatSourceId",
-                table: "QuestionPartViews");
-
             migrationBuilder.DropTable(
                 name: "ApiKeys");
 
@@ -1345,10 +1327,19 @@ namespace TRAISI.Migrations
                 name: "QuestionOptions");
 
             migrationBuilder.DropTable(
+                name: "QuestionPartViews");
+
+            migrationBuilder.DropTable(
                 name: "SurveyResponses");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "SurveyViews");
+
+            migrationBuilder.DropTable(
+                name: "QuestionParts");
 
             migrationBuilder.DropTable(
                 name: "SurveyRespondents");
@@ -1367,15 +1358,6 @@ namespace TRAISI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Surveys");
-
-            migrationBuilder.DropTable(
-                name: "QuestionParts");
-
-            migrationBuilder.DropTable(
-                name: "QuestionPartViews");
-
-            migrationBuilder.DropTable(
-                name: "SurveyViews");
         }
     }
 }

@@ -54,7 +54,7 @@ namespace DAL.Repositories
             SurveyRespondent user)
         {
             var result = await this._entities
-                .Where(r => r.QuestionPart.Parent.SurveyView.Survey.Id == surveyId && r.Respondent == user)
+                .Where(r => r.QuestionPart.SurveyId == surveyId && r.Respondent == user)
                 .ToListAsync();
 
             return result;
@@ -72,8 +72,7 @@ namespace DAL.Repositories
         {
 
             var responses = new List<SurveyResponse>();
-            IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where(r => (r.QuestionPart.Parent.SurveyView.Survey.Id == surveyId ||
-              r.QuestionPart.Parent.ParentView.SurveyView.Survey.Id == surveyId || r.QuestionPart.Parent.ParentView.ParentView.SurveyView.Survey.Id == surveyId)
+            IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where(r => r.QuestionPart.Survey.Id == surveyId
               && user == r.Respondent).Distinct()
               .Include(r => r.ResponseValues)
                    .Include(r => r.Respondent);

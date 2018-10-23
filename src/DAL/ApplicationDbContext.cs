@@ -146,7 +146,7 @@ namespace DAL
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
 
-            builder.Entity<QuestionPartView>().HasOne(q => q.QuestionPart).WithOne(q2 => q2.Parent).HasForeignKey<QuestionPart>(k => k.ParentQuestionPartViewRef);
+            //builder.Entity<QuestionPartView>().HasOne(q => q.QuestionPart).WithOne(q2 => q2.Parent).HasForeignKey<QuestionPart>(k => k.ParentQuestionPartViewRef);
             builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels);
             builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(o => o.TargetOption).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().ToTable($"{nameof(this.QuestionOptions)}");

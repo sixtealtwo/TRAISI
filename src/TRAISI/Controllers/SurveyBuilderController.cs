@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using System;
@@ -25,6 +26,7 @@ using System.IO;
 using Newtonsoft.Json;
 using FluentValidation.Results;
 
+
 namespace TRAISI.Controllers
 {
     [Authorize(Authorization.Policies.AccessAdminPolicy)]
@@ -37,6 +39,7 @@ namespace TRAISI.Controllers
         private readonly IQuestionTypeManager _questionTypeManager;
         private readonly ISurveyBuilderService _surveyBuilderService;
         private readonly IFileDownloader _fileDownloader;
+        private readonly IOptions<RequestLocalizationOptions> _localizationOptions;
 
         /// <summary>
         /// Constructor the controller.
@@ -44,7 +47,7 @@ namespace TRAISI.Controllers
         /// <param name="unitOfWork">Unit of work service.</param>
         /// <param name="questionTypeManager">Question type manager service.</param>
         public SurveyBuilderController(IUnitOfWork unitOfWork, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager,
-                                        IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService)
+                                        IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService, IOptions<RequestLocalizationOptions> localizationOptions)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
@@ -52,6 +55,7 @@ namespace TRAISI.Controllers
             this._questionTypeManager = questionTypeManager;
             this._surveyBuilderService = surveyBuilderService;
             this._fileDownloader = fileDownloaderService;
+            this._localizationOptions = localizationOptions;
         }
 
         [HttpGet("question-types")]
@@ -60,6 +64,36 @@ namespace TRAISI.Controllers
         {
             var questionTypes = Mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions.Values);
             return Ok(questionTypes);
+        }
+
+        /// <summary>
+        /// Generates a CATI view for a given language by replicating the current Standard View
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        [HttpGet("{surveyId}/GenerateCATIView/{language}")]
+        [Produces(typeof(SBSurveyViewViewModel))]
+        public async Task<IActionResult> GenerateCATIView(int surveyId, string language)
+        {
+            var supportedLanguages = this._localizationOptions.Value.SupportedCultures;
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                // get current standard view structure to duplicate
+                SurveyView standardSurveyStructure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, "Standard");
+                // add CATI or get existing view
+                SurveyView catiView = this._surveyBuilderService.AddSurveyView(survey, "CATI");
+                // duplicate structure and create labels for language
+                this._surveyBuilderService.DuplicateSurveyViewStructure(standardSurveyStructure, catiView, language);
+                // save to database
+                await this._unitOfWork.SaveChangesAsync();
+                return Ok(catiView.ToLocalizedModel<SBSurveyViewViewModel>(language));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
         }
 
         [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}")]
@@ -144,6 +178,10 @@ namespace TRAISI.Controllers
                         if (question.QuestionPart != null && !this._unitOfWork.Surveys.QuestionNameIsUnique(surveyId, question.QuestionPart.Name, null))
                         {
                             return BadRequest("Question name must be unique");
+                        }
+                        if (question.QuestionPart != null)
+                        {
+                            question.QuestionPart.Survey = survey;
                         }
                     }
                     else

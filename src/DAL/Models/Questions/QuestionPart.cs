@@ -47,17 +47,21 @@ namespace DAL.Models.Questions
         //Whether this question part is responded to by the respondent group
         public bool IsGroupQuestion { get; set; } = false;
 
+        public Survey Survey { get; set; }
+
+        [JsonIgnore]
+        public int? SurveyId { get; set; }
         /// <summary>
         /// parent reference
         /// </summary>
         /// <value></value>
-        public QuestionPartView Parent {get;set;}
+        /*public QuestionPartView Parent {get;set;}
 
         [JsonIgnore]
         public int ParentId { get; set; }
 
         [JsonIgnore]
-        public int ParentQuestionPartViewRef { get; set; }
+        public int ParentQuestionPartViewRef { get; set; }*/
 
     }
 }

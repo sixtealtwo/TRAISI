@@ -244,7 +244,10 @@ namespace TRAISI.Controllers
             var removed = this._unitOfWork.Surveys.Get(id);
             if (survey.Owner == this.User.Identity.Name || await IsGroupAdmin(survey.Group))
             {
+                List<int> qParts = this._unitOfWork.QuestionParts.ClearQuestionPartSurveyField(id);
                 this._unitOfWork.Surveys.Remove(removed);
+                await this._unitOfWork.SaveChangesAsync();
+                this._unitOfWork.QuestionParts.ClearQuestionParts(qParts);
                 await this._unitOfWork.SaveChangesAsync();
                 return new OkResult();
             }

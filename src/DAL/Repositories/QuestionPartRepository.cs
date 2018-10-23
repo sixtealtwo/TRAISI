@@ -145,5 +145,18 @@ namespace DAL.Repositories
                 .Where(q => q.QuestionPart.Id == id)
                 .Count();
         }
+
+        public void ClearQuestionParts(List<int> ids)
+        {
+            _appContext.QuestionParts.RemoveRange(_appContext.QuestionParts.Where(q => ids.Contains(q.Id)));
+        }
+
+        public List<int> ClearQuestionPartSurveyField(int surveyId)
+        {
+            var qParts = _appContext.QuestionParts.Where(q => q.SurveyId == surveyId).ToList();
+            qParts.ForEach(q => q.Survey = null);
+            _appContext.QuestionParts.UpdateRange(qParts);
+            return qParts.Select(q => q.Id).ToList();
+        }
     }
 }
