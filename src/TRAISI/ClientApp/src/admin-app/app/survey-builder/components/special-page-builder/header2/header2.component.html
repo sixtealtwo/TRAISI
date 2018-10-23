@@ -1,5 +1,7 @@
-<div id="welcome-header-editor" #headerBounds [contextMenu]="imageMenu" (click)="onImageMenu($event, null)" (mousedown)="startDrag($event)" (mouseup)="endDrag($event)">
-	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight"></div>
+<div id="welcome-header-editor" #headerBounds>
+	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight">
+	</div>
+	<div *ngIf="!previewMode.value" class="position-absolute delete-menu-container"><button type="button" class="btn btn-danger delete-menu-button" (click)="onImageMenu($event, null)"><i class="fas fa-gear"></i></button></div>
 	<div *ngIf="!previewMode.value" class="headerBackground-slider d-none d-md-block" [class.headerBackground-slider-white-handle]="whiteDragHandle()">
 		<mv-slider (click)="$event.stopPropagation()" [orientation]="'vertical'" [min]="50" [max]="100" [step]="1" [(value)]="pageThemeInfo.headerBackgroundHeight"
 		 (change)="headerBackgroundHeightChange($event)"></mv-slider>
@@ -28,7 +30,7 @@
 			 [style.max-height.px]="pageThemeInfo.headerMaxHeightScale2 * 100" />
 		</div>
 	</div>
-	<button (colorPickerOpen)="disableContextMenu()" (colorPickerClose)="enableContextMenu()" (click)="$event.stopPropagation()" *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header-color-picker" (colorPickerChange)="headerColourChange($event)"
+	<button (colorPickerOpen)="disableContextMenu()" (colorPickerClose)="enableContextMenu()" (click)="$event.stopPropagation()" *ngIf="!previewMode.value" type="button" class="ml-4 mt-3 btn btn-inverse header2-color-picker" (colorPickerChange)="headerColourChange($event)"
 	[cpPosition]="'right'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" [(colorPicker)]="pageThemeInfo.headerColour">
 	 <img src="assets/img/colour-picker.png" height="15px" />
  </button>

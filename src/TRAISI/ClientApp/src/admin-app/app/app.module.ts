@@ -84,7 +84,9 @@ const APP_PROVIDERS = [AppConfig];
 		ButtonsModule.forRoot(),
 		ModalModule.forRoot(),
 		TreeviewModule.forRoot(),
-		ContextMenuModule.forRoot(),
+		ContextMenuModule.forRoot({
+			autoFocus: true
+		}),
 		MonacoEditorModule.forRoot(monacoConfig)
 	],
 	providers: [APP_PROVIDERS, AppTranslationService, LocalStoreManager, EndpointFactory, TranslatePipe, TitleCasePipe]

@@ -12,6 +12,18 @@
 	background-color: unset;
 }
 
+.delete-menu-container {
+	z-index: 50;
+	margin-left: -10px;
+	margin-top: 10px;
+}
+
+.delete-menu-button {
+	height: 20px;
+	width: 20px;
+	padding: 0px;
+}
+
 #special-page-header {
 	-webkit-user-select: none; /* Safari */
 	-khtml-user-select: none; /* Konqueror HTML */
@@ -41,17 +53,22 @@
 
 .delete-component-button {
 	position: absolute;
-	top: 15px;
-	right: -25px;
+	top: 10px;
+	left: -10px;
 	z-index: 10;
-	transform: scale(0.8);
+	height: 20px;
+	width: 20px;
+	padding: 0px
 }
 
 .delete-content-component-button {
 	position: absolute;
-	right: -25px;
+	left: -10px;
+	top: 10px;
 	z-index: 10;
-	transform: scale(0.8);
+	height: 20px;
+	width: 20px;
+	padding: 0px
 }
 
 .move-component-button {
