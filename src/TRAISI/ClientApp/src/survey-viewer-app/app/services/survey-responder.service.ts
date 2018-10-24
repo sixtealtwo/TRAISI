@@ -179,7 +179,6 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>
 	): void {
 		if (responseValid) {
-			console.log(this._cachedSavedResponses);
 			this._cachedSavedResponses[questionId][respondentId] = data;
 		}
 

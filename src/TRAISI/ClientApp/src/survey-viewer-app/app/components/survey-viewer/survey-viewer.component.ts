@@ -335,8 +335,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		conditionalResult.subscribe(
 			(value) => {
 				if (!this.validateInternalNavigationNext()) {
-					this.activeQuestionIndex += 1;
-					this.viewerState.activeQuestionIndex++;
+					if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
+						this.activeQuestionIndex += 1;
+						this.viewerState.activeQuestionIndex++;
+					}
 
 					this.updateViewerState();
 					this.validateNavigation();
@@ -344,8 +346,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
 					if (result) {
-						this.activeQuestionIndex += 1;
-						this.viewerState.activeQuestionIndex++;
+						if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
+							this.activeQuestionIndex += 1;
+							this.viewerState.activeQuestionIndex++;
+						}
 
 						this.updateViewerState();
 					}
