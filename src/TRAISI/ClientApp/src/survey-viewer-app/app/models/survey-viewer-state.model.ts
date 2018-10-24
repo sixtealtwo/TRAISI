@@ -7,6 +7,7 @@ import { ResponseValidationState } from 'traisi-question-sdk';
 export interface SurveyViewerState {
 	surveyPages: Array<SurveyViewPage>;
 	surveyQuestions: Array<SurveyViewQuestion>;
+	surveyQuestionsFull: Array<SurveyViewQuestion>;
 	activeQuestion: SurveyViewQuestion;
 	activeSection: SurveyViewSection;
 	activePage: SurveyViewPage;
@@ -18,4 +19,5 @@ export interface SurveyViewerState {
 	primaryRespondent: SurveyViewGroupMember;
 	activeGroupQuestions: Array<SurveyViewQuestion>;
 	isLoaded: boolean;
+	questionMap: { [id: number]: SurveyViewQuestion };
 }

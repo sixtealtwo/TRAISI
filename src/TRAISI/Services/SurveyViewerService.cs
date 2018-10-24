@@ -107,10 +107,10 @@ namespace TRAISI.Services
 
             if (currentUser.Identity.IsAuthenticated)
             {
-                if(currentUser.IsInRole(TraisiRoles.SuperAdministrator))
-				{
-					return (true,null);
-				}
+                if (currentUser.IsInRole(TraisiRoles.SuperAdministrator))
+                {
+                    return (true, null);
+                }
             }
 
             var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
@@ -168,15 +168,15 @@ namespace TRAISI.Services
         }
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="code"></param>
-		/// <returns></returns>
-		public async Task<Survey> GetSurveyFromCode(string code)
-		{
-			return await this._unitOfWork.Surveys.GetSurveyByCodeAsync(code);
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyFromCode(string code)
+        {
+            return await this._unitOfWork.Surveys.GetSurveyByCodeAsync(code);
+        }
 
         /// <summary>
         /// 
@@ -245,7 +245,7 @@ namespace TRAISI.Services
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
-        /// <param name="viewType"></param>
+        /// /// <param name="viewType"></param>
         /// <param name="pageNumber"></param>
         /// <returns></returns>
         public async Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType)
@@ -253,9 +253,10 @@ namespace TRAISI.Services
             var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
             if (survey != null)
             {
-                List<QuestionPartView> pages =  survey.SurveyViews[viewType].QuestionPartViews.OrderBy(p => p.Order).ToList();
+                List<QuestionPartView> pages = survey.SurveyViews[viewType].QuestionPartViews.OrderBy(p => p.Order).ToList();
                 // order everything
-                pages.ForEach(page => {
+                pages.ForEach(page =>
+                {
                     page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
                     ((List<QuestionPartView>)page.QuestionPartViewChildren).ForEach(child =>
                     {

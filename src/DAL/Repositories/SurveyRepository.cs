@@ -75,7 +75,7 @@ namespace DAL.Repositories
         public async Task<Survey> GetSurveyByCodeAsync(string code)
         {
             return await _appContext.Surveys
-                .Where(s => String.Equals(s.Code, code,StringComparison.CurrentCultureIgnoreCase))
+                .Where(s => String.Equals(s.Code, code, StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefaultAsync();
         }
 
@@ -124,6 +124,8 @@ namespace DAL.Repositories
                 .SingleOrDefaultAsync();
         }
 
+
+
         public async Task<Survey> GetSurveyFullAsync(int surveyId)
         {
             var result = await _appContext.Surveys.Where(s => s.Id == surveyId)
@@ -136,11 +138,17 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations).ThenInclude(qc => qc.QuestionConfigurationLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(qo => qo.QuestionOptionLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.Labels)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConditionalsSource)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConditionalsTarget)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptionConditionalsSource)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConditionalsSource)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConditionalsTarget)
+                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptionConditionalsSource)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations).ThenInclude(qc => qc.QuestionConfigurationLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(qo => qo.QuestionOptionLabels)
                 .SingleOrDefaultAsync();
 
-                return result;
+            return result;
         }
 
         /// <summary>

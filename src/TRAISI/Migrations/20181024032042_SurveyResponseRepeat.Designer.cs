@@ -3,15 +3,17 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181024032042_SurveyResponseRepeat")]
+    partial class SurveyResponseRepeat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,8 +408,6 @@ namespace TRAISI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CATIDependentId");
-
                     b.Property<string>("Icon");
 
                     b.Property<int>("Order");
@@ -425,8 +425,6 @@ namespace TRAISI.Migrations
                     b.Property<bool>("isOptional");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CATIDependentId");
 
                     b.HasIndex("ParentViewId");
 
@@ -1273,10 +1271,6 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionPartView", b =>
                 {
-                    b.HasOne("DAL.Models.Questions.QuestionPartView", "CATIDependent")
-                        .WithMany()
-                        .HasForeignKey("CATIDependentId");
-
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "ParentView")
                         .WithMany("QuestionPartViewChildren")
                         .HasForeignKey("ParentViewId")

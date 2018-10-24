@@ -38,6 +38,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Utilities } from 'shared/services/utilities';
+import { SurveyViewerConditionalEvaluator } from 'app/services/survey-viewer-conditional-evaluator.service';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -60,12 +61,19 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
-					optional: true
-				})
+				query(
+					':self',
+					stagger('1s', [
+						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
+					]),
+					{
+						optional: true
+					}
+				)
 			])
 		])
-	]
+	],
+	providers: []
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public questions: Array<SurveyViewQuestion>;
@@ -158,22 +166,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngOnInit(): void {
 		// this.surveyViewerService.getWelcomeView()
 
-		this.viewerState = {
-			surveyPages: [],
-			activeQuestion: undefined,
-			activeSection: undefined,
-			activePage: undefined,
-			isSectionActive: false,
-			surveyQuestions: [],
-			activeQuestionIndex: -1,
-			activePageIndex: -1,
-			groupMembers: [],
-			activeGroupMemberIndex: -1,
-			primaryRespondent: undefined,
-			activeGroupQuestions: [],
-			isLoaded: false
-		};
-
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
 
 		this.route.queryParams.subscribe((value: Params) => {
@@ -222,7 +214,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.setComponentInputs();
 			this.loadedComponents = true;
 		});
+
+		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
+			this.surveyQuestionsChanged();
+		});
 	}
+
+	/**
+	 *
+	 */
+	private surveyQuestionsChanged: () => void = () => {
+		// update the validation based on new survey questions and active question
+
+		console.log('in survey questions changed');
+		this.validateNavigation();
+	};
 
 	private getComponent(componentName: string): any {
 		switch (componentName) {
@@ -262,21 +268,23 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 		this.viewerState.surveyPages = pages;
-		pages.forEach((page) => {
-			page.questions.forEach((question) => {
+		pages.forEach(page => {
+			page.questions.forEach(question => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
 				question.viewId = Symbol();
 				this.questions.push(question);
+				this.viewerState.questionMap[question.questionId] = question;
 
 				viewOrder++;
 			});
-			page.sections.forEach((section) => {
-				section.questions.forEach((question) => {
+			page.sections.forEach(section => {
+				section.questions.forEach(question => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
+					this.viewerState.questionMap[question.questionId] = question;
 					question.viewId = Symbol();
 					this.questions.push(question);
 					viewOrder++;
@@ -291,13 +299,18 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.viewerState.surveyQuestions = sortBy(this.questions, ['viewOrder']);
 
+		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
+
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
+
+		console.log(this.viewerState);
 
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
 				this.viewerState.primaryRespondent = members[0];
 				this.isLoaded = true;
+			} else {
 			}
 		});
 	}
@@ -306,8 +319,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (state: boolean) => {
-		this.navigationActiveState = state;
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
+		this.navigationActiveState = newState;
 		this.validateNavigation();
 	};
 
@@ -374,7 +387,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
+				if (
+					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
+						'onQuestionShown'
+					)
+				) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -472,7 +489,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe((s) => {
+		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {
@@ -489,7 +506,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public ngAfterViewChecked(): void {}
 
-
 	private useDarkButtons(): boolean {
 		return this.pageTextColour !== 'rgb(0,0,0)';
 	}
@@ -500,7 +516,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		} else {
 			return 'rgb(0,0,0)';
 		}
-
 	}
 	private getBestQuestionBodyTextColor(): string {
 		if (this.pageThemeInfo.questionViewerColour) {

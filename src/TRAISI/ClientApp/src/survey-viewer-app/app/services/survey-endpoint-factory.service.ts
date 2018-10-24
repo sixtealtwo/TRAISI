@@ -4,7 +4,9 @@ import { Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class SurveyEndpointFactoryService extends EndpointFactory {
 	private _surveyLoginUrl: string = '/survey/';
 

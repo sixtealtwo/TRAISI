@@ -24,13 +24,13 @@ namespace DAL.Repositories
         /// <returns></returns>
         public async Task<PrimaryRespondent> GetPrimaryRespondentForUserAsync(ApplicationUser user)
         {
-            var respondent =  await this._appContext.PrimaryRespondents.Where(r => r.User == user)
+            var respondent = await this._appContext.PrimaryRespondents.Where(r => r.User == user)
             .Include(s => s.SurveyRespondentGroup)
             .ThenInclude(s => s.GroupMembers)
             .Include(s => s.Shortcode)
             .FirstOrDefaultAsync();
 
-            if(respondent == null)
+            if (respondent == null)
             {
                 return await this.CreatePrimaryResponentForUserAsnyc(user);
             }
@@ -66,7 +66,8 @@ namespace DAL.Repositories
                 SurveyRespondentGroup = new SurveyRespondentGroup()
             };
 
-            await this._entities.AddAsync(respondent);
+            this._entities.Add(respondent);
+            await this._appContext.SaveChangesAsync();
 
             return respondent;
         }

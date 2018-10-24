@@ -71,7 +71,7 @@ namespace TRAISI.Services
         /// <param name="questionId"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        public async Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData)
+        public async Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData, int repeat)
         {
 
 
@@ -83,12 +83,13 @@ namespace TRAISI.Services
 
             //var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
 
-
-            if (type.ResponseValidator != null) {
+            if (type.ResponseValidator != null)
+            {
                 type.ResponseValidator.ValidateResponse(null);
             }
 
@@ -96,19 +97,26 @@ namespace TRAISI.Services
                            (SurveyRespondent)respondent);
             bool isUpdate = false;
 
-            if (surveyResponse == null) {
+            if (surveyResponse == null)
+            {
                 surveyResponse = new SurveyResponse()
                 {
                     QuestionPart = question,
                     Respondent = respondent,
                 };
             }
-            else {
+            else
+            {
                 isUpdate = true;
             }
 
-            ResponseValue responseValue = null;
-            switch (type.ResponseType) {
+
+            if (repeat >= 0)
+            {
+                surveyResponse.Repeat = repeat;
+            }
+            switch (type.ResponseType)
+            {
                 case QuestionResponseType.String:
                     SaveStringResponse(survey, question, user, responseData, surveyResponse);
                     break;
@@ -121,16 +129,19 @@ namespace TRAISI.Services
                     break;
             }
 
-            try {
+            try
+            {
 
-                if (!isUpdate) {
+                if (!isUpdate)
+                {
                     this._unitOfWork.SurveyResponses.Add(surveyResponse);
                 }
 
 
                 await this._unitOfWork.SaveChangesAsync();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 this._logger.LogError(e, "Error saving response.");
                 return false;
             }
@@ -157,7 +168,8 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new StringResponse());
             }
@@ -198,7 +210,8 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new LocationResponse());
             }
@@ -244,7 +257,8 @@ namespace TRAISI.Services
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
 
@@ -271,17 +285,30 @@ namespace TRAISI.Services
 
             return response;
         }
- 
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="currentQuestionId"></param>
         /// <param name="respondentId"></param>
         /// <returns></returns>
-        public async Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId){
+        public async Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId)
+        {
 
             return null;
         }
-	
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionIds"></param>
+        /// <param name="respondentId"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, int respondentId)
+        {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
+            var responses = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForQuestionsAsync(questionIds, respondent);
+            return responses;
+        }
     }
 }
