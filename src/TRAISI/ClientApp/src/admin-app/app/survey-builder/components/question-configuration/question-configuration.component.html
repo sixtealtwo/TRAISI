@@ -107,7 +107,7 @@
 				</div>
 				<div class="form-group form-group-adjust row" *ngIf="questionBeingEdited.catiDependent">
 					<label for="catiQuestionText" class="col-md-2 col-form-label text-md-right">{{ questionBeingEdited.questionPart ? 'CATI 
-						Text' : 'Section Name' }}</label>
+						Text' : 'CATI Section Name' }}</label>
 					<div class="col-md-10">
 						<input *ngIf="!questionBeingEdited.questionPart" type="text" name="catiQuestionTextInput" class="form-control" id="catiQuestionTextInput"
 						 placeholder="CATI Section Name" [(ngModel)]="questionBeingEdited.catiDependent.label.value" />

@@ -184,13 +184,27 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public updateStandardQuestionPartViewOrderEndpoint(
+	public updateStandardQuestionPartViewOrder(
 		surveyId: number,
 		questionPartViewId: number,
 		childrenViewOrder: Order[],
 		movedQuestionPartViewId: number
 	) {
 		return this.surveyBuilderEndpointService.getUpdateStandardQuestionPartViewOrderEndpoint<Order[]>(
+			surveyId,
+			questionPartViewId,
+			childrenViewOrder,
+			movedQuestionPartViewId
+		);
+	}
+
+	public updateCATIQuestionPartViewOrder(
+		surveyId: number,
+		questionPartViewId: number,
+		childrenViewOrder: Order[],
+		movedQuestionPartViewId: number
+	) {
+		return this.surveyBuilderEndpointService.getUpdateCATIQuestionPartViewOrderEndpoint<Order[]>(
 			surveyId,
 			questionPartViewId,
 			childrenViewOrder,
