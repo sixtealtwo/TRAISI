@@ -169,21 +169,7 @@ export class SurveyViewerStateService {
 				}
 			});
 
-			if (true) {
-				// if some conditional evaluated to true - update the visible survey questions and emit an event to notify there was a change
-
-				/*evaluatedConditionals.forEach(conditional => {
-					const index: number = this.viewerState.surveyQuestions.findIndex(
-						sq => sq.questionId === conditional.targetQuestionId
-					);
-					if (index >= 0) {
-						this.viewerState.surveyQuestions.splice(index, 1);
-					}
-				}); */
-				this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
-			} else {
-				// no conditionals changed
-			}
+			this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
 
 			return;
 		}
