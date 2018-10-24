@@ -27,7 +27,8 @@ export class SurveyViewerStateService {
 			activeGroupMemberIndex: -1,
 			primaryRespondent: undefined,
 			activeGroupQuestions: [],
-			isLoaded: false
+			isLoaded: false,
+			questionMap: {}
 		};
 
 		this.surveyViewerState = new ReplaySubject<SurveyViewerState>();
@@ -71,8 +72,11 @@ export class SurveyViewerStateService {
 	 * @param question
 	 * @param validationState
 	 */
-	public updateGroupQuestionValidationState(question: SurveyViewQuestion, validationState: ResponseValidationState): void {
-		let index = this.viewerState.activeGroupQuestions.findIndex((f) => f.viewId === question.viewId);
+	public updateGroupQuestionValidationState(
+		question: SurveyViewQuestion,
+		validationState: ResponseValidationState
+	): void {
+		let index = this.viewerState.activeGroupQuestions.findIndex(f => f.viewId === question.viewId);
 
 		if (index >= 0) {
 			this.viewerState.activeGroupQuestions[index].validationState = validationState;
@@ -85,9 +89,12 @@ export class SurveyViewerStateService {
 	 * Sets active group questions
 	 * @param groupMembers
 	 */
-	public setActiveGroupQuestions(activeQuestion: SurveyViewQuestion, groupMembers: Array<SurveyViewGroupMember>): void {
+	public setActiveGroupQuestions(
+		activeQuestion: SurveyViewQuestion,
+		groupMembers: Array<SurveyViewGroupMember>
+	): void {
 		this.viewerState.activeGroupQuestions = [];
-		groupMembers.forEach((member) => {
+		groupMembers.forEach(member => {
 			let memberQuestion = Object.assign({}, activeQuestion);
 			memberQuestion.viewId = Symbol();
 			memberQuestion.parentMember = member;

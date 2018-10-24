@@ -18,4 +18,5 @@ export interface SurveyViewerState {
 	primaryRespondent: SurveyViewGroupMember;
 	activeGroupQuestions: Array<SurveyViewQuestion>;
 	isLoaded: boolean;
+	questionMap: { [id: number]: SurveyViewQuestion };
 }

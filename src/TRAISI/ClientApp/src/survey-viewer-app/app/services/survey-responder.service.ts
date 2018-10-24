@@ -16,7 +16,22 @@ import { SurveyViewerService } from './survey-viewer.service';
 	providedIn: 'root'
 })
 export class SurveyResponderService implements SurveyResponder {
+	/**
+	 * A dictionary of saved responses, cache purposes
+	 */
+	private _savedResponses: { [questionId: number]: { [respondentId: number]: any } };
+
 	public id: number;
+
+	/**
+	 *Creates an instance of SurveyResponderService.
+	 * @param {SurveyResponderEndpointService} _surveyResponseEndpointService
+	 * @memberof SurveyResponderService
+	 */
+	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {
+		this._savedResponses = {};
+	}
+
 	/**
 	 *
 	 *
@@ -28,7 +43,12 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	private saveResponse(data: any, surveyId: number, questionId: number, respondentId: number): Observable<{}> {
-		console.log('saving ' + respondentId);
+		if (this._savedResponses[questionId] === undefined) {
+			this._savedResponses[questionId] = {};
+		}
+		this._savedResponses[questionId][respondentId] = data;
+
+		console.log(this._savedResponses);
 		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data);
 	}
 
@@ -174,11 +194,4 @@ export class SurveyResponderService implements SurveyResponder {
 	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
 		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
 	}
-
-	/**
-	 *Creates an instance of SurveyResponderService.
-	 * @param {SurveyResponderEndpointService} _surveyResponseEndpointService
-	 * @memberof SurveyResponderService
-	 */
-	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {}
 }

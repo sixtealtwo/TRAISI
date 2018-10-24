@@ -115,9 +115,8 @@ library.add(faCheckCircle);
 		ConfigurationService,
 		QuestionLoaderService,
 		SurveyResponderEndpointService,
-		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
-		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
-		SurveyViewerStateService
+
+		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })

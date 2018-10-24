@@ -71,7 +71,8 @@ interface SpecialPageDataInput {
 				)
 			])
 		])
-	]
+	],
+	providers: [SurveyViewerStateService, { provide: 'SurveyResponderService', useClass: SurveyResponderService }]
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public questions: Array<SurveyViewQuestion>;
@@ -163,22 +164,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public ngOnInit(): void {
 		// this.surveyViewerService.getWelcomeView()
-
-		this.viewerState = {
-			surveyPages: [],
-			activeQuestion: undefined,
-			activeSection: undefined,
-			activePage: undefined,
-			isSectionActive: false,
-			surveyQuestions: [],
-			activeQuestionIndex: -1,
-			activePageIndex: -1,
-			groupMembers: [],
-			activeGroupMemberIndex: -1,
-			primaryRespondent: undefined,
-			activeGroupQuestions: [],
-			isLoaded: false
-		};
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
 
@@ -277,6 +262,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				question.parentPage = page;
 				question.viewId = Symbol();
 				this.questions.push(question);
+				this.viewerState.questionMap[question.id] = question;
 
 				viewOrder++;
 			});
@@ -285,6 +271,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
+					this.viewerState.questionMap[question.id] = question;
 					question.viewId = Symbol();
 					this.questions.push(question);
 					viewOrder++;
@@ -302,13 +289,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
 
+		console.log(this.viewerState);
+
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
-				console.log(members);
 				this.viewerState.primaryRespondent = members[0];
 				this.isLoaded = true;
 			} else {
-				console.log(members);
 			}
 		});
 	}
