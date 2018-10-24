@@ -163,6 +163,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.thankYouPage = page.surveyCompletionPage;
 					this.catiExists = false;
 					this.enableCATI = false;
+					this.refreshSurveyPage();
 					if (this.allPages.length > 0 && this.allPages[0].catiDependent) {
 						this.catiExists = true;
 						this.enableCATI = false;
@@ -196,6 +197,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				});
 			}
 		);
+	}
+
+	private refreshSurveyPage(): void {
+		if (this.currentPage === 'surveyPage') {
+			this.switchSurveyPage(this.currentSurveyPage.id);
+		}
 	}
 
 	public refreshSpecialPage(): void {

@@ -275,6 +275,24 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getUpdateCATIQuestionPartViewOrderEndpoint<T>(
+		surveyId: number,
+		questionPartViewId: number,
+		childrenViewOrder: Order[],
+		movedQuestionPartViewId: number
+	): Observable<T> {
+		// tslint:disable-next-line:max-line-length
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/CATI/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getUpdateCATIQuestionPartViewOrderEndpoint(surveyId, questionPartViewId, childrenViewOrder, movedQuestionPartViewId)
+				);
+			})
+		);
+	}
+
 	public getAddStandardQuestionPartViewEndpoint<T>(
 		surveyId: number,
 		questionPartViewId: number,

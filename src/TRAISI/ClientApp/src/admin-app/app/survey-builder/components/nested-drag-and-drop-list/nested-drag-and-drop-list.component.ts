@@ -67,9 +67,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	@ViewChild('qConfiguration')
 	qConfiguration: QuestionConfigurationComponent;
 
-
 	@HostListener('touchmove', ['$event'])
-  public onTouchMove(e: MouseEvent) {
+	public onTouchMove(e: MouseEvent) {
 		//e.preventDefault();
 	}
 
@@ -602,13 +601,26 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 							q => new Order(q.id, q.order)
 						);
 						this.surveyBuilderService
-							.updateStandardQuestionPartViewOrderEndpoint(
+							.updateStandardQuestionPartViewOrder(
 								this.surveyId,
 								this.currentPage.id,
 								questionsOrder,
 								this.questionBeingEdited.id
 							)
 							.subscribe();
+						if (this.catiEnabled) {
+							questionsOrder = this.currentPage.questionPartViewChildren.map(
+								q => new Order(q.catiDependent.id, q.order)
+							);
+							this.surveyBuilderService
+								.updateCATIQuestionPartViewOrder(
+									this.surveyId,
+									this.currentPage.catiDependent.id,
+									questionsOrder,
+									this.questionBeingEdited.catiDependent.id
+								)
+								.subscribe();
+						}
 					}
 				}
 			});
@@ -647,13 +659,26 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								q => new Order(q.id, q.order)
 							);
 							this.surveyBuilderService
-								.updateStandardQuestionPartViewOrderEndpoint(
+								.updateStandardQuestionPartViewOrder(
 									this.surveyId,
 									partId,
 									questionsOrder,
 									this.questionBeingEdited.id
 								)
 								.subscribe();
+							if (this.catiEnabled) {
+								questionsOrder = questionPart.questionPartViewChildren.map(
+									q => new Order(q.catiDependent.id, q.order)
+								);
+								this.surveyBuilderService
+									.updateCATIQuestionPartViewOrder(
+										this.surveyId,
+										questionPart.catiDependent.id,
+										questionsOrder,
+										this.questionBeingEdited.catiDependent.id
+									)
+									.subscribe();
+							}
 						}
 					}
 				});
