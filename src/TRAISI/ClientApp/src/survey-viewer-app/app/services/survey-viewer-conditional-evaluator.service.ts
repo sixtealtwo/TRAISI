@@ -1,23 +1,44 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class SurveyViewerConditionalEvaluator {
 	/**
 	 *
 	 * @param _state q
 	 * @param _responderService
 	 */
-	constructor(private _state: SurveyViewerStateService, private _responderService: SurveyResponderService) {}
+	constructor() {}
 
 	/**
-	 * Evalutes all known conditions for the passsed question  id.
 	 *
-	 * This method will return true if one of the conditionals returned true - otherwise false;
-	 * @param questionId
+	 * @param conditionalType
+	 * @param sourceData
+	 * @param targetData
+	 * @param value
 	 */
-	public evaluateConditionals(questionId: number): boolean {
-		return false;
+	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
+		switch (conditionalType) {
+			case 'contains':
+				return this.evaluateContains(sourceData, value);
+			case 'doesNotContain':
+				return !this.evaluateContains(sourceData, value);
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param sourceData
+	 * @param value
+	 */
+	private evaluateContains(sourceData: any, value: string): boolean {
+		const val: boolean = sourceData.value.indexOf(value) >= 0;
+
+		return val;
 	}
 }

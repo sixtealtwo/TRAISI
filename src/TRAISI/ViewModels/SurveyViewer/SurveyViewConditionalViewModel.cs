@@ -9,5 +9,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public int SourceQuestionId { get; set; }
 
         public int TargetQuestionId { get; set; }
+
+        public string Value { get; set; }
     }
 }

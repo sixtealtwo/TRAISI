@@ -167,7 +167,7 @@ export class QuestionLoaderService {
 	 * @param moduleRef
 	 * @param questionType
 	 */
-	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType): ComponentFactory<any> {
+	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType: string): ComponentFactory<any> {
 		const widgets = moduleRef.injector.get('widgets', 'notFound');
 		const resolver = moduleRef.componentFactoryResolver;
 

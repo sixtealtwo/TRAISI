@@ -38,6 +38,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Utilities } from 'shared/services/utilities';
+import { SurveyViewerConditionalEvaluator } from 'app/services/survey-viewer-conditional-evaluator.service';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -72,7 +73,7 @@ interface SpecialPageDataInput {
 			])
 		])
 	],
-	providers: [SurveyViewerStateService, { provide: 'SurveyResponderService', useClass: SurveyResponderService }]
+	providers: []
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public questions: Array<SurveyViewQuestion>;
@@ -213,7 +214,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.setComponentInputs();
 			this.loadedComponents = true;
 		});
+
+		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
+			this.surveyQuestionsChanged();
+		});
 	}
+
+	/**
+	 *
+	 */
+	private surveyQuestionsChanged: () => void = () => {
+		// update the validation based on new survey questions and active question
+
+		console.log('in survey questions changed');
+		this.validateNavigation();
+	};
 
 	private getComponent(componentName: string): any {
 		switch (componentName) {
@@ -249,8 +264,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param pages
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
-		console.log(pages);
-
 		this.questions = [];
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
@@ -262,7 +275,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				question.parentPage = page;
 				question.viewId = Symbol();
 				this.questions.push(question);
-				this.viewerState.questionMap[question.id] = question;
+				this.viewerState.questionMap[question.questionId] = question;
 
 				viewOrder++;
 			});
@@ -271,7 +284,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
-					this.viewerState.questionMap[question.id] = question;
+					this.viewerState.questionMap[question.questionId] = question;
 					question.viewId = Symbol();
 					this.questions.push(question);
 					viewOrder++;

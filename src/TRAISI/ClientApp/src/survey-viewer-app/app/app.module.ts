@@ -51,6 +51,7 @@ import { SafePipe } from 'shared/pipes/safe.pipe';
 import { SurveyViewerState } from './models/survey-viewer-state.model';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
 library.add(faCheckCircle);
 
 @NgModule({
@@ -114,6 +115,9 @@ library.add(faCheckCircle);
 		SurveyViewerEndpointService,
 		ConfigurationService,
 		QuestionLoaderService,
+		SurveyViewerConditionalEvaluator,
+		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
+		SurveyViewerStateService,
 		SurveyResponderEndpointService,
 
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }

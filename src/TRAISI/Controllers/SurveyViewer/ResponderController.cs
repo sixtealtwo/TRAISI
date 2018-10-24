@@ -61,12 +61,7 @@ namespace TRAISI.Controllers.SurveyViewer
 
             bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, respondentId, content);
 
-            if (!success)
-            {
-                return new BadRequestResult();
-            }
-
-            return new OkResult();
+            return new OkObjectResult(success);
         }
 
         /// <summary>
@@ -199,21 +194,13 @@ namespace TRAISI.Controllers.SurveyViewer
             return new OkObjectResult(members);
         }
 
-        [HttpGet]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("questions/respondents/{respondentId}/questions/{currentQuestion}/next")]
-        public async Task<IActionResult> GetNextSurveyQuestion(int currentQuestion, int respondentId)
-        {
-            return new OkObjectResult(this._respondentService.GetNextSurveyQuestion(currentQuestion, respondentId));
-        }
-
 
         [HttpGet]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("questions/respondents/{respondentId}/questions/{currentQuestion}/next")]
-        public async Task<IActionResult> ListSurveyResponsesForQuestionsAsync([FromBody] List<int> questionIds, int respondentId)
+        [Route("questions/respondents/{respondentId}/responses")]
+        public async Task<IActionResult> ListSurveyResponsesForQuestionsAsync([FromHeader] int surveyId, [FromQuery] int[] questionIds, int respondentId)
         {
-            var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(questionIds, respondentId);
+            var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondentId);
 
             return new OkObjectResult(result);
         }
