@@ -138,5 +138,21 @@ namespace DAL.Repositories
 
             return result;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionIds"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent user)
+        {
+            var result = await this._entities.Where(s => s.Respondent == user && questionIds.Contains(s.QuestionPart.Id))
+            .Include(v => v.ResponseValues)
+                .ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).ToList();
+
+            return result;
+        }
     }
+
 }

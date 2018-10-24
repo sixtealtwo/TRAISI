@@ -41,5 +41,13 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, SurveyRespondent user);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="questionIds"></param>
+		/// <param name="user"></param>
+		/// <returns></returns>
+		Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent user);
 	}
 }

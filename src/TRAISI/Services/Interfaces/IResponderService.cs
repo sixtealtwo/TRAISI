@@ -64,5 +64,13 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="respondentId"></param>
 		/// <returns></returns>
 		Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId);
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="questionIds"></param>
+		/// <returns></returns>
+		Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, int respondentId);
 	}
 }

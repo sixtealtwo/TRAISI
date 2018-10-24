@@ -61,7 +61,8 @@ namespace TRAISI.Controllers.SurveyViewer
 
             bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, respondentId, content);
 
-            if (!success) {
+            if (!success)
+            {
                 return new BadRequestResult();
             }
 
@@ -84,7 +85,8 @@ namespace TRAISI.Controllers.SurveyViewer
 
             SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, respondentId, user);
 
-            if (response == null) {
+            if (response == null)
+            {
                 return new ObjectResult(null);
             }
             var mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
@@ -106,7 +108,8 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetResponses(int surveyId, string questionName)
         {
             var responses = await this._respondentService.ListResponses(surveyId, questionName);
-            if (responses != null) {
+            if (responses != null)
+            {
                 return new BadRequestResult();
             }
 
@@ -123,7 +126,8 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
             var responses = await this._respondentService.ListResponsesOfType(surveyId, responseType, user);
-            if (responses == null) {
+            if (responses == null)
+            {
                 return new BadRequestResult();
             }
             var mapped = AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses);
@@ -200,7 +204,18 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("questions/respondents/{respondentId}/questions/{currentQuestion}/next")]
         public async Task<IActionResult> GetNextSurveyQuestion(int currentQuestion, int respondentId)
         {
-            return new OkObjectResult(this._respondentService.GetNextSurveyQuestion(currentQuestion,respondentId));
+            return new OkObjectResult(this._respondentService.GetNextSurveyQuestion(currentQuestion, respondentId));
+        }
+
+
+        [HttpGet]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("questions/respondents/{respondentId}/questions/{currentQuestion}/next")]
+        public async Task<IActionResult> ListSurveyResponsesForQuestionsAsync([FromBody] List<int> questionIds, int respondentId)
+        {
+            var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(questionIds, respondentId);
+
+            return new OkObjectResult(result);
         }
     }
 }

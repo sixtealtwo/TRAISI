@@ -102,7 +102,8 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
                 .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
 
-
+            CreateMap<QuestionConditional, SurveyViewConditionalViewModel>()
+                .ForMember(m => m.ConditionalType, map => map.MapFrom(v => v.Condition));
 
             CreateMap<QuestionPartView, QuestionViewModel>()
                 .ForMember(m => m.QuestionType, map => map.MapFrom(v => v.QuestionPart.QuestionType))
@@ -110,6 +111,16 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.Order, map => map.MapFrom(v => v.Order))
                 .ForMember(m => m.Label, map => map.Ignore())
                 .ForMember(m => m.IsHousehold, map => map.MapFrom(f => f.isHousehold))
+                 .ForMember(m => m.SourceConditionals, map =>
+                 {
+                     map.MapFrom(f => f.QuestionPart.QuestionConditionalsSource);
+                     map.Condition(f => f.QuestionPart != null);
+                 })
+                .ForMember(m => m.TargetConditionals, map =>
+                 {
+                     map.MapFrom(f => f.QuestionPart.QuestionConditionalsTarget);
+                     map.Condition(f => f.QuestionPart != null);
+                 })
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }
@@ -150,6 +161,7 @@ namespace TRAISI.ViewModels
                 .ForMember(o => o.Name, map => map.MapFrom(v => v.Name))
                 .ForMember(o => o.Order, map => map.MapFrom(v => v.Order))
                 .ForMember(o => o.Label, map => map.Ignore())
+
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.QuestionOptionLabels[opt.Items["Language"] as string].Value; }

@@ -60,9 +60,15 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
-					optional: true
-				})
+				query(
+					':self',
+					stagger('1s', [
+						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
+					]),
+					{
+						optional: true
+					}
+				)
 			])
 		])
 	]
@@ -258,12 +264,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param pages
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
+		console.log(pages);
+
 		this.questions = [];
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 		this.viewerState.surveyPages = pages;
-		pages.forEach((page) => {
-			page.questions.forEach((question) => {
+		pages.forEach(page => {
+			page.questions.forEach(question => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
@@ -272,8 +280,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				viewOrder++;
 			});
-			page.sections.forEach((section) => {
-				section.questions.forEach((question) => {
+			page.sections.forEach(section => {
+				section.questions.forEach(question => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
@@ -296,8 +304,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
+				console.log(members);
 				this.viewerState.primaryRespondent = members[0];
 				this.isLoaded = true;
+			} else {
+				console.log(members);
 			}
 		});
 	}
@@ -306,8 +317,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (state: boolean) => {
-		this.navigationActiveState = state;
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
+		this.navigationActiveState = newState;
 		this.validateNavigation();
 	};
 
@@ -374,7 +385,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
+				if (
+					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
+						'onQuestionShown'
+					)
+				) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -472,7 +487,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe((s) => {
+		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {
@@ -489,7 +504,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public ngAfterViewChecked(): void {}
 
-
 	private useDarkButtons(): boolean {
 		return this.pageTextColour !== 'rgb(0,0,0)';
 	}
@@ -500,7 +514,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		} else {
 			return 'rgb(0,0,0)';
 		}
-
 	}
 	private getBestQuestionBodyTextColor(): string {
 		if (this.pageThemeInfo.questionViewerColour) {
