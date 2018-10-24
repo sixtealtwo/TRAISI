@@ -299,6 +299,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.viewerState.surveyQuestions = sortBy(this.questions, ['viewOrder']);
 
+		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
+
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
 
