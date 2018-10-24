@@ -189,10 +189,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether question shown on
 	 */
 	public onQuestionShown(): void {
-		console.log('here on shown');
 		this.mapInstance.subscribe((instance) => {
 			instance.resize();
-			console.log(instance);
 		});
 	}
 	public onQuestionHidden(): void {}
