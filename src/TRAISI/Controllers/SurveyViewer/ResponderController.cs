@@ -65,6 +65,26 @@ namespace TRAISI.Controllers.SurveyViewer
         }
 
         /// <summary>
+        /// Save a new response for the associated user (shortcode)
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="questionId"></param>
+        /// <param name="shortCode"></param>
+        /// <returns></returns>
+        [Produces(typeof(ObjectResult))]
+        [HttpPost]
+        [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/repeat/{repeat}")]
+        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, int respondentId, int repeat, [FromBody] JObject content)
+        {
+
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+
+            bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, respondentId, content);
+
+            return new OkObjectResult(success);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
