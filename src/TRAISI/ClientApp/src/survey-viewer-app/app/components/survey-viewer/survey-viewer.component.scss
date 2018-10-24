@@ -21,16 +21,21 @@
 	align-content: stretch;
 	justify-content: stretch;
 	justify-items: stretch;
-	position: absolute;
+	// position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	top: 0;
+	width: 100%;
+	height: 100%;
+	flex-grow: 1;
 }
 
 .question-section {
 	flex-grow: 1;
 	position: relative;
+	width: 100%;
+	height: 100%;
 }
 
 .question-widget {
@@ -40,7 +45,7 @@
 	bottom: 0;
 	top: 0;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
 }
 
 .group-member-names-section {
