@@ -21,6 +21,11 @@
 	align-content: stretch;
 	justify-content: stretch;
 	justify-items: stretch;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
 }
 
 .question-section {
@@ -34,6 +39,8 @@
 	right: 0;
 	bottom: 0;
 	top: 0;
+	display: flex;
+    flex-direction: column;
 }
 
 .group-member-names-section {
