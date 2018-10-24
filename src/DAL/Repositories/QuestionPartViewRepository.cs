@@ -23,8 +23,10 @@ namespace DAL.Repositories
                     .Where(qp => qp.Id == questionPartViewId)
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
+                    .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                    .Include(sv => sv.QuestionPartViewChildren).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.RepeatSource)
                     .SingleOrDefaultAsync();
             if (questionPartView != null)
@@ -40,8 +42,10 @@ namespace DAL.Repositories
                     .Where(qp => qp.Id == questionPartViewId)
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
+                    .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
+                    .Include(sv => sv.QuestionPartViewChildren).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .SingleOrDefault();
             if (questionPartView != null)
             {

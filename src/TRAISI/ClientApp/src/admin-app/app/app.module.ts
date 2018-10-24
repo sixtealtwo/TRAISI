@@ -36,7 +36,6 @@ import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { TreeviewModule } from 'ngx-treeview';
 import { ContextMenuModule } from 'ngx-contextmenu';
 
@@ -75,8 +74,6 @@ const APP_PROVIDERS = [AppConfig];
 			}
 		}),
 		NgxDatatableModule,
-		FroalaEditorModule.forRoot(),
-		FroalaViewModule.forRoot(),
 		ToastyModule.forRoot(),
 		TooltipModule.forRoot(),
 		PopoverModule.forRoot(),

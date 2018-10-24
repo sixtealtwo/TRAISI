@@ -104,15 +104,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
-	public getUpdateStandardWelcomePageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+	public getUpdateWelcomePageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getUpdateStandardWelcomePageEndpoint(surveyId, welcomePage));
+				return this.handleError(error, () => this.getUpdateWelcomePageEndpoint(surveyId, welcomePage));
 			})
 		);
 	}
+	
 
 	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(
 		surveyId: number,
@@ -141,6 +142,16 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 
 	public getStandardViewPageStructureEndpoint<T>(surveyId: number, language: string): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getStandardViewPageStructureEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	public getCATIViewPageStructureEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/CATI/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
@@ -194,6 +205,38 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.http.put<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getUpdateStandardViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId));
+			})
+		);
+	}
+
+	public getUpdateCATIViewPageOrderEndpoint<T>(surveyId: number, pageOrder: Order[], movedPagedId: number): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/CATI/UpdateOrder/${movedPagedId}`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getUpdateCATIViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId));
+			})
+		);
+	}
+
+	public getCreateCATIViewEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/GenerateCATIView/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getCreateCATIViewEndpoint(surveyId, language)
+				);
+			})
+		);
+	}
+
+	public getDeleteCATIViewEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/DeleteCATIView/${language}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getDeleteCATIViewEndpoint(surveyId, language));
 			})
 		);
 	}

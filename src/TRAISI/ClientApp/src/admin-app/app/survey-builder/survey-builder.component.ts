@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -58,6 +58,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public pageThemeInfo: any = {};
 
+	public catiExists: boolean = false;
+	public enableCATI: boolean = false;
+
+	public catiWelcomePage: WelcomePage = new WelcomePage();
+	public catiTermsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
+	public catiThankYouPage: ThankYouPage = new ThankYouPage();
+
 	public welcomePage: WelcomePage = new WelcomePage();
 	public termsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
 	public thankYouPage: ThankYouPage = new ThankYouPage();
@@ -105,7 +112,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		private surveyService: SurveyService,
 		private authService: AuthService,
 		private route: ActivatedRoute,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private cdRef: ChangeDetectorRef
 	) {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
@@ -114,11 +122,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			});
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
-
-		// initialize to avoid accessing null object
-		this.welcomePage = new WelcomePage();
-		this.termsAndConditionsPage = new TermsAndConditionsPage();
-		this.thankYouPage = new ThankYouPage();
 	}
 
 	ngOnInit() {
@@ -158,9 +161,49 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.welcomePage = page.welcomePage;
 					this.termsAndConditionsPage = page.termsAndConditionsPage;
 					this.thankYouPage = page.surveyCompletionPage;
+					this.catiExists = false;
+					this.enableCATI = false;
+					if (this.allPages.length > 0 && this.allPages[0].catiDependent) {
+						this.catiExists = true;
+						this.enableCATI = false;
+						this.surveyBuilderService
+							.getCATIViewPageStructure(this.surveyId, this.currentLanguage)
+							.subscribe(structure => {
+								this.catiWelcomePage = structure.welcomePage;
+								this.catiTermsAndConditionsPage = structure.termsAndConditionsPage;
+								this.catiThankYouPage = structure.surveyCompletionPage;
+								this.loadedSpecialPages = true;
+							});
+					}
 					this.loadedSpecialPages = true;
 				});
 		});
+	}
+
+	public createCATI(): void {
+		this.surveyBuilderService.createCATIView(this.surveyId, this.currentLanguage).subscribe(catiStructure => {
+			this.loadPageStructure();
+		});
+	}
+
+	public deleteCATI(): void {
+		this.alertService.showDialog(
+			'Are you sure you want to delete the CATI view for this language?',
+			DialogType.confirm,
+			() => {
+				this.surveyBuilderService.deleteCATIView(this.surveyId, this.currentLanguage).subscribe(result => {
+					this.loadPageStructure();
+				});
+			}
+		);
+	}
+
+	public refreshSpecialPage(): void {
+		/*this.loadedSpecialPages = false;
+		setTimeout(() => {
+			this.loadedSpecialPages = true;
+		}, 100);
+		//this.cdRef.detectChanges();*/
 	}
 
 	mapQuestionTypeDefinitions() {
@@ -171,7 +214,14 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveWelcomePage(showMessage: boolean) {
 		this.welcomeEditor.updatePageData();
-		this.surveyBuilderService.updateStandardWelcomePage(this.surveyId, this.welcomePage).subscribe(
+		let wPage: WelcomePage;
+		if (this.enableCATI) {
+			wPage = this.catiWelcomePage;
+		} else {
+			wPage = this.welcomePage;
+		}
+
+		this.surveyBuilderService.updateWelcomePage(this.surveyId, wPage).subscribe(
 			result => {
 				if (showMessage) {
 					this.alertService.showMessage(
@@ -188,20 +238,24 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveTAndCPage(showMessage: boolean) {
 		this.privacyPolicyEditor.updatePageData();
-		this.surveyBuilderService
-			.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
-			.subscribe(
-				result => {
-					if (showMessage) {
-						this.alertService.showMessage(
-							'Success',
-							`Terms and conditions page was saved successfully!`,
-							MessageSeverity.success
-						);
-					}
-				},
-				error => {}
-			);
+		let tcPage: TermsAndConditionsPage;
+		if (this.enableCATI) {
+			tcPage = this.catiTermsAndConditionsPage;
+		} else {
+			tcPage = this.termsAndConditionsPage;
+		}
+		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, tcPage).subscribe(
+			result => {
+				if (showMessage) {
+					this.alertService.showMessage(
+						'Success',
+						`Terms and conditions page was saved successfully!`,
+						MessageSeverity.success
+					);
+				}
+			},
+			error => {}
+		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
@@ -223,7 +277,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	saveThankYouPage(showMessage: boolean) {
 		this.thankYouEditor.updatePageData();
-		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, this.thankYouPage).subscribe(
+		let tPage: ThankYouPage;
+		if (this.enableCATI) {
+			tPage = this.catiThankYouPage;
+		} else {
+			tPage = this.thankYouPage;
+		}
+		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, tPage).subscribe(
 			result => {
 				if (showMessage) {
 					this.alertService.showMessage(
@@ -236,22 +296,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			error => {}
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
-	}
-
-	saveMandatoryPages(e, editor, data) {
-		if (this.currentPage === 'welcome') {
-			this.surveyBuilderService
-				.updateStandardWelcomePage(this.surveyId, this.welcomePage)
-				.subscribe(result => {}, error => {});
-		} else if (this.currentPage === 'termsAndConditions') {
-			this.surveyBuilderService
-				.updateStandardTermsAndConditionsPage(this.surveyId, this.termsAndConditionsPage)
-				.subscribe(result => {}, error => {});
-		} else if (this.currentPage === 'thank-you') {
-			this.surveyBuilderService
-				.updateStandardThankYouPage(this.surveyId, this.thankYouPage)
-				.subscribe(result => {}, error => {});
-		}
 	}
 
 	resetThemeColors() {
@@ -314,7 +358,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 								this.surveyPage.partsLeftToLoad--;
 							});
 					}
-
 				});
 				this.loadedIndividualPage = true;
 			});
@@ -334,6 +377,11 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	savePage(): void {
+		// set cati label as the same as standard
+		if (this.catiExists) {
+			this.currentSurveyPageEdit.catiDependent.label.value = this.currentSurveyPageEdit.label.value;
+		}
+
 		this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.currentSurveyPageEdit).subscribe(
 			result => {
 				Object.assign(this.currentSurveyPage, this.currentSurveyPageEdit);
@@ -381,6 +429,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	createPage(title: string, icon: string): void {
 		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
 		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, icon);
+
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
 			result => {
 				this.loadPageStructure();
@@ -453,6 +502,17 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 									this.surveyPage.updateFullStructure(true);
 								}
 							);
+						if (this.catiExists) {
+							pagesOrder = this.allPages.map(ap => new Order(ap.catiDependent.id, ap.order));
+							this.surveyBuilderService
+								.updateCATIViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
+								.subscribe(
+									result => {},
+									error => {
+										this.allPages = pageCache;
+									}
+								);
+						}
 					}
 					this.dragResult = undefined;
 				});
@@ -477,7 +537,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			$('.page-controls').addClass('hide-using-height');
 			$('.navbar-brand').addClass('invisible');
 			$('.content').addClass('eliminate-content-padding');
-			$('.tab-pane').css('margin-top', '-30px');
+			$('.tab-pane').css('margin-top', '-49px');
 			$('.tab-pane').addClass('remove-padding');
 			$('.nav').addClass('hide-using-height');
 			$('.sidebar-toggle-button').addClass('invisible');

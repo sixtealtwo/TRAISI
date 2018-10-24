@@ -44,8 +44,6 @@
 							"src/shared/assets/scss/alertify.core.css",
 							"src/shared/assets/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/min/dropzone.min.css",
-							"node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-							"node_modules/froala-editor/css/froala_style.min.css",
 							"node_modules/mapbox-gl/dist/mapbox-gl.css",
 							"node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
 							"node_modules/quill/dist/quill.core.css",
@@ -63,7 +61,6 @@
 							"src/admin-app/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
 							"node_modules/systemjs/dist/system.js",
-							"node_modules/froala-editor/js/froala_editor.pkgd.min.js",
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js",
 							"node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js"
@@ -138,8 +135,6 @@
 							"src/admin-app/scss/alertify.core.css",
 							"src/admin-app/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/min/dropzone.min.css",
-							"node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-							"node_modules/froala-editor/css/froala_style.min.css",
 							"node_modules/mapbox-gl/dist/mapbox-gl.css"
 						],
 						"scripts": [
@@ -152,7 +147,6 @@
 							"src/admin-app/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
 							"node_modules/systemjs/dist/system.js",
-							"node_modules/froala-editor/js/froala_editor.pkgd.min.js",
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js"
 						],

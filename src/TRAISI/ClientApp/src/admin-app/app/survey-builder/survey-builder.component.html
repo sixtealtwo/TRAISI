@@ -1,13 +1,16 @@
 <div>
-	<div class="survey-builder-header">
-		<!--<h1>Design Survey - <strong>{{ survey.name }}</strong></h1>-->
-
-		<div class="survey-builder-header-preview">
-			<a class="badge badge-primary" href="javascript:;" (click)="previewSurvey($event)">
-				<!--(click)="previewSurvey($event,row)"-->
-				<i class="far fa-eye" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</a>
+	<div class="row mb-3 survey-builder-header">
+		<div class="col-12">
+			<div class="pull-left">
+				<button class="btn btn-primary" href="javascript:;" (click)="previewSurvey($event)">
+					<!--(click)="previewSurvey($event,row)"-->
+					<i class="far fa-eye" aria-hidden="true"></i> {{'surveys.management.View' | translate}}</button>
+			</div>
+			<div class="pull-right" *ngIf="allPages.length > 0">
+				<button *ngIf="!catiExists" (click)="createCATI()" class="btn btn-primary">Enable CATI</button>
+				<button *ngIf="catiExists" (click)="deleteCATI()" class="btn btn-danger">Delete CATI</button>
+			</div>
 		</div>
-
 	</div>
 	<div role="navigation" id="builderSidebar" class="sidebar order-correct">
 		<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded" [disabled]="currentPage != 'surveyPage'"
@@ -55,42 +58,51 @@
 	</div>
 	<div [@fadeInOut] class="tab-content mb-lg" id="pageTabContent">
 		<div role="tabpanel" class="tab-pane active in clearfix" id="welcome" aria-labelledby="welcome-tab" aria-expanded="true">
-			<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages && currentPage == 'welcome'" [previewMode]="welcomePagePreview"
+			<app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages && currentPage == 'welcome' && !enableCATI" [previewMode]="welcomePagePreview"
 			 [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="welcomePage.value"></app-special-page-builder>
+			 <app-special-page-builder #welcomeEditor *ngIf="loadedSpecialPages && currentPage == 'welcome' && enableCATI" [previewMode]="welcomePagePreview"
+			 [pageType]="'welcome'" (forceSave)="saveWelcomePage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="catiWelcomePage.value"></app-special-page-builder>
 			<div class="row">
 				<div class="col-md-12">
 					<hr class="separator-hr" />
 				</div>
 			</div>
 			<div class="row justify-content-center mt-3 p-3 special-page-save fixed-bottom bg-dark">
-				<div class="col d-none d-sm-block"></div>
+				<div class="col">
+				</div>
 				<div class="col text-center">
 					<button [hidden]="welcomePagePreview.value" class="btn btn-secondary" (click)="saveWelcomePage(true)">
 						Save Page
 					</button>
 				</div>
-				<div class="col pull-right text-right">
-					<ngx-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="welcomePagePreview.value"
+				<div class="col text-right">
+						<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary" onText="CATI" offText="Standard" [(value)]="enableCATI"></ngx-toggle>
+					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="welcomePagePreview.value"
 					 (valueChange)="toggleSidebarForPreview()"></ngx-toggle>
 				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="tAndC" aria-labelledby="tAndC-tab" aria-expanded="true">
-			<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages && currentPage == 'privacyPolicy'" [previewMode]="privacyPagePreview"
+			<app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages && currentPage == 'privacyPolicy' && !enableCATI" [previewMode]="privacyPagePreview"
 			 [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="termsAndConditionsPage.value"></app-special-page-builder>
+			 <app-special-page-builder #privacyPolicyEditor *ngIf="loadedSpecialPages && currentPage == 'privacyPolicy' && enableCATI" [previewMode]="privacyPagePreview"
+			 [pageType]="'privacyPolicy'" (forceSave)="saveTAndCPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="catiTermsAndConditionsPage.value"></app-special-page-builder>
 			<div class="row">
 				<div class="col-md-12">
 					<hr class="separator-hr" />
 				</div>
 			</div>
 			<div class="row justify-content-center mt-3 p-3 special-page-save fixed-bottom bg-dark">
-				<div class="col"></div>
+					<div class="col">
+					</div>
 				<div class="col text-center">
 					<button [hidden]="welcomePagePreview.value" class="btn btn-secondary" (click)="saveTAndCPage(true)">
 						Save Page
 					</button>
 				</div>
 				<div class="col pull-right text-right">
+						<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary" onText="CATI" offText="Standard" [(value)]="enableCATI" (valueChange)="refreshSpecialPage()"></ngx-toggle>
+				
 					<ngx-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="privacyPagePreview.value"
 					 (valueChange)="toggleSidebarForPreview()"></ngx-toggle>
 				</div>
@@ -113,14 +125,14 @@
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="questionViewerPreview.value"
+					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="questionViewerPreview.value"
 					 (valueChange)="toggleSidebarForPreview()"></ngx-toggle>
 				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
 			<app-nested-drag-and-drop-list *ngIf="loadedSpecialPages && currentPage == 'surveyPage'" [(householdAdded)]="householdAdded"
-			 [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId" [currentLanguage]="currentLanguage" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
+			 [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId" [currentLanguage]="currentLanguage" [catiEnabled]="catiExists" #surveyPageDragAndDrop></app-nested-drag-and-drop-list>
 			<br />
 			<div class="row">
 				<div class="col-md-12">
@@ -133,22 +145,27 @@
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="thankYou" aria-labelledby="thankYou-tab" aria-expanded="true">
-			<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages && currentPage == 'thankYou'" [previewMode]="thankYouPagePreview"
+			<app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages && currentPage == 'thankYou' && !enableCATI" [previewMode]="thankYouPagePreview"
 			 [pageType]="'thankYou'" (forceSave)="saveThankYouPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="thankYouPage.value"></app-special-page-builder>
+			 <app-special-page-builder #thankYouEditor *ngIf="loadedSpecialPages && currentPage == 'thankYou' && enableCATI" [previewMode]="thankYouPagePreview"
+			 [pageType]="'thankYou'" (forceSave)="saveThankYouPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="catiThankYouPage.value"></app-special-page-builder>
 			<div class="row">
 				<div class="col-md-12">
 					<hr class="separator-hr" />
 				</div>
 			</div>
 			<div class="row justify-content-center mt-3 p-3 special-page-save fixed-bottom bg-dark">
-				<div class="col"></div>
+					<div class="col">
+					</div>
 				<div class="col text-center">
 					<button [hidden]="welcomePagePreview.value" class="btn btn-secondary" (click)="saveThankYouPage(true)">
 						Save Page
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="thankYouPagePreview.value"
+						<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary" onText="CATI" offText="Standard" [(value)]="enableCATI"></ngx-toggle>
+			
+					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="thankYouPagePreview.value"
 					 (valueChange)="toggleSidebarForPreview()"></ngx-toggle>
 				</div>
 			</div>
@@ -181,8 +198,8 @@
 						<div class="form-group row">
 							<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
 							<div class="col-md-5">
-									<button type="button" class="btn btn-primary" [iconPicker]="newPageIcon" (iconPickerSelect)="newPageIcon = $event" name="pageIcon"  [ipPosition]="'bottom'"
-									 [ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i [ngClass]="newPageIcon"></i></button>
+								<button type="button" class="btn btn-primary" [iconPicker]="newPageIcon" (iconPickerSelect)="newPageIcon = $event" name="pageIcon"
+								 [ipPosition]="'bottom'" [ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i [ngClass]="newPageIcon"></i></button>
 							</div>
 						</div>
 						<div class="row">
@@ -232,8 +249,9 @@
 					<div class="form-group row">
 						<label for="normal-field" class="col-md-4  col-form-label text-md-right">Icon</label>
 						<div class="col-md-5">
-								<button type="button" class="btn btn-primary icon-picker-button" [iconPicker]="currentSurveyPageEdit.icon" (iconPickerSelect)="currentSurveyPageEdit.icon = $event" name="pageIcon"  [ipPosition]="'bottom'"
-								[ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i [ngClass]="currentSurveyPageEdit.icon"></i></button>
+							<button type="button" class="btn btn-primary icon-picker-button" [iconPicker]="currentSurveyPageEdit.icon" (iconPickerSelect)="currentSurveyPageEdit.icon = $event"
+							 name="pageIcon" [ipPosition]="'bottom'" [ipPlaceHolder]="'Select Icon'" [ipFallbackIcon]="'fa fa-info'"><i
+								 [ngClass]="currentSurveyPageEdit.icon"></i></button>
 						</div>
 
 					</div>

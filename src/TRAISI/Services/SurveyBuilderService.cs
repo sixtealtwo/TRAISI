@@ -98,9 +98,10 @@ namespace TRAISI.Services
 
                 if (structureExists)
                 {
-                    foreach (var page in targetView.QuestionPartViews)
+                    foreach (var sourcePage in sourceView.QuestionPartViews)
                     {
-                        page.Labels[language] = new QuestionPartViewLabel { Value = null };
+                        var page = sourcePage.CATIDependent;
+                        page.Labels[language] = new QuestionPartViewLabel { Value = sourcePage.Labels[language].Value };
                         foreach (var question in page.QuestionPartViewChildren)
                         {
                             question.Labels[language] = new QuestionPartViewLabel { Value = null };
@@ -120,8 +121,9 @@ namespace TRAISI.Services
                             Order = page.Order,
                             Icon = page.Icon
                         };
+                        page.CATIDependent = targetPage;
                         targetView.QuestionPartViews.Add(targetPage);
-                        targetPage.Labels[language] = new QuestionPartViewLabel { Value = null };
+                        targetPage.Labels[language] = new QuestionPartViewLabel { Value = page.Labels[language].Value };
                         foreach (var question in page.QuestionPartViewChildren)
                         {
                             QuestionPartView targetQuestion = new QuestionPartView
@@ -132,6 +134,7 @@ namespace TRAISI.Services
                                 RepeatSource = question.RepeatSource,
                                 QuestionPart = question.QuestionPart
                             };
+                            question.CATIDependent = targetQuestion;
                             targetPage.QuestionPartViewChildren.Add(targetQuestion);
                             targetQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
                             foreach (var subQuestion in question.QuestionPartViewChildren)
@@ -143,6 +146,7 @@ namespace TRAISI.Services
                                     RepeatSource = subQuestion.RepeatSource,
                                     QuestionPart = subQuestion.QuestionPart
                                 };
+                                subQuestion.CATIDependent = targetSubQuestion;
                                 targetQuestion.QuestionPartViewChildren.Add(targetSubQuestion);
                                 targetSubQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
                             }
@@ -150,6 +154,30 @@ namespace TRAISI.Services
                     }
                 }
             }
+        }
+
+
+        public bool DeleteCATITranslation(SurveyView surveyView, string language)
+        {
+            if (surveyView.WelcomePageLabels.Where(l => l.Language == language).Any())
+            {
+                surveyView.WelcomePageLabels.RemoveWhere(l => l.Language == language);
+                surveyView.TermsAndConditionsLabels.RemoveWhere(l => l.Language == language);
+                surveyView.ThankYouPageLabels.RemoveWhere(l => l.Language == language);
+                foreach (var page in surveyView.QuestionPartViews)
+                {
+                    page.Labels.RemoveWhere(l => l.Language == language);
+                    foreach (var question in page.QuestionPartViewChildren)
+                    {
+                        question.Labels.RemoveWhere(l => l.Language == language);
+                        foreach (var subQuestion in question.QuestionPartViewChildren)
+                        {
+                            subQuestion.Labels.RemoveWhere(l => l.Language == language);
+                        }
+                    }
+                }
+            }
+            return surveyView.WelcomePageLabels.Any();
         }
 
         /// <summary>
@@ -605,6 +633,12 @@ namespace TRAISI.Services
             var childIds = pageData.QuestionPartViewChildren.Select(q => q.Id).ToList();
             childIds.ForEach(id => this.RemoveQuestionPartView(pageData, id, false));
             view.QuestionPartViews.Remove(toDelete);
+
+            if (toDelete.CATIDependent != null)
+            {
+                var catiView = this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructure(view.SurveyId, "CATI");
+                this.RemoveSurveyPage(catiView, toDelete.CATIDependent.Id);
+            }
         }
 
         public void ReOrderPages(SurveyView view, List<QuestionPartView> newOrder)
@@ -677,6 +711,10 @@ namespace TRAISI.Services
                     {
                         this.RemoveQuestionPartView(toDelete, child.Id, false);
                     }
+                }
+                if (toDelete.CATIDependent != null)
+                {
+                    this.RemoveQuestionPartView(questionPartView.CATIDependent, toDelete.CATIDependent.Id, transfer);
                 }
             }
         }

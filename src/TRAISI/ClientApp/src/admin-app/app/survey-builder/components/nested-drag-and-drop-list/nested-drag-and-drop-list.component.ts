@@ -53,6 +53,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	@Input()
 	public currentLanguage: string;
 	@Input()
+	public catiEnabled: boolean;
+	@Input()
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition>;
 
 	@Input()
@@ -64,6 +66,12 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	configurationModal: ModalDirective;
 	@ViewChild('qConfiguration')
 	qConfiguration: QuestionConfigurationComponent;
+
+
+	@HostListener('touchmove', ['$event'])
+  public onTouchMove(e: MouseEvent) {
+		//e.preventDefault();
+	}
 
 	constructor(
 		private alertService: AlertService,
@@ -87,7 +95,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+		// this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
 	}
 
 	public updateFullStructure(forceUpdate: boolean = false): void {
@@ -111,7 +119,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		let pageIndex: number = 0;
 
 		while (this.fullStructure[pageIndex].text !== this.currentPage.label.value) {
-			this.startingNumber += this.fullStructure[pageIndex++].children.length;
+			if (this.fullStructure[pageIndex].children) {
+				this.startingNumber += this.fullStructure[pageIndex].children.length;
+			}
+			pageIndex++;
 		}
 	}
 
@@ -211,6 +222,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 		let newQPartLabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, '', this.currentLanguage);
 		let newQPartView: QuestionPartView = new QuestionPartView(0, newQPartLabel, null, 0, [], 0, newQPart);
+		if (this.catiEnabled) {
+			let newCatiQPartLabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, '', this.currentLanguage);
+			newQPartView.catiDependent = new QuestionPartView(0, newCatiQPartLabel);
+		}
 		return newQPartView;
 	}
 
@@ -219,8 +234,13 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			.addStandardQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
 			.subscribe(
 				newQuestion => {
+					this.dragResult.unsubscribe();
 					newPartView.id = newQuestion.id;
 					newPartView.parentViewId = newQuestion.parentViewId;
+					if (newQuestion.catiDependent) {
+						newPartView.catiDependent.id = newQuestion.catiDependent.id;
+						newPartView.catiDependent.parentViewId = newQuestion.catiDependent.parentViewId;
+					}
 					if (
 						(newQuestion.questionPart === undefined || newQuestion.questionPart === null) &&
 						!this.qPartQuestions.has(newQuestion.id)
@@ -567,16 +587,17 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			let pageQuestionsCache = [...this.currentPage.questionPartViewChildren];
 			this.proceedWithDrop(dropResult);
 			this.dragResult.subscribe(proceed => {
-				this.dragResult.unsubscribe();
 				if (proceed === false) {
 					this.currentPage.questionPartViewChildren = pageQuestionsCache;
 					this.questionBeingEdited = undefined;
+					this.dragResult.unsubscribe();
 				} else if (dropResult.addedIndex !== null) {
 					this.updateQuestionOrder(this.currentPage);
 					if (dropResult.removedIndex === null && dropResult.addedIndex !== null) {
 						this.questionBeingEdited.order = dropResult.addedIndex;
 						this.addNewQuestionPartView(this.questionBeingEdited, this.currentPage, false);
 					} else if (dropResult.addedIndex !== null) {
+						this.dragResult.unsubscribe();
 						let questionsOrder: Order[] = this.currentPage.questionPartViewChildren.map(
 							q => new Order(q.id, q.order)
 						);

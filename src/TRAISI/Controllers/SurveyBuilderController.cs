@@ -71,24 +71,55 @@ namespace TRAISI.Controllers
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="language"></param>
-        /// <returns></returns>
+        /// <returns>Updated Standard View with Dependent Links</returns>
         [HttpGet("{surveyId}/GenerateCATIView/{language}")]
         [Produces(typeof(SBSurveyViewViewModel))]
         public async Task<IActionResult> GenerateCATIView(int surveyId, string language)
         {
-            var supportedLanguages = this._localizationOptions.Value.SupportedCultures;
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var supportedLanguages = this._localizationOptions.Value.SupportedCultures.Select(c => c.Name);
+            if (supportedLanguages.Contains(language))
+            {
+                var survey = await this._unitOfWork.Surveys.GetSurveyLabelsAndPartsAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    // get current standard view structure to duplicate
+                    SurveyView standardSurveyStructure = survey.SurveyViews.Where(v => v.ViewName == "Standard").SingleOrDefault(); //this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, "Standard");
+                    // add CATI or get existing view
+                    SurveyView catiView = this._surveyBuilderService.AddSurveyView(survey, "CATI");
+                    // duplicate structure and create labels for language
+                    this._surveyBuilderService.DuplicateSurveyViewStructure(standardSurveyStructure, catiView, language);
+                    // save to database
+                    await this._unitOfWork.SaveChangesAsync();
+                    return Ok(standardSurveyStructure.ToLocalizedModel<SBSurveyViewViewModel>(language));
+                }
+                else
+                {
+                    return BadRequest("Insufficient privileges.");
+                }
+            }
+            else
+            {
+                return BadRequest("Incorrect language.");
+            }
+        }
+
+        [HttpDelete("{surveyId}/DeleteCATIView/{language}")]
+        public async Task<IActionResult> DeleteCATIView(int surveyId, string language)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyLabelsAndPartsAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 // get current standard view structure to duplicate
-                SurveyView standardSurveyStructure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, "Standard");
+                SurveyView CATISurveyStructure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, "CATI");
                 // add CATI or get existing view
-                SurveyView catiView = this._surveyBuilderService.AddSurveyView(survey, "CATI");
-                // duplicate structure and create labels for language
-                this._surveyBuilderService.DuplicateSurveyViewStructure(standardSurveyStructure, catiView, language);
+                bool keepView = this._surveyBuilderService.DeleteCATITranslation(CATISurveyStructure, language);
+                if (!keepView)
+                {
+                    this._unitOfWork.SurveyViews.Remove(CATISurveyStructure);
+                }
                 // save to database
                 await this._unitOfWork.SaveChangesAsync();
-                return Ok(catiView.ToLocalizedModel<SBSurveyViewViewModel>(language));
+                return Ok();
             }
             else
             {
@@ -123,6 +154,7 @@ namespace TRAISI.Controllers
                 this._surveyBuilderService.ReOrderPages(surveyPageStructure, newOrder);
                 await this._unitOfWork.SaveChangesAsync();
                 var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
+
                 var page = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(pageViewId);
                 if (page.QuestionPartViewChildren.Count > 0)
                 {
@@ -193,6 +225,25 @@ namespace TRAISI.Controllers
                         question.Order = questionInfo.Order;
                     }
                     this._surveyBuilderService.AddQuestionPartView(parentPartView, question);
+                    if (question.CATIDependent != null)
+                    {
+                        question.CATIDependent.Icon = question.Icon;
+                        question.CATIDependent.isHousehold = question.isHousehold;
+                        question.CATIDependent.isOptional = question.isOptional;
+                        question.CATIDependent.Order = question.Order;
+                        question.CATIDependent.ParentView = parentPartView.CATIDependent;
+                        question.CATIDependent.QuestionPart = question.QuestionPart;
+                        question.CATIDependent.RepeatSource = question.RepeatSource;
+                        question.CATIDependent.Labels = new LabelCollection<QuestionPartViewLabel>()
+                            {
+                                new QuestionPartViewLabel()
+                                {
+                                  Language = initialLanguage,
+                                  Value = questionInfo.CATIDependent.Label.Value
+                                }
+                            };
+                        this._surveyBuilderService.AddQuestionPartView(question.CATIDependent.ParentView, question.CATIDependent);
+                    }
                     await this._unitOfWork.SaveChangesAsync();
                     if (fixConditionals)
                     {
@@ -245,12 +296,19 @@ namespace TRAISI.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
                     try
                     {
+                        var questionPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.Id);
                         this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
                         this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
                         this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
+
+                        if (updatedQPartView.CATIDependent != null) {
+                            var catiConnectedQPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.CATIDependent.Id);
+                            this._surveyBuilderService.UpdateQuestionPartViewOptions(catiConnectedQPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
+                            this._surveyBuilderService.SetQuestionPartViewLabel(catiConnectedQPartView, updatedQPartView.CATIDependent.Label.Value, updatedQPartView.Label.Language);
+                        }
+
                         await this._unitOfWork.SaveChangesAsync();
                         return new OkResult();
                     }
@@ -778,6 +836,30 @@ namespace TRAISI.Controllers
                         }
                     };
                     this._surveyBuilderService.AddSurveyPage(surveyView, newPage);
+
+                    if (surveyViewName != "CATI")
+                    {
+                        var catiView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, "CATI");
+                        if (catiView != null)
+                        {
+                            newPage.CATIDependent = new QuestionPartView
+                            {
+                                Icon = newPage.Icon,
+                                Order = newPage.Order,
+                                Labels = new LabelCollection<QuestionPartViewLabel>()
+                            {
+                                new QuestionPartViewLabel()
+                                {
+                                    Language = initialLanguage,
+                                    Value = pageInfo.Label.Value
+                                }
+                            }
+                            };
+
+                            this._surveyBuilderService.AddSurveyPage(catiView, newPage.CATIDependent);
+                        }
+                    }
+              
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }

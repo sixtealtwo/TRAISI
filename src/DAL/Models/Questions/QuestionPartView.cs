@@ -59,6 +59,8 @@ namespace DAL.Models.Questions
 
         public string Icon { get; set; }
 
+        public QuestionPartView CATIDependent { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

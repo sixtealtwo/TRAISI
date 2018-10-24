@@ -38,7 +38,6 @@
 		"@ngx-translate/core": "^10.0.2",
 		"@swimlane/ngx-datatable": "^13.1.0",
 		"amazing-time-picker": "^1.5.3",
-		"angular-froala-wysiwyg": "^2.8.4",
 		"angular2-datatable": "0.6.0",
 		"angular2-draggable": "^2.1.4",
 		"angular2-text-mask": "9.0.0",

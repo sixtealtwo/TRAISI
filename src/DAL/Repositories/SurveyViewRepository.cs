@@ -54,10 +54,30 @@ namespace DAL.Repositories {
 					.Include(sv => sv.ThankYouPageLabels)
 					.Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
 					.Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
-					.SingleOrDefaultAsync();
-			surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
-			return surveyView;
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
+                    .SingleOrDefaultAsync();
+            if (surveyView != null)
+            {
+                surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
+            }
+            return surveyView;
 		}
+
+        public SurveyView GetSurveyViewWithPagesStructure(int surveyId, string viewName)
+        {
+            var allviews = _appContext.SurveyViews.ToList();
+            var surveyView = _appContext.SurveyViews
+                    .Where(sv => sv.ViewName == viewName && sv.Survey.Id == surveyId)
+                    .Include(sv => sv.WelcomePageLabels)
+                    .Include(sv => sv.TermsAndConditionsLabels)
+                    .Include(sv => sv.ThankYouPageLabels)
+                    .Include(sv => sv.Survey).ThenInclude(s => s.TitleLabels)
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.Labels)
+                    .Include(sv => sv.QuestionPartViews).ThenInclude(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
+                    .SingleOrDefault();
+            surveyView.QuestionPartViews = surveyView.QuestionPartViews.OrderBy(qp => qp.Order).ToList();
+            return surveyView;
+        }
 
         public SurveyView GetSurveyViewQuestionAndOptionStructure(int surveyId, string viewName)
         {

@@ -34,12 +34,20 @@ export class SurveyBuilderService {
 		}));
 	}
 
-	public deleteUploadedFile(filePath: UploadPath) {
+	public deleteUploadedFile(filePath: UploadPath): Observable<UploadPath> {
 		return this.surveyBuilderEndpointService.getDeleteUploadedFileEndopint<UploadPath>(filePath);
 	}
 
 	public getSurveyStyles(surveyId: number): Observable<string> {
 		return this.surveyBuilderEndpointService.getSurveyStylesEndpoint<string>(surveyId);
+	}
+
+	public createCATIView(surveyId: number, language: string): Observable<SurveyViewStructure> {
+		return this.surveyBuilderEndpointService.getCreateCATIViewEndpoint<SurveyViewStructure>(surveyId, language);
+	}
+
+	public deleteCATIView(surveyId: number, language: string): Observable<SurveyViewStructure> {
+		return this.surveyBuilderEndpointService.getDeleteCATIViewEndpoint<SurveyViewStructure>(surveyId, language);
 	}
 
 	public getStandardWelcomePage(surveyId: number, language: string): Observable<WelcomePage> {
@@ -61,8 +69,8 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService.getUpdateSurveyStylesEndpoint<string>(surveyId, updatedStyles);
 	}
 
-	public updateStandardWelcomePage(surveyId: number, welcomePage: WelcomePage) {
-		return this.surveyBuilderEndpointService.getUpdateStandardWelcomePageEndpoint<WelcomePage>(
+	public updateWelcomePage(surveyId: number, welcomePage: WelcomePage) {
+		return this.surveyBuilderEndpointService.getUpdateWelcomePageEndpoint<WelcomePage>(
 			surveyId,
 			welcomePage
 		);
@@ -83,6 +91,13 @@ export class SurveyBuilderService {
 
 	public getStandardViewPageStructure(surveyId: number, language: string): Observable<SurveyViewStructure> {
 		return this.surveyBuilderEndpointService.getStandardViewPageStructureEndpoint<SurveyViewStructure>(
+			surveyId,
+			language
+		);
+	}
+
+	public getCATIViewPageStructure(surveyId: number, language: string): Observable<SurveyViewStructure> {
+		return this.surveyBuilderEndpointService.getCATIViewPageStructureEndpoint<SurveyViewStructure>(
 			surveyId,
 			language
 		);
@@ -139,6 +154,10 @@ export class SurveyBuilderService {
 
 	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[], movedPagedId: number) {
 		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder, movedPagedId);
+	}
+
+	public updateCATIViewPageOrder(surveyId: number, pageOrder: Order[], movedPagedId: number) {
+		return this.surveyBuilderEndpointService.getUpdateCATIViewPageOrderEndpoint<Order[]>(surveyId, pageOrder, movedPagedId);
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {

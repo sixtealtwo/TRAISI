@@ -30,11 +30,14 @@ namespace DAL.Repositories.Interfaces
 
         Task<Survey> GetSurveyByCodeFullAsync(string code);
 
+        Task<Survey> GetSurveyLabelsAndPartsAsync(int surveyId);
+
         Task<Survey> GetSurveyFullAsync(int surveyId);
 
         Task<Survey> GetSurveyFullExportAsync(int surveyId);
 
         Task<Survey> GetSurveyForShortcode(string shortcode);
+
 
         bool QuestionNameIsUnique(int surveyId, string name, string oldName);
 

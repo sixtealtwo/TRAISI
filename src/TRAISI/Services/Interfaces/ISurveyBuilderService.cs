@@ -17,6 +17,14 @@ namespace TRAISI.Services.Interfaces
 
         void DuplicateSurveyViewStructure(SurveyView sourceView, SurveyView targetView, string language);
 
+        /// <summary>
+        /// Deletes a CAIT translation from a view. Returns true if CATI view has other languages.
+        /// </summary>
+        /// <param name="surveyView"></param>
+        /// <param name="language"></param>
+        /// <returns>True if CATI view has other languages.  False if empty</returns>
+        bool DeleteCATITranslation(SurveyView surveyView, string language);
+
         QuestionConfiguration SetQuestionConfiguration(QuestionPart questionPart, string name, object value);
 
         QuestionOption SetQuestionOptionLabel(QuestionPart questionPart, int id, string code, string name, string value, string language);

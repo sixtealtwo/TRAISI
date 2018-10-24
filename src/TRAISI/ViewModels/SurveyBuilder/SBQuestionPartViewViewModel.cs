@@ -22,6 +22,8 @@ namespace TRAISI.ViewModels.SurveyBuilder
         public string repeatSourceQuestionName { get; set; }
 
         public string Icon { get; set; }
+
+        public SBQuestionPartViewViewModel CATIDependent { get; set; }
     }
 
     public class SBQuestionPartViewViewModelValidator : AbstractValidator<SBQuestionPartViewViewModel>
