@@ -62,6 +62,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		super();
 		this.icon = 'map';
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
+
+		this.displayClass = 'view-full';
 	}
 
 	public ngOnInit(): void {

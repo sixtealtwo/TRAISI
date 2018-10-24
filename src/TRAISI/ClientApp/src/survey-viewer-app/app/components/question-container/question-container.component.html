@@ -1,11 +1,10 @@
-<section class="widget  border-primary mb-3 question-widget">
+<section class="widget  border-primary mb-3 question-widget" [ngClass]="displayClass">
 	<header class="question-header">
 		<span class="question-validation">
-				<fa-icon [icon]="['far','check-circle']" class="validation-icon"
-
-				[ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE,
+			<fa-icon [icon]="['far','check-circle']" class="validation-icon" [ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE,
 				'invalid':responseValidationState == validationStates.INVALID,
-							'valid': responseValidationState == validationStates.VALID}"  size="lg"></fa-icon>
+							'valid': responseValidationState == validationStates.VALID}"
+			 size="lg"></fa-icon>
 		</span>
 		<span class="question-index badge badge-pill badge-secondary">
 			Q{{ questionIndex+1 }}

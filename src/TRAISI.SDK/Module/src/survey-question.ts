@@ -52,6 +52,8 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public pageIndex?: number;
 
+	public displayClass: string = 'view-compact';
+
 	/**
 	 *
 	 *

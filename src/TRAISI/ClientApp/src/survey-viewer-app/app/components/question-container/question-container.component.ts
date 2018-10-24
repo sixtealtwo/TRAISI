@@ -76,6 +76,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public responseValidationState: ResponseValidationState;
 
+	public displayClass: string = 'view-compact';
+
 	/**
 	 * Creates an instance of question container component.
 	 * @param questionLoaderService
@@ -125,6 +127,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				(<SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
 
+				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();
 
 				this._responderService.registerQuestion(
@@ -139,7 +142,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._responderService
 					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id)
-					.subscribe(response => {
+					.subscribe((response) => {
 						surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
 
 						surveyQuestionInstance.traisiOnLoaded();
@@ -160,9 +163,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
-								this.question.configuration
-							);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
 					});
 			});
