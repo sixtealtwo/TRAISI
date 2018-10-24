@@ -125,7 +125,6 @@ export class SurveyViewerStateService {
 
 		if (this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0) {
 			setTimeout(() => {
-
 				subject.next();
 				subject.complete();
 			});
@@ -141,7 +140,6 @@ export class SurveyViewerStateService {
 				});
 
 				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe((value) => {
-
 					let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
 						return this._conditionalEvaluator.evaluateConditional(
 							evalConditional.conditionalType,
@@ -155,7 +153,7 @@ export class SurveyViewerStateService {
 						(sq) => sq.questionId === conditional.targetQuestionId
 					);
 
-					console.log(evalTrue);
+
 					if (evalTrue) {
 						if (index >= 0) {
 							this.viewerState.surveyQuestions.splice(index, 1);
@@ -163,17 +161,15 @@ export class SurveyViewerStateService {
 					} else {
 						if (index < 0) {
 							// re add at the proper order
-							if (targetQuestion.viewOrder >= this.viewerState.surveyQuestions.length) {
-								this.viewerState.surveyQuestions.splice(this.viewerState.surveyQuestions.length, 0, targetQuestion);
-							} else {
-								for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
-									if (
-										targetQuestion.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
-										targetQuestion.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
-									) {
-										this.viewerState.surveyQuestions.splice(i + 1, 0, targetQuestion);
-										break;
-									}
+
+							for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
+								if (
+									targetQuestion.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
+									targetQuestion.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
+								) {
+
+									this.viewerState.surveyQuestions.splice(i + 1, 0, targetQuestion);
+									break;
 								}
 							}
 						}
