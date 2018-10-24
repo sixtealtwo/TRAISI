@@ -9,7 +9,7 @@ using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
-
+using DAL.Core;
 
 namespace DAL.Repositories
 {
@@ -126,8 +126,15 @@ namespace DAL.Repositories
 
 
 
-        public async Task<Survey> GetSurveyFullAsync(int surveyId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyFullAsync(int surveyId, SurveyViewType viewType)
         {
+            string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
             var result = await _appContext.Surveys.Where(s => s.Id == surveyId)
                 .Include(s => s.TitleLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
@@ -146,6 +153,7 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptionConditionalsSource)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations).ThenInclude(qc => qc.QuestionConfigurationLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionOptions).ThenInclude(qo => qo.QuestionOptionLabels)
+                .Where(s => s.SurveyViews.All(s2 => s2.ViewName == viewName))
                 .SingleOrDefaultAsync();
 
             return result;
@@ -267,8 +275,7 @@ namespace DAL.Repositories
 
         public bool QuestionNameIsUnique(int surveyId, string name, string oldName)
         {
-            if (name == oldName)
-            {
+            if (name == oldName) {
                 return true;
             }
 
@@ -293,14 +300,11 @@ namespace DAL.Repositories
         {
             List<string> qpartnames = new List<string>();
 
-            foreach (var partview in partviews)
-            {
-                if (partview.QuestionPart != null)
-                {
+            foreach (var partview in partviews) {
+                if (partview.QuestionPart != null) {
                     qpartnames.Add(partview.QuestionPart.Name);
                 }
-                else
-                {
+                else {
                     /*foreach (var child in partview.QuestionPartViewChildren)
                     {
                         if (child.QuestionPart != null)

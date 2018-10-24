@@ -51,11 +51,11 @@
 	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
 		<div class="row justify-content-center">
 			<div class="col-12 text-center">
-				<button [ngClass]="navButtonClass" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3"
+				<button [ngClass]="navButtonClass" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 				 type="button">
 					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
 				</button>
-				<button [ngClass]="navButtonClass" (click)="navigateNext()" [disabled]="!navigateNextEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3"
+				<button [ngClass]="navButtonClass" (click)="navigateNext()" [disabled]="!navigateNextEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 				 type="button">
 					<div class="progress" *ngIf="isNextProcessing">
 						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"

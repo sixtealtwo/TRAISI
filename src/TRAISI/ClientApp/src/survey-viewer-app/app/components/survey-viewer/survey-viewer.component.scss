@@ -146,4 +146,8 @@
 	font-size: 18px;
 }
 
+.survey-nav-button:disabled {
+	cursor: initial;
+}
+
 @import 'survey-viewer-component.sm.scss';

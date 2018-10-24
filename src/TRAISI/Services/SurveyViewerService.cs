@@ -51,25 +51,21 @@ namespace TRAISI.Services
             string language = null,
             SurveyViewType viewType = SurveyViewType.RespondentView)
         {
-            Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
 
-            if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0)
-            {
+            if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0) {
                 var s2 = (survey.SurveyViews as List<SurveyView>);
                 return (survey.SurveyViews as List<SurveyView>)[0]
                     .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
             }
-            else
-            {
-                if (survey.SurveyViews.Count > 1)
-                {
-                    return (survey.SurveyViews as List<SurveyView>)[0]
-                        .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
-                }
+            else {
+
+                return (survey.SurveyViews as List<SurveyView>)[0]
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+
             }
 
-            // no valid view available
-            return null;
+
         }
 
         /// <summary>
@@ -105,23 +101,19 @@ namespace TRAISI.Services
         public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode, ClaimsPrincipal currentUser)
         {
 
-            if (currentUser.Identity.IsAuthenticated)
-            {
-                if (currentUser.IsInRole(TraisiRoles.SuperAdministrator))
-                {
+            if (currentUser.Identity.IsAuthenticated) {
+                if (currentUser.IsInRole(TraisiRoles.SuperAdministrator)) {
                     return (true, null);
                 }
             }
 
             var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
 
-            if (survey == null)
-            {
+            if (survey == null) {
                 return (false, null);
             }
 
-            if (survey.Id != surveyId)
-            {
+            if (survey.Id != surveyId) {
                 return (false, null);
             }
 
@@ -129,8 +121,7 @@ namespace TRAISI.Services
             //see if a user exists
             var existingUser = await this.GetSurveyUser(surveyId, shortcode);
 
-            if (existingUser != null)
-            {
+            if (existingUser != null) {
                 return (true, existingUser);
             }
 
@@ -151,7 +142,7 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, SurveyViewType.RespondentView);
 
             return (survey.SurveyViews as List<SurveyView>)[0];
         }
@@ -229,14 +220,12 @@ namespace TRAISI.Services
         public async Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType,
             int pageNumber)
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
-            if (survey != null)
-            {
-                return ((List<SurveyView>)survey.SurveyViews)[(int)viewType].QuestionPartViews
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            if (survey != null) {
+                return ((List<SurveyView>)survey.SurveyViews)[0].QuestionPartViews
                     .FirstOrDefault(v => v.Order == pageNumber);
             }
-            else
-            {
+            else {
                 return null;
             }
         }
@@ -250,26 +239,23 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType)
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId);
-            if (survey != null)
-            {
-                List<QuestionPartView> pages = survey.SurveyViews[viewType].QuestionPartViews.OrderBy(p => p.Order).ToList();
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            if (survey != null) {
+                List<QuestionPartView> pages = survey.SurveyViews[0].QuestionPartViews.OrderBy(p => p.Order).ToList();
                 // order everything
                 pages.ForEach(page =>
                 {
                     page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
                     ((List<QuestionPartView>)page.QuestionPartViewChildren).ForEach(child =>
                     {
-                        if (child.QuestionPartViewChildren != null && child.QuestionPartViewChildren.Count > 1)
-                        {
+                        if (child.QuestionPartViewChildren != null && child.QuestionPartViewChildren.Count > 1) {
                             child.QuestionPartViewChildren = child.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
                         }
                     });
                 });
                 return pages;
             }
-            else
-            {
+            else {
                 return null;
             }
         }
