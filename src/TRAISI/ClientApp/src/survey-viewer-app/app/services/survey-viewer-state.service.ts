@@ -22,8 +22,9 @@ export class SurveyViewerStateService {
 	public surveyQuestionsChanged: Subject<string>;
 
 	/**
-	 *
+	 * Creates an instance of survey viewer state service.
 	 * @param _conditionalEvaluator
+	 * @param _responderService
 	 */
 	public constructor(
 		private _conditionalEvaluator: SurveyViewerConditionalEvaluator,
