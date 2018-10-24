@@ -140,7 +140,6 @@ export class SurveyViewerStateService {
 				);
 			});
 			if (evaluatedConditionals.length > 0) {
-				console.log('some conditioanls true');
 				// if some conditional evaluated to true - update the visible survey questions and emit an event to notify there was a change
 
 				evaluatedConditionals.forEach(conditional => {
@@ -153,7 +152,7 @@ export class SurveyViewerStateService {
 				});
 				this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
 			} else {
-				console.log('hh');
+				// no conditionals changed
 			}
 
 			return;
