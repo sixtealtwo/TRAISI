@@ -26,7 +26,7 @@ import * as dropdown from 'ngx-bootstrap/dropdown';
 import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
-
+import * as tooltip from 'ngx-bootstrap/tooltip';
 import * as icons from '@fortawesome/angular-fontawesome';
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
@@ -86,6 +86,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
 		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
+		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
 		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
 	}
 
@@ -116,10 +117,7 @@ export class QuestionLoaderService {
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-				const componentFactory: ComponentFactory<any> = this.createComponentFactory(
-					this._moduleRefs[questionType],
-					questionType
-				);
+				const componentFactory: ComponentFactory<any> = this.createComponentFactory(this._moduleRefs[questionType], questionType);
 
 				if (!(questionType in this._componentFactories)) {
 					this._componentFactories[questionType] = componentFactory;
@@ -134,7 +132,7 @@ export class QuestionLoaderService {
 			// load and compile the module
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
 				SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
-					.then(module => {
+					.then((module) => {
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
 
@@ -142,10 +140,7 @@ export class QuestionLoaderService {
 
 						this._moduleRefs[<string>questionType] = moduleRef;
 
-						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
-							moduleRef,
-							questionType
-						);
+						const componentFactory: ComponentFactory<any> = this.createComponentFactory(moduleRef, questionType);
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
 							console.log('Adding component factory: ' + questionType);
@@ -155,7 +150,7 @@ export class QuestionLoaderService {
 
 						observer.complete();
 					})
-					.catch(error => {
+					.catch((error) => {
 						console.log(error);
 					});
 			});
@@ -171,7 +166,7 @@ export class QuestionLoaderService {
 		const widgets = moduleRef.injector.get('widgets', 'notFound');
 		const resolver = moduleRef.componentFactoryResolver;
 
-		let widget = find(widgets[0], item => {
+		let widget = find(widgets[0], (item) => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
@@ -190,12 +185,9 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 * @param viewContainerRef
 	 */
-	public loadQuestionComponent(
-		question: ISurveyQuestion,
-		viewContainerRef: ViewContainerRef
-	): Observable<ComponentRef<any>> {
+	public loadQuestionComponent(question: ISurveyQuestion, viewContainerRef: ViewContainerRef): Observable<ComponentRef<any>> {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
-			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
+			this.getQuestionComponentFactory(question.questionType).subscribe((componentFactory) => {
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
 				const moduleRef = this._moduleRefs[question.questionType];
 
