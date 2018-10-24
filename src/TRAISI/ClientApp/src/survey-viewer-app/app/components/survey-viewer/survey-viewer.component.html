@@ -9,8 +9,8 @@
 
 	<div class="survey-body-container">
 		<div class="survey-body">
-			<div class="survey-section-header" [hidden]="!viewerState.isSectionActive" [style.background-color]='viewerTheme.sectionBackgroundColour'>
-				hello
+			<div class="survey-section-header" *ngIf="viewerState.isSectionActive" [style.background-color]='viewerTheme.sectionBackgroundColour'>
+				{{viewerState.activeSection.label}}
 			</div>
 			<div class="questions-container">
 				<div class="question-section" *ngIf="isLoaded">
