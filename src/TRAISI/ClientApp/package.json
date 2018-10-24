@@ -58,6 +58,7 @@
 		"easy-pie-chart": "2.1.7",
 		"echarts": "^4.1.0",
 		"echarts-gl": "^1.1.1",
+		"font-awesome": "^4.7.0",
 		"fullcalendar": "3.9.0",
 		"glyphicons-halflings": "git+https://github.com/inway/glyphicons-halflings.git#df545d9e4bdae9b5ffa112fcb70b3f8350929875",
 		"hammerjs": "2.0.8",

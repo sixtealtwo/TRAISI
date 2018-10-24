@@ -89,11 +89,8 @@ export class SurveyViewerStateService {
 	 * @param question
 	 * @param validationState
 	 */
-	public updateGroupQuestionValidationState(
-		question: SurveyViewQuestion,
-		validationState: ResponseValidationState
-	): void {
-		let index = this.viewerState.activeGroupQuestions.findIndex(f => f.viewId === question.viewId);
+	public updateGroupQuestionValidationState(question: SurveyViewQuestion, validationState: ResponseValidationState): void {
+		let index = this.viewerState.activeGroupQuestions.findIndex((f) => f.viewId === question.viewId);
 
 		if (index >= 0) {
 			this.viewerState.activeGroupQuestions[index].validationState = validationState;
@@ -106,12 +103,9 @@ export class SurveyViewerStateService {
 	 * Sets active group questions
 	 * @param groupMembers
 	 */
-	public setActiveGroupQuestions(
-		activeQuestion: SurveyViewQuestion,
-		groupMembers: Array<SurveyViewGroupMember>
-	): void {
+	public setActiveGroupQuestions(activeQuestion: SurveyViewQuestion, groupMembers: Array<SurveyViewGroupMember>): void {
 		this.viewerState.activeGroupQuestions = [];
-		groupMembers.forEach(member => {
+		groupMembers.forEach((member) => {
 			let memberQuestion = Object.assign({}, activeQuestion);
 			memberQuestion.viewId = Symbol();
 			memberQuestion.parentMember = member;
@@ -129,27 +123,63 @@ export class SurveyViewerStateService {
 		if (this.viewerState.questionMap[updatedQuestionId].sourceConditionals === undefined) {
 			return;
 		} else {
-			let evaluatedConditionals: Array<SurveyViewConditional> = this.viewerState.questionMap[
-				updatedQuestionId
-			].sourceConditionals.filter((conditional: SurveyViewConditional) => {
-				return this._conditionalEvaluator.evaluateConditional(
-					conditional.conditionalType,
-					this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId),
-					null,
-					conditional.value
-				);
+			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
+				let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
+
+				let sourceQuestionIds: number[] = [];
+
+				targetQuestion.targetConditionals.forEach((targetConditional) => {
+					sourceQuestionIds.push(targetConditional.sourceQuestionId);
+				});
+
+				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId);
+
+				let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
+					return this._conditionalEvaluator.evaluateConditional(
+						evalConditional.conditionalType,
+						this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId),
+						'',
+						evalConditional.value
+					);
+				});
+
+				const index: number = this.viewerState.surveyQuestions.findIndex((sq) => sq.questionId === conditional.targetQuestionId);
+
+				if (evalTrue) {
+					if (index >= 0) {
+						this.viewerState.surveyQuestions.splice(index, 1);
+					}
+				} else {
+					if (index < 0) {
+						// re add at the proper order
+						if (targetQuestion.viewOrder >= this.viewerState.surveyQuestions.length) {
+							this.viewerState.surveyQuestions.splice(this.viewerState.surveyQuestions.length, 0, targetQuestion);
+						} else {
+							for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
+								if (
+									targetQuestion.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
+									targetQuestion.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
+								) {
+									this.viewerState.surveyQuestions.splice(i + 1, 0, targetQuestion);
+									break;
+								}
+							}
+						}
+					}
+				}
 			});
-			if (evaluatedConditionals.length > 0) {
+
+			if (true) {
 				// if some conditional evaluated to true - update the visible survey questions and emit an event to notify there was a change
 
-				evaluatedConditionals.forEach(conditional => {
+				/*evaluatedConditionals.forEach(conditional => {
 					const index: number = this.viewerState.surveyQuestions.findIndex(
 						sq => sq.questionId === conditional.targetQuestionId
 					);
 					if (index >= 0) {
 						this.viewerState.surveyQuestions.splice(index, 1);
 					}
-				});
+				}); */
 				this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
 			} else {
 				// no conditionals changed
