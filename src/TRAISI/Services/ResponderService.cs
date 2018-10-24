@@ -71,7 +71,7 @@ namespace TRAISI.Services
         /// <param name="questionId"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        public async Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData)
+        public async Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData, int repeat)
         {
 
 
@@ -87,7 +87,6 @@ namespace TRAISI.Services
             {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
-
 
             if (type.ResponseValidator != null)
             {
@@ -111,7 +110,11 @@ namespace TRAISI.Services
                 isUpdate = true;
             }
 
-            ResponseValue responseValue = null;
+
+            if (repeat >= 0)
+            {
+                surveyResponse.Repeat = repeat;
+            }
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:

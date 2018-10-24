@@ -16,7 +16,7 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="user"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData);
+		Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData, int repeat);
 
 		/// <summary>
 		/// 
