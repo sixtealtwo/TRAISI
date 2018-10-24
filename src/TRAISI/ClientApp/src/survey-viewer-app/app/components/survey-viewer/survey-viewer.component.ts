@@ -61,15 +61,9 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(
-					':self',
-					stagger('1s', [
-						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
-					]),
-					{
-						optional: true
-					}
-				)
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
+					optional: true
+				})
 			])
 		])
 	],
@@ -119,6 +113,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNextEnabled: boolean = false;
 
 	private navigationActiveState: boolean = true;
+
+	public isNextProcessing: boolean = false;
 
 	private _activeQuestionContainer: QuestionContainerComponent;
 
@@ -197,7 +193,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 			this.viewerTheme = theme;
-			theme.viewerTemplate.forEach(sectionInfo => {
+			theme.viewerTemplate.forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
@@ -226,10 +222,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private surveyQuestionsChanged: () => void = () => {
 		// update the validation based on new survey questions and active question
 
-		console.log('in survey questions changed');
 		this.validateNavigation();
 	};
 
+	/**
+	 * Gets component
+	 * @param componentName
+	 * @returns component
+	 */
 	private getComponent(componentName: string): any {
 		switch (componentName) {
 			case 'header1':
@@ -268,8 +268,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 		this.viewerState.surveyPages = pages;
-		pages.forEach(page => {
-			page.questions.forEach(question => {
+		pages.forEach((page) => {
+			page.questions.forEach((question) => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
@@ -279,8 +279,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				viewOrder++;
 			});
-			page.sections.forEach(section => {
-				section.questions.forEach(question => {
+			page.sections.forEach((section) => {
+				section.questions.forEach((question) => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
@@ -304,8 +304,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
 
-		console.log(this.viewerState);
-
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
 				this.viewerState.primaryRespondent = members[0];
@@ -328,24 +326,38 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigate questions - next question in the questions list.
 	 */
 	public navigateNext(): void {
-		if (!this.validateInternalNavigationNext()) {
-			this.activeQuestionIndex += 1;
-			this.viewerState.activeQuestionIndex++;
+		this.isNextProcessing = true;
+		let conditionalResult = this._viewerStateService.evaluateConditionals(
+			this.viewerState.activeQuestion.questionId,
+			this.viewerState.primaryRespondent.id
+		);
 
-			this.updateViewerState();
-			this.validateNavigation();
-		} else {
-			const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+		conditionalResult.subscribe(
+			(value) => {
+				if (!this.validateInternalNavigationNext()) {
+					this.activeQuestionIndex += 1;
+					this.viewerState.activeQuestionIndex++;
 
-			if (result) {
-				this.activeQuestionIndex += 1;
-				this.viewerState.activeQuestionIndex++;
+					this.updateViewerState();
+					this.validateNavigation();
+				} else {
+					const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
-				this.updateViewerState();
-			}
+					if (result) {
+						this.activeQuestionIndex += 1;
+						this.viewerState.activeQuestionIndex++;
 
-			this.validateNavigation();
-		}
+						this.updateViewerState();
+					}
+
+					this.validateNavigation();
+				}
+
+				this.isNextProcessing = false;
+			},
+			(error: any) => {},
+			() => {}
+		);
 	}
 
 	/**
@@ -387,11 +399,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if (
-					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
-						'onQuestionShown'
-					)
-				) {
+				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -489,7 +497,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe(s => {
+		this.questionContainers.changes.subscribe((s) => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {
@@ -506,10 +514,18 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public ngAfterViewChecked(): void {}
 
+	/**
+	 * Uses dark buttons
+	 * @returns true if dark buttons
+	 */
 	private useDarkButtons(): boolean {
 		return this.pageTextColour !== 'rgb(0,0,0)';
 	}
 
+	/**
+	 * Gets best page text colour
+	 * @returns best page text colour
+	 */
 	private getBestPageTextColour(): string {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
@@ -517,6 +533,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			return 'rgb(0,0,0)';
 		}
 	}
+
+	/**
+	 * Gets best question body text color
+	 * @returns best question body text color
+	 */
 	private getBestQuestionBodyTextColor(): string {
 		if (this.pageThemeInfo.questionViewerColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.questionViewerColour);
