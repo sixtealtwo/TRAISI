@@ -38,6 +38,13 @@ namespace TRAISI.SDK.Questions
             DefaultValue = "false")]
         public bool IsMultiLine = false;
 
+        [QuestionConfiguration(QuestionConfigurationValueType.String,
+    Name = "Input Mask",
+    SurveyBuilderValueType = QuestionBuilderType.Text,
+    Description = "Configure a unique input mask",
+    DefaultValue = "")]
+        public bool InputMask = false;
+
     }
 
 }
