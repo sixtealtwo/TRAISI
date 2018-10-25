@@ -42,6 +42,7 @@ export class SurveyViewerStateService {
 			activePageIndex: -1,
 			groupMembers: [],
 			activeGroupMemberIndex: -1,
+			activeRepeatIndex: -1,
 			primaryRespondent: undefined,
 			activeGroupQuestions: [],
 			isLoaded: false,
@@ -117,6 +118,47 @@ export class SurveyViewerStateService {
 	}
 
 	/**
+	 * Evaluates repeat
+	 * @param activeQuestion
+	 */
+	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Subject<void> {
+		const subject: Subject<void> = new Subject<void>();
+
+		if (activeQuestion.repeatTargets.length === 0) {
+			setTimeout(() => {
+				subject.next();
+				subject.complete();
+			});
+			return subject;
+		}
+
+		this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
+			activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
+				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId).value;
+
+				// find index of repeat Target
+
+				if (typeof response === 'number') {
+					let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
+					targetQuestion.repeatChildren = [];
+					targetQuestion.repeatNumber = 0;
+					for (let i: number = 0; i < response - 1; i++) {
+						let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
+						duplicate.repeatNumber = i + 1;
+						targetQuestion.repeatChildren.push(duplicate);
+					}
+				}
+
+				console.log(this.viewerState);
+				subject.next();
+				subject.complete();
+			});
+		});
+
+		return subject;
+	}
+
+	/**
 	 * Updates active questions based on the last updated question id.
 	 * @param updatedQuestionId
 	 */
@@ -153,7 +195,6 @@ export class SurveyViewerStateService {
 						(sq) => sq.questionId === conditional.targetQuestionId
 					);
 
-
 					if (evalTrue) {
 						if (index >= 0) {
 							this.viewerState.surveyQuestions.splice(index, 1);
@@ -167,7 +208,6 @@ export class SurveyViewerStateService {
 									targetQuestion.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
 									targetQuestion.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
 								) {
-
 									this.viewerState.surveyQuestions.splice(i + 1, 0, targetQuestion);
 									break;
 								}

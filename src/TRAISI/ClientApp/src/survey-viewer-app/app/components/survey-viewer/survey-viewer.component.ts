@@ -267,6 +267,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.questions = [];
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
+
 		this.viewerState.surveyPages = pages;
 		pages.forEach((page) => {
 			page.questions.forEach((question) => {
@@ -275,7 +276,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				question.parentPage = page;
 				question.viewId = Symbol();
 				this.questions.push(question);
+
+				if (question.repeatTargets === undefined) {
+					question.repeatTargets = [];
+				}
+
 				this.viewerState.questionMap[question.questionId] = question;
+
+				if (question.isRepeat) {
+					this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
+				}
 
 				viewOrder++;
 			});
@@ -287,6 +297,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.questionMap[question.questionId] = question;
 					question.viewId = Symbol();
 					this.questions.push(question);
+					if (question.repeatTargets === undefined) {
+						question.repeatTargets = [];
+					}
+					if (question.isRepeat) {
+						this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
+					}
 					viewOrder++;
 				});
 			});
@@ -331,35 +347,58 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.isNextProcessing = true;
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
-			this.viewerState.primaryRespondent.id
+			this.viewerState.activeGroupMemberIndex >= 0
+				? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
+				: this.viewerState.primaryRespondent.id
 		);
 
 		conditionalResult.subscribe(
 			(value) => {
-				if (!this.validateInternalNavigationNext()) {
-					if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-						this.activeQuestionIndex += 1;
-						this.viewerState.activeQuestionIndex++;
-					}
+				this._viewerStateService
+					.evaluateRepeat(
+						this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
+						this.viewerState.activeGroupMemberIndex >= 0
+							? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
+							: this.viewerState.primaryRespondent.id
+					)
+					.subscribe((v: void) => {
+						if (!this.validateInternalNavigationNext()) {
+							console.log('here');
+							if (
+								this.viewerState.activeRepeatIndex >= 0 &&
+								this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
+							) {
+								this.viewerState.activeRepeatIndex += 1;
+							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
+								this.activeQuestionIndex += 1;
+								this.viewerState.activeQuestionIndex++;
+							}
 
-					this.updateViewerState();
-					this.validateNavigation();
-				} else {
-					const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+							console.log(this.viewerState);
+							this.updateViewerState();
+							this.validateNavigation();
+						} else {
+							const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
-					if (result) {
-						if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-							this.activeQuestionIndex += 1;
-							this.viewerState.activeQuestionIndex++;
+							if (result) {
+								if (
+									this.viewerState.activeRepeatIndex >= 0 &&
+									this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
+								) {
+									this.viewerState.activeRepeatIndex += 1;
+								} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
+									this.activeQuestionIndex += 1;
+									this.viewerState.activeQuestionIndex++;
+								}
+
+								this.updateViewerState();
+							}
+
+							this.validateNavigation();
 						}
 
-						this.updateViewerState();
-					}
-
-					this.validateNavigation();
-				}
-
-				this.isNextProcessing = false;
+						this.isNextProcessing = false;
+					});
 			},
 			(error: any) => {},
 			() => {}
@@ -370,7 +409,22 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Updates viewer state
 	 */
 	private updateViewerState(): void {
-		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+		if (this.viewerState.activeRepeatIndex <= 0) {
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+			if (!this.viewerState.activeQuestion.isRepeat) {
+				this.viewerState.activeRepeatIndex = -1;
+			}
+		} else if (this.viewerState.activeRepeatIndex > 0) {
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex].repeatChildren[
+				this.viewerState.activeRepeatIndex - 1
+			];
+
+			console.log('setting active question here ');
+		}
+
+		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
+			this.viewerState.activeRepeatIndex = 0;
+		}
 
 		if (this.viewerState.activeQuestion.parentSection !== undefined) {
 			this.viewerState.activeSection = this.viewerState.activeQuestion.parentSection;
@@ -489,6 +543,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.navigateNextEnabled = false;
 		} else {
 			this.navigateNextEnabled = true;
+		}
+
+		// check current repeat
+		if (this.viewerState.activeQuestion !== undefined && this.viewerState.activeQuestion.isRepeat) {
+			if (this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length) {
+				this.navigateNextEnabled = true;
+			}
 		}
 
 		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;

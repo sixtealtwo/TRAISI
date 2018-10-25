@@ -15,6 +15,10 @@ export interface SurveyViewQuestion {
 	questionType: string;
 	pageIndex: number;
 	typeName: string;
+	repeatSource?: number;
+	repeatTargets?: number[];
+	repeatChildren?: SurveyViewQuestion[];
+	repeatNumber?: number;
 
 	// convenient ref to section or page
 

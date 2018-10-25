@@ -40,6 +40,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public getCachedSavedResponse(questionId: number, respondentId: number): any {
+		console.log(this._cachedSavedResponses);
 		return this._cachedSavedResponses[questionId][respondentId];
 	}
 
@@ -63,12 +64,15 @@ export class SurveyResponderService implements SurveyResponder {
 				this._cachedSavedResponses[id] = {};
 			}
 		});
+
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			flatMap((responses) => {
 				for (let i = 0; i < responses.length; i++) {
 					this._cachedSavedResponses[questionIds[i]][respondentId] = responses[i].responseValues[0];
 				}
-
+				console.log(questionIds);
+				console.log(' has responses ');
+				console.log(responses);
 				return Observable.of('');
 			})
 		);

@@ -14,6 +14,7 @@ export interface SurveyViewerState {
 	isSectionActive: boolean;
 	activeQuestionIndex: number;
 	activePageIndex: number;
+	activeRepeatIndex: number;
 	groupMembers: Array<SurveyViewGroupMember>;
 	activeGroupMemberIndex: number;
 	primaryRespondent: SurveyViewGroupMember;
