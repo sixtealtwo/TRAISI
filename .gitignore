@@ -39,6 +39,9 @@ dist/
 #Upload directory
 /src/TRAISI/wwwroot/Upload/
 
+#Download directory
+/src/TRAISI/wwwroot/Download/
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
