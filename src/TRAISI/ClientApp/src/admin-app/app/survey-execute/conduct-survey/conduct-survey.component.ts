@@ -468,7 +468,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 			result => {
 				this.downloadProgress.id = result;
 				this.downloadProgress.progress = 25;
-				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
+				this.downloadNotifier = this.notificationService.registerChannel<DownloadNotification>(result);
 				this.downloadNotifier.subscribe(
 					update => {
 						this.downloadSuccessHelper(update);
@@ -492,14 +492,14 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 			result => {
 				this.downloadProgress.id = result;
 				this.downloadProgress.progress = 25;
-				this.downloadNotifier = this.notificationService.registerDownloadChannel(result);
+				this.downloadNotifier = this.notificationService.registerChannel<DownloadNotification>(result);
 				this.downloadNotifier.subscribe(
 					update => {
 						this.downloadSuccessHelper(update);
 					},
 					error => {
 						this.downloadErrorHelper(error);
-						this.notificationService.deRegisterDownloadChannel(this.downloadProgress.id);
+						this.notificationService.deRegisterChannel(this.downloadProgress.id);
 					}
 				);
 			},
@@ -517,7 +517,7 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 			// download file and unsubscribe
 			window.open(this.downloadProgress.url, '_self');
 			this.downloadNotifier.unsubscribe();
-			this.notificationService.deRegisterDownloadChannel(this.downloadProgress.id);
+			this.notificationService.deRegisterChannel(this.downloadProgress.id);
 		}
 	}
 

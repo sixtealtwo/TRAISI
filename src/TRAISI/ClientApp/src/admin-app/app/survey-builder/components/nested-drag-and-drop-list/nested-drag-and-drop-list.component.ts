@@ -22,6 +22,7 @@ import { QuestionPartViewLabel } from '../../models/question-part-view-label.mod
 import { Order } from '../../models/order.model';
 import { TreeviewItem } from 'ngx-treeview';
 import { fadeInOut } from '../../../services/animations';
+import { RealTimeNotificationServce } from '../../../services/real-time-notification.service';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -75,7 +76,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	constructor(
 		private alertService: AlertService,
 		private surveyBuilderService: SurveyBuilderService,
-		private elementRef: ElementRef
+		private elementRef: ElementRef,
+		private notificationService: RealTimeNotificationServce
 	) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(this);
@@ -245,6 +247,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 						!this.qPartQuestions.has(newQuestion.id)
 					) {
 						this.qPartQuestions.set(newQuestion.id, newQuestion);
+						this.notificationService.indicateSurveyChange(this.surveyId);
 					} else {
 						newPartView.questionPart = newQuestion.questionPart;
 						if (newQuestion.questionPart.questionType === 'household') {
@@ -258,7 +261,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								newQuestion.questionPart.id,
 								this.qConfiguration.configurationValues
 							)
-							.subscribe();
+							.subscribe(
+								result => {
+									this.notificationService.indicateSurveyChange(this.surveyId);
+								}
+							);
 					}
 					if (addToList) {
 						if (parentView === this.currentPage) {
@@ -363,6 +370,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 																	MessageSeverity.success
 																);
 																this.configurationModal.hide();
+																this.notificationService.indicateSurveyChange(this.surveyId);
 															},
 															error => {
 																this.alertService.showStickyMessage(
@@ -374,6 +382,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 																	error
 																);
 																this.qConfiguration.isSaving = false;
+																this.notificationService.indicateSurveyChange(this.surveyId);
 															}
 														);
 												},
@@ -387,6 +396,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 														error
 													);
 													this.qConfiguration.isSaving = false;
+													this.notificationService.indicateSurveyChange(this.surveyId);
 												}
 											);
 									} else {
@@ -396,6 +406,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 											MessageSeverity.success
 										);
 										this.configurationModal.hide();
+										this.notificationService.indicateSurveyChange(this.surveyId);
 									}
 								},
 								error => {
@@ -408,6 +419,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 										error
 									);
 									this.qConfiguration.isSaving = false;
+									this.notificationService.indicateSurveyChange(this.surveyId);
 								}
 							);
 					} else {
@@ -435,6 +447,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 														MessageSeverity.success
 													);
 													this.configurationModal.hide();
+													this.notificationService.indicateSurveyChange(this.surveyId);
 												},
 												error => {
 													this.alertService.showStickyMessage(
@@ -446,6 +459,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 														error
 													);
 													this.qConfiguration.isSaving = false;
+													this.notificationService.indicateSurveyChange(this.surveyId);
 												}
 											);
 									},
@@ -459,6 +473,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 											error
 										);
 										this.qConfiguration.isSaving = false;
+										this.notificationService.indicateSurveyChange(this.surveyId);
 									}
 								);
 						} else {
@@ -468,6 +483,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								MessageSeverity.success
 							);
 							this.configurationModal.hide();
+							this.notificationService.indicateSurveyChange(this.surveyId);
 						}
 					}
 				},
@@ -528,6 +544,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					);
 					this.updateQuestionOrder(parentView);
 				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			});
 	}
 
@@ -607,7 +624,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								questionsOrder,
 								this.questionBeingEdited.id
 							)
-							.subscribe();
+							.subscribe(
+								result => {
+									this.notificationService.indicateSurveyChange(this.surveyId);
+								}
+							);
 						if (this.catiEnabled) {
 							questionsOrder = this.currentPage.questionPartViewChildren.map(
 								q => new Order(q.catiDependent.id, q.order)
@@ -665,7 +686,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 									questionsOrder,
 									this.questionBeingEdited.id
 								)
-								.subscribe();
+								.subscribe(
+									result => {
+										this.notificationService.indicateSurveyChange(this.surveyId);
+									}
+								);
 							if (this.catiEnabled) {
 								questionsOrder = questionPart.questionPartViewChildren.map(
 									q => new Order(q.catiDependent.id, q.order)

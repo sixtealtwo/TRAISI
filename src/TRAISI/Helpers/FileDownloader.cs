@@ -34,12 +34,12 @@ namespace TRAISI.Helpers
     public class FileDownloaderService : IFileDownloader
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHubContext<NotifyHub> _notifyHub;
+        private readonly IHubContext<NotifyHub, INotifyHub> _notifyHub;
         private readonly Random _randomGen;
         private IHostingEnvironment _hostingEnvironment;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public FileDownloaderService(IUnitOfWork unitOfWork, IHubContext<NotifyHub> notifyHub,
+        public FileDownloaderService(IUnitOfWork unitOfWork, IHubContext<NotifyHub, INotifyHub> notifyHub,
             IHostingEnvironment hostingEnvironment, IServiceScopeFactory serviceScopeFactory)
         {
             this._unitOfWork = unitOfWork;
@@ -75,7 +75,7 @@ namespace TRAISI.Helpers
                         Directory.CreateDirectory(compressDirectory);
                     }
                     var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
-                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
 
                     // Write out survey structure to json
                     using (var output = new StreamWriter(fileName))
@@ -85,7 +85,7 @@ namespace TRAISI.Helpers
 
                     ZipFile.CreateFromDirectory(compressDirectory, zipFileName);
                     progress.Progress = 100;
-                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
                     BackgroundJob.Schedule(() => Directory.Delete(newPath, true), TimeSpan.FromSeconds(30));
                 }
             });
@@ -105,7 +105,7 @@ namespace TRAISI.Helpers
                     Directory.CreateDirectory(newPath);
                 }
                 var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
-                await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
 
                 // Write shortcodes to csv
                 using (var sw = new StreamWriter(fileName))
@@ -116,7 +116,7 @@ namespace TRAISI.Helpers
                     writer.WriteRecords(codeList);
                 }
                 progress.Progress = 100;
-                await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
                 BackgroundJob.Schedule(() => Directory.Delete(newPath, true), TimeSpan.FromSeconds(30));
             });
         }
@@ -201,7 +201,7 @@ namespace TRAISI.Helpers
                         Directory.CreateDirectory(newPath);
                     }
                     var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
-                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
 
                     // Write shortcodes to csv
                     using (var sw = new StreamWriter(fileName))
@@ -212,7 +212,7 @@ namespace TRAISI.Helpers
                         writer.WriteRecords(shortcodes);
                     }
                     progress.Progress = 100;
-                    await this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
                     BackgroundJob.Schedule(() => Directory.Delete(newPath,true), TimeSpan.FromSeconds(30));
                 }
                
@@ -231,7 +231,7 @@ namespace TRAISI.Helpers
 
         public void WriteGroupCodeFile(string code, string userName, string mode, Survey survey)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 using (var scope = this._serviceScopeFactory.CreateScope())
                 {
@@ -248,7 +248,7 @@ namespace TRAISI.Helpers
                         Directory.CreateDirectory(newPath);
                     }
                     var progress = new NotifyHub.DownloadProgress() { Id = code, Progress = 50, Url = url };
-                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
 
                     // Write shortcodes to csv
                     using (var sw = new StreamWriter(fileName))
@@ -259,7 +259,7 @@ namespace TRAISI.Helpers
                         writer.WriteRecords(groupcodes);
                     }
                     progress.Progress = 100;
-                    this._notifyHub.Clients.Group(userName).SendAsync("downloadUpdate", progress);
+                    await this._notifyHub.Clients.Group(userName).DownloadUpdate(progress);
                     BackgroundJob.Schedule(() => Directory.Delete(newPath,true), TimeSpan.FromSeconds(30));
                 }
                

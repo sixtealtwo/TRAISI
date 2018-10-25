@@ -23,6 +23,8 @@ import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
 import { fadeInOut } from '../services/animations';
+import { RealTimeNotificationServce } from '../services/real-time-notification.service';
+import { SurveyNotification } from '../models/survey-notification';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -88,6 +90,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
 	private dragResult: Subject<boolean>;
+	private surveyUpdate: Subject<SurveyNotification>;
 
 	@ViewChild('surveyPageDragAndDrop')
 	surveyPage: NestedDragAndDropListComponent;
@@ -113,10 +116,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		private authService: AuthService,
 		private route: ActivatedRoute,
 		private alertService: AlertService,
-		private cdRef: ChangeDetectorRef
+		private cdRef: ChangeDetectorRef,
+		private notificationService: RealTimeNotificationServce
 	) {
 		this.route.params.subscribe(params => {
 			this.surveyId = params['id'];
+			this.notificationService.surveyStatus(this.surveyId, true);
 			this.surveyService.getSurvey(this.surveyId).subscribe(survey => {
 				this.survey = survey;
 			});
@@ -126,6 +131,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.loadPageStructure();
+		this.surveyUpdate = this.notificationService.registerChannel(`survey-${this.surveyId}`);
+		this.surveyUpdate.subscribe(value => {
+			this.loadPageStructure();
+		});
 		this.switchPage('welcome');
 	}
 
@@ -142,9 +151,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			this.questionViewerPreview.value = false;
 			this.toggleSidebarForPreview();
 		}
+		this.notificationService.surveyStatus(this.surveyId, false);
+		this.notificationService.deRegisterChannel(`survey-${this.surveyId}`);
 	}
 
 	loadPageStructure(): void {
+		this.loadedSpecialPages = false;
 		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
 			try {
 				this.pageThemeInfo = JSON.parse(styles);
@@ -237,6 +249,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						MessageSeverity.success
 					);
 				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {}
 		);
@@ -260,6 +273,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						MessageSeverity.success
 					);
 				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {}
 		);
@@ -277,6 +291,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						MessageSeverity.success
 					);
 				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {}
 		);
@@ -299,6 +314,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						MessageSeverity.success
 					);
 				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {}
 		);
@@ -358,12 +374,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					if (qc.questionPart === null) {
 						this.surveyPage.partsLeftToLoad++;
 						this.surveyPage.qPartQuestions.set(qc.id, qc);
-						this.surveyBuilderService
+						this.surveyPage.partsLeftToLoad--;
+						/*this.surveyBuilderService
 							.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
 							.subscribe(qPart => {
 								qc.questionPartViewChildren = qPart.questionPartViewChildren;
 								this.surveyPage.partsLeftToLoad--;
-							});
+							});*/
 					}
 				});
 				this.loadedIndividualPage = true;
@@ -396,6 +413,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				pageTab.label.value = this.currentSurveyPageEdit.label.value;
 				pageTab.icon = this.currentSurveyPageEdit.icon;
 				this.editPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {
 				this.alertService.showMessage(
@@ -422,6 +440,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.alertService.showMessage('Success', `Page was removed successfully!`, MessageSeverity.success);
 				this.editPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {
 				this.alertService.showMessage(
@@ -445,6 +464,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.alertService.showMessage('Success', `Page was added successfully!`, MessageSeverity.success);
 				this.createPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {
 				this.alertService.showMessage(
