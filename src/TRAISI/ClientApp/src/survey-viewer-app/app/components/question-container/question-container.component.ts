@@ -135,13 +135,19 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.surveyId,
 					this.question.questionId,
 					this.respondent.id,
-					this._responseSaved
+					this._responseSaved,
+					this.surveyViewQuestion
 				);
 
 				this._responseSaved.subscribe(this.onResponseSaved);
 
 				this._responderService
-					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id)
+					.getSavedResponse(
+						this.surveyId,
+						this.question.questionId,
+						this.respondent.id,
+						this.surveyViewQuestion.repeatNumber === undefined ? 0 : this.surveyViewQuestion.repeatNumber
+					)
 					.subscribe((response) => {
 						surveyQuestionInstance.savedResponse.next(response == null ? 'none' : response.responseValues);
 

@@ -363,7 +363,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					)
 					.subscribe((v: void) => {
 						if (!this.validateInternalNavigationNext()) {
-							console.log('here');
 							if (
 								this.viewerState.activeRepeatIndex >= 0 &&
 								this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
@@ -374,7 +373,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								this.viewerState.activeQuestionIndex++;
 							}
 
-							console.log(this.viewerState);
 							this.updateViewerState();
 							this.validateNavigation();
 						} else {

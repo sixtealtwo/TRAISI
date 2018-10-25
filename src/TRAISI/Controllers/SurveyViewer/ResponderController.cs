@@ -73,8 +73,8 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpGet]
-        [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat?}")]
-        public async Task<IActionResult> SavedResponse(int surveyId, int questionId, int respondentId, int repeat = 0)
+        [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}")]
+        public async Task<IActionResult> SavedResponse(int surveyId, int questionId, int respondentId, int repeat)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);

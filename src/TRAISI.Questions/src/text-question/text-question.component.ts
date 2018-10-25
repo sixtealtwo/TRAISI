@@ -93,15 +93,12 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(result: any): void {
-		console.log('result from text question: ' + result);
-	}
+	public onResponseSaved(result: any): void {}
 
 	/**
 	 * Traisis on loaded
 	 */
 	public traisiOnLoaded(): void {
-		console.log('traisi on loaded called');
 		this.isLoaded = true;
 	}
 }

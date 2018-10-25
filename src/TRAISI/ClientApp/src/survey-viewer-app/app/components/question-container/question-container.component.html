@@ -6,8 +6,11 @@
 							'valid': responseValidationState == validationStates.VALID}"
 			 size="lg"></fa-icon>
 		</span>
-		<span class="question-index badge badge-pill badge-secondary">
+		<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber === undefined">
 			Q{{ questionIndex+1 }}
+		</span>
+		<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber !== undefined">
+			Q{{ questionIndex+1 }} - {{question.repeatNumber + 1}}
 		</span>
 		<span [innerHTML]="titleLabel | async | safeHtml" class="header-label"></span>
 

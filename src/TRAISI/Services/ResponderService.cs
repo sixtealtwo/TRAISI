@@ -176,6 +176,15 @@ namespace TRAISI.Services
 
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="question"></param>
+        /// <param name="respondent"></param>
+        /// <param name="responseData"></param>
+        /// <param name="response"></param>
         internal void SaveIntegerResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
             if (response.ResponseValues.Count == 0) {
@@ -188,6 +197,14 @@ namespace TRAISI.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="question"></param>
+        /// <param name="respondent"></param>
+        /// <param name="responseData"></param>
+        /// <param name="response"></param>
         internal void SaveDecimalResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
             if (response.ResponseValues.Count == 0) {
@@ -305,17 +322,7 @@ namespace TRAISI.Services
             return response;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="currentQuestionId"></param>
-        /// <param name="respondentId"></param>
-        /// <returns></returns>
-        public async Task<QuestionPartView> GetNextSurveyQuestion(int currentQuestionId, int respondentId)
-        {
 
-            return null;
-        }
 
         /// <summary>
         /// 
