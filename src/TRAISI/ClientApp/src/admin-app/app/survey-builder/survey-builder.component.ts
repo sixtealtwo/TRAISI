@@ -196,6 +196,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public createCATI(): void {
 		this.surveyBuilderService.createCATIView(this.surveyId, this.currentLanguage).subscribe(catiStructure => {
 			this.loadPageStructure();
+			this.notificationService.indicateSurveyChange(this.surveyId);
 		});
 	}
 
@@ -206,6 +207,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			() => {
 				this.surveyBuilderService.deleteCATIView(this.surveyId, this.currentLanguage).subscribe(result => {
 					this.loadPageStructure();
+					this.notificationService.indicateSurveyChange(this.surveyId);
 				});
 			}
 		);
