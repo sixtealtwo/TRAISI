@@ -54,7 +54,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat?}")]
-        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, int respondentId, [FromBody] JObject content, int repeat = -1)
+        public async Task<IActionResult> SaveResponse(int surveyId, int questionId, int respondentId, [FromBody] JObject content, int repeat = 0)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
@@ -74,15 +74,14 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         [HttpGet]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat?}")]
-        public async Task<IActionResult> SavedResponse(int surveyId, int questionId, int respondentId, int repeat = -1) 
+        public async Task<IActionResult> SavedResponse(int surveyId, int questionId, int respondentId, int repeat = 0)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-            SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, respondentId, user);
+            SurveyResponse response = await this._respondentService.GetRespondentMostRecentResponseForQuestion(surveyId, questionId, respondentId, repeat, user);
 
-            if (response == null)
-            {
+            if (response == null) {
                 return new ObjectResult(null);
             }
             var mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
@@ -104,8 +103,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetResponses(int surveyId, string questionName)
         {
             var responses = await this._respondentService.ListResponses(surveyId, questionName);
-            if (responses != null)
-            {
+            if (responses != null) {
                 return new BadRequestResult();
             }
 
@@ -122,8 +120,7 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
             var responses = await this._respondentService.ListResponsesOfType(surveyId, responseType, user);
-            if (responses == null)
-            {
+            if (responses == null) {
                 return new BadRequestResult();
             }
             var mapped = AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses);

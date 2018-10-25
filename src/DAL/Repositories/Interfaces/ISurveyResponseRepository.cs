@@ -40,7 +40,7 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="questionId"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, SurveyRespondent user);
+		Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId, SurveyRespondent user, int repeat);
 
 		/// <summary>
 		/// 

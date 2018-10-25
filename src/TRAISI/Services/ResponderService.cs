@@ -92,7 +92,7 @@ namespace TRAISI.Services
             }
 
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
-                           (SurveyRespondent)respondent);
+                           (SurveyRespondent)respondent, repeat);
             bool isUpdate = false;
 
             if (surveyResponse == null) {
@@ -107,9 +107,8 @@ namespace TRAISI.Services
             }
 
 
-            if (repeat >= 0) {
-                surveyResponse.Repeat = repeat;
-            }
+            surveyResponse.Repeat = repeat;
+
             switch (type.ResponseType) {
                 case QuestionResponseType.String:
                     SaveStringResponse(survey, question, user, responseData, surveyResponse);
@@ -293,7 +292,7 @@ namespace TRAISI.Services
         /// </summary>
         /// <typeparam name="List"></typeparam>
         /// <returns></returns>
-        public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId, int respondentId,
+        public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId, int respondentId, int repeat,
             ApplicationUser user)
         {
 
@@ -301,7 +300,7 @@ namespace TRAISI.Services
             var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             var response =
                 await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
-                    respondent);
+                    respondent, repeat);
 
             return response;
         }

@@ -53,7 +53,7 @@ namespace TRAISI.Services.Interfaces {
 		/// <param name="questionId"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,  int respondentId,
+		Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId,  int respondentId, int repeat,
 			ApplicationUser user);
 
 

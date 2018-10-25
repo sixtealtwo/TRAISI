@@ -77,44 +77,35 @@ namespace DAL.Repositories
               .Include(r => r.ResponseValues)
                    .Include(r => r.Respondent);
 
-            if (type == "location")
-            {
+            if (type == "location") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "timeline")
-            {
+            else if (type == "timeline") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 7));
             }
-            else if (type == "string")
-            {
+            else if (type == "string") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 1));
             }
-            else if (type == "decimal")
-            {
+            else if (type == "decimal") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 2));
             }
-            else if (type == "integer")
-            {
+            else if (type == "integer") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "optionlist")
-            {
+            else if (type == "optionlist") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 4));
             }
-            else if (type == "json")
-            {
+            else if (type == "json") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 6));
             }
-            else if (type == "datetime")
-            {
+            else if (type == "datetime") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
 
 
             var result = await query.ToListAsync();
 
-            foreach (var r in result)
-            {
+            foreach (var r in result) {
                 responses.Add(r);
             }
 
@@ -130,9 +121,9 @@ namespace DAL.Repositories
         /// <param name="user"></param>
         /// <returns></returns>
         public async Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId,
-            SurveyRespondent user)
+            SurveyRespondent user, int repeat)
         {
-            var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId)
+            var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
             .Include(v => v.ResponseValues)
                 .ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).FirstOrDefault();
 
