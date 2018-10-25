@@ -54,7 +54,7 @@ namespace TRAISI.ViewModels
     /// <typeparam name="object"></typeparam>
     public class ResponseValueResolver : IValueResolver<SurveyResponse, SurveyResponseViewModel, List<Dictionary<string, object>>>
     {
-        static CamelCasePropertyNamesContractResolver NamesContractResolver;
+        public static CamelCasePropertyNamesContractResolver NamesContractResolver;
         static ResponseValueResolver()
         {
             NamesContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -72,8 +72,7 @@ namespace TRAISI.ViewModels
         {
 
             List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
-            foreach (var response in source.ResponseValues)
-            {
+            foreach (var response in source.ResponseValues) {
                 var obj = response.GetType()
                             .GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(f =>
                             {

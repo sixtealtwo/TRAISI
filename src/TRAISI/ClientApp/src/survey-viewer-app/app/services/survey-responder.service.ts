@@ -153,6 +153,16 @@ export class SurveyResponderService implements SurveyResponder {
 					console.log(error);
 				}
 			);
+		} else if (typeof response === 'number') {
+			console.log('here');
+			this.saveResponse({ value: response }, surveyId, questionId, respondentId).subscribe(
+				(responseValid: boolean) => {
+					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 		} else {
 			this.saveResponse(response, surveyId, questionId, respondentId).subscribe(
 				(responseValid: boolean) => {

@@ -18,23 +18,25 @@ using TRAISI.ViewModels.Questions;
 using TRAISI.SDK;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.ViewModels
 {
     public partial class AutoMapperProfile : Profile
     {
+
+
         private void CreateSurveyViewerAutoMapperProfiles()
         {
             CreateMap<SurveyView, SurveyViewTermsAndConditionsViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
-                    if (s.TermsAndConditionsLabels[opt.Items["Language"] as string] != null)
-                    {
+                    if (s.TermsAndConditionsLabels[opt.Items["Language"] as string] != null) {
                         svm.TermsAndConditionsText =
                             s.TermsAndConditionsLabels[opt.Items["Language"] as string].Value;
                     }
-                    else
-                    {
+                    else {
                         svm.TermsAndConditionsText = s.TermsAndConditionsLabels.Default?.Value;
                     }
 
@@ -45,24 +47,20 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     var view = s.SurveyViews.FirstOrDefault();
-                    if (view != null)
-                    {
+                    if (view != null) {
                         svm.WelcomeText = view.WelcomePageLabels[opt.Items["Language"] as string].Value;
                     }
-                    else
-                    {
+                    else {
                         svm.WelcomeText = view.WelcomePageLabels.Default?.Value;
                     }
                 })
                 .AfterMap((s, svm, opt) =>
                 {
                     var view = s.SurveyViews.FirstOrDefault();
-                    if (view != null)
-                    {
+                    if (view != null) {
                         svm.TitleText = view.Survey.TitleLabels[opt.Items["Language"] as string].Value;
                     }
-                    else
-                    {
+                    else {
                         svm.TitleText = view.Survey.TitleLabels.Default?.Value;
                     }
                 });
@@ -124,8 +122,7 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Console.WriteLine(e);
 
                     }
@@ -133,21 +130,31 @@ namespace TRAISI.ViewModels
                 })
                 .AfterMap((s, svm, opt) =>
                 {
-                    if (s.QuestionPart != null)
-                    {
+                    if (s.QuestionPart != null) {
                         svm.QuestionId = s.QuestionPart.Id;
                     }
 
                 })
                 .AfterMap((s, svm, opt) =>
                 {
-                    if (s.QuestionPart != null && s.QuestionPart.QuestionConfigurations.Count > 0)
-                    {
+                    if (s.QuestionPart != null && s.QuestionPart.QuestionConfigurations.Count > 0) {
                         svm.Configuration = new ConcurrentDictionary<string, object>();
                         s.QuestionPart.QuestionConfigurations.AsParallel().ForAll(a =>
                         {
+                            switch (a.ValueType) {
+                                case QuestionConfigurationValueType.Integer:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                                    int.Parse(a.Value);
+                                    break;
+                                case QuestionConfigurationValueType.Decimal:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                                    double.Parse(a.Value);
+                                    break;
+                                default:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] = a.Value;
+                                    break;
+                            }
 
-                            svm.Configuration[a.Name] = a.Value;
                         });
 
 
@@ -165,8 +172,7 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.QuestionOptionLabels[opt.Items["Language"] as string].Value; }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Console.WriteLine(e);
 
                     }

@@ -1,10 +1,13 @@
+<form #f="ngForm" name="form">
+  <div class="col-md-7 col-12">
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">$</span>
+    <input (blur)="inputBlur()" [textMask]="{mask: numberMask}" [(ngModel)]="model" type="text" class="form-control"
+      #numberInput="ngModel" name="numberInput" (ngModelChange)="modelChanged()" required />
+
   </div>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <div class="input-group-prepend">
-    <span class="input-group-text">.00</span>
+  <div *ngIf="numberInput.invalid && (numberInput.dirty || numberInput.touched)" class="alert alert-danger">
+    <div *ngIf="numberInput.errors.required">
+      A value is required.
+    </div>
   </div>
-</div>
+</form>

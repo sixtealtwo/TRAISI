@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HouseholdQuestionComponent } from 'household-question/household-question.component';
-
+import { TextMaskModule } from 'angular2-text-mask';
 @NgModule({
 	declarations: [
 		TextQuestionComponent,
@@ -112,6 +112,6 @@ import { HouseholdQuestionComponent } from 'household-question/household-questio
 			multi: true
 		}
 	],
-	imports: [CommonModule, FontAwesomeModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot()]
+	imports: [CommonModule, FontAwesomeModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot(),TextMaskModule]
 })
 export default class TraisiQuestions {}

@@ -311,6 +311,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			} else {
 			}
 		});
+
+		console.log(this.viewerState);
 	}
 
 	/**
