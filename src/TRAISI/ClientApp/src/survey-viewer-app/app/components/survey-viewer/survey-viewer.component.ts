@@ -368,9 +368,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
 							) {
 								this.viewerState.activeRepeatIndex += 1;
+								console.log('1');
 							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
 								this.activeQuestionIndex += 1;
 								this.viewerState.activeQuestionIndex++;
+								console.log('2');
 							}
 
 							this.updateViewerState();
@@ -412,12 +414,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (!this.viewerState.activeQuestion.isRepeat) {
 				this.viewerState.activeRepeatIndex = -1;
 			}
-		} else if (this.viewerState.activeRepeatIndex > 0) {
+		} else if (
+			this.viewerState.activeRepeatIndex > 0 &&
+			this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
+		) {
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex].repeatChildren[
 				this.viewerState.activeRepeatIndex - 1
 			];
-
-			console.log('setting active question here ');
+		} else if (this.viewerState.activeRepeatIndex > this.viewerState.activeQuestion.repeatChildren.length) {
+			this.viewerState.activeRepeatIndex = -1;
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 		}
 
 		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
@@ -438,6 +444,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeGroupQuestions = [];
 		}
 		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
+
 		this.updateRespondentGroup();
 
 		// this._viewerStateService.updateState(this.viewerState);
@@ -562,6 +569,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 
 		this.headerDisplay.activePageIndex = this.viewerState.activeQuestion.pageIndex;
+
+		if (!this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex >= 0) {
+			this.viewerState.activeRepeatIndex = -1;
+		}
 
 		this._viewerStateService.updateState(this.viewerState);
 	}
