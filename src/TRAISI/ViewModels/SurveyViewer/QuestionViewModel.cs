@@ -21,6 +21,8 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public bool IsRepeat { get; set; }
 
+        public int RepeatSource { get; set; }
+
         public int Order { get; set; }
 
         public bool IsHousehold { get; set; }

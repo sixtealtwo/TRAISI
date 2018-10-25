@@ -119,12 +119,24 @@ namespace TRAISI.ViewModels
                      map.MapFrom(f => f.QuestionPart.QuestionConditionalsTarget);
                      map.Condition(f => f.QuestionPart != null);
                  })
+                 .ForMember(m => m.RepeatSource, map =>
+                 {
+                     map.MapFrom(f => f.RepeatSource.Id)
+                     map.Condition(f => f.RepeatSource != null)
+                 })
                 .AfterMap((s, svm, opt) =>
                 {
                     try { svm.Label = s.Labels[opt.Items["Language"] as string].Value; }
                     catch (Exception e) {
                         Console.WriteLine(e);
 
+                    }
+
+                })
+                .AfterMap((s, svm, opt) =>
+                {
+                    if (s.RepeatSource != null) {
+                        svm.IsRepeat = true;
                     }
 
                 })
