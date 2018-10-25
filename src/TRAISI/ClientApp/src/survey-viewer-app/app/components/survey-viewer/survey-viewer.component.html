@@ -20,8 +20,15 @@
 
 
 							<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="question"
-							 [surveyViewQuestion]=[activeQuestion] [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i"
+							 [surveyViewQuestion]=[activeQuestion] [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i && viewerState.activeRepeatIndex <= 0"
 							 #questions></traisi-question-container>
+
+							<div *ngFor="let repeat of question.repeatChildren; let c = index">
+								<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
+								 [surveyViewQuestion]=[activeQuestion] [surveyId]="surveyId" [questionIndex]="c" *ngIf="viewerState.activeRepeatIndex == c + 1"
+								 #questions></traisi-question-container>
+							</div>
+
 						</div>
 
 						<div *ngIf="viewerState.activeQuestionIndex == i">

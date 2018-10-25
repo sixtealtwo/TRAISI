@@ -485,8 +485,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigatePrevious(): void {
 		if (!this.validateInternalNavigationPrevious()) {
-			this.viewerState.activeQuestionIndex -= 1;
-			this.navigationActiveState = true;
+			if (!this.viewerState.activeQuestion.isRepeat) {
+				this.viewerState.activeQuestionIndex -= 1;
+				this.navigationActiveState = true;
+			} else {
+				if (this.viewerState.activeRepeatIndex === 0) {
+					this.viewerState.activeQuestionIndex -= 1;
+				}
+
+				this.viewerState.activeRepeatIndex -= 1;
+			}
 			this.updateViewerState();
 			this.validateNavigation();
 		} else {
