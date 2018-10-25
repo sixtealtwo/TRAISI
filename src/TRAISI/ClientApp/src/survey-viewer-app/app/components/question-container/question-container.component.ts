@@ -186,6 +186,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.surveyViewer.validateNavigation();
 	};
 
+	/**
+	 * Determines whether response saved on
+	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		if (responseValid) {
 			this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);

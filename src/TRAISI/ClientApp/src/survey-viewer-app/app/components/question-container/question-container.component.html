@@ -14,6 +14,8 @@
 		</span>
 		<span [innerHTML]="titleLabel | async | safeHtml" class="header-label fw-semi-bold"></span>
 
+		<span class="badge badge-info" *ngIf="question.isOptional">Optional</span>
+
 	</header>
 
 	<div class="widget-body">
