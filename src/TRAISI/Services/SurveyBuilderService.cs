@@ -15,6 +15,7 @@ using DAL.Core;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TRAISI.Services
 {
@@ -347,6 +348,7 @@ namespace TRAISI.Services
                         {
                             var reader = new CsvReader(fileStream);
                             reader.Configuration.RegisterClassMap<QuestionOptionMap>();
+                            reader.Configuration.PrepareHeaderForMatch = header => Regex.Replace(header, @"\s", string.Empty);
                             optionData = reader.GetRecords<QuestionOptionData>().ToList();
                         }
 

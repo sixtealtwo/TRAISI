@@ -195,16 +195,19 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group form-group-adjust row" *ngIf="!questionBeingEdited.questionPart && householdExistsBefore">
+				<div class="form-group form-group-adjust row" [hidden]="questionBeingEdited.questionPart || !householdExistsBefore">
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Household</label>
-							<div class="col-md-10">
+							<div class="col-md-10" [hidden]="isRepeat.checked">
 								<label class="form-check-label switch" for="isHouseholdCheck">
 									<input class="form-check-input" type="checkbox" value="" id="isHouseholdCheck" [(ngModel)]="questionBeingEdited.isHousehold"
-									 name="isHousehold">
+									 name="isHousehold" #isHouseholdCheck>
 									<i></i>
 								</label>
+							</div>
+							<div class="col-md-10 mt-2" [hidden]="!isRepeat.checked">
+								<div class="form-check-label">Household Disabled for Sections that Repeat</div>
 							</div>
 						</div>
 					</div>
@@ -218,7 +221,7 @@
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Repeat</label>
-							<div class="col-md-10" [hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length == 0">
+							<div class="col-md-10" [hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length == 0 || questionBeingEdited.isHousehold">
 								<label class="pull-left form-check-label switch" for="isRepeatCheck">
 									<input class="form-check-input" type="checkbox" value="" id="isRepeatCheck" #isRepeat name="isRepeat" (change)="repeatQuestion(isRepeat.checked)"
 									 [checked]="questionBeingEdited.repeatSourceQuestionName != null">
@@ -232,6 +235,7 @@
 								<span [hidden]="questionBeingEdited.id != 0" class="form-check-label">Setting Repeat Available After Save</span>
 								<span [hidden]="questionBeingEdited.id == 0 || repeatSourcesBefore.length > 0" class="form-check-label">No Repeat
 									Sources Available</span>
+								<span class="form-check-label" [hidden]="!questionBeingEdited.isHousehold">Repeating Disabled for Household Questions</span>
 							</div>
 						</div>
 					</div>

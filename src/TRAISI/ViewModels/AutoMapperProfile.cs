@@ -130,6 +130,7 @@ namespace TRAISI.ViewModels
                 {
                     svm.Label = Mapper.Map<QuestionPartViewLabelViewModel>(
                         s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
+                    svm.QuestionPartViewChildren = svm.QuestionPartViewChildren?.OrderBy(c => c.Order).ToList();
                 });
 
             CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()

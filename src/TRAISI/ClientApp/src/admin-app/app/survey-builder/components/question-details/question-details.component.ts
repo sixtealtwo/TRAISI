@@ -185,6 +185,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			this.alertService.showMessage('Success', 'Successfully imported options', MessageSeverity.success);
 			setTimeout(() => {
 				this.loadOptionData();
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			}, 1000);
 		} else {
 			this.alertService.showMessage('Partial Success', 'Successfully imported some options. Error list downloading...', MessageSeverity.warn);
@@ -334,6 +335,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe(
 			result => {
 				this.reordering = false;
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {
 				this.reordering = false;
@@ -352,6 +354,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	public savePendingOption(index: number, activeInputElement?: number): void {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOptions[index]).subscribe(
 			addedOption => {
+				this.notificationService.indicateSurveyChange(this.surveyId);
 				let optionName = this.pendingOptions[index].name;
 				this.items.get(optionName).push(addedOption);
 				this.itemsCache.get(optionName).push(addedOption);
@@ -419,6 +422,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe(
 			result => {
 				this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
+				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
 			error => {
 				this.alertService.showMessage(
