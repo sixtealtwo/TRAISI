@@ -26,17 +26,15 @@ namespace TRAISI.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHubContext<NotifyHub> _notifyHub;
         private readonly IAuthorizationService _authorizationService;
         private readonly IAccountManager _accountManager;
         private readonly IFileDownloader _fileDownloader;
 
-        public SurveyController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager, IHubContext<NotifyHub> notifyHub)
+        public SurveyController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
             this._accountManager = accountManager;
-            this._notifyHub = notifyHub;
             this._fileDownloader = fileDownloaderService;
         }
 

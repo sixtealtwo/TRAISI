@@ -13,15 +13,17 @@
 			<i class="ml-3 fa fa-bars fa-lg d-none d-md-block d-lg-none"></i>
 		</a>
 	</li>
-	<!--<li class="nav-item" [hidden]="!onBuilder">
+	<li class="nav-item d-sm-none d-md-block" [hidden]="!onBuilder">
 			<ng-template #surveyReturnTooltip>
 					Return to Surveys
 				</ng-template>
 				<a  (click)="goBackPage()"  class="nav-link">
-					<i class="fas fa-long-arrow-left fa-lg"></i>
-					&nbsp;Back
+						<span class="icon">
+								<i class="fas fa-cubes mr-2"></i>
+							</span>
+							{{ 'sidebar.ManageSurveys' | translate }}
 				</a>
-	</li>-->
+	</li>
 	<!--<li class="nav-item d-none d-md-block"><a class="nav-link" (click)="refreshPage()"><i class="fas fa-refresh fa-lg"></i></a></li>-->
 	<!--<li class="nav-item d-none d-md-block"><a class="nav-link pl-1" href="#"><i class="fas fa-times fa-lg"></i></a></li>-->
 </ul>
