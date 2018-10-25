@@ -121,8 +121,8 @@ namespace TRAISI.ViewModels
                  })
                  .ForMember(m => m.RepeatSource, map =>
                  {
-                     map.MapFrom(f => f.RepeatSource.Id)
-                     map.Condition(f => f.RepeatSource != null)
+                     map.MapFrom(f => f.RepeatSource.Id);
+                     map.Condition(f => f.RepeatSource != null);
                  })
                 .AfterMap((s, svm, opt) =>
                 {
