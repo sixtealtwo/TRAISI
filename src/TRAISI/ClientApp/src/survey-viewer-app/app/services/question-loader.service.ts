@@ -27,7 +27,7 @@ import * as carousel from 'ngx-bootstrap/carousel';
 import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
 import * as tooltip from 'ngx-bootstrap/tooltip';
-import * as icons from '@fortawesome/angular-fontawesome';
+
 import 'rxjs/add/observable/of';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
@@ -87,7 +87,6 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
 		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
 		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
-		SystemJS.registry.set('@fortawesome/angular-fontawesome', SystemJS.newModule(icons));
 	}
 
 	/**

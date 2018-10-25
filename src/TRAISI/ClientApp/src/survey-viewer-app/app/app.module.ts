@@ -33,11 +33,11 @@ import { LocalStoreManager } from '../../shared/services/local-store-manager.ser
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
+
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -52,7 +52,6 @@ import { SurveyViewerState } from './models/survey-viewer-state.model';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
-library.add(faCheckCircle);
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -85,7 +84,6 @@ library.add(faCheckCircle);
 		BrowserAnimationsModule,
 		FormsModule,
 		ModalModule.forRoot(),
-		FontAwesomeModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,

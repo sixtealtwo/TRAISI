@@ -17,7 +17,7 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { PartialObserver } from 'rxjs';
-import { NumberQuestionConfiguration } from './numer-question.configuration';
+import { NumberQuestionConfiguration } from './number-question.configuration';
 
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
