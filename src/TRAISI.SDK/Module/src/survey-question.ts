@@ -8,8 +8,6 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
  * Base abstract class for Survey Questions available to TRAISI
  */
 export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
-
-
 	/**
 	 * Output binding - question components embedded in other question types can subscribe
 	 * to the questions response event to receive the generated "data" of that question type
@@ -182,6 +180,11 @@ export interface ListResponseData extends ResponseData<ResponseTypes.List> {
 	values: Array<any>;
 }
 
+export interface OptionSelectResponseData extends ResponseData<ResponseTypes.OptionSelect> {
+	value: any;
+	name: any;
+}
+
 /**
  * Wrapper interface format for save response returned from survey - responseValue in includes the dat
  */
@@ -207,5 +210,6 @@ export enum ResponseTypes {
 	Range = 'Range',
 	List = 'List',
 	Boolean = 'boolean',
+	OptionSelect = 'option-select',
 	None = 'none'
 }

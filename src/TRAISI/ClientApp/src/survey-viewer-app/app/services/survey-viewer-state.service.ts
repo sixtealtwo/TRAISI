@@ -149,7 +149,6 @@ export class SurveyViewerStateService {
 					}
 				}
 
-				console.log(this.viewerState);
 				subject.next();
 				subject.complete();
 			});

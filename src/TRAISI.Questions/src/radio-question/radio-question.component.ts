@@ -10,7 +10,9 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	ResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 
 @Component({
@@ -18,13 +20,10 @@ import {
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit, OnOptionsLoaded {
-
-
+export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded {
 	public options: QuestionOption[];
 
-
-	public selectdOption: any;
+	public selectedOption: any;
 
 	/**
 	 *
@@ -45,7 +44,28 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> i
 	public ngOnInit(): void {
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
 
+		this.savedResponse.subscribe(this.onSavedResponseData);
+	}
 
+	/**
+	 * Determines whether saved response data on
+	 */
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.OptionSelect>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.OptionSelect>[] | 'none'
+	) => {
+		if (response !== 'none') {
+			let optionResponse = <StringResponseData>response[0];
+
+			this.selectedOption = parseInt(optionResponse.value, 10);
+			this.validationState.emit(ResponseValidationState.VALID);
+		}
+	};
+
+	/**
+	 * Determines whether model changed on
+	 */
+	public onModelChanged(): void {
+		this.response.emit(this.selectedOption);
 	}
 
 	/**
@@ -56,6 +76,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.List> i
 		this.options = options;
 	}
 
-	public traisiOnInit(): void {
-	}
+	/**
+	 * Traisis on init
+	 */
+	public traisiOnInit(): void {}
 }

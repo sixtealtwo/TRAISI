@@ -101,6 +101,9 @@ namespace DAL.Repositories
             else if (type == "datetime") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
+            else if (type == "option-select") {
+                query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
+            }
 
 
             var result = await query.ToListAsync();

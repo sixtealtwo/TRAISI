@@ -128,6 +128,10 @@ namespace TRAISI.Services
                 case QuestionResponseType.Timeline:
                     SaveTimelineResponse(survey, question, user, responseData, surveyResponse);
                     break;
+                case QuestionResponseType.OptionSelect:
+                    //
+                    SaveOptionSelectResponse(survey, question, user, responseData, surveyResponse);
+                    break;
             }
 
             try {
@@ -194,6 +198,28 @@ namespace TRAISI.Services
 
 
             (response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="question"></param>
+        /// <param name="respondent"></param>
+        /// <param name="responseData"></param>
+        /// <param name="response"></param>
+        internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+        {
+            if (response.ResponseValues.Count == 0) {
+                //response.ResponseValues = new List<ResponseValue>();
+                response.ResponseValues.Add(new OptionSelectResponse());
+            }
+
+
+            (response.ResponseValues[0] as OptionSelectResponse).Value = responseData.GetValue("value").ToObject<string>();
+
+            return;
 
         }
 

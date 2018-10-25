@@ -1,7 +1,7 @@
 <form #f="ngForm" name="form">
   <div class="col-md-7 col-12">
 
-    <input (blur)="inputBlur()" [textMask]="{mask: numberMask}" [(ngModel)]="model" type="text" class="form-control"
+    <input (blur)="inputBlur()" [textMask]="{mask: numberMask}" [(ngModel)]="model" type="text" class="form-control form-control-lg"
       #numberInput="ngModel" name="numberInput" (ngModelChange)="modelChanged()" required />
 
   </div>

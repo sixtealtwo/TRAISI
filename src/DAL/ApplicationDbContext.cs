@@ -49,6 +49,8 @@ namespace DAL
         public DbSet<ResponseValue> ResponseValues { get; set; }
 
         public DbSet<LocationResponse> LocationResponseValues { get; set; }
+
+        public DbSet<LocationResponse> OptionSelectResponses { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
         public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
         public DbSet<ThankYouPageLabel> ThankYouPageLabels { get; set; }
@@ -165,7 +167,8 @@ namespace DAL
                 .HasValue<OptionListResponse>(5)
                 .HasValue<JsonResponse>(6)
                 .HasValue<TimelineResponse>(7)
-                .HasValue<DateTimeResponse>(8);
+                .HasValue<DateTimeResponse>(8)
+                .HasValue<OptionSelectResponse>(9);
 
             builder.Entity<SurveyResponse>().HasMany(s => s.ResponseValues).WithOne(v => v.SurveyResponse).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses");
@@ -211,18 +214,15 @@ namespace DAL
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in modifiedEntries)
-            {
+            foreach (var entry in modifiedEntries) {
                 var entity = (IAuditableEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Added)
-                {
+                if (entry.State == EntityState.Added) {
                     entity.CreatedDate = now;
                     entity.CreatedBy = CurrentUserId;
                 }
-                else
-                {
+                else {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                 }

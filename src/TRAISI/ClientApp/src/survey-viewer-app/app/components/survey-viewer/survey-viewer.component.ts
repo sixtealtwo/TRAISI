@@ -368,11 +368,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
 							) {
 								this.viewerState.activeRepeatIndex += 1;
-								console.log('1');
 							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
 								this.activeQuestionIndex += 1;
 								this.viewerState.activeQuestionIndex++;
-								console.log('2');
 							}
 
 							this.updateViewerState();
