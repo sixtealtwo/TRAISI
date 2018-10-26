@@ -122,7 +122,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 				this.numberMask = createNumberMask({
 					prefix: '',
 					suffix: '',
-					allowDecimal: false
+					allowDecimal: true
 				});
 				break;
 		}
