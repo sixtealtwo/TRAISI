@@ -137,15 +137,23 @@ export class SurveyViewerStateService {
 				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId).value;
 
 				// find index of repeat Target
-
 				if (typeof response === 'number') {
+					const responseInt: number = Math.round(response);
 					let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
 					targetQuestion.repeatChildren = [];
 					targetQuestion.repeatNumber = 0;
-					for (let i: number = 0; i < response - 1; i++) {
+					for (let i: number = 0; i < responseInt - 1; i++) {
 						let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
 						duplicate.repeatNumber = i + 1;
 						targetQuestion.repeatChildren.push(duplicate);
+					}
+
+					if (responseInt === 0) {
+						// hide the question from view
+						this.removeQuestionFromView(targetQuestion);
+					} else {
+						// add question to view -- this has no effect if it is already visible
+						this.addQuestionToView(targetQuestion);
 					}
 				}
 
@@ -155,6 +163,44 @@ export class SurveyViewerStateService {
 		});
 
 		return subject;
+	}
+
+	/**
+	 * Removes question from view
+	 * @param question
+	 * @returns true if the question was removed from view - false if it was already removed
+	 */
+	private removeQuestionFromView(question: SurveyViewQuestion): boolean {
+		const index: number = this.viewerState.surveyQuestions.findIndex((sq) => sq.questionId === question.questionId);
+
+		if (index >= 0) {
+			this.viewerState.surveyQuestions.splice(index, 1);
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Adds question to view - this has no effect if the question is already visible
+	 * @param question
+	 */
+	private addQuestionToView(question: SurveyViewQuestion): void {
+		const index: number = this.viewerState.surveyQuestions.findIndex((sq) => sq.questionId === question.questionId);
+
+		if (index >= 0) {
+			return;
+		}
+
+		for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
+			if (
+				question.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
+				question.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
+			) {
+				this.viewerState.surveyQuestions.splice(i + 1, 0, question);
+				break;
+			}
+		}
 	}
 
 	/**
@@ -190,28 +236,11 @@ export class SurveyViewerStateService {
 						);
 					});
 
-					const index: number = this.viewerState.surveyQuestions.findIndex(
-						(sq) => sq.questionId === conditional.targetQuestionId
-					);
-
 					if (evalTrue) {
-						if (index >= 0) {
-							this.viewerState.surveyQuestions.splice(index, 1);
-						}
+						this.removeQuestionFromView(targetQuestion);
 					} else {
-						if (index < 0) {
-							// re add at the proper order
-
-							for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
-								if (
-									targetQuestion.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
-									targetQuestion.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
-								) {
-									this.viewerState.surveyQuestions.splice(i + 1, 0, targetQuestion);
-									break;
-								}
-							}
-						}
+						// re add at the proper order
+						this.addQuestionToView(targetQuestion);
 					}
 
 					this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);

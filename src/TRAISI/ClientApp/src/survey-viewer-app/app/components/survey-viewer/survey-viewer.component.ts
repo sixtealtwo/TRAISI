@@ -352,7 +352,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		);
 
 		conditionalResult.subscribe(
-			(value) => {
+			(value: void) => {
 				this._viewerStateService
 					.evaluateRepeat(
 						this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
@@ -375,7 +375,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							this.updateViewerState();
 							this.validateNavigation();
 						} else {
-							const result = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
+							const result: boolean = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
 							if (result) {
 								if (
