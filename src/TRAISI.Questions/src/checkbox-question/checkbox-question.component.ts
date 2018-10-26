@@ -17,14 +17,9 @@ import {
 	template: require('./checkbox-question.component.html').toString(),
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
-export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.List>
-	implements OnInit, OnOptionsLoaded {
-	readonly QUESTION_TYPE_NAME: string = 'Checkbox Question';
-
-	typeName: string;
-	icon: string;
-
-	options: QuestionOption[];
+export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {
+	public model: {}[];
+	public options: QuestionOption[];
 
 	/**
 	 *
@@ -32,30 +27,38 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.List
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'checkbox';
+
 		this.options = [];
 
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
+	private onLoadSavedResponse: (response: ResponseTypes.OptionSelect[] | 'none') => void = (
+		response: ResponseTypes.OptionSelect[] | 'none'
+	) => {
+		if (response !== 'none') {
+			this.model = response;
+		}
+	};
+
 	/**
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {
+	public loadConfigurationData(data: QuestionConfiguration[]): void {
 		this.data = data;
 	}
 
-	ngOnInit() {
-		console.log('init');
+	/** */
+	public ngOnInit(): void {
+		this.savedResponse.subscribe(this.onLoadSavedResponse);
 	}
 
 	/**
 	 *
 	 * @param options
 	 */
-	onOptionsLoaded(options: QuestionOption[]): void {
+	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
 	}
 }
