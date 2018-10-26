@@ -27,12 +27,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 	styles: [require('./number-question.component.scss').toString()]
 })
 export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
-	readonly QUESTION_TYPE_NAME: string = 'Number Question';
-
-	typeName: string;
-	icon: string;
-
-	configuration: NumberQuestionConfiguration;
+	public configuration: NumberQuestionConfiguration;
 
 	public model: string;
 
@@ -49,8 +44,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'number';
 	}
 
 	/**
