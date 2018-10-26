@@ -221,8 +221,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private surveyQuestionsChanged: () => void = () => {
 		// update the validation based on new survey questions and active question
-
-		this.validateNavigation();
+		// this.validateNavigation();
 	};
 
 	/**
@@ -337,7 +336,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
 		this.navigationActiveState = newState;
-		this.validateNavigation();
+		// this.validateNavigation();
 	};
 
 	/**
@@ -347,7 +346,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.isNextProcessing = true;
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
-			this.viewerState.activeGroupMemberIndex >= 0
+			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
 				? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
 				: this.viewerState.primaryRespondent.id
 		);
@@ -357,7 +356,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this._viewerStateService
 					.evaluateRepeat(
 						this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
-						this.viewerState.activeGroupMemberIndex >= 0
+						this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
 							? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
 							: this.viewerState.primaryRespondent.id
 					)
@@ -572,7 +571,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeRepeatIndex = -1;
 		}
 
-		this._viewerStateService.updateState(this.viewerState);
+		// this._viewerStateService.updateState(this.viewerState);
+
+		console.log(this.viewerState);
 	}
 
 	/**
