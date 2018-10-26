@@ -65,7 +65,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
 		this._numberModel = number;
-		console.log(number);
 	}
 
 	/**
@@ -77,8 +76,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		if (validated && this.inputForm.valid) {
 			this.response.emit(this._numberModel);
 		}
-
-		console.log(this.inputForm);
 	}
 
 	/**
