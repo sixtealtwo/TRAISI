@@ -149,7 +149,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						this.surveyViewQuestion.repeatNumber === undefined ? 0 : this.surveyViewQuestion.repeatNumber
 					)
 					.subscribe((response) => {
-						surveyQuestionInstance.savedResponse.next(response === undefined ? 'none' : response.responseValues);
+						console.log(response);
+						surveyQuestionInstance.savedResponse.next(response === undefined || response === null ? 'none' : response.responseValues);
 
 						surveyQuestionInstance.traisiOnLoaded();
 					});
