@@ -1,22 +1,6 @@
 <div class="map-container">
-    <mgl-map #mapbox [style]="'mapbox://styles/mapbox/streets-v9'" (click)="mapClick($event)">
-        <mgl-layer id="3d-buildings" source="composite" sourceLayer="building" [filter]="['==', 'extrude', 'true']"
-                   type="fill-extrusion"
-                   [minzoom]="15" [paint]="{
-			'fill-extrusion-color': '#aaa',
-			'fill-extrusion-height': [
-				'interpolate', ['linear'], ['zoom'],
-				15, 0,
-				15.05, ['get', 'height']
-			],
-			'fill-extrusion-base': [
-				'interpolate',
-				['linear'], ['zoom'],
-				15, 0,
-				15.05, ['get', 'min_height']
-			],
-			'fill-extrusion-opacity': .6
-		}"></mgl-layer>
+    <mgl-map #mapbox [style]="'https://maps.tilehosting.com/styles/streets/style.json?key=5YOsrAa6pBZnCp812wTQ'" (click)="mapClick($event)">
+        
         <mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
 	}" [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>

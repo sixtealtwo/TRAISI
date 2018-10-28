@@ -226,6 +226,10 @@ namespace TRAISI.Services
 
         public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName, string icon)
         {
+            if (qpv.isHousehold && repeatSourceQuestionName != null)
+            {
+                throw new ArgumentException("Section cannot be both marked as household and repeat");
+            }
             qpv.isHousehold = isHousehold;
             qpv.isOptional = isOptional;
 
