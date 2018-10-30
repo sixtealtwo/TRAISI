@@ -13,61 +13,60 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/SurveyViewer';
 	private readonly _surveyViewerUrl: string = '/api/SurveyViewer';
 
-	get surveyViewQuestionsUrl() {
+	public get surveyViewQuestionsUrl(): string {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
 	}
 
-	get surveyViewQuestionConfiguration() {
+	get surveyViewQuestionConfiguration(): string {
 		return this.configurations.baseUrl + '/' + this._surveyViewQuestionsUrl;
 	}
 
-	get surveyViewerUrl() {
+	get surveyViewerUrl(): string {
 		return this.configurations.baseUrl + '/' + this._surveyViewerUrl;
 	}
 
-	private get getSurveyViewerWelcomeViewUrl() {
+	private get getSurveyViewerWelcomeViewUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/welcome';
 	}
 
-	private get getSurveyViewerStartSurveyUrl() {
+	private get getSurveyViewerStartSurveyUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/start';
 	}
 
-	private get getSurveyViewerTermsAndConditionsUrl() {
+	private get getSurveyViewerTermsAndConditionsUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
 	}
 
-	private get getDefaultSurveyViewUrl() {
+	private get getDefaultSurveyViewUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/view';
 	}
 
-	private get getSurveyViewerRespondentPageQuestionsUrl() {
+	private get getSurveyViewerRespondentPageQuestionsUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/viewer';
 	}
 
-	private get getSurveyViewPagesUrl() {
+	private get getSurveyViewPagesUrl(): string {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/surveys';
 	}
 
-	private get getSurveyViewQuestionOptionsUrl() {
+	private get getSurveyViewQuestionOptionsUrl(): string {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/surveys';
 	}
 
-	private get getSurveyIdFromCodeUrl() {
+	private get getSurveyIdFromCodeUrl(): string {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/codes';
 	}
 
-	private get getSurveyStylesUrl() {
+	private get getSurveyStylesUrl(): string {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/styles';
 	}
 
-
-		/**
+	/**
 	 *
 	 * @param surveyId
 	 * @param shortcode
 	 */
-	getSurveyIdFromCodeEndpoint<T>(code: string): Observable<T> {
+	public getSurveyIdFromCodeEndpoint<T>(code: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyIdFromCodeUrl}/${code}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -84,7 +83,10 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param language
 	 */
 	// tslint:disable-next-line:no-shadowed-variable
-	public getSurveyViewPagesEndpoint<SurveyViewPage>(surveyId: number, viewType?: SurveyViewType) {
+	public getSurveyViewPagesEndpoint<SurveyViewPage>(
+		surveyId: number,
+		viewType?: SurveyViewType
+	): Observable<SurveyViewPage> {
 		let endpointUrl = `${this.getSurveyViewPagesUrl}/${surveyId}?viewType=${viewType}`;
 
 		return this.http.get<SurveyViewPage[]>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -100,7 +102,11 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param pageNumber
 	 * @param language
 	 */
-	public getSurveyViewerRespondentPageQuestionsEndpoint<T>(surveyId: number, pageNumber: number, language?: string) {
+	public getSurveyViewerRespondentPageQuestionsEndpoint<T>(
+		surveyId: number,
+		pageNumber: number,
+		language?: string
+	): Observable<T> {
 		let endpointUrl = `${
 			this.getSurveyViewerRespondentPageQuestionsUrl
 		}/${surveyId}/page/${pageNumber}?language=${language}`;
@@ -128,7 +134,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		surveyId: number,
 		viewType?: SurveyViewType,
 		language?: string
-	) {
+	): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerTermsAndConditionsUrl}/${surveyId}/terms/${viewType}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -144,7 +150,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 *
 	 * @param surveyName
 	 */
-	getSurveyViewerWelcomeViewEndpoint<T>(surveyName: string): Observable<T> {
+	public getSurveyViewerWelcomeViewEndpoint<T>(surveyName: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerWelcomeViewUrl}/${surveyName}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -159,7 +165,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param surveyId
 	 * @param shortcode
 	 */
-	getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string = null): Observable<T> {
+	public getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string = null): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}`;
 
 		console.log(this.getRequestHeaders());
@@ -175,7 +181,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param surveyId
 	 * @param language
 	 */
-	getDefaultSurveyViewEndpoint<T>(surveyId: number, language: string = 'en'): Observable<T> {
+	public getDefaultSurveyViewEndpoint<T>(surveyId: number, language: string = 'en'): Observable<T> {
 		let endpointUrl = `${this.getDefaultSurveyViewUrl}/${surveyId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -188,8 +194,9 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	/**
 	 *
 	 * @param questionId
+	 * @param query
 	 */
-	getQuestionOptionsEndpoint<T>(questionId: number, query: string = null): Observable<T> {
+	public getQuestionOptionsEndpoint<T>(questionId: number, query: string = null): Observable<T> {
 		let endpointUrl = `${this.surveyViewQuestionConfiguration}/question-options/${questionId}/query`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -203,7 +210,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 *
 	 * @param questionId
 	 */
-	getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
+	public getSurveyViewQuestionConfigurationEndpoint<T>(questionId: number): Observable<T> {
 		let endpointUrl = `${this.surveyViewQuestionConfiguration}/${questionId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -220,7 +227,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param language
 	 * @param query
 	 */
-	getSurveyViewQuestionOptionsEndpoint<SurveyViewQuestionOption>(
+	public getSurveyViewQuestionOptionsEndpoint<SurveyViewQuestionOption>(
 		surveyId: number,
 		questionId: number,
 		language?: string,
@@ -244,7 +251,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param {number} surveyId
 	 * @returns {Observable<T>}
 	 */
-	getSurveyViewQuestionsEndpoint<T>(surveyId: number): Observable<T> {
+	public getSurveyViewQuestionsEndpoint<T>(surveyId: number): Observable<T> {
 		let endpointUrl = `${this.surveyViewQuestionsUrl}/${surveyId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -260,7 +267,7 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 	 * @param {number} questionIndex
 	 * @returns {Observable<T>}
 	 */
-	getSurveyViewQuestionEndpoint<T>(surveyId: number, questionIndex: number): Observable<T> {
+	public getSurveyViewQuestionEndpoint<T>(surveyId: number, questionIndex: number): Observable<T> {
 		let endpointUrl = `${this.surveyViewQuestionsUrl}/${surveyId}/${questionIndex}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
