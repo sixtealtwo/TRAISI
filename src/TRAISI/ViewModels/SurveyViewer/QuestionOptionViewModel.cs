@@ -8,5 +8,7 @@ namespace TRAISI.ViewModels.SurveyViewer {
 		public string Name { get; set; }
 
 		public string Label { get; set; }
+
+		public string Code {get;set;}
 	}
 }

@@ -18,7 +18,7 @@ import {
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
 export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {
-	public model: {}[];
+	public model: {};
 	public options: QuestionOption[];
 
 	/**
@@ -29,8 +29,13 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		super();
 
 		this.options = [];
-
+		this.model = {}; 
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
+	}
+
+	public modelChanged($event, option): void {
+		console.log($event);
+		console.log(option); 
 	}
 
 	private onLoadSavedResponse: (response: ResponseTypes.OptionSelect[] | 'none') => void = (
@@ -60,5 +65,9 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 	 */
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
+
+		options.forEach(option => {
+			this.model[option.id] = false;
+		});
 	}
 }
