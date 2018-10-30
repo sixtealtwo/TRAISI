@@ -61,9 +61,15 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
-					optional: true
-				})
+				query(
+					':self',
+					stagger('1s', [
+						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
+					]),
+					{
+						optional: true
+					}
+				)
 			])
 		])
 	],
@@ -193,7 +199,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 			this.viewerTheme = theme;
-			theme.viewerTemplate.forEach((sectionInfo) => {
+			theme.viewerTemplate.forEach(sectionInfo => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
@@ -268,8 +274,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let viewOrder: number = 0;
 
 		this.viewerState.surveyPages = pages;
-		pages.forEach((page) => {
-			page.questions.forEach((question) => {
+		pages.forEach(page => {
+			page.questions.forEach(question => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
@@ -288,8 +294,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				viewOrder++;
 			});
-			page.sections.forEach((section) => {
-				section.questions.forEach((question) => {
+			page.sections.forEach(section => {
+				section.questions.forEach(question => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
@@ -326,8 +332,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			} else {
 			}
 		});
-
-
 	}
 
 	/**
@@ -369,14 +373,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					)
 					.subscribe((v: void) => {
 						if (!this.validateInternalNavigationNext()) {
-							if (
-								this.viewerState.activeRepeatIndex >= 0 &&
-								this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
-							) {
-								this.viewerState.activeRepeatIndex += 1;
-							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-								this.activeQuestionIndex += 1;
-								this.viewerState.activeQuestionIndex++;
+							// evaluate question for when a household question is not active
+							if (!this.isHouseholdQuestionActive()) {
+								if (
+									this.viewerState.activeRepeatIndex >= 0 &&
+									this.viewerState.activeRepeatIndex <
+										this.viewerState.activeQuestion.repeatChildren.length
+								) {
+									this.viewerState.activeRepeatIndex += 1;
+								} else if (
+									this.viewerState.activeQuestionIndex <
+									this.viewerState.surveyQuestions.length - 1
+								) {
+									this.activeQuestionIndex += 1;
+									this.viewerState.activeQuestionIndex++;
+								}
 							}
 
 							this.updateViewerState();
@@ -385,14 +396,24 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							const result: boolean = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
 
 							if (result) {
-								if (
-									this.viewerState.activeRepeatIndex >= 0 &&
-									this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
-								) {
-									this.viewerState.activeRepeatIndex += 1;
-								} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-									this.activeQuestionIndex += 1;
-									this.viewerState.activeQuestionIndex++;
+								// evaluate question for when a household question is not active
+								if (!this.isHouseholdQuestionActive()) {
+									if (
+										this.viewerState.activeRepeatIndex >= 0 &&
+										this.viewerState.activeRepeatIndex <
+											this.viewerState.activeQuestion.repeatChildren.length
+									) {
+										this.viewerState.activeRepeatIndex += 1;
+									} else if (
+										this.viewerState.activeQuestionIndex <
+											this.viewerState.surveyQuestions.length - 1 &&
+										this.isHouseholdQuestionActive
+									) {
+										this.activeQuestionIndex += 1;
+										this.viewerState.activeQuestionIndex++;
+									}
+								} else {
+									// evaluate for when a household question is active
 								}
 
 								this.updateViewerState();
@@ -422,9 +443,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeRepeatIndex > 0 &&
 			this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren.length
 		) {
-			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex].repeatChildren[
-				this.viewerState.activeRepeatIndex - 1
-			];
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
+				this.viewerState.activeQuestionIndex
+			].repeatChildren[this.viewerState.activeRepeatIndex - 1];
 		} else if (this.viewerState.activeRepeatIndex > this.viewerState.activeQuestion.repeatChildren.length) {
 			this.viewerState.activeRepeatIndex = -1;
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
@@ -468,7 +489,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
+				if (
+					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
+						'onQuestionShown'
+					)
+				) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -577,17 +602,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (!this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex >= 0) {
 			this.viewerState.activeRepeatIndex = -1;
 		}
-
-		// this._viewerStateService.updateState(this.viewerState);
-
-		console.log(this.viewerState);
 	}
 
 	/**
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe((s) => {
+		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {
