@@ -83,11 +83,13 @@ namespace TRAISI.Services
 
             //var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
 
-            if (type.ResponseValidator != null) {
+            if (type.ResponseValidator != null)
+            {
                 type.ResponseValidator.ValidateResponse(null);
             }
 
@@ -95,21 +97,24 @@ namespace TRAISI.Services
                            (SurveyRespondent)respondent, repeat);
             bool isUpdate = false;
 
-            if (surveyResponse == null) {
+            if (surveyResponse == null)
+            {
                 surveyResponse = new SurveyResponse()
                 {
                     QuestionPart = question,
                     Respondent = respondent,
                 };
             }
-            else {
+            else
+            {
                 isUpdate = true;
             }
 
 
             surveyResponse.Repeat = repeat;
 
-            switch (type.ResponseType) {
+            switch (type.ResponseType)
+            {
                 case QuestionResponseType.String:
                     SaveStringResponse(survey, question, user, responseData, surveyResponse);
                     break;
@@ -134,16 +139,19 @@ namespace TRAISI.Services
                     break;
             }
 
-            try {
+            try
+            {
 
-                if (!isUpdate) {
+                if (!isUpdate)
+                {
                     this._unitOfWork.SurveyResponses.Add(surveyResponse);
                 }
 
 
                 await this._unitOfWork.SaveChangesAsync();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 this._logger.LogError(e, "Error saving response.");
                 return false;
             }
@@ -170,7 +178,8 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new StringResponse());
             }
@@ -191,7 +200,8 @@ namespace TRAISI.Services
         /// <param name="response"></param>
         internal void SaveIntegerResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new IntegerResponse());
             }
@@ -211,13 +221,22 @@ namespace TRAISI.Services
         /// <param name="response"></param>
         internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
-                response.ResponseValues.Add(new OptionSelectResponse());
+                // response.ResponseValues.Add(new OptionSelectResponse());
             }
+            response.ResponseValues.Clear();
 
-
-            (response.ResponseValues[0] as OptionSelectResponse).Value = responseData.GetValue("value").ToObject<string>();
+            List<OptionSelectResponse> values = responseData["values"].ToObject<List<OptionSelectResponse>>();
+            foreach (var val in values)
+            {
+                response.ResponseValues.Add(new OptionSelectResponse()
+                {
+                    Value = val.Name,
+                    Name = val.Name
+                });
+            }
 
             return;
 
@@ -233,7 +252,8 @@ namespace TRAISI.Services
         /// <param name="response"></param>
         internal void SaveDecimalResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new DecimalResponse());
             }
@@ -274,7 +294,8 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
+            if (response.ResponseValues.Count == 0)
+            {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new LocationResponse());
             }
@@ -320,7 +341,8 @@ namespace TRAISI.Services
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (respondent == null) {
+            if (respondent == null)
+            {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
 
