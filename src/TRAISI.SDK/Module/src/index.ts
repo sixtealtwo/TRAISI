@@ -25,7 +25,8 @@ export {
 	StringResponseData,
 	TimelineResponseData,
 	TimeResponseData,
-	ResponseValue
+	ResponseValue,
+	OptionSelectResponseData
 } from './survey-question';
 
 export { QuestionLoaderService } from './question-loader.service';

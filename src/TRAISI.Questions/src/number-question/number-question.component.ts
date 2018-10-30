@@ -91,7 +91,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 * on init
 	 */
 	public ngOnInit(): void {
-		console.log(this.configuration);
+	
 		const format: any = JSON.parse(this.configuration.numberFormat);
 
 		this.configuration.max = parseInt('' + this.configuration['max'], 10);

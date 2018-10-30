@@ -10,12 +10,15 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	OptionSelectResponseData
 } from 'traisi-question-sdk';
-import { OptionSelectResponseData } from '../../../TRAISI.SDK/Module/src/survey-question';
+
+
+
 @Component({
 	selector: 'traisi-checkbox-question',
-	template: require('./checkbox-question.component.html').toString(),
+	template: require('./checkbox-question.component.html'),
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
 export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {
@@ -34,6 +37,11 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
+	/**
+	 *
+	 * @param $event
+	 * @param option
+	 */
 	public modelChanged($event, option): void {
 		this.model[option.code] = $event.srcElement.checked;
 
