@@ -327,7 +327,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			}
 		});
 
-		console.log(this.viewerState);
+
 	}
 
 	/**
@@ -338,6 +338,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.navigationActiveState = newState;
 		// this.validateNavigation();
 	};
+
+	/**
+	 * Evaluates whether a household question is currently active or not
+	 */
+	private isHouseholdQuestionActive(): boolean {
+		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
+	}
 
 	/**
 	 * Navigate questions - next question in the questions list.
