@@ -19,6 +19,7 @@ export interface SurveyViewQuestion {
 	repeatTargets?: number[];
 	repeatChildren?: SurveyViewQuestion[];
 	repeatNumber?: number;
+	inSectionIndex?: number;
 
 	// convenient ref to section or page
 
