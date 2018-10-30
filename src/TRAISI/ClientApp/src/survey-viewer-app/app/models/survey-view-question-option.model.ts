@@ -3,4 +3,5 @@ export interface SurveyViewQuestionOption {
 	name: string;
 	order: number;
 	label: string;
+	code: string;
 }
