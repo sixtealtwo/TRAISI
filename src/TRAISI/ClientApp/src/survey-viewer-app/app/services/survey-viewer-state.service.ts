@@ -153,7 +153,6 @@ export class SurveyViewerStateService {
 						targetQuestion.repeatChildren[respondentId].push(duplicate);
 					}
 
-					console.log('responseInt ' + responseInt);
 					if (responseInt === 0) {
 						// hide the question from view
 						this.removeQuestionFromView(targetQuestion);

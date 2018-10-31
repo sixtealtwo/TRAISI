@@ -41,7 +41,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public getCachedSavedResponse(questionId: number, respondentId: number): any {
-		console.log(this._cachedSavedResponses);
+
 		return this._cachedSavedResponses[questionId][respondentId];
 	}
 
