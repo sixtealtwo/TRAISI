@@ -344,6 +344,31 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
 	}
 
+	public updateNavigation(): void {
+		let conditionalResult = this._viewerStateService.evaluateConditionals(
+			this.viewerState.activeQuestion.questionId,
+			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
+				? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
+				: this.viewerState.primaryRespondent.id
+		);
+
+		conditionalResult.subscribe((value: void) => {
+			this._viewerStateService
+				.evaluateRepeat(
+					this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
+					this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
+						? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
+						: this.viewerState.primaryRespondent.id
+				)
+				.subscribe((v: void) => {
+					if (!this.validateInternalNavigationNext()) {
+						this.updateViewerState();
+						this.validateNavigation();
+					}
+				});
+		});
+	}
+
 	/**
 	 * Navigate questions - next question in the questions list.
 	 */
@@ -549,7 +574,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param memberIndex
 	 */
 	public showGroupMember(memberIndex: number): void {
+		console.log(memberIndex);
 		this.viewerState.activeGroupMemberIndex = memberIndex;
+		this.viewerState.activeRespondent = this.viewerState.groupMembers[memberIndex];
 	}
 
 	/**

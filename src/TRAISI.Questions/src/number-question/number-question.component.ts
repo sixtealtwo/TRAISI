@@ -51,7 +51,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	/**
 	 * Traisis on init
 	 */
-	public traisiOnInit() {}
+	public traisiOnInit(): void {}
 
 	/**
 	 * Models changed
@@ -115,16 +115,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 				break;
 		}
 
-		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
-			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
-
-			this._numberModel = number;
-			const validated: boolean = this.validateInput();
-
-			if (validated && this.inputForm.valid) {
-				this.response.emit(this._numberModel);
-			}
-		});
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
@@ -139,5 +129,16 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.model = '' + decimalResponse.value;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
+
+		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
+
+			this._numberModel = number;
+			const validated: boolean = this.validateInput();
+
+			if (validated && this.inputForm.valid) {
+				this.response.emit(this._numberModel);
+			}
+		});
 	};
 }
