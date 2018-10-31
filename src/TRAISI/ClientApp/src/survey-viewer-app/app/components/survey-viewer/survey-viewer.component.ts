@@ -655,6 +655,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 
 		this.navigateNextEnabled = true;
+
+		console.log(this.viewerState);
 	}
 
 	private activeRespondentId(): number {

@@ -31,15 +31,15 @@
 									<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="repeat"
 									 [class]="viewerState.activeRespondent.id" [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i"
 									 *ngIf="viewerState.activeRepeatIndex == c + 1" #questions></traisi-question-container>
+								</div>
 							</div>
 						</div>
-					</div>
 
 
 
 
 
-					<!-- <div *ngIf="viewerState.activeQuestionIndex == i">
+						<!-- <div *ngIf="viewerState.activeQuestionIndex == i">
 
 							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
 
@@ -58,41 +58,42 @@
 
 							</div>
 						</div> -->
+					</div>
 				</div>
-			</div>
-			<div class="group-member-names-container" [hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
-				<div class="group-member-names-section">
-					<span *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index" class="group-member-name"
-					 (click)="showGroupMember(m)" [ngClass]="{
-								'group-member-active': m == viewerState.activeGroupMemberIndex,
-								'group-member-complete': groupQuestion.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex}">
-						{{ groupQuestion.parentMember.name }}</span>
+				<div class="group-member-names-container" [hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
 
+					<div class="group-member-names-section">
+						<span *ngFor="let groupMember of viewerState.groupMembers; let m = index" class="group-member-name" (click)="showGroupMember(m)"
+						 [ngClass]="{
+								'group-member-active': m == viewerState.activeGroupMemberIndex,
+								'group-member-complete': groupMember.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex}">
+							{{ groupMember.name }}</span>
+
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
-	<div class="row justify-content-center">
-		<div class="col-12 text-center">
-			<button [ngClass]="navButtonClass" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
-			 type="button">
-				<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
-			</button>
-			<button [ngClass]="navButtonClass" (click)="navigateNext()" [disabled]="!navigateNextEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
-			 type="button">
-				<div class="progress" *ngIf="isNextProcessing">
-					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
-					 aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-				</div>
-				<div *ngIf="!isNextProcessing">
-					{{ 'Viewer.Next' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
-				</div>
-			</button>
+	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<button [ngClass]="navButtonClass" (click)="navigatePrevious()" [disabled]="!navigatePreviousEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
+				 type="button">
+					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
+				</button>
+				<button [ngClass]="navButtonClass" (click)="navigateNext()" [disabled]="!navigateNextEnabled" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
+				 type="button">
+					<div class="progress" *ngIf="isNextProcessing">
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
+						 aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+					</div>
+					<div *ngIf="!isNextProcessing">
+						{{ 'Viewer.Next' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+					</div>
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
-<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs"></ndc-dynamic>
+	<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs"></ndc-dynamic>
 
 </div>

@@ -127,6 +127,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Decminal>[] | 'none') => void = (
 		response: ResponseData<ResponseTypes.Decminal>[] | 'none'
 	) => {
+
 		if (response !== 'none') {
 			let decimalResponse = <DecimalResponseData>response[0];
 			this.model = '' + decimalResponse.value;
