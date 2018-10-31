@@ -153,6 +153,7 @@ export class SurveyViewerStateService {
 						targetQuestion.repeatChildren[respondentId].push(duplicate);
 					}
 
+					console.log('responseInt ' + responseInt);
 					if (responseInt === 0) {
 						// hide the question from view
 						this.removeQuestionFromView(targetQuestion);
@@ -197,14 +198,20 @@ export class SurveyViewerStateService {
 			return;
 		}
 
+		let added: boolean = false;
 		for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
 			if (
 				question.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
 				question.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
 			) {
 				this.viewerState.surveyQuestions.splice(i + 1, 0, question);
+				added = true;
 				break;
 			}
+		}
+
+		if (!added) {
+			this.viewerState.surveyQuestions.splice(this.viewerState.surveyQuestions.length, 0, question);
 		}
 	}
 

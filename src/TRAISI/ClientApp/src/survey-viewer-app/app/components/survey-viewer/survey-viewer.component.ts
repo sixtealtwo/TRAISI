@@ -434,7 +434,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (!this.viewerState.activeQuestion.isRepeat) {
 				this.viewerState.activeRepeatIndex = -1;
 			}
-			this.viewerState.activeInSectionIndex = 0;
+			// this.viewerState.activeInSectionIndex = 0;
 		} else if (
 			this.viewerState.activeRepeatIndex > 0 &&
 			this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
@@ -449,12 +449,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		) {
 			if (!this.isHouseholdQuestionActive()) {
 				this.viewerState.activeRepeatIndex = -1;
-				this.viewerState.activeInSectionIndex = 0;
+				// this.viewerState.activeInSectionIndex = 0;
 				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			} else {
 				// console.log('resetting active repeat');
 				// this.viewerState.activeRepeatIndex = -1;
-				this.viewerState.activeInSectionIndex = 0;
+				// this.viewerState.activeInSectionIndex = 0;
 			}
 		} else {
 			this.viewerState.activeQuestionIndex = this.viewerState.activeQuestionIndex;
@@ -462,11 +462,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 			if (this.isHouseholdQuestionActive()) {
 				if (
-					(this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
+					(this.viewerState.activeInSectionIndex >=
+						this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) &&
 						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
 						!this.viewerState.activeQuestion.isRepeat) ||
 					(this.viewerState.activeQuestion.isRepeat &&
-						this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
+						this.viewerState.activeInSectionIndex >=
+							this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) &&
 						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
 						this.viewerState.activeRepeatIndex >
 							this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length)
@@ -476,7 +478,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.activeInSectionIndex = 0;
 					this.viewerState.activeRespondent = this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex];
 
-					console.log(this.viewerState.activeRespondent);
+					console.log('going to next');
 
 					const questionIndex = this.viewerState.surveyQuestions.findIndex(
 						(q) => q === this.viewerState.activeSection.questions[0]
@@ -539,6 +541,23 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.updateRespondentGroup();
 
 		// this._viewerStateService.updateState(this.viewerState);
+	}
+
+	/**
+	 * Counts visible questions in section
+	 * @param section
+	 * @returns visible questions in section
+	 */
+	private countVisibleQuestionsInSection(section: SurveyViewSection): number {
+		let count: number = 0;
+		section.questions.forEach((question) => {
+			const index: number = this.viewerState.surveyQuestions.findIndex((q) => q.questionId === question.questionId);
+			if (index >= 0) {
+				count++;
+			}
+		});
+
+		return count;
 	}
 
 	/**
@@ -666,7 +685,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.navigateNextEnabled = false;
 		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
 			this.navigateNextEnabled = false;
-		} else {
+		} else if (!this.isHouseholdQuestionActive()) {
 			this.navigateNextEnabled = true;
 		}
 
@@ -681,7 +700,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1) {
 				this.navigateNextEnabled = true;
 			} else if (this.viewerState.activeGroupMemberIndex === this.viewerState.groupMembers.length - 1) {
-				if (this.viewerState.activeInSectionIndex < this.viewerState.activeQuestion.parentSection.questions.length) {
+				if (
+					this.viewerState.activeInSectionIndex <
+					this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) - 1
+				) {
 					this.navigateNextEnabled = true;
 				}
 			}
