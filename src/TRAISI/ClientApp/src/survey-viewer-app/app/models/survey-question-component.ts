@@ -1,5 +1,5 @@
 
-import { ComponentFactory } from "@angular/core";
+import { ComponentFactory } from '@angular/core';
 
 export interface SurveyQuestionComponent
 {

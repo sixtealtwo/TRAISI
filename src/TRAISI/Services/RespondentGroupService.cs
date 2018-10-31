@@ -35,9 +35,14 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="group"></param>
         /// <param name="respondentId"></param>
-        public void RemoveRespondent(SurveyRespondentGroup group, int respondentId)
+        public async void RemoveRespondent(SurveyRespondentGroup group, int respondentId)
         {
             var index = group.GroupMembers.FindIndex(r => r.Id == respondentId);
+
+            var responses = await this._unitOfWork.SurveyResponses.ListQuestionResponsesForRespondentAsync(respondentId, "");
+
+            this._unitOfWork.SurveyResponses.RemoveRange(responses);
+
             group.GroupMembers.RemoveAt(index);
 
         }
@@ -71,7 +76,7 @@ namespace TRAISI.Services
 
                 primary.Name = respondentModel.Name;
 
-                
+
                 return true;
             }
 

@@ -23,10 +23,12 @@
 							 [surveyViewQuestion]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i && viewerState.activeRepeatIndex <= 0"
 							 #questions></traisi-question-container>
 
-							<div *ngFor="let repeat of question.repeatChildren; let c = index">
-								<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
-								 [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
-								 #questions></traisi-question-container>
+							<div *ngIf="question.repeatChildren !== undefined">
+								<div *ngFor="let repeat of question.repeatChildren[viewerState.primaryRespondent.id]; let c = index">
+									<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
+									 [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
+									 #questions></traisi-question-container>
+								</div>
 							</div>
 
 						</div>

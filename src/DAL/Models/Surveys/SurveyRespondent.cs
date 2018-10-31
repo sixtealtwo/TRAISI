@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DAL.Models.Surveys
 {
     public abstract class SurveyRespondent : ISurveyRespondent
@@ -7,6 +9,7 @@ namespace DAL.Models.Surveys
 
         public string Relationship { get; set; }
         public SurveyRespondentGroup SurveyRespondentGroup { get; set; }
+
 
     }
 }

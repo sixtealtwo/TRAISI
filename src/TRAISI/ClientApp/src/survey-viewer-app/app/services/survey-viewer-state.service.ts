@@ -152,12 +152,13 @@ export class SurveyViewerStateService {
 					if (typeof response === 'number') {
 						const responseInt: number = Math.round(response);
 						let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
-						targetQuestion.repeatChildren = [];
+						targetQuestion.repeatChildren = {};
+						targetQuestion.repeatChildren[respondentId] = [];
 						targetQuestion.repeatNumber = 0;
 						for (let i: number = 0; i < responseInt - 1; i++) {
 							let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
 							duplicate.repeatNumber = i + 1;
-							targetQuestion.repeatChildren.push(duplicate);
+							targetQuestion.repeatChildren[respondentId].push(duplicate);
 						}
 
 						if (responseInt === 0) {
@@ -171,6 +172,8 @@ export class SurveyViewerStateService {
 
 					subject.next();
 					subject.complete();
+
+					console.log(this.viewerState);
 				});
 			});
 
