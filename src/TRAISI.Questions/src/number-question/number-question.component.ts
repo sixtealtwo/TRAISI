@@ -19,6 +19,8 @@ import {
 import { PartialObserver } from 'rxjs';
 import { NumberQuestionConfiguration } from './number-question.configuration';
 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 @Component({
@@ -63,13 +65,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	/**
 	 * Inputs blur
 	 */
-	public inputBlur(): void {
-		const validated: boolean = this.validateInput();
-
-		if (validated && this.inputForm.valid) {
-			this.response.emit(this._numberModel);
-		}
-	}
+	public inputBlur(): void {}
 
 	/**
 	 * Validates input
@@ -118,6 +114,17 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 				});
 				break;
 		}
+
+		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
+
+			this._numberModel = number;
+			const validated: boolean = this.validateInput();
+
+			if (validated && this.inputForm.valid) {
+				this.response.emit(this._numberModel);
+			}
+		});
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
@@ -127,7 +134,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Decminal>[] | 'none') => void = (
 		response: ResponseData<ResponseTypes.Decminal>[] | 'none'
 	) => {
-
 		if (response !== 'none') {
 			let decimalResponse = <DecimalResponseData>response[0];
 			this.model = '' + decimalResponse.value;

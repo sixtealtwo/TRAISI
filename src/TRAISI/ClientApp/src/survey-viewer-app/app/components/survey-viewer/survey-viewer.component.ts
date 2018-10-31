@@ -341,7 +341,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
-		console.log(this.viewerState);
 		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
 	}
 
@@ -459,7 +458,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		} else {
 			this.viewerState.activeQuestionIndex = this.viewerState.activeQuestionIndex;
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
-
+			this.viewerState.isSectionActive = this.viewerState.activeQuestion.parentSection === undefined ? false : true;
 			if (this.isHouseholdQuestionActive()) {
 				if (
 					(this.viewerState.activeInSectionIndex >=
@@ -487,10 +486,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.activeQuestion = this.viewerState.surveyQuestions[questionIndex];
 				} else {
 					// console.log(this.viewerState)
-					console.log(' did not reach bounds ');
-					console.log(this.viewerState);
-					console.log(this.viewerState.activeInSectionIndex);
-					console.log(this.viewerState.activeQuestion.parentSection.questions.length);
 				}
 			} else {
 				this.viewerState.activeInSectionIndex = 0;
@@ -505,7 +500,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
 			this.viewerState.activeRepeatIndex = 0;
-			console.log('setting active repeat index');
 		}
 
 		if (this.viewerState.activeQuestion.parentSection !== undefined && this.viewerState.activeGroupMemberIndex < 0) {
@@ -513,29 +507,19 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.isSectionActive = true;
 			this.viewerState.activeGroupMemberIndex = 0;
 			this.viewerState.activeRespondent = this.viewerState.groupMembers[0];
-
-			console.log('resetting active group member index');
 		} else if (this.viewerState.activeQuestion.parentSection === undefined) {
 			this.viewerState.activeSection = null;
 			this.viewerState.isSectionActive = false;
 			this.viewerState.activeGroupMemberIndex = -1;
-			console.log('resetting active group member index 2');
+
 			this.viewerState.activeRespondent = this.viewerState.primaryRespondent;
 
 			// clear the group members to prevent rendering
 			// this.viewerState.groupMembers = [];
 			this.viewerState.activeGroupQuestions = [];
 		}
-		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
 
-		console.log('----');
-		console.log(this.viewerState.activePageIndex);
-		console.log(this.viewerState.activeRepeatIndex);
-		console.log(this.viewerState.activeQuestion.isRepeat);
-		console.log(this.viewerState.activeQuestion);
-		console.log(this.viewerState.activeGroupMemberIndex);
-		console.log(this.viewerState.activeRespondent);
-		console.log('*********');
+		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
 
 		this.viewerState.isQuestionLoaded = false;
 		this.updateRespondentGroup();
