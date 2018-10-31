@@ -51,7 +51,8 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 			if (this.model[key] === true) {
 				responses.push({
 					value: key,
-					name: key
+					name: key,
+					code: key
 				});
 			}
 		}
