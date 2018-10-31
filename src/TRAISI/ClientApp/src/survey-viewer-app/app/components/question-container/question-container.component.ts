@@ -130,6 +130,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();
 
+
 				this._responderService.registerQuestion(
 					componentRef.instance,
 					this.surveyId,
@@ -148,9 +149,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						this.respondent.id,
 						this.surveyViewQuestion.repeatNumber === undefined ? 0 : this.surveyViewQuestion.repeatNumber
 					)
-					.subscribe((response) => {
-
-						surveyQuestionInstance.savedResponse.next(response === undefined || response === null ? 'none' : response.responseValues);
+					.subscribe(response => {
+						surveyQuestionInstance.savedResponse.next(
+							response === undefined || response === null ? 'none' : response.responseValues
+						);
 
 						surveyQuestionInstance.traisiOnLoaded();
 					});
@@ -170,7 +172,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
+								this.question.configuration
+							);
 						}
 					});
 			});

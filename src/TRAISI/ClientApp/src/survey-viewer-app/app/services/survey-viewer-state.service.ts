@@ -44,9 +44,11 @@ export class SurveyViewerStateService {
 			activeGroupMemberIndex: -1,
 			activeRepeatIndex: -1,
 			activeInSectionIndex: 0,
+			activeRespondent: undefined,
 			primaryRespondent: undefined,
 			activeGroupQuestions: [],
 			isLoaded: false,
+			isQuestionLoaded: false,
 			questionMap: {}
 		};
 
@@ -172,8 +174,6 @@ export class SurveyViewerStateService {
 
 					subject.next();
 					subject.complete();
-
-					console.log(this.viewerState);
 				});
 			});
 

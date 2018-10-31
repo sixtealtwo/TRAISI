@@ -5,7 +5,6 @@ import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { ResponseValidationState } from 'traisi-question-sdk';
 
 export interface SurveyViewerState {
-
 	// list of survey pages
 	surveyPages: Array<SurveyViewPage>;
 
@@ -48,12 +47,18 @@ export interface SurveyViewerState {
 	// ref to the primary respondent
 	primaryRespondent: SurveyViewGroupMember;
 
+	activeRespondent: SurveyViewGroupMember;
+
 	// the list of active group questions
 	activeGroupQuestions: Array<SurveyViewQuestion>;
 
 	// loaded flag
 	isLoaded: boolean;
 
+	isQuestionLoaded: boolean;
+
 	// map question ids to the viewer question object
 	questionMap: { [id: number]: SurveyViewQuestion };
+
+
 }
