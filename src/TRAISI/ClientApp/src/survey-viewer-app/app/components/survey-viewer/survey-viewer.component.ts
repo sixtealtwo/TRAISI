@@ -61,15 +61,9 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(
-					':self',
-					stagger('1s', [
-						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
-					]),
-					{
-						optional: true
-					}
-				)
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
+					optional: true
+				})
 			])
 		])
 	],
@@ -195,7 +189,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 			this.viewerTheme = theme;
-			theme.viewerTemplate.forEach(sectionInfo => {
+			theme.viewerTemplate.forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
@@ -270,8 +264,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let viewOrder: number = 0;
 
 		this.viewerState.surveyPages = pages;
-		pages.forEach(page => {
-			page.questions.forEach(question => {
+		pages.forEach((page) => {
+			page.questions.forEach((question) => {
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
@@ -290,9 +284,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				viewOrder++;
 			});
-			page.sections.forEach(section => {
+			page.sections.forEach((section) => {
 				let inSectionIndex: number = 0;
-				section.questions.forEach(question => {
+				section.questions.forEach((question) => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
 					question.parentSection = section;
@@ -383,10 +377,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 									this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 							) {
 								this.viewerState.activeRepeatIndex += 1;
-							} else if (
-								this.viewerState.activeQuestionIndex <
-								this.viewerState.surveyQuestions.length - 1
-							) {
+							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
 								this.activeQuestionIndex += 1;
 								this.viewerState.activeQuestionIndex++;
 							}
@@ -409,10 +400,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 										this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 								) {
 									this.viewerState.activeRepeatIndex += 1;
-								} else if (
-									this.viewerState.activeQuestionIndex <
-									this.viewerState.surveyQuestions.length - 1
-								) {
+								} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
 									this.activeQuestionIndex += 1;
 									this.viewerState.activeQuestionIndex++;
 								}
@@ -439,64 +427,64 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Updates viewer state
 	 */
 	private updateViewerState(): void {
-		if (this.viewerState.activeRepeatIndex <= 0) {
-			console.log(this.viewerState.activeRepeatIndex);
-
+		if (this.viewerState.activeRepeatIndex <= 0 && !this.isHouseholdQuestionActive()) {
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			if (!this.viewerState.activeQuestion.isRepeat) {
 				this.viewerState.activeRepeatIndex = -1;
 			}
+			console.log('here3');
 		} else if (
 			this.viewerState.activeRepeatIndex > 0 &&
-			this.viewerState.activeRepeatIndex <
-				this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
+			this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 		) {
-			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
-				this.viewerState.activeQuestionIndex
-			].repeatChildren[this.activeRespondentId()][this.viewerState.activeRepeatIndex - 1];
+			console.log('here2');
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex].repeatChildren[
+				this.activeRespondentId()
+			][this.viewerState.activeRepeatIndex - 1];
 		} else if (
-			this.viewerState.activeRepeatIndex >
-			this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
+			this.viewerState.activeRepeatIndex >= 0 &&
+			this.viewerState.activeRepeatIndex > this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 		) {
 			if (!this.isHouseholdQuestionActive()) {
 				this.viewerState.activeRepeatIndex = -1;
-				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
-					this.viewerState.activeQuestionIndex
-				];
+				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+				console.log('here6');
 			} else {
+				console.log('here');
 			}
 		} else {
 			if (this.isHouseholdQuestionActive()) {
+				console.log('here4');
+				console.log(this.viewerState);
 				if (
-					this.viewerState.activeInSectionIndex >
-						this.viewerState.activeQuestion.parentSection.questions.length &&
+					this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
 					this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1
 				) {
 					this.viewerState.activeGroupMemberIndex++;
 					this.viewerState.activeRepeatIndex = -1;
 					this.viewerState.activeInSectionIndex = 0;
-					this.viewerState.activeRespondent = this.viewerState.groupMembers[
-						this.viewerState.activeGroupMemberIndex
-					];
+					this.viewerState.activeRespondent = this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex];
 
 					const questionIndex = this.viewerState.surveyQuestions.findIndex(
-						q => q === this.viewerState.activeSection.questions[0]
+						(q) => q === this.viewerState.activeSection.questions[0]
 					);
 
+					console.log('here5');
 					this.viewerState.activeQuestionIndex = questionIndex;
 					this.viewerState.activeQuestion = this.viewerState.surveyQuestions[questionIndex];
 				}
+			} else {
+				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			}
+
+			console.log('here7');
 		}
 
 		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
 			this.viewerState.activeRepeatIndex = 0;
 		}
 
-		if (
-			this.viewerState.activeQuestion.parentSection !== undefined &&
-			this.viewerState.activeGroupMemberIndex < 0
-		) {
+		if (this.viewerState.activeQuestion.parentSection !== undefined && this.viewerState.activeGroupMemberIndex < 0) {
 			this.viewerState.activeSection = this.viewerState.activeQuestion.parentSection;
 			this.viewerState.isSectionActive = true;
 			this.viewerState.activeGroupMemberIndex = 0;
@@ -512,6 +500,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeGroupQuestions = [];
 		}
 		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
+
+		console.log(this.viewerState.activeQuestion);
+		console.log(' page index ' + this.viewerState.activeQuestion.pageIndex);
 
 		this.viewerState.isQuestionLoaded = false;
 		this.updateRespondentGroup();
@@ -533,11 +524,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if (
-					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
-						'onQuestionShown'
-					)
-				) {
+				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -637,10 +624,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		// check current repeat
 		if (this.viewerState.activeQuestion !== undefined && this.viewerState.activeQuestion.isRepeat) {
-			if (
-				this.viewerState.activeRepeatIndex <
-				this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-			) {
+			if (this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length) {
 				this.navigateNextEnabled = true;
 			}
 		}
@@ -655,8 +639,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 
 		this.navigateNextEnabled = true;
-
-		console.log(this.viewerState);
 	}
 
 	private activeRespondentId(): number {
@@ -671,7 +653,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe(s => {
+		this.questionContainers.changes.subscribe((s) => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {
