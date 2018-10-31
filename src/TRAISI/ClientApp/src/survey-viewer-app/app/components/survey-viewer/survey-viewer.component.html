@@ -30,7 +30,7 @@
 								<div *ngFor="let repeat of question.repeatChildren[viewerState.activeRespondent.id]; let c = index">
 									<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="repeat"
 									 [class]="viewerState.activeRespondent.id" [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i"
-									 *ngIf="viewerState.activeRepeatIndex == c + 1" #questions></traisi-question-container>
+									 *ngIf="viewerState.activeRepeatIndex == c + 1 && viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
 								</div>
 							</div>
 						</div>

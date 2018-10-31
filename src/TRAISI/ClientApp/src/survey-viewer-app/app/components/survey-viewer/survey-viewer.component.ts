@@ -98,8 +98,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public activeQuestion: any;
 
-	public activeQuestionIndex: number = -1;
-
 	public activeSectionIndex: number = -1;
 
 	public activePageIndex: number = -1;
@@ -307,7 +305,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			pageCount += 1;
 		});
 
-		this.activeQuestionIndex = 0;
+		this.viewerState.activeQuestionIndex = 0;
 		this.activePageIndex = 0;
 		this.questions = sortBy(this.questions, ['viewOrder']);
 
@@ -343,6 +341,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
+		console.log(this.viewerState);
 		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
 	}
 
@@ -376,14 +375,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								this.viewerState.activeRepeatIndex <
 									this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 							) {
-								this.viewerState.activeRepeatIndex += 1;
 							} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-								this.activeQuestionIndex += 1;
+								// this.viewerState.activeQuestionIndex += 1;
 								this.viewerState.activeQuestionIndex++;
 							}
 
 							if (this.viewerState.isSectionActive) {
 								this.viewerState.activeInSectionIndex++;
+							}
+
+							if (this.viewerState.activeQuestion.isRepeat) {
+								this.viewerState.activeRepeatIndex += 1;
 							}
 
 							this.updateViewerState();
@@ -401,8 +403,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								) {
 									this.viewerState.activeRepeatIndex += 1;
 								} else if (this.viewerState.activeQuestionIndex < this.viewerState.surveyQuestions.length - 1) {
-									this.activeQuestionIndex += 1;
-									this.viewerState.activeQuestionIndex++;
+									this.viewerState.activeQuestionIndex += 1;
+									// this.viewerState.activeQuestionIndex++;
 								}
 
 								if (this.viewerState.isSectionActive) {
@@ -432,56 +434,76 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (!this.viewerState.activeQuestion.isRepeat) {
 				this.viewerState.activeRepeatIndex = -1;
 			}
-			console.log('here3');
+			this.viewerState.activeInSectionIndex = 0;
 		} else if (
 			this.viewerState.activeRepeatIndex > 0 &&
 			this.viewerState.activeRepeatIndex < this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 		) {
-			console.log('here2');
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex].repeatChildren[
 				this.activeRespondentId()
 			][this.viewerState.activeRepeatIndex - 1];
 		} else if (
+			!this.isHouseholdQuestionActive() &&
 			this.viewerState.activeRepeatIndex >= 0 &&
 			this.viewerState.activeRepeatIndex > this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
 		) {
 			if (!this.isHouseholdQuestionActive()) {
 				this.viewerState.activeRepeatIndex = -1;
+				this.viewerState.activeInSectionIndex = 0;
 				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
-				console.log('here6');
 			} else {
-				console.log('here');
+				// console.log('resetting active repeat');
+				// this.viewerState.activeRepeatIndex = -1;
+				this.viewerState.activeInSectionIndex = 0;
 			}
 		} else {
+			this.viewerState.activeQuestionIndex = this.viewerState.activeQuestionIndex;
+			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
+
 			if (this.isHouseholdQuestionActive()) {
-				console.log('here4');
-				console.log(this.viewerState);
 				if (
-					this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
-					this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1
+					(this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
+						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
+						!this.viewerState.activeQuestion.isRepeat) ||
+					(this.viewerState.activeQuestion.isRepeat &&
+						this.viewerState.activeInSectionIndex >= this.viewerState.activeQuestion.parentSection.questions.length &&
+						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
+						this.viewerState.activeRepeatIndex >
+							this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length)
 				) {
 					this.viewerState.activeGroupMemberIndex++;
 					this.viewerState.activeRepeatIndex = -1;
 					this.viewerState.activeInSectionIndex = 0;
 					this.viewerState.activeRespondent = this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex];
 
+					console.log(this.viewerState.activeRespondent);
+
 					const questionIndex = this.viewerState.surveyQuestions.findIndex(
 						(q) => q === this.viewerState.activeSection.questions[0]
 					);
-
-					console.log('here5');
 					this.viewerState.activeQuestionIndex = questionIndex;
 					this.viewerState.activeQuestion = this.viewerState.surveyQuestions[questionIndex];
+				} else {
+					// console.log(this.viewerState)
+					console.log(' did not reach bounds ');
+					console.log(this.viewerState);
+					console.log(this.viewerState.activeInSectionIndex);
+					console.log(this.viewerState.activeQuestion.parentSection.questions.length);
 				}
 			} else {
+				this.viewerState.activeInSectionIndex = 0;
 				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			}
+		}
 
-			console.log('here7');
+		if (!this.viewerState.activeQuestion.isRepeat) {
+			// reset repeat index
+			this.viewerState.activeRepeatIndex = -1;
 		}
 
 		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
 			this.viewerState.activeRepeatIndex = 0;
+			console.log('setting active repeat index');
 		}
 
 		if (this.viewerState.activeQuestion.parentSection !== undefined && this.viewerState.activeGroupMemberIndex < 0) {
@@ -489,10 +511,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.isSectionActive = true;
 			this.viewerState.activeGroupMemberIndex = 0;
 			this.viewerState.activeRespondent = this.viewerState.groupMembers[0];
+
+			console.log('resetting active group member index');
 		} else if (this.viewerState.activeQuestion.parentSection === undefined) {
 			this.viewerState.activeSection = null;
 			this.viewerState.isSectionActive = false;
 			this.viewerState.activeGroupMemberIndex = -1;
+			console.log('resetting active group member index 2');
 			this.viewerState.activeRespondent = this.viewerState.primaryRespondent;
 
 			// clear the group members to prevent rendering
@@ -501,8 +526,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
 
+		console.log('----');
+		console.log(this.viewerState.activePageIndex);
+		console.log(this.viewerState.activeRepeatIndex);
+		console.log(this.viewerState.activeQuestion.isRepeat);
 		console.log(this.viewerState.activeQuestion);
-		console.log(' page index ' + this.viewerState.activeQuestion.pageIndex);
+		console.log(this.viewerState.activeGroupMemberIndex);
+		console.log(this.viewerState.activeRespondent);
+		console.log('*********');
 
 		this.viewerState.isQuestionLoaded = false;
 		this.updateRespondentGroup();
@@ -539,7 +570,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (this.viewerState.activeSection.isHousehold) {
 				this._surveyResponderService.getSurveyGroupMembers().subscribe((group: any) => {
 					this.viewerState.groupMembers = group;
-					this.viewerState.activeRespondent = group[0];
+					this.viewerState.activeRespondent =
+						group[this.viewerState.activeGroupMemberIndex >= 0 ? this.viewerState.activeGroupMemberIndex : 0];
 					this.viewerState.isQuestionLoaded = true;
 					// this._viewerStateService.setActiveGroupQuestions(this.viewerState.activeQuestion, group);
 				});
@@ -554,15 +586,31 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigatePrevious(): void {
 		if (!this.validateInternalNavigationPrevious()) {
-			if (!this.viewerState.activeQuestion.isRepeat) {
-				this.viewerState.activeQuestionIndex -= 1;
-				this.navigationActiveState = true;
-			} else {
-				if (this.viewerState.activeRepeatIndex === 0) {
+			if (!this.isHouseholdQuestionActive()) {
+				if (!this.viewerState.activeQuestion.isRepeat) {
 					this.viewerState.activeQuestionIndex -= 1;
-				}
+					this.navigationActiveState = true;
+				} else {
+					if (this.viewerState.activeRepeatIndex === 0) {
+						this.viewerState.activeQuestionIndex -= 1;
+					}
 
-				this.viewerState.activeRepeatIndex -= 1;
+					this.viewerState.activeRepeatIndex -= 1;
+				}
+			} else {
+				if (this.viewerState.activeQuestion.isRepeat) {
+					if (this.viewerState.activeRepeatIndex === 0) {
+						console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
+
+						this.viewerState.activeQuestionIndex -= 1;
+						this.viewerState.activeRepeatIndex = -1;
+					}
+					this.viewerState.activeInSectionIndex--;
+					this.viewerState.activeRepeatIndex--;
+				} else {
+					this.viewerState.activeRepeatIndex -= 1;
+					this.viewerState.activeQuestionIndex--;
+				}
 			}
 			this.updateViewerState();
 			this.validateNavigation();
