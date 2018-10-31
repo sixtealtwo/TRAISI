@@ -137,7 +137,6 @@ export class SurveyViewerStateService {
 
 		this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
 			activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
-				console.log('response');
 				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId).value;
 
 				// find index of repeat Target
