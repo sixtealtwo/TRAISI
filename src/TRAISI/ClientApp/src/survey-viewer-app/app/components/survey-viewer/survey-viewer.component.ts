@@ -677,6 +677,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			}
 		}
 
+		if (this.isHouseholdQuestionActive()) {
+			if (this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1) {
+				this.navigateNextEnabled = true;
+			} else if (this.viewerState.activeGroupMemberIndex === this.viewerState.groupMembers.length - 1) {
+				if (this.viewerState.activeInSectionIndex < this.viewerState.activeQuestion.parentSection.questions.length) {
+					this.navigateNextEnabled = true;
+				}
+			}
+		}
+
 		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
 		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 
@@ -686,7 +696,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeRepeatIndex = -1;
 		}
 
-		this.navigateNextEnabled = true;
+		// this.navigateNextEnabled = true;
 	}
 
 	private activeRespondentId(): number {
