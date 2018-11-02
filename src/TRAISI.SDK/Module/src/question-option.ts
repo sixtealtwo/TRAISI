@@ -3,4 +3,5 @@ export interface QuestionOption {
 	name: string;
 	order: number;
 	label: string;
+	code: string;
 }

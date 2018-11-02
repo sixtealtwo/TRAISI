@@ -52,7 +52,8 @@ import { SurveyViewerState } from './models/survey-viewer-state.model';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
-
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [

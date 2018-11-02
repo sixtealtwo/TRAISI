@@ -22,10 +22,9 @@ namespace DAL.Repositories
         /// <param name="questionId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<List<SurveyResponse>>
-            ListQuestionResponsesForRespondentAsync(int questionId, string shortcode)
+        public async Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync(int respondentId, string shortcode)
         {
-            return await this._entities.ToListAsync();
+            return await this._entities.Where(s => s.Respondent.Id == respondentId).ToListAsync();
         }
 
 

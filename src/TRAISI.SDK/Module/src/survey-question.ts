@@ -183,6 +183,7 @@ export interface ListResponseData extends ResponseData<ResponseTypes.List> {
 export interface OptionSelectResponseData extends ResponseData<ResponseTypes.OptionSelect> {
 	value: any;
 	name: any;
+	code: string;
 }
 
 /**

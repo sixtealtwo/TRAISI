@@ -9,5 +9,7 @@ namespace DAL.Models.ResponseTypes
         public int Id { get; set; }
         public SurveyResponse SurveyResponse { get; set; }
 
+
+
     }
 }

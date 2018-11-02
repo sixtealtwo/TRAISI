@@ -43,9 +43,12 @@ export class SurveyViewerStateService {
 			groupMembers: [],
 			activeGroupMemberIndex: -1,
 			activeRepeatIndex: -1,
+			activeInSectionIndex: 0,
+			activeRespondent: undefined,
 			primaryRespondent: undefined,
 			activeGroupQuestions: [],
 			isLoaded: false,
+			isQuestionLoaded: false,
 			questionMap: {}
 		};
 
@@ -140,12 +143,13 @@ export class SurveyViewerStateService {
 				if (typeof response === 'number') {
 					const responseInt: number = Math.round(response);
 					let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
-					targetQuestion.repeatChildren = [];
+					targetQuestion.repeatChildren = {};
+					targetQuestion.repeatChildren[respondentId] = [];
 					targetQuestion.repeatNumber = 0;
 					for (let i: number = 0; i < responseInt - 1; i++) {
 						let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
 						duplicate.repeatNumber = i + 1;
-						targetQuestion.repeatChildren.push(duplicate);
+						targetQuestion.repeatChildren[respondentId].push(duplicate);
 					}
 
 					if (responseInt === 0) {
@@ -192,14 +196,20 @@ export class SurveyViewerStateService {
 			return;
 		}
 
+		let added: boolean = false;
 		for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
 			if (
 				question.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
 				question.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
 			) {
 				this.viewerState.surveyQuestions.splice(i + 1, 0, question);
+				added = true;
 				break;
 			}
+		}
+
+		if (!added) {
+			this.viewerState.surveyQuestions.splice(this.viewerState.surveyQuestions.length, 0, question);
 		}
 	}
 

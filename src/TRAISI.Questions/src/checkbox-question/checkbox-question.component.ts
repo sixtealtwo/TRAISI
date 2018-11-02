@@ -10,11 +10,15 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	OptionSelectResponseData
 } from 'traisi-question-sdk';
+
+
+
 @Component({
 	selector: 'traisi-checkbox-question',
-	template: require('./checkbox-question.component.html').toString(),
+	template: require('./checkbox-question.component.html'),
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
 export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {
@@ -29,20 +33,42 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		super();
 
 		this.options = [];
-		this.model = {}; 
+		this.model = {};
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
+	/**
+	 *
+	 * @param $event
+	 * @param option
+	 */
 	public modelChanged($event, option): void {
-		console.log($event);
-		console.log(option); 
+		this.model[option.code] = $event.srcElement.checked;
+
+		let responses: Array<OptionSelectResponseData> = Array<OptionSelectResponseData>();
+
+		for (let key in this.model) {
+			if (this.model[key] === true) {
+				responses.push({
+					value: key,
+					name: key,
+					code: key
+				});
+			}
+		}
+
+		this.response.emit(responses);
 	}
 
-	private onLoadSavedResponse: (response: ResponseTypes.OptionSelect[] | 'none') => void = (
-		response: ResponseTypes.OptionSelect[] | 'none'
+	private onLoadSavedResponse: (responses: OptionSelectResponseData[] | 'none') => void = (
+		responses: OptionSelectResponseData[] | 'none'
 	) => {
-		if (response !== 'none') {
-			this.model = response;
+		if (responses !== 'none') {
+			console.log('response');
+			console.log(responses);
+			responses.forEach(response => {
+				this.model[response.value] = true;
+			});
 		}
 	};
 
@@ -67,7 +93,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		this.options = options;
 
 		options.forEach(option => {
-			this.model[option.id] = false;
+			this.model[option['code']] = false;
 		});
 	}
 }

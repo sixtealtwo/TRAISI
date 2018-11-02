@@ -149,8 +149,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						this.surveyViewQuestion.repeatNumber === undefined ? 0 : this.surveyViewQuestion.repeatNumber
 					)
 					.subscribe((response) => {
-						console.log(response);
-						surveyQuestionInstance.savedResponse.next(response === undefined || response === null ? 'none' : response.responseValues);
+						surveyQuestionInstance.savedResponse.next(
+							response === undefined || response === null ? 'none' : response.responseValues
+						);
 
 						surveyQuestionInstance.traisiOnLoaded();
 					});
@@ -193,6 +194,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		if (responseValid) {
 			this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
+			this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
+
+			// this.surveyViewer.updateNavigation();
 		}
 	};
 }

@@ -211,13 +211,19 @@ namespace TRAISI.Services
         /// <param name="response"></param>
         internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
         {
-            if (response.ResponseValues.Count == 0) {
-                //response.ResponseValues = new List<ResponseValue>();
-                response.ResponseValues.Add(new OptionSelectResponse());
+
+            response.ResponseValues.Clear();
+
+            var values = responseData["values"].ToObject<List<OptionSelectResponse>>();
+
+            foreach (var val in values) {
+                response.ResponseValues.Add(new OptionSelectResponse()
+                {
+                    Value = val.Name,
+                    Name = val.Name,
+                    Code = val.Code
+                });
             }
-
-
-            (response.ResponseValues[0] as OptionSelectResponse).Value = responseData.GetValue("value").ToObject<string>();
 
             return;
 

@@ -369,7 +369,7 @@ tree-select {
 		background-color: white !important;
 	}
 
-	.item { 
+	.item {
 		i {
 			margin-right: 5px;
 			font-size: 16px;
@@ -528,7 +528,7 @@ ngx-dropdown-treeview {
 
 .nav-tabs
 {
-	touch-action: none;
+	// touch-action: none;
 	-webkit-overflow-scrolling: touch !important;
 	float: none !important;
 	white-space: nowrap;

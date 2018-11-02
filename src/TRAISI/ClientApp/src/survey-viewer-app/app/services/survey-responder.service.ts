@@ -41,7 +41,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public getCachedSavedResponse(questionId: number, respondentId: number): any {
-		console.log(this._cachedSavedResponses);
+
 		return this._cachedSavedResponses[questionId][respondentId];
 	}
 
@@ -98,7 +98,7 @@ export class SurveyResponderService implements SurveyResponder {
 			this._cachedSavedResponses[questionId] = {};
 		}
 
-		console.log(questionModel);
+
 		return questionModel.repeatNumber === undefined
 			? this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, 0)
 			: this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(
@@ -169,6 +169,8 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>,
 		questionModel: SurveyViewQuestion
 	): void {
+
+
 		if (response instanceof Array) {
 			this.saveResponse({ values: response }, surveyId, questionId, respondentId, questionModel).subscribe(
 				(responseValid: boolean) => {

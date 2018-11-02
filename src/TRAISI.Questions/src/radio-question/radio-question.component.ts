@@ -1,4 +1,15 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Inject,
+	OnInit,
+	TemplateRef,
+	ViewChildren,
+	ElementRef,
+	AfterContentInit,
+	QueryList,
+	AfterViewInit
+} from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -12,7 +23,8 @@ import {
 	OnOptionsLoaded,
 	QuestionOption,
 	ResponseData,
-	ResponseValidationState
+	ResponseValidationState,
+	OptionSelectResponseData
 } from 'traisi-question-sdk';
 
 @Component({
@@ -20,10 +32,13 @@ import {
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded {
+export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {
 	public options: QuestionOption[];
 
 	public selectedOption: any;
+
+	@ViewChildren('input')
+	public inputElements: QueryList<ElementRef>;
 
 	/**
 	 *
@@ -43,8 +58,6 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	public ngOnInit(): void {
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
-
-		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
 	/**
@@ -54,18 +67,27 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 		response: ResponseData<ResponseTypes.OptionSelect>[] | 'none'
 	) => {
 		if (response !== 'none') {
-			let optionResponse = <StringResponseData>response[0];
+			let optionResponse = <OptionSelectResponseData>response[0];
 
-			this.selectedOption = parseInt(optionResponse.value, 10);
+			this.selectedOption = optionResponse.code;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
 
+	public ngAfterViewInit(): void {
+		this.savedResponse.subscribe(this.onSavedResponseData);
+	}
+
+	/**
+	 * after content init
+	 */
+	public ngAfterContentInit(): void {}
+
 	/**
 	 * Determines whether model changed on
 	 */
-	public onModelChanged(): void {
-		this.response.emit(this.selectedOption);
+	public onModelChanged(option: QuestionOption): void {
+		this.response.emit([option]);
 	}
 
 	/**

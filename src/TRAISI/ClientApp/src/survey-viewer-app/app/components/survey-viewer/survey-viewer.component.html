@@ -13,42 +13,61 @@
 				{{viewerState.activeSection.label}}
 			</div>
 			<div class="questions-container">
-				<div class="question-section" *ngIf="isLoaded">
+				<div class="question-section" *ngIf="viewerState.isLoaded">
 					<div *ngFor="let question of viewerState.surveyQuestions; let i = index">
 
-						<div *ngIf="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
 
 
-							<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="question"
+
+						<div *ngIf="viewerState.isQuestionLoaded">
+
+							<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="question"
 							 [surveyViewQuestion]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i && viewerState.activeRepeatIndex <= 0"
 							 #questions></traisi-question-container>
 
-							<div *ngFor="let repeat of question.repeatChildren; let c = index">
-								<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
-								 [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
-								 #questions></traisi-question-container>
-							</div>
+							<div *ngIf="question.repeatChildren !== undefined">
 
+								<div *ngFor="let repeat of question.repeatChildren[viewerState.activeRespondent.id]; let c = index">
+									<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="repeat"
+									 [class]="viewerState.activeRespondent.id" [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i"
+									 *ngIf="viewerState.activeRepeatIndex == c + 1 && viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
+								</div>
+							</div>
 						</div>
 
-						<div *ngIf="viewerState.activeQuestionIndex == i">
+
+
+
+
+						<!-- <div *ngIf="viewerState.activeQuestionIndex == i">
+
 							<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
 
 								<div [hidden]="m != viewerState.activeGroupMemberIndex">
 									<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
 									 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" #questions></traisi-question-container>
 								</div>
+								<div *ngIf="question.repeatChildren !== undefined">
+									<div *ngFor="let repeat of question.repeatChildren[viewerState.primaryRespondent.id]; let c = index">
+											<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
+											[surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
+											#questions></traisi-question-container>
+									</div>
+								</div>
+
+
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="group-member-names-container" [hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)">
+
 					<div class="group-member-names-section">
-						<span *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index" class="group-member-name"
-						 (click)="showGroupMember(m)" [ngClass]="{
+						<span *ngFor="let groupMember of viewerState.groupMembers; let m = index" class="group-member-name" (click)="showGroupMember(m)"
+						 [ngClass]="{
 								'group-member-active': m == viewerState.activeGroupMemberIndex,
-								'group-member-complete': groupQuestion.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex}">
-							{{ groupQuestion.parentMember.name }}</span>
+								'group-member-complete': groupMember.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex}">
+							{{ groupMember.name }}</span>
 
 					</div>
 				</div>

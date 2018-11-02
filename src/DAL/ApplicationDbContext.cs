@@ -178,6 +178,8 @@ namespace DAL
             .HasValue<PrimaryRespondent>(0)
             .HasValue<SubRespondent>(1);
 
+
+
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
             .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);
 
@@ -214,15 +216,18 @@ namespace DAL
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in modifiedEntries) {
+            foreach (var entry in modifiedEntries)
+            {
                 var entity = (IAuditableEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Added) {
+                if (entry.State == EntityState.Added)
+                {
                     entity.CreatedDate = now;
                     entity.CreatedBy = CurrentUserId;
                 }
-                else {
+                else
+                {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                 }

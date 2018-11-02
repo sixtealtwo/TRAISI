@@ -19,6 +19,8 @@ import {
 import { PartialObserver } from 'rxjs';
 import { NumberQuestionConfiguration } from './number-question.configuration';
 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 @Component({
@@ -49,7 +51,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	/**
 	 * Traisis on init
 	 */
-	public traisiOnInit() {}
+	public traisiOnInit(): void {}
 
 	/**
 	 * Models changed
@@ -63,13 +65,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	/**
 	 * Inputs blur
 	 */
-	public inputBlur(): void {
-		const validated: boolean = this.validateInput();
-
-		if (validated && this.inputForm.valid) {
-			this.response.emit(this._numberModel);
-		}
-	}
+	public inputBlur(): void {}
 
 	/**
 	 * Validates input
@@ -91,7 +87,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 * on init
 	 */
 	public ngOnInit(): void {
-		console.log(this.configuration);
 		const format: any = JSON.parse(this.configuration.numberFormat);
 
 		this.configuration.max = parseInt('' + this.configuration['max'], 10);
@@ -119,6 +114,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 				});
 				break;
 		}
+
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
@@ -133,5 +129,16 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.model = '' + decimalResponse.value;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
+
+		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
+
+			this._numberModel = number;
+			const validated: boolean = this.validateInput();
+
+			if (validated && this.inputForm.valid) {
+				this.response.emit(this._numberModel);
+			}
+		});
 	};
 }
