@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild, Inject } from '@angular/core';
-import { Result } from 'ngx-mapbox-gl/app/lib/control/geocoder-control.directive';
 import { MapComponent } from 'ngx-mapbox-gl';
-import { LngLatLike, MapMouseEvent } from 'mapbox-gl';
+import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
 import { BehaviorSubject } from 'rxjs';
@@ -22,6 +21,7 @@ import {
 	ResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
+import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
@@ -127,14 +127,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 *
 	 * @param event
 	 */
-	public onDragEnd(event: MapMouseEvent): void {
-		this.mapEndpointService.reverseGeocode(event.lngLat.lat, event.lngLat.lng).subscribe((result: GeoLocation) => {
+	public onDragEnd(event: Marker): void {
+		this.mapEndpointService.reverseGeocode(event.getLngLat().lat, event.getLngLat().lng).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
 			this.mapGeocoder.control._inputEl.value = result.address;
 
 			let data: LocationResponseData = {
-				latitude: event.lngLat.lat,
-				longitude: event.lngLat.lng,
+				latitude: event.getLngLat().lat,
+				longitude: event.getLngLat().lng,
 				address: <string>result.address
 			};
 
@@ -169,7 +169,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	public mapClick(event: MapMouseEvent): void {
 		if (event.lngLat) {
 			this.markerPosition = event.lngLat;
-			this.onDragEnd(event);
+			let marker: Marker = new Marker();
+			marker.setLngLat(event.lngLat);
+			this.onDragEnd(marker);
 		}
 	}
 

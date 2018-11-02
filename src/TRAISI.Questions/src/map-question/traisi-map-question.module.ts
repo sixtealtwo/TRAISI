@@ -24,7 +24,7 @@ import { MapEndpointService } from '../services/mapservice.service';
 	],
 	imports: [
 		CommonModule,
-		NgxMapboxGLModule.forRoot({
+		NgxMapboxGLModule.withConfig({
 			accessToken:
 				// tslint:disable-next-line:max-line-length
 				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'

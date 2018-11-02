@@ -17,12 +17,10 @@
         </mgl-control>
         <mgl-marker
                 [lngLat]="markerPosition"
-                mglDraggable
-                (dragStart)="onDragStart($event)"
+                [draggable]="true"
                 (dragEnd)="onDragEnd($event)"
-                (drag)="onDrag($event)"
         >
-            <img #mapMarker class="mapMarker" draggable="false"/>
+            <img #mapMarker class="mapMarker"/>
         </mgl-marker>
     </mgl-map>
     <div class="locationDisplay">
