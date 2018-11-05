@@ -368,5 +368,15 @@ namespace TRAISI.Services
             var responses = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForQuestionsAsync(questionIds, respondent);
             return responses;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="respondentId"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveAllResponses(int respondentId)
+        {
+            return true;
+        }
     }
 }
