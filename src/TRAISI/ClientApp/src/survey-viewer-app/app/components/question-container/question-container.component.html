@@ -33,7 +33,7 @@
 		<span class="badge badge-info" *ngIf="question.isOptional">Optional</span>
 
 	</header>
-
+	<div class="question-header-divider"></div>
 	<div class="widget-body">
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate">
