@@ -116,7 +116,10 @@ export class QuestionLoaderService {
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-				const componentFactory: ComponentFactory<any> = this.createComponentFactory(this._moduleRefs[questionType], questionType);
+				const componentFactory: ComponentFactory<any> = this.createComponentFactory(
+					this._moduleRefs[questionType],
+					questionType
+				);
 
 				if (!(questionType in this._componentFactories)) {
 					this._componentFactories[questionType] = componentFactory;
@@ -131,25 +134,43 @@ export class QuestionLoaderService {
 			// load and compile the module
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
 				SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
-					.then((module) => {
+					.then(module => {
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
-						const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this.injector);
+						const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
 
 						const moduleInstance = <SurveyModule>module.default;
 
 						this._moduleRefs[<string>questionType] = moduleRef;
 
-						const componentFactory: ComponentFactory<any> = this.createComponentFactory(moduleRef, questionType);
+						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
+							moduleRef,
+							questionType
+						);
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
 							console.log('Adding component factory: ' + questionType);
 							this.componentFactories$.next(componentFactory);
 						}
-						observer.next(componentFactory);
 
-						observer.complete();
+						let hasDependency: boolean = false;
+						moduleRef._providers.forEach(provider => {
+							if (provider.hasOwnProperty('dependency')) {
+								// load the dependency
+								hasDependency = true;
+								this.getQuestionComponentFactory(provider.name).subscribe(obs => {
+									observer.next(componentFactory);
+									observer.complete();
+								});
+							}
+						});
+
+						if (!hasDependency) {
+							observer.next(componentFactory);
+
+							observer.complete();
+						}
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.log(error);
 					});
 			});
@@ -165,7 +186,7 @@ export class QuestionLoaderService {
 		const widgets = moduleRef.injector.get('widgets', 'notFound');
 		const resolver = moduleRef.componentFactoryResolver;
 
-		let widget = find(widgets[0], (item) => {
+		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
@@ -184,9 +205,12 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 * @param viewContainerRef
 	 */
-	public loadQuestionComponent(question: ISurveyQuestion, viewContainerRef: ViewContainerRef): Observable<ComponentRef<any>> {
+	public loadQuestionComponent(
+		question: ISurveyQuestion,
+		viewContainerRef: ViewContainerRef
+	): Observable<ComponentRef<any>> {
 		return Observable.create((observer: Observer<ComponentRef<any>>) => {
-			this.getQuestionComponentFactory(question.questionType).subscribe((componentFactory) => {
+			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
 				const moduleRef = this._moduleRefs[question.questionType];
 
