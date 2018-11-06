@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
-import booleanPointInPolygon, { } from '@turf/boolean-point-in-polygon';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 
 @Injectable({
 	providedIn: 'root'
@@ -80,24 +80,54 @@ export class SurveyViewerConditionalEvaluator {
 		return val;
 	}
 
+	/**
+	 * Evaluates equals
+	 * @param sourceData
+	 * @param value
+	 * @returns true if equals
+	 */
 	private evaluateEquals(sourceData: any, value: any): boolean {
 		const val: boolean = sourceData === value;
 		return val;
 	}
 
+	/**
+	 * Evaluates in bounds
+	 * @param sourceData
+	 * @param value
+	 * @returns true if in bounds
+	 */
 	private evaluateInBounds(sourceData: any, value: any): boolean {
-		booleanPointInPolygon(null,null);
+		booleanPointInPolygon(null, null);
 		return true;
 	}
 
+	/**
+	 * Evaluates is any of
+	 * @param sourceData
+	 * @param value
+	 * @returns true if is any of
+	 */
 	private evaluateIsAnyOf(sourceData: any, value: any): boolean {
 		return true;
 	}
 
+	/**
+	 * Evaluates is all of
+	 * @param sourceData
+	 * @param value
+	 * @returns true if is all of
+	 */
 	private evaluateIsAllOf(sourceData: any, value: any): boolean {
 		return true;
 	}
 
+	/**
+	 * Evaluates in range
+	 * @param sourceData
+	 * @param value
+	 * @returns true if in range
+	 */
 	private evaluateInRange(sourceData: any, value: any): boolean {
 		return true;
 	}
