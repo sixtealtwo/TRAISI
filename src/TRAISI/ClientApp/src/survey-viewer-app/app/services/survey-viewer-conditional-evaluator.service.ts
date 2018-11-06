@@ -50,26 +50,6 @@ export class SurveyViewerConditionalEvaluator {
 				return false;
 		}
 	}
-
-	/*		if (this.responseType === 'String') {
-			this.dropDownListItems = ['Contains', 'Does Not Contain'];
-		} else if (this.responseType === 'Boolean') {
-			this.dropDownListItems = ['Is Equal To'];
-		} else if (this.responseType === 'Integer') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To', 'Greater Than', 'Less Than'];
-		} else if (this.responseType === 'Decimal') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To', 'Greater Than', 'Less Than'];
-		} else if (this.responseType === 'Location') {
-			this.dropDownListItems = ['In Bounds', 'Out Of Bounds'];
-		} else if (this.responseType === 'Json') {
-			this.dropDownListItems = ['Contains', 'Does Not Contain'];
-		} else if (this.responseType === 'OptionSelect') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To'];
-		} else if (this.responseType === 'OptionList') {
-			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
-		} else if (this.responseType === 'DateTime') {
-			this.dropDownListItems = ['In Range', 'Outside Range']; */
-
 	/**
 	 *
 	 * @param sourceData
