@@ -11,7 +11,8 @@ import {
 	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
-	OptionSelectResponseData
+	OptionSelectResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 
 @Component({
@@ -56,6 +57,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		}
 
 		this.response.emit(responses);
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 	/**
@@ -68,6 +70,8 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 			responses.forEach((response) => {
 				this.model[response.value] = true;
 			});
+
+			this.validationState.emit(ResponseValidationState.VALID); 
 		}
 	};
 
