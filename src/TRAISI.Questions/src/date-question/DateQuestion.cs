@@ -7,7 +7,7 @@ using System;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.DateTime)]
+    [SurveyQuestion(QuestionResponseType.DateTime, CodeBundleName = "traisi-questions-general.module.js")]
     public class DateQuestion : ISurveyQuestion
     {
         public string TypeName => "Date";

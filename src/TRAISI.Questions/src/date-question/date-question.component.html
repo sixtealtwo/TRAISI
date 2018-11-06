@@ -1,12 +1,10 @@
 <div class="date-question-container">
 
     <div class="form-group">
-        <input type="text"
-               #dp="bsDatepicker"
-               placeholder="Datepicker"
-               class="form-control"
-               bsDatepicker>
+        <input type="text" placeholder="Datepicker" class="form-control" (bsValueChange)="onValueChange($event)"
+            #dateInput bsDatepicker [bsConfig]="bsConfig" [ngModel]="dateData">
     </div>
 
-    <button class="btn btn-success" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen">Date Picker</button>
+    <button class="btn btn-primary" (click)="dateInput.isOpen = !dateInput.isOpen" [attr.aria-expanded]="dateInput.isOpen">Date
+        Picker</button>
 </div>

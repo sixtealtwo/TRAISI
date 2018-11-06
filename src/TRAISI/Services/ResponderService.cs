@@ -121,6 +121,9 @@ namespace TRAISI.Services
                 case QuestionResponseType.Integer:
                     SaveIntegerResponse(survey, question, user, responseData, surveyResponse);
                     break;
+                case QuestionResponseType.DateTime:
+                    SaveDateTimeResponse(surveyResponse, responseData);
+                    break;
 
                 case QuestionResponseType.Location:
                     SaveLocationResponse(survey, question, user, responseData, surveyResponse);
@@ -199,6 +202,19 @@ namespace TRAISI.Services
 
             (response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
 
+        }
+
+        internal void SaveDateTimeResponse(SurveyResponse response, JObject responseData)
+        {
+            if (response.ResponseValues.Count == 0) {
+                //response.ResponseValues = new List<ResponseValue>();
+                response.ResponseValues.Add(new DateTimeResponse());
+            }
+
+
+            (response.ResponseValues[0] as DateTimeResponse).Value = responseData.GetValue("value").ToObject<DateTime>();
+
+            return;
         }
 
         /// <summary>

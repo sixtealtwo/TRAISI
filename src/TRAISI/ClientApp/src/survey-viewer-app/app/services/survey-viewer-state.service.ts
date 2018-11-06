@@ -224,6 +224,7 @@ export class SurveyViewerStateService {
 			setTimeout(() => {
 				subject.next();
 				subject.complete();
+
 			});
 			return subject;
 		} else {
@@ -235,6 +236,7 @@ export class SurveyViewerStateService {
 				targetQuestion.targetConditionals.forEach((targetConditional) => {
 					sourceQuestionIds.push(targetConditional.sourceQuestionId);
 				});
+
 
 				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe((value) => {
 					let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {

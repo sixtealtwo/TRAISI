@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -10,8 +10,11 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	ResponseData
 } from 'traisi-question-sdk';
+import { BsDatepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { DateResponseData } from '../../../TRAISI.SDK/Module/dist/traisi-survey-question';
 
 @Component({
 	selector: 'traisi-date-question',
@@ -19,9 +22,12 @@ import {
 	styles: [require('./date-question.component.scss').toString()]
 })
 export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> implements OnInit {
-	public typeName: string;
-	public icon: string;
+	@ViewChild('dateInput')
+	public dateInput: BsDatepickerDirective;
 
+	public dateData: Date;
+
+	public bsConfig: Partial<BsDatepickerConfig>;
 	/**
 	 *
 	 * @param _surveyViewerService
@@ -44,5 +50,34 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 		this.data = data;
 	}
 
-	public ngOnInit(): void {}
+	public ngOnInit(): void {
+		this.savedResponse.subscribe(this.onSavedResponseData);
+
+		this.bsConfig = Object.assign({}, { containerClass: 'theme-default' });
+	}
+
+	/**
+	 * Determines whether value change on
+	 * @param value
+	 */
+	public onValueChange(value: Date): void {
+		let data: DateResponseData = {
+			value: value
+		};
+
+		if (value !== null) {
+			this.response.emit(data);
+		}
+	}
+
+	/**
+	 * Determines whether saved response data on
+	 */
+	private onSavedResponseData: (response: DateResponseData[] | 'none') => void = (response: DateResponseData[] | 'none') => {
+		if (response !== 'none') {
+			let dateValue = new Date(response[0].value);
+
+			this.dateData = dateValue;
+		}
+	};
 }

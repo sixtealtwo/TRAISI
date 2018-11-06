@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
-import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import booleanContains from '@turf/boolean-point-in-polygon';
 
 @Injectable({
 	providedIn: 'root'
@@ -22,6 +22,8 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 */
 	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
+		console.log('in evaluate');
+		console.log(conditionalType);
 		switch (conditionalType) {
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
@@ -87,7 +89,7 @@ export class SurveyViewerConditionalEvaluator {
 	 * @returns true if equals
 	 */
 	private evaluateEquals(sourceData: any, value: any): boolean {
-		const val: boolean = sourceData === value;
+		const val: boolean = sourceData.value === parseInt(value, 10);
 		return val;
 	}
 
@@ -98,8 +100,8 @@ export class SurveyViewerConditionalEvaluator {
 	 * @returns true if in bounds
 	 */
 	private evaluateInBounds(sourceData: any, value: any): boolean {
-		booleanPointInPolygon(null, null);
-		return true;
+		booleanContains(null, null);
+		return false;
 	}
 
 	/**
@@ -109,7 +111,7 @@ export class SurveyViewerConditionalEvaluator {
 	 * @returns true if is any of
 	 */
 	private evaluateIsAnyOf(sourceData: any, value: any): boolean {
-		return true;
+		return false;
 	}
 
 	/**
@@ -119,7 +121,7 @@ export class SurveyViewerConditionalEvaluator {
 	 * @returns true if is all of
 	 */
 	private evaluateIsAllOf(sourceData: any, value: any): boolean {
-		return true;
+		return false;
 	}
 
 	/**
@@ -128,7 +130,18 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if in range
 	 */
-	private evaluateInRange(sourceData: any, value: any): boolean {
-		return true;
+	private evaluateInRange(sourceData: any, rangeData: string): boolean {
+		let dateIn = new Date(sourceData.value);
+		let dateRange = JSON.parse(rangeData);
+
+		let dateLower = new Date(dateRange[0]);
+		let dateUpper = new Date(dateRange[1]);
+
+		if (dateLower <= dateIn && dateIn <= dateUpper) {
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
