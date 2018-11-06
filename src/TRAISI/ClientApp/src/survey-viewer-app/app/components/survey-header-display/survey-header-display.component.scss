@@ -73,7 +73,6 @@
 @include media-breakpoint-only(xl) {
 }
 
-
 #pages-progress-bar {
 	position: relative;
 	// margin-top: 20px;
@@ -81,7 +80,7 @@
 }
 
 .page {
-	margin-top: -12px;
+	// margin-top: -12px;
 	border: 2px solid darkblue;
 	border-radius: 50%;
 	width: 55px;
@@ -121,10 +120,10 @@
 	.page::after {
 		position: absolute;
 		display: inline-block;
-		content: "";
+		content: '';
 		border-top: 1px solid black;
 		width: 50%;
-		top: 15px;
+		top: calc(50% - 15px);
 		left: calc(50% + 27px);
 	}
 }
@@ -133,10 +132,10 @@
 	.page::before {
 		position: absolute;
 		display: inline-block;
-		content: "";
+		content: '';
 		border-top: 1px solid black;
 		width: 50%;
-		top: 15px;
+		top: calc(50% - 15px);
 		right: calc(50% + 27px);
 	}
 }
@@ -148,5 +147,4 @@
 	.page::before {
 		border-color: white !important;
 	}
-
 }

@@ -28,6 +28,8 @@ import { SurveyViewerStateService } from '../../services/survey-viewer-state.ser
 export class AdminToolbarComponent implements OnInit {
 	public surveyId: number;
 
+	public currentUser: SurveyUser;
+
 	/**
 	 * Creates an instance of admin toolbar component.
 	 * @param surveyViewerService
@@ -44,6 +46,10 @@ export class AdminToolbarComponent implements OnInit {
 	public ngOnInit(): void {
 		this._surveyViewerService.activeSurveyId.subscribe((surveyId) => {
 			this.surveyId = surveyId;
+
+			this.currentUser = this._surveyViewerService.currentUser;
+
+
 		});
 	}
 

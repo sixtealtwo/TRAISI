@@ -4,10 +4,15 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" (click)="deleteAllResponses()">Delete Responses <span class="sr-only">(current)</span></a>
 				</li>
 			</ul>
+
+			<span class="form-inline my-2 my-lg-0">
+				User: {{ currentUser.userName }}
+
+			</span>
 		</div>
 
 	</nav>
