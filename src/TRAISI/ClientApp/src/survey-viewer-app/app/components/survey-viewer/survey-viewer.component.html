@@ -2,6 +2,8 @@
 	<!--<div class="survey-title-container">
 		<h1>{{ titleText }}</h1>
 	</div>-->
+
+	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
 	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
 
 	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines"

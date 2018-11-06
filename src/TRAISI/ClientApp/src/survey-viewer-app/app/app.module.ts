@@ -54,6 +54,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
+import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -75,6 +76,7 @@ import 'rxjs/add/operator/debounceTime';
 		Header2Component,
 		MainSurveyAccess1Component,
 		TextBlock1Component,
+		AdminToolbarComponent,
 		Footer1Component
 	],
 	imports: [

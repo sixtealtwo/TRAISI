@@ -54,7 +54,7 @@ export class AuthService {
 	}
 
 
-	gotoPage(page: string, preserveParams = true) {
+	public gotoPage(page: string, preserveParams = true) {
 
 		const navigationExtras: NavigationExtras = {
 			queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
@@ -65,7 +65,7 @@ export class AuthService {
 	}
 
 
-	redirectLoginUser() {
+	public redirectLoginUser() {
 		const redirect = this.loginRedirectUrl && this.loginRedirectUrl !== '/' &&
 			this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
 		this.loginRedirectUrl = null;
@@ -84,7 +84,7 @@ export class AuthService {
 	}
 
 
-	redirectLogoutUser() {
+	public redirectLogoutUser() {
 		const redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
 		this.logoutRedirectUrl = null;
 
@@ -92,13 +92,13 @@ export class AuthService {
 	}
 
 
-	redirectForLogin() {
+	public redirectForLogin() {
 		this.loginRedirectUrl = this.router.url;
 		this.router.navigate([this.loginUrl]);
 	}
 
 
-	reLogin() {
+	public reLogin() {
 
 		this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
 
@@ -110,7 +110,7 @@ export class AuthService {
 	}
 
 
-	refreshLogin() {
+	public refreshLogin() {
 		return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>().pipe(
 			map(response => this.processLoginResponse(response, this.rememberMe)));
 	}
@@ -126,7 +126,7 @@ export class AuthService {
 	 * @returns
 	 * @memberof AuthService
 	 */
-	login(userName: string, password: string, rememberMe?: boolean) {
+	public login(userName: string, password: string, rememberMe?: boolean) {
 
 		if (this.isLoggedIn) {
 			this.logout();
@@ -221,7 +221,7 @@ export class AuthService {
 
 
 
-	logout(): void {
+	public logout(): void {
 		this.localStorage.deleteData(DBkeys.ACCESS_TOKEN);
 		this.localStorage.deleteData(DBkeys.ID_TOKEN);
 		this.localStorage.deleteData(DBkeys.REFRESH_TOKEN);
@@ -251,7 +251,7 @@ export class AuthService {
 	}
 
 
-	getLoginStatusEvent(): Observable<boolean> {
+	public getLoginStatusEvent(): Observable<boolean> {
 		return this._loginStatus.asObservable();
 	}
 

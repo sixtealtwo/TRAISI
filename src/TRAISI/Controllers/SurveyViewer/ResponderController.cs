@@ -209,8 +209,9 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("surveys/{surveyId}/respondents/{respondentId}")]
         public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
         {
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-            await this._respondentService.RemoveAllResponses(respondentId);
+            await this._respondentService.RemoveAllResponses(respondentId, user);
 
             return new OkResult();
         }

@@ -41,6 +41,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	private _pageThemeInfoJson: any;
 
+	public get currentUser(): any {
+		return this.authService.currentSurveyUser;
+	}
+
 	/**
 	 *
 	 */

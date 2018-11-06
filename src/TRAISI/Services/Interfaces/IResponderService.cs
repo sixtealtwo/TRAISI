@@ -75,6 +75,6 @@ namespace TRAISI.Services.Interfaces
         /// </summary>
         /// <param name="respondentId"></param>
         /// <returns></returns>
-        Task<bool> RemoveAllResponses(int respondentId);
+        Task<bool> RemoveAllResponses(int respondentId, ApplicationUser user);
     }
 }
