@@ -55,6 +55,7 @@ import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-condi
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
+import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -77,6 +78,7 @@ import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.
 		MainSurveyAccess1Component,
 		TextBlock1Component,
 		AdminToolbarComponent,
+		SurveyThankYouPageComponent,
 		Footer1Component
 	],
 	imports: [
