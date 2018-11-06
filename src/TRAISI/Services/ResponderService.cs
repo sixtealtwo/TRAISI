@@ -376,6 +376,18 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<bool> RemoveAllResponses(int respondentId)
         {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
+
+            var members = respondent.SurveyRespondentGroup.GroupMembers;
+
+            foreach (var member in members) {
+                await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member);
+            }
+
+            await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(respondent);
+
+            this._unitOfWork.SurveyRespondents.RemoveRange(members); 
+
             return true;
         }
     }

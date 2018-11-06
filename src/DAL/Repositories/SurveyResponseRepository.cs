@@ -146,6 +146,15 @@ namespace DAL.Repositories
 
             return result;
         }
+
+        public async Task<bool> DeleteAllResponsesForUser(SurveyRespondent user)
+        {
+            this._entities.RemoveRange(_entities.Where(x => x.Respondent == user));
+
+            await this._appContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 
 }
