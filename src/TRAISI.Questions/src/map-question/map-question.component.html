@@ -18,11 +18,11 @@
         </mgl-control>
         <mgl-marker [lngLat]="markerPosition" [draggable]="true" (dragEnd)="onDragEnd($event)">
 
-            <i [ngClass]="['marker-icon',markerIcon]"></i>
+            <i [ngClass]="['marker-icon',markerIcon]" [hidden]="!loactionLoaded"></i>
             <img #mapMarker class="mapMarker" [hidden]="!loactionLoaded" />
         </mgl-marker>
     </mgl-map>
-    <div class="locationDisplay">
+    <div class="locationDisplay" *ngIf="loactionLoaded">
         <label>Location Selected: {{ locationSearch }}</label>
     </div>
 </div>
