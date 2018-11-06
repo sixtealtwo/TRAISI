@@ -22,6 +22,7 @@ import {
 } from 'traisi-question-sdk';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 import { config } from '../../../../../traisi-trip-diary/src/routes/components/routes/v1/ts/config';
+import { animate } from '@angular/animations';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
@@ -55,6 +56,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		} else {
 			this.loactionLoaded = false;
 		}
+
 		this._markerPosition = val;
 	}
 
@@ -64,7 +66,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Gets marker icon
 	 */
 	public get markerIcon(): string {
-
 		switch (this.purpose) {
 			case 'home':
 				return 'fas fa-home';
@@ -117,6 +118,24 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	/**
+	 * Flys to position
+	 * @param val
+	 */
+	private flyToPosition(val: LngLatLike): void {
+		let obj: mapboxgl.FlyToOptions;
+
+		this.markerPosition = val;
+		if (this._mapinstance !== undefined) {
+			this._mapinstance.flyTo({
+				center: val,
+				animate: true,
+				duration: 3000,
+				zoom: 14
+			});
+		}
+	}
+
+	/**
 	 * on init
 	 */
 	public ngOnInit(): void {
@@ -128,6 +147,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.surveyViewerService.updateNavigationState(false);
 	}
 
+	/**
+	 * Called when response data is ready
+	 */
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Location> | 'none') => void = (
 		response: ResponseData<ResponseTypes.Location> | 'none'
 	) => {
@@ -150,6 +172,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			this._mapinstance = this.mapGL.mapInstance;
 			this.mapInstance.next(this.mapGL.mapInstance);
 			this.mapGL.mapInstance.resize();
+
+			this.flyToPosition(this.markerPosition);
 		});
 	}
 
@@ -272,7 +296,5 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		let purpose = JSON.parse(mapConfig.purpose);
 
 		this.purpose = purpose.id;
-
-		console.log(this.purpose);
 	}
 }
