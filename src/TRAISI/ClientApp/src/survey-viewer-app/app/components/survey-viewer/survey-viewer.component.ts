@@ -130,6 +130,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public pageThemeInfo: any;
 	public viewerTheme: SurveyViewerTheme;
 
+	public isShowComplete: boolean = false;
+
 	public currentUser: SurveyUser;
 
 	/**
@@ -716,6 +718,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			!this.validateInternalNavigationNext()
 		) {
 			this.navigateNextEnabled = false;
+			this.isShowComplete = true;
 		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
 			this.navigateNextEnabled = false;
 		} else if (!this.isHouseholdQuestionActive()) {
@@ -751,6 +754,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeRepeatIndex = -1;
 		}
 
+		if (
+			this.navigateNextEnabled === true ||
+			this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID
+		) {
+			this.isShowComplete = false;
+		}
+
 		// this.navigateNextEnabled = true;
 	}
 
@@ -777,6 +787,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.validateNavigation();
 			});
 		});
+	}
+
+	/**
+	 * Navigates complete survey
+	 */
+	public navigateCompleteSurvey(): void {
+		console.log('navigate to thankyou page ');
 	}
 
 	public ngAfterContentInit(): void {}
