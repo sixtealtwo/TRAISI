@@ -24,7 +24,7 @@ import { TextQuestionConfiguration } from './text-question.configuration';
 	styles: [require('./text-question.component.scss').toString()]
 })
 export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
-	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit, OnSaveResponseStatus {
+	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
 	public textInput: string;
 
 	public isLoaded: boolean;
@@ -50,11 +50,10 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 
 	public ngOnInit(): void {
 		this.onQuestionShown();
-		console.log(this.configuration);
-		this.configuration.maxLength = parseInt('' + this.configuration.maxLength, 10);
-		this.configuration.multiline = this.configuration.multiline === 'false' ? false : true;
 
-		console.log(this.configuration);
+		this.configuration.maxLength = parseInt('' + this.configuration.maxLength, 10);
+		this.configuration.multiline = '' + this.configuration.multiline === 'false' ? false : true;
+
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
