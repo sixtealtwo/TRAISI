@@ -58,6 +58,9 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		this.response.emit(responses);
 	}
 
+	/**
+	 * Determines whether load saved response on
+	 */
 	private onLoadSavedResponse: (responses: OptionSelectResponseData[] | 'none') => void = (
 		responses: OptionSelectResponseData[] | 'none'
 	) => {

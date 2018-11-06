@@ -3,7 +3,6 @@ import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
-import { BehaviorSubject } from 'rxjs';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import {
 	SurveyQuestion,
@@ -22,6 +21,7 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
+import { config } from '../../../../../traisi-trip-diary/src/routes/components/routes/v1/ts/config';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
@@ -31,10 +31,59 @@ let markerIconImage = require('./assets/default-marker.png');
 })
 export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
 	public locationSearch: string;
-	public markerPosition: LngLatLike = [-79.4, 43.67];
 
-	public typeName: string;
-	public icon: string;
+	/**
+	 * Purpose  of map question component
+	 */
+	public purpose: string = 'home';
+
+	private _markerPosition: LngLatLike = [-79.4, 43.67];
+
+	/**
+	 * Gets marker position
+	 */
+	public get markerPosition(): LngLatLike {
+		return this._markerPosition;
+	}
+
+	/**
+	 * Sets marker position
+	 */
+	public set markerPosition(val: LngLatLike) {
+		if (val !== undefined) {
+			this.loactionLoaded = true;
+		} else {
+			this.loactionLoaded = false;
+		}
+		this._markerPosition = val;
+	}
+
+	public loactionLoaded: boolean = false;
+
+	/**
+	 * Gets marker icon
+	 */
+	public get markerIcon(): string {
+
+		switch (this.purpose) {
+			case 'home':
+				return 'fas fa-home';
+			case 'work':
+				return 'fas fa-building';
+			case 'school':
+				return 'fas fa-school';
+			case 'daycare':
+				return 'fas fa-child';
+			case 'shopping':
+				return 'fas fa-shopping-cart';
+			case 'facilitate passenger':
+				return 'fas fa-car-side';
+			case 'other':
+				return 'fas fa-location-arrow';
+			default:
+				return 'fas fa-home';
+		}
+	}
 
 	@ViewChild('mapbox')
 	public mapGL: MapComponent;
@@ -50,9 +99,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	public mapInstance: ReplaySubject<mapboxgl.Map>;
 
 	/**
-	 *
+	 * Creates an instance of map question component.
 	 * @param mapEndpointService
 	 * @param cdRef
+	 * @param surveyViewerService
 	 */
 	constructor(
 		private mapEndpointService: MapEndpointService,
@@ -60,12 +110,15 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
 		super();
-		this.icon = 'map';
+
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 
 		this.displayClass = 'view-full';
 	}
 
+	/**
+	 * on init
+	 */
 	public ngOnInit(): void {
 		this.configureMapSettings();
 
@@ -100,6 +153,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		});
 	}
 
+	/**
+	 * Locations found
+	 * @param event
+	 */
 	public locationFound(event: { result: Result }): void {
 		this.locationSearch = event['result'].place_name;
 		this.markerPosition = event['result'].center;
@@ -121,6 +178,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		});
 	}
 
+	/**
+	 * Determines whether drag start on
+	 * @param event
+	 */
 	public onDragStart(event: any): void {}
 
 	/**
@@ -197,5 +258,21 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			instance.resize();
 		});
 	}
+
+	/**
+	 * Determines whether question hidden on
+	 */
 	public onQuestionHidden(): void {}
+
+	/**
+	 * Loads configuration
+	 * @param mapConfig
+	 */
+	public loadConfiguration(mapConfig: any): void {
+		let purpose = JSON.parse(mapConfig.purpose);
+
+		this.purpose = purpose.id;
+
+		console.log(this.purpose);
+	}
 }

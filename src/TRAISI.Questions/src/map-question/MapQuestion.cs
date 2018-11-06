@@ -3,7 +3,7 @@ using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 
-namespace TRAISI.ClientApp.question_definitions.map_question
+namespace TRAISI.SDK.Questions
 {
     [SurveyQuestion(QuestionResponseType.Location, CodeBundleName = "traisi-questions-map.module.js")]
     public class MapQuestion : ISurveyQuestion

@@ -1,12 +1,13 @@
 <div class="map-container">
-    <mgl-map #mapbox [style]="'https://maps.tilehosting.com/styles/streets/style.json?key=5YOsrAa6pBZnCp812wTQ'" (click)="mapClick($event)">
-        
+    <mgl-map #mapbox [style]="'https://maps.tilehosting.com/styles/streets/style.json?key=5YOsrAa6pBZnCp812wTQ'"
+        (click)="mapClick($event)">
+
         <mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
-	}" [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
+	}"
+            [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
         <mgl-control mglNavigation position="top-left"></mgl-control>
-        <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'"
-                     (result)="locationFound($event)"></mgl-control>
+        <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
         <mgl-control position="bottom-right">
             <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
                 <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
@@ -15,12 +16,10 @@
                     map</a>
             </div>
         </mgl-control>
-        <mgl-marker
-                [lngLat]="markerPosition"
-                [draggable]="true"
-                (dragEnd)="onDragEnd($event)"
-        >
-            <img #mapMarker class="mapMarker"/>
+        <mgl-marker [lngLat]="markerPosition" [draggable]="true" (dragEnd)="onDragEnd($event)">
+
+            <i [ngClass]="['marker-icon',markerIcon]"></i>
+            <img #mapMarker class="mapMarker" [hidden]="!loactionLoaded" />
         </mgl-marker>
     </mgl-map>
     <div class="locationDisplay">

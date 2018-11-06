@@ -40,6 +40,15 @@ mgl-map {
 	bottom: 0;
 	top: 0;
 	width: 100%;
+
+	.marker-icon {
+		position: absolute;
+		z-index: 22;
+		color: white;
+		left: calc(50% - 9px);
+		top: -10px;
+		font-size: 16px;
+	}
 }
 
 @media #{$xl-only} {
