@@ -72,13 +72,17 @@
 .question-header {
 	position: relative;
 
+	.question-header .row {
+		align-items: center;
+	}
+
 	.question-number-container {
-		max-width:75px;
+		max-width: 75px;
 		position: relative;
 	}
 
 	.question-number-container-section {
-		max-width:80px;
+		max-width: 80px;
 		position: relative;
 	}
 
@@ -105,11 +109,10 @@
 		max-width: calc(100% - 50px);
 		font-weight: 400;
 	}
-
 }
 
 .question-header-divider {
 	margin: 20px;
 	height: 5px;
-	border-top: 1px solid rgb(200,200,200);
+	border-top: 1px solid rgb(200, 200, 200);
 }
