@@ -14,8 +14,6 @@ import {
 	OptionSelectResponseData
 } from 'traisi-question-sdk';
 
-
-
 @Component({
 	selector: 'traisi-checkbox-question',
 	template: require('./checkbox-question.component.html'),
@@ -64,9 +62,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		responses: OptionSelectResponseData[] | 'none'
 	) => {
 		if (responses !== 'none') {
-			console.log('response');
-			console.log(responses);
-			responses.forEach(response => {
+			responses.forEach((response) => {
 				this.model[response.value] = true;
 			});
 		}
@@ -92,8 +88,10 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
 
-		options.forEach(option => {
-			this.model[option['code']] = false;
+		options.forEach((option) => {
+			if (this.model[option['code']] === undefined) {
+				this.model[option['code']] = false;
+			}
 		});
 	}
 }

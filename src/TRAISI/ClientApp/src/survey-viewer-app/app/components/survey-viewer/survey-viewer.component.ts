@@ -224,6 +224,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
 			this.surveyQuestionsChanged();
 		});
+
+		this.isShowComplete = false;
 	}
 
 	/**

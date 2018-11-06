@@ -92,9 +92,6 @@
 					<div *ngIf="!isNextProcessing && !isShowComplete">
 						{{ 'Viewer.Next' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
 					</div>
-					<div>
-						{{ 'Viewer.CompleteSurvey' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
-					</div>
 				</button>
 				<button *ngIf="isShowComplete" [ngClass]="navButtonClass" (click)="navigateCompleteSurvey()" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 				 type="button">
