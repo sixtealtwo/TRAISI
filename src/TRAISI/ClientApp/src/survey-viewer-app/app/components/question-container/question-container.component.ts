@@ -125,7 +125,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				surveyQuestionInstance.surveyId = this.surveyId;
 
-				(<SurveyQuestion<any>>componentRef.instance).configuration = this.question.configuration;
+				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();

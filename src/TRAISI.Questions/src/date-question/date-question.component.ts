@@ -15,6 +15,7 @@ import {
 } from 'traisi-question-sdk';
 import { BsDatepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { DateResponseData } from '../../../TRAISI.SDK/Module/dist/traisi-survey-question';
+import { DateQuestionConfiguration } from './date-question.configuration';
 
 @Component({
 	selector: 'traisi-date-question',
@@ -28,6 +29,8 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 	public dateData: Date;
 
 	public bsConfig: Partial<BsDatepickerConfig>;
+
+	public configuration: DateQuestionConfiguration;
 	/**
 	 *
 	 * @param _surveyViewerService
@@ -39,21 +42,25 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 	) {
 		super();
 
-		this._surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
-	}
-
-	/**
-	 * Loads configuration data once it is available.
-	 * @param data
-	 */
-	public loadConfigurationData(data: QuestionConfiguration[]): void {
-		this.data = data;
+		this.configuration = {
+			minDate: undefined,
+			maxDate: undefined
+		};
 	}
 
 	public ngOnInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 
-		this.bsConfig = Object.assign({}, { containerClass: 'theme-default' });
+		this.bsConfig = Object.assign(
+			{},
+			{
+				containerClass: 'theme-default',
+				dateInputFormat: 'MMMM DD YYYY'
+			}
+		);
+
+		this.configuration.maxDate = new Date((<string>this.configuration.maxDate).replace(/"/g, ''));
+		this.configuration.minDate = new Date((<string>this.configuration.minDate).replace(/"/g, ''));
 	}
 
 	/**
