@@ -75,8 +75,8 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param sourceData
 	 * @param value
 	 */
-	private evaluateContains(sourceData: any, value: string): boolean {
-		const val: boolean = sourceData.value.indexOf(value) >= 0;
+	private evaluateContains(sourceData: any[], value: string): boolean {
+		const val: boolean = sourceData[0].value.indexOf(value) >= 0;
 
 		return val;
 	}
@@ -87,8 +87,9 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if equals
 	 */
-	private evaluateEquals(sourceData: any, value: any): boolean {
-		const val: boolean = sourceData.value === parseInt(value, 10);
+	private evaluateEquals(sourceData: any[], value: any): boolean {
+		const val: boolean = sourceData[0].value === parseInt(value, 10);
+
 		return val;
 	}
 
@@ -145,8 +146,8 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if in range
 	 */
-	private evaluateInRange(sourceData: any, rangeData: string): boolean {
-		let dateIn = new Date(sourceData.value);
+	private evaluateInRange(sourceData: any[], rangeData: string): boolean {
+		let dateIn = new Date(sourceData[0].value);
 		let dateRange = JSON.parse(rangeData);
 
 		let dateLower = new Date(dateRange[0]);
