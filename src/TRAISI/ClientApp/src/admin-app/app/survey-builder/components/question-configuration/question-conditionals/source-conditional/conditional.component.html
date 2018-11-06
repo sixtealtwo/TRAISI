@@ -47,7 +47,8 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf6>
-			<ng-container *ngIf="responseType == 'OptionList' || responseType == 'OptionSelect'; else rElseIf7">
+
+			<ng-container *ngIf="responseType === 'OptionList' || responseType === 'OptionSelect'; else rElseIf7">
 				<ngx-dropdown-treeview [items]="copiedOptionList" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
 				</ngx-dropdown-treeview>
 			</ng-container>

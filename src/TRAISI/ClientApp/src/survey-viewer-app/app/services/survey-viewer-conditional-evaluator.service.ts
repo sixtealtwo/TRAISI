@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
 import booleanContains from '@turf/boolean-point-in-polygon';
+import { every as _every, some as _some } from 'lodash';
 
 @Injectable({
 	providedIn: 'root'
@@ -22,8 +23,6 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 */
 	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
-		console.log('in evaluate');
-		console.log(conditionalType);
 		switch (conditionalType) {
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
@@ -110,8 +109,18 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if is any of
 	 */
-	private evaluateIsAnyOf(sourceData: any, value: any): boolean {
-		return false;
+	private evaluateIsAnyOf(sourceData: any[], conditionalData: string): boolean {
+		let conditionals = JSON.parse(conditionalData);
+
+		let isAny: boolean = false;
+		sourceData.forEach((response) => {
+			conditionals.forEach((conditional) => {
+				if (response.code === conditional.code) {
+					isAny = true;
+				}
+			});
+		});
+		return isAny;
 	}
 
 	/**
@@ -120,8 +129,14 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if is all of
 	 */
-	private evaluateIsAllOf(sourceData: any, value: any): boolean {
-		return false;
+	private evaluateIsAllOf(sourceData: any[], conditionalData: string): boolean {
+		let conditionals = JSON.parse(conditionalData);
+
+		return _every(conditionals, (x) => {
+			return _some(sourceData, (y) => {
+				return x.code === y.code;
+			});
+		});
 	}
 
 	/**
@@ -138,7 +153,6 @@ export class SurveyViewerConditionalEvaluator {
 		let dateUpper = new Date(dateRange[1]);
 
 		if (dateLower <= dateIn && dateIn <= dateUpper) {
-
 			return true;
 		} else {
 			return false;

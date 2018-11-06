@@ -13,18 +13,13 @@ import {
 	QuestionOption
 } from 'traisi-question-sdk';
 
-
 @Component({
 	selector: 'traisi-matrix-question',
 	template: require('./matrix-question.component.html').toString(),
 	styles: [require('./matrix-question.component.scss').toString()]
 })
-export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
-	implements OnInit {
+export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> implements OnInit {
 	readonly QUESTION_TYPE_NAME: string = 'Matrix Question';
-
-	typeName: string;
-	icon: string;
 
 	data: QuestionConfiguration[];
 
@@ -34,8 +29,6 @@ export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json>
 	 */
 	constructor(private surveyViewerService: SurveyViewer) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'matrix';
 
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}

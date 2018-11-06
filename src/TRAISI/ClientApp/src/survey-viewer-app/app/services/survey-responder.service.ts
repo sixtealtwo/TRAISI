@@ -78,7 +78,10 @@ export class SurveyResponderService implements SurveyResponder {
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			flatMap((responses) => {
 				for (let i = 0; i < responses.length; i++) {
-					this._cachedSavedResponses[questionIds[i]][respondentId] = responses[i].responseValues[0];
+					this._cachedSavedResponses[questionIds[i]][respondentId] = [];
+					responses[i].responseValues.forEach((responseValue) => {
+						this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
+					});
 				}
 
 				return Observable.of('');
@@ -208,9 +211,13 @@ export class SurveyResponderService implements SurveyResponder {
 	}
 
 	/**
-	 *
+	 * Determines whether saved response on
 	 * @param questionComponent
-	 * @param value
+	 * @param questionId
+	 * @param respondentId
+	 * @param data
+	 * @param responseValid
+	 * @param saved
 	 */
 	private onSavedResponse(
 		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,

@@ -15,7 +15,6 @@ namespace TRAISI.SDK.Enums
         Location,
         Json,
         OptionSelect,
-        OptionList,
         DateTime,
         Timeline,
         None
