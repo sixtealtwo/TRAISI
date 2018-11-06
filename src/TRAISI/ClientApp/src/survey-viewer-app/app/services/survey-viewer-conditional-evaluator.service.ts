@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
+import booleanPointInPolygon, { } from '@turf/boolean-point-in-polygon';
 
 @Injectable({
 	providedIn: 'root'
@@ -85,6 +86,7 @@ export class SurveyViewerConditionalEvaluator {
 	}
 
 	private evaluateInBounds(sourceData: any, value: any): boolean {
+		booleanPointInPolygon(null,null);
 		return true;
 	}
 
