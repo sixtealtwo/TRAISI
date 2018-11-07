@@ -17,6 +17,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { HouseholdQuestionComponent } from 'household-question/household-question.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
 @NgModule({
 	declarations: [
 		TextQuestionComponent,
@@ -29,6 +30,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 		TimeQuestionComponent,
 		DateQuestionComponent,
 		LikertQuestionComponent,
+		NumberQuestionValidatorDirective,
 		HouseholdQuestionComponent
 	],
 	entryComponents: [

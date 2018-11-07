@@ -77,7 +77,7 @@ namespace TRAISI.Services
         {
 
 
-            var question = await this._unitOfWork.QuestionParts.GetAsync(questionId);
+            var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
@@ -173,15 +173,15 @@ namespace TRAISI.Services
                 case QuestionResponseType.Timeline:
                     return response["values"].ToObject<List<ITimelineResponse>>().Cast<IResponseType>().ToList();
                 case QuestionResponseType.DateTime:
-                    return new List<IResponseType>() { response["value"].ToObject<IDateTimeResponse>() };
+                    return new List<IResponseType>() { response["value"].ToObject<DateTimeResponse>() };
                 case QuestionResponseType.String:
                     return new List<IResponseType>() { response.ToObject<StringResponse>() };
                 case QuestionResponseType.Location:
-                    return new List<IResponseType>() { response["value"].ToObject<ILocationResponse>() };
+                    return new List<IResponseType>() { response["value"].ToObject<LocationResponse>() };
                 case QuestionResponseType.Integer:
-                    return new List<IResponseType>() { response["value"].ToObject<IIntegerResponse>() };
+                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
                 case QuestionResponseType.Decimal:
-                    return new List<IResponseType>() { response["value"].ToObject<IDecimalResponse>() };
+                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
                 case QuestionResponseType.Json:
                     return new List<IResponseType>() { response["value"].ToObject<IJsonResponse>() };
 

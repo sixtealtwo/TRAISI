@@ -30,7 +30,6 @@ namespace DAL.Models.Questions
 
         public ICollection<QuestionPart> QuestionPartChildren { get; set; }
 
-
         public ICollection<QuestionConfiguration> QuestionConfigurations { get; set; }
 
         public ICollection<QuestionOption> QuestionOptions { get; set; }
