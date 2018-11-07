@@ -1,17 +1,16 @@
-using System;
 using System.Collections.Generic;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
+using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK.Questions
 {
-
-    public class TextQuestionValidator : ResponseValidator
+    public class DateQuestionValidator : ResponseValidator
     {
-        public TextQuestionValidator()
+
+        public DateQuestionValidator()
         {
+
         }
 
         /// <summary>

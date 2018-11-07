@@ -3,6 +3,7 @@ using DAL.Models.Extensions;
 using DAL.Models.Questions;
 using TRAISI.SDK.Enums;
 using Newtonsoft.Json;
+using TRAISI.SDK.Interfaces;
 
 namespace DAL.Models.Questions
 {
@@ -30,7 +31,7 @@ namespace DAL.Models.Questions
         /// Resource only configurations should tell the builder they are not alterable - just for display purposes.
         /// </summary>
         /// <value></value>
-        public bool IsResourceOnly {get;set;}
+        public bool IsResourceOnly { get; set; }
 
         /// <summary>
         /// Holds discriminator information to identity the type of data that is serialized in the Value field.

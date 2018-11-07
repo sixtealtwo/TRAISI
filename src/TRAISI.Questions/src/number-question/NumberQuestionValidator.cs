@@ -8,9 +8,9 @@ using TRAISI.SDK.Library.ResponseTypes;
 namespace TRAISI.SDK.Questions
 {
 
-    public class TextQuestionValidator : ResponseValidator
+    public class NumberQuestionValidator : ResponseValidator
     {
-        public TextQuestionValidator()
+        public NumberQuestionValidator()
         {
         }
 
