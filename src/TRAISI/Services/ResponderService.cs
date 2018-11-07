@@ -10,8 +10,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using TRAISI.SDK.Library.ResponseTypes;
 using TRAISI.Services.Interfaces;
-
+using System.Linq;
 namespace TRAISI.Services
 {
     /// <summary>
@@ -46,6 +47,7 @@ namespace TRAISI.Services
             _loggerFactory = loggerFactory;
 
             _logger = loggerFactory.CreateLogger<ResponderService>();
+
         }
 
 
@@ -88,7 +90,8 @@ namespace TRAISI.Services
             }
 
             if (type.ResponseValidator != null) {
-                type.ResponseValidator.ValidateResponse(null);
+                var responseDataUnwrapped = this.UnwrapResponseData(type.ResponseType, responseData);
+                type.ResponseValidator.ValidateResponse(responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration>().ToHashSet());
             }
 
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
@@ -153,11 +156,44 @@ namespace TRAISI.Services
 
             return true;
 
-
-
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        internal List<IResponseType> UnwrapResponseData(QuestionResponseType responseType, JObject response)
+        {
+
+            switch (responseType) {
+                case QuestionResponseType.OptionSelect:
+                    return response["values"].ToObject<List<IOptionSelectResponse>>().Cast<IResponseType>().ToList();
+                case QuestionResponseType.Timeline:
+                    return response["values"].ToObject<List<ITimelineResponse>>().Cast<IResponseType>().ToList();
+                case QuestionResponseType.DateTime:
+                    return new List<IResponseType>() { response["value"].ToObject<IDateTimeResponse>() };
+                case QuestionResponseType.String:
+                    return new List<IResponseType>() { response.ToObject<StringResponse>() };
+                case QuestionResponseType.Location:
+                    return new List<IResponseType>() { response["value"].ToObject<ILocationResponse>() };
+                case QuestionResponseType.Integer:
+                    return new List<IResponseType>() { response["value"].ToObject<IIntegerResponse>() };
+                case QuestionResponseType.Decimal:
+                    return new List<IResponseType>() { response["value"].ToObject<IDecimalResponse>() };
+                case QuestionResponseType.Json:
+                    return new List<IResponseType>() { response["value"].ToObject<IJsonResponse>() };
+
+                default:
+                    break;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         internal void SavePrimaryRespondentName()
         {
 

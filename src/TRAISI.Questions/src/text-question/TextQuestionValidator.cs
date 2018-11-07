@@ -20,7 +20,7 @@ namespace TRAISI.SDK.Questions
         /// <param name="data"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public override bool ValidateResponse(IResponseType data, Dictionary<string, IQuestionConfiguration> configuration)
+        public override bool ValidateResponse<IStringResponse>(List<IStringResponse> data, ICollection<IQuestionConfiguration> configuration)
         {
             return true;
         }

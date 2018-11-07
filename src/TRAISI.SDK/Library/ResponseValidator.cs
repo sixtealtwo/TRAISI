@@ -10,6 +10,6 @@ namespace TRAISI.SDK
 {
     public abstract class ResponseValidator
     {
-        public abstract bool ValidateResponse(IResponseType data, Dictionary<string, IQuestionConfiguration> configuration);
+        public abstract bool ValidateResponse<T>(List<T> data, ICollection<IQuestionConfiguration> configuration) where T : IResponseType;
     }
 }

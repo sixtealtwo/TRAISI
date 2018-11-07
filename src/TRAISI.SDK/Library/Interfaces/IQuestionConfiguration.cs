@@ -14,6 +14,10 @@ namespace TRAISI.SDK.Interfaces
 
         string Value { get; set; }
 
+        bool IsResourceOnly { get; set; }
+
+
+
 
 
     }
