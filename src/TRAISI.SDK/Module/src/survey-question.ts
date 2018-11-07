@@ -52,6 +52,8 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public displayClass: string = 'view-compact';
 
+	public isMultiPage: boolean = false;
+
 	/**
 	 *
 	 *

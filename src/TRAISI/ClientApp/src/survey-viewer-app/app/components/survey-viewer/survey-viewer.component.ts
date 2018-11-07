@@ -352,7 +352,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
 		this.navigationActiveState = newState;
-		// this.validateNavigation();
+		this.validateNavigation();
+		// console.log('in navigation state changed');
 	};
 
 	/**
@@ -409,9 +410,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							: this.viewerState.primaryRespondent.id
 					)
 					.subscribe((v: void) => {
-						if (!this.validateInternalNavigationNext()) {
+						if (!this.isActiveQuestionMultiPage()) {
 							// evaluate question for when a household question is not active
-
+							// console.log('is not multipage ');
 							if (
 								this.viewerState.activeRepeatIndex >= 0 &&
 								this.viewerState.activeRepeatIndex <
@@ -519,8 +520,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.activeRepeatIndex = -1;
 					this.viewerState.activeInSectionIndex = 0;
 					this.viewerState.activeRespondent = this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex];
-
-					console.log('going to next');
 
 					const questionIndex = this.viewerState.surveyQuestions.findIndex(
 						(q) => q === this.viewerState.activeSection.questions[0]
@@ -656,7 +655,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			} else {
 				if (this.viewerState.activeQuestion.isRepeat) {
 					if (this.viewerState.activeRepeatIndex === 0) {
-						console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
+						// console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
 
 						this.viewerState.activeQuestionIndex -= 1;
 						this.viewerState.activeRepeatIndex = -1;
@@ -681,7 +680,20 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private validateInternalNavigationNext(): boolean {
 		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+			// console.log('navigate: ' + this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+			return this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether active question multi page is
+	 * @returns true if active question multi page
+	 */
+	private isActiveQuestionMultiPage(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return this._activeQuestionContainer.surveyQuestionInstance.isMultiPage;
 		}
 
 		return false;
@@ -745,6 +757,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.navigateNextEnabled = true;
 				}
 			}
+		}
+
+		if (this.isActiveQuestionMultiPage() && !this.validateInternalNavigationNext()) {
+			this.navigateNextEnabled = false;
 		}
 
 		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
