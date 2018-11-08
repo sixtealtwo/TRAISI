@@ -81,7 +81,9 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	 * @returns {Observable<T>}
 	 */
 	public getSavedResponseUrlEndpoint<T>(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<T> {
-		let endpointUrl = `${this.responderSaveResponseUrl}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
+		let endpointUrl = `${
+			this.responderSaveResponseUrl
+		}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
@@ -160,10 +162,26 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 	public getRemoveSurveyGroupMemberUrlEndpoint<T>(respondent: SurveyRespondent): Observable<T> {
 		let endpointUrl = `${this.responderAddSurveyGroupmemberUrl}/respondents/groups/${respondent.id}`;
 
-		console.log('deleting');
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getRemoveSurveyGroupMemberUrlEndpoint(respondent));
+			})
+		);
+	}
+
+	/**
+	 * Gets delete all responses endpoint
+	 * @template T
+	 * @param surveyId
+	 * @param respondent
+	 * @returns delete all responses endpoint
+	 */
+	public getDeleteAllResponsesEndpoint<T>(surveyId: number, respondent: SurveyRespondent): Observable<T> {
+		let endpointUrl = `${this.surveyResponseUrl}/surveys/${surveyId}/respondents/${respondent.id}`;
+
+		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () => this.getDeleteAllResponsesEndpoint(surveyId, respondent));
 			})
 		);
 	}
@@ -177,7 +195,6 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		// surveys/{surveyId}/responses/types/{type}
 		let endpointUrl = `${this.surveyResponseUrl}/surveys/${surveyId}/responses/types/${type}`;
 
-		console.log(endpointUrl);
 		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getListSurveyResponsesOfType(surveyId, type));
@@ -194,7 +211,6 @@ export class SurveyResponderEndpointService extends EndpointFactory {
 		// surveys/{surveyId}/responses/types/{type}
 		let endpointUrl = `${this.surveyResponseUrl}questions/respondents/${respondentId}/questions/${currentQuestion}/next`;
 
-		console.log(endpointUrl);
 		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyNextQuestionUrlEndpoint(currentQuestion, respondentId));

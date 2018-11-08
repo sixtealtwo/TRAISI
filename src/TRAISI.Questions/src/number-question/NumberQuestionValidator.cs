@@ -8,9 +8,9 @@ using TRAISI.SDK.Library.ResponseTypes;
 namespace TRAISI.SDK.Questions
 {
 
-    public class TextQuestionValidator : ResponseValidator
+    public class NumberQuestionValidator : ResponseValidator
     {
-        public TextQuestionValidator()
+        public NumberQuestionValidator()
         {
         }
 
@@ -20,7 +20,7 @@ namespace TRAISI.SDK.Questions
         /// <param name="data"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public override bool ValidateResponse<IStringResponse>(List<IStringResponse> data, ICollection<IQuestionConfiguration> configuration)
+        public override bool ValidateResponse<IDecimalResponse>(List<IDecimalResponse> data, ICollection<IQuestionConfiguration> configuration)
         {
             return true;
         }

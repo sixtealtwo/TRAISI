@@ -7,7 +7,8 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.Integer, CodeBundleName = "traisi-questions-general.module.js")]
+    [SurveyQuestion(QuestionResponseType.Integer, CodeBundleName = "traisi-questions-general.module.js",
+    ResponseValidator = typeof(NumberQuestionValidator))]
     public class NumberQuestion : ISurveyQuestion
     {
         public string TypeName => "number";

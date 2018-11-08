@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import {
 	SurveyQuestion,
@@ -15,6 +16,7 @@ import {
 	StringResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
+import { TextQuestionConfiguration } from './text-question.configuration';
 
 @Component({
 	selector: 'traisi-text-question',
@@ -22,11 +24,7 @@ import {
 	styles: [require('./text-question.component.scss').toString()]
 })
 export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
-	implements OnInit, OnVisibilityChanged, OnSurveyQuestionInit, OnSaveResponseStatus {
-	typeName: string;
-	icon: string;
-	readonly QUESTION_TYPE_NAME: string = 'Text Question';
-
+	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
 	public textInput: string;
 
 	public isLoaded: boolean;
@@ -34,9 +32,10 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	@ViewChild('inputElement')
 	private textInputElement: HTMLInputElement;
 
-	onQuestionShown(): void {}
+	@ViewChild('f')
+	public inputForm: NgForm;
 
-	onQuestionHidden(): void {}
+	public configuration: TextQuestionConfiguration;
 
 	/**
 	 *
@@ -44,17 +43,23 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'text';
-		this.textInput = '';
+
+		this.textInput = undefined;
 		this.isLoaded = false;
 	}
 
 	public ngOnInit(): void {
 		this.onQuestionShown();
 
+		this.configuration.maxLength = parseInt('' + this.configuration.maxLength, 10);
+		this.configuration.multiline = '' + this.configuration.multiline === 'false' ? false : true;
+
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
+
+	public onQuestionShown(): void {}
+
+	public onQuestionHidden(): void {}
 
 	/**
 	 * Determines whether saved response data on
@@ -67,25 +72,19 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			this.textInput = stringResponse.value;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
-	};
-	/**
-	 * This will write a new response o the server
-	 *
-	 * @memberof TextQuestionComponent
-	 */
-	public handleComponentBlur(): void {
-		let data: StringResponseData = {
-			value: this.textInput
-		};
-		this.response.emit(data);
-		this.validationState.emit(ResponseValidationState.VALID);
-	}
 
-	/**
-	 *
-	 * @param configuration
-	 */
-	public onSurveyQuestionInit(configuration: QuestionConfiguration[]): void {}
+		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+			if (this.textInput === undefined) {
+				return;
+			}
+			let data: StringResponseData = {
+				value: this.textInput
+			};
+
+			this.response.emit(data);
+			this.validationState.emit(ResponseValidationState.VALID);
+		});
+	};
 
 	/**
 	 *

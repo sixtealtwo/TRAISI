@@ -88,6 +88,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	public onModelChanged(option: QuestionOption): void {
 		this.response.emit([option]);
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 	/**

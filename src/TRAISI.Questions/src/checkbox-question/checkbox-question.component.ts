@@ -11,10 +11,9 @@ import {
 	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
-	OptionSelectResponseData
+	OptionSelectResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
-
-
 
 @Component({
 	selector: 'traisi-checkbox-question',
@@ -58,17 +57,21 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		}
 
 		this.response.emit(responses);
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
+	/**
+	 * Determines whether load saved response on
+	 */
 	private onLoadSavedResponse: (responses: OptionSelectResponseData[] | 'none') => void = (
 		responses: OptionSelectResponseData[] | 'none'
 	) => {
 		if (responses !== 'none') {
-			console.log('response');
-			console.log(responses);
-			responses.forEach(response => {
+			responses.forEach((response) => {
 				this.model[response.value] = true;
 			});
+
+			this.validationState.emit(ResponseValidationState.VALID); 
 		}
 	};
 
@@ -92,8 +95,10 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
 
-		options.forEach(option => {
-			this.model[option['code']] = false;
+		options.forEach((option) => {
+			if (this.model[option['code']] === undefined) {
+				this.model[option['code']] = false;
+			}
 		});
 	}
 }

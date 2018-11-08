@@ -107,9 +107,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.sourceGroup.condition = this.dropDownListItems[0];
 		}
 		if (this.responseType === 'OptionList' || this.responseType === 'OptionSelect') {
-			this.optionList.forEach(element => {
-				let valueSplit: string[] = element.value.split('~');	// [0] - 'option', [1] - option group name, [2] - option id
-				let codeFromId = this.questionOptions.get(valueSplit[1]).filter(o => o.id === +valueSplit[2])[0].code;
+			this.optionList.forEach((element) => {
+				let valueSplit: string[] = element.value.split('~'); // [0] - 'option', [1] - option group name, [2] - option id
+				let codeFromId = this.questionOptions.get(valueSplit[1]).filter((o) => o.id === +valueSplit[2])[0].code;
 				let valueCheck = `"name":"${valueSplit[1]}","code":"${codeFromId}"`;
 				let copiedItem = new TreeviewItem({
 					value: element.value,
@@ -125,7 +125,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	public ngAfterViewInit(): void {
 		this.optionTargetsTreeDropdown.i18n = new TreeviewI18nDefault();
-		this.optionTargetsTreeDropdown.i18n.getText = e => this.targetsDropdown(e);
+		this.optionTargetsTreeDropdown.i18n.getText = (e) => this.targetsDropdown(e);
 		this.changeDetectRef.detectChanges();
 	}
 
@@ -135,7 +135,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	private targetsDropdown(e: TreeviewSelection): string {
 		if (e.checkedItems.length > 0) {
-			return this.getPrunedCheckedTargets().map(i => this.getQuestionOptionLabel(i)).join(', '); // `${e.checkedItems.length} targets`;
+			return this.getPrunedCheckedTargets()
+				.map((i) => this.getQuestionOptionLabel(i))
+				.join(', '); // `${e.checkedItems.length} targets`;
 		} else {
 			return 'Select hide targets';
 		}
@@ -144,7 +146,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	private getPrunedCheckedTargets(): TreeviewItem[] {
 		let pruned: TreeviewItem[] = [];
 
-		this.checkedWithParents.forEach(item => {
+		this.checkedWithParents.forEach((item) => {
 			if (item.parent && item.parent.item.checked && !item.parent.item.value.startsWith('part')) {
 				if (!pruned.includes(item.parent.item)) {
 					pruned.push(item.parent.item);
@@ -166,6 +168,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	private setConditionsForQuestionType(): void {
+
 		if (this.responseType === 'String') {
 			this.dropDownListItems = ['Contains', 'Does Not Contain'];
 		} else if (this.responseType === 'Boolean') {
@@ -179,7 +182,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		} else if (this.responseType === 'Json') {
 			this.dropDownListItems = ['Contains', 'Does Not Contain'];
 		} else if (this.responseType === 'OptionSelect') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To'];
+			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
 		} else if (this.responseType === 'OptionList') {
 			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
 		} else if (this.responseType === 'DateTime') {
@@ -188,22 +191,21 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	public conditionValueChanged(e: string): void {
-		this.sourceGroup.condition = this.dropDownListItems.filter(dd => dd === e)[0];
+		this.sourceGroup.condition = this.dropDownListItems.filter((dd) => dd === e)[0];
 		// update condition value in conditionals lists
-		this.sourceQuestionConditionalsList.forEach(conditional => {
+		this.sourceQuestionConditionalsList.forEach((conditional) => {
 			conditional.condition = this.sourceGroup.condition;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
 			conditional.condition = this.sourceGroup.condition;
 		});
 	}
 
-
 	public updateConditionalsValues(): void {
-		this.sourceQuestionConditionalsList.forEach(conditional => {
+		this.sourceQuestionConditionalsList.forEach((conditional) => {
 			conditional.value = this.sourceGroup.value;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
 			conditional.value = this.sourceGroup.value;
 		});
 	}
@@ -215,13 +217,13 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		this.sourceQuestionConditionalsList = [];
 		this.sourceQuestionOptionConditionalsList = [];
 
-		downlineItems.forEach(selectedTarget => {
+		downlineItems.forEach((selectedTarget) => {
 			// if option, add only if parent question is unchecked
 			if ((<string>selectedTarget.item.value).startsWith('option')) {
 				if (!selectedTarget.parent.item.checked) {
-					let id = +(selectedTarget.item.value.split('~')[2]);
+					let id = +selectedTarget.item.value.split('~')[2];
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
-						o => o.targetOptionId === id
+						(o) => o.targetOptionId === id
 					)[0];
 					if (existing) {
 						this.sourceQuestionOptionConditionalsList.push(existing);
@@ -239,10 +241,10 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 					let idSplit = selectedTarget.parent.item.value.split('~');
 					let id = +idSplit[2];
 					let existingPrevious: QuestionConditional = priorSourceQuestionConditionals.filter(
-						o => o.targetQuestionId === id
+						(o) => o.targetQuestionId === id
 					)[0];
 					let existingAlready: QuestionConditional = this.sourceQuestionConditionalsList.filter(
-						o => o.targetQuestionId === id
+						(o) => o.targetQuestionId === id
 					)[0];
 					if (existingAlready === undefined) {
 						if (existingPrevious) {
@@ -262,9 +264,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			} else if ((<string>selectedTarget.item.value).startsWith('question')) {
 				// if question, always add, after searching for existing
 				let idSplit = selectedTarget.item.value.split('~');
-				let id = +(idSplit[2]);
+				let id = +idSplit[2];
 				let existing: QuestionConditional = priorSourceQuestionConditionals.filter(
-					o => o.targetQuestionId === id
+					(o) => o.targetQuestionId === id
 				)[0];
 				if (existing) {
 					this.sourceQuestionConditionalsList.push(existing);
@@ -285,19 +287,21 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public onSelectedChangeOptions(downlineItems: DownlineTreeviewItem[]): void {
 		// split value into json structure and stringify
 		let valueStructure: Object = {};
-		this.sourceGroup.value = JSON.stringify(downlineItems.map(i => {
-			let split: string[] = i.item.value.split('~');  // [0] - 'option', [1] - option group name, [2] - option id
-			let codeFromId = this.questionOptions.get(split[1]).filter(o => o.id === +split[2])[0].code;
-			let conditionalOptionSelect: ConditionalOptionItem = {
-				name: split[1],
-				code: codeFromId
-			};
-			return conditionalOptionSelect;
-		}));
-		this.sourceQuestionConditionalsList.forEach(conditional => {
+		this.sourceGroup.value = JSON.stringify(
+			downlineItems.map((i) => {
+				let split: string[] = i.item.value.split('~'); // [0] - 'option', [1] - option group name, [2] - option id
+				let codeFromId = this.questionOptions.get(split[1]).filter((o) => o.id === +split[2])[0].code;
+				let conditionalOptionSelect: ConditionalOptionItem = {
+					name: split[1],
+					code: codeFromId
+				};
+				return conditionalOptionSelect;
+			})
+		);
+		this.sourceQuestionConditionalsList.forEach((conditional) => {
 			conditional.value = this.sourceGroup.value;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
 			conditional.value = this.sourceGroup.value;
 		});
 	}
@@ -336,5 +340,4 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public onDateChange(newRange: Date[]): void {
 		this.sourceGroup.value = JSON.stringify(newRange);
 	}
-
 }

@@ -41,7 +41,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public getCachedSavedResponse(questionId: number, respondentId: number): any {
-
 		return this._cachedSavedResponses[questionId][respondentId];
 	}
 
@@ -52,6 +51,16 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
 		return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(questionIds, respondentId);
+	}
+
+	/**
+	 * Deletes all responses
+	 * @param surveyId
+	 * @param respondent
+	 * @returns all responses
+	 */
+	public deleteAllResponses(surveyId: number, respondent: SurveyRespondent): Observable<any> {
+		return this._surveyResponseEndpointService.getDeleteAllResponsesEndpoint(surveyId, respondent);
 	}
 
 	/**
@@ -69,7 +78,10 @@ export class SurveyResponderService implements SurveyResponder {
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			flatMap((responses) => {
 				for (let i = 0; i < responses.length; i++) {
-					this._cachedSavedResponses[questionIds[i]][respondentId] = responses[i].responseValues[0];
+					this._cachedSavedResponses[questionIds[i]][respondentId] = [];
+					responses[i].responseValues.forEach((responseValue) => {
+						this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
+					});
 				}
 
 				return Observable.of('');
@@ -97,7 +109,6 @@ export class SurveyResponderService implements SurveyResponder {
 		if (this._cachedSavedResponses[questionId] === undefined) {
 			this._cachedSavedResponses[questionId] = {};
 		}
-
 
 		return questionModel.repeatNumber === undefined
 			? this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, 0)
@@ -169,8 +180,6 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>,
 		questionModel: SurveyViewQuestion
 	): void {
-
-
 		if (response instanceof Array) {
 			this.saveResponse({ values: response }, surveyId, questionId, respondentId, questionModel).subscribe(
 				(responseValid: boolean) => {
@@ -202,9 +211,13 @@ export class SurveyResponderService implements SurveyResponder {
 	}
 
 	/**
-	 *
+	 * Determines whether saved response on
 	 * @param questionComponent
-	 * @param value
+	 * @param questionId
+	 * @param respondentId
+	 * @param data
+	 * @param responseValid
+	 * @param saved
 	 */
 	private onSavedResponse(
 		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,

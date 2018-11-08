@@ -2,12 +2,16 @@
   <div class="col-md-7 col-12">
 
     <input (blur)="inputBlur()" [textMask]="{mask: numberMask}" [(ngModel)]="model" type="text" class="form-control form-control-lg"
-      #numberInput="ngModel" name="numberInput" (ngModelChange)="modelChanged()" required />
+      traisiNumberValidator #numberInput="ngModel" name="numberInput" id="numberInput" (ngModelChange)="modelChanged()"
+      required />
 
   </div>
   <div *ngIf="numberInput.invalid && (numberInput.dirty || numberInput.touched)" class="alert alert-danger">
     <div *ngIf="numberInput.errors.required">
       A value is required.
+    </div>
+    <div *ngIf="numberInput.errors.range">
+      The value entered is not within the allowed range.
     </div>
   </div>
 </form>

@@ -1,17 +1,16 @@
-using System;
 using System.Collections.Generic;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
+using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK.Questions
 {
-
-    public class TextQuestionValidator : ResponseValidator
+    public class DateQuestionValidator : ResponseValidator
     {
-        public TextQuestionValidator()
+
+        public DateQuestionValidator()
         {
+
         }
 
         /// <summary>
@@ -20,7 +19,7 @@ namespace TRAISI.SDK.Questions
         /// <param name="data"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public override bool ValidateResponse<IStringResponse>(List<IStringResponse> data, ICollection<IQuestionConfiguration> configuration)
+        public override bool ValidateResponse<IDateTimeResponse>(List<IDateTimeResponse> data, ICollection<IQuestionConfiguration> configuration)
         {
             return true;
         }

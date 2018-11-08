@@ -1,6 +1,22 @@
 <section class="widget  border-primary mb-3 question-widget" [ngClass]="displayClass">
-	<header class="question-header">
-		<span class="question-validation">
+	<header class="question-header question-container">
+
+		<div class="question-header container-fluid">
+			<div class="row flex-nowrap">
+				<div class="question-number-container col-12">
+					<div class="question-number badge badge-danger mt-3"><span *ngIf="question.repeatNumber === undefined">
+							Q{{ questionIndex+1 }}
+						</span></div>
+					<div class="question-complete" *ngIf="responseValidationState === validationStates.VALID"><i class="fas fa-check-circle"></i></div>
+				</div>
+				<div class="question-header-text col-12 mt-3">
+					<span [innerHTML]="titleLabel | async | safeHtml" class=""></span>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- <span class="question-validation">
 			<i class="fas fa-check-circle validation-icon" [ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE,
 				'invalid':responseValidationState == validationStates.INVALID,
 							'valid': responseValidationState == validationStates.VALID}"></i>
@@ -11,13 +27,13 @@
 		</span>
 		<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber !== undefined">
 			Q{{ questionIndex+1 }} - {{question.repeatNumber + 1}}
-		</span>
-		<span [innerHTML]="titleLabel | async | safeHtml" class="header-label fw-semi-bold"></span>
+		</span>-->
+
 
 		<span class="badge badge-info" *ngIf="question.isOptional">Optional</span>
 
 	</header>
-
+	<div class="question-header-divider"></div>
 	<div class="widget-body">
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate">

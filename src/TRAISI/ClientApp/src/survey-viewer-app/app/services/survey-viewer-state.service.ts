@@ -238,6 +238,8 @@ export class SurveyViewerStateService {
 
 				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe((value) => {
 					let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
+						let response = this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId);
+
 						return this._conditionalEvaluator.evaluateConditional(
 							evalConditional.conditionalType,
 							this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId),

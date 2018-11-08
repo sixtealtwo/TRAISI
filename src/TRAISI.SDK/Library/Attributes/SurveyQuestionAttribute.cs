@@ -39,6 +39,8 @@ namespace TRAISI.SDK.Attributes
 
         public Type ResponseValidator { get; set; }
 
+        public string[] ModuleDependencies { get; set; } = { };
+
         /// <summary>
         /// 
         /// </summary>
@@ -46,9 +48,11 @@ namespace TRAISI.SDK.Attributes
         /// <param name="language"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public SurveyQuestionAttribute(QuestionResponseType responseType)
+        public SurveyQuestionAttribute(QuestionResponseType responseType, params string[] moduleDependencies)
         {
             this.QuestionResponseType = responseType;
+
+            this.ModuleDependencies = moduleDependencies;
         }
 
 

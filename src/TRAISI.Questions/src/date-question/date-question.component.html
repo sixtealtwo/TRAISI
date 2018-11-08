@@ -1,12 +1,16 @@
 <div class="date-question-container">
 
-    <div class="form-group">
-        <input type="text"
-               #dp="bsDatepicker"
-               placeholder="Datepicker"
-               class="form-control"
-               bsDatepicker>
-    </div>
+    <div class="input-group input-group-lg">
 
-    <button class="btn btn-success" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen">Date Picker</button>
+
+        <input type="text" placeholder="Datepicker" class="form-control" (bsValueChange)="onValueChange($event)"
+            #dateInput="bsDatepicker" [bsConfig]="bsConfig" [ngModel]="dateData" bsDatepicker [maxDate]="configuration.maxDate"
+            [minDate]="configuration.minDate" >
+
+        <div class="input-group-append">
+
+            <button class="btn btn-primary" (click)="dateInput.toggle()" [attr.aria-expanded]="dateInput.isOpen">Date
+                Picker</button>
+        </div>
+    </div>
 </div>

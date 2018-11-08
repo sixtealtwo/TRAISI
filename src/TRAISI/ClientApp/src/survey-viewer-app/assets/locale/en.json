@@ -8,7 +8,8 @@
 	},
 	"Viewer": {
 		"Next": "Next",
-		"Previous": "Previous"
+		"Previous": "Previous",
+		"CompleteSurvey": "Complete Survey"
 	},
 	"TermsAndConditions": {
 		"TermsAndConditions": "Terms and Conditions",

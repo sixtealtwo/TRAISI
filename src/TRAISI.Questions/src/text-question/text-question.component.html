@@ -1,6 +1,10 @@
-<p>
+<form #f="ngForm" name="form">
+
 
   <input [disabled]="!isLoaded" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
-    (blur)="handleComponentBlur()" #inputElement />
+    name="textInput" #inputElement *ngIf="!configuration.multiline" [maxlength]="configuration.maxLength">
 
-</p>
+  <textarea [disabled]="!isLoaded" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
+    name="textInput" #inputElement *ngIf="configuration.multiline" rows="5" [maxlength]="configuration.maxLength"></textarea>
+
+</form>

@@ -49,5 +49,8 @@ namespace DAL.Repositories.Interfaces {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent user);
+
+
+		Task<bool> DeleteAllResponsesForUser(SurveyRespondent user);
 	}
 }

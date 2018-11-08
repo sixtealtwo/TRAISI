@@ -202,5 +202,18 @@ namespace TRAISI.Controllers.SurveyViewer
 
             return new OkObjectResult(result);
         }
+
+
+        [HttpDelete]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("surveys/{surveyId}/respondents/{respondentId}")]
+        public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
+        {
+            var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+
+            await this._respondentService.RemoveAllResponses(respondentId, user);
+
+            return new OkResult();
+        }
     }
 }

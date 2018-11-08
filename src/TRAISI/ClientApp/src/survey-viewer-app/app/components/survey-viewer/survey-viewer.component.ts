@@ -39,6 +39,7 @@ import { Header2Component } from '../special-page-builder/header2/header2.compon
 import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Utilities } from 'shared/services/utilities';
 import { SurveyViewerConditionalEvaluator } from 'app/services/survey-viewer-conditional-evaluator.service';
+import { SurveyUser } from 'shared/models/survey-user.model';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -129,6 +130,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public pageThemeInfo: any;
 	public viewerTheme: SurveyViewerTheme;
 
+	public isShowComplete: boolean = false;
+
+	public currentUser: SurveyUser;
+
+	/**
+	 * Gets whether is admin
+	 */
+	public get isAdmin(): boolean {
+		if (this.currentUser === undefined) {
+			return false;
+		} else {
+			return this.currentUser.roles.includes('super administrator');
+		}
+	}
+
 	/**
 	 * Creates an instance of survey viewer component.
 	 * @param surveyViewerService
@@ -154,7 +170,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Initialization
 	 */
 	public ngOnInit(): void {
-		// this.surveyViewerService.getWelcomeView()
+		this.currentUser = this.surveyViewerService.currentUser;
 
 		this.titleText = this.surveyViewerService.activeSurveyTitle;
 
@@ -208,6 +224,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
 			this.surveyQuestionsChanged();
 		});
+
+		this.isShowComplete = false;
 	}
 
 	/**
@@ -334,7 +352,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
 		this.navigationActiveState = newState;
-		// this.validateNavigation();
+		this.validateNavigation();
+		// console.log('in navigation state changed');
 	};
 
 	/**
@@ -391,9 +410,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							: this.viewerState.primaryRespondent.id
 					)
 					.subscribe((v: void) => {
-						if (!this.validateInternalNavigationNext()) {
+						if (!this.isActiveQuestionMultiPage()) {
 							// evaluate question for when a household question is not active
-
+							// console.log('is not multipage ');
 							if (
 								this.viewerState.activeRepeatIndex >= 0 &&
 								this.viewerState.activeRepeatIndex <
@@ -502,8 +521,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.activeInSectionIndex = 0;
 					this.viewerState.activeRespondent = this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex];
 
-					console.log('going to next');
-
 					const questionIndex = this.viewerState.surveyQuestions.findIndex(
 						(q) => q === this.viewerState.activeSection.questions[0]
 					);
@@ -574,9 +591,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param memberIndex
 	 */
 	public showGroupMember(memberIndex: number): void {
-		console.log(memberIndex);
-		this.viewerState.activeGroupMemberIndex = memberIndex;
-		this.viewerState.activeRespondent = this.viewerState.groupMembers[memberIndex];
+		this._viewerStateService
+			.evaluateRepeat(
+				this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
+				this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
+					? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
+					: this.viewerState.primaryRespondent.id
+			)
+			.subscribe((v: void) => {
+				this.viewerState.activeGroupMemberIndex = memberIndex;
+				this.viewerState.activeRespondent = this.viewerState.groupMembers[memberIndex];
+			});
 	}
 
 	/**
@@ -630,7 +655,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			} else {
 				if (this.viewerState.activeQuestion.isRepeat) {
 					if (this.viewerState.activeRepeatIndex === 0) {
-						console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
+						// console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
 
 						this.viewerState.activeQuestionIndex -= 1;
 						this.viewerState.activeRepeatIndex = -1;
@@ -655,7 +680,20 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private validateInternalNavigationNext(): boolean {
 		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-			return (this.navigateNextEnabled = this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+			// console.log('navigate: ' + this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext());
+			return this._activeQuestionContainer.surveyQuestionInstance.canNavigateInternalNext();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether active question multi page is
+	 * @returns true if active question multi page
+	 */
+	private isActiveQuestionMultiPage(): boolean {
+		if (this._activeQuestionContainer.surveyQuestionInstance != null) {
+			return this._activeQuestionContainer.surveyQuestionInstance.isMultiPage;
 		}
 
 		return false;
@@ -694,6 +732,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			!this.validateInternalNavigationNext()
 		) {
 			this.navigateNextEnabled = false;
+			this.isShowComplete = true;
 		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
 			this.navigateNextEnabled = false;
 		} else if (!this.isHouseholdQuestionActive()) {
@@ -720,6 +759,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			}
 		}
 
+		if (this.isActiveQuestionMultiPage() && !this.validateInternalNavigationNext()) {
+			this.navigateNextEnabled = false;
+		}
+
 		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
 		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 
@@ -727,6 +770,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		if (!this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex >= 0) {
 			this.viewerState.activeRepeatIndex = -1;
+		}
+
+		if (
+			this.navigateNextEnabled === true ||
+			this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID
+		) {
+			this.isShowComplete = false;
 		}
 
 		// this.navigateNextEnabled = true;
@@ -755,6 +805,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.validateNavigation();
 			});
 		});
+	}
+
+	/**
+	 * Navigates complete survey
+	 */
+	public navigateCompleteSurvey(): void {
+		console.log('navigate to thankyou page ');
 	}
 
 	public ngAfterContentInit(): void {}

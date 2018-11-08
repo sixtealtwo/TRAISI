@@ -13,7 +13,7 @@
 		"forin": true,
 		"import-blacklist": [true, "rxjs/Rx"],
 		"import-spacing": true,
-		"indent": [true, "tabs",4],
+		"indent": [true, "tabs", 4],
 		"interface-over-type-literal": false,
 		"label-position": true,
 		"max-line-length": [true, 140],
@@ -21,12 +21,7 @@
 		"member-ordering": [
 			true,
 			{
-				"order": [
-					"static-field",
-					"instance-field",
-					"static-method",
-					"instance-method"
-				]
+				"order": ["static-field", "instance-field", "static-method", "instance-method"]
 			}
 		],
 		"no-arg": true,
@@ -50,17 +45,11 @@
 		"no-use-before-declare": true,
 		"no-var-keyword": true,
 		"object-literal-sort-keys": false,
-		"one-line": [
-			false,
-			"check-open-brace",
-			"check-catch",
-			"check-else",
-			"check-whitespace"
-		],
+		"one-line": [false, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
 		"prefer-const": false,
 		"quotemark": [true, "single"],
 		"radix": true,
-		"semicolon": [true, "always"],
+		"semicolon": [true, "always", "ignore-bound-class-methods"],
 		"triple-equals": [true, "allow-null-check"],
 		"typedef": [true, "call-signature", "parameter", "member-variable-declaration"],
 		"typedef-whitespace": [
@@ -75,14 +64,7 @@
 		],
 		"unified-signatures": true,
 		"variable-name": false,
-		"whitespace": [
-			true,
-			"check-branch",
-			"check-decl",
-			"check-operator",
-			"check-separator",
-			"check-type"
-		],
+		"whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
 		"no-output-on-prefix": true,
 		"use-input-property-decorator": true,
 		"use-output-property-decorator": true,

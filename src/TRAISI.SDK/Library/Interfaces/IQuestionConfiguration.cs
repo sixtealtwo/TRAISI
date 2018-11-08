@@ -1,7 +1,6 @@
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
 
-namespace DAL.Models.Questions
+
+namespace TRAISI.SDK.Interfaces
 {
     /// <summary>
     /// Stores a single configuration value that belongs to a question configuration
@@ -14,6 +13,10 @@ namespace DAL.Models.Questions
         string Name { get; set; }
 
         string Value { get; set; }
+
+        bool IsResourceOnly { get; set; }
+
+
 
 
 

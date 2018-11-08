@@ -66,10 +66,7 @@
 							"node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js"
 						],
 						"stylePreprocessorOptions": {
-							"includePaths": [
-								".",
-								"./node_modules"
-							]
+							"includePaths": [".", "./node_modules"]
 						}
 					},
 					"configurations": {
@@ -150,21 +147,14 @@
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js"
 						],
-						"assets": [
-							"src/admin-app/assets"
-						]
+						"assets": ["src/admin-app/assets"]
 					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
-						"tsConfig": [
-							"src/admin-app/tsconfig.app.json"
-						],
-						"exclude": [
-							"**/node_modules/**",
-							"**/ngx-smooth-dnd/**"
-						]
+						"tsConfig": ["src/admin-app/tsconfig.app.json"],
+						"exclude": ["**/node_modules/**", "**/ngx-smooth-dnd/**"]
 					}
 				}
 			}
@@ -185,10 +175,7 @@
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
 						"tsConfig": [],
-						"exclude": [
-							"**/node_modules/**",
-							"**/ngx-smooth-dnd/**"
-						]
+						"exclude": ["**/node_modules/**", "**/ngx-smooth-dnd/**"]
 					}
 				}
 			}
@@ -212,10 +199,7 @@
 						"main": "src/survey-viewer-app/main.ts",
 						"polyfills": "src/survey-viewer-app/polyfills.ts",
 						"tsConfig": "src/survey-viewer-app/tsconfig.app.json",
-						"assets": [
-							"src/survey-viewer-app/favicon.ico",
-							"src/survey-viewer-app/assets"
-						],
+						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"],
 						"styles": [
 							"src/shared/assets/scss/application.scss",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
@@ -223,20 +207,17 @@
 							"node_modules/quill/dist/quill.core.css",
 							"node_modules/quill/dist/quill.snow.css",
 							"node_modules/quill/dist/quill.bubble.css"
-							//"src/survey-viewer-app/assets/scss/application.scss"
-
+							// "src/survey-viewer-app/assets/scss/application.scss"
 						],
 						"scripts": [
 							"node_modules/systemjs/dist/system.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/popper.js/dist/umd/popper.min.js",
+							"node_modules/bootstrap/dist/js/bootstrap.min.js",
 							"node_modules/select2/dist/js/select2.min.js"
 						],
 						"stylePreprocessorOptions": {
-							"includePaths": [
-								".",
-								"./node_modules"
-							]
+							"includePaths": [".", "./node_modules"]
 						}
 					},
 					"configurations": {
@@ -290,14 +271,9 @@
 						"polyfills": "src/survey-viewer-app/src/polyfills.ts",
 						"tsConfig": "src/survey-viewer-app/tsconfig.spec.json",
 						"karmaConfig": "src/survey-viewer-app/karma.conf.js",
-						"styles": [
-							"src/survey-viewer-app/src/styles.scss"
-						],
+						"styles": ["src/survey-viewer-app/src/styles.scss"],
 						"scripts": [],
-						"assets": [
-							"src/survey-viewer-app/favicon.ico",
-							"src/survey-viewer-app/assets"
-						]
+						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"]
 					}
 				},
 				"lint": {
@@ -307,9 +283,7 @@
 							"src/survey-viewer-app/tsconfig.app.json",
 							"src/survey-viewer-app/tsconfig.spec.json"
 						],
-						"exclude": [
-							"**/node_modules/**"
-						]
+						"exclude": ["**/node_modules/**"]
 					}
 				}
 			}
@@ -334,10 +308,7 @@
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
 						"tsConfig": "src/survey-viewer-app-e2e/tsconfig.e2e.json",
-						"exclude": [
-							"**/node_modules/**",
-							"**/ngx-smooth-dnd/**"
-						]
+						"exclude": ["**/node_modules/**", "**/ngx-smooth-dnd/**"]
 					}
 				}
 			}

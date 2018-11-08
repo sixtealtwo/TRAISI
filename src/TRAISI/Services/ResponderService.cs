@@ -10,8 +10,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using TRAISI.SDK.Library.ResponseTypes;
 using TRAISI.Services.Interfaces;
-
+using System.Linq;
 namespace TRAISI.Services
 {
     /// <summary>
@@ -46,6 +47,7 @@ namespace TRAISI.Services
             _loggerFactory = loggerFactory;
 
             _logger = loggerFactory.CreateLogger<ResponderService>();
+
         }
 
 
@@ -75,7 +77,7 @@ namespace TRAISI.Services
         {
 
 
-            var question = await this._unitOfWork.QuestionParts.GetAsync(questionId);
+            var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
 
@@ -88,7 +90,8 @@ namespace TRAISI.Services
             }
 
             if (type.ResponseValidator != null) {
-                type.ResponseValidator.ValidateResponse(null);
+                var responseDataUnwrapped = this.UnwrapResponseData(type.ResponseType, responseData);
+                type.ResponseValidator.ValidateResponse(responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration>().ToHashSet());
             }
 
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
@@ -121,6 +124,9 @@ namespace TRAISI.Services
                 case QuestionResponseType.Integer:
                     SaveIntegerResponse(survey, question, user, responseData, surveyResponse);
                     break;
+                case QuestionResponseType.DateTime:
+                    SaveDateTimeResponse(surveyResponse, responseData);
+                    break;
 
                 case QuestionResponseType.Location:
                     SaveLocationResponse(survey, question, user, responseData, surveyResponse);
@@ -150,11 +156,44 @@ namespace TRAISI.Services
 
             return true;
 
-
-
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        internal List<IResponseType> UnwrapResponseData(QuestionResponseType responseType, JObject response)
+        {
+
+            switch (responseType) {
+                case QuestionResponseType.OptionSelect:
+                    return response["values"].ToObject<List<IOptionSelectResponse>>().Cast<IResponseType>().ToList();
+                case QuestionResponseType.Timeline:
+                    return response["values"].ToObject<List<ITimelineResponse>>().Cast<IResponseType>().ToList();
+                case QuestionResponseType.DateTime:
+                    return new List<IResponseType>() { response["value"].ToObject<DateTimeResponse>() };
+                case QuestionResponseType.String:
+                    return new List<IResponseType>() { response.ToObject<StringResponse>() };
+                case QuestionResponseType.Location:
+                    return new List<IResponseType>() { response["value"].ToObject<LocationResponse>() };
+                case QuestionResponseType.Integer:
+                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
+                case QuestionResponseType.Decimal:
+                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
+                case QuestionResponseType.Json:
+                    return new List<IResponseType>() { response["value"].ToObject<IJsonResponse>() };
+
+                default:
+                    break;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         internal void SavePrimaryRespondentName()
         {
 
@@ -199,6 +238,19 @@ namespace TRAISI.Services
 
             (response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
 
+        }
+
+        internal void SaveDateTimeResponse(SurveyResponse response, JObject responseData)
+        {
+            if (response.ResponseValues.Count == 0) {
+                //response.ResponseValues = new List<ResponseValue>();
+                response.ResponseValues.Add(new DateTimeResponse());
+            }
+
+
+            (response.ResponseValues[0] as DateTimeResponse).Value = responseData.GetValue("value").ToObject<DateTime>();
+
+            return;
         }
 
         /// <summary>
@@ -367,6 +419,29 @@ namespace TRAISI.Services
             var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             var responses = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForQuestionsAsync(questionIds, respondent);
             return responses;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="respondentId"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveAllResponses(int respondentId, ApplicationUser user)
+        {
+            var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
+
+
+            var members = respondent.SurveyRespondentGroup.GroupMembers;
+
+            foreach (var member in members) {
+                await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member);
+            }
+
+            await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(respondent);
+
+            this._unitOfWork.SurveyRespondents.RemoveRange(members);
+
+            return true;
         }
     }
 }
