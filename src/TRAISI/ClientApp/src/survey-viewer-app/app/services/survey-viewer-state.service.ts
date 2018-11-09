@@ -144,7 +144,7 @@ export class SurveyViewerStateService {
 			activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
 				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
 
-				// find index of repeat Target
+
 
 				if (typeof response === 'number') {
 					const responseInt: number = Math.round(response);

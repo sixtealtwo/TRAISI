@@ -114,8 +114,8 @@ export class SurveyViewerNavigationService {
 		if ((<SurveySectionContainer>this._state.viewerState.activeViewContainer).isHousehold) {
 			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
+					this._state.viewerState.groupMembers = [];
 					members.forEach((member) => {
-						this._state.viewerState.groupMembers = [];
 						this._state.viewerState.groupMembers.push(member);
 					});
 				}

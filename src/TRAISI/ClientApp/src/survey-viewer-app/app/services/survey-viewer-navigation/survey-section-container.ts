@@ -121,8 +121,7 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * Increments question
 	 */
 	private incrementGroup(): void {
-		console.log('increment group');
-		console.log(this);
+
 		this._activeGroupMemberIndex++;
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 		this.activeGroupContainer.initialize();
