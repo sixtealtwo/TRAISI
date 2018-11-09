@@ -56,7 +56,17 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * @returns true if previous
 	 */
 	public navigatePrevious(): boolean {
-		return true;
+		if (this.activeQuestionContainer.navigatePrevious()) {
+			if (this._activeQuestionIndex <= 0) {
+				return true;
+			} else {
+				this.decrementQuestion();
+
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -69,10 +79,8 @@ export class SurveySectionContainer extends SurveyContainer {
 			if (this._activeQuestionIndex >= this._questionContainers.length - 1) {
 				return true;
 			} else {
-				console.log('inside incremeint section queston');
 				this.incrementQuestion();
-				console.log(this._activeQuestionIndex);
-				console.log(this.activeQuestion);
+
 				return false;
 			}
 		} else {
@@ -89,7 +97,7 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * Increments question
 	 */
 	private decrementQuestion(): void {
-		this._activeQuestionIndex++;
+		this._activeQuestionIndex--;
 		this.activeQuestionContainer.initialize();
 	}
 
@@ -101,9 +109,9 @@ export class SurveySectionContainer extends SurveyContainer {
 		this._activeQuestionIndex = 0;
 		this.activeQuestionContainer.initialize();
 
+		this._children = [];
 		this._questionContainers.forEach((container) => {
 			container.initialize();
-
 			this._children = this._children.concat(container.children);
 		});
 

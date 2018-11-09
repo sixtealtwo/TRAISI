@@ -84,6 +84,7 @@ export class SurveyResponderService implements SurveyResponder {
 					});
 				}
 
+				console.log(this._cachedSavedResponses);
 				return Observable.of('');
 			})
 		);

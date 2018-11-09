@@ -2,6 +2,7 @@ import { SurveyContainer } from './survey-container';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { SurveyQuestion } from 'traisi-question-sdk';
 import { Subject } from 'rxjs';
+import { SurveyViewerStateService } from '../survey-viewer-state.service';
 
 export class SurveyQuestionContainer extends SurveyContainer {
 	private _questionModel: SurveyViewQuestion;
@@ -35,6 +36,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	/**
 	 * Creates an instance of survey question container.
 	 * @param question
+	 * @param _state
 	 */
 	constructor(question: SurveyViewQuestion) {
 		super();
@@ -51,6 +53,14 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	public initialize(): Subject<void> {
 		this._questionInstances = [];
 		this._questionInstances.push(this._questionModel);
+
+		console.log(this._questionModel);
+		if (this._questionModel.repeatChildren !== undefined) {
+			console.log('numbe rrepeat children');
+
+
+			console.log(this._questionModel.repeatChildren.length);
+		}
 		this._activeQuestionInstanceIndex = 0;
 
 		return null;

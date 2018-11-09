@@ -8,7 +8,6 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 	providedIn: 'root'
 })
 export class SurveyViewerNavigationService {
-
 	public navigationCompleted: Subject<boolean>;
 
 	public isNavigationNextEnabled: boolean = true;
@@ -31,17 +30,49 @@ export class SurveyViewerNavigationService {
 	 * Navigates to the viewer state to the next question
 	 */
 	public navigateNext(): void {
-		// look at the active view container and call navigate next on it
-		let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
-
 		// if true, then the survey can navigate to the next container
-		if (result) {
-			this.incrementViewContainer();
-		}
 
+		this.evaluateRepeat().subscribe(() => {
+			// look at the active view container and call navigate next on it
+			let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
+
+			if (result) {
+				this.incrementViewContainer();
+			}
+
+			this.updateState();
+			this.navigationCompleted.next(result);
+		});
+	}
+
+	/**
+	 * Updates state
+	 */
+	private updateState(): void {
 		this._state.viewerState.activePage = this._state.viewerState.activeViewContainer.activeQuestion.parentPage;
 		this._state.viewerState.activePageIndex = this._state.viewerState.activeViewContainer.activeQuestion.pageIndex;
-		this.navigationCompleted.next(result);
+		this._state.viewerState.isSectionActive = this._state.viewerState.activeViewContainer.activeQuestion.parentSection !== undefined;
+		if (this._state.viewerState.activeViewContainer.activeQuestion.parentSection !== undefined) {
+			this._state.viewerState.activeSection = this._state.viewerState.activeViewContainer.activeQuestion.parentSection;
+		} else {
+			this._state.viewerState.activeSection = undefined;
+		}
+	}
+
+	/**
+	 * Evaluates repeat
+	 * @returns repeat
+	 */
+	private evaluateRepeat(): Subject<void> {
+		let repeat$ = new Subject<void>();
+
+		this._state
+			.evaluateRepeat(this._state.viewerState.activeViewContainer.activeQuestion, this._state.viewerState.activeRespondent.id)
+			.subscribe((result) => {
+				repeat$.next();
+				repeat$.complete();
+			});
+		return repeat$;
 	}
 
 	/**
@@ -70,13 +101,14 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigatePrevious(): void {
 		// look at the active view container and call navigate next on it
-		let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
+		let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
 
 		// if true, then the survey can navigate to the next container
 		if (result) {
 			this.decrementViewContainer();
 		}
 
+		this.updateState();
 		this.navigationCompleted.next(result);
 	}
 
@@ -89,9 +121,6 @@ export class SurveyViewerNavigationService {
 	}
 
 	public updateNavigationState(): void {
-
 		// check bounds
-
-
 	}
 }

@@ -13,6 +13,9 @@
 						<span *ngIf="question.repeatNumber === undefined && question.parentSection !== undefined">
 							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }}
 						</span>
+						<span *ngIf="question.repeatNumber !== undefined && question.parentSection !== undefined">
+							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }}-{{ question.repeatNumber }}
+						</span>
 					</div>
 					<div class="question-complete" *ngIf="responseValidationState === validationStates.VALID">
 						<i class="fas fa-check-circle"></i>

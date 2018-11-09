@@ -130,6 +130,7 @@ export class SurveyViewerStateService {
 	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Subject<void> {
 		const subject: Subject<void> = new Subject<void>();
 
+		console.log('in eval repeat');
 		if (activeQuestion.repeatTargets.length === 0) {
 			setTimeout(() => {
 				subject.next();
@@ -140,9 +141,10 @@ export class SurveyViewerStateService {
 
 		this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
 			activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
-				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId).value;
+				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
 
 				// find index of repeat Target
+
 				if (typeof response === 'number') {
 					const responseInt: number = Math.round(response);
 					let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
@@ -157,10 +159,10 @@ export class SurveyViewerStateService {
 
 					if (responseInt === 0) {
 						// hide the question from view
-						this.removeQuestionFromView(targetQuestion);
+						// this.removeQuestionFromView(targetQuestion);
 					} else {
 						// add question to view -- this has no effect if it is already visible
-						this.addQuestionToView(targetQuestion);
+						// this.addQuestionToView(targetQuestion);
 					}
 				}
 

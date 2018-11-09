@@ -404,10 +404,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
-		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
+		return this.viewerState.isSectionActive && this.viewerState.activeViewContainer.activeQuestion.parentSection.isHousehold;
 	}
 
 	public updateNavigation(): void {
+		console.log('in update navigation');
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
 			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
