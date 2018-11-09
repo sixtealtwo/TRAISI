@@ -12,16 +12,17 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	private _questionInstances: Array<SurveyViewQuestion>;
 
 	public get containerId(): number {
-		return this._questionModel.id;
+		return 0;
 	}
 
-	/**
-	 * Gets child containers
-	 */
-	public get children(): Array<SurveyViewQuestion> {
+	public get questionModel(): SurveyViewQuestion
+	{
+		return this._questionModel;
+	}
+
+	public get questionInstances(): Array<SurveyViewQuestion> {
 		return this._questionInstances;
 	}
-
 	/**
 	 * Gets active question
 	 */
@@ -54,12 +55,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		this._questionInstances = [];
 		this._questionInstances.push(this._questionModel);
 
-		console.log(this._questionModel);
 		if (this._questionModel.repeatChildren !== undefined) {
-			console.log('numbe rrepeat children');
-
-
-			console.log(this._questionModel.repeatChildren.length);
 		}
 		this._activeQuestionInstanceIndex = 0;
 

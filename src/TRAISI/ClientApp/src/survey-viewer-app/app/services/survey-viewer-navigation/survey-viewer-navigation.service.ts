@@ -49,14 +49,20 @@ export class SurveyViewerNavigationService {
 	 * Updates state
 	 */
 	private updateState(): void {
-		this._state.viewerState.activePage = this._state.viewerState.activeViewContainer.activeQuestion.parentPage;
-		this._state.viewerState.activePageIndex = this._state.viewerState.activeViewContainer.activeQuestion.pageIndex;
-		this._state.viewerState.isSectionActive = this._state.viewerState.activeViewContainer.activeQuestion.parentSection !== undefined;
-		if (this._state.viewerState.activeViewContainer.activeQuestion.parentSection !== undefined) {
-			this._state.viewerState.activeSection = this._state.viewerState.activeViewContainer.activeQuestion.parentSection;
+		/* this._state.viewerState.activePage = this._state.viewerState.activeQuestion.parentPage;
+		this._state.viewerState.activePageIndex = this._state.viewerState.activeQuestion.pageIndex;
+		this._state.viewerState.isSectionActive = this._state.viewerState.activeQuestion.parentSection !== undefined;
+		if (this._state.viewerState.activeQuestion.parentSection !== undefined) {
+			this._state.viewerState.activeSection = this._state.viewerState.activeQuestion.parentSection;
 		} else {
 			this._state.viewerState.activeSection = undefined;
-		}
+		} */
+
+		this._state.viewerState.activeQuestionContainer = this._state.viewerState.viewContainers[
+			this._state.viewerState.activeViewContainerIndex
+		].activeViewContainer;
+
+		console.log(this._state.viewerState.activeQuestionContainer);
 	}
 
 	/**
@@ -67,7 +73,7 @@ export class SurveyViewerNavigationService {
 		let repeat$ = new Subject<void>();
 
 		this._state
-			.evaluateRepeat(this._state.viewerState.activeViewContainer.activeQuestion, this._state.viewerState.activeRespondent.id)
+			.evaluateRepeat(this._state.viewerState.activeQuestion, this._state.viewerState.activeRespondent.id)
 			.subscribe((result) => {
 				repeat$.next();
 				repeat$.complete();
@@ -118,6 +124,7 @@ export class SurveyViewerNavigationService {
 	public initialize(): void {
 		this._state.viewerState.activeViewContainerIndex = -1;
 		this.incrementViewContainer();
+		this.updateState();
 	}
 
 	public updateNavigationState(): void {

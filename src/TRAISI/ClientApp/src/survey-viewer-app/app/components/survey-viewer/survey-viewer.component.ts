@@ -43,6 +43,8 @@ import { SurveyUser } from 'shared/models/survey-user.model';
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveySectionContainer } from '../../services/survey-viewer-navigation/survey-section-container';
+import { SurveyGroupContainer } from '../../services/survey-viewer-navigation/survey-group-container';
+import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -345,31 +347,53 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.questions.forEach((question: SurveyViewQuestion) => {
 			// add a normal question container for questions not in section
 			if (question.parentSection === undefined) {
+				let groupContainer = new SurveyGroupContainer(this._viewerStateService);
+				let sectionContainer = new SurveySectionContainer(null);
+
+				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
+
 				let container = new SurveyQuestionContainer(question);
-				this.viewerState.viewContainers.push(container);
+
+				repeatContainer.addQuestionContainer(container);
+
+				groupContainer.repeatContainers.push(repeatContainer);
+				sectionContainer.groupContainers.push(groupContainer);
+
+				this.viewerState.viewContainers.push(sectionContainer);
 			}
 			// add a section container for section questions
 			else {
 				// try to find existing container
+				let groupContainer = new SurveyGroupContainer(this._viewerStateService);
 
 				let sectionContainer: SurveySectionContainer;
-				let index = this.viewerState.viewContainers.findIndex((container) => {
-					return container.containerId === question.parentSection.id;
+
+				let index = this.viewerState.viewContainers.findIndex((container2) => {
+					if (container2.sectionModel === null) {
+						return false;
+					}
+					return container2.containerId === question.parentSection.id;
 				});
 
 				if (index < 0) {
 					sectionContainer = new SurveySectionContainer(question.parentSection);
 					this.viewerState.viewContainers.push(sectionContainer);
+					console.log(sectionContainer);
 				} else {
 					sectionContainer = <SurveySectionContainer>this.viewerState.viewContainers[index];
 				}
 
-				sectionContainer.addQuestionContainer(new SurveyQuestionContainer(question));
+				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
+
+				let container = new SurveyQuestionContainer(question);
+				repeatContainer.addQuestionContainer(container);
+
+				groupContainer.repeatContainers.push(repeatContainer);
+				sectionContainer.groupContainers.push(groupContainer);
 			}
 		});
 
 		console.log(this.viewerState);
-
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
 		this.viewerState.activeQuestionIndex = 0;
@@ -404,7 +428,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
-		return this.viewerState.isSectionActive && this.viewerState.activeViewContainer.activeQuestion.parentSection.isHousehold;
+		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
 	}
 
 	public updateNavigation(): void {

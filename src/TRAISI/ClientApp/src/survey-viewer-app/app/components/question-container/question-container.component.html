@@ -14,7 +14,7 @@
 							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }}
 						</span>
 						<span *ngIf="question.repeatNumber !== undefined && question.parentSection !== undefined">
-							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }}-{{ question.repeatNumber }}
+							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }} - {{ question.repeatNumber+1}}
 						</span>
 					</div>
 					<div class="question-complete" *ngIf="responseValidationState === validationStates.VALID">
