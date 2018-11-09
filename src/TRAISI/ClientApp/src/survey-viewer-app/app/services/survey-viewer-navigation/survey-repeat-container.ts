@@ -89,7 +89,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 
 			this._activeQuestionIndex = 0;
 		}
-		console.log(this._children);
+		console.log(this._state.viewerState);
 		return null;
 	}
 }

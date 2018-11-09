@@ -1,9 +1,12 @@
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { SurveyQuestionContainer } from './survey-question-container';
+import { SurveySectionContainer } from './survey-section-container';
+import { SurveyResponderService } from '../survey-responder.service';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,10 +23,14 @@ export class SurveyViewerNavigationService {
 	}
 
 	/**
-	 *
-	 * @param _viewerState
+	 * Creates an instance of survey viewer navigation service.
+	 * @param _state
+	 * @param _surveyResponderService
 	 */
-	public constructor(private _state: SurveyViewerStateService) {
+	public constructor(
+		private _state: SurveyViewerStateService,
+		@Inject('SurveyResponderService') private _responderService: SurveyResponderService
+	) {
 		this.navigationCompleted = new Subject<boolean>();
 	}
 
@@ -70,7 +77,9 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeSection = undefined;
 		}
 
-		console.log(this._state.viewerState.activeQuestionContainer);
+		this._state.viewerState.activePageIndex = (<SurveyQuestionContainer>(
+			this._state.viewerState.activeQuestionContainer
+		)).questionModel.pageIndex;
 	}
 
 	/**
@@ -101,7 +110,20 @@ export class SurveyViewerNavigationService {
 		this._state.viewerState.activeViewContainer = this._state.viewerState.viewContainers[
 			this._state.viewerState.activeViewContainerIndex
 		];
-		this._state.viewerState.activeViewContainer.initialize();
+
+		if ((<SurveySectionContainer>this._state.viewerState.activeViewContainer).isHousehold) {
+			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
+				if (members.length > 0) {
+					members.forEach((member) => {
+						this._state.viewerState.groupMembers = [];
+						this._state.viewerState.groupMembers.push(member);
+					});
+				}
+				this._state.viewerState.activeViewContainer.initialize();
+			});
+		} else {
+			this._state.viewerState.activeViewContainer.initialize();
+		}
 	}
 
 	private decrementViewContainer(): void {

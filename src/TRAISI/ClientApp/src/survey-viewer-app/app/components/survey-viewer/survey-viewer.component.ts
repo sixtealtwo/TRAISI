@@ -357,6 +357,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				repeatContainer.addQuestionContainer(container);
 
 				groupContainer.repeatContainers.push(repeatContainer);
+
 				sectionContainer.groupContainers.push(groupContainer);
 
 				this.viewerState.viewContainers.push(sectionContainer);
@@ -364,7 +365,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			// add a section container for section questions
 			else {
 				// try to find existing container
-				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+				let groupContainer = null;
 
 				let sectionContainer: SurveySectionContainer;
 
@@ -381,6 +382,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				} else {
 					sectionContainer = <SurveySectionContainer>this.viewerState.viewContainers[index];
 				}
+				if (sectionContainer.groupContainers.length === 0) {
+					groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+					sectionContainer.groupContainers.push(groupContainer);
+				} else {
+					groupContainer = sectionContainer.groupContainers[0];
+				}
 
 				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
 
@@ -388,7 +395,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				repeatContainer.addQuestionContainer(container);
 
 				groupContainer.repeatContainers.push(repeatContainer);
-				sectionContainer.groupContainers.push(groupContainer);
 			}
 		});
 
@@ -426,8 +432,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
-		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection !== undefined
-		&& this.viewerState.activeQuestion.parentSection.isHousehold;
+		return (
+			this.viewerState.isSectionActive &&
+			this.viewerState.activeQuestion.parentSection !== undefined &&
+			this.viewerState.activeQuestion.parentSection.isHousehold
+		);
 	}
 
 	public updateNavigation(): void {
@@ -552,6 +561,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Updates viewer state
 	 */
 	private updateViewerState(): void {
+		console.log('in update viewer state');
 		if (this.viewerState.activeRepeatIndex <= 0 && !this.isHouseholdQuestionActive()) {
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			if (!this.viewerState.activeQuestion.isRepeat) {
@@ -795,6 +805,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
 	public validateNavigation(): void {
+		return;
 		if (this._activeQuestionContainer === undefined) {
 			return;
 		}
