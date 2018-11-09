@@ -49,6 +49,9 @@ export class SurveyViewerStateService {
 			activeGroupQuestions: [],
 			isLoaded: false,
 			isQuestionLoaded: false,
+			viewContainers: [],
+			activeViewContainer: undefined,
+			activeViewContainerIndex: -1,
 			questionMap: {}
 		};
 

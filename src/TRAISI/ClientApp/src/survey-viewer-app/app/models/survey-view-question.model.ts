@@ -4,6 +4,7 @@ import { ResponseValidationState } from '../../../../../../TRAISI.SDK/Module/src
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { SurveyViewConditional } from './survey-view-conditional.model';
 export interface SurveyViewQuestion {
+
 	configuration: object | Array<any> | any;
 	id: number;
 	isOptional: boolean;

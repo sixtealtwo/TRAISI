@@ -3,6 +3,8 @@ import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { ResponseValidationState } from 'traisi-question-sdk';
+import { SurveyContainer } from '../services/survey-viewer-navigation/survey-container';
+import { SurveySectionContainer } from '../services/survey-viewer-navigation/survey-section-container';
 
 export interface SurveyViewerState {
 	// list of survey pages
@@ -59,6 +61,12 @@ export interface SurveyViewerState {
 
 	// map question ids to the viewer question object
 	questionMap: { [id: number]: SurveyViewQuestion };
+
+	viewContainers: Array<SurveyContainer>;
+
+	activeViewContainer: SurveyContainer;
+
+	activeViewContainerIndex: number;
 
 
 }

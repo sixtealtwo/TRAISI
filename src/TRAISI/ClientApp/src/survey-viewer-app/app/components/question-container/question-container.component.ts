@@ -49,6 +49,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public questionIndex: number;
 
 	@Input()
+	public sectionIndex: number;
+
+	@Input()
 	public surveyViewer: SurveyViewerComponent;
 
 	@Input()
@@ -111,6 +114,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 
+		console.log(this._viewerStateService.viewerState);
 		this.titleLabel = new BehaviorSubject(this.question.label);
 
 		this.questionLoaderService

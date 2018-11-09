@@ -56,6 +56,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
+import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/src/survey-question-view.directive';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -79,6 +80,7 @@ import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/s
 		TextBlock1Component,
 		AdminToolbarComponent,
 		SurveyThankYouPageComponent,
+		SurveyQuestionViewDirective,
 		Footer1Component
 	],
 	imports: [

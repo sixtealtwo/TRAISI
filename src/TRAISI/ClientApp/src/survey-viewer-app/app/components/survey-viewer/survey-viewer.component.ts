@@ -40,6 +40,9 @@ import { Footer1Component } from '../special-page-builder/footer1/footer1.compon
 import { Utilities } from 'shared/services/utilities';
 import { SurveyViewerConditionalEvaluator } from 'app/services/survey-viewer-conditional-evaluator.service';
 import { SurveyUser } from 'shared/models/survey-user.model';
+import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
+import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
+import { SurveySectionContainer } from '../../services/survey-viewer-navigation/survey-section-container';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -127,6 +130,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.viewerState = viewerState;
 	}
 
+	public get isNavigationNextEnabled(): boolean {
+		return this._navigation.isNavigationNextEnabled;
+	}
+
+	public get isNavigationPreviousEnabled(): boolean {
+		return this._navigation.isNavigationPreviousEnabled;
+	}
+
 	public pageThemeInfo: any;
 	public viewerTheme: SurveyViewerTheme;
 
@@ -150,17 +161,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param surveyViewerService
 	 * @param _surveyResponderService
 	 * @param _viewerStateService
-	 * @param questionLoaderService
+	 * @param _navigation
 	 * @param route
-	 * @param cdRef
+	 * @param elementRef
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponderService,
 		private _viewerStateService: SurveyViewerStateService,
-		private questionLoaderService: QuestionLoaderService,
+		private _navigation: SurveyViewerNavigationService,
 		private route: ActivatedRoute,
-		private cdRef: ChangeDetectorRef,
 		private elementRef: ElementRef
 	) {
 		this.ref = this;
@@ -279,6 +289,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 
+		let questions = [];
+		let sections = [];
 		this.viewerState.surveyPages = pages;
 		pages.forEach((page) => {
 			page.questions.forEach((question) => {
@@ -329,6 +341,35 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.viewerState.surveyQuestions = sortBy(this.questions, ['viewOrder']);
 
+		// add a new container for each "question"
+		this.questions.forEach((question: SurveyViewQuestion) => {
+			// add a normal question container for questions not in section
+			if (question.parentSection === undefined) {
+				let container = new SurveyQuestionContainer(question);
+				this.viewerState.viewContainers.push(container);
+			}
+			// add a section container for section questions
+			else {
+				// try to find existing container
+
+				let sectionContainer: SurveySectionContainer;
+				let index = this.viewerState.viewContainers.findIndex((container) => {
+					return container.containerId === question.parentSection.id;
+				});
+
+				if (index < 0) {
+					sectionContainer = new SurveySectionContainer(question.parentSection);
+					this.viewerState.viewContainers.push(sectionContainer);
+				} else {
+					sectionContainer = <SurveySectionContainer>this.viewerState.viewContainers[index];
+				}
+
+				sectionContainer.addQuestionContainer(new SurveyQuestionContainer(question));
+			}
+		});
+
+		console.log(this.viewerState);
+
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
 		this.viewerState.activeQuestionIndex = 0;
@@ -338,6 +379,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			if (members.length > 0) {
 				this.viewerState.primaryRespondent = members[0];
 				this.viewerState.activeRespondent = members[0];
+
+				this._navigation.navigationCompleted.subscribe(this.navigationCompleted);
+				this._navigation.initialize();
 
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
@@ -388,10 +432,22 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
+	public navigationCompleted = (navStatus: boolean) => {
+		console.log(' navigation completed ');
+	};
+
+	public navigatePrevious(): void {
+		this._navigation.navigatePrevious();
+	}
+
+	public navigateNext(): void {
+		this._navigation.navigateNext();
+	}
+
 	/**
 	 * Navigate questions - next question in the questions list.
 	 */
-	public navigateNext(): void {
+	public navigateNextOld(): void {
 		this.isNextProcessing = true;
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
@@ -639,7 +695,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	/**
 	 * Navigate questions - to the previous item in the question list
 	 */
-	public navigatePrevious(): void {
+	public navigatePreviousOld(): void {
 		if (!this.validateInternalNavigationPrevious()) {
 			if (!this.isHouseholdQuestionActive()) {
 				if (!this.viewerState.activeQuestion.isRepeat) {
