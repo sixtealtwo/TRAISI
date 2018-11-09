@@ -347,8 +347,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.questions.forEach((question: SurveyViewQuestion) => {
 			// add a normal question container for questions not in section
 			if (question.parentSection === undefined) {
-				let groupContainer = new SurveyGroupContainer(this._viewerStateService);
-				let sectionContainer = new SurveySectionContainer(null);
+				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+				let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
 				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
 
@@ -364,7 +364,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			// add a section container for section questions
 			else {
 				// try to find existing container
-				let groupContainer = new SurveyGroupContainer(this._viewerStateService);
+				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
 
 				let sectionContainer: SurveySectionContainer;
 
@@ -376,9 +376,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				if (index < 0) {
-					sectionContainer = new SurveySectionContainer(question.parentSection);
+					sectionContainer = new SurveySectionContainer(question.parentSection, this._viewerStateService);
 					this.viewerState.viewContainers.push(sectionContainer);
-					console.log(sectionContainer);
 				} else {
 					sectionContainer = <SurveySectionContainer>this.viewerState.viewContainers[index];
 				}
@@ -393,7 +392,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			}
 		});
 
-		console.log(this.viewerState);
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
 		this.viewerState.activeQuestionIndex = 0;
@@ -428,7 +426,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Evaluates whether a household question is currently active or not
 	 */
 	private isHouseholdQuestionActive(): boolean {
-		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold;
+		return this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection !== undefined
+		&& this.viewerState.activeQuestion.parentSection.isHousehold;
 	}
 
 	public updateNavigation(): void {

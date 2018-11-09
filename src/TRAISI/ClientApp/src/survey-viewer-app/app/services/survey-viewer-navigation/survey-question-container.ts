@@ -15,8 +15,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return 0;
 	}
 
-	public get questionModel(): SurveyViewQuestion
-	{
+	public get questionModel(): SurveyViewQuestion {
 		return this._questionModel;
 	}
 
@@ -27,7 +26,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * Gets active question
 	 */
 	public get activeQuestion(): SurveyViewQuestion {
-		if (this._activeQuestionInstanceIndex >= this._questionInstances.length) {
+		if (this._activeQuestionInstanceIndex > this._questionInstances.length) {
 			return undefined;
 		}
 

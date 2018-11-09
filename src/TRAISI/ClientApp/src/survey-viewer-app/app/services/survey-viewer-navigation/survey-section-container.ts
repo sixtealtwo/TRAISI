@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { SurveyQuestionContainer } from './survey-question-container';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyGroupContainer } from './survey-group-container';
+import { SurveyViewerStateService } from '../survey-viewer-state.service';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 
 export class SurveySectionContainer extends SurveyContainer {
 	private _sectionModel: SurveyViewSection;
@@ -43,11 +45,23 @@ export class SurveySectionContainer extends SurveyContainer {
 		return this._children;
 	}
 
+	public get activeRespondent(): SurveyViewGroupMember {
+		if (this._sectionModel !== null) {
+			if (this._sectionModel.isHousehold === false) {
+				return this._state.viewerState.primaryRespondent;
+			} else {
+				return this._state.viewerState.groupMembers[this._activeGroupMemberIndex];
+			}
+		} else {
+			return this._state.viewerState.primaryRespondent;
+		}
+	}
+
 	/**
 	 * Creates an instance of survey section container.
 	 * @param section
 	 */
-	public constructor(section: SurveyViewSection) {
+	public constructor(section: SurveyViewSection, private _state: SurveyViewerStateService) {
 		super();
 
 		this._sectionModel = section;
@@ -96,7 +110,8 @@ export class SurveySectionContainer extends SurveyContainer {
 	 */
 	private incrementGroup(): void {
 		this._activeGroupMemberIndex++;
-		// this.activeQuestionContainer.initialize();
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+		this.activeGroupContainer.initialize();
 	}
 
 	/**
@@ -104,7 +119,8 @@ export class SurveySectionContainer extends SurveyContainer {
 	 */
 	private decrementGroup(): void {
 		this._activeGroupMemberIndex--;
-		// this.activeQuestionContainer.initialize();
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+		this.activeGroupContainer.initialize();
 	}
 
 	/**
@@ -113,6 +129,11 @@ export class SurveySectionContainer extends SurveyContainer {
 	 */
 	public initialize(): Subject<void> {
 		this._activeGroupMemberIndex = 0;
+		this.activeGroupContainer.initialize();
+
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+
+		console.log(this._state.viewerState.activeRespondent);
 		// this.activeQuestionContainer.initialize();
 
 		// this._children = [];

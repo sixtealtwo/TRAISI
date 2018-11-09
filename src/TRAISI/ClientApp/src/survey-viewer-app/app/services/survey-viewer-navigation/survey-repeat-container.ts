@@ -13,12 +13,15 @@ export class SurveyRepeatContainer extends SurveyContainer {
 
 	public activeQuestion: SurveyViewQuestion;
 
+	public get activeQuestionContainer(): SurveyQuestionContainer {
+		return this._children[this._activeQuestionIndex];
+	}
+
 	public get children(): Array<SurveyQuestionContainer> {
 		return this._children;
 	}
 
 	public get activeViewContainer(): SurveyContainer {
-		console.log(this._children);
 		return this._children[this._activeQuestionIndex];
 	}
 
@@ -41,15 +44,52 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	}
 
 	public navigatePrevious(): boolean {
-		return true;
+		if (this.activeQuestionContainer.navigatePrevious()) {
+			if (this._activeQuestionIndex <= 0) {
+				return true;
+			} else {
+				this._activeQuestionIndex--;
+				return false;
+			}
+		}
+		return false;
 	}
 	public navigateNext(): boolean {
-		return true;
+		if (this.activeQuestionContainer.navigateNext()) {
+			if (this._activeQuestionIndex >= this._children.length - 1) {
+				return true;
+			} else {
+				this._activeQuestionIndex++;
+				console.log('incr');
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public initialize(): Subject<void> {
 		// this._children = [];
 		// this.children.push(this._questionModel);
+
+		if (this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren !== undefined) {
+			this._children = [];
+
+			let repeatCount =
+				this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren[
+					this._state.viewerState.activeRespondent.id
+				].length + 1;
+
+			for (let i = 0; i < repeatCount; i++) {
+				let repeatModel: SurveyViewQuestion = Object.assign({}, this._questionModel);
+				repeatModel.repeatNumber = i;
+				let container = new SurveyQuestionContainer(repeatModel);
+
+				this._children.push(container);
+			}
+
+			this._activeQuestionIndex = 0;
+		}
+		console.log(this._children);
 		return null;
 	}
 }

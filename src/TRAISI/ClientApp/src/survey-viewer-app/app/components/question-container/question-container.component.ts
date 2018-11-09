@@ -60,6 +60,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public respondent: SurveyViewGroupMember;
 
+	@Input()
+	public repeatNumber: number;
+
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	public questionOutlet: ViewContainerRef;
 
@@ -114,7 +117,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 
-		console.log(this._viewerStateService.viewerState);
+		console.log(this.repeatNumber);
 		this.titleLabel = new BehaviorSubject(this.question.label);
 
 		this.questionLoaderService
@@ -146,12 +149,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this._responseSaved.subscribe(this.onResponseSaved);
 
 				this._responderService
-					.getSavedResponse(
-						this.surveyId,
-						this.question.questionId,
-						this.respondent.id,
-						this.surveyViewQuestion.repeatNumber === undefined ? 0 : this.surveyViewQuestion.repeatNumber
-					)
+					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.repeatNumber)
 					.subscribe((response) => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null ? 'none' : response.responseValues
@@ -197,9 +195,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		if (responseValid) {
-			this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
-			this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
-
+			// this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
+			// this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
 			// this.surveyViewer.updateNavigation();
 		}
 	};

@@ -19,24 +19,26 @@ export class SurveyGroupContainer extends SurveyContainer {
 		return this._children;
 	}
 
-	public navigatePrevious(): boolean {
+	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {
 				return true;
 			} else {
 				this._activeRepeatIndex++;
+				this.activeRepeatContainer.initialize();
 				return false;
 			}
 		}
 
 		return false;
 	}
-	public navigateNext(): boolean {
+	public navigatePrevious(): boolean {
 		if (this.activeRepeatContainer.navigatePrevious()) {
 			if (this._activeRepeatIndex <= 0) {
 				return true;
 			} else {
 				this._activeRepeatIndex--;
+				this.activeRepeatContainer.initialize();
 				return false;
 			}
 		}
@@ -49,8 +51,7 @@ export class SurveyGroupContainer extends SurveyContainer {
 	}
 
 	public get activeQuestion(): SurveyViewQuestion {
-		return null;
-		// return this._questionContainers[this._activeQuestionIndex].activeQuestion;
+		return this._questionModel;
 	}
 
 	public get activeRepeatContainer(): SurveyRepeatContainer {
@@ -64,8 +65,9 @@ export class SurveyGroupContainer extends SurveyContainer {
 	/**
 	 * Creates an instance of survey group container.
 	 * @param _state
+	 * @param _questionModel
 	 */
-	constructor(private _state: SurveyViewerStateService) {
+	constructor(private _state: SurveyViewerStateService, private _questionModel: SurveyViewQuestion) {
 		super();
 		this._children = [];
 	}
@@ -75,6 +77,8 @@ export class SurveyGroupContainer extends SurveyContainer {
 	 * @returns initialize
 	 */
 	public initialize(): Subject<void> {
+		this._activeRepeatIndex = 0;
+		this.activeRepeatContainer.initialize();
 		return null;
 	}
 }
