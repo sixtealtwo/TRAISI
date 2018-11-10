@@ -202,6 +202,7 @@
 						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"],
 						"styles": [
 							"src/shared/assets/scss/application.scss",
+							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
 							"node_modules/quill/dist/quill.core.css",
