@@ -111,8 +111,8 @@
 					<div class="col-md-10">
 						<input *ngIf="!questionBeingEdited.questionPart" type="text" name="catiQuestionTextInput" class="form-control" id="catiQuestionTextInput"
 						 placeholder="CATI Section Name" [(ngModel)]="questionBeingEdited.catiDependent.label.value" />
-						<quill-editor *ngIf="questionBeingEdited.questionPart" (onEditorCreated)="questiontextEditorCreated($event)" (onContentChanged)="updateCursorOnType()"
-						 (onSelectionChanged)="recordCursor($event)" class="form-control" id="catiQuestionText" theme="snow" name="catiQuestionText"
+						<quill-editor *ngIf="questionBeingEdited.questionPart" (onEditorCreated)="catiQuestiontextEditorCreated($event)" (onContentChanged)="updateCatiCursorOnType()"
+						 (onSelectionChanged)="recordCatiCursor($event)" class="form-control" id="catiQuestionText" theme="snow" name="catiQuestionText"
 						 [(ngModel)]="questionBeingEdited.catiDependent.label.value">
 							<div quill-editor-toolbar>
 								<span class="ql-formats">
@@ -167,7 +167,7 @@
 									<span class="ql-format-separator"></span>
 								</span>
 								<span class="ql-ngx-tree ql-formats" *ngIf="questionsBefore.length > 0">
-									<ngx-dropdown-treeview-select #pipeTreeSelect [items]="questionsBefore" [config]="treedropdownSingleConfig" (valueChange)="pipeQuestion()">
+									<ngx-dropdown-treeview-select #catiPipeTreeSelect [items]="questionsBefore" [config]="treedropdownSingleConfig" (valueChange)="pipeCatiQuestion()">
 									</ngx-dropdown-treeview-select>
 									<!--<button type="button" (click)="pipeQuestion()" id="pipe-button" class="pipe-button">PIPE</button>-->
 								</span>

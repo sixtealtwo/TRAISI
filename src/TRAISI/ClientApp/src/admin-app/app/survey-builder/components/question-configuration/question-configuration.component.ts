@@ -91,8 +91,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		maxHeight: 500
 	};
 
-	public pipeValue: string;
 	public cursorPosition: number;
+	public catiCursorPosition: number;
 
 	public conditionalsLoaded: boolean = false;
 	public isSaving: boolean = false;
@@ -123,10 +123,14 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@ViewChild('pipeTreeSelect')
 	public pipeTreeSelect: DropdownTreeviewSelectComponent;
 
+	@ViewChild('catiPipeTreeSelect')
+	public catiPipeTreeSelect: DropdownTreeviewSelectComponent;
+
 	@ViewChild('repeatTreeSelect')
 	public repeatTreeSelect: DropdownTreeviewSelectComponent;
 
 	private questionQuillEditor: any;
+	private catiQuestionQuillEditor: any;
 
 	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
@@ -142,6 +146,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	pipeDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
+		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
+	}
+
+	catiPipeDropdown(e: TreeviewSelection): string {
+		let selected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
 		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
 	}
 
@@ -161,6 +170,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	questiontextEditorCreated(quillInstance: any) {
 		this.questionQuillEditor = quillInstance;
+	}
+
+	catiQuestiontextEditorCreated(quillInstance: any) {
+		this.catiQuestionQuillEditor = quillInstance;
 	}
 
 	updateAdvancedParams() {
@@ -256,6 +269,20 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	public pipeCatiQuestion() {
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
+		if (pipeQSelected) {
+			let currentCursorPosition = this.catiCursorPosition;
+			if (currentCursorPosition === undefined) {
+				currentCursorPosition = this.catiQuestionQuillEditor.getLength() - 1;
+			}
+			this.catiQuestionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+			this.catiCursorPosition += pipeQSelected.text.length + 6;
+			(<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem = undefined;
+			this.catiPipeTreeSelect.value = undefined;
+		}
+	}
+
 	public repeatQuestion(enabled: boolean) {
 		if (!enabled) {
 			this.questionBeingEdited.repeatSourceQuestionName = null;
@@ -276,10 +303,24 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	public recordCatiCursor(selection: any) {
+		let newPosition = selection.range;
+		if (newPosition !== null) {
+			this.catiCursorPosition = newPosition.index;
+		}
+	}
+
 	public updateCursorOnType() {
 		let selection = this.questionQuillEditor.getSelection();
 		if (selection) {
 			this.cursorPosition = this.questionQuillEditor.getSelection().index;
+		}
+	}
+
+	public updateCatiCursorOnType() {
+		let selection = this.catiQuestionQuillEditor.getSelection();
+		if (selection) {
+			this.catiCursorPosition = this.catiQuestionQuillEditor.getSelection().index;
 		}
 	}
 
@@ -294,6 +335,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		setTimeout(() => {
 			if (this.pipeTreeSelect) {
 				this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
+			}
+			if (this.catiPipeTreeSelect) {
+				this.catiPipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
 			}
 			if (this.repeatTreeSelect) {
 				this.repeatTreeSelect.i18n.getText = e => this.repeatDropdown(e);
