@@ -6,19 +6,15 @@ import { Directive, Input } from '@angular/core';
 	providers: [{ provide: NG_VALIDATORS, useExisting: NumberQuestionValidatorDirective, multi: true }]
 })
 export class NumberQuestionValidatorDirective implements Validator {
-	@Input('numberValidator')
-	value: number;
+	@Input('value')
+	public value: number;
 
 	/**
 	 * Validates number question validator directive
 	 * @param control
 	 * @returns validate
 	 */
-	validate(control: FormControl): { [key: string]: any } | null {
-		console.log('in validate');
-
-		console.log(control);
-
+	public validate(control: FormControl): { [key: string]: any } | null {
 		return null;
 	}
 }

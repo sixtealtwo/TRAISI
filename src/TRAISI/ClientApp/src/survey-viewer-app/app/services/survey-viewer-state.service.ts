@@ -131,7 +131,7 @@ export class SurveyViewerStateService {
 	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Subject<void> {
 		const subject: Subject<void> = new Subject<void>();
 
-		console.log('in eval repeat');
+
 		if (activeQuestion.repeatTargets.length === 0) {
 			setTimeout(() => {
 				subject.next();

@@ -25,7 +25,7 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	}
 
 	public get activeViewContainer(): SurveyContainer {
-		console.log(this._children);
+
 		return this._children[this._activeSectionIndex].activeViewContainer;
 	}
 

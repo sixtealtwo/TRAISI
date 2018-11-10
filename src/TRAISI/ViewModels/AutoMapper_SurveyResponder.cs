@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Globalization;
 using Newtonsoft.Json.Serialization;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.ViewModels
 {
@@ -31,7 +32,35 @@ namespace TRAISI.ViewModels
         private void CreateSurveyResponderAutoMapperProfiles()
         {
             CreateMap<SurveyResponse, SurveyResponseViewModel>()
-               .ForMember(s => s.ResponseValues, r => r.ResolveUsing<ResponseValueResolver>());
+               .ForMember(s => s.ResponseValues, r => r.ResolveUsing<ResponseValueResolver>())
+                .AfterMap((s, svm, opt) =>
+                {
+                    if (s.QuestionPart != null && s.QuestionPart.QuestionConfigurations.Count > 0)
+                    {
+                        svm.Configuration = new ConcurrentDictionary<string, object>();
+                        s.QuestionPart.QuestionConfigurations.AsParallel().ForAll(a =>
+                        {
+                            switch (a.ValueType)
+                            {
+                                case QuestionConfigurationValueType.Integer:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                                    int.Parse(a.Value);
+                                    break;
+                                case QuestionConfigurationValueType.Decimal:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                                    double.Parse(a.Value);
+                                    break;
+                                default:
+                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] = a.Value;
+                                    break;
+                            }
+
+                        });
+
+
+                    }
+
+                });
 
 
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
@@ -72,7 +101,8 @@ namespace TRAISI.ViewModels
         {
 
             List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
-            foreach (var response in source.ResponseValues) {
+            foreach (var response in source.ResponseValues)
+            {
                 var obj = response.GetType()
                             .GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(f =>
                             {
