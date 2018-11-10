@@ -5,5 +5,5 @@ export abstract class SurveyContainer {
 
 	public abstract navigatePrevious(): boolean;
 	public abstract navigateNext(): boolean;
-	public abstract initialize(): Subject<void>;
+	public abstract initialize(): Subject<void> | boolean;
 }

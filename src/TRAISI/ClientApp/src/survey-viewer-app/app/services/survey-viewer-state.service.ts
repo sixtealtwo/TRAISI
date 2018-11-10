@@ -98,8 +98,11 @@ export class SurveyViewerStateService {
 	 * @param question
 	 * @param validationState
 	 */
-	public updateGroupQuestionValidationState(question: SurveyViewQuestion, validationState: ResponseValidationState): void {
-		let index = this.viewerState.activeGroupQuestions.findIndex((f) => f.viewId === question.viewId);
+	public updateGroupQuestionValidationState(
+		question: SurveyViewQuestion,
+		validationState: ResponseValidationState
+	): void {
+		let index = this.viewerState.activeGroupQuestions.findIndex(f => f.viewId === question.viewId);
 
 		if (index >= 0) {
 			this.viewerState.activeGroupQuestions[index].validationState = validationState;
@@ -112,9 +115,12 @@ export class SurveyViewerStateService {
 	 * Sets active group questions
 	 * @param groupMembers
 	 */
-	public setActiveGroupQuestions(activeQuestion: SurveyViewQuestion, groupMembers: Array<SurveyViewGroupMember>): void {
+	public setActiveGroupQuestions(
+		activeQuestion: SurveyViewQuestion,
+		groupMembers: Array<SurveyViewGroupMember>
+	): void {
 		this.viewerState.activeGroupQuestions = [];
-		groupMembers.forEach((member) => {
+		groupMembers.forEach(member => {
 			let memberQuestion = Object.assign({}, activeQuestion);
 			memberQuestion.viewId = Symbol();
 			memberQuestion.parentMember = member;
@@ -131,7 +137,6 @@ export class SurveyViewerStateService {
 	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Subject<void> {
 		const subject: Subject<void> = new Subject<void>();
 
-
 		if (activeQuestion.repeatTargets.length === 0) {
 			setTimeout(() => {
 				subject.next();
@@ -140,37 +145,40 @@ export class SurveyViewerStateService {
 			return subject;
 		}
 
-		this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
-			activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
-				const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
+		this._responderService
+			.readyCachedSavedResponses([activeQuestion.questionId], respondentId)
+			.subscribe(result => {
+				activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
+					const response: any = this._responderService.getCachedSavedResponse(
+						activeQuestion.questionId,
+						respondentId
+					)[0].value;
 
+					if (typeof response === 'number') {
+						const responseInt: number = Math.round(response);
+						let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
+						targetQuestion.repeatChildren = {};
+						targetQuestion.repeatChildren[respondentId] = [];
+						targetQuestion.repeatNumber = 0;
+						for (let i: number = 0; i < responseInt - 1; i++) {
+							let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
+							duplicate.repeatNumber = i + 1;
+							targetQuestion.repeatChildren[respondentId].push(duplicate);
+						}
 
-
-				if (typeof response === 'number') {
-					const responseInt: number = Math.round(response);
-					let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
-					targetQuestion.repeatChildren = {};
-					targetQuestion.repeatChildren[respondentId] = [];
-					targetQuestion.repeatNumber = 0;
-					for (let i: number = 0; i < responseInt - 1; i++) {
-						let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
-						duplicate.repeatNumber = i + 1;
-						targetQuestion.repeatChildren[respondentId].push(duplicate);
+						if (responseInt === 0) {
+							// hide the question from view
+							// this.removeQuestionFromView(targetQuestion);
+						} else {
+							// add question to view -- this has no effect if it is already visible
+							// this.addQuestionToView(targetQuestion);
+						}
 					}
 
-					if (responseInt === 0) {
-						// hide the question from view
-						// this.removeQuestionFromView(targetQuestion);
-					} else {
-						// add question to view -- this has no effect if it is already visible
-						// this.addQuestionToView(targetQuestion);
-					}
-				}
-
-				subject.next();
-				subject.complete();
+					subject.next();
+					subject.complete();
+				});
 			});
-		});
 
 		return subject;
 	}
@@ -181,7 +189,7 @@ export class SurveyViewerStateService {
 	 * @returns true if the question was removed from view - false if it was already removed
 	 */
 	private removeQuestionFromView(question: SurveyViewQuestion): boolean {
-		const index: number = this.viewerState.surveyQuestions.findIndex((sq) => sq.questionId === question.questionId);
+		const index: number = this.viewerState.surveyQuestions.findIndex(sq => sq.questionId === question.questionId);
 
 		if (index >= 0) {
 			this.viewerState.surveyQuestions.splice(index, 1);
@@ -196,7 +204,7 @@ export class SurveyViewerStateService {
 	 * @param question
 	 */
 	private addQuestionToView(question: SurveyViewQuestion): void {
-		const index: number = this.viewerState.surveyQuestions.findIndex((sq) => sq.questionId === question.questionId);
+		const index: number = this.viewerState.surveyQuestions.findIndex(sq => sq.questionId === question.questionId);
 
 		if (index >= 0) {
 			return;
@@ -226,24 +234,27 @@ export class SurveyViewerStateService {
 	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Subject<void> {
 		const subject = new Subject<void>();
 
-		if (this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0) {
+		if (
+			this.viewerState.questionMap[updatedQuestionId] === undefined ||
+			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
+		) {
 			setTimeout(() => {
 				subject.next();
 				subject.complete();
 			});
 			return subject;
 		} else {
-			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
+			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 				let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
 				let sourceQuestionIds: number[] = [];
 
-				targetQuestion.targetConditionals.forEach((targetConditional) => {
+				targetQuestion.targetConditionals.forEach(targetConditional => {
 					sourceQuestionIds.push(targetConditional.sourceQuestionId);
 				});
 
-				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe((value) => {
-					let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
+				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe(value => {
+					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
 						let response = this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId);
 
 						return this._conditionalEvaluator.evaluateConditional(
@@ -255,11 +266,11 @@ export class SurveyViewerStateService {
 					});
 
 					if (evalTrue) {
-						this.removeQuestionFromView(targetQuestion);
-					} else {
-						// re add at the proper order
-						this.addQuestionToView(targetQuestion);
+						console.log('hidden q');
+						console.log(targetQuestion);
+						console.log('finished eval');
 					}
+					targetQuestion.isHidden = evalTrue;
 
 					this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
 					subject.next();

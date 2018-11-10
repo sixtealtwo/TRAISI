@@ -9,6 +9,7 @@ import { SurveyResponderService } from '../survey-responder.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { flatMap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -44,17 +45,24 @@ export class SurveyViewerNavigationService {
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
 
-		this.evaluateRepeat().subscribe(() => {
-			// look at the active view container and call navigate next on it
-			let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
+		this.evaluateRepeat()
+			.pipe(
+				flatMap(() => {
 
-			if (result) {
-				this.incrementViewContainer();
-			}
+					return this.evaluateConditionals();
+				})
+			)
+			.subscribe(() => {
+				// look at the active view container and call navigate next on it
+				let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
 
-			this.updateState();
-			this.navigationCompleted.next(result);
-		});
+				if (result) {
+					this.incrementViewContainer();
+				}
+
+				this.updateState();
+				this.navigationCompleted.next(result);
+			});
 	}
 
 	/**
@@ -93,8 +101,8 @@ export class SurveyViewerNavigationService {
 
 		const baseUrl = this.router.url.split('?')[0];
 		const url = this.router
-		.createUrlTree([baseUrl], { queryParams: { question: this._state.viewerState.activeQuestion.id } })
-		.toString();
+			.createUrlTree([baseUrl], { queryParams: { question: this._state.viewerState.activeQuestion.id } })
+			.toString();
 
 		// this.location.go(url);
 	}
@@ -116,6 +124,21 @@ export class SurveyViewerNavigationService {
 				repeat$.complete();
 			});
 		return repeat$;
+	}
+
+	private evaluateConditionals(): Subject<void> {
+		let conditionals$ = new Subject<void>();
+
+		this._state
+			.evaluateConditionals(
+				(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.questionId,
+				this._state.viewerState.activeRespondent.id
+			)
+			.subscribe(result => {
+				conditionals$.next();
+				conditionals$.complete();
+			});
+		return conditionals$;
 	}
 
 	/**
@@ -156,22 +179,31 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
-		// look at the active view container and call navigate next on it
-		let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
+		this.evaluateRepeat()
+			.pipe(
+				flatMap(() => {
 
-		// if true, then the survey can navigate to the next container
-		if (result) {
-			this.decrementViewContainer();
-		}
+					return this.evaluateConditionals();
+				})
+			)
+			.subscribe(() => {
+				// look at the active view container and call navigate next on it
+				let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
 
-		this.updateState();
-		this.navigationCompleted.next(result);
+				if (result) {
+					this.incrementViewContainer();
+				}
+
+				this.updateState();
+				this.navigationCompleted.next(result);
+			});
 	}
 
 	/**
 	 * Initializes survey viewer navigation service
 	 */
 	public initialize(): void {
+		console.log(this._state.viewerState);
 		this._state.viewerState.activeViewContainerIndex = -1;
 		this.incrementViewContainer();
 		this.updateState();

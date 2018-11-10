@@ -25,7 +25,11 @@ export class SurveyGroupContainer extends SurveyContainer {
 				return true;
 			} else {
 				this._activeRepeatIndex++;
-				this.activeRepeatContainer.initialize();
+				let init = this.activeRepeatContainer.initialize();
+				if (init) {
+					console.log(' init true ');
+					return this.navigateNext();
+				}
 				return false;
 			}
 		}
@@ -38,7 +42,10 @@ export class SurveyGroupContainer extends SurveyContainer {
 				return true;
 			} else {
 				this._activeRepeatIndex--;
-				this.activeRepeatContainer.initialize();
+				let init = this.activeRepeatContainer.initialize();
+				if (init) {
+					return this.navigatePrevious();
+				}
 				return false;
 			}
 		}
@@ -76,9 +83,12 @@ export class SurveyGroupContainer extends SurveyContainer {
 	 * Initializes survey group container
 	 * @returns initialize
 	 */
-	public initialize(): Subject<void> {
+	public initialize(): Subject<void> | boolean {
 		this._activeRepeatIndex = 0;
-		this.activeRepeatContainer.initialize();
-		return null;
+		let init = this.activeRepeatContainer.initialize();
+		if (init) {
+			return this.navigateNext();
+		}
+		return false;
 	}
 }

@@ -94,8 +94,8 @@ export class SurveyViewerConditionalEvaluator {
 		let conditionals = JSON.parse(conditionalData);
 
 		let isAny: boolean = false;
-		sourceData.forEach((response) => {
-			conditionals.forEach((conditional) => {
+		sourceData.forEach(response => {
+			conditionals.forEach(conditional => {
 				if (response.code === conditional.code) {
 					isAny = true;
 				}
@@ -113,8 +113,9 @@ export class SurveyViewerConditionalEvaluator {
 	private evaluateIsAllOf(sourceData: any[], conditionalData: string): boolean {
 		let conditionals = JSON.parse(conditionalData);
 
-		return _every(conditionals, (x) => {
-			return _some(sourceData, (y) => {
+
+		return _every(conditionals, x => {
+			return _some(sourceData, y => {
 				return x.code === y.code;
 			});
 		});

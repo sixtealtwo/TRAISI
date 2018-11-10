@@ -67,9 +67,13 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		return false;
 	}
 
-	public initialize(): Subject<void> {
+	public initialize(): Subject<void> | boolean {
 		// this._children = [];
 		// this.children.push(this._questionModel);
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			console.log('hidden in here ');
+			return true;
+		}
 
 		if (this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren !== undefined) {
 			this._children = [];
@@ -90,6 +94,6 @@ export class SurveyRepeatContainer extends SurveyContainer {
 			this._activeQuestionIndex = 0;
 		}
 
-		return null;
+		return false;
 	}
 }

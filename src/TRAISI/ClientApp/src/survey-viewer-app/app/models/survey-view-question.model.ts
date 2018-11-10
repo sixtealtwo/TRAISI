@@ -6,6 +6,7 @@ import { SurveyViewConditional } from './survey-view-conditional.model';
 export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
+	isHidden?: boolean;
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;
