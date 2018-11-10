@@ -48,7 +48,6 @@ export class SurveyViewerNavigationService {
 		this.evaluateRepeat()
 			.pipe(
 				flatMap(() => {
-
 					return this.evaluateConditionals();
 				})
 			)
@@ -182,7 +181,6 @@ export class SurveyViewerNavigationService {
 		this.evaluateRepeat()
 			.pipe(
 				flatMap(() => {
-
 					return this.evaluateConditionals();
 				})
 			)
@@ -191,7 +189,7 @@ export class SurveyViewerNavigationService {
 				let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
 
 				if (result) {
-					this.incrementViewContainer();
+					this.decrementViewContainer();
 				}
 
 				this.updateState();
