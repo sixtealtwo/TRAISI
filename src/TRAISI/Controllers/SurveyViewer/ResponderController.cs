@@ -18,6 +18,7 @@ namespace TRAISI.Controllers.SurveyViewer
     /// <summary>
     /// 
     /// </summary>
+    [Authorize(Policy = Policies.RespondToSurveyPolicy)]
     [Route("api/[controller]")]
     public class ResponderController : Controller
     {
@@ -98,7 +99,6 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpGet]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("surveys/{surveyId}/questions/{questionId}/responses/")]
         public async Task<IActionResult> GetResponses(int surveyId, string questionName)
         {
@@ -112,7 +112,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
         [Produces(typeof(ObjectResult))]
         [HttpGet]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("surveys/{surveyId}/responses/types/{responseType}")]
         public async Task<IActionResult> ListResponsesOfType(int surveyId, string responseType)
         {
@@ -129,7 +128,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
         [HttpPost]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
@@ -145,7 +143,6 @@ namespace TRAISI.Controllers.SurveyViewer
         }
 
         [HttpPut]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
@@ -162,7 +159,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
         [HttpDelete]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups/{respondentId}")]
         public async Task<IActionResult> RemoveSurveyGroupMember(int respondentId)
         {
@@ -179,7 +175,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
         [HttpGet]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> GetSurveyGroupMembers()
         {
@@ -194,7 +189,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
         [HttpGet]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("questions/respondents/{respondentId}/responses")]
         public async Task<IActionResult> ListSurveyResponsesForQuestionsAsync([FromHeader] int surveyId, [FromQuery] int[] questionIds, int respondentId)
         {
@@ -205,7 +199,6 @@ namespace TRAISI.Controllers.SurveyViewer
 
 
         [HttpDelete]
-        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("surveys/{surveyId}/respondents/{respondentId}")]
         public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
         {
