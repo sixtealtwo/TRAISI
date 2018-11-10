@@ -8,38 +8,51 @@
 						[ngClass]="{ 'question-section': question.parentSection !== undefined }"
 					>
 						<span *ngIf="question.repeatNumber === undefined && question.parentSection === undefined">
-							Q{{ questionIndex + 1 }}
+							Q{{ surveyViewQuestion.viewOrder + 1 }}
 						</span>
 						<span *ngIf="question.repeatNumber === undefined && question.parentSection !== undefined">
-							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }}
+							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }}
 						</span>
 						<span *ngIf="question.repeatNumber !== undefined && question.parentSection !== undefined">
-							Q{{ questionIndex + 1 }}.{{ sectionIndex + 1 }} - {{ repeatNumber + 1 }}
+							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }} -
+							{{ repeatNumber + 1 }}
 						</span>
 						<span *ngIf="question.repeatNumber !== undefined && question.parentSection === undefined">
-							Q{{ questionIndex + 1 }} - {{ repeatNumber + 1 }}
+							Q{{ surveyViewQuestion.viewOrder + 1 }} - {{ repeatNumber + 1 }}
 						</span>
 					</div>
 					<div class="question-complete" *ngIf="responseValidationState === validationStates.VALID">
 						<i class="fas fa-check-circle"></i>
 					</div>
 				</div>
-				<div class="question-header-text col-12 mt-3"><span [innerHTML]="titleLabel | async | safeHtml" class=""></span></div>
+				<div class="question-header-text col-12 mt-3">
+					<span [innerHTML]="titleLabel | async | safeHtml" class=""></span>
+				</div>
 			</div>
 		</div>
 
 		<!--
 			<span class="question-validation">
+
 				<i class="fas fa-check-circle validation-icon" [ngClass]="{'pristine':responseValidationState == validationStates.PRISTINE,
+
 					'invalid':responseValidationState == validationStates.INVALID,
+
 								'valid': responseValidationState == validationStates.VALID}"></i>
 
+
 			</span>
+
 			<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber === undefined">
+
 				Q{{ questionIndex+1 }}
+
 			</span>
+
 			<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber !== undefined">
+
 				Q{{ questionIndex+1 }} - {{question.repeatNumber + 1}}
+
 			</span>
 		-->
 
@@ -50,7 +63,9 @@
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate"> </ng-container>
 		</div>
-		<ng-template #loadingTemplate> <!-- <traisi-question-placeholder></traisi-question-placeholder> --> </ng-template>
+		<ng-template #loadingTemplate>
+			<!-- <traisi-question-placeholder></traisi-question-placeholder> -->
+		</ng-template>
 
 		<ng-template #questionTemplate> <ng-container #container></ng-container> </ng-template>
 	</div>
