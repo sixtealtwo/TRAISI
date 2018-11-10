@@ -21,7 +21,7 @@
 				*ngIf="viewerState.isSectionActive"
 				[style.background-color]="viewerTheme.sectionBackgroundColour"
 			>
-				{{ viewerState.activeSection.label }}
+				{{ processedSectionLabel(viewerState.activeSection.label) }}
 			</div>
 			<div class="questions-container">
 				<div class="question-section" *ngIf="viewerState.isLoaded">
