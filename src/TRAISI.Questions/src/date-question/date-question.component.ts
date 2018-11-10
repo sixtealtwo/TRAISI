@@ -11,10 +11,10 @@ import {
 	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
+	DateResponseData,
 	ResponseData
 } from 'traisi-question-sdk';
 import { BsDatepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { DateResponseData } from '../../../TRAISI.SDK/Module/dist/traisi-survey-question';
 import { DateQuestionConfiguration } from './date-question.configuration';
 
 @Component({

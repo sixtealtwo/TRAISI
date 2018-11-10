@@ -1,12 +1,18 @@
 <div id="question-viewer-wrapper" *ngIf="loadedComponents">
 	<!--
 		<div class="survey-title-container">
+
 			<h1>{{ titleText }}</h1>
+
 		</div>
 	-->
 
 	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
-	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
+	<ndc-dynamic
+		*ngIf="headerComponent"
+		[ndcDynamicComponent]="headerComponent"
+		[ndcDynamicInputs]="headerInputs"
+	></ndc-dynamic>
 
 	<traisi-survey-header-display
 		[pageTextColour]="pageTextColour"
@@ -25,24 +31,28 @@
 			</div>
 			<div class="questions-container">
 				<div class="question-section" *ngIf="viewerState.isLoaded">
-					<div *ngFor="let sectionContainer of viewerState.viewContainers; let i = index">
-						<div *ngFor="let groupContainer of sectionContainer.children; let j = index">
-							<div *ngFor="let repeatContainer of groupContainer.children; let k = index">
-								<div *ngFor="let repeat of repeatContainer.children; let q = index">
-									<traisi-question-container
-										[surveyViewer]="ref"
-										[respondent]="viewerState.activeRespondent"
-										[question]="repeat.questionModel"
-										[surveyViewQuestion]="repeat.questionModel"
-										[surveyId]="surveyId"
-										[questionIndex]="i"
-										[sectionIndex]="j"
-										[repeatNumber]="q"
-										[questionTypeMap]="questionTypeMap"
-										[questionNameMap]="questionNameMap"
-										*ngIf="viewerState.activeQuestionContainer === repeat"
-										#questions
-									></traisi-question-container>
+					<div *ngFor="let page of viewerState.viewContainers; let r = index">
+						<div *ngFor="let sectionRepeat of page.children; let r = index">
+							<div *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
+								<div *ngFor="let groupContainer of sectionContainer.children; let j = index">
+									<div *ngFor="let repeatContainer of groupContainer.children; let k = index">
+										<div *ngFor="let repeat of repeatContainer.children; let q = index">
+											<traisi-question-container
+												[surveyViewer]="ref"
+												[respondent]="viewerState.activeRespondent"
+												[question]="repeat.questionModel"
+												[surveyViewQuestion]="repeat.questionModel"
+												[surveyId]="surveyId"
+												[questionIndex]="i"
+												[sectionIndex]="j"
+												[repeatNumber]="q"
+												[questionTypeMap]="questionTypeMap"
+												[questionNameMap]="questionNameMap"
+												*ngIf="viewerState.activeQuestionContainer === repeat"
+												#questions
+											></traisi-question-container>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -54,21 +64,34 @@
 
 
 
+
 							<div *ngIf="viewerState.isQuestionLoaded">
 
+
 								<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="question"
+
 								 [surveyViewQuestion]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i && viewerState.activeRepeatIndex <= 0"
+
 								 #questions></traisi-question-container>
+
 
 								<div *ngIf="question.repeatChildren !== undefined">
 
+
 									<div *ngFor="let repeat of question.repeatChildren[viewerState.activeRespondent.id]; let c = index">
+
 										<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="repeat"
+
 										 [class]="viewerState.activeRespondent.id" [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i"
+
 										 *ngIf="viewerState.activeRepeatIndex == c + 1 && viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
+
 									</div>
+
 								</div>
+
 							</div>
+
 
 
 
@@ -76,29 +99,47 @@
 
 							 <div *ngIf="viewerState.activeQuestionIndex == i">
 
+
 								<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
 
+
 									<div [hidden]="m != viewerState.activeGroupMemberIndex">
+
 										<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
+
 										 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" #questions></traisi-question-container>
+
 									</div>
+
 									<div *ngIf="question.repeatChildren !== undefined">
+
 										<div *ngFor="let repeat of question.repeatChildren[viewerState.primaryRespondent.id]; let c = index">
+
 												<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
+
 												[surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
+
 												#questions></traisi-question-container>
+
 										</div>
+
 									</div>
+
 
 
 								</div>
+
 							</div>
+
 						</div>
 					-->
 				</div>
 				<div
 					class="group-member-names-container"
-					[hidden]="!viewerState.isSectionActive || (viewerState.isSectionActive && !viewerState.activeSection.isHousehold)"
+					[hidden]="
+						!viewerState.isSectionActive ||
+						(viewerState.isSectionActive && !viewerState.activeSection.isHousehold)
+					"
 				>
 					<div class="group-member-names-section">
 						<span
@@ -108,7 +149,8 @@
 							[ngClass]="{
 								'group-member-active': m == viewerState.activeGroupMemberIndex,
 								'group-member-complete':
-									groupMember.validationState == validationStates.VALID && m != viewerState.activeGroupMemberIndex
+									groupMember.validationState == validationStates.VALID &&
+									m != viewerState.activeGroupMemberIndex
 							}"
 						>
 							{{ groupMember.name }}</span
@@ -159,10 +201,17 @@
 					class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 					type="button"
 				>
-					<div>{{ 'Viewer.CompleteSurvey' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i></div>
+					<div>
+						{{ 'Viewer.CompleteSurvey' | translate }}
+						<i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+					</div>
 				</button>
 			</div>
 		</div>
 	</div>
-	<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs"></ndc-dynamic>
+	<ndc-dynamic
+		*ngIf="footerComponent"
+		[ndcDynamicComponent]="footerComponent"
+		[ndcDynamicInputs]="footerInputs"
+	></ndc-dynamic>
 </div>

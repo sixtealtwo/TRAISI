@@ -45,6 +45,8 @@ import { SurveyViewerNavigationService } from '../../services/survey-viewer-navi
 import { SurveySectionContainer } from '../../services/survey-viewer-navigation/survey-section-container';
 import { SurveyGroupContainer } from '../../services/survey-viewer-navigation/survey-group-container';
 import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
+import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
+import { SurveyPageContainer } from '../../services/survey-viewer-navigation/survey-page-container';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -195,6 +197,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
 
+					console.log(pages);
 					this.loadQuestions(pages);
 				});
 			});
@@ -299,8 +302,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let sections = [];
 		this.viewerState.surveyPages = pages;
 		pages.forEach((page) => {
+			let pageContainer = new SurveyPageContainer(page);
+			this.viewerState.viewContainers.push(pageContainer);
 			page.questions.forEach((question) => {
-				
+
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
@@ -320,7 +325,33 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				}
 
 				viewOrder++;
+
+
+				let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
+
+				sectionRepeatContainer.order = question.order;
+
+				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+
+				let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
+
+				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
+
+				let container = new SurveyQuestionContainer(question);
+
+				repeatContainer.addQuestionContainer(container);
+
+				groupContainer.repeatContainers.push(repeatContainer);
+
+				sectionContainer.groupContainers.push(groupContainer);
+
+				console.log(sectionRepeatContainer);
+				sectionRepeatContainer.children.push(sectionContainer);
+
+				pageContainer.children.push(sectionRepeatContainer);
 			});
+
+
 			page.sections.forEach((section) => {
 				let inSectionIndex: number = 0;
 				section.questions.forEach((question) => {
@@ -341,22 +372,79 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					}
 					inSectionIndex++;
 					viewOrder++;
+
+					// try to find existing container
+				let groupContainer = null;
+
+				let sectionContainer: SurveySectionContainer;
+
+				let sectionRepeatContainer: SurveySectionRepeatContainer;
+
+
+
+				let index = pageContainer.children.findIndex((container2) => {
+					if (container2.sectionModel === null) {
+						return false;
+					}
+					return container2.containerId === question.parentSection.id;
+				});
+
+				if (index < 0) {
+
+					sectionRepeatContainer = new SurveySectionRepeatContainer(question.parentSection, this._viewerStateService);
+					sectionRepeatContainer.order = section.order;
+					sectionRepeatContainer.containerId = question.parentSection.id;
+					sectionContainer = new SurveySectionContainer(question.parentSection, this._viewerStateService);
+					sectionRepeatContainer.children.push(sectionContainer);
+					pageContainer.children.push(sectionRepeatContainer);
+					console.log('not found');
+				} else {
+					sectionRepeatContainer = <SurveySectionRepeatContainer>pageContainer.children[index];
+					sectionContainer = sectionRepeatContainer.children[0];
+					console.log('found');
+				}
+				console.log(sectionRepeatContainer);
+				if (sectionContainer.groupContainers.length === 0) {
+					groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+					sectionContainer.groupContainers.push(groupContainer);
+				} else {
+					groupContainer = sectionContainer.groupContainers[0];
+				}
+
+				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
+
+				let container = new SurveyQuestionContainer(question);
+				repeatContainer.addQuestionContainer(container);
+
+				groupContainer.repeatContainers.push(repeatContainer);
 				});
 			});
+			pageContainer.children = sortBy(pageContainer.children,['order']);
 			pageCount += 1;
 		});
 
+
+
 		this.viewerState.activeQuestionIndex = 0;
 		this.activePageIndex = 0;
-		this.questions = sortBy(this.questions, ['viewOrder']);
+		// this.questions = sortBy(this.questions, ['viewOrder']);
 
-		this.viewerState.surveyQuestions = sortBy(this.questions, ['viewOrder']);
+		console.log(this.viewerState.viewContainers);
+
+		// this.viewerState.viewContainers = sortBy(this.viewerState.viewContainers, ['order']);
 
 		// add a new container for each "question"
+		console.log(this.questions);
+
+		/*
 		this.questions.forEach((question: SurveyViewQuestion) => {
+
+			console.log('adding question');
+			console.log(question);
 			// add a normal question container for questions not in section
 			if (question.parentSection === undefined) {
 				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
+
 				let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
 				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
@@ -405,7 +493,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				groupContainer.repeatContainers.push(repeatContainer);
 			}
-		});
+		}); */
 
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
