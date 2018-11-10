@@ -304,8 +304,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 
-		let questions = [];
-		let sections = [];
 		this.viewerState.surveyPages = pages;
 		pages.forEach(page => {
 			let pageContainer = new SurveyPageContainer(page);
@@ -329,7 +327,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 				}
 
-				viewOrder++;
 
 				let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
 
@@ -349,7 +346,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				sectionContainer.groupContainers.push(groupContainer);
 
-				console.log(sectionRepeatContainer);
 				sectionRepeatContainer.children.push(sectionContainer);
 
 				pageContainer.children.push(sectionRepeatContainer);
@@ -374,7 +370,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 					}
 					inSectionIndex++;
-					viewOrder++;
+
 
 					// try to find existing container
 					let groupContainer = null;
@@ -424,75 +420,24 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			pageCount += 1;
 		});
 
+		viewOrder = 0;
+		this.viewerState.viewContainers.forEach(page => {
+			page.children.forEach(sectionRepeat => {
+				sectionRepeat.children.forEach(section => {
+					section.children.forEach(group => {
+						group.children.forEach(repeat => {
+							repeat.children.forEach(question => {
+								question.questionModel.viewOrder = viewOrder;
+								viewOrder++;
+							});
+						});
+					});
+				});
+			});
+		});
+
 		this.viewerState.activeQuestionIndex = 0;
 		this.activePageIndex = 0;
-		// this.questions = sortBy(this.questions, ['viewOrder']);
-
-		console.log(this.viewerState.viewContainers);
-
-		// this.viewerState.viewContainers = sortBy(this.viewerState.viewContainers, ['order']);
-
-		// add a new container for each "question"
-		console.log(this.questions);
-
-		/*
-		this.questions.forEach((question: SurveyViewQuestion) => {
-
-			console.log('adding question');
-			console.log(question);
-			// add a normal question container for questions not in section
-			if (question.parentSection === undefined) {
-				let groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
-
-				let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
-
-				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
-
-				let container = new SurveyQuestionContainer(question);
-
-				repeatContainer.addQuestionContainer(container);
-
-				groupContainer.repeatContainers.push(repeatContainer);
-
-				sectionContainer.groupContainers.push(groupContainer);
-
-				this.viewerState.viewContainers.push(sectionContainer);
-			}
-			// add a section container for section questions
-			else {
-				// try to find existing container
-				let groupContainer = null;
-
-				let sectionContainer: SurveySectionContainer;
-
-				let index = this.viewerState.viewContainers.findIndex((container2) => {
-					if (container2.sectionModel === null) {
-						return false;
-					}
-					return container2.containerId === question.parentSection.id;
-				});
-
-				if (index < 0) {
-					sectionContainer = new SurveySectionContainer(question.parentSection, this._viewerStateService);
-					this.viewerState.viewContainers.push(sectionContainer);
-				} else {
-					sectionContainer = <SurveySectionContainer>this.viewerState.viewContainers[index];
-				}
-				if (sectionContainer.groupContainers.length === 0) {
-					groupContainer = new SurveyGroupContainer(this._viewerStateService, question);
-					sectionContainer.groupContainers.push(groupContainer);
-				} else {
-					groupContainer = sectionContainer.groupContainers[0];
-				}
-
-				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
-
-				let container = new SurveyQuestionContainer(question);
-				repeatContainer.addQuestionContainer(container);
-
-				groupContainer.repeatContainers.push(repeatContainer);
-			}
-		}); */
 
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 

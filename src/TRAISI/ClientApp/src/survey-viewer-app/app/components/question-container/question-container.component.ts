@@ -91,6 +91,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public displayClass: string = 'view-compact';
 
+
+
 	/**
 	 * Creates an instance of question container component.
 	 * @param questionLoaderService
@@ -196,7 +198,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	private processPipedQuestionLabel(rawLabel: string) {
-
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 
 		// get tag list
@@ -204,20 +205,21 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
 
-			this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe(
-				responses => {
-
-					tags.forEach( (tag, index) => {
-						processedLabel = Utilities.replacePlaceholder(processedLabel, tag, responses[index].responseValues[0].value);
+			this._responderService
+				.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
+				.subscribe(responses => {
+					tags.forEach((tag, index) => {
+						processedLabel = Utilities.replacePlaceholder(
+							processedLabel,
+							tag,
+							responses[index].responseValues[0].value
+						);
 					});
 					this.titleLabel = new BehaviorSubject(processedLabel);
-				}
-			);
-
+				});
 		} else {
 			this.titleLabel = new BehaviorSubject(processedLabel);
 		}
-
 	}
 
 	/**
