@@ -82,7 +82,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			};
 
 			this.response.emit(data);
-			this.validationState.emit(ResponseValidationState.VALID);
+			
 		});
 	};
 
@@ -92,7 +92,9 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(result: any): void {}
+	public onResponseSaved(result: any): void {
+		this.validationState.emit(ResponseValidationState.VALID);
+	}
 
 	/**
 	 * Traisis on loaded

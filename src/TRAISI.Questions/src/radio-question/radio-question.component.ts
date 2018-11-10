@@ -32,7 +32,8 @@ import {
 	template: <string>require('./radio-question.component.html'),
 	styles: [require('./radio-question.component.scss').toString()]
 })
-export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {
+export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
+	implements OnInit, OnOptionsLoaded, AfterViewInit {
 	public options: QuestionOption[];
 
 	public selectedOption: any;
@@ -88,6 +89,14 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	public onModelChanged(option: QuestionOption): void {
 		this.response.emit([option]);
+	}
+	/**
+	 *
+	 *
+	 * @param {*} result
+	 * @memberof TextQuestionComponent
+	 */
+	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 	}
 

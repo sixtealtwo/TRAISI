@@ -63,6 +63,16 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	}
 
 	/**
+	 *
+	 *
+	 * @param {*} result
+	 * @memberof TextQuestionComponent
+	 */
+	public onResponseSaved(result: any): void {
+		this.validationState.emit(ResponseValidationState.VALID);
+	}
+
+	/**
 	 * Inputs blur
 	 */
 	public inputBlur(): void {}
@@ -130,7 +140,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+		this.inputForm.valueChanges.debounceTime(1000).subscribe(value => {
 			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
 			this._numberModel = number;
