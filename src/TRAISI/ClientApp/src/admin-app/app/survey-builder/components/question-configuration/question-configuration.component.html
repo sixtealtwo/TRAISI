@@ -199,14 +199,14 @@
 					<div class="col-12">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Household</label>
-							<div class="col-md-10" [hidden]="isRepeat.checked">
+							<div class="col-md-10" [hidden]="questionBeingEdited.repeatSourceQuestionName != null">
 								<label class="form-check-label switch" for="isHouseholdCheck">
 									<input class="form-check-input" type="checkbox" value="" id="isHouseholdCheck" [(ngModel)]="questionBeingEdited.isHousehold"
 									 name="isHousehold" #isHouseholdCheck>
 									<i></i>
 								</label>
 							</div>
-							<div class="col-md-10 mt-2" [hidden]="!isRepeat.checked">
+							<div class="col-md-10 mt-2" [hidden]="questionBeingEdited.repeatSourceQuestionName == null">
 								<div class="form-check-label">Household Disabled for Sections that Repeat</div>
 							</div>
 						</div>
