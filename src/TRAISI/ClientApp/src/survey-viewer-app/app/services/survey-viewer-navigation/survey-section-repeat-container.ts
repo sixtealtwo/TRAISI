@@ -6,7 +6,6 @@ import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 
 export class SurveySectionRepeatContainer extends SurveyContainer {
-
 	private _activeSectionIndex: number = 0;
 
 	private _children: Array<SurveySectionContainer>;
@@ -30,6 +29,9 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 		return this._children[this._activeSectionIndex].activeViewContainer;
 	}
 
+	public get activeSection(): SurveySectionContainer {
+		return this._children[this._activeSectionIndex];
+	}
 
 	/**
 	 *
@@ -44,10 +46,26 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	}
 
 	public navigatePrevious(): boolean {
-		return true;
+		if (this.activeSection.navigatePrevious()) {
+			if (this._activeSectionIndex <= 0) {
+				return true;
+			} else {
+				this._activeSectionIndex--;
+				return false;
+			}
+		}
+		return false;
 	}
 	public navigateNext(): boolean {
-		return true;
+		if (this.activeSection.navigateNext()) {
+			if (this._activeSectionIndex >= this._children.length - 1) {
+				return true;
+			} else {
+				this._activeSectionIndex++;
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public initialize(): Subject<void> {

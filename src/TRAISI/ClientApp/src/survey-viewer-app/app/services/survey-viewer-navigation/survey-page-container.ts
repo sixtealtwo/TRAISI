@@ -38,7 +38,7 @@ export class SurveyPageContainer extends SurveyContainer {
 	}
 
 	public navigatePrevious(): boolean {
-		if (this.activeRepeatContainer) {
+		if (this.activeRepeatContainer.navigatePrevious()) {
 			if (this._activePageIndex <= 0) {
 				return true;
 			} else {
@@ -49,7 +49,7 @@ export class SurveyPageContainer extends SurveyContainer {
 		return false;
 	}
 	public navigateNext(): boolean {
-		if (this.activeRepeatContainer) {
+		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activePageIndex >= this._children.length - 1) {
 				return true;
 			} else {
