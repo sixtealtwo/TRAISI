@@ -36,7 +36,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	/**
 	 * Purpose  of map question component
 	 */
-	public purpose: string = 'home';
+	public purpose: string = '';
 
 	private _markerPosition: LngLatLike = [-79.4, 43.67];
 
@@ -82,7 +82,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			case 'other':
 				return 'fas fa-location-arrow';
 			default:
-				return 'fas fa-home';
+				return '';
 		}
 	}
 

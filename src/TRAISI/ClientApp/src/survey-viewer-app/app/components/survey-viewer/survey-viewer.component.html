@@ -4,7 +4,9 @@
 
 
 
+
 			<h1>{{ titleText }}</h1>
+
 
 
 
@@ -59,138 +61,6 @@
 							</div>
 						</div>
 					</div>
-
-					<!--
-						<div *ngFor="let question of viewerState.surveyQuestions; let i = index">
-
-
-
-
-
-
-
-							<div *ngIf="viewerState.isQuestionLoaded">
-
-
-
-
-								<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="question"
-
-
-
-								 [surveyViewQuestion]="question" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeQuestionIndex == i && viewerState.activeRepeatIndex <= 0"
-
-
-
-								 #questions></traisi-question-container>
-
-
-
-
-								<div *ngIf="question.repeatChildren !== undefined">
-
-
-
-
-									<div *ngFor="let repeat of question.repeatChildren[viewerState.activeRespondent.id]; let c = index">
-
-
-
-										<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.activeRespondent" [question]="repeat"
-
-
-
-										 [class]="viewerState.activeRespondent.id" [surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i"
-
-
-
-										 *ngIf="viewerState.activeRepeatIndex == c + 1 && viewerState.activeQuestionIndex == i" #questions></traisi-question-container>
-
-
-
-									</div>
-
-
-
-								</div>
-
-
-
-							</div>
-
-
-
-
-
-
-
-
-							 <div *ngIf="viewerState.activeQuestionIndex == i">
-
-
-
-
-								<div *ngFor="let groupQuestion of viewerState.activeGroupQuestions; let m = index">
-
-
-
-
-									<div [hidden]="m != viewerState.activeGroupMemberIndex">
-
-
-
-										<traisi-question-container [surveyViewer]="ref" [question]="question" [surveyId]="surveyId" [questionIndex]="i"
-
-
-
-										 [surveyViewQuestion]="groupQuestion" [respondent]="groupQuestion.parentMember" #questions></traisi-question-container>
-
-
-
-									</div>
-
-
-
-									<div *ngIf="question.repeatChildren !== undefined">
-
-
-
-										<div *ngFor="let repeat of question.repeatChildren[viewerState.primaryRespondent.id]; let c = index">
-
-
-
-												<traisi-question-container [surveyViewer]="ref" [respondent]="viewerState.primaryRespondent" [question]="repeat"
-
-
-
-												[surveyViewQuestion]="repeat" [surveyId]="surveyId" [questionIndex]="i" *ngIf="viewerState.activeRepeatIndex == c + 1"
-
-
-
-												#questions></traisi-question-container>
-
-
-
-										</div>
-
-
-
-									</div>
-
-
-
-
-
-								</div>
-
-
-
-							</div>
-
-
-
-						</div>
-					-->
 				</div>
 				<div
 					class="group-member-names-container"

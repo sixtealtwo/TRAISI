@@ -46,7 +46,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public surveyId: number;
 
-
 	@Input()
 	public surveyViewer: SurveyViewerComponent;
 
@@ -85,8 +84,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public responseValidationState: ResponseValidationState;
 
 	public displayClass: string = 'view-compact';
-
-
 
 	/**
 	 * Creates an instance of question container component.
@@ -192,7 +189,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
 	}
 
-	private processPipedQuestionLabel(rawLabel: string) {
+	private processPipedQuestionLabel(rawLabel: string): void {
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 
 		// get tag list
