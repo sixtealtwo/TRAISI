@@ -31,6 +31,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
+import { Utilities } from 'shared/services/utilities';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -62,6 +63,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public repeatNumber: number;
+
+	@Input()
+	public questionTypeMap: { [id: number]: string };
+
+	@Input()
+	public questionNameMap: { [name: string]: number };
 
 	@ViewChild('questionTemplate', { read: ViewContainerRef })
 	public questionOutlet: ViewContainerRef;
@@ -116,10 +123,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		 */
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
-
-		console.log(this.repeatNumber);
-		this.titleLabel = new BehaviorSubject(this.question.label);
-
+		this.processPipedQuestionLabel(this.question.label);
 		this.questionLoaderService
 			.loadQuestionComponent(this.question, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
@@ -132,7 +136,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				surveyQuestionInstance.surveyId = this.surveyId;
 
-				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
+				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign(
+					{},
+					this.question.configuration
+				);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();
@@ -150,7 +157,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._responderService
 					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.repeatNumber)
-					.subscribe((response) => {
+					.subscribe(response => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null ? 'none' : response.responseValues
 						);
@@ -173,10 +180,43 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
+								this.question.configuration
+							);
 						}
 					});
 			});
+	}
+
+	private retrieveHouseholdTag(): string {
+		let questionId: number = +Object.keys(this.questionTypeMap).find(
+			key => this.questionTypeMap[key] === 'household'
+		);
+		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
+	}
+
+	private processPipedQuestionLabel(rawLabel: string) {
+		// get tag list
+		let tags = Utilities.extractPlaceholders(rawLabel);
+		if (tags && tags.length > 0) {
+			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
+
+			this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe(
+				responses => {
+					// console.log(responses);
+					this.titleLabel = new BehaviorSubject(
+						Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name)
+					);
+				}
+			);
+
+		} else {
+			this.titleLabel = new BehaviorSubject(
+				Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name)
+			);
+		}
+
+		
 	}
 
 	/**

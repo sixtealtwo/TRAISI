@@ -13,6 +13,8 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public int QuestionId { get; set; }
 
+        public string Name { get; set; }
+
         public string Label { get; set; }
 
         public string QuestionType { get; set; }

@@ -9,12 +9,12 @@ export interface SurveyViewQuestion {
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;
+	name: string;
 	order: number;
 	viewOrder: number;
 	questionId: number;
 	questionType: string;
 	pageIndex: number;
-	typeName: string;
 	repeatSource?: number;
 	repeatTargets?: number[];
 	repeatChildren?: { [id: string]: Array<SurveyViewQuestion> };

@@ -108,6 +108,7 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.IsOptional, map => map.MapFrom(v => v.isOptional))
                 .ForMember(m => m.Order, map => map.MapFrom(v => v.Order))
                 .ForMember(m => m.Label, map => map.Ignore())
+                .ForMember(m => m.Name, map => map.MapFrom(v => v.QuestionPart.Name))
                 .ForMember(m => m.IsHousehold, map => map.MapFrom(f => f.isHousehold))
                  .ForMember(m => m.SourceConditionals, map =>
                  {

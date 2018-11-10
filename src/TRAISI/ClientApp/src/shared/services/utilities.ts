@@ -724,4 +724,20 @@ export class Utilities {
 
 		return result;
 	}
+
+	public static extractPlaceholders = (text: string): string[] => {
+		let regexTest = /{{ [\w\s]* }}/g;
+		let placeholderMatch = text.match(regexTest);
+		if (placeholderMatch !== null) {
+			return placeholderMatch.map(name => name.substring(3, name.length - 3));
+		} else {
+			return null;
+		}
+		
+	}
+
+	public static replacePlaceholder = (sourceText: string, tag: string, replacementValue: string): string => {
+		return sourceText.replace(`{{ ${tag} }}`, replacementValue);
+	}
+
 }

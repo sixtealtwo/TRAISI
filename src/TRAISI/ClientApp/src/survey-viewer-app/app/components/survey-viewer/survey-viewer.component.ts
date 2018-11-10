@@ -77,6 +77,8 @@ interface SpecialPageDataInput {
 })
 export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked {
 	public questions: Array<SurveyViewQuestion>;
+	public questionTypeMap: { [id: number]: string };
+	public questionNameMap: { [name: string]: number };
 
 	public surveyId: number;
 
@@ -288,6 +290,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
 		this.questions = [];
+		this.questionTypeMap = {};
+		this.questionNameMap = {};
 		let pageCount: number = 0;
 		let viewOrder: number = 0;
 
@@ -296,10 +300,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.surveyPages = pages;
 		pages.forEach((page) => {
 			page.questions.forEach((question) => {
+				
 				question.pageIndex = pageCount;
 				question.viewOrder = viewOrder;
 				question.parentPage = page;
 				question.viewId = Symbol();
+				this.questionTypeMap[question.questionId] = question.questionType;
+				this.questionNameMap[question.name] = question.questionId;
 				this.questions.push(question);
 
 				if (question.repeatTargets === undefined) {
@@ -323,6 +330,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					question.inSectionIndex = inSectionIndex;
 					this.viewerState.questionMap[question.questionId] = question;
 					question.viewId = Symbol();
+					this.questionTypeMap[question.questionId] = question.questionType;
+					this.questionNameMap[question.name] = question.questionId;
 					this.questions.push(question);
 					if (question.repeatTargets === undefined) {
 						question.repeatTargets = [];
