@@ -46,11 +46,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public surveyId: number;
 
-	@Input()
-	public questionIndex: number;
-
-	@Input()
-	public sectionIndex: number;
 
 	@Input()
 	public surveyViewer: SurveyViewerComponent;
