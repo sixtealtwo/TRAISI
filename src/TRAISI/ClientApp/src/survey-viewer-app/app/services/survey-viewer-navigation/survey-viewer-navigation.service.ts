@@ -7,6 +7,8 @@ import { SurveyQuestionContainer } from './survey-question-container';
 import { SurveySectionContainer } from './survey-section-container';
 import { SurveyResponderService } from '../survey-responder.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable({
 	providedIn: 'root'
@@ -29,7 +31,9 @@ export class SurveyViewerNavigationService {
 	 */
 	public constructor(
 		private _state: SurveyViewerStateService,
-		@Inject('SurveyResponderService') private _responderService: SurveyResponderService
+		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
+		private router: Router,
+		private location: Location
 	) {
 		this.navigationCompleted = new Subject<boolean>();
 	}
@@ -65,11 +69,17 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.parentPage;
 
-		this._state.viewerState.activeQuestion = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel;
+		this._state.viewerState.activeQuestion = (<SurveyQuestionContainer>(
+			this._state.viewerState.activeQuestionContainer
+		)).questionModel;
 		this._state.viewerState.isSectionActive =
-			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !== undefined;
+			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !==
+			undefined;
 
-		if ((<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !== undefined) {
+		if (
+			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !==
+			undefined
+		) {
 			this._state.viewerState.activeSection = (<SurveyQuestionContainer>(
 				this._state.viewerState.activeQuestionContainer
 			)).questionModel.parentSection;
@@ -80,6 +90,13 @@ export class SurveyViewerNavigationService {
 		this._state.viewerState.activePageIndex = (<SurveyQuestionContainer>(
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.pageIndex;
+
+		const baseUrl = this.router.url.split('?')[0];
+		const url = this.router
+		.createUrlTree([baseUrl], { queryParams: { question: this._state.viewerState.activeQuestion.id } })
+		.toString();
+
+		// this.location.go(url);
 	}
 
 	/**
@@ -94,7 +111,7 @@ export class SurveyViewerNavigationService {
 				(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel,
 				this._state.viewerState.activeRespondent.id
 			)
-			.subscribe((result) => {
+			.subscribe(result => {
 				repeat$.next();
 				repeat$.complete();
 			});
@@ -115,7 +132,7 @@ export class SurveyViewerNavigationService {
 			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
 					this._state.viewerState.groupMembers = [];
-					members.forEach((member) => {
+					members.forEach(member => {
 						this._state.viewerState.groupMembers.push(member);
 					});
 				}

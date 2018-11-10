@@ -978,6 +978,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
+	private retrieveHouseholdTag(): string {
+		let questionId: number = +Object.keys(this.questionTypeMap).find(
+			key => this.questionTypeMap[key] === 'household'
+		);
+		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
+	}
+
+	public processedSectionLabel(sectionTitle: string): string {
+		return Utilities.replacePlaceholder(sectionTitle, this.retrieveHouseholdTag(), this.viewerState.activeRespondent.name);
+	}
+
 	/**
 	 *
 	 */

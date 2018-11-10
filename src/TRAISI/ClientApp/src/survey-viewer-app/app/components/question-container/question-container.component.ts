@@ -196,27 +196,28 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	private processPipedQuestionLabel(rawLabel: string) {
+
+		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
+
 		// get tag list
-		let tags = Utilities.extractPlaceholders(rawLabel);
+		let tags = Utilities.extractPlaceholders(processedLabel);
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
 
 			this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe(
 				responses => {
-					// console.log(responses);
-					this.titleLabel = new BehaviorSubject(
-						Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name)
-					);
+
+					tags.forEach( (tag, index) => {
+						processedLabel = Utilities.replacePlaceholder(processedLabel, tag, responses[index].responseValues[0].value);
+					});
+					this.titleLabel = new BehaviorSubject(processedLabel);
 				}
 			);
 
 		} else {
-			this.titleLabel = new BehaviorSubject(
-				Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name)
-			);
+			this.titleLabel = new BehaviorSubject(processedLabel);
 		}
 
-		
 	}
 
 	/**
