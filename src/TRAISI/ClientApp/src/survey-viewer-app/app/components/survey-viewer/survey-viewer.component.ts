@@ -114,10 +114,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public activeQuestion: any;
 
-	public activeSectionIndex: number = -1;
-
-	public activePageIndex: number = -1;
-
 	public isSection: boolean = false;
 
 	public navigatePreviousEnabled: boolean = false;
@@ -327,7 +323,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 				}
 
-
 				let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
 
 				sectionRepeatContainer.order = question.order;
@@ -370,7 +365,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 					}
 					inSectionIndex++;
-
 
 					// try to find existing container
 					let groupContainer = null;
@@ -428,16 +422,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						group.children.forEach(repeat => {
 							repeat.children.forEach(question => {
 								question.questionModel.viewOrder = viewOrder;
-								viewOrder++;
 							});
 						});
 					});
 				});
+				viewOrder++;
 			});
 		});
 
 		this.viewerState.activeQuestionIndex = 0;
-		this.activePageIndex = 0;
 
 		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
