@@ -676,15 +676,16 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					dropResult
 				);
 				this.dragResult.subscribe(proceed => {
-					this.dragResult.unsubscribe();
 					if (proceed === false) {
 						questionPart.questionPartViewChildren = partQuestionsCache;
+						this.dragResult.unsubscribe();
 					} else {
 						this.updateQuestionOrder(questionPart);
 						if (dropResult.removedIndex === null && dropResult.addedIndex !== null) {
 							this.questionBeingEdited.order = dropResult.addedIndex;
 							this.addNewQuestionPartView(this.questionBeingEdited, questionPart, false);
 						} else if (dropResult.addedIndex !== null) {
+							this.dragResult.unsubscribe();
 							let questionsOrder: Order[] = questionPart.questionPartViewChildren.map(
 								q => new Order(q.id, q.order)
 							);
