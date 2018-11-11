@@ -17,6 +17,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { HouseholdQuestionComponent } from 'household-question/household-question.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
 @NgModule({
 	declarations: [
@@ -114,6 +115,6 @@ import { NumberQuestionValidatorDirective } from 'number-question/number-questio
 			multi: true
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot(),TextMaskModule]
+	imports: [CommonModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot(), TextMaskModule, NgSelectModule]
 })
 export default class TraisiQuestions {}

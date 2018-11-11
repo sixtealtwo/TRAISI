@@ -1,6 +1,13 @@
 <div class="form-group">
-    <select class="custom-select">
+    <!--<select class="custom-select">
         <option [ngValue]="option.id" *ngFor="let option of selectOptions">{{option.label}}</option> 
-    </select>
+		</select>-->
+		<ng-select [items]="selectOptions"
+           bindLabel="label"
+           autofocus
+           bindValue="code"
+					 [(ngModel)]="selectedOptionId"
+					 (change)="onModelChanged($event)">
+</ng-select>
 </div>
 

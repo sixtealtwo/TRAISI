@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -10,7 +10,10 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	ResponseValidationState,
+	ResponseData,
+	OptionSelectResponseData
 } from 'traisi-question-sdk';
 
 declare var $: any;
@@ -20,14 +23,15 @@ declare var $: any;
 	template: require('./select-question.component.html').toString(),
 	styles: [require('./select-question.component.scss').toString()]
 })
-export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.List>
-	implements OnInit, OnOptionsLoaded {
+export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
+	implements OnInit, OnOptionsLoaded, AfterViewInit {
 	readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
 	typeName: string;
 	icon: string;
 
 	selectOptions: QuestionOption[];
+	selectedOptionId: string;
 
 	@ViewChild('select')
 	selectElement: ElementRef;
@@ -58,15 +62,48 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.List>
 
 	}
 
-	ngOnInit() {}
+	public ngOnInit(): void {}
+
+	public ngAfterViewInit(): void {
+		this.savedResponse.subscribe(this.onSavedResponseData);
+	}
+
+		/**
+	 * Determines whether saved response data on
+	 */
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.OptionSelect>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.OptionSelect>[] | 'none'
+	) => {
+		if (response !== 'none') {
+			let optionResponse = <OptionSelectResponseData>response[0];
+
+			this.selectedOptionId = optionResponse.code;
+
+			this.validationState.emit(ResponseValidationState.VALID);
+		}
+	};
+
 
 	/**
 	 * This is called as soon as any options are ready (even if later queried).
 	 * @param options
 	 */
-	onOptionsLoaded(options: QuestionOption[]): void {
+	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.selectOptions = options;
 
-
 	}
+
+	public onModelChanged(option: QuestionOption): void {
+		this.response.emit([option]);
+	}
+
+	public onResponseSaved(result: any): void {
+		this.validationState.emit(ResponseValidationState.VALID);
+	}
+
+		/**
+	 * Traisis on init
+	 */
+	public traisiOnInit(): void {}
 }
+
