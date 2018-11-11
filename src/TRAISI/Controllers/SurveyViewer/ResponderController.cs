@@ -18,6 +18,7 @@ namespace TRAISI.Controllers.SurveyViewer
     /// <summary>
     /// 
     /// </summary>
+    [Authorize]
     [Authorize(Policy = Policies.RespondToSurveyPolicy)]
     [Route("api/[controller]")]
     public class ResponderController : Controller

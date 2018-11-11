@@ -55,9 +55,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this.survey = new SurveyStart();
 		this.shortcode = '';
 
-		if (this.surveyViewerService.isAdminUser()) {
-			this.isAdmin = true;
-		}
+		this.isAdmin = this.surveyViewerService.isAdminUser();
 
 		this.route.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
