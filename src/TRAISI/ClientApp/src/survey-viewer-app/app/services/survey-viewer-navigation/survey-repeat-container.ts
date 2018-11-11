@@ -104,7 +104,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 			for (let i = 0; i < repeatCount; i++) {
 				let repeatModel: SurveyViewQuestion = Object.assign({}, this._questionModel);
 				repeatModel.repeatNumber = i;
-				let container = new SurveyQuestionContainer(repeatModel);
+				let container = new SurveyQuestionContainer(repeatModel, null);
 
 				this._children.push(container);
 			}

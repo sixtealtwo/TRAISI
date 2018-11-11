@@ -100,6 +100,18 @@ namespace TRAISI.ViewModels
 
             CreateMap<QuestionPartView, SurveyViewSectionViewModel>()
                 .ForMember(m => m.Questions, map => map.MapFrom(v => v.QuestionPartViewChildren))
+                .ForMember(m => m.RepeatSource, map =>
+                {
+                    map.MapFrom(f => f.RepeatSource.Id);
+                    map.Condition(f => f.RepeatSource != null);
+                })
+                .AfterMap((s, svm, opt) =>
+                {
+                    if (s.RepeatSource != null)
+                    {
+                        svm.IsRepeat = true;
+                    }
+                })
                 .AfterMap((s, svm, opt) => { svm.Label = s.Labels[opt.Items["Language"] as string].Value; });
 
             CreateMap<QuestionConditional, SurveyViewConditionalViewModel>()

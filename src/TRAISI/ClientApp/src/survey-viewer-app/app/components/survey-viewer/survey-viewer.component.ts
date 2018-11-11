@@ -352,7 +352,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
 
-				let container = new SurveyQuestionContainer(question);
+				let container = new SurveyQuestionContainer(question, sectionContainer);
 
 				repeatContainer.addQuestionContainer(container);
 
@@ -405,7 +405,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						sectionRepeatContainer.order = section.order;
 						sectionRepeatContainer.containerId = question.parentSection.id;
 						sectionContainer = new SurveySectionContainer(question.parentSection, this._viewerStateService);
-						
+
 						sectionRepeatContainer.children.push(sectionContainer);
 						pageContainer.children.push(sectionRepeatContainer);
 					} else {
@@ -416,7 +416,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					sectionContainer.groupContainers.forEach(groupContainer => {
 						let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
 
-						let container = new SurveyQuestionContainer(question);
+						let container = new SurveyQuestionContainer(question, sectionContainer);
 						repeatContainer.addQuestionContainer(container);
 	
 						groupContainer.repeatContainers.push(repeatContainer);

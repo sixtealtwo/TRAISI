@@ -4,6 +4,7 @@ import { SurveyQuestion } from 'traisi-question-sdk';
 import { Subject } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
+import { SurveySectionContainer } from './survey-section-container';
 
 export class SurveyQuestionContainer extends SurveyContainer {
 	private _questionInstance: QuestionContainerComponent;
@@ -13,6 +14,8 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	private _activeQuestionInstanceIndex: number = 0;
 
 	private _questionInstances: Array<SurveyViewQuestion>;
+
+	public parentSectionContainer: SurveySectionContainer;
 
 	public get containerId(): number {
 		return 0;
@@ -50,13 +53,14 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * @param question
 	 * @param _state
 	 */
-	constructor(question: SurveyViewQuestion) {
+	constructor(question: SurveyViewQuestion, section: SurveySectionContainer) {
 		super();
 
 		this._questionModel = question;
 
 		this._questionInstances = [];
 		this._activeQuestionInstanceIndex = 0;
+		this.parentSectionContainer = section;
 	}
 
 	/**

@@ -65,8 +65,33 @@ export class SurveyViewerNavigationService {
 					}
 
 					this._state.viewerState.isPreviousEnabled = true;
-					this.updateState();
-					this.navigationCompleted.next(result);
+
+					let nextContainer = this._state.viewerState.viewContainers[
+						this._state.viewerState.activeViewContainerIndex
+					].activeViewContainer;
+					let currentParentContainer = (<SurveyQuestionContainer>(this._state.viewerState.activeQuestionContainer)).parentSectionContainer;
+					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
+					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold	: null;
+
+					if (isHousehold && currentParentContainer !== nextParentContainer) {
+						this._responderService
+							.getSurveyGroupMembers()
+							.subscribe((members: Array<SurveyViewGroupMember>) => {
+								if (members.length > 0) {
+									this._state.viewerState.groupMembers = [];
+									members.forEach(member => {
+										this._state.viewerState.groupMembers.push(member);
+									});
+
+									nextParentContainer.updateGroups();
+									this.updateState();
+									this.navigationCompleted.next(result);
+								}
+							});
+					} else {
+						this.updateState();
+						this.navigationCompleted.next(result);
+					}
 				});
 		}
 	}

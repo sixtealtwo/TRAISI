@@ -14,5 +14,9 @@ namespace TRAISI.ViewModels.SurveyViewer
         public string Icon { get; set; }
 
         public bool IsHousehold {get;set;}
+
+        public int RepeatSource { get; set; }
+
+        public bool IsRepeat { get; set; }
     }
 }

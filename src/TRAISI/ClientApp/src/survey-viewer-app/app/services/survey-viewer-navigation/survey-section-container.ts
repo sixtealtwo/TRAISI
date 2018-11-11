@@ -6,6 +6,7 @@ import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyGroupContainer } from './survey-group-container';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { SurveyRepeatContainer } from './survey-repeat-container';
 
 export class SurveySectionContainer extends SurveyContainer {
 	private _sectionModel: SurveyViewSection;
@@ -173,9 +174,6 @@ export class SurveySectionContainer extends SurveyContainer {
 			this.groupContainers.push(groupContainer);
 		}
 
-		console.log('active respondent');
-		console.log(this._state.viewerState.activeRespondent);
-
 		// this.activeQuestionContainer.initialize();
 
 		// this._children = [];
@@ -186,5 +184,30 @@ export class SurveySectionContainer extends SurveyContainer {
 		}); */
 
 		return null;
+	}
+
+	public updateGroups(): void {
+		this._activeGroupMemberIndex = 0;
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+		let questionRepeats = this.groupContainers[0].children;
+		if (this._sectionModel !== null && this._sectionModel.isHousehold) {
+			this._children = [];
+			this._state.viewerState.groupMembers.forEach(member => {
+				let groupContainer = new SurveyGroupContainer(this._state);
+				this.groupContainers.push(groupContainer);
+			});
+
+			this.groupContainers.forEach(groupContainer => {
+				questionRepeats.forEach(questionRepeatContainer => {
+					let question = questionRepeatContainer.children[0].questionModel;
+					let repeatContainer = new SurveyRepeatContainer(question, this._state);
+
+					let container = new SurveyQuestionContainer(question, this);
+					repeatContainer.addQuestionContainer(container);
+
+					groupContainer.repeatContainers.push(repeatContainer);
+				});
+			});
+		}
 	}
 }
