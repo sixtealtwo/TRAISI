@@ -72,4 +72,6 @@ export interface SurveyViewerState {
 	activeViewContainerIndex: number;
 
 	activeQuestionContainer: SurveyContainer;
+
+	isPreviousEnabled: boolean;
 }

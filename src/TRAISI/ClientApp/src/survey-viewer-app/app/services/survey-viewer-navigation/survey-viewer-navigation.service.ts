@@ -59,6 +59,7 @@ export class SurveyViewerNavigationService {
 					this.incrementViewContainer();
 				}
 
+				this._state.viewerState.isPreviousEnabled = true;
 				this.updateState();
 				this.navigationCompleted.next(result);
 			});
@@ -178,30 +179,26 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
-		this.evaluateRepeat()
-			.pipe(
-				flatMap(() => {
-					return this.evaluateConditionals();
-				})
-			)
-			.subscribe(() => {
-				// look at the active view container and call navigate next on it
-				let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
+		this.evaluateRepeat().subscribe(() => {
+			// look at the active view container and call navigate next on it
+			let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
 
-				if (result) {
+			if (result) {
+				if (this._state.viewerState.activeViewContainerIndex > 0) {
 					this.decrementViewContainer();
 				}
+			}
 
-				this.updateState();
-				this.navigationCompleted.next(result);
-			});
+			this.updateState();
+			this.navigationCompleted.next(result);
+		});
 	}
 
 	/**
 	 * Initializes survey viewer navigation service
 	 */
 	public initialize(): void {
-		console.log(this._state.viewerState);
+		this._state.viewerState.isPreviousEnabled = false;
 		this._state.viewerState.activeViewContainerIndex = -1;
 		this.incrementViewContainer();
 		this.updateState();

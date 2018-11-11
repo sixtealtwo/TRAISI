@@ -6,7 +6,11 @@
 
 
 
+
+
 			<h1>{{ titleText }}</h1>
+
+
 
 
 
@@ -96,7 +100,7 @@
 				<button
 					[ngClass]="navButtonClass"
 					(click)="navigatePrevious()"
-					[disabled]="!isNavigationPreviousEnabled"
+					[disabled]="!viewerState.isPreviousEnabled"
 					class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 					type="button"
 				>
