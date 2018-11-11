@@ -259,11 +259,9 @@ export class SurveyViewerStateService {
 				conditionalEvals.push(
 					this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId)
 				);
-
 			});
 
 			forkJoin(conditionalEvals).subscribe(values => {
-
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
