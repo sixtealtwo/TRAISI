@@ -103,6 +103,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navButtonClass: string;
 	public pageTextColour: string;
 	public questionTextColour: string;
+	public sectionTitleColour: string;
 	public useLightNavigationLines: boolean;
 
 	@ViewChild(SurveyHeaderDisplayComponent)
@@ -234,6 +235,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 			this.pageTextColour = this.getBestPageTextColour();
 			this.questionTextColour = this.getBestQuestionBodyTextColor();
+			this.sectionTitleColour = this.getBestSectionTitleColour();
 			this.navButtonClass = this.useDarkButtons() ? 'btn-inverse' : 'btn-default';
 			this.useLightNavigationLines = this.pageTextColour === 'rgb(255,255,255)';
 			this.setComponentInputs();
@@ -1000,6 +1002,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private getBestPageTextColour(): string {
 		if (this.pageThemeInfo.pageBackgroundColour) {
 			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return 'rgb(0,0,0)';
+		}
+	}
+
+	private getBestSectionTitleColour(): string {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.viewerTheme.sectionBackgroundColour);
 		} else {
 			return 'rgb(0,0,0)';
 		}
