@@ -8,4 +8,12 @@ export abstract class SurveyContainer {
 	public abstract initialize(): Subject<void> | boolean;
 	public abstract canNavigateNext(): boolean;
 	public abstract canNavigatePrevious(): boolean;
+
+	public iterateNext(): boolean {
+		return false;
+	}
+
+	public iteratePrevious(): boolean {
+		return false;
+	}
 }

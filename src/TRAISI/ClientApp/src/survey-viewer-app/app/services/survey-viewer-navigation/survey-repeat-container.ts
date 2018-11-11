@@ -45,6 +45,9 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	}
 
 	public canNavigateNext(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return true;
+		}
 		let val = this.activeQuestionContainer.canNavigateNext();
 		if (this._activeQuestionIndex < this._children.length - 1 || val) {
 			return true;
@@ -52,6 +55,23 @@ export class SurveyRepeatContainer extends SurveyContainer {
 			return false;
 		}
 	}
+
+	public iterateNext(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public iteratePrevious(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public canNavigatePrevious(): boolean {
 		let val = this.activeQuestionContainer.canNavigatePrevious();
 		if (this._activeQuestionIndex > 0 || val) {
@@ -88,10 +108,6 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	public initialize(): Subject<void> | boolean {
 		// this._children = [];
 		// this.children.push(this._questionModel);
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
-			console.log('hidden in here ');
-			return true;
-		}
 
 		if (this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren !== undefined) {
 			this._children = [];

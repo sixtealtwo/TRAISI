@@ -36,6 +36,14 @@ export class SurveyGroupContainer extends SurveyContainer {
 		}
 	}
 
+	public iterateNext(): boolean {
+		return this.activeRepeatContainer.iterateNext();
+	}
+
+	public iteratePrevious(): boolean {
+		return this.activeRepeatContainer.iteratePrevious();
+	}
+
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {
@@ -44,7 +52,6 @@ export class SurveyGroupContainer extends SurveyContainer {
 				this._activeRepeatIndex++;
 				let init = this.activeRepeatContainer.initialize();
 				if (init) {
-					console.log(' init true ');
 					return this.navigateNext();
 				}
 				return false;
@@ -73,7 +80,6 @@ export class SurveyGroupContainer extends SurveyContainer {
 	public get repeatContainers(): Array<SurveyRepeatContainer> {
 		return this._children;
 	}
-
 
 	public get activeRepeatContainer(): SurveyRepeatContainer {
 		return this._children[this._activeRepeatIndex];
