@@ -1,24 +1,4 @@
 <div id="question-viewer-wrapper" *ngIf="loadedComponents">
-	<!--
-		<div class="survey-title-container">
-
-
-
-
-
-
-
-			<h1>{{ titleText }}</h1>
-
-
-
-
-
-
-
-		</div>
-	-->
-
 	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
 	<ndc-dynamic
 		*ngIf="headerComponent"
@@ -38,6 +18,7 @@
 				class="survey-section-header"
 				*ngIf="viewerState.isSectionActive"
 				[style.background-color]="viewerTheme.sectionBackgroundColour"
+				[style.color]="sectionTitleColour"
 			>
 				{{ processedSectionLabel(viewerState.activeSection.label) }}
 			</div>
