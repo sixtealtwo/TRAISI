@@ -135,6 +135,7 @@ export class SurveyViewerNavigationService {
 				this._state.viewerState.activeRespondent.id
 			)
 			.subscribe(result => {
+
 				conditionals$.next();
 				conditionals$.complete();
 			});

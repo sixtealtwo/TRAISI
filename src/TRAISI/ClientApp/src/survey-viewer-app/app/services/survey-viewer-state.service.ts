@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerState } from '../models/survey-viewer-state.model';
-import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer, forkJoin } from 'rxjs';
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../models/survey-view-group-member.model';
 import { QuestionContainerComponent } from '../components/question-container/question-container.component';
@@ -9,6 +9,7 @@ import { SurveyViewerConditionalEvaluator } from './survey-viewer-conditional-ev
 import { EventEmitter } from 'events';
 import { SurveyViewConditional } from 'app/models/survey-view-conditional.model';
 import { SurveyResponderService } from './survey-responder.service';
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -245,6 +246,7 @@ export class SurveyViewerStateService {
 			});
 			return subject;
 		} else {
+			let conditionalEvals = [];
 			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 				let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
@@ -254,7 +256,16 @@ export class SurveyViewerStateService {
 					sourceQuestionIds.push(targetConditional.sourceQuestionId);
 				});
 
-				this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId).subscribe(value => {
+				conditionalEvals.push(
+					this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId)
+				);
+
+			});
+
+			forkJoin(conditionalEvals).subscribe(values => {
+
+				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
 						let response = this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId);
 
@@ -266,17 +277,11 @@ export class SurveyViewerStateService {
 						);
 					});
 
-					if (evalTrue) {
-						console.log('hidden q');
-						console.log(targetQuestion);
-						console.log('finished eval');
-					}
 					targetQuestion.isHidden = evalTrue;
-
-					this.surveyQuestionsChanged.next(SurveyViewerStateService.SURVEY_QUESTIONS_CHANGED);
-					subject.next();
-					subject.complete();
 				});
+
+				subject.next();
+				subject.complete();
 			});
 
 			return subject;
