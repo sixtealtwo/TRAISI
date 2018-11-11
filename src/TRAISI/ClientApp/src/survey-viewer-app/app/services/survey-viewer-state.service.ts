@@ -55,6 +55,7 @@ export class SurveyViewerStateService {
 			activeViewContainerIndex: -1,
 			activeQuestionContainer: undefined,
 			isPreviousEnabled: false,
+			isNextEnabled: true,
 			questionMap: {}
 		};
 

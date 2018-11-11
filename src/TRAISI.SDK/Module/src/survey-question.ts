@@ -106,7 +106,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 * Called when previous is triggered in the survey viewer.
 	 */
 	public navigateInternalPrevious(): boolean {
-		return true; 
+		return true;
 	}
 
 	/**
