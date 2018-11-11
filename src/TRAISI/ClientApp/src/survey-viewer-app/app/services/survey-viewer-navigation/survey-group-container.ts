@@ -98,7 +98,7 @@ export class SurveyGroupContainer extends SurveyContainer {
 	 * @returns initialize
 	 */
 	public initialize(): Subject<void> | boolean {
-		this._activeRepeatIndex = 0;
+		// this._activeRepeatIndex = 0;
 		let init = this.activeRepeatContainer.initialize();
 		if (init) {
 			return this.navigateNext();
