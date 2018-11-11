@@ -18,20 +18,20 @@ export class SurveyStartPageComponent implements OnInit {
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
 
-	surveyName: string;
+	public surveyName: string;
 
-	isLoading: boolean = false;
+	public isLoading: boolean = false;
 
-	shortcode: string;
+	public shortcode: string;
 
-	isAdmin: boolean = false;
+	public isAdmin: boolean = false;
 
-	survey: SurveyStart;
+	public survey: SurveyStart;
 
-	isError: boolean = false;
+	public isError: boolean = false;
 
 	@ViewChild('adminAlert')
-	adminAlert: AlertComponent;
+	public adminAlert: AlertComponent;
 
 	/**
 	 *
@@ -51,7 +51,7 @@ export class SurveyStartPageComponent implements OnInit {
 	/**
 	 *
 	 */
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.survey = new SurveyStart();
 		this.shortcode = '';
 

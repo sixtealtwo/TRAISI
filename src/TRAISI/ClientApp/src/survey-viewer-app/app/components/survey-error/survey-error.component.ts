@@ -16,7 +16,7 @@ export class SurveyErrorComponent implements OnInit {
 
 	public surveyName: string;
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 		});

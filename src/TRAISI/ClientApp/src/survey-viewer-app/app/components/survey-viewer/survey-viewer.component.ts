@@ -31,14 +31,12 @@ import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
-
 import { trigger, state, style, animate, transition, stagger, query, keyframes } from '@angular/animations';
 import { SurveyViewerTheme } from '../../models/survey-viewer-theme.model';
 import { Header1Component } from '../special-page-builder/header1/header1.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Utilities } from 'shared/services/utilities';
-import { SurveyViewerConditionalEvaluator } from 'app/services/survey-viewer-conditional-evaluator.service';
 import { SurveyUser } from 'shared/models/survey-user.model';
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
@@ -47,6 +45,7 @@ import { SurveyGroupContainer } from '../../services/survey-viewer-navigation/su
 import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
 import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
 import { SurveyPageContainer } from '../../services/survey-viewer-navigation/survey-page-container';
+import { Title } from '@angular/platform-browser';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -179,6 +178,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _viewerStateService: SurveyViewerStateService,
 		private _navigation: SurveyViewerNavigationService,
 		private route: ActivatedRoute,
+		private titleService: Title,
 		private elementRef: ElementRef
 	) {
 		this.ref = this;
@@ -195,7 +195,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.route.queryParams.subscribe((value: Params) => {
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
-
+				console.log(this.surveyViewerService);
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
 

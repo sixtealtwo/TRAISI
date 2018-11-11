@@ -33,6 +33,7 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
 import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
+import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -51,7 +52,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public surveyViewer: SurveyViewerComponent;
 
 	@Input()
-	public container: SurveyRepeatContainer;
+	public container: SurveyQuestionContainer;
 
 	@Input()
 	public surveyViewQuestion: SurveyViewQuestion;
