@@ -32,12 +32,20 @@ import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component'
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
+export const fadeInOut = trigger('fadeInOut', [
+	transition(':enter', [style({ opacity: 0 }), animate('0.4s ease-in', style({ opacity: 1 }))]),
+	transition(':leave', [animate('0.4s 10ms ease-out', style({ opacity: 0 }))])
+]);
+
 @Component({
 	selector: 'traisi-question-container',
 	templateUrl: './question-container.component.html',
-	styleUrls: ['./question-container.component.scss']
+	styleUrls: ['./question-container.component.scss'],
+	animations: [fadeInOut]
 })
 export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()

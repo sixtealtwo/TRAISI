@@ -99,11 +99,12 @@
 		left: 0px;
 		top: 0px;
 		font-size: 24px;
-		color: black;
 		i {
 			background-color: lightgreen;
 			border-radius: 50%;
 		}
+
+  	animation-iteration-count: 5;
 	}
 	.question-header-text {
 		max-width: calc(100% - 50px);
