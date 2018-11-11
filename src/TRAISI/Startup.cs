@@ -152,6 +152,7 @@ namespace TRAISI
             {
                 opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+                opts.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                 opts.SerializerSettings.Converters.Add(new StringEnumConverter
                 {
                     CamelCaseText = true

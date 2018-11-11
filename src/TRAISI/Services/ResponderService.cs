@@ -315,9 +315,7 @@ namespace TRAISI.Services
 
 
             response.ResponseValues.Clear();
-
             response.ResponseValues.AddRange(values);
-
             return;
         }
 
