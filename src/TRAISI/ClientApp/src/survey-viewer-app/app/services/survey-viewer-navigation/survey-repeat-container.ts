@@ -3,9 +3,12 @@ import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { Subject } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { SurveyQuestionContainer } from './survey-question-container';
+import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
 
 export class SurveyRepeatContainer extends SurveyContainer {
 	public containerId: number;
+
+	private _questionInstance: QuestionContainerComponent;
 
 	private _children: Array<SurveyQuestionContainer> = [];
 
@@ -23,6 +26,14 @@ export class SurveyRepeatContainer extends SurveyContainer {
 
 	public get activeViewContainer(): SurveyContainer {
 		return this._children[this._activeQuestionIndex];
+	}
+
+	public get questionInstance(): QuestionContainerComponent {
+		return this._questionInstance;
+	}
+
+	public set questionInstance(value: QuestionContainerComponent) {
+		this._questionInstance = value;
 	}
 
 	/**
