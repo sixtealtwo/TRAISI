@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
+import { SurveyViewerService } from '../../../services/survey-viewer.service';
 
 
 @Component({
@@ -46,6 +47,8 @@ export class MainSurveyAccess1Component implements OnInit {
 		toolbar: []
 	};
 
+	public isAdmin: boolean;
+
 	public introTextHTML: string;
 	public accessCodeHTML: string;
 	public beginSurveyHTML: string;
@@ -59,7 +62,9 @@ export class MainSurveyAccess1Component implements OnInit {
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
-	constructor() {
+	constructor(
+		private surveyViewerService: SurveyViewerService
+	) {
 	}
 
 	public ngOnInit(): void {
@@ -80,6 +85,7 @@ export class MainSurveyAccess1Component implements OnInit {
 			this.introTextHTML = pageData.introText;
 			this.accessCodeHTML = pageData.accessCode;
 			this.beginSurveyHTML = pageData.beginSurvey;
+			this.isAdmin = this.surveyViewerService.isAdminUser();
 		} catch (e) {
 			this.pageHTMLJson = {};
 			this.videoSource = undefined;

@@ -64,7 +64,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {
-				// this.validationState.emit(ResponseValidationState.VALID);
+				 this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: arr[0],
 					isSaved: true,
@@ -102,6 +102,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				(value) => {
 					respondentEdit.respondent.id = <number>value;
 					respondentEdit.isSaved = true;
+					this.validationState.emit(ResponseValidationState.VALID);
 				},
 				(error) => {
 					console.error(error);
@@ -111,6 +112,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			this._surveyResponderService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
 					respondentEdit.isSaved = true;
+					this.validationState.emit(ResponseValidationState.VALID);
 				},
 				(error) => {
 					console.error(error);
@@ -135,9 +137,17 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	/**
 	 *
 	 */
-	public modelChanged(respondent: SurveyRespondentEdit): void {
+	public modelChanged(respondent: SurveyRespondentEdit, newName: string, newRelationship: string): void {
+		if (newName !== null) {
+			respondent.respondent.name = newName;
+		} else {
+			respondent.respondent.relationship = newRelationship;
+		}
 		if (respondent.respondent.name !== '' && respondent.respondent.relationship !== null) {
 			respondent.isValid = true;
+			this.saveRespondent(respondent);
+		} else {
+			this.validationState.emit(ResponseValidationState.INVALID);
 		}
 
 		respondent.isSaved = false;
