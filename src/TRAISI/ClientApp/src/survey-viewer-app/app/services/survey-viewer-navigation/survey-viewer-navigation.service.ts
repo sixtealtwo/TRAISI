@@ -45,24 +45,30 @@ export class SurveyViewerNavigationService {
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
 
-		this.evaluateRepeat()
-			.pipe(
-				flatMap(() => {
-					return this.evaluateConditionals();
-				})
-			)
-			.subscribe(() => {
-				// look at the active view container and call navigate next on it
-				let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
+		if (this._state.viewerState.activeViewContainer === undefined) {
+			// sane bounds check
+			this.navigationCompleted.next(true);
+			return;
+		} else {
+			this.evaluateRepeat()
+				.pipe(
+					flatMap(() => {
+						return this.evaluateConditionals();
+					})
+				)
+				.subscribe(() => {
+					// look at the active view container and call navigate next on it
+					let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
 
-				if (result) {
-					this.incrementViewContainer();
-				}
+					if (result) {
+						this.incrementViewContainer();
+					}
 
-				this._state.viewerState.isPreviousEnabled = true;
-				this.updateState();
-				this.navigationCompleted.next(result);
-			});
+					this._state.viewerState.isPreviousEnabled = true;
+					this.updateState();
+					this.navigationCompleted.next(result);
+				});
+		}
 	}
 
 	/**
@@ -135,7 +141,6 @@ export class SurveyViewerNavigationService {
 				this._state.viewerState.activeRespondent.id
 			)
 			.subscribe(result => {
-
 				conditionals$.next();
 				conditionals$.complete();
 			});
@@ -180,19 +185,25 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
-		this.evaluateRepeat().subscribe(() => {
-			// look at the active view container and call navigate next on it
-			let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
+		if (this._state.viewerState.activeViewContainer === null) {
+			this._state.viewerState.isPreviousEnabled = false;
+			this.navigationCompleted.next(true);
+		} else {
+			this.evaluateRepeat().subscribe(() => {
+				// look at the active view container and call navigate next on it
 
-			if (result) {
-				if (this._state.viewerState.activeViewContainerIndex > 0) {
-					this.decrementViewContainer();
+				let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
+
+				if (result) {
+					if (this._state.viewerState.activeViewContainerIndex > 0) {
+						this.decrementViewContainer();
+					}
 				}
-			}
 
-			this.updateState();
-			this.navigationCompleted.next(result);
-		});
+				this.updateState();
+				this.navigationCompleted.next(result);
+			});
+		}
 	}
 
 	/**
