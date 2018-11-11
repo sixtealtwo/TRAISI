@@ -6,8 +6,7 @@ import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
 
 export class SurveyQuestionContainer extends SurveyContainer {
-
-
+	private _questionInstance: QuestionContainerComponent;
 
 	private _questionModel: SurveyViewQuestion;
 
@@ -27,6 +26,13 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return this._questionInstances;
 	}
 
+	public get questionInstance(): QuestionContainerComponent {
+		return this._questionInstance;
+	}
+
+	public set questionInstance(value: QuestionContainerComponent) {
+		this._questionInstance = value;
+	}
 
 	/**
 	 * Gets active question
@@ -67,10 +73,31 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return null;
 	}
 
+	/**
+	 * Navigates previous
+	 * @returns true if previous
+	 */
 	public navigatePrevious(): boolean {
-		return true;
+		if (this._questionInstance === undefined) {
+			return true;
+		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalPrevious()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+
+	/**
+	 * Navigates next
+	 * @returns true if next
+	 */
 	public navigateNext(): boolean {
-		return true;
+		if (this._questionInstance === undefined) {
+			return true;
+		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalNext()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -8,7 +8,6 @@ import { QuestionContainerComponent } from '../../components/question-container/
 export class SurveyRepeatContainer extends SurveyContainer {
 	public containerId: number;
 
-	private _questionInstance: QuestionContainerComponent;
 
 	private _children: Array<SurveyQuestionContainer> = [];
 
@@ -28,13 +27,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		return this._children[this._activeQuestionIndex];
 	}
 
-	public get questionInstance(): QuestionContainerComponent {
-		return this._questionInstance;
-	}
 
-	public set questionInstance(value: QuestionContainerComponent) {
-		this._questionInstance = value;
-	}
 
 	/**
 	 * Creates an instance of survey group container.
