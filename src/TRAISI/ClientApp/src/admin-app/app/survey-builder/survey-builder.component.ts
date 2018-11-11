@@ -596,7 +596,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	 *
 	 */
 	public previewSurvey(event: any) {
-		window.open(`/survey/${this.survey.code}/terms`, '_blank');
+		window.open(`/survey/${this.survey.code}/start`, '_blank');
 		event.stopPropagation();
 	}
 }
