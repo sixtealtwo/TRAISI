@@ -141,13 +141,15 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		}
 
 		this.inputForm.valueChanges.debounceTime(1000).subscribe(value => {
-			let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
+			if (this.model !== undefined) {
+				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
-			this._numberModel = number;
-			const validated: boolean = this.validateInput();
+				this._numberModel = number;
+				const validated: boolean = this.validateInput();
 
-			if (validated && this.inputForm.valid) {
-				this.response.emit(this._numberModel);
+				if (validated && this.inputForm.valid) {
+					this.response.emit(this._numberModel);
+				}
 			}
 		});
 	};
