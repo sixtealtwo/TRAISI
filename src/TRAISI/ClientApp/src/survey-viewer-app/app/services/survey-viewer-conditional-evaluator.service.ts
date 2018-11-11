@@ -23,6 +23,11 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 */
 	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
+
+		if(sourceData === undefined)
+		{
+			return false;
+		}
 		switch (conditionalType) {
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
