@@ -74,9 +74,6 @@ export class SurveyGroupContainer extends SurveyContainer {
 		return this._children;
 	}
 
-	public get activeQuestion(): SurveyViewQuestion {
-		return this._questionModel;
-	}
 
 	public get activeRepeatContainer(): SurveyRepeatContainer {
 		return this._children[this._activeRepeatIndex];
@@ -91,7 +88,7 @@ export class SurveyGroupContainer extends SurveyContainer {
 	 * @param _state
 	 * @param _questionModel
 	 */
-	constructor(private _state: SurveyViewerStateService, private _questionModel: SurveyViewQuestion) {
+	constructor(private _state: SurveyViewerStateService) {
 		super();
 		this._children = [];
 	}
