@@ -13,6 +13,7 @@ import { SurveyViewQuestionOption } from '../models/survey-view-question-option.
 import { ActivatedRoute, Router, RouterEvent, ActivationStart } from '@angular/router';
 import { SurveyResponderService } from './survey-responder.service';
 import { SurveyViewerTheme } from '../models/survey-viewer-theme.model';
+import { SurveyViewThankYouModel } from '../models/survey-view-thankyou.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -196,6 +197,20 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		language?: string
 	): Observable<SurveyViewTermsModel> {
 		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language);
+	}
+
+		/**
+	 * Retrieves Thank You Text
+	 * @param surveyId
+	 * @param viewType
+	 * @param language
+	 */
+	public getSurveyViewerThankYou(
+		surveyId: number,
+		viewType?: SurveyViewType,
+		language?: string
+	): Observable<SurveyViewThankYouModel> {
+		return this._surveyViewerEndpointService.getSurveyViewerThankYouEndpoint<SurveyViewThankYouModel>(surveyId, viewType, language);
 	}
 
 	/**

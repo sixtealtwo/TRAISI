@@ -303,6 +303,29 @@ namespace TRAISI.Controllers.SurveyViewer
             return new ObjectResult(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route("{surveyId:int}/thankyou/{viewType?}/{language?}")]
+        [HttpGet]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Produces(typeof(ObjectResult))]
+        public async Task<IActionResult> GetSurveyThankYou(int surveyId,
+            SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
+        {
+            var result = await this._viewService.GetSurveyThankYouText(surveyId, language, viewType);
+            if (result == null)
+            {
+                return new NotFoundResult();
+            }
+
+
+            return new ObjectResult(result);
+        }
+
+
 
     }
 }

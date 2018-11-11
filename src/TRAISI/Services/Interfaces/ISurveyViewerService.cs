@@ -93,6 +93,17 @@ namespace TRAISI.Services.Interfaces
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
+        /// <param name="language"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        Task<SurveyViewThankYouViewModel> GetSurveyThankYouText(int surveyId,
+        string language = null,
+        SurveyViewType viewType = SurveyViewType.CatiView);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
         /// <param name="viewType"></param>
         /// <param name="pageNumber"></param>
         /// <returns></returns>

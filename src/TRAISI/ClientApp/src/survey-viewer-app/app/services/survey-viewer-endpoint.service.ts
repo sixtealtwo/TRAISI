@@ -37,6 +37,10 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
 	}
 
+	private get getSurveyViewerThankYouUrl(): string {
+		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
+	}
+
 	private get getDefaultSurveyViewUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/view';
 	}
@@ -141,6 +145,22 @@ export class SurveyViewerEndpointService extends EndpointFactory {
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language)
+				);
+			})
+		);
+	}
+
+	public getSurveyViewerThankYouEndpoint<T>(
+		surveyId: number,
+		viewType?: SurveyViewType,
+		language?: string
+	): Observable<T> {
+		let endpointUrl = `${this.getSurveyViewerThankYouUrl}/${surveyId}/thankyou/${viewType}/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getSurveyViewerThankYouEndpoint(surveyId, viewType, language)
 				);
 			})
 		);

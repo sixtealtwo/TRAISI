@@ -64,9 +64,22 @@ namespace TRAISI.Services
                     .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
 
             }
-
-
         }
+
+        /// <summary>
+        /// Returns ths Thank You text for the specified survey id of the chosen language
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="language"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public async Task<SurveyViewThankYouViewModel> GetSurveyThankYouText(int surveyId, string language = null, SurveyViewType viewType = SurveyViewType.CatiView)
+        {
+            string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
+            var surveyThankYou = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, viewName, language);
+            return Mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
+        }
+
 
         /// <summary>
         /// 

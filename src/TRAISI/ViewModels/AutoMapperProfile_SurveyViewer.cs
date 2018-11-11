@@ -42,6 +42,8 @@ namespace TRAISI.ViewModels
 
                 });
 
+            CreateMap<ThankYouPageLabel, SurveyViewThankYouViewModel>()
+                .ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value));
 
             CreateMap<Survey, SurveyStartViewModel>()
                 .AfterMap((s, svm, opt) =>
