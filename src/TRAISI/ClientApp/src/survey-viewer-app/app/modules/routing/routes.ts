@@ -1,18 +1,17 @@
-import {Route, RouterModule, Routes} from '@angular/router';
-import {SurveyViewerContainerComponent} from "../../components/survey-viewer-container/survey-viewer-container.component";
-import {AppComponent} from "../../app.component";
-import {SurveyStartPageComponent} from "../../components/survey-start-page/survey-start-page.component";
-import {SurveyErrorComponent} from "../../components/survey-error/survey-error.component";
-import {ModuleWithProviders} from '@angular/core';
-import {SurveyTermsPageComponent} from '../../components/survey-terms-page/survey-terms-page.component';
-import {SurveyViewerComponent} from '../../components/survey-viewer/survey-viewer.component';
+import { Route, RouterModule, Routes } from '@angular/router';
+import { SurveyViewerContainerComponent } from '../../components/survey-viewer-container/survey-viewer-container.component';
+import { AppComponent } from '../../app.component';
+import { SurveyStartPageComponent } from '../../components/survey-start-page/survey-start-page.component';
+import { SurveyErrorComponent } from '../../components/survey-error/survey-error.component';
+import { ModuleWithProviders } from '@angular/core';
+import { SurveyTermsPageComponent } from '../../components/survey-terms-page/survey-terms-page.component';
+import { SurveyViewerComponent } from '../../components/survey-viewer/survey-viewer.component';
+import { SurveyThankYouPageComponent } from '../../components/survey-thankyou-page/survey-thankyou-page.component';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
-
 	{
 		path: 'error',
 		component: SurveyErrorComponent
-
 	},
 	{
 		path: ':surveyName',
@@ -21,43 +20,37 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				path: '',
 				redirectTo: 'start',
 				pathMatch: 'full'
-			}, {
-
+			},
+			{
 				path: 'error',
 				component: SurveyErrorComponent,
-				data: {title: 'Survey Not Found'}
+				data: { title: 'Survey Not Found' }
 			},
 			{
-
 				path: 'start',
 				component: SurveyStartPageComponent,
-				data: {title: 'Survey Start'}
+				data: { title: 'Survey Start' }
 			},
 			{
-
 				path: 'terms',
 				component: SurveyTermsPageComponent,
-				data: {title: 'Survey Terms and Conditions'}
+				data: { title: 'Survey Terms and Conditions' }
 			},
 			{
-
 				path: 'thankyou',
-				component: SurveyTermsPageComponent,
-				data: {title: 'Survey Terms and Conditions'}
+				component: SurveyThankYouPageComponent,
+				data: { title: 'Thank You' }
 			},
 			{
-
 				path: 'viewer',
 				component: SurveyViewerComponent,
-				data: {title: 'Survey Viewer'}
+				data: { title: 'Survey Viewer' }
 			},
 			{
-
 				path: 'viewer/:questionNumber',
 				component: SurveyViewerComponent,
-				data: {title: 'Survey Viewer'}
+				data: { title: 'Survey Viewer' }
 			}
 		]
-
 	}
 ]);

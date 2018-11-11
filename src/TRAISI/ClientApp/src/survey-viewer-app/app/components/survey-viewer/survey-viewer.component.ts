@@ -19,7 +19,7 @@ import {
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { sortBy } from 'lodash';
@@ -124,6 +124,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public isNextProcessing: boolean = false;
 
+	public surveyName: string;
+
 	private _activeQuestionContainer: QuestionContainerComponent;
 
 	public ref: SurveyViewerComponent;
@@ -179,6 +181,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _viewerStateService: SurveyViewerStateService,
 		private _navigation: SurveyViewerNavigationService,
 		private route: ActivatedRoute,
+		private _router: Router,
 		private titleService: Title,
 		private elementRef: ElementRef
 	) {
@@ -196,11 +199,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.route.queryParams.subscribe((value: Params) => {
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
-				console.log(this.surveyViewerService);
+
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					this.headerDisplay.pages = pages;
 
-					console.log(pages);
 					this.loadQuestions(pages);
 				});
 			});
@@ -244,6 +246,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
 			this.surveyQuestionsChanged();
+		});
+
+		this.route.parent.params.subscribe(params => {
+			this.surveyName = params['surveyName'];
 		});
 
 		this.isShowComplete = false;
@@ -458,11 +464,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
-		this.navigationActiveState = newState;
-		this.validateNavigation();
-		// console.log('in navigation state changed');
-	};
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -476,7 +478,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public updateNavigation(): void {
-		console.log('in update navigation');
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
 			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
@@ -494,8 +495,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				)
 				.subscribe((v: void) => {
 					if (!this.validateInternalNavigationNext()) {
-						this.updateViewerState();
-						this.validateNavigation();
 					}
 				});
 		});
@@ -514,96 +513,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	/**
-	 * Navigate questions - next question in the questions list.
-	 */
-	public navigateNextOld(): void {
-		this.isNextProcessing = true;
-		let conditionalResult = this._viewerStateService.evaluateConditionals(
-			this.viewerState.activeQuestion.questionId,
-			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
-				? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
-				: this.viewerState.primaryRespondent.id
-		);
-
-		conditionalResult.subscribe(
-			(value: void) => {
-				this._viewerStateService
-					.evaluateRepeat(
-						this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
-						this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
-							? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
-							: this.viewerState.primaryRespondent.id
-					)
-					.subscribe((v: void) => {
-						if (!this.isActiveQuestionMultiPage()) {
-							// evaluate question for when a household question is not active
-							// console.log('is not multipage ');
-							if (
-								this.viewerState.activeRepeatIndex >= 0 &&
-								this.viewerState.activeRepeatIndex <
-									this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-							) {
-							} else if (
-								this.viewerState.activeQuestionIndex <
-								this.viewerState.surveyQuestions.length - 1
-							) {
-								// this.viewerState.activeQuestionIndex += 1;
-								this.viewerState.activeQuestionIndex++;
-							}
-
-							if (this.viewerState.isSectionActive) {
-								this.viewerState.activeInSectionIndex++;
-							}
-
-							if (this.viewerState.activeQuestion.isRepeat) {
-								this.viewerState.activeRepeatIndex += 1;
-							}
-
-							this.updateViewerState();
-							this.validateNavigation();
-						} else {
-							const result: boolean = this._activeQuestionContainer.surveyQuestionInstance.navigateInternalNext();
-
-							if (result) {
-								// evaluate question for when a household question is not active
-
-								if (
-									this.viewerState.activeRepeatIndex >= 0 &&
-									this.viewerState.activeRepeatIndex <
-										this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-								) {
-									this.viewerState.activeRepeatIndex += 1;
-								} else if (
-									this.viewerState.activeQuestionIndex <
-									this.viewerState.surveyQuestions.length - 1
-								) {
-									this.viewerState.activeQuestionIndex += 1;
-									// this.viewerState.activeQuestionIndex++;
-								}
-
-								if (this.viewerState.isSectionActive) {
-									this.viewerState.activeInSectionIndex++;
-								}
-
-								this.updateViewerState();
-							}
-
-							this.validateNavigation();
-						}
-
-						this.isNextProcessing = false;
-					});
-			},
-			(error: any) => {},
-			() => {}
-		);
-	}
-
-	/**
 	 * Updates viewer state
 	 */
 	private updateViewerState(): void {
-		console.log('in update viewer state');
 		if (this.viewerState.activeRepeatIndex <= 0 && !this.isHouseholdQuestionActive()) {
 			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
 			if (!this.viewerState.activeQuestion.isRepeat) {
@@ -787,44 +699,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	/**
-	 * Navigate questions - to the previous item in the question list
-	 */
-	public navigatePreviousOld(): void {
-		if (!this.validateInternalNavigationPrevious()) {
-			if (!this.isHouseholdQuestionActive()) {
-				if (!this.viewerState.activeQuestion.isRepeat) {
-					this.viewerState.activeQuestionIndex -= 1;
-					this.navigationActiveState = true;
-				} else {
-					if (this.viewerState.activeRepeatIndex === 0) {
-						this.viewerState.activeQuestionIndex -= 1;
-					}
-
-					this.viewerState.activeRepeatIndex -= 1;
-				}
-			} else {
-				if (this.viewerState.activeQuestion.isRepeat) {
-					if (this.viewerState.activeRepeatIndex === 0) {
-						// console.log('sectionindex: ' + this.viewerState.activeInSectionIndex);
-
-						this.viewerState.activeQuestionIndex -= 1;
-						this.viewerState.activeRepeatIndex = -1;
-					}
-					this.viewerState.activeInSectionIndex--;
-					this.viewerState.activeRepeatIndex--;
-				} else {
-					this.viewerState.activeRepeatIndex -= 1;
-					this.viewerState.activeQuestionIndex--;
-				}
-			}
-			this.updateViewerState();
-			this.validateNavigation();
-		} else {
-			this._activeQuestionContainer.surveyQuestionInstance.navigateInternalPrevious();
-		}
-	}
-
-	/**
 	 * Validates internal navigation next
 	 * @returns true if internal navigation next
 	 */
@@ -981,6 +855,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigateCompleteSurvey(): void {
 		console.log('navigate to thankyou page ');
+
+		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
 	public ngAfterContentInit(): void {}

@@ -19,6 +19,23 @@ export class SurveyGroupContainer extends SurveyContainer {
 		return this._children;
 	}
 
+	public canNavigateNext(): boolean {
+		let val = this.activeRepeatContainer.canNavigateNext();
+		if (this._activeRepeatIndex < this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val = this.activeRepeatContainer.canNavigatePrevious();
+		if (this._activeRepeatIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {

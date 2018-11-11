@@ -110,7 +110,39 @@ export class SurveyViewerNavigationService {
 			.createUrlTree([baseUrl], { queryParams: { question: this._state.viewerState.activeQuestion.id } })
 			.toString();
 
+		if (!this.canNavigatePrevious()) {
+			this._state.viewerState.isPreviousEnabled = false;
+		} else {
+			this._state.viewerState.isPreviousEnabled = true;
+		}
+
+		if (!this.canNavigateNext()) {
+			this._state.viewerState.isNavComplete = true;
+			this._state.viewerState.isNextEnabled = false;
+		} else {
+			this._state.viewerState.isNavComplete = false;
+			this._state.viewerState.isNextEnabled = true;
+		}
+
 		// this.location.go(url);
+	}
+
+	private canNavigatePrevious(): boolean {
+		if (!this._state.viewerState.activeViewContainer.canNavigatePrevious()) {
+			if (this._state.viewerState.activeViewContainerIndex <= 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private canNavigateNext(): boolean {
+		if (!this._state.viewerState.activeViewContainer.canNavigateNext()) {
+			if (this._state.viewerState.activeViewContainerIndex >= this._state.viewerState.viewContainers.length - 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -186,7 +218,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigatePrevious(): void {
 		if (this._state.viewerState.activeViewContainer === null) {
-			this._state.viewerState.isPreviousEnabled = false;
+			this.updateState();
 			this.navigationCompleted.next(true);
 		} else {
 			this.evaluateRepeat().subscribe(() => {

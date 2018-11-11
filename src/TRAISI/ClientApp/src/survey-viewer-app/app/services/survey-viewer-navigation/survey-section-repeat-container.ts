@@ -25,7 +25,6 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	}
 
 	public get activeViewContainer(): SurveyContainer {
-
 		return this._children[this._activeSectionIndex].activeViewContainer;
 	}
 
@@ -43,6 +42,23 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 
 		this._sectionModel = section;
 		this._children = [];
+	}
+
+	public canNavigateNext(): boolean {
+		let val = this.activeSection.canNavigateNext();
+		if (this._activeSectionIndex < this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val = this.activeSection.canNavigatePrevious();
+		if (this._activeSectionIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public navigatePrevious(): boolean {

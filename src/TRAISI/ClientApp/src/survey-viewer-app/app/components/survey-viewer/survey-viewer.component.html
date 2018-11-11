@@ -89,7 +89,7 @@
 					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
 				</button>
 				<button
-					*ngIf="!isShowComplete"
+					*ngIf="!viewerState.isNavComplete"
 					[ngClass]="navButtonClass"
 					(click)="navigateNext()"
 					[disabled]="!isNavigationNextEnabled"
@@ -106,12 +106,12 @@
 							style="width: 100%"
 						></div>
 					</div>
-					<div *ngIf="!isNextProcessing && !isShowComplete">
+					<div *ngIf="!isNextProcessing && !viewerState.isNavComplete">
 						{{ 'Viewer.Next' | translate }} <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
 					</div>
 				</button>
 				<button
-					*ngIf="isShowComplete"
+					*ngIf="viewerState.isNavComplete"
 					[ngClass]="navButtonClass"
 					(click)="navigateCompleteSurvey()"
 					class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"

@@ -37,6 +37,23 @@ export class SurveyPageContainer extends SurveyContainer {
 		this._activePageIndex = 0;
 	}
 
+	public canNavigateNext(): boolean {
+		let val = this.activeRepeatContainer.canNavigateNext();
+		if (this._activePageIndex < this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val = this.activeRepeatContainer.canNavigatePrevious();
+		if (this._activePageIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public navigatePrevious(): boolean {
 		if (this.activeRepeatContainer.navigatePrevious()) {
 			if (this._activePageIndex <= 0) {

@@ -8,7 +8,6 @@ import { QuestionContainerComponent } from '../../components/question-container/
 export class SurveyRepeatContainer extends SurveyContainer {
 	public containerId: number;
 
-
 	private _children: Array<SurveyQuestionContainer> = [];
 
 	private _activeQuestionIndex: number;
@@ -27,8 +26,6 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		return this._children[this._activeQuestionIndex];
 	}
 
-
-
 	/**
 	 * Creates an instance of survey group container.
 	 * @param _state
@@ -45,6 +42,23 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	 */
 	public addQuestionContainer(questionContainer: SurveyQuestionContainer): void {
 		this._children.push(questionContainer);
+	}
+
+	public canNavigateNext(): boolean {
+		let val = this.activeQuestionContainer.canNavigateNext();
+		if (this._activeQuestionIndex < this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val = this.activeQuestionContainer.canNavigatePrevious();
+		if (this._activeQuestionIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public navigatePrevious(): boolean {

@@ -77,6 +77,23 @@ export class SurveySectionContainer extends SurveyContainer {
 		this._children = [];
 	}
 
+	public canNavigateNext(): boolean {
+		let val = this.activeGroupContainer.canNavigateNext();
+		if (this._activeGroupMemberIndex < this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val = this.activeGroupContainer.canNavigatePrevious();
+		if (this._activeGroupMemberIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Navigates previous
 	 * @returns true if previous
@@ -121,7 +138,6 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * Increments question
 	 */
 	private incrementGroup(): void {
-
 		this._activeGroupMemberIndex++;
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 		this.activeGroupContainer.initialize();

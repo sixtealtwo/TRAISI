@@ -73,6 +73,14 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return null;
 	}
 
+	public canNavigateNext(): boolean {
+		return false;
+	}
+	public canNavigatePrevious(): boolean {
+		return false;
+	}
+
+
 	/**
 	 * Navigates previous
 	 * @returns true if previous
