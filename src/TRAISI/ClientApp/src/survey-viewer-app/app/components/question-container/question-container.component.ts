@@ -32,6 +32,7 @@ import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component'
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
+import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -48,6 +49,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public surveyViewer: SurveyViewerComponent;
+
+	@Input()
+	public container: SurveyRepeatContainer;
 
 	@Input()
 	public surveyViewQuestion: SurveyViewQuestion;
@@ -118,6 +122,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
+		this.container.questionInstance = this;
 		this.questionLoaderService
 			.loadQuestionComponent(this.question, this.questionOutlet)
 			.subscribe((componentRef: ComponentRef<any>) => {
