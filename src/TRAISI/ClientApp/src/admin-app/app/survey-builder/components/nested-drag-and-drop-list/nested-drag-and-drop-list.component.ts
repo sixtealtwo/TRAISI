@@ -23,6 +23,7 @@ import { Order } from '../../models/order.model';
 import { TreeviewItem } from 'ngx-treeview';
 import { fadeInOut } from '../../../services/animations';
 import { RealTimeNotificationServce } from '../../../services/real-time-notification.service';
+import { IDragEvent, IDropResult } from '../../../shared/ngx-smooth-dnd/container/container.component';
 
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
@@ -332,7 +333,15 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		if (this.addingNewQuestion) {
 			this.dragResult.next(true);
 		} else {
-			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.questionBeingEdited).subscribe(
+			let cleanedQuestion = new QuestionPartView();
+			Object.assign(cleanedQuestion, this.questionBeingEdited);
+			cleanedQuestion.questionPartViewChildren = null;
+			if (this.questionBeingEdited.catiDependent) {
+				cleanedQuestion.catiDependent = new QuestionPartView();
+				Object.assign(cleanedQuestion.catiDependent, this.questionBeingEdited.catiDependent);
+				cleanedQuestion.catiDependent.questionPartViewChildren = null;
+			}
+			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, cleanedQuestion).subscribe(
 				result => {
 					if (this.qConfiguration.configurationValues.length > 0) {
 						this.surveyBuilderService
@@ -553,7 +562,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.updateStructure = true;
 	}
 
-	onDragEnd(event) {
+	onDragEnd(event: IDragEvent) {
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
 			if (!this.dragDidNotOriginateFromChooser) {
@@ -579,7 +588,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.dragOverContainer = new Object();
 	}
 
-	onDragStart(event: any) {
+	onDragStart(event: IDragEvent) {
 		this.dragDidNotOriginateFromChooser = this.dragDidNotOriginateFromChooser || event.isSource;
 	}
 
@@ -597,7 +606,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		return String.fromCharCode(65 + index);
 	}
 
-	onDrop(dropResult: any) {
+	onDrop(dropResult: IDropResult) {
 		if (this.dragResult) {
 			// create shadow list to give illusion of transfer before decision made
 			let pageQuestionsCache = [...this.currentPage.questionPartViewChildren];
@@ -648,7 +657,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	proceedWithDrop(dropResult: any) {
+	proceedWithDrop(dropResult: IDropResult) {
 		dropResult.payload = this.questionBeingEdited;
 		this.currentPage.questionPartViewChildren = Utilities.applyDrag(
 			this.currentPage.questionPartViewChildren,
@@ -656,7 +665,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	onDropInPart(partId: number, dropResult: any) {
+	onDropInPart(partId: number, dropResult: IDropResult) {
 		if (this.dragResult) {
 			if (partId !== dropResult.payload.id) {
 				let questionPart = this.qPartQuestions.get(partId);
