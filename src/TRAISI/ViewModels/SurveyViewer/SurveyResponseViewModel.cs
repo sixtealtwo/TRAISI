@@ -12,6 +12,10 @@ namespace TRAISI.ViewModels.SurveyViewer
 
         public ConcurrentDictionary<string, object> Configuration { get; set; }
 
+        public SurveyRespondentViewModel Respondent { get; set; }
+
+
+
 
     }
 }
