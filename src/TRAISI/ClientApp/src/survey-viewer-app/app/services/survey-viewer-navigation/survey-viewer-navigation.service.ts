@@ -148,13 +148,11 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (!this.canNavigateNext()) {
-
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
-
 		}
 
 		// this.location.go(url);
@@ -250,7 +248,6 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
-
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
 			this.navigationCompleted.next(true);
@@ -263,15 +260,11 @@ export class SurveyViewerNavigationService {
 					result = this._state.viewerState.activeViewContainer.navigatePrevious();
 
 					if (result) {
-						this.decrementViewContainer();
+						if (this._state.viewerState.activeViewContainerIndex > 0) {
+							this.decrementViewContainer();
+						}
 					}
 				} while (this._state.viewerState.activeViewContainer.iteratePrevious());
-
-				if (result) {
-					if (this._state.viewerState.activeViewContainerIndex > 0) {
-						this.decrementViewContainer();
-					}
-				}
 
 				this.updateState();
 				this.navigationCompleted.next(result);
