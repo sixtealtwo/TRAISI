@@ -80,7 +80,6 @@ export class SurveyPageContainer extends SurveyContainer {
 			if (this._activePageIndex <= 0) {
 				return true;
 			} else {
-				console.log('here');
 				this._activePageIndex--;
 				return false;
 			}
@@ -101,5 +100,8 @@ export class SurveyPageContainer extends SurveyContainer {
 	}
 	public initialize(): Subject<void> {
 		return;
+
+
+		this.activeRepeatContainer.initialize();
 	}
 }

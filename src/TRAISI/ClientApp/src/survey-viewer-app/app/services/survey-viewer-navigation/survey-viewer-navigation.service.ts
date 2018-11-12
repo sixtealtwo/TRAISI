@@ -91,6 +91,7 @@ export class SurveyViewerNavigationService {
 									});
 
 									nextParentContainer.updateGroups();
+
 									this.updateState();
 								}
 							});
@@ -101,7 +102,64 @@ export class SurveyViewerNavigationService {
 		}
 	}
 
+	/**
+	 * Sets active page
+	 * @param pageIndex
+	 */
+	public setActivePage(pageIndex: number): void {
+		this._state.viewerState.activeViewContainerIndex = pageIndex;
 
+		this._state.viewerState.activeViewContainer = this._state.viewerState.viewContainers[
+			this._state.viewerState.activeViewContainerIndex
+		];
+
+		this._state.viewerState.activeViewContainer.initialize();
+		const activePage = <SurveyPageContainer>this._state.viewerState.activeViewContainer;
+
+		const activeSection = activePage.activeRepeatContainer.activeSection;
+
+		while (this._state.viewerState.activeViewContainer.iterateNext()) {
+			let result = this._state.viewerState.activeViewContainer.navigateNext();
+
+			if (result) {
+				this.incrementViewContainer();
+			}
+		}
+
+		// this._state.viewerState.viewContainers[pageIndex].initialize();
+
+		this._state.viewerState.isPreviousEnabled = true;
+
+		let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
+			.activeViewContainer;
+		let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
+			.parentSectionContainer;
+		let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
+		let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
+
+		if (isHousehold) {
+			activeSection.setGroupMemberActive(0);
+		}
+
+		if (isHousehold && currentParentContainer !== nextParentContainer) {
+			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
+				if (members.length > 0) {
+					this._state.viewerState.groupMembers = [];
+					members.forEach(member => {
+						this._state.viewerState.groupMembers.push(member);
+					});
+
+					nextParentContainer.updateGroups();
+
+					this.updateState();
+
+					console.log(this._state.viewerState);
+				}
+			});
+		} else {
+			this.updateState();
+		}
+	}
 
 	/**
 	 * Updates state

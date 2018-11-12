@@ -478,8 +478,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public getGroupMemberCompletionState(groupMemberIndex: number): boolean {
 		let currentQ: SurveyQuestionContainer = <SurveyQuestionContainer>this.viewerState.activeQuestionContainer;
-		let section = currentQ.parentSectionContainer.children[groupMemberIndex];
-		return section ? section.isComplete : false;
+		if (currentQ !== undefined) {
+			let section = currentQ.parentSectionContainer.children[groupMemberIndex];
+			return section ? section.isComplete : false;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -558,7 +562,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param memberIndex
 	 */
 	public showGroupMember(memberIndex: number): void {
-		console.log(memberIndex);
+
 
 		const activePage = <SurveyPageContainer>this.viewerState.activeViewContainer;
 
@@ -649,74 +653,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public validateNavigation(): void {
 		return;
-		if (this._activeQuestionContainer === undefined) {
-			return;
-		}
 
-		if (this.viewerState.activeQuestionIndex > 0) {
-			this.navigatePreviousEnabled = true;
-		} else {
-			this.navigatePreviousEnabled = false;
-		}
-
-		if (this.navigationActiveState === false) {
-			this.navigateNextEnabled = false;
-		} else if (
-			this.viewerState.activeQuestionIndex >= this.viewerState.surveyQuestions.length - 1 &&
-			!this.validateInternalNavigationNext()
-		) {
-			this.navigateNextEnabled = false;
-			this.isShowComplete = true;
-		} else if (this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID) {
-			this.navigateNextEnabled = false;
-		} else if (!this.isHouseholdQuestionActive()) {
-			this.navigateNextEnabled = true;
-		}
-
-		// check current repeat
-		if (this.viewerState.activeQuestion !== undefined && this.viewerState.activeQuestion.isRepeat) {
-			if (
-				this.viewerState.activeRepeatIndex <
-				this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-			) {
-				this.navigateNextEnabled = true;
-			}
-		}
-
-		if (this.isHouseholdQuestionActive()) {
-			if (this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1) {
-				this.navigateNextEnabled = true;
-			} else if (this.viewerState.activeGroupMemberIndex === this.viewerState.groupMembers.length - 1) {
-				if (
-					this.viewerState.activeInSectionIndex <
-					this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) - 1
-				) {
-					this.navigateNextEnabled = true;
-				}
-			}
-		}
-
-		if (this.isActiveQuestionMultiPage() && !this.validateInternalNavigationNext()) {
-			this.navigateNextEnabled = false;
-		}
-
-		// this.viewerState.activeQuestionIndex = this.questions[this.viewerState.activeQuestionIndex].pageIndex;
-		this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
-
-		this.headerDisplay.activePageIndex = this.viewerState.activeQuestion.pageIndex;
-
-		if (!this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex >= 0) {
-			this.viewerState.activeRepeatIndex = -1;
-		}
-
-		if (
-			this.navigateNextEnabled === true ||
-			this._activeQuestionContainer.responseValidationState === ResponseValidationState.INVALID
-		) {
-			this.isShowComplete = false;
-		}
-
-		// this.navigateNextEnabled = true;
 	}
 
 	private activeRespondentId(): number {

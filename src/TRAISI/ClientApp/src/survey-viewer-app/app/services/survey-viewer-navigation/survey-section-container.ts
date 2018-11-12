@@ -217,6 +217,10 @@ export class SurveySectionContainer extends SurveyContainer {
 			this._children = this._children.concat(container.children);
 		}); */
 
+		if (this.activeGroupContainer !== undefined) {
+			this.activeGroupContainer.initialize();
+		}
+
 		return null;
 	}
 
@@ -277,5 +281,8 @@ export class SurveySectionContainer extends SurveyContainer {
 				});
 			});
 		}
+
+		console.log('in update groups');
+		console.log(this);
 	}
 }

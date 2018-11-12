@@ -58,5 +58,10 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 		this._cdRef.markForCheck();
 	}
 
+	public setPageActive(index: number): void {
+		this._navigation.setActivePage(index);
+
+	}
+
 
 }

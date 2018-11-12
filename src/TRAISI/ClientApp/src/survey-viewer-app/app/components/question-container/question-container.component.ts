@@ -180,7 +180,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					});
 
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
-				surveyQuestionInstance.autoAdvance.subscribe( (result: number) => {
+				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
 					setTimeout(() => {
 						this.navigation.navigateNext();
 					}, result);
@@ -203,6 +203,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
+
 						this._navigation.navigationCompleted.next(true);
 					});
 			});

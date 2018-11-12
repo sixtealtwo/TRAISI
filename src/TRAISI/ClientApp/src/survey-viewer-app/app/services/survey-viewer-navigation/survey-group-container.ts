@@ -72,8 +72,11 @@ export class SurveyGroupContainer extends SurveyContainer {
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {
+				console.log(this);
+				console.log('here');
 				return true;
 			} else {
+				console.log('in here ');
 				this._activeRepeatIndex++;
 				let init = this.activeRepeatContainer.initialize();
 
@@ -140,10 +143,12 @@ export class SurveyGroupContainer extends SurveyContainer {
 	 */
 	public initialize(): Subject<void> | boolean {
 		// this._activeRepeatIndex = 0;
-		let init = this.activeRepeatContainer.initialize();
+		if (this.activeRepeatContainer !== undefined) {
+			let init = this.activeRepeatContainer.initialize();
 
-		if (init) {
-			return this.navigateNext();
+			if (init) {
+				return this.navigateNext();
+			}
 		}
 		return false;
 	}
