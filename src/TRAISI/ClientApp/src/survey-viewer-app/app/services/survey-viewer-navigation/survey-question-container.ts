@@ -46,6 +46,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		this._member = member;
 	}
 
+
 	public get isComplete(): boolean {
 		if (this.questionModel) {
 			if (this.questionModel.isRespondentHidden && this.questionModel.isRespondentHidden[this._member.id]) {
