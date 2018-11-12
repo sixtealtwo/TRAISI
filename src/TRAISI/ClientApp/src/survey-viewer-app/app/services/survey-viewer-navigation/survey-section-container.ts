@@ -119,6 +119,17 @@ export class SurveySectionContainer extends SurveyContainer {
 	}
 
 	/**
+	 * Sets group member active
+	 * @param index
+	 */
+	public setGroupMemberActive(index: number): void {
+		this._activeGroupMemberIndex = index;
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+
+		console.log(this.activeRespondent);
+	}
+
+	/**
 	 * Navigates previous
 	 * @returns true if previous
 	 */

@@ -558,17 +558,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param memberIndex
 	 */
 	public showGroupMember(memberIndex: number): void {
-		this._viewerStateService
-			.evaluateRepeat(
-				this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
-				this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
-					? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
-					: this.viewerState.primaryRespondent.id
-			)
-			.subscribe((v: void) => {
-				this.viewerState.activeGroupMemberIndex = memberIndex;
-				this.viewerState.activeRespondent = this.viewerState.groupMembers[memberIndex];
-			});
+		console.log(memberIndex);
+
+		const activePage = <SurveyPageContainer>this.viewerState.activeViewContainer;
+
+		const activeSection = activePage.activeRepeatContainer.activeSection;
+
+		activeSection.setGroupMemberActive(memberIndex);
+
+		this._navigation.updateState();
 	}
 
 	/**

@@ -101,10 +101,12 @@ export class SurveyViewerNavigationService {
 		}
 	}
 
+
+
 	/**
 	 * Updates state
 	 */
-	private updateState(): void {
+	public updateState(): void {
 		this._state.viewerState.activeQuestionContainer = this._state.viewerState.viewContainers[
 			this._state.viewerState.activeViewContainerIndex
 		].activeViewContainer;
