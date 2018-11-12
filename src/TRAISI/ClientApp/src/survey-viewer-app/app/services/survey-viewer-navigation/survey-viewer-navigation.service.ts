@@ -125,7 +125,10 @@ export class SurveyViewerNavigationService {
 
 		const activeSection = activePage.activeRepeatContainer.activeSection;
 
-		while (this._state.viewerState.activeViewContainer.iterateNext()) {
+		while (
+			this._state.viewerState.activeViewContainer !== undefined &&
+			this._state.viewerState.activeViewContainer.iterateNext()
+		) {
 			let result = this._state.viewerState.activeViewContainer.navigateNext();
 
 			if (result) {
