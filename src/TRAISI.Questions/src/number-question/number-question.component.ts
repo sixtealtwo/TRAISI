@@ -57,9 +57,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 * Models changed
 	 */
 	public modelChanged(): void {
-		let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
-
-		this._numberModel = number;
+	
 	}
 
 	/**
@@ -70,6 +68,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 */
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
+		this.autoAdvance.emit(100);
 	}
 
 	/**
@@ -137,6 +136,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		if (response !== 'none') {
 			let decimalResponse = <DecimalResponseData>response[0];
 			this.model = '' + decimalResponse.value;
+			this._numberModel = Number(this.model.replace(/[^0-9\.]+/g, ''));
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
@@ -144,11 +144,14 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			if (this.model !== undefined) {
 				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
-				this._numberModel = number;
-				const validated: boolean = this.validateInput();
+				if (this._numberModel !== number) {
+					this._numberModel = number;
+					const validated: boolean = this.validateInput();
 
-				if (validated && this.inputForm.valid) {
-					this.response.emit(this._numberModel);
+					if (validated && this.inputForm.valid) {
+
+						this.response.emit(this._numberModel);
+					}
 				}
 			}
 		});
