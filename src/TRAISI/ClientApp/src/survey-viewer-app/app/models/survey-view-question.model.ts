@@ -8,6 +8,7 @@ export interface SurveyViewQuestion {
 	id: number;
 	isHidden?: boolean;
 	isRespondentHidden?: { [id: number]: boolean };
+	isValidForRespondent?: { [id: number]: boolean };
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;
@@ -20,6 +21,8 @@ export interface SurveyViewQuestion {
 	repeatSource?: number;
 	repeatTargets?: number[];
 	repeatChildren?: { [id: string]: Array<SurveyViewQuestion> };
+
+
 	repeatNumber?: number;
 	inSectionIndex?: number;
 
