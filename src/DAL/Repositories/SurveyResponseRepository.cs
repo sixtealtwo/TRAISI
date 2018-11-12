@@ -161,9 +161,9 @@ namespace DAL.Repositories
             return result;
         }
 
-        public async Task<bool> DeleteAllResponsesForUser(SurveyRespondent user)
+        public async Task<bool> DeleteAllResponsesForUser(SurveyRespondent user, int surveyId)
         {
-            this._entities.RemoveRange(_entities.Where(x => x.Respondent == user));
+            this._entities.RemoveRange(_entities.Where(x => x.Respondent == user && x.QuestionPart.Survey.Id == surveyId));
 
             await this._appContext.SaveChangesAsync();
 

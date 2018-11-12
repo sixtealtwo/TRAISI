@@ -454,9 +454,11 @@ namespace TRAISI.Services
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="surveyId"></param>
         /// <param name="respondentId"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> RemoveAllResponses(int respondentId, ApplicationUser user)
+        public async Task<bool> RemoveAllResponses(int surveyId, int respondentId, ApplicationUser user)
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
@@ -465,10 +467,10 @@ namespace TRAISI.Services
 
             foreach (var member in members)
             {
-                await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member);
+                await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(member, surveyId);
             }
 
-            await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(respondent);
+            await this._unitOfWork.SurveyResponses.DeleteAllResponsesForUser(respondent, surveyId);
 
             this._unitOfWork.SurveyRespondents.RemoveRange(members);
 
