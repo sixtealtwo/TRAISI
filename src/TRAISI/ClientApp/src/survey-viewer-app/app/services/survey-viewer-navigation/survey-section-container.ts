@@ -218,10 +218,22 @@ export class SurveySectionContainer extends SurveyContainer {
 					if (index >= this.children.length) {
 						let groupContainer = new SurveyGroupContainer(this._state, member);
 						this.groupContainers.push(groupContainer);
+						questionRepeats.forEach(questionRepeatContainer => {
+							let question = questionRepeatContainer.activeQuestionContainer.questionModel;
+							let repeatContainer = new SurveyRepeatContainer(
+								question,
+								this._state,
+								groupContainer.forRespondent
+							);
+							let container = new SurveyQuestionContainer(question, this);
+							repeatContainer.addQuestionContainer(container);
+
+							groupContainer.repeatContainers.push(repeatContainer);
+						});
 					}
 				});
 
-				this.groupContainers.forEach(groupContainer => {
+				/*this.groupContainers.forEach(groupContainer => {
 					questionRepeats.forEach(questionRepeatContainer => {
 						let question = questionRepeatContainer.children[0].questionModel;
 						let repeatContainer = new SurveyRepeatContainer(
@@ -235,7 +247,7 @@ export class SurveySectionContainer extends SurveyContainer {
 
 						groupContainer.repeatContainers.push(repeatContainer);
 					});
-				});
+				}); */
 			} else if (this.children.length > this._state.viewerState.groupMembers.length) {
 				this._children = this._children.slice(
 					this.children.length - this._state.viewerState.groupMembers.length
