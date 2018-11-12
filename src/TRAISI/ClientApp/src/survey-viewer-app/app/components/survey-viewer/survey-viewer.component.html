@@ -24,14 +24,14 @@
 				{{ processedSectionLabel(viewerState.activeSection.label) }}
 			</div>
 			<div class="questions-container">
-				<div class="question-section" *ngIf="viewerState.isLoaded">
-					<div *ngFor="let page of viewerState.viewContainers; let p = index">
-						<div *ngFor="let sectionRepeat of page.children; let r = index">
-							<div *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
-								<div *ngFor="let groupContainer of sectionContainer.children; let j = index">
-									<div *ngFor="let repeatContainer of groupContainer.children; let k = index">
-										<div *ngFor="let repeat of repeatContainer.children; let q = index">
-											<traisi-question-container
+				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded">
+					<ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
+						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
+							<ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
+								<ng-container *ngFor="let groupContainer of sectionContainer.children; let j = index">
+									<ng-container *ngFor="let repeatContainer of groupContainer.children; let k = index">
+										<ng-container *ngFor="let repeat of repeatContainer.children; let q = index">
+											<traisi-question-container class="flex-grow-1 d-flex flex-column"
 												[surveyViewer]="ref"
 												[respondent]="viewerState.activeRespondent"
 												[question]="repeat.questionModel"
@@ -44,12 +44,12 @@
 												*ngIf="viewerState.activeQuestionContainer === repeat"
 												#questions
 											></traisi-question-container>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+										</ng-container>
+									</ng-container>
+								</ng-container>
+							</ng-container>
+						</ng-container>
+					</ng-container>
 				</div>
 				<div
 					class="group-member-names-container"
@@ -77,7 +77,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
+	<div id="question-viewer-nav" class="pl-md-3" [style.margin-right.px]="viewerState.activeSection && viewerState.activeSection.isHousehold ? 45 : 15">
 		<div class="row justify-content-center">
 			<div class="col-12 text-center">
 				<button
