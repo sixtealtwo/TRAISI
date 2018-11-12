@@ -33,7 +33,7 @@ import { LocalStoreManager } from '../../shared/services/local-store-manager.ser
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
-
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
@@ -57,6 +57,7 @@ import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/src/survey-question-view.directive';
+
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -109,7 +110,8 @@ import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/sr
 			TextBlock1Component,
 			Footer1Component
 		]),
-		TooltipModule.forRoot()
+		TooltipModule.forRoot(),
+		TimepickerModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,
