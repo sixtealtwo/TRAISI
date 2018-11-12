@@ -126,7 +126,6 @@ export class SurveySectionContainer extends SurveyContainer {
 		this._activeGroupMemberIndex = index;
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 
-		console.log(this.activeRespondent);
 	}
 
 	/**
