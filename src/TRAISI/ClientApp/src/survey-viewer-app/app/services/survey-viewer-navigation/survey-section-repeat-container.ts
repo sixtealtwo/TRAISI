@@ -83,12 +83,16 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	public navigatePrevious(): boolean {
 		if (this.activeSection.navigatePrevious()) {
 			if (this._activeSectionIndex <= 0) {
+				// this.activeSection.updateGroup();
 				return true;
 			} else {
+
 				this._activeSectionIndex--;
+				// this.activeSection.updateGroup();
 				return false;
 			}
 		}
+
 		return false;
 	}
 	public navigateNext(): boolean {
@@ -96,7 +100,7 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 			if (this._activeSectionIndex >= this._children.length - 1) {
 				return true;
 			} else {
-
+				this.activeSection.updateGroup();
 				this._activeSectionIndex++;
 				return false;
 			}

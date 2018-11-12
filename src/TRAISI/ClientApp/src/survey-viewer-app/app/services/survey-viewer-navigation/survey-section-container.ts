@@ -114,6 +114,10 @@ export class SurveySectionContainer extends SurveyContainer {
 		}
 	}
 
+	public updateGroup(): void {
+		this._state.viewerState.activeRespondent = this.activeRespondent;
+	}
+
 	/**
 	 * Navigates previous
 	 * @returns true if previous
@@ -178,14 +182,15 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * @returns initialize
 	 */
 	public initialize(): Subject<void> {
-
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 
 		if (this._sectionModel !== null && this._sectionModel.isHousehold) {
-			this._state.viewerState.groupMembers.forEach(member => {
-				let groupContainer = new SurveyGroupContainer(this._state);
-				this.groupContainers.push(groupContainer);
-			});
+			if (this.groupContainers.length === 0) {
+				this._state.viewerState.groupMembers.forEach(member => {
+					let groupContainer = new SurveyGroupContainer(this._state);
+					this.groupContainers.push(groupContainer);
+				});
+			}
 		} else if (this._sectionModel !== null) {
 			let groupContainer = new SurveyGroupContainer(this._state);
 
@@ -242,10 +247,8 @@ export class SurveySectionContainer extends SurveyContainer {
 
 				this.groupContainers[index].repeatContainers.forEach(repeat => {
 					repeat.forRespondent = this._state.viewerState.groupMembers[index];
-
 				});
 			});
-
 		}
 	}
 }

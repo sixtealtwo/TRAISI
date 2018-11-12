@@ -10,6 +10,7 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { flatMap } from 'rxjs/operators';
+import { SurveyPageContainer } from './survey-page-container';
 
 @Injectable({
 	providedIn: 'root'
@@ -62,7 +63,6 @@ export class SurveyViewerNavigationService {
 					let result: boolean;
 					do {
 						result = this._state.viewerState.activeViewContainer.navigateNext();
-
 
 						if (result) {
 							this.incrementViewContainer();
@@ -261,6 +261,9 @@ export class SurveyViewerNavigationService {
 					if (result) {
 						if (this._state.viewerState.activeViewContainerIndex > 0) {
 							this.decrementViewContainer();
+							(<SurveyPageContainer>(
+								this._state.viewerState.activeViewContainer
+							)).activeRepeatContainer.activeSection.updateGroup();
 						}
 					}
 				} while (this._state.viewerState.activeViewContainer.iteratePrevious());
