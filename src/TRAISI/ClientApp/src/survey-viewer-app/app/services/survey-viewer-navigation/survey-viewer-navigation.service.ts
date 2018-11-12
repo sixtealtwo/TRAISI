@@ -153,7 +153,6 @@ export class SurveyViewerNavigationService {
 
 					this.updateState();
 
-					console.log(this._state.viewerState);
 				}
 			});
 		} else {

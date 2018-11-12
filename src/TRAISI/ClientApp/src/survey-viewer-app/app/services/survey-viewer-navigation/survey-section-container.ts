@@ -282,7 +282,6 @@ export class SurveySectionContainer extends SurveyContainer {
 			});
 		}
 
-		console.log('in update groups');
-		console.log(this);
+
 	}
 }
