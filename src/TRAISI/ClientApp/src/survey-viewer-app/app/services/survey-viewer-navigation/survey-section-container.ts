@@ -259,6 +259,10 @@ export class SurveySectionContainer extends SurveyContainer {
 
 				this.groupContainers[index].repeatContainers.forEach(repeat => {
 					repeat.forRespondent = this._state.viewerState.groupMembers[index];
+
+					repeat.children.forEach(q => {
+						q.forRespondent = this._state.viewerState.groupMembers[index];
+					});
 				});
 			});
 		}

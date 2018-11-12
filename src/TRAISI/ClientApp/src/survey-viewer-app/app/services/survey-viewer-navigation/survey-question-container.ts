@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
 import { SurveySectionContainer } from './survey-section-container';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
 
 export class SurveyQuestionContainer extends SurveyContainer {
 	private _questionInstance: QuestionContainerComponent;
@@ -37,6 +38,14 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		this._questionInstance = value;
 	}
 
+	public get forRespondent(): SurveyViewGroupMember {
+		return this._member;
+	}
+
+	public set forRespondent(member: SurveyViewGroupMember) {
+		this._member = member;
+	}
+
 	public get isComplete(): boolean {
 		if (this.questionModel) {
 			if (this.questionModel.isHidden) {
@@ -64,7 +73,11 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * @param question
 	 * @param _state
 	 */
-	constructor(question: SurveyViewQuestion, section: SurveySectionContainer) {
+	constructor(
+		question: SurveyViewQuestion,
+		section: SurveySectionContainer,
+		private _member?: SurveyViewGroupMember
+	) {
 		super();
 
 		this._questionModel = question;

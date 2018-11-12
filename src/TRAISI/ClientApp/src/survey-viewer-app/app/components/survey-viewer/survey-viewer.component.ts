@@ -451,6 +451,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							group.children.forEach(repeat => {
 								repeat.forRespondent = this.viewerState.primaryRespondent;
 								repeat.children.forEach(question => {
+									question.forRespondent = this.viewerState.primaryRespondent;
 									question.questionModel.viewOrder = viewOrder;
 								});
 							});
@@ -475,8 +476,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
-
-	public getGroupMemberCompletionState(groupMemberIndex: number): boolean  {
+	public getGroupMemberCompletionState(groupMemberIndex: number): boolean {
 		let currentQ: SurveyQuestionContainer = <SurveyQuestionContainer>this.viewerState.activeQuestionContainer;
 		let section = currentQ.parentSectionContainer.children[groupMemberIndex];
 		return section ? section.isComplete : false;
