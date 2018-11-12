@@ -105,6 +105,9 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalPrevious()) {
 			return true;
 		} else {
+			setTimeout(() => {
+				this._questionInstance.navigation.navigationCompleted.next(true);
+			});
 			return false;
 		}
 	}
