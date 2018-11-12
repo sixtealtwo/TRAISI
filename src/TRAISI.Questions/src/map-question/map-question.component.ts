@@ -193,11 +193,21 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param event
 	 */
 	public locationFound(event: { result: Result }): void {
-		this.locationSearch = event['result'].place_name;
-		this.markerPosition = event['result'].center;
-		this.validationState.emit(ResponseValidationState.VALID);
-		this.surveyViewerService.updateNavigationState(true);
-		this.autoAdvance.emit(2000);
+		if (this.markerPosition !== event['result'].center) {
+			this.locationSearch = event['result'].place_name;
+			this.markerPosition = event['result'].center;
+
+			let data: LocationResponseData = {
+				latitude: this.markerPosition[1],
+				longitude: this.markerPosition[0],
+				address: event['result'].place_name
+			};
+
+			this.saveResponse(data);
+			this.validationState.emit(ResponseValidationState.VALID);
+			this.surveyViewerService.updateNavigationState(true);
+			this.autoAdvance.emit(2000);
+		}
 	}
 
 	/**
