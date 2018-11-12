@@ -72,11 +72,10 @@ export class SurveyGroupContainer extends SurveyContainer {
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {
-				console.log(this);
-				console.log('here');
+
 				return true;
 			} else {
-				console.log('in here ');
+
 				this._activeRepeatIndex++;
 				let init = this.activeRepeatContainer.initialize();
 

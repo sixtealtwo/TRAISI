@@ -67,8 +67,15 @@ export class SurveyViewerNavigationService {
 						if (result) {
 							this.incrementViewContainer();
 						}
-					} while (this._state.viewerState.activeViewContainer.iterateNext());
+					} while (
+						this._state.viewerState.activeViewContainer !== undefined &&
+						this._state.viewerState.activeViewContainer.iterateNext()
+					);
 
+					if (this._state.viewerState.activeViewContainer === undefined) {
+						this.updateState();
+						return;
+					}
 					this._state.viewerState.isPreviousEnabled = true;
 
 					let nextContainer = this._state.viewerState.viewContainers[
@@ -152,7 +159,6 @@ export class SurveyViewerNavigationService {
 					nextParentContainer.updateGroups();
 
 					this.updateState();
-
 				}
 			});
 		} else {
@@ -164,6 +170,10 @@ export class SurveyViewerNavigationService {
 	 * Updates state
 	 */
 	public updateState(): void {
+		if (this._state.viewerState.activeViewContainer === undefined) {
+			return;
+		}
+
 		this._state.viewerState.activeQuestionContainer = this._state.viewerState.viewContainers[
 			this._state.viewerState.activeViewContainerIndex
 		].activeViewContainer;
@@ -278,6 +288,9 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeViewContainerIndex
 		];
 
+		if (this._state.viewerState.activeViewContainer === undefined) {
+			return;
+		}
 		if ((<SurveySectionContainer>this._state.viewerState.activeViewContainer).isHousehold) {
 			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
