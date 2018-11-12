@@ -92,12 +92,10 @@ export class SurveyViewerNavigationService {
 
 									nextParentContainer.updateGroups();
 									this.updateState();
-									this.navigationCompleted.next(result);
 								}
 							});
 					} else {
 						this.updateState();
-						this.navigationCompleted.next(result);
 					}
 				});
 		}
@@ -268,7 +266,6 @@ export class SurveyViewerNavigationService {
 				} while (this._state.viewerState.activeViewContainer.iteratePrevious());
 
 				this.updateState();
-				this.navigationCompleted.next(result);
 			});
 		}
 	}

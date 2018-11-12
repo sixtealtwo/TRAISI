@@ -35,6 +35,7 @@ import { Utilities } from 'shared/services/utilities';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
+import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -113,7 +114,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _viewerStateService: SurveyViewerStateService,
 		private cdRef: ChangeDetectorRef,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
-		public viewContainerRef: ViewContainerRef
+		public viewContainerRef: ViewContainerRef,
+		private navigation: SurveyViewerNavigationService
 	) {}
 
 	/**
@@ -176,7 +178,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 
 				surveyQuestionInstance.traisiOnInit();
-
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {
@@ -192,6 +193,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
+						this.navigation.navigationCompleted.next(true);
 					});
 			});
 	}

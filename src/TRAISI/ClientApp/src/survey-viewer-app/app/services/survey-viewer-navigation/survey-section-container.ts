@@ -178,7 +178,6 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * @returns initialize
 	 */
 	public initialize(): Subject<void> {
-		this._activeGroupMemberIndex = 0;
 
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 
@@ -206,7 +205,6 @@ export class SurveySectionContainer extends SurveyContainer {
 	}
 
 	public updateGroups(): void {
-		this._activeGroupMemberIndex = 0;
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 		let questionRepeats = this.groupContainers[0].children;
 		if (this._sectionModel !== null && this._sectionModel.isHousehold) {

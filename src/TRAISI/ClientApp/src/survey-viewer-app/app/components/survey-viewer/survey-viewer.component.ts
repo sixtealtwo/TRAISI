@@ -475,6 +475,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
+
+	public getGroupMemberCompletionState(groupMemberIndex: number): boolean  {
+		let currentQ: SurveyQuestionContainer = <SurveyQuestionContainer>this.viewerState.activeQuestionContainer;
+		let section = currentQ.parentSectionContainer.children[groupMemberIndex];
+		return section ? section.isComplete : false;
+	}
+
 	/**
 	 *
 	 * @param state
@@ -516,7 +523,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public navigationCompleted = (navStatus: boolean) => {
-		console.log(' navigation completed ');
 		this.viewerState.isNavProcessing = false;
 	};
 
@@ -528,119 +534,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this._navigation.navigateNext();
-	}
-
-	/**
-	 * Updates viewer state
-	 */
-	private updateViewerState(): void {
-		if (this.viewerState.activeRepeatIndex <= 0 && !this.isHouseholdQuestionActive()) {
-			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
-			if (!this.viewerState.activeQuestion.isRepeat) {
-				this.viewerState.activeRepeatIndex = -1;
-			}
-			// this.viewerState.activeInSectionIndex = 0;
-		} else if (
-			this.viewerState.activeRepeatIndex > 0 &&
-			this.viewerState.activeRepeatIndex <
-				this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-		) {
-			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
-				this.viewerState.activeQuestionIndex
-			].repeatChildren[this.activeRespondentId()][this.viewerState.activeRepeatIndex - 1];
-		} else if (
-			!this.isHouseholdQuestionActive() &&
-			this.viewerState.activeRepeatIndex >= 0 &&
-			this.viewerState.activeRepeatIndex >
-				this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length
-		) {
-			if (!this.isHouseholdQuestionActive()) {
-				this.viewerState.activeRepeatIndex = -1;
-				// this.viewerState.activeInSectionIndex = 0;
-				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
-					this.viewerState.activeQuestionIndex
-				];
-			} else {
-				// console.log('resetting active repeat');
-				// this.viewerState.activeRepeatIndex = -1;
-				// this.viewerState.activeInSectionIndex = 0;
-			}
-		} else {
-			this.viewerState.activeQuestionIndex = this.viewerState.activeQuestionIndex;
-			this.viewerState.activeQuestion = this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex];
-			this.viewerState.isSectionActive =
-				this.viewerState.activeQuestion.parentSection === undefined ? false : true;
-			if (this.isHouseholdQuestionActive()) {
-				if (
-					(this.viewerState.activeInSectionIndex >=
-						this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) &&
-						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
-						!this.viewerState.activeQuestion.isRepeat) ||
-					(this.viewerState.activeQuestion.isRepeat &&
-						this.viewerState.activeInSectionIndex >=
-							this.countVisibleQuestionsInSection(this.viewerState.activeQuestion.parentSection) &&
-						this.viewerState.activeGroupMemberIndex < this.viewerState.groupMembers.length - 1 &&
-						this.viewerState.activeRepeatIndex >
-							this.viewerState.activeQuestion.repeatChildren[this.activeRespondentId()].length)
-				) {
-					this.viewerState.activeGroupMemberIndex++;
-					this.viewerState.activeRepeatIndex = -1;
-					this.viewerState.activeInSectionIndex = 0;
-					this.viewerState.activeRespondent = this.viewerState.groupMembers[
-						this.viewerState.activeGroupMemberIndex
-					];
-
-					const questionIndex = this.viewerState.surveyQuestions.findIndex(
-						q => q === this.viewerState.activeSection.questions[0]
-					);
-					this.viewerState.activeQuestionIndex = questionIndex;
-					this.viewerState.activeQuestion = this.viewerState.surveyQuestions[questionIndex];
-				} else {
-					// console.log(this.viewerState)
-				}
-			} else {
-				this.viewerState.activeInSectionIndex = 0;
-				this.viewerState.activeQuestion = this.viewerState.surveyQuestions[
-					this.viewerState.activeQuestionIndex
-				];
-			}
-		}
-
-		if (!this.viewerState.activeQuestion.isRepeat) {
-			// reset repeat index
-			this.viewerState.activeRepeatIndex = -1;
-		}
-
-		if (this.viewerState.activeQuestion.isRepeat && this.viewerState.activeRepeatIndex < 0) {
-			this.viewerState.activeRepeatIndex = 0;
-		}
-
-		if (
-			this.viewerState.activeQuestion.parentSection !== undefined &&
-			this.viewerState.activeGroupMemberIndex < 0
-		) {
-			this.viewerState.activeSection = this.viewerState.activeQuestion.parentSection;
-			this.viewerState.isSectionActive = true;
-			this.viewerState.activeGroupMemberIndex = 0;
-			this.viewerState.activeRespondent = this.viewerState.groupMembers[0];
-		} else if (this.viewerState.activeQuestion.parentSection === undefined) {
-			this.viewerState.activeSection = null;
-			this.viewerState.isSectionActive = false;
-			this.viewerState.activeGroupMemberIndex = -1;
-
-			this.viewerState.activeRespondent = this.viewerState.primaryRespondent;
-
-			// clear the group members to prevent rendering
-			// this.viewerState.groupMembers = [];
-			this.viewerState.activeGroupQuestions = [];
-		}
-
-		this.viewerState.activePageIndex = this.viewerState.activeQuestion.pageIndex;
-
-		this.viewerState.isQuestionLoaded = false;
-		this.updateRespondentGroup();
-
-		// this._viewerStateService.updateState(this.viewerState);
 	}
 
 	/**
