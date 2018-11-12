@@ -140,7 +140,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.debounceTime(1000).subscribe(value => {
+		this.inputForm.valueChanges.debounceTime(3000).subscribe(value => {
 			if (this.model !== undefined) {
 				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
