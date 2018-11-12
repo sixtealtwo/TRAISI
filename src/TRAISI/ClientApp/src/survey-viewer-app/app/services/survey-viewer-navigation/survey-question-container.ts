@@ -48,7 +48,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 
 	public get isComplete(): boolean {
 		if (this.questionModel) {
-			if (this.questionModel.isHidden) {
+			if (this.questionModel.isRespondentHidden && this.questionModel.isRespondentHidden[this._member.id]) {
 				return true;
 			} else if (this.questionInstance) {
 				return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
