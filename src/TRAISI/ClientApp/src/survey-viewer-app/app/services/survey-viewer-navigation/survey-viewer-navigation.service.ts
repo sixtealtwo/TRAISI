@@ -148,11 +148,13 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (!this.canNavigateNext()) {
+			console.log('cannot nav next');
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
+			console.log('can nav next');
 		}
 
 		// this.location.go(url);
@@ -248,6 +250,7 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
+
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
 			this.navigationCompleted.next(true);

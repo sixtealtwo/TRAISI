@@ -21,6 +21,16 @@ export class SurveyGroupContainer extends SurveyContainer {
 
 	public canNavigateNext(): boolean {
 		let val = this.activeRepeatContainer.canNavigateNext();
+
+		let childrenVal: boolean = false;
+		for (let i = this._activeRepeatIndex + 1; i < this._children.length; i++) {
+			childrenVal = childrenVal || !this._children[i].isHidden();
+		}
+
+		if (!childrenVal) {
+			return false;
+		}
+
 		if (this._activeRepeatIndex < this._children.length - 1 || val) {
 			return true;
 		} else {

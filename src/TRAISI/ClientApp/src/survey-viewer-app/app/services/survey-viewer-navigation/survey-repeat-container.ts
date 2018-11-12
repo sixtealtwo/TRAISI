@@ -44,14 +44,24 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		this._children.push(questionContainer);
 	}
 
-	public canNavigateNext(): boolean {
+	public isHidden(): boolean {
 		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
 			return true;
 		}
+
+		return false;
+	}
+
+	public canNavigateNext(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return false;
+		}
 		let val = this.activeQuestionContainer.canNavigateNext();
 		if (this._activeQuestionIndex < this._children.length - 1 || val) {
+			// console.log('return true');
 			return true;
 		} else {
+			// console.log('return false');
 			return false;
 		}
 	}

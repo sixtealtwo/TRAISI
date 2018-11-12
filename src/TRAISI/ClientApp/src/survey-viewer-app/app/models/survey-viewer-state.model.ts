@@ -78,4 +78,6 @@ export interface SurveyViewerState {
 	isNextEnabled: boolean;
 
 	isNavComplete: boolean;
+
+	isNavProcessing: boolean ;
 }

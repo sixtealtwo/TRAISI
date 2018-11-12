@@ -310,7 +310,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 				this.viewerState.primaryRespondent = members[0];
 				this.viewerState.activeRespondent = members[0];
-			} 
+			}
 
 
 		this.questions = [];
@@ -418,14 +418,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 						let container = new SurveyQuestionContainer(question, sectionContainer);
 						repeatContainer.addQuestionContainer(container);
-	
+
 						groupContainer.repeatContainers.push(repeatContainer);
 					});
 					sectionContainer.activeGroupContainer.initialize();
 
 
-					
-				
+
+
 				});
 			});
 			pageContainer.children = sortBy(pageContainer.children, ['order']);
@@ -455,7 +455,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.activeQuestionIndex = 0;
 		this.viewerState.activePageIndex = 0;
 
-		
+
 		this._navigation.navigationCompleted.subscribe(this.navigationCompleted);
 		this._navigation.initialize();
 
@@ -507,13 +507,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public navigationCompleted = (navStatus: boolean) => {
 		console.log(' navigation completed ');
+		this.viewerState.isNavProcessing = false;
 	};
 
 	public navigatePrevious(): void {
+		this.viewerState.isNavProcessing = true;
 		this._navigation.navigatePrevious();
 	}
 
 	public navigateNext(): void {
+		this.viewerState.isNavProcessing = true;
 		this._navigation.navigateNext();
 	}
 
