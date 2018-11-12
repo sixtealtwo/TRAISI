@@ -19,6 +19,9 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	public readonly response: EventEmitter<ResponseData<T>>;
 
 	@Output()
+	public readonly autoAdvance: EventEmitter<number>;
+
+	@Output()
 	public readonly validationState: EventEmitter<ResponseValidationState>;
 
 	/**
@@ -70,6 +73,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 */
 	constructor() {
 		this.response = new EventEmitter<ResponseData<T>>();
+		this.autoAdvance = new EventEmitter<number>();
 		this.validationState = new EventEmitter<ResponseValidationState>();
 		this.savedResponse = new ReplaySubject<ResponseData<T> | 'none'>(1);
 		this.questionId = -1;

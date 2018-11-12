@@ -180,6 +180,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					});
 
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
+				surveyQuestionInstance.autoAdvance.subscribe( (result: number) => {
+					setTimeout(() => {
+						this.navigation.navigateNext();
+					}, result);
+				});
 
 				surveyQuestionInstance.traisiOnInit();
 				this.surveyViewerService
