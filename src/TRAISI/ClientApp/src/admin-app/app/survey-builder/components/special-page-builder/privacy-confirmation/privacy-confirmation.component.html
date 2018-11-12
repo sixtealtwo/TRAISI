@@ -6,7 +6,7 @@
 		</div>
 		<div class="col-12 col-md-3 justify-content-center d-flex align-items-center">
 				<button type="button" class="accept-privacy-button btn btn-primary">
-						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value"
+						<quill-editor (onEditorCreated)="quillEditorCreated($event)" [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill text-center" [readOnly]="previewMode.value"
 						 [modules]="quillMinimalModules" (onContentChanged)="updateAcceptTermsContent($event)" theme="bubble" placeholder="Accept"
 						 [(ngModel)]="acceptTermsHTML"></quill-editor>
 					</button>

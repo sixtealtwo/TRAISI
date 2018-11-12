@@ -37,7 +37,7 @@ export class PrivacyConfirmationComponent implements OnInit {
 
 	public footerTextColour: string;
 
-	public acceptTermsHTML: string;
+	public acceptTermsHTML: string = 'Accept Terms';
 
 	private pageHTMLJson: any;
 
@@ -65,6 +65,15 @@ export class PrivacyConfirmationComponent implements OnInit {
 		}
 		this.footerTextColour = Utilities.whiteOrBlackText(this.pageThemeInfo.termsAcceptColour);
 	}
+
+	public quillEditorCreated(quillInstance: any): void {
+		setTimeout(() => {
+			if (this.pageHTMLJson.html === undefined || this.pageHTMLJson.html === '') {
+				quillInstance.format('align', 'center', 'api');
+			}
+		}, 0);
+	}
+
 
 	updateAcceptTermsContent(contentInfo: any) {
 		this.pageHTMLJson.acceptTerms = this.acceptTermsHTML;
