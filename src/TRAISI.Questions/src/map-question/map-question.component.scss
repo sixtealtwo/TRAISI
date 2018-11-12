@@ -49,6 +49,26 @@ mgl-map {
 		top: -10px;
 		font-size: 16px;
 	}
+
+	.mapboxgl-ctrl-top-left {
+		top: 60px !important;
+	}
+
+	.mapboxgl-ctrl-top-right {
+		width: 100%;
+		padding: 0px 10px;
+
+		.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+			float: unset;
+			width: 100%;
+			max-width: unset;
+
+			input {
+				font-size: 14px;
+				color: black;
+			}
+		}
+	}
 }
 
 @media #{$xl-only} {

@@ -94,11 +94,14 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	}
 
 	public onModelChanged(option: QuestionOption): void {
-		this.response.emit([option]);
+		if (option) {
+			this.response.emit([option]);
+		}
 	}
 
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
+		this.autoAdvance.emit(500);
 	}
 
 		/**

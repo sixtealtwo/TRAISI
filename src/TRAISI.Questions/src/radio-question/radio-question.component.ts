@@ -80,11 +80,6 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	}
 
 	/**
-	 * after content init
-	 */
-	public ngAfterContentInit(): void {}
-
-	/**
 	 * Determines whether model changed on
 	 */
 	public onModelChanged(option: QuestionOption): void {
@@ -98,6 +93,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
+		this.autoAdvance.emit(500);
 	}
 
 	/**
