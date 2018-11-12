@@ -140,9 +140,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.viewerState = viewerState;
 	}
 
-	public get isNavigationNextEnabled(): boolean {
-		return this._navigation.isNavigationNextEnabled;
-	}
+
 
 	public get isNavigationPreviousEnabled(): boolean {
 		return this._navigation.isNavigationPreviousEnabled;
@@ -657,6 +655,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
 	public validateNavigation(): void {
+
 		return;
 	}
 

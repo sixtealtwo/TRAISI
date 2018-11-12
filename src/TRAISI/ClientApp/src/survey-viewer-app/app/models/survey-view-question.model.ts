@@ -2,7 +2,7 @@ import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { SurveyViewConditional } from './survey-view-conditional.model';
-import { ResponseValidationState } from 'traisi-sdk/question-response-state';
+import { ResponseValidationState } from 'traisi-question-sdk';
 export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;

@@ -253,8 +253,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			this.surveyViewQuestion.respondentValidationState = {};
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
-
-		this.surveyViewer.validateNavigation();
+		this._navigation.updateState();
+		// this.surveyViewer.validateNavigation();
 	};
 
 	/**

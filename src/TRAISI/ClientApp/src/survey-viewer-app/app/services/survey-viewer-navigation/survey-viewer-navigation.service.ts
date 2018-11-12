@@ -11,14 +11,13 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { flatMap } from 'rxjs/operators';
 import { SurveyPageContainer } from './survey-page-container';
+import { ResponseValidationState } from 'traisi-question-sdk';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class SurveyViewerNavigationService {
 	public navigationCompleted: Subject<boolean>;
-
-	public isNavigationNextEnabled: boolean = true;
 
 	public isNavigationPreviousEnabled: boolean = true;
 
@@ -218,6 +217,8 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isPreviousEnabled = true;
 		}
 
+		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
+
 		if (!this.canNavigateNext()) {
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
@@ -225,6 +226,29 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
 		}
+
+		if (
+			questionContainer.questionInstance !== undefined &&
+			questionContainer.questionModel.respondentValidationState !== undefined
+		) {
+			if (
+				questionContainer.questionModel.respondentValidationState[
+					this._state.viewerState.activeRespondent.id
+				] === ResponseValidationState.VALID ||
+				questionContainer.questionModel.isOptional
+			) {
+				// console.log('is enabled');
+				this._state.viewerState.isNextEnabled = true;
+			} else {
+				// console.log('disabling next');
+				this._state.viewerState.isNextEnabled = false;
+			}
+		} else {
+			// .log('disabling');
+			this._state.viewerState.isNextEnabled = false;
+		}
+
+		// console.log(this._state);
 
 		// this.location.go(url);
 	}
