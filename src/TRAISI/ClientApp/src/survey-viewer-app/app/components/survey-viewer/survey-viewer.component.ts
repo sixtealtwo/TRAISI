@@ -466,6 +466,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
+
+	public getGroupMemberCompletionState(groupMemberIndex: number): boolean  {
+		let currentQ: SurveyQuestionContainer = <SurveyQuestionContainer>this.viewerState.activeQuestionContainer;
+		let section = currentQ.parentSectionContainer.children[groupMemberIndex];
+		return section ? section.isComplete : false;
+	}
+
 	/**
 	 *
 	 * @param state

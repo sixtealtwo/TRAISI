@@ -19,6 +19,7 @@
 				*ngIf="viewerState.isSectionActive"
 				[style.background-color]="viewerTheme.sectionBackgroundColour"
 				[style.color]="sectionTitleColour"
+				[style.margin-right.px]="viewerState.activeSection.isHousehold ? 45 : 15"
 			>
 				{{ processedSectionLabel(viewerState.activeSection.label) }}
 			</div>
@@ -63,10 +64,10 @@
 							class="group-member-name"
 							(click)="showGroupMember(m)"
 							[ngClass]="{
-								'group-member-active': m == viewerState.activeGroupMemberIndex,
+								'group-member-active': groupMember == viewerState.activeRespondent,
 								'group-member-complete':
-									groupMember.validationState == validationStates.VALID &&
-									m != viewerState.activeGroupMemberIndex
+									getGroupMemberCompletionState(m) &&
+									groupMember != viewerState.activeRespondent
 							}"
 						>
 							{{ groupMember.name }}</span
