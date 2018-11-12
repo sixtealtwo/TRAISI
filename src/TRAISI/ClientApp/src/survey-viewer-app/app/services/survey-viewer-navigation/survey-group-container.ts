@@ -19,6 +19,10 @@ export class SurveyGroupContainer extends SurveyContainer {
 		return this._children;
 	}
 
+	public set activeRepeatIndex(i: number) {
+		this._activeRepeatIndex = i;
+	}
+
 	public canNavigateNext(): boolean {
 		let val = this.activeRepeatContainer.canNavigateNext();
 
@@ -72,9 +76,12 @@ export class SurveyGroupContainer extends SurveyContainer {
 			} else {
 				this._activeRepeatIndex++;
 				let init = this.activeRepeatContainer.initialize();
+
 				if (init) {
 					return this.navigateNext();
 				}
+
+				console.log('returning false');
 				return false;
 			}
 		}
@@ -110,12 +117,20 @@ export class SurveyGroupContainer extends SurveyContainer {
 		return this._children[this._activeRepeatIndex].activeViewContainer;
 	}
 
+	public get forRespondent(): SurveyViewGroupMember {
+		return this._member;
+	}
+
+	public set forRespondent(member: SurveyViewGroupMember) {
+		this._member = member;
+	}
+
 	/**
 	 * Creates an instance of survey group container.
 	 * @param _state
-	 * @param _questionModel
+	 * @param [_member]
 	 */
-	constructor(private _state: SurveyViewerStateService) {
+	constructor(private _state: SurveyViewerStateService, private _member?: SurveyViewGroupMember) {
 		super();
 		this._children = [];
 	}
@@ -127,6 +142,7 @@ export class SurveyGroupContainer extends SurveyContainer {
 	public initialize(): Subject<void> | boolean {
 		// this._activeRepeatIndex = 0;
 		let init = this.activeRepeatContainer.initialize();
+
 		if (init) {
 			return this.navigateNext();
 		}

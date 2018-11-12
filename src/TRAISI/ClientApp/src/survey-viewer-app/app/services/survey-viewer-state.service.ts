@@ -278,6 +278,10 @@ export class SurveyViewerStateService {
 						);
 					});
 
+					if (targetQuestion.isRespondentHidden === undefined) {
+						targetQuestion.isRespondentHidden = {};
+					}
+					targetQuestion.isRespondentHidden[respondentId] = evalTrue;
 					targetQuestion.isHidden = evalTrue;
 				});
 

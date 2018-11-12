@@ -313,156 +313,165 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.activeRespondent = members[0];
 			}
 
+			this.questions = [];
+			this.questionTypeMap = {};
+			this.questionNameMap = {};
+			let pageCount: number = 0;
+			let viewOrder: number = 0;
 
-		this.questions = [];
-		this.questionTypeMap = {};
-		this.questionNameMap = {};
-		let pageCount: number = 0;
-		let viewOrder: number = 0;
-
-		this.viewerState.surveyPages = pages;
-		pages.forEach(page => {
-			let pageContainer = new SurveyPageContainer(page);
-			this.viewerState.viewContainers.push(pageContainer);
-			page.questions.forEach(question => {
-				question.pageIndex = pageCount;
-				question.viewOrder = viewOrder;
-				question.parentPage = page;
-				question.viewId = Symbol();
-				this.questionTypeMap[question.questionId] = question.questionType;
-				this.questionNameMap[question.name] = question.questionId;
-				this.questions.push(question);
-
-				if (question.repeatTargets === undefined) {
-					question.repeatTargets = [];
-				}
-
-				this.viewerState.questionMap[question.questionId] = question;
-
-				if (question.isRepeat) {
-					this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
-				}
-
-				let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
-
-				sectionRepeatContainer.order = question.order;
-
-				let groupContainer = new SurveyGroupContainer(this._viewerStateService);
-
-				let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
-
-				let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
-
-				let container = new SurveyQuestionContainer(question, sectionContainer);
-
-				repeatContainer.addQuestionContainer(container);
-
-				groupContainer.repeatContainers.push(repeatContainer);
-
-				sectionContainer.groupContainers.push(groupContainer);
-
-				sectionRepeatContainer.children.push(sectionContainer);
-
-				pageContainer.children.push(sectionRepeatContainer);
-			});
-
-			page.sections.forEach(section => {
-				let inSectionIndex: number = 0;
-				section.questions.forEach(question => {
+			this.viewerState.surveyPages = pages;
+			pages.forEach(page => {
+				let pageContainer = new SurveyPageContainer(page);
+				this.viewerState.viewContainers.push(pageContainer);
+				page.questions.forEach(question => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
-					question.parentSection = section;
-					question.inSectionIndex = inSectionIndex;
-					this.viewerState.questionMap[question.questionId] = question;
+					question.parentPage = page;
 					question.viewId = Symbol();
 					this.questionTypeMap[question.questionId] = question.questionType;
 					this.questionNameMap[question.name] = question.questionId;
 					this.questions.push(question);
+
 					if (question.repeatTargets === undefined) {
 						question.repeatTargets = [];
 					}
+
+					this.viewerState.questionMap[question.questionId] = question;
+
 					if (question.isRepeat) {
 						this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 					}
-					inSectionIndex++;
 
-					// try to find existing container
-					let sectionContainer: SurveySectionContainer;
+					let sectionRepeatContainer = new SurveySectionRepeatContainer(null, this._viewerStateService);
 
-					let sectionRepeatContainer: SurveySectionRepeatContainer;
+					sectionRepeatContainer.order = question.order;
 
-					let index = pageContainer.children.findIndex(container2 => {
-						if (container2.sectionModel === null) {
-							return false;
-						}
-						return container2.containerId === question.parentSection.id;
-					});
+					let groupContainer = new SurveyGroupContainer(
+						this._viewerStateService,
+						this.viewerState.primaryRespondent
+					);
 
-					if (index < 0) {
-						sectionRepeatContainer = new SurveySectionRepeatContainer(
-							question.parentSection,
-							this._viewerStateService
-						);
-						sectionRepeatContainer.order = section.order;
-						sectionRepeatContainer.containerId = question.parentSection.id;
-						sectionContainer = new SurveySectionContainer(question.parentSection, this._viewerStateService);
+					let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
-						sectionRepeatContainer.children.push(sectionContainer);
-						pageContainer.children.push(sectionRepeatContainer);
-					} else {
-						sectionRepeatContainer = <SurveySectionRepeatContainer>pageContainer.children[index];
-						sectionContainer = sectionRepeatContainer.children[0];
-					}
+					let repeatContainer = new SurveyRepeatContainer(
+						question,
+						this._viewerStateService,
+						this.viewerState.primaryRespondent
+					);
 
-					sectionContainer.groupContainers.forEach(groupContainer => {
-						let repeatContainer = new SurveyRepeatContainer(question, this._viewerStateService);
+					let container = new SurveyQuestionContainer(question, sectionContainer);
 
-						let container = new SurveyQuestionContainer(question, sectionContainer);
-						repeatContainer.addQuestionContainer(container);
+					repeatContainer.addQuestionContainer(container);
 
-						groupContainer.repeatContainers.push(repeatContainer);
-					});
-					sectionContainer.activeGroupContainer.initialize();
+					groupContainer.repeatContainers.push(repeatContainer);
 
+					sectionContainer.groupContainers.push(groupContainer);
 
+					sectionRepeatContainer.children.push(sectionContainer);
 
-
+					pageContainer.children.push(sectionRepeatContainer);
 				});
-			});
-			pageContainer.children = sortBy(pageContainer.children, ['order']);
-			pageCount += 1;
-		});
 
-		viewOrder = 0;
-		this.viewerState.viewContainers.forEach(page => {
-			page.children.forEach(sectionRepeat => {
-				sectionRepeat.children.forEach(section => {
-					section.children.forEach(group => {
-						group.children.forEach(repeat => {
-							repeat.children.forEach(question => {
-								question.questionModel.viewOrder = viewOrder;
+				page.sections.forEach(section => {
+					let inSectionIndex: number = 0;
+					section.questions.forEach(question => {
+						question.pageIndex = pageCount;
+						question.viewOrder = viewOrder;
+						question.parentSection = section;
+						question.inSectionIndex = inSectionIndex;
+						this.viewerState.questionMap[question.questionId] = question;
+						question.viewId = Symbol();
+						this.questionTypeMap[question.questionId] = question.questionType;
+						this.questionNameMap[question.name] = question.questionId;
+						this.questions.push(question);
+						if (question.repeatTargets === undefined) {
+							question.repeatTargets = [];
+						}
+						if (question.isRepeat) {
+							this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
+						}
+						inSectionIndex++;
+
+						// try to find existing container
+						let sectionContainer: SurveySectionContainer;
+
+						let sectionRepeatContainer: SurveySectionRepeatContainer;
+
+						let index = pageContainer.children.findIndex(container2 => {
+							if (container2.sectionModel === null) {
+								return false;
+							}
+							return container2.containerId === question.parentSection.id;
+						});
+
+						if (index < 0) {
+							sectionRepeatContainer = new SurveySectionRepeatContainer(
+								question.parentSection,
+								this._viewerStateService
+							);
+							sectionRepeatContainer.order = section.order;
+							sectionRepeatContainer.containerId = question.parentSection.id;
+							sectionContainer = new SurveySectionContainer(
+								question.parentSection,
+								this._viewerStateService
+							);
+
+							sectionRepeatContainer.children.push(sectionContainer);
+							pageContainer.children.push(sectionRepeatContainer);
+						} else {
+							sectionRepeatContainer = <SurveySectionRepeatContainer>pageContainer.children[index];
+							sectionContainer = sectionRepeatContainer.children[0];
+						}
+
+						sectionContainer.groupContainers.forEach(groupContainer => {
+							let repeatContainer = new SurveyRepeatContainer(
+								question,
+								this._viewerStateService,
+								this.viewerState.primaryRespondent
+							);
+
+							let container = new SurveyQuestionContainer(question, sectionContainer);
+							repeatContainer.addQuestionContainer(container);
+
+							groupContainer.repeatContainers.push(repeatContainer);
+						});
+						sectionContainer.activeGroupContainer.initialize();
+					});
+				});
+				pageContainer.children = sortBy(pageContainer.children, ['order']);
+				pageCount += 1;
+			});
+
+			viewOrder = 0;
+			this.viewerState.viewContainers.forEach(page => {
+				page.children.forEach(sectionRepeat => {
+					sectionRepeat.children.forEach(section => {
+						section.children.forEach(group => {
+							group.forRespondent = this.viewerState.primaryRespondent;
+							group.children.forEach(repeat => {
+								repeat.forRespondent = this.viewerState.primaryRespondent;
+								repeat.children.forEach(question => {
+									question.questionModel.viewOrder = viewOrder;
+								});
 							});
 						});
 					});
+					viewOrder++;
 				});
-				viewOrder++;
 			});
-		});
 
-		this.viewerState.activeQuestionIndex = 0;
+			this.viewerState.activeQuestionIndex = 0;
 
-		this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
+			this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);
 
-		this.viewerState.activeQuestionIndex = 0;
-		this.viewerState.activePageIndex = 0;
+			this.viewerState.activeQuestionIndex = 0;
+			this.viewerState.activePageIndex = 0;
 
+			this._navigation.navigationCompleted.subscribe(this.navigationCompleted);
+			this._navigation.initialize();
 
-		this._navigation.navigationCompleted.subscribe(this.navigationCompleted);
-		this._navigation.initialize();
-
-		this.viewerState.isLoaded = true;
-		this.viewerState.isQuestionLoaded = true;
-
+			this.viewerState.isLoaded = true;
+			this.viewerState.isQuestionLoaded = true;
 		});
 	}
 

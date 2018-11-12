@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { SurveyQuestionContainer } from './survey-question-container';
 import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { LEAVE_SELECTOR } from '../../../../../node_modules/@angular/animations/browser/src/util';
 
 export class SurveyRepeatContainer extends SurveyContainer {
 	public containerId: number;
@@ -37,12 +39,23 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		return complete;
 	}
 
+	public get forRespondent(): SurveyViewGroupMember {
+		return this._member;
+	}
+
+	public set forRespondent(member: SurveyViewGroupMember) {
+		this._member = member;
+	}
 
 	/**
 	 * Creates an instance of survey group container.
 	 * @param _state
 	 */
-	constructor(private _questionModel: SurveyViewQuestion, private _state: SurveyViewerStateService) {
+	constructor(
+		private _questionModel: SurveyViewQuestion,
+		private _state: SurveyViewerStateService,
+		private _member?: SurveyViewGroupMember
+	) {
 		super();
 		this._children = [];
 		this._activeQuestionIndex = 0;
@@ -55,17 +68,24 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	public addQuestionContainer(questionContainer: SurveyQuestionContainer): void {
 		this._children.push(questionContainer);
 	}
-
 	public isHidden(): boolean {
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
-			return true;
+		if (this._member === undefined) {
+			if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+				return true;
+			}
+		} else {
+			if (this._questionModel.isRespondentHidden !== undefined) {
+				return this._questionModel.isRespondentHidden[this._member.id];
+			} else {
+				return false;
+			}
 		}
 
 		return false;
 	}
 
 	public canNavigateNext(): boolean {
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+		if (this.isHidden()) {
 			return false;
 		}
 		let val = this.activeQuestionContainer.canNavigateNext();
@@ -79,7 +99,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	}
 
 	public iterateNext(): boolean {
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+		if (this.isHidden()) {
 			return true;
 		} else {
 			return false;
@@ -87,7 +107,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	}
 
 	public iteratePrevious(): boolean {
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+		if (this.isHidden()) {
 			return true;
 		} else {
 			return false;
@@ -140,7 +160,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 				].length + 1;
 
 			for (let i = 0; i < repeatCount; i++) {
-				let repeatModel: SurveyViewQuestion = Object.assign({}, this._questionModel);
+				let repeatModel: SurveyViewQuestion = this._questionModel;
 				repeatModel.repeatNumber = i;
 				let container = new SurveyQuestionContainer(repeatModel, null);
 

@@ -7,6 +7,7 @@ export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
 	isHidden?: boolean;
+	isRespondentHidden?: { [id: number]: boolean };
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;

@@ -96,10 +96,12 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 			if (this._activeSectionIndex >= this._children.length - 1) {
 				return true;
 			} else {
+
 				this._activeSectionIndex++;
 				return false;
 			}
 		}
+
 		return false;
 	}
 

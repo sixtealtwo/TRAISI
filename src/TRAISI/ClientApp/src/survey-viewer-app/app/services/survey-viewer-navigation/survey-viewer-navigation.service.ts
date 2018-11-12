@@ -63,6 +63,7 @@ export class SurveyViewerNavigationService {
 					do {
 						result = this._state.viewerState.activeViewContainer.navigateNext();
 
+
 						if (result) {
 							this.incrementViewContainer();
 						}

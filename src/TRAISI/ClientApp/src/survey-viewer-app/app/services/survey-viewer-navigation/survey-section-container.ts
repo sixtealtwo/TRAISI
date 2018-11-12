@@ -210,23 +210,44 @@ export class SurveySectionContainer extends SurveyContainer {
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 		let questionRepeats = this.groupContainers[0].children;
 		if (this._sectionModel !== null && this._sectionModel.isHousehold) {
-			this._children = [];
-			this._state.viewerState.groupMembers.forEach(member => {
-				let groupContainer = new SurveyGroupContainer(this._state);
-				this.groupContainers.push(groupContainer);
-			});
+			if (this.children.length < this._state.viewerState.groupMembers.length) {
+				this._state.viewerState.groupMembers.forEach((member, index) => {
+					if (index >= this.children.length) {
+						let groupContainer = new SurveyGroupContainer(this._state, member);
+						this.groupContainers.push(groupContainer);
+					}
+				});
 
-			this.groupContainers.forEach(groupContainer => {
-				questionRepeats.forEach(questionRepeatContainer => {
-					let question = questionRepeatContainer.children[0].questionModel;
-					let repeatContainer = new SurveyRepeatContainer(question, this._state);
+				this.groupContainers.forEach(groupContainer => {
+					questionRepeats.forEach(questionRepeatContainer => {
+						let question = questionRepeatContainer.children[0].questionModel;
+						let repeatContainer = new SurveyRepeatContainer(
+							question,
+							this._state,
+							groupContainer.forRespondent
+						);
 
-					let container = new SurveyQuestionContainer(question, this);
-					repeatContainer.addQuestionContainer(container);
+						let container = new SurveyQuestionContainer(question, this);
+						repeatContainer.addQuestionContainer(container);
 
-					groupContainer.repeatContainers.push(repeatContainer);
+						groupContainer.repeatContainers.push(repeatContainer);
+					});
+				});
+			} else if (this.children.length > this._state.viewerState.groupMembers.length) {
+				this._children = this._children.slice(
+					this.children.length - this._state.viewerState.groupMembers.length
+				);
+			}
+
+			this._state.viewerState.groupMembers.forEach((member, index) => {
+				this.groupContainers[index].forRespondent = this._state.viewerState.groupMembers[index];
+
+				this.groupContainers[index].repeatContainers.forEach(repeat => {
+					repeat.forRespondent = this._state.viewerState.groupMembers[index];
+
 				});
 			});
+
 		}
 	}
 }

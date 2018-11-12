@@ -42,7 +42,9 @@ export class SurveyPageContainer extends SurveyContainer {
 	}
 
 	public iterateNext(): boolean {
-		return this.activeRepeatContainer.iterateNext();
+		let val = this.activeRepeatContainer.iterateNext();
+
+		return val;
 	}
 
 	public iteratePrevious(): boolean {
@@ -90,6 +92,7 @@ export class SurveyPageContainer extends SurveyContainer {
 				return true;
 			} else {
 				this._activePageIndex++;
+
 				return false;
 			}
 		}
