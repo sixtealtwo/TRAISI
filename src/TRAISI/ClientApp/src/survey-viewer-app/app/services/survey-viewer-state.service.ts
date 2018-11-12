@@ -57,6 +57,7 @@ export class SurveyViewerStateService {
 			isPreviousEnabled: false,
 			isNextEnabled: true,
 			isNavComplete: false,
+			isNavProcessing: false,
 			questionMap: {}
 		};
 

@@ -58,20 +58,26 @@ export class SurveyViewerNavigationService {
 				)
 				.subscribe(() => {
 					// look at the active view container and call navigate next on it
-					let result: boolean = this._state.viewerState.activeViewContainer.navigateNext();
 
-					if (result) {
-						this.incrementViewContainer();
-					}
+					let result: boolean;
+					do {
+						result = this._state.viewerState.activeViewContainer.navigateNext();
+
+						if (result) {
+							this.incrementViewContainer();
+						}
+					} while (this._state.viewerState.activeViewContainer.iterateNext());
 
 					this._state.viewerState.isPreviousEnabled = true;
 
 					let nextContainer = this._state.viewerState.viewContainers[
 						this._state.viewerState.activeViewContainerIndex
 					].activeViewContainer;
-					let currentParentContainer = (<SurveyQuestionContainer>(this._state.viewerState.activeQuestionContainer)).parentSectionContainer;
+					let currentParentContainer = (<SurveyQuestionContainer>(
+						this._state.viewerState.activeQuestionContainer
+					)).parentSectionContainer;
 					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
-					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold	: null;
+					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
 
 					if (isHousehold && currentParentContainer !== nextParentContainer) {
 						this._responderService
@@ -142,11 +148,13 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (!this.canNavigateNext()) {
+
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
+
 		}
 
 		// this.location.go(url);
@@ -242,6 +250,7 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
+
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
 			this.navigationCompleted.next(true);
@@ -249,7 +258,14 @@ export class SurveyViewerNavigationService {
 			this.evaluateRepeat().subscribe(() => {
 				// look at the active view container and call navigate next on it
 
-				let result: boolean = this._state.viewerState.activeViewContainer.navigatePrevious();
+				let result;
+				do {
+					result = this._state.viewerState.activeViewContainer.navigatePrevious();
+
+					if (result) {
+						this.decrementViewContainer();
+					}
+				} while (this._state.viewerState.activeViewContainer.iteratePrevious());
 
 				if (result) {
 					if (this._state.viewerState.activeViewContainerIndex > 0) {

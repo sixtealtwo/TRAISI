@@ -55,6 +55,14 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 		this._children = [];
 	}
 
+	public iterateNext(): boolean {
+		return this.activeSection.iterateNext();
+	}
+
+	public iteratePrevious(): boolean {
+		return this.activeSection.iteratePrevious();
+	}
+
 	public canNavigateNext(): boolean {
 		let val = this.activeSection.canNavigateNext();
 		if (this._activeSectionIndex < this._children.length - 1 || val) {

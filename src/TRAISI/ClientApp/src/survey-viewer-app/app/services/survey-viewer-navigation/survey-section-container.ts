@@ -90,6 +90,13 @@ export class SurveySectionContainer extends SurveyContainer {
 		this.initialize();
 	}
 
+	public iterateNext(): boolean {
+		return this.activeGroupContainer.iterateNext();
+	}
+	public iteratePrevious(): boolean {
+		return this.activeGroupContainer.iteratePrevious();
+	}
+
 	public canNavigateNext(): boolean {
 		let val = this.activeGroupContainer.canNavigateNext();
 		if (this._activeGroupMemberIndex < this._children.length - 1 || val) {
@@ -131,10 +138,11 @@ export class SurveySectionContainer extends SurveyContainer {
 	 */
 	public navigateNext(): boolean {
 		// returns true if there is no longer any internal navigation
+
 		if (this.activeGroupContainer.navigateNext()) {
 			if (
-				(this.isHousehold &&
-				this._activeGroupMemberIndex >= this._state.viewerState.groupMembers.length - 1) || !this.isHousehold
+				(this.isHousehold && this._activeGroupMemberIndex >= this._state.viewerState.groupMembers.length - 1) ||
+				!this.isHousehold
 			) {
 				return true;
 			} else {
@@ -172,7 +180,6 @@ export class SurveySectionContainer extends SurveyContainer {
 	public initialize(): Subject<void> {
 		this._activeGroupMemberIndex = 0;
 
-
 		this._state.viewerState.activeRespondent = this.activeRespondent;
 
 		if (this._sectionModel !== null && this._sectionModel.isHousehold) {
@@ -182,6 +189,7 @@ export class SurveySectionContainer extends SurveyContainer {
 			});
 		} else if (this._sectionModel !== null) {
 			let groupContainer = new SurveyGroupContainer(this._state);
+
 			this.groupContainers.push(groupContainer);
 		}
 

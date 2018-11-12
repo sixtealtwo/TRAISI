@@ -41,6 +41,14 @@ export class SurveyPageContainer extends SurveyContainer {
 		return complete;
 	}
 
+	public iterateNext(): boolean {
+		return this.activeRepeatContainer.iterateNext();
+	}
+
+	public iteratePrevious(): boolean {
+		return this.activeRepeatContainer.iteratePrevious();
+	}
+
 	public constructor(model: SurveyViewPage) {
 		super();
 		this._pageModel = model;

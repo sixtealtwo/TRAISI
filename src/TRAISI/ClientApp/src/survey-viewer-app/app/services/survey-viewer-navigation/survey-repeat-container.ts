@@ -56,14 +56,44 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		this._children.push(questionContainer);
 	}
 
+	public isHidden(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public canNavigateNext(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return false;
+		}
 		let val = this.activeQuestionContainer.canNavigateNext();
 		if (this._activeQuestionIndex < this._children.length - 1 || val) {
+			// console.log('return true');
+			return true;
+		} else {
+			// console.log('return false');
+			return false;
+		}
+	}
+
+	public iterateNext(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	public iteratePrevious(): boolean {
+		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public canNavigatePrevious(): boolean {
 		let val = this.activeQuestionContainer.canNavigatePrevious();
 		if (this._activeQuestionIndex > 0 || val) {
@@ -100,10 +130,6 @@ export class SurveyRepeatContainer extends SurveyContainer {
 	public initialize(): Subject<void> | boolean {
 		// this._children = [];
 		// this.children.push(this._questionModel);
-		if (this._questionModel.isHidden !== undefined && this._questionModel.isHidden) {
-			console.log('hidden in here ');
-			return true;
-		}
 
 		if (this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren !== undefined) {
 			this._children = [];
