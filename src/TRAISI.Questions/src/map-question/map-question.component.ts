@@ -32,6 +32,7 @@ let markerIconImage = require('./assets/default-marker.png');
 })
 export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
 	public locationSearch: string;
+	public locationLoaded: boolean = false;
 
 	/**
 	 * Purpose  of map question component
@@ -52,15 +53,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public set markerPosition(val: LngLatLike) {
 		if (val !== undefined) {
-			this.loactionLoaded = true;
+			this.locationLoaded = true;
 		} else {
-			this.loactionLoaded = false;
+			this.locationLoaded = false;
 		}
 
 		this._markerPosition = val;
 	}
 
-	public loactionLoaded: boolean = false;
 
 	/**
 	 * Gets marker icon
@@ -301,7 +301,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.mapGL.doubleClickZoom = false;
 		this.mapGL.attributionControl = false;
 
-		this.locationSearch = 'Toronto';
 	}
 
 	/**
