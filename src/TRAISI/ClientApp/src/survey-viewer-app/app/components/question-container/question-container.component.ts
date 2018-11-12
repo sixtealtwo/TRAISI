@@ -103,6 +103,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		return this._navigation;
 	}
 
+	private alreadyNavigated: boolean = false;
+
 	/**
 	 * Creates an instance of question container component.
 	 * @param questionLoaderService
@@ -182,7 +184,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
 					setTimeout(() => {
-						this.navigation.navigateNext();
+						this.autoAdvance();
 					}, result);
 				});
 
@@ -203,10 +205,20 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
-
+				
 						this._navigation.navigationCompleted.next(true);
+						this._navigation.navigationCompleted.subscribe(result =>  {
+							this.alreadyNavigated = true;
+						});
 					});
 			});
+	}
+
+	private autoAdvance(): void {
+		if (!this.alreadyNavigated) {
+			this.navigation.navigateNext();
+			this.alreadyNavigated = false;
+		}
 	}
 
 	private retrieveHouseholdTag(): string {
