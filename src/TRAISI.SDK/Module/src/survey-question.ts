@@ -54,6 +54,8 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public isMultiPage: boolean = false;
 
+	public respondent: GroupMember;
+
 	/**
 	 *
 	 *
@@ -76,6 +78,11 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 		this.surveyId = -1;
 		this.configuration = <QuestionConfiguration>{};
 		this.isValid = false;
+		this.respondent = {
+			relationship: '',
+			id: -1,
+			name: ''
+		};
 		this.data = [];
 	}
 
@@ -218,4 +225,10 @@ export enum ResponseTypes {
 	Boolean = 'boolean',
 	OptionSelect = 'option-select',
 	None = 'none'
+}
+
+export interface GroupMember {
+	id: number;
+	name: string;
+	relationship: string;
 }

@@ -181,6 +181,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 
+				surveyQuestionInstance.respondent = this.respondent;
 				surveyQuestionInstance.traisiOnInit();
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
