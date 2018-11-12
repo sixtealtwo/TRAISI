@@ -81,7 +81,6 @@ export class SurveyGroupContainer extends SurveyContainer {
 					return this.navigateNext();
 				}
 
-				console.log('returning false');
 				return false;
 			}
 		}
