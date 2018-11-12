@@ -319,10 +319,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			let pageCount: number = 0;
 			let viewOrder: number = 0;
 
-			this.viewerState.surveyPages = pages;
+			this.viewerState.surveyPages = [];
 			pages.forEach(page => {
+				let pageQuestionCount: number = 0;
 				let pageContainer = new SurveyPageContainer(page);
-				this.viewerState.viewContainers.push(pageContainer);
 				page.questions.forEach(question => {
 					question.pageIndex = pageCount;
 					question.viewOrder = viewOrder;
@@ -331,6 +331,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.questionTypeMap[question.questionId] = question.questionType;
 					this.questionNameMap[question.name] = question.questionId;
 					this.questions.push(question);
+					pageQuestionCount++;
 
 					if (question.repeatTargets === undefined) {
 						question.repeatTargets = [];
@@ -384,6 +385,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.questionTypeMap[question.questionId] = question.questionType;
 						this.questionNameMap[question.name] = question.questionId;
 						this.questions.push(question);
+						pageQuestionCount++;
 						if (question.repeatTargets === undefined) {
 							question.repeatTargets = [];
 						}
@@ -438,8 +440,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						sectionContainer.activeGroupContainer.initialize();
 					});
 				});
-				pageContainer.children = sortBy(pageContainer.children, ['order']);
-				pageCount += 1;
+
+				if (pageQuestionCount > 0) {
+					this.viewerState.viewContainers.push(pageContainer);
+					pageContainer.children = sortBy(pageContainer.children, ['order']);
+					pageCount += 1;
+					this.viewerState.surveyPages.push(page);
+				}
 			});
 
 			viewOrder = 0;
@@ -562,8 +569,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param memberIndex
 	 */
 	public showGroupMember(memberIndex: number): void {
-
-
 		const activePage = <SurveyPageContainer>this.viewerState.activeViewContainer;
 
 		const activeSection = activePage.activeRepeatContainer.activeSection;
@@ -653,7 +658,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public validateNavigation(): void {
 		return;
-
 	}
 
 	private activeRespondentId(): number {

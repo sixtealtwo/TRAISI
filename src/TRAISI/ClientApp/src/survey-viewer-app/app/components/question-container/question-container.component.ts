@@ -261,6 +261,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	): void => {
 		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
 		this.responseValidationState = validationState;
+		if (this.surveyViewQuestion.respondentValidationState === undefined) {
+			this.surveyViewQuestion.respondentValidationState = {};
+		}
+		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
+
 		this.surveyViewer.validateNavigation();
 	};
 

@@ -1,13 +1,14 @@
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyViewPage } from './survey-view-page.model';
-import { ResponseValidationState } from '../../../../../../TRAISI.SDK/Module/src/question-response-state';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { SurveyViewConditional } from './survey-view-conditional.model';
+import { ResponseValidationState } from 'traisi-sdk/question-response-state';
 export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
 	isHidden?: boolean;
 	isRespondentHidden?: { [id: number]: boolean };
+	respondentValidationState?: { [id: number]: ResponseValidationState };
 	isOptional: boolean;
 	isRepeat: boolean;
 	label: string;
@@ -20,6 +21,7 @@ export interface SurveyViewQuestion {
 	repeatSource?: number;
 	repeatTargets?: number[];
 	repeatChildren?: { [id: string]: Array<SurveyViewQuestion> };
+
 	repeatNumber?: number;
 	inSectionIndex?: number;
 
