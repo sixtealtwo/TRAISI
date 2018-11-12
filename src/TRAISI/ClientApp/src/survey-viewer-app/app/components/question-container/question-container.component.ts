@@ -99,6 +99,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public displayClass: string = 'view-compact';
 
+	public get navigation(): SurveyViewerNavigationService {
+		return this._navigation;
+	}
+
 	/**
 	 * Creates an instance of question container component.
 	 * @param questionLoaderService
@@ -115,7 +119,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private cdRef: ChangeDetectorRef,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
-		private navigation: SurveyViewerNavigationService
+		private _navigation: SurveyViewerNavigationService
 	) {}
 
 	/**
@@ -193,7 +197,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
-						this.navigation.navigationCompleted.next(true);
+						this._navigation.navigationCompleted.next(true);
 					});
 			});
 	}

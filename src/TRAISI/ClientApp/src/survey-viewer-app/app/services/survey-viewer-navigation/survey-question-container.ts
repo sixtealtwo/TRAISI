@@ -42,12 +42,11 @@ export class SurveyQuestionContainer extends SurveyContainer {
 			if (this.questionModel.isHidden) {
 				return true;
 			} else if (this.questionInstance) {
-					return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
+				return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
 			}
 		}
 		return false;
 	}
-
 
 	/**
 	 * Gets active question
@@ -96,7 +95,6 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return false;
 	}
 
-
 	/**
 	 * Navigates previous
 	 * @returns true if previous
@@ -121,6 +119,10 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalNext()) {
 			return true;
 		} else {
+			setTimeout(() => {
+				this._questionInstance.navigation.navigationCompleted.next(true);
+			});
+
 			return false;
 		}
 	}
