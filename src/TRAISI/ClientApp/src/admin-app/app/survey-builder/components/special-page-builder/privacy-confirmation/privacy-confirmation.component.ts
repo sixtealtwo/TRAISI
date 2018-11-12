@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Utilities } from '../../../../../../shared/services/utilities';
 
 @Component({
   selector: 'app-privacy-confirmation',
   templateUrl: './privacy-confirmation.component.html',
-  styleUrls: ['./privacy-confirmation.component.scss']
+  styleUrls: ['./privacy-confirmation.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class PrivacyConfirmationComponent implements OnInit {
 
