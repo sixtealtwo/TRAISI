@@ -26,6 +26,18 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		return this._children[this._activeQuestionIndex];
 	}
 
+	public get isComplete(): boolean {
+		let complete = true;
+
+		this.children.forEach(questionContainer => {
+			if (complete) {
+				complete = questionContainer.isComplete;
+			}
+		});
+		return complete;
+	}
+
+
 	/**
 	 * Creates an instance of survey group container.
 	 * @param _state

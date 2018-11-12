@@ -32,6 +32,17 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 		return this._children[this._activeSectionIndex];
 	}
 
+	public get isComplete(): boolean {
+		let complete = true;
+
+		this.children.forEach(sectionContainer => {
+			if (complete) {
+				complete = sectionContainer.isComplete;
+			}
+		});
+		return complete;
+	}
+
 	/**
 	 *
 	 * @param section

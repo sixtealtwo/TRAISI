@@ -30,6 +30,17 @@ export class SurveyPageContainer extends SurveyContainer {
 		return this._children[this._activePageIndex];
 	}
 
+	public get isComplete(): boolean {
+		let complete = true;
+
+		this.children.forEach(repeatContainer => {
+			if (complete) {
+				complete = repeatContainer.isComplete;
+			}
+		});
+		return complete;
+	}
+
 	public constructor(model: SurveyViewPage) {
 		super();
 		this._pageModel = model;

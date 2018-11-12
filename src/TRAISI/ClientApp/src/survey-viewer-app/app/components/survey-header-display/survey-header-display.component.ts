@@ -3,6 +3,7 @@ import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 
 @Component({
 	selector: 'traisi-survey-header-display',
@@ -12,11 +13,6 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 export class SurveyHeaderDisplayComponent implements OnInit {
 
 	public completedPages: boolean[] = [];
-
-
-
-	public pages: Array<SurveyViewPage> = [];
-
 
 	public activePageIndex: number = 0;
 
@@ -39,11 +35,16 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 	constructor(
 		private _surveyViewerStateService: SurveyViewerStateService,
 		private _cdRef: ChangeDetectorRef,
-		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
+		private _navigation: SurveyViewerNavigationService,
 	) {}
 
 	public ngOnInit(): void {
-		console.log(this._surveyViewerService);
+		this._navigation.navigationCompleted.subscribe(result => {
+			this.viewerState.viewContainers.forEach((page, index) => {
+				this.completedPages[index] = page.isComplete;
+			});
+		});
 	}
 
 		/**

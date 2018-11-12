@@ -36,6 +36,17 @@ export class SurveyGroupContainer extends SurveyContainer {
 		}
 	}
 
+	public get isComplete(): boolean {
+		let complete = true;
+
+		this.children.forEach(repeatContainer => {
+			if (complete) {
+				complete = repeatContainer.isComplete;
+			}
+		});
+		return complete;
+	}
+
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {

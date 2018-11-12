@@ -35,6 +35,17 @@ export class SurveySectionContainer extends SurveyContainer {
 		return null;
 	}
 
+	public get isComplete(): boolean {
+		let complete = true;
+
+		this.children.forEach(groupContainer => {
+			if (complete) {
+				complete = groupContainer.isComplete;
+			}
+		});
+		return complete;
+	}
+
 	public get groupContainers(): Array<SurveyGroupContainer> {
 		return this._children;
 	}

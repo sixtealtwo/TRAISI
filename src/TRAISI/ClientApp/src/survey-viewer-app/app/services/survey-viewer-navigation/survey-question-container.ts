@@ -1,6 +1,6 @@
 import { SurveyContainer } from './survey-container';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
-import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion, ResponseValidationState } from 'traisi-question-sdk';
 import { Subject } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { QuestionContainerComponent } from '../../components/question-container/question-container.component';
@@ -36,6 +36,18 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	public set questionInstance(value: QuestionContainerComponent) {
 		this._questionInstance = value;
 	}
+
+	public get isComplete(): boolean {
+		if (this.questionInstance) {
+			if (this.questionInstance.question.isHidden) {
+				return true;
+			} else {
+				return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
+			}
+		}
+		return false;
+	}
+
 
 	/**
 	 * Gets active question

@@ -201,8 +201,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.surveyId = surveyId;
 
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
-					this.headerDisplay.pages = pages;
-
+					pages.forEach(page => {
+						this.headerDisplay.completedPages.push(false);
+					});
 					this.loadQuestions(pages);
 				});
 			});
