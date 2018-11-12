@@ -13,6 +13,7 @@ import { SurveyViewerNavigationService } from '../../services/survey-viewer-navi
 export class SurveyHeaderDisplayComponent implements OnInit {
 
 	public completedPages: boolean[] = [];
+	public surveyComplete: boolean = false;
 
 	public activePageIndex: number = 0;
 
@@ -44,6 +45,7 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 			this.viewerState.viewContainers.forEach((page, index) => {
 				this.completedPages[index] = page.isComplete;
 			});
+			this.surveyComplete = this.viewerState.isNavComplete;
 		});
 	}
 

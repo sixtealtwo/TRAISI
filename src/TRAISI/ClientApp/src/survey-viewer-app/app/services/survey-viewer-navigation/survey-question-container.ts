@@ -38,11 +38,11 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	}
 
 	public get isComplete(): boolean {
-		if (this.questionInstance) {
-			if (this.questionInstance.question.isHidden) {
+		if (this.questionModel) {
+			if (this.questionModel.isHidden) {
 				return true;
-			} else {
-				return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
+			} else if (this.questionInstance) {
+					return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
 			}
 		}
 		return false;
