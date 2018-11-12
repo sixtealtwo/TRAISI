@@ -121,7 +121,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Flys to position
 	 * @param val
 	 */
-	private flyToPosition(val: LngLatLike, zoomLevel?: number ): void {
+	private flyToPosition(val: LngLatLike, zoomLevel?: number): void {
 		let obj: mapboxgl.FlyToOptions;
 
 		this.markerPosition = val;
@@ -172,18 +172,15 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public ngAfterViewInit(): void {
 		this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
-			this.mapGeoLocator.control.on('geolocate', (e) => this.userLocate(e));
+			this.mapGeoLocator.control.on('geolocate', e => this.userLocate(e));
 			this._mapinstance = this.mapGL.mapInstance;
 			this.mapInstance.next(this.mapGL.mapInstance);
 			this.mapGL.mapInstance.resize();
-			this.mapGL.mapInstance.once('moveend',
-				(e) =>  {
-					setTimeout(() => {
-						this.mapGeocoder.control._inputEl.focus();
-					}, 1000);
-
-				}
-			);
+			this.mapGL.mapInstance.once('moveend', e => {
+				setTimeout(() => {
+					this.mapGeocoder.control._inputEl.focus();
+				}, 1000);
+			});
 			this.flyToPosition(this.markerPosition, 12);
 		});
 	}
@@ -310,7 +307,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether question shown on
 	 */
 	public onQuestionShown(): void {
-		this.mapInstance.subscribe((instance) => {
+		this.mapInstance.subscribe(instance => {
 			instance.resize();
 		});
 	}
@@ -328,5 +325,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		let purpose = JSON.parse(mapConfig.purpose);
 
 		this.purpose = purpose.id;
+	}
+
+	public resetInput(): void {
+		this.mapGeocoder.control._inputEl.value = '';
+		this.locationSearch = '';
 	}
 }
