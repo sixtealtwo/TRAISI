@@ -26,7 +26,8 @@ export {
 	TimelineResponseData,
 	TimeResponseData,
 	ResponseValue,
-	OptionSelectResponseData
+	OptionSelectResponseData,
+	GroupMember
 } from './survey-question';
 
 export { QuestionLoaderService } from './question-loader.service';

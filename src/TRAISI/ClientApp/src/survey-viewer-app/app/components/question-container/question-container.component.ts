@@ -186,6 +186,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					}, result);
 				});
 
+				surveyQuestionInstance.respondent = this.respondent;
 				surveyQuestionInstance.traisiOnInit();
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
