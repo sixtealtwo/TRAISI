@@ -1,4 +1,4 @@
-<div id="question-viewer-wrapper" *ngIf="loadedComponents">
+<div id="question-viewer-wrapper" class="flex-column d-flex" *ngIf="loadedComponents">
 	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
 	<ndc-dynamic
 		*ngIf="headerComponent"
@@ -12,8 +12,8 @@
 		#header
 	></traisi-survey-header-display>
 
-	<div class="survey-body-container">
-		<div class="survey-body">
+	<div class="survey-body-container flex-grow-1 d-flex flex-column">
+		<div class="survey-body flex-grow-1 d-flex flex-column">
 			<div
 				class="survey-section-header"
 				*ngIf="viewerState.isSectionActive"
@@ -23,7 +23,7 @@
 			>
 				{{ processedSectionLabel(viewerState.activeSection.label) }}
 			</div>
-			<div class="questions-container">
+			<div class="questions-container flex-grow-1">
 				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded">
 					<ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
 						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
