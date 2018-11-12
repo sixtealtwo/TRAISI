@@ -71,11 +71,12 @@ namespace DAL.Repositories
         {
 
             var responses = new List<SurveyResponse>();
-            IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where(r => r.QuestionPart.Survey.Id == surveyId
-              && user == r.Respondent).Distinct()
-              .Include(r => r.ResponseValues)
-                   .Include(r => r.Respondent)
-                   .Include(r => r.QuestionPart).ThenInclude(q => q.QuestionConfigurations);
+            IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where(r => r.QuestionPart.Survey.Id == surveyId)
+            .Distinct()
+            .Where(r => user.SurveyRespondentGroup.GroupMembers.Contains(r.Respondent))
+            .Include(r => r.ResponseValues)
+            .Include(r => r.Respondent)
+            .Include(r => r.QuestionPart).ThenInclude(q => q.QuestionConfigurations);
 
             if (type == "location")
             {
@@ -113,6 +114,8 @@ namespace DAL.Repositories
             {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
+
+
 
 
             var result = await query.ToListAsync();
