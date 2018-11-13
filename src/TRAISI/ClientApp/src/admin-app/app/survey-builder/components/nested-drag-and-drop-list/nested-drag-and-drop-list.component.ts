@@ -178,7 +178,10 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	configurationHidden() {
+	configurationHidden(event: ModalDirective) {
+	  if (event.dismissReason === 'esc') {
+			this.processConfiguration('cancel');
+		}
 		this.qConfiguration.editing = false;
 		this.qConfiguration.questionBeingEdited = undefined;
 		this.qConfiguration.configurations = [];
