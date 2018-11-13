@@ -88,7 +88,7 @@ export class SurveyViewerConditionalEvaluator {
 	}
 
 	private evaluatGreaterThan(sourceData: any[], value: any): boolean {
-		const val: boolean = sourceData[0].value < parseInt(value, 10);
+		const val: boolean = sourceData[0].value > parseInt(value, 10);
 
 		return val;
 	}
