@@ -218,15 +218,7 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isPreviousEnabled = true;
 		}
 
-		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
-
-		
-		// console.log(this._state);
-
-		// this.location.go(url);
-	}
-
-	public updateNavigationStates(): void {
+	
 		if (!this.canNavigateNext()) {
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
@@ -234,6 +226,35 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
 		}
+
+		// console.log(this._state);
+
+		// this.location.go(url);
+	}
+
+	public updateNavigationStates(): void {
+		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
+
+		if (
+			questionContainer.questionInstance !== undefined &&
+			questionContainer.questionModel.respondentValidationState !== undefined
+	) {
+			if (
+					questionContainer.questionModel.respondentValidationState[
+							this._state.viewerState.activeRespondent.id
+					] === ResponseValidationState.VALID ||
+					questionContainer.questionModel.isOptional || questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()
+			) {
+					// console.log('is enabled');
+					this._state.viewerState.isNextEnabled = true;
+			} else {
+					// console.log('disabling next');
+					this._state.viewerState.isNextEnabled = false;
+			}
+	} else {
+			// .log('disabling');
+			this._state.viewerState.isNextEnabled = false;
+	}
 
 	}
 
