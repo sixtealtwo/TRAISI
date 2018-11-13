@@ -23,11 +23,10 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 */
 	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
-
-		if(sourceData === undefined)
-		{
+		if (sourceData === undefined) {
 			return false;
 		}
+
 		switch (conditionalType) {
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
@@ -35,6 +34,10 @@ export class SurveyViewerConditionalEvaluator {
 				return !this.evaluateContains(sourceData, value);
 			case 'isEqualTo':
 				return this.evaluateEquals(sourceData, value);
+			case 'lessThan':
+				return this.evaluatLessThan(sourceData, value);
+			case 'greaterThan':
+				return this.evaluatGreaterThan(sourceData, value);
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
 			case 'isNotEqualTo':
@@ -78,6 +81,18 @@ export class SurveyViewerConditionalEvaluator {
 		return val;
 	}
 
+	private evaluatLessThan(sourceData: any[], value: any): boolean {
+		const val: boolean = sourceData[0].value < parseInt(value, 10);
+
+		return val;
+	}
+
+	private evaluatGreaterThan(sourceData: any[], value: any): boolean {
+		const val: boolean = sourceData[0].value < parseInt(value, 10);
+
+		return val;
+	}
+
 	/**
 	 * Evaluates in bounds
 	 * @param sourceData
@@ -117,7 +132,6 @@ export class SurveyViewerConditionalEvaluator {
 	 */
 	private evaluateIsAllOf(sourceData: any[], conditionalData: string): boolean {
 		let conditionals = JSON.parse(conditionalData);
-
 
 		return _every(conditionals, x => {
 			return _some(sourceData, y => {

@@ -45,6 +45,7 @@ export class SurveyViewerNavigationService {
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
 		this._state.viewerState.isPreviousActionNext = true;
+		this._state.viewerState.isNextEnabled = false;
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			// sane bounds check
 			this.navigationCompleted.next(true);
@@ -177,7 +178,7 @@ export class SurveyViewerNavigationService {
 	 * Updates state
 	 */
 	public updateState(): void {
-		this._state.viewerState.isNextEnabled = false;
+		// this._state.viewerState.isNextEnabled = false;
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			return;
 		}
@@ -229,7 +230,7 @@ export class SurveyViewerNavigationService {
 			// this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
-			this._state.viewerState.isNextEnabled = true;
+			// this._state.viewerState.isNextEnabled = true;
 		}
 
 		// console.log(this._state);
@@ -251,14 +252,20 @@ export class SurveyViewerNavigationService {
 			) {
 				// console.log('is enabled');
 				this._state.viewerState.isNextEnabled = true;
-			} else if (questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()) {
+			} else if (
+				questionContainer.questionModel.respondentValidationState[
+					this._state.viewerState.activeRespondent.id
+				] === ResponseValidationState.VALID &&
+				questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()
+			) {
 				this._state.viewerState.isNextEnabled = true;
 			} else {
+				console.log('false here');
 				this._state.viewerState.isNextEnabled = false;
 			}
 		} else {
 			// .log('disabling');
-
+			console.log('false here 2');
 			this._state.viewerState.isNextEnabled = false;
 		}
 	}
@@ -388,6 +395,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public initialize(): void {
 		this._state.viewerState.isPreviousEnabled = false;
+		this._state.viewerState.isNextEnabled = false;
 		this._state.viewerState.activeViewContainerIndex = -1;
 		this.incrementViewContainer();
 		this.updateState();

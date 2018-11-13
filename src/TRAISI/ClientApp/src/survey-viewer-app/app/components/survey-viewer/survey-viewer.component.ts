@@ -140,8 +140,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._viewerStateService.viewerState = viewerState;
 	}
 
-
-
 	public get isNavigationPreviousEnabled(): boolean {
 		return this._navigation.isNavigationPreviousEnabled;
 	}
@@ -531,7 +529,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		});
 	}
 
+	/**
+	 * Navigation completed of survey viewer component
+	 */
 	public navigationCompleted = (navStatus: boolean) => {
+		console.log('nav complete');
 		this.viewerState.isNavProcessing = false;
 	};
 
@@ -655,7 +657,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Validates the disabled / enabled state of the navigation buttons.
 	 */
 	public validateNavigation(): void {
-
 		return;
 	}
 

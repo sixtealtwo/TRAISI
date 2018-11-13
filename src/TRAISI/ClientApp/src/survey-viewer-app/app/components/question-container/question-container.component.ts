@@ -205,13 +205,14 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
-
-						this._navigation.navigationCompleted.next(true);
+						setTimeout(() => {
+							this._navigation.navigationCompleted.next(true);
+						}, 100);
 						this._navigation.navigationCompleted.subscribe(result => {
 							this.alreadyNavigated = true;
 						});
 					});
-				this._viewerStateService.viewerState.isNextEnabled = false;
+				// this._viewerStateService.viewerState.isNextEnabled = false;
 				if (this.question.isOptional) {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
@@ -219,7 +220,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	private autoAdvance(): void {
-		if (!this.alreadyNavigated) {
+		// let test = this._viewerStateService.viewerState.isNavProcessing;
+		if (!this._viewerStateService.viewerState.isNavProcessing) {
 			this.navigation.navigateNext();
 			this.alreadyNavigated = false;
 		}
@@ -270,9 +272,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
-		if (this.surveyQuestionInstance !== undefined) {
-			this._navigation.updateNavigationStates();
-		}
+		// just call the update after everything else waiting to be processed
+		setTimeout(() => {
+			if (this.surveyQuestionInstance !== undefined) {
+				this._navigation.updateNavigationStates();
+			}
+		});
 
 		// this.surveyViewer.validateNavigation();
 	};
