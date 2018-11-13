@@ -189,7 +189,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				});
 
 				surveyQuestionInstance.respondent = this.respondent;
-				surveyQuestionInstance.traisiOnInit();
+				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
 				this.surveyViewerService
 					.getQuestionOptions(this.surveyId, this.question.questionId, 'en', null)
 					.subscribe((options: SurveyViewQuestionOption[]) => {
@@ -205,9 +205,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
-				
+
 						this._navigation.navigationCompleted.next(true);
-						this._navigation.navigationCompleted.subscribe(result =>  {
+						this._navigation.navigationCompleted.subscribe(result => {
 							this.alreadyNavigated = true;
 						});
 					});

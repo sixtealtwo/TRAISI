@@ -44,7 +44,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
-
+		this._state.viewerState.isPreviousActionNext = true;
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			// sane bounds check
 			this.navigationCompleted.next(true);
@@ -113,6 +113,7 @@ export class SurveyViewerNavigationService {
 	 * @param pageIndex
 	 */
 	public setActivePage(pageIndex: number): void {
+		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.activeViewContainerIndex = pageIndex;
 
 		this._state.viewerState.activeViewContainer = this._state.viewerState.viewContainers[
@@ -348,6 +349,7 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
+		this._state.viewerState.isPreviousActionNext = false;
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
 			this.navigationCompleted.next(true);

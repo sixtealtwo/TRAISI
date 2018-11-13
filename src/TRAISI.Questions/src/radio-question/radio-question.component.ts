@@ -104,8 +104,4 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 		this.options = options;
 	}
 
-	/**
-	 * Traisis on init
-	 */
-	public traisiOnInit(): void {}
 }

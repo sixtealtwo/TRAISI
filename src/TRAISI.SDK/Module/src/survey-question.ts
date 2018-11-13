@@ -125,7 +125,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 *
 	 * @memberof SurveyQuestion
 	 */
-	public traisiOnInit(): void {}
+	public traisiOnInit(isPreviousActionNext: boolean): void {}
 
 	/**
 	 * Called when the question has completed loading all of its data.
