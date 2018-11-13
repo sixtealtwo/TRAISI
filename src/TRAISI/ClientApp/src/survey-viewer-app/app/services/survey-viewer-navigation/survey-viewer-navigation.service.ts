@@ -50,6 +50,10 @@ export class SurveyViewerNavigationService {
 			this.navigationCompleted.next(true);
 			return;
 		} else {
+			if (!this.canNavigateNext()) {
+				this.updateState();
+				return;
+			}
 			this.evaluateRepeat()
 				.pipe(
 					flatMap(() => {
@@ -221,7 +225,8 @@ export class SurveyViewerNavigationService {
 
 		if (!this.canNavigateNext()) {
 			this._state.viewerState.isNavComplete = true;
-			this._state.viewerState.isNextEnabled = false;
+			this._state.viewerState.isNextEnabled = true;
+			// this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
@@ -238,27 +243,24 @@ export class SurveyViewerNavigationService {
 		if (
 			questionContainer.questionInstance !== undefined &&
 			questionContainer.questionModel.respondentValidationState !== undefined
-	) {
+		) {
 			if (
-					questionContainer.questionModel.respondentValidationState[
-							this._state.viewerState.activeRespondent.id
-					] === ResponseValidationState.VALID
+				questionContainer.questionModel.respondentValidationState[
+					this._state.viewerState.activeRespondent.id
+				] === ResponseValidationState.VALID
 			) {
-					// console.log('is enabled');
-					this._state.viewerState.isNextEnabled = true;
-			} else if ( 	questionContainer.questionModel.respondentValidationState[
-				this._state.viewerState.activeRespondent.id
-		] === ResponseValidationState.VALID && questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()) {
+				// console.log('is enabled');
+				this._state.viewerState.isNextEnabled = true;
+			} else if (questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()) {
 				this._state.viewerState.isNextEnabled = true;
 			} else {
-					// console.log('disabling next');
-					this._state.viewerState.isNextEnabled = false;
+				this._state.viewerState.isNextEnabled = false;
 			}
-	} else {
+		} else {
 			// .log('disabling');
-			this._state.viewerState.isNextEnabled = false;
-	}
 
+			this._state.viewerState.isNextEnabled = false;
+		}
 	}
 
 	private canNavigatePrevious(): boolean {
