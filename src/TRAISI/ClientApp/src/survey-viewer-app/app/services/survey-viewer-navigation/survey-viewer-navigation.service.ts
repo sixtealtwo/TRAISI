@@ -222,12 +222,9 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (!this.canNavigateNext()) {
-
 			let allPageValid = true;
-			for(let i = 0 ;  i < this._state.viewerState.viewContainers.length ; i ++)
-			{
-				if(!this._state.viewerState.viewContainers[i].isComplete)
-				{
+			for (let i = 0; i < this._state.viewerState.viewContainers.length; i++) {
+				if (!this._state.viewerState.viewContainers[i].isComplete) {
 					allPageValid = false;
 					break;
 				}
@@ -258,7 +255,6 @@ export class SurveyViewerNavigationService {
 			) {
 				this._state.viewerState.isNextEnabled = true;
 			} else {
-
 				this._state.viewerState.isNextEnabled = false;
 			}
 		} else {
