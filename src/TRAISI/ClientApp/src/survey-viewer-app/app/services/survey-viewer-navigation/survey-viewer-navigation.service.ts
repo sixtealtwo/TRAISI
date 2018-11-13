@@ -222,7 +222,17 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (!this.canNavigateNext()) {
-			this._state.viewerState.isNavComplete = true;
+
+			let allPageValid = true;
+			for(let i = 0 ;  i < this._state.viewerState.viewContainers.length ; i ++)
+			{
+				if(!this._state.viewerState.viewContainers[i].isComplete)
+				{
+					allPageValid = false;
+					break;
+				}
+			}
+			this._state.viewerState.isNavComplete = allPageValid;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
@@ -248,12 +258,12 @@ export class SurveyViewerNavigationService {
 			) {
 				this._state.viewerState.isNextEnabled = true;
 			} else {
-				console.log('false here');
+
 				this._state.viewerState.isNextEnabled = false;
 			}
 		} else {
 			// .log('disabling');
-			console.log('false here 2');
+
 			this._state.viewerState.isNextEnabled = false;
 		}
 	}
