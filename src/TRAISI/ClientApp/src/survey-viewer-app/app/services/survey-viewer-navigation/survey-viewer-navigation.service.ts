@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { flatMap } from 'rxjs/operators';
 import { SurveyPageContainer } from './survey-page-container';
 import { ResponseValidationState } from 'traisi-question-sdk';
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
 	providedIn: 'root'
@@ -51,10 +52,6 @@ export class SurveyViewerNavigationService {
 			this.navigationCompleted.next(true);
 			return;
 		} else {
-			if (!this.canNavigateNext()) {
-				this.updateState();
-				return;
-			}
 			this.evaluateRepeat()
 				.pipe(
 					flatMap(() => {
@@ -226,11 +223,10 @@ export class SurveyViewerNavigationService {
 
 		if (!this.canNavigateNext()) {
 			this._state.viewerState.isNavComplete = true;
-			this._state.viewerState.isNextEnabled = true;
-			// this._state.viewerState.isNextEnabled = false;
+			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
-			// this._state.viewerState.isNextEnabled = true;
+			this._state.viewerState.isNextEnabled = true;
 		}
 
 		// console.log(this._state);
@@ -249,14 +245,6 @@ export class SurveyViewerNavigationService {
 				questionContainer.questionModel.respondentValidationState[
 					this._state.viewerState.activeRespondent.id
 				] === ResponseValidationState.VALID
-			) {
-				// console.log('is enabled');
-				this._state.viewerState.isNextEnabled = true;
-			} else if (
-				questionContainer.questionModel.respondentValidationState[
-					this._state.viewerState.activeRespondent.id
-				] === ResponseValidationState.VALID &&
-				questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()
 			) {
 				this._state.viewerState.isNextEnabled = true;
 			} else {

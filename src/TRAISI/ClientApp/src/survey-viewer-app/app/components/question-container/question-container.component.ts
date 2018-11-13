@@ -207,21 +207,20 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 						setTimeout(() => {
 							this._navigation.navigationCompleted.next(true);
+							this._navigation.navigationCompleted.subscribe(result => {
+								this.alreadyNavigated = true;
+							});
 						}, 100);
-						this._navigation.navigationCompleted.subscribe(result => {
-							this.alreadyNavigated = true;
-						});
 					});
-				// this._viewerStateService.viewerState.isNextEnabled = false;
-				if (this.question.isOptional) {
-					this._viewerStateService.viewerState.isNextEnabled = true;
-				}
+					this._viewerStateService.viewerState.isNextEnabled = false;
+					if (this.question.isOptional) {
+						this._viewerStateService.viewerState.isNextEnabled = true;
+					}
 			});
 	}
 
 	private autoAdvance(): void {
-		// let test = this._viewerStateService.viewerState.isNavProcessing;
-		if (!this._viewerStateService.viewerState.isNavProcessing) {
+		if (!this.alreadyNavigated) {
 			this.navigation.navigateNext();
 			this.alreadyNavigated = false;
 		}
@@ -274,9 +273,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		// just call the update after everything else waiting to be processed
 		setTimeout(() => {
-			if (this.surveyQuestionInstance !== undefined) {
 				this._navigation.updateNavigationStates();
-			}
 		});
 
 		// this.surveyViewer.validateNavigation();
