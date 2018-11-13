@@ -235,7 +235,9 @@ export class SurveyViewerNavigationService {
 				questionContainer.questionModel.respondentValidationState[
 					this._state.viewerState.activeRespondent.id
 				] === ResponseValidationState.VALID ||
-				questionContainer.questionModel.isOptional || questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext()
+				questionContainer.questionModel.isOptional ||
+				(questionContainer.questionInstance.surveyQuestionInstance !== undefined &&
+					questionContainer.questionInstance.surveyQuestionInstance.canNavigateInternalNext())
 			) {
 				// console.log('is enabled');
 				this._state.viewerState.isNextEnabled = true;

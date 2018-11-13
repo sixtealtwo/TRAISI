@@ -57,7 +57,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 * Models changed
 	 */
 	public modelChanged(): void {
-	
+
 	}
 
 	/**
