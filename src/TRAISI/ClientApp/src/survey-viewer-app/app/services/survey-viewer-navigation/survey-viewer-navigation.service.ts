@@ -44,7 +44,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
-
+		this._state.viewerState.isPreviousActionNext = true;
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			// sane bounds check
 			this.navigationCompleted.next(true);
@@ -113,6 +113,7 @@ export class SurveyViewerNavigationService {
 	 * @param pageIndex
 	 */
 	public setActivePage(pageIndex: number): void {
+		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.activeViewContainerIndex = pageIndex;
 
 		this._state.viewerState.activeViewContainer = this._state.viewerState.viewContainers[
@@ -233,6 +234,7 @@ export class SurveyViewerNavigationService {
 	}
 
 	public updateNavigationStates(): void {
+<<<<<<< HEAD
 		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
 
 		if (
@@ -256,6 +258,16 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isNextEnabled = false;
 	}
 
+=======
+		if (!this.canNavigateNext()) {
+
+			this._state.viewerState.isNavComplete = true;
+			this._state.viewerState.isNextEnabled = false;
+		} else {
+			this._state.viewerState.isNavComplete = false;
+			this._state.viewerState.isNextEnabled = true;
+		}
+>>>>>>> e737ab3163430ba68c8216bfd695da1efb38bce6
 	}
 
 	private canNavigatePrevious(): boolean {
@@ -351,6 +363,7 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
+		this._state.viewerState.isPreviousActionNext = false;
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
 			this.navigationCompleted.next(true);

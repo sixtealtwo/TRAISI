@@ -104,9 +104,6 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 		this.autoAdvance.emit(500);
 	}
 
-		/**
-	 * Traisis on init
-	 */
-	public traisiOnInit(): void {}
+
 }
 

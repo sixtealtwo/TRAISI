@@ -48,10 +48,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		super();
 	}
 
-	/**
-	 * Traisis on init
-	 */
-	public traisiOnInit(): void {}
 
 	/**
 	 * Models changed
