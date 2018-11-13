@@ -211,6 +211,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 							this.alreadyNavigated = true;
 						});
 					});
+					this._viewerStateService.viewerState.isNextEnabled = false;
+					if (this.question.isOptional) {
+						this._viewerStateService.viewerState.isNextEnabled = true;
+					}
+			
 			});
 	}
 
@@ -265,7 +270,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			this.surveyViewQuestion.respondentValidationState = {};
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
-		this._navigation.updateState();
+		this._navigation.updateNavigationStates();
 		// this.surveyViewer.validateNavigation();
 	};
 
