@@ -168,7 +168,7 @@ namespace TRAISI.Services
             return true;
 
         }
-
+ 
         /// <summary>
         /// 
         /// </summary>
@@ -343,9 +343,9 @@ namespace TRAISI.Services
         {
             List<TimelineResponse> values = responseData["values"].ToObject<List<TimelineResponse>>();
 
-
             response.ResponseValues.Clear();
-            response.ResponseValues.AddRange(values);
+
+            response.ResponseValues.AddRange(values); 
             return;
         }
 
