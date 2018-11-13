@@ -221,7 +221,6 @@ export class SurveyViewerNavigationService {
 
 		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
 
-		
 		// console.log(this._state);
 
 		// this.location.go(url);
@@ -229,13 +228,13 @@ export class SurveyViewerNavigationService {
 
 	public updateNavigationStates(): void {
 		if (!this.canNavigateNext()) {
+
 			this._state.viewerState.isNavComplete = true;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
 		}
-
 	}
 
 	private canNavigatePrevious(): boolean {
