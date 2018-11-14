@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild, Inject } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	EventEmitter,
+	OnInit,
+	ViewChild,
+	Inject
+} from '@angular/core';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
@@ -30,7 +39,8 @@ let markerIconImage = require('./assets/default-marker.png');
 	template: '' + <string>require('./map-question.component.html').toString(),
 	styles: [require('./map-question.component.scss').toString()]
 })
-export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
+export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
+	implements OnInit, AfterViewInit, OnVisibilityChanged {
 	public locationSearch: string;
 	public locationLoaded: boolean = false;
 
@@ -60,7 +70,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this._markerPosition = val;
 	}
-
 
 	/**
 	 * Gets marker icon
@@ -208,27 +217,43 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	/**
+	 * Sets question state
+	 * @param latitude
+	 * @param longitude
+	 * @param location
+	 */
+	public setQuestionState(latitude: number, longitude: number, address: string): void {
+		this.locationSearch = address;
+		this.mapGeocoder.control._inputEl.value = address;
+		this.markerPosition = [longitude, latitude];
+		this.flyToPosition([longitude, latitude]);
+		// this._mapinstance.flyTo();
+	}
+
+	/**
 	 *
 	 * @param e
 	 */
 	public userLocate(e: Position): void {
 		this.markerPosition = [e.coords.longitude, e.coords.latitude];
-		this.mapEndpointService.reverseGeocode(e.coords.latitude, e.coords.longitude).subscribe((result: GeoLocation) => {
-			this.locationSearch = result.address;
-			this.mapGeocoder.control._inputEl.value = result.address;
+		this.mapEndpointService
+			.reverseGeocode(e.coords.latitude, e.coords.longitude)
+			.subscribe((result: GeoLocation) => {
+				this.locationSearch = result.address;
+				this.mapGeocoder.control._inputEl.value = result.address;
 
-			this.cdRef.detectChanges();
+				this.cdRef.detectChanges();
 
-			let data: LocationResponseData = {
-				latitude: e.coords.latitude,
-				longitude: e.coords.longitude,
-				address: <string>result.address
-			};
+				let data: LocationResponseData = {
+					latitude: e.coords.latitude,
+					longitude: e.coords.longitude,
+					address: <string>result.address
+				};
 
-			this.saveResponse(data);
-			this.surveyViewerService.updateNavigationState(true);
-			this.validationState.emit(ResponseValidationState.VALID);
-		});
+				this.saveResponse(data);
+				this.surveyViewerService.updateNavigationState(true);
+				this.validationState.emit(ResponseValidationState.VALID);
+			});
 	}
 
 	/**
@@ -243,20 +268,22 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public onDragEnd(event: Marker): void {
 		this.flyToPosition(event.getLngLat());
-		this.mapEndpointService.reverseGeocode(event.getLngLat().lat, event.getLngLat().lng).subscribe((result: GeoLocation) => {
-			this.locationSearch = result.address;
-			this.mapGeocoder.control._inputEl.value = result.address;
+		this.mapEndpointService
+			.reverseGeocode(event.getLngLat().lat, event.getLngLat().lng)
+			.subscribe((result: GeoLocation) => {
+				this.locationSearch = result.address;
+				this.mapGeocoder.control._inputEl.value = result.address;
 
-			let data: LocationResponseData = {
-				latitude: event.getLngLat().lat,
-				longitude: event.getLngLat().lng,
-				address: <string>result.address
-			};
+				let data: LocationResponseData = {
+					latitude: event.getLngLat().lat,
+					longitude: event.getLngLat().lng,
+					address: <string>result.address
+				};
 
-			this.saveResponse(data);
-			this.surveyViewerService.updateNavigationState(true);
-			this.validationState.emit(ResponseValidationState.VALID);
-		});
+				this.saveResponse(data);
+				this.surveyViewerService.updateNavigationState(true);
+				this.validationState.emit(ResponseValidationState.VALID);
+			});
 	}
 
 	/**
@@ -300,7 +327,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.mapGL.maxBounds = [[-81.115327, 43.044575], [-78.055546, 44.634225]];
 		this.mapGL.doubleClickZoom = false;
 		this.mapGL.attributionControl = false;
-
 	}
 
 	/**
