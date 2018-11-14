@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyResponderService } from './survey-responder.service';
-import booleanContains from '@turf/boolean-point-in-polygon';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { every as _every, some as _some } from 'lodash';
-
+import { point } from '@turf/helpers';
 @Injectable({
 	providedIn: 'root'
 })
@@ -53,7 +53,7 @@ export class SurveyViewerConditionalEvaluator {
 			case 'inBounds':
 				return this.evaluateInBounds(sourceData, value);
 			case 'outOfBounds':
-				return this.evaluateInBounds(sourceData, value);
+				return !this.evaluateInBounds(sourceData, value);
 			default:
 				return false;
 		}
@@ -99,9 +99,17 @@ export class SurveyViewerConditionalEvaluator {
 	 * @param value
 	 * @returns true if in bounds
 	 */
-	private evaluateInBounds(sourceData: any, value: any): boolean {
-		booleanContains(null, null);
-		return false;
+	private evaluateInBounds(sourceData: any, boundsInfo: any): boolean {
+		let bounds = JSON.parse(boundsInfo);
+
+		if (bounds.features === undefined) {
+			return false;
+		}
+		let p = point([sourceData[0].longitude, sourceData[0].latitude]);
+		let contains = booleanPointInPolygon(p, bounds.features[0]);
+		// point([sourceData[0].latitude, sourceData[0].longitude]);
+
+		return contains;
 	}
 
 	/**
