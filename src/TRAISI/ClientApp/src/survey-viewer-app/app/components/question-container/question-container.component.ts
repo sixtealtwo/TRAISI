@@ -220,7 +220,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	private autoAdvance(): void {
-		if (!this.alreadyNavigated) {
+		if (!this.alreadyNavigated && !this._viewerStateService.viewerState.isNavComplete) {
 			this.navigation.navigateNext();
 			this.alreadyNavigated = false;
 		}

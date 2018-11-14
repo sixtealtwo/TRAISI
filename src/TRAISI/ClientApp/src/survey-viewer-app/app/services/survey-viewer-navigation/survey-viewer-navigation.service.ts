@@ -244,6 +244,21 @@ export class SurveyViewerNavigationService {
 	public updateNavigationStates(): void {
 		let questionContainer = <SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer;
 
+		if (!this.canNavigateNext()) {
+			let allPageValid = true;
+			for (let i = 0; i < this._state.viewerState.viewContainers.length; i++) {
+				if (!this._state.viewerState.viewContainers[i].isComplete) {
+					allPageValid = false;
+					break;
+				}
+			}
+			this._state.viewerState.isNavComplete = allPageValid;
+			this._state.viewerState.isNextEnabled = false;
+		} else {
+			this._state.viewerState.isNavComplete = false;
+			this._state.viewerState.isNextEnabled = true;
+		}
+
 		if (
 			questionContainer.questionInstance !== undefined &&
 			questionContainer.questionModel.respondentValidationState !== undefined
@@ -262,6 +277,8 @@ export class SurveyViewerNavigationService {
 
 			this._state.viewerState.isNextEnabled = false;
 		}
+
+		
 	}
 
 	private canNavigatePrevious(): boolean {
