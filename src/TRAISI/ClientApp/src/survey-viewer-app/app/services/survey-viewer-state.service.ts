@@ -269,11 +269,11 @@ export class SurveyViewerStateService {
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-						let response = this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId);
+						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
 						return this._conditionalEvaluator.evaluateConditional(
 							evalConditional.conditionalType,
-							this._responderService.getCachedSavedResponse(updatedQuestionId, respondentId),
+							response,
 							'',
 							evalConditional.value
 						);
