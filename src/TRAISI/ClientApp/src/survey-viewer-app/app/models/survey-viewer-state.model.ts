@@ -75,6 +75,8 @@ export interface SurveyViewerState {
 
 	activeQuestionContainer: SurveyContainer;
 
+	activeSectionRepeatContainer: SurveySectionRepeatContainer;
+
 	isPreviousEnabled: boolean;
 
 	isNextEnabled: boolean;
@@ -84,4 +86,8 @@ export interface SurveyViewerState {
 	isNavProcessing: boolean;
 
 	isPreviousActionNext: boolean;
+
+	questionNavIndex: number;
+
+	isNavFinished: boolean;
 }

@@ -104,6 +104,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		}
 		this._activeQuestionInstanceIndex = 0;
 
+
 		return null;
 	}
 

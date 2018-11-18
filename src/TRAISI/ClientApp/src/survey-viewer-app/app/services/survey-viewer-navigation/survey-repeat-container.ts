@@ -14,7 +14,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 
 	private _activeQuestionIndex: number;
 
-	public activeQuestion: SurveyViewQuestion;
+	// public activeQuestion: SurveyViewQuestion;
 
 	public get activeQuestionContainer(): SurveyQuestionContainer {
 		return this._children[this._activeQuestionIndex];
@@ -149,7 +149,8 @@ export class SurveyRepeatContainer extends SurveyContainer {
 
 	public initialize(): Subject<void> | boolean {
 		// this._children = [];
-		// this.children.push(this._questionModel);
+		// this.children.push(this._questionModel);`
+
 
 		if (this._state.viewerState.questionMap[this._questionModel.questionId].repeatChildren !== undefined) {
 			this._children = [];
@@ -162,12 +163,21 @@ export class SurveyRepeatContainer extends SurveyContainer {
 			for (let i = 0; i < repeatCount; i++) {
 				let repeatModel: SurveyViewQuestion = this._questionModel;
 				repeatModel.repeatNumber = i;
-				let container = new SurveyQuestionContainer(repeatModel, null);
+				let container = new SurveyQuestionContainer(
+					repeatModel,
+					null,
+					this._member !== undefined ? null : this._member
+				);
 
+				container.initialize();
 				this._children.push(container);
 			}
 
 			this._activeQuestionIndex = 0;
+		} else {
+			for (let q of this.children) {
+				q.initialize();
+			}
 		}
 
 		return false;

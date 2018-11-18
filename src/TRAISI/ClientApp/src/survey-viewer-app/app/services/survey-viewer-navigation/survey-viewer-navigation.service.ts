@@ -48,9 +48,11 @@ export class SurveyViewerNavigationService {
 		// if true, then the survey can navigate to the next container
 		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.isNextEnabled = false;
+
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			// sane bounds check
 			this.navigationCompleted.next(true);
+
 			return;
 		} else {
 			this.evaluateRepeat()
@@ -138,7 +140,7 @@ export class SurveyViewerNavigationService {
 				this.incrementViewContainer();
 			}
 		}
-
+		this.updateState();
 		// this._state.viewerState.viewContainers[pageIndex].initialize();
 
 		this._state.viewerState.isPreviousEnabled = true;
@@ -164,11 +166,11 @@ export class SurveyViewerNavigationService {
 
 					nextParentContainer.updateGroups();
 
-					this.updateState();
+					this.updateNavigationState();
 				}
 			});
 		} else {
-			this.updateState();
+			this.updateNavigationState();
 		}
 	}
 
@@ -222,7 +224,7 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isPreviousEnabled = true;
 		}
 
-		if (!this.canNavigateNext()) {
+		/*if (!this.canNavigateNext()) {
 			let allPageValid = true;
 			for (let i = 0; i < this._state.viewerState.viewContainers.length; i++) {
 				if (!this._state.viewerState.viewContainers[i].isComplete) {
@@ -235,7 +237,7 @@ export class SurveyViewerNavigationService {
 		} else {
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
-		}
+		} */
 
 		// console.log(this._state);
 
@@ -253,30 +255,33 @@ export class SurveyViewerNavigationService {
 					break;
 				}
 			}
+
+			this._state.viewerState.isNavFinished = true;
 			this._state.viewerState.isNavComplete = allPageValid;
 			this._state.viewerState.isNextEnabled = false;
 		} else {
+			this._state.viewerState.isNavFinished = false;
 			this._state.viewerState.isNavComplete = false;
 			this._state.viewerState.isNextEnabled = true;
-		}
 
-		if (
-			questionContainer.questionInstance !== undefined &&
-			questionContainer.questionModel.respondentValidationState !== undefined
-		) {
 			if (
-				questionContainer.questionModel.respondentValidationState[
-					this._state.viewerState.activeRespondent.id
-				] === ResponseValidationState.VALID
+				questionContainer.questionInstance !== undefined &&
+				questionContainer.questionModel.respondentValidationState !== undefined
 			) {
-				this._state.viewerState.isNextEnabled = true;
+				if (
+					questionContainer.questionModel.respondentValidationState[
+						this._state.viewerState.activeRespondent.id
+					] === ResponseValidationState.VALID
+				) {
+					this._state.viewerState.isNextEnabled = true;
+				} else {
+					this._state.viewerState.isNextEnabled = false;
+				}
 			} else {
+				// .log('disabling');
+
 				this._state.viewerState.isNextEnabled = false;
 			}
-		} else {
-			// .log('disabling');
-
-			this._state.viewerState.isNextEnabled = false;
 		}
 
 		if (!this.canNavigatePrevious()) {
@@ -286,6 +291,10 @@ export class SurveyViewerNavigationService {
 		}
 	}
 
+	/**
+	 * Determines whether navigate previous can
+	 * @returns true if navigate previous
+	 */
 	private canNavigatePrevious(): boolean {
 		let val = this._state.viewerState.activeViewContainer.canNavigatePrevious();
 		if (this._state.viewerState.activeViewContainerIndex > 0 || val) {
@@ -295,13 +304,20 @@ export class SurveyViewerNavigationService {
 		}
 	}
 
+	/**
+	 * Determines whether navigate next can
+	 * @returns true if navigate next
+	 */
 	private canNavigateNext(): boolean {
-		if (!this._state.viewerState.activeViewContainer.canNavigateNext()) {
-			if (this._state.viewerState.activeViewContainerIndex >= this._state.viewerState.viewContainers.length - 1) {
-				return false;
-			}
+		let val = this._state.viewerState.activeViewContainer.canNavigateNext();
+		if (
+			this._state.viewerState.activeViewContainerIndex < this._state.viewerState.viewContainers.length - 1 ||
+			val
+		) {
+			return true;
 		}
-		return true;
+
+		return false;
 	}
 
 	/**

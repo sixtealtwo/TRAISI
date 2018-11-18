@@ -133,9 +133,9 @@
 
 .question-header {
 	position: relative;
-	
+
 	.question-number-container {
-		max-width:75px;
+		max-width: 90px;
 		position: relative;
 	}
 
@@ -167,7 +167,7 @@
 		max-width: calc(100% - 50px);
 		font-weight: 400;
 	}
-	
+
 }
 
 .question-header-divider {
@@ -176,13 +176,7 @@
 	border-top: 1px solid rgb(200,200,200);
 }
 
-.question-body {
 
-}
-
-.question-header-teaser {
-
-}
 
 #question-viewer-household-tabs {
   width: 30px;

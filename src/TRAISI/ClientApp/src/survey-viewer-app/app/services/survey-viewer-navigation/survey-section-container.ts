@@ -219,6 +219,9 @@ export class SurveySectionContainer extends SurveyContainer {
 			this.activeGroupContainer.initialize();
 		}
 
+
+
+
 		return null;
 	}
 

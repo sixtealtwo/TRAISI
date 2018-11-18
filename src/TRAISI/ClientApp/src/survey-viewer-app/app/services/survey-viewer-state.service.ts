@@ -60,8 +60,11 @@ export class SurveyViewerStateService {
 			isNextEnabled: false,
 			isNavComplete: false,
 			isNavProcessing: false,
+			isNavFinished: false,
 			isPreviousActionNext: true,
+			activeSectionRepeatContainer: undefined,
 			questionMap: {},
+			questionNavIndex: 0 ,
 			sectionMap: {}
 		};
 
@@ -157,7 +160,7 @@ export class SurveyViewerStateService {
 		this._responderService
 			.readyCachedSavedResponses([activeQuestion.questionId], respondentId)
 			.subscribe(result => {
-				activeQuestion.repeatTargets.forEach((repeatTarget: number) => {
+				for (let repeatTarget of activeQuestion.repeatTargets) {
 					const response: any = this._responderService.getCachedSavedResponse(
 						activeQuestion.questionId,
 						respondentId
@@ -179,28 +182,69 @@ export class SurveyViewerStateService {
 						} else {
 							let targetSection = this.viewerState.sectionMap[repeatTarget];
 							let container = this.findSectionRepeatContainer(targetSection.id);
+							if (container === null) {
+								subject.next();
+								subject.complete();
+								break;
+							}
 
-							if (responseInt > 0) {
+							let page = this.findSectionRepeatContainerPage(targetSection.id);
+							if (responseInt >= 0) {
 								container.isRepeatHidden = false;
-								let dups = [];
+								let dups: Array<SurveySectionRepeatContainer> = [];
+								let questions = container.listChildQuestions();
+								let order = targetSection.order;
+								for (let i: number = 0; i < responseInt; i++) {
+									// let duplicate: SurveySectionRepeatContainer = Object.create(container);
+									// duplicate.initialize();
 
-								// container.children.splice(1);
-								for (let i: number = 0; i < responseInt - 1; i++) {
-									let duplicate: SurveySectionRepeatContainer = Object.create(container);
-									duplicate.initialize();
+									let sectionRepeat = SurveySectionRepeatContainer.CreateSurveySectionRepeatFromModel(
+										targetSection,
+										this
+									);
 
-									dups.push(duplicate);
+									sectionRepeat.repeatIndex = i;
+									for (let question of questions) {
+										sectionRepeat.createQuestionContainer(
+											question,
+											this.viewerState.primaryRespondent
+										);
+									}
+									sectionRepeat.order = order;
+									order += 0.01;
+									dups.push(sectionRepeat);
 								}
 
-								console.log(dups);
+								let filtered = page.children.filter(p => {
+									if (p.sectionModel === null || p.sectionModel === undefined) {
+										return true;
+									} else if (p.sectionModel.id === targetSection.id) {
+										return false;
+									}
+									return true;
+								});
 
-								this.findSectionRepeatContainerPage(
-									targetSection.id
-								).children = this.findSectionRepeatContainerPage(targetSection.id).children.concat(
-									dups
-								);
+								page.children = filtered;
 
-								console.log(this.viewerState);
+								if (responseInt > 0) {
+									let total = page.children.length;
+									let inserted: boolean = false;
+									for (let i = 0; i < total - 1; i++) {
+										if (
+											page.children[i].order <= targetSection.order &&
+											page.children[i + 1].order >= targetSection.order
+										) {
+											page.children.splice(i + 1, 0, ...dups);
+											inserted = true;
+											break;
+										}
+									}
+									if (!inserted) {
+										page.children = page.children.concat(...dups);
+									}
+								}
+
+								//insert filtered in the right location
 							} else {
 								container.isRepeatHidden = true;
 							}
@@ -209,7 +253,7 @@ export class SurveyViewerStateService {
 
 					subject.next();
 					subject.complete();
-				});
+				}
 			});
 
 		return subject;
@@ -248,47 +292,11 @@ export class SurveyViewerStateService {
 	}
 
 	/**
-	 * Removes question from view
-	 * @param question
-	 * @returns true if the question was removed from view - false if it was already removed
+	 * Finds active survey section repeat container
+	 * @returns active survey section repeat container
 	 */
-	private removeQuestionFromView(question: SurveyViewQuestion): boolean {
-		const index: number = this.viewerState.surveyQuestions.findIndex(sq => sq.questionId === question.questionId);
-
-		if (index >= 0) {
-			this.viewerState.surveyQuestions.splice(index, 1);
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Adds question to view - this has no effect if the question is already visible
-	 * @param question
-	 */
-	private addQuestionToView(question: SurveyViewQuestion): void {
-		const index: number = this.viewerState.surveyQuestions.findIndex(sq => sq.questionId === question.questionId);
-
-		if (index >= 0) {
-			return;
-		}
-
-		let added: boolean = false;
-		for (let i = 0; i < this.viewerState.surveyQuestions.length - 1; i++) {
-			if (
-				question.viewOrder > this.viewerState.surveyQuestions[i].viewOrder &&
-				question.viewOrder < this.viewerState.surveyQuestions[i + 1].viewOrder
-			) {
-				this.viewerState.surveyQuestions.splice(i + 1, 0, question);
-				added = true;
-				break;
-			}
-		}
-
-		if (!added) {
-			this.viewerState.surveyQuestions.splice(this.viewerState.surveyQuestions.length, 0, question);
-		}
+	public findActiveSurveySectionRepeatContainer(): SurveySectionRepeatContainer {
+		return <SurveySectionRepeatContainer>this.viewerState.activeViewContainer;
 	}
 
 	/**

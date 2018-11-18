@@ -320,7 +320,7 @@ export class Utilities {
 			return this.getRgbaArray(colourString);
 		} else if (!colourString) {
 			return this.getRgbaArray(lowerBackground);
-		}	else {
+		} else {
 			let base = this.getRgbaArray(lowerBackground);
 			let added = this.getRgbaArray(colourString);
 			if (added[3] === 0) {
@@ -328,9 +328,9 @@ export class Utilities {
 			} else {
 				let mix = [];
 				mix[3] = 1 - (1 - added[3]) * (1 - base[3]); // alpha
-				mix[0] = Math.round((added[0] * added[3] / mix[3]) + (base[0] * base[3] * (1 - added[3]) / mix[3])); // red
-				mix[1] = Math.round((added[1] * added[3] / mix[3]) + (base[1] * base[3] * (1 - added[3]) / mix[3])); // green
-				mix[2] = Math.round((added[2] * added[3] / mix[3]) + (base[2] * base[3] * (1 - added[3]) / mix[3])); // blue
+				mix[0] = Math.round((added[0] * added[3]) / mix[3] + (base[0] * base[3] * (1 - added[3])) / mix[3]); // red
+				mix[1] = Math.round((added[1] * added[3]) / mix[3] + (base[1] * base[3] * (1 - added[3])) / mix[3]); // green
+				mix[2] = Math.round((added[2] * added[3]) / mix[3] + (base[2] * base[3] * (1 - added[3])) / mix[3]); // blue
 				return mix;
 			}
 		}
@@ -723,7 +723,7 @@ export class Utilities {
 		}
 
 		return result;
-	}
+	};
 
 	public static extractPlaceholders = (text: string): string[] => {
 		let regexTest = /{{ [\w\s]* }}/g;
@@ -733,11 +733,18 @@ export class Utilities {
 		} else {
 			return null;
 		}
-		
-	}
+	};
 
-	public static replacePlaceholder = (sourceText: string, tag: string, replacementValue: string): string => {
-		return sourceText.replace(`{{ ${tag} }}`, replacementValue);
-	}
-
+	/**
+	 * Replace placeholder of utilities
+	 */
+	public static replacePlaceholder = (
+		sourceText: string,
+		tag: string,
+		replacementValue: string,
+		replaceValueClass: string = 'piped-value',
+		tooltip: string = ''
+	): string => {
+		return sourceText.replace(`{{ ${tag} }}`, `<span tooltip="${tooltip}" class="${replaceValueClass}">${replacementValue}</span>`);
+	};
 }

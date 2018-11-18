@@ -10,7 +10,8 @@ import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	EventEmitter,
-	Output
+	Output,
+	ViewEncapsulation
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -70,7 +71,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public respondent: SurveyViewGroupMember;
 
 	@Input()
-	public repeatNumber: number;
+	public repeatNumber: number = 0;
+
+	@Input()
+	public sectionRepeatNumber: number = 0;
+
+	@Input()
+	public repeatContainer: SurveyRepeatContainer;
 
 	@Input()
 	public questionTypeMap: { [id: number]: string };
@@ -87,10 +94,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	private _questionInstance: SurveyQuestion<any>;
 
-	get surveyQuestionInstance(): SurveyQuestion<any> {
-		return this._questionInstance;
-	}
-
 	public isLoaded: boolean = false;
 
 	public validationStates: typeof ResponseValidationState = ResponseValidationState;
@@ -99,8 +102,16 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public displayClass: string = 'view-compact';
 
+	get surveyQuestionInstance(): SurveyQuestion<any> {
+		return this._questionInstance;
+	}
+
 	public get navigation(): SurveyViewerNavigationService {
 		return this._navigation;
+	}
+
+	public get navIndex(): number {
+		return this._viewerStateService.viewerState.questionNavIndex + 1;
 	}
 
 	private alreadyNavigated: boolean = false;
@@ -110,19 +121,26 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @param questionLoaderService
 	 * @param surveyViewerService
 	 * @param _viewerStateService
-	 * @param cdRef
-	 * @param responderService
+	 * @param _responderService
 	 * @param viewContainerRef
+	 * @param _navigation
 	 */
 	constructor(
 		@Inject('QuestionLoaderService') private questionLoaderService: QuestionLoaderService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private _viewerStateService: SurveyViewerStateService,
-		private cdRef: ChangeDetectorRef,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService
 	) {}
+
+	/**
+	 * Calcs unique repeat number
+	 * @returns unique repeat number
+	 */
+	private calcUniqueRepeatNumber(): number {
+		return this.repeatContainer.children.length * this.sectionRepeatNumber + this.repeatNumber;
+	}
 
 	/**
 	 * Unregister question etc and unsubscribe certain subs
@@ -139,6 +157,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
+		this.processLocalPipeInfo(this.question.label);
 		this.container.questionInstance = this;
 		this.questionLoaderService
 			.loadQuestionComponent(this.question, this.questionOutlet)
@@ -166,13 +185,19 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.question.questionId,
 					this.respondent.id,
 					this._responseSaved,
-					this.surveyViewQuestion
+					this.surveyViewQuestion,
+					this.calcUniqueRepeatNumber()
 				);
 
 				this._responseSaved.subscribe(this.onResponseSaved);
 
 				this._responderService
-					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.repeatNumber)
+					.getSavedResponse(
+						this.surveyId,
+						this.question.questionId,
+						this.respondent.id,
+						this.calcUniqueRepeatNumber()
+					)
 					.subscribe(response => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null ? 'none' : response.responseValues
@@ -212,13 +237,16 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 							});
 						}, 100);
 					});
-					this._viewerStateService.viewerState.isNextEnabled = false;
-					if (this.question.isOptional) {
-						this._viewerStateService.viewerState.isNextEnabled = true;
-					}
+				this._viewerStateService.viewerState.isNextEnabled = false;
+				if (this.question.isOptional) {
+					this._viewerStateService.viewerState.isNextEnabled = true;
+				}
 			});
 	}
 
+	/**
+	 * Autos advance
+	 */
 	private autoAdvance(): void {
 		if (!this.alreadyNavigated && !this._viewerStateService.viewerState.isNavComplete) {
 			this.navigation.navigateNext();
@@ -226,6 +254,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	/**
+	 * Retrieves household tag
+	 * @returns household tag
+	 */
 	private retrieveHouseholdTag(): string {
 		let questionId: number = +Object.keys(this.questionTypeMap).find(
 			key => this.questionTypeMap[key] === 'household'
@@ -233,26 +265,70 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
 	}
 
+	/**
+	 * Retrieves repeat number
+	 * @returns repeat number
+	 */
+	private retrieveRepeatNumber(): number {
+		if (this.surveyViewQuestion.parentSection.isRepeat && !this.surveyViewQuestion.isRepeat) {
+			return this.sectionRepeatNumber;
+		} else {
+			return this.repeatNumber;
+		}
+	}
+
+	/**
+	 * Process local pipe info
+	 * @param rawLabel
+	 */
+	private processLocalPipeInfo(rawLabel: string): void {
+		let tags = ['sectionRepeat', 'questionRepeat'];
+
+		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
+
+		tags.forEach((tag, index) => {
+			processedLabel = Utilities.replacePlaceholder(
+				processedLabel,
+				tag,
+				(this.sectionRepeatNumber + 1).toString(10),
+				'piped-value',
+				'Current repeat number'
+			);
+		});
+		this.titleLabel = new BehaviorSubject(processedLabel);
+	}
+
+	/**
+	 * Process piped question label
+	 * @param rawLabel
+	 */
 	private processPipedQuestionLabel(rawLabel: string): void {
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
+
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
 
-			this._responderService
-				.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
-				.subscribe(responses => {
-					tags.forEach((tag, index) => {
-						processedLabel = Utilities.replacePlaceholder(
-							processedLabel,
-							tag,
-							responses[index].responseValues[0].value
-						);
+			questionIdsForResponse = questionIdsForResponse.filter(f => {
+				return f !== undefined;
+			});
+
+			if (questionIdsForResponse.length > 0) {
+				this._responderService
+					.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
+					.subscribe(responses => {
+						tags.forEach((tag, index) => {
+							processedLabel = Utilities.replacePlaceholder(
+								processedLabel,
+								tag,
+								responses[index].responseValues[0].value
+							);
+						});
+						this.titleLabel = new BehaviorSubject(processedLabel);
 					});
-					this.titleLabel = new BehaviorSubject(processedLabel);
-				});
+			}
 		} else {
 			this.titleLabel = new BehaviorSubject(processedLabel);
 		}
@@ -273,7 +349,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		// just call the update after everything else waiting to be processed
 		setTimeout(() => {
-				this._navigation.updateNavigationStates();
+			this._navigation.updateNavigationStates();
 		});
 
 		// this.surveyViewer.validateNavigation();

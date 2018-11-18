@@ -22,6 +22,9 @@
 				[style.margin-right.px]="viewerState.activeSection.isHousehold ? 45 : 15"
 			>
 				{{ processedSectionLabel(viewerState.activeSection.label) }}
+				<span class="repeat-header" *ngIf="viewerState.activeSection.isRepeat">
+					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}</span
+				>
 			</div>
 			<div class="questions-container flex-grow-1">
 				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded">
@@ -29,15 +32,20 @@
 						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
 							<ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
 								<ng-container *ngFor="let groupContainer of sectionContainer.children; let j = index">
-									<ng-container *ngFor="let repeatContainer of groupContainer.children; let k = index">
+									<ng-container
+										*ngFor="let repeatContainer of groupContainer.children; let k = index"
+									>
 										<ng-container *ngFor="let repeat of repeatContainer.children; let q = index">
-											<traisi-question-container class="flex-grow-1 d-flex flex-column"
+											<traisi-question-container
+												class="flex-grow-1 d-flex flex-column"
 												[surveyViewer]="ref"
 												[respondent]="viewerState.activeRespondent"
 												[question]="repeat.questionModel"
 												[surveyViewQuestion]="repeat.questionModel"
 												[surveyId]="surveyId"
+												[repeatContainer]="repeatContainer"
 												[repeatNumber]="q"
+												[sectionRepeatNumber]="sectionRepeat.repeatIndex"
 												[container]="repeat"
 												[questionTypeMap]="questionTypeMap"
 												[questionNameMap]="questionNameMap"
@@ -66,8 +74,7 @@
 							[ngClass]="{
 								'group-member-active': groupMember == viewerState.activeRespondent,
 								'group-member-complete':
-									getGroupMemberCompletionState(m) &&
-									groupMember != viewerState.activeRespondent
+									getGroupMemberCompletionState(m) && groupMember != viewerState.activeRespondent
 							}"
 						>
 							{{ groupMember.name }}</span
@@ -77,7 +84,11 @@
 			</div>
 		</div>
 	</div>
-	<div id="question-viewer-nav" class="pl-md-3" [style.margin-right.px]="viewerState.activeSection && viewerState.activeSection.isHousehold ? 45 : 15">
+	<div
+		id="question-viewer-nav"
+		class="pl-md-3"
+		[style.margin-right.px]="viewerState.activeSection && viewerState.activeSection.isHousehold ? 45 : 15"
+	>
 		<div class="row justify-content-center">
 			<div class="col-12 text-center">
 				<button
@@ -90,7 +101,7 @@
 					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> {{ 'Viewer.Previous' | translate }}
 				</button>
 				<button
-					*ngIf="!viewerState.isNavComplete"
+					*ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
 					[ngClass]="navButtonClass"
 					(click)="navigateNext()"
 					[disabled]="!viewerState.isNextEnabled || viewerState.isNavProcessing"
@@ -112,9 +123,9 @@
 					</div>
 				</button>
 				<button
-					*ngIf="viewerState.isNavComplete"
+					*ngIf="viewerState.isNavFinished"
 					[ngClass]="navButtonClass"
-					[disabled]="!viewerState.isNextEnabled"
+					[disabled]="!viewerState.isNavComplete"
 					(click)="navigateCompleteSurvey()"
 					class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
 					type="button"

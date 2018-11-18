@@ -2,6 +2,7 @@ import { SurveyContainer } from './survey-container';
 import { Subject } from 'rxjs';
 import { SurveySectionRepeatContainer } from './survey-section-repeat-container';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
+import { SurveyViewerStateService } from '../survey-viewer-state.service';
 
 export class SurveyPageContainer extends SurveyContainer {
 	private _pageModel: SurveyViewPage;
@@ -51,7 +52,20 @@ export class SurveyPageContainer extends SurveyContainer {
 		return this.activeRepeatContainer.iteratePrevious();
 	}
 
-	public constructor(model: SurveyViewPage) {
+	/**
+	 * Updates valid index
+	 * @returns valid index
+	 */
+	public updateValidIndex(): void {
+		return;
+	}
+
+	/**
+	 * Creates an instance of survey page container.
+	 * @param model
+	 * @param _state
+	 */
+	public constructor(model: SurveyViewPage, private _state: SurveyViewerStateService) {
 		super();
 		this._pageModel = model;
 		this._children = [];
@@ -81,6 +95,8 @@ export class SurveyPageContainer extends SurveyContainer {
 				return true;
 			} else {
 				this._activePageIndex--;
+				this._state.viewerState.activeSectionRepeatContainer = this.activeRepeatContainer;
+				this.activeRepeatContainer.initialize();
 				return false;
 			}
 		}
@@ -91,17 +107,21 @@ export class SurveyPageContainer extends SurveyContainer {
 			if (this._activePageIndex >= this._children.length - 1) {
 				return true;
 			} else {
-
 				this._activePageIndex++;
-
+				this._state.viewerState.activeSectionRepeatContainer = this.activeRepeatContainer;
+				this.activeRepeatContainer.initialize();
 				return false;
 			}
 		}
 		return false;
 	}
 	public initialize(): Subject<void> {
-		return;
+		this._activePageIndex = 0;
 
 		this.activeRepeatContainer.initialize();
+
+		this._state.viewerState.activeSectionRepeatContainer = this.activeRepeatContainer;
+
+		return;
 	}
 }
