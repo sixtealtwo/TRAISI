@@ -11,10 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 	templateUrl: './survey-start-page.component.html',
 	styleUrls: ['./survey-start-page.component.scss'],
 	encapsulation: ViewEncapsulation.None
-
 })
 export class SurveyStartPageComponent implements OnInit {
-
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
 
@@ -59,12 +57,11 @@ export class SurveyStartPageComponent implements OnInit {
 
 		this.route.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
-			 this.surveyViewerService.getWelcomeView(this.surveyName).
-			subscribe((surveyStartModel: SurveyStart) => {
-				this.survey = surveyStartModel;
-				this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
-				this.surveyViewerService.getSurveyStyles(this.survey.id).subscribe(
-					styles => {
+			this.surveyViewerService.getWelcomeView(this.surveyName).subscribe(
+				(surveyStartModel: SurveyStart) => {
+					this.survey = surveyStartModel;
+					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
+					this.surveyViewerService.getSurveyStyles(this.survey.id).subscribe(styles => {
 						try {
 							this.pageThemeInfo = JSON.parse(styles);
 							if (this.pageThemeInfo === null) {
@@ -74,18 +71,14 @@ export class SurveyStartPageComponent implements OnInit {
 						} catch (e) {}
 						this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 						this.finishedLoading = true;
-					}
-				);
-			},
-			error => {
-				console.error(error);
-				this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
-			});
+					});
+				},
+				error => {
+					console.error(error);
+					this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
+				}
+			);
 		});
-
-
-
-
 	}
 
 	/**
@@ -101,12 +94,9 @@ export class SurveyStartPageComponent implements OnInit {
 			value => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
-					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode)
-					.subscribe(
-						(user: User) => {
-							this.router.navigate([this.surveyName, 'terms']);
-						}
-					);
+					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
+						this.router.navigate([this.surveyName, 'terms']);
+					});
 				} else {
 					this.router.navigate([this.surveyName, 'terms']);
 				}

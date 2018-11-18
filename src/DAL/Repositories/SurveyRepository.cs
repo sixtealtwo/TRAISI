@@ -75,7 +75,8 @@ namespace DAL.Repositories
         public async Task<Survey> GetSurveyByCodeAsync(string code)
         {
             return await _appContext.Surveys
-                .Where(s => String.Equals(s.Code, code, StringComparison.CurrentCultureIgnoreCase))
+                .Where(s => String.Equals(s.Code, code, StringComparison.CurrentCultureIgnoreCase)).
+                Include(s => s.TitleLabels)
                 .FirstOrDefaultAsync();
         }
 
@@ -275,7 +276,8 @@ namespace DAL.Repositories
 
         public bool QuestionNameIsUnique(int surveyId, string name, string oldName)
         {
-            if (name == oldName) {
+            if (name == oldName)
+            {
                 return true;
             }
 
@@ -300,11 +302,14 @@ namespace DAL.Repositories
         {
             List<string> qpartnames = new List<string>();
 
-            foreach (var partview in partviews) {
-                if (partview.QuestionPart != null) {
+            foreach (var partview in partviews)
+            {
+                if (partview.QuestionPart != null)
+                {
                     qpartnames.Add(partview.QuestionPart.Name);
                 }
-                else {
+                else
+                {
                     /*foreach (var child in partview.QuestionPartViewChildren)
                     {
                         if (child.QuestionPart != null)

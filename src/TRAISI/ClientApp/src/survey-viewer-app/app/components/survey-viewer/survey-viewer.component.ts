@@ -172,8 +172,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private elementRef: ElementRef
 	) {
 		this.ref = this;
-
-		this._titleService.setTitle('coocoo');
 	}
 
 	/**
@@ -182,12 +180,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngOnInit(): void {
 		this.currentUser = this.surveyViewerService.currentUser;
 
-		this.titleText = this.surveyViewerService.activeSurveyTitle;
-
 		this.route.queryParams.subscribe((value: Params) => {
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
 
+				this.surveyViewerService.activeSurveyTitle.subscribe(title => {
+					this._titleService.setTitle(`TRAISI - ${title}`);
+				});
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
 					pages.forEach(page => {
 						this.headerDisplay.completedPages.push(false);
@@ -196,9 +195,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 			});
 		});
-
-		// subscribe to the navigation state change that is alterable by sub questions
-		this.surveyViewerService.navigationActiveState.subscribe(this.onNavigationStateChanged);
 
 		this.surveyViewerService.pageThemeInfoJson.subscribe((pageTheme: any) => {
 			this.pageThemeInfo = pageTheme;
@@ -231,10 +227,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.useLightNavigationLines = this.pageTextColour === 'rgb(255,255,255)';
 			this.setComponentInputs();
 			this.loadedComponents = true;
-		});
-
-		this._viewerStateService.surveyQuestionsChanged.subscribe((event: string) => {
-			this.surveyQuestionsChanged();
 		});
 
 		this.route.parent.params.subscribe(params => {
@@ -521,7 +513,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigation completed of survey viewer component
 	 */
 	public navigationCompleted = (navStatus: boolean) => {
-
 		this.viewerState.isNavProcessing = false;
 	};
 

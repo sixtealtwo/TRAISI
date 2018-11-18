@@ -86,9 +86,9 @@ namespace TRAISI.Controllers.SurveyViewer
 
             if (survey != null)
             {
-                return new ObjectResult(survey.Id);
+                return new ObjectResult((surveyId: survey.Id, surveyTitle: survey.TitleLabels.Default.Value)); 
             }
-            else
+            else 
             {
                 return new NotFoundResult();
             }
