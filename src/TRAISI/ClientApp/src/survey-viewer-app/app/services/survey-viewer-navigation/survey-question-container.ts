@@ -48,13 +48,18 @@ export class SurveyQuestionContainer extends SurveyContainer {
 
 	public get isComplete(): boolean {
 		if (this.questionModel) {
-			if (this.questionModel.isOptional || (this.questionModel.isRespondentHidden && this.questionModel.isRespondentHidden[this._member.id])) {
+			if (
+				this.questionModel.isOptional ||
+				(this.questionModel.isRespondentHidden && this.questionModel.isRespondentHidden[this._member.id])
+			) {
 				return true;
 			} else if (this.questionInstance) {
 				return this.questionInstance.responseValidationState === ResponseValidationState.VALID;
+			} else {
 			}
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -103,18 +108,16 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	}
 
 	public canNavigateNext(): boolean {
-		if (this._questionInstance !== undefined) {
+		if (this._questionInstance !== undefined && this._questionInstance.surveyQuestionInstance !== undefined) {
 			return this._questionInstance.surveyQuestionInstance.canNavigateInternalNext();
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
 	public canNavigatePrevious(): boolean {
-		if (this._questionInstance !== undefined) {
+		if (this._questionInstance !== undefined && this._questionInstance.surveyQuestionInstance !== undefined) {
 			return this._questionInstance.surveyQuestionInstance.canNavigateInternalPrevious();
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

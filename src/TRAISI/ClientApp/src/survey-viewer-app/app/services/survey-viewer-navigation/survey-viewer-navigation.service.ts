@@ -13,6 +13,7 @@ import { flatMap } from 'rxjs/operators';
 import { SurveyPageContainer } from './survey-page-container';
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+import { SurveySectionRepeatContainer } from './survey-section-repeat-container';
 
 @Injectable({
 	providedIn: 'root'
@@ -216,7 +217,6 @@ export class SurveyViewerNavigationService {
 			.toString();
 
 		if (!this.canNavigatePrevious()) {
-
 			this._state.viewerState.isPreviousEnabled = false;
 		} else {
 			this._state.viewerState.isPreviousEnabled = true;
@@ -266,7 +266,7 @@ export class SurveyViewerNavigationService {
 		) {
 			if (
 				questionContainer.questionModel.respondentValidationState[
-				this._state.viewerState.activeRespondent.id
+					this._state.viewerState.activeRespondent.id
 				] === ResponseValidationState.VALID
 			) {
 				this._state.viewerState.isNextEnabled = true;
@@ -279,17 +279,20 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isNextEnabled = false;
 		}
 
-
+		if (!this.canNavigatePrevious()) {
+			this._state.viewerState.isPreviousEnabled = false;
+		} else {
+			this._state.viewerState.isPreviousEnabled = true;
+		}
 	}
 
 	private canNavigatePrevious(): boolean {
 		let val = this._state.viewerState.activeViewContainer.canNavigatePrevious();
-		if (!val) {
-			if (this._state.viewerState.activeViewContainerIndex <= 0) {
-				return false;
-			}
+		if (this._state.viewerState.activeViewContainerIndex > 0 || val) {
+			return true;
+		} else {
+			return false;
 		}
-		return val;
 	}
 
 	private canNavigateNext(): boolean {

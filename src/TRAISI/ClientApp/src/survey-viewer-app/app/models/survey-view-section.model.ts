@@ -14,5 +14,7 @@ export interface SurveyViewSection {
 
 	isRepeat: boolean;
 
+	repeatSource?: number;
+
 
 }

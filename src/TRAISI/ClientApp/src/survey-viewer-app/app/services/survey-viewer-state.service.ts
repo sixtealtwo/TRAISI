@@ -9,6 +9,8 @@ import { SurveyViewerConditionalEvaluator } from './survey-viewer-conditional-ev
 import { EventEmitter } from 'events';
 import { SurveyViewConditional } from 'app/models/survey-view-conditional.model';
 import { SurveyResponderService } from './survey-responder.service';
+import { SurveySectionRepeatContainer } from './survey-viewer-navigation/survey-section-repeat-container';
+import { SurveyPageContainer } from './survey-viewer-navigation/survey-page-container';
 
 @Injectable({
 	providedIn: 'root'
@@ -59,7 +61,8 @@ export class SurveyViewerStateService {
 			isNavComplete: false,
 			isNavProcessing: false,
 			isPreviousActionNext: true,
-			questionMap: {}
+			questionMap: {},
+			sectionMap: {}
 		};
 
 		this.surveyViewerState = new ReplaySubject<SurveyViewerState>();
@@ -162,22 +165,45 @@ export class SurveyViewerStateService {
 
 					if (typeof response === 'number') {
 						const responseInt: number = Math.round(response);
-						let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
-						targetQuestion.repeatChildren = {};
-						targetQuestion.repeatChildren[respondentId] = [];
-						targetQuestion.repeatNumber = 0;
-						for (let i: number = 0; i < responseInt - 1; i++) {
-							let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
-							duplicate.repeatNumber = i + 1;
-							targetQuestion.repeatChildren[respondentId].push(duplicate);
-						}
 
-						if (responseInt === 0) {
-							// hide the question from view
-							// this.removeQuestionFromView(targetQuestion);
+						let targetQuestion: SurveyViewQuestion = this.viewerState.questionMap[repeatTarget];
+						if (targetQuestion !== undefined) {
+							targetQuestion.repeatChildren = {};
+							targetQuestion.repeatChildren[respondentId] = [];
+							targetQuestion.repeatNumber = 0;
+							for (let i: number = 0; i < responseInt - 1; i++) {
+								let duplicate: SurveyViewQuestion = Object.assign({}, targetQuestion);
+								duplicate.repeatNumber = i + 1;
+								targetQuestion.repeatChildren[respondentId].push(duplicate);
+							}
 						} else {
-							// add question to view -- this has no effect if it is already visible
-							// this.addQuestionToView(targetQuestion);
+							let targetSection = this.viewerState.sectionMap[repeatTarget];
+							let container = this.findSectionRepeatContainer(targetSection.id);
+
+							if (responseInt > 0) {
+								container.isRepeatHidden = false;
+								let dups = [];
+
+								// container.children.splice(1);
+								for (let i: number = 0; i < responseInt - 1; i++) {
+									let duplicate: SurveySectionRepeatContainer = Object.create(container);
+									duplicate.initialize();
+
+									dups.push(duplicate);
+								}
+
+								console.log(dups);
+
+								this.findSectionRepeatContainerPage(
+									targetSection.id
+								).children = this.findSectionRepeatContainerPage(targetSection.id).children.concat(
+									dups
+								);
+
+								console.log(this.viewerState);
+							} else {
+								container.isRepeatHidden = true;
+							}
 						}
 					}
 
@@ -187,6 +213,38 @@ export class SurveyViewerStateService {
 			});
 
 		return subject;
+	}
+
+	/**
+	 * Finds section repeat container
+	 * @param sectionId
+	 * @returns section repeat container
+	 */
+	public findSectionRepeatContainer(sectionId: number): SurveySectionRepeatContainer {
+		for (let page of this.viewerState.viewContainers) {
+			for (let sec of page.children) {
+				if (sec.sectionModel !== null && sec.sectionModel.id === sectionId) {
+					return sec;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Finds section repeat container page
+	 * @param sectionId
+	 * @returns section repeat container page
+	 */
+	public findSectionRepeatContainerPage(sectionId: number): SurveyPageContainer {
+		for (let page of this.viewerState.viewContainers) {
+			for (let sec of page.children) {
+				if (sec.sectionModel !== null && sec.sectionModel.id === sectionId) {
+					return page;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -269,7 +327,10 @@ export class SurveyViewerStateService {
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+						let response = this._responderService.getCachedSavedResponse(
+							evalConditional.sourceQuestionId,
+							respondentId
+						);
 
 						return this._conditionalEvaluator.evaluateConditional(
 							evalConditional.conditionalType,

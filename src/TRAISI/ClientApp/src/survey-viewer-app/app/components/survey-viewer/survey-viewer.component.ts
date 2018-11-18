@@ -299,6 +299,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param pages
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
+		console.log(pages);
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
 				this.viewerState.groupMembers = [];
@@ -381,6 +382,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						this.questionTypeMap[question.questionId] = question.questionType;
 						this.questionNameMap[question.name] = question.questionId;
 						this.questions.push(question);
+						this.viewerState.sectionMap[section.id] = section;
+						if (section.isRepeat) {
+							this.viewerState.questionMap[section.repeatSource].repeatTargets.push(section.id);
+						}
 						pageQuestionCount++;
 						if (question.repeatTargets === undefined) {
 							question.repeatTargets = [];
@@ -533,7 +538,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigation completed of survey viewer component
 	 */
 	public navigationCompleted = (navStatus: boolean) => {
-
 		this.viewerState.isNavProcessing = false;
 	};
 

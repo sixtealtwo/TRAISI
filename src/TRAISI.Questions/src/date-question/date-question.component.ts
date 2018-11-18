@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Inject,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -12,9 +18,13 @@ import {
 	OnOptionsLoaded,
 	QuestionOption,
 	DateResponseData,
-	ResponseData
+	ResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
-import { BsDatepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {
+	BsDatepickerDirective,
+	BsDatepickerConfig
+} from 'ngx-bootstrap/datepicker';
 import { DateQuestionConfiguration } from './date-question.configuration';
 
 @Component({
@@ -22,7 +32,8 @@ import { DateQuestionConfiguration } from './date-question.configuration';
 	template: require('./date-question.component.html').toString(),
 	styles: [require('./date-question.component.scss').toString()]
 })
-export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> implements OnInit {
+export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>
+	implements OnInit {
 	@ViewChild('dateInput')
 	public dateInput: BsDatepickerDirective;
 
@@ -37,8 +48,10 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 	 * @param _surveyResponderService
 	 */
 	constructor(
-		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
+		@Inject('SurveyViewerService')
+		private _surveyViewerService: SurveyViewer,
+		@Inject('SurveyResponderService')
+		private _surveyResponderService: SurveyResponder
 	) {
 		super();
 
@@ -59,8 +72,12 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 			}
 		);
 
-		this.configuration.maxDate = new Date((<string>this.configuration.maxDate).replace(/"/g, ''));
-		this.configuration.minDate = new Date((<string>this.configuration.minDate).replace(/"/g, ''));
+		this.configuration.maxDate = new Date(
+			(<string>this.configuration.maxDate).replace(/"/g, '')
+		);
+		this.configuration.minDate = new Date(
+			(<string>this.configuration.minDate).replace(/"/g, '')
+		);
 	}
 
 	/**
@@ -72,15 +89,22 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date> im
 			value: value
 		};
 
+		let valid: boolean = true;
+
 		if (value !== null) {
 			this.response.emit(data);
+			this.validationState.emit(ResponseValidationState.VALID);
+		} else {
+			// this.validationState.emit(ResponseValidationState.INVALID);
 		}
 	}
 
 	/**
 	 * Determines whether saved response data on
 	 */
-	private onSavedResponseData: (response: DateResponseData[] | 'none') => void = (response: DateResponseData[] | 'none') => {
+	private onSavedResponseData: (
+		response: DateResponseData[] | 'none'
+	) => void = (response: DateResponseData[] | 'none') => {
 		if (response !== 'none') {
 			let dateValue = new Date(response[0].value);
 

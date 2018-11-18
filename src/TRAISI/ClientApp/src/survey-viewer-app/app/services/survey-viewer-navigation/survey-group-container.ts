@@ -51,7 +51,6 @@ export class SurveyGroupContainer extends SurveyContainer {
 		if (this._activeRepeatIndex > 0 || val) {
 			return true;
 		} else {
-
 			return false;
 		}
 	}
@@ -60,8 +59,8 @@ export class SurveyGroupContainer extends SurveyContainer {
 		let complete = true;
 
 		this.children.forEach(repeatContainer => {
-			if (complete) {
-				complete = repeatContainer.isComplete;
+			if (!repeatContainer.isComplete) {
+				complete = false;
 			}
 		});
 		return complete;
@@ -78,10 +77,8 @@ export class SurveyGroupContainer extends SurveyContainer {
 	public navigateNext(): boolean {
 		if (this.activeRepeatContainer.navigateNext()) {
 			if (this._activeRepeatIndex >= this._children.length - 1) {
-
 				return true;
 			} else {
-
 				this._activeRepeatIndex++;
 				let init = this.activeRepeatContainer.initialize();
 

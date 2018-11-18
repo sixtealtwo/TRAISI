@@ -187,7 +187,7 @@ namespace TRAISI.Services
                 case QuestionResponseType.Timeline:
                     return response["values"].ToObject<List<ITimelineResponse>>().Cast<IResponseType>().ToList();
                 case QuestionResponseType.DateTime:
-                    return new List<IResponseType>() { response["value"].ToObject<DateTimeResponse>() };
+                    return new List<IResponseType>() { response.ToObject<DateTimeResponse>() };
                 case QuestionResponseType.String:
                     return new List<IResponseType>() { response.ToObject<StringResponse>() };
                 case QuestionResponseType.Location:
@@ -278,9 +278,10 @@ namespace TRAISI.Services
 
             var values = responseData.GetValue("values").ToObject<JArray>();
 
-            foreach(var rValue in values)
+            foreach (var rValue in values)
             {
-                response.ResponseValues.Add(new JsonResponse(){
+                response.ResponseValues.Add(new JsonResponse()
+                {
                     SurveyResponse = response,
                     Value = rValue.ToString()
                 });

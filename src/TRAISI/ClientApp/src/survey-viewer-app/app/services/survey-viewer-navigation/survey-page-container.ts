@@ -91,6 +91,7 @@ export class SurveyPageContainer extends SurveyContainer {
 			if (this._activePageIndex >= this._children.length - 1) {
 				return true;
 			} else {
+
 				this._activePageIndex++;
 
 				return false;
@@ -100,7 +101,6 @@ export class SurveyPageContainer extends SurveyContainer {
 	}
 	public initialize(): Subject<void> {
 		return;
-
 
 		this.activeRepeatContainer.initialize();
 	}

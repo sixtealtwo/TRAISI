@@ -39,8 +39,8 @@ export class SurveySectionContainer extends SurveyContainer {
 		let complete = true;
 
 		this.children.forEach(groupContainer => {
-			if (complete) {
-				complete = groupContainer.isComplete;
+			if (!groupContainer.isComplete) {
+				complete = false;
 			}
 		});
 		return complete;
@@ -125,7 +125,6 @@ export class SurveySectionContainer extends SurveyContainer {
 	public setGroupMemberActive(index: number): void {
 		this._activeGroupMemberIndex = index;
 		this._state.viewerState.activeRespondent = this.activeRespondent;
-
 	}
 
 	/**
@@ -280,7 +279,5 @@ export class SurveySectionContainer extends SurveyContainer {
 				});
 			});
 		}
-
-
 	}
 }

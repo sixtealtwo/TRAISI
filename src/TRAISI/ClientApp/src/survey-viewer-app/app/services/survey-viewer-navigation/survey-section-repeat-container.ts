@@ -4,6 +4,10 @@ import { SurveySectionContainer } from './survey-section-container';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
+import { SurveyViewQuestion } from '../../models/survey-view-question.model';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { SurveyRepeatContainer } from './survey-repeat-container';
+import { SurveyQuestionContainer } from './survey-question-container';
 
 export class SurveySectionRepeatContainer extends SurveyContainer {
 	private _activeSectionIndex: number = 0;
@@ -15,6 +19,16 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	public order: number;
 
 	private _sectionModel: SurveyViewSection;
+
+	private _isRepeatHidden: boolean = false;
+
+	public get isRepeatHidden(): boolean {
+		return this._isRepeatHidden;
+	}
+
+	public set isRepeatHidden(val: boolean) {
+		this._isRepeatHidden = val;
+	}
 
 	public get sectionModel(): SurveyViewSection {
 		return this._sectionModel;
@@ -36,11 +50,52 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 		let complete = true;
 
 		this.children.forEach(sectionContainer => {
-			if (complete) {
-				complete = sectionContainer.isComplete;
+			if(!sectionContainer.isComplete)
+			{
+				complete = false;
 			}
 		});
 		return complete;
+	}
+
+	/**
+	 * Creates from section model
+	 * @param sectionModel
+	 * @param state
+	 * @returns from section model
+	 */
+	public static CreateFromSectionModel(
+		sectionModel: SurveyViewSection,
+		state: SurveyViewerStateService
+	): SurveySectionRepeatContainer {
+		let sectionRepeatContainer = new SurveySectionRepeatContainer(sectionModel, state);
+		sectionRepeatContainer.order = sectionModel.order;
+		sectionRepeatContainer.containerId = sectionModel.id;
+
+		let sectionContainer = new SurveySectionContainer(sectionModel, state);
+		sectionContainer.initialize();
+
+		sectionRepeatContainer.children.push(sectionContainer);
+
+		return sectionRepeatContainer;
+	}
+
+	/**
+	 * Creates question container
+	 * @param questionModel
+	 */
+	public createQuestionContainer(questionModel: SurveyViewQuestion, member: SurveyViewGroupMember): void {
+		for (let sectionContainer of this.children) {
+			sectionContainer.groupContainers.forEach(groupContainer => {
+				let repeatContainer = new SurveyRepeatContainer(questionModel, this._state, member);
+
+				let container = new SurveyQuestionContainer(questionModel, sectionContainer);
+				repeatContainer.addQuestionContainer(container);
+
+				groupContainer.repeatContainers.push(repeatContainer);
+			});
+		}
+		this.children[0].initialize();
 	}
 
 	/**
@@ -95,7 +150,6 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 		return false;
 	}
 	public navigateNext(): boolean {
-
 		if (this.activeSection.navigateNext()) {
 			if (this._activeSectionIndex >= this._children.length - 1) {
 				return true;
@@ -110,6 +164,7 @@ export class SurveySectionRepeatContainer extends SurveyContainer {
 	}
 
 	public initialize(): Subject<void> {
+		this._activeSectionIndex = 0;
 		this.activeSection.initialize();
 		return null;
 	}

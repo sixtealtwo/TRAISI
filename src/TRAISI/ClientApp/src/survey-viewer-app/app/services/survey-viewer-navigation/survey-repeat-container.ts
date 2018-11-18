@@ -32,8 +32,8 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		let complete = true;
 
 		this.children.forEach(questionContainer => {
-			if (complete) {
-				complete = questionContainer.isComplete;
+			if (!questionContainer.isComplete) {
+				complete = false;
 			}
 		});
 		return complete;
@@ -119,7 +119,6 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		if (this._activeQuestionIndex > 0 || val) {
 			return true;
 		} else {
-
 			return false;
 		}
 	}

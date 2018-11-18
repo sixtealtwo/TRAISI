@@ -65,6 +65,8 @@ export interface SurveyViewerState {
 	// map question ids to the viewer question object
 	questionMap: { [id: number]: SurveyViewQuestion };
 
+	sectionMap: { [id: number]: SurveyViewSection };
+
 	viewContainers: Array<SurveyPageContainer>;
 
 	activeViewContainer: SurveyContainer;
@@ -79,7 +81,7 @@ export interface SurveyViewerState {
 
 	isNavComplete: boolean;
 
-	isNavProcessing: boolean ;
+	isNavProcessing: boolean;
 
 	isPreviousActionNext: boolean;
 }
