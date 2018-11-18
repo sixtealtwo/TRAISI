@@ -216,6 +216,7 @@ export class SurveyViewerNavigationService {
 			.toString();
 
 		if (!this.canNavigatePrevious()) {
+
 			this._state.viewerState.isPreviousEnabled = false;
 		} else {
 			this._state.viewerState.isPreviousEnabled = true;
@@ -265,7 +266,7 @@ export class SurveyViewerNavigationService {
 		) {
 			if (
 				questionContainer.questionModel.respondentValidationState[
-					this._state.viewerState.activeRespondent.id
+				this._state.viewerState.activeRespondent.id
 				] === ResponseValidationState.VALID
 			) {
 				this._state.viewerState.isNextEnabled = true;
@@ -278,16 +279,17 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.isNextEnabled = false;
 		}
 
-		
+
 	}
 
 	private canNavigatePrevious(): boolean {
-		if (!this._state.viewerState.activeViewContainer.canNavigatePrevious()) {
+		let val = this._state.viewerState.activeViewContainer.canNavigatePrevious();
+		if (!val) {
 			if (this._state.viewerState.activeViewContainerIndex <= 0) {
 				return false;
 			}
 		}
-		return true;
+		return val;
 	}
 
 	private canNavigateNext(): boolean {

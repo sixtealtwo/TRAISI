@@ -71,7 +71,8 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	/**
 	 * Creates an instance of survey question container.
 	 * @param question
-	 * @param _state
+	 * @param section
+	 * @param [_member]
 	 */
 	constructor(
 		question: SurveyViewQuestion,
@@ -102,10 +103,20 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	}
 
 	public canNavigateNext(): boolean {
-		return false;
+		if (this._questionInstance !== undefined) {
+			return this._questionInstance.surveyQuestionInstance.canNavigateInternalNext();
+		}
+		else {
+			return false;
+		}
 	}
 	public canNavigatePrevious(): boolean {
-		return false;
+		if (this._questionInstance !== undefined) {
+			return this._questionInstance.surveyQuestionInstance.canNavigateInternalPrevious();
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**

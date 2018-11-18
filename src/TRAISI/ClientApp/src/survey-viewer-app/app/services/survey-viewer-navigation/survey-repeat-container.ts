@@ -119,6 +119,7 @@ export class SurveyRepeatContainer extends SurveyContainer {
 		if (this._activeQuestionIndex > 0 || val) {
 			return true;
 		} else {
+
 			return false;
 		}
 	}

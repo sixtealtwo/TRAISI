@@ -41,11 +41,17 @@ export class SurveyGroupContainer extends SurveyContainer {
 			return false;
 		}
 	}
+
+	/**
+	 * Determines whether navigate previous can
+	 * @returns true if navigate previous
+	 */
 	public canNavigatePrevious(): boolean {
 		let val = this.activeRepeatContainer.canNavigatePrevious();
 		if (this._activeRepeatIndex > 0 || val) {
 			return true;
 		} else {
+
 			return false;
 		}
 	}
