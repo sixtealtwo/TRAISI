@@ -64,7 +64,7 @@ export class SurveyViewerStateService {
 			isPreviousActionNext: true,
 			activeSectionRepeatContainer: undefined,
 			questionMap: {},
-			questionNavIndex: 0 ,
+			questionNavIndex: 0,
 			sectionMap: {}
 		};
 
@@ -182,17 +182,17 @@ export class SurveyViewerStateService {
 						} else {
 							let targetSection = this.viewerState.sectionMap[repeatTarget];
 							let container = this.findSectionRepeatContainer(targetSection.id);
-							if (container === null) {
-								subject.next();
-								subject.complete();
-								break;
-							}
 
 							let page = this.findSectionRepeatContainerPage(targetSection.id);
 							if (responseInt >= 0) {
-								container.isRepeatHidden = false;
+								// container.isRepeatHidden = false;
 								let dups: Array<SurveySectionRepeatContainer> = [];
-								let questions = container.listChildQuestions();
+								let questions = [];
+								if (container !== null) {
+									questions = questions.concat(container.listChildQuestions());
+								} else {
+									questions = questions.concat(targetSection.questions);
+								}
 								let order = targetSection.order;
 								for (let i: number = 0; i < responseInt; i++) {
 									// let duplicate: SurveySectionRepeatContainer = Object.create(container);
@@ -223,7 +223,6 @@ export class SurveyViewerStateService {
 									}
 									return true;
 								});
-
 								page.children = filtered;
 
 								if (responseInt > 0) {
@@ -288,6 +287,16 @@ export class SurveyViewerStateService {
 				}
 			}
 		}
+
+		for (let i = 0; i < this.viewerState.surveyPages.length; i++) {
+			let page = this.viewerState.surveyPages[i];
+			for (let s of page.sections) {
+				if (s.id == sectionId) {
+					return this.viewerState.viewContainers[i];
+				}
+			}
+		}
+
 		return null;
 	}
 
