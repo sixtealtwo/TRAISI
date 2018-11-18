@@ -4,7 +4,7 @@ using DAL.Models.Questions;
 using TRAISI.SDK.Enums;
 using Newtonsoft.Json;
 using TRAISI.SDK.Interfaces;
-
+using System.Collections;
 
 namespace DAL.Models.Questions
 {
@@ -45,6 +45,8 @@ namespace DAL.Models.Questions
         /// </summary>
         /// <value></value>
         public LabelCollection<QuestionConfigurationLabel> QuestionConfigurationLabels { get; set; }
+
+
 
     }
 

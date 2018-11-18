@@ -533,7 +533,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigation completed of survey viewer component
 	 */
 	public navigationCompleted = (navStatus: boolean) => {
-		console.log('nav complete');
+
 		this.viewerState.isNavProcessing = false;
 	};
 

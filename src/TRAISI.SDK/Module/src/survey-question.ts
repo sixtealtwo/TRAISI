@@ -202,6 +202,11 @@ export interface OptionSelectResponseData extends ResponseData<ResponseTypes.Opt
 	code: string;
 }
 
+export interface RouteResponseData extends ResponseData<ResponseTypes.Path> { 
+	points: Array<any>; 
+}
+
+
 /**
  * Wrapper interface format for save response returned from survey - responseValue in includes the dat
  */
@@ -224,6 +229,7 @@ export enum ResponseTypes {
 	Timeline = 'timeline',
 	Decminal = 'decimal',
 	Json = 'json',
+	Path = 'path', 
 	Range = 'Range',
 	List = 'List',
 	Boolean = 'boolean',

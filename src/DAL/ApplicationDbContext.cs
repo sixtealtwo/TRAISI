@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL
 {
@@ -144,6 +145,10 @@ namespace DAL
             //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
 
 
+
+
+
+
             builder.Entity<QuestionPartView>().HasMany(s => s.Labels).WithOne(l => l.QuestionPartView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
@@ -168,7 +173,8 @@ namespace DAL
                 .HasValue<JsonResponse>(6)
                 .HasValue<TimelineResponse>(7)
                 .HasValue<DateTimeResponse>(8)
-                .HasValue<OptionSelectResponse>(9);
+                .HasValue<OptionSelectResponse>(9)
+                .HasValue<PathResponse>(10);
 
             builder.Entity<SurveyResponse>().HasMany(s => s.ResponseValues).WithOne(v => v.SurveyResponse).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses");
