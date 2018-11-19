@@ -137,7 +137,7 @@
   	animation-iteration-count: 5;
 	}
 	.question-header-text {
-		max-width: calc(100% - 50px);
+		max-width: calc(100% - 70px);
 		font-weight: 400;
 
 
@@ -145,7 +145,6 @@
 }
 
 .question-header-divider {
-	margin: 20px;
 	height: 5px;
 	border-top: 1px solid rgb(200, 200, 200);
 }

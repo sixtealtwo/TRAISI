@@ -1,4 +1,4 @@
-<section [@fadeInOut] class="widget flex-grow-1 border-primary mb-0 mb-md-3 question-widget mx-md-3"  [ngClass]="displayClass">
+<section [@fadeInOut] class="widget p-0 p-md-3 flex-grow-1 border-primary mb-0 mb-md-3 question-widget mx-md-3"  [ngClass]="displayClass">
 	<header class="question-header question-container">
 		<div class="question-header container-fluid">
 			<div class="row flex-nowrap">
@@ -67,7 +67,7 @@
 
 		<span class="badge badge-info" *ngIf="question.isOptional">Optional</span>
 	</header>
-	<div class="question-header-divider"></div>
+	<div class="question-header-divider mt-3 mb-0 mb-md-3"></div>
 	<div class="widget-body">
 		<div class="question-container-inner">
 			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate"> </ng-container>
