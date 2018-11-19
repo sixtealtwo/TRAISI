@@ -157,7 +157,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
-		this.processLocalPipeInfo(this.question.label);
+
 		this.container.questionInstance = this;
 		this.questionLoaderService
 			.loadQuestionComponent(this.question, this.questionOutlet)
@@ -278,27 +278,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Process local pipe info
-	 * @param rawLabel
-	 */
-	private processLocalPipeInfo(rawLabel: string): void {
-		let tags = ['sectionRepeat', 'questionRepeat'];
-
-		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
-
-		tags.forEach((tag, index) => {
-			processedLabel = Utilities.replacePlaceholder(
-				processedLabel,
-				tag,
-				(this.sectionRepeatNumber + 1).toString(10),
-				'piped-value',
-				'Current repeat number'
-			);
-		});
-		this.titleLabel = new BehaviorSubject(processedLabel);
-	}
-
-	/**
 	 * Process piped question label
 	 * @param rawLabel
 	 */
@@ -307,6 +286,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
+
 
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
@@ -320,11 +300,25 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
 					.subscribe(responses => {
 						tags.forEach((tag, index) => {
-							processedLabel = Utilities.replacePlaceholder(
-								processedLabel,
-								tag,
-								responses[index].responseValues[0].value
-							);
+							if (this.questionNameMap[tag] === this.question.repeatSource) {
+								processedLabel = Utilities.replacePlaceholder(
+									processedLabel,
+									tag,
+									`${this.repeatNumber + 1}`
+								);
+							} else if (this.question.parentSection && this.question.parentSection.repeatSource === this.questionNameMap[tag]) {
+								processedLabel = Utilities.replacePlaceholder(
+									processedLabel,
+									tag,
+									`${this.sectionRepeatNumber + 1}`
+								);
+							} else {
+								processedLabel = Utilities.replacePlaceholder(
+									processedLabel,
+									tag,
+									responses[index].responseValues[0].value
+								);
+							}
 						});
 						this.titleLabel = new BehaviorSubject(processedLabel);
 					});
