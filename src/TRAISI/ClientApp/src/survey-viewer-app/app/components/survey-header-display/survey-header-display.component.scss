@@ -75,6 +75,10 @@
 
 #pages-progress-bar {
 	position: relative;
+	@media only screen and (max-height: 768px) {
+		visibility: collapse;
+		height: 0px;
+	}
 	// margin-top: 20px;
 	// margin-bottom: 20px;
 }
@@ -107,6 +111,10 @@
 	font-size: 12px;
 	font-weight: bold;
 	visibility: hidden;
+	@media only screen and (max-height: 768px) {
+		display: none;
+		height: 0px;
+	}
 }
 
 .page:hover + .page-progress-label {

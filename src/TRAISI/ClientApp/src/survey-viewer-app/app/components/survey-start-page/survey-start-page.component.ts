@@ -61,7 +61,7 @@ export class SurveyStartPageComponent implements OnInit {
 				(surveyStartModel: SurveyStart) => {
 					this.survey = surveyStartModel;
 					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
-					this.surveyViewerService.getSurveyStyles(this.survey.id).subscribe(styles => {
+					this.surveyViewerService.pageThemeInfoJson.subscribe(styles => {
 						try {
 							this.pageThemeInfo = JSON.parse(styles);
 							if (this.pageThemeInfo === null) {
