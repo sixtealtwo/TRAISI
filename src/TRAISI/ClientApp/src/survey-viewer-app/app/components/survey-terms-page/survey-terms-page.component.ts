@@ -49,7 +49,7 @@ export class SurveyTermsPageComponent implements OnInit {
 			.pipe(
 				flatMap((id) => {
 					this.surveyId = id;
-					return this.surveyViewerService.getSurveyViewerTermsAndConditions(this.surveyId);
+					return this.surveyViewerService.termsModel;
 				})
 			)
 			.pipe(
