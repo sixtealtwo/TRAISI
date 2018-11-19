@@ -12,6 +12,7 @@
 
 #welcome-header-editor {
 	position: relative;
+	z-index: 1000;
 	min-height: 66px !important;
 	.col-12 {
 		white-space: nowrap !important;

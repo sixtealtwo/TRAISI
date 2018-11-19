@@ -37,6 +37,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
+import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -112,6 +113,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public get navIndex(): number {
 		return this._viewerStateService.viewerState.questionNavIndex + 1;
+	}
+
+	public get viewerState(): SurveyViewerState {
+		return this._viewerStateService.viewerState;
 	}
 
 	private alreadyNavigated: boolean = false;

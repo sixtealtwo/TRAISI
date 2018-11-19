@@ -4,16 +4,17 @@
 .group-member-names-section {
 }
 
+#welcome-header-editor {
+	z-index: 1000;
+}
+
 .survey-section-header {
-	margin-left: 15px;
-	margin-right: 15px;
 	// color: white;
 	padding: 8px;
 	font-size: 20px;
 	text-align: center;
 	font-weight: bold;
 }
-
 
 
 .questions-container {
@@ -170,6 +171,15 @@
 
 #question-viewer-nav {
 	font-size: 18px;
+	@include media-breakpoint-up(md) {
+		margin-right: 15px;
+	}
+}
+
+.household-tabs {
+	@include media-breakpoint-up(md) {
+		margin-right: 45px !important;
+	}
 }
 
 .survey-nav-button:disabled {

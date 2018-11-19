@@ -15,11 +15,12 @@
 	<div class="survey-body-container flex-grow-1 d-flex flex-column">
 		<div class="survey-body flex-grow-1 d-flex flex-column">
 			<div
-				class="survey-section-header"
+				class="survey-section-header mx-md-3"
 				*ngIf="viewerState.isSectionActive"
 				[style.background-color]="viewerTheme.sectionBackgroundColour"
 				[style.color]="sectionTitleColour"
-				[style.margin-right.px]="viewerState.activeSection.isHousehold ? 45 : 15"
+				[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
+				[ngClass]="{'mt-3 mt-md-0': viewerState.isSectionActive }"
 				[innerHTML]="processedSectionLabel(viewerState.activeSection.label) | safeHtml"
 			>
 				<span class="repeat-header" *ngIf="viewerState.activeSection.isRepeat">
@@ -61,12 +62,9 @@
 				</div>
 				<div
 					class="group-member-names-container d-none d-md-block"
-					[hidden]="
-						!viewerState.isSectionActive ||
-						(viewerState.isSectionActive && !viewerState.activeSection.isHousehold)
-					"
+					*ngIf="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
 				>
-					<div class="group-member-names-section">
+					<div  class="group-member-names-section">
 						<span
 							*ngFor="let groupMember of viewerState.groupMembers; let m = index"
 							class="group-member-name"
@@ -87,7 +85,7 @@
 	<div
 		id="question-viewer-nav"
 		class="pl-md-3"
-		[style.margin-right.px]="viewerState.activeSection && viewerState.activeSection.isHousehold ? 45 : 15"
+		[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
 	>
 		<div class="row justify-content-center">
 			<div class="col-12 text-center">
