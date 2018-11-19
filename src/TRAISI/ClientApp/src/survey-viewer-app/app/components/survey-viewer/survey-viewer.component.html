@@ -20,8 +20,8 @@
 				[style.background-color]="viewerTheme.sectionBackgroundColour"
 				[style.color]="sectionTitleColour"
 				[style.margin-right.px]="viewerState.activeSection.isHousehold ? 45 : 15"
+				[innerHTML]="processedSectionLabel(viewerState.activeSection.label) | safeHtml"
 			>
-				{{ processedSectionLabel(viewerState.activeSection.label) }}
 				<span class="repeat-header" *ngIf="viewerState.activeSection.isRepeat">
 					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}</span
 				>
