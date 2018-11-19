@@ -106,6 +106,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.activeSurveyId.subscribe(id => {
 			this.restoreThemeInfo(id);
+
 			this.getWelcomeView(this.activeSurveyCode).subscribe(
 				(surveyStartModel: SurveyStart) => {
 					this.welcomeModel.next(surveyStartModel);
@@ -287,7 +288,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		} else {
 		}
 
-		if (this._activeSurveyId < 0 && this.authService.isLoggedIn) {
+		if (this._activeSurveyId < 0) {
 			this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode).subscribe(
 				value => {
 					this._activeSurveyId = <number>value[Object.keys(value)[0]];
