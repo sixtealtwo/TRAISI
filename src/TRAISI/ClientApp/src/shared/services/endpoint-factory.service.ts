@@ -94,7 +94,8 @@ export class EndpointFactory {
 					}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
-				Shortcode: this.authService.currentSurveyUser.shortcode
+				Shortcode: this.authService.currentSurveyUser.shortcode,
+				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
 
 			return {headers: headers, responseType: rType};
@@ -107,6 +108,7 @@ export class EndpointFactory {
 					this.apiVersion
 					}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion
+
 			});
 
 			return {headers: headers, responseType: rType};
