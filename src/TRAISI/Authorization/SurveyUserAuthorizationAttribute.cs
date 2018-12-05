@@ -12,6 +12,8 @@ namespace TRAISI.Authorization
     /// </summary>
     public class SurveyUserAuthorizationFilter : Microsoft.AspNetCore.Mvc.Filters.IAuthorizationFilter
     {
+
+
         /// <summary>
         /// 
         /// </summary>

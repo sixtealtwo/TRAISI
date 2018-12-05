@@ -176,8 +176,6 @@ namespace TRAISI.Controllers.SurveyViewer
         }
 
 
-
-
         [HttpGet]
         [Route("respondents/groups")]
         public async Task<IActionResult> GetSurveyGroupMembers()

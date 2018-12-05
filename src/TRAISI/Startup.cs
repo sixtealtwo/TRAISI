@@ -34,6 +34,11 @@ using TRAISI.Services;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using AppPermissions = DAL.Core.ApplicationPermissions;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore.Extensions;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore.Sqlite;
+using OpenIddict.Abstractions;
 
 namespace TRAISI
 {
@@ -109,9 +114,13 @@ namespace TRAISI
             services.AddSignalR();
 
             // Register the OpenIddict services.
-            services.AddOpenIddict(options =>
+            services.AddOpenIddict().AddCore(options =>
             {
-                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+
+
+                options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
+
+                /*options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
                 options.AddMvcBinders();
                 options.EnableTokenEndpoint("/connect/token");
                 options.AllowPasswordFlow();
@@ -122,7 +131,30 @@ namespace TRAISI
                     options.DisableHttpsRequirement();
 
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
-                // options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+                // options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"]))); */
+
+
+            }).AddServer(options =>
+            {
+                // options.
+                options.UseMvc();
+                options.EnableTokenEndpoint("/connect/token");
+                options.AllowPasswordFlow();
+                options.AllowRefreshTokenFlow();
+                if (_hostingEnvironment.IsDevelopment()) {//Uncomment to only disable Https during development
+                    options.DisableHttpsRequirement();
+                }
+
+                //disables requiring client_id
+                options.AcceptAnonymousClients();
+
+                options.RegisterScopes(OpenIdConnectConstants.Scopes.OpenId,
+                    OpenIdConnectConstants.Scopes.Email,
+                    OpenIdConnectConstants.Scopes.Phone,
+                    OpenIdConnectConstants.Scopes.Profile,
+                    OpenIdConnectConstants.Scopes.OfflineAccess,
+                    OpenIddictConstants.Scopes.Roles);
+
             });
 
             services.AddAuthentication(options =>
@@ -319,12 +351,10 @@ namespace TRAISI
 
             questionTypeManager.LoadQuestionExtensions();
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
+            else {
                 // Enforce https during production
                 var rewriteOptions = new RewriteOptions()
                     .AddRedirectToHttps();

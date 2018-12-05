@@ -13,6 +13,7 @@ using DAL.Models;
 using DAL.Core;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using OpenIddict.Abstractions;
 
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -181,7 +182,7 @@ namespace TRAISI.Controllers
             }.Intersect(request.GetScopes()));
             //}
 
-            ticket.SetResources(request.GetResources());
+            ticket.SetResources(request.Resources);
 
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies
