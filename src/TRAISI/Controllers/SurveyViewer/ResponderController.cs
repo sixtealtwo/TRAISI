@@ -54,6 +54,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="shortCode"></param>
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat?}")]
         public async Task<IActionResult> SaveResponse(int surveyId, int questionId, int respondentId, [FromBody] JObject content, int repeat = 0)
