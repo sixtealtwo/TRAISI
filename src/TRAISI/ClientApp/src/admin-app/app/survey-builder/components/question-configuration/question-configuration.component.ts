@@ -264,6 +264,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
 			this.cursorPosition += pipeQSelected.text.length + 6;
+			this.questionQuillEditor.setSelection(this.cursorPosition);
+			this.questionQuillEditor.focus();
 			(<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem = undefined;
 			this.pipeTreeSelect.value = undefined;
 		}
@@ -278,6 +280,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 			this.catiQuestionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
 			this.catiCursorPosition += pipeQSelected.text.length + 6;
+			this.catiQuestionQuillEditor.setSelection(this.catiCursorPosition);
+			this.catiQuestionQuillEditor.focus();
 			(<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem = undefined;
 			this.catiPipeTreeSelect.value = undefined;
 		}
