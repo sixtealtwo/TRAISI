@@ -136,19 +136,6 @@ export class EndpointFactory {
 			});
 
 			return {headers: headers, responseType: rType};
-		} else {
-
-			let headers = new HttpHeaders({
-				Authorization: 'Bearer ' + this.authService.accessToken,
-				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
-				'App-Version': ConfigurationService.appVersion
-
-			});
-
-			return {headers: headers, responseType: rType};
 		}
 	}
 
