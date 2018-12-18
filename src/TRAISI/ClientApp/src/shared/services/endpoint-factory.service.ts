@@ -117,6 +117,43 @@ export class EndpointFactory {
 
 	/**
 	 *
+	 * @param rType
+	 */
+	protected getSurveyViewerRequestHeaders(
+		rType: any = 'json'
+	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent') ) {
+			let headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this.authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${
+					this.apiVersion
+					}+json, application/json, text/plain, */*`,
+				'App-Version': ConfigurationService.appVersion,
+				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
+				Shortcode: this.authService.currentSurveyUser.shortcode,
+				'Respondent-Id': this.authService.currentSurveyUser.id
+			});
+
+			return {headers: headers, responseType: rType};
+		} else {
+
+			let headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this.authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${
+					this.apiVersion
+					}+json, application/json, text/plain, */*`,
+				'App-Version': ConfigurationService.appVersion
+
+			});
+
+			return {headers: headers, responseType: rType};
+		}
+	}
+
+	/**
+	 *
 	 * @param error
 	 * @param continuation
 	 */
