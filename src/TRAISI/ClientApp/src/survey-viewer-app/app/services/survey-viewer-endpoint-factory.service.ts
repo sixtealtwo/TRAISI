@@ -1,13 +1,14 @@
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {switchMap, catchError, mergeMap} from 'rxjs/operators';
-import {Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-
-import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
+import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
+import { SurveyUser } from '../../../shared/models/survey-user.model';
+import { SurveyViewRespondent } from '../models/survey-view-respondent.model';
 
 @Injectable()
 export class SureyViewerEndpointFactory {
@@ -33,8 +34,6 @@ export class SureyViewerEndpointFactory {
 		return this._authService;
 	}
 
-
-
 	/**
 	 *Creates an instance of EndpointFactory.
 	 * @param {HttpClient} http
@@ -42,12 +41,7 @@ export class SureyViewerEndpointFactory {
 	 * @param {Injector} injector
 	 * @memberof EndpointFactory
 	 */
-	constructor(
-		protected http: HttpClient,
-		protected configurations: ConfigurationService,
-		private injector: Injector
-	) {
-	}
+	constructor(protected http: HttpClient, protected configurations: ConfigurationService, private injector: Injector) {}
 
 	/**
 	 *
@@ -55,7 +49,7 @@ export class SureyViewerEndpointFactory {
 	 * @param password
 	 */
 	public getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
-		let header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
 		let params = new HttpParams()
 			.append('username', userName)
@@ -66,10 +60,8 @@ export class SureyViewerEndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, {headers: header});
+		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
 	}
-
-
 
 	/**
 	 *
@@ -91,42 +83,41 @@ export class SureyViewerEndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, {headers: header}).pipe(
-			catchError(error => {
+		return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
+			catchError((error) => {
 				return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
 			})
 		);
 	}
-
 
 	/**
 	 *
 	 *
 	 * @protected
 	 * @param {*} [rType='json']
+	 * @param {SurveyViewRespondent} [surveyRespondent=null]
 	 * @returns {({ headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any })}
-	 * @memberof EndpointFactory
+	 * @memberof SureyViewerEndpointFactory
 	 */
 	protected getRequestHeaders(
-		rType: any = 'json'
+		rType: any = 'json',
+		surveyRespondent: SurveyViewRespondent = null
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null  ) {
+		if (this.authService.currentUser != null) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
-				'Respondent-Id': this.authService.currentSurveyUser.id
+				'Respondent-Id': this.authService.currentSurveyUser.id,
+				'Active-Respondent-Id': surveyRespondent === undefined ? null : String(surveyRespondent.respondentId)
 			});
 
-			return {headers: headers, responseType: rType};
+			return { headers: headers, responseType: rType };
 		}
 	}
-
 
 	/**
 	 *
@@ -139,20 +130,18 @@ export class SureyViewerEndpointFactory {
 	protected getSurveyViewerRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent') ) {
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
 
-			return {headers: headers, responseType: rType};
+			return { headers: headers, responseType: rType };
 		}
 	}
 
@@ -171,22 +160,19 @@ export class SureyViewerEndpointFactory {
 			this.isRefreshingLogin = true;
 
 			return this.authService.refreshLogin().pipe(
-				mergeMap(data => {
+				mergeMap((data) => {
 					this.isRefreshingLogin = false;
 					this.resumeTasks(true);
 
 					return continuation();
 				}),
-				catchError(refreshLoginError => {
+				catchError((refreshLoginError) => {
 					this.isRefreshingLogin = false;
 					this.resumeTasks(false);
 
 					if (
 						refreshLoginError.status === 401 ||
-						(refreshLoginError.url &&
-							refreshLoginError.url
-								.toLowerCase()
-								.includes(this.loginUrl.toLowerCase()))
+						(refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
 						return observableThrowError('session expired');
@@ -201,9 +187,7 @@ export class SureyViewerEndpointFactory {
 			this.authService.reLogin();
 
 			return observableThrowError(
-				error.error && error.error.error_description
-					? `session expired (${error.error.error_description})`
-					: 'session expired'
+				error.error && error.error.error_description ? `session expired (${error.error.error_description})` : 'session expired'
 			);
 		} else {
 			return observableThrowError(error);
@@ -220,7 +204,7 @@ export class SureyViewerEndpointFactory {
 		}
 
 		return this.taskPauser.pipe(
-			switchMap(continueOp => {
+			switchMap((continueOp) => {
 				return continueOp ? continuation() : observableThrowError('session expired');
 			})
 		);
