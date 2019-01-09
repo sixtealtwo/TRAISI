@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
+import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class QuestionLoaderEndpointService extends EndpointFactory {
+export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
 
 	get questionTypesUrl() {
@@ -23,7 +24,7 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 	 * Returns all available question type definitions
 	 * @returns {Observable<T>}
 	 */
-	getQuestionTypesEndpoint<T>(): Observable<T> {
+	public getQuestionTypesEndpoint<T>(): Observable<T> {
 		let endpointUrl = `${this.questionTypesUrl}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -46,7 +47,7 @@ export class QuestionLoaderEndpointService extends EndpointFactory {
 	 * for the passed question type.
 	 * @param questionType
 	 */
-	getClientCodeEndpoint<T>(questionType: string): Observable<T> {
+	public getClientCodeEndpoint<T>(questionType: string): Observable<T> {
 		let endpointUrl = this.getClientCodeEndpointUrl(questionType);
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(

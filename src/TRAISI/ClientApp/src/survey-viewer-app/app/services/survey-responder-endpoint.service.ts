@@ -5,6 +5,7 @@ import { ConfigurationService } from '../../../shared/services/configuration.ser
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { SurveyQuestion, SurveyRespondent, ResponseTypes } from 'traisi-question-sdk';
+import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
 
 /**
  *
@@ -16,7 +17,7 @@ import { SurveyQuestion, SurveyRespondent, ResponseTypes } from 'traisi-question
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyResponderEndpointService extends EndpointFactory {
+export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory {
 	private readonly _surveyResponseUrl: string = '/api/Responder';
 
 	get surveyResponseUrl(): string {

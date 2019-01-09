@@ -6,10 +6,11 @@ import { Observable } from 'rxjs';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
-import { SurveyViewPage } from '../models/survey-view-page.model';
+
+import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
 
 @Injectable()
-export class SurveyViewerEndpointService extends EndpointFactory {
+export class SurveyViewerEndpointService  extends SurveyViewerEndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/SurveyViewer';
 	private readonly _surveyViewerUrl: string = '/api/SurveyViewer';
 

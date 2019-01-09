@@ -7,11 +7,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
-import { SurveyUser } from '../../../shared/models/survey-user.model';
-import { SurveyViewRespondent } from '../models/survey-view-respondent.model';
+import { SurveyRespondent } from 'traisi-question-sdk';
 
 @Injectable()
-export class SureyViewerEndpointFactory {
+export class SurveyViewerEndpointFactory {
 	public readonly apiVersion: string = '1';
 
 	private readonly _loginUrl: string = '/connect/token';
@@ -101,7 +100,7 @@ export class SureyViewerEndpointFactory {
 	 */
 	protected getRequestHeaders(
 		rType: any = 'json',
-		surveyRespondent: SurveyViewRespondent = null
+		surveyRespondent: SurveyRespondent = null
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
 		if (this.authService.currentUser != null) {
 			let headers = new HttpHeaders({
@@ -112,7 +111,7 @@ export class SureyViewerEndpointFactory {
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id,
-				'Active-Respondent-Id': surveyRespondent === undefined ? null : String(surveyRespondent.respondentId)
+				'Active-Respondent-Id': surveyRespondent === undefined ? null : String(surveyRespondent.id)
 			});
 
 			return { headers: headers, responseType: rType };

@@ -54,7 +54,7 @@ import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/src/survey-question-view.directive';
-import { SureyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
+import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -113,7 +113,7 @@ import { SureyViewerEndpointFactory } from './services/survey-viewer-endpoint-fa
 	],
 	providers: [
 		LocalStoreManager,
-		SureyViewerEndpointFactory,
+		SurveyViewerEndpointFactory,
 		QuestionLoaderEndpointService,
 		AppTranslationService,
 		{ provide: 'SurveyViewerService', useClass: SurveyViewerService },
