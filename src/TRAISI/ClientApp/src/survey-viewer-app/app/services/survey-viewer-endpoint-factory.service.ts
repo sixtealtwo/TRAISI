@@ -10,7 +10,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 
 @Injectable()
-export class EndpointFactory {
+export class SureyViewerEndpointFactory {
 	public readonly apiVersion: string = '1';
 
 	private readonly _loginUrl: string = '/connect/token';

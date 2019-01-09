@@ -11,7 +11,6 @@ import { SurveyErrorComponent } from './components/survey-error/survey-error.com
 import { SurveyStartPageComponent } from './components/survey-start-page/survey-start-page.component';
 import { AppTranslationService, TranslateLanguageLoader } from '../../shared/services/app-translation.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { EndpointFactory } from '../../shared/services/endpoint-factory.service';
 import { QuestionLoaderEndpointService } from './services/question-loader-endpoint.service';
 import { QuestionContainerComponent } from './components/question-container/question-container.component';
 import { QuestionPlaceholderComponent } from './components/question-placeholder/question-placeholder.component';
@@ -36,7 +35,6 @@ import { AuthService } from '../../shared/services/auth.service';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
-import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -48,7 +46,6 @@ import { TextBlock1Component } from './components/special-page-builder/text-bloc
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
 import { SafePipe } from 'shared/pipes/safe.pipe';
-import { SurveyViewerState } from './models/survey-viewer-state.model';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
@@ -57,6 +54,7 @@ import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/src/survey-question-view.directive';
+import { SureyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -115,7 +113,7 @@ import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/sr
 	],
 	providers: [
 		LocalStoreManager,
-		EndpointFactory,
+		SureyViewerEndpointFactory,
 		QuestionLoaderEndpointService,
 		AppTranslationService,
 		{ provide: 'SurveyViewerService', useClass: SurveyViewerService },
