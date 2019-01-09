@@ -90,17 +90,16 @@ export class SurveyViewerEndpointFactory {
 	}
 
 	/**
-	 *
+	 * Generates request headers for call to TRAISI endpoint. This method is specific to surey viewer
+	 * use cases.
 	 *
 	 * @protected
-	 * @param {*} [rType='json']
 	 * @param {SurveyViewRespondent} [surveyRespondent=null]
 	 * @returns {({ headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any })}
 	 * @memberof SureyViewerEndpointFactory
 	 */
 	protected getRequestHeaders(
-		rType: any = 'json',
-		surveyRespondent: SurveyRespondent = null
+		surveyRespondentId: number = -1
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
 		if (this.authService.currentUser != null) {
 			let headers = new HttpHeaders({
@@ -111,10 +110,10 @@ export class SurveyViewerEndpointFactory {
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id,
-				'Active-Respondent-Id': surveyRespondent === undefined ? null : String(surveyRespondent.id)
+				'Active-Respondent-Id': String(surveyRespondentId)
 			});
 
-			return { headers: headers, responseType: rType };
+			return { headers: headers, responseType: 'json' };
 		}
 	}
 

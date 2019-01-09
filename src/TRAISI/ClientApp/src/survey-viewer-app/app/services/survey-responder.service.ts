@@ -300,12 +300,5 @@ export class SurveyResponderService implements SurveyResponder {
 		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
-	/**
-	 *
-	 * @param surveyId
-	 * @param type
-	 */
-	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
-		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
-	}
+
 }
