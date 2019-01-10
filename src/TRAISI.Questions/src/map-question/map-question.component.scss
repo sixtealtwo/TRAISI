@@ -8,6 +8,8 @@
 	overflow: hidden;
 }
 
+
+
 .locationDisplay {
 	background: black;
 	color: white;
@@ -40,6 +42,12 @@ mgl-map {
 	bottom: 0;
 	top: 0;
 	width: 100%;
+
+	.clear-button {
+		width: auto;
+		height: auto;
+		padding: 10px;
+	}
 
 	.marker-icon {
 		position: absolute;

@@ -64,8 +64,6 @@ export class SurveyViewerEndpointFactory {
 		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
 	}
 
-
-
 	/**
 	 *
 	 *
@@ -103,22 +101,9 @@ export class SurveyViewerEndpointFactory {
 	 * @memberof SureyViewerEndpointFactory
 	 */
 	protected getRequestHeaders(
-		surveyRespondentId: number = -1
+		surveyRespondentId: number = null
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null) {
-			let headers = new HttpHeaders({
-				Authorization: 'Bearer ' + this.authService.accessToken,
-				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
-				'App-Version': ConfigurationService.appVersion,
-				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
-				Shortcode: this.authService.currentSurveyUser.shortcode,
-				'Respondent-Id': this.authService.currentSurveyUser.id,
-				'Active-Respondent-Id': String(surveyRespondentId)
-			});
-
-			return { headers: headers, responseType: 'json' };
-		}
+		return this.getSurveyViewerRequestHeaders(surveyRespondentId);
 	}
 
 	/**
@@ -130,20 +115,24 @@ export class SurveyViewerEndpointFactory {
 	 * @memberof EndpointFactory
 	 */
 	protected getSurveyViewerRequestHeaders(
+		respondentId: number = null,
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
+		if (this.authService.currentUser != null) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
-				Shortcode: this.authService.currentSurveyUser.shortcode,
-				'Respondent-Id': this.authService.currentSurveyUser.id
+				// Shortcode: this.authService.currentSurveyUser.shortcode,
+				'Respondent-Id': respondentId === null ? this.authService.currentSurveyUser.id : String(respondentId)
 			});
 
+
 			return { headers: headers, responseType: rType };
+		} else {
+
 		}
 	}
 

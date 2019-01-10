@@ -55,25 +55,32 @@ export class SurveyStartPageComponent implements OnInit {
 
 		this.isAdmin = this.surveyViewerService.isAdminUser();
 
-		this.route.params.subscribe(params => {
+		this.route.params.subscribe((params) => {
 			this.surveyName = params['surveyName'];
 			this.surveyViewerService.welcomeModel.subscribe(
 				(surveyStartModel: SurveyStart) => {
 					this.survey = surveyStartModel;
 					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
-					this.surveyViewerService.pageThemeInfoJson.subscribe(styles => {
-						try {
-							this.pageThemeInfo = JSON.parse(styles);
-							if (this.pageThemeInfo === null) {
-								this.pageThemeInfo = {};
-								this.pageThemeInfo.viewerTemplate = '';
-							}
-						} catch (e) {}
-						this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
-						this.finishedLoading = true;
-					});
+					this.surveyViewerService.pageThemeInfoJson.subscribe(
+						(styles) => {
+							try {
+								this.pageThemeInfo = JSON.parse(styles);
+								if (this.pageThemeInfo === null) {
+									this.pageThemeInfo = {};
+									this.pageThemeInfo.viewerTemplate = '';
+								}
+							} catch (e) {}
+							this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+							this.finishedLoading = true;
+
+							console.log('in finished');
+						},
+						(error) => {
+							console.error(error);
+						}
+					);
 				},
-				error => {
+				(error) => {
 					console.error(error);
 					this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
 				}
@@ -91,7 +98,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isError = false;
 
 		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
-			value => {
+			(value) => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
 					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
@@ -101,7 +108,7 @@ export class SurveyStartPageComponent implements OnInit {
 					this.router.navigate([this.surveyName, 'terms']);
 				}
 			},
-			error => {
+			(error) => {
 				console.error(error);
 				this.isLoading = false;
 				this.isError = true;

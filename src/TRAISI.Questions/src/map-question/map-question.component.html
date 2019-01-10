@@ -8,6 +8,11 @@
             [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
         <mgl-control mglNavigation position="top-left"></mgl-control>
         <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
+        
+        <mgl-control position="bottom-left">
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+                <button (click)="clearLocation()" class="mapboxgl-ctrl-icon clear-button" type="button">Clear Location</button></div>
+        </mgl-control>
         <mgl-control position="bottom-right">
             <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
                 <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
