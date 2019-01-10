@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
 import { AppRoutingModule } from './modules/routing/routing.module';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
 import { SurveyViewerEndpointService } from './services/survey-viewer-endpoint.service';
@@ -31,11 +32,9 @@ import { ConfigurationService } from '../../shared/services/configuration.servic
 import { LocalStoreManager } from '../../shared/services/local-store-manager.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
-
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -54,7 +53,7 @@ import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyQuestionViewDirective } from '../../../../../TRAISI.SDK/Module/src/survey-question-view.directive';
-import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
+
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],

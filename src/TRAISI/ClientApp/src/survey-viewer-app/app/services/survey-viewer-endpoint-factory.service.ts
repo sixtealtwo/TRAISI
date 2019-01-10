@@ -5,9 +5,11 @@ import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
-import { AuthService } from '../../../shared/services/auth.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { SurveyRespondent } from 'traisi-question-sdk';
+import { AuthService } from 'shared/services/auth.service';
+import { Router } from '@angular/router';
+import { LocalStoreManager } from 'shared/services/local-store-manager.service';
 
 @Injectable()
 export class SurveyViewerEndpointFactory {
@@ -61,6 +63,8 @@ export class SurveyViewerEndpointFactory {
 
 		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
 	}
+
+
 
 	/**
 	 *

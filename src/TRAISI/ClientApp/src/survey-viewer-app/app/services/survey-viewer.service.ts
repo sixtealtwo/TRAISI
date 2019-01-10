@@ -6,7 +6,6 @@ import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { QuestionConfiguration, QuestionOption, SurveyViewer } from 'traisi-question-sdk';
-import { AuthService } from '../../../shared/services/index';
 import { User } from 'shared/models/user.model';
 import { SurveyViewPage } from '../models/survey-view-page.model';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
@@ -15,6 +14,7 @@ import { SurveyResponderService } from './survey-responder.service';
 import { SurveyViewerTheme } from '../models/survey-viewer-theme.model';
 import { SurveyViewThankYouModel } from '../models/survey-view-thankyou.model';
 import { SurveyWelcomeModel } from '../models/survey-welcome.model';
+import { AuthService } from 'shared/services/auth.service';
 
 @Injectable({
 	providedIn: 'root'

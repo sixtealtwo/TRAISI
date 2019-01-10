@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Observable } from 'rxjs';
 import { SurveyViewType } from '../models/survey-view-type.enum';
-import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 
 import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
@@ -128,7 +127,7 @@ export class SurveyViewerEndpointService  extends SurveyViewerEndpointFactory {
 	public getSurveyStylesEndpoint<T>(surveyId: number): Observable<T> {
 		let endpointUrl = `${this.getSurveyStylesUrl}/${surveyId}`;
 
-		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getSurveyStylesEndpoint(surveyId));
 			})
