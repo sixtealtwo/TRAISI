@@ -16,8 +16,15 @@ namespace TRAISI.Authorization {
 		/// <exception cref="NotImplementedException"></exception>
 		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SurveyRespondentAuthorizationRequirement requirement) {
 
+			var user = context.User;
 
-			if(context.User.IsInRole(TRAISI.Authorization.Enums.TraisiRoles.SuperAdministrator))
+			if(user == null)
+			{
+				context.Fail();
+				return Task.CompletedTask;
+			}
+
+			else if(context.User.IsInRole(TRAISI.Authorization.Enums.TraisiRoles.SuperAdministrator))
 			{
 				context.Succeed(requirement);
 				return Task.CompletedTask;
