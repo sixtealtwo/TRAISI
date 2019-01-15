@@ -5,7 +5,7 @@ import { QuestionLoaderService } from './question-loader.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Directive({
-	selector: 'traisiSurveyQuestionInternalView',
+	selector: '[traisiQuestionInternalView]',
 	exportAs: 'traisiSurveyQuestionInternalView'
 })
 export class SurveyQuestionInternalViewDirective {}
