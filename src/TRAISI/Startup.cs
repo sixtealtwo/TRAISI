@@ -266,7 +266,7 @@ namespace TRAISI
                     policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.CreateGroupSurveys));
 
                 options.AddPolicy(Policies.RespondToSurveyPolicy,
-                    policy => policy.Requirements.Add(new SurveyRespondentAuthorizationRequirement()));
+                policy => policy.Requirements.Add(new SurveyRespondentAuthorizationRequirement()));
             });
 
             Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
@@ -315,6 +315,8 @@ namespace TRAISI
             services.AddSingleton<IAuthorizationHandler, ManageGroupUserAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, SurveyRespondentAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationRequirement, SurveyRespondentAuthorizationRequirement>();
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
 
             services.AddScoped<IRespondentGroupService, RespondentGroupService>();

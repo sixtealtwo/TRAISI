@@ -14,6 +14,7 @@ namespace TRAISI.Authorization
 
 
 
+///
     public class AssignRolesAuthorizationHandler : AuthorizationHandler<AssignRolesAuthorizationRequirement, Tuple<string[], string[]>>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AssignRolesAuthorizationRequirement requirement, Tuple<string[], string[]> newAndCurrentRoles)
