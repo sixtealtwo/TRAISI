@@ -194,6 +194,24 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 		);
 	}
 
+	/**
+	 *
+	 *
+	 * @param {number} surveyId
+	 * @param {ResponseTypes} type
+	 * @returns {Observable<any>}
+	 * @memberof SurveyResponderEndpointService
+	 */
+	public getListSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
+		// surveys/{surveyId}/responses/types/{type}
+		let endpointUrl = `${this.surveyResponseUrl}/surveys/${surveyId}/responses/types/${type}`;
+
+		return this.http.get(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () => this.getListSurveyResponsesOfType(surveyId, type));
+			})
+		);
+	}
 
 	/**
 	 * Service constructor

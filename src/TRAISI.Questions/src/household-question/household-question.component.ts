@@ -64,7 +64,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {
-				 this.validationState.emit(ResponseValidationState.VALID);
+				this.validationState.emit(ResponseValidationState.VALID);
 				this.primaryRespondent = {
 					respondent: arr[0],
 					isSaved: true,

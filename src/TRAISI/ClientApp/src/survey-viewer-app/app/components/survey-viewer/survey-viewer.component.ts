@@ -147,13 +147,16 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	/**
-	 * Creates an instance of survey viewer component.
-	 * @param surveyViewerService
-	 * @param _surveyResponderService
-	 * @param _viewerStateService
-	 * @param _navigation
-	 * @param route
-	 * @param elementRef
+	 *Creates an instance of SurveyViewerComponent.
+	 * @param {SurveyViewerService} surveyViewerService
+	 * @param {SurveyResponderService} _surveyResponderService
+	 * @param {SurveyViewerStateService} _viewerStateService
+	 * @param {SurveyViewerNavigationService} _navigation
+	 * @param {ActivatedRoute} route
+	 * @param {Router} _router
+	 * @param {Title} _titleService
+	 * @param {ElementRef} elementRef
+	 * @memberof SurveyViewerComponent
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
@@ -279,8 +282,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param pages
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
-
-
 		this._surveyResponderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
 			if (members.length > 0) {
 				this.viewerState.groupMembers = [];
