@@ -264,6 +264,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @returns household tag
 	 */
 	private retrieveHouseholdTag(): string {
+
+
+		if(this.questionTypeMap === undefined)
+		{
+			console.log('null');
+		}
+
 		let questionId: number = +Object.keys(this.questionTypeMap).find(
 			key => this.questionTypeMap[key] === 'household'
 		);
@@ -287,6 +294,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @param rawLabel
 	 */
 	private processPipedQuestionLabel(rawLabel: string): void {
+
+
+
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 
 		// get tag list
