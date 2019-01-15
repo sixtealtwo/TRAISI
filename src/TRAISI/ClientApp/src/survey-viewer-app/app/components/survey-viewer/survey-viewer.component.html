@@ -50,7 +50,7 @@
 												[container]="repeat"
 												[questionTypeMap]="questionTypeMap"
 												[questionNameMap]="questionNameMap"
-												*ngIf="viewerState.activeQuestionContainer === repeat && questionTypeMap !== undefined"
+												*ngIf="viewerState.activeQuestionContainer === repeat && viewerState.isLoaded"
 												#questions
 											></traisi-question-container>
 										</ng-container>

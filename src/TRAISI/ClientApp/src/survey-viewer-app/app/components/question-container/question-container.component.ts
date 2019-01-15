@@ -160,6 +160,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		 * Load the question component into the specified question outlet.
 		 */
 
+
+
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
 
@@ -176,10 +178,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				surveyQuestionInstance.surveyId = this.surveyId;
 
-				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign(
-					{},
-					this.question.configuration
-				);
+				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();
@@ -197,13 +196,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this._responseSaved.subscribe(this.onResponseSaved);
 
 				this._responderService
-					.getSavedResponse(
-						this.surveyId,
-						this.question.questionId,
-						this.respondent.id,
-						this.calcUniqueRepeatNumber()
-					)
-					.subscribe(response => {
+					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())
+					.subscribe((response) => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null ? 'none' : response.responseValues
 						);
@@ -231,13 +225,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						}
 
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
-								this.question.configuration
-							);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
 						setTimeout(() => {
 							this._navigation.navigationCompleted.next(true);
-							this._navigation.navigationCompleted.subscribe(result => {
+							this._navigation.navigationCompleted.subscribe((result) => {
 								this.alreadyNavigated = true;
 							});
 						}, 100);
@@ -264,17 +256,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @returns household tag
 	 */
 	private retrieveHouseholdTag(): string {
-
-
-		if(this.questionTypeMap === undefined)
-		{
-			console.log('null');
-		}
-
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			key => this.questionTypeMap[key] === 'household'
-		);
-		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
+		let questionId: number = +Object.keys(this.questionTypeMap).find((key) => this.questionTypeMap[key] === 'household');
+		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
 	}
 
 	/**
@@ -294,49 +277,31 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @param rawLabel
 	 */
 	private processPipedQuestionLabel(rawLabel: string): void {
-
-
-
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
 
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
 
-
 		if (tags && tags.length > 0) {
-			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
+			let questionIdsForResponse = tags.map((tag) => this.questionNameMap[tag]);
 
-			questionIdsForResponse = questionIdsForResponse.filter(f => {
+			questionIdsForResponse = questionIdsForResponse.filter((f) => {
 				return f !== undefined;
 			});
 
 			if (questionIdsForResponse.length > 0) {
-				this._responderService
-					.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
-					.subscribe(responses => {
-						tags.forEach((tag, index) => {
-							if (this.questionNameMap[tag] === this.question.repeatSource) {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									`${this.repeatNumber + 1}`
-								);
-							} else if (this.question.parentSection && this.question.parentSection.repeatSource === this.questionNameMap[tag]) {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									`${this.sectionRepeatNumber + 1}`
-								);
-							} else {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									responses[index].responseValues[0].value
-								);
-							}
-						});
-						this.titleLabel = new BehaviorSubject(processedLabel);
+				this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe((responses) => {
+					tags.forEach((tag, index) => {
+						if (this.questionNameMap[tag] === this.question.repeatSource) {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, `${this.repeatNumber + 1}`);
+						} else if (this.question.parentSection && this.question.parentSection.repeatSource === this.questionNameMap[tag]) {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, `${this.sectionRepeatNumber + 1}`);
+						} else {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, responses[index].responseValues[0].value);
+						}
 					});
+					this.titleLabel = new BehaviorSubject(processedLabel);
+				});
 			}
 		} else {
 			this.titleLabel = new BehaviorSubject(processedLabel);
