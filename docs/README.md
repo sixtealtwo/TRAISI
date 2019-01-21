@@ -1,3 +1,3 @@
-# TRAISI V2
+# TRAISI
 
 > Survey creation and management platform.
