@@ -36,10 +36,18 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 		return this.configurations.baseUrl + this._surveyResponseUrl;
 	}
 
+
 	/**
-	 * Returns the endpoint for retrieving survey questions of a particular survey view
+	 *
+	 *
+	 * @template T
 	 * @param {number} surveyId
+	 * @param {number} questionId
+	 * @param {number} respondentId
+	 * @param {*} responseData
+	 * @param {number} [repeat]
 	 * @returns {Observable<T>}
+	 * @memberof SurveyResponderEndpointService
 	 */
 	public getSaveResponseUrlEndpoint<T>(
 		surveyId: number,

@@ -50,7 +50,35 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
-		return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(questionIds, respondentId);
+		// determine if responses are in question cache
+		console.log(questionIds);
+
+		if (Object.keys(this._cachedSavedResponses).some(r => questionIds.includes(Number(r)))) {
+			// use cached responses
+			let responses = [];
+			for (let key in this._cachedSavedResponses) {
+				if (questionIds.includes(Number(key))) {
+					console.log(this._cachedSavedResponses);
+					console.log(Object.keys(this._cachedSavedResponses));
+					console.log(Number(key));
+					console.log(respondentId);
+					responses.push(this._cachedSavedResponses[Number(key)][respondentId]);
+				} else {
+					console.log(Number(key) + ' not found');
+				}
+			}
+
+			console.log(this._cachedSavedResponses);
+			console.log('found in cache');
+			console.log(responses);
+			return Observable.of([responses]);
+		} else {
+			// don't use cached responses
+			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(
+				questionIds,
+				respondentId
+			);
+		}
 	}
 
 	/**
@@ -69,18 +97,18 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public readyCachedSavedResponses(questionIds: number[], respondentId: number): Observable<any> {
-		questionIds.forEach((id) => {
+		questionIds.forEach(id => {
 			if (this._cachedSavedResponses[id] === undefined) {
 				this._cachedSavedResponses[id] = {};
 			}
 		});
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
-			flatMap((responses) => {
+			flatMap(responses => {
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
-						responses[i].responseValues.forEach((responseValue) => {
+						responses[i].responseValues.forEach(responseValue => {
 							this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
 						});
 					}
@@ -113,7 +141,13 @@ export class SurveyResponderService implements SurveyResponder {
 			this._cachedSavedResponses[questionId] = {};
 		}
 
-		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
+		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(
+			surveyId,
+			questionId,
+			respondentId,
+			data,
+			repeat
+		);
 	}
 
 	/**
@@ -137,9 +171,18 @@ export class SurveyResponderService implements SurveyResponder {
 	): void {
 		questionComponent.response.subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
-				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
+				this.handleResponse(
+					questionComponent,
+					value,
+					surveyId,
+					questionId,
+					respondentId,
+					saved,
+					questionModel,
+					repeat
+				);
 			},
-			(error) => {
+			error => {
 				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
 			}
 		);
@@ -150,7 +193,12 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param surveyId
 	 * @param questionId
 	 */
-	public getSavedResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<ResponseValue<any>> {
+	public getSavedResponse(
+		surveyId: number,
+		questionId: number,
+		respondentId: number,
+		repeat: number
+	): Observable<ResponseValue<any>> {
 		// this.listResponsesForQuestions([questionId, questionId], respondentId).subscribe(val => {});
 
 		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
@@ -170,7 +218,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	private handleResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number,
@@ -180,11 +232,18 @@ export class SurveyResponderService implements SurveyResponder {
 		repeat: number
 	): void {
 		if (response instanceof Array) {
-			this.saveResponse({ values: response }, surveyId, questionId, respondentId, questionModel, repeat).subscribe(
+			this.saveResponse(
+				{ values: response },
+				surveyId,
+				questionId,
+				respondentId,
+				questionModel,
+				repeat
+			).subscribe(
 				(responseValid: boolean) => {
 					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
 				},
-				(error) => {
+				error => {
 					console.log(error);
 				}
 			);
@@ -193,7 +252,7 @@ export class SurveyResponderService implements SurveyResponder {
 				(responseValid: boolean) => {
 					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
 				},
-				(error) => {
+				error => {
 					console.log(error);
 				}
 			);
@@ -202,7 +261,7 @@ export class SurveyResponderService implements SurveyResponder {
 				(responseValid: boolean) => {
 					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
 				},
-				(error) => {
+				error => {
 					console.log(error);
 				}
 			);
@@ -219,7 +278,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param saved
 	 */
 	private onSavedResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		questionId: number,
 		respondentId: number,
 		data: any,
@@ -236,7 +299,6 @@ export class SurveyResponderService implements SurveyResponder {
 			(<OnSaveResponseStatus>questionComponent).onResponseSaved(responseValid);
 		}
 	}
-
 
 	/**
 	 *
