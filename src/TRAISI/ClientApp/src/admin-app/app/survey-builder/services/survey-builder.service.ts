@@ -334,7 +334,20 @@ export class SurveyBuilderService {
 		);
 	}
 
-	public updateQuestionPartOptionsOrder(surveyId: number, questionPartId: number, updatedOrder: Order[]) {
+	/**
+	 *
+	 *
+	 * @param {number} surveyId
+	 * @param {number} questionPartId
+	 * @param {Order[]} updatedOrder
+	 * @returns {Order[]}
+	 * @memberof SurveyBuilderService
+	 */
+	public updateQuestionPartOptionsOrder(
+		surveyId: number,
+		questionPartId: number,
+		updatedOrder: Order[]
+	): Observable<Order[]> {
 		return this.surveyBuilderEndpointService.getUpdateQuestionPartOptionsOrderEndpoint<Order[]>(
 			surveyId,
 			questionPartId,
@@ -365,7 +378,6 @@ export class SurveyBuilderService {
 		const result = Observable.create((observer) => {
 			SystemJS.import(this.surveyBuilderEndpointService.getSurveyBuilderClientBuilderCodeUrl(name)).then(
 				(module) => {
-
 					observer.next(module);
 				}
 			);
