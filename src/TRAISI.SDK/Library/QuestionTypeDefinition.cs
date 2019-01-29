@@ -114,6 +114,18 @@ namespace TRAISI.SDK
         /// <value></value>
         public string Icon { get; set; }
 
+        /// <summary>
+        /// The name of the custom builder view, or null if no custom builder view.
+        /// </summary>
+        /// <value></value>
+        public string CustomBuilderViewName { get; set; }
+
+        /// <summary>
+        /// Flag for whether or not this question type definition has a custom builder view.
+        /// </summary>
+        /// <value></value>
+        public bool HasCustomBuilderView { get; set; } = false;
+
 
         /// <summary>
         /// 
@@ -141,6 +153,11 @@ namespace TRAISI.SDK
 
                 var instance = (ResponseValidator)Activator.CreateInstance(attribute.ResponseValidator);
                 this.ResponseValidator = instance;
+
+                if (!string.IsNullOrEmpty(attribute.CustomBuilderView)) {
+                    this.CustomBuilderViewName = attribute.CustomBuilderView;
+                    this.HasCustomBuilderView = true;
+                }
             }
 
         }

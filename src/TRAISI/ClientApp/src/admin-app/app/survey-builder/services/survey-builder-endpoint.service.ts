@@ -17,6 +17,7 @@ import { QuestionOptionConditional } from '../models/question-option-conditional
 export class SurveyBuilderEndpointService extends EndpointFactory {
 	private readonly _surveyBuilderUrl: string = '/api/SurveyBuilder';
 	private readonly _deleteUploadedUrl: string = '/api/Upload/delete';
+	private readonly _questionsUrl: string = '/api/Question';
 
 	get surveyBuilderUrl() {
 		return this.configurations.baseUrl + this._surveyBuilderUrl;
@@ -37,7 +38,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		let endpointUrl = this.getSurveyBuilderQuestionTypesUrl;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getQuestionTypesEndpoint());
 			})
 		);
@@ -46,7 +47,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	public getDeleteUploadedFileEndopint<T>(filePath: UploadPath): Observable<T> {
 		let endpointUrl = this.deleteUploadedUrl;
 		return this.http.post<T>(endpointUrl, JSON.stringify(filePath), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getDeleteUploadedFileEndopint(filePath));
 			})
 		);
@@ -56,7 +57,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Styles`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders('text')).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyStylesEndpoint(surveyId));
 			})
 		);
@@ -66,7 +67,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage/Standard/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getStandardWelcomePageEndpoint(surveyId, language));
 			})
 		);
@@ -76,7 +77,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/TermsAndConditionsPage/Standard/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getStandardTermsAndConditionsPageEndpoint(surveyId, language)
 				);
@@ -88,7 +89,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage/Standard/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getStandardWelcomePageEndpoint(surveyId, language));
 			})
 		);
@@ -98,7 +99,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Styles`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(updatedStyles), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getUpdateSurveyStylesEndpoint(surveyId, updatedStyles));
 			})
 		);
@@ -108,12 +109,11 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/WelcomePage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getUpdateWelcomePageEndpoint(surveyId, welcomePage));
 			})
 		);
 	}
-	
 
 	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(
 		surveyId: number,
@@ -122,7 +122,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/TermsAndConditionsPage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getUpdateStandardTermsAndConditionsPageEndpoint(surveyId, welcomePage)
 				);
@@ -134,7 +134,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getUpdateStandardThankYouPageEndpoint(surveyId, welcomePage));
 			})
 		);
@@ -144,7 +144,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getStandardViewPageStructureEndpoint(surveyId, language));
 			})
 		);
@@ -154,7 +154,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/CATI/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getStandardViewPageStructureEndpoint(surveyId, language));
 			})
 		);
@@ -167,7 +167,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/${language}/QuestionsOptions`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getStandardViewPagesStructureWithQuestionsOptionsEndpoint(surveyId, language)
 				);
@@ -183,7 +183,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Page/Standard/${language}`;
 
 		return this.http.post<T>(endpointUrl, JSON.stringify(pageInfo), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getAddStandardPageEndpoint(surveyId, language, pageInfo));
 			})
 		);
@@ -193,28 +193,40 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Page/Standard/${pageId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getDeleteStandardPageEndpoint(surveyId, pageId));
 			})
 		);
 	}
 
-	public getUpdateStandardViewPageOrderEndpoint<T>(surveyId: number, pageOrder: Order[], movedPagedId: number): Observable<T> {
+	public getUpdateStandardViewPageOrderEndpoint<T>(
+		surveyId: number,
+		pageOrder: Order[],
+		movedPagedId: number
+	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/Standard/UpdateOrder/${movedPagedId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
-			catchError(error => {
-				return this.handleError(error, () => this.getUpdateStandardViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId));
+			catchError((error) => {
+				return this.handleError(error, () =>
+					this.getUpdateStandardViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId)
+				);
 			})
 		);
 	}
 
-	public getUpdateCATIViewPageOrderEndpoint<T>(surveyId: number, pageOrder: Order[], movedPagedId: number): Observable<T> {
+	public getUpdateCATIViewPageOrderEndpoint<T>(
+		surveyId: number,
+		pageOrder: Order[],
+		movedPagedId: number
+	): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PageStructure/CATI/UpdateOrder/${movedPagedId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(pageOrder), this.getRequestHeaders()).pipe(
-			catchError(error => {
-				return this.handleError(error, () => this.getUpdateCATIViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId));
+			catchError((error) => {
+				return this.handleError(error, () =>
+					this.getUpdateCATIViewPageOrderEndpoint(surveyId, pageOrder, movedPagedId)
+				);
 			})
 		);
 	}
@@ -223,10 +235,8 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/GenerateCATIView/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
-				return this.handleError(error, () =>
-					this.getCreateCATIViewEndpoint(surveyId, language)
-				);
+			catchError((error) => {
+				return this.handleError(error, () => this.getCreateCATIViewEndpoint(surveyId, language));
 			})
 		);
 	}
@@ -235,7 +245,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/DeleteCATIView/${language}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getDeleteCATIViewEndpoint(surveyId, language));
 			})
 		);
@@ -249,7 +259,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/${questionPartViewId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getQuestionPartViewPageStructureEndpoint(surveyId, questionPartViewId, language)
 				);
@@ -264,12 +274,19 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		movedQuestionPartViewId: number
 	): Observable<T> {
 		// tslint:disable-next-line:max-line-length
-		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/Standard/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
+		const endpointUrl = `${
+			this.surveyBuilderUrl
+		}/${surveyId}/PartStructure/Standard/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
-					this.getUpdateStandardQuestionPartViewOrderEndpoint(surveyId, questionPartViewId, childrenViewOrder, movedQuestionPartViewId)
+					this.getUpdateStandardQuestionPartViewOrderEndpoint(
+						surveyId,
+						questionPartViewId,
+						childrenViewOrder,
+						movedQuestionPartViewId
+					)
 				);
 			})
 		);
@@ -282,12 +299,19 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		movedQuestionPartViewId: number
 	): Observable<T> {
 		// tslint:disable-next-line:max-line-length
-		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/PartStructure/CATI/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
+		const endpointUrl = `${
+			this.surveyBuilderUrl
+		}/${surveyId}/PartStructure/CATI/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
-					this.getUpdateCATIQuestionPartViewOrderEndpoint(surveyId, questionPartViewId, childrenViewOrder, movedQuestionPartViewId)
+					this.getUpdateCATIQuestionPartViewOrderEndpoint(
+						surveyId,
+						questionPartViewId,
+						childrenViewOrder,
+						movedQuestionPartViewId
+					)
 				);
 			})
 		);
@@ -302,7 +326,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part/Standard/${questionPartViewId}/${language}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(newPart), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getAddStandardQuestionPartViewEndpoint(surveyId, questionPartViewId, language, newPart)
 				);
@@ -320,7 +344,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getDeleteQuestionPartViewEndpoint(surveyId, questionPartViewId, childQuestionPartViewId)
 				);
@@ -328,10 +352,19 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	/**
+	 *
+	 *
+	 * @template T
+	 * @param {number} surveyId
+	 * @param {QuestionPartView} updatedInfo
+	 * @returns
+	 * @memberof SurveyBuilderEndpointService
+	 */
 	public getUpdateQuestionPartViewDataEndpoint<T>(surveyId: number, updatedInfo: QuestionPartView) {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part`;
 		return this.http.put<T>(endpointUrl, JSON.stringify(updatedInfo), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () => this.getUpdateQuestionPartViewDataEndpoint(surveyId, updatedInfo));
 			})
 		);
@@ -341,7 +374,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConfigurations/${questionPartId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getQuestionPartConfigurationsEndpoint(surveyId, questionPartId)
 				);
@@ -357,7 +390,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConfigurations/${questionPartId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(updatedConfigurations), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getUpdateQuestionPartConfigurationsEndpoint(surveyId, questionPartId, updatedConfigurations)
 				);
@@ -373,7 +406,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getQuestionPartOptionsEndpoint(surveyId, questionPartId, language)
 				);
@@ -385,7 +418,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConditionals/${questionPartId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getQuestionPartConditionalsEndpoint(surveyId, questionPartId)
 				);
@@ -397,7 +430,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptionConditionals/${questionPartId}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getQuestionPartOptionConditionalsEndpoint(surveyId, questionPartId)
 				);
@@ -413,7 +446,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}`;
 
 		return this.http.post<T>(endpointUrl, JSON.stringify(optionInfo), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getSetQuestionPartOptionEndpoint(surveyId, questionPartId, optionInfo)
 				);
@@ -429,7 +462,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionConditionals/${questionPartId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(conditionals), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getSetQuestionPartConditionalsEndpoint(surveyId, questionPartId, conditionals)
 				);
@@ -445,7 +478,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptionConditionals/${questionPartId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(conditionals), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getSetQuestionPartOptionConditionalsEndpoint(surveyId, questionPartId, conditionals)
 				);
@@ -461,12 +494,38 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/${optionId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getDeleteQuestionPartOptionEndpoint(surveyId, questionPartId, optionId)
 				);
 			})
 		);
+	}
+
+	/**
+	 *
+	 *
+	 * @readonly
+	 * @type {string}
+	 * @memberof SurveyBuilderEndpointService
+	 */
+	private get getClientBuilderCodeUrl(): string {
+		return this._questionsUrl + '/client-builder-code';
+	}
+
+	/**
+	 * Returns the endpoint of the server method that returns the client side custom builder code
+	 * with the specified custom builder name.
+	 *
+	 * @template T
+	 * @param {string} customBuilderName
+	 * @returns {Observable<T>}
+	 * @memberof SurveyBuilderEndpointService
+	 */
+	public getSurveyBuilderClientBuilderCodeUrl(customBuilderName: string): string {
+		const endpointUrl = `${this.getClientBuilderCodeUrl}/${customBuilderName}`;
+
+		return endpointUrl;
 	}
 
 	public getUpdateQuestionPartOptionsOrderEndpoint<T>(
@@ -477,7 +536,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/QuestionOptions/${questionPartId}/Order`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(updatedOrder), this.getRequestHeaders()).pipe(
-			catchError(error => {
+			catchError((error) => {
 				return this.handleError(error, () =>
 					this.getUpdateQuestionPartOptionsOrderEndpoint(surveyId, questionPartId, updatedOrder)
 				);

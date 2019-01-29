@@ -11,7 +11,7 @@ namespace TRAISI.SDK.Attributes
         /// Specifies whether ot not this SurveyQuestion has a custom builder view.
         /// </summary>
         /// <returns></returns>
-        public bool CustomBuilderView { get; set; } = false;
+        public string CustomBuilderView { get; set; } = null;
 
         /// <summary>
         /// Gets the ResponseType format of this the attached question definition

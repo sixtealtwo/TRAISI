@@ -9,4 +9,6 @@ export interface QuestionTypeDefinition {
 	questionConfigurations: { [type: string]: QuestionConfigurationDefinition };
 	responseType: string;
 	typeNameLocales: { [type: string]: string };
+	customBuilderViewName: string;
+	hasCustomBuilderView: boolean;
 }

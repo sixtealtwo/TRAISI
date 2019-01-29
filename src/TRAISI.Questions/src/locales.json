@@ -12,7 +12,8 @@
 		"range": "Range Select",
 		"select": "Dropdown Select",
 		"time": "Time",
-		"household": "Household"
+		"household": "Household",
+		"stated_preference": "Stated Preference"
 	},
 	"fr": {
 		"text": "Texte",
@@ -27,6 +28,7 @@
 		"range": "Sélection de Gamme",
 		"select": "Sélection Déroulante",
 		"time": "Temps",
-		"household": "Household"
+		"household": "Household",
+		"stated_preference": "Stated Preference"
 	}
 }

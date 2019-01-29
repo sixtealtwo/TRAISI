@@ -18,5 +18,9 @@ namespace TRAISI.ViewModels.Questions
         public string ResponseType { get; set; }
 
         public Dictionary<string, string> TypeNameLocales { get; set; }
+
+        public bool HasCustomBuilderView { get; set; }
+
+        public string CustomBuilderViewName { get; set; }
     }
 }

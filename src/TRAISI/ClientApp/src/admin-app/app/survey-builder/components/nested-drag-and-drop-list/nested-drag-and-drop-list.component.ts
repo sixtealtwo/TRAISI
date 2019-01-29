@@ -91,12 +91,14 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			questionOptions: {},
 			questionConfigurations: {},
 			responseType: '',
+			customBuilderViewName: '',
+			hasCustomBuilderView: false,
 			typeNameLocales: { en: 'Section', fr: 'Section' }
 		};
 		this.qTypeDefinitions.set('Survey Part', sectionType);
 	}
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 		// this.elementRef.nativeElement.addEventListener('touchmove', event => event.preventDefault());
 	}
 

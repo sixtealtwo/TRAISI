@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SurveyBuilderEndpointService } from './survey-builder-endpoint.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { QuestionTypeDefinition } from '../models/question-type-definition';
 import { UploadPath } from '../models/upload-path';
 import { WelcomePage } from '../models/welcome-page.model';
@@ -17,9 +17,10 @@ import { QuestionOptionConditional } from '../models/question-option-conditional
 import { SurveyQuestionOptionStructure } from '../models/survey-question-option-structure.model';
 import { TreeviewItem, TreeItem } from 'ngx-treeview';
 
+declare const SystemJS;
+
 @Injectable()
 export class SurveyBuilderService {
-
 	public questionTypeDefinitions: QuestionTypeDefinition[];
 
 	constructor(private surveyBuilderEndpointService: SurveyBuilderEndpointService) {}
@@ -28,10 +29,12 @@ export class SurveyBuilderService {
 	 * Returns a list of question types that are available on the server.
 	 */
 	public getQuestionTypes(): Observable<QuestionTypeDefinition[]> {
-		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint<QuestionTypeDefinition[]>().pipe(map(definitions => {
-			this.questionTypeDefinitions = definitions;
-			return definitions;
-		}));
+		return this.surveyBuilderEndpointService.getQuestionTypesEndpoint<QuestionTypeDefinition[]>().pipe(
+			map((definitions) => {
+				this.questionTypeDefinitions = definitions;
+				return definitions;
+			})
+		);
 	}
 
 	public deleteUploadedFile(filePath: UploadPath): Observable<UploadPath> {
@@ -70,10 +73,7 @@ export class SurveyBuilderService {
 	}
 
 	public updateWelcomePage(surveyId: number, welcomePage: WelcomePage) {
-		return this.surveyBuilderEndpointService.getUpdateWelcomePageEndpoint<WelcomePage>(
-			surveyId,
-			welcomePage
-		);
+		return this.surveyBuilderEndpointService.getUpdateWelcomePageEndpoint<WelcomePage>(surveyId, welcomePage);
 	}
 
 	public updateStandardTermsAndConditionsPage(surveyId: number, tAndCPage: TermsAndConditionsPage) {
@@ -105,18 +105,16 @@ export class SurveyBuilderService {
 
 	public getStandardViewPagesStructureWithQuestionsOptions(
 		surveyId: number,
-		language: string,
+		language: string
 	): Observable<SurveyQuestionOptionStructure[]> {
-		return this.surveyBuilderEndpointService
-			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<SurveyQuestionOptionStructure[]>(
-				surveyId,
-				language
-			);
+		return this.surveyBuilderEndpointService.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<
+			SurveyQuestionOptionStructure[]
+		>(surveyId, language);
 	}
 
 	public getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
 		surveyId: number,
-		language: string,
+		language: string
 	): Observable<TreeviewItem[]> {
 		return this.surveyBuilderEndpointService
 			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<SurveyQuestionOptionStructure[]>(
@@ -124,16 +122,15 @@ export class SurveyBuilderService {
 				language
 			)
 			.pipe(
-				map(items => {
+				map((items) => {
 					return this.convertSurveyQuestionsStructureToTreeItems(items);
 				})
 			);
 	}
 
-
 	private convertSurveyQuestionsStructureToTreeItems(items: SurveyQuestionOptionStructure[]): TreeviewItem[] {
 		if (items !== null) {
-			let tree: TreeviewItem[] = items.map(item => {
+			let tree: TreeviewItem[] = items.map((item) => {
 				let prefix = `${item.label}`;
 				let treeItem: TreeItem = {
 					text: `${prefix}`,
@@ -151,13 +148,20 @@ export class SurveyBuilderService {
 		}
 	}
 
-
 	public updateStandardViewPageOrder(surveyId: number, pageOrder: Order[], movedPagedId: number) {
-		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(surveyId, pageOrder, movedPagedId);
+		return this.surveyBuilderEndpointService.getUpdateStandardViewPageOrderEndpoint<Order[]>(
+			surveyId,
+			pageOrder,
+			movedPagedId
+		);
 	}
 
 	public updateCATIViewPageOrder(surveyId: number, pageOrder: Order[], movedPagedId: number) {
-		return this.surveyBuilderEndpointService.getUpdateCATIViewPageOrderEndpoint<Order[]>(surveyId, pageOrder, movedPagedId);
+		return this.surveyBuilderEndpointService.getUpdateCATIViewPageOrderEndpoint<Order[]>(
+			surveyId,
+			pageOrder,
+			movedPagedId
+		);
 	}
 
 	public addStandardPage(surveyId: number, language: string, pageInfo: QuestionPartView) {
@@ -245,10 +249,10 @@ export class SurveyBuilderService {
 		return this.surveyBuilderEndpointService
 			.getQuestionPartConfigurationsEndpoint<QuestionConfigurationValue[]>(surveyId, questionPartId)
 			.pipe(
-				map(configValuesArray => {
+				map((configValuesArray) => {
 					let configValuesMap: Map<string, string> = new Map<string, string>();
 					if (configValuesArray !== null) {
-						configValuesArray.forEach(configValue => {
+						configValuesArray.forEach((configValue) => {
 							configValuesMap.set(configValue.name, configValue.value);
 						});
 					}
@@ -336,5 +340,37 @@ export class SurveyBuilderService {
 			questionPartId,
 			updatedOrder
 		);
+	}
+
+	/**
+	 *
+	 *
+	 * @param {string} name
+	 * @returns {Observable<any>}
+	 * @memberof SurveyBuilderService
+	 */
+	public loadCustomClientBuilderView(name: string): Observable<any> {
+		return this.loadClientBuilderModule(name);
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @param {string} name
+	 * @returns {Observable<any>}
+	 * @memberof SurveyBuilderService
+	 */
+	private loadClientBuilderModule(name: string): Observable<any> {
+		const result = Observable.create((observer) => {
+			SystemJS.import(this.surveyBuilderEndpointService.getSurveyBuilderClientBuilderCodeUrl(name)).then(
+				(module) => {
+
+					observer.next(module);
+				}
+			);
+		});
+
+		return result;
 	}
 }
