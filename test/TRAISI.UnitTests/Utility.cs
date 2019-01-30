@@ -58,7 +58,7 @@ namespace TRAISI.UnitTests
             });
             var questionAttribute = new SurveyQuestionAttribute(QuestionResponseType.Integer)
             {
-                CustomBuilderView = false,
+                CustomBuilderView = null,
 
             };
 

@@ -9,7 +9,8 @@ import {
 	QueryList,
 	ViewEncapsulation,
 	ChangeDetectorRef,
-	HostListener
+	HostListener,
+	ComponentFactory
 } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
@@ -27,7 +28,8 @@ import { DownloadNotification } from '../../../models/download-notification';
 import { Subject } from 'rxjs';
 import { RealTimeNotificationServce } from '../../../services/real-time-notification.service';
 import { CustomBuilderService } from 'app/survey-builder/services/custom-builder.service';
-
+import { CustomBuilderContainerDirective } from 'app/survey-builder/directives/custom-builder-container.directive';
+import { CustomBuilderOnInit, CustomBuilderOnShown, CustomBuilderOnHidden } from 'traisi-question-sdk';
 @Component({
 	selector: 'app-question-details',
 	templateUrl: './question-details.component.html',
@@ -52,6 +54,8 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	private downloadProgress: DownloadNotification = null;
 	private downloadNotifier: Subject<DownloadNotification>;
 
+	private _customBuilderComponent: any | CustomBuilderOnInit;
+
 	public dropZoneconfig: DropzoneConfigInterface = {
 		// Change this to your upload POST address:
 		maxFilesize: 50,
@@ -67,6 +71,24 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	public maxSize: number = 10;
 	public optionPage: number[] = [];
 
+	/**
+	 * Property flag that template uses to show hide custom and relatead views if
+	 * a custom builder was loaded successfuly.
+	 *
+	 * @type {boolean}
+	 * @memberof QuestionDetailsComponent
+	 */
+	public isCustomBuilderView: boolean = false;
+
+	/**
+	 * View child which houses the custom builder view, if present.
+	 *
+	 * @type {CustomBuilderContainerDirective}
+	 * @memberof QuestionDetailsComponent
+	 */
+	@ViewChild(CustomBuilderContainerDirective)
+	public customBuilderContainer: CustomBuilderContainerDirective;
+
 	@Input()
 	public surveyId: number;
 	@Input()
@@ -76,11 +98,26 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	@Input()
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
+	@Input()
+	public collapseElementId: string;
+
 	@ViewChildren('newOptionKey')
 	public newOptionKeys: QueryList<ElementRef>;
 	@ViewChildren('optionUpload')
 	public optionUploads: QueryList<DropzoneComponent>;
 
+	/**
+	 *Creates an instance of QuestionDetailsComponent.
+	 * @param {SurveyBuilderService} builderService
+	 * @param {AlertService} alertService
+	 * @param {AuthService} authService
+	 * @param {ConfigurationService} configurationService
+	 * @param {RealTimeNotificationServce} notificationService
+	 * @param {ChangeDetectorRef} cdRef
+	 * @param {CustomBuilderService} customBuilder
+	 * @param {ElementRef} elementRef
+	 * @memberof QuestionDetailsComponent
+	 */
 	constructor(
 		private builderService: SurveyBuilderService,
 		private alertService: AlertService,
@@ -88,7 +125,8 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		private configurationService: ConfigurationService,
 		private notificationService: RealTimeNotificationServce,
 		private cdRef: ChangeDetectorRef,
-		private customBuilder: CustomBuilderService
+		private customBuilder: CustomBuilderService,
+		private elementRef: ElementRef
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.getOptionPayload = this.getOptionPayload.bind(this);
@@ -99,6 +137,11 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		e.preventDefault();
 	}
 
+	/**
+	 *
+	 *
+	 * @memberof QuestionDetailsComponent
+	 */
 	public ngOnInit(): void {
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
 		Object.keys(qOptions).forEach(q => {
@@ -129,19 +172,47 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	 * @memberof QuestionDetailsComponent
 	 */
 	private initCustomBuilderView(): void {
-		let hasCustomBuilderView = this.qTypeDefinitions.get(this.question.questionType).hasCustomBuilderView;
+		let hasCustomBuilderView = (this.isCustomBuilderView = this.qTypeDefinitions.get(
+			this.question.questionType
+		).hasCustomBuilderView);
 
 		if (!hasCustomBuilderView) {
 			return;
 		} else {
-			console.log('has custom builder view');
-
 			let result = this.customBuilder.loadCustomClientBuilderView(
-				this.qTypeDefinitions.get(this.question.questionType).typeName
+				this.qTypeDefinitions.get(this.question.questionType).typeName,
+				this.qTypeDefinitions.get(this.question.questionType).customBuilderViewName
 			);
 
-			result.subscribe(val => {
-				console.log(val);
+			result.subscribe((componentFactory: ComponentFactory<any>) => {
+				console.log('custom builder view component factory loaded.');
+				console.log(this.customBuilderContainer);
+
+				let viewContainerRef = this.customBuilderContainer.viewContainerRef;
+				viewContainerRef.clear();
+
+				let componentRef = viewContainerRef.createComponent(componentFactory);
+
+				if (typeof componentRef.instance.customBuilderInitialized === 'function') {
+					(<CustomBuilderOnInit>componentRef.instance).customBuilderInitialized();
+				}
+
+				this._customBuilderComponent = componentRef.instance;
+
+				(<any>$(document)).on('show.bs.collapse', (e: Event) => {
+					if ((<Element>e.target).id === this.collapseElementId) {
+						if ((<CustomBuilderOnShown>this._customBuilderComponent).customBuilderShown !== undefined) {
+							(<CustomBuilderOnShown>this._customBuilderComponent).customBuilderShown();
+						}
+					}
+				});
+				(<any>$(document)).on('hide.bs.collapse', (e: Event) => {
+					if ((<Element>e.target).id === this.collapseElementId) {
+						if ((<CustomBuilderOnHidden>this._customBuilderComponent).customBuilderHidden !== undefined) {
+							(<CustomBuilderOnHidden>this._customBuilderComponent).customBuilderHidden();
+						}
+					}
+				});
 			});
 		}
 	}

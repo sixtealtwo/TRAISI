@@ -8,3 +8,4 @@ export interface CustomBuilderOnShown {
 export interface CustomBuilderOnHidden {
 	customBuilderHidden(): void;
 }
+

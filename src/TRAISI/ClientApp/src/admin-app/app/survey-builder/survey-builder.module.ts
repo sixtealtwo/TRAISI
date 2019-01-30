@@ -56,6 +56,8 @@ import { QuestionViewerComponent } from './components/special-page-builder/quest
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { IconPickerModule } from 'ngx-icon-picker';
+import { CustomBuilderService } from './services/custom-builder.service';
+import { CustomBuilderContainerDirective } from './directives/custom-builder-container.directive';
 
 @NgModule({
 	imports: [
@@ -137,9 +139,10 @@ import { IconPickerModule } from 'ngx-icon-picker';
 		Footer1Component,
 		SponsorsComponent,
 		QuestionViewerComponent,
+		CustomBuilderContainerDirective,
 		PrivacyConfirmationComponent
 	],
-	providers: [SurveyBuilderEndpointService, SurveyBuilderService],
+	providers: [SurveyBuilderEndpointService, SurveyBuilderService, CustomBuilderService],
 	entryComponents: [
 		CheckboxComponent,
 		DateInputComponent,

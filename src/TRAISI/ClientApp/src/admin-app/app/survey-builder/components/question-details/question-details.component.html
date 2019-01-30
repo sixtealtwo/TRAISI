@@ -55,6 +55,6 @@
 			</div>
 		</div>
 	</ng-container>
-	<div class="custom-builder-placeholder"></div>
-	<div class="open-question-placeholder text-center" *ngIf="questionOptionDefinitions.length == 0">Open Question</div>
+	<div class="custom-builder-placeholder" customBuilderContainer *ngIf="isCustomBuilderView"></div>
+	<div class="open-question-placeholder text-center" *ngIf="questionOptionDefinitions.length == 0 && !isCustomBuilderView">Open Question</div>
 </div>

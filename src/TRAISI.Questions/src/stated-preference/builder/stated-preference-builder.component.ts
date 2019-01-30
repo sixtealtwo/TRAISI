@@ -14,7 +14,10 @@ import {
 	QuestionOption,
 	ResponseData,
 	StringResponseData,
-	ResponseValidationState
+	ResponseValidationState,
+	CustomBuilderOnInit,
+	CustomBuilderOnHidden,
+	CustomBuilderOnShown
 } from 'traisi-question-sdk';
 
 /**
@@ -32,6 +35,22 @@ import {
 	template: require('./stated-preference-builder.component.html').toString(),
 	styles: [require('./stated-preference-builder.component.scss').toString()]
 })
-export class StatedPreferenceBuilderComponent {
+export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown {
 	public constructor() {}
+
+	/**
+	 *
+	 *
+	 * @memberof StatedPreferenceBuilderComponent
+	 */
+	public customBuilderInitialized(): void {
+		console.log('custom builder init called from stated preference builder component.');
+	}
+
+	public customBuilderHidden(): void {
+		console.log('SP hidden was called');
+	}
+	public customBuilderShown(): void {
+		console.log('SP shown was called');
+	}
 }

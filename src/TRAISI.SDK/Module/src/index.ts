@@ -42,4 +42,8 @@ export { SurveyQuestionInternalViewDirective } from './survey-question-internal-
 
 export { SurveyQuestionViewDirective } from './survey-question-view.directive';
 
-export { CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown } from './custom-builder-lifestyle-hooks';
+export {
+	CustomBuilderOnInit,
+	CustomBuilderOnHidden,
+	CustomBuilderOnShown
+} from './custom-builder-lifestyle-hooks';

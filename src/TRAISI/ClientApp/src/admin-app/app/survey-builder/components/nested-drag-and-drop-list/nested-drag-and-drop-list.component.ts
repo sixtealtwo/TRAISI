@@ -130,7 +130,12 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	processHouseholdCheck() {
+	/**
+	 *
+	 *
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public processHouseholdCheck(): void {
 		this.fullStructure.forEach(page => {
 			if (this.householdAdded === false) {
 				this.processHouseholdCheckItems(page.children);
@@ -138,7 +143,13 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	processHouseholdCheckItems(items: TreeviewItem[]) {
+	/**
+	 *
+	 *
+	 * @param {TreeviewItem[]} items
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public processHouseholdCheckItems(items: TreeviewItem[]): void {
 		if (items) {
 			items.forEach(item => {
 				if (this.householdAdded === false) {
@@ -152,7 +163,12 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	configurationShown() {
+	/**
+	 *
+	 *
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public configurationShown(): void {
 		this.qConfiguration.surveyId = this.surveyId;
 		this.qConfiguration.questionBeingEdited = new QuestionPartView();
 		this.qConfiguration.questionBeingEdited = JSON.parse(JSON.stringify(this.questionBeingEdited));
@@ -180,8 +196,14 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	configurationHidden(event: ModalDirective) {
-	  if (event.dismissReason === 'esc') {
+	/**
+	 *
+	 *
+	 * @param {ModalDirective} event
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public configurationHidden(event: ModalDirective): void {
+		if (event.dismissReason === 'esc') {
 			this.processConfiguration('cancel');
 		}
 		this.qConfiguration.editing = false;
@@ -191,7 +213,14 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.qConfiguration.conditionalsLoaded = false;
 	}
 
-	editQuestionConfiguration(event: any, question: any) {
+	/**
+	 *
+	 *
+	 * @param {*} event
+	 * @param {*} question
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public editQuestionConfiguration(event: any, question: any): void {
 		event.stopPropagation();
 		this.questionBeingEdited = question;
 		this.dragResult = new Subject<boolean>();
@@ -267,11 +296,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								newQuestion.questionPart.id,
 								this.qConfiguration.configurationValues
 							)
-							.subscribe(
-								result => {
-									this.notificationService.indicateSurveyChange(this.surveyId);
-								}
-							);
+							.subscribe(result => {
+								this.notificationService.indicateSurveyChange(this.surveyId);
+							});
 					}
 					if (addToList) {
 						if (parentView === this.currentPage) {
@@ -384,7 +411,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 																	MessageSeverity.success
 																);
 																this.configurationModal.hide();
-																this.notificationService.indicateSurveyChange(this.surveyId);
+																this.notificationService.indicateSurveyChange(
+																	this.surveyId
+																);
 															},
 															error => {
 																this.alertService.showStickyMessage(
@@ -396,7 +425,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 																	error
 																);
 																this.qConfiguration.isSaving = false;
-																this.notificationService.indicateSurveyChange(this.surveyId);
+																this.notificationService.indicateSurveyChange(
+																	this.surveyId
+																);
 															}
 														);
 												},
@@ -638,11 +669,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								questionsOrder,
 								this.questionBeingEdited.id
 							)
-							.subscribe(
-								result => {
-									this.notificationService.indicateSurveyChange(this.surveyId);
-								}
-							);
+							.subscribe(result => {
+								this.notificationService.indicateSurveyChange(this.surveyId);
+							});
 						if (this.catiEnabled) {
 							questionsOrder = this.currentPage.questionPartViewChildren.map(
 								q => new Order(q.catiDependent.id, q.order)
@@ -701,11 +730,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 									questionsOrder,
 									this.questionBeingEdited.id
 								)
-								.subscribe(
-									result => {
-										this.notificationService.indicateSurveyChange(this.surveyId);
-									}
-								);
+								.subscribe(result => {
+									this.notificationService.indicateSurveyChange(this.surveyId);
+								});
 							if (this.catiEnabled) {
 								questionsOrder = questionPart.questionPartViewChildren.map(
 									q => new Order(q.catiDependent.id, q.order)

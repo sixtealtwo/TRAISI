@@ -6,25 +6,25 @@ using TRAISI.SDK.Library.ResponseTypes;
 namespace TRAISI.SDK.Questions
 {
 
-    [SurveyQuestion(QuestionResponseType.OptionSelect,
-    CodeBundleName = "traisi-questions-map.module.js",
-    CustomBuilderView = "traisi-sp-builder",
-     ResponseValidator = typeof(TextQuestionValidator)),
+	[SurveyQuestion(QuestionResponseType.OptionSelect,
+	CodeBundleName = "traisi-questions-sp.module.js",
+	CustomBuilderView = "stated_preference_custom_builder",
+	 ResponseValidator = typeof(TextQuestionValidator)),
    ]
-    public class StatedPreferenceQuestion : ISurveyQuestion
-    {
-        public string TypeName
-        {
-            get => "stated_preference";
-        }
-        public string Icon
-        {
-            get => "fas fa-table";
-        }
-        public QuestionIconType IconType { get => QuestionIconType.FONT; }
+	public class StatedPreferenceQuestion : ISurveyQuestion
+	{
+		public string TypeName
+		{
+			get => "stated_preference";
+		}
+		public string Icon
+		{
+			get => "fas fa-table";
+		}
+		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
 
 
-    }
+	}
 
 }

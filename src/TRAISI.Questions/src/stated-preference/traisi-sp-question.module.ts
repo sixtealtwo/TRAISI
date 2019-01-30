@@ -5,8 +5,8 @@ import { StatedPreferenceQuestionComponent } from './viewer/stated-preference-qu
 import { StatedPreferenceBuilderComponent } from './builder/stated-preference-builder.component';
 
 @NgModule({
-	declarations: [StatedPreferenceQuestionComponent],
-	entryComponents: [StatedPreferenceQuestionComponent],
+	declarations: [StatedPreferenceQuestionComponent, StatedPreferenceBuilderComponent],
+	entryComponents: [StatedPreferenceQuestionComponent, StatedPreferenceBuilderComponent],
 	providers: [
 		{
 			provide: 'widgets',
@@ -17,13 +17,13 @@ import { StatedPreferenceBuilderComponent } from './builder/stated-preference-bu
 					component: StatedPreferenceQuestionComponent
 				},
 				{
-					name: 'traisi-sp-question',
-					id: 'stated_preference_builder',
+					name: 'traisi-sp-custom-builder',
+					id: 'stated_preference_custom_builder',
 					component: StatedPreferenceBuilderComponent
 				}
 			],
 			multi: true
-		},
+		}
 	],
 	imports: [CommonModule, HttpClientModule]
 })

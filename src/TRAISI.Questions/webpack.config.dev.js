@@ -6,7 +6,7 @@ module.exports = {
     entry: {
         general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
         map: path.join(process.cwd(), './src/map-question/traisi-map-question.module.ts'),
-
+		sp: path.join(process.cwd(), './src/stated-preference/traisi-sp-question.module.ts')
     },
 
     output: {
