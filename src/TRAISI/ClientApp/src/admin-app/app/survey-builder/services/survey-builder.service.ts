@@ -17,7 +17,6 @@ import { QuestionOptionConditional } from '../models/question-option-conditional
 import { SurveyQuestionOptionStructure } from '../models/survey-question-option-structure.model';
 import { TreeviewItem, TreeItem } from 'ngx-treeview';
 
-declare const SystemJS;
 
 @Injectable()
 export class SurveyBuilderService {
@@ -355,34 +354,5 @@ export class SurveyBuilderService {
 		);
 	}
 
-	/**
-	 *
-	 *
-	 * @param {string} name
-	 * @returns {Observable<any>}
-	 * @memberof SurveyBuilderService
-	 */
-	public loadCustomClientBuilderView(name: string): Observable<any> {
-		return this.loadClientBuilderModule(name);
-	}
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {string} name
-	 * @returns {Observable<any>}
-	 * @memberof SurveyBuilderService
-	 */
-	private loadClientBuilderModule(name: string): Observable<any> {
-		const result = Observable.create((observer) => {
-			SystemJS.import(this.surveyBuilderEndpointService.getSurveyBuilderClientBuilderCodeUrl(name)).then(
-				(module) => {
-					observer.next(module);
-				}
-			);
-		});
-
-		return result;
-	}
 }

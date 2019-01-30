@@ -26,6 +26,7 @@ import { ConfigurationService } from '../../../../../shared/services/configurati
 import { DownloadNotification } from '../../../models/download-notification';
 import { Subject } from 'rxjs';
 import { RealTimeNotificationServce } from '../../../services/real-time-notification.service';
+import { CustomBuilderService } from 'app/survey-builder/services/custom-builder.service';
 
 @Component({
 	selector: 'app-question-details',
@@ -86,7 +87,8 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		private authService: AuthService,
 		private configurationService: ConfigurationService,
 		private notificationService: RealTimeNotificationServce,
-		private cdRef: ChangeDetectorRef
+		private cdRef: ChangeDetectorRef,
+		private customBuilder: CustomBuilderService
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.getOptionPayload = this.getOptionPayload.bind(this);
@@ -99,7 +101,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 
 	public ngOnInit(): void {
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
-		Object.keys(qOptions).forEach((q) => {
+		Object.keys(qOptions).forEach(q => {
 			this.questionOptionDefinitions.push(qOptions[q]);
 			this.searchValue.push('');
 			this.items.set(q, []);
@@ -134,11 +136,11 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		} else {
 			console.log('has custom builder view');
 
-			let result = this.builderService.loadCustomClientBuilderView(
+			let result = this.customBuilder.loadCustomClientBuilderView(
 				this.qTypeDefinitions.get(this.question.questionType).typeName
 			);
 
-			result.subscribe((val) => {
+			result.subscribe(val => {
 				console.log(val);
 			});
 		}
@@ -156,16 +158,16 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.savedItems.clear();
 
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
-		Object.keys(qOptions).forEach((q) => {
+		Object.keys(qOptions).forEach(q => {
 			this.items.set(q, []);
 			this.itemsCache.set(q, []);
 		});
 
 		console.log(this.qTypeDefinitions);
 		this.builderService.getQuestionPartOptions(this.surveyId, this.question.id, this.language).subscribe(
-			(options) => {
+			options => {
 				if (options !== null) {
-					options.forEach((option) => {
+					options.forEach(option => {
 						this.itemsCache.get(option.name).push(option);
 						this.items.get(option.name).push(option);
 						this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
@@ -173,7 +175,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				}
 				this.reordering = false;
 			},
-			(error) => {
+			error => {
 				this.reordering = false;
 			}
 		);
@@ -182,9 +184,9 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	public ngAfterViewInit(): void {
 		// this.optionUploads.changes.subscribe(changed => {
 		let i = 0;
-		this.optionUploads.forEach((dzone) => {
+		this.optionUploads.forEach(dzone => {
 			let name = this.questionOptionDefinitions[i++].name;
-			dzone.DZ_SENDING.subscribe((data) => this.onSendingOptions(data, name));
+			dzone.DZ_SENDING.subscribe(data => this.onSendingOptions(data, name));
 		});
 		// });
 	}
@@ -192,7 +194,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	public onSearchChanged(value: string, optionName: string, index: number): void {
 		this.searchValue[index] = value;
 		let optionItems = this.itemsCache.get(optionName);
-		let filtered = optionItems.filter((r) => Utilities.searchArray(value, false, r.code, r.optionLabel.value));
+		let filtered = optionItems.filter(r => Utilities.searchArray(value, false, r.code, r.optionLabel.value));
 		this.items.set(optionName, filtered);
 		this.optionPage[index] = 1;
 		this.cdRef.detectChanges();
@@ -246,13 +248,13 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			this.downloadProgress.progress = 25;
 			this.downloadNotifier = this.notificationService.registerChannel<DownloadNotification>(result);
 			this.downloadNotifier.subscribe(
-				(update) => {
+				update => {
 					this.downloadSuccessHelper(update);
 					setTimeout(() => {
 						this.loadOptionData();
 					}, 1000);
 				},
-				(error) => {
+				error => {
 					// this.downloadIndicator = false;
 					this.downloadNotifier.unsubscribe();
 					this.alertService.stopLoadingMessage();
@@ -381,13 +383,13 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.itemsCache.set(optionName, optionList);
 		this.items.set(optionName, optionList);
 		this.updateQuestionOrder(optionList);
-		let newOrder: Order[] = optionList.map((ap) => new Order(ap.id, ap.order));
+		let newOrder: Order[] = optionList.map(ap => new Order(ap.id, ap.order));
 		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe(
-			(result) => {
+			result => {
 				this.reordering = false;
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {
+			error => {
 				this.reordering = false;
 			}
 		);
@@ -405,7 +407,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.builderService
 			.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOptions[index])
 			.subscribe(
-				(addedOption) => {
+				addedOption => {
 					this.notificationService.indicateSurveyChange(this.surveyId);
 					let optionName = this.pendingOptions[index].name;
 					this.items.get(optionName).push(addedOption);
@@ -426,7 +428,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 
 					// this.addingOption = false;
 				},
-				(error) => {
+				error => {
 					this.alertService.showMessage(
 						'Error',
 						`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
@@ -461,7 +463,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			let optionList = this.itemsCache.get(optionDefName);
 			this.builderService
 				.deleteQuestionPartOption(this.surveyId, this.question.id, optionList[order].id)
-				.subscribe((success) => {
+				.subscribe(success => {
 					let deleted = optionList.splice(order, 1);
 					this.savedItems.delete(deleted[0].id);
 					this.updateQuestionOrder(optionList);
@@ -472,11 +474,11 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 
 	public saveOption(option: QuestionOptionValue): void {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe(
-			(result) => {
+			result => {
 				this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {
+			error => {
 				this.alertService.showMessage(
 					'Error',
 					`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
