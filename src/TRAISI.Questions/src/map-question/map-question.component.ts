@@ -173,11 +173,11 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public ngAfterViewInit(): void {
 		this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
-			this.mapGeoLocator.control.on('geolocate', (e) => this.userLocate(e));
+			this.mapGeoLocator.control.on('geolocate', e => this.userLocate(e));
 			this._mapinstance = this.mapGL.mapInstance;
 			this.mapInstance.next(this.mapGL.mapInstance);
 			this.mapGL.mapInstance.resize();
-			this.mapGL.mapInstance.once('moveend', (e) => {
+			this.mapGL.mapInstance.once('moveend', e => {
 				setTimeout(() => {
 					this.mapGeocoder.control._inputEl.focus();
 				}, 1000);
@@ -219,7 +219,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.mapGeocoder.control._inputEl.value = address;
 		this.markerPosition = [longitude, latitude];
 		this.flyToPosition([longitude, latitude]);
-		// this._mapinstance.flyTo();
+		this.locationLoaded = true;
 	}
 
 	/**
@@ -321,7 +321,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether question shown on
 	 */
 	public onQuestionShown(): void {
-		this.mapInstance.subscribe((instance) => {
+		this.mapInstance.subscribe(instance => {
 			instance.resize();
 		});
 	}
