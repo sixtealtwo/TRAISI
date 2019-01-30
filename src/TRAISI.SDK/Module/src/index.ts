@@ -1,8 +1,15 @@
+import { from } from 'rxjs';
+
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
 export { SurveyResponder } from './survey-respondent';
 export { QuestionOption } from './question-option';
-export { OnVisibilityChanged, OnOptionsLoaded, OnSurveyQuestionInit, OnSaveResponseStatus } from './survey_lifecycle_hooks';
+export {
+	OnVisibilityChanged,
+	OnOptionsLoaded,
+	OnSurveyQuestionInit,
+	OnSaveResponseStatus
+} from './survey_lifecycle_hooks';
 export { ResponseValidationState } from './question-response-state';
 
 export {
@@ -34,3 +41,5 @@ export { SurveyModule } from './survey-module';
 export { SurveyQuestionInternalViewDirective } from './survey-question-internal-view.directive';
 
 export { SurveyQuestionViewDirective } from './survey-question-view.directive';
+
+export { CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown } from './custom-builder-lifestyle-hooks';
