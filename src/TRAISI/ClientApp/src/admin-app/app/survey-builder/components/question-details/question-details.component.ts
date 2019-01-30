@@ -1,4 +1,16 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewEncapsulation, ChangeDetectorRef, HostListener } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	Input,
+	ElementRef,
+	ViewChild,
+	AfterViewInit,
+	ViewChildren,
+	QueryList,
+	ViewEncapsulation,
+	ChangeDetectorRef,
+	HostListener
+} from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { QuestionPart } from '../../models/question-part.model';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
@@ -81,15 +93,13 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	}
 
 	@HostListener('touchmove', ['$event'])
-  public onTouchMove(e: MouseEvent) {
+	public onTouchMove(e: MouseEvent): void {
 		e.preventDefault();
 	}
 
-
 	public ngOnInit(): void {
-
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
-		Object.keys(qOptions).forEach(q => {
+		Object.keys(qOptions).forEach((q) => {
 			this.questionOptionDefinitions.push(qOptions[q]);
 			this.searchValue.push('');
 			this.items.set(q, []);
@@ -97,28 +107,65 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			this.optionPage.push(1);
 		});
 
+		this.initCustomBuilderView();
+
 		this.loadOptionData();
-		this.dropZoneconfig.url = `${this.baseUrl}/api/SurveyBuilder/${this.surveyId}/QuestionOptions/${this.question.id}/massImport`;
+		this.dropZoneconfig.url = `${this.baseUrl}/api/SurveyBuilder/${this.surveyId}/QuestionOptions/${
+			this.question.id
+		}/massImport`;
 		this.dropZoneconfig.headers = {
 			Authorization: 'Bearer ' + this.authService.accessToken
 		};
 	}
 
+	/**
+	 *
+	 * This will attempt to load any custom builder view that is defined. If no custom builder view
+	 * is present, this function will have no effect.
+	 * @private
+	 * @returns {void}
+	 * @memberof QuestionDetailsComponent
+	 */
+	private initCustomBuilderView(): void {
+		let hasCustomBuilderView = this.qTypeDefinitions.get(this.question.questionType).hasCustomBuilderView;
+
+		if (!hasCustomBuilderView) {
+			return;
+		} else {
+			console.log('has custom builder view');
+
+			let result = this.builderService.loadCustomClientBuilderView(
+				this.qTypeDefinitions.get(this.question.questionType).typeName
+			);
+
+			result.subscribe((val) => {
+				console.log(val);
+			});
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @memberof QuestionDetailsComponent
+	 */
 	private loadOptionData(): void {
 		this.items.clear();
 		this.itemsCache.clear();
 		this.savedItems.clear();
 
 		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
-		Object.keys(qOptions).forEach(q => {
+		Object.keys(qOptions).forEach((q) => {
 			this.items.set(q, []);
 			this.itemsCache.set(q, []);
 		});
 
+		console.log(this.qTypeDefinitions);
 		this.builderService.getQuestionPartOptions(this.surveyId, this.question.id, this.language).subscribe(
-			options => {
+			(options) => {
 				if (options !== null) {
-					options.forEach(option => {
+					options.forEach((option) => {
 						this.itemsCache.get(option.name).push(option);
 						this.items.get(option.name).push(option);
 						this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
@@ -126,7 +173,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				}
 				this.reordering = false;
 			},
-			error => {
+			(error) => {
 				this.reordering = false;
 			}
 		);
@@ -134,18 +181,18 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 
 	public ngAfterViewInit(): void {
 		// this.optionUploads.changes.subscribe(changed => {
-		  let i = 0;
-			this.optionUploads.forEach(dzone => {
-				let name = this.questionOptionDefinitions[i++].name;
-				dzone.DZ_SENDING.subscribe(data => this.onSendingOptions(data, name));
-			});
+		let i = 0;
+		this.optionUploads.forEach((dzone) => {
+			let name = this.questionOptionDefinitions[i++].name;
+			dzone.DZ_SENDING.subscribe((data) => this.onSendingOptions(data, name));
+		});
 		// });
 	}
 
 	public onSearchChanged(value: string, optionName: string, index: number): void {
 		this.searchValue[index] = value;
 		let optionItems = this.itemsCache.get(optionName);
-		let filtered = optionItems.filter(r => Utilities.searchArray(value, false, r.code, r.optionLabel.value));
+		let filtered = optionItems.filter((r) => Utilities.searchArray(value, false, r.code, r.optionLabel.value));
 		this.items.set(optionName, filtered);
 		this.optionPage[index] = 1;
 		this.cdRef.detectChanges();
@@ -188,27 +235,30 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			}, 1000);
 		} else {
-			this.alertService.showMessage('Partial Success', 'Successfully imported some options. Error list downloading...', MessageSeverity.warn);
+			this.alertService.showMessage(
+				'Partial Success',
+				'Successfully imported some options. Error list downloading...',
+				MessageSeverity.warn
+			);
 			let result = event[1];
 			this.downloadProgress = new DownloadNotification('', 1);
 			this.downloadProgress.id = result;
 			this.downloadProgress.progress = 25;
 			this.downloadNotifier = this.notificationService.registerChannel<DownloadNotification>(result);
 			this.downloadNotifier.subscribe(
-				update => {
+				(update) => {
 					this.downloadSuccessHelper(update);
 					setTimeout(() => {
 						this.loadOptionData();
 					}, 1000);
 				},
-				error => {
+				(error) => {
 					// this.downloadIndicator = false;
 					this.downloadNotifier.unsubscribe();
 					this.alertService.stopLoadingMessage();
 				}
 			);
 		}
-
 	}
 
 	private downloadSuccessHelper(update: DownloadNotification): void {
@@ -331,13 +381,13 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.itemsCache.set(optionName, optionList);
 		this.items.set(optionName, optionList);
 		this.updateQuestionOrder(optionList);
-		let newOrder: Order[] = optionList.map(ap => new Order(ap.id, ap.order));
+		let newOrder: Order[] = optionList.map((ap) => new Order(ap.id, ap.order));
 		this.builderService.updateQuestionPartOptionsOrder(this.surveyId, this.question.id, newOrder).subscribe(
-			result => {
+			(result) => {
 				this.reordering = false;
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {
+			(error) => {
 				this.reordering = false;
 			}
 		);
@@ -352,36 +402,38 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	}
 
 	public savePendingOption(index: number, activeInputElement?: number): void {
-		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOptions[index]).subscribe(
-			addedOption => {
-				this.notificationService.indicateSurveyChange(this.surveyId);
-				let optionName = this.pendingOptions[index].name;
-				this.items.get(optionName).push(addedOption);
-				this.itemsCache.get(optionName).push(addedOption);
-				this.savedItems.set(addedOption.id, `${addedOption.code}|${addedOption.optionLabel.value}`);
-				this.pendingOptions[index] = undefined;
+		this.builderService
+			.setQuestionPartOption(this.surveyId, this.question.id, this.pendingOptions[index])
+			.subscribe(
+				(addedOption) => {
+					this.notificationService.indicateSurveyChange(this.surveyId);
+					let optionName = this.pendingOptions[index].name;
+					this.items.get(optionName).push(addedOption);
+					this.itemsCache.get(optionName).push(addedOption);
+					this.savedItems.set(addedOption.id, `${addedOption.code}|${addedOption.optionLabel.value}`);
+					this.pendingOptions[index] = undefined;
 
-				if (activeInputElement !== undefined && this.items.get(optionName).length < this.numberPerPage) {
-					let smoothDndWrapper: Element = this.newOptionKeys.toArray()[index].nativeElement.parentElement.parentElement
-						.previousElementSibling;
+					if (activeInputElement !== undefined && this.items.get(optionName).length < this.numberPerPage) {
+						let smoothDndWrapper: Element = this.newOptionKeys.toArray()[index].nativeElement.parentElement
+							.parentElement.previousElementSibling;
 
-					setTimeout(() => {
-						let newlyAdded: HTMLInputElement = smoothDndWrapper.firstElementChild.lastElementChild
-							.firstElementChild.firstElementChild.children[activeInputElement] as HTMLInputElement;
-						newlyAdded.focus();
-					}, 0);
+						setTimeout(() => {
+							let newlyAdded: HTMLInputElement = smoothDndWrapper.firstElementChild.lastElementChild
+								.firstElementChild.firstElementChild.children[activeInputElement] as HTMLInputElement;
+							newlyAdded.focus();
+						}, 0);
+					}
+
+					// this.addingOption = false;
+				},
+				(error) => {
+					this.alertService.showMessage(
+						'Error',
+						`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
+						MessageSeverity.error
+					);
 				}
-
-				// this.addingOption = false;
-			},
-			error => {
-				this.alertService.showMessage(
-					'Error',
-					`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
-					MessageSeverity.error
-				);
-			}
-		);
+			);
 	}
 
 	public pendingOptionValid(index: number): boolean {
@@ -409,7 +461,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			let optionList = this.itemsCache.get(optionDefName);
 			this.builderService
 				.deleteQuestionPartOption(this.surveyId, this.question.id, optionList[order].id)
-				.subscribe(success => {
+				.subscribe((success) => {
 					let deleted = optionList.splice(order, 1);
 					this.savedItems.delete(deleted[0].id);
 					this.updateQuestionOrder(optionList);
@@ -420,11 +472,11 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 
 	public saveOption(option: QuestionOptionValue): void {
 		this.builderService.setQuestionPartOption(this.surveyId, this.question.id, option).subscribe(
-			result => {
+			(result) => {
 				this.savedItems.set(option.id, `${option.code}|${option.optionLabel.value}`);
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {
+			(error) => {
 				this.alertService.showMessage(
 					'Error',
 					`Problem saving option!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,

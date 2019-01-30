@@ -93,7 +93,7 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	addSectionToList() {
+	public addSectionToList(): void {
 		if (!this.wasDragging) {
 			let surveyPart: QuestionTypeDefinition = {
 				typeName: 'Survey Part',
@@ -101,6 +101,8 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 				questionOptions: {},
 				questionConfigurations: {},
 				responseType: '',
+				customBuilderViewName: '',
+				hasCustomBuilderView: false,
 				typeNameLocales: { en: 'Section', fr: 'Section' }
 			};
 			this.addQuestionType.emit(surveyPart);

@@ -33,27 +33,22 @@ namespace TRAISI.Controllers
         [HttpGet("client-code/{questionType}")]
         public async Task<ActionResult> ClientCode(string questionType)
         {
-            try
-            {
-                if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType))
-                {
-                     return new NotFoundResult(); 
+            try {
+                if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType)) {
+                    return new NotFoundResult();
                 }
 
                 var questionTypeDefinition =
                     _questionTypeManager.QuestionTypeDefinitions[questionType];
 
 
-                if (questionTypeDefinition.CodeBundleName == null)
-                {
+                if (questionTypeDefinition.CodeBundleName == null) {
                     return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
                 }
-                else
-                {
+                else {
 
                     var path = Path.Combine("development", questionTypeDefinition.CodeBundleName);
-                    if (System.IO.File.Exists(path))
-                    {
+                    if (System.IO.File.Exists(path)) {
                         return File(await System.IO.File.ReadAllBytesAsync(path), "application/javascript");
                     }
                 }
@@ -65,8 +60,52 @@ namespace TRAISI.Controllers
                                 StringComparison.InvariantCultureIgnoreCase))],
                     "application/javascript");
             }
-            catch(Exception e)
-            {
+            catch (Exception e) {
+                //return error if not found
+                return new BadRequestObjectResult(e);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionType"></param>
+        /// <returns></returns>
+        [HttpGet("client-builder-code/{questionType}")]
+        public async Task<ActionResult> ClientBuilderCode(string questionType)
+        {
+            try {
+                if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType)) {
+                    return new NotFoundResult();
+                }
+
+                var questionTypeDefinition =
+                    _questionTypeManager.QuestionTypeDefinitions[questionType];
+
+                if (!questionTypeDefinition.HasCustomBuilderView) {
+                    return BadRequest("Specified question type has no custom builder interface");
+                }
+
+                if (questionTypeDefinition.CodeBundleName == null) {
+                    return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
+                }
+                else {
+
+                    var path = Path.Combine("development", questionTypeDefinition.CodeBundleName);
+                    if (System.IO.File.Exists(path)) {
+                        return File(await System.IO.File.ReadAllBytesAsync(path), "application/javascript");
+                    }
+                }
+
+                return File(
+                    QuestionTypeDefinition.ClientModules[
+                        QuestionTypeDefinition.ClientModules.Keys
+                            .FirstOrDefault(k => k.EndsWith(questionTypeDefinition.CodeBundleName,
+                                StringComparison.InvariantCultureIgnoreCase))],
+                    "application/javascript");
+            }
+            catch (Exception e) {
                 //return error if not found
                 return new BadRequestObjectResult(e);
             }

@@ -149,7 +149,6 @@ export class QuestionLoaderService {
 						);
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
-							console.log('Adding component factory: ' + questionType);
 							this.componentFactories$.next(componentFactory);
 						}
 
@@ -172,7 +171,7 @@ export class QuestionLoaderService {
 						}
 					})
 					.catch(error => {
-						console.log(error);
+						console.error(error);
 					});
 			});
 		}
