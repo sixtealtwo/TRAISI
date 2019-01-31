@@ -11,5 +11,6 @@ namespace TRAISI.SDK.Interfaces
 		QuestionIconType IconType { get; }
 
 
+
 	}
 }
