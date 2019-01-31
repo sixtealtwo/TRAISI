@@ -24,9 +24,5 @@ namespace TRAISI.SDK.Interfaces
 		/// <value></value>
 		bool IsSourceInputRequired { get; set; }
 
-
-
-
-
 	}
 }
