@@ -33,6 +33,7 @@ using TRAISI.SDK.Interfaces;
 using TRAISI.Services;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
+using System.Linq;
 using AppPermissions = DAL.Core.ApplicationPermissions;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore.Extensions;
@@ -222,6 +223,7 @@ namespace TRAISI
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "TRAISI API", Version = "v1" });
+
 
 				c.AddSecurityDefinition("oauth2", new OAuth2Scheme
 				{

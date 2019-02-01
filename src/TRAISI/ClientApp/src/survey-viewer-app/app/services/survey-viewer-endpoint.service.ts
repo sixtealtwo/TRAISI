@@ -74,7 +74,7 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 		let endpointUrl = `${this.getSurveyIdFromCodeUrl}/${code}`;
 
 		let headers = this.getSurveyViewerRequestHeaders();
-		console.log(headers);
+
 		return this.http.get<T>(endpointUrl, headers).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyIdFromCodeEndpoint(code));
@@ -167,7 +167,6 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 	public getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string = null): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}`;
 
-		console.log(this.getRequestHeaders());
 		return this.http.post<T>(endpointUrl, '', this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode));
