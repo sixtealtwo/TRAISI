@@ -15,6 +15,10 @@ namespace TRAISI.SDK.Interfaces
 
 		string Value { get; set; }
 
+		/// <summary>
+		/// Is this configuration a resource ?
+		/// </summary>
+		/// <value></value>
 		bool IsResourceOnly { get; set; }
 
 		/// <summary>

@@ -25,6 +25,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
+	public class TestAttribute : Attribute {
+
+	}
     [Route("api/[controller]")]
     public class SurveyViewerController : Controller
     {
@@ -290,7 +293,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [HttpGet]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Produces(typeof(ObjectResult))]
-        public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,
+        public async Task<IActionResult> GetSurveyTermsAndConditions([Test]int surveyId,
             SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
         {
             var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, language, viewType);
