@@ -104,27 +104,6 @@ namespace TRAISI.Controllers.SurveyViewer
 		}
 
 
-		/*  <summary>
-		/// List responses from a particular question name associated with a particular respondent
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="questionName"></param>
-		/// <returns></returns>
-		[Produces(typeof(ObjectResult))]
-		[HttpGet(Name = "List_Responses_By_Question_Name")]
-		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
-		[Route("surveys/{surveyId}/questions/{questionName}/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}/responses")]
-		public async Task<IActionResult> ListResponses(int surveyId, string questionName)
-		{
-			var responses = await this._respondentService.ListResponses(surveyId, questionName);
-			if (responses != null)
-			{
-				return new BadRequestResult();
-			}
-
-			return new OkResult();
-		}*/
-
 		/// <summary>
 		/// Lists all available responses on a particular survey.
 		/// </summary>
@@ -138,7 +117,6 @@ namespace TRAISI.Controllers.SurveyViewer
 		public async Task<ActionResult<IEnumerable<SurveyResponseViewModel>>> ListResponsesOfType(int surveyId, string responseType)
 		{
 			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-
 
 			var responses = await this._respondentService.ListResponsesOfType(surveyId, responseType, user);
 			if (responses == null)
@@ -182,13 +160,12 @@ namespace TRAISI.Controllers.SurveyViewer
 		public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
 		{
 
+
 			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 			//var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
 			//var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
 			var result = await this._respondentGroupService.UpdateRespondent(respondent, user);
 			await this._unitOfWork.SaveChangesAsync();
-
-
 			return new OkResult();
 		}
 
@@ -204,6 +181,12 @@ namespace TRAISI.Controllers.SurveyViewer
 		public async Task<IActionResult> RemoveSurveyGroupMember(
 			[ModelBinder(Name = AuthorizationFields.RESPONDENT)] SurveyRespondent respondent)
 		{
+
+			if (respondent == null)
+			{
+				return new BadRequestResult();
+			}
+
 			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 			var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
 			this._respondentGroupService.RemoveRespondent(group, respondent.Id);
@@ -223,7 +206,7 @@ namespace TRAISI.Controllers.SurveyViewer
 		/// <returns></returns>
 		[HttpGet]
 		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
-		[Route("groups/respondents/{respondent}", Name = "List_Survey_Group_Members")]
+		[Route("groups/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}", Name = "List_Survey_Group_Members")]
 		public async Task<IActionResult> ListSurveyGroupMembers([ModelBinder(Name = AuthorizationFields.RESPONDENT)] SurveyRespondent respondent)
 		{
 			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
@@ -246,10 +229,11 @@ namespace TRAISI.Controllers.SurveyViewer
 		/// <returns></returns>
 		[HttpGet]
 		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
-		[Route("questions/respondents/{respondentId}/responses",Name="List_Responses_For_Specified_Questions")]
-		public async Task<IActionResult> ListSurveyResponsesForQuestions([FromHeader] int surveyId, [FromQuery] int[] questionIds, int respondentId)
+		[Route("questions/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}/responses", Name = "List_Responses_For_Specified_Questions")]
+		public async Task<IActionResult> ListSurveyResponsesForQuestions([FromHeader] int surveyId, [FromQuery] int[] questionIds,
+		 [ModelBinder(Name = AuthorizationFields.RESPONDENT)] SurveyRespondent respondent)
 		{
-			var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondentId);
+			var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent?.Id ?? -1);
 
 			return new OkObjectResult(result);
 		}
@@ -263,12 +247,13 @@ namespace TRAISI.Controllers.SurveyViewer
 		/// <returns></returns>
 		[HttpDelete]
 		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
-		[Route("surveys/{surveyId}/respondents/{respondentId}",Name = "Delete_All_Responses_For_Survey")]
-		public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
+		[Route("surveys/{surveyId}/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}", Name = "Delete_All_Responses_For_Survey")]
+		public async Task<IActionResult> DeleteAllResponses(int surveyId,
+		[ModelBinder(typeof(SurveyRespondentEntityBinder))] SurveyRespondent respondent)
 		{
 			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-			await this._respondentService.RemoveAllResponses(surveyId, respondentId, user);
+			await this._respondentService.RemoveAllResponses(surveyId, respondent?.Id ?? -1, user);
 
 			return new OkResult();
 		}
