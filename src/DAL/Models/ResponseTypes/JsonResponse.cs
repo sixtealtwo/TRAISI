@@ -5,12 +5,12 @@ using Newtonsoft.Json.Linq;
 using TRAISI.SDK.Library.ResponseTypes;
 namespace DAL.Models.ResponseTypes
 {
-    public class JsonResponse : ResponseValue, IJsonResponse
-    {
+	public class JsonResponse : ResponseValue, IJsonResponse
+	{
 
-        [Column(TypeName = "jsonb")]
-        public string Value { get; set; }
+		[Column(TypeName = "jsonb")]
+		public string Value { get; set; }
 
-    }
+	}
 
 }
