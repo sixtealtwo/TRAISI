@@ -138,6 +138,7 @@ namespace TRAISI
 			{
 				// options.
 				options.UseMvc();
+
 				options.EnableTokenEndpoint("/connect/token");
 				options.AllowPasswordFlow();
 				options.AllowRefreshTokenFlow();
@@ -156,6 +157,10 @@ namespace TRAISI
 					OpenIdConnectConstants.Scopes.OfflineAccess,
 					OpenIddictConstants.Scopes.Roles);
 
+			});
+			services.AddRouting(options =>
+			{
+				options.ConstraintMap.Add(AuthorizationFields.RESPONDENT, typeof(TRAISI.Controllers.Constraints.RespondentConstraint));
 			});
 
 			services.AddAuthentication(options =>
@@ -344,7 +349,7 @@ namespace TRAISI
 				builder =>
 				{
 					builder.AddFilter("Microsoft.AspNetCore.SpaServices", LogLevel.Information)
-						
+
 						.AddConsole()
 						.AddDebug()
 						.AddConfiguration(Configuration.GetSection("Logging"))
@@ -352,7 +357,7 @@ namespace TRAISI
 						.AddFilter("Microsoft", LogLevel.Warning)
 						.AddFilter("AspNet", LogLevel.Error)
 						.AddFilter("NToastNotify", LogLevel.Warning);
-						
+
 
 
 				});

@@ -32,10 +32,14 @@ namespace TRAISI.Controllers.SurveyViewer
 
 		private IUnitOfWork _unitOfWork;
 
+
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="respondentService"></param>
+		/// <param name="respondentGroupService"></param>
+		/// <param name="unitOfWork"></param>
+		/// <param name="userManager"></param>
 		public ResponderController(IResponderService respondentService,
 									IRespondentGroupService respondentGroupService,
 									IUnitOfWork unitOfWork,
@@ -48,18 +52,19 @@ namespace TRAISI.Controllers.SurveyViewer
 		}
 
 		/// <summary>
-		/// Save a new response for the associated user (shortcode)
+		/// Saves the passed response.
 		/// </summary>
 		/// <param name="surveyId"></param>
 		/// <param name="questionId"></param>
-		/// <param name="shortCode"></param>
+		/// <param name="[ModelBinder(typeof(SurveyRespondentEntityBinder"></param>
 		/// <returns></returns>
 		[Produces(typeof(ObjectResult))]
 		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[HttpPost]
-		[Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat?}")]
+		[Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondent:"+AuthorizationFields.RESPONDENT+"}/{repeat?}")]
 		public async Task<IActionResult> SaveResponse(int surveyId, int questionId,
-		 [ModelBinder(typeof(SurveyRespondentEntityBinder), Name = "respondentId")] SurveyRespondent respondent, [FromBody] JObject content, int repeat = 0)
+		 [ModelBinder(typeof(SurveyRespondentEntityBinder), Name = AuthorizationFields.RESPONDENT)] SurveyRespondent respondent,
+		 [FromBody] JObject content, int repeat = 0)
 		{
 
 			int respondentId = respondent?.Id ?? -1;
