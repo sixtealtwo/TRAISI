@@ -46,6 +46,7 @@ namespace TRAISI.ViewModels
                 .ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value));
 
             CreateMap<Survey, SurveyStartViewModel>()
+                .ForMember(m => m.HasGroupCodes, options => { options.Ignore(); })
                 .AfterMap((s, svm, opt) =>
                 {
                     var view = s.SurveyViews.FirstOrDefault();
@@ -55,6 +56,7 @@ namespace TRAISI.ViewModels
                     else {
                         svm.WelcomeText = view.WelcomePageLabels.Default?.Value;
                     }
+                    svm.HasGroupCodes = s.GroupCodes.Count > 0;
                 })
                 .AfterMap((s, svm, opt) =>
                 {
@@ -107,8 +109,7 @@ namespace TRAISI.ViewModels
                 })
                 .AfterMap((s, svm, opt) =>
                 {
-                    if (s.RepeatSource != null)
-                    {
+                    if (s.RepeatSource != null) {
                         svm.IsRepeat = true;
                     }
                 })

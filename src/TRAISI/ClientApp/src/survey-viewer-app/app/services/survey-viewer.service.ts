@@ -40,6 +40,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	public pageThemeInfoJson: ReplaySubject<any>;
 
 	public termsModel: ReplaySubject<SurveyViewTermsModel>;
+
 	public welcomeModel: ReplaySubject<SurveyStart>;
 
 	private _pageThemeInfo: SurveyViewerTheme;

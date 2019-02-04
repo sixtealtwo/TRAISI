@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DAL.Models.Surveys
 {
 
-	[ModelBinder(BinderType = typeof(SurveyRespondentEntityBinder))]
+	
 	public abstract class SurveyRespondent : ISurveyRespondent
 	{
 		public int Id { get; set; }

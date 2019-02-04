@@ -30,7 +30,12 @@ namespace TRAISI.Services
 
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="respondent"></param>
+        /// <returns></returns>
         public async void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent)
 
         {

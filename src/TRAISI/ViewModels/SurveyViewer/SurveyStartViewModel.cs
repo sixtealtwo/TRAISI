@@ -10,5 +10,7 @@ namespace TRAISI.ViewModels
 
         public int[] SurveyViews { get; set; }
 
+        public bool HasGroupCodes {get;set;}
+
     }
 }
