@@ -2,8 +2,9 @@
  *
  */
 export class SurveyStart {
-	id: number;
-	welcomeText: string;
-	titleText: string;
-	surveyName: string;
+	public id: number;
+	public welcomeText: string;
+	public titleText: string;
+	public surveyName: string;
+	public hasGroupCodes: boolean;
 }
