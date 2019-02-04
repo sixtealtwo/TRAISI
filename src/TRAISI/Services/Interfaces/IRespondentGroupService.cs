@@ -29,8 +29,8 @@ namespace TRAISI.Services.Interfaces
 		/// 
 		/// </summary>
 		/// <param name="group"></param>
-		/// <param name="respondentId"></param>
-		void RemoveRespondent(SurveyRespondentGroup group, int respondentId);
+		/// <param name="respondent"></param>
+		void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent);
 
 		/// <summary>
 		/// 

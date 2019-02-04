@@ -30,20 +30,15 @@ namespace TRAISI.Services
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="group"></param>
-        /// <param name="respondentId"></param>
-        public async void RemoveRespondent(SurveyRespondentGroup group, int respondentId)
-        {
-            var index = group.GroupMembers.FindIndex(r => r.Id == respondentId);
 
-            var responses = await this._unitOfWork.SurveyResponses.ListQuestionResponsesForRespondentAsync(respondentId, "");
+        public async void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent)
+
+        {
+            var responses = await this._unitOfWork.SurveyResponses.ListQuestionResponsesForRespondentAsync(respondent.Id, "");
 
             this._unitOfWork.SurveyResponses.RemoveRange(responses);
 
-            group.GroupMembers.RemoveAt(index);
+            group.GroupMembers.Remove(respondent);
 
         }
 
@@ -55,12 +50,10 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<bool> UpdateRespondent(SurveyRespondentViewModel respondentModel, ApplicationUser user)
         {
-            if (respondentModel.Id >= 0)
-            {
+            if (respondentModel.Id >= 0) {
                 var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(respondentModel.Id);
 
-                if (respondent == null)
-                {
+                if (respondent == null) {
                     return false;
                 }
 
@@ -69,8 +62,7 @@ namespace TRAISI.Services
 
                 return true;
             }
-            else if (respondentModel.Id == -1)
-            {
+            else if (respondentModel.Id == -1) {
 
                 var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
@@ -109,17 +101,14 @@ namespace TRAISI.Services
         {
             var primary = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 
-            if (primary != null)
-            {
-                if (primary.SurveyRespondentGroup == null)
-                {
+            if (primary != null) {
+                if (primary.SurveyRespondentGroup == null) {
                     primary.SurveyRespondentGroup = new SurveyRespondentGroup();
 
                 }
                 return primary.SurveyRespondentGroup;
             }
-            else
-            {
+            else {
                 return null;
             }
         }
