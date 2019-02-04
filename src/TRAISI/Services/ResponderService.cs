@@ -461,19 +461,19 @@ namespace TRAISI.Services
         }
 
 
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="questionIds"></param>
-        /// <param name="respondentId"></param>
+        /// <param name="respondent"></param>
         /// <returns></returns>
-        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, int respondentId)
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent respondent)
         {
-            var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             var responses = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForQuestionsAsync(questionIds, respondent);
             return responses;
         }
+
+
 
         /// <summary>
         /// 

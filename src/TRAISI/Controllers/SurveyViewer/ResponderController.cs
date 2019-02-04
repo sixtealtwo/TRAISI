@@ -180,7 +180,7 @@ namespace TRAISI.Controllers.SurveyViewer
            int respondentId)
         {
 
-			var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
+            var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             if (respondent == null) {
                 return new BadRequestResult();
             }
@@ -227,11 +227,16 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [HttpGet]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("questions/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}/responses", Name = "List_Responses_For_Specified_Questions")]
+        [Route("questions/respondents/{respondentId:" + AuthorizationFields.RESPONDENT + "}/responses", Name = "List_Responses_For_Specified_Questions")]
         public async Task<IActionResult> ListSurveyResponsesForQuestions([FromHeader] int surveyId, [FromQuery] int[] questionIds,
-         [ModelBinder(Name = AuthorizationFields.RESPONDENT)] SurveyRespondent respondent)
+          int respondentId)
         {
-            var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent?.Id ?? -1);
+			var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
+			if(respondent == null)
+			{
+				return new NotFoundObjectResult(new List<SurveyResponse>());
+			}
+            var result = await this._respondentService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent);
 
             return new OkObjectResult(result);
         }
