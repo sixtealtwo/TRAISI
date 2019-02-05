@@ -12,8 +12,12 @@ namespace DAL.Models.Surveys
 
         public ApplicationUser User { get; set; }
 
-        public PrimaryRespondent() {
-            
-         }
+        public List<SurveyAccessRecord> SurveyAccessRecords { get; set; }
+
+        public PrimaryRespondent()
+        {
+
+            this.SurveyAccessRecords = new List<SurveyAccessRecord>();
+        }
     }
 }

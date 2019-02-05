@@ -71,6 +71,8 @@ namespace DAL
 
         public DbSet<SurveyResponse> SurveyResponses { get; set; }
 
+        public DbSet<SurveyAccessRecord> SurveyAccessRecords { get; set; }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }
@@ -189,6 +191,10 @@ namespace DAL
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
             .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<SurveyAccessRecord>().ToTable("SurveyAccessRecords");
+
+            builder.Entity<PrimaryRespondent>().HasMany(o => o.SurveyAccessRecords);
+
             //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 
         }
@@ -222,18 +228,15 @@ namespace DAL
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in modifiedEntries)
-            {
+            foreach (var entry in modifiedEntries) {
                 var entity = (IAuditableEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Added)
-                {
+                if (entry.State == EntityState.Added) {
                     entity.CreatedDate = now;
                     entity.CreatedBy = CurrentUserId;
                 }
-                else
-                {
+                else {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
                 }
