@@ -194,7 +194,7 @@ namespace DAL
             builder.Entity<SurveyAccessRecord>().ToTable("SurveyAccessRecords");
 
             builder.Entity<PrimaryRespondent>().HasMany(o => o.SurveyAccessRecords);
-
+			builder.Entity<SurveyResponse>().HasOne(o => o.SurveyAccessRecord);
             //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 
         }
