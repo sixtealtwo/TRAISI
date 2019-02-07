@@ -18,6 +18,8 @@ namespace DAL.Models.Surveys
 
         public SurveyRespondent Respondent { get; set; }
 
+		public SurveyAccessRecord SurveyAccessRecord {get;set;}
+
         public SurveyResponse()
         {
             this.ResponseValues = new List<ResponseValue>();
