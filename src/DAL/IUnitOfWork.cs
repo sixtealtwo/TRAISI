@@ -24,6 +24,7 @@ namespace DAL
         IWelcomePageLabelRepository WelcomePageLabels { get; }
         IThankYouPageLabelRepository ThankYouPageLabels { get; }
         ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels { get; }
+        IScreeningQuestionsLabelRepository ScreeningQuestionsLabels { get; }
         ISurveyResponseRepository SurveyResponses { get; }
         IQuestionOptionRepository QuestionOptions { get; }
         IQuestionConditionalRepository QuestionConditionals { get; }

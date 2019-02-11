@@ -84,6 +84,14 @@ namespace DAL.Models.Surveys
                                 // language is set on the object with the helper
                                 Value = null
                             }
+                    },
+                    ScreeningQuestionLabels = new LabelCollection<ScreeningQuestionsPageLabel>
+                    {
+                        [DefaultLanguage] = 
+                            new ScreeningQuestionsPageLabel
+                            {
+                                Value = null
+                            }
                     }
                 }
             };

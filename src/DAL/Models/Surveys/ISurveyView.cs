@@ -16,6 +16,6 @@ namespace DAL.Models.Surveys
         LabelCollection<TermsAndConditionsPageLabel> TermsAndConditionsLabels { get; set; }
         LabelCollection<ThankYouPageLabel> ThankYouPageLabels { get; set; }
 
-
+        LabelCollection<ScreeningQuestionsPageLabel> ScreeningQuestionLabels { get; set; }
     }
 }

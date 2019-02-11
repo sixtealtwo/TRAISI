@@ -21,6 +21,8 @@ namespace DAL.Models.Surveys
         public LabelCollection<TermsAndConditionsPageLabel> TermsAndConditionsLabels { get; set; }
         public LabelCollection<ThankYouPageLabel> ThankYouPageLabels { get; set; }
 
+        public LabelCollection<ScreeningQuestionsPageLabel> ScreeningQuestionLabels { get; set; }
+
         public string ViewName { get; set; }
 
         public SurveyView()

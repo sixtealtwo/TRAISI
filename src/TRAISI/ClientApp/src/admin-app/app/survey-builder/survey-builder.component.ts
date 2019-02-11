@@ -25,6 +25,8 @@ import { SpecialPageBuilderComponent } from './components/special-page-builder/s
 import { fadeInOut } from '../services/animations';
 import { RealTimeNotificationServce } from '../services/real-time-notification.service';
 import { SurveyNotification } from '../models/survey-notification';
+import { ViewContainerData } from '@angular/core/src/view';
+import { ScreeningQuestions } from './models/screening-questions.model';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -66,9 +68,11 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public catiWelcomePage: WelcomePage = new WelcomePage();
 	public catiTermsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
 	public catiThankYouPage: ThankYouPage = new ThankYouPage();
+	public catiScreeningQuestions: ScreeningQuestions = new ScreeningQuestions();
 
 	public welcomePage: WelcomePage = new WelcomePage();
 	public termsAndConditionsPage: TermsAndConditionsPage = new TermsAndConditionsPage();
+	public screeningQuestions: ScreeningQuestions = new ScreeningQuestions();
 	public thankYouPage: ThankYouPage = new ThankYouPage();
 	public loadedSpecialPages: boolean = false;
 	public loadedIndividualPage: boolean = true;
@@ -77,6 +81,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public privacyPagePreview: any = { value: false };
 	public thankYouPagePreview: any = { value: false };
 	public questionViewerPreview: any = { value: false };
+	public screeningPagePreview: any = { value: false };
 
 	public currentSurveyPage: QuestionPartView;
 	public currentSurveyPageEdit: QuestionPartView;
@@ -93,21 +98,23 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private surveyUpdate: Subject<SurveyNotification>;
 
 	@ViewChild('surveyPageDragAndDrop')
-	surveyPage: NestedDragAndDropListComponent;
+	public surveyPage: NestedDragAndDropListComponent;
 	@ViewChild('questionChooser')
-	questionChooser: QuestionTypeChooserComponent;
+	public questionChooser: QuestionTypeChooserComponent;
 	@ViewChild('createPageModal')
-	createPageModal: ModalDirective;
+	public createPageModal: ModalDirective;
 	@ViewChild('editPageModal')
-	editPageModal: ModalDirective;
+	public editPageModal: ModalDirective;
 	@ViewChild('welcomeEditor')
-	welcomeEditor: SpecialPageBuilderComponent;
+	public welcomeEditor: SpecialPageBuilderComponent;
 	@ViewChild('privacyPolicyEditor')
-	privacyPolicyEditor: SpecialPageBuilderComponent;
+	public privacyPolicyEditor: SpecialPageBuilderComponent;
 	@ViewChild('questionViewerEditor')
-	questionViewerEditor: SpecialPageBuilderComponent;
+	public questionViewerEditor: SpecialPageBuilderComponent;
 	@ViewChild('thankYouEditor')
-	thankYouEditor: SpecialPageBuilderComponent;
+	public thankYouEditor: SpecialPageBuilderComponent;
+	@ViewChild('screeningEditor')
+	public screeningEditor: SpecialPageBuilderComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -129,7 +136,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.getPagePayload = this.getPagePayload.bind(this);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.loadPageStructure();
 		this.surveyUpdate = this.notificationService.registerChannel(`survey-${this.surveyId}`);
 		this.surveyUpdate.subscribe(value => {
@@ -138,24 +145,26 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.switchPage('welcome');
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy(): void {
 		if (
 			this.welcomePagePreview.value === true ||
 			this.privacyPagePreview.value === true ||
 			this.thankYouPagePreview.value === true ||
-			this.questionViewerPreview.value === true
+			this.questionViewerPreview.value === true ||
+			this.screeningPagePreview.value === true
 		) {
 			this.welcomePagePreview.value = false;
 			this.privacyPagePreview.value = false;
 			this.thankYouPagePreview.value = false;
 			this.questionViewerPreview.value = false;
+			this.screeningPagePreview.value = false;
 			this.toggleSidebarForPreview();
 		}
 		this.notificationService.surveyStatus(this.surveyId, false);
 		this.notificationService.deRegisterChannel(`survey-${this.surveyId}`);
 	}
 
-	loadPageStructure(): void {
+	public loadPageStructure(): void {
 		this.loadedSpecialPages = false;
 		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
 			try {
@@ -170,9 +179,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
 				.subscribe(page => {
 					this.allPages = page.pages;
-					this.welcomePage = page.welcomePage;
-					this.termsAndConditionsPage = page.termsAndConditionsPage;
-					this.thankYouPage = page.surveyCompletionPage;
+					this.welcomePage = page.welcomePage === null ? new WelcomePage() : page.welcomePage;
+					this.termsAndConditionsPage = page.termsAndConditionsPage === null ? new TermsAndConditionsPage() : page.termsAndConditionsPage;
+					this.thankYouPage = page.surveyCompletionPage === null ? new ThankYouPage() : page.surveyCompletionPage;
+					this.screeningQuestions = page.screeningQuestions === null ? new ScreeningQuestions() : page.screeningQuestions;
 					this.catiExists = false;
 					this.enableCATI = false;
 					this.refreshSurveyPage();
@@ -185,6 +195,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 								this.catiWelcomePage = structure.welcomePage;
 								this.catiTermsAndConditionsPage = structure.termsAndConditionsPage;
 								this.catiThankYouPage = structure.surveyCompletionPage;
+								this.catiScreeningQuestions = structure.screeningQuestions;
 								this.loadedSpecialPages = true;
 							});
 					}
@@ -227,13 +238,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		//this.cdRef.detectChanges();*/
 	}
 
-	mapQuestionTypeDefinitions() {
+	public mapQuestionTypeDefinitions(): void {
 		this.questionChooser.questionTypeDefinitions.forEach(q => {
 			this.qTypeDefinitions.set(q.typeName, q);
 		});
 	}
 
-	saveWelcomePage(showMessage: boolean) {
+	public saveWelcomePage(showMessage: boolean): void {
 		this.welcomeEditor.updatePageData();
 		let wPage: WelcomePage;
 		if (this.enableCATI) {
@@ -258,7 +269,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
-	saveTAndCPage(showMessage: boolean) {
+	public saveTAndCPage(showMessage: boolean): void {
 		this.privacyPolicyEditor.updatePageData();
 		let tcPage: TermsAndConditionsPage;
 		if (this.enableCATI) {
@@ -266,7 +277,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		} else {
 			tcPage = this.termsAndConditionsPage;
 		}
-		this.surveyBuilderService.updateStandardTermsAndConditionsPage(this.surveyId, tcPage).subscribe(
+		this.surveyBuilderService.updateTermsAndConditionsPage(this.surveyId, tcPage).subscribe(
 			result => {
 				if (showMessage) {
 					this.alertService.showMessage(
@@ -282,7 +293,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
-	saveQuestionViewerPage(showMessage: boolean) {
+	public saveQuestionViewerPage(showMessage: boolean): void {
 		this.questionViewerEditor.updatePageData();
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe(
 			result => {
@@ -299,7 +310,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	saveThankYouPage(showMessage: boolean) {
+	public saveThankYouPage(showMessage: boolean): void {
 		this.thankYouEditor.updatePageData();
 		let tPage: ThankYouPage;
 		if (this.enableCATI) {
@@ -307,7 +318,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		} else {
 			tPage = this.thankYouPage;
 		}
-		this.surveyBuilderService.updateStandardThankYouPage(this.surveyId, tPage).subscribe(
+		this.surveyBuilderService.updateThankYouPage(this.surveyId, tPage).subscribe(
 			result => {
 				if (showMessage) {
 					this.alertService.showMessage(
@@ -323,18 +334,42 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
 
-	resetThemeColors() {
+	public saveScreeningPage(showMessage: boolean): void {
+		this.screeningEditor.updatePageData();
+		let sPage: ScreeningQuestions;
+		if (this.enableCATI) {
+			sPage = this.catiScreeningQuestions;
+		} else {
+			sPage = this.screeningQuestions;
+		}
+		this.surveyBuilderService.updateScreeningQuestions(this.surveyId, sPage).subscribe(
+			result => {
+				if (showMessage) {
+					this.alertService.showMessage(
+						'Success',
+						`Screening questions were saved successfully!`,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			error => {}
+		);
+	}
+
+	public resetThemeColors(): void {
 		this.alertService.showDialog('Are you sure you want to reset all custom colours?', DialogType.confirm, () => {
 			this.pageThemeInfo = {};
 			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 		});
 	}
 
-	addQuestionTypeToList(qType) {
+	public addQuestionTypeToList(qType: QuestionTypeDefinition): void {
 		this.surveyPage.addQuestionTypeToList(qType);
 	}
 
-	switchPage(pageName: string): void {
+	public switchPage(pageName: string): void {
+		console.log(this.screeningQuestions);
 		this.currentPage = pageName;
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
 		this.currentSurveyPage = undefined;
@@ -350,7 +385,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}, 0);
 	}
 
-	switchSurveyPage(pageId: number): void {
+	public switchSurveyPage(pageId: number): void {
 		this.currentPage = 'surveyPage';
 		let priorPageId = this.currentSurveyPage ? this.currentSurveyPage.id : -1;
 		setTimeout(() => {
@@ -402,7 +437,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.editPageModal.show();
 	}
 
-	savePage(): void {
+	public savePage(): void {
 		// set cati label as the same as standard
 		if (this.catiExists) {
 			this.currentSurveyPageEdit.catiDependent.label.value = this.currentSurveyPageEdit.label.value;
@@ -427,13 +462,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	deletePage(pageId: number): void {
+	public deletePage(pageId: number): void {
 		this.alertService.showDialog('Are you sure you want to delete the page?', DialogType.confirm, () =>
 			this.continueDelete(pageId)
 		);
 	}
 
-	continueDelete(pageId: number): void {
+	public continueDelete(pageId: number): void {
 		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
 			result => {
 				this.loadPageStructure();
@@ -454,7 +489,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	createPage(title: string, icon: string): void {
+	public createPage(title: string, icon: string): void {
 		let newlabel: QuestionPartViewLabel = new QuestionPartViewLabel(0, title, this.currentLanguage);
 		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, icon);
 
@@ -478,13 +513,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	updatePageOrder() {
+	public updatePageOrder(): void {
 		this.allPages.forEach((page, index) => {
 			page.order = index;
 		});
 	}
 
-	onDragEnd(event) {
+	public onDragEnd(event: any): void {
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
 		}
@@ -492,15 +527,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.lastDragLeave = [];
 	}
 
-	onDragEnter() {
+	public onDragEnter(): void {
 		this.lastDragEnter.push('page-container');
 	}
 
-	onDragLeave() {
+	public onDragLeave(): void {
 		this.lastDragLeave.push('page-container');
 	}
 
-	onDrop(dropResult: any) {
+	public onDrop(dropResult: any): void {
 		if (dropResult.addedIndex !== dropResult.removedIndex) {
 			this.alertService.showDialog(
 				'Are you sure you want to move the page?',
@@ -549,11 +584,11 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	getPagePayload(index) {
+	public getPagePayload(index: number): QuestionPartView {
 		return this.allPages[index];
 	}
 
-	toggleSidebarForPreview() {
+	public toggleSidebarForPreview(): void {
 		if (
 			this.welcomePagePreview.value === true ||
 			this.privacyPagePreview.value === true ||
@@ -595,7 +630,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	/**
 	 *
 	 */
-	public previewSurvey(event: any) {
+	public previewSurvey(event: any): void {
 		window.open(`/survey/${this.survey.code}/start`, '_blank');
 		event.stopPropagation();
 	}

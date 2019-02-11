@@ -1,3 +1,3 @@
-export class TermsAndConditionsPage {
+export class ScreeningQuestions {
 	constructor(public id?: number, public value?: string, public language?: string, public surveyViewId?: number) {}
 }

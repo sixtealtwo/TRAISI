@@ -53,13 +53,13 @@ export class Header1Component implements OnInit, AfterViewInit {
 	@Input()
 	public pageThemeInfo: any;
 	@Output()
-	public pageHTMLChange = new EventEmitter();
+	public pageHTMLChange: EventEmitter<string> = new EventEmitter();
 	@Output()
-	public pageThemeInfoChange = new EventEmitter();
+	public pageThemeInfoChange: EventEmitter<any> = new EventEmitter();
 	@Output()
-	public forceSave = new EventEmitter();
+	public forceSave: EventEmitter<void> = new EventEmitter();
 	@Output()
-	public deleteComponent = new EventEmitter();
+	public deleteComponent: EventEmitter<void> = new EventEmitter();
 
 	@ViewChild('imageMenu')
 	public imageMenu: ContextMenuComponent;
@@ -80,7 +80,7 @@ export class Header1Component implements OnInit, AfterViewInit {
 		};
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
@@ -162,7 +162,7 @@ export class Header1Component implements OnInit, AfterViewInit {
 
 	public enableScreenTouch(): void {}
 
-	onUploadError(error: any) {
+	public onUploadError(error: any): void {
 		this.alertService.stopLoadingMessage();
 		this.alertService.showStickyMessage(
 			'Generation Error',
@@ -181,13 +181,13 @@ export class Header1Component implements OnInit, AfterViewInit {
 		return errorString;
 	}
 
-	onUploadSuccess(event: any) {
+	public onUploadSuccess(event: any): void {
 		this.imageSource = event[1].link;
 		this.updateImageContent();
 		this.forceSave.emit();
 	}
 
-	deleteImage() {
+	public deleteImage(): void {
 		let uploadPath = new UploadPath(this.imageSource);
 		this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
 		this.imageSource = undefined;
@@ -195,34 +195,34 @@ export class Header1Component implements OnInit, AfterViewInit {
 		this.forceSave.emit();
 	}
 
-	updateImageContent() {
+	public updateImageContent(): void {
 		this.pageHTMLJson.image = this.imageSource;
 		this.pageHTML = JSON.stringify(this.pageHTMLJson);
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	headerColourChange(newColour: string) {
+	public headerColourChange(newColour: string): void {
 		this.pageThemeInfo.headerColour = newColour;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	headerMaxHeightChange(newHeight: any) {
+	public headerMaxHeightChange(newHeight: any): void {
 		this.pageThemeInfo.headerMaxHeightScale = newHeight.newValue;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	headerBackgroundHeightChange(newHeight: any) {
+	public headerBackgroundHeightChange(newHeight: any): void {
 		this.pageThemeInfo.headerBackgroundHeight = newHeight.newValue;
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	clearUploads() {
+	public clearUploads(): void {
 		if (this.imageSource) {
 			this.deleteImage();
 		}
 	}
 
-	whiteDragHandle(): boolean {
+	public whiteDragHandle(): boolean {
 		if (this.pageThemeInfo.headerColour) {
 			let handleColour = Utilities.whiteOrBlackText(this.pageThemeInfo.headerColour);
 			if (handleColour === 'rgb(255,255,255)') {

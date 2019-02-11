@@ -19,15 +19,15 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	private readonly _deleteUploadedUrl: string = '/api/Upload/delete';
 	private readonly _questionsUrl: string = '/api/Question';
 
-	get surveyBuilderUrl() {
+	get surveyBuilderUrl(): string {
 		return this.configurations.baseUrl + this._surveyBuilderUrl;
 	}
 
-	get deleteUploadedUrl() {
+	get deleteUploadedUrl(): string {
 		return this.configurations.baseUrl + this._deleteUploadedUrl;
 	}
 
-	get getSurveyBuilderQuestionTypesUrl() {
+	get getSurveyBuilderQuestionTypesUrl(): string {
 		return this.configurations.baseUrl + this._surveyBuilderUrl + '/question-types';
 	}
 	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
@@ -85,6 +85,18 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
+	public getStandardScreeningQuestionsEndpoint<T>(surveyId: number, language: string): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ScreeningQuestions/Standard/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () =>
+					this.getStandardScreeningQuestionsEndpoint(surveyId, language)
+				);
+			})
+		);
+	}
+
 	public getStandardThankYouPageEndpoint<T>(surveyId: number, language: string): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage/Standard/${language}`;
 
@@ -115,7 +127,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		);
 	}
 
-	public getUpdateStandardTermsAndConditionsPageEndpoint<T>(
+	public getUpdateTermsAndConditionsPageEndpoint<T>(
 		surveyId: number,
 		welcomePage: WelcomePage
 	): Observable<T> {
@@ -124,18 +136,33 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () =>
-					this.getUpdateStandardTermsAndConditionsPageEndpoint(surveyId, welcomePage)
+					this.getUpdateTermsAndConditionsPageEndpoint(surveyId, welcomePage)
 				);
 			})
 		);
 	}
 
-	public getUpdateStandardThankYouPageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
+	public getUpdateScreeningQuestionsEndpoint<T>(
+		surveyId: number,
+		welcomePage: WelcomePage
+	): Observable<T> {
+		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ScreeningQuestions`;
+
+		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () =>
+					this.getUpdateScreeningQuestionsEndpoint(surveyId, welcomePage)
+				);
+			})
+		);
+	}
+
+	public getUpdateThankYouPageEndpoint<T>(surveyId: number, welcomePage: WelcomePage): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/ThankYouPage`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(welcomePage), this.getRequestHeaders()).pipe(
 			catchError((error) => {
-				return this.handleError(error, () => this.getUpdateStandardThankYouPageEndpoint(surveyId, welcomePage));
+				return this.handleError(error, () => this.getUpdateThankYouPageEndpoint(surveyId, welcomePage));
 			})
 		);
 	}
@@ -361,7 +388,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	 * @returns
 	 * @memberof SurveyBuilderEndpointService
 	 */
-	public getUpdateQuestionPartViewDataEndpoint<T>(surveyId: number, updatedInfo: QuestionPartView) {
+	public getUpdateQuestionPartViewDataEndpoint<T>(surveyId: number, updatedInfo: QuestionPartView): Observable<T> {
 		const endpointUrl = `${this.surveyBuilderUrl}/${surveyId}/Part`;
 		return this.http.put<T>(endpointUrl, JSON.stringify(updatedInfo), this.getRequestHeaders()).pipe(
 			catchError((error) => {

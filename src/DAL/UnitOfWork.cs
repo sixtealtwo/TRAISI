@@ -25,6 +25,7 @@ namespace DAL
         IWelcomePageLabelRepository _welcomePageLabels;
         IThankYouPageLabelRepository _thankYouPageLabels;
         ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
+        IScreeningQuestionsLabelRepository _screeningQuestionsLabels;
         IQuestionPartRepository _questionParts;
         IQuestionPartViewRepository _questionPartViews;
         ISurveyResponseRepository _surveyResponses;
@@ -274,6 +275,18 @@ namespace DAL
                 }
 
                 return _termsAndConditionsPageLabels;
+            }
+        }
+
+        public IScreeningQuestionsLabelRepository ScreeningQuestionsLabels
+        {
+            get
+            {
+                if (_screeningQuestionsLabels == null) {
+                    _screeningQuestionsLabels = new ScreeningQuestionsLabelRepository(_context);
+                }
+
+                return _screeningQuestionsLabels;
             }
         }
 

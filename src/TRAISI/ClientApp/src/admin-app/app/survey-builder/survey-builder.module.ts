@@ -58,6 +58,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { IconPickerModule } from 'ngx-icon-picker';
 import { CustomBuilderService } from './services/custom-builder.service';
 import { CustomBuilderContainerDirective } from './directives/custom-builder-container.directive';
+import { ScreeningQuestionsComponent } from './components/special-page-builder/screening-questions/screening-questions.component';
 
 @NgModule({
 	imports: [
@@ -140,7 +141,8 @@ import { CustomBuilderContainerDirective } from './directives/custom-builder-con
 		SponsorsComponent,
 		QuestionViewerComponent,
 		CustomBuilderContainerDirective,
-		PrivacyConfirmationComponent
+		PrivacyConfirmationComponent,
+		ScreeningQuestionsComponent
 	],
 	providers: [SurveyBuilderEndpointService, SurveyBuilderService, CustomBuilderService],
 	entryComponents: [

@@ -26,8 +26,9 @@
 			<ndc-dynamic *ngIf="surveyAccessComponent" (ndcDynamicCreated)="surveyAccessComponentCreated($event)" [ndcDynamicComponent]="surveyAccessComponent"
 			 [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
 		</smooth-dnd-container>
-		<app-question-viewer [previewMode]="previewMode" [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>
-		<smooth-dnd-container *ngIf="pageType != 'questionViewer'" id="special-page-content" [lockAxis]="'y'" [getChildPayload]="getContentComponentPayload"
+		<app-question-viewer [previewMode]="previewMode" [(pageThemeInfo)]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>
+		<app-screening-questions [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="screeningQuestionsHTML" *ngIf="pageType == 'screeningQuestions'"></app-screening-questions>
+		<smooth-dnd-container *ngIf="pageType != 'questionViewer' && pageType !=  'screeningQuestions'" id="special-page-content" [lockAxis]="'y'" [getChildPayload]="getContentComponentPayload"
 		 [dragHandleSelector]="'.move-component-button'" [shouldAnimateDrop]="shouldAnimateDrop" [class.drag-over]="dragOverContainer['content']"
 		 (dragEnter)="onDragEnter('content')" (dragLeave)="onDragLeave('content')" [class.empty-container]="componentKeys.length == 0 && !previewMode.value"
 		 [groupName]="'special-content'" (drop)="onContentDrop($event)">
@@ -46,7 +47,7 @@
 				</div>
 			</smooth-dnd-draggable>
 		</smooth-dnd-container>
-		<app-privacy-confirmation [previewMode]="previewMode" [pageThemeInfo]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
+		<app-privacy-confirmation [previewMode]="previewMode" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
 		<smooth-dnd-container *ngIf="pageType != 'privacyPolicy'" id="special-page-footer" [shouldAnimateDrop]="shouldAnimateDrop"
 		 [class.drag-over]="dragOverContainer['footer']" (dragEnter)="onDragEnter('footer')" (dragLeave)="onDragLeave('footer')"
 		 [class.empty-container]="!footerComponent && !previewMode.value" [shouldAcceptDrop]="footerShouldAcceptDrop" [groupName]="'special-footer'"

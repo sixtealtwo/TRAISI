@@ -749,6 +749,22 @@ namespace TRAISI.Controllers
             }
         }
 
+        [HttpGet("{surveyId}/ScreeningQuestions/{surveyViewName}/{language}")]
+        [Produces(typeof(ScreeningQuestionsLabelViewModel))]
+        public async Task<IActionResult> GetScreeningQuestionsLabel(int surveyId, string surveyViewName, string language)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+            {
+                var screeningQuestionsLabel = await this._unitOfWork.ScreeningQuestionsLabels.GetScreeningQuestionsLabelAsync(surveyId, surveyViewName, language);
+                return Ok(Mapper.Map<ScreeningQuestionsLabelViewModel>(screeningQuestionsLabel));
+            }
+            else
+            {
+                return BadRequest("Insufficient privileges.");
+            }
+        }
+
 
         [HttpPut("{surveyId}/WelcomePage")]
         public async Task<IActionResult> UpdateWelcomePageLabel(int surveyId, [FromBody] WelcomePageLabelViewModel welcomePageLabel)
@@ -805,6 +821,28 @@ namespace TRAISI.Controllers
                     TermsAndConditionsPageLabel termsAndConditionsPageUpdated = Mapper.Map<TermsAndConditionsPageLabel>(termsAndConditionsPageLabel);
                     termsAndConditionsPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(termsAndConditionsPageUpdated.SurveyViewId);
                     this._unitOfWork.TermsAndConditionsPageLabels.Update(termsAndConditionsPageUpdated);
+                    await this._unitOfWork.SaveChangesAsync();
+                    return new OkResult();
+                }
+                else
+                {
+                    return BadRequest("Insufficient permissions.");
+                }
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("{surveyId}/ScreeningQuestions")]
+        public async Task<IActionResult> UpdateScreeningQuestionsLabel(int surveyId, [FromBody] ScreeningQuestionsLabelViewModel screeningQuestionsLabel)
+        {
+            if (ModelState.IsValid)
+            {
+                var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+                if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
+                {
+                    ScreeningQuestionsPageLabel screeningQuestionsUpdated = Mapper.Map<ScreeningQuestionsPageLabel>(screeningQuestionsLabel);
+                    screeningQuestionsUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(screeningQuestionsUpdated.SurveyViewId);
+                    this._unitOfWork.ScreeningQuestionsLabels.Update(screeningQuestionsUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }

@@ -21,6 +21,8 @@ namespace TRAISI.ViewModels.SurveyBuilder
         public WelcomePageLabelViewModel WelcomePage { get; set; }
 
         public ThankYouPageLabelViewModel SurveyCompletionPage { get; set; }
+
+        public ScreeningQuestionsLabelViewModel ScreeningQuestions { get; set; }
     }
 
 }

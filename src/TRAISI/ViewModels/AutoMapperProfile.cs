@@ -194,6 +194,8 @@ namespace TRAISI.ViewModels
                             l.Language == (string)opt.Items["Language"]));
                     svm.WelcomePage = Mapper.Map<WelcomePageLabelViewModel>(
                         s.WelcomePageLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
+                    svm.ScreeningQuestions = Mapper.Map<ScreeningQuestionsLabelViewModel>(
+                        s.ScreeningQuestionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                 });
 
             CreateMap<SBOrderViewModel, QuestionPartView>()
@@ -222,6 +224,10 @@ namespace TRAISI.ViewModels
             CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel>()
                 .ForMember(w => w.SurveyView, map => map.Ignore())
                 .ReverseMap();
+
+            CreateMap<ScreeningQuestionsLabelViewModel, ScreeningQuestionsPageLabel>()
+               .ForMember(w => w.SurveyView, map => map.Ignore())
+               .ReverseMap();
 
             CreateMap<LabelViewModel, Label>()
                 .ReverseMap();

@@ -7,7 +7,7 @@ export class AppConfig {
 	config = {
 		name: 'traisi',
 		logo: 'assets/img/logo_dark.png',
-		title: 'TRAISI Version 2 by UTTRI',
+		title: 'TRAISI Version 2',
 		version: '2.0.0',
 		/**
 		 * Whether to print and alert some log information

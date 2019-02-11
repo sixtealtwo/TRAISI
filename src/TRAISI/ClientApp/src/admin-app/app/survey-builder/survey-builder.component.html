@@ -23,6 +23,10 @@
 				 role="tab" aria-controls="welcome" aria-expanded="true">Welcome</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link fw-semi-bold" (click)="switchPage('screeningQuestions')" id="screening-tab" data-toggle="tab" href="#screening" role="tab"
+				 aria-controls="screening" aria-expanded="true">Screening Questions</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link fw-semi-bold" (click)="switchPage('privacyPolicy')" id="tAndC-tab" data-toggle="tab" href="#tAndC" role="tab"
 				 aria-controls="tAndC" aria-expanded="true">Privacy Policy</a>
 			</li>
@@ -79,6 +83,30 @@
 						<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary" onText="CATI" offText="Standard" [(value)]="enableCATI"></ngx-toggle>
 					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview" offText="Edit" [(value)]="welcomePagePreview.value"
 					 (valueChange)="toggleSidebarForPreview()"></ngx-toggle>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="screening" aria-labelledby="screening-tab" aria-expanded="true">
+			<app-special-page-builder #screeningEditor *ngIf="loadedSpecialPages && currentPage == 'screeningQuestions' && !enableCATI" [previewMode]="screeningPagePreview"
+			 [pageType]="'screeningQuestions'" (forceSave)="saveScreeningPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="screeningQuestions.value"></app-special-page-builder>
+			 <app-special-page-builder #screeningEditor *ngIf="loadedSpecialPages && currentPage == 'screeningQuestions' && enableCATI" [previewMode]="screeningPagePreview"
+			 [pageType]="'screeningQuestions'" (forceSave)="saveScreeningPage(false)" [(pageThemeInfo)]="pageThemeInfo" [(pageHTML)]="catiScreeningQuestions.value"></app-special-page-builder>
+			<div class="row">
+				<div class="col-md-12">
+					<hr class="separator-hr" />
+				</div>
+			</div>
+			<div class="row justify-content-center mt-3 p-3 special-page-save fixed-bottom bg-dark">
+					<div class="col">
+					</div>
+				<div class="col text-center">
+					<button [hidden]="welcomePagePreview.value" class="btn btn-secondary" (click)="saveScreeningPage(true)">
+						Save Page
+					</button>
+				</div>
+				<div class="col pull-right text-right">
+						<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary" onText="CATI" offText="Standard" [(value)]="enableCATI" (valueChange)="refreshSpecialPage()"></ngx-toggle>
+				
 				</div>
 			</div>
 		</div>

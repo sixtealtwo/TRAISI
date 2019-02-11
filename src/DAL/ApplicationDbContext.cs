@@ -57,6 +57,7 @@ namespace DAL
         public DbSet<ThankYouPageLabel> ThankYouPageLabels { get; set; }
         public DbSet<TermsAndConditionsPageLabel> TermsAndConditionsPageLabels { get; set; }
 
+        public DbSet<ScreeningQuestionsPageLabel> ScreeningQuestionsLabels { get; set; }
         public DbSet<TitlePageLabel> TitlePageLabels { get; set; }
 
         public DbSet<QuestionPartView> QuestionPartViews { get; set; }
@@ -134,6 +135,8 @@ namespace DAL
             builder.Entity<TitlePageLabel>().ToTable($"{nameof(this.TitlePageLabels)}");
 
             builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabels)}");
+
+            builder.Entity<ScreeningQuestionsPageLabel>().ToTable($"{nameof(this.ScreeningQuestionsLabels)}");
 
             builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
 

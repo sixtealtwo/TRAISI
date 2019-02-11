@@ -24,15 +24,15 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public headerComponent: any;
 	private headerComponentInstance: any;
 	public headerHTML: string;
-	public headerInputs;
-	public headerOutputs;
+	public headerInputs: any;
+	public headerOutputs: any;
 
 	public surveyAccessKey: string;
 	public surveyAccessComponent: any;
 	private surveyAccessComponentInstance: any;
 	public surveyAccessHTML: string;
-	public surveyAccessInputs;
-	public surveyAccessOutputs;
+	public surveyAccessInputs: any;
+	public surveyAccessOutputs: any;
 
 	public componentKeys: string[] = [];
 	public componentList: any[] = [];
@@ -42,13 +42,14 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public footerComponent: any;
 	private footerComponentInstance: any;
 	public footerHTML: string;
-	public footerInputs;
-	public footerOutputs;
+	public footerInputs: any;
+	public footerOutputs: any;
 
 	public termsFooterHTML: string;
+	public screeningQuestionsHTML: string;
 
 	private dragOverContainer: Object = new Object();
-	private bestSectionTextColour = [];
+	private bestSectionTextColour: string[] = [];
 
 	@Input()
 	public pageType: string;
@@ -61,12 +62,12 @@ export class SpecialPageBuilderComponent implements OnInit {
 	@Input()
 	public previewMode: any;
 	@Output()
-	public pageHTMLChange = new EventEmitter();
+	public pageHTMLChange: EventEmitter<string> = new EventEmitter();
 	@Output()
-	public pageThemeInfoChange = new EventEmitter();
+	public pageThemeInfoChange: EventEmitter<any> = new EventEmitter();
 
 	@Output()
-	public forceSave = new EventEmitter();
+	public forceSave: EventEmitter<void> = new EventEmitter();
 
 	constructor(private alertService: AlertService) {
 		this.headerShouldAcceptDrop = this.headerShouldAcceptDrop.bind(this);
@@ -75,7 +76,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.getContentComponentPayload = this.getContentComponentPayload.bind(this);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		// deserailize page data
 		try {
 			let pageData = JSON.parse(this.pageHTML);
@@ -94,6 +95,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 					this.footerHTML = sectionInfo.html;
 				} else if (sectionInfo.sectionType === 'termsFooter') {
 					this.termsFooterHTML = sectionInfo.html;
+				} else if (sectionInfo.sectionType === 'screeningQuestions') {
+					this.screeningQuestionsHTML = sectionInfo.html;
 				} else {
 					this.componentKeys.push(sectionInfo.sectionType);
 					this.componentList.push(this.getComponent(sectionInfo.sectionType));
@@ -132,7 +135,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.loadedComponents = true;
 	}
 
-	private setComponentInputs() {
+	private setComponentInputs(): void {
 		this.headerInputs = {
 			pageHTML: this.headerHTML,
 			pageThemeInfo: this.pageThemeInfo,
@@ -175,7 +178,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		};
 	}
 
-	private getComponent(componentName: string) {
+	private getComponent(componentName: string): any {
 		switch (componentName) {
 			case 'header1':
 				return Header1Component;
@@ -198,7 +201,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 	}
 
-	getComponentInputs(index: number) {
+	public getComponentInputs(index: number): any {
 		let inputs = {
 			pageHTML: this.componentHTML[index],
 			pageThemeInfo: this.pageThemeInfo,
@@ -207,7 +210,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		return inputs;
 	}
 
-	getComponentOutputs(index: number) {
+	public getComponentOutputs(index: number): any {
 		let outputs = {
 			pageHTMLChange: (value: string) => (this.componentHTML[index] = value),
 			forceSave: () => this.forcePageSave()
@@ -215,7 +218,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		return outputs;
 	}
 
-	updatePageData() {
+	public updatePageData(): void {
 		let pageJson = [];
 		if (this.headerKey) {
 			// pageJson[this.headerKey] = this.headerHTML;
@@ -244,6 +247,12 @@ export class SpecialPageBuilderComponent implements OnInit {
 				html: this.termsFooterHTML
 			});
 		}
+		if (this.pageType === 'screeningQuestions') {
+			pageJson.push({
+				sectionType: 'screeningQuestions',
+				html: this.screeningQuestionsHTML
+			});
+		}
 
 		if (this.footerKey) {
 			// pageJson[this.footerKey] = this.footerHTML;
@@ -257,7 +266,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.pageHTMLChange.emit(this.pageHTML);
 	}
 
-	deleteComponent(index: number) {
+	public deleteComponent(index: number): void {
 		this.alertService.showDialog('Are you sure you want to delete this section?', DialogType.confirm, () => {
 			let dropResult: any = {
 				removedIndex: index,
@@ -279,56 +288,56 @@ export class SpecialPageBuilderComponent implements OnInit {
 		});
 	}
 
-	forcePageSave() {
+	public forcePageSave(): void {
 		this.forceSave.emit();
 	}
 
-	headerComponentCreated(compRef: ComponentRef<any>) {
+	public headerComponentCreated(compRef: ComponentRef<any>): void {
 		this.headerComponentInstance = compRef.instance;
 	}
 
-	surveyAccessComponentCreated(compRef: ComponentRef<any>) {
+	public surveyAccessComponentCreated(compRef: ComponentRef<any>): void {
 		this.surveyAccessComponentInstance = compRef.instance;
 	}
 
-	footerComponentCreated(compRef: ComponentRef<any>) {
+	public footerComponentCreated(compRef: ComponentRef<any>): void {
 		this.footerComponentInstance = compRef.instance;
 	}
 
-	headerShouldAcceptDrop(sourceContainerOptions, payload) {
+	public headerShouldAcceptDrop(sourceContainerOptions: any, payload: any): boolean {
 		if (sourceContainerOptions.groupName === 'special-header' && this.headerComponent === undefined) {
 			return true;
 		}
 		return false;
 	}
 
-	surveyAccessShouldAcceptDrop(sourceContainerOptions, payload) {
+	public surveyAccessShouldAcceptDrop(sourceContainerOptions: any, payload: any): boolean {
 		if (sourceContainerOptions.groupName === 'special-surveyAccess' && this.surveyAccessComponent === undefined) {
 			return true;
 		}
 		return false;
 	}
 
-	footerShouldAcceptDrop(sourceContainerOptions, payload) {
+	public footerShouldAcceptDrop(sourceContainerOptions: any , payload: any): boolean {
 		if (sourceContainerOptions.groupName === 'special-footer' && this.footerComponent === undefined) {
 			return true;
 		}
 		return false;
 	}
 
-	onDragEnter(containerName: string) {
+	public onDragEnter(containerName: string): void {
 		this.dragOverContainer[containerName] = true;
 	}
 
-	onDragLeave(containerName: string) {
+	public onDragLeave(containerName: string): void {
 		this.dragOverContainer[containerName] = false;
 	}
 
-	getContentComponentPayload(index) {
+	public getContentComponentPayload(index: number): string {
 		return this.componentKeys[index];
 	}
 
-	onHeaderDrop(dropResult: any) {
+	public onHeaderDrop(dropResult: any): void {
 		if (dropResult.addedIndex !== null) {
 			this.headerKey = dropResult.payload;
 			this.headerComponent = this.getComponent(this.headerKey);
@@ -343,7 +352,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 	}
 
-	onSurveyAccessDrop(dropResult: any) {
+	public onSurveyAccessDrop(dropResult: any): void {
 		if (dropResult.addedIndex !== null) {
 			this.surveyAccessKey = dropResult.payload;
 			this.surveyAccessComponent = this.getComponent(this.surveyAccessKey);
@@ -358,7 +367,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 	}
 
-	onContentDrop(dropResult: any) {
+	public onContentDrop(dropResult: any): void {
 		if (dropResult.removedIndex !== dropResult.addedIndex) {
 			let componentKey = dropResult.payload;
 			this.componentKeys = Utilities.applyDrag(this.componentKeys, dropResult);
@@ -385,7 +394,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.forcePageSave();
 	}
 
-	onFooterDrop(dropResult: any) {
+	public onFooterDrop(dropResult: any): void {
 		if (dropResult.addedIndex !== null) {
 			this.footerKey = dropResult.payload;
 			this.footerComponent = this.getComponent(this.footerKey);
@@ -400,7 +409,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		}
 	}
 
-	deleteHeaderComponent() {
+	public deleteHeaderComponent(): void {
 		this.alertService.showDialog('Are you sure you want to delete this header?', DialogType.confirm, () => {
 			this.headerKey = undefined;
 			this.headerComponentInstance.clearUploads();
@@ -411,7 +420,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		});
 	}
 
-	deleteSurveyAccessComponent() {
+	public deleteSurveyAccessComponent(): void {
 		this.alertService.showDialog('Are you sure you want to delete this section?', DialogType.confirm, () => {
 			this.surveyAccessKey = undefined;
 			this.surveyAccessComponentInstance.clearUploads();
@@ -422,7 +431,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		});
 	}
 
-	deleteFooterComponent() {
+	public deleteFooterComponent(): void {
 		this.alertService.showDialog('Are you sure you want to delete this footer?', DialogType.confirm, () => {
 			this.footerKey = undefined;
 			this.footerComponentInstance.clearUploads();
@@ -433,14 +442,14 @@ export class SpecialPageBuilderComponent implements OnInit {
 		});
 	}
 
-	shouldAnimateDrop(sourceContainerOptions: IContainerOptions, payload: any) {
+	public shouldAnimateDrop(sourceContainerOptions: IContainerOptions, payload: any): boolean {
 		if (sourceContainerOptions.groupName === 'special-content' && sourceContainerOptions.behaviour === 'move') {
 			return true;
 		}
 		return false;
 	}
 
-	pageBackgroundColourChange(newColour: string): void {
+	public pageBackgroundColourChange(newColour: string): void {
 		this.pageThemeInfo.pageBackgroundColour = newColour;
 		this.bestSectionTextColour.forEach(
 			(v, i) => (this.bestSectionTextColour[i] = this.getBestSectionBodyTextColor(i))
@@ -448,13 +457,13 @@ export class SpecialPageBuilderComponent implements OnInit {
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	sectionBackgroundColourChange(newColour: string, index: number): void {
+	public sectionBackgroundColourChange(newColour: string, index: number): void {
 		this.pageThemeInfo.sectionBackgroundColour[this.pageType][index] = newColour;
 		this.bestSectionTextColour[index] = this.getBestSectionBodyTextColor(index);
 		this.pageThemeInfoChange.emit(this.pageThemeInfo);
 	}
 
-	getBestSectionBodyTextColor(index: number) {
+	public getBestSectionBodyTextColor(index: number): string {
 		return Utilities.whiteOrBlackText(
 			this.pageThemeInfo.sectionBackgroundColour[this.pageType][index],
 			this.pageThemeInfo.pageBackgroundColour

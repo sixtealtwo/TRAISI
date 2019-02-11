@@ -62,16 +62,16 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	@Input()
 	public householdAdded: boolean = false;
 	@Output()
-	public householdAddedChange = new EventEmitter();
+	public householdAddedChange: EventEmitter<boolean> = new EventEmitter();
 
 	@ViewChild('configurationModal')
-	configurationModal: ModalDirective;
+	public configurationModal: ModalDirective;
 	@ViewChild('qConfiguration')
-	qConfiguration: QuestionConfigurationComponent;
+	public qConfiguration: QuestionConfigurationComponent;
 
 	@HostListener('touchmove', ['$event'])
-	public onTouchMove(e: MouseEvent) {
-		//e.preventDefault();
+	public onTouchMove(e: MouseEvent): void {
+		// e.preventDefault();
 	}
 
 	constructor(
@@ -233,7 +233,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.configurationModal.show();
 	}
 
-	addQuestionTypeToList(qType) {
+	public addQuestionTypeToList(qType: QuestionTypeDefinition): void {
 		this.dragResult = new Subject<boolean>();
 		this.addingNewQuestion = true;
 		if (qType.typeName === 'Survey Part') {
@@ -251,7 +251,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	generateQuestionViewFromType(qType: QuestionTypeDefinition): QuestionPartView {
+	public generateQuestionViewFromType(qType: QuestionTypeDefinition): QuestionPartView {
 		let newQPart: QuestionPart;
 		if (qType.typeName !== 'Survey Part') {
 			newQPart = new QuestionPart(0, qType.typeName);
@@ -265,7 +265,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		return newQPartView;
 	}
 
-	addNewQuestionPartView(newPartView: QuestionPartView, parentView: QuestionPartView, addToList: boolean) {
+	public addNewQuestionPartView(newPartView: QuestionPartView, parentView: QuestionPartView, addToList: boolean): void {
 		this.surveyBuilderService
 			.addStandardQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
 			.subscribe(
@@ -320,18 +320,18 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			);
 	}
 
-	getIcon(questionTypeName: string): string {
+	public getIcon(questionTypeName: string): string {
 		let qType: QuestionTypeDefinition = this.qTypeDefinitions.get(questionTypeName);
 		return qType.icon;
 	}
 
-	getQuestionPayload(index) {
+	public getQuestionPayload(index: number): QuestionPartView {
 		// $('.smooth-dnd-draggable-wrapper .collapse.details').collapse('hide');
 		// $('.collapse:not(.details)').collapse('show');
 		return this.currentPage.questionPartViewChildren[index];
 	}
 
-	getQuestionInPartPayload(part: QuestionPartView) {
+	public getQuestionInPartPayload(part: QuestionPartView): (index: any) => QuestionPartView {
 		// $('.smooth-dnd-draggable-wrapper .collapse.details').collapse('hide');
 		// $('.collapse:not(.details)').collapse('show');
 		return index => {
@@ -340,7 +340,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		};
 	}
 
-	getQuestionPartViewChildren(partId: number): QuestionPartView[] {
+	public getQuestionPartViewChildren(partId: number): QuestionPartView[] {
 		if (this.qPartQuestions.has(partId)) {
 			return this.qPartQuestions.get(partId).questionPartViewChildren;
 		} else {
@@ -348,7 +348,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	processConfiguration(result: string) {
+	public processConfiguration(result: string): void {
 		if (result === 'save') {
 			Object.assign(this.questionBeingEdited, this.qConfiguration.questionBeingEdited);
 			this.saveConfiguration();
@@ -361,7 +361,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	saveConfiguration() {
+	public saveConfiguration(): void {
 		if (this.addingNewQuestion) {
 			this.dragResult.next(true);
 		} else {
@@ -545,21 +545,21 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	cancelConfiguration() {
+	public cancelConfiguration(): void {
 		if (this.addingNewQuestion) {
 			this.dragResult.next(false);
 		}
 		this.configurationModal.hide();
 	}
 
-	deleteQuestion() {
+	public deleteQuestion(): void {
 		this.alertService.showDialog('Are you sure you want to delete the question?', DialogType.confirm, () =>
 			this.continueDelete()
 		);
 		this.configurationModal.hide();
 	}
 
-	continueDelete() {
+	public continueDelete(): void {
 		this.surveyBuilderService
 			.deleteQuestionPartView(this.surveyId, this.questionBeingEdited.parentViewId, this.questionBeingEdited.id)
 			.subscribe(result => {
@@ -593,12 +593,12 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	updateQuestionOrder(parentView: QuestionPartView) {
+	public updateQuestionOrder(parentView: QuestionPartView): void {
 		parentView.questionPartViewChildren.forEach((q, index) => (q.order = index));
 		this.updateStructure = true;
 	}
 
-	onDragEnd(event: IDragEvent) {
+	public onDragEnd(event: IDragEvent): void {
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
 			if (!this.dragDidNotOriginateFromChooser) {
@@ -624,25 +624,25 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.dragOverContainer = new Object();
 	}
 
-	onDragStart(event: IDragEvent) {
+	public onDragStart(event: IDragEvent): void {
 		this.dragDidNotOriginateFromChooser = this.dragDidNotOriginateFromChooser || event.isSource;
 	}
 
-	onDragEnter(containerName: string) {
+	public onDragEnter(containerName: string): void {
 		this.lastDragEnter.push(containerName);
 		this.dragOverContainer[containerName] = true;
 	}
 
-	onDragLeave(containerName: string) {
+	public onDragLeave(containerName: string): void {
 		this.lastDragLeave.push(containerName);
 		this.dragOverContainer[containerName] = false;
 	}
 
-	public getCharFromIndex(index: number) {
+	public getCharFromIndex(index: number): string {
 		return String.fromCharCode(65 + index);
 	}
 
-	onDrop(dropResult: IDropResult) {
+	public onDrop(dropResult: IDropResult): void {
 		if (this.dragResult) {
 			// create shadow list to give illusion of transfer before decision made
 			let pageQuestionsCache = [...this.currentPage.questionPartViewChildren];
@@ -691,7 +691,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	proceedWithDrop(dropResult: IDropResult) {
+	public proceedWithDrop(dropResult: IDropResult): void {
 		dropResult.payload = this.questionBeingEdited;
 		this.currentPage.questionPartViewChildren = Utilities.applyDrag(
 			this.currentPage.questionPartViewChildren,
@@ -699,7 +699,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	onDropInPart(partId: number, dropResult: IDropResult) {
+	public onDropInPart(partId: number, dropResult: IDropResult): void {
 		if (this.dragResult) {
 			if (partId !== dropResult.payload.id) {
 				let questionPart = this.qPartQuestions.get(partId);
@@ -753,14 +753,14 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	shouldAcceptDrop(sourceContainerOptions, payload) {
+	public shouldAcceptDrop(sourceContainerOptions: any, payload: any): boolean {
 		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
 			return false;
 		}
 		return true;
 	}
 
-	shouldAcceptDropPart(sourceContainerOptions, payload) {
+	public shouldAcceptDropPart(sourceContainerOptions: any, payload: any): boolean {
 		if (sourceContainerOptions.groupName.indexOf('optionlist') >= 0) {
 			return false;
 		}
