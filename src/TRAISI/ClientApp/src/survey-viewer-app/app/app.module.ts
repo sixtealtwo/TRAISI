@@ -55,6 +55,7 @@ import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/s
 import { SurveyQuestionViewDirective } from 'traisi-question-sdk';
 import { SurveyQuestionInternalViewDirective } from 'traisi-question-sdk';
 import { SurveyGroupStartPageComponent } from './components/survey-group-start-page/survey-group-start-page.component';
+import { SurveyScreeningPageComponent } from './components/survey-screening-page/survey-screening-page.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { SurveyGroupStartPageComponent } from './components/survey-group-start-p
 		PrivacyConfirmationComponent,
 		Header1Component,
 		Header2Component,
+		SurveyScreeningPageComponent,
 		MainSurveyAccess1Component,
 		TextBlock1Component,
 		AdminToolbarComponent,
