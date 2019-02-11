@@ -7,6 +7,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { SurveyTermsPageComponent } from '../../components/survey-terms-page/survey-terms-page.component';
 import { SurveyViewerComponent } from '../../components/survey-viewer/survey-viewer.component';
 import { SurveyThankYouPageComponent } from '../../components/survey-thankyou-page/survey-thankyou-page.component';
+import { SurveyScreeningPageComponent } from 'app/components/survey-screening-page/survey-screening-page.component';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 	{
@@ -35,6 +36,11 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				path: 'terms',
 				component: SurveyTermsPageComponent,
 				data: { title: 'Survey Terms and Conditions' }
+			},
+			{
+				path: 'screening',
+				component: SurveyScreeningPageComponent,
+				data: { title: 'Survey Screening Questions' }
 			},
 			{
 				path: 'thankyou',
