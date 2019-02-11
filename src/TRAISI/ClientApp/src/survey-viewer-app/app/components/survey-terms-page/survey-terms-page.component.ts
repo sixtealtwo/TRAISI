@@ -54,6 +54,8 @@ export class SurveyTermsPageComponent implements OnInit {
 			)
 			.pipe(
 				flatMap((terms) => {
+
+					console.log(terms);
 					this.model = terms;
 					return this.surveyViewerService.pageThemeInfoJson;
 				})

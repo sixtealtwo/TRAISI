@@ -125,6 +125,16 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 		);
 	}
 
+	/**
+	 *
+	 *
+	 * @template T
+	 * @param {number} surveyId
+	 * @param {SurveyViewType} [viewType]
+	 * @param {string} [language]
+	 * @returns {Observable<T>}
+	 * @memberof SurveyViewerEndpointService
+	 */
 	public getSurveyViewerTermsAndConditionsEndpoint<T>(surveyId: number, viewType?: SurveyViewType, language?: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerTermsAndConditionsUrl}/${surveyId}/terms/${viewType}/${language}`;
 
@@ -134,6 +144,27 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 			})
 		);
 	}
+
+
+	/**
+	 *
+	 *
+	 * @template T
+	 * @param {number} surveyId
+	 * @param {string} [language]
+	 * @returns {Observable<T>}
+	 * @memberof SurveyViewerEndpointService
+	 */
+	public getSurveyViewerScreeningQuestionsEndpoint<T>(surveyId:number, language?: string): Observable<T>
+	 {
+		let endpointUrl = `${this.getSurveyViewerTermsAndConditionsUrl}/${surveyId}/screening/${language}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () => this.getSurveyViewerScreeningQuestionsEndpoint(surveyId, language));
+			})
+		);
+	 }
 
 	public getSurveyViewerThankYouEndpoint<T>(surveyId: number, viewType?: SurveyViewType, language?: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerThankYouUrl}/${surveyId}/thankyou/${viewType}/${language}`;

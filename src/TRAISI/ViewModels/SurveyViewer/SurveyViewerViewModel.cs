@@ -22,5 +22,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public string WelcomeText { get; set; }
 
         public string SurveyCompletionText { get; set; }
+
+		public List<string> ScreeningQuestions {get;set;}
     }
 }

@@ -307,6 +307,21 @@ namespace TRAISI.Controllers.SurveyViewer
 			return new ObjectResult(result);
 		}
 
+		[Route("{surveyId:int}/screening/{language?}")]
+		[HttpGet]
+		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
+		[Produces(typeof(ObjectResult))]
+		public async Task<IActionResult> GetSurveyScreeningQuestions(int surveyId, string language = null)
+		{
+			var result = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, "Standard");
+			if (result == null)
+			{
+				return new NotFoundResult();
+			}
+
+			return new ObjectResult(result);
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>

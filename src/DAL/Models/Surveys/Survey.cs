@@ -34,6 +34,8 @@ namespace DAL.Models.Surveys
         public Survey()
         {
             this.SurveyViews = new SurveyViewCollection<SurveyView>();
+
+			this.GroupCodes = new List<GroupCode>();
         }
 
 

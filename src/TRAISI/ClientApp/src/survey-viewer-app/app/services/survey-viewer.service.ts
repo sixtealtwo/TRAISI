@@ -43,6 +43,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public welcomeModel: ReplaySubject<SurveyStart>;
 
+	public screeningQuestionsModel: ReplaySubject<any>;
+
 	private _pageThemeInfo: SurveyViewerTheme;
 
 	private _pageThemeInfoJson: any;
@@ -82,6 +84,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.pageThemeInfoJson = new ReplaySubject<any>(1);
 		this.welcomeModel = new ReplaySubject<SurveyStart>(1);
 		this.termsModel = new ReplaySubject<SurveyViewTermsModel>(1);
+		this.screeningQuestionsModel = new ReplaySubject<any>(1);
 
 		let sub = this.router.events.subscribe((value: any) => {
 			if (value instanceof ActivationStart) {
@@ -113,6 +116,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			});
 			this.getSurveyViewerTermsAndConditions(id).subscribe((surveyTermsModel: SurveyViewTermsModel) => {
 				this.termsModel.next(surveyTermsModel);
+			});
+
+			this.getSurveyViewerScreeningQuestions(id).subscribe((any) => {
+				console.log('got screening questions: ');
+				console.log(any);
+				this.screeningQuestionsModel.next(any);
 			});
 		});
 	}
@@ -216,6 +225,19 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	): Observable<SurveyViewTermsModel> {
 		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language);
 	}
+
+	/**
+	 *
+	 *
+	 * @param {number} surveyId
+	 * @param {string} [language]
+	 * @returns {Observable<any>}
+	 * @memberof SurveyViewerService
+	 */
+	public getSurveyViewerScreeningQuestions(surveyId: number,
+		language?: string): Observable<any> {
+			return this._surveyViewerEndpointService.getSurveyViewerScreeningQuestionsEndpoint(surveyId, language);
+		}
 
 	/**
 	 * Retrieves Thank You Text
