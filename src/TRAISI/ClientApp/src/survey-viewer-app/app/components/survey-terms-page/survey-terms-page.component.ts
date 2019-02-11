@@ -4,6 +4,7 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 import { TranslateService } from '@ngx-translate/core';
 import { flatMap } from 'rxjs/operators';
+import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 @Component({
 	selector: 'app-survey-terms-page',
 	templateUrl: './survey-terms-page.component.html',
@@ -16,7 +17,10 @@ export class SurveyTermsPageComponent implements OnInit {
 
 	public model: SurveyViewTermsModel;
 
+	public hasScreeningQuestions: boolean;
+
 	public finishedLoading: boolean = false;
+
 	public pageThemeInfo: any = {};
 
 	/**
@@ -37,8 +41,17 @@ export class SurveyTermsPageComponent implements OnInit {
 		this.model = {} as SurveyViewTermsModel;
 	}
 
+	/**
+	 *
+	 *
+	 * @memberof SurveyTermsPageComponent
+	 */
 	public begin(): void {
-		this.router.navigate([this.surveyName, 'viewer']);
+		if (!this.hasScreeningQuestions) {
+			this.router.navigate([this.surveyName, 'viewer']);
+		} else {
+			this.router.navigate([this.surveyName, 'screening']);
+		}
 	}
 
 	/**
@@ -47,26 +60,31 @@ export class SurveyTermsPageComponent implements OnInit {
 	public ngOnInit(): void {
 		this.surveyViewerService.activeSurveyId
 			.pipe(
-				flatMap((id) => {
+				flatMap(id => {
 					this.surveyId = id;
 					return this.surveyViewerService.termsModel;
 				})
 			)
 			.pipe(
-				flatMap((terms) => {
-
-					console.log(terms);
+				flatMap(terms => {
 					this.model = terms;
+					return this.surveyViewerService.screeningQuestionsModel;
+				})
+			)
+			.pipe(
+				flatMap((screening: SurveyViewScreening) => {
+					console.log(screening);
+					this.hasScreeningQuestions = screening.questionsList.length > 0;
 					return this.surveyViewerService.pageThemeInfoJson;
 				})
 			)
-			.subscribe((value) => {
+			.subscribe(value => {
 				this.pageThemeInfo = value;
 				this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 				this.finishedLoading = true;
 			});
 
-		this.route.parent.params.subscribe((params) => {
+		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 		});
 	}

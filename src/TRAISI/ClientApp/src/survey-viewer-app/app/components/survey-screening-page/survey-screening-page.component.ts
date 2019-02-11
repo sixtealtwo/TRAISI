@@ -20,14 +20,27 @@ import { TranslateService } from '@ngx-translate/core';
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveyScreeningPageComponent implements OnInit {
+	/**
+	 *Creates an instance of SurveyScreeningPageComponent.
+	 * @param {SurveyViewerService} _surveyViewerService
+	 * @param {ActivatedRoute} _route
+	 * @param {Router} _router
+	 * @param {TranslateService} _translate
+	 * @param {ElementRef} _elementRef
+	 * @memberof SurveyScreeningPageComponent
+	 */
+	public constructor(
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
+		private _route: ActivatedRoute,
+		private _router: Router,
+		private _translate: TranslateService,
+		private _elementRef: ElementRef
+	) {}
 
 	/**
 	 *
 	 *
 	 * @memberof SurveyScreeningPageComponent
 	 */
-	public ngOnInit(): void {
-
-	}
-
+	public ngOnInit(): void {}
 }

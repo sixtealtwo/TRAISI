@@ -154,7 +154,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			footer1 = JSON.parse(model[2].html).html;
 		} catch {}
 		return {
-			questionsList: questions as Array<string>,
+			questionsList: questions.questionsList as Array<string>,
 			header1: header1,
 			footer1: footer1
 		};
