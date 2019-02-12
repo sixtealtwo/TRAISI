@@ -73,7 +73,6 @@ export class SurveyTermsPageComponent implements OnInit {
 			)
 			.pipe(
 				flatMap((screening: SurveyViewScreening) => {
-					console.log(screening);
 					this.hasScreeningQuestions = screening.questionsList.length > 0;
 					return this.surveyViewerService.pageThemeInfoJson;
 				})

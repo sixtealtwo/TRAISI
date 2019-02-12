@@ -2,13 +2,46 @@
 	<div class="header" [innerHtml]="test"></div>
 
 	<div class="screening-questions-section">
+		<form #screeningForm="ngForm" (ngSubmit)="onSubmitScreeningQuestions()" [formGroup]="screeningFormGroup">
+			<div
+				class="form-group screening-question-group"
+				*ngFor="let question of screeningQuestions.questionsList; index as i"
+			>
+				<h2>{{ question }}</h2>
+				<div class="custom-control custom-radio">
+					<input
+						required
+						type="radio"
+						id="customRadio-{{ i }}-1"
+						name="{{i}}"
+						class="custom-control-input"
+						value="yes"
+						formControlName="{{i}}"
+						ngModel
+					/>
+					<label class="custom-control-label" for="customRadio-{{ i }}-1">Yes</label>
+				</div>
+				<div class="custom-control custom-radio">
+					<input
+						required
+						type="radio"
+						id="customRadio-{{ i }}-2"
+						name="{{i}}"
+						class="custom-control-input"
+						value="no"
+						formControlName="{{i}}"
+						ngModel
+					/>
+					<label class="custom-control-label" for="customRadio-{{ i }}-2">No</label>
+				</div>
+				<div class="text-danger">
+					<small *ngIf="screeningForm.form.controls[i].errors && screeningForm.form.controls[i].errors.required && (!screeningForm.pristine || screeningForm.submitted)"
+						>Field is required</small>
+				</div>
+			</div>
 
-		<div *ngFor="let question of screeningQuestions.questionsList">
-
-			{{question}}
-
-		</div>
-
+			<button class="btn btn-primary screening-submit-button" type="submit">Submit</button>
+		</form>
 	</div>
 
 	<div class="footer fixed-bottom" [innerHtml]="screeningQuestions.footer1"></div>

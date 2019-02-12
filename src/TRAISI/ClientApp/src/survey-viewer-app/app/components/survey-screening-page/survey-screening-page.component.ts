@@ -6,6 +6,8 @@ import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
+import { forEach } from '@angular/router/src/utils/collection';
 
 /**
  *
@@ -21,10 +23,19 @@ import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveyScreeningPageComponent implements OnInit {
-
 	public screeningQuestions: SurveyViewScreening;
 
 	public isFinishedLoading: boolean = false;
+
+	public formModel: any = {};
+
+	@ViewChild('screeningForm')
+	public formGroup: NgForm;
+
+	public screeningFormGroup: FormGroup;
+
+	private _surveyName: string;
+
 	/**
 	 *Creates an instance of SurveyScreeningPageComponent.
 	 * @param {SurveyViewerService} _surveyViewerService
@@ -48,13 +59,20 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public ngOnInit(): void {
-
 		this._surveyViewerService.screeningQuestionsModel.subscribe(model => {
 			this.screeningQuestions = model;
 			this.isFinishedLoading = true;
-			console.log(this.screeningQuestions);
+
+			this.screeningFormGroup = new FormGroup({});
+
+			for (let i = 0; i < model.questionsList.length; i++) {
+				this.screeningFormGroup.addControl('' + i, new FormControl(''));
+			}
 		});
 
+		this._route.parent.params.subscribe(params => {
+			this._surveyName = params['surveyName'];
+		});
 	}
 
 	/**
@@ -62,7 +80,12 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 *
 	 * @memberof SurveyScreeningPageComponent
 	 */
-	public submitScreeningQuestions(): void {
+	public onSubmitScreeningQuestions(): void {
+		console.log(this.formGroup);
+		if (this.formGroup.submitted && this.formGroup.valid) {
+			this._router.navigate([this._surveyName, 'viewer']);
 
+		}
 	}
+
 }

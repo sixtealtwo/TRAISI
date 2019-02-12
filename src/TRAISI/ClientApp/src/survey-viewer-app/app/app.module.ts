@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
 import { AppRoutingModule } from './modules/routing/routing.module';
 import { SurveyViewerContainerComponent } from './components/survey-viewer-container/survey-viewer-container.component';
@@ -57,7 +57,6 @@ import { SurveyQuestionInternalViewDirective } from 'traisi-question-sdk';
 import { SurveyGroupStartPageComponent } from './components/survey-group-start-page/survey-group-start-page.component';
 import { SurveyScreeningPageComponent } from './components/survey-screening-page/survey-screening-page.component';
 
-
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -101,6 +100,7 @@ import { SurveyScreeningPageComponent } from './components/survey-screening-page
 				useClass: SurveyViewerTranslateLanguageLoader
 			}
 		}),
+		ReactiveFormsModule,
 		AppRoutingModule.forRoot(),
 		BsDatepickerModule.forRoot(),
 		AlertModule.forRoot(),
@@ -128,6 +128,9 @@ import { SurveyScreeningPageComponent } from './components/survey-screening-page
 		SurveyViewerConditionalEvaluator,
 		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
 		SurveyViewerStateService,
+		FormControlDirective,
+		FormGroupDirective,
+
 		SurveyResponderEndpointService,
 
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
