@@ -94,9 +94,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 				return;
 			} else {
 				// navigate to rejection link
-				this._router.navigate(['/']).then(result => {
-					window.location.href = this.screeningQuestions.rejectionLink;
-				});
+				window.location.href = this.screeningQuestions.rejectionLink;
 			}
 		}
 	}
