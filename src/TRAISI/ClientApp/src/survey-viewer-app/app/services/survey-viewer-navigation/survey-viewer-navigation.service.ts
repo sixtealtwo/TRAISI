@@ -93,7 +93,7 @@ export class SurveyViewerNavigationService {
 
 					if (isHousehold && currentParentContainer !== nextParentContainer) {
 						this._responderService
-							.getSurveyGroupMembers()
+							.getSurveyGroupMembers(this._responderService.primaryRespondent)
 							.subscribe((members: Array<SurveyViewGroupMember>) => {
 								if (members.length > 0) {
 									this._state.viewerState.groupMembers = [];
@@ -157,18 +157,20 @@ export class SurveyViewerNavigationService {
 		}
 
 		if (isHousehold && currentParentContainer !== nextParentContainer) {
-			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
-				if (members.length > 0) {
-					this._state.viewerState.groupMembers = [];
-					members.forEach(member => {
-						this._state.viewerState.groupMembers.push(member);
-					});
+			this._responderService
+				.getSurveyGroupMembers(this._responderService.primaryRespondent)
+				.subscribe((members: Array<SurveyViewGroupMember>) => {
+					if (members.length > 0) {
+						this._state.viewerState.groupMembers = [];
+						members.forEach(member => {
+							this._state.viewerState.groupMembers.push(member);
+						});
 
-					nextParentContainer.updateGroups();
+						nextParentContainer.updateGroups();
 
-					this.updateNavigationState();
-				}
-			});
+						this.updateNavigationState();
+					}
+				});
 		} else {
 			this.updateNavigationState();
 		}
@@ -368,15 +370,17 @@ export class SurveyViewerNavigationService {
 			return;
 		}
 		if ((<SurveySectionContainer>this._state.viewerState.activeViewContainer).isHousehold) {
-			this._responderService.getSurveyGroupMembers().subscribe((members: Array<SurveyViewGroupMember>) => {
-				if (members.length > 0) {
-					this._state.viewerState.groupMembers = [];
-					members.forEach(member => {
-						this._state.viewerState.groupMembers.push(member);
-					});
-				}
-				this._state.viewerState.activeViewContainer.initialize();
-			});
+			this._responderService
+				.getSurveyGroupMembers(this._responderService.primaryRespondent)
+				.subscribe((members: Array<SurveyViewGroupMember>) => {
+					if (members.length > 0) {
+						this._state.viewerState.groupMembers = [];
+						members.forEach(member => {
+							this._state.viewerState.groupMembers.push(member);
+						});
+					}
+					this._state.viewerState.activeViewContainer.initialize();
+				});
 		} else {
 			this._state.viewerState.activeViewContainer.initialize();
 		}

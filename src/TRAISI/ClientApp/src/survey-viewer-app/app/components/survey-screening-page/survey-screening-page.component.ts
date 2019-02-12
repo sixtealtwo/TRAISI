@@ -84,12 +84,13 @@ export class SurveyScreeningPageComponent implements OnInit {
 			// determine if all responses are yes
 			let allYes: boolean = true;
 			for (let value of Object.keys(this.screeningFormGroup.value)) {
-				if (!this.screeningFormGroup[value]) {
+				if (!this.screeningFormGroup.value[value]) {
 					allYes = false;
 					break;
 				}
 			}
 			if (allYes) {
+				// navigate to viewer since all screening questions were answered 'yes'
 				this._router.navigate([this._surveyName, 'viewer']);
 				return;
 			} else {

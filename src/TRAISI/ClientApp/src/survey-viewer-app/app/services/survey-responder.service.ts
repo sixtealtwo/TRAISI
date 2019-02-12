@@ -26,6 +26,8 @@ export class SurveyResponderService implements SurveyResponder {
 
 	public id: number;
 
+	public primaryRespondent: SurveyRespondent;
+
 	/**
 	 *
 	 * @param _surveyResponseEndpointService
@@ -300,6 +302,10 @@ export class SurveyResponderService implements SurveyResponder {
 		}
 	}
 
+	public getSurveyPrimaryRespondent(surveyId: number): Observable<any> {
+		return this._surveyResponseEndpointService.getSurveyPrimaryRespondentUrlEndpoint(surveyId);
+	}
+
 	/**
 	 *
 	 *
@@ -314,11 +320,12 @@ export class SurveyResponderService implements SurveyResponder {
 	/**
 	 *
 	 *
+	 * @param {number} respondentId
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	public getSurveyGroupMembers(): Observable<{}> {
-		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint();
+	public getSurveyGroupMembers(respondent: SurveyRespondent): Observable<any> {
+		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint(respondent);
 	}
 
 	/**

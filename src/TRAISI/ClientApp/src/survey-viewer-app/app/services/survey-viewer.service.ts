@@ -16,6 +16,7 @@ import { SurveyViewThankYouModel } from '../models/survey-view-thankyou.model';
 import { SurveyWelcomeModel } from '../models/survey-welcome.model';
 import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
+import { find as _find } from 'lodash';
 
 @Injectable({
 	providedIn: 'root'
@@ -122,6 +123,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
 				if (result['screeningQuestionLabels'] !== undefined) {
 					let screeningModel = this.parseScreeningQuestionsModel(result);
+					console.log(screeningModel);
 					this.screeningQuestionsModel.next(screeningModel);
 				} else {
 					this.screeningQuestionsModel.next({
@@ -143,16 +145,21 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 */
 	private parseScreeningQuestionsModel(result: any): SurveyViewScreening {
 		let model = JSON.parse(result.screeningQuestionLabels[0].value);
-		let questions = JSON.parse(model[1].html);
+		let questions = null;
 		let header1 = null;
 		let footer1 = null;
-		console.log(result);
-		try {
-			header1 = JSON.parse(model[0].html).html;
-		} catch {}
-		try {
-			footer1 = JSON.parse(model[2].html).html;
-		} catch {}
+		let footer = _find(model, p => p['sectionType'] === 'footer1');
+		let header = _find(model, p => p['sectionType'] === 'header1');
+		let screenignQuestions = _find(model, p => p['sectionType'] === 'screeningQuestions');
+		if (footer !== undefined) {
+			footer1 = JSON.parse(footer.html).html;
+		}
+		if (header !== undefined) {
+			header1 = JSON.parse(header.html).html;
+		}
+		if (screenignQuestions !== undefined) {
+			questions = JSON.parse(screenignQuestions.html);
+		}
 		return {
 			questionsList: questions.questionsList as Array<string>,
 			header1: header1,
