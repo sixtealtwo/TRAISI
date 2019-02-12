@@ -205,8 +205,6 @@ namespace TRAISI.Controllers.SurveyViewer
 		[Route("start/{surveyId}/{shortcode?}")]
 		public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null)
 		{
-
-
 			(bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode, User);
 
 			if (!success)

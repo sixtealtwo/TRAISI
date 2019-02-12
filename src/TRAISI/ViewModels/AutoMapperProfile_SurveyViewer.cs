@@ -52,8 +52,20 @@ namespace TRAISI.ViewModels
 				});
 
 			CreateMap<ThankYouPageLabel, SurveyViewThankYouViewModel>()
-				.ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value));
+				.ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value))
+					.AfterMap((s, svm, opt) =>
+					{
 
+						if (string.IsNullOrWhiteSpace(s.SurveyView.Survey.SuccessLink))
+						{
+							svm.HasSuccessLink = false;
+						}
+						else
+						{
+							svm.HasSuccessLink = true;
+							svm.SuccessLink = s.SurveyView.Survey.SuccessLink;
+						}
+					});
 			CreateMap<Survey, SurveyStartViewModel>()
 				.ForMember(m => m.HasGroupCodes, options => { options.Ignore(); })
 				.AfterMap((s, svm, opt) =>

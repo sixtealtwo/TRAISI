@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<app-privacy-confirmation (termsAccepted)="acceptTerms()" [pageThemeInfo]="pageThemeInfo" [(pageHTML)]="termsFooterHTML" *ngIf="pageType == 'privacyPolicy'"></app-privacy-confirmation>
-	<div id="special-page-footer"  *ngIf="pageType != 'privacyPolicy'">
+	<div class="footer fixed-bottom" id="special-page-footer"  *ngIf="pageType != 'privacyPolicy'">
 		<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs" ></ndc-dynamic>
 		</div>
 </div>

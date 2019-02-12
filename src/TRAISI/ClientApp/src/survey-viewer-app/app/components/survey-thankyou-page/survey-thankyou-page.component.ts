@@ -14,10 +14,8 @@ import { SurveyViewType } from '../../models/survey-view-type.enum';
 	templateUrl: './survey-thankyou-page.component.html',
 	styleUrls: ['./survey-thankyou-page.component.scss'],
 	encapsulation: ViewEncapsulation.None
-
 })
 export class SurveyThankYouPageComponent implements OnInit {
-
 	private surveyId: number;
 
 	public model: SurveyViewThankYouModel;
@@ -25,29 +23,48 @@ export class SurveyThankYouPageComponent implements OnInit {
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
 
+	/**
+	 *Creates an instance of SurveyThankYouPageComponent.
+	 * @param {SurveyViewerService} _surveyViewerService
+	 * @param {TranslateService} _translate
+	 * @memberof SurveyThankYouPageComponent
+	 */
 	constructor(
-		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
-		private translate: TranslateService
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
+		private _translate: TranslateService
 	) {}
 
+	/**
+	 *
+	 *
+	 * @memberof SurveyThankYouPageComponent
+	 */
 	public ngOnInit(): void {
-		this.surveyViewerService.activeSurveyId
+		this._surveyViewerService.activeSurveyId
 			.pipe(
-				flatMap((id) => {
+				flatMap(id => {
 					this.surveyId = id;
-					return this.surveyViewerService.getSurveyViewerThankYou(this.surveyId, SurveyViewType.RespondentView, 'en');
+					return this._surveyViewerService.getSurveyViewerThankYou(
+						this.surveyId,
+						SurveyViewType.RespondentView,
+						'en'
+					);
 				})
 			)
 			.pipe(
-				flatMap((terms) => {
-					this.model = terms;
-					return this.surveyViewerService.pageThemeInfoJson;
+				flatMap(thankyouPageModel => {
+					this.model = thankyouPageModel;
+					if (this.model.hasSuccessLink) {
+						window.location.href = this.model.successLink;
+						return null;
+					} else {
+						return this._surveyViewerService.pageThemeInfoJson;
+					}
 				})
 			)
-			.subscribe((value) => {
+			.subscribe(value => {
 				this.pageThemeInfo = value;
 				this.finishedLoading = true;
 			});
 	}
-
 }

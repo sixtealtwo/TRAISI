@@ -18,7 +18,6 @@ import { QuestionPlaceholderComponent } from './components/question-placeholder/
 import { SurveyHeaderDisplayComponent } from './components/survey-header-display/survey-header-display.component';
 import { SurveyTermsPageComponent } from './components/survey-terms-page/survey-terms-page.component';
 import { SurveyViewerComponent } from './components/survey-viewer/survey-viewer.component';
-import { SurveyCompletePageComponent } from './components/survey-complete-page/survey-complete-page.component';
 import { QuestionLoaderService } from './services/question-loader.service';
 import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyResponderEndpointService } from './services/survey-responder-endpoint.service';
@@ -69,7 +68,6 @@ import { SurveyScreeningPageComponent } from './components/survey-screening-page
 		SurveyHeaderDisplayComponent,
 		SurveyTermsPageComponent,
 		SurveyViewerComponent,
-		SurveyCompletePageComponent,
 		SafeHtmlPipe,
 		SafePipe,
 		SpecialPageBuilderComponent,
