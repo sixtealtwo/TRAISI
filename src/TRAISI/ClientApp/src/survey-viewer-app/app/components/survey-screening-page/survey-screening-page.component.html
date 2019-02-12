@@ -1,6 +1,15 @@
-<div *ngIf="isFinishedLoading" class="header" [innterHtml]="test">
+<div *ngIf="isFinishedLoading">
+	<div class="header" [innerHtml]="test"></div>
+
+	<div class="screening-questions-section">
+
+		<div *ngFor="let question of screeningQuestions.questionsList">
+
+			{{question}}
+
+		</div>
+
+	</div>
+
+	<div class="footer fixed-bottom" [innerHtml]="screeningQuestions.footer1"></div>
 </div>
-
-<div *ngIf="isFinishedLoading"  class="screening-questions-section"></div>
-
-<div *ngIf="isFinishedLoading"  class="footer" [inherHtml]="test"></div>

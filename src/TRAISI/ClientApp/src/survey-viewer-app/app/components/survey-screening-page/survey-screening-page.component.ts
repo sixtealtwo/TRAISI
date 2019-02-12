@@ -56,4 +56,13 @@ export class SurveyScreeningPageComponent implements OnInit {
 		});
 
 	}
+
+	/**
+	 *
+	 *
+	 * @memberof SurveyScreeningPageComponent
+	 */
+	public submitScreeningQuestions(): void {
+
+	}
 }
