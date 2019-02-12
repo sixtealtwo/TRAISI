@@ -5,6 +5,7 @@ import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
+import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 
 /**
  *
@@ -20,6 +21,10 @@ import { TranslateService } from '@ngx-translate/core';
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveyScreeningPageComponent implements OnInit {
+
+	public screeningQuestions: SurveyViewScreening;
+
+	public isFinishedLoading: boolean = false;
 	/**
 	 *Creates an instance of SurveyScreeningPageComponent.
 	 * @param {SurveyViewerService} _surveyViewerService
@@ -42,5 +47,13 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 *
 	 * @memberof SurveyScreeningPageComponent
 	 */
-	public ngOnInit(): void {}
+	public ngOnInit(): void {
+
+		this._surveyViewerService.screeningQuestionsModel.subscribe(model => {
+			this.screeningQuestions = model;
+			this.isFinishedLoading = true;
+			console.log(this.screeningQuestions);
+		});
+
+	}
 }
