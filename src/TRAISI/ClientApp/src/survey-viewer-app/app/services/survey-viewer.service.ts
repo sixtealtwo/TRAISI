@@ -121,13 +121,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
 				if (result['screeningQuestionLabels'] !== undefined) {
-					let model = JSON.parse(result.screeningQuestionLabels[0].value);
-
-					let screeningModel = this.parseScreeningQuestionsModel(model);
+					let screeningModel = this.parseScreeningQuestionsModel(result);
 					this.screeningQuestionsModel.next(screeningModel);
 				} else {
 					this.screeningQuestionsModel.next({
-						questionsList: []
+						questionsList: [],
+						rejectionLink: result.survey.rejectionLink
 					});
 				}
 			});
@@ -142,11 +141,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @returns {SurveyViewScreening}
 	 * @memberof SurveyViewerService
 	 */
-	private parseScreeningQuestionsModel(model: any): SurveyViewScreening {
+	private parseScreeningQuestionsModel(result: any): SurveyViewScreening {
+		let model = JSON.parse(result.screeningQuestionLabels[0].value);
 		let questions = JSON.parse(model[1].html);
-
 		let header1 = null;
 		let footer1 = null;
+		console.log(result);
 		try {
 			header1 = JSON.parse(model[0].html).html;
 		} catch {}
@@ -156,7 +156,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		return {
 			questionsList: questions.questionsList as Array<string>,
 			header1: header1,
-			footer1: footer1
+			footer1: footer1,
+			rejectionLink: result.survey.rejectionLink
 		};
 	}
 

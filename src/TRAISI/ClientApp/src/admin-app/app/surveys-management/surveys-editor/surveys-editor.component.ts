@@ -105,6 +105,7 @@ export class SurveysEditorComponent implements OnInit {
 				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
 			}
 		} else {
+			console.log(this.model);
 			this.surveyService
 				.editSurvey(this.model)
 				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
@@ -164,7 +165,7 @@ export class SurveysEditorComponent implements OnInit {
 		}
 	}
 
-	private delete() {
+	private delete(): void {
 		if (this.deleteSurveyCallback) {
 			this.deleteSurveyCallback();
 		}

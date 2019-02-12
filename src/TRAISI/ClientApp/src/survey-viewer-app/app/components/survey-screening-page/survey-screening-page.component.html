@@ -15,7 +15,7 @@
 						id="customRadio-{{ i }}-1"
 						name="{{i}}"
 						class="custom-control-input"
-						value="yes"
+						[value]="true"
 						formControlName="{{i}}"
 						ngModel
 					/>
@@ -28,7 +28,7 @@
 						id="customRadio-{{ i }}-2"
 						name="{{i}}"
 						class="custom-control-input"
-						value="no"
+						[value]="false"
 						formControlName="{{i}}"
 						ngModel
 					/>

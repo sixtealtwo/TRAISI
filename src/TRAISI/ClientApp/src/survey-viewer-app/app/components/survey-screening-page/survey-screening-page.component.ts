@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { forEach } from '@angular/router/src/utils/collection';
+import { P } from '@angular/core/src/render3';
 
 /**
  *
@@ -26,8 +27,6 @@ export class SurveyScreeningPageComponent implements OnInit {
 	public screeningQuestions: SurveyViewScreening;
 
 	public isFinishedLoading: boolean = false;
-
-	public formModel: any = {};
 
 	@ViewChild('screeningForm')
 	public formGroup: NgForm;
@@ -81,11 +80,24 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public onSubmitScreeningQuestions(): void {
-		console.log(this.formGroup);
 		if (this.formGroup.submitted && this.formGroup.valid) {
-			this._router.navigate([this._surveyName, 'viewer']);
-
+			// determine if all responses are yes
+			let allYes: boolean = true;
+			for (let value of Object.keys(this.screeningFormGroup.value)) {
+				if (!this.screeningFormGroup[value]) {
+					allYes = false;
+					break;
+				}
+			}
+			if (allYes) {
+				this._router.navigate([this._surveyName, 'viewer']);
+				return;
+			} else {
+				// navigate to rejection link
+				this._router.navigate(['/']).then(result => {
+					window.location.href = this.screeningQuestions.rejectionLink;
+				});
+			}
 		}
 	}
-
 }
