@@ -29,17 +29,11 @@ import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-gr
 export class SurveyStartPageComponent implements OnInit {
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
-
 	public surveyName: string;
-
 	public isLoading: boolean = false;
-
 	public shortcode: string;
-
 	public isAdmin: boolean = false;
-
 	public surveyStartConfig: SurveyStart;
-
 	public isError: boolean = false;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef })
@@ -61,13 +55,17 @@ export class SurveyStartPageComponent implements OnInit {
 		private _componentFactoryResolver: ComponentFactoryResolver
 	) {}
 
+	/**
+	 *
+	 *
+	 * @memberof SurveyStartPageComponent
+	 */
 	public ngOnInit(): void {
 		this.isAdmin = this._surveyViewerService.isAdminUser();
 		this._route.params.subscribe((params) => {
 			this.surveyName = params['surveyName'];
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
-				console.log(surveyStartModel);
 				this.loadCodeEntryComponent();
 			});
 		});
@@ -87,6 +85,12 @@ export class SurveyStartPageComponent implements OnInit {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @private
+	 * @memberof SurveyStartPageComponent
+	 */
 	private loadGroupcodeComponent(): void {
 		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyGroupcodePageComponent);
 		this.codeComponent.clear();
@@ -94,6 +98,12 @@ export class SurveyStartPageComponent implements OnInit {
 		(<SurveyGroupcodePageComponent>componentRef.instance).startPageComponent = this;
 	}
 
+	/**
+	 *
+	 *
+	 * @private
+	 * @memberof SurveyStartPageComponent
+	 */
 	private loadShortcodeComponent(): void {
 		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyShortcodePageComponent);
 		this.codeComponent.clear();
@@ -101,6 +111,11 @@ export class SurveyStartPageComponent implements OnInit {
 		(<SurveyShortcodePageComponent>componentRef.instance).startPageComponent = this;
 	}
 
+	/**
+	 *
+	 *
+	 * @memberof SurveyStartPageComponent
+	 */
 	public groupcodeStartSurvey(): void {
 		this.loadShortcodeComponent();
 	}
@@ -113,8 +128,6 @@ export class SurveyStartPageComponent implements OnInit {
 		this.shortcode = code;
 		this.isLoading = true;
 		this.isError = false;
-
-		console.log(this.isAdmin);
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode).subscribe(
 			(value) => {
 				this.isLoading = false;

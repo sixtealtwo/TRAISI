@@ -20,7 +20,6 @@ export class SurveyShortcodePageComponent implements OnInit {
 	public surveyName: string;
 	public isLoading: boolean = false;
 	public shortcode: string;
-	public isAdmin: boolean = false;
 	public survey: SurveyStart;
 	public isError: boolean = false;
 	public startPageComponent: SurveyStartPageComponent;
@@ -47,9 +46,6 @@ export class SurveyShortcodePageComponent implements OnInit {
 	public ngOnInit(): void {
 		this.survey = new SurveyStart();
 		this.shortcode = '';
-
-		this.isAdmin = this._surveyViewerService.isAdminUser();
-
 		this._route.params.subscribe((params) => {
 			this.surveyName = params['surveyName'];
 			this._surveyViewerService.welcomeModel.subscribe(
