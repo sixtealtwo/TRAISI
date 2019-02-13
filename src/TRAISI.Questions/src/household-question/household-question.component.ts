@@ -60,7 +60,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	public ngOnInit(): void {
-		this._surveyResponderService.getSurveyGroupMembers().subscribe((value) => {
+		this._surveyResponderService.getSurveyGroupMembers(this._surveyResponderService['primaryRespondent'].id).subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {

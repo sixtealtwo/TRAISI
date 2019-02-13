@@ -21,7 +21,6 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
-import { config } from '../../../../../traisi-trip-diary/src/routes/components/routes/v1/ts/config';
 import { animate } from '@angular/animations';
 let markerIconImage = require('./assets/default-marker.png');
 
