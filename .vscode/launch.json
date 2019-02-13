@@ -50,10 +50,10 @@
 			"internalConsoleOptions": "openOnSessionStart",
 			"launchBrowser": {
 				"enabled": true,
-				"args": "http://localhost:6000",
+				"args": "http://localhost:80",
 				"windows": {
 					"command": "cmd.exe",
-					"args": "/C start http://localhost:6000"
+					"args": "/C start http://localhost:80"
 				},
 				"osx": {
 					"command": "open"
@@ -65,44 +65,12 @@
 
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-				"ASPNETCORE_URLS": "http://0.0.0.0:6000/"
-			},
-			"sourceFileMap": {
-				"/Views": "/src/TRAISI/Views"
-			}
-		},
-		{
-			"name": ".NET Core Launch TRAISI LOCAL watch (web)",
-			"type": "coreclr",
-			"request": "launch",
-			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.2/TRAISI.dll",
-			"args": ["watch run"],
-			"cwd": "${workspaceFolder}/src/TRAISI",
-			"stopAtEntry": false,
-			"internalConsoleOptions": "openOnSessionStart",
-			"launchBrowser": {
-				"enabled": true,
-				"args": "http://localhost:5000",
-				"windows": {
-					"command": "cmd.exe",
-					"args": "/C start http://localhost:5000"
-				},
-				"osx": {
-					"command": "open"
-				},
-				"linux": {
-					"command": "xdg-open"
-				}
-			},
-
-			"env": {
-				"ASPNETCORE_ENVIRONMENT": "Development",
-				"ASPNETCORE_URLS": "http://0.0.0.0:5000/"
+				"ASPNETCORE_URLS": "http://0.0.0.0:80/"
 			},
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"
 			}
 		}
+	
 	]
 }
