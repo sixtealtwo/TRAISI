@@ -33,6 +33,8 @@ export class SurveyScreeningPageComponent implements OnInit {
 
 	public screeningFormGroup: FormGroup;
 
+	public pageThemeInfo: any;
+
 	private _surveyName: string;
 
 	/**
@@ -58,18 +60,21 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public ngOnInit(): void {
-		this._surveyViewerService.screeningQuestionsModel.subscribe(model => {
-			this.screeningQuestions = model;
-			this.isFinishedLoading = true;
+		this._surveyViewerService.screeningQuestionsModel.subscribe((model) => {
+			this._surveyViewerService.pageThemeInfo.subscribe((info) => {
+				this.pageThemeInfo = info;
+				this.screeningQuestions = model;
+				this.isFinishedLoading = true;
 
-			this.screeningFormGroup = new FormGroup({});
+				this.screeningFormGroup = new FormGroup({});
 
-			for (let i = 0; i < model.questionsList.length; i++) {
-				this.screeningFormGroup.addControl('' + i, new FormControl(''));
-			}
+				for (let i = 0; i < model.questionsList.length; i++) {
+					this.screeningFormGroup.addControl('' + i, new FormControl(''));
+				}
+			});
 		});
 
-		this._route.parent.params.subscribe(params => {
+		this._route.parent.params.subscribe((params) => {
 			this._surveyName = params['surveyName'];
 		});
 	}
@@ -80,6 +85,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public onSubmitScreeningQuestions(): void {
+		console.log(this.formGroup);
 		if (this.formGroup.submitted && this.formGroup.valid) {
 			// determine if all responses are yes
 			let allYes: boolean = true;

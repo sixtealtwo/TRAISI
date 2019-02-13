@@ -110,7 +110,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.pageThemeInfo.next(this._pageThemeInfo);
 
-		this.activeSurveyId.subscribe(id => {
+		this.activeSurveyId.subscribe((id) => {
 			this.restoreThemeInfo(id);
 
 			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
@@ -120,10 +120,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				this.termsModel.next(surveyTermsModel);
 			});
 
-			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
+			this.getSurveyViewerScreeningQuestions(id).subscribe((result) => {
 				if (result['screeningQuestionLabels'] !== undefined) {
 					let screeningModel = this.parseScreeningQuestionsModel(result);
 					console.log(screeningModel);
+					console.log(result);
 					this.screeningQuestionsModel.next(screeningModel);
 				} else {
 					this.screeningQuestionsModel.next({
@@ -148,24 +149,46 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		let questions = null;
 		let header1 = null;
 		let footer1 = null;
-		let footer = _find(model, p => p['sectionType'] === 'footer1');
-		let header = _find(model, p => p['sectionType'] === 'header1');
-		let screenignQuestions = _find(model, p => p['sectionType'] === 'screeningQuestions');
+		let header2 = null;
+		let footer = _find(model, (p) => p['sectionType'] === 'footer1');
+		let header = _find(model, (p) => p['sectionType'] === 'header1');
+		let header2i = _find(model, (p) => p['sectionType'] === 'header2');
+		let screenignQuestions = _find(model, (p) => p['sectionType'] === 'screeningQuestions');
 		if (footer !== undefined) {
-			footer1 = JSON.parse(footer.html).html;
+			footer1 = this.parseJson(footer.html).html;
 		}
 		if (header !== undefined) {
-			header1 = JSON.parse(header.html).html;
+			header1 = this.parseJson(header.html);
+		}
+		if (header2i !== undefined) {
+			header2 = this.parseJson(header2i.html);
 		}
 		if (screenignQuestions !== undefined) {
-			questions = JSON.parse(screenignQuestions.html);
+			questions = this.parseJson(screenignQuestions.html);
 		}
 		return {
 			questionsList: questions.questionsList as Array<string>,
 			header1: header1,
 			footer1: footer1,
+			header2: header2i,
 			rejectionLink: result.survey.rejectionLink
 		};
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @param {string} jsonString
+	 * @returns {*}
+	 * @memberof SurveyViewerService
+	 */
+	private parseJson(jsonString: string): any {
+		try {
+			return JSON.parse(jsonString);
+		} catch {
+			return undefined;
+		}
 	}
 
 	/**
@@ -173,9 +196,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 */
 	private restoreThemeInfo(surveyId: number): void {
-		this.getSurveyStyles(surveyId).subscribe(styles => {
+		this.getSurveyStyles(surveyId).subscribe((styles) => {
 			try {
-				console.log(styles);
 				this._pageThemeInfoJson = styles;
 				console.log(this._pageThemeInfoJson);
 				if (this._pageThemeInfoJson === null) {
@@ -251,11 +273,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param language
 	 */
 	public getSurveyViewerRespondentPageQuestions(surveyId: number, page: number, language?: string): Observable<any> {
-		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(
-			surveyId,
-			page,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, page, language);
 	}
 
 	/**
@@ -269,11 +287,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		viewType?: SurveyViewType,
 		language?: string
 	): Observable<SurveyViewTermsModel> {
-		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(
-			surveyId,
-			viewType,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language);
 	}
 
 	/**
@@ -294,16 +308,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param viewType
 	 * @param language
 	 */
-	public getSurveyViewerThankYou(
-		surveyId: number,
-		viewType?: SurveyViewType,
-		language?: string
-	): Observable<SurveyViewThankYouModel> {
-		return this._surveyViewerEndpointService.getSurveyViewerThankYouEndpoint<SurveyViewThankYouModel>(
-			surveyId,
-			viewType,
-			language
-		);
+	public getSurveyViewerThankYou(surveyId: number, viewType?: SurveyViewType, language?: string): Observable<SurveyViewThankYouModel> {
+		return this._surveyViewerEndpointService.getSurveyViewerThankYouEndpoint<SurveyViewThankYouModel>(surveyId, viewType, language);
 	}
 
 	/**
@@ -319,7 +325,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			(value: SurveyViewer) => {
 				this._activeSurveyId = surveyId;
 			},
-			error => {}
+			(error) => {}
 		);
 		return result;
 	}
@@ -356,7 +362,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			let id$ = this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode);
 
 			id$.subscribe(
-				value => {
+				(value) => {
 					this._activeSurveyId = <number>value[Object.keys(value)[0]];
 					this._activeSurveyTitle = <string>value[Object.keys(value)[1]];
 					this.activeSurveyId.next(this._activeSurveyId);
@@ -364,7 +370,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					// this.authService.logout();
 					console.log(this);
 				},
-				error => {
+				(error) => {
 					console.log(error);
 					// this.authService.logout();
 
@@ -390,10 +396,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 * @param viewType
 	 */
-	public getSurveyViewPages(
-		surveyId: number,
-		viewType: SurveyViewType = SurveyViewType.RespondentView
-	): Observable<SurveyViewPage[]> {
+	public getSurveyViewPages(surveyId: number, viewType: SurveyViewType = SurveyViewType.RespondentView): Observable<SurveyViewPage[]> {
 		return this._surveyViewerEndpointService.getSurveyViewPagesEndpoint(surveyId, viewType);
 	}
 
@@ -410,11 +413,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		language?: string,
 		query?: string
 	): Observable<SurveyViewQuestionOption[]> {
-		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(
-			surveyId,
-			questionId,
-			language,
-			query
-		);
+		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 }

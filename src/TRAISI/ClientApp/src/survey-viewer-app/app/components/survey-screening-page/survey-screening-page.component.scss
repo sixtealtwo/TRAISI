@@ -1,17 +1,28 @@
-.screening-questions-section
-{
+.screening-questions-section {
 	width: 500px;
-	margin:auto;
+	margin: auto;
 	text-align: center;
 
-	.screening-question-group
-	{
+	.screening-question-group {
 		margin-top: 25px;
 	}
 
-	.screening-submit-button
-	{
+	.screening-submit-button {
 		margin-top: 25px;
+	}
+
+	.screening-input {
+		display: inline-block;
+	}
+
+	.screening-input-no {
+		margin-left: 15px;
+	}
+
+	.screening-question-header {
+		margin-bottom: 15px;
 	}
 }
 
+.screening-footer {
+}

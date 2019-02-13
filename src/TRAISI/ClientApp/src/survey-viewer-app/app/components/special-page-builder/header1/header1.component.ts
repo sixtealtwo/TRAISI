@@ -1,13 +1,12 @@
 import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 
 @Component({
-  selector: 'app-header1',
-  templateUrl: './header1.component.html',
-  styleUrls: ['./header1.component.scss'],
+	selector: 'app-header1',
+	templateUrl: './header1.component.html',
+	styleUrls: ['./header1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class Header1Component implements OnInit, AfterViewInit {
-
 	private baseUrl: string = '';
 	public imageSource: string;
 	public imageTransform: any;
@@ -15,14 +14,21 @@ export class Header1Component implements OnInit, AfterViewInit {
 
 	@Input() public pageHTML: string;
 	@Input() public pageThemeInfo: any;
+	@Input() public pageObject: any;
 
-  constructor() {
+	constructor() {}
 
-	}
-
-  public ngOnInit(): void {
+	public ngOnInit(): void {
 		try {
-			let pageData = JSON.parse(this.pageHTML);
+			let pageData = null;
+			if (this.pageObject === undefined) {
+				pageData = JSON.parse(this.pageHTML);
+
+			}
+			else
+			{
+				pageData = this.pageObject;
+			}
 			this.pageHTMLJson = pageData;
 			this.imageSource = pageData.image;
 			this.imageTransform = `translate(${this.pageHTMLJson.imageTransform.x}px,${this.pageHTMLJson.imageTransform.y}px)`;
@@ -39,10 +45,7 @@ export class Header1Component implements OnInit, AfterViewInit {
 		if (!('headerBackgroundHeight' in this.pageThemeInfo)) {
 			this.pageThemeInfo.headerBackgroundHeight = 66;
 		}
-
 	}
 
-	public ngAfterViewInit(): void {
-		
-	}
+	public ngAfterViewInit(): void {}
 }

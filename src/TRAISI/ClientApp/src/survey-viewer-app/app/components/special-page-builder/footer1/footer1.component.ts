@@ -28,9 +28,10 @@ export class Footer1Component implements OnInit {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
+
 		} catch (e) {
 			this.pageHTMLJson = {};
-			this.pageHTMLJson.html = '';
+			this.pageHTMLJson.html = this.pageHTML;
 		}
 		if (!('footerColour' in this.pageThemeInfo)) {
 			this.pageThemeInfo.footerColour = 'rgb(36,36,36)';

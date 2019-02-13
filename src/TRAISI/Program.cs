@@ -64,7 +64,9 @@ namespace TRAISI
                     {
                         config.AddJsonFile("appsettings.local.json");
                     }
+                    config.AddCommandLine(args);
                 })
+                
                 .Build();
     }
 }

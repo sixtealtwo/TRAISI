@@ -14,5 +14,11 @@
 	"TermsAndConditions": {
 		"TermsAndConditions": "Terms and Conditions",
 		"Start": "Start"
+	},
+	"ScreeningQuestions": {
+		"Required": "An answer is required.",
+		"Yes": "Yes",
+		"No": "No",
+		"Submit": "Submit"
 	}
 }

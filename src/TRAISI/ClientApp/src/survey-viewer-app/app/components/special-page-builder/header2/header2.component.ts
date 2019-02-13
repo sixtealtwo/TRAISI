@@ -18,12 +18,21 @@ export class Header2Component implements OnInit {
 
 	@Input() public pageHTML: string;
 	@Input() public pageThemeInfo: any;
+	@Input() public pageObject: any;
 
   constructor(	) {	}
 
   public ngOnInit(): void {
 		try {
-			let pageData = JSON.parse(this.pageHTML);
+			let pageData = null;
+			if (this.pageObject === undefined) {
+				pageData = JSON.parse(this.pageHTML);
+
+			}
+			else
+			{
+				pageData = this.pageObject;
+			}
 			this.pageHTMLJson = pageData;
 			this.imageSource1 = pageData.image1;
 			this.imageSource2 = pageData.image2;
