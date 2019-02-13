@@ -73,7 +73,7 @@ export class SurveyStartPageComponent implements OnInit {
 							this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 							this.finishedLoading = true;
 
-							console.log('in finished');
+							console.log(this.survey);
 						},
 						(error) => {
 							console.error(error);
