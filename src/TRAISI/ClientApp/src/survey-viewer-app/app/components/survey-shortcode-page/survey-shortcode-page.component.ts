@@ -6,11 +6,11 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 
 @Component({
-	selector: 'traisi-survey-group-start-page',
-	templateUrl: './survey-group-start-page.component.html',
-	styleUrls: ['./survey-group-start-page.component.scss']
+	selector: 'traisi-survey-shortcode-page',
+	templateUrl: './survey-shortcode-page.component.html',
+	styleUrls: ['./survey-shortcode-page.component.scss']
 })
-export class SurveyGroupStartPageComponent implements OnInit {
+export class SurveyShortcodeStartPageComponent implements OnInit {
 	public ngOnInit(): void {
 		return;
 	}
