@@ -7,6 +7,7 @@ import { SurveyViewerNavigationService } from '../../services/survey-viewer-navi
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyStart } from 'app/models/survey-start.model';
+import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 
 @Component({
 	selector: 'traisi-survey-shortcode-page',
@@ -22,6 +23,7 @@ export class SurveyShortcodePageComponent implements OnInit {
 	public isAdmin: boolean = false;
 	public survey: SurveyStart;
 	public isError: boolean = false;
+	public startPageComponent: SurveyStartPageComponent;
 	/**
 	 *Creates an instance of SurveyShortcodeStartPageComponent.
 	 * @param {SurveyViewerService} _surveyViewerService
@@ -38,7 +40,44 @@ export class SurveyShortcodePageComponent implements OnInit {
 		private _translate: TranslateService,
 		private _elementRef: ElementRef
 	) {}
+
+	/**
+	 *
+	 */
 	public ngOnInit(): void {
-		return;
+		this.survey = new SurveyStart();
+		this.shortcode = '';
+
+		this.isAdmin = this._surveyViewerService.isAdminUser();
+
+		this._route.params.subscribe((params) => {
+			this.surveyName = params['surveyName'];
+			this._surveyViewerService.welcomeModel.subscribe(
+				(surveyStartModel: SurveyStart) => {
+					this.survey = surveyStartModel;
+					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
+					this._surveyViewerService.pageThemeInfoJson.subscribe(
+						(styles) => {
+							try {
+								this.pageThemeInfo = JSON.parse(styles);
+								if (this.pageThemeInfo === null) {
+									this.pageThemeInfo = {};
+									this.pageThemeInfo.viewerTemplate = '';
+								}
+							} catch (e) {}
+							this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+							this.finishedLoading = true;
+						},
+						(error) => {
+							console.error(error);
+						}
+					);
+				},
+				(error) => {
+					console.error(error);
+					this._router.navigate(['/', this.surveyName, 'error'], { relativeTo: this._route });
+				}
+			);
+		});
 	}
 }

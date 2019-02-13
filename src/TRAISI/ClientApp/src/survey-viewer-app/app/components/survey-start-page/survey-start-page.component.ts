@@ -1,15 +1,29 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Inject, ViewEncapsulation, ElementRef } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ViewChild,
+	ViewContainerRef,
+	Inject,
+	ViewEncapsulation,
+	ElementRef,
+	ComponentFactoryResolver,
+	ComponentRef,
+	TemplateRef
+} from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
+import { SurveyShortcodePageComponent } from '../survey-shortcode-page/survey-shortcode-page.component';
+import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-groupcode-page.component';
 
 @Component({
 	selector: 'traisi-survey-start-page',
 	templateUrl: './survey-start-page.component.html',
 	styleUrls: ['./survey-start-page.component.scss'],
+	entryComponents: [SurveyShortcodePageComponent, SurveyGroupcodePageComponent],
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveyStartPageComponent implements OnInit {
@@ -24,68 +38,71 @@ export class SurveyStartPageComponent implements OnInit {
 
 	public isAdmin: boolean = false;
 
-	public survey: SurveyStart;
+	public surveyStartConfig: SurveyStart;
 
 	public isError: boolean = false;
 
-	@ViewChild('adminAlert')
-	public adminAlert: AlertComponent;
+	@ViewChild('codeComponent', { read: ViewContainerRef })
+	public codeComponent: ViewContainerRef;
 
 	/**
-	 *
-	 * @param alertService
-	 * @param surveyViewerService
-	 * @param route
-	 * @param router
+	 *Creates an instance of SurveyStartPageComponent.
+	 * @param {SurveyViewerService} _surveyViewerService
+	 * @param {ActivatedRoute} _route
+	 * @param {Router} _router
+	 * @param {ElementRef} _elementRef
+	 * @memberof SurveyStartPageComponent
 	 */
 	constructor(
-		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
-		private route: ActivatedRoute,
-		private router: Router,
-		private translate: TranslateService,
-		private elementRef: ElementRef
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
+		private _route: ActivatedRoute,
+		private _router: Router,
+		private _elementRef: ElementRef,
+		private _componentFactoryResolver: ComponentFactoryResolver
 	) {}
+
+	public ngOnInit(): void {
+		this.isAdmin = this._surveyViewerService.isAdminUser();
+		this._route.params.subscribe((params) => {
+			this.surveyName = params['surveyName'];
+			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
+				this.surveyStartConfig = surveyStartModel;
+				console.log(surveyStartModel);
+				this.loadCodeEntryComponent();
+			});
+		});
+	}
 
 	/**
 	 *
+	 *
+	 * @private
+	 * @memberof SurveyStartPageComponent
 	 */
-	public ngOnInit(): void {
-		this.survey = new SurveyStart();
-		this.shortcode = '';
+	private loadCodeEntryComponent(): void {
+		if (!this.surveyStartConfig.hasGroupCodes) {
+			this.loadShortcodeComponent();
+		} else {
+			this.loadGroupcodeComponent();
+		}
+	}
 
-		this.isAdmin = this.surveyViewerService.isAdminUser();
+	private loadGroupcodeComponent(): void {
+		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyGroupcodePageComponent);
+		this.codeComponent.clear();
+		let componentRef = this.codeComponent.createComponent(componentFactory);
+		(<SurveyGroupcodePageComponent>componentRef.instance).startPageComponent = this;
+	}
 
-		this.route.params.subscribe((params) => {
-			this.surveyName = params['surveyName'];
-			this.surveyViewerService.welcomeModel.subscribe(
-				(surveyStartModel: SurveyStart) => {
-					this.survey = surveyStartModel;
-					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
-					this.surveyViewerService.pageThemeInfoJson.subscribe(
-						(styles) => {
-							try {
-								this.pageThemeInfo = JSON.parse(styles);
-								if (this.pageThemeInfo === null) {
-									this.pageThemeInfo = {};
-									this.pageThemeInfo.viewerTemplate = '';
-								}
-							} catch (e) {}
-							this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
-							this.finishedLoading = true;
+	private loadShortcodeComponent(): void {
+		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyShortcodePageComponent);
+		this.codeComponent.clear();
+		let componentRef = this.codeComponent.createComponent(componentFactory);
+		(<SurveyShortcodePageComponent>componentRef.instance).startPageComponent = this;
+	}
 
-							console.log(this.survey);
-						},
-						(error) => {
-							console.error(error);
-						}
-					);
-				},
-				(error) => {
-					console.error(error);
-					this.router.navigate(['/', this.surveyName, 'error'], { relativeTo: this.route });
-				}
-			);
-		});
+	public groupcodeStartSurvey(): void {
+		this.loadShortcodeComponent();
 	}
 
 	/**
@@ -97,15 +114,16 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isLoading = true;
 		this.isError = false;
 
-		this.surveyViewerService.surveyStart(this.survey.id, this.shortcode).subscribe(
+		console.log(this.isAdmin);
+		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode).subscribe(
 			(value) => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
-					this.surveyViewerService.surveyLogin(this.survey.id, this.shortcode).subscribe((user: User) => {
-						this.router.navigate([this.surveyName, 'terms']);
+					this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
+						this._router.navigate([this.surveyName, 'terms']);
 					});
 				} else {
-					this.router.navigate([this.surveyName, 'terms']);
+					this._router.navigate([this.surveyName, 'terms']);
 				}
 			},
 			(error) => {
