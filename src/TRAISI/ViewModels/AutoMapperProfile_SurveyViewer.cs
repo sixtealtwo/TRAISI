@@ -79,7 +79,7 @@ namespace TRAISI.ViewModels
 					{
 						svm.WelcomeText = view.WelcomePageLabels.Default?.Value;
 					}
-					svm.HasGroupCodes = s.GroupCodes.Count > 0;
+					svm.HasGroupCodes = s.HasGroupCodes;
 				})
 				.AfterMap((s, svm, opt) =>
 				{

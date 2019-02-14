@@ -52,6 +52,8 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -59,15 +61,23 @@ namespace DAL.Repositories
         /// <returns></returns>
         public async Task<Survey> GetSurveyByCodeFullAsync(string code)
         {
-            return await _appContext.Surveys
+            var res = await _appContext.Surveys
                 .Where(s => String.Equals(s.Code, code, StringComparison.CurrentCultureIgnoreCase))
-                .Include(s => s.GroupCodes)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.WelcomePageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ScreeningQuestionLabels)
                 .Include(s => s.TitleLabels)
+                .Select(r => new
+                {
+                    Survey = r,
+                    HasGroupCodes = r.GroupCodes.Count() > 0
+                })
                 .FirstOrDefaultAsync();
+
+            res.Survey.HasGroupCodes = res.HasGroupCodes;
+            return res.Survey;
+
         }
 
         /// <summary>
@@ -147,7 +157,6 @@ namespace DAL.Repositories
                 .Include(s => s.SurveyViews).ThenInclude(v => v.TermsAndConditionsLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ThankYouPageLabels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.ScreeningQuestionLabels)
-                .Include(s => s.GroupCodes)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.Labels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.Labels)
                 .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews).ThenInclude(q => q.QuestionPartViewChildren).ThenInclude(q2 => q2.QuestionPart).ThenInclude(qp => qp.QuestionConfigurations).ThenInclude(qc => qc.QuestionConfigurationLabels)

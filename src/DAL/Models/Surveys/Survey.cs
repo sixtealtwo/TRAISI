@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Extensions;
 using DAL.Models.Interfaces;
 using DAL.Models.Questions;
@@ -31,11 +32,14 @@ namespace DAL.Models.Surveys
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
+        [NotMapped]
+        public bool HasGroupCodes { get; set; }
+
         public Survey()
         {
             this.SurveyViews = new SurveyViewCollection<SurveyView>();
 
-			this.GroupCodes = new List<GroupCode>();
+            this.GroupCodes = new List<GroupCode>();
         }
 
 
@@ -89,7 +93,7 @@ namespace DAL.Models.Surveys
                     },
                     ScreeningQuestionLabels = new LabelCollection<ScreeningQuestionsPageLabel>
                     {
-                        [DefaultLanguage] = 
+                        [DefaultLanguage] =
                             new ScreeningQuestionsPageLabel
                             {
                                 Value = null
