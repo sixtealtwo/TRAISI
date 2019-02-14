@@ -1,1 +1,5 @@
-<button type="submit" (click)="onGroupcodeSubmit()" class="btn btn-primary">GROUPCODE START TEMP</button>
+<div *ngIf="isFinishedLoading">
+	<div class="group-code-content-container">
+		<button type="submit" (click)="onGroupcodeSubmit()" class="btn btn-primary">GROUPCODE START TEMP</button>
+	</div>
+</div>
