@@ -122,6 +122,7 @@ namespace TRAISI
             {
 
 
+
                 options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
 
                 /*options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
@@ -144,6 +145,9 @@ namespace TRAISI
                 options.UseMvc();
 
                 options.EnableTokenEndpoint("/connect/token");
+                options.SetAccessTokenLifetime(TimeSpan.FromHours(4));
+                options.SetRefreshTokenLifetime(TimeSpan.FromHours(5));
+                options.SetIdentityTokenLifetime(TimeSpan.FromHours(4));
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
                 if (_hostingEnvironment.IsDevelopment()) {//Uncomment to only disable Https during development
