@@ -4,7 +4,9 @@
 		"AdminAlertUserStatus": "User Status",
 		"StartSurvey": "Start Survey",
 		"LogginIn": "Loggin In...",
-		"InvalidLogin": "The login information provided is invalid."
+		"InvalidLogin": "The login information provided is invalid.",
+		"GroupcodeSubmit":"",
+		"GroupcodeIntro":""
 	},
 	"Viewer": {
 		"Next": "Next",
