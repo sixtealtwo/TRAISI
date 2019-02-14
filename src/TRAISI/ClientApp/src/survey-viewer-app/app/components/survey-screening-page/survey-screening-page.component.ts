@@ -85,7 +85,8 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public onSubmitScreeningQuestions(): void {
-		console.log(this.formGroup);
+		console.log(this.screeningQuestions.rejectionLink);
+
 		if (this.formGroup.submitted && this.formGroup.valid) {
 			// determine if all responses are yes
 			let allYes: boolean = true;
@@ -101,7 +102,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 				return;
 			} else {
 				// navigate to rejection link
-				if (!this.screeningQuestions.rejectionLink || !this.screeningQuestions.rejectionLink.trim()) {
+				if (this.screeningQuestions.rejectionLink !== undefined || this.screeningQuestions.rejectionLink.trim() !== '') {
 					window.location.href = this.screeningQuestions.rejectionLink;
 				} else {
 					this._router.navigate([this._surveyName, 'complete']);
