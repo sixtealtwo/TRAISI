@@ -81,7 +81,10 @@ namespace TRAISI
             });
 
             // add identity
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -99,7 +102,7 @@ namespace TRAISI
                 //    //options.Password.RequireLowercase = false;
 
                 //    //// Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60 * 4);
                 options.Lockout.MaxFailedAccessAttempts = 10;
 
                 options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
@@ -169,6 +172,7 @@ namespace TRAISI
                 options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
             }).AddOAuthValidation(options =>
             {
+
                 options.Events = new OAuthValidationEvents
                 {
                     OnRetrieveToken = context =>
