@@ -85,7 +85,6 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public onSubmitScreeningQuestions(): void {
-		console.log(this.screeningQuestions.rejectionLink);
 
 		if (this.formGroup.submitted && this.formGroup.valid) {
 			// determine if all responses are yes

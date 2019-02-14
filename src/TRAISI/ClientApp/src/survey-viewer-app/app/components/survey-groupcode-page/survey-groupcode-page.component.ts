@@ -8,6 +8,9 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewGroupcodePage } from '../../models/survey-view-groupcode-page.model';
+import { SurveyStart } from 'app/models/survey-start.model';
+import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
+import { find as _find } from 'lodash';
 
 @Component({
 	selector: 'traisi-survey-groupcode-page',
@@ -18,6 +21,9 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public startPageComponent: SurveyStartPageComponent;
 	public isFinishedLoading: boolean;
 	public model: SurveyViewGroupcodePage;
+	public surveyStartModel: SurveyStart;
+	public pageThemeInfo: any;
+	private _surveyName: string;
 
 	public constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
@@ -27,11 +33,25 @@ export class SurveyGroupcodePageComponent implements OnInit {
 		private _elementRef: ElementRef
 	) {
 		this.isFinishedLoading = false;
+		this.model = {};
 	}
 
 	public ngOnInit(): void {
-		this.isFinishedLoading = true;
-		this.model = {};
+		this._surveyViewerService.pageThemeInfo.subscribe((info) => {
+			this.pageThemeInfo = info;
+			this.isFinishedLoading = true;
+			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
+				this.surveyStartModel = surveyStartModel;
+				this.isFinishedLoading = true;
+
+				let m = JSON.parse(this.surveyStartModel.welcomeText);
+				this.model.header1 = _find(m, (x) => x.sectionType === 'header1');
+				this.model.header2 = _find(m, (x) => x.sectionType === 'header2');
+				this.model.footer1 = _find(m, (x) => x.sectionType === 'footer1');
+
+				console.log(this.model);
+			});
+		});
 		return;
 	}
 
