@@ -11,6 +11,7 @@ import { SurveyViewGroupcodePage } from '../../models/survey-view-groupcode-page
 import { SurveyStart } from 'app/models/survey-start.model';
 import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
 import { find as _find } from 'lodash';
+import { FormGroup } from '@angular/forms';
 
 @Component({
 	selector: 'traisi-survey-groupcode-page',
@@ -24,6 +25,8 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public surveyStartModel: SurveyStart;
 	public pageThemeInfo: any;
 	private _surveyName: string;
+	public groupcodeFormGroup: FormGroup;
+	public groupcodeInput: string;
 
 	public constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
@@ -49,7 +52,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 				this.model.header2 = _find(m, (x) => x.sectionType === 'header2');
 				this.model.footer1 = _find(m, (x) => x.sectionType === 'footer1');
 
-				console.log(this.model);
+				this.groupcodeFormGroup = new FormGroup({});
 			});
 		});
 		return;

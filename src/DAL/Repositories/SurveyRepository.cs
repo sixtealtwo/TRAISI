@@ -53,6 +53,17 @@ namespace DAL.Repositories
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="groupcode"></param>
+        /// <returns></returns>
+        public async Task<bool> ExistsSurveyWithGroupcodeAsync(int surveyId, string groupcode)
+        {
+            return await _appContext.Surveys.Where(s => s.Id == surveyId).AnyAsync(s => s.GroupCodes.Any(gc => gc.Code == groupcode));
+        }
+
 
         /// <summary>
         /// 

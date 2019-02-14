@@ -39,8 +39,10 @@ namespace DAL.Repositories.Interfaces
 
         Task<Survey> GetSurveyForShortcode(string shortcode);
 
+        Task<bool> ExistsSurveyWithGroupcodeAsync(int surveyId, string groupcode);
 
         bool QuestionNameIsUnique(int surveyId, string name, string oldName);
+
 
     }
 }
