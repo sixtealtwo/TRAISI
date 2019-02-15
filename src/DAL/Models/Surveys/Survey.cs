@@ -27,7 +27,7 @@ namespace DAL.Models.Surveys
 
         public SurveyViewCollection<SurveyView> SurveyViews { get; set; }
         public ICollection<SurveyPermission> SurveyPermissions { get; set; }
-        public ICollection<GroupCode> GroupCodes { get; set; }
+        public ICollection<Groupcode> GroupCodes { get; set; }
         public ICollection<Shortcode> Shortcodes { get; set; }
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }

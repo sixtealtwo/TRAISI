@@ -20,7 +20,7 @@ namespace DAL
         IEmailTemplateRepository _emailTemplates;
         ISiteSurveyTemplateRepository _siteSurveyTemplates;
         IShortcodeRepository _shortcodes;
-        IGroupCodeRepository _groupCodes;
+        IGroupcodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
         IWelcomePageLabelRepository _welcomePageLabels;
         IThankYouPageLabelRepository _thankYouPageLabels;
@@ -184,12 +184,12 @@ namespace DAL
             }
         }
 
-        public IGroupCodeRepository GroupCodes
+        public IGroupcodeRepository GroupCodes
         {
             get
             {
                 if (_groupCodes == null) {
-                    _groupCodes = new GroupCodeRepository(_context);
+                    _groupCodes = new GroupcodeRepository(_context);
                 }
 
                 return _groupCodes;

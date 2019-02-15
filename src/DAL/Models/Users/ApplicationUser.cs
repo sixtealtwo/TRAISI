@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DAL.Models
 {
-    public class ApplicationUser : IdentityUser, IAuditableEntity
+    public abstract class ApplicationUser : IdentityUser, IAuditableEntity
     {
         public virtual string FriendlyName
         {
@@ -36,6 +36,7 @@ namespace DAL.Models
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
+
         /// <summary>
         /// Navigation property for the roles this user belongs to.
         /// </summary>
@@ -46,11 +47,6 @@ namespace DAL.Models
         /// </summary>
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
-        /// <summary>
-        /// Navigation property for the groups this user belongs to.
-        /// </summary>
-        public virtual ICollection<GroupMember> Groups { get; set; }
 
-        public virtual ICollection<SurveyPermission> SurveyPermissions { get; set; }
     }
 }

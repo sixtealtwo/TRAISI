@@ -10,7 +10,7 @@ namespace DAL.Models.Surveys
 
         public Shortcode Shortcode { get; set; }
 
-        public GroupCode Groupcode { get; set; }
+        public Groupcode Groupcode { get; set; }
 
         public ApplicationUser User { get; set; }
 

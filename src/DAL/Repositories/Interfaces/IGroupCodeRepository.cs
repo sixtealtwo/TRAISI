@@ -7,15 +7,15 @@ using DAL.Models.Surveys;
 
 namespace DAL.Repositories.Interfaces
 {
-    public interface IGroupCodeRepository : IRepository<GroupCode>
+    public interface IGroupcodeRepository : IRepository<Groupcode>
     {
-        Task<IEnumerable<GroupCode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize);
-        IEnumerable<GroupCode> GetGroupCodesForSurvey(int surveyId, bool isTest);
+        Task<IEnumerable<Groupcode>> GetGroupCodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize);
+        IEnumerable<Groupcode> GetGroupCodesForSurvey(int surveyId, bool isTest);
         Task<int> GetCountOfGroupCodesForSurveyAsync(int surveyId, bool isTest);
         bool IsUniqueGroupCodeForSurvey(int surveyId, string code);
         IEnumerable<string> GetUniqueCodes(int surveyId, IEnumerable<string> codesToCheck);
 
-        Task<GroupCode> GetGroupcodeForSurvey(Survey survey, string groupcode);
+        Task<Groupcode> GetGroupcodeForSurvey(Survey survey, string groupcode);
 
     }
 }

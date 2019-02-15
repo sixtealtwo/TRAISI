@@ -11,8 +11,8 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190215160103_PrimaryRespondentHasGroupcode")]
-    partial class PrimaryRespondentHasGroupcode
+    [Migration("20190215205746_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,8 @@ namespace TRAISI.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<int>("UserType");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -121,6 +123,8 @@ namespace TRAISI.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<int>("UserType");
                 });
 
             modelBuilder.Entity("DAL.Models.Groups.ApiKeys", b =>
@@ -193,6 +197,8 @@ namespace TRAISI.Migrations
 
                     b.Property<bool>("GroupAdmin");
 
+                    b.Property<string>("TraisiUserId");
+
                     b.Property<int?>("UserGroupId");
 
                     b.Property<string>("UserId");
@@ -200,6 +206,8 @@ namespace TRAISI.Migrations
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TraisiUserId");
 
                     b.HasIndex("UserGroupId");
 
@@ -494,7 +502,7 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator<int>("ResponseType");
                 });
 
-            modelBuilder.Entity("DAL.Models.Surveys.GroupCode", b =>
+            modelBuilder.Entity("DAL.Models.Surveys.Groupcode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -513,7 +521,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("GroupCodes");
+                    b.ToTable("Groupcodes");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.ScreeningQuestionsPageLabel", b =>
@@ -679,11 +687,15 @@ namespace TRAISI.Migrations
 
                     b.Property<int>("SurveyId");
 
+                    b.Property<string>("TraisiUserId");
+
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
+
+                    b.HasIndex("TraisiUserId");
 
                     b.HasIndex("UserId");
 
@@ -1122,6 +1134,28 @@ namespace TRAISI.Migrations
                     b.ToTable("OpenIddictTokens");
                 });
 
+            modelBuilder.Entity("DAL.Models.SurveyUser", b =>
+                {
+                    b.HasBaseType("DAL.Models.ApplicationUser");
+
+                    b.Property<int?>("PrimaryRespondentId");
+
+                    b.Property<int?>("ShortcodeId");
+
+                    b.HasIndex("PrimaryRespondentId");
+
+                    b.HasIndex("ShortcodeId");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("DAL.Models.TraisiUser", b =>
+                {
+                    b.HasBaseType("DAL.Models.ApplicationUser");
+
+                    b.HasDiscriminator().HasValue(0);
+                });
+
             modelBuilder.Entity("DAL.Models.ResponseTypes.DateTimeResponse", b =>
                 {
                     b.HasBaseType("DAL.Models.ResponseTypes.ResponseValue");
@@ -1280,12 +1314,16 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Groups.GroupMember", b =>
                 {
+                    b.HasOne("DAL.Models.TraisiUser")
+                        .WithMany("Groups")
+                        .HasForeignKey("TraisiUserId");
+
                     b.HasOne("DAL.Models.Groups.UserGroup", "UserGroup")
                         .WithMany("Members")
                         .HasForeignKey("UserGroupId");
 
                     b.HasOne("DAL.Models.ApplicationUser", "User")
-                        .WithMany("Groups")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 
@@ -1407,7 +1445,7 @@ namespace TRAISI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DAL.Models.Surveys.GroupCode", b =>
+            modelBuilder.Entity("DAL.Models.Surveys.Groupcode", b =>
                 {
                     b.HasOne("DAL.Models.Surveys.Survey", "Survey")
                         .WithMany("GroupCodes")
@@ -1425,7 +1463,7 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("DAL.Models.Surveys.Shortcode", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.GroupCode", "GroupCode")
+                    b.HasOne("DAL.Models.Surveys.Groupcode", "GroupCode")
                         .WithMany()
                         .HasForeignKey("GroupCodeId");
 
@@ -1449,8 +1487,12 @@ namespace TRAISI.Migrations
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Models.ApplicationUser", "User")
+                    b.HasOne("DAL.Models.TraisiUser")
                         .WithMany("SurveyPermissions")
+                        .HasForeignKey("TraisiUserId");
+
+                    b.HasOne("DAL.Models.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 
@@ -1580,9 +1622,20 @@ namespace TRAISI.Migrations
                         .HasForeignKey("AuthorizationId");
                 });
 
+            modelBuilder.Entity("DAL.Models.SurveyUser", b =>
+                {
+                    b.HasOne("DAL.Models.Surveys.SurveyRespondent", "PrimaryRespondent")
+                        .WithMany()
+                        .HasForeignKey("PrimaryRespondentId");
+
+                    b.HasOne("DAL.Models.Surveys.Shortcode", "Shortcode")
+                        .WithMany()
+                        .HasForeignKey("ShortcodeId");
+                });
+
             modelBuilder.Entity("DAL.Models.Surveys.PrimaryRespondent", b =>
                 {
-                    b.HasOne("DAL.Models.Surveys.GroupCode", "Groupcode")
+                    b.HasOne("DAL.Models.Surveys.Groupcode", "Groupcode")
                         .WithMany()
                         .HasForeignKey("GroupcodeId");
 

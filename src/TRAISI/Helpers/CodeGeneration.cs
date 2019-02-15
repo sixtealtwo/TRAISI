@@ -74,7 +74,7 @@ namespace TRAISI.Helpers
                 codeString = GenerateCodeByLength(parameters.SurveyId, parameters.CodeLength);
             }
 
-            GroupCode newCode = new GroupCode()
+            Groupcode newCode = new Groupcode()
             {
                 Survey = survey,
                 Code = codeString,
@@ -116,7 +116,7 @@ namespace TRAISI.Helpers
             List<string> newCodes = GenerateUniqueCodes(parameters, survey);
 
             for (int i = 0; i < parameters.NumberOfCodes; i++) {
-                GroupCode newCode = new GroupCode()
+                Groupcode newCode = new Groupcode()
                 {
                     Survey = survey,
                     Code = newCodes[i],

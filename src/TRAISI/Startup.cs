@@ -40,6 +40,7 @@ using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using OpenIddict.Abstractions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TRAISI
 {
@@ -88,6 +89,15 @@ namespace TRAISI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddIdentityCore<TraisiUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddIdentityCore<SurveyUser>()
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             // Configure Identity options and password complexity here
             services.Configure<IdentityOptions>(options =>
             {
@@ -102,6 +112,7 @@ namespace TRAISI
                 //    //options.Password.RequireLowercase = false;
 
                 //    //// Lockout settings
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60 * 4);
                 options.Lockout.MaxFailedAccessAttempts = 10;
 

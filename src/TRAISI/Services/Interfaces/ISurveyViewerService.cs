@@ -29,7 +29,7 @@ namespace TRAISI.Services.Interfaces
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user);
+        Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user);
 
         /// <summary>
         /// 

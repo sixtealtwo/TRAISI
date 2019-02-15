@@ -55,14 +55,18 @@ export class SurveyShortcodePageComponent implements OnInit {
 					this._surveyViewerService.pageThemeInfoJson.subscribe(
 						(styles) => {
 							try {
-								this.pageThemeInfo = JSON.parse(styles);
+								console.log(styles);
+								this.pageThemeInfo = styles;
 								if (this.pageThemeInfo === null) {
 									this.pageThemeInfo = {};
 									this.pageThemeInfo.viewerTemplate = '';
 								}
-							} catch (e) {}
+							} catch (e) {
+								console.log(e);
+							}
 							this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 							this.finishedLoading = true;
+							console.log('finished loading');
 						},
 						(error) => {
 							console.error(error);

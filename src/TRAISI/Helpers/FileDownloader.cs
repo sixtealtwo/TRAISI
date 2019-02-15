@@ -266,7 +266,7 @@ namespace TRAISI.Helpers
             });
         }
 
-        public sealed class GroupCodeMap : ClassMap<GroupCode>
+        public sealed class GroupCodeMap : ClassMap<Groupcode>
         {
             public GroupCodeMap()
             {

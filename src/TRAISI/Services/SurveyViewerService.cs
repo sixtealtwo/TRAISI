@@ -124,9 +124,9 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        private async Task<ApplicationUser> GetSurveyUser(int surveyId, string shortcode)
+        private async Task<SurveyUser> GetSurveyUser(int surveyId, string shortcode)
         {
-            return await this._accountManager.GetUserByUserNameAsync(surveyId + "_" + shortcode);
+            return await this._accountManager.GetSurveyUserByUserNameAsync(surveyId + "_" + shortcode);
         }
 
         /// <summary>
@@ -160,12 +160,14 @@ namespace TRAISI.Services
         /// <param name="shortcode"></param>
         /// <param name="currentUser"></param>
         /// <returns></returns>
-        private async Task<(bool, string[], ApplicationUser, PrimaryRespondent respondent)> CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        private async Task<(bool, string[], SurveyUser, PrimaryRespondent respondent)> 
+        CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
             var user = new UserViewModel { UserName = survey.Id + "_" + shortcode };
-            ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+            SurveyUser appUser = Mapper.Map<SurveyUser>(user);
             var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
                 new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode) });
+
 
             // create the associated primary respondent 
             var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(appUser);
@@ -179,7 +181,7 @@ namespace TRAISI.Services
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        public async Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
 
             if (currentUser.Identity.IsAuthenticated) {

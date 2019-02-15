@@ -111,6 +111,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.pageThemeInfo.next(this._pageThemeInfo);
 
 		this.activeSurveyId.subscribe((id) => {
+			console.log('survey id: ' + id);
 			this.restoreThemeInfo(id);
 
 			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
@@ -180,7 +181,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			questions = this.parseJson(screenignQuestions.html);
 		}
 		return {
-			questionsList: questions.questionsList as Array<string>,
+			questionsList: questions == null ? [] : (questions.questionsList as Array<string>),
 			header1: header1,
 			footer1: footer1,
 			header2: header2i,
@@ -352,7 +353,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @returns {Observable<any>}
 	 * @memberof SurveyViewerService
 	 */
-	public surveyStartWithGroupcode(surveyId: number,  groupcode: string): Observable<any> {
+	public surveyStartWithGroupcode(surveyId: number, groupcode: string): Observable<any> {
 		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode);
 		result.subscribe(
 			(value: SurveyViewer) => {

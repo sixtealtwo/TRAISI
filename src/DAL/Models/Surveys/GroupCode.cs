@@ -8,7 +8,7 @@ using DAL.Core;
 using DAL.Models.Surveys;
 
 namespace DAL.Models.Surveys {
-    public class GroupCode
+    public class Groupcode
 		{
 				public int Id { get; set; }
 				public Survey Survey { get; set; }

@@ -15,7 +15,7 @@ namespace DAL
         IEmailTemplateRepository EmailTemplates { get; }
         ISiteSurveyTemplateRepository SiteSurveyTemplates { get; }
         IShortcodeRepository Shortcodes { get; }
-        IGroupCodeRepository GroupCodes { get; }
+        IGroupcodeRepository GroupCodes { get; }
         IUserGroupRepository UserGroups { get; }
         IGroupMemberRepository GroupMembers { get; }
         ISurveyViewRepository SurveyViews { get; }

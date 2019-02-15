@@ -30,6 +30,9 @@ namespace TRAISI.ViewModels
             CreateMap<UserViewModel, ApplicationUser>()
                 .ForMember(d => d.Roles, map => map.Ignore());
 
+            CreateMap<UserViewModel, SurveyUser>()
+                .ForMember(d => d.Roles, map => map.Ignore());
+
             CreateMap<ApplicationUser, UserEditViewModel>()
                 .ForMember(d => d.Roles, map => map.Ignore());
 
@@ -83,10 +86,10 @@ namespace TRAISI.ViewModels
             CreateMap<CodeGeneration, CodeGenerationViewModel>()
                 .ReverseMap();
 
-            CreateMap<GroupCodeViewModel, GroupCode>()
+            CreateMap<GroupCodeViewModel, Groupcode>()
                 .ForMember(gc => gc.Survey, map => map.Ignore());
 
-            CreateMap<GroupCode, GroupCodeViewModel>()
+            CreateMap<Groupcode, GroupCodeViewModel>()
                 .ForMember(gc => gc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
 
             CreateMap<ShortcodeViewModel, Shortcode>()
@@ -117,12 +120,10 @@ namespace TRAISI.ViewModels
                 .ForMember(m => m.ParentViewId, map => map.MapFrom(s => s.ParentView.Id))
                 .ForMember(m => m.repeatSourceQuestionName, map => map.ResolveUsing(s =>
                 {
-                    if (s.RepeatSource != null)
-                    {
+                    if (s.RepeatSource != null) {
                         return $"question~{s.RepeatSource.QuestionType}~{s.RepeatSource.Id}";
-                    } 
-                    else
-                    {
+                    }
+                    else {
                         return null;
                     }
                 }))
@@ -158,14 +159,12 @@ namespace TRAISI.ViewModels
                 .AfterMap((s, svm, opt) =>
                 {
                     var language = (string)opt.Items["Language"];
-                    if (s.QuestionPart == null)
-                    {
+                    if (s.QuestionPart == null) {
                         svm.Label = s.Labels.FirstOrDefault(l => l.Language == language).Value;
                         svm.Type = "part";
                         svm.Children = s.QuestionPartViewChildren.OrderBy(q => q.Order).Select(q => q.ToLocalizedModel<SBPageStructureViewModel>(language)).ToList();
                     }
-                    else
-                    {
+                    else {
                         svm.Id = s.QuestionPart.Id.ToString();
                         svm.Label = s.QuestionPart.Name;
                         svm.Type = "question~" + s.QuestionPart.QuestionType;

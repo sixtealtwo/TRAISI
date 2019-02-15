@@ -13,7 +13,7 @@ namespace DAL.Core.Interfaces
         Task<Tuple<bool, string[]>> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<Tuple<bool, string[]>> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password);
 
-        Task<Tuple<bool, string[]>> CreateSurveyUserAsync(ApplicationUser user, string shortcode, (string claimName, string claimValue) [] claims );
+        Task<Tuple<bool, string[]>> CreateSurveyUserAsync(SurveyUser user, string shortcode, (string claimName, string claimValue)[] claims);
 
         Task<Tuple<bool, string[]>> DeleteRoleAsync(ApplicationRole role);
         Task<Tuple<bool, string[]>> DeleteRoleAsync(string roleName);
@@ -27,9 +27,11 @@ namespace DAL.Core.Interfaces
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<ApplicationUser> GetUserByIdAsync(string userId);
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+
+        Task<SurveyUser> GetSurveyUserByUserNameAsync(string userName);
         Task<IList<string>> GetUserRolesAsync(ApplicationUser user);
         Task<List<Tuple<ApplicationUser, string[]>>> GetUsersAndRolesAsync(int page, int pageSize);
-        Task<List<Tuple<ApplicationUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize);
+        Task<List<Tuple<TraisiUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize);
         Task<Tuple<bool, string[]>> ResetPasswordAsync(ApplicationUser user, string newPassword);
         Task<bool> TestCanDeleteRoleAsync(string roleId);
         Task<bool> TestCanDeleteUserAsync(string userId);
