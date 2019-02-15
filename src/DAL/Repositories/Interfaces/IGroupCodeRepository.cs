@@ -15,5 +15,7 @@ namespace DAL.Repositories.Interfaces
         bool IsUniqueGroupCodeForSurvey(int surveyId, string code);
         IEnumerable<string> GetUniqueCodes(int surveyId, IEnumerable<string> codesToCheck);
 
+        Task<GroupCode> GetGroupcodeForSurvey(Survey survey, string groupcode);
+
     }
 }

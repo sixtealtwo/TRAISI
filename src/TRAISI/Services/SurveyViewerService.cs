@@ -135,10 +135,10 @@ namespace TRAISI.Services
         /// <param name="loginSuccess"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(int surveyId, string groupcode, ClaimsPrincipal user)
+        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(Survey survey, string code, ClaimsPrincipal user)
         {
-            var survey = await this._unitOfWork.Surveys.GetSurveyWithGroupcodeAsync(surveyId, groupcode);
-            if (survey == null) {
+            var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey(survey, code);
+            if (groupcode == null) {
                 return (false, null);
             }
             var parameters = new CodeGeneration()
@@ -147,6 +147,8 @@ namespace TRAISI.Services
                 UsePattern = false
             };
             var shortcode = await this._codeGeneration.GenerateShortCode(parameters, survey);
+            var createUserRes = await this.CreateSurveyUser(survey, shortcode.Code, user);
+            createUserRes.respondent.Groupcode = groupcode;
             var loginResult = await SurveyLogin(survey, shortcode.Code, user);
             return loginResult;
         }
@@ -158,13 +160,16 @@ namespace TRAISI.Services
         /// <param name="shortcode"></param>
         /// <param name="currentUser"></param>
         /// <returns></returns>
-        private async Task<(bool, string[], ApplicationUser)> CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        private async Task<(bool, string[], ApplicationUser, PrimaryRespondent respondent)> CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
             var user = new UserViewModel { UserName = survey.Id + "_" + shortcode };
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
             var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
                 new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode) });
-            return (result.Item1, result.Item2, appUser);
+
+            // create the associated primary respondent 
+            var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(appUser);
+            return (result.Item1, result.Item2, appUser, respondent);
         }
 
 
@@ -191,6 +196,8 @@ namespace TRAISI.Services
             }
 
             var res = await CreateSurveyUser(survey, shortcode, currentUser);
+
+
 
             /*
             var user = new UserViewModel { UserName = surveyId + "_" + shortcode };
