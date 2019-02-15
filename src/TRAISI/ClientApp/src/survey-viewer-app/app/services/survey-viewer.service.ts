@@ -352,8 +352,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @returns {Observable<any>}
 	 * @memberof SurveyViewerService
 	 */
-	public surveyStartWithGroupcode(surveyId: number, shortcode: string, groupcode: string): Observable<any> {
-		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, shortcode, groupcode);
+	public surveyStartWithGroupcode(surveyId: number,  groupcode: string): Observable<any> {
+		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode);
 		result.subscribe(
 			(value: SurveyViewer) => {
 				this._activeSurveyId = surveyId;

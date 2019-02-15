@@ -214,6 +214,25 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("start/{surveyId}/groupcode/{groupcode}/start")]
+        public async Task<IActionResult> StartSurveyWithGroupcode(int surveyId, string shortcode = null, string groupcode = null)
+        {
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode, User);
+
+            if (!success) {
+                return new BadRequestResult();
+            }
+
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         [Route("welcome/{name}")]

@@ -31,6 +31,7 @@ namespace TRAISI.Services.Interfaces
         /// <returns></returns>
         Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode, ClaimsPrincipal user);
 
+
         /// <summary>
         /// 
         /// </summary>

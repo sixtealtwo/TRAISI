@@ -234,14 +234,13 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 	 */
 	public getSurveyViewerStartSurveyWithGroupcodeEndpoint<T>(
 		surveyId: number,
-		shortcode: string = null,
 		groupcode: string
 	): Observable<T> {
-		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}/groupcode/${groupcode}/start`;
+		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/groupcode/${groupcode}/start`;
 
 		return this.http.post<T>(endpointUrl, '', this.getRequestHeaders()).pipe(
 			catchError((error) => {
-				return this.handleError(error, () => this.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, shortcode, groupcode));
+				return this.handleError(error, () => this.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode));
 			})
 		);
 	}
