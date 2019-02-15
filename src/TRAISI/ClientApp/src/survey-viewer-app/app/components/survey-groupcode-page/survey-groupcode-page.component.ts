@@ -11,7 +11,7 @@ import { SurveyViewGroupcodePage } from '../../models/survey-view-groupcode-page
 import { SurveyStart } from 'app/models/survey-start.model';
 import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
 import { find as _find } from 'lodash';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'traisi-survey-groupcode-page',
@@ -26,7 +26,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public pageThemeInfo: any;
 	private _surveyName: string;
 	public groupcodeFormGroup: FormGroup;
-	public groupcodeInput: string;
+	private _surveyId: number;
 
 	public constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
@@ -53,12 +53,35 @@ export class SurveyGroupcodePageComponent implements OnInit {
 				this.model.footer1 = _find(m, (x) => x.sectionType === 'footer1');
 
 				this.groupcodeFormGroup = new FormGroup({});
+				this.groupcodeFormGroup.addControl('groupcode', new FormControl(''));
+
+				this._surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
+					this._surveyId = surveyId;
+				});
 			});
 		});
 		return;
 	}
 
+	/**
+	 *
+	 *
+	 * @memberof SurveyGroupcodePageComponent
+	 */
 	public onGroupcodeSubmit(): void {
-		this.startPageComponent.groupcodeStartSurvey();
+		// this.groupcodeFormGroup.reset();
+		this._surveyViewerService.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode).subscribe((result) => {
+			if (result) {
+				this.startPageComponent.groupcodeStartSurvey();
+			} else {
+				this.groupcodeFormGroup.setErrors({
+					invalid: true
+				});
+
+				console.log(this.groupcodeFormGroup);
+				// show error message
+			}
+		});
+		//
 	}
 }

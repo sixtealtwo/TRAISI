@@ -3,9 +3,13 @@
 	<app-header2 *ngIf="model.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header2"></app-header2>
 	<div class="group-code-content-container">
 		<form #groupcodeForm="ngForm" (ngSubmit)="onGroupcodeSubmit()" [formGroup]="groupcodeFormGroup">
-			<div class="input-group input-group-lg"><input class="form-control" type="text" [(ngModel)]="groupcodeInput"></div>
+			<div class="input-group input-group-lg"><input required class="form-control" type="text" formControlName="groupcode" /></div>
 			<div class="groupcode-submit">
-				<button type="submit" (click)="onGroupcodeSubmit()" class="btn btn-primary">GROUPCODE START TEMP</button>
+				<button [disabled]="!groupcodeFormGroup.valid" type="submit" class="btn btn-primary">GROUPCODE START TEMP</button>
+			</div>
+
+			<div class="text-danger">
+				<small *ngIf="groupcodeFormGroup.errors && groupcodeFormGroup.errors.invalid">{{ 'Groupcode.Invalid' | translate }}</small>
 			</div>
 		</form>
 	</div>

@@ -101,6 +101,25 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 
 	/**
 	 *
+	 *
+	 * @template T
+	 * @param {number} surveyId
+	 * @param {string} groupcode
+	 * @returns {Observable<T>}
+	 * @memberof SurveyResponderEndpointService
+	 */
+	public getValidateSurveyGroupcodeUrlEndpoint<T>(surveyId: number, groupcode: string): Observable<any> {
+		let endpointUrl = `${this.getSurveyViewPagesUrl}/${surveyId}/groupcodes/${groupcode}/validate`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) => {
+				return this.handleError(error, () => this.getValidateSurveyGroupcodeUrlEndpoint(surveyId, groupcode));
+			})
+		);
+	}
+
+	/**
+	 *
 	 * @param surveyId
 	 * @param pageNumber
 	 * @param language
@@ -145,7 +164,6 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 		);
 	}
 
-
 	/**
 	 *
 	 *
@@ -155,8 +173,7 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof SurveyViewerEndpointService
 	 */
-	public getSurveyViewerScreeningQuestionsEndpoint<T>(surveyId:number, language?: string): Observable<T>
-	 {
+	public getSurveyViewerScreeningQuestionsEndpoint<T>(surveyId: number, language?: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerTermsAndConditionsUrl}/${surveyId}/screening/${language}`;
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -164,7 +181,7 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 				return this.handleError(error, () => this.getSurveyViewerScreeningQuestionsEndpoint(surveyId, language));
 			})
 		);
-	 }
+	}
 
 	public getSurveyViewerThankYouEndpoint<T>(surveyId: number, viewType?: SurveyViewType, language?: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerThankYouUrl}/${surveyId}/thankyou/${viewType}/${language}`;

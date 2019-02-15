@@ -22,5 +22,8 @@
 		"Yes": "Yes",
 		"No": "No",
 		"Submit": "Submit"
+	},
+	"Groupcode": {
+		"Invalid": "The entered groupcode is invalid."
 	}
 }

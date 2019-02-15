@@ -136,6 +136,19 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		});
 	}
 
+	//
+
+	/**
+	 *
+	 *
+	 * @param {number} surveyId
+	 * @param {string} groupcode
+	 * @returns {Observable<any>}
+	 * @memberof SurveyViewerService
+	 */
+	public validateSurveyGroupcode(surveyId: number, groupcode: string): Observable<any> {
+		return this._surveyViewerEndpointService.getValidateSurveyGroupcodeUrlEndpoint(surveyId, groupcode);
+	}
 	/**
 	 *
 	 *
