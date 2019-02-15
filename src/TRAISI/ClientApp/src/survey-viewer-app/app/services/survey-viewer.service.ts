@@ -52,27 +52,27 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	private _pageThemeInfoJson: any;
 
 	public get currentUser(): any {
-		return this.authService.currentSurveyUser;
+		return this._authService.currentSurveyUser;
 	}
 
 	/**
 	 *
 	 */
 	public get accessToken(): string {
-		return this.authService.accessToken;
+		return this._authService.accessToken;
 	}
 
 	/**
 	 *Creates an instance of SurveyViewerService.
 	 * @param {SurveyViewerEndpointService} _surveyViewerEndpointService
-	 * @param {AuthService} authService
+	 * @param {AuthService} _authService
 	 * @param {Router} router
 	 * @param {SurveyResponderService} _responderService
 	 * @memberof SurveyViewerService
 	 */
 	constructor(
 		private _surveyViewerEndpointService: SurveyViewerEndpointService,
-		private authService: AuthService,
+		private _authService: AuthService,
 		private router: Router,
 		private _responderService: SurveyResponderService
 	) {
@@ -246,11 +246,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	public ngOnInit(): void {}
 
 	public isAdminUser(): boolean {
-		if (!this.authService.isLoggedIn) {
+		if (!this._authService.isLoggedIn) {
 			return false;
 		}
 
-		return this.authService.currentUser.roles.includes('super administrator');
+		return this._authService.currentUser.roles.includes('super administrator');
 	}
 
 	/**
@@ -344,12 +344,32 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	}
 
 	/**
+	 * Starts the survey with the specified shortcode and groupcode. The created user account will be associated with
+	 * both of the shortcodes.
+	 * @param {number} surveyId
+	 * @param {string} shortcode
+	 * @param {string} groupcode
+	 * @returns {Observable<any>}
+	 * @memberof SurveyViewerService
+	 */
+	public surveyStartWithGroupcode(surveyId: number, shortcode: string, groupcode: string): Observable<any> {
+		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, shortcode, groupcode);
+		result.subscribe(
+			(value: SurveyViewer) => {
+				this._activeSurveyId = surveyId;
+			},
+			(error) => {}
+		);
+		return result;
+	}
+
+	/**
 	 * Authenticates the current user using the specified shortcode
 	 * @param surveyId
 	 * @param shortcode
 	 */
 	public surveyLogin(surveyId: number, shortcode: string): Observable<User> {
-		return this.authService.login(`${surveyId}_${shortcode}`, shortcode, true);
+		return this._authService.login(`${surveyId}_${shortcode}`, shortcode, true);
 	}
 
 	/**
@@ -364,8 +384,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * Restores the state of the service if the user is currently logged in.
 	 */
 	private restoreStatus(): void {
-		if (this.authService.isLoggedIn && this.authService.currentUser.roles.includes('respondent')) {
-			this._activeSurveyId = +this.authService.currentSurveyUser.surveyId;
+		if (this._authService.isLoggedIn && this._authService.currentUser.roles.includes('respondent')) {
+			this._activeSurveyId = +this._authService.currentSurveyUser.surveyId;
 
 			this.activeSurveyId.next(this._activeSurveyId);
 		} else {

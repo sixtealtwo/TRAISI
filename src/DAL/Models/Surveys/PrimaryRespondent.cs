@@ -2,24 +2,26 @@ using System.Collections.Generic;
 
 namespace DAL.Models.Surveys
 {
-	/// <summary>
-	/// Primary Respondent type for surveys.
-	/// </summary>
-	public class PrimaryRespondent : SurveyRespondent
-	{
+    /// <summary>
+    /// Primary Respondent type for surveys.
+    /// </summary>
+    public class PrimaryRespondent : SurveyRespondent
+    {
 
-		public Shortcode Shortcode { get; set; }
+        public Shortcode Shortcode { get; set; }
 
-		public ApplicationUser User { get; set; }
+        public GroupCode Groupcode { get; set; }
 
-		public List<SurveyAccessRecord> SurveyAccessRecords { get; set; }
+        public ApplicationUser User { get; set; }
 
-		public Survey Survey { get; set; }
+        public List<SurveyAccessRecord> SurveyAccessRecords { get; set; }
 
-		public PrimaryRespondent()
-		{
+        public Survey Survey { get; set; }
 
-			this.SurveyAccessRecords = new List<SurveyAccessRecord>();
-		}
-	}
+        public PrimaryRespondent()
+        {
+
+            this.SurveyAccessRecords = new List<SurveyAccessRecord>();
+        }
+    }
 }

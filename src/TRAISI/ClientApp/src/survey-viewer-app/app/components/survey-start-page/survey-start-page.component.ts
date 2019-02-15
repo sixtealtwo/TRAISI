@@ -35,6 +35,8 @@ export class SurveyStartPageComponent implements OnInit {
 	public isAdmin: boolean = false;
 	public surveyStartConfig: SurveyStart;
 	public isError: boolean = false;
+	public hasGroupcode: boolean;
+	public groupcode: string;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef })
 	public codeComponent: ViewContainerRef;
@@ -116,7 +118,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 *
 	 * @memberof SurveyStartPageComponent
 	 */
-	public groupcodeStartSurvey(): void {
+	public groupcodeStartSurvey(groupcode: string): void {
 		this.loadShortcodeComponent();
 	}
 

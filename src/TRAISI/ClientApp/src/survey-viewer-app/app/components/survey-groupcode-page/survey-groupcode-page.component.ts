@@ -72,7 +72,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 		// this.groupcodeFormGroup.reset();
 		this._surveyViewerService.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode).subscribe((result) => {
 			if (result) {
-				this.startPageComponent.groupcodeStartSurvey();
+				this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
 			} else {
 				this.groupcodeFormGroup.setErrors({
 					invalid: true

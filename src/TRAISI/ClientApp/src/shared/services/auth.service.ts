@@ -1,8 +1,7 @@
-
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { Observable ,  Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LocalStoreManager } from './local-store-manager.service';
 import { EndpointFactory } from './endpoint-factory.service';
 import { ConfigurationService } from './configuration.service';
@@ -16,18 +15,20 @@ import { SurveyUser } from '../models/survey-user.model';
 
 @Injectable()
 export class AuthService {
-
-	public get loginUrl() { return this.configurations.loginUrl; }
-	public get homeUrl() { return this.configurations.homeUrl; }
+	public get loginUrl() {
+		return this.configurations.loginUrl;
+	}
+	public get homeUrl() {
+		return this.configurations.homeUrl;
+	}
 
 	public loginRedirectUrl: string;
 	public logoutRedirectUrl: string;
 
 	public reLoginDelegate: () => void;
 
-	private previousIsLoggedInCheck = false;
-	private _loginStatus = new Subject<boolean>();
-
+	private previousIsLoggedInCheck: boolean = false;
+	private _loginStatus: Subject<boolean> = new Subject<boolean>();
 
 	/**
 	 *Creates an instance of AuthService.
@@ -37,39 +38,56 @@ export class AuthService {
 	 * @param {LocalStoreManager} localStorage
 	 * @memberof AuthService
 	 */
-	constructor(private router: Router, private configurations: ConfigurationService,
-		private endpointFactory: EndpointFactory, private localStorage: LocalStoreManager) {
+	constructor(
+		private router: Router,
+		private configurations: ConfigurationService,
+		private endpointFactory: EndpointFactory,
+		private localStorage: LocalStoreManager
+	) {
 		this.initializeLoginStatus();
-
-
-
 	}
 
-
-	private initializeLoginStatus() {
+	/**
+	 *
+	 *
+	 * @private
+	 * @memberof AuthService
+	 */
+	private initializeLoginStatus(): void {
 		this.localStorage.getInitEvent().subscribe(() => {
 			this.reevaluateLoginStatus();
-
 		});
 	}
 
-
-	public gotoPage(page: string, preserveParams = true) {
-
+	/**
+	 *
+	 *
+	 * @param {string} page
+	 * @param {boolean} [preserveParams=true]
+	 * @memberof AuthService
+	 */
+	public gotoPage(page: string, preserveParams:boolean = true): void {
 		const navigationExtras: NavigationExtras = {
-			queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
+			queryParamsHandling: preserveParams ? 'merge' : '',
+			preserveFragment: preserveParams
 		};
-
 
 		this.router.navigate([page], navigationExtras);
 	}
 
-
-	public redirectLoginUser() {
-		const redirect = this.loginRedirectUrl && this.loginRedirectUrl !== '/' &&
-			this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+	/**
+	 *
+	 *
+	 * @memberof AuthService
+	 */
+	public redirectLoginUser(): void {
+		const redirect =
+			this.loginRedirectUrl &&
+			this.loginRedirectUrl !== '/' &&
+			this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl
+				? this.loginRedirectUrl
+				: this.homeUrl;
 		this.loginRedirectUrl = null;
-
 
 		const urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
 		const urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
@@ -83,23 +101,29 @@ export class AuthService {
 		this.router.navigate([urlAndParams.firstPart], navigationExtras);
 	}
 
-
-	public redirectLogoutUser() {
+	/**
+	 *
+	 *
+	 * @memberof AuthService
+	 */
+	public redirectLogoutUser(): void {
 		const redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
 		this.logoutRedirectUrl = null;
 
 		this.router.navigate([redirect]);
 	}
 
-
-	public redirectForLogin() {
+	/**
+	 *
+	 *
+	 * @memberof AuthService
+	 */
+	public redirectForLogin(): void {
 		this.loginRedirectUrl = this.router.url;
 		this.router.navigate([this.loginUrl]);
 	}
 
-
-	public reLogin() {
-
+	public reLogin(): void {
 		this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
 
 		if (this.reLoginDelegate) {
@@ -109,13 +133,11 @@ export class AuthService {
 		}
 	}
 
-
-	public refreshLogin() {
-		return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>().pipe(
-			map(response => this.processLoginResponse(response, this.rememberMe)));
+	public refreshLogin(): Observable<User> {
+		return this.endpointFactory
+			.getRefreshLoginEndpoint<LoginResponse>()
+			.pipe(map((response) => this.processLoginResponse(response, this.rememberMe)));
 	}
-
-
 
 	/**
 	 *
@@ -126,16 +148,15 @@ export class AuthService {
 	 * @returns
 	 * @memberof AuthService
 	 */
-	public login(userName: string, password: string, rememberMe?: boolean) {
-
+	public login(userName: string, password: string, rememberMe?: boolean):Observable<User> {
 		if (this.isLoggedIn) {
 			this.logout();
 		}
 
-		return this.endpointFactory.getLoginEndpoint<LoginResponse>(userName, password).pipe(
-			map(response => this.processLoginResponse(response, rememberMe)));
+		return this.endpointFactory
+			.getLoginEndpoint<LoginResponse>(userName, password)
+			.pipe(map((response) => this.processLoginResponse(response, rememberMe)));
 	}
-
 
 	/**
 	 *
@@ -146,8 +167,7 @@ export class AuthService {
 	 * @returns
 	 * @memberof AuthService
 	 */
-	private processLoginResponse(response: LoginResponse, rememberMe: boolean) {
-
+	private processLoginResponse(response: LoginResponse, rememberMe: boolean): User {
 		const accessToken = response.access_token;
 
 		if (accessToken == null) {
@@ -166,8 +186,9 @@ export class AuthService {
 		const jwtHelper = new JwtHelper();
 		const decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
 
-		const permissions: PermissionValues[] =
-			Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
+		const permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission)
+			? decodedIdToken.permission
+			: [decodedIdToken.permission];
 
 		if (!this.isLoggedIn) {
 			this.configurations.import(decodedIdToken.configuration);
@@ -180,11 +201,11 @@ export class AuthService {
 			decodedIdToken.email,
 			decodedIdToken.jobtitle,
 			decodedIdToken.phone,
-			Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
+			Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]
+		);
 		user.isEnabled = true;
 
-		if (user.roles.includes('respondent'))
-		{
+		if (user.roles.includes('respondent')) {
 			(<SurveyUser>user).shortcode = user.userName.split('_')[1];
 			(<SurveyUser>user).surveyId = +user.userName.split('_')[0];
 		}
@@ -196,10 +217,15 @@ export class AuthService {
 		return user;
 	}
 
-
-	private saveUserDetails(user: User, permissions: PermissionValues[], accessToken: string,
-		idToken: string, refreshToken: string, expiresIn: Date, rememberMe: boolean) {
-
+	private saveUserDetails(
+		user: User,
+		permissions: PermissionValues[],
+		accessToken: string,
+		idToken: string,
+		refreshToken: string,
+		expiresIn: Date,
+		rememberMe: boolean
+	) {
 		if (rememberMe) {
 			this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
 			this.localStorage.savePermanentData(idToken, DBkeys.ID_TOKEN);
@@ -219,8 +245,6 @@ export class AuthService {
 		this.localStorage.savePermanentData(rememberMe, DBkeys.REMEMBER_ME);
 	}
 
-
-
 	public logout(): void {
 		this.localStorage.deleteData(DBkeys.ACCESS_TOKEN);
 		this.localStorage.deleteData(DBkeys.ID_TOKEN);
@@ -234,9 +258,7 @@ export class AuthService {
 		this.reevaluateLoginStatus();
 	}
 
-
 	private reevaluateLoginStatus(currentUser?: User): User {
-
 		const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
 		const isLoggedIn = user != null;
 
@@ -250,7 +272,6 @@ export class AuthService {
 		return user;
 	}
 
-
 	public getLoginStatusEvent(): Observable<boolean> {
 		return this._loginStatus.asObservable();
 	}
@@ -263,9 +284,7 @@ export class AuthService {
 		return <SurveyUser>user;
 	}
 
-
 	get currentUser(): User {
-
 		const user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
 		this.reevaluateLoginStatus(user);
 
@@ -277,20 +296,17 @@ export class AuthService {
 	}
 
 	get accessToken(): string {
-
 		this.reevaluateLoginStatus();
 		let accessToken = this.localStorage.getData(DBkeys.ACCESS_TOKEN);
 		return accessToken;
 	}
 
 	get accessTokenExpiryDate(): Date {
-
 		this.reevaluateLoginStatus();
 		return this.localStorage.getDataObject<Date>(DBkeys.TOKEN_EXPIRES_IN, true);
 	}
 
 	get isSessionExpired(): boolean {
-
 		if (this.accessTokenExpiryDate == null) {
 			return true;
 		}
@@ -298,15 +314,12 @@ export class AuthService {
 		return !(this.accessTokenExpiryDate.valueOf() > new Date().valueOf());
 	}
 
-
 	get idToken(): string {
-
 		this.reevaluateLoginStatus();
 		return this.localStorage.getData(DBkeys.ID_TOKEN);
 	}
 
 	get refreshToken(): string {
-
 		this.reevaluateLoginStatus();
 		return this.localStorage.getData(DBkeys.REFRESH_TOKEN);
 	}
