@@ -20,6 +20,7 @@ using TRAISI.ViewModels.SurveyViewer.Enums;
 using System.Security.Principal;
 using System.Security.Claims;
 using TRAISI.Authorization.Enums;
+using TRAISI.Helpers;
 
 namespace TRAISI.Services
 {
@@ -29,6 +30,30 @@ namespace TRAISI.Services
 
         private IAuthorizationService _authorizationService;
         private IAccountManager _accountManager;
+
+        private ICodeGeneration _codeGeneration;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="authorizationService"></param>
+        /// <param name="accountManager"></param>
+        /// <param name="codeGenerationService"></param>
+        public SurveyViewerService(IUnitOfWork unitOfWork,
+            IAuthorizationService authorizationService,
+            IAccountManager accountManager,
+            ICodeGeneration codeGenerationService)
+        {
+            this._unitOfWork = unitOfWork;
+            this._accountManager = accountManager;
+            this._authorizationService = authorizationService;
+            this._codeGeneration = codeGenerationService;
+
+
+
+        }
 
         /// <summary>
         /// 
@@ -104,6 +129,44 @@ namespace TRAISI.Services
             return await this._accountManager.GetUserByUserNameAsync(surveyId + "_" + shortcode);
         }
 
+        /// <summary>
+        /// Logs in the user with a specified groupcode
+        /// </summary>
+        /// <param name="loginSuccess"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(int surveyId, string groupcode, ClaimsPrincipal user)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithGroupcodeAsync(surveyId, groupcode);
+            if (survey == null) {
+                return (false, null);
+            }
+            var parameters = new CodeGeneration()
+            {
+                CodeLength = 10,
+                UsePattern = false
+            };
+            var shortcode = await this._codeGeneration.GenerateShortCode(parameters, survey);
+            var loginResult = await SurveyLogin(survey, shortcode.Code, user);
+            return loginResult;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="shortcode"></param>
+        /// <param name="currentUser"></param>
+        /// <returns></returns>
+        private async Task<(bool, string[], ApplicationUser)> CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        {
+            var user = new UserViewModel { UserName = survey.Id + "_" + shortcode };
+            ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+            var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
+                new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode) });
+            return (result.Item1, result.Item2, appUser);
+        }
+
 
         /// <inheritdoc />
         /// <summary>
@@ -111,7 +174,7 @@ namespace TRAISI.Services
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(int surveyId, string shortcode, ClaimsPrincipal currentUser)
+        public async Task<(bool loginSuccess, ApplicationUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
 
             if (currentUser.Identity.IsAuthenticated) {
@@ -120,31 +183,25 @@ namespace TRAISI.Services
                 }
             }
 
-            var survey = await this._unitOfWork.Surveys.GetSurveyForShortcode(shortcode);
-
-            if (survey == null) {
-                return (false, null);
-            }
-
-            if (survey.Id != surveyId) {
-                return (false, null);
-            }
-
-
             //see if a user exists
-            var existingUser = await this.GetSurveyUser(surveyId, shortcode);
+            var existingUser = await this.GetSurveyUser(survey.Id, shortcode);
 
             if (existingUser != null) {
                 return (true, existingUser);
             }
 
+            var res = await CreateSurveyUser(survey, shortcode, currentUser);
+
+            /*
             var user = new UserViewModel { UserName = surveyId + "_" + shortcode };
 
             ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
 
             var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
                 new (string claimName, string claimValue)[] { ("SurveyId", surveyId.ToString()), ("Shortcode", shortcode) });
-            return result.Item1 ? (true, appUser) : (false, null);
+             */
+
+            return res.Item1 ? (true, res.Item3) : (false, null);
         }
 
 
@@ -206,21 +263,7 @@ namespace TRAISI.Services
             throw new System.NotImplementedException();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        public SurveyViewerService(IUnitOfWork unitOfWork,
-            IAuthorizationService authorizationService,
-            IAccountManager accountManager)
-        {
-            this._unitOfWork = unitOfWork;
-            this._accountManager = accountManager;
-            this._authorizationService = authorizationService;
 
-
-
-        }
 
 
         /// <summary>

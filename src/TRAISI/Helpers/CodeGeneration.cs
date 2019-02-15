@@ -16,7 +16,7 @@ namespace TRAISI.Helpers
         string GenerateCodeByLength(int surveyId, int codeLength);
         string GenerateCodeByPattern(int surveyId, string pattern);
         void GenerateShortCodesBatch(CodeGeneration parameters, Survey survey);
-        void GenerateShortCode(CodeGeneration parameters, Survey survey);
+        Task<Shortcode> GenerateShortCode(CodeGeneration parameters, Survey survey);
         void GenerateGroupCode(CodeGeneration parameters, Survey survey);
         void GenerateGroupCodesBatch(CodeGeneration parameters, IList<string> groupNames, Survey survey);
     }
@@ -37,15 +37,13 @@ namespace TRAISI.Helpers
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="survey"></param>
-        public void GenerateShortCode(CodeGeneration parameters, Survey survey)
+        public async Task<Shortcode> GenerateShortCode(CodeGeneration parameters, Survey survey)
         {
             string codeString;
-            if (parameters.UsePattern)
-            {
+            if (parameters.UsePattern) {
                 codeString = GenerateCodeByPattern(parameters.SurveyId, parameters.Pattern);
             }
-            else
-            {
+            else {
                 codeString = GenerateCodeByLength(parameters.SurveyId, parameters.CodeLength);
             }
 
@@ -56,7 +54,9 @@ namespace TRAISI.Helpers
                 IsTest = parameters.IsTest,
                 CreatedDate = DateTime.UtcNow
             };
-            _unitOfWork.Shortcodes.Add(newCode);
+            await _unitOfWork.Shortcodes.AddAsync(newCode);
+
+            return newCode;
         }
 
         /// <summary>
@@ -67,12 +67,10 @@ namespace TRAISI.Helpers
         public void GenerateGroupCode(CodeGeneration parameters, Survey survey)
         {
             string codeString;
-            if (parameters.UsePattern)
-            {
+            if (parameters.UsePattern) {
                 codeString = GenerateCodeByPattern(parameters.SurveyId, parameters.Pattern);
             }
-            else
-            {
+            else {
                 codeString = GenerateCodeByLength(parameters.SurveyId, parameters.CodeLength);
             }
 
@@ -96,8 +94,7 @@ namespace TRAISI.Helpers
         {
             List<string> newCodes = GenerateUniqueCodes(parameters, survey);
 
-            for (int i = 0; i < parameters.NumberOfCodes; i++)
-            {
+            for (int i = 0; i < parameters.NumberOfCodes; i++) {
                 Shortcode newCode = new Shortcode()
                 {
                     Survey = survey,
@@ -118,8 +115,7 @@ namespace TRAISI.Helpers
         {
             List<string> newCodes = GenerateUniqueCodes(parameters, survey);
 
-            for (int i = 0; i < parameters.NumberOfCodes; i++)
-            {
+            for (int i = 0; i < parameters.NumberOfCodes; i++) {
                 GroupCode newCode = new GroupCode()
                 {
                     Survey = survey,
@@ -142,12 +138,10 @@ namespace TRAISI.Helpers
         {
             //Choose method of generation based on parameter
             Func<CodeGeneration, string> codeGenFunction;
-            if (parameters.UsePattern)
-            {
+            if (parameters.UsePattern) {
                 codeGenFunction = delegate (CodeGeneration cParams) { return CodePatternFunction(cParams.Pattern); };
             }
-            else
-            {
+            else {
                 codeGenFunction = delegate (CodeGeneration cParams) { return CodePatternFunction(cParams.Pattern); };
             }
 
@@ -158,12 +152,10 @@ namespace TRAISI.Helpers
             /// in a loop, generate codes without checking for uniqueness 
             /// compare against short code and group codes repo en mass
             /// keep unique codes and continue until number required is generated
-            do
-            {
+            do {
                 remainingCodes = parameters.NumberOfCodes - newCodes.Count;
                 List<string> partialCodes = new List<string>();
-                for (int i = 0; i < remainingCodes; i++)
-                {
+                for (int i = 0; i < remainingCodes; i++) {
                     string codeString = codeGenFunction(parameters);
                     partialCodes.Add(codeString);
                 }
@@ -177,11 +169,9 @@ namespace TRAISI.Helpers
         {
             bool uniqueCodeFound = false;
             string code;
-            do
-            {
+            do {
                 code = CodeFunction(codeLength);
-                if (this._unitOfWork.GroupCodes.IsUniqueGroupCodeForSurvey(surveyId, code) && this._unitOfWork.Shortcodes.UniqueShortCodeForSurvey(surveyId, code))
-                {
+                if (this._unitOfWork.GroupCodes.IsUniqueGroupCodeForSurvey(surveyId, code) && this._unitOfWork.Shortcodes.UniqueShortCodeForSurvey(surveyId, code)) {
                     uniqueCodeFound = true;
                 }
             } while (!uniqueCodeFound);
@@ -192,11 +182,9 @@ namespace TRAISI.Helpers
         {
             bool uniqueCodeFound = false;
             string code;
-            do
-            {
+            do {
                 code = CodePatternFunction(pattern);
-                if (this._unitOfWork.GroupCodes.IsUniqueGroupCodeForSurvey(surveyId, code) && this._unitOfWork.Shortcodes.UniqueShortCodeForSurvey(surveyId, code))
-                {
+                if (this._unitOfWork.GroupCodes.IsUniqueGroupCodeForSurvey(surveyId, code) && this._unitOfWork.Shortcodes.UniqueShortCodeForSurvey(surveyId, code)) {
                     uniqueCodeFound = true;
                 }
             } while (!uniqueCodeFound);
@@ -207,7 +195,7 @@ namespace TRAISI.Helpers
         private string CodeFunction(int codeLength)
         {
             string code = Guid.NewGuid().ToString("N").Substring(0, codeLength);
-						//string code = Path.GetRandomFileName().Substring(0, codeLength);
+            //string code = Path.GetRandomFileName().Substring(0, codeLength);
             return code.ToUpper();
         }
 

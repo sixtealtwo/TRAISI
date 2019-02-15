@@ -64,6 +64,16 @@ namespace DAL.Repositories
             return await _appContext.Surveys.Where(s => s.Id == surveyId).AnyAsync(s => s.GroupCodes.Any(gc => gc.Code == groupcode));
         }
 
+        /// <summary>
+        /// 
+        /// /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="groupcode"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyWithGroupcodeAsync(int surveyId, string groupcode)
+        {
+            return await _appContext.Surveys.Where(s => s.Id == surveyId).SingleOrDefaultAsync(s => s.GroupCodes.Any(gc => gc.Code == groupcode));
+        }
 
         /// <summary>
         /// 
@@ -192,9 +202,9 @@ namespace DAL.Repositories
         /// </summary>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<Survey> GetSurveyForShortcode(string shortcode)
+        public async Task<Survey> GetSurveyWithShortcodeAsync(int surveyId, string shortcode)
         {
-            var result = await _appContext.Shortcodes.Where(s => s.Code == shortcode)
+            var result = await _appContext.Shortcodes.Where(s => s.Code == shortcode).Where(s => s.Survey.Id == surveyId)
             .Include(s => s.Survey).FirstOrDefaultAsync();
 
             return result?.Survey;

@@ -202,7 +202,11 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("start/{surveyId}/{shortcode?}")]
         public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null)
         {
-            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode, User);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null) {
+                return new NotFoundResult();
+            }
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode, User);
 
             if (!success) {
                 return new BadRequestResult();
@@ -221,7 +225,8 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("start/{surveyId}/groupcode/{groupcode}/start")]
         public async Task<IActionResult> StartSurveyWithGroupcode(int surveyId, string shortcode = null, string groupcode = null)
         {
-            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(surveyId, shortcode, User);
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode, User);
 
             if (!success) {
                 return new BadRequestResult();
