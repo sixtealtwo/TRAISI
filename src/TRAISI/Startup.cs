@@ -90,6 +90,7 @@ namespace TRAISI
                 .AddDefaultTokenProviders();
 
             services.AddIdentityCore<TraisiUser>()
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
