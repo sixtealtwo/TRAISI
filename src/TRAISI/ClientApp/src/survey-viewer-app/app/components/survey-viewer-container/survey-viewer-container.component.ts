@@ -26,28 +26,32 @@ import { SurveyUser } from 'shared/models/survey-user.model';
 export class SurveyViewerContainerComponent implements OnInit {
 	private surveyName: string;
 
+	public hasGeneratedShortcode: boolean;
+
 	/**
 	 * Creates an instance of survey viewer container component.
 	 * @param _surveyViewerService
-	 * @param titleService
-	 * @param router
+	 * @param _titleService
+	 * @param _router
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
-		private titleService: Title,
-		private router: Router
-	) {}
+		private _titleService: Title,
+		private _router: Router
+	) {
+		this.hasGeneratedShortcode = false;
+	}
 
 	/**
 	 *
 	 */
 	public ngOnInit(): void {
-		this.router.events.subscribe(
+		this._router.events.subscribe(
 			(event: RouterEvent) => {
 				if (event instanceof ActivationEnd) {
 					let snapshot: ActivatedRouteSnapshot = (<ActivationEnd>event).snapshot;
 					if (snapshot.data.hasOwnProperty('title')) {
-						this.titleService.setTitle('TRAISI - ' + snapshot.data.title);
+						this._titleService.setTitle('TRAISI - ' + snapshot.data.title);
 					}
 				}
 			},
