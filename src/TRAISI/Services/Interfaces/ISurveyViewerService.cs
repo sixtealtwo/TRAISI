@@ -14,13 +14,6 @@ namespace TRAISI.Services.Interfaces
 {
     public interface ISurveyViewerService
     {
-        /// <summary>
-        /// Retrieves a QuestionPartView at index number in the SurveyView
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        QuestionPartView GetQuestion(SurveyView view, int number);
 
 
         /// <summary>
@@ -38,7 +31,8 @@ namespace TRAISI.Services.Interfaces
         /// <param name="groupcode"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(Survey surveyId, string groupcode, ClaimsPrincipal user);
+        Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(Survey surveyId,
+		 string groupcode, string shortcode, ClaimsPrincipal user);
 
 
         /// <summary>
