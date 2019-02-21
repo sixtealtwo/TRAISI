@@ -76,7 +76,7 @@ namespace DAL
 
         public DbSet<SurveyAccessRecord> SurveyAccessRecords { get; set; }
 
-        public DbSet<SurveyUser> Surveyusers { get; set; }
+        public DbSet<SurveyUser> SurveyUsers { get; set; }
 
         public DbSet<TraisiUser> TraisiUsers { get; set; }
 

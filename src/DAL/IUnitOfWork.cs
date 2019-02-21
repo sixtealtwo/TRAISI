@@ -34,6 +34,8 @@ namespace DAL
 
         ISurveyRespondentGroupRepository SurveyRespondentGroups {get;}
 
+		ISurveyUserRepository SurveyUsers {get;}
+
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

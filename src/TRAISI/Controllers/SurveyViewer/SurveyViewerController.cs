@@ -233,7 +233,7 @@ namespace TRAISI.Controllers.SurveyViewer
 		string groupcode = null)
 		{
 			var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-			(bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, "", User);
+			(bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, User);
 
 			if (!success)
 			{

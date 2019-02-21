@@ -18,6 +18,7 @@ import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyShortcodePageComponent } from '../survey-shortcode-page/survey-shortcode-page.component';
 import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-groupcode-page.component';
+import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display-page/survey-shortcode-display-page.component';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -64,7 +65,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this.isAdmin = this._surveyViewerService.isAdminUser();
-		this._route.params.subscribe((params) => {
+		this._route.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
@@ -107,10 +108,12 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	private loadShortcodeComponent(): void {
-		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyShortcodePageComponent);
+		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(
+			SurveyShortcodeDisplayPageComponent
+		);
 		this.codeComponent.clear();
 		let componentRef = this.codeComponent.createComponent(componentFactory);
-		(<SurveyShortcodePageComponent>componentRef.instance).startPageComponent = this;
+		(<SurveyShortcodeDisplayPageComponent>componentRef.instance).startPageComponent = this;
 	}
 
 	/**
@@ -119,7 +122,15 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public groupcodeStartSurvey(groupcode: string): void {
-		this.loadShortcodeComponent();
+		this._surveyViewerService.startSurveyWithGroupcode(this.surveyStartConfig.id, groupcode).subscribe(
+			result => {
+				console.log(result);
+				//this.loadShortcodeComponent();
+			},
+			error => {
+				console.log(error);
+			}
+		);
 	}
 
 	/**
@@ -131,17 +142,19 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isLoading = true;
 		this.isError = false;
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode).subscribe(
-			(value) => {
+			value => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
-					this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
-						this._router.navigate([this.surveyName, 'terms']);
-					});
+					this._surveyViewerService
+						.surveyLogin(this.surveyStartConfig.id, this.shortcode)
+						.subscribe((user: User) => {
+							this._router.navigate([this.surveyName, 'terms']);
+						});
 				} else {
 					this._router.navigate([this.surveyName, 'terms']);
 				}
 			},
-			(error) => {
+			error => {
 				console.error(error);
 				this.isLoading = false;
 				this.isError = true;

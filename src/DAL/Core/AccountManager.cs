@@ -23,20 +23,24 @@ namespace DAL.Core
 		private readonly UserManager<SurveyUser> _surveyUserManager;
 		private readonly RoleManager<ApplicationRole> _roleManager;
 
+		private IUnitOfWork _unitOfWork;
+
 
 		public AccountManager(
 			ApplicationDbContext context,
 			UserManager<ApplicationUser> userManager,
 			UserManager<SurveyUser> surveyUserManager,
 			RoleManager<ApplicationRole> roleManager,
-			IHttpContextAccessor httpAccessor)
+			IHttpContextAccessor httpAccessor,
+			IUnitOfWork unitOfWork)
 		{
 			_context = context;
 			_context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(OpenIdConnectConstants.Claims.Subject)
 				?.Value?.Trim();
 			_userManager = userManager;
 			_surveyUserManager = surveyUserManager;
-			_roleManager = roleManager;
+			_roleManager = roleManager;	
+			_unitOfWork = unitOfWork;
 
 
 			surveyUserManager.Options.SignIn.RequireConfirmedEmail = false;
@@ -60,9 +64,9 @@ namespace DAL.Core
 			return await _userManager.FindByNameAsync(userName);
 		}
 
-		public async Task<SurveyUser> GetSurveyUserByUserNameAsync(string userName)
+		public async Task<SurveyUser> GetSurveyUserByShortcodeAsync(Survey survey, string shortcode)
 		{
-			return await _surveyUserManager.FindByNameAsync(userName);
+			return await _unitOfWork.SurveyUsers.GetSurveyUserAsync(survey,shortcode);
 		}
 
 

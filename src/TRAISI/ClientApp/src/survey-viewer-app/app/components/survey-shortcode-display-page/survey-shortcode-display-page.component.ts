@@ -17,6 +17,7 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 })
 export class SurveyShortcodeDisplayPageComponent implements OnInit {
 
+	public startPageComponent: SurveyStartPageComponent;
 	public ngOnInit(): void {
 		throw new Error('Method not implemented.');
 	}

@@ -115,9 +115,9 @@ namespace TRAISI.Services
 		/// </summary>
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
-		private async Task<SurveyUser> GetSurveyUser(int surveyId, string shortcode)
+		private async Task<SurveyUser> GetSurveyUser(Survey survey, string shortcode)
 		{
-			return await this._accountManager.GetSurveyUserByUserNameAsync(surveyId + "_" + shortcode);
+			return await this._accountManager.GetSurveyUserByShortcodeAsync(survey,shortcode);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace TRAISI.Services
 			}
 
 			//see if a user exists
-			var existingUser = await this.GetSurveyUser(survey.Id, shortcode);
+			var existingUser = await this.GetSurveyUser(survey, shortcode);
 
 			if (existingUser != null)
 			{

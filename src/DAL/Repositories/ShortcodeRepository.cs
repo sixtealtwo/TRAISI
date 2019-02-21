@@ -22,10 +22,12 @@ namespace DAL.Repositories
 
 
 		/// <summary>
-		/// Get all shortcodes for survey (with paging)
+		/// 
 		/// </summary>
 		/// <param name="surveyId"></param>
 		/// <param name="isTest"></param>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
 		/// <returns></returns>
 		public async Task<IEnumerable<Shortcode>> GetShortcodesForSurveyAsync(int surveyId, bool isTest, int pageIndex, int pageSize)
 		{

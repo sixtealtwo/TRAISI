@@ -8,331 +8,361 @@ using DAL.Repositories.Interfaces;
 
 namespace DAL
 {
-    public class UnitOfWork : IUnitOfWork
-    {
-        readonly ApplicationDbContext _context;
+	public class UnitOfWork : IUnitOfWork
+	{
+		readonly ApplicationDbContext _context;
 
-        ISurveyRepository _surveys;
-        ISurveyPermissionsRepository _surveyPermissions;
-        IUserGroupRepository _userGroups;
-        IGroupMemberRepository _groupMembers;
-        IApiKeysRepository _apiKeys;
-        IEmailTemplateRepository _emailTemplates;
-        ISiteSurveyTemplateRepository _siteSurveyTemplates;
-        IShortcodeRepository _shortcodes;
-        IGroupcodeRepository _groupCodes;
-        ISurveyViewRepository _surveyViews;
-        IWelcomePageLabelRepository _welcomePageLabels;
-        IThankYouPageLabelRepository _thankYouPageLabels;
-        ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
-        IScreeningQuestionsLabelRepository _screeningQuestionsLabels;
-        IQuestionPartRepository _questionParts;
-        IQuestionPartViewRepository _questionPartViews;
-        ISurveyResponseRepository _surveyResponses;
-        IQuestionOptionRepository _questionOptions;
-        IQuestionConditionalRepository _questionConditionals;
-        IQuestionOptionConditionalRepository _questionOptionConditionals;
+		ISurveyRepository _surveys;
+		ISurveyPermissionsRepository _surveyPermissions;
+		IUserGroupRepository _userGroups;
+		IGroupMemberRepository _groupMembers;
+		IApiKeysRepository _apiKeys;
+		IEmailTemplateRepository _emailTemplates;
+		ISiteSurveyTemplateRepository _siteSurveyTemplates;
+		IShortcodeRepository _shortcodes;
+		IGroupcodeRepository _groupCodes;
+		ISurveyViewRepository _surveyViews;
+		IWelcomePageLabelRepository _welcomePageLabels;
+		IThankYouPageLabelRepository _thankYouPageLabels;
+		ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
+		IScreeningQuestionsLabelRepository _screeningQuestionsLabels;
+		IQuestionPartRepository _questionParts;
+		IQuestionPartViewRepository _questionPartViews;
+		ISurveyResponseRepository _surveyResponses;
+		IQuestionOptionRepository _questionOptions;
+		IQuestionConditionalRepository _questionConditionals;
+		IQuestionOptionConditionalRepository _questionOptionConditionals;
 
-        ISurveyRespondentGroupRepository _suveyRespondentGroupRepository;
+		ISurveyRespondentGroupRepository _suveyRespondentGroupRepository;
 
-        ISurveyRespondentRepository _surveyRespondentRepository;
+		ISurveyRespondentRepository _surveyRespondentRepository;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="surveyRepository"></param>
-        public UnitOfWork(ISurveyRepository surveyRepository)
-        {
-            this._surveys = surveyRepository;
-        }
+		ISurveyUserRepository _surveyUserRepository;
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        public UnitOfWork(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IQuestionOptionRepository QuestionOptions
-        {
-            get
-            {
-                if (_questionOptions == null) {
-                    _questionOptions = new QuestionOptionRepository(_context);
-                }
-
-                return _questionOptions;
-            }
-        }
-
-        public ISurveyResponseRepository SurveyResponses
-        {
-            get
-            {
-                if (_surveyResponses == null) {
-                    _surveyResponses = new SurveyResponseRepository(_context);
-                }
-
-                return _surveyResponses;
-            }
-        }
-
-        public ISurveyViewRepository SurveyViews
-        {
-            get
-            {
-                if (_surveyViews == null) {
-                    _surveyViews = new SurveyViewRepository(_context);
-                }
-
-                return _surveyViews;
-            }
-        }
-
-        public ISurveyRepository Surveys
-        {
-            get
-            {
-                if (_surveys == null)
-                    _surveys = new SurveyRepository(_context);
-
-                return _surveys;
-            }
-        }
-
-        public ISurveyPermissionsRepository SurveyPermissions
-        {
-            get
-            {
-                if (_surveyPermissions == null)
-                    _surveyPermissions = new SurveyPermissionsRepository(_context);
-
-                return _surveyPermissions;
-            }
-        }
-
-        public IGroupMemberRepository GroupMembers
-        {
-            get
-            {
-                if (_groupMembers == null)
-                    _groupMembers = new GroupMemberRepository(_context);
-
-                return _groupMembers;
-            }
-        }
-
-        public IUserGroupRepository UserGroups
-        {
-            get
-            {
-                if (_userGroups == null)
-                    _userGroups = new UserGroupRepository(_context);
-
-                return _userGroups;
-            }
-        }
-
-        public IApiKeysRepository ApiKeys
-        {
-            get
-            {
-                if (_apiKeys == null)
-                    _apiKeys = new ApiKeysRepository(_context);
-
-                return _apiKeys;
-            }
-        }
-
-        public IEmailTemplateRepository EmailTemplates
-        {
-            get
-            {
-                if (_emailTemplates == null)
-                    _emailTemplates = new EmailTemplatesRepository(_context);
-
-                return _emailTemplates;
-            }
-        }
-
-        public ISiteSurveyTemplateRepository SiteSurveyTemplates
-        {
-            get
-            {
-                if (_siteSurveyTemplates == null)
-                    _siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
-
-                return _siteSurveyTemplates;
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyRepository"></param>
+		public UnitOfWork(ISurveyRepository surveyRepository)
+		{
+			this._surveys = surveyRepository;
+		}
 
 
-        public IShortcodeRepository Shortcodes
-        {
-            get
-            {
-                if (_shortcodes == null)
-                    _shortcodes = new ShortcodeRepository(_context);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		public UnitOfWork(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 
-                return _shortcodes;
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public IQuestionOptionRepository QuestionOptions
+		{
+			get
+			{
+				if (_questionOptions == null)
+				{
+					_questionOptions = new QuestionOptionRepository(_context);
+				}
 
-        public IGroupcodeRepository GroupCodes
-        {
-            get
-            {
-                if (_groupCodes == null) {
-                    _groupCodes = new GroupcodeRepository(_context);
-                }
+				return _questionOptions;
+			}
+		}
 
-                return _groupCodes;
-            }
-        }
+		public ISurveyResponseRepository SurveyResponses
+		{
+			get
+			{
+				if (_surveyResponses == null)
+				{
+					_surveyResponses = new SurveyResponseRepository(_context);
+				}
 
-        public IQuestionPartRepository QuestionParts
-        {
-            get
-            {
-                if (_questionParts == null) {
-                    _questionParts = new QuestionPartRepository(_context);
-                }
+				return _surveyResponses;
+			}
+		}
 
-                return _questionParts;
-            }
-        }
+		public ISurveyViewRepository SurveyViews
+		{
+			get
+			{
+				if (_surveyViews == null)
+				{
+					_surveyViews = new SurveyViewRepository(_context);
+				}
 
-        public IQuestionPartViewRepository QuestionPartViews
-        {
-            get
-            {
-                if (_questionPartViews == null) {
-                    _questionPartViews = new QuestionPartViewRepository(_context);
-                }
+				return _surveyViews;
+			}
+		}
 
-                return _questionPartViews;
-            }
-        }
+		public ISurveyRepository Surveys
+		{
+			get
+			{
+				if (_surveys == null)
+					_surveys = new SurveyRepository(_context);
 
-        public IQuestionConditionalRepository QuestionConditionals
-        {
-            get
-            {
-                if (_questionConditionals == null) {
-                    _questionConditionals = new QuestionConditionalRepository(_context);
-                }
-                return _questionConditionals;
-            }
-        }
+				return _surveys;
+			}
+		}
 
-        public IQuestionOptionConditionalRepository QuestionOptionConditionals
-        {
-            get
-            {
-                if (_questionOptionConditionals == null) {
-                    _questionOptionConditionals = new QuestionOptionConditionalRepository(_context);
-                }
-                return _questionOptionConditionals;
-            }
-        }
+		public ISurveyPermissionsRepository SurveyPermissions
+		{
+			get
+			{
+				if (_surveyPermissions == null)
+					_surveyPermissions = new SurveyPermissionsRepository(_context);
 
-        public IWelcomePageLabelRepository WelcomePageLabels
-        {
-            get
-            {
-                if (_welcomePageLabels == null) {
-                    _welcomePageLabels = new WelcomePageLabelRepository(_context);
-                }
+				return _surveyPermissions;
+			}
+		}
 
-                return _welcomePageLabels;
-            }
-        }
+		public IGroupMemberRepository GroupMembers
+		{
+			get
+			{
+				if (_groupMembers == null)
+					_groupMembers = new GroupMemberRepository(_context);
 
-        public IThankYouPageLabelRepository ThankYouPageLabels
-        {
-            get
-            {
-                if (_thankYouPageLabels == null) {
-                    _thankYouPageLabels = new ThankYouPageLabelRepository(_context);
-                }
+				return _groupMembers;
+			}
+		}
 
-                return _thankYouPageLabels;
-            }
-        }
+		public IUserGroupRepository UserGroups
+		{
+			get
+			{
+				if (_userGroups == null)
+					_userGroups = new UserGroupRepository(_context);
 
-        public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
-        {
-            get
-            {
-                if (_termsAndConditionsPageLabels == null) {
-                    _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelRepository(_context);
-                }
+				return _userGroups;
+			}
+		}
 
-                return _termsAndConditionsPageLabels;
-            }
-        }
+		public IApiKeysRepository ApiKeys
+		{
+			get
+			{
+				if (_apiKeys == null)
+					_apiKeys = new ApiKeysRepository(_context);
 
-        public IScreeningQuestionsLabelRepository ScreeningQuestionsLabels
-        {
-            get
-            {
-                if (_screeningQuestionsLabels == null) {
-                    _screeningQuestionsLabels = new ScreeningQuestionsLabelRepository(_context);
-                }
+				return _apiKeys;
+			}
+		}
 
-                return _screeningQuestionsLabels;
-            }
-        }
+		public IEmailTemplateRepository EmailTemplates
+		{
+			get
+			{
+				if (_emailTemplates == null)
+					_emailTemplates = new EmailTemplatesRepository(_context);
 
-        public ISurveyRespondentRepository SurveyRespondents
-        {
-            get
-            {
-                if (_surveyRespondentRepository == null) {
-                    _surveyRespondentRepository = new SurveyRespondentRepository(_context);
-                }
+				return _emailTemplates;
+			}
+		}
 
-                return _surveyRespondentRepository;
-            }
-        }
+		public ISiteSurveyTemplateRepository SiteSurveyTemplates
+		{
+			get
+			{
+				if (_siteSurveyTemplates == null)
+					_siteSurveyTemplates = new SiteSurveyTemplateRepository(_context);
 
-        public ISurveyRespondentGroupRepository SurveyRespondentGroups
-        {
-            get
-            {
+				return _siteSurveyTemplates;
+			}
+		}
 
-                if (_suveyRespondentGroupRepository == null) {
-                    _suveyRespondentGroupRepository = new SurveyRespondentGroupRepository(_context);
-                }
 
-                return _suveyRespondentGroupRepository;
-            }
-        }
+		public IShortcodeRepository Shortcodes
+		{
+			get
+			{
+				if (_shortcodes == null)
+					_shortcodes = new ShortcodeRepository(_context);
 
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
-        }
+				return _shortcodes;
+			}
+		}
 
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync();
-        }
+		public IGroupcodeRepository GroupCodes
+		{
+			get
+			{
+				if (_groupCodes == null)
+				{
+					_groupCodes = new GroupcodeRepository(_context);
+				}
 
-        public void EnableAutoDetectChanges()
-        {
-            this._context.ChangeTracker.AutoDetectChangesEnabled = true;
-        }
+				return _groupCodes;
+			}
+		}
 
-        public void DisableAutoDetectChanges()
-        {
-            this._context.ChangeTracker.AutoDetectChangesEnabled = false;
-        }
-    }
+		public IQuestionPartRepository QuestionParts
+		{
+			get
+			{
+				if (_questionParts == null)
+				{
+					_questionParts = new QuestionPartRepository(_context);
+				}
+
+				return _questionParts;
+			}
+		}
+
+		public IQuestionPartViewRepository QuestionPartViews
+		{
+			get
+			{
+				if (_questionPartViews == null)
+				{
+					_questionPartViews = new QuestionPartViewRepository(_context);
+				}
+
+				return _questionPartViews;
+			}
+		}
+
+		public IQuestionConditionalRepository QuestionConditionals
+		{
+			get
+			{
+				if (_questionConditionals == null)
+				{
+					_questionConditionals = new QuestionConditionalRepository(_context);
+				}
+				return _questionConditionals;
+			}
+		}
+
+		public IQuestionOptionConditionalRepository QuestionOptionConditionals
+		{
+			get
+			{
+				if (_questionOptionConditionals == null)
+				{
+					_questionOptionConditionals = new QuestionOptionConditionalRepository(_context);
+				}
+				return _questionOptionConditionals;
+			}
+		}
+
+		public IWelcomePageLabelRepository WelcomePageLabels
+		{
+			get
+			{
+				if (_welcomePageLabels == null)
+				{
+					_welcomePageLabels = new WelcomePageLabelRepository(_context);
+				}
+
+				return _welcomePageLabels;
+			}
+		}
+
+		public IThankYouPageLabelRepository ThankYouPageLabels
+		{
+			get
+			{
+				if (_thankYouPageLabels == null)
+				{
+					_thankYouPageLabels = new ThankYouPageLabelRepository(_context);
+				}
+
+				return _thankYouPageLabels;
+			}
+		}
+
+		public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
+		{
+			get
+			{
+				if (_termsAndConditionsPageLabels == null)
+				{
+					_termsAndConditionsPageLabels = new TermsAndConditionsPageLabelRepository(_context);
+				}
+
+				return _termsAndConditionsPageLabels;
+			}
+		}
+
+		public IScreeningQuestionsLabelRepository ScreeningQuestionsLabels
+		{
+			get
+			{
+				if (_screeningQuestionsLabels == null)
+				{
+					_screeningQuestionsLabels = new ScreeningQuestionsLabelRepository(_context);
+				}
+
+				return _screeningQuestionsLabels;
+			}
+		}
+
+		public ISurveyRespondentRepository SurveyRespondents
+		{
+			get
+			{
+				if (_surveyRespondentRepository == null)
+				{
+					_surveyRespondentRepository = new SurveyRespondentRepository(_context);
+				}
+
+				return _surveyRespondentRepository;
+			}
+		}
+
+		public ISurveyRespondentGroupRepository SurveyRespondentGroups
+		{
+			get
+			{
+
+				if (_suveyRespondentGroupRepository == null)
+				{
+					_suveyRespondentGroupRepository = new SurveyRespondentGroupRepository(_context);
+				}
+
+				return _suveyRespondentGroupRepository;
+			}
+		}
+
+		public ISurveyUserRepository SurveyUsers
+		{
+			get
+			{
+
+				if (_suveyRespondentGroupRepository == null)
+				{
+					_surveyUserRepository = new SurveyUserRepository(_context);
+				}
+
+				return _surveyUserRepository;
+			}
+		}
+
+		public int SaveChanges()
+		{
+			return _context.SaveChanges();
+		}
+
+		public async Task<int> SaveChangesAsync()
+		{
+			return await _context.SaveChangesAsync();
+		}
+
+		public void EnableAutoDetectChanges()
+		{
+			this._context.ChangeTracker.AutoDetectChangesEnabled = true;
+		}
+
+		public void DisableAutoDetectChanges()
+		{
+			this._context.ChangeTracker.AutoDetectChangesEnabled = false;
+		}
+	}
 }

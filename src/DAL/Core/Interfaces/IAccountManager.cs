@@ -29,7 +29,7 @@ namespace DAL.Core.Interfaces
         Task<ApplicationUser> GetUserByIdAsync(string userId);
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
 
-        Task<SurveyUser> GetSurveyUserByUserNameAsync(string userName);
+        Task<SurveyUser> GetSurveyUserByShortcodeAsync(Survey survey, string shortocde);
         Task<IList<string>> GetUserRolesAsync(ApplicationUser user);
         Task<List<Tuple<ApplicationUser, string[]>>> GetUsersAndRolesAsync(int page, int pageSize);
         Task<List<Tuple<TraisiUser, string[]>>> GetSoloUsersAndRolesAsync(int page, int pageSize);
