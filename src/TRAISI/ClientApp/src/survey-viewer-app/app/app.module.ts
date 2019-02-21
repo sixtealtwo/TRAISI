@@ -56,6 +56,7 @@ import { SurveyQuestionInternalViewDirective } from 'traisi-question-sdk';
 import { SurveyGroupcodePageComponent } from './components/survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyScreeningPageComponent } from './components/survey-screening-page/survey-screening-page.component';
 import { SurveyShortcodePageComponent } from './components/survey-shortcode-page/survey-shortcode-page.component';
+import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortcode-display-page/survey-shortcode-display-page.component';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -71,6 +72,7 @@ import { SurveyShortcodePageComponent } from './components/survey-shortcode-page
 		SurveyViewerComponent,
 		SafeHtmlPipe,
 		SafePipe,
+		SurveyShortcodeDisplayPageComponent,
 		SpecialPageBuilderComponent,
 		PrivacyConfirmationComponent,
 		Header1Component,
