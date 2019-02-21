@@ -237,10 +237,18 @@ namespace TRAISI.Controllers.SurveyViewer
 
 			if (!success)
 			{
-				return new BadRequestResult();
+				return new BadRequestObjectResult(new SurveyViewerShortcodeViewModel()
+				{
+					Shortcode = user.Shortcode.Code,
+					Success = false
+				});
 			}
 
-			return new OkObjectResult(user.Shortcode);
+			return new OkObjectResult(new SurveyViewerShortcodeViewModel()
+			{
+				Shortcode = user.Shortcode.Code,
+				Success = true
+			});
 		}
 
 		/// <summary>

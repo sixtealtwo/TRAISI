@@ -9,16 +9,16 @@ using DAL.Models.Surveys;
 
 namespace DAL.Models.Surveys
 {
-    public class Shortcode
-    {
-        public int Id { get; set; }
-        public Survey Survey { get; set; }
-        //	public PrimaryRespondent Respondent { get; set; }
-        public Groupcode GroupCode { get; set; }
-        public string Code { get; set; }
-        public Boolean IsTest { get; set; }
-        public DateTime CreatedDate { get; set; }
-    }
+	public class Shortcode
+	{
+		public int Id { get; set; }
+		public Survey Survey { get; set; }
+		//	public PrimaryRespondent Respondent { get; set; }
+		public Groupcode GroupCode { get; set; }
+		public string Code { get; set; }
+		public Boolean IsTest { get; set; }
+		public DateTime CreatedDate { get; set; }
+	}
 
 
 }
