@@ -191,16 +191,16 @@ namespace DAL.Core
 		/// <param name="claimName"></param>
 		/// <param name="claimValue"></param>
 		/// <returns></returns>
-		public async Task<Tuple<bool, string[]>> CreateSurveyUserAsync(SurveyUser user,
+		public async Task<Tuple<bool, string[], SurveyUser>> CreateSurveyUserAsync(SurveyUser user,
 		Shortcode shortcodeRef,
-		 string shortcode, (string claimName, string claimValue)[] claims)
+		 string shortcodes, (string claimName, string claimValue)[] claims)
 		{
 			user.IsEnabled = true;
-			var result = await _surveyUserManager.CreateAsync(user, shortcode);
+			var result = await _surveyUserManager.CreateAsync(user, shortcodeRef.Code);
 
 			if (!result.Succeeded)
 			{
-				return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
+				return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray(), (SurveyUser)null);
 			}
 
 
@@ -224,10 +224,11 @@ namespace DAL.Core
 			if (!result.Succeeded)
 			{
 				await DeleteUserAsync(user);
-				return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
+				return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray(), (SurveyUser)null);
 			}
 
-			return Tuple.Create(true, new string[] { });
+			user.Shortcode = shortcodeRef;
+			return Tuple.Create(true, new string[] { }, user);
 		}
 
 

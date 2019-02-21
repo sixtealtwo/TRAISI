@@ -99,7 +99,7 @@ namespace TRAISI.ViewModels
 				.ForMember(gc => gc.SurveyId, map => map.MapFrom(s => s.Survey.Id));
 
 			CreateMap<ShortcodeViewModel, Shortcode>()
-				.ForMember(sc => sc.GroupCode, map => map.Ignore())
+				.ForMember(sc => sc.Groupcode, map => map.Ignore())
 				.ForMember(sc => sc.Survey, map => map.Ignore());
 			//.ForMember (sc => sc.Respondent, map => map.Ignore());
 

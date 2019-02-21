@@ -126,8 +126,8 @@ namespace TRAISI.Services
 		/// <param name="loginSuccess"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		public async Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey survey, string code,
-		string shortcode, ClaimsPrincipal user)
+		public async Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey survey,
+		string code, ClaimsPrincipal user)
 		{
 			var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey(survey, code);
 			if (groupcode == null)
@@ -140,8 +140,9 @@ namespace TRAISI.Services
 				UsePattern = false
 			};
 			var shortcodeRes = await this._codeGeneration.GenerateShortCode(parameters, survey);
-			var createUserRes = await this.CreateSurveyUser(survey, shortcodeRes.Code, user);
-			createUserRes.respondent.Groupcode = groupcode;
+			shortcodeRes.Groupcode = groupcode;
+			var createUserRes = await this.CreateSurveyUser(survey, shortcodeRes, user);
+			// createUserRes.respondent
 			var loginResult = await SurveyLogin(survey, shortcodeRes.Code, user);
 			return loginResult;
 		}
@@ -154,13 +155,14 @@ namespace TRAISI.Services
 		/// <param name="currentUser"></param>
 		/// <returns></returns>
 		private async Task<(bool, string[], SurveyUser, PrimaryRespondent respondent)>
-		CreateSurveyUser(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+		CreateSurveyUser(Survey survey, Shortcode shortcode, ClaimsPrincipal currentUser)
 		{
-			var user = new UserViewModel { UserName = shortcode };
+			var user = new UserViewModel { UserName = shortcode.Code };
 			SurveyUser appUser = Mapper.Map<SurveyUser>(user);
-			var result = await _accountManager.CreateSurveyUserAsync(appUser, null, shortcode,
-				new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode) });
+			var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode, null,
+				new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode.Code) });
 
+			result.Item3.Shortcode = shortcode;
 
 			// create the associated primary respondent 
 			var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(appUser);
@@ -193,8 +195,13 @@ namespace TRAISI.Services
 				return (true, existingUser);
 			}
 
-			var res = await CreateSurveyUser(survey, shortcode, currentUser);
+			// find the shortcode
 
+			var shortcodeRef = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
+
+			var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
+
+			
 
 
 			/*

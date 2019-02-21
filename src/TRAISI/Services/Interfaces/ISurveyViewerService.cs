@@ -32,7 +32,7 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey surveyId,
-		 string groupcode, string shortcode, ClaimsPrincipal user);
+		 string groupcode, ClaimsPrincipal user);
 
 
 		/// <summary>

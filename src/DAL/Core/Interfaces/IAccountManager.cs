@@ -14,7 +14,8 @@ namespace DAL.Core.Interfaces
         Task<Tuple<bool, string[]>> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<Tuple<bool, string[]>> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password);
 
-        Task<Tuple<bool, string[]>> CreateSurveyUserAsync(SurveyUser user, Shortcode shortcodeRef, string shortcode, (string claimName, string claimValue)[] claims);
+        Task<Tuple<bool, string[], SurveyUser>> CreateSurveyUserAsync(SurveyUser user, Shortcode shortcodeRef, string shortcode,
+		 (string claimName, string claimValue)[] claims);
         Task<Tuple<bool, string[]>> DeleteRoleAsync(ApplicationRole role);
         Task<Tuple<bool, string[]>> DeleteRoleAsync(string roleName);
         Task<Tuple<bool, string[]>> DeleteUserAsync(ApplicationUser user);
