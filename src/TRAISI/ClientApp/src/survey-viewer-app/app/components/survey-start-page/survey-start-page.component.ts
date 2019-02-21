@@ -11,7 +11,7 @@ import {
 	TemplateRef
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
@@ -70,7 +70,6 @@ export class SurveyStartPageComponent implements OnInit {
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
 
-				console.log(this._route);
 				if (this._route.children.length > 0) {
 					this._route.children[0].data.subscribe(data => {
 						if (data.isChild) {
@@ -81,11 +80,17 @@ export class SurveyStartPageComponent implements OnInit {
 						}
 					});
 				} else {
-					console.log('here');
 					this.isChildPage = false;
 					this.loadCodeEntryComponent();
 				}
 			});
+		});
+
+		this._router.events.subscribe(event => {
+			if (event instanceof NavigationEnd) {
+				console.log(this._route);
+				this.loadCodeEntryComponent();
+			}
 		});
 	}
 
