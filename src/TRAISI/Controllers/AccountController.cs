@@ -282,7 +282,7 @@ namespace TRAISI.Controllers
                     // force user type to be 'user' to avoid any other type being set through here
                     user.Roles = new string[] { "user" };
 
-                    ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+                    TraisiUser appUser = Mapper.Map<TraisiUser>(user);
 
                     var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
                     if (result.Item1)
