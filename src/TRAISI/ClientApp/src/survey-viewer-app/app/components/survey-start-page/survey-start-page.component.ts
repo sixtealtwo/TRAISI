@@ -38,6 +38,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public isError: boolean = false;
 	public hasGroupcode: boolean;
 	public groupcode: string;
+	public isChildPage: boolean = true;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef })
 	public codeComponent: ViewContainerRef;
@@ -66,10 +67,24 @@ export class SurveyStartPageComponent implements OnInit {
 	public ngOnInit(): void {
 		this.isAdmin = this._surveyViewerService.isAdminUser();
 		this._route.params.subscribe(params => {
-			this.surveyName = params['surveyName'];
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
-				this.loadCodeEntryComponent();
+
+				console.log(this._route);
+				if (this._route.children.length > 0) {
+					this._route.children[0].data.subscribe(data => {
+						if (data.isChild) {
+							this.isChildPage = true;
+						} else {
+							this.isChildPage = false;
+							this.loadCodeEntryComponent();
+						}
+					});
+				} else {
+					console.log('here');
+					this.isChildPage = false;
+					this.loadCodeEntryComponent();
+				}
 			});
 		});
 	}

@@ -33,11 +33,13 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				children: [
 					{
 						path: 'shortcode',
-						component: SurveyShortcodeDisplayPageComponent
+						component: SurveyShortcodeDisplayPageComponent,
+						data: { isChild: true }
 					}
 				],
+				// outlet: 'main',
 				component: SurveyStartPageComponent,
-				data: { title: 'Survey Start' }
+				data: { title: 'Survey Start', isChild: false }
 			},
 			{
 				path: 'terms',
