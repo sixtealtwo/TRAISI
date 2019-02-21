@@ -9,6 +9,8 @@ import { SurveyViewerComponent } from '../../components/survey-viewer/survey-vie
 import { SurveyThankYouPageComponent } from '../../components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyScreeningPageComponent } from 'app/components/survey-screening-page/survey-screening-page.component';
 import { SurveyShortcodeDisplayPageComponent } from 'app/components/survey-shortcode-display-page/survey-shortcode-display-page.component';
+import { SurveyGroupcodePageComponent } from 'app/components/survey-groupcode-page/survey-groupcode-page.component';
+import { SurveyShortcodePageComponent } from 'app/components/survey-shortcode-page/survey-shortcode-page.component';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 	{
@@ -32,12 +34,16 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				path: 'start',
 				children: [
 					{
+						path: 'groupcode',
+						component: SurveyGroupcodePageComponent,
+						data: { isChild: true }
+					},
+					{
 						path: 'shortcode',
 						component: SurveyShortcodeDisplayPageComponent,
 						data: { isChild: true }
 					}
 				],
-				// outlet: 'main',
 				component: SurveyStartPageComponent,
 				data: { title: 'Survey Start', isChild: false }
 			},
