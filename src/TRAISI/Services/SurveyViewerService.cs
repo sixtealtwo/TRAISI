@@ -121,12 +121,12 @@ namespace TRAISI.Services
 		}
 
 		/// <summary>
-		/// Logs in the user with a specified groupcode
+		/// 
 		/// </summary>
 		/// <param name="loginSuccess"></param>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		public async Task<(bool loginSuccess, ApplicationUser user)> SurveyGroupcodeLogin(Survey survey, string code,
+		public async Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey survey, string code,
 		string shortcode, ClaimsPrincipal user)
 		{
 			var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey(survey, code);
@@ -158,7 +158,7 @@ namespace TRAISI.Services
 		{
 			var user = new UserViewModel { UserName = shortcode };
 			SurveyUser appUser = Mapper.Map<SurveyUser>(user);
-			var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode,
+			var result = await _accountManager.CreateSurveyUserAsync(appUser, null, shortcode,
 				new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode) });
 
 
