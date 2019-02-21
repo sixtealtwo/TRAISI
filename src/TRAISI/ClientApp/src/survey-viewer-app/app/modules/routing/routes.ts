@@ -3,11 +3,12 @@ import { SurveyViewerContainerComponent } from '../../components/survey-viewer-c
 import { AppComponent } from '../../app.component';
 import { SurveyStartPageComponent } from '../../components/survey-start-page/survey-start-page.component';
 import { SurveyErrorComponent } from '../../components/survey-error/survey-error.component';
-import { ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, Component } from '@angular/core';
 import { SurveyTermsPageComponent } from '../../components/survey-terms-page/survey-terms-page.component';
 import { SurveyViewerComponent } from '../../components/survey-viewer/survey-viewer.component';
 import { SurveyThankYouPageComponent } from '../../components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyScreeningPageComponent } from 'app/components/survey-screening-page/survey-screening-page.component';
+import { SurveyShortcodeDisplayPageComponent } from 'app/components/survey-shortcode-display-page/survey-shortcode-display-page.component';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 	{
@@ -29,6 +30,12 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 			},
 			{
 				path: 'start',
+				children: [
+					{
+						path: 'shortcode',
+						component: SurveyShortcodeDisplayPageComponent
+					}
+				],
 				component: SurveyStartPageComponent,
 				data: { title: 'Survey Start' }
 			},

@@ -24,7 +24,7 @@ import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display
 	selector: 'traisi-survey-start-page',
 	templateUrl: './survey-start-page.component.html',
 	styleUrls: ['./survey-start-page.component.scss'],
-	entryComponents: [SurveyShortcodePageComponent, SurveyGroupcodePageComponent],
+	entryComponents: [SurveyShortcodePageComponent, SurveyGroupcodePageComponent, SurveyShortcodeDisplayPageComponent],
 	encapsulation: ViewEncapsulation.None
 })
 export class SurveyStartPageComponent implements OnInit {
@@ -108,11 +108,24 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	private loadShortcodeComponent(): void {
+		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyShortcodePageComponent);
+		this.codeComponent.clear();
+		let componentRef = this.codeComponent.createComponent(componentFactory);
+
+		(<SurveyShortcodePageComponent>componentRef.instance).startPageComponent = this;
+	}
+
+	/**
+	 *
+	 * @param shortcode
+	 */
+	private loadShortcodeDisplayComponent(shortcode: string): void {
 		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(
 			SurveyShortcodeDisplayPageComponent
 		);
 		this.codeComponent.clear();
 		let componentRef = this.codeComponent.createComponent(componentFactory);
+		(<SurveyShortcodeDisplayPageComponent>componentRef.instance).model.shortcode = shortcode;
 		(<SurveyShortcodeDisplayPageComponent>componentRef.instance).startPageComponent = this;
 	}
 
@@ -122,10 +135,14 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public groupcodeStartSurvey(groupcode: string): void {
-		this._surveyViewerService.startSurveyWithGroupcode(this.surveyStartConfig.id, groupcode).subscribe(
+		const groupcodeMod: string = groupcode.trim();
+		this._surveyViewerService.startSurveyWithGroupcode(this.surveyStartConfig.id, groupcodeMod).subscribe(
 			result => {
-				console.log(result);
-				//this.loadShortcodeComponent();
+				if (result.success) {
+					// this.loadShortcodeDisplayComponent(result.shortcode);
+
+					this._router.navigate(['shortcode'], { relativeTo: this._route });
+				}
 			},
 			error => {
 				console.log(error);

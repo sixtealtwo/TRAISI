@@ -52,7 +52,9 @@ export class SurveyScreeningPageComponent implements OnInit {
 		private _router: Router,
 		private _translate: TranslateService,
 		private _elementRef: ElementRef
-	) {}
+	) {
+
+	}
 
 	/**
 	 *

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewContainerRef, ViewChild } from '@angular/core';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
@@ -28,6 +28,9 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public groupcodeFormGroup: FormGroup;
 	private _surveyId: number;
 
+	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef })
+	public shortcodeDisplayComponent: ViewContainerRef;
+
 	public constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		private _route: ActivatedRoute,
@@ -39,8 +42,11 @@ export class SurveyGroupcodePageComponent implements OnInit {
 		this.model = {};
 	}
 
+	/**
+	 *
+	 */
 	public ngOnInit(): void {
-		this._surveyViewerService.pageThemeInfo.subscribe((info) => {
+		this._surveyViewerService.pageThemeInfo.subscribe(info => {
 			this.pageThemeInfo = info;
 			this.isFinishedLoading = true;
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
@@ -48,9 +54,9 @@ export class SurveyGroupcodePageComponent implements OnInit {
 				this.isFinishedLoading = true;
 
 				let m = JSON.parse(this.surveyStartModel.welcomeText);
-				this.model.header1 = _find(m, (x) => x.sectionType === 'header1');
-				this.model.header2 = _find(m, (x) => x.sectionType === 'header2');
-				this.model.footer1 = _find(m, (x) => x.sectionType === 'footer1');
+				this.model.header1 = _find(m, x => x.sectionType === 'header1');
+				this.model.header2 = _find(m, x => x.sectionType === 'header2');
+				this.model.footer1 = _find(m, x => x.sectionType === 'footer1');
 
 				this.groupcodeFormGroup = new FormGroup({});
 				this.groupcodeFormGroup.addControl('groupcode', new FormControl(''));
@@ -63,6 +69,10 @@ export class SurveyGroupcodePageComponent implements OnInit {
 		return;
 	}
 
+	public showShortcodeDisplay(): void {
+
+	}
+
 	/**
 	 *
 	 *
@@ -70,18 +80,20 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	 */
 	public onGroupcodeSubmit(): void {
 		// this.groupcodeFormGroup.reset();
-		this._surveyViewerService.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode).subscribe((result) => {
-			if (result) {
-				this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
-			} else {
-				this.groupcodeFormGroup.setErrors({
-					invalid: true
-				});
+		this._surveyViewerService
+			.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode)
+			.subscribe(result => {
+				if (result) {
+					this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
+				} else {
+					this.groupcodeFormGroup.setErrors({
+						invalid: true
+					});
 
-				console.log(this.groupcodeFormGroup);
-				// show error message
-			}
-		});
+					console.log(this.groupcodeFormGroup);
+					// show error message
+				}
+			});
 		//
 	}
 }

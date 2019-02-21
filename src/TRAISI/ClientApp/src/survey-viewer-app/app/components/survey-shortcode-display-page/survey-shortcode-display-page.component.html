@@ -1,0 +1,18 @@
+<div *ngIf="isFinishedLoading">
+	<app-header1 *ngIf="model.header1" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header1"></app-header1>
+	<app-header2 *ngIf="model.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header2"></app-header2>
+
+	<div class="shortcode-display-container">
+		<h1>Your Shortcode</h1>
+
+		<div class="shortcode-display">
+			{{ model.shortcode }}
+		</div>
+	</div>
+	<app-footer1
+		*ngIf="model.footer1"
+		class="footer fixed-bottom groupcode-footer groupdcode-footer1"
+		[pageThemeInfo]="pageThemeInfo"
+		[pageHTML]="model.footer1"
+	></app-footer1>
+</div>
