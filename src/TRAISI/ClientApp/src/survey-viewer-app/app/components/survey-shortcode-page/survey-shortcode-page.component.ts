@@ -55,7 +55,7 @@ export class SurveyShortcodePageComponent implements OnInit {
 					this._surveyViewerService.pageThemeInfoJson.subscribe(
 						styles => {
 							try {
-								console.log(styles);
+
 								this.pageThemeInfo = styles;
 								if (this.pageThemeInfo === null) {
 									this.pageThemeInfo = {};

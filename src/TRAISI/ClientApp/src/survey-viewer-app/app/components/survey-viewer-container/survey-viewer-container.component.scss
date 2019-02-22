@@ -18,7 +18,15 @@
 
 .shortcode-container
 {
-
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	height: 40px;
+	width: auto;
+	z-index: 100;
+	span {
+		font-weight: bold;
+	}
 }
 
 .survey-viewer-container {

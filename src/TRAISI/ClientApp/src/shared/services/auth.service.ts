@@ -66,7 +66,7 @@ export class AuthService {
 	 * @param {boolean} [preserveParams=true]
 	 * @memberof AuthService
 	 */
-	public gotoPage(page: string, preserveParams:boolean = true): void {
+	public gotoPage(page: string, preserveParams: boolean = true): void {
 		const navigationExtras: NavigationExtras = {
 			queryParamsHandling: preserveParams ? 'merge' : '',
 			preserveFragment: preserveParams
@@ -136,7 +136,7 @@ export class AuthService {
 	public refreshLogin(): Observable<User> {
 		return this.endpointFactory
 			.getRefreshLoginEndpoint<LoginResponse>()
-			.pipe(map((response) => this.processLoginResponse(response, this.rememberMe)));
+			.pipe(map(response => this.processLoginResponse(response, this.rememberMe)));
 	}
 
 	/**
@@ -148,14 +148,43 @@ export class AuthService {
 	 * @returns
 	 * @memberof AuthService
 	 */
-	public login(userName: string, password: string, rememberMe?: boolean):Observable<User> {
+	public login(userName: string, password: string, rememberMe?: boolean): Observable<User> {
 		if (this.isLoggedIn) {
 			this.logout();
 		}
 
 		return this.endpointFactory
 			.getLoginEndpoint<LoginResponse>(userName, password)
-			.pipe(map((response) => this.processLoginResponse(response, rememberMe)));
+			.pipe(map(response => this.processLoginResponse(response, rememberMe)));
+	}
+
+	/**
+	 *
+	 *
+	 * @param {number} surveyId
+	 * @param {string} shortcode
+	 * @param {string} [groupcode]
+	 * @param {boolean} [rememberMe]
+	 * @returns {Observable<User>}
+	 * @memberof AuthService
+	 */
+	public surveyLogin(
+		surveyId: number,
+		shortcode: string,
+		groupcode?: string,
+		rememberMe?: boolean
+	): Observable<User> {
+		if (this.isLoggedIn) {
+			this.logout();
+		}
+
+		return this.endpointFactory
+			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode)
+			.pipe(
+				map(response =>
+					this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)
+				)
+			);
 	}
 
 	/**
@@ -164,10 +193,16 @@ export class AuthService {
 	 * @private
 	 * @param {LoginResponse} response
 	 * @param {boolean} rememberMe
-	 * @returns
+	 * @returns {User}
 	 * @memberof AuthService
 	 */
-	private processLoginResponse(response: LoginResponse, rememberMe: boolean): User {
+	private processSurveyUserLoginResponse(
+		response: LoginResponse,
+		rememberMe: boolean,
+		surveyId: number,
+		shortcode: string,
+		groupcode?: string
+	): User {
 		const accessToken = response.access_token;
 
 		if (accessToken == null) {
@@ -206,9 +241,67 @@ export class AuthService {
 		user.isEnabled = true;
 
 		if (user.roles.includes('respondent')) {
-			(<SurveyUser>user).shortcode = user.userName.split('_')[1];
-			(<SurveyUser>user).surveyId = +user.userName.split('_')[0];
+			(<SurveyUser>user).shortcode = shortcode;
+			(<SurveyUser>user).surveyId = surveyId;
+			(<SurveyUser>user).groupcode = groupcode;
 		}
+
+		this.saveUserDetails(user, permissions, accessToken, idToken, refreshToken, accessTokenExpiry, rememberMe);
+
+		this.reevaluateLoginStatus(user);
+		console.log(user);
+
+		return user;
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @param {LoginResponse} response
+	 * @param {boolean} rememberMe
+	 * @returns
+	 * @memberof AuthService
+	 */
+	private processLoginResponse(response: LoginResponse, rememberMe: boolean): User {
+		console.log('response: ');
+		console.log(response);
+		const accessToken = response.access_token;
+
+		if (accessToken == null) {
+			throw new Error('Received accessToken was empty');
+		}
+
+		const idToken = response.id_token;
+		const refreshToken = response.refresh_token || this.refreshToken;
+		const expiresIn = response.expires_in;
+
+		const tokenExpiryDate = new Date();
+		tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
+
+		const accessTokenExpiry = tokenExpiryDate;
+
+		const jwtHelper = new JwtHelper();
+		const decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
+
+		const permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission)
+			? decodedIdToken.permission
+			: [decodedIdToken.permission];
+
+		if (!this.isLoggedIn) {
+			this.configurations.import(decodedIdToken.configuration);
+		}
+
+		const user = new User(
+			decodedIdToken.sub,
+			decodedIdToken.name,
+			decodedIdToken.fullname,
+			decodedIdToken.email,
+			decodedIdToken.jobtitle,
+			decodedIdToken.phone,
+			Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]
+		);
+		user.isEnabled = true;
 
 		this.saveUserDetails(user, permissions, accessToken, idToken, refreshToken, accessTokenExpiry, rememberMe);
 

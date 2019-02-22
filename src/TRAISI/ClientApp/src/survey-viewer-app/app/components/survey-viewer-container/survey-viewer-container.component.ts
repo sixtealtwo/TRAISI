@@ -15,6 +15,7 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 
 import { Title } from '@angular/platform-browser';
 import { SurveyUser } from 'shared/models/survey-user.model';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 @Component({
 	encapsulation: ViewEncapsulation.None,
@@ -36,6 +37,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
+		public surveySession: SurveyViewerSession,
 		private _titleService: Title,
 		private _router: Router
 	) {

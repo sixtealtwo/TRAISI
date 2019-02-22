@@ -20,11 +20,30 @@ namespace DAL.Repositories
 		{
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="survey"></param>
+		/// <param name="shortcode"></param>
+		/// <returns></returns>
 		public async Task<SurveyUser> GetSurveyUserAsync(Survey survey, string shortcode)
 		{
 
 			return await this._appContext.SurveyUsers.Where(u => u.Shortcode.Code == shortcode &&
 			u.Shortcode.Survey == survey).FirstOrDefaultAsync();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="shortcode"></param>
+		/// <returns></returns>
+		public async Task<SurveyUser> GetSurveyUserAsync(int surveyId, string shortcode)
+		{
+
+			return await this._appContext.SurveyUsers.Where(u => u.Shortcode.Code == shortcode &&
+			u.Shortcode.Survey.Id == surveyId).FirstOrDefaultAsync();
 		}
 	}
 

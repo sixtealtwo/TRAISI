@@ -117,7 +117,7 @@ namespace TRAISI.Services
 		/// <returns></returns>
 		private async Task<SurveyUser> GetSurveyUser(Survey survey, string shortcode)
 		{
-			return await this._accountManager.GetSurveyUserByShortcodeAsync(survey,shortcode);
+			return await this._accountManager.GetSurveyUserByShortcodeAsync(survey, shortcode);
 		}
 
 		/// <summary>
@@ -200,9 +200,13 @@ namespace TRAISI.Services
 
 			var shortcodeRef = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
 
+			if (shortcodeRef == null)
+			{
+				return (false, null);
+			}
 			var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
 
-			
+
 
 
 			/*

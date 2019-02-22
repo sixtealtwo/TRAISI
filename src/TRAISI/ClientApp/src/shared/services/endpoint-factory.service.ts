@@ -1,11 +1,11 @@
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {switchMap, catchError, mergeMap} from 'rxjs/operators';
-import {Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {AuthService} from './auth.service';
-import {ConfigurationService} from './configuration.service';
-import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
+import { switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { ConfigurationService } from './configuration.service';
+import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class EndpointFactory {
@@ -35,30 +35,57 @@ export class EndpointFactory {
 		protected http: HttpClient,
 		protected configurations: ConfigurationService,
 		private injector: Injector
-	) {
-	}
+	) {}
 
 	/**
 	 *
 	 * @param userName
 	 * @param password
 	 */
-	getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
-		let header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+	public getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
+		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
 		let params = new HttpParams()
 			.append('username', userName)
 			.append('password', password)
 			.append('grant_type', 'password')
 			.append('scope', 'openid email phone profile offline_access roles')
+			.append('test', 'test')
 			.append('resource', window.location.origin);
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, {headers: header});
+		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
 	}
 
-	getRefreshLoginEndpoint<T>(): Observable<T> {
+	/**
+	 *
+	 *
+	 * @template T
+	 * @param {number} surveyId
+	 * @param {string} shortcode
+	 * @returns {Observable<T>}
+	 * @memberof EndpointFactory
+	 */
+	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string): Observable<T> {
+		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+		let params = new HttpParams()
+			.append('username', shortcode)
+			.append('password', shortcode)
+			.append('grant_type', 'password')
+			.append('scope', 'openid email phone profile offline_access roles')
+			.append('survey_id', '' + surveyId)
+			.append('shortcode', '' + shortcode)
+			.append('survey_user', 'true')
+			.append('resource', window.location.origin);
+
+		let requestBody = params.toString();
+
+		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
+	}
+
+	public getRefreshLoginEndpoint<T>(): Observable<T> {
 		let header = new HttpHeaders({
 			Authorization: 'Bearer ' + this.authService.accessToken,
 			'Content-Type': 'application/x-www-form-urlencoded'
@@ -71,7 +98,7 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, {headers: header}).pipe(
+		return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
 			catchError(error => {
 				return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
 			})
@@ -85,33 +112,27 @@ export class EndpointFactory {
 	protected getRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent') ) {
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
 
-			return {headers: headers, responseType: rType};
+			return { headers: headers, responseType: rType };
 		} else {
-
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion
-
 			});
 
-			return {headers: headers, responseType: rType};
+			return { headers: headers, responseType: rType };
 		}
 	}
 
@@ -122,20 +143,18 @@ export class EndpointFactory {
 	protected getSurveyViewerRequestHeaders(
 		rType: any = 'json'
 	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent') ) {
+		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
-				Accept: `application/vnd.iman.v${
-					this.apiVersion
-					}+json, application/json, text/plain, */*`,
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
 
-			return {headers: headers, responseType: rType};
+			return { headers: headers, responseType: rType };
 		}
 	}
 
@@ -167,9 +186,7 @@ export class EndpointFactory {
 					if (
 						refreshLoginError.status === 401 ||
 						(refreshLoginError.url &&
-							refreshLoginError.url
-								.toLowerCase()
-								.includes(this.loginUrl.toLowerCase()))
+							refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
 						return observableThrowError('session expired');

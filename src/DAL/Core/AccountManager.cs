@@ -69,6 +69,11 @@ namespace DAL.Core
 			return await _unitOfWork.SurveyUsers.GetSurveyUserAsync(survey,shortcode);
 		}
 
+		public async Task<SurveyUser> GetSurveyUserByShortcodeAsync(int surveyId, string shortcode)
+		{
+			return await _unitOfWork.SurveyUsers.GetSurveyUserAsync(surveyId,shortcode);
+		}
+
 
 		public async Task<ApplicationUser> GetUserByEmailAsync(string email)
 		{

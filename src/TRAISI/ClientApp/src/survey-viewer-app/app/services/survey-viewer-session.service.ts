@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
-import { ReplaySubject, Observable, zip } from 'rxjs';
+import { ReplaySubject, Observable, zip, forkJoin } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { SurveyViewerService } from './survey-viewer.service';
 })
 export class SurveyViewerSession {
 	public data: ReplaySubject<SurveyViewerSessionData>;
+
+	private _data: SurveyViewerSessionData;
 
 	/**
 	 *Creates an instance of SurveyViewerSession.
@@ -17,24 +19,63 @@ export class SurveyViewerSession {
 		this.initialize();
 	}
 
+	/**
+	 *
+	 *
+	 * @param {string} groupcode
+	 * @memberof SurveyViewerSession
+	 */
+	public setGroupcode(groupcode: string): void {
+		if (groupcode !== undefined || groupcode !== null) {
+			this._data.groupcode = groupcode;
+			this._data.isUsingGroupcode = true;
+		} else {
+			this._data.groupcode = null;
+			this._data.isUsingGroupcode = false;
+		}
+		this.data.next(this._data);
+	}
+
+	/**
+	 *
+	 *
+	 * @memberof SurveyViewerSession
+	 */
 	public initialize(): void {
 		this.data = new ReplaySubject<SurveyViewerSessionData>(1);
-		zip(
+		let $ = zip(
 			this._surveyViewerService.activeSurveyId,
 			Observable.of(this._surveyViewerService.activeSurveyCode),
-			this._surveyViewerService.activeSurveyTitle
-		).subscribe(([surveyId, surveyCode, surveyTitle]: [number, string, string]) => {
-			const data = {
-				shortcode: '',
-				groupcode: '',
+			this._surveyViewerService.isLoggedIn
+		).subscribe(([surveyId, surveyCode, isLoggedIn]: [number, string, boolean]) => {
+			this._data = {
+				shortcode: null,
+				groupcode: null,
 				surveyId: surveyId,
 				surveyCode: surveyCode,
-				surveyTitle: surveyTitle,
-				primaryRespondent: null
+				surveyTitle: null,
+				primaryRespondent: null,
+				isLoggedIn: isLoggedIn,
+				isUsingGroupcode: false
 			};
-			console.log(' init session service');
-			console.log(data);
-			this.data.next(data);
+			this.data.next(this._data);
+
+			this._surveyViewerService.isLoggedIn.subscribe(loginStatus => {
+				if (loginStatus) {
+					this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
+					this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
+				} else {
+					this._data.shortcode = null;
+					this._data.groupcode = null;
+				}
+
+				this._data.isUsingGroupcode = this._data.groupcode !== null;
+
+				this._data.isLoggedIn = loginStatus;
+				this.data.next(this._data);
+			});
+
+			$.unsubscribe();
 		});
 	}
 }

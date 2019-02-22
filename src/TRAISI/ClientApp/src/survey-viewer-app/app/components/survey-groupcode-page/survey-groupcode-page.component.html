@@ -17,6 +17,20 @@
 					'Groupcode.Invalid' | translate
 				}}</small>
 			</div>
+
+			<div *ngIf="(session.data | async) as session">
+				<div *ngIf="session.isLoggedIn">
+					<span
+						>You are currently logged in with an active shortcode:
+						<a [routerLink]="['../shortcode']" [queryParams]="{ shortcode: session.shortcode }">
+							{{ session.shortcode }}</a
+						>
+					</span>
+				</div>
+				<div *ngIf="!session.isLoggedIn">
+					not logged in
+				</div>
+			</div>
 		</form>
 	</div>
 

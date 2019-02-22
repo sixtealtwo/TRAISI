@@ -13,4 +13,6 @@ export interface SurveyViewerSessionData {
 	shortcode: string;
 	groupcode: string;
 	primaryRespondent: SurveyRespondent;
+	isLoggedIn: boolean;
+	isUsingGroupcode: boolean;
 }

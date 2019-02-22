@@ -36,7 +36,7 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 					{
 						path: '',
 						component: SurveyShortcodePageComponent,
-						data: { isChild: true }
+						data: { isChild: true, shortcodePage: true }
 					},
 					{
 						path: 'groupcode',

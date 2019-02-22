@@ -21,6 +21,7 @@ import { SurveyStart } from 'app/models/survey-start.model';
 import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
 import { find as _find } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 @Component({
 	selector: 'traisi-survey-groupcode-page',
@@ -54,10 +55,12 @@ export class SurveyGroupcodePageComponent implements OnInit {
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _translate: TranslateService,
-		private _elementRef: ElementRef
+		private _elementRef: ElementRef,
+		public session: SurveyViewerSession
 	) {
 		this.isFinishedLoading = false;
 		this.model = {};
+
 	}
 
 	/**
@@ -97,9 +100,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	 * @type {void}
 	 * @memberof SurveyGroupcodePageComponent
 	 */
-	private checkSurveyUserLoginStatus(): void {
-		console.log(this._surveyViewerService.currentUser);
-	}
+	private checkSurveyUserLoginStatus(): void {}
 
 	public showShortcodeDisplay(): void {}
 

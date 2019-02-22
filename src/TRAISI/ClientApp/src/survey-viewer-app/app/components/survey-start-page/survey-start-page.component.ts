@@ -21,6 +21,7 @@ import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-gr
 import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display-page/survey-shortcode-display-page.component';
 import { P } from '@angular/core/src/render3';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -41,6 +42,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public hasGroupcode: boolean;
 	public groupcode: string;
 	public isChildPage: boolean = true;
+	public session: SurveyViewerSessionData;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef })
 	public codeComponent: ViewContainerRef;
@@ -83,12 +85,14 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 
 		if (this.outlet.component) {
-			this.outlet.component['startPageComponent'] = this;
+			if (this.outlet.isActivated) {
+				this.outlet.component['startPageComponent'] = this;
+			}
 		}
 
 		this._router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
-				if (this.outlet.component) {
+				if (this.outlet.isActivated) {
 					this.outlet.component['startPageComponent'] = this;
 				}
 			}
@@ -97,6 +101,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this._surveySession.data.subscribe(data => {
 			console.log('got data');
 			console.log(data);
+			this.session = data;
 		});
 	}
 
@@ -108,9 +113,17 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	private evaluateSurveyType(): void {
 		if (!this.surveyStartConfig.hasGroupCodes) {
-			this.loadShortcodeComponent();
+			// this.loadShortcodeComponent();
 		} else {
-			this._router.navigate(['groupcode'], { relativeTo: this._route });
+			if (this._route.snapshot.children.length === 0) {
+				this._router.navigate(['groupcode'], { relativeTo: this._route });
+			} else if (this._route.snapshot.children.length === 1) {
+				this._route.children[0].data.subscribe(data => {
+					if (data.shortcodePage) {
+						this._router.navigate(['groupcode'], { relativeTo: this._route });
+					}
+				});
+			}
 		}
 	}
 
@@ -166,7 +179,7 @@ export class SurveyStartPageComponent implements OnInit {
 			result => {
 				if (result.success) {
 					// this.loadShortcodeDisplayComponent(result.shortcode);
-
+					this._surveySession.setGroupcode(groupcode);
 					this._router.navigate(['shortcode'], {
 						relativeTo: this._route,
 						queryParams: {
@@ -187,9 +200,9 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param {string} shortcode
 	 * @memberof SurveyStartPageComponent
 	 */
-	public surveyLogin(shortcode: string): void {
+	public surveyLogin(shortcode: string, groupcode?: string): void {
 		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe((user: User) => {
-			this._router.navigate([this.surveyName, 'terms']);
+			this._router.navigate([this.session.surveyCode, 'terms']);
 		});
 	}
 
@@ -208,10 +221,10 @@ export class SurveyStartPageComponent implements OnInit {
 					this._surveyViewerService
 						.surveyLogin(this.surveyStartConfig.id, this.shortcode)
 						.subscribe((user: User) => {
-							this._router.navigate([this.surveyName, 'terms']);
+							this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
 						});
 				} else {
-					this._router.navigate([this.surveyName, 'terms']);
+					this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
 				}
 			},
 			error => {

@@ -13,5 +13,7 @@ namespace DAL.Repositories.Interfaces
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
 		Task<SurveyUser> GetSurveyUserAsync(Survey survey, string shortcode);
+
+		Task<SurveyUser> GetSurveyUserAsync(int surveyId, string shortcode);
 	}
 }
