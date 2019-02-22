@@ -83,10 +83,22 @@ export class SurveyGroupcodePageComponent implements OnInit {
 					this._surveyId = surveyId;
 				});
 
+				this.checkSurveyUserLoginStatus();
 				this.isFinishedLoading = true;
 			});
 		});
 		return;
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @type {void}
+	 * @memberof SurveyGroupcodePageComponent
+	 */
+	private checkSurveyUserLoginStatus(): void {
+		console.log(this._surveyViewerService.currentUser);
 	}
 
 	public showShortcodeDisplay(): void {}
