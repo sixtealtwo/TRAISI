@@ -11,7 +11,7 @@ import {
 	TemplateRef
 } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
 import { AlertComponent } from 'ngx-bootstrap/alert';
@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SurveyShortcodePageComponent } from '../survey-shortcode-page/survey-shortcode-page.component';
 import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display-page/survey-shortcode-display-page.component';
+import { P } from '@angular/core/src/render3';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -42,6 +43,9 @@ export class SurveyStartPageComponent implements OnInit {
 
 	@ViewChild('codeComponent', { read: ViewContainerRef })
 	public codeComponent: ViewContainerRef;
+
+	@ViewChild('outlet', { read: RouterOutlet })
+	public outlet: RouterOutlet;
 
 	/**
 	 *Creates an instance of SurveyStartPageComponent.
@@ -69,27 +73,18 @@ export class SurveyStartPageComponent implements OnInit {
 		this._route.params.subscribe(params => {
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
-
-				if (this._route.children.length > 0) {
-					this._route.children[0].data.subscribe(data => {
-						if (data.isChild) {
-							this.isChildPage = true;
-						} else {
-							this.isChildPage = false;
-							this.loadCodeEntryComponent();
-						}
-					});
-				} else {
-					this.isChildPage = false;
-					this.loadCodeEntryComponent();
-				}
 			});
 		});
 
+		if (this.outlet.component) {
+			this.outlet.component['startPageComponent'] = this;
+		}
+
 		this._router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
-				console.log(this._route);
-				this.loadCodeEntryComponent();
+				if (this.outlet.component) {
+					this.outlet.component['startPageComponent'] = this;
+				}
 			}
 		});
 	}
@@ -100,11 +95,11 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @private
 	 * @memberof SurveyStartPageComponent
 	 */
-	private loadCodeEntryComponent(): void {
+	private evaluateSurveyType(): void {
 		if (!this.surveyStartConfig.hasGroupCodes) {
 			this.loadShortcodeComponent();
 		} else {
-			this.loadGroupcodeComponent();
+			this._router.navigate(['groupcode'], { relativeTo: this._route });
 		}
 	}
 
@@ -161,7 +156,12 @@ export class SurveyStartPageComponent implements OnInit {
 				if (result.success) {
 					// this.loadShortcodeDisplayComponent(result.shortcode);
 
-					this._router.navigate(['shortcode'], { relativeTo: this._route });
+					this._router.navigate(['shortcode'], {
+						relativeTo: this._route,
+						queryParams: {
+							shortcode: result.shortcode
+						}
+					});
 				}
 			},
 			error => {

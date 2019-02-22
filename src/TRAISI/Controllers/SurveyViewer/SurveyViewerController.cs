@@ -228,7 +228,7 @@ namespace TRAISI.Controllers.SurveyViewer
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
 		[HttpPost]
-		[Route("start/{surveyId}/groupcode/{groupcode}/start")]
+		[Route("start/{surveyId}/groupcode/{groupcode}")]
 		public async Task<IActionResult> StartSurveyWithGroupcode(int surveyId,
 		string groupcode = null)
 		{

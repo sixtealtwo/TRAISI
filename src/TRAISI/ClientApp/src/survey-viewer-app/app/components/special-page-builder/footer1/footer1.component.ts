@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 
-
 @Component({
 	selector: 'app-footer1',
 	templateUrl: './footer1.component.html',
@@ -22,20 +21,22 @@ export class Footer1Component implements OnInit {
 	@Input()
 	public pageHTML: string;
 
-	constructor() {}
+	public constructor() {}
 
 	public ngOnInit(): void {
+
 		try {
 			let pageData = JSON.parse(this.pageHTML);
-			this.pageHTMLJson = pageData;
 
+			this.pageHTMLJson = pageData;
 		} catch (e) {
 			this.pageHTMLJson = {};
-			this.pageHTMLJson.html = this.pageHTML;
+			this.pageHTMLJson = JSON.parse(this.pageHTML);
 		}
 		if (!('footerColour' in this.pageThemeInfo)) {
 			this.pageThemeInfo.footerColour = 'rgb(36,36,36)';
 		}
+		console.log(this);
 		this.footerTextColour = Utilities.whiteOrBlackText(this.pageThemeInfo.footerColour);
 		this.traisiLogoUrl = this.traisiLogo();
 	}
@@ -44,6 +45,7 @@ export class Footer1Component implements OnInit {
 		setTimeout(() => {
 			if (this.pageHTMLJson.html === undefined || this.pageHTMLJson.html === '') {
 				quillInstance.format('align', 'center', 'api');
+				console.log('here');
 			}
 		}, 0);
 	}

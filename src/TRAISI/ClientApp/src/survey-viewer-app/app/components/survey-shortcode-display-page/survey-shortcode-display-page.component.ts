@@ -40,6 +40,7 @@ export class SurveyShortcodeDisplayPageComponent implements OnInit {
 
 	public ngOnInit(): void {
 		console.log('in shortcode display');
+		console.log(this._route);
 		this._surveyViewerService.pageThemeInfo.subscribe(info => {
 			this.pageThemeInfo = info;
 			this.isFinishedLoading = true;
@@ -57,6 +58,10 @@ export class SurveyShortcodeDisplayPageComponent implements OnInit {
 
 				this._surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 					this._surveyId = surveyId;
+				});
+
+				this._route.queryParamMap.subscribe(params => {
+					this.model.shortcode = params.get('shortcode');
 				});
 			});
 		});

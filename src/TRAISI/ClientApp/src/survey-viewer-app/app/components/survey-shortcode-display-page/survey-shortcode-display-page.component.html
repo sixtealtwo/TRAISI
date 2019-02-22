@@ -5,13 +5,13 @@
 	<div class="shortcode-display-container">
 		<h1>Your Shortcode</h1>
 
-		<div class="shortcode-display">
+		<div class="shortcode-display text-info">
 			{{ model.shortcode }}
 		</div>
 	</div>
 	<app-footer1
 		*ngIf="model.footer1"
-		class="footer fixed-bottom groupcode-footer groupdcode-footer1"
+		class="footer fixed-bottom groupcode-footer groupcode-footer1"
 		[pageThemeInfo]="pageThemeInfo"
 		[pageHTML]="model.footer1"
 	></app-footer1>

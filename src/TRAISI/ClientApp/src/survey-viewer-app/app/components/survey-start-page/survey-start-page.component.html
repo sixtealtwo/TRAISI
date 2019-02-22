@@ -2,5 +2,5 @@
 		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="survey.welcomeText" (startSurveyPressed)="startSurvey($event)"></app-special-page-builder>
 
 		-->
-<router-outlet></router-outlet>
-<ng-template #codeComponent></ng-template>
+<router-outlet #outlet="outlet"></router-outlet>
+<!-- <ng-template #codeComponent></ng-template> -->

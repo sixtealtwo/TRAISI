@@ -1,4 +1,13 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewContainerRef, ViewChild } from '@angular/core';
+import {
+	Component,
+	Input,
+	OnInit,
+	ChangeDetectorRef,
+	Inject,
+	ElementRef,
+	ViewContainerRef,
+	ViewChild
+} from '@angular/core';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
@@ -20,7 +29,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class SurveyGroupcodePageComponent implements OnInit {
 	public startPageComponent: SurveyStartPageComponent;
-	public isFinishedLoading: boolean;
+	public isFinishedLoading: boolean = false;
 	public model: SurveyViewGroupcodePage;
 	public surveyStartModel: SurveyStart;
 	public pageThemeInfo: any;
@@ -31,6 +40,15 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef })
 	public shortcodeDisplayComponent: ViewContainerRef;
 
+	/**
+	 *Creates an instance of SurveyGroupcodePageComponent.
+	 * @param {SurveyViewerService} _surveyViewerService
+	 * @param {ActivatedRoute} _route
+	 * @param {Router} _router
+	 * @param {TranslateService} _translate
+	 * @param {ElementRef} _elementRef
+	 * @memberof SurveyGroupcodePageComponent
+	 */
 	public constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		private _route: ActivatedRoute,
@@ -48,12 +66,12 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public ngOnInit(): void {
 		this._surveyViewerService.pageThemeInfo.subscribe(info => {
 			this.pageThemeInfo = info;
-			this.isFinishedLoading = true;
+
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartModel = surveyStartModel;
-				this.isFinishedLoading = true;
 
 				let m = JSON.parse(this.surveyStartModel.welcomeText);
+
 				this.model.header1 = _find(m, x => x.sectionType === 'header1');
 				this.model.header2 = _find(m, x => x.sectionType === 'header2');
 				this.model.footer1 = _find(m, x => x.sectionType === 'footer1');
@@ -64,14 +82,14 @@ export class SurveyGroupcodePageComponent implements OnInit {
 				this._surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 					this._surveyId = surveyId;
 				});
+
+				this.isFinishedLoading = true;
 			});
 		});
 		return;
 	}
 
-	public showShortcodeDisplay(): void {
-
-	}
+	public showShortcodeDisplay(): void {}
 
 	/**
 	 *
