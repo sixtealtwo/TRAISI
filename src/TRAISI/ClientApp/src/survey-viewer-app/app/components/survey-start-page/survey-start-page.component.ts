@@ -171,6 +171,18 @@ export class SurveyStartPageComponent implements OnInit {
 	}
 
 	/**
+	 *
+	 *
+	 * @param {string} shortcode
+	 * @memberof SurveyStartPageComponent
+	 */
+	public surveyLogin(shortcode: string): void {
+		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe((user: User) => {
+			this._router.navigate([this.surveyName, 'terms']);
+		});
+	}
+
+	/**
 	 * Starts the survey - this will authorize the current user with the associated
 	 * short code. This will create a new survey user if one does not exist.
 	 */

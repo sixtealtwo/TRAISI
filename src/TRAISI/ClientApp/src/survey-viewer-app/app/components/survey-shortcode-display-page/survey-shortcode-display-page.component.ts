@@ -67,4 +67,13 @@ export class SurveyShortcodeDisplayPageComponent implements OnInit {
 		});
 		return;
 	}
+
+	/**
+	 *
+	 *
+	 * @memberof SurveyShortcodeDisplayPageComponent
+	 */
+	public onStartSurvey(): void {
+		this.startPageComponent.surveyLogin(this.model.shortcode);
+	}
 }
