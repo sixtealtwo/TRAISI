@@ -8,7 +8,8 @@ import { SurveyRespondent } from 'traisi-question-sdk';
  */
 export interface SurveyViewerSessionData {
 	surveyId: number;
-	surveyName: string;
+	surveyCode: string;
+	surveyTitle: string;
 	shortcode: string;
 	groupcode: string;
 	primaryRespondent: SurveyRespondent;

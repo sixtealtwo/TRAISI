@@ -46,14 +46,14 @@ export class SurveyShortcodePageComponent implements OnInit {
 	public ngOnInit(): void {
 		this.survey = new SurveyStart();
 		this.shortcode = '';
-		this._route.params.subscribe((params) => {
+		this._route.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
 			this._surveyViewerService.welcomeModel.subscribe(
 				(surveyStartModel: SurveyStart) => {
 					this.survey = surveyStartModel;
 					// this.surveyViewerService.activeSurveyTitle = surveyStartModel.titleText;
 					this._surveyViewerService.pageThemeInfoJson.subscribe(
-						(styles) => {
+						styles => {
 							try {
 								console.log(styles);
 								this.pageThemeInfo = styles;
@@ -68,12 +68,12 @@ export class SurveyShortcodePageComponent implements OnInit {
 							this.finishedLoading = true;
 							console.log('finished loading');
 						},
-						(error) => {
+						error => {
 							console.error(error);
 						}
 					);
 				},
-				(error) => {
+				error => {
 					console.error(error);
 					this._router.navigate(['/', this.surveyName, 'error'], { relativeTo: this._route });
 				}

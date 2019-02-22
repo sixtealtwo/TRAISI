@@ -20,6 +20,7 @@ import { SurveyShortcodePageComponent } from '../survey-shortcode-page/survey-sh
 import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display-page/survey-shortcode-display-page.component';
 import { P } from '@angular/core/src/render3';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -53,6 +54,8 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @param {ActivatedRoute} _route
 	 * @param {Router} _router
 	 * @param {ElementRef} _elementRef
+	 * @param {ComponentFactoryResolver} _componentFactoryResolver
+	 * @param {SurveyViewerSession} _surveySession
 	 * @memberof SurveyStartPageComponent
 	 */
 	constructor(
@@ -60,7 +63,8 @@ export class SurveyStartPageComponent implements OnInit {
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _elementRef: ElementRef,
-		private _componentFactoryResolver: ComponentFactoryResolver
+		private _componentFactoryResolver: ComponentFactoryResolver,
+		private _surveySession: SurveyViewerSession
 	) {}
 
 	/**
@@ -73,6 +77,8 @@ export class SurveyStartPageComponent implements OnInit {
 		this._route.params.subscribe(params => {
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
+
+				this.evaluateSurveyType();
 			});
 		});
 
@@ -86,6 +92,11 @@ export class SurveyStartPageComponent implements OnInit {
 					this.outlet.component['startPageComponent'] = this;
 				}
 			}
+		});
+
+		this._surveySession.data.subscribe(data => {
+			console.log('got data');
+			console.log(data);
 		});
 	}
 

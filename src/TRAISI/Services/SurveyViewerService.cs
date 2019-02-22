@@ -157,7 +157,8 @@ namespace TRAISI.Services
 		private async Task<(bool, string[], SurveyUser, PrimaryRespondent respondent)>
 		CreateSurveyUser(Survey survey, Shortcode shortcode, ClaimsPrincipal currentUser)
 		{
-			var user = new UserViewModel { UserName = shortcode.Code };
+
+			var user = new UserViewModel { UserName = Guid.NewGuid().ToString("D") };
 			SurveyUser appUser = Mapper.Map<SurveyUser>(user);
 			var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode, null,
 				new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode.Code) });
