@@ -24,6 +24,12 @@
 		"Submit": "Submit"
 	},
 	"Groupcode": {
-		"Invalid": "The entered groupcode is invalid."
+		"Invalid": "The entered groupcode is invalid.",
+		"StartSurvey": "Start Survey"
+	},
+	"ShortcodeDisplay": {
+		"YourShortcode": "Your Shortcode",
+		"ShortcodeInformation": "Please write down ... your shortcode etc etc",
+		"StartSurvey": "Start Survey"
 	}
 }

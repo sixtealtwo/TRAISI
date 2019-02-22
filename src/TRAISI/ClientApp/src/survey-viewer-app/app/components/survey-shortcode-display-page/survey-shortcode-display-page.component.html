@@ -3,15 +3,17 @@
 	<app-header2 *ngIf="model.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header2"></app-header2>
 
 	<div class="shortcode-display-container">
-		<h1>Your Shortcode</h1>
-
+		<h1>{{ 'ShortcodeDisplay.YourShortcode' | translate}}</h1>
+		<div class="shortcode-info">
+			{{ 'ShortcodeDisplay.ShortcodeInformation' | translate }}
+		</div>
 		<div class="shortcode-display text-info">
 			{{ model.shortcode }}
 		</div>
 
 		<div class="start-survey">
 			<button type="submit" class="btn btn-primary" (click)="onStartSurvey()">
-				START SURVEY
+				{{ 'ShortcodeDisplay.StartSurvey' | translate }}
 			</button>
 		</div>
 	</div>
