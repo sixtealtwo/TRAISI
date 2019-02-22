@@ -8,11 +8,20 @@ using AspNet.Security.OpenIdConnect.Primitives;
 
 namespace DAL
 {
-    public class HttpUnitOfWork : UnitOfWork
-    {
-        public HttpUnitOfWork(ApplicationDbContext context, IHttpContextAccessor httpAccessor) : base(context)
-        {
-            context.CurrentUserId = httpAccessor.HttpContext.User.FindFirst(OpenIdConnectConstants.Claims.Subject)?.Value?.Trim();
-        }
-    }
+	public class HttpUnitOfWork : UnitOfWork
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="httpAccessor"></param>
+		/// <returns></returns>
+		public HttpUnitOfWork(ApplicationDbContext context, IHttpContextAccessor httpAccessor) : base(context)
+		{
+			if (httpAccessor.HttpContext != null)
+			{
+				context.CurrentUserId = httpAccessor.HttpContext.User.FindFirst(OpenIdConnectConstants.Claims.Subject)?.Value?.Trim();
+			}
+		}
+	}
 }
