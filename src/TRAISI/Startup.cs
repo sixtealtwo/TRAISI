@@ -76,8 +76,15 @@ namespace TRAISI
                     options.UseSqlite("Data Source=dev.db;");
                 }
                 else {
-                    options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
-                        b => b.MigrationsAssembly("TRAISI"));
+                    var dbString = Configuration.GetValue<string>("database");
+                    if (dbString != null) {
+                        options.UseNpgsql(dbString,
+                            b => b.MigrationsAssembly("TRAISI"));
+                    }
+                    else {
+                        options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
+                            b => b.MigrationsAssembly("TRAISI"));
+                    }
                 }
 
                 options.UseOpenIddict();

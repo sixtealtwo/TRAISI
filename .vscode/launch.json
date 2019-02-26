@@ -43,7 +43,7 @@
 			"request": "launch",
 			"preLaunchTask": "build",
 			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.2/TRAISI.dll",
-			"args": ["database", "Server=localhost;Database=traisi2; Username=traisi; Password=traisi"],
+			"args": ["--database", "Server=localhost;Database=traisi2; Username=traisi; Password=traisi"],
 			"cwd": "${workspaceFolder}/src/TRAISI",
 			"stopAtEntry": false,
 			"internalConsoleOptions": "openOnSessionStart",
