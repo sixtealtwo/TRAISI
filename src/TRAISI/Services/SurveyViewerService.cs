@@ -196,6 +196,7 @@ namespace TRAISI.Services
                 {
                     AccessDateTime = DateTime.Now
                 });
+
                 return (true, existingUser);
             }
 
@@ -212,6 +213,7 @@ namespace TRAISI.Services
             {
                 AccessDateTime = DateTime.Now
             });
+
 
 
             return res.Item1 ? (true, res.Item3) : (false, null);
