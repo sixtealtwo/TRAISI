@@ -376,7 +376,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 * @param shortcode
 	 */
-	public surveyLogin(surveyId: number, shortcode: string, userAgent: string): Observable<User> {
+	public surveyLogin(surveyId: number, shortcode: string): Observable<User> {
 		return this._authService.surveyLogin(surveyId, shortcode, '', true);
 	}
 

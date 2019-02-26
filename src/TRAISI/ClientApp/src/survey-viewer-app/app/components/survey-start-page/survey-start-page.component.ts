@@ -160,7 +160,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public surveyLogin(shortcode: string, groupcode?: string): void {
-		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode, navigator.userAgent).subscribe((user: User) => {
+		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe((user: User) => {
 			this._router.navigate([this.session.surveyCode, 'terms']);
 		});
 	}
@@ -179,9 +179,8 @@ export class SurveyStartPageComponent implements OnInit {
 				this.isLoading = false;
 				if (!this.isAdmin) {
 					this._surveyViewerService
-						.surveyLogin(this.surveyStartConfig.id, this.shortcode, navigator.userAgent)
+						.surveyLogin(this.surveyStartConfig.id, this.shortcode)
 						.subscribe((user: User) => {
-							console.log(this.session);
 							this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
 						});
 				} else {
