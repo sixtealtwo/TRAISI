@@ -84,7 +84,7 @@ namespace TRAISI.Services
 				type.ResponseValidator.ValidateResponse(responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration>().ToHashSet());
 			}
 
-			var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,
+			var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(question.Id,
 						   (SurveyRespondent)respondent, repeat);
 			bool isUpdate = false;
 
@@ -109,15 +109,15 @@ namespace TRAISI.Services
 			switch (type.ResponseType)
 			{
 				case QuestionResponseType.String:
-					SaveStringResponse(survey, question, user, responseData, surveyResponse);
+					SaveStringResponse(survey, question, responseData, surveyResponse);
 					break;
 
 				case QuestionResponseType.Decimal:
-					SaveDecimalResponse(survey, question, user, responseData, surveyResponse);
+					SaveDecimalResponse(survey, question, responseData, surveyResponse);
 					break;
 
 				case QuestionResponseType.Integer:
-					SaveIntegerResponse(survey, question, user, responseData, surveyResponse);
+					SaveIntegerResponse(survey, question, responseData, surveyResponse);
 					break;
 				case QuestionResponseType.DateTime:
 					SaveDateTimeResponse(surveyResponse, responseData);
@@ -129,14 +129,14 @@ namespace TRAISI.Services
 					SaveJsonResponse(surveyResponse, responseData);
 					break;
 				case QuestionResponseType.Location:
-					SaveLocationResponse(survey, question, user, responseData, surveyResponse);
+					SaveLocationResponse(survey, question, responseData, surveyResponse);
 					break;
 				case QuestionResponseType.Timeline:
 					SaveTimelineResponse(surveyResponse, responseData);
 					break;
 				case QuestionResponseType.OptionSelect:
 					//
-					SaveOptionSelectResponse(survey, question, user, responseData, surveyResponse);
+					SaveOptionSelectResponse(survey, question, responseData, surveyResponse);
 					break;
 			}
 
@@ -221,7 +221,7 @@ namespace TRAISI.Services
 		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		internal void SaveStringResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+		internal void SaveStringResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
 		{
 			if (response.ResponseValues.Count == 0)
 			{
@@ -243,7 +243,7 @@ namespace TRAISI.Services
 		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
 		/// <param name="response"></param>
-		internal void SaveIntegerResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+		internal void SaveIntegerResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
 		{
 			if (response.ResponseValues.Count == 0)
 			{
@@ -303,7 +303,7 @@ namespace TRAISI.Services
 		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
 		/// <param name="response"></param>
-		internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+		internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
 		{
 
 			response.ResponseValues.Clear();
@@ -332,7 +332,7 @@ namespace TRAISI.Services
 		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
 		/// <param name="response"></param>
-		internal void SaveDecimalResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+		internal void SaveDecimalResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
 		{
 			if (response.ResponseValues.Count == 0)
 			{
@@ -372,7 +372,7 @@ namespace TRAISI.Services
 		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		internal void SaveLocationResponse(Survey survey, QuestionPart question, ApplicationUser respondent, JObject responseData, SurveyResponse response)
+		internal void SaveLocationResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
 		{
 			if (response.ResponseValues.Count == 0)
 			{
