@@ -5,6 +5,8 @@ import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 import { TranslateService } from '@ngx-translate/core';
 import { flatMap } from 'rxjs/operators';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 @Component({
 	selector: 'app-survey-terms-page',
 	templateUrl: './survey-terms-page.component.html',
@@ -23,6 +25,8 @@ export class SurveyTermsPageComponent implements OnInit {
 
 	public pageThemeInfo: any = {};
 
+	public session: SurveyViewerSessionData;
+
 	/**
 	 *Creates an instance of SurveyTermsPageComponent.
 	 * @param {ActivatedRoute} route
@@ -36,7 +40,8 @@ export class SurveyTermsPageComponent implements OnInit {
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		private router: Router,
 		private translate: TranslateService,
-		private elementRef: ElementRef
+		private elementRef: ElementRef,
+		private _surveySession: SurveyViewerSession,
 	) {
 		this.model = {} as SurveyViewTermsModel;
 	}
@@ -58,10 +63,11 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 */
 	public ngOnInit(): void {
-		this.surveyViewerService.activeSurveyId
+		this._surveySession.data
 			.pipe(
-				flatMap(id => {
-					this.surveyId = id;
+				flatMap(data => {
+
+					this.surveyId = data.surveyId;
 					return this.surveyViewerService.termsModel;
 				})
 			)

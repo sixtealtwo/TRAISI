@@ -99,7 +99,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				let route: ActivationStart = <ActivationStart>value;
 
 				this.activeSurveyCode = route.snapshot.paramMap.get('surveyName');
-				console.log('here: ' + this.activeSurveyCode);
 				this.surveyCode.next(this.activeSurveyCode);
 
 				if (this._activeSurveyId < 0) {
