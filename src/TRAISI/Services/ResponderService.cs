@@ -68,10 +68,11 @@ namespace TRAISI.Services
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="shortcode"></param>
-		/// <param name="questionId"></param>
+		/// <param name="survey"></param>
+		/// <param name="question"></param>
+		/// <param name="respondent"></param>
 		/// <param name="responseData"></param>
+		/// <param name="repeat"></param>
 		/// <returns></returns>
 		public async Task<bool> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JObject responseData, int repeat)
 		{
@@ -164,6 +165,19 @@ namespace TRAISI.Services
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="question"></param>
+		/// <param name="respondent"></param>
+		/// <param name="repeat"></param>
+		/// <returns></returns>
+		private async Task<SurveyResponse> GenerateSurveyResponse(QuestionPart question, SurveyRespondent respondent, int repeat)
+		{
+			return await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(question.Id,
+						   (SurveyRespondent)respondent, repeat);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="response"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
@@ -195,22 +209,16 @@ namespace TRAISI.Services
 			return null;
 		}
 
+
 		/// <summary>
 		/// 
 		/// </summary>
-		internal void SavePrimaryRespondentName()
-		{
-
-		}
-
+		/// <param name="response"></param>
+		/// <param name="responseData"></param>
 		internal void SavePathResponse(SurveyResponse response, JObject responseData)
 		{
 			response.ResponseValues.Clear();
-
-
-
 			return;
-
 		}
 
 		/// <summary>
@@ -228,8 +236,6 @@ namespace TRAISI.Services
 				//response.ResponseValues = new List<ResponseValue>();
 				response.ResponseValues.Add(new StringResponse());
 			}
-
-
 			(response.ResponseValues[0] as StringResponse).Value = responseData.GetValue("value").ToObject<string>();
 
 		}
@@ -247,10 +253,8 @@ namespace TRAISI.Services
 		{
 			if (response.ResponseValues.Count == 0)
 			{
-				//response.ResponseValues = new List<ResponseValue>();
 				response.ResponseValues.Add(new IntegerResponse());
 			}
-
 
 			(response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
 
