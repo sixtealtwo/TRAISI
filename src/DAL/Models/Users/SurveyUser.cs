@@ -11,13 +11,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DAL.Models
 {
-	public class SurveyUser : ApplicationUser
-	{
-		public Shortcode Shortcode { get; set; }
+    public class SurveyUser : ApplicationUser
+    {
+        public Shortcode Shortcode { get; set; }
 
-		public SurveyRespondent PrimaryRespondent { get; set; }
+        public PrimaryRespondent PrimaryRespondent { get; set; }
 
 
 
-	}
+    }
 }
