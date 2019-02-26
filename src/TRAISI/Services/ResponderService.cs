@@ -105,6 +105,8 @@ namespace TRAISI.Services
 				{
 					QuestionPart = question,
 					Respondent = respondent,
+					SurveyAccessRecord = ((PrimaryRespondent)respondent).SurveyAccessRecords.Last()
+					// SurveyAccessRecord = respondent.SurveyRespondentGroup.GroupMembers.
 					// SurveyAccessRecord = new SurveyAccessRecord()
 				};
 			}
