@@ -50,6 +50,7 @@ namespace DAL.Repositories
             return await _appContext.QuestionParts
                 .Where(q => q.Id == id)
                 .Include(q => q.QuestionConfigurations)
+				.Include(q => q.Survey)
                 .SingleOrDefaultAsync();
         }
 

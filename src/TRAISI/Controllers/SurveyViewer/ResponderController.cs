@@ -62,15 +62,20 @@ namespace TRAISI.Controllers.SurveyViewer
 		[Produces(typeof(bool))]
 		[Authorize(Policy = Policies.RespondToSurveyPolicy)]
 		[HttpPost]
-		[Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondent}/{repeat}", Name = "Save_Response")]
+		[Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "Save_Response")]
 		public async Task<ActionResult<bool>> SaveResponse(int surveyId, int questionId,
-		 int respondent, int repeat,
+		 int respondentId, int repeat,
 		 [FromBody] JObject content)
 		{
 
-			int respondentId = respondent;
-			var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-			bool success = await this._respondentService.SaveResponse(surveyId, questionId, user, respondentId, content, repeat);
+			var respondent = await _unitOfWork.SurveyRespondents.GetAsync(respondentId);
+			var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
+			if (respondent == null || question == null || question.Survey.Id != surveyId)
+			{
+				return new BadRequestResult();
+			}
+
+			bool success = await this._respondentService.SaveResponse(question.Survey, question, respondent, content, repeat);
 			return new OkObjectResult(success);
 		}
 

@@ -73,21 +73,10 @@ namespace TRAISI.Services
 		/// <param name="questionId"></param>
 		/// <param name="responseData"></param>
 		/// <returns></returns>
-		public async Task<bool> SaveResponse(int surveyId, int questionId, ApplicationUser user, int respondentId, JObject responseData, int repeat)
+		public async Task<bool> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JObject responseData, int repeat)
 		{
-			var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
-			var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+
 			var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
-			var respondent = await this._unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
-
-			//var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
-
-			if (respondent == null)
-			{
-				PrimaryRespondent pr = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
-				pr.Survey = survey;
-
-			}
 
 			if (type.ResponseValidator != null)
 			{
