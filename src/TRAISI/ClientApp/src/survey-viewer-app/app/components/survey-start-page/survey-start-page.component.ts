@@ -214,6 +214,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this.shortcode = code;
 		this.isLoading = true;
 		this.isError = false;
+		code = code.trim();
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode).subscribe(
 			value => {
 				this.isLoading = false;
