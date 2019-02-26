@@ -127,46 +127,6 @@ export class SurveyStartPageComponent implements OnInit {
 		}
 	}
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @memberof SurveyStartPageComponent
-	 */
-	private loadGroupcodeComponent(): void {
-		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyGroupcodePageComponent);
-		this.codeComponent.clear();
-		let componentRef = this.codeComponent.createComponent(componentFactory);
-		(<SurveyGroupcodePageComponent>componentRef.instance).startPageComponent = this;
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @memberof SurveyStartPageComponent
-	 */
-	private loadShortcodeComponent(): void {
-		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(SurveyShortcodePageComponent);
-		this.codeComponent.clear();
-		let componentRef = this.codeComponent.createComponent(componentFactory);
-
-		(<SurveyShortcodePageComponent>componentRef.instance).startPageComponent = this;
-	}
-
-	/**
-	 *
-	 * @param shortcode
-	 */
-	private loadShortcodeDisplayComponent(shortcode: string): void {
-		let componentFactory = this._componentFactoryResolver.resolveComponentFactory(
-			SurveyShortcodeDisplayPageComponent
-		);
-		this.codeComponent.clear();
-		let componentRef = this.codeComponent.createComponent(componentFactory);
-		(<SurveyShortcodeDisplayPageComponent>componentRef.instance).model.shortcode = shortcode;
-		(<SurveyShortcodeDisplayPageComponent>componentRef.instance).startPageComponent = this;
-	}
 
 	/**
 	 *
