@@ -199,8 +199,8 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <returns></returns>
         [Produces(typeof(ObjectResult))]
         [HttpPost]
-        [Route("start/{surveyId}/{shortcode?}")]
-        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null)
+        [Route("start/{surveyId}/{shortcode}")]
+        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null, [FromBody]string userAgent)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey == null) {

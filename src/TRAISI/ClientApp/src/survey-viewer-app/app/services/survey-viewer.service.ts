@@ -340,7 +340,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param shortcode
 	 */
 	public surveyStart(surveyId: number, shortcode: string): Observable<{}> {
-		let result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode);
+		let result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode, navigator.userAgent);
 
 		result.subscribe(
 			(value: SurveyViewer) => {
@@ -361,7 +361,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @memberof SurveyViewerService
 	 */
 	public startSurveyWithGroupcode(surveyId: number, groupcode: string): Observable<any> {
-		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode);
+		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode, navigator.userAgent);
 		result.subscribe(
 			(value: SurveyViewer) => {
 				this._activeSurveyId = surveyId;

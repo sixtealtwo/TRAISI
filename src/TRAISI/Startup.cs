@@ -72,11 +72,13 @@ namespace TRAISI
                 bool.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value,
                     out var development);
 
-                if (development)
+                if (development) {
                     options.UseSqlite("Data Source=dev.db;");
-                else
+                }
+                else {
                     options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
                         b => b.MigrationsAssembly("TRAISI"));
+                }
 
                 options.UseOpenIddict();
             });
