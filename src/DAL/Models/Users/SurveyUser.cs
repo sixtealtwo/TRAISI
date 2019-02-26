@@ -16,5 +16,8 @@ namespace DAL.Models
 		public Shortcode Shortcode { get; set; }
 
 		public SurveyRespondent PrimaryRespondent { get; set; }
+
+
+
 	}
 }

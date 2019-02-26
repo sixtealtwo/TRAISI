@@ -167,6 +167,7 @@ namespace TRAISI.Services
 
 			// create the associated primary respondent 
 			var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(appUser);
+
 			return (result.Item1, result.Item2, appUser, respondent);
 		}
 
@@ -184,6 +185,8 @@ namespace TRAISI.Services
 			{
 				if (currentUser.IsInRole(TraisiRoles.SuperAdministrator))
 				{
+
+
 					return (true, null);
 				}
 			}
@@ -191,8 +194,10 @@ namespace TRAISI.Services
 			//see if a user exists
 			var existingUser = await this.GetSurveyUser(survey, shortcode);
 
+
 			if (existingUser != null)
 			{
+				((PrimaryRespondent)existingUser.PrimaryRespondent).SurveyAccessRecords.Add(new SurveyAccessRecord());
 				return (true, existingUser);
 			}
 
@@ -207,7 +212,8 @@ namespace TRAISI.Services
 			var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
 
 
-
+			// add a new survey access record
+			
 
 			/*
             var user = new UserViewModel { UserName = surveyId + "_" + shortcode };

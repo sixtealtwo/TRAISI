@@ -105,6 +105,7 @@ namespace TRAISI.Services
 				{
 					QuestionPart = question,
 					Respondent = respondent,
+					// SurveyAccessRecord = new SurveyAccessRecord()
 				};
 			}
 			else
