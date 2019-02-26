@@ -45,7 +45,7 @@ export class SurveyViewerSession {
 		this.data = new ReplaySubject<SurveyViewerSessionData>(1);
 		let $ = zip(
 			this._surveyViewerService.activeSurveyId,
-			Observable.of(this._surveyViewerService.activeSurveyCode),
+			this._surveyViewerService.surveyCode,
 			this._surveyViewerService.isLoggedIn
 		).subscribe(([surveyId, surveyCode, isLoggedIn]: [number, string, boolean]) => {
 			this._data = {

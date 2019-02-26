@@ -197,7 +197,7 @@ namespace TRAISI.Services
 
 			if (existingUser != null)
 			{
-				((PrimaryRespondent)existingUser.PrimaryRespondent).SurveyAccessRecords.Add(new SurveyAccessRecord());
+				// ((PrimaryRespondent)existingUser.PrimaryRespondent).SurveyAccessRecords.Add(new SurveyAccessRecord());
 				return (true, existingUser);
 			}
 

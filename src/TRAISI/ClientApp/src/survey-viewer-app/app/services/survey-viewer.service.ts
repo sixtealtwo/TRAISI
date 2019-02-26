@@ -41,6 +41,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public pageThemeInfoJson: ReplaySubject<any>;
 
+	public surveyCode: ReplaySubject<string>;
+
 	public termsModel: ReplaySubject<SurveyViewTermsModel>;
 
 	public welcomeModel: ReplaySubject<SurveyStart>;
@@ -86,7 +88,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.pageThemeInfo = new ReplaySubject<SurveyViewerTheme>(1);
 		this.isLoggedIn = new ReplaySubject<boolean>(1);
-
+		this.surveyCode = new ReplaySubject<string>(1);
 		this.pageThemeInfoJson = new ReplaySubject<any>(1);
 		this.welcomeModel = new ReplaySubject<SurveyStart>(1);
 		this.termsModel = new ReplaySubject<SurveyViewTermsModel>(1);
@@ -97,6 +99,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				let route: ActivationStart = <ActivationStart>value;
 
 				this.activeSurveyCode = route.snapshot.paramMap.get('surveyName');
+				console.log('here: ' + this.activeSurveyCode);
+				this.surveyCode.next(this.activeSurveyCode);
 
 				if (this._activeSurveyId < 0) {
 					this.restoreStatus();
