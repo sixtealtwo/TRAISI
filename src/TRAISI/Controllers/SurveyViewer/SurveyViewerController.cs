@@ -200,19 +200,19 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         [HttpPost]
         [Route("start/{surveyId}/{shortcode}")]
-        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode, [FromBody]string userAgent)
+        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode, [FromHeader(Name = "User-Agent")]string userAgent)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey == null) {
                 return new NotFoundResult();
             }
-            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode.Trim(), User);
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode.Trim(), User, userAgent);
 
             if (!success) {
                 return new BadRequestResult();
             }
 
-			// save changes for survey access records
+            // save changes for survey access records
             await _unitOfWork.SaveChangesAsync();
             return new OkResult();
         }
@@ -226,10 +226,10 @@ namespace TRAISI.Controllers.SurveyViewer
         [HttpPost]
         [Route("start/{surveyId}/groupcode/{groupcode}")]
         public async Task<IActionResult> StartSurveyWithGroupcode(int surveyId,
-        string groupcode = null)
+        string groupcode, [FromHeader(Name = "User-Agent")]string userAgent)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            (bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, User);
+            (bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, User, userAgent);
 
             if (!success) {
                 return new BadRequestObjectResult(new SurveyViewerShortcodeViewModel()

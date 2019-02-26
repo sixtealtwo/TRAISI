@@ -13,7 +13,7 @@ export class EndpointFactory {
 
 	private readonly _loginUrl: string = '/connect/token';
 
-	protected get loginUrl() {
+	protected get loginUrl(): string {
 		return this.configurations.baseUrl + this._loginUrl;
 	}
 
@@ -23,7 +23,7 @@ export class EndpointFactory {
 
 	private _authService: AuthService;
 
-	protected get authService() {
+	protected get authService(): AuthService {
 		if (!this._authService) {
 			this._authService = this.injector.get(AuthService);
 		}
@@ -67,7 +67,7 @@ export class EndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof EndpointFactory
 	 */
-	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string, userAgent: string = undefined): Observable<T> {
+	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string): Observable<T> {
 		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
 		let params = new HttpParams()
@@ -78,7 +78,6 @@ export class EndpointFactory {
 			.append('survey_id', '' + surveyId)
 			.append('shortcode', '' + shortcode)
 			.append('survey_user', 'true')
-			.append('user_agent', userAgent)
 			.append('resource', window.location.origin);
 
 		let requestBody = params.toString();
@@ -164,7 +163,7 @@ export class EndpointFactory {
 	 * @param error
 	 * @param continuation
 	 */
-	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
+	protected handleError(error: any, continuation: () => Observable<any>): Observable<any> {
 		if (error.status === 401 && this.lastCall !== error.url) {
 			this.lastCall = error.url;
 			if (this.isRefreshingLogin) {
@@ -215,7 +214,7 @@ export class EndpointFactory {
 	 *
 	 * @param continuation
 	 */
-	protected pauseTask(continuation: () => Observable<any>) {
+	protected pauseTask(continuation: () => Observable<any>): Observable<any> {
 		if (!this.taskPauser) {
 			this.taskPauser = new Subject();
 		}
@@ -231,7 +230,7 @@ export class EndpointFactory {
 	 *
 	 * @param continueOp
 	 */
-	protected resumeTasks(continueOp: boolean) {
+	protected resumeTasks(continueOp: boolean): void {
 		setTimeout(() => {
 			if (this.taskPauser) {
 				this.taskPauser.next(continueOp);

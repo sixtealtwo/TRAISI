@@ -15,10 +15,10 @@ import { SurveyUser } from '../models/survey-user.model';
 
 @Injectable()
 export class AuthService {
-	public get loginUrl() {
+	public get loginUrl(): string {
 		return this.configurations.loginUrl;
 	}
-	public get homeUrl() {
+	public get homeUrl(): string {
 		return this.configurations.homeUrl;
 	}
 
@@ -173,14 +173,13 @@ export class AuthService {
 		shortcode: string,
 		groupcode?: string,
 		rememberMe?: boolean,
-		userAgent?: string
 	): Observable<User> {
 		if (this.isLoggedIn) {
 			this.logout();
 		}
 
 		return this.endpointFactory
-			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode, userAgent)
+			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode)
 			.pipe(
 				map(response =>
 					this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)
@@ -319,7 +318,7 @@ export class AuthService {
 		refreshToken: string,
 		expiresIn: Date,
 		rememberMe: boolean
-	) {
+	): void {
 		if (rememberMe) {
 			this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
 			this.localStorage.savePermanentData(idToken, DBkeys.ID_TOKEN);

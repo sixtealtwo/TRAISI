@@ -125,7 +125,7 @@ namespace TRAISI.Services
         /// <param name="user"></param>
         /// <returns></returns>
         public async Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey survey,
-        string code, ClaimsPrincipal user)
+        string code, ClaimsPrincipal user, string userAgent)
         {
             var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey(survey, code);
             if (groupcode == null) {
@@ -140,7 +140,7 @@ namespace TRAISI.Services
             shortcodeRes.Groupcode = groupcode;
             var createUserRes = await this.CreateSurveyUser(survey, shortcodeRes, user);
             // createUserRes.respondent
-            var loginResult = await SurveyLogin(survey, shortcodeRes.Code, user);
+            var loginResult = await SurveyLogin(survey, shortcodeRes.Code, user, userAgent);
             return loginResult;
         }
 
@@ -175,7 +175,7 @@ namespace TRAISI.Services
         /// <param name="surveyId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        public async Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser, string userAgent)
         {
 
             if (currentUser.Identity.IsAuthenticated) {
@@ -194,8 +194,10 @@ namespace TRAISI.Services
                 // ((PrimaryRespondent)existingUser.PrimaryRespondent).SurveyAccessRecords.Add(new SurveyAccessRecord());
                 existingUser.PrimaryRespondent.SurveyAccessRecords.Add(new SurveyAccessRecord()
                 {
-                    AccessDateTime = DateTime.Now
+                    AccessDateTime = DateTime.Now,
+					UserAgent = userAgent
                 });
+
 
                 return (true, existingUser);
             }
@@ -211,7 +213,8 @@ namespace TRAISI.Services
 
             res.respondent.SurveyAccessRecords.Add(new SurveyAccessRecord()
             {
-                AccessDateTime = DateTime.Now
+                AccessDateTime = DateTime.Now,
+									UserAgent = userAgent
             });
 
 

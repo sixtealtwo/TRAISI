@@ -22,7 +22,7 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="surveyId"></param>
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
-		Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user);
+		Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user, string userAgent);
 
 		/// <summary>
 		/// 
@@ -32,7 +32,7 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey surveyId,
-		 string groupcode, ClaimsPrincipal user);
+		 string groupcode, ClaimsPrincipal user, string userAgent);
 
 
 		/// <summary>

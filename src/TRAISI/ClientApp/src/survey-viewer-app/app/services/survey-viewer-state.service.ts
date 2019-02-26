@@ -243,7 +243,7 @@ export class SurveyViewerStateService {
 									}
 								}
 
-								//insert filtered in the right location
+								// insert filtered in the right location
 							} else {
 								container.isRepeatHidden = true;
 							}
@@ -291,7 +291,7 @@ export class SurveyViewerStateService {
 		for (let i = 0; i < this.viewerState.surveyPages.length; i++) {
 			let page = this.viewerState.surveyPages[i];
 			for (let s of page.sections) {
-				if (s.id == sectionId) {
+				if (s.id === sectionId) {
 					return this.viewerState.viewContainers[i];
 				}
 			}

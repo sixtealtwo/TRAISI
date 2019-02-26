@@ -217,10 +217,9 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof SurveyViewerEndpointService
 	 */
-	public getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string = null, userAgent?: string): Observable<T> {
+	public getSurveyViewerStartSurveyEndpoint<T>(surveyId: number, shortcode: string = null): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}`;
-		const params = new HttpParams().append('user_agent', userAgent);
-		return this.http.post<T>(endpointUrl, params.toString(), this.getRequestHeaders()).pipe(
+		return this.http.post<T>(endpointUrl, '', this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode));
 			})
@@ -237,10 +236,9 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof SurveyViewerEndpointService
 	 */
-	public getSurveyViewerStartSurveyWithGroupcodeEndpoint<T>(surveyId: number, groupcode: string, userAgent?: string): Observable<T> {
+	public getSurveyViewerStartSurveyWithGroupcodeEndpoint<T>(surveyId: number, groupcode: string): Observable<T> {
 		let endpointUrl = `${this.getSurveyViewerStartSurveyUrl}/${surveyId}/groupcode/${groupcode}`;
-		const params = new HttpParams().append('user_agent', userAgent);
-		return this.http.post<T>(endpointUrl, params.toString(), this.getRequestHeaders()).pipe(
+		return this.http.post<T>(endpointUrl, '', this.getRequestHeaders()).pipe(
 			catchError((error) => {
 				return this.handleError(error, () => this.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode));
 			})
