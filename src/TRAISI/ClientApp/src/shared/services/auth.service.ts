@@ -172,14 +172,15 @@ export class AuthService {
 		surveyId: number,
 		shortcode: string,
 		groupcode?: string,
-		rememberMe?: boolean
+		rememberMe?: boolean,
+		userAgent?: string
 	): Observable<User> {
 		if (this.isLoggedIn) {
 			this.logout();
 		}
 
 		return this.endpointFactory
-			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode)
+			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode, userAgent)
 			.pipe(
 				map(response =>
 					this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)

@@ -76,7 +76,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this.isAdmin = this._surveyViewerService.isAdminUser();
-		this._route.params.subscribe(params => {
+		this._route.params.subscribe((params) => {
 			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 				this.surveyStartConfig = surveyStartModel;
 
@@ -90,7 +90,7 @@ export class SurveyStartPageComponent implements OnInit {
 			}
 		}
 
-		this._router.events.subscribe(event => {
+		this._router.events.subscribe((event) => {
 			if (event instanceof NavigationEnd) {
 				if (this.outlet.isActivated) {
 					this.outlet.component['startPageComponent'] = this;
@@ -98,7 +98,7 @@ export class SurveyStartPageComponent implements OnInit {
 			}
 		});
 
-		this._surveySession.data.subscribe(data => {
+		this._surveySession.data.subscribe((data) => {
 			this.session = data;
 			console.log('got data: ');
 			console.log(data);
@@ -118,7 +118,7 @@ export class SurveyStartPageComponent implements OnInit {
 			if (this._route.snapshot.children.length === 0) {
 				this._router.navigate(['groupcode'], { relativeTo: this._route });
 			} else if (this._route.snapshot.children.length === 1) {
-				this._route.children[0].data.subscribe(data => {
+				this._route.children[0].data.subscribe((data) => {
 					if (data.shortcodePage) {
 						this._router.navigate(['groupcode'], { relativeTo: this._route });
 					}
@@ -126,7 +126,6 @@ export class SurveyStartPageComponent implements OnInit {
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -136,7 +135,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public groupcodeStartSurvey(groupcode: string): void {
 		const groupcodeMod: string = groupcode.trim();
 		this._surveyViewerService.startSurveyWithGroupcode(this.surveyStartConfig.id, groupcodeMod).subscribe(
-			result => {
+			(result) => {
 				if (result.success) {
 					// this.loadShortcodeDisplayComponent(result.shortcode);
 					this._surveySession.setGroupcode(groupcode);
@@ -148,7 +147,7 @@ export class SurveyStartPageComponent implements OnInit {
 					});
 				}
 			},
-			error => {
+			(error) => {
 				console.log(error);
 			}
 		);
@@ -161,7 +160,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public surveyLogin(shortcode: string, groupcode?: string): void {
-		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe((user: User) => {
+		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode, navigator.userAgent).subscribe((user: User) => {
 			this._router.navigate([this.session.surveyCode, 'terms']);
 		});
 	}
@@ -176,11 +175,11 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isError = false;
 		code = code.trim();
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode).subscribe(
-			value => {
+			(value) => {
 				this.isLoading = false;
 				if (!this.isAdmin) {
 					this._surveyViewerService
-						.surveyLogin(this.surveyStartConfig.id, this.shortcode)
+						.surveyLogin(this.surveyStartConfig.id, this.shortcode, navigator.userAgent)
 						.subscribe((user: User) => {
 							console.log(this.session);
 							this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
@@ -189,7 +188,7 @@ export class SurveyStartPageComponent implements OnInit {
 					this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
 				}
 			},
-			error => {
+			(error) => {
 				console.error(error);
 				this.isLoading = false;
 				this.isError = true;

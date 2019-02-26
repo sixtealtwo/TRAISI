@@ -67,7 +67,7 @@ export class EndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof EndpointFactory
 	 */
-	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string): Observable<T> {
+	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string, userAgent: string = undefined): Observable<T> {
 		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
 		let params = new HttpParams()
@@ -78,6 +78,7 @@ export class EndpointFactory {
 			.append('survey_id', '' + surveyId)
 			.append('shortcode', '' + shortcode)
 			.append('survey_user', 'true')
+			.append('user_agent', userAgent)
 			.append('resource', window.location.origin);
 
 		let requestBody = params.toString();

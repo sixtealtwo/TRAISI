@@ -15,5 +15,7 @@ namespace DAL.Repositories.Interfaces
 
 		Task<PrimaryRespondent> GetPrimaryRespondentForSurveyAsync(Survey survey);
 
+		Task<SurveyRespondent> GetSurveyRespondentAsync(int respondentId);
+
 	}
 }

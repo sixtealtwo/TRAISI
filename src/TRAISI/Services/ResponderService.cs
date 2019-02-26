@@ -78,7 +78,7 @@ namespace TRAISI.Services
 			var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
 			var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
 			var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
-			var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
+			var respondent = await this._unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
 
 			//var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
 

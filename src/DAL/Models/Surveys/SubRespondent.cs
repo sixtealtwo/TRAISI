@@ -8,7 +8,6 @@ namespace DAL.Models.Surveys
     public class SubRespondent : SurveyRespondent
     {
 
-
         public SubRespondent()
         {
 

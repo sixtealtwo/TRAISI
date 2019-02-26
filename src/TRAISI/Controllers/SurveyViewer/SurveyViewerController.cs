@@ -205,7 +205,6 @@ namespace TRAISI.Controllers.SurveyViewer
 		[Route("start/{surveyId}/{shortcode?}")]
 		public async Task<IActionResult> StartSurvey(int surveyId, string shortcode = null)
 		{
-			Console.WriteLine("in start survey ");
 			var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
 			if (survey == null)
 			{
