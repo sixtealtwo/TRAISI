@@ -100,8 +100,6 @@ export class SurveyStartPageComponent implements OnInit {
 
 		this._surveySession.data.subscribe((data) => {
 			this.session = data;
-			console.log('got data: ');
-			console.log(data);
 		});
 	}
 
@@ -181,10 +179,10 @@ export class SurveyStartPageComponent implements OnInit {
 					this._surveyViewerService
 						.surveyLogin(this.surveyStartConfig.id, this.shortcode)
 						.subscribe((user: User) => {
-							this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
+							this._router.navigate([this.session.surveyCode, 'terms']);
 						});
 				} else {
-					this._router.navigate([this.session.surveyCode, 'terms', { relativeTo: this._route }]);
+					this._router.navigate([this.session.surveyCode, 'terms']);
 				}
 			},
 			(error) => {

@@ -9,6 +9,8 @@ import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { forEach } from '@angular/router/src/utils/collection';
 import { P } from '@angular/core/src/render3';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 /**
  *
@@ -35,6 +37,8 @@ export class SurveyScreeningPageComponent implements OnInit {
 
 	public pageThemeInfo: any;
 
+	private _session: SurveyViewerSessionData;
+
 	private _surveyName: string;
 
 	/**
@@ -51,10 +55,9 @@ export class SurveyScreeningPageComponent implements OnInit {
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _translate: TranslateService,
-		private _elementRef: ElementRef
-	) {
-
-	}
+		private _elementRef: ElementRef,
+		private _surveySession: SurveyViewerSession
+	) {}
 
 	/**
 	 *
@@ -76,6 +79,10 @@ export class SurveyScreeningPageComponent implements OnInit {
 			});
 		});
 
+		this._surveySession.data.subscribe((data) => {
+			this._session = data;
+		});
+
 		this._route.parent.params.subscribe((params) => {
 			this._surveyName = params['surveyName'];
 		});
@@ -87,7 +94,6 @@ export class SurveyScreeningPageComponent implements OnInit {
 	 * @memberof SurveyScreeningPageComponent
 	 */
 	public onSubmitScreeningQuestions(): void {
-
 		if (this.formGroup.submitted && this.formGroup.valid) {
 			// determine if all responses are yes
 			let allYes: boolean = true;
@@ -99,14 +105,14 @@ export class SurveyScreeningPageComponent implements OnInit {
 			}
 			if (allYes) {
 				// navigate to viewer since all screening questions were answered 'yes'
-				this._router.navigate([this._surveyName, 'viewer']);
+				this._router.navigate([this._session.surveyCode, 'viewer']);
 				return;
 			} else {
 				// navigate to rejection link
 				if (this.screeningQuestions.rejectionLink !== undefined || this.screeningQuestions.rejectionLink.trim() !== '') {
 					window.location.href = this.screeningQuestions.rejectionLink;
 				} else {
-					this._router.navigate([this._surveyName, 'complete']);
+					this._router.navigate([this._session.surveyCode, 'complete']);
 				}
 			}
 		}
