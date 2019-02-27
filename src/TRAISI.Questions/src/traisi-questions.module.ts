@@ -14,7 +14,6 @@ import { TimeQuestionComponent } from './time-question/time-question.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
 import { HouseholdQuestionComponent } from 'household-question/household-question.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';

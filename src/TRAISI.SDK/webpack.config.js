@@ -56,7 +56,7 @@ module.exports = {
             callback();
         }
     ],*/
-    externals: /^@angular/,
+    externals: [/^@angular/, /^rxjs/],
     plugins: [
         /*
         new UglifyJsPlugin({

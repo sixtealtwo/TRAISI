@@ -91,7 +91,7 @@ module.exports = {
             callback();
         }
     ],*/
-	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/,/^bootstrap/,/^bootswatch/],
+	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/,/^bootstrap/,/^bootswatch/,/^rxjs/],
 	plugins: [
 		/* new WebpackSystemRegister({
              systemjsDeps: [
