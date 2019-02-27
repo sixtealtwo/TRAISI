@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewTermsModel } from '../../models/survey-view-terms.model';
 import { TranslateService } from '@ngx-translate/core';
 import { flatMap } from 'rxjs/operators';
+import { forkJoin, combineLatest, zip } from 'rxjs';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
@@ -41,7 +42,7 @@ export class SurveyTermsPageComponent implements OnInit {
 		private router: Router,
 		private translate: TranslateService,
 		private elementRef: ElementRef,
-		private _surveySession: SurveyViewerSession,
+		private _surveySession: SurveyViewerSession
 	) {
 		this.model = {} as SurveyViewTermsModel;
 	}
@@ -63,10 +64,27 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 */
 	public ngOnInit(): void {
+		let load$ = zip(
+			this._surveySession.data,
+			this.surveyViewerService.termsModel,
+			this.surveyViewerService.screeningQuestionsModel,
+			this.surveyViewerService.pageThemeInfoJson,
+			this.route.parent.params
+		).subscribe((value: [SurveyViewerSessionData, SurveyViewTermsModel, SurveyViewScreening, any, Params]) => {
+			this.surveyId = value[0].surveyId;
+			this.model = value[1];
+			this.hasScreeningQuestions = value[2].questionsList.length > 0;
+			this.pageThemeInfo = value[3];
+			this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+			this.finishedLoading = true;
+			this.surveyName = value[4]['surveyName'];
+			load$.unsubscribe();
+		});
+
+		/*
 		this._surveySession.data
 			.pipe(
 				flatMap(data => {
-
 					this.surveyId = data.surveyId;
 					return this.surveyViewerService.termsModel;
 				})
@@ -91,6 +109,6 @@ export class SurveyTermsPageComponent implements OnInit {
 
 		this.route.parent.params.subscribe(params => {
 			this.surveyName = params['surveyName'];
-		});
+		}); */
 	}
 }
