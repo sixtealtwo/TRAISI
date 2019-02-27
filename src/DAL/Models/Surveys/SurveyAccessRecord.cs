@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Interfaces;
 
 namespace DAL.Models.Surveys
@@ -10,9 +11,10 @@ namespace DAL.Models.Surveys
     {
 
         public int Id { get; set; }
-        public string QueryString { get; set; }
+        
+        [Column(TypeName = "jsonb")]
+        public string QueryParams { get; set; }
         public DateTime AccessDateTime { get; set; }
-
         public string UserAgent { get; set; }
 
     }

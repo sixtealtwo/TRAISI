@@ -22,6 +22,7 @@ using TRAISI.ViewModels.SurveyViewer.Enums;
 using System.Linq;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -200,13 +201,14 @@ namespace TRAISI.Controllers.SurveyViewer
         [Produces(typeof(ObjectResult))]
         [HttpPost]
         [Route("start/{surveyId}/{shortcode}")]
-        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode, [FromHeader(Name = "User-Agent")]string userAgent)
+        public async Task<IActionResult> StartSurvey(int surveyId, string shortcode, [FromHeader(Name = "User-Agent")]string userAgent,
+        [FromBody]JObject queryParams)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey == null) {
                 return new NotFoundResult();
             }
-            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode.Trim(), User, userAgent);
+            (bool success, ApplicationUser user) = await this._viewService.SurveyLogin(survey, shortcode.Trim(), User, userAgent, queryParams);
 
             if (!success) {
                 return new BadRequestResult();
@@ -226,10 +228,10 @@ namespace TRAISI.Controllers.SurveyViewer
         [HttpPost]
         [Route("start/{surveyId}/groupcode/{groupcode}")]
         public async Task<IActionResult> StartSurveyWithGroupcode(int surveyId,
-        string groupcode, [FromHeader(Name = "User-Agent")]string userAgent)
+        string groupcode, [FromHeader(Name = "User-Agent")]string userAgent,[FromBody]JObject queryParams)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            (bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, User, userAgent);
+            (bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin(survey, groupcode, User, userAgent, queryParams);
 
             if (!success) {
                 return new BadRequestObjectResult(new SurveyViewerShortcodeViewModel()

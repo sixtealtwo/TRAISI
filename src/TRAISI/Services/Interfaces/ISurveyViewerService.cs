@@ -6,6 +6,7 @@ using DAL.Core;
 using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
+using Newtonsoft.Json.Linq;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.SurveyViewer.Enums;
@@ -22,7 +23,8 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="surveyId"></param>
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
-		Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user, string userAgent);
+		Task<(bool loginSuccess, SurveyUser user)> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal user, string userAgent,
+		JObject queryParams);
 
 		/// <summary>
 		/// 
@@ -32,7 +34,7 @@ namespace TRAISI.Services.Interfaces
 		/// <param name="user"></param>
 		/// <returns></returns>
 		Task<(bool loginSuccess, SurveyUser user)> SurveyGroupcodeLogin(Survey surveyId,
-		 string groupcode, ClaimsPrincipal user, string userAgent);
+		 string groupcode, ClaimsPrincipal user, string userAgent, JObject queryParams);
 
 
 		/// <summary>
