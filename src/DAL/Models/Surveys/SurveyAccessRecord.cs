@@ -11,11 +11,13 @@ namespace DAL.Models.Surveys
     {
 
         public int Id { get; set; }
-        
+
         [Column(TypeName = "jsonb")]
         public string QueryParams { get; set; }
         public DateTime AccessDateTime { get; set; }
         public string UserAgent { get; set; }
+
+        public ApplicationUser AccessUser { get; set; }
 
     }
 }

@@ -76,10 +76,6 @@ namespace TRAISI
                 .UseKestrel((options) =>
                 {
                     options.Listen(IPAddress.Any, 8000);
-                    options.Listen(IPAddress.Any, 8001, listenOptions =>
-                    {
-                        listenOptions.UseHttps();
-                    });
                 });
             }
 

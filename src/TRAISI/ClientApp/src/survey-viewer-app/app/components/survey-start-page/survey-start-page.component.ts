@@ -81,7 +81,6 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isAdmin = this._surveyViewerService.isAdminUser();
 		zip(this._route.params, this._route.queryParams).subscribe(([routeParams, queryParams]: [Params, Params]) => {
 			this._queryParams = queryParams;
-			console.log(this._queryParams);
 		});
 
 		this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
@@ -91,7 +90,6 @@ export class SurveyStartPageComponent implements OnInit {
 		});
 
 		this._route.queryParams.subscribe((queryParms: Params) => {
-			console.log(queryParms);
 			this._queryParams = queryParms;
 		});
 

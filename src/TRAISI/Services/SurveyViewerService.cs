@@ -203,6 +203,7 @@ namespace TRAISI.Services
                                 new SurveyAccessRecord() {
                                 AccessDateTime = DateTime.Now,
                                 UserAgent = userAgent,
+								AccessUser = user,
                                 QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
                                 }}
                             ),
@@ -232,6 +233,7 @@ namespace TRAISI.Services
                 {
                     AccessDateTime = DateTime.Now,
                     UserAgent = userAgent,
+					AccessUser = existingUser,
                     QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
                 });
 
@@ -251,6 +253,7 @@ namespace TRAISI.Services
             {
                 AccessDateTime = DateTime.Now,
                 UserAgent = userAgent,
+				AccessUser = res.Item3,
                 QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
             });
             return res.Item1 ? (true, res.Item3) : (false, null);

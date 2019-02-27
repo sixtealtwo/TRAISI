@@ -1,3 +1,4 @@
+using System;
 using DAL.Models.Interfaces;
 
 namespace DAL.Models.Surveys
@@ -6,5 +7,10 @@ namespace DAL.Models.Surveys
     {
         int Id { get; set; }
         string QueryParams { get; set; }
+
+        DateTime AccessDateTime { get; set; }
+        string UserAgent { get; set; }
+
+        ApplicationUser AccessUser { get; set; }
     }
 }

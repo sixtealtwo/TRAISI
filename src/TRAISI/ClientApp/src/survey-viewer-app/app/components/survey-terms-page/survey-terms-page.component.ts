@@ -63,13 +63,14 @@ export class SurveyTermsPageComponent implements OnInit {
 	 *
 	 */
 	public ngOnInit(): void {
-		let termsData$ = zip(
+		zip(
 			this._surveySession.data,
 			this.surveyViewerService.termsModel,
 			this.surveyViewerService.screeningQuestionsModel,
 			this.surveyViewerService.pageThemeInfoJson
 		).subscribe(
 			(value: [SurveyViewerSessionData, SurveyViewTermsModel, SurveyViewScreening, any]) => {
+				console.log(value);
 				this.surveyId = value[0].surveyId;
 				this.model = value[1];
 				this.hasScreeningQuestions = value[2].questionsList.length > 0;
@@ -77,11 +78,10 @@ export class SurveyTermsPageComponent implements OnInit {
 				this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 				this.finishedLoading = true;
 				this.surveyName = value[0].surveyCode;
-
-				termsData$.unsubscribe();
-				console.log(termsData$);
 			},
-			(error) => {}
+			(error) => {
+				console.log(error);
+			}
 		);
 	}
 }
