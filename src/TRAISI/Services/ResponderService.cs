@@ -88,7 +88,7 @@ namespace TRAISI.Services
                 {
                     QuestionPart = question,
                     Respondent = respondent,
-                    SurveyAccessRecord = ((PrimaryRespondent)respondent).SurveyAccessRecords.Last(),
+                    SurveyAccessRecord = ((PrimaryRespondent)respondent).SurveyAccessRecords.First(),
                     Repeat = repeat
 
                 };

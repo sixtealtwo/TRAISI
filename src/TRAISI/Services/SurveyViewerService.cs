@@ -107,7 +107,6 @@ namespace TRAISI.Services
         public async Task<List<QuestionOption>> GetQuestionOptions(int questionId)
         {
             var questionOptions = await this._unitOfWork.QuestionOptions.GetQuestionOptionsFullAsync(questionId);
-
             return (List<QuestionOption>)questionOptions;
         }
 
@@ -210,7 +209,6 @@ namespace TRAISI.Services
 
                         };
                         _unitOfWork.SurveyRespondents.Add(respondent);
-                        // await _unitOfWork.SaveChangesAsync();
 
                     }
                     else {
@@ -218,7 +216,8 @@ namespace TRAISI.Services
                         {
                             AccessDateTime = DateTime.Now,
                             UserAgent = userAgent,
-                            QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
+                            QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None),
+							AccessUser = user
                         });
                     }
                     return (true, null);
