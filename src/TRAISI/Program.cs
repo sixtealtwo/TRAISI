@@ -24,27 +24,27 @@ using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
 using DAL;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace TRAISI
 {
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
-
-
-            using (var scope = host.Services.CreateScope())
-            {
+            using (var scope = host.Services.CreateScope()) {
                 var services = scope.ServiceProvider;
 
-                try
-                {
+                try {
                     var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
                     databaseInitializer.SeedAsync().Wait();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
                 }
@@ -53,20 +53,37 @@ namespace TRAISI
             host.Run();
         }
 
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var builder = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     // add local configuration if file exists, not tracked in repository
-                    if (File.Exists("appsettings.local.json"))
-                    {
+                    if (File.Exists("appsettings.local.json")) {
                         config.AddJsonFile("appsettings.local.json");
                     }
                     config.AddCommandLine(args);
-                })
-                
-                .Build();
+                });
+
+            if (args.Contains("--test")) {
+                builder.UseEnvironment("Development")
+                .UseKestrel((options) =>
+                {
+                    options.Listen(IPAddress.Any, 8000);
+                    options.Listen(IPAddress.Any, 8001, listenOptions =>
+                    {
+                        listenOptions.UseHttps();
+                    });
+                });
+            }
+
+            return builder.Build();
+        }
     }
 }
