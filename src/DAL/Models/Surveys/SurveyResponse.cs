@@ -14,11 +14,9 @@ namespace DAL.Models.Surveys
 
         public int Repeat { get; set; }
 
-        public int ResponseValueId { get; set; }
-
         public SurveyRespondent Respondent { get; set; }
 
-		public SurveyAccessRecord SurveyAccessRecord {get;set;}
+        public SurveyAccessRecord SurveyAccessRecord { get; set; }
 
         public SurveyResponse()
         {

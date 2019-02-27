@@ -23,11 +23,8 @@ namespace TRAISI.Services
     {
         private IUnitOfWork _unitOfWork;
         private IQuestionTypeManager _questionTypeManager;
-
         private ILoggerFactory _loggerFactory;
-
         private ILogger<ResponderService> _logger;
-
         public static readonly string LOCATION_RESPONSE = "location";
         public static readonly string TIMELINE_RESPONSE = "location";
 
@@ -43,9 +40,7 @@ namespace TRAISI.Services
         {
             this._unitOfWork = _unitOfWork;
             this._questionTypeManager = manager;
-
             _loggerFactory = loggerFactory;
-
             _logger = loggerFactory.CreateLogger<ResponderService>();
 
         }
@@ -61,7 +56,6 @@ namespace TRAISI.Services
         public async Task<bool> SaveSubResponse(int questionId, int subRespondentId, JObject responseData)
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(subRespondentId);
-
             return true;
         }
 
@@ -86,10 +80,10 @@ namespace TRAISI.Services
 
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(question.Id,
                            (SurveyRespondent)respondent, repeat);
-            bool isUpdate = false;
 
             if (surveyResponse == null ||
-            surveyResponse.SurveyAccessRecord.AccessDateTime < ((PrimaryRespondent)respondent).SurveyAccessRecords.Last().AccessDateTime) {
+            (
+            surveyResponse.SurveyAccessRecord.AccessDateTime < ((PrimaryRespondent)respondent).SurveyAccessRecords.First().AccessDateTime)) {
                 surveyResponse = new SurveyResponse()
                 {
                     QuestionPart = question,

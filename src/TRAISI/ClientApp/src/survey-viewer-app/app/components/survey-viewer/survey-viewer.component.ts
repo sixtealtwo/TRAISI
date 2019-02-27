@@ -69,15 +69,9 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(
-					':self',
-					stagger('1s', [
-						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
-					]),
-					{
-						optional: true
-					}
-				)
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
+					optional: true
+				})
 			])
 		])
 	],
@@ -190,11 +184,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
 				this.surveyId = surveyId;
 
-				this.surveyViewerService.activeSurveyTitle.subscribe(title => {
+				this.surveyViewerService.activeSurveyTitle.subscribe((title) => {
 					this._titleService.setTitle(`TRAISI - ${title}`);
 				});
 				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
-					pages.forEach(page => {
+					pages.forEach((page) => {
 						this.headerDisplay.completedPages.push(false);
 					});
 					this.loadQuestions(pages);
@@ -216,7 +210,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 			this.viewerTheme = theme;
-			theme.viewerTemplate.forEach(sectionInfo => {
+			theme.viewerTemplate.forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
@@ -235,7 +229,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.loadedComponents = true;
 		});
 
-		this.route.parent.params.subscribe(params => {
+		this.route.parent.params.subscribe((params) => {
 			this.surveyName = params['surveyName'];
 		});
 
@@ -299,20 +293,20 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			.getSurveyPrimaryRespondent(this.surveyId)
 			.pipe(
 				flatMap((respondent: SurveyRespondent) => {
+					console.log(respondent);
 					this._surveyResponderService.primaryRespondent = {
 						id: respondent.id,
 						name: null,
 						relationship: null
 					};
-					return this._surveyResponderService.getSurveyGroupMembers(
-						this._surveyResponderService.primaryRespondent
-					);
+					this.viewerState.primaryRespondent = this._surveyResponderService.primaryRespondent;
+					return this._surveyResponderService.getSurveyGroupMembers(this._surveyResponderService.primaryRespondent);
 				})
 			)
 			.subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
 					this.viewerState.groupMembers = [];
-					members.forEach(member => {
+					members.forEach((member) => {
 						this.viewerState.groupMembers.push(member);
 					});
 					this.viewerState.primaryRespondent = members[0];
@@ -326,10 +320,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				let viewOrder: number = 0;
 
 				this.viewerState.surveyPages = [];
-				pages.forEach(page => {
+				pages.forEach((page) => {
 					let pageQuestionCount: number = 0;
 					let pageContainer = new SurveyPageContainer(page, this._viewerStateService);
-					page.questions.forEach(question => {
+					page.questions.forEach((question) => {
 						question.pageIndex = pageCount;
 						question.viewOrder = viewOrder;
 						question.parentPage = page;
@@ -353,10 +347,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 						sectionRepeatContainer.order = question.order;
 
-						let groupContainer = new SurveyGroupContainer(
-							this._viewerStateService,
-							this.viewerState.primaryRespondent
-						);
+						let groupContainer = new SurveyGroupContainer(this._viewerStateService, this.viewerState.primaryRespondent);
 
 						let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
@@ -379,9 +370,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						pageContainer.children.push(sectionRepeatContainer);
 					});
 
-					page.sections.forEach(section => {
+					page.sections.forEach((section) => {
 						let inSectionIndex: number = 0;
-						section.questions.forEach(question => {
+						section.questions.forEach((question) => {
 							question.pageIndex = pageCount;
 							question.viewOrder = viewOrder;
 							question.parentSection = section;
@@ -400,9 +391,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								question.repeatTargets = [];
 							}
 							if (question.isRepeat) {
-								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(
-									question.questionId
-								);
+								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 							}
 							inSectionIndex++;
 
@@ -411,7 +400,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 							let sectionRepeatContainer: SurveySectionRepeatContainer;
 
-							let index = pageContainer.children.findIndex(container2 => {
+							let index = pageContainer.children.findIndex((container2) => {
 								if (container2.sectionModel === null) {
 									return false;
 								}
@@ -430,10 +419,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								sectionContainer = sectionRepeatContainer.children[0];
 							}
 
-							sectionRepeatContainer.createQuestionContainer(
-								question,
-								this.viewerState.primaryRespondent
-							);
+							sectionRepeatContainer.createQuestionContainer(question, this.viewerState.primaryRespondent);
 
 							sectionContainer.activeGroupContainer.initialize();
 						});
@@ -448,17 +434,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				viewOrder = 0;
-				this.viewerState.viewContainers.forEach(page => {
-					page.children.forEach(sectionRepeat => {
-						sectionRepeat.children.forEach(section => {
-							section.children.forEach(group => {
+				this.viewerState.viewContainers.forEach((page) => {
+					page.children.forEach((sectionRepeat) => {
+						sectionRepeat.children.forEach((section) => {
+							section.children.forEach((group) => {
 								group.forRespondent = this.viewerState.primaryRespondent;
-								group.children.forEach(repeat => {
+								group.children.forEach((repeat) => {
 									repeat.forRespondent = this.viewerState.primaryRespondent;
-									repeat.children.forEach(question => {
-										question.questionModel.repeatTargets = Array.from(
-											new Set(question.questionModel.repeatTargets)
-										);
+									repeat.children.forEach((question) => {
+										question.questionModel.repeatTargets = Array.from(new Set(question.questionModel.repeatTargets));
 										question.forRespondent = this.viewerState.primaryRespondent;
 										question.questionModel.viewOrder = viewOrder;
 									});
@@ -582,11 +566,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if (
-					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
-						'onQuestionShown'
-					)
-				) {
+				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -622,25 +602,19 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			key => this.questionTypeMap[key] === 'household'
-		);
-		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
+		let questionId: number = +Object.keys(this.questionTypeMap).find((key) => this.questionTypeMap[key] === 'household');
+		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
 	}
 
 	public processedSectionLabel(sectionTitle: string): string {
-		return Utilities.replacePlaceholder(
-			sectionTitle,
-			this.retrieveHouseholdTag(),
-			this.viewerState.activeRespondent.name
-		);
+		return Utilities.replacePlaceholder(sectionTitle, this.retrieveHouseholdTag(), this.viewerState.activeRespondent.name);
 	}
 
 	/**
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe(s => {
+		this.questionContainers.changes.subscribe((s) => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {

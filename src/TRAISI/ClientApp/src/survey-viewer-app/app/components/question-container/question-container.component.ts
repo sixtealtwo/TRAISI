@@ -160,8 +160,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		 * Load the question component into the specified question outlet.
 		 */
 
-
-
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
 

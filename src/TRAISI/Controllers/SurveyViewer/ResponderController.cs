@@ -68,7 +68,7 @@ namespace TRAISI.Controllers.SurveyViewer
 		 [FromBody] JObject content)
 		{
 
-			var respondent = await _unitOfWork.SurveyRespondents.GetAsync(respondentId);
+			var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
 			var question = await this._unitOfWork.QuestionParts.GetQuestionPartWithConfigurationsAsync(questionId);
 			if (respondent == null || question == null || question.Survey.Id != surveyId)
 			{
