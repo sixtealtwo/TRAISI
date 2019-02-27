@@ -19,8 +19,7 @@ import {
 import { PartialObserver } from 'rxjs';
 import { NumberQuestionConfiguration } from './number-question.configuration';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
+import { map, debounceTime } from 'rxjs/operators';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 @Component({
@@ -48,13 +47,10 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		super();
 	}
 
-
 	/**
 	 * Models changed
 	 */
-	public modelChanged(): void {
-
-	}
+	public modelChanged(): void {}
 
 	/**
 	 *
@@ -135,7 +131,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.debounceTime(1000).subscribe(value => {
+		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
 			if (this.model !== undefined) {
 				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
@@ -144,7 +140,6 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 					const validated: boolean = this.validateInput();
 
 					if (validated && this.inputForm.valid) {
-
 						this.response.emit(this._numberModel);
 					}
 				}

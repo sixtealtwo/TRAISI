@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
+import { doT   } from 'dot-ts';
 import {
 	SurveyQuestion,
 	ResponseTypes,

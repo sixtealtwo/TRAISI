@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
+import { debounceTime } from 'rxjs/operators';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -73,7 +73,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.debounceTime(1000).subscribe((value) => {
+		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
 			if (this.textInput === undefined) {
 				return;
 			}
@@ -82,7 +82,6 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			};
 
 			this.response.emit(data);
-			
 		});
 	};
 

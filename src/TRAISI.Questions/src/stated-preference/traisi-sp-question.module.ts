@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { StatedPreferenceQuestionComponent } from './viewer/stated-preference-question.component';
 import { StatedPreferenceBuilderComponent } from './builder/stated-preference-builder.component';
+import { dot } from 'dot';
 
 @NgModule({
 	declarations: [StatedPreferenceQuestionComponent, StatedPreferenceBuilderComponent],
