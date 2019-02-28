@@ -35,6 +35,7 @@ import { SurveyResponderService } from './survey-responder.service';
 import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
+import { ComponentFactoryBoundToModule } from '@angular/core/src/linker/component_factory_resolver';
 
 declare const SystemJS;
 
@@ -135,47 +136,41 @@ export class QuestionLoaderService {
 			});
 		} else {
 			// load and compile the module
-			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-				SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))
-					.then(module => {
+
+			return rxjs
+				.from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)))
+				.pipe(
+					rxjsOperators.map((module: any) => {
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 						const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
-
-						const moduleInstance = <SurveyModule>module.default;
-
 						this._moduleRefs[<string>questionType] = moduleRef;
-
-						const componentFactory: ComponentFactory<any> = this.createComponentFactory(
-							moduleRef,
-							questionType
-						);
+						return moduleRef;
+					}),
+					rxjsOperators.map((moduleRef: any) => {
+						const componentFactory: ComponentFactoryBoundToModule<any> = <
+							ComponentFactoryBoundToModule<any>
+						>this.createComponentFactory(moduleRef, questionType);
+						return componentFactory;
+					}),
+					rxjsOperators.expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
 							this.componentFactories$.next(componentFactory);
+						} else {
+							return rxjs.EMPTY;
 						}
-
 						let hasDependency: boolean = false;
-						moduleRef._providers.forEach(provider => {
+						componentFactory['ngModule']._providers.forEach(provider => {
 							if (provider.hasOwnProperty('dependency')) {
-								// load the dependency
 								hasDependency = true;
-								this.getQuestionComponentFactory(provider.name).subscribe(obs => {
-									observer.next(componentFactory);
-									observer.complete();
-								});
+								return this.getQuestionComponentFactory(provider.name);
 							}
 						});
+						return rxjs.of(componentFactory);
+					}),
+					rxjsOperators.first()
+				);
 
-						if (!hasDependency) {
-							observer.next(componentFactory);
-
-							observer.complete();
-						}
-					})
-					.catch(error => {
-						console.error(error);
-					});
-			});
 		}
 	}
 
@@ -196,7 +191,6 @@ export class QuestionLoaderService {
 
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;
-
 			this.componentFactories$.next(componentFactory);
 		}
 		return componentFactory;
@@ -211,14 +205,11 @@ export class QuestionLoaderService {
 		question: ISurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
-		return Observable.create((observer: Observer<ComponentRef<any>>) => {
-			this.getQuestionComponentFactory(question.questionType).subscribe(componentFactory => {
+		return this.getQuestionComponentFactory(question.questionType).pipe(
+			rxjsOperators.map(componentFactory => {
 				let componentRef = viewContainerRef.createComponent(componentFactory, undefined, this.injector);
-				const moduleRef = this._moduleRefs[question.questionType];
-
-				observer.next(componentRef);
-				observer.complete();
-			});
-		}).pipe(rxjsOperators.share());
+				return componentRef;
+			})
+		);
 	}
 }
