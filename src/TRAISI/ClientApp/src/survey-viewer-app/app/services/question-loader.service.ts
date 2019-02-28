@@ -28,13 +28,13 @@ import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
 import * as tooltip from 'ngx-bootstrap/tooltip';
 import * as timePicker from 'ngx-bootstrap/timepicker';
-import 'rxjs/add/observable/of';
+import * as rxjs from 'rxjs';
+import * as rxjsOperators from 'rxjs/operators';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
 import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { SurveyQuestionComponent } from '../models/survey-question-component';
 
 declare const SystemJS;
 
@@ -88,6 +88,8 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
 		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
 		SystemJS.registry.set('ngx-bootstrap/timepicker', SystemJS.newModule(timePicker));
+		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
+		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
 	}
 
 	/**
@@ -217,6 +219,6 @@ export class QuestionLoaderService {
 				observer.next(componentRef);
 				observer.complete();
 			});
-		});
+		}).pipe(rxjsOperators.share());
 	}
 }

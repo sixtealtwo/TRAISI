@@ -1,27 +1,24 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "target": "es5",
-    "module": "amd",
-    "outDir": "dist",
-    "lib": [
-      "es2016",
-      "dom"
-    ],
-    "baseUrl": "src",
-    "paths": {
-      "traisi-question-sdk": [
-        "../../TRAISI.SDK/Module/src"
-      ]
-    }
-  },
-  "exclude": [
-    "dist/**/*",
-    "node_modules/**/*"
-  ]
+	"compilerOptions": {
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"target": "es5",
+		"module": "amd",
+		"outDir": "dist",
+		"lib": ["es2016", "dom"],
+		"baseUrl": "src",
+		"paths": {
+			"traisi-question-sdk": ["../../TRAISI.SDK/Module/"]
+		}
+	},
+	"exclude": ["dist/**/*", "node_modules/**/*"],
+	"angularCompilerOptions": {
+		"skipTemplateCodegen": true,
+		"strictMetadataEmit": true,
+		"debug": true
+	}
 }

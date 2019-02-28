@@ -20,8 +20,8 @@ import { TextQuestionConfiguration } from './text-question.configuration';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: require('./text-question.component.html').toString(),
-	styles: [require('./text-question.component.scss').toString()]
+	template: require('./text-question.component.html'),
+	styles: [require('./text-question.component.scss')]
 })
 export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
@@ -73,7 +73,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
+		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
 			if (this.textInput === undefined) {
 				return;
 			}

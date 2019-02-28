@@ -29,8 +29,8 @@ import {
  */
 @Component({
 	selector: 'traisi-stated-preference-question',
-	template: require('./stated-preference-question.component.html').toString(),
-	styles: [require('./stated-preference-question.component.scss').toString()]
+	template: './stated-preference-question.component.html',
+	styles: ['./stated-preference-question.component.scss']
 })
 export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
