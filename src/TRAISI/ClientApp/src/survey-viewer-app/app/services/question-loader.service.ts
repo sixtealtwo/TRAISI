@@ -45,9 +45,9 @@ declare const SystemJS;
 	providedIn: 'root'
 })
 export class QuestionLoaderService {
-	private _componentFactories: { [type: string]: ComponentFactory<any> } = {};
+	private _componentFactories: { [type: string]: ComponentFactoryBoundToModule<any> } = {};
 
-	public get componentFactories(): { [type: string]: ComponentFactory<any> } {
+	public get componentFactories(): { [type: string]: ComponentFactoryBoundToModule<any> } {
 		return this._componentFactories;
 	}
 
@@ -107,12 +107,8 @@ export class QuestionLoaderService {
 	public getQuestionComponentFactory(questionType: string): Observable<ComponentFactoryBoundToModule<any>> {
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
-			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-				observer.next(this._componentFactories[questionType]);
-				observer.complete();
-			});
+			return rxjs.of(this._componentFactories[questionType]);
 		}
-
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
 			return rxjs.of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
@@ -142,7 +138,6 @@ export class QuestionLoaderService {
 					rxjsOperators.expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
-							// this.componentFactories$.next(componentFactory);
 						} else {
 							return rxjs.EMPTY;
 						}
@@ -165,14 +160,19 @@ export class QuestionLoaderService {
 	 * @param moduleRef
 	 * @param questionType
 	 */
-	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType: string): ComponentFactory<any> {
+	private createComponentFactory(
+		moduleRef: NgModuleRef<any>,
+		questionType: string
+	): ComponentFactoryBoundToModule<any> {
 		const widgets = moduleRef.injector.get<Array<any>>(<any>'widgets', []);
 		const resolver = moduleRef.componentFactoryResolver;
 		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
-		const componentFactory: ComponentFactory<any> = resolver.resolveComponentFactory(widget.component);
+		const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
+			resolver.resolveComponentFactory(widget.component)
+		);
 
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;
