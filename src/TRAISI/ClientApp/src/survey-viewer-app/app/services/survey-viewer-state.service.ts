@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { SurveyViewerState } from '../models/survey-viewer-state.model';
-import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer, forkJoin } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer, forkJoin, AsyncSubject, EMPTY, of, pipe, empty } from 'rxjs';
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../models/survey-view-group-member.model';
 import { QuestionContainerComponent } from '../components/question-container/question-container.component';
@@ -146,18 +146,12 @@ export class SurveyViewerStateService {
 	 * Evaluates repeat
 	 * @param activeQuestion
 	 */
-	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Subject<void> {
-		const subject: Subject<void> = new Subject<void>();
-
+	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Observable<void> {
 		if (activeQuestion.repeatTargets.length === 0) {
-			setTimeout(() => {
-				subject.next();
-				subject.complete();
-			});
-			return subject;
+			return of();
 		}
-
-		this._responderService
+		return Observable.create((observer) => {
+			this._responderService
 			.readyCachedSavedResponses([activeQuestion.questionId], respondentId)
 			.subscribe(result => {
 				for (let repeatTarget of activeQuestion.repeatTargets) {
@@ -249,13 +243,11 @@ export class SurveyViewerStateService {
 							}
 						}
 					}
-
-					subject.next();
-					subject.complete();
+					observer.complete();
 				}
 			});
 
-		return subject;
+		});
 	}
 
 	/**
@@ -312,63 +304,56 @@ export class SurveyViewerStateService {
 	 * Updates active questions based on the last updated question id.
 	 * @param updatedQuestionId
 	 */
-	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Subject<void> {
-		const subject = new Subject<void>();
-
-		if (
-			this.viewerState.questionMap[updatedQuestionId] === undefined ||
-			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
-		) {
-			setTimeout(() => {
-				subject.next();
-				subject.complete();
-			});
-			return subject;
-		} else {
-			let conditionalEvals = [];
-			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
-				let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
-
-				let sourceQuestionIds: number[] = [];
-
-				targetQuestion.targetConditionals.forEach(targetConditional => {
-					sourceQuestionIds.push(targetConditional.sourceQuestionId);
+	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Observable<void> {
+		return Observable.create(observer => {
+			if (
+				this.viewerState.questionMap[updatedQuestionId] === undefined ||
+				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
+			) {
+				setTimeout(() => {
+					observer.complete();
 				});
-
-				conditionalEvals.push(
-					this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId)
-				);
-			});
-
-			forkJoin(conditionalEvals).subscribe(values => {
+			} else {
+				let conditionalEvals = [];
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
-					let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-						let response = this._responderService.getCachedSavedResponse(
-							evalConditional.sourceQuestionId,
-							respondentId
-						);
 
-						return this._conditionalEvaluator.evaluateConditional(
-							evalConditional.conditionalType,
-							response,
-							'',
-							evalConditional.value
-						);
+					let sourceQuestionIds: number[] = [];
+
+					targetQuestion.targetConditionals.forEach(targetConditional => {
+						sourceQuestionIds.push(targetConditional.sourceQuestionId);
 					});
 
-					if (targetQuestion.isRespondentHidden === undefined) {
-						targetQuestion.isRespondentHidden = {};
-					}
-					targetQuestion.isRespondentHidden[respondentId] = evalTrue;
-					targetQuestion.isHidden = evalTrue;
+					conditionalEvals.push(
+						this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId)
+					);
 				});
 
-				subject.next();
-				subject.complete();
-			});
+				forkJoin(conditionalEvals).subscribe(values => {
+					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
+						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
+							let response = this._responderService.getCachedSavedResponse(
+								evalConditional.sourceQuestionId,
+								respondentId
+							);
 
-			return subject;
-		}
+							return this._conditionalEvaluator.evaluateConditional(
+								evalConditional.conditionalType,
+								response,
+								'',
+								evalConditional.value
+							);
+						});
+
+						if (targetQuestion.isRespondentHidden === undefined) {
+							targetQuestion.isRespondentHidden = {};
+						}
+						targetQuestion.isRespondentHidden[respondentId] = evalTrue;
+						targetQuestion.isHidden = evalTrue;
+					});
+				});
+			}
+		});
 	}
 }

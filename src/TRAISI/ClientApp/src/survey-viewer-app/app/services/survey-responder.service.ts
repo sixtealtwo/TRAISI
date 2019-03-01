@@ -9,9 +9,9 @@ import {
 	SurveyRespondent
 } from '../../../../../../TRAISI.SDK/Module/src';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, EMPTY } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 
@@ -53,8 +53,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
 		// determine if responses are in question cache
-		console.log(questionIds);
-
 		if (Object.keys(this._cachedSavedResponses).some(r => questionIds.includes(Number(r)))) {
 			// use cached responses
 			let responses = [];
@@ -69,10 +67,6 @@ export class SurveyResponderService implements SurveyResponder {
 					console.log(Number(key) + ' not found');
 				}
 			}
-
-			console.log(this._cachedSavedResponses);
-			console.log('found in cache');
-			console.log(responses);
 			return Observable.of([responses]);
 		} else {
 			// don't use cached responses
@@ -106,7 +100,7 @@ export class SurveyResponderService implements SurveyResponder {
 		});
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
-			flatMap(responses => {
+			map(responses => {
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -115,8 +109,6 @@ export class SurveyResponderService implements SurveyResponder {
 						});
 					}
 				}
-
-				return Observable.of('');
 			})
 		);
 	}

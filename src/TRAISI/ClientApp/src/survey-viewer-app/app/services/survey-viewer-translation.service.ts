@@ -1,20 +1,17 @@
-import {TranslateLoader, TranslateService} from '@ngx-translate/core';
-import {Injectable} from '@angular/core';
-import {of as observableOf, Subject} from 'rxjs';
+import { TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { Injectable } from '@angular/core';
+import { of as observableOf, Subject } from 'rxjs';
 
 @Injectable()
 export class SurveyViewerTranslationService {
-
-
-	private _languageChanged = new Subject<string>();
-	readonly defaultLanguage = 'en';
+	private _languageChanged: Subject<string> = new Subject<string>();
+	public readonly defaultLanguage: string = 'en';
 
 	/**
 	 *
 	 * @param translate
 	 */
 	constructor(private translate: TranslateService) {
-
 		this.setDefaultLanguage(this.defaultLanguage);
 	}
 
@@ -22,21 +19,21 @@ export class SurveyViewerTranslationService {
 	 *
 	 * @param lang
 	 */
-	setDefaultLanguage(lang: string) {
+	public setDefaultLanguage(lang: string): void {
 		this.translate.setDefaultLang(lang);
 	}
 
 	/**
 	 *
 	 */
-	getDefaultLanguage() {
+	public getDefaultLanguage(): string {
 		return this.translate.defaultLang;
 	}
 
 	/**
 	 *
 	 */
-	getBrowserLanguage() {
+	public getBrowserLanguage(): string {
 		return this.translate.getBrowserLang();
 	}
 
@@ -44,8 +41,7 @@ export class SurveyViewerTranslationService {
 	 *
 	 * @param language
 	 */
-	changeLanguage(language: string = 'en') {
-
+	public changeLanguage(language: string = 'en'): string {
 		if (!language) {
 			language = this.translate.defaultLang;
 		}
@@ -63,7 +59,7 @@ export class SurveyViewerTranslationService {
 	/**
 	 *
 	 */
-	useBrowserLanguage(): string | void {
+	public useBrowserLanguage(): string | void {
 		let browserLang = this.getBrowserLanguage();
 
 		if (browserLang.match(/en|fr|de|ar|ko|pt/)) {
@@ -73,16 +69,13 @@ export class SurveyViewerTranslationService {
 	}
 }
 
-
 export class SurveyViewerTranslateLanguageLoader implements TranslateLoader {
-
 	/**
 	 * Gets the translations from webpack
 	 * @param lang
 	 * @returns {any}
 	 */
 	public getTranslation(lang: string): any {
-
 		// Note Dynamic require(variable) will not work. Require is always at compile time
 
 		switch (lang) {

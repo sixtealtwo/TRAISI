@@ -70,7 +70,6 @@ export class SurveyViewerSession {
 				}
 
 				this._data.isUsingGroupcode = this._data.groupcode !== null;
-
 				this._data.isLoggedIn = loginStatus;
 				this.data.next(this._data);
 			});

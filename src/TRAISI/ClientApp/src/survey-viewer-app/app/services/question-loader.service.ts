@@ -34,7 +34,7 @@ import * as rxjs from 'rxjs';
 import * as rxjsOperators from 'rxjs/operators';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
-import { SurveyQuestion, SurveyModule, WidgetProvider, WidgetToken, BASE_URL } from 'traisi-question-sdk';
+import { SurveyQuestion, SurveyModule, WidgetProvider } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { ComponentFactoryBoundToModule } from '@angular/core/src/linker/component_factory_resolver';
