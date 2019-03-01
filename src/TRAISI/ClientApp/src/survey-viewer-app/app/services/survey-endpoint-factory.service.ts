@@ -13,7 +13,7 @@ export class SurveyEndpointFactoryService extends EndpointFactory {
 	/**
 	 *
 	 */
-	protected get loginUrl() {
+	protected get loginUrl(): string {
 		return this.configurations.baseUrl + this._surveyLoginUrl;
 	}
 
@@ -22,7 +22,7 @@ export class SurveyEndpointFactoryService extends EndpointFactory {
 	 * @param error
 	 * @param continuation
 	 */
-	protected handleError(error, continuation: () => Observable<any>): Observable<any> {
+	protected handleError(error: any, continuation: () => Observable<any>): Observable<any> {
 		if (error.status === 401 && this.lastCall !== error.url) {
 			this.lastCall = error.url;
 			if (this.isRefreshingLogin) {

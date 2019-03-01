@@ -58,13 +58,7 @@ export class SurveyResponderService implements SurveyResponder {
 			let responses = [];
 			for (let key in this._cachedSavedResponses) {
 				if (questionIds.includes(Number(key))) {
-					console.log(this._cachedSavedResponses);
-					console.log(Object.keys(this._cachedSavedResponses));
-					console.log(Number(key));
-					console.log(respondentId);
 					responses.push(this._cachedSavedResponses[Number(key)][respondentId]);
-				} else {
-					console.log(Number(key) + ' not found');
 				}
 			}
 			return Observable.of([responses]);

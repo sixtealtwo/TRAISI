@@ -47,6 +47,9 @@ import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigat
 import { SurveyPageContainer } from '../../services/survey-viewer-navigation/survey-page-container';
 import { Title } from '@angular/platform-browser';
 import { flatMap } from 'rxjs/operators';
+import { zip } from 'rxjs';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -69,9 +72,15 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
-					optional: true
-				})
+				query(
+					':self',
+					stagger('1s', [
+						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
+					]),
+					{
+						optional: true
+					}
+				)
 			])
 		])
 	],
@@ -110,6 +119,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public activeQuestion: any;
 
 	public surveyName: string;
+
+	public session: SurveyViewerSessionData;
 
 	private _activeQuestionContainer: QuestionContainerComponent;
 
@@ -153,6 +164,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param {SurveyResponderService} _surveyResponderService
 	 * @param {SurveyViewerStateService} _viewerStateService
 	 * @param {SurveyViewerNavigationService} _navigation
+	 * @param {SurveyViewerSession} _sessionService
 	 * @param {ActivatedRoute} route
 	 * @param {Router} _router
 	 * @param {Title} _titleService
@@ -164,6 +176,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponderService,
 		private _viewerStateService: SurveyViewerStateService,
 		private _navigation: SurveyViewerNavigationService,
+		private _sessionService: SurveyViewerSession,
 		private route: ActivatedRoute,
 		private _router: Router,
 		private _titleService: Title,
@@ -180,69 +193,58 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngOnInit(): void {
 		this.currentUser = this.surveyViewerService.currentUser;
 
-		this.route.queryParams.subscribe((value: Params) => {
-			this.surveyViewerService.activeSurveyId.subscribe((surveyId: number) => {
-				this.surveyId = surveyId;
+		this._sessionService.data
+			.pipe(
+				flatMap((session: SurveyViewerSessionData) => {
+					this.session = session;
+					this.surveyId = session.surveyId;
+					this.surveyName = session.surveyCode;
+					this._titleService.setTitle(`TRAISI - ${session.surveyTitle}`);
+					return this.surveyViewerService.pageThemeInfoJson;
+					//
+				}),
+				flatMap((pageTheme: any) => {
+					this.pageThemeInfo = pageTheme;
 
-				this.surveyViewerService.activeSurveyTitle.subscribe((title) => {
-					this._titleService.setTitle(`TRAISI - ${title}`);
-				});
-				this.surveyViewerService.getSurveyViewPages(this.surveyId).subscribe((pages: SurveyViewPage[]) => {
-					pages.forEach((page) => {
-						this.headerDisplay.completedPages.push(false);
+					let theme: SurveyViewerTheme = {
+						sectionBackgroundColour: null,
+						questionViewerColour: null,
+						viewerTemplate: null
+					};
+					theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
+					theme.questionViewerColour = pageTheme['questionViewerColour'];
+					theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
+
+					this.viewerTheme = theme;
+					theme.viewerTemplate.forEach(sectionInfo => {
+						if (sectionInfo.sectionType.startsWith('header')) {
+							this.headerComponent = this.getComponent(sectionInfo.sectionType);
+							this.headerHTML = sectionInfo.html;
+						} else if (sectionInfo.sectionType.startsWith('footer')) {
+							this.footerComponent = this.getComponent(sectionInfo.sectionType);
+							this.footerHTML = sectionInfo.html;
+						}
 					});
-					this.loadQuestions(pages);
+					this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+					this.pageTextColour = this.getBestPageTextColour();
+					this.questionTextColour = this.getBestQuestionBodyTextColor();
+					this.sectionTitleColour = this.getBestSectionTitleColour();
+					this.navButtonClass = this.useDarkButtons() ? 'btn-inverse' : 'btn-default';
+					this.useLightNavigationLines = this.pageTextColour === 'rgb(255,255,255)';
+					this.setComponentInputs();
+					this.loadedComponents = true;
+					return this.surveyViewerService.getSurveyViewPages(this.surveyId);
+				})
+			)
+			.subscribe((pages: SurveyViewPage[]) => {
+				pages.forEach(page => {
+					this.headerDisplay.completedPages.push(false);
 				});
+				this.loadQuestions(pages);
 			});
-		});
-
-		this.surveyViewerService.pageThemeInfoJson.subscribe((pageTheme: any) => {
-			this.pageThemeInfo = pageTheme;
-
-			let theme: SurveyViewerTheme = {
-				sectionBackgroundColour: null,
-				questionViewerColour: null,
-				viewerTemplate: null
-			};
-
-			theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
-			theme.questionViewerColour = pageTheme['questionViewerColour'];
-			theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
-
-			this.viewerTheme = theme;
-			theme.viewerTemplate.forEach((sectionInfo) => {
-				if (sectionInfo.sectionType.startsWith('header')) {
-					this.headerComponent = this.getComponent(sectionInfo.sectionType);
-					this.headerHTML = sectionInfo.html;
-				} else if (sectionInfo.sectionType.startsWith('footer')) {
-					this.footerComponent = this.getComponent(sectionInfo.sectionType);
-					this.footerHTML = sectionInfo.html;
-				}
-			});
-			this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
-			this.pageTextColour = this.getBestPageTextColour();
-			this.questionTextColour = this.getBestQuestionBodyTextColor();
-			this.sectionTitleColour = this.getBestSectionTitleColour();
-			this.navButtonClass = this.useDarkButtons() ? 'btn-inverse' : 'btn-default';
-			this.useLightNavigationLines = this.pageTextColour === 'rgb(255,255,255)';
-			this.setComponentInputs();
-			this.loadedComponents = true;
-		});
-
-		this.route.parent.params.subscribe((params) => {
-			this.surveyName = params['surveyName'];
-		});
 
 		this.isShowComplete = false;
 	}
-
-	/**
-	 *
-	 */
-	private surveyQuestionsChanged: () => void = () => {
-		// update the validation based on new survey questions and active question
-		// this.validateNavigation();
-	};
 
 	/**
 	 * Gets component
@@ -293,20 +295,21 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			.getSurveyPrimaryRespondent(this.surveyId)
 			.pipe(
 				flatMap((respondent: SurveyRespondent) => {
-					console.log(respondent);
 					this._surveyResponderService.primaryRespondent = {
 						id: respondent.id,
 						name: null,
 						relationship: null
 					};
 					this.viewerState.primaryRespondent = this._surveyResponderService.primaryRespondent;
-					return this._surveyResponderService.getSurveyGroupMembers(this._surveyResponderService.primaryRespondent);
+					return this._surveyResponderService.getSurveyGroupMembers(
+						this._surveyResponderService.primaryRespondent
+					);
 				})
 			)
 			.subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
 					this.viewerState.groupMembers = [];
-					members.forEach((member) => {
+					members.forEach(member => {
 						this.viewerState.groupMembers.push(member);
 					});
 					this.viewerState.primaryRespondent = members[0];
@@ -320,10 +323,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				let viewOrder: number = 0;
 
 				this.viewerState.surveyPages = [];
-				pages.forEach((page) => {
+				pages.forEach(page => {
 					let pageQuestionCount: number = 0;
 					let pageContainer = new SurveyPageContainer(page, this._viewerStateService);
-					page.questions.forEach((question) => {
+					page.questions.forEach(question => {
 						question.pageIndex = pageCount;
 						question.viewOrder = viewOrder;
 						question.parentPage = page;
@@ -347,7 +350,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 						sectionRepeatContainer.order = question.order;
 
-						let groupContainer = new SurveyGroupContainer(this._viewerStateService, this.viewerState.primaryRespondent);
+						let groupContainer = new SurveyGroupContainer(
+							this._viewerStateService,
+							this.viewerState.primaryRespondent
+						);
 
 						let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
@@ -370,9 +376,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						pageContainer.children.push(sectionRepeatContainer);
 					});
 
-					page.sections.forEach((section) => {
+					page.sections.forEach(section => {
 						let inSectionIndex: number = 0;
-						section.questions.forEach((question) => {
+						section.questions.forEach(question => {
 							question.pageIndex = pageCount;
 							question.viewOrder = viewOrder;
 							question.parentSection = section;
@@ -391,7 +397,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								question.repeatTargets = [];
 							}
 							if (question.isRepeat) {
-								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
+								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(
+									question.questionId
+								);
 							}
 							inSectionIndex++;
 
@@ -400,7 +408,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 							let sectionRepeatContainer: SurveySectionRepeatContainer;
 
-							let index = pageContainer.children.findIndex((container2) => {
+							let index = pageContainer.children.findIndex(container2 => {
 								if (container2.sectionModel === null) {
 									return false;
 								}
@@ -419,7 +427,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								sectionContainer = sectionRepeatContainer.children[0];
 							}
 
-							sectionRepeatContainer.createQuestionContainer(question, this.viewerState.primaryRespondent);
+							sectionRepeatContainer.createQuestionContainer(
+								question,
+								this.viewerState.primaryRespondent
+							);
 
 							sectionContainer.activeGroupContainer.initialize();
 						});
@@ -434,15 +445,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				viewOrder = 0;
-				this.viewerState.viewContainers.forEach((page) => {
-					page.children.forEach((sectionRepeat) => {
-						sectionRepeat.children.forEach((section) => {
-							section.children.forEach((group) => {
+				this.viewerState.viewContainers.forEach(page => {
+					page.children.forEach(sectionRepeat => {
+						sectionRepeat.children.forEach(section => {
+							section.children.forEach(group => {
 								group.forRespondent = this.viewerState.primaryRespondent;
-								group.children.forEach((repeat) => {
+								group.children.forEach(repeat => {
 									repeat.forRespondent = this.viewerState.primaryRespondent;
-									repeat.children.forEach((question) => {
-										question.questionModel.repeatTargets = Array.from(new Set(question.questionModel.repeatTargets));
+									repeat.children.forEach(question => {
+										question.questionModel.repeatTargets = Array.from(
+											new Set(question.questionModel.repeatTargets)
+										);
 										question.forRespondent = this.viewerState.primaryRespondent;
 										question.questionModel.viewOrder = viewOrder;
 									});
@@ -566,7 +579,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
+				if (
+					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
+						'onQuestionShown'
+					)
+				) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -602,19 +619,25 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find((key) => this.questionTypeMap[key] === 'household');
-		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
+		let questionId: number = +Object.keys(this.questionTypeMap).find(
+			key => this.questionTypeMap[key] === 'household'
+		);
+		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
 	}
 
 	public processedSectionLabel(sectionTitle: string): string {
-		return Utilities.replacePlaceholder(sectionTitle, this.retrieveHouseholdTag(), this.viewerState.activeRespondent.name);
+		return Utilities.replacePlaceholder(
+			sectionTitle,
+			this.retrieveHouseholdTag(),
+			this.viewerState.activeRespondent.name
+		);
 	}
 
 	/**
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe((s) => {
+		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {

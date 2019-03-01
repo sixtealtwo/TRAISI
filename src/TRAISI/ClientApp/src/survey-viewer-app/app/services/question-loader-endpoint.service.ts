@@ -12,11 +12,11 @@ import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.se
 export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
 
-	get questionTypesUrl() {
+	get questionTypesUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/question-types';
 	}
 
-	get getClientCodeUrl() {
+	get getClientCodeUrl(): string {
 		return this._surveyViewQuestionsUrl + '/client-code';
 	}
 
