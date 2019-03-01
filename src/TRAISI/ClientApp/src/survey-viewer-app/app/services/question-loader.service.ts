@@ -9,7 +9,9 @@ import {
 	ComponentFactory,
 	NgModuleRef,
 	ComponentRef,
-	ElementRef
+	ElementRef,
+	InjectionToken,
+	Type
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
@@ -32,7 +34,7 @@ import * as rxjs from 'rxjs';
 import * as rxjsOperators from 'rxjs/operators';
 import { find } from 'lodash';
 import { SurveyResponderService } from './survey-responder.service';
-import { SurveyQuestion, SurveyModule } from 'traisi-question-sdk';
+import { SurveyQuestion, SurveyModule, WidgetProvider, WidgetToken, BASE_URL } from 'traisi-question-sdk';
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { ComponentFactoryBoundToModule } from '@angular/core/src/linker/component_factory_resolver';
@@ -51,24 +53,19 @@ export class QuestionLoaderService {
 
 	private _moduleRefs: { [type: string]: NgModuleRef<any> } = {};
 
-	public componentFactories$: ReplaySubject<ComponentFactory<SurveyQuestion<any>>>;
-
 	/**
 	 *Creates an instance of QuestionLoaderService.
 	 * @param {QuestionLoaderEndpointService} _questionLoaderEndpointService
 	 * @param {Compiler} compiler
 	 * @param {Injector} injector
-	 * @param {SurveyResponderService} _responderService
 	 * @memberof QuestionLoaderService
 	 */
 	constructor(
 		private _questionLoaderEndpointService: QuestionLoaderEndpointService,
 		private compiler: Compiler,
-		private injector: Injector,
-		private _responderService: SurveyResponderService
+		private injector: Injector
 	) {
 		SystemJS.config({ transpiler: false });
-		this.componentFactories$ = new ReplaySubject(Number.MAX_VALUE);
 		this.init();
 	}
 
@@ -107,36 +104,26 @@ export class QuestionLoaderService {
 	 * @returns {Observable<any>}
 	 * @memberof QuestionLoaderService
 	 */
-	public getQuestionComponentFactory(questionType: string): Observable<any> {
+	public getQuestionComponentFactory(questionType: string): Observable<ComponentFactoryBoundToModule<any>> {
 		// reuse the preloaded component factory
 		if (questionType in this._componentFactories) {
 			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
 				observer.next(this._componentFactories[questionType]);
-
 				observer.complete();
 			});
 		}
 
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
-			return Observable.create((observer: Observer<ComponentFactory<any>>) => {
-				const componentFactory: ComponentFactory<any> = this.createComponentFactory(
-					this._moduleRefs[questionType],
-					questionType
-				);
-
-				if (!(questionType in this._componentFactories)) {
-					this._componentFactories[questionType] = componentFactory;
-
-					this.componentFactories$.next(componentFactory);
-				}
-				observer.next(componentFactory);
-
-				observer.complete();
-			});
+			return rxjs.of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
+				rxjsOperators.map((componentFactory: ComponentFactoryBoundToModule<any>) => {
+					if (!(questionType in this._componentFactories)) {
+						this._componentFactories[questionType] = componentFactory;
+					}
+					return componentFactory;
+				})
+			);
 		} else {
-			// load and compile the module
-
 			return rxjs
 				.from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType)))
 				.pipe(
@@ -155,7 +142,7 @@ export class QuestionLoaderService {
 					rxjsOperators.expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
 						if (!(questionType in this._componentFactories)) {
 							this._componentFactories[questionType] = componentFactory;
-							this.componentFactories$.next(componentFactory);
+							// this.componentFactories$.next(componentFactory);
 						} else {
 							return rxjs.EMPTY;
 						}
@@ -170,7 +157,6 @@ export class QuestionLoaderService {
 					}),
 					rxjsOperators.first()
 				);
-
 		}
 	}
 
@@ -180,9 +166,8 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 */
 	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType: string): ComponentFactory<any> {
-		const widgets = moduleRef.injector.get('widgets', 'notFound');
+		const widgets = moduleRef.injector.get<Array<any>>(<any>'widgets', []);
 		const resolver = moduleRef.componentFactoryResolver;
-
 		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
@@ -191,7 +176,6 @@ export class QuestionLoaderService {
 
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;
-			this.componentFactories$.next(componentFactory);
 		}
 		return componentFactory;
 	}

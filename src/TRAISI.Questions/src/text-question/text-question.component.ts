@@ -18,6 +18,8 @@ import {
 } from 'traisi-question-sdk';
 import { TextQuestionConfiguration } from './text-question.configuration';
 
+
+
 @Component({
 	selector: 'traisi-text-question',
 	template: require('./text-question.component.html'),
