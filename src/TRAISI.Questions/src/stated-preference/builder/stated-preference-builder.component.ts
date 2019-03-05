@@ -36,7 +36,11 @@ import {
 	styles: [require('./stated-preference-builder.component.scss').toString()]
 })
 export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown {
-	public constructor() {}
+	public model: { input: string };
+
+	public constructor() {
+		this.model = { input: '' };
+	}
 
 	/**
 	 *
