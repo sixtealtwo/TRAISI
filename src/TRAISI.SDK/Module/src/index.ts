@@ -48,5 +48,6 @@ export {
 	QuestionOptionLabel,
 	QuestionOptionValue,
 	BUILDER_SERVICE,
-	QUESTION_ID
+	QUESTION_ID,
+	SURVEY_ID
 } from './traisi-survey-builder.service';

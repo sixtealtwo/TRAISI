@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild, Injector, SkipSelf } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BUILDER_SERVICE, QUESTION_ID } from 'traisi-question-sdk';
-import { TraisiSurveyBuilder } from '../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
+import { TraisiSurveyBuilder, SURVEY_ID } from '../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
 import * as _ from 'lodash';
 
 import {
@@ -49,7 +49,8 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 	 */
 	public constructor(
 		@Inject(BUILDER_SERVICE) private _surveyBuilder: TraisiSurveyBuilder,
-		@Inject(QUESTION_ID) private _questionId: number
+		@Inject(QUESTION_ID) private _questionId: number,
+		@Inject(SURVEY_ID) private _surveyId: number
 	) {
 		this.model = { input: '' };
 
@@ -59,6 +60,9 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 
 		console.log('q id: ');
 		console.log(this._questionId);
+
+		console.log('survey id: ');
+		console.log(this._surveyId);
 	}
 
 	/**

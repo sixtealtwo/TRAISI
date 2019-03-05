@@ -33,7 +33,8 @@ import {
 	CustomBuilderOnInit,
 	CustomBuilderOnShown,
 	CustomBuilderOnHidden,
-	TraisiSurveyBuilder
+	TraisiSurveyBuilder,
+	SURVEY_ID
 } from 'traisi-question-sdk';
 import { Injector, ViewContainerRef } from '@angular/core';
 import { Survey } from '../../../models/survey.model';
@@ -183,8 +184,11 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	 */
 	private createInjector(view: ViewContainerRef): Injector {
 		return Injector.create({
-			providers: [{ provide: BUILDER_SERVICE, useValue: this.builderService },
-				{ provide: QUESTION_ID, useValue: this.question.id }],
+			providers: [
+				{ provide: BUILDER_SERVICE, useValue: this.builderService },
+				{ provide: QUESTION_ID, useValue: this.question.id },
+				{ provide: SURVEY_ID, useValue: this.surveyId }
+			],
 			parent: view.parentInjector
 		});
 	}
