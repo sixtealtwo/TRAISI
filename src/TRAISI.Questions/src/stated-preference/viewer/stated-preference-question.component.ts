@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { doT   } from 'dot-ts';
+import { doT } from 'dot-ts';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -33,9 +33,10 @@ import {
 	styles: ['./stated-preference-question.component.scss']
 })
 export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]>
-	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
-	public ngOnInit(): void {}
-	onQuestionShown(): void {}
+	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus, OnOptionsLoaded {
+	public options: QuestionOption[];
+
+	public onQuestionShown(): void {}
 	public onQuestionHidden(): void {}
 	public onResponseSaved(result: any): void {}
 
@@ -46,5 +47,13 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer) {
 		super();
+	}
+
+	public onOptionsLoaded(options: QuestionOption[]): void {
+		console.log(options);
+	}
+
+	public ngOnInit(): void {
+		console.log(this.configuration);
 	}
 }

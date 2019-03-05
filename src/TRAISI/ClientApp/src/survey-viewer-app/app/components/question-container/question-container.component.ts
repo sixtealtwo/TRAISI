@@ -221,7 +221,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
 						}
-
+						(<SurveyQuestion<any>>componentRef.instance).questionOptions.next(options);
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
 							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}

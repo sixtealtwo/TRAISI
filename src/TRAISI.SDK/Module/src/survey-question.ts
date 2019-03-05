@@ -2,7 +2,8 @@ import { ResponseValidationState } from './question-response-state';
 import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { QuestionLoaderService } from './question-loader.service';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
+import { QuestionOption } from './question-option';
 
 /**
  * Base abstract class for Survey Questions available to TRAISI
@@ -59,6 +60,8 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public respondent: GroupMember;
 
+	public questionOptions: ReplaySubject<QuestionOption[]>;
+
 	/**
 	 *
 	 *
@@ -74,6 +77,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 *
 	 */
 	constructor() {
+		this.questionOptions = new ReplaySubject<QuestionOption[]>();
 		this.response = new EventEmitter<ResponseData<T>>();
 		this.autoAdvance = new EventEmitter<number>();
 		this.validationState = new EventEmitter<ResponseValidationState>();
