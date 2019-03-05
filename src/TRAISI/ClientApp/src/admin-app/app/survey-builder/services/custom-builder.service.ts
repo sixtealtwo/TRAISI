@@ -11,6 +11,7 @@ import * as AngularHttp from '@angular/common/http';
 import * as AngularForms from '@angular/forms';
 import * as BrowserModule from '@angular/platform-browser';
 import * as Upgrade from '@angular/upgrade/static';
+import * as RxjsModule from 'rxjs';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { NgModuleDef, NgModuleDecorator, ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
 import { InternalNgModuleRef } from '@angular/core/src/linker/ng_module_factory';
@@ -62,6 +63,7 @@ export class CustomBuilderService {
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
 		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
 		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
+		SystemJS.registry.set('rxjs', SystemJS.newModule(RxjsModule));
 	}
 
 	/**
@@ -72,7 +74,11 @@ export class CustomBuilderService {
 	 * @returns {Observable<ComponentFactory<any>>} Async observable, the first and last value will be the resolved component factory.
 	 * @memberof CustomBuilderService
 	 */
-	public loadCustomClientBuilderView(typeName: string, builderName: string): Observable<ComponentFactory<any>> {
+	public loadCustomClientBuilderView(
+		typeName: string,
+		builderName: string,
+		injector?: Injector
+	): Observable<ComponentFactory<any>> {
 		return this.loadClientBuilderModule(typeName, builderName);
 	}
 
@@ -85,7 +91,7 @@ export class CustomBuilderService {
 	 * @returns {Observable<any>}
 	 * @memberof CustomBuilderService
 	 */
-	private loadClientBuilderModule(typeName: string, customBuilderId: string): Observable<any> {
+	private loadClientBuilderModule(typeName: string, customBuilderId: string, injector?: Injector): Observable<any> {
 		const result = Observable.create((observer: Observer<ComponentFactory<any>>) => {
 			SystemJS.import(this._surveyBuilderEndpointService.getSurveyBuilderClientBuilderCodeUrl(typeName)).then(
 				(module: any) => {
@@ -93,9 +99,7 @@ export class CustomBuilderService {
 						customBuilderId,
 						module.default
 					);
-
 					observer.next(componentFactory);
-
 					observer.complete();
 				}
 			);
@@ -114,13 +118,15 @@ export class CustomBuilderService {
 	 */
 	private unpackComponentFactoryForClientBuilder(
 		customBuilderId: string,
-		module: AngularCore.Type<{}>
+		module: AngularCore.Type<{}>,
+		injector?: Injector
 	): ComponentFactory<any> {
 		const moduleFactory: AngularCore.ModuleWithComponentFactories<{}> = this._compiler.compileModuleAndAllComponentsSync(
 			module
 		);
-
-		const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(this._injector);
+		const moduleRef: NgModuleRef<any> = moduleFactory.ngModuleFactory.create(
+			injector === undefined ? this._injector : injector
+		);
 		this._moduleRefs[customBuilderId] = moduleRef;
 		const componentFactory: ComponentFactory<any> = this.createComponentFactory(moduleRef, customBuilderId);
 		return componentFactory;
@@ -139,7 +145,7 @@ export class CustomBuilderService {
 		const widgets = moduleRef.injector.get('widgets');
 		const resolver = moduleRef.componentFactoryResolver;
 
-		let widget = find(widgets[0], item => {
+		let widget = find(widgets[0], (item) => {
 			return item.id.toLowerCase() === customBuilderId.toLowerCase();
 		});
 

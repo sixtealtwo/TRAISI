@@ -27,6 +27,7 @@ import { RealTimeNotificationServce } from '../services/real-time-notification.s
 import { SurveyNotification } from '../models/survey-notification';
 import { ViewContainerData } from '@angular/core/src/view';
 import { ScreeningQuestions } from './models/screening-questions.model';
+import { BUILDER_SERVICE } from 'traisi-question-sdk';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -126,10 +127,10 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		private cdRef: ChangeDetectorRef,
 		private notificationService: RealTimeNotificationServce
 	) {
-		this.route.params.subscribe(params => {
+		this.route.params.subscribe((params) => {
 			this.surveyId = params['id'];
 			this.notificationService.surveyStatus(this.surveyId, true);
-			this.surveyService.getSurvey(this.surveyId).subscribe(survey => {
+			this.surveyService.getSurvey(this.surveyId).subscribe((survey) => {
 				this.survey = survey;
 			});
 		});
@@ -139,7 +140,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public ngOnInit(): void {
 		this.loadPageStructure();
 		this.surveyUpdate = this.notificationService.registerChannel(`survey-${this.surveyId}`);
-		this.surveyUpdate.subscribe(value => {
+		this.surveyUpdate.subscribe((value) => {
 			this.loadPageStructure();
 		});
 		this.switchPage('welcome');
@@ -166,7 +167,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public loadPageStructure(): void {
 		this.loadedSpecialPages = false;
-		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe(styles => {
+		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe((styles) => {
 			try {
 				this.pageThemeInfo = JSON.parse(styles);
 				if (this.pageThemeInfo === null) {
@@ -177,12 +178,17 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 			this.surveyBuilderService
 				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
-				.subscribe(page => {
+				.subscribe((page) => {
 					this.allPages = page.pages;
 					this.welcomePage = page.welcomePage === null ? new WelcomePage() : page.welcomePage;
-					this.termsAndConditionsPage = page.termsAndConditionsPage === null ? new TermsAndConditionsPage() : page.termsAndConditionsPage;
-					this.thankYouPage = page.surveyCompletionPage === null ? new ThankYouPage() : page.surveyCompletionPage;
-					this.screeningQuestions = page.screeningQuestions === null ? new ScreeningQuestions() : page.screeningQuestions;
+					this.termsAndConditionsPage =
+						page.termsAndConditionsPage === null
+							? new TermsAndConditionsPage()
+							: page.termsAndConditionsPage;
+					this.thankYouPage =
+						page.surveyCompletionPage === null ? new ThankYouPage() : page.surveyCompletionPage;
+					this.screeningQuestions =
+						page.screeningQuestions === null ? new ScreeningQuestions() : page.screeningQuestions;
 					this.catiExists = false;
 					this.enableCATI = false;
 					this.refreshSurveyPage();
@@ -191,7 +197,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 						this.enableCATI = false;
 						this.surveyBuilderService
 							.getCATIViewPageStructure(this.surveyId, this.currentLanguage)
-							.subscribe(structure => {
+							.subscribe((structure) => {
 								this.catiWelcomePage = structure.welcomePage;
 								this.catiTermsAndConditionsPage = structure.termsAndConditionsPage;
 								this.catiThankYouPage = structure.surveyCompletionPage;
@@ -205,7 +211,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	public createCATI(): void {
-		this.surveyBuilderService.createCATIView(this.surveyId, this.currentLanguage).subscribe(catiStructure => {
+		this.surveyBuilderService.createCATIView(this.surveyId, this.currentLanguage).subscribe((catiStructure) => {
 			this.loadPageStructure();
 			this.notificationService.indicateSurveyChange(this.surveyId);
 		});
@@ -216,7 +222,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			'Are you sure you want to delete the CATI view for this language?',
 			DialogType.confirm,
 			() => {
-				this.surveyBuilderService.deleteCATIView(this.surveyId, this.currentLanguage).subscribe(result => {
+				this.surveyBuilderService.deleteCATIView(this.surveyId, this.currentLanguage).subscribe((result) => {
 					this.loadPageStructure();
 					this.notificationService.indicateSurveyChange(this.surveyId);
 				});
@@ -239,7 +245,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	public mapQuestionTypeDefinitions(): void {
-		this.questionChooser.questionTypeDefinitions.forEach(q => {
+		this.questionChooser.questionTypeDefinitions.forEach((q) => {
 			this.qTypeDefinitions.set(q.typeName, q);
 		});
 	}
@@ -254,7 +260,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}
 
 		this.surveyBuilderService.updateWelcomePage(this.surveyId, wPage).subscribe(
-			result => {
+			(result) => {
 				if (showMessage) {
 					this.alertService.showMessage(
 						'Success',
@@ -264,7 +270,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {}
+			(error) => {}
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -278,7 +284,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			tcPage = this.termsAndConditionsPage;
 		}
 		this.surveyBuilderService.updateTermsAndConditionsPage(this.surveyId, tcPage).subscribe(
-			result => {
+			(result) => {
 				if (showMessage) {
 					this.alertService.showMessage(
 						'Success',
@@ -288,7 +294,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {}
+			(error) => {}
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -296,7 +302,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public saveQuestionViewerPage(showMessage: boolean): void {
 		this.questionViewerEditor.updatePageData();
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe(
-			result => {
+			(result) => {
 				if (showMessage) {
 					this.alertService.showMessage(
 						'Success',
@@ -306,7 +312,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {}
+			(error) => {}
 		);
 	}
 
@@ -319,7 +325,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			tPage = this.thankYouPage;
 		}
 		this.surveyBuilderService.updateThankYouPage(this.surveyId, tPage).subscribe(
-			result => {
+			(result) => {
 				if (showMessage) {
 					this.alertService.showMessage(
 						'Success',
@@ -329,7 +335,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {}
+			(error) => {}
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -343,7 +349,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			sPage = this.screeningQuestions;
 		}
 		this.surveyBuilderService.updateScreeningQuestions(this.surveyId, sPage).subscribe(
-			result => {
+			(result) => {
 				if (showMessage) {
 					this.alertService.showMessage(
 						'Success',
@@ -353,7 +359,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {}
+			(error) => {}
 		);
 	}
 
@@ -401,13 +407,13 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		this.loadedIndividualPage = false;
 		this.surveyBuilderService
 			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
-			.subscribe(page => {
+			.subscribe((page) => {
 				this.currentSurveyPage = page;
 				this.surveyPage.currentPage = page;
 				this.surveyPage.partsLeftToLoad = 1;
 				this.surveyPage.updateFullStructure(false);
 				this.surveyPage.qPartQuestions = new Map<number, QuestionPartView>();
-				page.questionPartViewChildren.forEach(qc => {
+				page.questionPartViewChildren.forEach((qc) => {
 					if (qc.questionPart === null) {
 						this.surveyPage.partsLeftToLoad++;
 						this.surveyPage.qPartQuestions.set(qc.id, qc);
@@ -444,15 +450,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		}
 
 		this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.currentSurveyPageEdit).subscribe(
-			result => {
+			(result) => {
 				Object.assign(this.currentSurveyPage, this.currentSurveyPageEdit);
-				let pageTab = this.allPages.filter(p => p.id === this.currentSurveyPageEdit.id)[0];
+				let pageTab = this.allPages.filter((p) => p.id === this.currentSurveyPageEdit.id)[0];
 				pageTab.label.value = this.currentSurveyPageEdit.label.value;
 				pageTab.icon = this.currentSurveyPageEdit.icon;
 				this.editPageModal.hide();
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {
+			(error) => {
 				this.alertService.showMessage(
 					'Error',
 					`Problem updating page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
@@ -470,7 +476,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public continueDelete(pageId: number): void {
 		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
-			result => {
+			(result) => {
 				this.loadPageStructure();
 				if (pageId === this.currentSurveyPage.id) {
 					this.navigateToFirst();
@@ -479,7 +485,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				this.editPageModal.hide();
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {
+			(error) => {
 				this.alertService.showMessage(
 					'Error',
 					`Problem removing page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
@@ -494,7 +500,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		let newPage: QuestionPartView = new QuestionPartView(0, newlabel, icon);
 
 		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
-			result => {
+			(result) => {
 				this.loadPageStructure();
 				if (this.surveyPage) {
 					this.surveyPage.updateFullStructure(true);
@@ -503,7 +509,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				this.createPageModal.hide();
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			error => {
+			(error) => {
 				this.alertService.showMessage(
 					'Error',
 					`Problem adding page!\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
@@ -548,31 +554,31 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				// create shadow list to give illusion of transfer before decision made
 				let pageCache = [...this.allPages];
 				this.allPages = Utilities.applyDrag(this.allPages, dropResult);
-				this.dragResult.subscribe(proceed => {
+				this.dragResult.subscribe((proceed) => {
 					this.dragResult.unsubscribe();
 					if (proceed === false) {
 						this.allPages = pageCache;
 					} else {
 						this.updatePageOrder();
-						let pagesOrder: Order[] = this.allPages.map(ap => new Order(ap.id, ap.order));
+						let pagesOrder: Order[] = this.allPages.map((ap) => new Order(ap.id, ap.order));
 						this.surveyBuilderService
 							.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
 							.subscribe(
-								result => {
+								(result) => {
 									this.surveyPage.updateFullStructure(true);
 								},
-								error => {
+								(error) => {
 									this.allPages = pageCache;
 									this.surveyPage.updateFullStructure(true);
 								}
 							);
 						if (this.catiExists) {
-							pagesOrder = this.allPages.map(ap => new Order(ap.catiDependent.id, ap.order));
+							pagesOrder = this.allPages.map((ap) => new Order(ap.catiDependent.id, ap.order));
 							this.surveyBuilderService
 								.updateCATIViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
 								.subscribe(
-									result => {},
-									error => {
+									(result) => {},
+									(error) => {
 										this.allPages = pageCache;
 									}
 								);

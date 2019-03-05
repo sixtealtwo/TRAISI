@@ -59,6 +59,7 @@ import { IconPickerModule } from 'ngx-icon-picker';
 import { CustomBuilderService } from './services/custom-builder.service';
 import { CustomBuilderContainerDirective } from './directives/custom-builder-container.directive';
 import { ScreeningQuestionsComponent } from './components/special-page-builder/screening-questions/screening-questions.component';
+import { BUILDER_SERVICE, TraisiSurveyBuilder } from 'traisi-question-sdk';
 
 @NgModule({
 	imports: [
@@ -107,6 +108,7 @@ import { ScreeningQuestionsComponent } from './components/special-page-builder/s
 				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
 		}),
 		ROUTES,
+
 		TranslateModule.forChild({
 			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
 		})
@@ -144,7 +146,12 @@ import { ScreeningQuestionsComponent } from './components/special-page-builder/s
 		PrivacyConfirmationComponent,
 		ScreeningQuestionsComponent
 	],
-	providers: [SurveyBuilderEndpointService, SurveyBuilderService, CustomBuilderService],
+	providers: [
+		SurveyBuilderEndpointService,
+		SurveyBuilderService,
+		CustomBuilderService,
+		{ provide: TraisiSurveyBuilder, useClass: SurveyBuilderService }
+	],
 	entryComponents: [
 		CheckboxComponent,
 		DateInputComponent,

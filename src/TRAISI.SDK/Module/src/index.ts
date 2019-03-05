@@ -1,16 +1,12 @@
 import { from } from 'rxjs';
 import { InjectionToken } from '../../../TRAISI/ClientApp/node_modules/@angular/core/core';
+import { QUESTION_ID } from './traisi-survey-builder.service';
 
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
 export { SurveyResponder } from './survey-respondent';
 export { QuestionOption } from './question-option';
-export {
-	OnVisibilityChanged,
-	OnOptionsLoaded,
-	OnSurveyQuestionInit,
-	OnSaveResponseStatus
-} from './survey_lifecycle_hooks';
+export { OnVisibilityChanged, OnOptionsLoaded, OnSurveyQuestionInit, OnSaveResponseStatus } from './survey_lifecycle_hooks';
 export { ResponseValidationState } from './question-response-state';
 
 export {
@@ -46,3 +42,11 @@ export { SurveyQuestionViewDirective } from './survey-question-view.directive';
 export { WidgetProvider } from './widget-provider';
 
 export { CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown } from './custom-builder-lifestyle-hooks';
+
+export {
+	TraisiSurveyBuilder,
+	QuestionOptionLabel,
+	QuestionOptionValue,
+	BUILDER_SERVICE,
+	QUESTION_ID
+} from './traisi-survey-builder.service';

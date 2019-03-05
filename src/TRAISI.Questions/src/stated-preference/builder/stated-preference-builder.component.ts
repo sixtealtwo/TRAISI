@@ -1,5 +1,8 @@
-import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild, Injector, SkipSelf } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BUILDER_SERVICE, QUESTION_ID } from 'traisi-question-sdk';
+import { TraisiSurveyBuilder } from '../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
+import * as _ from 'lodash';
 
 import {
 	SurveyQuestion,
@@ -32,14 +35,30 @@ import {
  */
 @Component({
 	selector: 'traisi-stated-preference-builder',
-	template: './stated-preference-builder.component.html',
-	styles: ['./stated-preference-builder.component.scss']
+	template: require('./stated-preference-builder.component.html'),
+	styles: [require('./stated-preference-builder.component.scss')]
 })
 export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown {
 	public model: { input: string };
 
-	public constructor() {
+	/**
+	 *Creates an instance of StatedPreferenceBuilderComponent.
+	 * @param {*} _builderService
+	 * @param {TraisiSurveyBuilder} _surveyBuilder
+	 * @memberof StatedPreferenceBuilderComponent
+	 */
+	public constructor(
+		@Inject(BUILDER_SERVICE) private _surveyBuilder: TraisiSurveyBuilder,
+		@Inject(QUESTION_ID) private _questionId: number
+	) {
 		this.model = { input: '' };
+
+		console.log('got builder service: ');
+		console.log(this._surveyBuilder);
+		// console.log(_injector.get(BUILDER_SERVICE));
+
+		console.log('q id: ');
+		console.log(this._questionId);
 	}
 
 	/**
@@ -47,8 +66,9 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 	 *
 	 * @memberof StatedPreferenceBuilderComponent
 	 */
-	public customBuilderInitialized(): void {
+	public customBuilderInitialized(injector?: Injector): void {
 		console.log('custom builder init called from stated preference builder component.');
+		console.log(injector);
 	}
 
 	public customBuilderHidden(): void {

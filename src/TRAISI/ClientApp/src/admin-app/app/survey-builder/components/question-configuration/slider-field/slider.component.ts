@@ -8,7 +8,6 @@ import { QuestionConfigurationDefinition } from '../../../models/question-config
 	encapsulation: ViewEncapsulation.None
 })
 export class SliderComponent implements OnInit {
-
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 	public sliding: boolean = false;
@@ -17,10 +16,9 @@ export class SliderComponent implements OnInit {
 	public max: number = 100;
 	public interval: number = 1;
 
-
 	constructor() {}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		let sliderData = JSON.parse(this.questionConfiguration.resourceData);
 		this.min = sliderData.min;
 		this.max = sliderData.max;
@@ -34,7 +32,7 @@ export class SliderComponent implements OnInit {
 		this.sliderValue = +this.questionConfiguration.defaultValue;
 	}
 
-	getValue(){
+	getValue() {
 		return JSON.stringify(this.sliderValue);
 	}
 

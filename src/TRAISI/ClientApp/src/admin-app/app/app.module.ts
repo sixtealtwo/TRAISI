@@ -38,6 +38,8 @@ import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { TreeviewModule } from 'ngx-treeview';
 import { ContextMenuModule } from 'ngx-contextmenu';
+import { BUILDER_SERVICE } from 'traisi-question-sdk';
+import { SurveyBuilderService } from './survey-builder/services/survey-builder.service';
 
 const monacoConfig: NgxMonacoEditorConfig = {
 	baseUrl: './assets', // configure base path for monaco editor
@@ -86,6 +88,13 @@ const APP_PROVIDERS = [AppConfig];
 		}),
 		MonacoEditorModule.forRoot(monacoConfig)
 	],
-	providers: [APP_PROVIDERS, AppTranslationService, LocalStoreManager, EndpointFactory, TranslatePipe, TitleCasePipe]
+	providers: [
+		APP_PROVIDERS,
+		AppTranslationService,
+		LocalStoreManager,
+		EndpointFactory,
+		TranslatePipe,
+		TitleCasePipe
+	]
 })
 export class AppModule {}

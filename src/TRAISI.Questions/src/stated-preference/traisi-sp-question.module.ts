@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StatedPreferenceQuestionComponent } from './viewer/stated-preference-question.component';
 import { StatedPreferenceBuilderComponent } from './builder/stated-preference-builder.component';
 import { dot } from 'dot';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [StatedPreferenceQuestionComponent, StatedPreferenceBuilderComponent],
@@ -26,6 +27,6 @@ import { dot } from 'dot';
 			multi: true
 		}
 	],
-	imports: [CommonModule, HttpClientModule]
+	imports: [CommonModule, HttpClientModule, FormsModule]
 })
 export default class TraisiStatedPreferenceQuestionModule {}

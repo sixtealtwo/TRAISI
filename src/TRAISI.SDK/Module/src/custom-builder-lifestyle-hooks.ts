@@ -1,5 +1,6 @@
+import { Injector } from '@angular/core';
 export interface CustomBuilderOnInit {
-	customBuilderInitialized(): void;
+	customBuilderInitialized(injector?: Injector): void;
 }
 
 export interface CustomBuilderOnShown {
