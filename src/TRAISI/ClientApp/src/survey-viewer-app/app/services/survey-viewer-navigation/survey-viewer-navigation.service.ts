@@ -103,25 +103,6 @@ export class SurveyViewerNavigationService {
 					}
 				}
 			});
-
-			/*let nav$ = this.evaluateRepeat()
-				.pipe(
-					flatMap(() => {
-						return this.evaluateConditionals();
-					})
-				)
-				.subscribe(
-					() => {
-						// look at the active view container and call navigate next on it
-
-					},
-					(error) => {
-						console.log(error);
-					},
-					() => {
-						console.log('is complete');
-					}
-				);*/
 		}
 	}
 
@@ -324,26 +305,10 @@ export class SurveyViewerNavigationService {
 	 * @returns repeat
 	 */
 	private evaluateRepeat(): Observable<any> {
-		// let repeat$ = new Subject<void>();
-
 		return this._state.evaluateRepeat(
 			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel,
 			this._state.viewerState.activeRespondent.id
 		);
-		/*
-			.subscribe(
-				(result) => {
-					repeat$.next();
-					repeat$.complete();
-				},
-				(error) => {},
-				() => {
-					console.log('in complete');
-					repeat$.next();
-					repeat$.complete();
-				}
-			);
-		return repeat$; */
 	}
 
 	private evaluateConditionals(): Observable<any> {
