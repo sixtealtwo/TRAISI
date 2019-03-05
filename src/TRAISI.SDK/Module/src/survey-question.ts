@@ -60,7 +60,9 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 
 	public respondent: GroupMember;
 
-	public questionOptions: ReplaySubject<QuestionOption[]>;
+	public questionOptions: Observable<QuestionOption[]>;
+
+	public configurations: Observable<QuestionConfiguration[]>;
 
 	/**
 	 *
@@ -78,6 +80,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 */
 	constructor() {
 		this.questionOptions = new ReplaySubject<QuestionOption[]>();
+		this.configurations = new ReplaySubject<QuestionConfiguration[]>();
 		this.response = new EventEmitter<ResponseData<T>>();
 		this.autoAdvance = new EventEmitter<number>();
 		this.validationState = new EventEmitter<ResponseValidationState>();
