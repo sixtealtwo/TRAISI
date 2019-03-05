@@ -1,6 +1,6 @@
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { Injectable, Inject } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, concat } from 'rxjs';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { SurveyQuestionContainer } from './survey-question-container';
@@ -54,7 +54,57 @@ export class SurveyViewerNavigationService {
 			this.navigationCompleted.next(true);
 			return;
 		} else {
-			let nav$ = this.evaluateRepeat()
+			concat(this.evaluateRepeat(), this.evaluateConditionals()).subscribe({
+				complete: () => {
+					let result: boolean;
+					do {
+						result = this._state.viewerState.activeViewContainer.navigateNext();
+
+						if (result) {
+							this.incrementViewContainer();
+						}
+					} while (
+						this._state.viewerState.activeViewContainer !== undefined &&
+						this._state.viewerState.activeViewContainer.iterateNext()
+					);
+
+					if (this._state.viewerState.activeViewContainer === undefined) {
+						this.updateState();
+						// nav$.unsubscribe();
+						return;
+					}
+					this._state.viewerState.isPreviousEnabled = true;
+
+					let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
+						.activeViewContainer;
+					let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
+						.parentSectionContainer;
+					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
+					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
+
+					if (isHousehold && currentParentContainer !== nextParentContainer) {
+						this._responderService
+							.getSurveyGroupMembers(this._responderService.primaryRespondent)
+							.subscribe((members: Array<SurveyViewGroupMember>) => {
+								if (members.length > 0) {
+									this._state.viewerState.groupMembers = [];
+									members.forEach((member) => {
+										this._state.viewerState.groupMembers.push(member);
+									});
+
+									nextParentContainer.updateGroups();
+									// nav$.unsubscribe();
+									this.updateState();
+								}
+							});
+					} else {
+						// nav$.unsubscribe();
+						this.updateState();
+					}
+				}
+			});
+
+			/*let nav$ = this.evaluateRepeat()
 				.pipe(
 					flatMap(() => {
 						return this.evaluateConditionals();
@@ -63,51 +113,7 @@ export class SurveyViewerNavigationService {
 				.subscribe(
 					() => {
 						// look at the active view container and call navigate next on it
-						let result: boolean;
-						do {
-							result = this._state.viewerState.activeViewContainer.navigateNext();
 
-							if (result) {
-								this.incrementViewContainer();
-							}
-						} while (
-							this._state.viewerState.activeViewContainer !== undefined &&
-							this._state.viewerState.activeViewContainer.iterateNext()
-						);
-
-						if (this._state.viewerState.activeViewContainer === undefined) {
-							this.updateState();
-							nav$.unsubscribe();
-							return;
-						}
-						this._state.viewerState.isPreviousEnabled = true;
-
-						let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
-							.activeViewContainer;
-						let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
-							.parentSectionContainer;
-						let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
-						let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
-
-						if (isHousehold && currentParentContainer !== nextParentContainer) {
-							this._responderService
-								.getSurveyGroupMembers(this._responderService.primaryRespondent)
-								.subscribe((members: Array<SurveyViewGroupMember>) => {
-									if (members.length > 0) {
-										this._state.viewerState.groupMembers = [];
-										members.forEach((member) => {
-											this._state.viewerState.groupMembers.push(member);
-										});
-
-										nextParentContainer.updateGroups();
-										nav$.unsubscribe();
-										this.updateState();
-									}
-								});
-						} else {
-							nav$.unsubscribe();
-							this.updateState();
-						}
 					},
 					(error) => {
 						console.log(error);
@@ -115,7 +121,7 @@ export class SurveyViewerNavigationService {
 					() => {
 						console.log('is complete');
 					}
-				);
+				);*/
 		}
 	}
 

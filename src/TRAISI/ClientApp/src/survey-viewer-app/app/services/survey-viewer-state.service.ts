@@ -142,7 +142,7 @@ export class SurveyViewerStateService {
 	 */
 	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Observable<{}> {
 		if (activeQuestion.repeatTargets.length === 0) {
-			return of({});
+			return of();
 		}
 		return Observable.create((observer) => {
 			this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
@@ -296,7 +296,7 @@ export class SurveyViewerStateService {
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
 			) {
 				setTimeout(() => {
-					observer.next({});
+					observer.complete();
 				});
 			} else {
 				let conditionalEvals = [];
@@ -332,6 +332,7 @@ export class SurveyViewerStateService {
 						targetQuestion.isRespondentHidden[respondentId] = evalTrue;
 						targetQuestion.isHidden = evalTrue;
 					});
+					observer.complete();
 				});
 			}
 		});

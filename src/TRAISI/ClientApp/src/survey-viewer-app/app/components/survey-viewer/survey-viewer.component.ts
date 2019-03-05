@@ -485,7 +485,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param state
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
-		console.log('state changed');
+
 	};
 
 	/**
@@ -500,6 +500,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public updateNavigation(): void {
+
+
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
 			this.viewerState.activeQuestion.questionId,
 			this.viewerState.isSectionActive && this.viewerState.activeQuestion.parentSection.isHousehold
