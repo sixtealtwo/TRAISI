@@ -1,4 +1,5 @@
 import { from } from 'rxjs';
+import { InjectionToken } from '../../../TRAISI/ClientApp/node_modules/@angular/core/core';
 
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
@@ -42,8 +43,6 @@ export { SurveyQuestionInternalViewDirective } from './survey-question-internal-
 
 export { SurveyQuestionViewDirective } from './survey-question-view.directive';
 
-export {
-	CustomBuilderOnInit,
-	CustomBuilderOnHidden,
-	CustomBuilderOnShown
-} from './custom-builder-lifestyle-hooks';
+export { WidgetProvider } from './widget-provider';
+
+export { CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown } from './custom-builder-lifestyle-hooks';

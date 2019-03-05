@@ -219,7 +219,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.getSurveyStyles(surveyId).subscribe((styles) => {
 			try {
 				this._pageThemeInfoJson = styles;
-				console.log(this._pageThemeInfoJson);
 				if (this._pageThemeInfoJson === null) {
 					this._pageThemeInfoJson.viewerTemplate = '';
 				}

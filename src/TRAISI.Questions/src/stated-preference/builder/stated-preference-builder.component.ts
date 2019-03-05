@@ -32,8 +32,8 @@ import {
  */
 @Component({
 	selector: 'traisi-stated-preference-builder',
-	template: require('./stated-preference-builder.component.html').toString(),
-	styles: [require('./stated-preference-builder.component.scss').toString()]
+	template: './stated-preference-builder.component.html',
+	styles: ['./stated-preference-builder.component.scss']
 })
 export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown {
 	public model: { input: string };

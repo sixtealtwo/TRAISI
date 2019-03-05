@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { TextQuestionComponent } from './text-question/text-question.component';
 import { RadioQuestionComponent } from './radio-question/radio-question.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,9 @@ import { HouseholdQuestionComponent } from 'household-question/household-questio
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
+import { SurveyQuestion, ResponseTypes } from '../../TRAISI.SDK/Module/dist';
+
+export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 @NgModule({
 	declarations: [
 		TextQuestionComponent,
@@ -49,6 +52,7 @@ import { NumberQuestionValidatorDirective } from 'number-question/number-questio
 	providers: [
 		{
 			provide: 'widgets',
+			multi: true,
 			useValue: [
 				{
 					name: 'traisi-text-question',
@@ -110,10 +114,20 @@ import { NumberQuestionValidatorDirective } from 'number-question/number-questio
 					id: 'household',
 					component: HouseholdQuestionComponent
 				}
-			],
-			multi: true
+			]
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, BsDatepickerModule.forRoot(), TextMaskModule, NgSelectModule]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule]
 })
-export default class TraisiQuestions {}
+export default class TraisiQuestions {
+	public components: Array<{ name: string; id: string; component: any }>;
+
+	public constructor() {
+		this.components = [];
+		this.components.push({
+			name: 'traisi-time-question',
+			id: 'time',
+			component: TimeQuestionComponent
+		});
+	}
+}

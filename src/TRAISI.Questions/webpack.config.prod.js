@@ -21,7 +21,7 @@ module.exports = {
 			new UglifyJsPlugin({
 				parallel: 4,
 				uglifyOptions: {
-				// 	mangle: true
+					// 	mangle: true
 				}
 			})
 		]
@@ -29,13 +29,15 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.js'],
 		plugins: [new TsConfigPathsPlugin /* { tsconfig, compiler } */()]
-    },
-
-
+	},
 
 	module: {
-
 		rules: [
+			{
+				test: /\.ts$/,
+				loaders: ['angular2-template-loader?keepUrl=true', 'angular-router-loader'],
+				exclude: [/node_modules/]
+			},
 			{
 				test: /\.tsx?$/,
 				use: 'ts-loader'
@@ -47,27 +49,34 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					'style-loader', // creates style nodes from JS strings
+					'to-string-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
 					'css-loader' // translates CSS into CommonJS
 				]
 			},
 			{
 				test: /\.scss$/,
 				use: [
-                    {
-                        loader: 'style-loader'
-                    },                    {
-                        loader: 'css-loader'
-                    },                    {
-                        loader: 'sass-loader',options: {
-                            sourceMap: true,
-                            data: '@import "_styles";',
-                            includePaths: [
-                              path.join(__dirname, 'src/assets')
-                            ]
-                          }
-                    }
-
+					'to-string-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true,
+							data: '@import "_styles";',
+							includePaths: [path.join(__dirname, 'src/assets')]
+						}
+					}
 				]
 			},
 			{
@@ -100,7 +109,7 @@ module.exports = {
             callback();
         }
     ],*/
-	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/,/^bootstrap/,/^bootswatch/,/^rxjs/],
+	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/, /^bootstrap/, /^bootswatch/, /^rxjs/],
 	plugins: [
 		/* new WebpackSystemRegister({
              systemjsDeps: [

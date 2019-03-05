@@ -1,6 +1,6 @@
 const path = require('path');
 const WebpackSystemRegister = require('webpack-system-register');
-
+const { AngularCompilerPlugin } = require('@ngtools/webpack');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
 	entry: {
@@ -20,13 +20,25 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.js'],
 		plugins: [new TsConfigPathsPlugin /* { tsconfig, compiler } */()]
-    },
-
-
+	},
 
 	module: {
-
 		rules: [
+			{
+				test: /\.ts$/,
+				loaders: [
+					/*'babel-loader',
+					{
+						loader: 'ts-loader',
+						options: {
+							// configFileName: 'tsconfig.json'
+						}
+					},*/
+					'angular2-template-loader',
+					'angular-router-loader'
+				],
+				exclude: [/node_modules/]
+			},
 			{
 				test: /\.tsx?$/,
 				use: 'ts-loader'
@@ -38,27 +50,33 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					'style-loader', // creates style nodes from JS strings
-					'css-loader' // translates CSS into CommonJS
+					'to-string-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					}
 				]
 			},
 			{
 				test: /\.scss$/,
 				use: [
-                    {
-                        loader: 'style-loader'
-                    },                    {
-                        loader: 'css-loader'
-                    },                    {
-                        loader: 'sass-loader',options: {
-                            sourceMap: true,
-                            data: '@import "_styles";',
-                            includePaths: [
-                              path.join(__dirname, 'src/assets')
-                            ]
-                          }
-                    }
-
+					'to-string-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true,
+							data: '@import "_styles";',
+							includePaths: [path.join(__dirname, 'src/assets')]
+						}
+					}
 				]
 			},
 			{
@@ -91,7 +109,7 @@ module.exports = {
             callback();
         }
     ],*/
-	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/,/^bootstrap/,/^bootswatch/,/^rxjs/],
+	externals: [/^@angular/, /^ngx-bootstrap/, /^@fortawesome/, /^bootstrap/, /^bootswatch/, /^rxjs/],
 	plugins: [
 		/* new WebpackSystemRegister({
              systemjsDeps: [
@@ -106,6 +124,13 @@ module.exports = {
                     comments: false,
                 }
             }
-        })  */
+		})  */
+		new AngularCompilerPlugin({
+			tsConfigPath: './tsconfig.json',
+			entryModule: './src/stated-preference/traisi-sp-question.module#TraisiQuestions',
+			compilerOptions: {
+				emitDecoratorMetadata: true
+			}
+		})
 	]
 };

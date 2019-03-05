@@ -1,14 +1,18 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "es6",
-      "experimentalDecorators": true,
+	"compilerOptions": {
+		"target": "es5",
+		"module": "esnext",
+		"experimentalDecorators": true,
 
-      "declaration": true,
-      "moduleResolution": "node",
-      "strictFunctionTypes": false,
-      "outDir": "./dist",
-      "strict": true,
-      "lib": ["es5", "es2015", "dom", "scripthost"]
-    }
-  }
+		"declaration": true,
+		"moduleResolution": "node",
+		"strictFunctionTypes": false,
+		"outDir": "./dist",
+		"strict": true,
+		"lib": ["es5", "es2015", "dom", "scripthost"]
+	},
+	"angularCompilerOptions": {
+		"skipTemplateCodegen": true,
+		"strictMetadataEmit": true
+	}
+}
