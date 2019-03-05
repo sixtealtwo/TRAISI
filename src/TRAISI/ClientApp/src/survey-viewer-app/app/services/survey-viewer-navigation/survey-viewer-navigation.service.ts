@@ -28,15 +28,18 @@ export class SurveyViewerNavigationService {
 	}
 
 	/**
-	 * Creates an instance of survey viewer navigation service.
-	 * @param _state
-	 * @param _surveyResponderService
+	 *Creates an instance of SurveyViewerNavigationService.
+	 * @param {SurveyViewerStateService} _state
+	 * @param {SurveyResponderService} _responderService
+	 * @param {Router} _router
+	 * @param {Location} _location
+	 * @memberof SurveyViewerNavigationService
 	 */
 	public constructor(
 		private _state: SurveyViewerStateService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
-		private router: Router,
-		private location: Location
+		private _router: Router,
+		private _location: Location
 	) {
 		this.navigationCompleted = new Subject<boolean>();
 	}
@@ -197,8 +200,8 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.pageIndex;
 
-		const baseUrl = this.router.url.split('?')[0];
-		const url = this.router
+		const baseUrl = this._router.url.split('?')[0];
+		const url = this._router
 			.createUrlTree([baseUrl], { queryParams: { question: this._state.viewerState.activeQuestion.id } })
 			.toString();
 
