@@ -52,64 +52,70 @@ export class SurveyViewerNavigationService {
 		if (this._state.viewerState.activeViewContainer === undefined) {
 			// sane bounds check
 			this.navigationCompleted.next(true);
-
 			return;
 		} else {
-			this.evaluateRepeat()
+			let nav$ = this.evaluateRepeat()
 				.pipe(
 					flatMap(() => {
 						return this.evaluateConditionals();
 					})
 				)
-				.subscribe(() => {
-					// look at the active view container and call navigate next on it
+				.subscribe(
+					() => {
+						// look at the active view container and call navigate next on it
+						let result: boolean;
+						do {
+							result = this._state.viewerState.activeViewContainer.navigateNext();
 
-					let result: boolean;
-					do {
-						result = this._state.viewerState.activeViewContainer.navigateNext();
+							if (result) {
+								this.incrementViewContainer();
+							}
+						} while (
+							this._state.viewerState.activeViewContainer !== undefined &&
+							this._state.viewerState.activeViewContainer.iterateNext()
+						);
 
-						if (result) {
-							this.incrementViewContainer();
+						if (this._state.viewerState.activeViewContainer === undefined) {
+							this.updateState();
+							nav$.unsubscribe();
+							return;
 						}
-					} while (
-						this._state.viewerState.activeViewContainer !== undefined &&
-						this._state.viewerState.activeViewContainer.iterateNext()
-					);
+						this._state.viewerState.isPreviousEnabled = true;
 
-					if (this._state.viewerState.activeViewContainer === undefined) {
-						this.updateState();
-						return;
+						let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
+							.activeViewContainer;
+						let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
+							.parentSectionContainer;
+						let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
+						let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
+
+						if (isHousehold && currentParentContainer !== nextParentContainer) {
+							this._responderService
+								.getSurveyGroupMembers(this._responderService.primaryRespondent)
+								.subscribe((members: Array<SurveyViewGroupMember>) => {
+									if (members.length > 0) {
+										this._state.viewerState.groupMembers = [];
+										members.forEach((member) => {
+											this._state.viewerState.groupMembers.push(member);
+										});
+
+										nextParentContainer.updateGroups();
+										nav$.unsubscribe();
+										this.updateState();
+									}
+								});
+						} else {
+							nav$.unsubscribe();
+							this.updateState();
+						}
+					},
+					(error) => {
+						console.log(error);
+					},
+					() => {
+						console.log('is complete');
 					}
-					this._state.viewerState.isPreviousEnabled = true;
-
-					let nextContainer = this._state.viewerState.viewContainers[
-						this._state.viewerState.activeViewContainerIndex
-					].activeViewContainer;
-					let currentParentContainer = (<SurveyQuestionContainer>(
-						this._state.viewerState.activeQuestionContainer
-					)).parentSectionContainer;
-					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
-					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
-
-					if (isHousehold && currentParentContainer !== nextParentContainer) {
-						this._responderService
-							.getSurveyGroupMembers(this._responderService.primaryRespondent)
-							.subscribe((members: Array<SurveyViewGroupMember>) => {
-								if (members.length > 0) {
-									this._state.viewerState.groupMembers = [];
-									members.forEach(member => {
-										this._state.viewerState.groupMembers.push(member);
-									});
-
-									nextParentContainer.updateGroups();
-
-									this.updateState();
-								}
-							});
-					} else {
-						this.updateState();
-					}
-				});
+				);
 		}
 	}
 
@@ -130,10 +136,7 @@ export class SurveyViewerNavigationService {
 
 		const activeSection = activePage.activeRepeatContainer.activeSection;
 
-		while (
-			this._state.viewerState.activeViewContainer !== undefined &&
-			this._state.viewerState.activeViewContainer.iterateNext()
-		) {
+		while (this._state.viewerState.activeViewContainer !== undefined && this._state.viewerState.activeViewContainer.iterateNext()) {
 			let result = this._state.viewerState.activeViewContainer.navigateNext();
 
 			if (result) {
@@ -145,10 +148,8 @@ export class SurveyViewerNavigationService {
 
 		this._state.viewerState.isPreviousEnabled = true;
 
-		let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
-			.activeViewContainer;
-		let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
-			.parentSectionContainer;
+		let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex].activeViewContainer;
+		let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).parentSectionContainer;
 		let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
 		let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
 
@@ -162,7 +163,7 @@ export class SurveyViewerNavigationService {
 				.subscribe((members: Array<SurveyViewGroupMember>) => {
 					if (members.length > 0) {
 						this._state.viewerState.groupMembers = [];
-						members.forEach(member => {
+						members.forEach((member) => {
 							this._state.viewerState.groupMembers.push(member);
 						});
 
@@ -193,17 +194,11 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.parentPage;
 
-		this._state.viewerState.activeQuestion = (<SurveyQuestionContainer>(
-			this._state.viewerState.activeQuestionContainer
-		)).questionModel;
+		this._state.viewerState.activeQuestion = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel;
 		this._state.viewerState.isSectionActive =
-			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !==
-			undefined;
+			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !== undefined;
 
-		if (
-			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !==
-			undefined
-		) {
+		if ((<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.parentSection !== undefined) {
 			this._state.viewerState.activeSection = (<SurveyQuestionContainer>(
 				this._state.viewerState.activeQuestionContainer
 			)).questionModel.parentSection;
@@ -271,9 +266,8 @@ export class SurveyViewerNavigationService {
 				questionContainer.questionModel.respondentValidationState !== undefined
 			) {
 				if (
-					questionContainer.questionModel.respondentValidationState[
-						this._state.viewerState.activeRespondent.id
-					] === ResponseValidationState.VALID
+					questionContainer.questionModel.respondentValidationState[this._state.viewerState.activeRespondent.id] ===
+					ResponseValidationState.VALID
 				) {
 					this._state.viewerState.isNextEnabled = true;
 				} else {
@@ -312,10 +306,7 @@ export class SurveyViewerNavigationService {
 	 */
 	private canNavigateNext(): boolean {
 		let val = this._state.viewerState.activeViewContainer.canNavigateNext();
-		if (
-			this._state.viewerState.activeViewContainerIndex < this._state.viewerState.viewContainers.length - 1 ||
-			val
-		) {
+		if (this._state.viewerState.activeViewContainerIndex < this._state.viewerState.viewContainers.length - 1 || val) {
 			return true;
 		}
 
@@ -326,34 +317,34 @@ export class SurveyViewerNavigationService {
 	 * Evaluates repeat
 	 * @returns repeat
 	 */
-	private evaluateRepeat(): Subject<void> {
-		let repeat$ = new Subject<void>();
+	private evaluateRepeat(): Observable<any> {
+		// let repeat$ = new Subject<void>();
 
-		this._state
-			.evaluateRepeat(
-				(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel,
-				this._state.viewerState.activeRespondent.id
-			)
-			.subscribe(result => {
-				repeat$.next();
-				repeat$.complete();
-			});
-		return repeat$;
+		return this._state.evaluateRepeat(
+			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel,
+			this._state.viewerState.activeRespondent.id
+		);
+		/*
+			.subscribe(
+				(result) => {
+					repeat$.next();
+					repeat$.complete();
+				},
+				(error) => {},
+				() => {
+					console.log('in complete');
+					repeat$.next();
+					repeat$.complete();
+				}
+			);
+		return repeat$; */
 	}
 
-	private evaluateConditionals(): Subject<void> {
-		let conditionals$ = new Subject<void>();
-
-		this._state
-			.evaluateConditionals(
-				(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.questionId,
-				this._state.viewerState.activeRespondent.id
-			)
-			.subscribe(result => {
-				conditionals$.next();
-				conditionals$.complete();
-			});
-		return conditionals$;
+	private evaluateConditionals(): Observable<any> {
+		return this._state.evaluateConditionals(
+			(<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer).questionModel.questionId,
+			this._state.viewerState.activeRespondent.id
+		);
 	}
 
 	/**
@@ -375,7 +366,7 @@ export class SurveyViewerNavigationService {
 				.subscribe((members: Array<SurveyViewGroupMember>) => {
 					if (members.length > 0) {
 						this._state.viewerState.groupMembers = [];
-						members.forEach(member => {
+						members.forEach((member) => {
 							this._state.viewerState.groupMembers.push(member);
 						});
 					}

@@ -72,15 +72,9 @@ interface SpecialPageDataInput {
 			transition('* => hidden', [
 				// query(':enter', style({ opacity: 0 }), { optional: true }),
 				// query(':leave', style({ opacity: 1 }), { optional: true }),
-				query(
-					':self',
-					stagger('1s', [
-						animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))
-					]),
-					{
-						optional: true
-					}
-				)
+				query(':self', stagger('1s', [animate('1s', keyframes([style({ opacity: 1 }), style({ opacity: 0, display: 'none' })]))]), {
+					optional: true
+				})
 			])
 		])
 	],
@@ -216,7 +210,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
 
 					this.viewerTheme = theme;
-					theme.viewerTemplate.forEach(sectionInfo => {
+					theme.viewerTemplate.forEach((sectionInfo) => {
 						if (sectionInfo.sectionType.startsWith('header')) {
 							this.headerComponent = this.getComponent(sectionInfo.sectionType);
 							this.headerHTML = sectionInfo.html;
@@ -237,7 +231,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				})
 			)
 			.subscribe((pages: SurveyViewPage[]) => {
-				pages.forEach(page => {
+				pages.forEach((page) => {
 					this.headerDisplay.completedPages.push(false);
 				});
 				this.loadQuestions(pages);
@@ -301,15 +295,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						relationship: null
 					};
 					this.viewerState.primaryRespondent = this._surveyResponderService.primaryRespondent;
-					return this._surveyResponderService.getSurveyGroupMembers(
-						this._surveyResponderService.primaryRespondent
-					);
+					return this._surveyResponderService.getSurveyGroupMembers(this._surveyResponderService.primaryRespondent);
 				})
 			)
 			.subscribe((members: Array<SurveyViewGroupMember>) => {
 				if (members.length > 0) {
 					this.viewerState.groupMembers = [];
-					members.forEach(member => {
+					members.forEach((member) => {
 						this.viewerState.groupMembers.push(member);
 					});
 					this.viewerState.primaryRespondent = members[0];
@@ -323,10 +315,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				let viewOrder: number = 0;
 
 				this.viewerState.surveyPages = [];
-				pages.forEach(page => {
+				pages.forEach((page) => {
 					let pageQuestionCount: number = 0;
 					let pageContainer = new SurveyPageContainer(page, this._viewerStateService);
-					page.questions.forEach(question => {
+					page.questions.forEach((question) => {
 						question.pageIndex = pageCount;
 						question.viewOrder = viewOrder;
 						question.parentPage = page;
@@ -350,10 +342,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 						sectionRepeatContainer.order = question.order;
 
-						let groupContainer = new SurveyGroupContainer(
-							this._viewerStateService,
-							this.viewerState.primaryRespondent
-						);
+						let groupContainer = new SurveyGroupContainer(this._viewerStateService, this.viewerState.primaryRespondent);
 
 						let sectionContainer = new SurveySectionContainer(null, this._viewerStateService);
 
@@ -376,9 +365,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						pageContainer.children.push(sectionRepeatContainer);
 					});
 
-					page.sections.forEach(section => {
+					page.sections.forEach((section) => {
 						let inSectionIndex: number = 0;
-						section.questions.forEach(question => {
+						section.questions.forEach((question) => {
 							question.pageIndex = pageCount;
 							question.viewOrder = viewOrder;
 							question.parentSection = section;
@@ -397,9 +386,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								question.repeatTargets = [];
 							}
 							if (question.isRepeat) {
-								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(
-									question.questionId
-								);
+								this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 							}
 							inSectionIndex++;
 
@@ -408,7 +395,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 							let sectionRepeatContainer: SurveySectionRepeatContainer;
 
-							let index = pageContainer.children.findIndex(container2 => {
+							let index = pageContainer.children.findIndex((container2) => {
 								if (container2.sectionModel === null) {
 									return false;
 								}
@@ -427,10 +414,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								sectionContainer = sectionRepeatContainer.children[0];
 							}
 
-							sectionRepeatContainer.createQuestionContainer(
-								question,
-								this.viewerState.primaryRespondent
-							);
+							sectionRepeatContainer.createQuestionContainer(question, this.viewerState.primaryRespondent);
 
 							sectionContainer.activeGroupContainer.initialize();
 						});
@@ -445,17 +429,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				viewOrder = 0;
-				this.viewerState.viewContainers.forEach(page => {
-					page.children.forEach(sectionRepeat => {
-						sectionRepeat.children.forEach(section => {
-							section.children.forEach(group => {
+				this.viewerState.viewContainers.forEach((page) => {
+					page.children.forEach((sectionRepeat) => {
+						sectionRepeat.children.forEach((section) => {
+							section.children.forEach((group) => {
 								group.forRespondent = this.viewerState.primaryRespondent;
-								group.children.forEach(repeat => {
+								group.children.forEach((repeat) => {
 									repeat.forRespondent = this.viewerState.primaryRespondent;
-									repeat.children.forEach(question => {
-										question.questionModel.repeatTargets = Array.from(
-											new Set(question.questionModel.repeatTargets)
-										);
+									repeat.children.forEach((question) => {
+										question.questionModel.repeatTargets = Array.from(new Set(question.questionModel.repeatTargets));
 										question.forRespondent = this.viewerState.primaryRespondent;
 										question.questionModel.viewOrder = viewOrder;
 									});
@@ -478,6 +460,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
+
+				console.log(this.viewerState);
 			});
 	}
 
@@ -500,7 +484,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {
+		console.log('state changed');
+	};
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -521,7 +507,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				: this.viewerState.primaryRespondent.id
 		);
 
-		conditionalResult.subscribe((value: void) => {
+		conditionalResult.subscribe((value: {}) => {
 			this._viewerStateService
 				.evaluateRepeat(
 					this.viewerState.surveyQuestions[this.viewerState.activeQuestionIndex],
@@ -529,7 +515,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						? this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id
 						: this.viewerState.primaryRespondent.id
 				)
-				.subscribe((v: void) => {
+				.subscribe((v: {}) => {
 					if (!this.validateInternalNavigationNext()) {
 					}
 				});
@@ -559,6 +545,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._navigation.navigateNext();
 	}
 
+	private surveyQuestionsChanged: () => void = () => {
+		// update the validation based on new survey questions and active question
+		// this.validateNavigation();
+	};
+
 	/**
 	 * Shows group member
 	 * @param memberIndex
@@ -579,11 +570,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	private callVisibilityHooks(): void {
 		if (this._activeQuestionContainer !== undefined) {
 			if (this._activeQuestionContainer.surveyQuestionInstance != null) {
-				if (
-					(<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty(
-						'onQuestionShown'
-					)
-				) {
+				if ((<any>this._activeQuestionContainer.surveyQuestionInstance).__proto__.hasOwnProperty('onQuestionShown')) {
 					(<any>this._activeQuestionContainer.surveyQuestionInstance).onQuestionShown();
 				}
 			}
@@ -619,25 +606,19 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			key => this.questionTypeMap[key] === 'household'
-		);
-		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
+		let questionId: number = +Object.keys(this.questionTypeMap).find((key) => this.questionTypeMap[key] === 'household');
+		return Object.keys(this.questionNameMap).find((key) => this.questionNameMap[key] === questionId);
 	}
 
 	public processedSectionLabel(sectionTitle: string): string {
-		return Utilities.replacePlaceholder(
-			sectionTitle,
-			this.retrieveHouseholdTag(),
-			this.viewerState.activeRespondent.name
-		);
+		return Utilities.replacePlaceholder(sectionTitle, this.retrieveHouseholdTag(), this.viewerState.activeRespondent.name);
 	}
 
 	/**
 	 *
 	 */
 	public ngAfterViewInit(): void {
-		this.questionContainers.changes.subscribe(s => {
+		this.questionContainers.changes.subscribe((s) => {
 			this._activeQuestionContainer = s.first;
 
 			if (s.length > 1) {

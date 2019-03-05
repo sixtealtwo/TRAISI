@@ -29,8 +29,8 @@ import {
  */
 @Component({
 	selector: 'traisi-stated-preference-question',
-	template: './stated-preference-question.component.html',
-	styles: ['./stated-preference-question.component.scss']
+	template: require('./stated-preference-question.component.html'),
+	styles: [require('./stated-preference-question.component.scss')]
 })
 export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus, OnOptionsLoaded {
@@ -55,5 +55,10 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 
 	public ngOnInit(): void {
 		console.log(this.configuration);
+
+		this.questionOptions.subscribe((options) => {
+			console.log('got options');
+			console.log(options);
+		});
 	}
 }

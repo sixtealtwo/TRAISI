@@ -110,11 +110,8 @@ export class SurveyViewerStateService {
 	 * @param question
 	 * @param validationState
 	 */
-	public updateGroupQuestionValidationState(
-		question: SurveyViewQuestion,
-		validationState: ResponseValidationState
-	): void {
-		let index = this.viewerState.activeGroupQuestions.findIndex(f => f.viewId === question.viewId);
+	public updateGroupQuestionValidationState(question: SurveyViewQuestion, validationState: ResponseValidationState): void {
+		let index = this.viewerState.activeGroupQuestions.findIndex((f) => f.viewId === question.viewId);
 
 		if (index >= 0) {
 			this.viewerState.activeGroupQuestions[index].validationState = validationState;
@@ -127,12 +124,9 @@ export class SurveyViewerStateService {
 	 * Sets active group questions
 	 * @param groupMembers
 	 */
-	public setActiveGroupQuestions(
-		activeQuestion: SurveyViewQuestion,
-		groupMembers: Array<SurveyViewGroupMember>
-	): void {
+	public setActiveGroupQuestions(activeQuestion: SurveyViewQuestion, groupMembers: Array<SurveyViewGroupMember>): void {
 		this.viewerState.activeGroupQuestions = [];
-		groupMembers.forEach(member => {
+		groupMembers.forEach((member) => {
 			let memberQuestion = Object.assign({}, activeQuestion);
 			memberQuestion.viewId = Symbol();
 			memberQuestion.parentMember = member;
@@ -146,19 +140,14 @@ export class SurveyViewerStateService {
 	 * Evaluates repeat
 	 * @param activeQuestion
 	 */
-	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Observable<void> {
+	public evaluateRepeat(activeQuestion: SurveyViewQuestion, respondentId: number): Observable<{}> {
 		if (activeQuestion.repeatTargets.length === 0) {
-			return of();
+			return of({});
 		}
 		return Observable.create((observer) => {
-			this._responderService
-			.readyCachedSavedResponses([activeQuestion.questionId], respondentId)
-			.subscribe(result => {
+			this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
 				for (let repeatTarget of activeQuestion.repeatTargets) {
-					const response: any = this._responderService.getCachedSavedResponse(
-						activeQuestion.questionId,
-						respondentId
-					)[0].value;
+					const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
 
 					if (typeof response === 'number') {
 						const responseInt: number = Math.round(response);
@@ -199,17 +188,14 @@ export class SurveyViewerStateService {
 
 									sectionRepeat.repeatIndex = i;
 									for (let question of questions) {
-										sectionRepeat.createQuestionContainer(
-											question,
-											this.viewerState.primaryRespondent
-										);
+										sectionRepeat.createQuestionContainer(question, this.viewerState.primaryRespondent);
 									}
 									sectionRepeat.order = order;
 									order += 0.01;
 									dups.push(sectionRepeat);
 								}
 
-								let filtered = page.children.filter(p => {
+								let filtered = page.children.filter((p) => {
 									if (p.sectionModel === null || p.sectionModel === undefined) {
 										return true;
 									} else if (p.sectionModel.id === targetSection.id) {
@@ -246,7 +232,6 @@ export class SurveyViewerStateService {
 					observer.complete();
 				}
 			});
-
 		});
 	}
 
@@ -304,39 +289,34 @@ export class SurveyViewerStateService {
 	 * Updates active questions based on the last updated question id.
 	 * @param updatedQuestionId
 	 */
-	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Observable<void> {
-		return Observable.create(observer => {
+	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Observable<{}> {
+		return Observable.create((observer) => {
 			if (
 				this.viewerState.questionMap[updatedQuestionId] === undefined ||
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
 			) {
 				setTimeout(() => {
-					observer.complete();
+					observer.next({});
 				});
 			} else {
 				let conditionalEvals = [];
-				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
 					let sourceQuestionIds: number[] = [];
 
-					targetQuestion.targetConditionals.forEach(targetConditional => {
+					targetQuestion.targetConditionals.forEach((targetConditional) => {
 						sourceQuestionIds.push(targetConditional.sourceQuestionId);
 					});
 
-					conditionalEvals.push(
-						this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId)
-					);
+					conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
 				});
 
-				forkJoin(conditionalEvals).subscribe(values => {
-					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+				forkJoin(conditionalEvals).subscribe((values) => {
+					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
 						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
-						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-							let response = this._responderService.getCachedSavedResponse(
-								evalConditional.sourceQuestionId,
-								respondentId
-							);
+						let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
+							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
 							return this._conditionalEvaluator.evaluateConditional(
 								evalConditional.conditionalType,
