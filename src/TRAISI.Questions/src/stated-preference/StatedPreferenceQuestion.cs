@@ -29,6 +29,8 @@ namespace TRAISI.SDK.Questions
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection<string> RowHeaders;
 
+	
+
         public string TypeName
         {
             get => "stated_preference";

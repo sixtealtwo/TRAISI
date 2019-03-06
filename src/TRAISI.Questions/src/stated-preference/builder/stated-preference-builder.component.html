@@ -5,7 +5,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text">With textarea</span>
     </div>
-    <textarea [(ngModel)]="model.input" class="form-control" aria-label="With textarea"></textarea>
+    <textarea [ngModel]="(modelOption | async).optionLabel.value" (ngModelChange)="inputChanged($event)" class="form-control" aria-label="With textarea"></textarea>
   </div>
 
   <button (click)="onSave()">Test</button>

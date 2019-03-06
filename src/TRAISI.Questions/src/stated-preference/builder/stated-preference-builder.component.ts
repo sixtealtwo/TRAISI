@@ -89,12 +89,23 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 		console.log('on init called');
 
 		this._surveyBuilder.getQuestionPartOptions(this._surveyId, this._questionId, 'en').subscribe((result) => {
-			(<BehaviorSubject<QuestionOptionValue>>this.modelOption).next(result[0]);
+			if (result.length > 0) {
+				console.log(result);
+				(<BehaviorSubject<QuestionOptionValue>>this.modelOption).next(result[0]);
+			}
 
 		});
 	}
 
+	public inputChanged(event): void {
+
+		this.modelOption.value.optionLabel.value = event;
+		console.log(this.modelOption.value);
+	}
+
 	public onSave(): void {
+
+
 		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe(v => {
 			console.log('finished save');
 			console.log(v);
