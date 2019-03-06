@@ -100,7 +100,6 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 	public inputChanged(event): void {
 
 		this.modelOption.value.optionLabel.value = event;
-		console.log(this.modelOption.value);
 	}
 
 	public onSave(): void {

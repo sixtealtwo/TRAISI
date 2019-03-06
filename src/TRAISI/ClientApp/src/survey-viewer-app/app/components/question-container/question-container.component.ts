@@ -237,7 +237,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 								this.question.configuration
 							);
 						}
-						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configuration).next(
+						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configurations).next(
 							this.question.configuration
 						);
 						setTimeout(() => {
