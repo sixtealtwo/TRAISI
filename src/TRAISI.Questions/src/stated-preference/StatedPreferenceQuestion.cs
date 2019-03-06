@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
@@ -20,6 +21,13 @@ namespace TRAISI.SDK.Questions
             Description = "Responce choices for the SP selections.",
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
+
+        [QuestionOption(QuestionOptionValueType.String,
+        IsMultipleAllowed = true,
+            Name = "Row Headers",
+            Description = "Row header information",
+            SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
+        public ICollection<string> RowHeaders;
 
         public string TypeName
         {
