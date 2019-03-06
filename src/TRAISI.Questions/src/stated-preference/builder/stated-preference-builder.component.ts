@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild, Injector, SkipSelf } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BUILDER_SERVICE, QUESTION_ID } from 'traisi-question-sdk';
-import { TraisiSurveyBuilder, SURVEY_ID } from '../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
+import { TraisiSurveyBuilder, SURVEY_ID, SURVEY_BUILDER, QuestionOptionValue } from '../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
 import * as _ from 'lodash';
 
 import {
@@ -38,7 +38,8 @@ import {
 	template: require('./stated-preference-builder.component.html'),
 	styles: [require('./stated-preference-builder.component.scss')]
 })
-export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown {
+export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, CustomBuilderOnHidden, CustomBuilderOnShown, OnInit {
+
 	public model: { input: string };
 
 	/**
@@ -53,16 +54,6 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 		@Inject(SURVEY_ID) private _surveyId: number
 	) {
 		this.model = { input: '' };
-
-		console.log('got builder service: ');
-		console.log(this._surveyBuilder);
-		// console.log(_injector.get(BUILDER_SERVICE));
-
-		console.log('q id: ');
-		console.log(this._questionId);
-
-		console.log('survey id: ');
-		console.log(this._surveyId);
 	}
 
 	/**
@@ -80,5 +71,37 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 	}
 	public customBuilderShown(): void {
 		console.log('SP shown was called');
+	}
+	public ngOnInit(): void {
+		console.log('on init called');
+
+		this._surveyBuilder.getQuestionPartOptions(this._surveyId, this._questionId, 'en').subscribe((result) => {
+			console.log('got options');
+			console.log(result);
+
+		});
+	}
+
+	public onSave(): void {
+
+		console.log('on save');
+
+		let c: QuestionOptionValue = {
+			code: 'Response Options2', 
+			name: 'Response Options',  
+			order: 0,
+			
+			optionLabel: {
+				'language': 'en',
+				'value': 'value2'
+			}
+		};
+
+		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, c).subscribe(v => {
+			console.log(v);
+		},
+			(error) => {
+				console.log(error);
+			})
 	}
 }

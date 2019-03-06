@@ -12,11 +12,13 @@ import * as AngularForms from '@angular/forms';
 import * as BrowserModule from '@angular/platform-browser';
 import * as Upgrade from '@angular/upgrade/static';
 import * as RxjsModule from 'rxjs';
+import * as traisiSdkModule from 'traisi-question-sdk';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { NgModuleDef, NgModuleDecorator, ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
 import { InternalNgModuleRef } from '@angular/core/src/linker/ng_module_factory';
 import { NgModuleFactory } from '@angular/core/src/render3';
 import { NgModuleData, NgModuleProviderDef } from '@angular/core/src/view';
+import * as rxjsOperators from 'rxjs/operators';
 import { find } from 'lodash';
 /**
  * End SystemJS requirement block.
@@ -63,7 +65,12 @@ export class CustomBuilderService {
 		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
 		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
 		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
+		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(RxjsModule));
+		SystemJS.registry.set(
+			'rxjs/operators',
+			SystemJS.newModule(rxjsOperators)
+		);
 	}
 
 	/**

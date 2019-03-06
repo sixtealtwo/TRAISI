@@ -38,8 +38,8 @@ import {
 } from 'traisi-question-sdk';
 import { Injector, ViewContainerRef } from '@angular/core';
 import { Survey } from '../../../models/survey.model';
-import { BUILDER_SERVICE } from 'traisi-question-sdk';
-import { QUESTION_ID } from '../../../../../../../../TRAISI.SDK/Module/src/traisi-survey-builder.service';
+import { BUILDER_SERVICE, SURVEY_BUILDER, QUESTION_ID } from 'traisi-question-sdk';
+
 @Component({
 	selector: 'app-question-details',
 	templateUrl: './question-details.component.html',
@@ -168,7 +168,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.loadOptionData();
 		this.dropZoneconfig.url = `${this.baseUrl}/api/SurveyBuilder/${this.surveyId}/QuestionOptions/${
 			this.question.id
-		}/massImport`;
+			}/massImport`;
 		this.dropZoneconfig.headers = {
 			Authorization: 'Bearer ' + this.authService.accessToken
 		};
@@ -187,9 +187,10 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			providers: [
 				{ provide: BUILDER_SERVICE, useValue: this.builderService },
 				{ provide: QUESTION_ID, useValue: this.question.id },
-				{ provide: SURVEY_ID, useValue: this.surveyId }
+				{ provide: SURVEY_ID, useValue: this.surveyId },
+				{ provide: SURVEY_BUILDER, useValue: this.builderService }
 			],
-			parent: view.parentInjector
+			parent: this._injector
 		});
 	}
 
@@ -308,7 +309,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				nextInput.focus();
 				nextInput.selectionStart = 0;
 				nextInput.selectionEnd = 0;
-			} catch {}
+			} catch { }
 		}
 	}
 
@@ -406,7 +407,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				previousInput.focus();
 				previousInput.selectionStart = previousInput.selectionEnd = previousInput.value.length;
 				previousInput.selectionEnd = previousInput.selectionEnd = previousInput.value.length;
-			} catch {}
+			} catch { }
 		}
 	}
 
@@ -461,7 +462,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 				previousInput.focus();
 				previousInput.selectionStart = previousInput.value.length;
 				previousInput.selectionEnd = previousInput.value.length;
-			} catch {}
+			} catch { }
 		}
 	}
 

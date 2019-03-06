@@ -29,4 +29,4 @@ import { FormsModule } from '@angular/forms';
 	],
 	imports: [CommonModule, HttpClientModule, FormsModule]
 })
-export default class TraisiStatedPreferenceQuestionModule {}
+export default class TraisiStatedPreferenceQuestionModule { }

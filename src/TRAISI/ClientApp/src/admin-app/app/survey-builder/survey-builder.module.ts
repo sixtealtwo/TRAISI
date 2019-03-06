@@ -59,7 +59,7 @@ import { IconPickerModule } from 'ngx-icon-picker';
 import { CustomBuilderService } from './services/custom-builder.service';
 import { CustomBuilderContainerDirective } from './directives/custom-builder-container.directive';
 import { ScreeningQuestionsComponent } from './components/special-page-builder/screening-questions/screening-questions.component';
-import { BUILDER_SERVICE, TraisiSurveyBuilder } from 'traisi-question-sdk';
+import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-question-sdk';
 
 @NgModule({
 	imports: [
@@ -150,7 +150,7 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder } from 'traisi-question-sdk';
 		SurveyBuilderEndpointService,
 		SurveyBuilderService,
 		CustomBuilderService,
-		{ provide: TraisiSurveyBuilder, useClass: SurveyBuilderService }
+		{ provide: SURVEY_BUILDER, useClass: SurveyBuilderService }
 	],
 	entryComponents: [
 		CheckboxComponent,

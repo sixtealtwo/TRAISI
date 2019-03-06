@@ -3,13 +3,22 @@
 		"target": "es5",
 		"module": "esnext",
 		"experimentalDecorators": true,
-
+		"plugins": [
+			{
+				"name": "typescript-tslint-plugin"
+			}
+		],
 		"declaration": true,
 		"moduleResolution": "node",
 		"strictFunctionTypes": false,
 		"outDir": "./dist",
 		"strict": true,
-		"lib": ["es5", "es2015", "dom", "scripthost"]
+		"lib": [
+			"es5",
+			"es2015",
+			"dom",
+			"scripthost"
+		]
 	},
 	"angularCompilerOptions": {
 		"skipTemplateCodegen": true,

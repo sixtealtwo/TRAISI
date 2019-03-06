@@ -1,7 +1,6 @@
 import { ResponseValidationState } from './question-response-state';
 import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
-import { QuestionLoaderService } from './question-loader.service';
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import { QuestionOption } from './question-option';
 
