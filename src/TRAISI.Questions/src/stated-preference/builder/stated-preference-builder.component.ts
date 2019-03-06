@@ -22,6 +22,7 @@ import {
 	CustomBuilderOnHidden,
 	CustomBuilderOnShown
 } from 'traisi-question-sdk';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 /**
  * Base question component definition for the question type "Stated Preference"
@@ -42,6 +43,8 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 
 	public model: { input: string };
 
+	public modelOption: BehaviorSubject<QuestionOptionValue>;
+
 	/**
 	 *Creates an instance of StatedPreferenceBuilderComponent.
 	 * @param {*} _builderService
@@ -54,7 +57,19 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 		@Inject(SURVEY_ID) private _surveyId: number
 	) {
 		this.model = { input: '' };
+		this.modelOption = new BehaviorSubject<QuestionOptionValue>({
+			code: 'Response Options2',
+			name: 'Response Options',
+			order: 0,
+
+			optionLabel: {
+				'language': 'en',
+				'value': 'value2'
+			}
+		});
 	}
+
+
 
 	/**
 	 *
@@ -62,8 +77,6 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 	 * @memberof StatedPreferenceBuilderComponent
 	 */
 	public customBuilderInitialized(injector?: Injector): void {
-		console.log('custom builder init called from stated preference builder component.');
-		console.log(injector);
 	}
 
 	public customBuilderHidden(): void {
@@ -76,28 +89,14 @@ export class StatedPreferenceBuilderComponent implements CustomBuilderOnInit, Cu
 		console.log('on init called');
 
 		this._surveyBuilder.getQuestionPartOptions(this._surveyId, this._questionId, 'en').subscribe((result) => {
-			console.log('got options');
-			console.log(result);
+			(<BehaviorSubject<QuestionOptionValue>>this.modelOption).next(result[0]);
 
 		});
 	}
 
 	public onSave(): void {
-
-		console.log('on save');
-
-		let c: QuestionOptionValue = {
-			code: 'Response Options2', 
-			name: 'Response Options',  
-			order: 0,
-			
-			optionLabel: {
-				'language': 'en',
-				'value': 'value2'
-			}
-		};
-
-		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, c).subscribe(v => {
+		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe(v => {
+			console.log('finished save');
 			console.log(v);
 		},
 			(error) => {
