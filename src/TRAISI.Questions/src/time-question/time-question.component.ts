@@ -50,8 +50,6 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 	}
 
 	ngOnInit() {
-		console.log('init');
-
 		this.hours = 12;
 		this.minutes = 0;
 		this.am = true;
