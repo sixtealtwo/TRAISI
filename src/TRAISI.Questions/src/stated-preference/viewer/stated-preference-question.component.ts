@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { OnOptionsLoaded, OnSaveResponseStatus, OnVisibilityChanged, QuestionOption, ResponseTypes, SurveyQuestion, SurveyViewer } from 'traisi-question-sdk';
+import {
+	OnOptionsLoaded,
+	OnSaveResponseStatus,
+	OnVisibilityChanged,
+	QuestionOption,
+	ResponseTypes,
+	SurveyQuestion,
+	SurveyViewer
+} from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from './stated-preference-config.model';
 
 /**
@@ -22,10 +30,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
 	public options: QuestionOption[];
 
-	public onQuestionShown(): void { }
-	public onQuestionHidden(): void { }
-	public onResponseSaved(result: any): void { }
-
 	public model: ReplaySubject<StatedPreferenceConfig>;
 
 	public hasError: boolean = false;
@@ -38,9 +42,11 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer) {
 		super();
 		this.model = new ReplaySubject<StatedPreferenceConfig>();
-
 	}
 
+	public onQuestionShown(): void {}
+	public onQuestionHidden(): void {}
+	public onResponseSaved(result: any): void {}
 
 	/**
 	 *
@@ -52,12 +58,10 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	private parseSpModel(value: any): void {
 		try {
 			this.model.next(JSON.parse(value.value));
-		}
-		catch (exception) {
+		} catch (exception) {
 			console.error(exception);
 			this.hasError = true;
 		}
-
 	}
 
 	/**
@@ -68,7 +72,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public ngOnInit(): void {
 		console.log(this.configuration);
 
-		this.questionOptions.subscribe((options) => {
+		this.questionOptions.subscribe(options => {
 			console.log('got options');
 			console.log(options);
 			if (options.length > 0) {
