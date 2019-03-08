@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@angular/animations": "^6.1.4",
+    "@angular/cdk": "^6.4.7",
     "@angular/common": "^6.1.10",
     "@angular/compiler": "^6.1.4",
     "@angular/core": "^6.1.4",
