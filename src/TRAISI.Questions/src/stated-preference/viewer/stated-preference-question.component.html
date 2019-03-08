@@ -1,8 +1,21 @@
 <div class="sp-container">
+	<div class="sp-table">
+		<table cdk-table [dataSource]="dataSource">
 
-    <div class="error" *ngIf="hasError">
-        <div class="alert alert-danger" role="alert">
-            There was an error loading or processing the configuration for this question.
-        </div>
-    </div>
+			<ng-container cdkColumnDef="rowLabel">
+				<th cdk-header-cell *cdkHeaderCellDef>Info</th>
+				<td cdk-cell *cdkCellDef="let row">{{ row.info }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="rowLabel"></ng-container>
+
+			<tr cdk-header-row *cdkHeaderRowDef="['username', 'age', 'title']"></tr>
+			<tr cdk-row *cdkRowDef="let row; columns: ['username', 'age', 'title']"></tr>
+		</table>
+	</div>
+	<div class="error" *ngIf="hasError">
+		<div class="alert alert-danger" role="alert">
+			There was an error loading or processing the configuration for this question.
+		</div>
+	</div>
 </div>

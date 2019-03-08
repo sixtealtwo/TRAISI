@@ -27,6 +27,6 @@ import { CdkTableModule } from '@angular/cdk/table';
 			multi: true
 		}
 	],
-	imports: [CommonModule, HttpClientModule, FormsModule, CdkTable ]
+	imports: [CommonModule, HttpClientModule, FormsModule, CdkTableModule]
 })
 export default class TraisiStatedPreferenceQuestionModule {}
