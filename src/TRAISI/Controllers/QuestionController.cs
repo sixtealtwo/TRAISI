@@ -24,6 +24,52 @@ namespace TRAISI.Controllers
             this._questionTypeManager = questionTypeManager;
         }
 
+        private async Task<FileContentResult> LoadCodeBundleFile(QuestionTypeDefinition definition, string bundleName)
+        {
+            if (bundleName == null) {
+                return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
+            }
+
+            // check if loading development bundle
+            if (System.IO.File.Exists(Path.Combine("development", bundleName))) {
+                return File(await System.IO.File.ReadAllBytesAsync(Path.Combine("development", bundleName)), "application/javascript");
+            }
+            else {
+                return File(
+                QuestionTypeDefinition.ClientModules[
+                    QuestionTypeDefinition.ClientModules.Keys
+                        .FirstOrDefault(k => k.EndsWith(bundleName,
+                            StringComparison.InvariantCultureIgnoreCase))],
+                "application/javascript"); 
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionType"></param>
+        /// <returns></returns>
+        [HttpGet("client-code/builder/{questionType}")]
+        public async Task<ActionResult> CustomBuilderClientCode(string questionType)
+        {
+            // var s = QuestionTypeDefinition.ClientModules;
+            if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType)) {
+                return new NotFoundResult();
+            }
+            else {
+                try {
+
+                    return await this.LoadCodeBundleFile(_questionTypeManager.QuestionTypeDefinitions[questionType], _questionTypeManager.QuestionTypeDefinitions[questionType].CustomBuilderCodeBundleName);
+                }
+                catch (Exception e) {
+                    return new BadRequestObjectResult(e);
+                }
+            }
+
+        }
+
+
         /// <summary>
         /// Returns the bundled module.js client code for the requested
         /// question definition.
@@ -33,36 +79,16 @@ namespace TRAISI.Controllers
         [HttpGet("client-code/{questionType}")]
         public async Task<ActionResult> ClientCode(string questionType)
         {
-            try {
-                if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType)) {
-                    return new NotFoundResult();
-                }
-
-                var questionTypeDefinition =
-                    _questionTypeManager.QuestionTypeDefinitions[questionType];
-
-
-                if (questionTypeDefinition.CodeBundleName == null) {
-                    return File(QuestionTypeDefinition.ClientModules.Values.ToList()[0], "application/javascript");
-                }
-                else {
-
-                    var path = Path.Combine("development", questionTypeDefinition.CodeBundleName);
-                    if (System.IO.File.Exists(path)) {
-                        return File(await System.IO.File.ReadAllBytesAsync(path), "application/javascript");
-                    }
-                }
-
-                return File(
-                    QuestionTypeDefinition.ClientModules[
-                        QuestionTypeDefinition.ClientModules.Keys
-                            .FirstOrDefault(k => k.EndsWith(questionTypeDefinition.CodeBundleName,
-                                StringComparison.InvariantCultureIgnoreCase))],
-                    "application/javascript");
+            if (!_questionTypeManager.QuestionTypeDefinitions.Keys.Contains(questionType)) {
+                return new NotFoundResult();
             }
-            catch (Exception e) {
-                //return error if not found
-                return new BadRequestObjectResult(e);
+            else {
+                try {
+                    return await this.LoadCodeBundleFile(_questionTypeManager.QuestionTypeDefinitions[questionType], _questionTypeManager.QuestionTypeDefinitions[questionType].CodeBundleName);
+                }
+                catch (Exception e) {
+                    return new BadRequestObjectResult(e);
+                }
             }
         }
 

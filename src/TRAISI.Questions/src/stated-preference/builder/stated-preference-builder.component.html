@@ -1,11 +1,15 @@
+<div class="sp-builder-container">
+  <json-editor [options]="editorOptions" [data]="modelJson | async"></json-editor>
 
-<h1>Loaded custom builder component</h1>
-
+  <!--
 <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text">With textarea</span>
     </div>
-    <textarea [ngModel]="(modelOption | async).optionLabel.value" (ngModelChange)="inputChanged($event)" class="form-control" aria-label="With textarea"></textarea>
-  </div>
+  
+  <textarea [ngModel]="(modelOption | async).optionLabel.value" (ngModelChange)="inputChanged($event)" class="form-control" aria-label="With textarea"></textarea>
+  </div> -->
 
-  <button (click)="onSave()">Test</button>
+  <button (click)="onSave()">Save</button>
+  <button (click)="onUseSampleConfig()">Use Sample Config</button>
+</div>

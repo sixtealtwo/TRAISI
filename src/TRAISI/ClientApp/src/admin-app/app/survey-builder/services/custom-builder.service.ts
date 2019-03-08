@@ -89,6 +89,7 @@ export class CustomBuilderService {
 		return this.loadClientBuilderModule(typeName, builderName);
 	}
 
+
 	/**
 	 *
 	 *
@@ -99,8 +100,9 @@ export class CustomBuilderService {
 	 * @memberof CustomBuilderService
 	 */
 	private loadClientBuilderModule(typeName: string, customBuilderId: string, injector?: Injector): Observable<any> {
+		console.log(typeName);
 		const result = Observable.create((observer: Observer<ComponentFactory<any>>) => {
-			SystemJS.import(this._surveyBuilderEndpointService.getSurveyBuilderClientBuilderCodeUrl(typeName)).then(
+			SystemJS.import(this._surveyBuilderEndpointService.getCustomBuilderClientCodeEndpointUrl(typeName)).then(
 				(module: any) => {
 					const componentFactory: ComponentFactory<any> = this.unpackComponentFactoryForClientBuilder(
 						customBuilderId,

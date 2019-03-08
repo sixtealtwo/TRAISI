@@ -10,6 +10,7 @@ namespace TRAISI.SDK.Questions
 
     [SurveyQuestion(QuestionResponseType.OptionSelect,
     CodeBundleName = "traisi-questions-sp.module.js",
+    CustomBuilderCodeBundleName = "traisi-questions-spbuilder.module.js",
     CustomBuilderView = "stated_preference_custom_builder",
      ResponseValidator = typeof(TextQuestionValidator)),
    ]
@@ -29,7 +30,7 @@ namespace TRAISI.SDK.Questions
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection<string> RowHeaders;
 
-	
+
 
         public string TypeName
         {

@@ -266,7 +266,7 @@ export class QuestionLoaderService {
 
 		const componentFactory: ComponentFactoryBoundToModule<any> = <
 			ComponentFactoryBoundToModule<any>
-		>resolver.resolveComponentFactory(widget.component);
+			>resolver.resolveComponentFactory(widget.component);
 
 		if (!(questionType in this._componentFactories)) {
 			this._componentFactories[questionType] = componentFactory;

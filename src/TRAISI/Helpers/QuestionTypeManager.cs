@@ -138,7 +138,7 @@ namespace TRAISI.Helpers
             var members = questionType.GetMembers();
             foreach (var member in members) {
                 var attributes = member.GetCustomAttributes();
-                foreach (var attribute in attributes)
+                foreach (var attribute in attributes) {
                     if (attribute.GetType() == typeof(HasResourceAttribute)) {
                         var hasResourceAttribute = (HasResourceAttribute)attribute;
 
@@ -156,6 +156,7 @@ namespace TRAISI.Helpers
                                 FieldName = member.Name
                             };
                     }
+                }
             }
         }
 

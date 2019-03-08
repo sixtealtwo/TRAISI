@@ -1,6 +1,10 @@
 export interface StatedPreferenceChoice {
-	label: string;
-	viewCondition: string;
+
+	items: Array<{
+		label: string;
+		viewCondition: string;
+	}>;
+
 }
 
 export interface StatedPreferenceConfig {

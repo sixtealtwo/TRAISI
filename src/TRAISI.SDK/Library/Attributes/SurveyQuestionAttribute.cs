@@ -32,6 +32,12 @@ namespace TRAISI.SDK.Attributes
         public string CodeBundleName { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public string CustomBuilderCodeBundleName { get; set; }
+
+        /// <summary>
         /// How many "internal" views are available for this question - each view requires its own title text
         /// </summary>
         /// <value></value>

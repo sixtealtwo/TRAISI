@@ -27,6 +27,10 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		return this.configurations.baseUrl + this._deleteUploadedUrl;
 	}
 
+	get customBuilderClientCodeUrl(): string {
+		return this._questionsUrl + '/client-code/builder';
+	}
+
 	get getSurveyBuilderQuestionTypesUrl(): string {
 		return this.configurations.baseUrl + this._surveyBuilderUrl + '/question-types';
 	}
@@ -303,7 +307,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		// tslint:disable-next-line:max-line-length
 		const endpointUrl = `${
 			this.surveyBuilderUrl
-		}/${surveyId}/PartStructure/Standard/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
+			}/${surveyId}/PartStructure/Standard/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
 			catchError((error) => {
@@ -328,7 +332,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 		// tslint:disable-next-line:max-line-length
 		const endpointUrl = `${
 			this.surveyBuilderUrl
-		}/${surveyId}/PartStructure/CATI/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
+			}/${surveyId}/PartStructure/CATI/${questionPartViewId}/UpdateOrder/${movedQuestionPartViewId}`;
 
 		return this.http.put<T>(endpointUrl, JSON.stringify(childrenViewOrder), this.getRequestHeaders()).pipe(
 			catchError((error) => {
@@ -368,7 +372,7 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 	): Observable<T> {
 		const endpointUrl = `${
 			this.surveyBuilderUrl
-		}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
+			}/${surveyId}/Part/${questionPartViewId}/${childQuestionPartViewId}`;
 
 		return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError((error) => {
@@ -567,6 +571,33 @@ export class SurveyBuilderEndpointService extends EndpointFactory {
 				return this.handleError(error, () =>
 					this.getUpdateQuestionPartOptionsOrderEndpoint(surveyId, questionPartId, updatedOrder)
 				);
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param {string} questionType
+	 * @returns {string}
+	 * @memberof SurveyBuilderEndpointService
+	 */
+	public getCustomBuilderClientCodeEndpointUrl(questionType: string): string {
+		return `${this.customBuilderClientCodeUrl}/${questionType}`;
+	}
+
+	/**
+	 * Returns the endpoint for retrieving client code related to builder.
+	 * @template T
+	 * @param {string} questionType
+	 * @returns {Observable<T>}
+	 * @memberof QuestionLoaderEndpointService
+	 */
+	public getCustomBuilderClientCodeEndpoint<T>(questionType: string): Observable<T> {
+		let endpointUrl = `${this.customBuilderClientCodeUrl}/${questionType}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getCustomBuilderClientCodeEndpoint(questionType));
 			})
 		);
 	}

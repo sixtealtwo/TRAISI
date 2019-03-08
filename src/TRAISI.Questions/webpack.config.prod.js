@@ -11,7 +11,11 @@ module.exports = {
     ),
     sp: path.join(
       process.cwd(),
-      './src/stated-preference/traisi-sp-question.module.ts'
+      './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'
+    ),
+    spbuilder: path.join(
+      process.cwd(),
+      './src/stated-preference/builder/traisi-sp-question-builder.module.ts'
     )
   },
 
@@ -119,7 +123,11 @@ module.exports = {
         }
     ],*/
   externals: [
-    /^@angular/,
+    /^@angular\/common/,
+    /^@angular\/core/,
+    /^@angular\/upgrade/,
+    /^@angular\/forms/,
+    /^@angular\/platform-browser/,
     /^ngx-bootstrap/,
     /^@fortawesome/,
     /^bootstrap/,

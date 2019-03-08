@@ -11,7 +11,11 @@ module.exports = {
     ),
     sp: path.join(
       process.cwd(),
-      './src/stated-preference/traisi-sp-question.module.ts'
+      './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'
+    ),
+    spbuilder: path.join(
+      process.cwd(),
+      './src/stated-preference/builder/traisi-sp-question-builder.module.ts'
     )
   },
 
@@ -33,7 +37,7 @@ module.exports = {
       {
         test: /\.ts$/,
         loaders: [
-          /*'babel-loader',
+          /*'babel-loader', 
 					{
 						loader: 'ts-loader',
 						options: {
@@ -66,6 +70,13 @@ module.exports = {
         ]
       },
       {
+        test: /\.svg$/,
+        use: {
+          loader: 'raw-loader',
+          options: {}
+        }
+      },
+      {
         test: /\.scss$/,
         use: [
           'to-string-loader',
@@ -86,7 +97,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jp(e*)g|svg)$/,
+        test: /\.(png|jp(e*)g)$/,
         use: [
           {
             loader: 'url-loader',
@@ -115,15 +126,19 @@ module.exports = {
             callback();
         }
     ],*/
-  externals: [
-    /^@angular/,
-    /^ngx-bootstrap/,
-    /^@fortawesome/,
-    /^bootstrap/,
-    /^bootswatch/,
-    /^rxjs/,
-    /^traisi-question-sdk/
-  ],
+    externals: [
+      /^@angular\/common/,
+      /^@angular\/core/,
+      /^@angular\/upgrade/,
+      /^@angular\/forms/,
+      /^@angular\/platform-browser/,
+      /^ngx-bootstrap/,
+      /^@fortawesome/,
+      /^bootstrap/,
+      /^bootswatch/,
+      /^rxjs/, 
+      /^traisi-question-sdk/
+    ],
   plugins: [
     /* new WebpackSystemRegister({
              systemjsDeps: [

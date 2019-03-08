@@ -12,7 +12,11 @@ module.exports = {
     ),
     sp: path.join(
       process.cwd(),
-      './src/stated-preference/traisi-sp-question.module.ts'
+      './src/stated-preference/viewer/traisi-sp-question-viewer.module.ts'
+    ),
+    spbuilder: path.join(
+      process.cwd(),
+      './src/stated-preference/builder/traisi-sp-question-builder.module.ts'
     )
   },
 
@@ -48,6 +52,16 @@ module.exports = {
         use: 'raw-loader'
       },
       {
+        test: /\.svg$/,
+        use: {
+          loader: 'svg-url-loader',
+          options: {
+            limit: 10000000, // Convert images < 8kb to base64 strings
+            name: 'images/[hash]-[name].[ext]'
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: [
           'to-string-loader',
@@ -81,7 +95,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jp(e*)g|svg)$/,
+        test: /\.(png|jp(e*)g)$/,
         use: [
           {
             loader: 'url-loader',
@@ -110,7 +124,11 @@ module.exports = {
         }
     ],*/
   externals: [
-    /^@angular/,
+    /^@angular\/common/,
+    /^@angular\/core/,
+    /^@angular\/upgrade/,
+    /^@angular\/forms/,
+    /^@angular\/platform-browser/,
     /^ngx-bootstrap/,
     /^@fortawesome/,
     /^bootstrap/,
