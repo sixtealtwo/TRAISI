@@ -9,7 +9,7 @@ import {
 	SurveyQuestion,
 	SurveyViewer
 } from 'traisi-question-sdk';
-import { StatedPreferenceConfig } from './stated-preference-config.model';
+import { StatedPreferenceConfig } from '../stated-preference-config.model';
 
 /**
  * Base question component definition for the question type "Stated Preference"
