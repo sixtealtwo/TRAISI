@@ -46,33 +46,29 @@ export class SurveyViewerSession {
 		let $ = zip(
 			this._surveyViewerService.activeSurveyId,
 			this._surveyViewerService.surveyCode,
-			this._surveyViewerService.isLoggedIn
-		).subscribe(([surveyId, surveyCode, isLoggedIn]: [number, string, boolean]) => {
+			this._surveyViewerService.isLoggedIn,
+			this._surveyViewerService.activeSurveyTitle
+		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle]: [number, string, boolean, string]) => {
 			this._data = {
 				shortcode: null,
 				groupcode: null,
 				surveyId: surveyId,
 				surveyCode: surveyCode,
-				surveyTitle: null,
+				surveyTitle: surveyTitle,
 				primaryRespondent: null,
 				isLoggedIn: isLoggedIn,
 				isUsingGroupcode: false
 			};
+			if (isLoggedIn) {
+				this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
+				this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
+			} else {
+				this._data.shortcode = null;
+				this._data.groupcode = null;
+			}
+
+			this._data.isUsingGroupcode = this._data.groupcode !== null;
 			this.data.next(this._data);
-
-			this._surveyViewerService.isLoggedIn.subscribe(loginStatus => {
-				if (loginStatus) {
-					this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
-					this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
-				} else {
-					this._data.shortcode = null;
-					this._data.groupcode = null;
-				}
-
-				this._data.isUsingGroupcode = this._data.groupcode !== null;
-				this._data.isLoggedIn = loginStatus;
-				this.data.next(this._data);
-			});
 
 			$.unsubscribe();
 		});

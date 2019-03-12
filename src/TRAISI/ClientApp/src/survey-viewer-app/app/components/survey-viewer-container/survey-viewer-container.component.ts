@@ -26,7 +26,6 @@ import { SurveyViewerSession } from 'app/services/survey-viewer-session.service'
 })
 export class SurveyViewerContainerComponent implements OnInit {
 	private surveyName: string;
-
 	public hasGeneratedShortcode: boolean;
 
 	/**
@@ -35,12 +34,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 * @param _titleService
 	 * @param _router
 	 */
-	constructor(
-		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
-		public surveySession: SurveyViewerSession,
-		private _titleService: Title,
-		private _router: Router
-	) {
+	constructor(public surveySession: SurveyViewerSession, private _titleService: Title, private _router: Router) {
 		this.hasGeneratedShortcode = false;
 	}
 
@@ -48,16 +42,8 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 *
 	 */
 	public ngOnInit(): void {
-		this._router.events.subscribe(
-			(event: RouterEvent) => {
-				if (event instanceof ActivationEnd) {
-					let snapshot: ActivatedRouteSnapshot = (<ActivationEnd>event).snapshot;
-					if (snapshot.data.hasOwnProperty('title')) {
-						this._titleService.setTitle('TRAISI - ' + snapshot.data.title);
-					}
-				}
-			},
-			(error) => {}
-		);
+		this.surveySession.data.subscribe(data => {
+			this._titleService.setTitle('TRAISI - ' + data.surveyTitle);
+		});
 	}
 }
