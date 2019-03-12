@@ -1,21 +1,23 @@
 <div class="sp-container">
 	<div class="sp-table">
-		<table cdk-table [dataSource]="displayModel" class="table table-bordered">
-			<ng-container cdkColumnDef="{{ col }}" *ngFor="let col of (model | async)?.headers; index as i">
-				<th cdk-header-cell *cdkHeaderCellDef>{{ col }}</th>
-				<td cdk-cell *cdkCellDef="let row">{{ row[i] }}</td>
-				<td cdk-footer-cell *cdkFooterCellDef>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="customRadio-{{i}}" name="spRadio" class="custom-control-input" />
-						<label class="custom-control-label" for="customRadio-{{i}}">{{i+1}}</label>
-					</div>
-				</td>
-			</ng-container>
+		<form #spForm="ngForm">
+			<table cdk-table [dataSource]="displayModel" class="table table-bordered">
+				<ng-container cdkColumnDef="{{ col }}" *ngFor="let col of (model | async)?.headers; index as i">
+					<th cdk-header-cell *cdkHeaderCellDef>{{ col }}</th>
+					<td cdk-cell *cdkCellDef="let row">{{ row[i] }}</td>
+					<td cdk-footer-cell *cdkFooterCellDef (click)="selectChoice($event, col)">
+						<div class="custom-control custom-radio">
+							<input [(ngModel)]="inputModel.value" [value]="col" type="radio" id="customRadio-{{ i }}" name="spRadio" class="custom-control-input" />
+							<label class="custom-control-label" for="customRadio-{{ i }}">{{ i + 1 }}</label>
+						</div>
+					</td>
+				</ng-container>
 
-			<tr cdk-header-row *cdkHeaderRowDef="(model | async)?.headers"></tr>
-			<tr cdk-row *cdkRowDef="let row; columns: (model | async)?.headers"></tr>
-			<tr cdk-footer-row *cdkFooterRowDef="(model | async)?.headers"></tr>
-		</table>
+				<tr cdk-header-row *cdkHeaderRowDef="(model | async)?.headers"></tr>
+				<tr cdk-row *cdkRowDef="let row; columns: (model | async)?.headers"></tr>
+				<tr cdk-footer-row *cdkFooterRowDef="(model | async)?.headers"></tr>
+			</table>
+		</form>
 	</div>
 	<div class="error" *ngIf="hasError">
 		<div class="alert alert-danger" role="alert">

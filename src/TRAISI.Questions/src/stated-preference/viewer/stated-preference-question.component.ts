@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import {
 	OnOptionsLoaded,
@@ -10,7 +10,7 @@ import {
 	SurveyViewer
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
-import { FormArrayName } from '@angular/forms';
+import { FormArrayName, NgForm } from '@angular/forms';
 
 /**
  * Base question component definition for the question type "Stated Preference"
@@ -28,11 +28,16 @@ import { FormArrayName } from '@angular/forms';
 	styles: [require('./stated-preference-question.component.scss')]
 })
 export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]>
-	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
+	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus, AfterViewInit {
 	public options: QuestionOption[];
 	public model: ReplaySubject<StatedPreferenceConfig>;
 	public hasError: boolean = false;
 	public displayModel: ReplaySubject<Array<any>>;
+
+	public inputModel: { value?: string };
+
+	@ViewChild('spForm')
+	public spForm: NgForm;
 
 	/**
 	 *Creates an instance of StatedPreferenceQuestionComponent.
@@ -43,6 +48,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		super();
 		this.model = new ReplaySubject<StatedPreferenceConfig>(1);
 		this.displayModel = new ReplaySubject<Array<any>>(1);
+		this.inputModel = {};
 	}
 
 	public onQuestionShown(): void {}
@@ -56,9 +62,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	private parseSpModel(value: any): void {
 		try {
-			console.log(value);
 			let spModel = JSON.parse(value.label);
-
 			this.model.next(spModel);
 			this.displayModel.next(this.transformToDisplayableData(spModel));
 		} catch (exception) {
@@ -99,5 +103,22 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		}
 		console.log(spDataArray);
 		return spDataArray;
+	}
+
+	/**
+	 * @param {*} $event
+	 * @param {*} col
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	public selectChoice($event, col): void {
+		console.log(col);
+		console.log(this.inputModel);
+	}
+
+	/**
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	public ngAfterViewInit(): void {
+		console.log(this.spForm);
 	}
 }
