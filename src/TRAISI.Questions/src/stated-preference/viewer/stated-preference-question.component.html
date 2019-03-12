@@ -1,10 +1,9 @@
 <div class="sp-container">
 	<div class="sp-table">
-		<table cdk-table [dataSource]="dataSource">
-
+		<table cdk-table [dataSource]="(model | async).choices">
 			<ng-container cdkColumnDef="rowLabel">
-				<th cdk-header-cell *cdkHeaderCellDef>Info</th>
-				<td cdk-cell *cdkCellDef="let row">{{ row.info }}</td>
+				<th cdk-header-cell *cdkHeaderCellDef>{{ (model | async).headers[0] }}</th>
+				<td cdk-cell *cdkCellDef="let row">{{ row }}</td>
 			</ng-container>
 
 			<ng-container matColumnDef="rowLabel"></ng-container>
