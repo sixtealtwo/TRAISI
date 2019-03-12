@@ -10,4 +10,5 @@ export interface StatedPreferenceChoice {
 export interface StatedPreferenceConfig {
 	headers: Array<string>;
 	choices: Array<StatedPreferenceChoice>;
+	rowHeaders: Array<string>;
 }

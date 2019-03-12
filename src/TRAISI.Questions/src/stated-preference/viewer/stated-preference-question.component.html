@@ -8,8 +8,8 @@
 
 			<ng-container matColumnDef="rowLabel"></ng-container>
 
-			<tr cdk-header-row *cdkHeaderRowDef="['username', 'age', 'title']"></tr>
-			<tr cdk-row *cdkRowDef="let row; columns: ['username', 'age', 'title']"></tr>
+			<tr cdk-header-row *cdkHeaderRowDef="['username']"></tr>
+			<tr cdk-row *cdkRowDef="let row; columns: ['username']"></tr>
 		</table>
 	</div>
 	<div class="error" *ngIf="hasError">

@@ -29,9 +29,7 @@ import { StatedPreferenceConfig } from '../stated-preference-config.model';
 export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
 	public options: QuestionOption[];
-
 	public model: ReplaySubject<StatedPreferenceConfig>;
-
 	public hasError: boolean = false;
 
 	/**
@@ -49,8 +47,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public onResponseSaved(result: any): void {}
 
 	/**
-	 *
-	 *
 	 * @private
 	 * @param {QuestionOption} value
 	 * @memberof StatedPreferenceQuestionComponent
@@ -65,19 +61,28 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	}
 
 	/**
-	 *
-	 *
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public ngOnInit(): void {
-		console.log(this.configuration);
-
 		this.questionOptions.subscribe(options => {
-			console.log('got options');
-			console.log(options);
 			if (options.length > 0) {
 				this.parseSpModel(options[0]);
 			}
 		});
+	}
+
+	/**
+	 * Converts the SP question configuration into a displayable array consumable
+	 * by the cdk-table component. This involves flattening the information into
+	 * a rectangular array representing row/column cell data.
+	 * @private
+	 * @param {StatedPreferenceConfig} config
+	 * @returns {Array<any>}
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	private transformToDisplayableData(config: StatedPreferenceConfig): Array<any> {
+		let spDataArray: Array<string> = [];
+		for (let r = 0; r < config.headers.length; r++) {}
+		return [];
 	}
 }
