@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import {
 	OnOptionsLoaded,
 	OnSaveResponseStatus,
@@ -10,6 +10,7 @@ import {
 	SurveyViewer
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
+import { FormArrayName } from '@angular/forms';
 
 /**
  * Base question component definition for the question type "Stated Preference"
@@ -31,6 +32,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public options: QuestionOption[];
 	public model: ReplaySubject<StatedPreferenceConfig>;
 	public hasError: boolean = false;
+	public displayModel: ReplaySubject<Array<any>>;
 
 	/**
 	 *Creates an instance of StatedPreferenceQuestionComponent.
@@ -39,7 +41,8 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer) {
 		super();
-		this.model = new ReplaySubject<StatedPreferenceConfig>();
+		this.model = new ReplaySubject<StatedPreferenceConfig>(1);
+		this.displayModel = new ReplaySubject<Array<any>>(1);
 	}
 
 	public onQuestionShown(): void {}
@@ -53,7 +56,11 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	private parseSpModel(value: any): void {
 		try {
-			this.model.next(JSON.parse(value.value));
+			console.log(value);
+			let spModel = JSON.parse(value.label);
+
+			this.model.next(spModel);
+			this.displayModel.next(this.transformToDisplayableData(spModel));
 		} catch (exception) {
 			console.error(exception);
 			this.hasError = true;
@@ -81,8 +88,16 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private transformToDisplayableData(config: StatedPreferenceConfig): Array<any> {
-		let spDataArray: Array<string> = [];
-		for (let r = 0; r < config.headers.length; r++) {}
-		return [];
+		console.log('in transform display');
+		let spDataArray: Array<any> = [];
+		for (let r = 0; r < config.headers.length; r++) {
+			let spDataRow: {} = {};
+			for (let c = 0; c < config.choices.length; c++) {
+				spDataRow[c] = config.choices[c].items[r].label;
+			}
+			spDataArray.push(spDataRow);
+		}
+		console.log(spDataArray);
+		return spDataArray;
 	}
 }
