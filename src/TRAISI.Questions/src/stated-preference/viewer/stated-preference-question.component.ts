@@ -8,7 +8,9 @@ import {
 	ResponseTypes,
 	SurveyQuestion,
 	SurveyViewer,
-	SurveyResponder
+	SurveyResponder,
+	ResponseValidationState,
+	ResponseData
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { FormArrayName, NgForm } from '@angular/forms';
@@ -54,7 +56,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		this.displayModel = new ReplaySubject<Array<any>>(1);
 		this.displayModelColumns = new ReplaySubject<Array<string>>(1);
 		this.inputModel = {};
-
 	}
 
 	public onQuestionShown(): void {}
@@ -77,7 +78,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		}
 	}
 
-
 	/**
 	 * Tells the responder service to load / cache all respones for this respondent.
 	 * @private
@@ -96,6 +96,8 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 				this.parseSpModel(options[0]);
 			}
 		});
+
+		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
 	/**
@@ -127,14 +129,31 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	}
 
 	/**
+	 * @private
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	private onSavedResponseData: (response: ResponseData<any>[] | 'none') => void = (response: ResponseData<any>[] | 'none') => {
+		console.log('got response');
+		console.log(response);
+		if (response !== 'none') {
+			var r = JSON.parse(response[0]['value']).value;
+			console.log(r);
+			this.inputModel.value = r;
+			this.validationState.emit(ResponseValidationState.VALID);
+		}
+	};
+
+	/**
 	 * @param {*} $event
 	 * @param {*} col
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public selectChoice($event, col, index): void {
 		this.inputModel.value = col;
-	}
 
+		this.response.emit({ value: '{ "value": "' + this.inputModel.value + '"}' });
+		this.validationState.emit(ResponseValidationState.VALID);
+	}
 
 	/**
 	 * @memberof StatedPreferenceQuestionComponent

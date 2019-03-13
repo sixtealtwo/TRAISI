@@ -7,10 +7,8 @@ namespace DAL.Models.ResponseTypes
 {
 	public class JsonResponse : ResponseValue, IJsonResponse
 	{
-
 		[Column(TypeName = "jsonb")]
 		public string Value { get; set; }
-
 	}
 
 }

@@ -8,7 +8,7 @@ using TRAISI.SDK.Library.ResponseTypes;
 namespace TRAISI.SDK.Questions
 {
 
-    [SurveyQuestion(QuestionResponseType.OptionSelect,
+    [SurveyQuestion(QuestionResponseType.Json,
     CodeBundleName = "traisi-questions-sp.module.js",
     CustomBuilderCodeBundleName = "traisi-questions-spbuilder.module.js",
     CustomBuilderView = "stated_preference_custom_builder",
