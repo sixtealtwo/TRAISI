@@ -7,7 +7,8 @@ import {
 	QuestionOption,
 	ResponseTypes,
 	SurveyQuestion,
-	SurveyViewer
+	SurveyViewer,
+	SurveyResponder
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { FormArrayName, NgForm } from '@angular/forms';
@@ -40,11 +41,14 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public spForm: NgForm;
 
 	/**
-	 *Creates an instance of StatedPreferenceQuestionComponent.
-	 * @param {SurveyViewer} _surveyViewerService
-	 * @memberof StatedPreferenceQuestionComponent
+	 *
+	 * @param _surveyViewerService
+	 * @param _responderService
 	 */
-	constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer) {
+	constructor(
+		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
+		@Inject('SurveyResponderService') private _responderService: SurveyResponder
+	) {
 		super();
 		this.model = new ReplaySubject<StatedPreferenceConfig>(1);
 		this.displayModel = new ReplaySubject<Array<any>>(1);
@@ -118,16 +122,11 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	public selectChoice($event, col, index): void {
 		console.log(col);
-		console.log(this.inputModel);
-		console.log(index);
-		console.log(this.spForm);
-		this.inputModel.value = col; 
+		this.inputModel.value = col;
 	}
 
 	/**
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public ngAfterViewInit(): void {
-		console.log(this.spForm);
-	}
+	public ngAfterViewInit(): void {}
 }
