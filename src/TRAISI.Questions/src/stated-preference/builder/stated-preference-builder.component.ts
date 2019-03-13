@@ -38,7 +38,8 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import demoConfig from './demo-config.model';
 import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
-
+import * as dot from 'dot';
+import { StatedPreferenceConfig } from 'stated-preference/stated-preference-config.model';
 const defaultOption = {
 	code: 'Response Options',
 	name: 'Response Options',
@@ -146,6 +147,7 @@ export class StatedPreferenceBuilderComponent
 
 	public onSave(): void {
 		console.log(this.modelOption);
+
 		this.modelOption.value.optionLabel.value = this.editor.getText();
 		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe(
 			v => {

@@ -11,7 +11,7 @@ import {
 } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { FormArrayName, NgForm } from '@angular/forms';
-
+import * as dot from 'dot';
 /**
  * Base question component definition for the question type "Stated Preference"
  *
@@ -97,7 +97,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		for (let r = 0; r < config.headers.length; r++) {
 			let spDataRow: {} = {};
 			for (let c = 0; c < config.choices.length; c++) {
-				spDataRow[c] = config.choices[c].items[r].label;
+				spDataRow[c] = dot.template(config.choices[c].items[r].label)();
 			}
 			spDataArray.push(spDataRow);
 		}

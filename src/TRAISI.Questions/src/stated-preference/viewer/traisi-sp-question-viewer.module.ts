@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { StatedPreferenceQuestionComponent } from './stated-preference-question.component';
-import { dot } from 'dot';
+
 import { FormsModule } from '@angular/forms';
 import { CdkTableModule } from '@angular/cdk/table';
 @NgModule({
