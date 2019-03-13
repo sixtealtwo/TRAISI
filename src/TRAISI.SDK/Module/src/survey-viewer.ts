@@ -7,5 +7,5 @@ export interface SurveyViewer {
 	options: Subject<QuestionOption[]>;
 	accessToken: string;
 	updateNavigationState(canNavigate: boolean): void;
-	preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}>;
+	preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<{}>;
 }

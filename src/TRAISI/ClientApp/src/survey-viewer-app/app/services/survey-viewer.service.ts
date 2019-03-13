@@ -17,6 +17,7 @@ import { SurveyWelcomeModel } from '../models/survey-welcome.model';
 import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { find as _find } from 'lodash';
+import { SurveyViewerStateService } from './survey-viewer-state.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -78,7 +79,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		private _surveyViewerEndpointService: SurveyViewerEndpointService,
 		private _authService: AuthService,
 		private router: Router,
-		private _responderService: SurveyResponderService
+		private _responderService: SurveyResponderService,
+		private _surveyState: SurveyViewerStateService
 	) {
 		this._activeSurveyId = -1;
 
@@ -440,7 +442,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 
-	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<{}> {
+		this._surveyState.viewerState.surveyQuestions
 		return Observable.of();
 	}
 }
