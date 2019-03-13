@@ -54,6 +54,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		this.displayModel = new ReplaySubject<Array<any>>(1);
 		this.displayModelColumns = new ReplaySubject<Array<string>>(1);
 		this.inputModel = {};
+
 	}
 
 	public onQuestionShown(): void {}
@@ -74,6 +75,16 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			console.error(exception);
 			this.hasError = true;
 		}
+	}
+
+
+	/**
+	 * Tells the responder service to load / cache all respones for this respondent.
+	 * @private
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	private prepareResponses() {
+		this._responderService.preparePreviousSurveyResponses(this.respondent);
 	}
 
 	/**
@@ -121,9 +132,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public selectChoice($event, col, index): void {
-		console.log(col);
 		this.inputModel.value = col;
 	}
+
 
 	/**
 	 * @memberof StatedPreferenceQuestionComponent

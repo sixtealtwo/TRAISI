@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
-import { QuestionConfiguration, QuestionOption, SurveyViewer } from 'traisi-question-sdk';
+import { QuestionConfiguration, QuestionOption, SurveyViewer, SurveyRespondent } from 'traisi-question-sdk';
 import { User } from 'shared/models/user.model';
 import { SurveyViewPage } from '../models/survey-view-page.model';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
@@ -80,7 +80,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		private router: Router,
 		private _responderService: SurveyResponderService
 	) {
-		console.log(' in inside of init ');
 		this._activeSurveyId = -1;
 
 		this.configurationData = new Subject<QuestionConfiguration[]>();
@@ -119,7 +118,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.pageThemeInfo.next(this._pageThemeInfo);
 
-		this.activeSurveyId.subscribe((id) => {
+		this.activeSurveyId.subscribe(id => {
 			this.restoreThemeInfo(id);
 
 			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
@@ -129,7 +128,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				this.termsModel.next(surveyTermsModel);
 			});
 
-			this.getSurveyViewerScreeningQuestions(id).subscribe((result) => {
+			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
 				if (result['screeningQuestionLabels'] !== undefined) {
 					let screeningModel = this.parseScreeningQuestionsModel(result);
 					this.screeningQuestionsModel.next(screeningModel);
@@ -170,10 +169,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		let header1 = null;
 		let footer1 = null;
 		let header2 = null;
-		let footer = _find(model, (p) => p['sectionType'] === 'footer1');
-		let header = _find(model, (p) => p['sectionType'] === 'header1');
-		let header2i = _find(model, (p) => p['sectionType'] === 'header2');
-		let screenignQuestions = _find(model, (p) => p['sectionType'] === 'screeningQuestions');
+		let footer = _find(model, p => p['sectionType'] === 'footer1');
+		let header = _find(model, p => p['sectionType'] === 'header1');
+		let header2i = _find(model, p => p['sectionType'] === 'header2');
+		let screenignQuestions = _find(model, p => p['sectionType'] === 'screeningQuestions');
 		if (footer !== undefined) {
 			footer1 = this.parseJson(footer.html).html;
 		}
@@ -216,7 +215,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 */
 	private restoreThemeInfo(surveyId: number): void {
-		this.getSurveyStyles(surveyId).subscribe((styles) => {
+		this.getSurveyStyles(surveyId).subscribe(styles => {
 			try {
 				this._pageThemeInfoJson = styles;
 				if (this._pageThemeInfoJson === null) {
@@ -388,14 +387,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 			let id$ = this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode);
 
 			id$.subscribe(
-				(value) => {
+				value => {
 					this._activeSurveyId = <number>value[Object.keys(value)[0]];
 					this._activeSurveyTitle = <string>value[Object.keys(value)[1]];
 					this.activeSurveyId.next(this._activeSurveyId);
 					this.activeSurveyTitle.next(this._activeSurveyTitle);
 					// this.authService.logout();
 				},
-				(error) => {
+				error => {
 					console.log(error);
 					// this.authService.logout();
 
@@ -439,5 +438,9 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		query?: string
 	): Observable<SurveyViewQuestionOption[]> {
 		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
+	}
+
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+		return Observable.of();
 	}
 }

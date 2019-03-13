@@ -64,10 +64,7 @@ export class SurveyResponderService implements SurveyResponder {
 			return Observable.of([responses]);
 		} else {
 			// don't use cached responses
-			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(
-				questionIds,
-				respondentId
-			);
+			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(questionIds, respondentId);
 		}
 	}
 
@@ -129,13 +126,7 @@ export class SurveyResponderService implements SurveyResponder {
 			this._cachedSavedResponses[questionId] = {};
 		}
 
-		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(
-			surveyId,
-			questionId,
-			respondentId,
-			data,
-			repeat
-		);
+		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
 	}
 
 	/**
@@ -159,16 +150,7 @@ export class SurveyResponderService implements SurveyResponder {
 	): void {
 		questionComponent.response.subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
-				this.handleResponse(
-					questionComponent,
-					value,
-					surveyId,
-					questionId,
-					respondentId,
-					saved,
-					questionModel,
-					repeat
-				);
+				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
 			},
 			error => {
 				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
@@ -181,12 +163,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param surveyId
 	 * @param questionId
 	 */
-	public getSavedResponse(
-		surveyId: number,
-		questionId: number,
-		respondentId: number,
-		repeat: number
-	): Observable<ResponseValue<any>> {
+	public getSavedResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<ResponseValue<any>> {
 		// this.listResponsesForQuestions([questionId, questionId], respondentId).subscribe(val => {});
 
 		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
@@ -206,11 +183,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	private handleResponse(
-		questionComponent:
-			| SurveyQuestion<ResponseTypes>
-			| SurveyQuestion<ResponseTypes[]>
-			| SurveyQuestion<any>
-			| OnSaveResponseStatus,
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number,
@@ -220,14 +193,7 @@ export class SurveyResponderService implements SurveyResponder {
 		repeat: number
 	): void {
 		if (response instanceof Array) {
-			this.saveResponse(
-				{ values: response },
-				surveyId,
-				questionId,
-				respondentId,
-				questionModel,
-				repeat
-			).subscribe(
+			this.saveResponse({ values: response }, surveyId, questionId, respondentId, questionModel, repeat).subscribe(
 				(responseValid: boolean) => {
 					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
 				},
@@ -266,11 +232,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param saved
 	 */
 	private onSavedResponse(
-		questionComponent:
-			| SurveyQuestion<ResponseTypes>
-			| SurveyQuestion<ResponseTypes[]>
-			| SurveyQuestion<any>
-			| OnSaveResponseStatus,
+		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
 		questionId: number,
 		respondentId: number,
 		data: any,
@@ -340,5 +302,16 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
 		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
+	}
+
+	/**
+	 *
+	 * @param {number} surveyId
+	 * @returns {Observable<{}>}
+	 * @memberof SurveyResponderService
+	 */
+	preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+		//get all question IDs
+		return Observable.of();
 	}
 }
