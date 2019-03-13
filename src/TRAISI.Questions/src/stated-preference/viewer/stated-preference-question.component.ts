@@ -33,7 +33,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public model: ReplaySubject<StatedPreferenceConfig>;
 	public hasError: boolean = false;
 	public displayModel: ReplaySubject<Array<any>>;
-
+	public displayModelColumns: ReplaySubject<Array<string>>;
 	public inputModel: { value?: string };
 
 	@ViewChild('spForm')
@@ -48,6 +48,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		super();
 		this.model = new ReplaySubject<StatedPreferenceConfig>(1);
 		this.displayModel = new ReplaySubject<Array<any>>(1);
+		this.displayModelColumns = new ReplaySubject<Array<string>>(1);
 		this.inputModel = {};
 	}
 
@@ -92,16 +93,21 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private transformToDisplayableData(config: StatedPreferenceConfig): Array<any> {
-		console.log('in transform display');
+		let columnArray = [];
 		let spDataArray: Array<any> = [];
-		for (let r = 0; r < config.headers.length; r++) {
+		columnArray.push('row');
+		columnArray = columnArray.concat(config.headers);
+		for (let r = 0; r < config.rowHeaders.length; r++) {
 			let spDataRow: {} = {};
-			for (let c = 0; c < config.choices.length; c++) {
-				spDataRow[c] = dot.template(config.choices[c].items[r].label)();
+			spDataRow[0] = config.rowHeaders[r];
+			for (let c = 1; c < config.choices.length + 1; c++) {
+				spDataRow[c] = dot.template(config.choices[c - 1].items[r].label)();
 			}
 			spDataArray.push(spDataRow);
 		}
-		console.log(spDataArray);
+
+		this.displayModelColumns.next(columnArray);
+		console.log(columnArray); 
 		return spDataArray;
 	}
 

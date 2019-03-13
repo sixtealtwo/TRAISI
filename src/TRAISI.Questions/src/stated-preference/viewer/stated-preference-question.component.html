@@ -2,20 +2,29 @@
 	<div class="sp-table">
 		<form #spForm="ngForm">
 			<table cdk-table [dataSource]="displayModel" class="table table-bordered">
-				<ng-container cdkColumnDef="{{ col }}" *ngFor="let col of (model | async)?.headers; index as i">
-					<th cdk-header-cell *cdkHeaderCellDef>{{ col }}</th>
+				<ng-container cdkColumnDef="{{ col }}" *ngFor="let col of (displayModelColumns | async); index as i">
+					<th cdk-header-cell *cdkHeaderCellDef>
+						<span *ngIf="i > 0">{{ col }}</span>
+					</th>
 					<td cdk-cell *cdkCellDef="let row">{{ row[i] }}</td>
 					<td cdk-footer-cell *cdkFooterCellDef (click)="selectChoice($event, col)">
-						<div class="custom-control custom-radio">
-							<input [(ngModel)]="inputModel.value" [value]="col" type="radio" id="customRadio-{{ i }}" name="spRadio" class="custom-control-input" />
-							<label class="custom-control-label" for="customRadio-{{ i }}">{{ i + 1 }}</label>
+						<div class="custom-control custom-radio" *ngIf="i > 0">
+							<input
+								[(ngModel)]="inputModel.value"
+								[value]="col"
+								type="radio"
+								id="customRadio-{{ i - 1 }}"
+								name="spRadio"
+								class="custom-control-input"
+							/>
+							<label class="custom-control-label" for="customRadio-{{ i - 1 }}">{{ i }}</label>
 						</div>
 					</td>
 				</ng-container>
 
-				<tr cdk-header-row *cdkHeaderRowDef="(model | async)?.headers"></tr>
-				<tr cdk-row *cdkRowDef="let row; columns: (model | async)?.headers"></tr>
-				<tr cdk-footer-row *cdkFooterRowDef="(model | async)?.headers"></tr>
+				<tr cdk-header-row *cdkHeaderRowDef="(displayModelColumns | async)"></tr>
+				<tr cdk-row *cdkRowDef="let row; columns: (displayModelColumns | async)"></tr>
+				<tr cdk-footer-row *cdkFooterRowDef="(displayModelColumns | async)"></tr>
 			</table>
 		</form>
 	</div>
