@@ -107,7 +107,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		}
 
 		this.displayModelColumns.next(columnArray);
-		console.log(columnArray); 
+		console.log(columnArray);
 		return spDataArray;
 	}
 
@@ -116,9 +116,12 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @param {*} col
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public selectChoice($event, col): void {
+	public selectChoice($event, col, index): void {
 		console.log(col);
 		console.log(this.inputModel);
+		console.log(index);
+		console.log(this.spForm);
+		this.inputModel.value = col; 
 	}
 
 	/**
