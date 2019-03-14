@@ -165,11 +165,13 @@ export class QuestionLoaderService {
 		questionType: string
 	): Observable<ComponentFactoryBoundToModule<any>> {
 		// reuse the preloaded component factory
+
 		if (questionType in this._componentFactories) {
 			return rxjs.of(this._componentFactories[questionType]);
 		}
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
+
 			return rxjs
 				.of(
 					this.createComponentFactory(
@@ -202,6 +204,7 @@ export class QuestionLoaderService {
 				)
 				.pipe(
 					rxjsOperators.map((module: any) => {
+
 						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(
 							module.default
 						);
@@ -212,6 +215,7 @@ export class QuestionLoaderService {
 						return moduleRef;
 					}),
 					rxjsOperators.map((moduleRef: any) => {
+
 						const componentFactory: ComponentFactoryBoundToModule<
 							any
 						> = <ComponentFactoryBoundToModule<any>>(
@@ -227,24 +231,25 @@ export class QuestionLoaderService {
 								this._componentFactories[
 									questionType
 								] = componentFactory;
+
 							} else {
 								return rxjs.EMPTY;
 							}
+
 							let hasDependency: boolean = false;
-							componentFactory['ngModule']._providers.forEach(
-								provider => {
-									if (provider.hasOwnProperty('dependency')) {
-										hasDependency = true;
-										return this.getQuestionComponentFactory(
-											provider.name
-										);
-									}
+							for (let key of Object.keys(componentFactory['ngModule']._providers)) {
+								let provider = componentFactory['ngModule']._providers[key];
+								if (provider.hasOwnProperty('dependency')) {
+									hasDependency = true;
+									return this.getQuestionComponentFactory(
+										provider.name
+									);
 								}
-							);
+							}
 							return rxjs.of(componentFactory);
 						}
 					),
-					rxjsOperators.first()
+					rxjsOperators.share()
 				);
 		}
 	}
@@ -269,7 +274,7 @@ export class QuestionLoaderService {
 			>resolver.resolveComponentFactory(widget.component);
 
 		if (!(questionType in this._componentFactories)) {
-			this._componentFactories[questionType] = componentFactory;
+			// 	this._componentFactories[questionType] = componentFactory;
 		}
 		return componentFactory;
 	}
@@ -283,15 +288,23 @@ export class QuestionLoaderService {
 		question: ISurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
-		return this.getQuestionComponentFactory(question.questionType).pipe(
-			rxjsOperators.map(componentFactory => {
-				let componentRef = viewContainerRef.createComponent(
-					componentFactory,
-					undefined,
-					this.injector
-				);
-				return componentRef;
+		return Observable.create((o) => {
+
+			this.getQuestionComponentFactory(question.questionType).subscribe({
+				next: (componentFactory) => {
+				},
+				complete:
+					() => {
+						let componentRef = viewContainerRef.createComponent(
+							this._componentFactories[question.questionType],
+							undefined,
+							this.injector
+						);
+						o.next(componentRef);
+						o.complete();
+						console.log('done');
+					}
 			})
-		);
+		});
 	}
 }

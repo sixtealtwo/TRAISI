@@ -137,7 +137,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService
-	) {}
+	) { }
 
 	/**
 	 * Calcs unique repeat number
@@ -150,7 +150,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void {}
+	public ngOnDestroy(): void { }
 
 	/**
 	 *
@@ -251,7 +251,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				if (this.question.isOptional) {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
-			});
+			},
+				(error) => { },
+				() => {
+					console.log('complete');
+				}
+			);
 	}
 
 	/**

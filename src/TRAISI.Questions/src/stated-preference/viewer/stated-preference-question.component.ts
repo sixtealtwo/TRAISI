@@ -128,14 +128,12 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		columnArray.push('row');
 		columnArray = columnArray.concat(config.headers);
 		for (let r = 0; r < config.rowHeaders.length; r++) {
-			// let spDataRow: {} = {};
-			// spDataRow[0] = config.rowHeaders[r];
 			for (let c = 1; c < config.choices.length + 1; c++) {
-				let templateFn = dot.template(config.choices[c - 1].items[r].label)(this.context);
-				// spDataRow[c] = templateFn(this.context);
+				dot.template(config.choices[c - 1].items[r].label)(this.context);
+
 			}
-			// spDataArray.push(spDataRow);
 		}
+
 
 		return Observable.create((o) => {
 			this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent).subscribe(results => {
@@ -165,11 +163,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private onSavedResponseData: (response: ResponseData<any>[] | 'none') => void = (response: ResponseData<any>[] | 'none') => {
-		console.log('got response');
-		console.log(response);
+
 		if (response !== 'none') {
 			var r = JSON.parse(response[0]['value']).value;
-			console.log(r);
 			this.inputModel.value = r;
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
@@ -192,16 +188,65 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @returns {string}
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public responseValue(this: StatedPreferenceTemplateContext, questionName: string): string {
+	public responseValue(this: StatedPreferenceTemplateContext, questionName: string, type?: string): string {
 
 		if (this.isResponsesLoaded) {
 			let value = this.component._responderService.getResponseValue(questionName, this.component.respondent);
-			return value[0].value;
+			if (type == undefined) {
+
+				return value[0].value;
+			}
+			else if (type == 'distance') {
+				return String(this.component.parseDistance.call(this.component, value, arguments));
+			}
+			else if (type == 'time') {
+				return String(this.component.parseTime.call(this.component, value, arguments));
+			}
 		}
 		else {
 			this.responsesToLoad.push(questionName);
 		}
 		return questionName;
+	}
+
+	public parseDistance(responseValue): string {
+
+		let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
+		if (jValue['_tripLegs'] !== undefined) {
+			return String(this.parseTripRouteDistance(jValue, arguments[1][2]));
+		}
+		return 'ERROR'
+	}
+
+	public parseTime(responseValue): string {
+
+		let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
+		if (jValue['_tripLegs'] !== undefined) {
+			return String(this.parseTripRouteTime(jValue, arguments[1][2]));
+		}
+		return 'ERROR'
+	}
+
+	private parseTripRouteDistance(responseValue, routeIndex: number): number {
+		let tripLegs = responseValue['_tripLegs'];
+		let distance: number = 0;
+		for (let leg of tripLegs) {
+			for (let instruction of leg['_instructions']) {
+				distance += Number.parseInt(instruction['distance']);
+			}
+		}
+		return distance;
+	}
+
+	private parseTripRouteTime(responseValue, routeIndex: number): number {
+		let tripLegs = responseValue['_tripLegs'];
+		let duration: number = 0;
+		for (let leg of tripLegs) {
+			for (let instruction of leg['_instructions']) {
+				duration += Number.parseInt(instruction['time']);
+			}
+		}
+		return duration;
 	}
 
 	/**

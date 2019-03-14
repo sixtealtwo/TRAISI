@@ -15,27 +15,27 @@ using Geocoding.Google;
 
 namespace TRAISI.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    // [Authorize]
+    [Route("api/[controller]")] 
     public class MapServiceController : Controller
     {
         private readonly IGeoService _geoService;
         public MapServiceController(IGeoService geoService)
         {
             this._geoService = geoService;
-            
+
         }
 
         // GET: api/<controller>
         [HttpGet]
         [Route("reversegeo/{lat}/{lng}")]
-		[Produces(typeof(GeoLocationViewModel))]
+        [Produces(typeof(GeoLocationViewModel))]
         public async Task<IActionResult> ReverseGeocode(double lat, double lng)
         {
             var address = await this._geoService.ReverseGeocodeAsync(lat, lng);
             GeoLocationViewModel result = new GeoLocationViewModel() { Latitude = lat, Longitude = lng, Address = address };
             return Ok(result);
         }
-        
+
     }
 }

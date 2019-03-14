@@ -206,6 +206,7 @@ namespace TRAISI.Services
                                 QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
                                 }}
                             ),
+                            SurveyRespondentGroup = new SurveyRespondentGroup()
 
                         };
                         _unitOfWork.SurveyRespondents.Add(respondent);

@@ -3,7 +3,7 @@ import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
 import { GeoLocation } from '../models/geo-location.model';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 import {
 	SurveyQuestion,
 	ResponseTypes,

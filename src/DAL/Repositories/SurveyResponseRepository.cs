@@ -70,7 +70,7 @@ namespace DAL.Repositories
         public async Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, string type)
         {
 
-            var responses = new List<SurveyResponse>();
+           var responses = new List<SurveyResponse>();
             IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where(r => r.QuestionPart.Survey.Id == surveyId)
             .Distinct()
             .Where(r => user.SurveyRespondentGroup.GroupMembers.Contains(r.Respondent))
@@ -78,40 +78,47 @@ namespace DAL.Repositories
             .Include(r => r.Respondent)
             .Include(r => r.QuestionPart).ThenInclude(q => q.QuestionConfigurations);
 
-            if (type == "location") {
+            if (type == "location")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "timeline") {
+            else if (type == "timeline")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 7));
             }
-            else if (type == "string") {
+            else if (type == "string")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 1));
             }
-            else if (type == "decimal") {
+            else if (type == "decimal")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 2));
             }
-            else if (type == "integer") {
+            else if (type == "integer")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "optionlist") {
+            else if (type == "optionlist")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 4));
             }
-            else if (type == "json") {
+            else if (type == "json")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 6));
             }
-            else if (type == "datetime") {
+            else if (type == "datetime")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
-            else if (type == "option-select") {
+            else if (type == "option-select")
+            {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
             var result = await query.ToListAsync();
-
-            foreach (var r in result) {
+            foreach (var r in result)
+            {
                 responses.Add(r);
             }
-
-
             return responses;
         }
 
