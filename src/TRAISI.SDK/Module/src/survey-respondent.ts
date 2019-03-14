@@ -9,7 +9,9 @@ export interface SurveyResponder {
 	removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
 	updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}>;
 	listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any>;
-	preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}>;
+	listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any>;
+
+	getResponseValue(questionName: string, respondent: SurveyRespondent): any;
 }
 
 export interface SurveyRespondent {

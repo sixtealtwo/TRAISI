@@ -15,6 +15,7 @@ import {
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { FormArrayName, NgForm } from '@angular/forms';
 import * as dot from 'dot';
+import { StatedPreferenceTemplateContext } from './stated-preference-template-context.model';
 /**
  * Base question component definition for the question type "Stated Preference"
  *
@@ -38,6 +39,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public displayModel: ReplaySubject<Array<any>>;
 	public displayModelColumns: ReplaySubject<Array<string>>;
 	public inputModel: { value?: string };
+	public context: StatedPreferenceTemplateContext;
 
 	@ViewChild('spForm')
 	public spForm: NgForm;
@@ -56,11 +58,17 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		this.displayModel = new ReplaySubject<Array<any>>(1);
 		this.displayModelColumns = new ReplaySubject<Array<string>>(1);
 		this.inputModel = {};
+		this.context = {
+			response: this.responseValue,
+			isResponsesLoaded: false,
+			responsesToLoad: [],
+			component: this
+		};
 	}
 
-	public onQuestionShown(): void {}
-	public onQuestionHidden(): void {}
-	public onResponseSaved(result: any): void {}
+	public onQuestionShown(): void { }
+	public onQuestionHidden(): void { }
+	public onResponseSaved(result: any): void { }
 
 	/**
 	 * @private
@@ -71,7 +79,11 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		try {
 			let spModel = JSON.parse(value.label);
 			this.model.next(spModel);
-			this.displayModel.next(this.transformToDisplayableData(spModel));
+
+			this.transformToDisplayableData(spModel).subscribe((modelResult) => {
+				this.displayModel.next(modelResult);
+			});
+
 		} catch (exception) {
 			console.error(exception);
 			this.hasError = true;
@@ -84,7 +96,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private prepareResponses() {
-		this._responderService.preparePreviousSurveyResponses(this.respondent);
+		// this._responderService.preparePreviousSurveyResponses(this.respondent);
 	}
 
 	/**
@@ -98,6 +110,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		});
 
 		this.savedResponse.subscribe(this.onSavedResponseData);
+
 	}
 
 	/**
@@ -109,23 +122,42 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @returns {Array<any>}
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	private transformToDisplayableData(config: StatedPreferenceConfig): Array<any> {
+	private transformToDisplayableData(config: StatedPreferenceConfig): Observable<Array<any>> {
 		let columnArray = [];
 		let spDataArray: Array<any> = [];
 		columnArray.push('row');
 		columnArray = columnArray.concat(config.headers);
 		for (let r = 0; r < config.rowHeaders.length; r++) {
-			let spDataRow: {} = {};
-			spDataRow[0] = config.rowHeaders[r];
+			// let spDataRow: {} = {};
+			// spDataRow[0] = config.rowHeaders[r];
 			for (let c = 1; c < config.choices.length + 1; c++) {
-				spDataRow[c] = dot.template(config.choices[c - 1].items[r].label)();
+				let templateFn = dot.template(config.choices[c - 1].items[r].label)(this.context);
+				// spDataRow[c] = templateFn(this.context);
 			}
-			spDataArray.push(spDataRow);
+			// spDataArray.push(spDataRow);
 		}
 
-		this.displayModelColumns.next(columnArray);
-		console.log(columnArray);
-		return spDataArray;
+		return Observable.create((o) => {
+			this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent).subscribe(results => {
+				console.log(results);
+				this.context.isResponsesLoaded = true;
+				for (let r = 0; r < config.rowHeaders.length; r++) {
+					let spDataRow: {} = {};
+					spDataRow[0] = config.rowHeaders[r];
+					for (let c = 1; c < config.choices.length + 1; c++) {
+						let templateFn = dot.template(config.choices[c - 1].items[r].label);
+						spDataRow[c] = templateFn(this.context);
+					}
+					spDataArray.push(spDataRow);
+				}
+				this.displayModelColumns.next(columnArray);
+				o.next(spDataArray);
+				o.complete();
+
+			});
+		});
+
+
 	}
 
 	/**
@@ -156,7 +188,24 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	}
 
 	/**
+	 * @param {string} questionId
+	 * @returns {string}
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public ngAfterViewInit(): void {}
+	public responseValue(this: StatedPreferenceTemplateContext, questionName: string): string {
+
+		if (this.isResponsesLoaded) {
+			let value = this.component._responderService.getResponseValue(questionName, this.component.respondent);
+			return value[0].value;
+		}
+		else {
+			this.responsesToLoad.push(questionName);
+		}
+		return questionName;
+	}
+
+	/**
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	public ngAfterViewInit(): void { }
 }

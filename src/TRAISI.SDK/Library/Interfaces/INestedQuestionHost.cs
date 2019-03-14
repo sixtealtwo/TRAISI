@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace TRAISI.SDK.Library.Interfaces
+namespace TRAISI.SDK.Interfaces
 {
     public interface INestedQuestionHost
     {
-		/// <summary>
-		/// 
-		/// </summary>
-         List<NestedQuestionDefinition> ConfigureNestedQuestions();
+        /// <summary>
+        /// 
+        /// </summary>
+        List<NestedQuestionDefinition> ConfigureNestedQuestions();
     }
 }

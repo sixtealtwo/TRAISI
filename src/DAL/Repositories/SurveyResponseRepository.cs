@@ -78,50 +78,36 @@ namespace DAL.Repositories
             .Include(r => r.Respondent)
             .Include(r => r.QuestionPart).ThenInclude(q => q.QuestionConfigurations);
 
-            if (type == "location")
-            {
+            if (type == "location") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "timeline")
-            {
+            else if (type == "timeline") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 7));
             }
-            else if (type == "string")
-            {
+            else if (type == "string") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 1));
             }
-            else if (type == "decimal")
-            {
+            else if (type == "decimal") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 2));
             }
-            else if (type == "integer")
-            {
+            else if (type == "integer") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 3));
             }
-            else if (type == "optionlist")
-            {
+            else if (type == "optionlist") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 4));
             }
-            else if (type == "json")
-            {
+            else if (type == "json") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 6));
             }
-            else if (type == "datetime")
-            {
+            else if (type == "datetime") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
-            else if (type == "option-select")
-            {
+            else if (type == "option-select") {
                 query = query.Where(r => r.ResponseValues.Any(r2 => EF.Property<int>(r2, "ResponseType") == 8));
             }
-
-
-
-
             var result = await query.ToListAsync();
 
-            foreach (var r in result)
-            {
+            foreach (var r in result) {
                 responses.Add(r);
             }
 
@@ -141,7 +127,6 @@ namespace DAL.Repositories
         {
             var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
             .Include(v => v.ResponseValues)
-
                 .ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).FirstOrDefault();
 
             return result;
@@ -161,6 +146,45 @@ namespace DAL.Repositories
                 .ToAsyncEnumerable().OrderBy(s => questionIds.IndexOf(s.QuestionPart.Id)).ThenByDescending(s => s.UpdatedDate).ToList();
 
             result.ForEach(r => r.QuestionPart = null);
+            return result;
+        }
+
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="questionNames"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsByNameAsync(List<string> questionNames, SurveyRespondent user)
+        {
+
+            var result = await this._entities.Where(s => s.Respondent == user && questionNames.Contains(s.QuestionPart.Name))
+            .Include(v => v.ResponseValues).Include(v => v.QuestionPart)
+                .ToAsyncEnumerable().OrderBy(s => questionNames.IndexOf(s.QuestionPart.Name)).ThenByDescending(s => s.UpdatedDate).ToList();
+
+            result.ForEach(r => r.QuestionPart = null);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionNames"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListMostRecentSurveyResponsesForQuestionsByNameAsync(List<string> questionNames, SurveyRespondent user)
+        {
+
+            var result = await this._entities.Where(s => s.Respondent == user && questionNames.Contains(s.QuestionPart.Name)).OrderByDescending(s => s.UpdatedDate)
+            .Include(v => v.ResponseValues).Include(v => v.QuestionPart).
+            GroupBy(s => s.QuestionPart).
+            Select(
+                r => new
+                {
+                    Response = r.OrderByDescending(t => t.UpdatedDate).First()
+                })
+                .Select(r => r.Response)
+            .ToListAsync();
             return result;
         }
 

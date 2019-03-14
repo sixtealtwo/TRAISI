@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Library.ResponseTypes;
 using System.Reflection;
-using TRAISI.SDK.Library.Interfaces;
 
 namespace TRAISI.SDK
 {

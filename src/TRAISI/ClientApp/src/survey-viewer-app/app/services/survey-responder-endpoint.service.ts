@@ -61,7 +61,7 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 	): Observable<T> {
 		let endpointUrl = `${
 			this.responderSaveResponseUrl
-		}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
+			}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
 
 		let headers = this.getRequestHeaders(respondentId);
 		headers.headers = (<HttpHeaders>headers.headers).set('Respondent-Id', respondentId.toString());
@@ -87,7 +87,7 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 	): Observable<T> {
 		let endpointUrl = `${
 			this.responderSaveResponseUrl
-		}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
+			}/surveys/${surveyId}/questions/${questionId}/respondents/${respondentId}/${repeat}`;
 		let headers = this.getRequestHeaders(respondentId);
 		headers.headers = (<HttpHeaders>headers.headers).set('Respondent-Id', respondentId.toString());
 		return this.http.get<T>(endpointUrl, headers).pipe(
@@ -116,11 +116,34 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 		headers['params'] = {
 			questionIds: questionIds
 		};
-
 		return this.http.get<T>(endpointUrl, headers).pipe(
 			catchError(error => {
 				return this.handleError(error, () =>
 					this.getListResponsesForQuestionsUrlEndpoint(questionIds, respondentId)
+				);
+			})
+		);
+	}
+
+	/**
+	 * @template T
+	 * @param {string[]} questionNames
+	 * @param {number} respondentId
+	 * @returns {Observable<T>}
+	 * @memberof SurveyResponderEndpointService
+	 */
+	public getListResponsesForQuestionsByNameUrlEndpoint<T>(questionNames: string[], respondentId: number): Observable<T> {
+		const endpointUrl = `${this.responderSaveResponseUrl}/questions/names/respondents/${respondentId}/responses`;
+
+		const headers = this.getRequestHeaders(respondentId);
+
+		headers['params'] = {
+			questionNames: questionNames
+		};
+		return this.http.get<T>(endpointUrl, headers).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondentId)
 				);
 			})
 		);
@@ -179,13 +202,13 @@ export class SurveyResponderEndpointService extends SurveyViewerEndpointFactory 
 		);
 	}
 
-		/**
-	 *
-	 *
-	 * @template T
-	 * @returns {Observable<T>}
-	 * @memberof SurveyResponderEndpointService
-	 */
+	/**
+ *
+ *
+ * @template T
+ * @returns {Observable<T>}
+ * @memberof SurveyResponderEndpointService
+ */
 	public getSurveyPrimaryRespondentUrlEndpoint<T>(surveyId: number): Observable<T> {
 		let endpointUrl = `${this.endpointUrlPrefix}/surveys/${surveyId}/respondents/primary`;
 

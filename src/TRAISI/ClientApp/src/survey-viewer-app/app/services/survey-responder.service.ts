@@ -11,7 +11,7 @@ import {
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap, map, share } from 'rxjs/operators';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 
@@ -24,6 +24,8 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	private _cachedSavedResponses: { [questionId: number]: { [respondentId: number]: any } };
 
+	private _cachedByNameSavedResponses: { [questionName: string]: { [respondentId: number]: any } };
+
 	public id: number;
 
 	public primaryRespondent: SurveyRespondent;
@@ -35,6 +37,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {
 		this._cachedSavedResponses = {};
+		this._cachedByNameSavedResponses = {};
 	}
 
 	/**
@@ -69,6 +72,49 @@ export class SurveyResponderService implements SurveyResponder {
 	}
 
 	/**
+	 * @param {string} questionName
+	 * @param {SurveyRespondent} respondent
+	 * @returns {*}
+	 * @memberof SurveyResponderService
+	 */
+	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
+		return this._cachedByNameSavedResponses[questionName][respondent.id];
+	}
+
+	/**
+	 * @param {Array<string>} questionNames
+	 * @param {SurveyRespondent} respondent
+	 * @returns {Observable<Array<any>>}
+	 * @memberof SurveyResponderService
+	 */
+	public listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any> {
+
+		if (Object.keys(this._cachedByNameSavedResponses).some(r => questionNames.includes(String(r)))) {
+			// use cached responses
+			let responses = [];
+			for (let key in this._cachedByNameSavedResponses) {
+				if (questionNames.includes(String(key))) {
+					responses.push(this._cachedByNameSavedResponses[String(key)][respondent.id]);
+				}
+			}
+			return Observable.of([responses]);
+		} else {
+			// don't use cached responses
+			let responses = this._surveyResponseEndpointService.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondent.id).pipe(share());
+			responses.subscribe((results: Array<any>) => {
+				console.log(results);
+				for (let result of results) {
+					this._cachedByNameSavedResponses[String(result.questionPart.name)] = {};
+					this._cachedByNameSavedResponses[String(result.questionPart.name)][respondent.id] = result.responseValues;
+				}
+
+				console.log(this._cachedByNameSavedResponses);
+			});
+			return responses;
+		}
+	}
+
+	/**
 	 * Deletes all responses
 	 * @param surveyId
 	 * @param respondent
@@ -76,6 +122,18 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public deleteAllResponses(surveyId: number, respondent: SurveyRespondent): Observable<any> {
 		return this._surveyResponseEndpointService.getDeleteAllResponsesEndpoint(surveyId, respondent);
+	}
+
+	/**
+	 *
+	 *
+	 * @param {Array<string>} questionIds
+	 * @param {SurveyRespondent} respondent
+	 * @returns {Observable<any>}
+	 * @memberof SurveyResponderService
+	 */
+	public loadSurveyResponses(questionIds: Array<string>, respondent: SurveyRespondent): Observable<any> {
+		return null;
 	}
 
 	/**
