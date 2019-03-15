@@ -52,25 +52,21 @@ export class StatedPreferenceBuilderComponent
 		this.editorOptions = new JsonEditorOptions();
 		this.modelJson = new BehaviorSubject<any>({});
 		this.editorOptions.modes = ['code', 'tree', 'view', 'text'];
-		// this.model = { input: '' };
 		this.modelOption = new BehaviorSubject<QuestionOptionValue>(defaultOption);
 
 		this.modelOption
 			.pipe(
 				map(optionValue => {
 					try {
-						console.log(optionValue);
 						let data = JSON.parse(optionValue.optionLabel.value);
 						return data;
-					} catch {
-						console.log('was error');
+					} catch (exception) {
+						console.log(exception);
 						return { error: true };
 					}
 				})
 			)
 			.subscribe(value => {
-				console.log('next: ');
-				console.log(value);
 				this.modelJson.next(value);
 			});
 	}
@@ -91,7 +87,7 @@ export class StatedPreferenceBuilderComponent
 	 *
 	 * @memberof StatedPreferenceBuilderComponent
 	 */
-	public customBuilderInitialized(injector?: Injector): void {}
+	public customBuilderInitialized(injector?: Injector): void { }
 
 	public customBuilderHidden(): void {
 		console.log('SP hidden was called');
@@ -99,6 +95,10 @@ export class StatedPreferenceBuilderComponent
 	public customBuilderShown(): void {
 		console.log('SP shown was called');
 	}
+
+	/**
+	 * @memberof StatedPreferenceBuilderComponent
+	 */
 	public ngOnInit(): void {
 		this._surveyBuilder.getQuestionPartOptions(this._surveyId, this._questionId, 'en').subscribe(result => {
 			if (result.length > 0) {
@@ -109,18 +109,15 @@ export class StatedPreferenceBuilderComponent
 		});
 	}
 
+	/**
+	 * @memberof StatedPreferenceBuilderComponent
+	 */
 	public onSave(): void {
-		console.log(this.modelOption);
-
 		this.modelOption.value.optionLabel.value = this.editor.getText();
-		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe(
-			v => {
-				console.log('finished save');
-				console.log(v);
-			},
-			error => {
+		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe({
+			error: (error) => {
 				console.log(error);
 			}
-		);
+		});
 	}
 }
