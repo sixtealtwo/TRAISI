@@ -186,7 +186,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public ngOnInit(): void {
 		this.currentUser = this.surveyViewerService.currentUser;
-		console.log('init called');
 		this._sessionService.data
 			.pipe(
 				flatMap((session: SurveyViewerSessionData) => {
@@ -194,14 +193,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					this.surveyId = session.surveyId;
 					this.surveyName = session.surveyCode;
 					this._titleService.setTitle(`TRAISI - ${session.surveyTitle}`);
-					console.log('h in here');
 					return this.surveyViewerService.pageThemeInfoJson;
 				}),
 				share(),
 				flatMap((pageTheme: any) => {
 					this.pageThemeInfo = pageTheme;
 
-					console.log('in here');
 					let theme: SurveyViewerTheme = {
 						sectionBackgroundColour: null,
 						questionViewerColour: null,

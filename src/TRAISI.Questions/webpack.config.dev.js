@@ -64,15 +64,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'to-string-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          'css-loader' // translates CSS into CommonJS
-        ]
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+        ],
+        include: [/node_modules/] 
       },
       {
         test: /\.scss$/,
@@ -106,13 +101,13 @@ module.exports = {
           }
         ]
       },
-      {
+      /*{
         test: /\.js$/,
         include: [path.resolve(__dirname, 'node_modules/ngx-bootstrap')],
         use: {
           loader: 'babel-loader'
         }
-      }
+      } */
     ]
   },
   /*externals: [

@@ -1,96 +1,116 @@
-@import '~mapbox-gl/dist/mapbox-gl.css';
-@import '~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
-@import '../assets/styles';
+@import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+@import "../assets/styles";
 //@import "~bootstrap/scss/bootstrap";
-.map-container {
-	width: 100%;
-	// height: 500px;
-	overflow: hidden;
-}
 
+.traisi-map-question {
+  i.map-marker {
+    font-size: 34px;
+    color: #2796f0;
+  }
 
+  span.map-marker-point {
+    background: black;
+    opacity: 0.2;
+    border-radius: 50%;
+    height: 20px;
+    width: 22px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: 9px 0px 0px -11px;
+    transform: rotateX(55deg);
+    z-index: -1;
+  }
 
-.locationDisplay {
-	background: black;
-	color: white;
-	//font-size: 16px;
-	font-weight: bold;
-	padding: 5px 5px;
-	text-align: center;
-	z-index: 50;
+  .map-container {
+    width: 100%;
+    // height: 500px;
+    overflow: hidden;
+  }
 
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
+  .locationDisplay {
+    background: black;
+    color: white;
+    //font-size: 16px;
+    font-weight: bold;
+    padding: 5px 5px;
+    text-align: center;
+    z-index: 50;
 
-.mapMarker {
-	transform: translateY(-50%);
-}
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 
-@media #{$sm-down} {
-	.locationDisplay {
-		font-size: 0.8rem !important;
-	}
-}
+  .mapMarker {
+    transform: translateY(-50%);
+  }
 
-mgl-map {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
-	width: 100%;
+  @media #{$sm-down} {
+    .locationDisplay {
+      font-size: 0.8rem !important;
+    }
+  }
 
-	.clear-button {
-		width: auto;
-		height: auto;
-		padding: 10px;
-	}
+  mgl-map {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 100%;
 
-	.marker-icon {
-		position: absolute;
-		z-index: 22;
-		color: white;
-		left: calc(50% - 9px);
-		top: -10px;
-		font-size: 16px;
-	}
+    .clear-button {
+      width: auto;
+      height: auto;
+      padding: 10px;
+    }
 
-	.mapboxgl-ctrl-top-left {
-		top: 60px !important;
-	}
+    .marker-icon {
+      position: absolute;
+      z-index: 22;
+      color: white;
+      left: calc(50% - 9px);
+      top: -10px;
+      font-size: 16px;
+    }
 
-	.mapboxgl-ctrl-top-right {
+    .mapboxgl-ctrl-top-left {
+      top: 60px !important;
+    }
+
+    .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+      // float: unset;
+      // width: 100%;
+      // max-width: unset;
+
+      input {
+        font-size: 14px;
+        color: black;
+      }
+    }
+
+    /*.mapboxgl-ctrl-top-right {
 		width: 100%;
 		padding: 0px 10px;
 
-		.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
-			float: unset;
-			width: 100%;
-			max-width: unset;
+	} */
+  }
 
-			input {
-				font-size: 14px;
-				color: black;
-			}
-		}
-	}
-}
+  @media #{$xl-only} {
+    mgl-map {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0px;
+      width: 100%;
+    }
+  }
 
-@media #{$xl-only} {
-	mgl-map {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 0px;
-		width: 100%;
-	}
-}
-
-/*
+  /*
 @include media-breakpoint-down(xs) {
     mgl-map {
         height: 250px;
@@ -118,3 +138,4 @@ mgl-map {
         width: 100%;
     }
 } */
+}

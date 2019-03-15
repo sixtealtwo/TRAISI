@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild, Inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
 import { MapEndpointService } from '../services/mapservice.service';
@@ -7,26 +7,19 @@ import { ReplaySubject } from 'rxjs';
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
 	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption,
 	LocationResponseData,
 	ResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
-import { animate } from '@angular/animations';
 let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
 	selector: 'traisi-map-question',
 	template: '' + <string>require('./map-question.component.html').toString(),
+	encapsulation: ViewEncapsulation.None, 
 	styles: [require('./map-question.component.scss').toString()]
 })
 export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
@@ -143,10 +136,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public ngOnInit(): void {
 		this.configureMapSettings();
-
-		this.mapMarker.nativeElement.src = markerIconImage;
+		// this.mapMarker.nativeElement.src = markerIconImage;
 		this.savedResponse.subscribe(this.onSavedResponseData);
-
 		this.surveyViewerService.updateNavigationState(false);
 	}
 
@@ -249,7 +240,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether drag start on
 	 * @param event
 	 */
-	public onDragStart(event: any): void {}
+	public onDragStart(event: any): void { }
 
 	/**
 	 *
@@ -289,7 +280,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 *
 	 * @param event
 	 */
-	public onDrag(event: MapMouseEvent): void {}
+	public onDrag(event: MapMouseEvent): void { }
 
 	/**
 	 *
@@ -321,14 +312,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public onQuestionShown(): void {
 		this.mapInstance.subscribe(instance => {
-			instance.resize();
+			// instance.resize();
 		});
 	}
 
 	/**
 	 * Determines whether question hidden on
 	 */
-	public onQuestionHidden(): void {}
+	public onQuestionHidden(): void { }
 
 	/**
 	 * Loads configuration

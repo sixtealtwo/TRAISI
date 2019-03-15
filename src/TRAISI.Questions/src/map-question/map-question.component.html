@@ -1,4 +1,4 @@
-<div class="map-container">
+<div class="traisi-map-question map-container">
     <mgl-map #mapbox [style]="'https://maps.tilehosting.com/styles/streets/style.json?key=5YOsrAa6pBZnCp812wTQ'"
         (click)="mapClick($event)">
 
@@ -23,8 +23,11 @@
         </mgl-control>
         <mgl-marker [lngLat]="markerPosition" [draggable]="true" (dragEnd)="onDragEnd($event)">
 
-            <i [ngClass]="['marker-icon',markerIcon]" [hidden]="!locationLoaded || !locationSearch"></i>
-            <img #mapMarker class="mapMarker" [hidden]="!locationLoaded || !locationSearch" />
+            <!-- <i [ngClass]="['marker-icon',markerIcon]" [hidden]="!locationLoaded || !locationSearch"></i>-->
+            
+            <i #mapMarker class="fas fa-map-marker-alt map-marker" [hidden]="!locationLoaded || !locationSearch"></i>
+            <span class="map-marker-point"> </span>
+            <!-- <img #mapMarker class="mapMarker" [hidden]="!locationLoaded || !locationSearch || true" />-->
         </mgl-marker>
     </mgl-map>
     <!--<div class="locationDisplay" *ngIf="loactionLoaded">

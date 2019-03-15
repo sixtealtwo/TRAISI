@@ -369,24 +369,26 @@ export class SurveyViewerNavigationService {
 			this.updateState();
 			this.navigationCompleted.next(true);
 		} else {
-			this.evaluateRepeat().subscribe(() => {
-				// look at the active view container and call navigate next on it
+			this.evaluateRepeat().subscribe({
+				complete: () => {
+					// look at the active view container and call navigate next on it
 
-				let result;
-				do {
-					result = this._state.viewerState.activeViewContainer.navigatePrevious();
+					let result;
+					do {
+						result = this._state.viewerState.activeViewContainer.navigatePrevious();
 
-					if (result) {
-						if (this._state.viewerState.activeViewContainerIndex > 0) {
-							this.decrementViewContainer();
-							(<SurveyPageContainer>(
-								this._state.viewerState.activeViewContainer
-							)).activeRepeatContainer.activeSection.updateGroup();
+						if (result) {
+							if (this._state.viewerState.activeViewContainerIndex > 0) {
+								this.decrementViewContainer();
+								(<SurveyPageContainer>(
+									this._state.viewerState.activeViewContainer
+								)).activeRepeatContainer.activeSection.updateGroup();
+							}
 						}
-					}
-				} while (this._state.viewerState.activeViewContainer.iteratePrevious());
+					} while (this._state.viewerState.activeViewContainer.iteratePrevious());
 
-				this.updateState();
+					this.updateState();
+				}
 			});
 		}
 	}
