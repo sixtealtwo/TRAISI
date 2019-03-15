@@ -6,7 +6,7 @@ import { SurveyViewer } from 'traisi-question-sdk';
 
 @Injectable()
 export class MapEndpointService {
-	private readonly _reverseGeocodeUrl: string = '/api/mapservice/reversegeo';
+	private readonly _reverseGeocodeUrl: string = '/api/geoservice/reversegeo';
 
 	private token: string;
 

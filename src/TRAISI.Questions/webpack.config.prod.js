@@ -24,8 +24,8 @@ module.exports = {
     filename: 'traisi-questions-[name].module.js',
     libraryTarget: 'amd'
   },
-  mode: 'development',
-  devtool: 'source-map',
+  mode: 'production',
+  devtool: false,
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
@@ -60,17 +60,22 @@ module.exports = {
         use: 'raw-loader'
       },
       {
+        test: /\.svg$/,
+        use: {
+          loader: 'svg-url-loader',
+          options: {
+            limit: 10000000, // Convert images < 8kb to base64 strings
+            name: 'images/[hash]-[name].[ext]'
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: [
-          'to-string-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          'css-loader' // translates CSS into CommonJS
-        ]
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+        ],
+        include: [/node_modules/]
       },
       {
         test: /\.scss$/,
@@ -93,7 +98,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jp(e*)g|svg)$/,
+        test: /\.(png|jp(e*)g)$/,
         use: [
           {
             loader: 'url-loader',
@@ -104,13 +109,13 @@ module.exports = {
           }
         ]
       },
-      {
+      /*{
         test: /\.js$/,
         include: [path.resolve(__dirname, 'node_modules/ngx-bootstrap')],
         use: {
           loader: 'babel-loader'
         }
-      }
+      } */
     ]
   },
 

@@ -17,10 +17,10 @@ using TRAISI.ViewModels;
 namespace TRAISI.Controllers {
     // [Authorize]
     [Route ("api/[controller]")]
-    public class MapServiceController : Controller {
+    public class GeoServiceController : Controller {
         private readonly IGeoService _geoService;
 
-        public MapServiceController (IGeoService geoService) {
+        public GeoServiceController (IGeoService geoService) {
             this._geoService = geoService;
 
         }

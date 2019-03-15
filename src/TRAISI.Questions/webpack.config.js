@@ -37,14 +37,7 @@ module.exports = {
       {
         test: /\.ts$/,
         loaders: [
-          /*'babel-loader', 
-					{
-						loader: 'ts-loader',
-						options: {
-							// configFileName: 'tsconfig.json'
-						}
-					},*/
-          'angular2-template-loader',
+          'angular2-template-loader?keepUrl=true',
           'angular-router-loader'
         ],
         exclude: [/node_modules/]
@@ -58,23 +51,22 @@ module.exports = {
         use: 'raw-loader'
       },
       {
-        test: /\.css$/,
-        use: [
-          'to-string-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
-      },
-      {
         test: /\.svg$/,
         use: {
-          loader: 'raw-loader',
-          options: {}
+          loader: 'svg-url-loader',
+          options: {
+            limit: 10000000, // Convert images < 8kb to base64 strings
+            name: 'images/[hash]-[name].[ext]'
+          }
         }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+        ],
+        include: [/node_modules/] 
       },
       {
         test: /\.scss$/,
@@ -108,13 +100,13 @@ module.exports = {
           }
         ]
       },
-      {
+      /*{
         test: /\.js$/,
         include: [path.resolve(__dirname, 'node_modules/ngx-bootstrap')],
         use: {
           loader: 'babel-loader'
         }
-      }
+      } */
     ]
   },
 

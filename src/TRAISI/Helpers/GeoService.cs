@@ -22,6 +22,10 @@ namespace TRAISI.Helpers {
         private GeoConfig _config;
         private readonly RestClient _googleApiClient;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config"></param>
         public GeoService (IOptions<GeoConfig> config) {
             _config = config.Value;
             this._geocoder = new GoogleGeocoder () { ApiKey = _config.APIKey };

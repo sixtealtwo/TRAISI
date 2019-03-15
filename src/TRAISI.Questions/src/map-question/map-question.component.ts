@@ -14,12 +14,11 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
-let markerIconImage = require('./assets/default-marker.png');
 
 @Component({
 	selector: 'traisi-map-question',
 	template: '' + <string>require('./map-question.component.html').toString(),
-	encapsulation: ViewEncapsulation.None, 
+	encapsulation: ViewEncapsulation.None,
 	styles: [require('./map-question.component.scss').toString()]
 })
 export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
