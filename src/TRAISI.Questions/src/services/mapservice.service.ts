@@ -1,8 +1,8 @@
-import { HttpResponseBase, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GeoLocation } from '../models/geo-location.model';
 import { SurveyViewer } from 'traisi-question-sdk';
+import { GeoLocation } from '../models/geo-location.model';
 
 @Injectable()
 export class MapEndpointService {

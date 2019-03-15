@@ -1,20 +1,9 @@
-import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
-import {
-	OnOptionsLoaded,
-	OnSaveResponseStatus,
-	OnVisibilityChanged,
-	QuestionOption,
-	ResponseTypes,
-	SurveyQuestion,
-	SurveyViewer,
-	SurveyResponder,
-	ResponseValidationState,
-	ResponseData
-} from 'traisi-question-sdk';
-import { StatedPreferenceConfig } from '../stated-preference-config.model';
-import { FormArrayName, NgForm } from '@angular/forms';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import * as dot from 'dot';
+import { Observable, ReplaySubject } from 'rxjs';
+import { OnSaveResponseStatus, OnVisibilityChanged, QuestionOption, ResponseData, ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyResponder, SurveyViewer } from 'traisi-question-sdk';
+import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { StatedPreferenceTemplateContext } from './stated-preference-template-context.model';
 /**
  * Base question component definition for the question type "Stated Preference"

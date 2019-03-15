@@ -1,45 +1,9 @@
-import {
-	Component,
-	OnInit,
-	OnDestroy,
-	Inject,
-	EventEmitter,
-	ViewChild,
-	Injector,
-	SkipSelf,
-	ElementRef,
-	AfterViewInit,
-	ViewEncapsulation
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { BUILDER_SERVICE, QUESTION_ID } from 'traisi-question-sdk';
-import { TraisiSurveyBuilder, SURVEY_ID, SURVEY_BUILDER, QuestionOptionValue } from 'traisi-question-sdk';
-import * as _ from 'lodash';
-import { map } from 'rxjs/operators';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	OnOptionsLoaded,
-	QuestionOption,
-	ResponseData,
-	StringResponseData,
-	ResponseValidationState,
-	CustomBuilderOnInit,
-	CustomBuilderOnHidden,
-	CustomBuilderOnShown
-} from 'traisi-question-sdk';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { AfterViewInit, Component, Inject, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BUILDER_SERVICE, CustomBuilderOnHidden, CustomBuilderOnInit, CustomBuilderOnShown, QuestionOptionValue, QUESTION_ID, ResponseTypes, SurveyQuestion, SURVEY_ID, TraisiSurveyBuilder } from 'traisi-question-sdk';
 import demoConfig from './demo-config.model';
-import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
-import * as dot from 'dot';
-import { StatedPreferenceConfig } from 'stated-preference/stated-preference-config.model';
 const defaultOption = {
 	code: 'Response Options',
 	name: 'Response Options',

@@ -1,21 +1,7 @@
-import { Component, OnInit, OnDestroy, Inject, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	OnOptionsLoaded,
-	QuestionOption,
-	ResponseData,
-	StringResponseData,
-	ResponseValidationState
-} from 'traisi-question-sdk';
+import { OnSaveResponseStatus, OnVisibilityChanged, ResponseData, ResponseTypes, ResponseValidationState, StringResponseData, SurveyQuestion, SurveyViewer } from 'traisi-question-sdk';
 import { TextQuestionConfiguration } from './text-question.configuration';
 
 

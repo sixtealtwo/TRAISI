@@ -1,19 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
-import { MapComponent } from 'ngx-mapbox-gl';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
-import { MapEndpointService } from '../services/mapservice.service';
-import { GeoLocation } from '../models/geo-location.model';
-import { ReplaySubject } from 'rxjs';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyViewer,
-	OnVisibilityChanged,
-	LocationResponseData,
-	ResponseData,
-	ResponseValidationState
-} from 'traisi-question-sdk';
+import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
+import { ReplaySubject } from 'rxjs';
+import { LocationResponseData, OnVisibilityChanged, ResponseData, ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyViewer } from 'traisi-question-sdk';
+import { GeoLocation } from '../models/geo-location.model';
+import { MapEndpointService } from '../services/mapservice.service';
 
 @Component({
 	selector: 'traisi-map-question',
