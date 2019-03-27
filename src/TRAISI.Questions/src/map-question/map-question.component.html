@@ -4,14 +4,15 @@
 
         <mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true
-	}"
-            [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
+	}" [trackUserLocation]="false" [showUserLocation]="false"></mgl-control>
         <mgl-control mglNavigation position="top-left"></mgl-control>
-        <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'" (result)="locationFound($event)"></mgl-control>
-        
+        <mgl-control #geocoder mglGeocoder [placeholder]="locationSearch" [country]="'ca'"
+            (result)="locationFound($event)"></mgl-control>
+
         <mgl-control position="bottom-left">
             <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
-                <button (click)="clearLocation()" class="mapboxgl-ctrl-icon clear-button" type="button">Clear Location</button></div>
+                <button (click)="clearLocation()" class="mapboxgl-ctrl-icon clear-button" type="button">Clear
+                    Location</button></div>
         </mgl-control>
         <mgl-control position="bottom-right">
             <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
@@ -24,9 +25,9 @@
         <mgl-marker [lngLat]="markerPosition" [draggable]="true" (dragEnd)="onDragEnd($event)">
 
             <!-- <i [ngClass]="['marker-icon',markerIcon]" [hidden]="!locationLoaded || !locationSearch"></i>-->
-            
+
             <i #mapMarker class="fas fa-map-marker-alt map-marker" [hidden]="!locationLoaded || !locationSearch"></i>
-            <span class="map-marker-point"> </span>
+            <span class="map-marker-point" [hidden]="!locationLoaded || !locationSearch"> </span>
             <!-- <img #mapMarker class="mapMarker" [hidden]="!locationLoaded || !locationSearch || true" />-->
         </mgl-marker>
     </mgl-map>

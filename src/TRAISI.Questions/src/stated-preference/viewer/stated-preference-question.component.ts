@@ -40,7 +40,8 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private _responderService: SurveyResponder
+		@Inject('SurveyResponderService') private _responderService: SurveyResponder,
+		@Inject('SurveyViewerApiEndpointService') private _viewerApi
 	) {
 		super();
 		this.model = new ReplaySubject<StatedPreferenceConfig>(1);
@@ -53,6 +54,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			responsesToLoad: [],
 			component: this
 		};
+
+
+		console.log(_viewerApi);
 	}
 
 	public onQuestionShown(): void { }

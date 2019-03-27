@@ -58,6 +58,7 @@ import { SurveyScreeningPageComponent } from './components/survey-screening-page
 import { SurveyShortcodePageComponent } from './components/survey-shortcode-page/survey-shortcode-page.component';
 import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortcode-display-page/survey-shortcode-display-page.component';
 import { SurveyViewerSession } from './services/survey-viewer-session.service';
+import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-endpoint.service';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -125,6 +126,7 @@ import { SurveyViewerSession } from './services/survey-viewer-session.service';
 		QuestionLoaderEndpointService,
 		AppTranslationService,
 		{ provide: 'SurveyViewerService', useClass: SurveyViewerService },
+		{ provide: 'SurveyViewerApiEndpointService', useClass: SurveyViewerApiEndpointService },
 		SurveyViewerEndpointService,
 		ConfigurationService,
 		QuestionLoaderService,
@@ -140,4 +142,4 @@ import { SurveyViewerSession } from './services/survey-viewer-session.service';
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })
-export class AppModule {}
+export class AppModule { }
