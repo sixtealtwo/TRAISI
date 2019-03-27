@@ -3,6 +3,8 @@ import { EndpointFactory } from 'shared/services/endpoint-factory.service';
 import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Params } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable(
 	{
@@ -22,8 +24,20 @@ export class SurveyViewerApiEndpointService extends SurveyViewerEndpointFactory 
 	 * @memberof SurveyViewerApiEndpointService
 	 */
 	public getDistanceMatrixEndpoint(origins: Array<string>, destinations: Array<string>): Observable<any> {
-		let endpointUrl = `${this._geoServiceUrl}/distancematrix/${origins.join()}/${destinations.join()}`;
 
+
+		let params: HttpParams = new HttpParams();
+		for (let origin of origins) {
+			params = params.append('origins', origin);
+		}
+
+		for (let destination of destinations) {
+			params = params.append('destinations', destination);
+		}
+
+		let endpointUrl = `${this._geoServiceUrl}/distancematrix?${params.toString()}`;
+
+		console.log(endpointUrl);
 		// let headers = this.getRequestHeaders(respondentId);
 		// headers.headers = (<HttpHeaders>headers.headers).set('Respondent-Id', respondentId.toString());
 		return this.http.get(endpointUrl).pipe(

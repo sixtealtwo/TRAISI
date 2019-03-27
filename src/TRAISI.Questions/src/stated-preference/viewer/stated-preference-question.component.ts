@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as dot from 'dot';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, zip, forkJoin } from 'rxjs';
 import { OnSaveResponseStatus, OnVisibilityChanged, QuestionOption, ResponseData, ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyResponder, SurveyViewer } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { StatedPreferenceTemplateContext } from './stated-preference-template-context.model';
+import { flatMap, concatMap, mergeMap, merge, concat, take } from 'rxjs/operators';
 /**
  * Base question component definition for the question type "Stated Preference"
  *
@@ -52,11 +53,24 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			response: this.responseValue,
 			isResponsesLoaded: false,
 			responsesToLoad: [],
-			component: this
+			component: this,
+			distanceMatrixQueries: {
+				origins: new Set(),
+				destinations: new Set()
+			},
+			distanceMatrixQuestionQueries: {
+				origins: new Set(),
+				destinations: new Set()
+			},
+			distanceMatrixMap: {}
 		};
 
 
 		console.log(_viewerApi);
+
+		this._viewerApi.getDistanceMatrixEndpoint(['Toronto, ON', 'Pickering,ON'], ['Ottawa, ON']).subscribe(result => {
+			console.log(result);
+		});
 	}
 
 	public onQuestionShown(): void { }
@@ -73,9 +87,14 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			let spModel = JSON.parse(value.label);
 			this.model.next(spModel);
 
-			this.transformToDisplayableData(spModel).subscribe((modelResult) => {
-				this.displayModel.next(modelResult);
-			});
+			let modelResult;
+			this.transformToDisplayableData(spModel)
+
+				.subscribe(modelResult => {
+					this.displayModel.next(modelResult);
+				});
+
+
 
 		} catch (exception) {
 			console.error(exception);
@@ -115,7 +134,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @returns {Array<any>}
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	private transformToDisplayableData(config: StatedPreferenceConfig): Observable<Array<any>> {
+	private transformToDisplayableData(config: StatedPreferenceConfig): Observable<any> {
 		let columnArray = [];
 		let spDataArray: Array<any> = [];
 		columnArray.push('row');
@@ -126,26 +145,43 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 
 			}
 		}
-
-
 		return Observable.create((o) => {
-			this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent).subscribe(results => {
-				console.log(results);
-				this.context.isResponsesLoaded = true;
-				for (let r = 0; r < config.rowHeaders.length; r++) {
-					let spDataRow: {} = {};
-					spDataRow[0] = config.rowHeaders[r];
-					for (let c = 1; c < config.choices.length + 1; c++) {
-						let templateFn = dot.template(config.choices[c - 1].items[r].label);
-						spDataRow[c] = templateFn(this.context);
-					}
-					spDataArray.push(spDataRow);
-				}
-				this.displayModelColumns.next(columnArray);
-				o.next(spDataArray);
-				o.complete();
+			this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent)
+				.pipe(
+					concatMap((value) => {
 
-			});
+						this.displayModelColumns.next(columnArray);
+						for (let o of Array.from(this.context.distanceMatrixQuestionQueries.origins.values())) {
+							this.context.distanceMatrixQueries.origins.add((this._responderService.getResponseValue(o, this.respondent)[0].address));
+
+							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
+						}
+						for (let o of Array.from(this.context.distanceMatrixQuestionQueries.destinations.values())) {
+							this.context.distanceMatrixQueries.destinations.add((this._responderService.getResponseValue(o, this.respondent)[0].address));
+							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
+						}
+
+						return this._viewerApi.getDistanceMatrixEndpoint(Array.from(this.context.distanceMatrixQueries.origins.values()),
+							Array.from(this.context.distanceMatrixQueries.destinations.values()));
+					}
+					))
+				.subscribe(results => {
+
+					this.context.isResponsesLoaded = true;
+					this.context.distanceMatrixResults = results;
+					for (let r = 0; r < config.rowHeaders.length; r++) {
+						let spDataRow: {} = {};
+						spDataRow[0] = config.rowHeaders[r];
+						for (let c = 1; c < config.choices.length + 1; c++) {
+							let templateFn = dot.template(config.choices[c - 1].items[r].label);
+							spDataRow[c] = templateFn(this.context);
+						}
+						spDataArray.push(spDataRow);
+					}
+					o.next(spDataArray);
+					o.complete();
+
+				});
 		});
 
 
@@ -189,14 +225,22 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 
 				return value[0].value;
 			}
-			else if (type == 'distance') {
+			else if (type === 'distance') {
 				return String(this.component.parseDistance.call(this.component, value, arguments));
 			}
-			else if (type == 'time') {
+			else if (type === 'time') {
+				return String(this.component.parseTime.call(this.component, value, arguments));
+			}
+			else if (type === 'duration') {
 				return String(this.component.parseTime.call(this.component, value, arguments));
 			}
 		}
 		else {
+			if (type === 'distance' || type === 'duration' || type === 'time') {
+				this.responsesToLoad.push(arguments[2]);
+				this.distanceMatrixQuestionQueries.origins.add(arguments[0]);
+				this.distanceMatrixQuestionQueries.destinations.add(arguments[2]);
+			}
 			this.responsesToLoad.push(questionName);
 		}
 		return questionName;
@@ -204,18 +248,34 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 
 	public parseDistance(responseValue): string {
 
-		let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
-		if (jValue['_tripLegs'] !== undefined) {
-			return String(this.parseTripRouteDistance(jValue, arguments[1][2]));
+		if (responseValue[arguments[1][2] || 0] !== undefined) {
+			let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
+			if (jValue['_tripLegs'] !== undefined) {
+				return String(this.parseTripRouteDistance(jValue, arguments[1][2]));
+			}
+		}
+		else {
+			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], arguments[1][1]);
 		}
 		return 'ERROR'
 	}
 
-	public parseTime(responseValue): string {
+	public parseMatrix(results, to, from, type): string {
+		let rowIndex = results.origin_addresses.findIndex((e) => e === this.context.distanceMatrixMap[from]);
+		let colIndex = results.destination_addresses.findIndex((e) => e === this.context.distanceMatrixMap[to]);
+		return results.rows[rowIndex].elements[colIndex][type].value;
 
-		let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
-		if (jValue['_tripLegs'] !== undefined) {
-			return String(this.parseTripRouteTime(jValue, arguments[1][2]));
+	}
+
+	public parseTime(responseValue): string {
+		if (responseValue[arguments[1][2] || 0] !== undefined) {
+			let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
+			if (jValue['_tripLegs'] !== undefined) {
+				return String(this.parseTripRouteTime(jValue, arguments[1][2]));
+			}
+		}
+		else {
+			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], 'duration');
 		}
 		return 'ERROR'
 	}

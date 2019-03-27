@@ -41,7 +41,7 @@ namespace TRAISI.Controllers {
         /// <param name="origins"></param>
         /// <param name="destiations"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route ("distancematrix")]
         public async Task<IActionResult> DistanceMatrix ([FromQuery] List<string> origins, [FromQuery] List<string> destinations) {
 
