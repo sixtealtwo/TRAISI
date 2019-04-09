@@ -1,11 +1,11 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject,throwError  } from 'rxjs';
 
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
-import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
+
 
 @Injectable()
 export class EndpointFactory {
@@ -189,9 +189,9 @@ export class EndpointFactory {
 							refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
-						return observableThrowError('session expired');
+						 return throwError('session expired');
 					} else {
-						return observableThrowError(refreshLoginError || 'server error');
+						return throwError(refreshLoginError || 'server error');
 					}
 				})
 			);
@@ -200,13 +200,13 @@ export class EndpointFactory {
 		if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
 			this.authService.reLogin();
 
-			return observableThrowError(
+			 return throwError(
 				error.error && error.error.error_description
 					? `session expired (${error.error.error_description})`
 					: 'session expired'
 			);
 		} else {
-			return observableThrowError(error);
+			return throwError(error);
 		}
 	}
 
@@ -221,7 +221,7 @@ export class EndpointFactory {
 
 		return this.taskPauser.pipe(
 			switchMap(continueOp => {
-				return continueOp ? continuation() : observableThrowError('session expired');
+				return continueOp ? continuation() :  throwError('session expired');
 			})
 		);
 	}

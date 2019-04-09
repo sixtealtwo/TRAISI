@@ -1,3 +1,9 @@
-<p>
-  Likert placeholder
-</p>
+<div class="likert-container">
+
+  <span class="likert-option" *ngFor="let option of questionOptions | async" [class.selected]="option.code === selectedOption.code">
+    <div class="custom-control custom-radio custom-control-inline">
+      <input id="likertOption-{{option.code}}" type="radio" class="custom-control-input likert-option-radio" name="likert-{{questionId}}" [value]="option.code" [(ngModel)]="selectedOption.code" (ngModelChange)="onModelChanged(option)" #input>
+      <label class="custom-control-label" for="likertOption-{{option.code}}">{{option.label}}</label>
+    </div>
+  </span>
+</div>

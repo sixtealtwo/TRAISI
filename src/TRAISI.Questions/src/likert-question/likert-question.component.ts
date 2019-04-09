@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { ResponseData } from 'traisi-question-sdk';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -19,10 +20,10 @@ import {
 	styles: [require('./likert-question.component.scss').toString()]
 })
 export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit {
-	readonly QUESTION_TYPE_NAME: string = 'Likert Question';
+	public readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
-	typeName: string;
-	icon: string;
+	public selectedOption: any;
+
 	/**
 	 *Creates an instance of LikertQuestionComponent.
 	 * @param {SurveyViewer} _surveyViewerService
@@ -34,9 +35,33 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
 	) {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'likert';
+
+		this.selectedOption = { id: -1 };
+
+
 	}
 
-	ngOnInit() {}
+	public ngOnInit(): void {
+
+		this.savedResponse.subscribe(this.onSavedResponseData);
+		this.configuration = {
+			options: ['A', 'B', 'C', 'D', 'E']
+		};
+
+	}
+
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.String>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.String>[] | 'none'
+	) => {
+
+		if (response !== 'none') {
+			this.selectedOption = response[0];
+		}
+	};
+
+	public onModelChanged(option: QuestionOption): void {
+		this.response.emit([option]);
+
+		console.log(this.selectedOption);
+	}
 }

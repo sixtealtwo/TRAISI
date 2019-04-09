@@ -8,11 +8,11 @@
 				"name": "typescript-tslint-plugin"
 			}
 		],
+		"strict": true,
 		"declaration": true,
 		"moduleResolution": "node",
 		"strictFunctionTypes": false,
 		"outDir": "./dist",
-		"strict": true,
 		"lib": [
 			"es5",
 			"es2015",

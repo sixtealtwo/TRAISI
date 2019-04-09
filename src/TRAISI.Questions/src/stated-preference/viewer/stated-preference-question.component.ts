@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, zip, forkJoin } from 'rxjs';
 import { OnSaveResponseStatus, OnVisibilityChanged, QuestionOption, ResponseData, ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyResponder, SurveyViewer } from 'traisi-question-sdk';
 import { StatedPreferenceConfig } from '../stated-preference-config.model';
 import { StatedPreferenceTemplateContext } from './stated-preference-template-context.model';
-import { flatMap, concatMap, mergeMap, merge, concat, take } from 'rxjs/operators';
+import { flatMap, concatMap, mergeMap, merge, concat, take, map } from 'rxjs/operators';
 /**
  * Base question component definition for the question type "Stated Preference"
  *
@@ -146,7 +146,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			}
 		}
 		return Observable.create((o) => {
-			this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent)
+			(<Observable<any>><any>this._responderService.listResponsesForQuestionsByName(this.context.responsesToLoad, this.respondent))
 				.pipe(
 					concatMap((value) => {
 
@@ -160,9 +160,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 							this.context.distanceMatrixQueries.destinations.add((this._responderService.getResponseValue(o, this.respondent)[0].address));
 							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
 						}
-
-						return this._viewerApi.getDistanceMatrixEndpoint(Array.from(this.context.distanceMatrixQueries.origins.values()),
-							Array.from(this.context.distanceMatrixQueries.destinations.values()));
+						return <Observable<any>>this._viewerApi.getDistanceMatrixEndpoint(Array.from(this.context.distanceMatrixQueries.origins.values()), Array.from(this.context.distanceMatrixQueries.destinations.values()));
 					}
 					))
 				.subscribe(results => {

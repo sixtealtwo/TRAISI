@@ -1,5 +1,4 @@
-import { from } from 'rxjs';
-import { InjectionToken } from '../../../TRAISI/ClientApp/node_modules/@angular/core/core';
+
 import { QUESTION_ID } from './traisi-survey-builder.service';
 
 export { QuestionConfiguration } from './question-configuration';
