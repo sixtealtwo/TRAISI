@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ResponseData } from 'traisi-question-sdk';
+import { ResponseData, ResponseValidationState } from 'traisi-question-sdk';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -63,5 +63,10 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 		this.response.emit([option]);
 
 		console.log(this.selectedOption);
+	}
+
+	public onResponseSaved(result: any): void {
+		this.validationState.emit(ResponseValidationState.VALID);
+		this.autoAdvance.emit(500);
 	}
 }

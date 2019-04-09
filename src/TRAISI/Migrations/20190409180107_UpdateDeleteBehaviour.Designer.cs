@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -10,9 +11,10 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190409180107_UpdateDeleteBehaviour")]
+    partial class UpdateDeleteBehaviour
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1518,8 +1520,7 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
-                        .HasForeignKey("QuestionPartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("QuestionPartId");
 
                     b.HasOne("DAL.Models.Surveys.SurveyRespondent", "Respondent")
                         .WithMany()
