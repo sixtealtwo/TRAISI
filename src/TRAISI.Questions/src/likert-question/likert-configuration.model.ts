@@ -1,4 +1,0 @@
-
-export interface LikertConfiguration {
-	options: [];
-}
