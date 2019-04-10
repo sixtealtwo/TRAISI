@@ -134,6 +134,7 @@ namespace DAL.Repositories
         {
             var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
             .Include(v => v.ResponseValues)
+            .Include(v => v.SurveyAccessRecord)
                 .ToAsyncEnumerable().OrderByDescending(s => s.UpdatedDate).FirstOrDefault();
 
             return result;

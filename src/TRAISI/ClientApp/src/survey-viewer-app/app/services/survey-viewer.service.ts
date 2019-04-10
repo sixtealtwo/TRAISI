@@ -79,7 +79,6 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		private _surveyViewerEndpointService: SurveyViewerEndpointService,
 		private _authService: AuthService,
 		private router: Router,
-		private _responderService: SurveyResponderService,
 		private _surveyState: SurveyViewerStateService
 	) {
 		this._activeSurveyId = -1;
@@ -102,11 +101,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				this.activeSurveyCode = route.snapshot.paramMap.get('surveyName');
 				this.surveyCode.next(this.activeSurveyCode);
 
+
+
 				if (this._activeSurveyId < 0) {
 					this.restoreStatus();
 					sub.unsubscribe();
 				}
-
 				this.isLoggedIn.next(this._authService.isLoggedIn);
 			}
 		});
@@ -250,7 +250,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 *
 	 * @memberof SurveyViewerService
 	 */
-	public ngOnInit(): void {}
+	public ngOnInit(): void { }
 
 	public isAdminUser(): boolean {
 		if (!this._authService.isLoggedIn) {
@@ -385,7 +385,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		} else {
 		}
 
-		if (this._activeSurveyId < 0) {
+		if (this._activeSurveyId < 0 || true) {
 			let id$ = this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(this.activeSurveyCode);
 
 			id$.subscribe(
@@ -394,6 +394,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					this._activeSurveyTitle = <string>value[Object.keys(value)[1]];
 					this.activeSurveyId.next(this._activeSurveyId);
 					this.activeSurveyTitle.next(this._activeSurveyTitle);
+
+					console.log('here');
 					// this.authService.logout();
 				},
 				error => {
@@ -404,6 +406,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				}
 			);
 		} else {
+			this.activeSurveyId.next(this._activeSurveyId);
 		}
 	}
 

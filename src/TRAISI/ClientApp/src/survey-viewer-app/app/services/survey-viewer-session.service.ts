@@ -42,6 +42,7 @@ export class SurveyViewerSession {
 	 * @memberof SurveyViewerSession
 	 */
 	public initialize(): void {
+
 		this.data = new ReplaySubject<SurveyViewerSessionData>(1);
 		let $ = zip(
 			this._surveyViewerService.activeSurveyId,
@@ -67,6 +68,7 @@ export class SurveyViewerSession {
 				this._data.groupcode = null;
 			}
 
+			console.log('done');
 			this._data.isUsingGroupcode = this._data.groupcode !== null;
 			this.data.next(this._data);
 

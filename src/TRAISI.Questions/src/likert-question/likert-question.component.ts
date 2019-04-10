@@ -37,8 +37,6 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 		super();
 
 		this.selectedOption = { id: -1 };
-
-
 	}
 
 	public ngOnInit(): void {
@@ -50,6 +48,10 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 
 	}
 
+	/**
+	 * @private
+	 * @memberof LikertQuestionComponent
+	 */
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.String>[] | 'none') => void = (
 		response: ResponseData<ResponseTypes.String>[] | 'none'
 	) => {

@@ -65,12 +65,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			distanceMatrixMap: {}
 		};
 
-
-		console.log(_viewerApi);
-
-		this._viewerApi.getDistanceMatrixEndpoint(['Toronto, ON', 'Pickering,ON'], ['Ottawa, ON']).subscribe(result => {
-			console.log(result);
-		});
 	}
 
 	public onQuestionShown(): void { }
@@ -166,6 +160,10 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 				.subscribe(results => {
 
 					this.context.isResponsesLoaded = true;
+					for (var key in results) {
+						results[key] = JSON.parse(results[key]);
+					}
+					console.log(results);
 					this.context.distanceMatrixResults = results;
 					for (let r = 0; r < config.rowHeaders.length; r++) {
 						let spDataRow: {} = {};
@@ -253,18 +251,34 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			}
 		}
 		else {
-			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], arguments[1][1]);
+			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], arguments[1][1], arguments[1].length > 3 ? arguments[1][3] : 'driving');
 		}
 		return 'ERROR'
 	}
 
-	public parseMatrix(results, to, from, type): string {
-		let rowIndex = results.origin_addresses.findIndex((e) => e === this.context.distanceMatrixMap[from]);
-		let colIndex = results.destination_addresses.findIndex((e) => e === this.context.distanceMatrixMap[to]);
-		return results.rows[rowIndex].elements[colIndex][type].value;
+	/**
+	 *
+	 * @param {*} results
+	 * @param {*} to
+	 * @param {*} from
+	 * @param {*} type
+	 * @param {string} [mode='driving']
+	 * @returns {string}
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
+	public parseMatrix(results, to, from, type, mode = 'driving'): string {
+		let rowIndex = results[mode].origin_addresses.findIndex((e) => e === this.context.distanceMatrixMap[from]);
+		let colIndex = results[mode].destination_addresses.findIndex((e) => e === this.context.distanceMatrixMap[to]);
+		return results[mode].rows[rowIndex].elements[colIndex][type].value;
 
 	}
 
+	/**
+	 *
+	 * @param {*} responseValue
+	 * @returns {string}
+	 * @memberof StatedPreferenceQuestionComponent
+	 */
 	public parseTime(responseValue): string {
 		if (responseValue[arguments[1][2] || 0] !== undefined) {
 			let jValue = JSON.parse(responseValue[arguments[1][2] || 0].value);
@@ -273,7 +287,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			}
 		}
 		else {
-			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], 'duration');
+			return this.parseMatrix(this.context.distanceMatrixResults, arguments[1][2], arguments[1][0], 'duration', arguments[1].length > 3 ? arguments[1][3] : 'driving');
 		}
 		return 'ERROR'
 	}

@@ -237,7 +237,7 @@ namespace TRAISI.Services
                     QueryParams = queryParams.ToString(Newtonsoft.Json.Formatting.None)
                 });
 
-
+                await this._unitOfWork.SaveChangesAsync();
                 return (true, existingUser);
             }
 
