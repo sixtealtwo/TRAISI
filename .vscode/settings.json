@@ -11,5 +11,7 @@
 	"prettier.htmlWhitespaceSensitivity": "strict",
 	"prettier.jsxBracketSameLine": true,
 	"prettier.jsxSingleQuote": true,
-	"prettier.tslintIntegration": true
+	"prettier.tslintIntegration": true,
+	"docthis.includeMemberOfOnClassMembers": false,
+	"docthis.inferTypesFromNames": true
 }

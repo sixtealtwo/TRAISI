@@ -8,6 +8,7 @@ import { SurveySectionContainer } from '../services/survey-viewer-navigation/sur
 import { SurveyQuestionContainer } from '../services/survey-viewer-navigation/survey-question-container';
 import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
 import { SurveyPageContainer } from '../services/survey-viewer-navigation/survey-page-container';
+import { QuestionContainerComponent } from 'app/components/question-container/question-container.component';
 
 export interface SurveyViewerState {
 	// list of survey pages
@@ -56,6 +57,8 @@ export interface SurveyViewerState {
 
 	// the list of active group questions
 	activeGroupQuestions: Array<SurveyViewQuestion>;
+
+	activeQuestionContainers: Array<SurveyQuestionContainer>;
 
 	// loaded flag
 	isLoaded: boolean;

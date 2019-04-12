@@ -137,7 +137,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService
-	) { }
+	) {}
 
 	/**
 	 * Calcs unique repeat number
@@ -150,7 +150,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void { }
+	public ngOnDestroy(): void {
+	}
 
 	/**
 	 *
@@ -164,9 +165,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.processPipedQuestionLabel(this.question.label);
 
 		this.container.questionInstance = this;
-		this.questionLoaderService
-			.loadQuestionComponent(this.question, this.questionOutlet)
-			.subscribe((componentRef: ComponentRef<any>) => {
+		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
+			(componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
 
 				surveyQuestionInstance.loadConfiguration(this.question.configuration);
@@ -176,10 +176,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				surveyQuestionInstance.surveyId = this.surveyId;
 
-				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign(
-					{},
-					this.question.configuration
-				);
+				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				this._responseSaved = new Subject<boolean>();
@@ -194,15 +191,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.calcUniqueRepeatNumber()
 				);
 
+				this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
+
 				this._responseSaved.subscribe(this.onResponseSaved);
 
 				this._responderService
-					.getSavedResponse(
-						this.surveyId,
-						this.question.questionId,
-						this.respondent.id,
-						this.calcUniqueRepeatNumber()
-					)
+					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())
 					.subscribe(response => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null ? 'none' : response.responseValues
@@ -229,17 +223,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
 						}
-						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).questionOptions).next(
-							options
-						);
+						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).questionOptions).next(options);
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
-							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(
-								this.question.configuration
-							);
+							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
-						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configurations).next(
-							this.question.configuration
-						);
+						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configurations).next(this.question.configuration);
 						setTimeout(() => {
 							this._navigation.navigationCompleted.next(true);
 							this._navigation.navigationCompleted.subscribe(result => {
@@ -252,11 +240,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
 			},
-				(error) => { },
-				() => {
-					console.log('complete');
-				}
-			);
+			error => {},
+			() => {
+				console.log('complete');
+			}
+		);
 	}
 
 	/**
@@ -274,9 +262,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * @returns household tag
 	 */
 	private retrieveHouseholdTag(): string {
-		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			key => this.questionTypeMap[key] === 'household'
-		);
+		let questionId: number = +Object.keys(this.questionTypeMap).find(key => this.questionTypeMap[key] === 'household');
 		return Object.keys(this.questionNameMap).find(key => this.questionNameMap[key] === questionId);
 	}
 
@@ -310,35 +296,18 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			});
 
 			if (questionIdsForResponse.length > 0) {
-				this._responderService
-					.listResponsesForQuestions(questionIdsForResponse, this.respondent.id)
-					.subscribe(responses => {
-						tags.forEach((tag, index) => {
-							if (this.questionNameMap[tag] === this.question.repeatSource) {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									`${this.repeatNumber + 1}`
-								);
-							} else if (
-								this.question.parentSection &&
-								this.question.parentSection.repeatSource === this.questionNameMap[tag]
-							) {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									`${this.sectionRepeatNumber + 1}`
-								);
-							} else {
-								processedLabel = Utilities.replacePlaceholder(
-									processedLabel,
-									tag,
-									responses[index].responseValues[0].value
-								);
-							}
-						});
-						this.titleLabel = new BehaviorSubject(processedLabel);
+				this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe(responses => {
+					tags.forEach((tag, index) => {
+						if (this.questionNameMap[tag] === this.question.repeatSource) {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, `${this.repeatNumber + 1}`);
+						} else if (this.question.parentSection && this.question.parentSection.repeatSource === this.questionNameMap[tag]) {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, `${this.sectionRepeatNumber + 1}`);
+						} else {
+							processedLabel = Utilities.replacePlaceholder(processedLabel, tag, responses[index].responseValues[0].value);
+						}
 					});
+					this.titleLabel = new BehaviorSubject(processedLabel);
+				});
 			}
 		} else {
 			this.titleLabel = new BehaviorSubject(processedLabel);
@@ -376,4 +345,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			// this.surveyViewer.updateNavigation();
 		}
 	};
+
+	/**
+	 * Will unload is called before the active question is swapped out of view.
+	 */
+	public traisiQuestionWillUnload(): void {
+		this._questionInstance.traisiOnUnloaded();
+	}
 }

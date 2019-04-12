@@ -64,6 +64,7 @@ export class SurveyViewerStateService {
 			isPreviousActionNext: true,
 			activeSectionRepeatContainer: undefined,
 			questionMap: {},
+			activeQuestionContainers: [],
 			questionNavIndex: 0,
 			sectionMap: {}
 		};
@@ -111,7 +112,7 @@ export class SurveyViewerStateService {
 	 * @param validationState
 	 */
 	public updateGroupQuestionValidationState(question: SurveyViewQuestion, validationState: ResponseValidationState): void {
-		let index = this.viewerState.activeGroupQuestions.findIndex((f) => f.viewId === question.viewId);
+		let index = this.viewerState.activeGroupQuestions.findIndex(f => f.viewId === question.viewId);
 
 		if (index >= 0) {
 			this.viewerState.activeGroupQuestions[index].validationState = validationState;
@@ -126,7 +127,7 @@ export class SurveyViewerStateService {
 	 */
 	public setActiveGroupQuestions(activeQuestion: SurveyViewQuestion, groupMembers: Array<SurveyViewGroupMember>): void {
 		this.viewerState.activeGroupQuestions = [];
-		groupMembers.forEach((member) => {
+		groupMembers.forEach(member => {
 			let memberQuestion = Object.assign({}, activeQuestion);
 			memberQuestion.viewId = Symbol();
 			memberQuestion.parentMember = member;
@@ -144,8 +145,8 @@ export class SurveyViewerStateService {
 		if (activeQuestion.repeatTargets.length === 0) {
 			return of();
 		}
-		return Observable.create((observer) => {
-			this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe((result) => {
+		return Observable.create(observer => {
+			this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe(result => {
 				for (let repeatTarget of activeQuestion.repeatTargets) {
 					const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
 
@@ -195,7 +196,7 @@ export class SurveyViewerStateService {
 									dups.push(sectionRepeat);
 								}
 
-								let filtered = page.children.filter((p) => {
+								let filtered = page.children.filter(p => {
 									if (p.sectionModel === null || p.sectionModel === undefined) {
 										return true;
 									} else if (p.sectionModel.id === targetSection.id) {
@@ -290,7 +291,7 @@ export class SurveyViewerStateService {
 	 * @param updatedQuestionId
 	 */
 	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Observable<{}> {
-		return Observable.create((observer) => {
+		return Observable.create(observer => {
 			if (
 				this.viewerState.questionMap[updatedQuestionId] === undefined ||
 				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
@@ -300,22 +301,22 @@ export class SurveyViewerStateService {
 				});
 			} else {
 				let conditionalEvals = [];
-				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
+				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
 					let sourceQuestionIds: number[] = [];
 
-					targetQuestion.targetConditionals.forEach((targetConditional) => {
+					targetQuestion.targetConditionals.forEach(targetConditional => {
 						sourceQuestionIds.push(targetConditional.sourceQuestionId);
 					});
 
 					conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
 				});
 
-				forkJoin(conditionalEvals).subscribe((values) => {
-					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach((conditional) => {
+				forkJoin(conditionalEvals).subscribe(values => {
+					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
-						let evalTrue: boolean = targetQuestion.targetConditionals.some((evalConditional) => {
+						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
 							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
 							return this._conditionalEvaluator.evaluateConditional(

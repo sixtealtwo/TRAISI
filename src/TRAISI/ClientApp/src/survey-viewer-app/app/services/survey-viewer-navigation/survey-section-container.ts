@@ -132,6 +132,9 @@ export class SurveySectionContainer extends SurveyContainer {
 	 * @returns true if previous
 	 */
 	public navigatePrevious(): boolean {
+		if (this._sectionModel !== null && this.sectionModel.isMultiView) {
+			return true;
+		}
 		if (this.activeGroupContainer.navigatePrevious()) {
 			if (this._activeGroupMemberIndex <= 0) {
 				return true;
@@ -151,6 +154,11 @@ export class SurveySectionContainer extends SurveyContainer {
 	 */
 	public navigateNext(): boolean {
 		// returns true if there is no longer any internal navigation
+
+		// return true if this is a multiview
+		if (this._sectionModel !== null && this.sectionModel.isMultiView) {
+			return true;
+		}
 
 		if (this.activeGroupContainer.navigateNext()) {
 			if (
@@ -219,9 +227,6 @@ export class SurveySectionContainer extends SurveyContainer {
 			this.activeGroupContainer.initialize();
 		}
 
-
-
-
 		return null;
 	}
 
@@ -236,11 +241,7 @@ export class SurveySectionContainer extends SurveyContainer {
 						this.groupContainers.push(groupContainer);
 						questionRepeats.forEach(questionRepeatContainer => {
 							let question = questionRepeatContainer.activeQuestionContainer.questionModel;
-							let repeatContainer = new SurveyRepeatContainer(
-								question,
-								this._state,
-								groupContainer.forRespondent
-							);
+							let repeatContainer = new SurveyRepeatContainer(question, this._state, groupContainer.forRespondent);
 							let container = new SurveyQuestionContainer(question, this);
 							repeatContainer.addQuestionContainer(container);
 
@@ -265,9 +266,7 @@ export class SurveySectionContainer extends SurveyContainer {
 					});
 				}); */
 			} else if (this.children.length > this._state.viewerState.groupMembers.length) {
-				this._children = this._children.slice(
-					this.children.length - this._state.viewerState.groupMembers.length
-				);
+				this._children = this._children.slice(this.children.length - this._state.viewerState.groupMembers.length);
 			}
 
 			this._state.viewerState.groupMembers.forEach((member, index) => {

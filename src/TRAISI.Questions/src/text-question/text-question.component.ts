@@ -1,10 +1,17 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { OnSaveResponseStatus, OnVisibilityChanged, ResponseData, ResponseTypes, ResponseValidationState, StringResponseData, SurveyQuestion, SurveyViewer } from 'traisi-question-sdk';
+import {
+	OnSaveResponseStatus,
+	OnVisibilityChanged,
+	ResponseData,
+	ResponseTypes,
+	ResponseValidationState,
+	StringResponseData,
+	SurveyQuestion,
+	SurveyViewer
+} from 'traisi-question-sdk';
 import { TextQuestionConfiguration } from './text-question.configuration';
-
-
 
 @Component({
 	selector: 'traisi-text-question',
@@ -58,20 +65,35 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		if (response !== 'none') {
 			let stringResponse = <StringResponseData>response[0];
 			this.textInput = stringResponse.value;
-			this.validationState.emit(ResponseValidationState.VALID);
+			if (this.isInputValid(this.textInput)) {
+				this.validationState.emit(ResponseValidationState.VALID);
+			}
 		}
 
 		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
 			if (this.textInput === undefined) {
 				return;
 			}
-			let data: StringResponseData = {
-				value: this.textInput
-			};
+			if (!this.isInputValid(value.textInput)) {
+				this.validationState.emit(ResponseValidationState.INVALID);
+			} else {
+				let data: StringResponseData = {
+					value: this.textInput
+				};
 
-			this.response.emit(data);
+				this.response.emit(data);
+			}
 		});
+		this.isLoaded = true;
 	};
+
+	/**
+	 *
+	 * @param textInput
+	 */
+	private isInputValid(textInput: string): boolean {
+		return textInput.trim().length > 0 && textInput.trim().length <= this.configuration.maxLength;
+	}
 
 	/**
 	 *
@@ -86,7 +108,5 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	/**
 	 * Traisis on loaded
 	 */
-	public traisiOnLoaded(): void {
-		this.isLoaded = true;
-	}
+	public traisiOnLoaded(): void {}
 }

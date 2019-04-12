@@ -30,6 +30,7 @@ import {
 export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
+	
 	public selectedOption: any;
 
 	/**
@@ -43,11 +44,12 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
 	) {
 		super();
-
 		this.selectedOption = { id: -1 };
 	}
 
-	
+	/**
+	 * Angular ngOnInit()
+	 */
 	public ngOnInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 		this.configuration = {
@@ -75,7 +77,6 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 	public onModelChanged(option: QuestionOption): void {
 		this.response.emit([option]);
 
-		console.log(this.selectedOption);
 	}
 
 	/**

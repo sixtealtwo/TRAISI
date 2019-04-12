@@ -1,5 +1,5 @@
 import { ResponseValidationState } from './question-response-state';
-import { EventEmitter, Output, Inject, ChangeDetectorRef } from '@angular/core';
+import { EventEmitter, Output, Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { QuestionConfiguration } from './question-configuration';
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import { QuestionOption } from './question-option';
@@ -7,7 +7,7 @@ import { QuestionOption } from './question-option';
 /**
  * Base abstract class for Survey Questions available to TRAISI
  */
-export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
+export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]>{
 	/**
 	 * Output binding - question components embedded in other question types can subscribe
 	 * to the questions response event to receive the generated "data" of that question type
@@ -138,6 +138,11 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 * This includes any saved response data and configuration data.
 	 */
 	public traisiOnLoaded(): void {}
+
+	public traisiOnUnloaded(): void {
+
+	}
+
 }
 
 /**

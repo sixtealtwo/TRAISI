@@ -49,6 +49,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
+		this.notifyUnloaded();
 		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.isNextEnabled = false;
 
@@ -91,7 +92,7 @@ export class SurveyViewerNavigationService {
 							.subscribe((members: Array<SurveyViewGroupMember>) => {
 								if (members.length > 0) {
 									this._state.viewerState.groupMembers = [];
-									members.forEach((member) => {
+									members.forEach(member => {
 										this._state.viewerState.groupMembers.push(member);
 									});
 
@@ -153,7 +154,7 @@ export class SurveyViewerNavigationService {
 				.subscribe((members: Array<SurveyViewGroupMember>) => {
 					if (members.length > 0) {
 						this._state.viewerState.groupMembers = [];
-						members.forEach((member) => {
+						members.forEach(member => {
 							this._state.viewerState.groupMembers.push(member);
 						});
 
@@ -210,25 +211,6 @@ export class SurveyViewerNavigationService {
 		} else {
 			this._state.viewerState.isPreviousEnabled = true;
 		}
-
-		/*if (!this.canNavigateNext()) {
-			let allPageValid = true;
-			for (let i = 0; i < this._state.viewerState.viewContainers.length; i++) {
-				if (!this._state.viewerState.viewContainers[i].isComplete) {
-					allPageValid = false;
-					break;
-				}
-			}
-			this._state.viewerState.isNavComplete = allPageValid;
-			this._state.viewerState.isNextEnabled = false;
-		} else {
-			this._state.viewerState.isNavComplete = false;
-			this._state.viewerState.isNextEnabled = true;
-		} */
-
-		// console.log(this._state);
-
-		// this.location.go(url);
 	}
 
 	public updateNavigationStates(): void {
@@ -255,14 +237,28 @@ export class SurveyViewerNavigationService {
 				questionContainer.questionInstance !== undefined &&
 				questionContainer.questionModel.respondentValidationState !== undefined
 			) {
-				if (
+				let allValid = true;
+				for (let activeQuestionContainer of this._state.viewerState.activeQuestionContainers) {
+					if (
+						activeQuestionContainer.questionInstance !== undefined &&
+						activeQuestionContainer.questionModel.respondentValidationState !== undefined &&
+						activeQuestionContainer.questionModel.respondentValidationState[this._state.viewerState.activeRespondent.id] !==
+							ResponseValidationState.VALID
+					) {
+						allValid = false;
+						break;
+					}
+				}
+				this._state.viewerState.isNextEnabled = allValid;
+
+				/*if (
 					questionContainer.questionModel.respondentValidationState[this._state.viewerState.activeRespondent.id] ===
 					ResponseValidationState.VALID
 				) {
 					this._state.viewerState.isNextEnabled = true;
 				} else {
 					this._state.viewerState.isNextEnabled = false;
-				}
+				} */
 			} else {
 				// .log('disabling');
 
@@ -340,7 +336,7 @@ export class SurveyViewerNavigationService {
 				.subscribe((members: Array<SurveyViewGroupMember>) => {
 					if (members.length > 0) {
 						this._state.viewerState.groupMembers = [];
-						members.forEach((member) => {
+						members.forEach(member => {
 							this._state.viewerState.groupMembers.push(member);
 						});
 					}
@@ -351,6 +347,9 @@ export class SurveyViewerNavigationService {
 		}
 	}
 
+	/**
+	 *
+	 */
 	private decrementViewContainer(): void {
 		this._state.viewerState.activeViewContainerIndex--;
 
@@ -364,6 +363,7 @@ export class SurveyViewerNavigationService {
 	 * Navigates the viewer state to the previous question
 	 */
 	public navigatePrevious(): void {
+		this.notifyUnloaded();
 		this._state.viewerState.isPreviousActionNext = false;
 		if (this._state.viewerState.activeViewContainer === null) {
 			this.updateState();
@@ -391,6 +391,17 @@ export class SurveyViewerNavigationService {
 				}
 			});
 		}
+	}
+
+	/**
+	 *
+	 * @param activeQuestions
+	 */
+	private notifyUnloaded(): void {
+		for (let questionContainer of this._state.viewerState.activeQuestionContainers) {
+			questionContainer.questionInstance.traisiQuestionWillUnload();
+		}
+		this._state.viewerState.activeQuestionContainers = [];
 	}
 
 	/**

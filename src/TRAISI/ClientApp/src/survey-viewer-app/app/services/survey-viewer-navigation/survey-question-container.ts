@@ -42,6 +42,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return this._member;
 	}
 
+
 	public set forRespondent(member: SurveyViewGroupMember) {
 		this._member = member;
 	}

@@ -25,7 +25,9 @@
 			</div>
 
 			<div class="questions-container flex-grow-1">
-				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded">
+				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded" [ngClass]="{'d-flex flex-column': viewerState.activeQuestionContainer.parentSectionContainer.sectionModel === null ||
+				!viewerState.activeQuestionContainer.parentSectionContainer.sectionModel.isMultiView,
+				'multi-display': viewerState.activeQuestionContainer.parentSectionContainer.sectionModel !== null && viewerState.activeQuestionContainer.parentSectionContainer.sectionModel.isMultiView}">
 					<ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
 						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
 							<ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
@@ -70,7 +72,7 @@
 													[container]="repeat"
 													[questionTypeMap]="questionTypeMap"
 													[questionNameMap]="questionNameMap"
-													*ngIf="viewerState.activeSection.id === sectionContainer.sectionModel.id && viewerState.isLoaded "
+													*ngIf="viewerState.activeSection !== undefined && viewerState.activeSection.id === sectionContainer.sectionModel.id && viewerState.isLoaded "
 													#questions
 												></traisi-question-container>
 											</ng-container>
