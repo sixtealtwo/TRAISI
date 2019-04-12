@@ -373,9 +373,15 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 				Object.assign(cleanedQuestion.catiDependent, this.questionBeingEdited.catiDependent);
 				cleanedQuestion.catiDependent.questionPartViewChildren = null;
 			}
+
+			console.log(cleanedQuestion);
 			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, cleanedQuestion).subscribe(
 				result => {
+
+
 					if (this.qConfiguration.configurationValues.length > 0) {
+
+
 						this.surveyBuilderService
 							.updateQuestionPartConfigurations(
 								this.surveyId,

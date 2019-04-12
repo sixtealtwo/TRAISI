@@ -18,5 +18,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public int RepeatSource { get; set; }
 
         public bool IsRepeat { get; set; }
+
+		public bool IsMultiView {get;set;}
     }
 }

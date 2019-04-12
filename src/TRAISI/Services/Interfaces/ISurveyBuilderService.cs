@@ -59,6 +59,7 @@ namespace TRAISI.Services.Interfaces
 
         QuestionPartView AddQuestion(SurveyView view, QuestionTypeDefinition definition, int position = -1);
 
+
         void SetQuestionPartViewLabel(QuestionPartView qpv, string text, string language = null);
 
         void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName, string icon);

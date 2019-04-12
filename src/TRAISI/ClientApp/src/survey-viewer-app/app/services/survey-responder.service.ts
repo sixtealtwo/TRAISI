@@ -153,7 +153,7 @@ export class SurveyResponderService implements SurveyResponder {
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
-						responses[i].responseValues.forEach(responseValue => {
+						responses[i].forEach(responseValue => {
 							this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
 						});
 					}

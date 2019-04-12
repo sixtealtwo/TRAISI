@@ -228,8 +228,8 @@ namespace TRAISI.Controllers
                     if (question.CATIDependent != null)
                     {
                         question.CATIDependent.Icon = question.Icon;
-                        question.CATIDependent.isHousehold = question.isHousehold;
-                        question.CATIDependent.isOptional = question.isOptional;
+                        question.CATIDependent.IsHousehold = question.IsHousehold;
+                        question.CATIDependent.IsOptional = question.IsOptional;
                         question.CATIDependent.Order = question.Order;
                         question.CATIDependent.ParentView = parentPartView.CATIDependent;
                         question.CATIDependent.QuestionPart = question.QuestionPart;
@@ -302,6 +302,7 @@ namespace TRAISI.Controllers
                         this._surveyBuilderService.UpdateQuestionPartName(surveyId, questionPartView.QuestionPart, updatedQPartView.QuestionPart?.Name);
                         this._surveyBuilderService.UpdateQuestionPartViewOptions(questionPartView, updatedQPartView.isOptional, updatedQPartView.isHousehold, updatedQPartView.repeatSourceQuestionName, updatedQPartView.Icon);
                         this._surveyBuilderService.SetQuestionPartViewLabel(questionPartView, updatedQPartView.Label.Value, updatedQPartView.Label.Language);
+						questionPartView.IsMultiView = updatedQPartView.IsMultiView;
 
                         if (updatedQPartView.CATIDependent != null) {
                             var catiConnectedQPartView = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(updatedQPartView.CATIDependent.Id);

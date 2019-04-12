@@ -141,7 +141,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private cDRef: ChangeDetectorRef
 	) {}
 
-	ngOnInit() {	
+	ngOnInit() {
 	}
 
 	pipeDropdown(e: TreeviewSelection): string {
@@ -232,7 +232,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}, 0);
 	}
 
-	saveConfiguration() {
+	public saveConfiguration(): void {
 		this.configurationValues = [];
 		this.childrenComponents.forEach(compRef => {
 			this.configurationValues.push(

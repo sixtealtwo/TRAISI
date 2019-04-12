@@ -13,6 +13,7 @@ export class QuestionPartView {
 		public isOptional?: boolean,
 		public isHousehold?: boolean,
 		public repeatSourceQuestionName?: string,
-		public catiDependent?: QuestionPartView
+		public catiDependent?: QuestionPartView,
+		public isMultiView?: boolean
 	) {}
 }

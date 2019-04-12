@@ -130,8 +130,8 @@ namespace TRAISI.Services
                             QuestionPartView targetQuestion = new QuestionPartView
                             {
                                 Order = question.Order,
-                                isOptional = question.isOptional,
-                                isHousehold = question.isHousehold,
+                                IsOptional = question.IsOptional,
+                                IsHousehold = question.IsHousehold,
                                 RepeatSource = question.RepeatSource,
                                 QuestionPart = question.QuestionPart
                             };
@@ -143,7 +143,7 @@ namespace TRAISI.Services
                                 QuestionPartView targetSubQuestion = new QuestionPartView
                                 {
                                     Order = subQuestion.Order,
-                                    isOptional = subQuestion.isOptional,
+                                    IsOptional = subQuestion.IsOptional,
                                     RepeatSource = subQuestion.RepeatSource,
                                     QuestionPart = subQuestion.QuestionPart
                                 };
@@ -226,12 +226,12 @@ namespace TRAISI.Services
 
         public void UpdateQuestionPartViewOptions(QuestionPartView qpv, bool isOptional, bool isHousehold, string repeatSourceQuestionName, string icon)
         {
-            if (qpv.isHousehold && repeatSourceQuestionName != null)
+            if (qpv.IsHousehold && repeatSourceQuestionName != null)
             {
                 throw new ArgumentException("Section cannot be both marked as household and repeat");
             }
-            qpv.isHousehold = isHousehold;
-            qpv.isOptional = isOptional;
+            qpv.IsHousehold = isHousehold;
+            qpv.IsOptional = isOptional;
 
             if (repeatSourceQuestionName != null)
             {

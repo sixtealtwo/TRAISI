@@ -52,8 +52,10 @@ namespace DAL.Models.Questions
         /// <value></value>
         public int Order { get; set; }
 
-        public bool isOptional { get; set; }
-        public bool isHousehold { get; set; }
+        public bool IsOptional { get; set; }
+        public bool IsHousehold { get; set; }
+
+		public bool IsMultiView { get; set; }
 
         public QuestionPart RepeatSource { get; set; }
 

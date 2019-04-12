@@ -18,9 +18,15 @@ namespace DAL.Models.Questions
 
         SurveyView SurveyView { get; set; }
 
+		/// <summary>
+		/// Flag for whether or not this view (Section normally) will render its child views on the same
+		/// or separate pages in the survey viewer.
+		/// </summary>
+		/// <value></value>
+		bool IsMultiView {get;set;}
 
-        bool isOptional { get; set; }
-        bool isHousehold { get; set; }
+        bool IsOptional { get; set; }
+        bool IsHousehold { get; set; }
 		QuestionPart RepeatSource { get; set; }
 
         string Icon { get; set; }
