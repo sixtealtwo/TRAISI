@@ -11,7 +11,7 @@ import {
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
-import { flatMap, map, share } from 'rxjs/operators';
+import { flatMap, map, share, tap } from 'rxjs/operators';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 
@@ -56,18 +56,27 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
 		// determine if responses are in question cache
-		if (Object.keys(this._cachedSavedResponses).some(r => questionIds.includes(Number(r)))) {
-			// use cached responses
-			let responses = [];
-			for (let key in this._cachedSavedResponses) {
-				if (questionIds.includes(Number(key))) {
-					responses.push(this._cachedSavedResponses[Number(key)][respondentId]);
-				}
+		//if (Object.keys(this._cachedSavedResponses).some(r => questionIds.includes(Number(r)))) {
+		// use cached responses
+
+		let responses = [];
+		let toRetrieve = [];
+		for (let id of questionIds) {
+			if (id in this._cachedSavedResponses) {
+				responses.push(this._cachedSavedResponses[id][respondentId]);
+			} else {
+				toRetrieve.push(id);
 			}
-			return Observable.of([responses]);
+		}
+
+		if (toRetrieve.length > 0) {
+			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(toRetrieve, respondentId).pipe(
+				map(responseList => {
+					return responses.concat(responseList);
+				})
+			);
 		} else {
-			// don't use cached responses
-			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(questionIds, respondentId);
+			return Observable.of(responses);
 		}
 	}
 
@@ -88,7 +97,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any> {
-
 		if (Object.keys(this._cachedByNameSavedResponses).some(r => questionNames.includes(String(r)))) {
 			// use cached responses
 			let responses = [];
@@ -97,18 +105,17 @@ export class SurveyResponderService implements SurveyResponder {
 					responses.push(this._cachedByNameSavedResponses[String(key)][respondent.id]);
 				}
 			}
-			return Observable.of([responses]);
+			return Observable.of(responses);
 		} else {
 			// don't use cached responses
-			let responses = this._surveyResponseEndpointService.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondent.id).pipe(share());
+			let responses = this._surveyResponseEndpointService
+				.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondent.id)
+				.pipe(share());
 			responses.subscribe((results: Array<any>) => {
-				console.log(results);
 				for (let result of results) {
 					this._cachedByNameSavedResponses[String(result.questionPart.name)] = {};
 					this._cachedByNameSavedResponses[String(result.questionPart.name)][respondent.id] = result.responseValues;
 				}
-
-				console.log(this._cachedByNameSavedResponses);
 			});
 			return responses;
 		}
@@ -153,6 +160,9 @@ export class SurveyResponderService implements SurveyResponder {
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
+						if (responses[i] === undefined) {
+							continue;
+						}
 						responses[i].forEach(responseValue => {
 							this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
 						});
@@ -224,12 +234,18 @@ export class SurveyResponderService implements SurveyResponder {
 	public getSavedResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<ResponseValue<any>> {
 		// this.listResponsesForQuestions([questionId, questionId], respondentId).subscribe(val => {});
 
-		return this._surveyResponseEndpointService.getSavedResponseUrlEndpoint<ResponseValue<any>>(
-			surveyId,
-			questionId,
-			respondentId,
-			repeat
-		);
+		return this._surveyResponseEndpointService
+			.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId, respondentId, repeat)
+			.pipe(
+				tap(response => {
+					if (this._cachedSavedResponses[questionId] === undefined) {
+						this._cachedSavedResponses[questionId] = {};
+					}
+					if (response !== undefined && response !== null) {
+						this._cachedSavedResponses[questionId][respondentId] = response.responseValues;
+					}
+				})
+			);
 	}
 
 	/**
@@ -368,7 +384,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
 		//get all question IDs
 		return Observable.of();
 	}

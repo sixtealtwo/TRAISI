@@ -123,6 +123,9 @@ export class SurveyViewerConditionalEvaluator {
 
 		let isAny: boolean = false;
 		sourceData.forEach(response => {
+			if (response === undefined) {
+				return false;
+			}
 			conditionals.forEach(conditional => {
 				if (response.code === conditional.code) {
 					isAny = true;
