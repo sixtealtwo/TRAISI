@@ -7,11 +7,13 @@
     "prettier.singleQuote": true,
     "prettier.stylelintIntegration": true,
 	"prettier.printWidth": 140,
+	"prettier.ignorePath": ".vscode/.prettierignore",
 	"terminal.integrated.shell.windows": "C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe",
-	"prettier.htmlWhitespaceSensitivity": "strict",
+	"prettier.htmlWhitespaceSensitivity": "ignore",
 	"prettier.jsxBracketSameLine": true,
 	"prettier.jsxSingleQuote": true,
-	"prettier.tslintIntegration": true,
 	"docthis.includeMemberOfOnClassMembers": false,
-	"docthis.inferTypesFromNames": true
+	"docthis.inferTypesFromNames": true,
+	"prettier.tslintIntegration": true,
+	"angular-template-formatter.closeTagSameLine": true
 }

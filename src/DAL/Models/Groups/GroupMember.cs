@@ -12,6 +12,6 @@ namespace DAL.Models.Groups
         public string Group { get; set; }
         public UserGroup UserGroup { get; set; }
         public DateTime DateJoined { get; set; }
-        public Boolean GroupAdmin { get; set; }
+        public bool GroupAdmin { get; set; }
     }
 }

@@ -89,8 +89,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		try {
 			let spModel = JSON.parse(value.label);
 			this.model.next(spModel);
-			this.transformToDisplayableData(spModel)
-			.subscribe(modelResult => {
+			this.transformToDisplayableData(spModel).subscribe(modelResult => {
 				this.displayModel.next(modelResult);
 			});
 		} catch (exception) {

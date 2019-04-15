@@ -1,14 +1,4 @@
-import {
-	Component,
-	ViewEncapsulation,
-	OnInit,
-	ViewChild,
-	Input,
-	Output,
-	AfterViewInit,
-	EventEmitter,
-	Directive
-} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, Input, Output, AfterViewInit, EventEmitter, Directive } from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -44,7 +34,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	public allRoles: Role[] = [];
 	public rolesOptions: Array<Select2OptionData>;
 	public selectedRole: string;
-	select2Options: any = {
+	public select2Options: any = {
 		theme: 'bootstrap'
 	};
 	public formResetToggle = true;
@@ -54,11 +44,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	public changesFailedCallback: () => void;
 	public changesCancelledCallback: () => void;
 
-	@Input() isViewOnly: boolean;
+	@Input() public isViewOnly: boolean;
 
-	@Input() isGeneralEditor: boolean = false;
+	@Input() public isGeneralEditor: boolean = false;
 
-	@Input() inGroupMode: boolean = false;
+	@Input() public inGroupMode: boolean = false;
 
 	@ViewChild('f') private form;
 
@@ -90,7 +80,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		translationService.setDefaultLanguage('en');
 	}
 
-	ngOnInit() {
+	public ngOnInit() {
 		if (!this.isGeneralEditor) {
 			this.loadCurrentUserData();
 		}
@@ -106,7 +96,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	ngAfterViewInit(): void {
+	public ngAfterViewInit(): void {
 		jQuery('.parsleyjs').parsley();
 	}
 
@@ -191,17 +181,15 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 				this.userEdit = new UserEdit();
 			}
 
-			this.isEditingSelf = this.accountService.currentUser
-				? this.userEdit.id === this.accountService.currentUser.id
-				: false;
+			this.isEditingSelf = this.accountService.currentUser ? this.userEdit.id === this.accountService.currentUser.id : false;
 		}
-
+		console.log(this.userEdit);
 		this.isEditMode = true;
 		this.showValidationErrors = true;
 		this.isChangePassword = false;
 	}
 
-	private save() {
+	private save(): void {
 		this.isSaving = true;
 		this.alertService.startLoadingMessage('Saving changes...');
 
@@ -264,11 +252,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		this.resetForm();
 
 		if (this.isEditingSelf) {
-			this.alertService.showMessage(
-				'Success',
-				'Changes to your User Profile was saved successfully',
-				MessageSeverity.success
-			);
+			this.alertService.showMessage('Success', 'Changes to your User Profile was saved successfully', MessageSeverity.success);
 			this.refreshLoggedInUser();
 		}
 
@@ -298,12 +282,8 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	}
 
 	private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
-		const rolesAdded = this.isNewUser
-			? editedUser.roles
-			: editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
-		const rolesRemoved = this.isNewUser
-			? []
-			: currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
+		const rolesAdded = this.isNewUser ? editedUser.roles : editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
+		const rolesRemoved = this.isNewUser ? [] : currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
 
 		const modifiedRoles = rolesAdded.concat(rolesRemoved);
 
@@ -376,11 +356,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 				this.isSaving = false;
 				this.userEdit.isLockedOut = false;
 				this.alertService.stopLoadingMessage();
-				this.alertService.showMessage(
-					'Success',
-					'User has been successfully unblocked',
-					MessageSeverity.success
-				);
+				this.alertService.showMessage('Success', 'User has been successfully unblocked', MessageSeverity.success);
 			},
 			error => {
 				this.isSaving = false;
@@ -396,7 +372,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	resetForm(replace = false) {
+	public resetForm(replace = false) {
 		this.isChangePassword = false;
 
 		if (!replace) {
@@ -410,7 +386,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	newUser(allRoles: Role[]) {
+	public newUser(allRoles: Role[]) {
 		this.isGeneralEditor = true;
 		this.isNewUser = true;
 
@@ -425,7 +401,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		return this.userEdit;
 	}
 
-	editUser(user: User, allRoles: Role[]) {
+	public editUser(user: User, allRoles: Role[]) {
 		if (user) {
 			this.isGeneralEditor = true;
 			this.isNewUser = false;
@@ -449,7 +425,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 			return this.newUser(allRoles);
 		}
 	}
-	displayUser(user: User, allRoles?: Role[]) {
+	public displayUser(user: User, allRoles?: Role[]) {
 		this.user = new User();
 		Object.assign(this.user, user);
 		this.deletePasswordFromUser(this.user);
@@ -458,7 +434,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		this.isEditMode = false;
 	}
 
-	logout() {
+	public logout() {
 		this.authService.logout();
 		this.authService.redirectLogoutUser();
 	}

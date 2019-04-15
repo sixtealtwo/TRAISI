@@ -1,121 +1,129 @@
-@import 'src/shared/assets/scss/helpers';
+@import "src/shared/assets/scss/helpers";
 
 #welcome-header {
-	position: absolute;
-	height: 66px;
-	z-index: 0;
-	width: 100%;
-	@include media-breakpoint-down(sm) {
-		max-height: 50px !important;
-	}
+  position: absolute;
+  height: 66px;
+  z-index: 0;
+  width: 100%;
+  @include media-breakpoint-down(sm) {
+    max-height: 50px !important;
+  }
+
+  .welcome-header-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 #welcome-header-editor {
-	position: relative;
-	z-index: 1000;
-	min-height: 66px !important;
-	.col-12 {
-		white-space: nowrap !important;
-	}
+  position: relative;
+  z-index: 1000;
+  min-height: 66px !important;
+  .col-12 {
+    white-space: nowrap !important;
+  }
 
-	@include media-breakpoint-down(sm) {
-		height: 50px;
-		min-height: 50px !important;
-	}
+  @include media-breakpoint-down(sm) {
+    height: 50px;
+    min-height: 50px !important;
+  }
 }
 
 .welcome-header-logo {
-	@include media-breakpoint-down(sm) {
-		margin-top: -5px;
-	}
-		width: auto;
-		max-width: 80vw;
+  @include media-breakpoint-down(sm) {
+    margin-top: -5px;
+  }
+  width: auto;
+  max-width: 80vw;
 }
 
 .imageDropzone {
-	height: auto !important;
-	.dz-message {
-		overflow: hidden !important;
-		border: none !important;
-		background-color: $gray-300 !important;
-		color: black !important;
-	}
+  height: auto !important;
+  .dz-message {
+    overflow: hidden !important;
+    border: none !important;
+    background-color: $gray-300 !important;
+    color: black !important;
+  }
 }
 
 .delete-image {
-	position: absolute;
-	left: -10px;
-	transform: scale(0.7);
+  position: absolute;
+  left: -10px;
+  transform: scale(0.7);
 }
 
 .header-color-picker {
-	position: absolute;
-	right: 25px;
-	z-index: 50;
-	transform: scale(0.7);
+  position: absolute;
+  right: 25px;
+  z-index: 50;
+  transform: scale(0.7);
 }
 
 .maxHeight-slider {
-	position: absolute;
-	width: 100%;
-	.slider.slider-horizontal {
-		width: 110px !important;
-	}
+  position: absolute;
+  width: 100%;
+  .slider.slider-horizontal {
+    width: 110px !important;
+  }
 
-	.slider.slider-horizontal .slider-track {
-		height: 5px !important;
-	}
+  .slider.slider-horizontal .slider-track {
+    height: 5px !important;
+  }
 
-	.slider-handle {
-		width: 10px;
-		height: 10px;
-		top: 3px;
-	}
+  .slider-handle {
+    width: 10px;
+    height: 10px;
+    top: 3px;
+  }
 }
 
 .headerBackground-slider {
-	margin-top: 50px;
-	position: absolute;
-	z-index: 50;
-	.slider.slider-vertical {
-		height: 50px !important;
-	}
+  margin-top: 50px;
+  position: absolute;
+  z-index: 50;
+  .slider.slider-vertical {
+    height: 50px !important;
+  }
 
-	.slider.slider-vertical .slider-track {
-		width: 0px !important;
-	}
+  .slider.slider-vertical .slider-track {
+    width: 0px !important;
+  }
 
-	.slider-handle {
-		width: 10px;
-		height: 10px;
-		left: 2px;
-		cursor: move; /* fallback if grab cursor is unsupported */
+  .slider-handle {
+    width: 10px;
+    height: 10px;
+    left: 2px;
+    cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
-		background-image: none !important;
-		background-color: transparent !important;
-		border: none;
-	}
+    background-image: none !important;
+    background-color: transparent !important;
+    border: none;
+  }
 
-	.slider-handle:active {
+  .slider-handle:active {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
-	}
+  }
 
-	.slider-handle::before {
-		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f58d";
-		font-size: 10px;
-	}
+  .slider-handle::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f58d";
+    font-size: 10px;
+  }
 
-	.slider.slider-vertical .slider-tick, .slider.slider-vertical .slider-handle {
-		margin-top: -16px !important;
-	}
+  .slider.slider-vertical .slider-tick,
+  .slider.slider-vertical .slider-handle {
+    margin-top: -16px !important;
+  }
 }
 
 .headerBackground-slider-white-handle {
-	.slider-handle::before {
-		color: white;
-	}
+  .slider-handle::before {
+    color: white;
+  }
 }

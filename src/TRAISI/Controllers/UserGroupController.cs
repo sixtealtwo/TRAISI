@@ -16,6 +16,8 @@ using TRAISI.Helpers;
 using Microsoft.Extensions.Options;
 using TRAISI.Authorization;
 using Hangfire;
+using Microsoft.AspNetCore.Identity;
+using TRAISI.Authorization.Enums;
 
 namespace TRAISI.Controllers
 {
@@ -28,15 +30,27 @@ namespace TRAISI.Controllers
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IAccountManager _accountManager;
 
+		private readonly UserManager<TraisiUser> _userManager;
+
+		private readonly RoleManager<ApplicationRole> _roleManager;
+
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="_entityManager"></param>
-		public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager)
+		/// <param name="unitOfWork"></param>
+		/// <param name="authorizationService"></param>
+		/// <param name="accountManager"></param>
+		/// <param name="userManager"></param>
+		/// <param name="roleManager"></param>
+		public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager,
+		UserManager<TraisiUser> userManager,
+		RoleManager<ApplicationRole> roleManager)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
+			this._userManager = userManager;
+			this._roleManager = roleManager;
 		}
 
 		/// <summary>
@@ -94,7 +108,7 @@ namespace TRAISI.Controllers
 		[Produces(typeof(List<UserGroupViewModel>))]
 		public async Task<IActionResult> GetGroupsForAdmin()
 		{
-            var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
+			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy);
 			IEnumerable<UserGroup> groups;
 			if (viewAllUsersPolicy.Succeeded)
 			{
@@ -196,7 +210,8 @@ namespace TRAISI.Controllers
 			var group = await this._unitOfWork.UserGroups.GetAsync(id);
 			var groupMembers = await this._unitOfWork.UserGroups.GetGroupMembersInfoAsync(id);
 
-			if (group == null || groupMembers == null) {
+			if (group == null || groupMembers == null)
+			{
 				return BadRequest($"Group {id} does not exist");
 			}
 			bool canAccess = false;
@@ -246,7 +261,8 @@ namespace TRAISI.Controllers
 				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
 				var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, newMember.Group);
 				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
-				if (isGroupAdmin || isSuperAdmin) {
+				if (isGroupAdmin || isSuperAdmin)
+				{
 					GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
 					var result = this._unitOfWork.UserGroups.AddUserAsync(newGMember);
 					if (result.Item1)
@@ -259,7 +275,8 @@ namespace TRAISI.Controllers
 						AddErrors(result.Item2);
 					}
 				}
-				else {
+				else
+				{
 					return new ChallengeResult();
 				}
 			}
@@ -276,7 +293,17 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> UpdateGroupMember([FromBody] GroupMemberViewModel member)
 		{
 			GroupMember gMember = Mapper.Map<GroupMember>(member);
+			var user = await this._accountManager.GetUserByIdAsync(member.User.Id);
 			this._unitOfWork.GroupMembers.Update(gMember);
+
+			if (gMember.GroupAdmin)
+			{
+				await this._userManager.AddToRoleAsync((TraisiUser)user, TraisiRoles.GroupAdministrator);
+			}
+			else
+			{
+				await this._userManager.RemoveFromRoleAsync((TraisiUser)user, TraisiRoles.GroupAdministrator);
+			}
 			await this._unitOfWork.SaveChangesAsync();
 			return new OkResult();
 		}
@@ -293,20 +320,23 @@ namespace TRAISI.Controllers
 			{
 				bool groupAdminHasPermission = await this.CheckGroupAdminPermission("users.managegroup");
 				var member = this._unitOfWork.GroupMembers.Get(id);
-				if (member == null) 
+				if (member == null)
 				{
 					return BadRequest("The member does not exist.");
 				}
-				else {
+				else
+				{
 					var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, member.Group);
 					var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
-					if (isGroupAdmin || isSuperAdmin) {
+					if (isGroupAdmin || isSuperAdmin)
+					{
 						this._unitOfWork.GroupMembers.Remove(member);
 						await this._unitOfWork.SaveChangesAsync();
 						return new OkResult();
 					}
-					else {
-							return new ChallengeResult();
+					else
+					{
+						return new ChallengeResult();
 					}
 				}
 			}
@@ -331,33 +361,42 @@ namespace TRAISI.Controllers
 				foreach (int id in ids)
 				{
 					var member = this._unitOfWork.GroupMembers.Get(id);
-					if (member == null) {
+					if (member == null)
+					{
 						removalsWithErrors.Add(id);
 					}
-					else {
-						if (isSuperAdmin) {
+					else
+					{
+						if (isSuperAdmin)
+						{
 							this._unitOfWork.GroupMembers.Remove(member);
 						}
-						else {
+						else
+						{
 							var isGroupAdmin = groupAdminHasPermission && await this._unitOfWork.GroupMembers.IsGroupAdminAsync(this.User.Identity.Name, member.Group);
-							if (isGroupAdmin) {
+							if (isGroupAdmin)
+							{
 								this._unitOfWork.GroupMembers.Remove(member);
 							}
-							else {
+							else
+							{
 								removalsWithErrors.Add(id);
 							}
 						}
 					}
 				}
 				await this._unitOfWork.SaveChangesAsync();
-				if (removalsWithErrors.Count == 0){
+				if (removalsWithErrors.Count == 0)
+				{
 					return new OkResult();
 				}
-				else {
-					if (removalsWithErrors.Count < ids.Count()) {
+				else
+				{
+					if (removalsWithErrors.Count < ids.Count())
+					{
 						return Ok("Some members removed, but cannot delete group members: " + String.Join(",", removalsWithErrors));
 					}
-					else 
+					else
 					{
 						return BadRequest("Members do not exist in groups or insufficient privileges");
 					}
@@ -377,7 +416,7 @@ namespace TRAISI.Controllers
 		{
 			var group = await this._unitOfWork.UserGroups.GetGroupWithMembersAsync(id);
 
-			if(await IsGroupAdmin(group.Name))
+			if (await IsGroupAdmin(group.Name))
 			{
 				//IEnumerable<DAL.Models.Groups.EmailTemplates> emailTemplates;
 				var emailTemplates = await this._unitOfWork.EmailTemplates.GetGroupEmailTemplatesAsync(id);
@@ -399,7 +438,7 @@ namespace TRAISI.Controllers
 		{
 			var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(emailTemplate.GroupName);
 
-			if(await IsGroupAdmin(group.Name))
+			if (await IsGroupAdmin(group.Name))
 			{
 				EmailTemplate updatedEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
 				updatedEmailTemplate.Group = group;
@@ -413,7 +452,7 @@ namespace TRAISI.Controllers
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Create new email template
 		/// </summary>
@@ -426,14 +465,16 @@ namespace TRAISI.Controllers
 			{
 				var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync(emailTemplate.GroupName);
 
-				if (await IsGroupAdmin(group.Name)) {
+				if (await IsGroupAdmin(group.Name))
+				{
 					EmailTemplate newEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
 					newEmailTemplate.Group = group;
 					this._unitOfWork.EmailTemplates.Add(newEmailTemplate);
 					await this._unitOfWork.SaveChangesAsync();
 					return new OkResult();
 				}
-				else {
+				else
+				{
 					return new ChallengeResult();
 				}
 			}
@@ -449,8 +490,8 @@ namespace TRAISI.Controllers
 		public async Task<IActionResult> DeleteEmailTemplate(int id)
 		{
 			var emailTemplate = await this._unitOfWork.EmailTemplates.GetEmailTemplateWithGroupAsync(id);
-			
-			if(await IsGroupAdmin(emailTemplate.Group.Name))
+
+			if (await IsGroupAdmin(emailTemplate.Group.Name))
 			{
 				this._unitOfWork.EmailTemplates.Remove(emailTemplate);
 				await this._unitOfWork.SaveChangesAsync();
@@ -462,7 +503,7 @@ namespace TRAISI.Controllers
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Get API keys for given group
 		/// </summary>
@@ -540,8 +581,8 @@ namespace TRAISI.Controllers
 		{
 			var role = await _accountManager.GetRoleLoadRelatedAsync("group administrator");
 			var hasPermission = (from r in role.Claims
-													 where r.ClaimValue == permission
-													 select r).Any();
+								 where r.ClaimValue == permission
+								 select r).Any();
 			return hasPermission;
 		}
 

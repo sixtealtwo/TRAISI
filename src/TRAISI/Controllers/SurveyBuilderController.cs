@@ -935,6 +935,10 @@ namespace TRAISI.Controllers
         /// <returns></returns>
         private async Task<bool> HasModifySurveyPermissions(int surveyId)
         {
+			if(this.User.IsInRole("super administrator"))
+			{
+				return true;
+			}
             var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyId);
             bool hasModifySurveyPermissions = surveyPermissions.Permissions.Contains(SurveyPermissions.ModifySurvey.Value);
             return hasModifySurveyPermissions;

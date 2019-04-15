@@ -1,13 +1,4 @@
-import {
-	Component,
-	ViewEncapsulation,
-	OnInit,
-	Injector,
-	OnDestroy,
-	ViewChild,
-	TemplateRef,
-	AfterViewInit
-} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Injector, OnDestroy, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { AlertService, DialogType, MessageSeverity } from '../../../shared/services/alert.service';
@@ -487,8 +478,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		this.importing = false;
 		this.surveyEditMode = true;
 		this.surveyEditor.isNewSurvey = false;
-		this.surveyEditor.canDeleteSurvey =
-			survey.owner === this.accountService.currentUser.userName || this.canDelete(survey);
+		this.surveyEditor.canDeleteSurvey = survey.owner === this.accountService.currentUser.userName || this.canDelete(survey);
 		this.model = survey;
 		this.editModel = new Survey();
 		Object.assign(this.editModel, this.model);
@@ -566,6 +556,10 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		});
 	}
 
+	/**
+	 *
+	 * @param name
+	 */
 	public switchGroup(name: string): void {
 		if (name === 'unGrouped') {
 			this.groupBeingViewed = false;
@@ -595,9 +589,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 					this.loadingIndicator = false;
 					this.alertService.showStickyMessage(
 						'Load Error',
-						`An error occured whilst loading the group surveys.\r\nError: "${Utilities.getHttpResponseMessage(
-							error
-						)}"`,
+						`An error occured whilst loading the group surveys.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
 						MessageSeverity.error,
 						error
 					);
@@ -652,36 +644,37 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 		return 'cursor-pointer';
 	}
 
+	/**
+	 *
+	 * @param row
+	 */
 	public canEdit(row: Survey): boolean {
 		return (
-			row.surveyPermissions &&
-			row.surveyPermissions.length > 0 &&
-			row.surveyPermissions[0].permissions.includes('survey.modify')
+			this.accountService.currentUser.roles.includes('super administrator') ||
+			(row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.modify'))
 		);
 	}
 	public canDelete(row: Survey): boolean {
 		return (
-			row.surveyPermissions &&
-			row.surveyPermissions.length > 0 &&
+			this.accountService.currentUser.roles.includes('super administrator') ||
 			row.surveyPermissions[0].permissions.includes('survey.delete')
 		);
 	}
 	public canAnalyze(row: Survey): boolean {
 		return (
-			row.surveyPermissions &&
-			row.surveyPermissions.length > 0 &&
-			row.surveyPermissions[0].permissions.includes('survey.analyze')
+			this.accountService.currentUser.roles.includes('super administrator') ||
+			(row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.analyze'))
 		);
 	}
 	public canShare(row: Survey): boolean {
 		return (
-			row.surveyPermissions &&
-			row.surveyPermissions.length > 0 &&
-			row.surveyPermissions[0].permissions.includes('survey.share')
+			this.accountService.currentUser.roles.includes('super administrator') ||
+			(row.surveyPermissions && row.surveyPermissions.length > 0 && row.surveyPermissions[0].permissions.includes('survey.share'))
 		);
 	}
 
 	public noAccess(row: Survey): boolean {
-		return !row.surveyPermissions || row.surveyPermissions.length === 0;
+		return false;
+		//return !row.surveyPermissions || row.surveyPermissions.length === 0;
 	}
 }

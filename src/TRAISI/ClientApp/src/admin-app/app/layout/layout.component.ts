@@ -3,6 +3,7 @@ import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, Navigatio
 import { AppConfig } from '../app.config';
 import { AuthService } from '..../../../shared/services/auth.service';
 import { SurveyBuilderComponent } from '../survey-builder/survey-builder.component';
+import { AccountService } from 'app/services/account.service';
 
 declare let jQuery: JQueryStatic;
 declare let Hammer: any;
@@ -32,7 +33,8 @@ export class LayoutComponent implements OnInit {
 		router: Router,
 		private renderer: Renderer2,
 		private ngZone: NgZone,
-		private authService: AuthService
+		private authService: AuthService,
+		private _accountService: AccountService
 	) {
 		this.el = el;
 		this.config = config.getConfig();
@@ -253,6 +255,9 @@ export class LayoutComponent implements OnInit {
 
 		// populate name with logged in user
 		this.userName = this.authService.currentUser.fullName.split(' ')[0];
+
+		// charge user info
+		let user = this._accountService.currentUserAccount;
 	}
 
 	private _navigationInterceptor(event: RouterEvent): void {

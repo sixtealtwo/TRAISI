@@ -1,9 +1,19 @@
 <div id="welcome-header-editor">
-	<div id="welcome-header" [style.background-color]="pageThemeInfo.headerColour" [style.height.px]="pageThemeInfo.headerBackgroundHeight">
-	</div>
-	<div class="row">
-		<div class="col-12 text-center" [style.height.px]="pageThemeInfo.headerMaxHeightScale * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale * 100 : pageThemeInfo.headerBackgroundHeight">
-			 <img [style.transform]="imageTransform" *ngIf="imageSource" class="welcome-header-logo" [style.max-height.px]="pageThemeInfo.headerMaxHeightScale * 100" src="{{ imageSource }}" />
-		</div>
-	</div>
+    <div
+        id="welcome-header"
+        [style.background-color]="pageThemeInfo.headerColour"
+        [style.height.px]="pageThemeInfo.headerBackgroundHeight">
+    </div>
+    <div class="welcome-header-container">
+        <div
+            class="col-12 text-center"
+            [style.height.px]="pageThemeInfo.headerMaxHeightScale * 100 > pageThemeInfo.headerBackgroundHeight ? pageThemeInfo.headerMaxHeightScale * 100 : pageThemeInfo.headerBackgroundHeight">
+            <img
+                [style.transform]="imageTransform"
+                *ngIf="imageSource"
+                class="welcome-header-logo"
+                [style.max-height.px]="pageThemeInfo.headerMaxHeightScale * 100"
+                src="{{ imageSource }}">
+        </div>
+    </div>
 </div>

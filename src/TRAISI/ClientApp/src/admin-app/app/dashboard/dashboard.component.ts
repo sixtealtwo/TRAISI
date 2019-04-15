@@ -564,7 +564,7 @@ export class DashboardComponent implements OnInit {
 		return this.http.get(this._mapURL);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.getMapData().subscribe(geoJson => {
 			this.mapLoaded = true;
 			// register map:
