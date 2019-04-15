@@ -1,208 +1,141 @@
-<div
-    id="question-viewer-wrapper"
-    class="flex-column d-flex"
-    *ngIf="loadedComponents"
->
-    <traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
-    <ndc-dynamic
-        *ngIf="headerComponent"
-        [ndcDynamicComponent]="headerComponent"
-        [ndcDynamicInputs]="headerInputs"
-    >
-    </ndc-dynamic>
+<div id="question-viewer-wrapper" class="flex-column d-flex" *ngIf="loadedComponents">
+	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
+	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
+	</ndc-dynamic>
 
 
 
 
-    <traisi-survey-header-display
-        [pageTextColour]="pageTextColour"
-        [useWhiteProgressLine]="useLightNavigationLines"
-        #header
-    ></traisi-survey-header-display>
+	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines"
+		#header></traisi-survey-header-display>
 
 
 
 
-    <div class="survey-body-container flex-grow-1 d-flex flex-column">
-        <div class="survey-body flex-grow-1 d-flex flex-column">
-            <div
-                class="survey-section-header mx-md-3"
-                *ngIf="viewerState.isSectionActive"
-                [style.background-color]="viewerTheme.sectionBackgroundColour"
-                [style.color]="sectionTitleColour"
-                [class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
-                [ngClass]="{ 'mt-3 mt-md-0': viewerState.isSectionActive }"
-                [innerHTML]="processedSectionLabel(viewerState.activeSection.label) | safeHtml"
-            >
-                <span
-                    class="repeat-header"
-                    *ngIf="viewerState.activeSection.isRepeat"
-                >
-                    - Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
-                </span>
-            </div>
+	<div class="survey-body-container flex-grow-1 d-flex flex-column">
+		<div class="survey-body flex-grow-1 d-flex flex-column">
+			<div class="survey-section-header mx-md-3" *ngIf="viewerState.isSectionActive"
+				[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
+				[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
+				[ngClass]="{ 'mt-3 mt-md-0': viewerState.isSectionActive }"
+				[innerHTML]="processedSectionLabel(viewerState.activeSection.label) | safeHtml">
+				<span class="repeat-header" *ngIf="viewerState.activeSection.isRepeat">
+					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
+				</span>
+			</div>
 
 
 
 
-            <div class="questions-container flex-grow-1">
-                <div
-                    class="question-section d-flex flex-column"
-                    *ngIf="viewerState.isLoaded"
-                    [ngClass]="{
+			<div class="questions-container flex-grow-1">
+				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded" [ngClass]="{
 						'd-flex flex-column':
 							viewerState.activeQuestionContainer.parentSectionContainer.sectionModel === null ||
 							!viewerState.activeQuestionContainer.parentSectionContainer.sectionModel.isMultiView,
 						'multi-display':
 							viewerState.activeQuestionContainer.parentSectionContainer.sectionModel !== null &&
 							viewerState.activeQuestionContainer.parentSectionContainer.sectionModel.isMultiView
-					}"
-                >
-                    <ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
-                        <ng-container *ngFor="let sectionRepeat of page.children; let r = index">
-                            <ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
-                                <ng-container *ngIf="sectionContainer.sectionModel === null || !sectionContainer.sectionModel.isMultiView">
-                                    <ng-container *ngFor="let groupContainer of sectionContainer.children; let j = index">
-                                        <ng-container *ngFor="let repeatContainer of groupContainer.children; let k = index">
-                                            <ng-container *ngFor="let repeat of repeatContainer.children; let q = index">
-                                                <traisi-question-container
-                                                    class="flex-grow-1 d-flex flex-column"
-                                                    [surveyViewer]="ref"
-                                                    [respondent]="viewerState.activeRespondent"
-                                                    [question]="repeat.questionModel"
-                                                    [surveyViewQuestion]="repeat.questionModel"
-                                                    [surveyId]="surveyId"
-                                                    [repeatContainer]="repeatContainer"
-                                                    [repeatNumber]="q"
-                                                    [sectionRepeatNumber]="sectionRepeat.repeatIndex"
-                                                    [container]="repeat"
-                                                    [questionTypeMap]="questionTypeMap"
-                                                    [questionNameMap]="questionNameMap"
-                                                    *ngIf="viewerState.activeQuestionContainer === repeat && viewerState.isLoaded"
-                                                    #questions
-                                                ></traisi-question-container>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-container *ngIf="sectionContainer.sectionModel !== null && sectionContainer.sectionModel.isMultiView">
-                                    <ng-container *ngFor="let groupContainer of sectionContainer.children; let j = index">
-                                        <ng-container *ngFor="let repeatContainer of groupContainer.children; let k = index">
-                                            <ng-container *ngFor="let repeat of repeatContainer.children; let q = index">
-                                                <traisi-question-container
-                                                    class="flex-grow-1 d-flex flex-column"
-                                                    [surveyViewer]="ref"
-                                                    [respondent]="viewerState.activeRespondent"
-                                                    [question]="repeat.questionModel"
-                                                    [surveyViewQuestion]="repeat.questionModel"
-                                                    [surveyId]="surveyId"
-                                                    [repeatContainer]="repeatContainer"
-                                                    [repeatNumber]="q"
-                                                    [sectionRepeatNumber]="sectionRepeat.repeatIndex"
-                                                    [container]="repeat"
-                                                    [questionTypeMap]="questionTypeMap"
-                                                    [questionNameMap]="questionNameMap"
-                                                    *ngIf="
+					}">
+					<ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
+						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
+							<ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
+								<ng-container
+									*ngIf="sectionContainer.sectionModel === null || !sectionContainer.sectionModel.isMultiView">
+									<ng-container
+										*ngFor="let groupContainer of sectionContainer.children; let j = index">
+										<ng-container
+											*ngFor="let repeatContainer of groupContainer.children; let k = index">
+											<ng-container
+												*ngFor="let repeat of repeatContainer.children; let q = index">
+												<traisi-question-container class="flex-grow-1 d-flex flex-column"
+													[surveyViewer]="ref" [respondent]="viewerState.activeRespondent"
+													[question]="repeat.questionModel"
+													[surveyViewQuestion]="repeat.questionModel" [surveyId]="surveyId"
+													[repeatContainer]="repeatContainer" [repeatNumber]="q"
+													[sectionRepeatNumber]="sectionRepeat.repeatIndex"
+													[container]="repeat" [questionTypeMap]="questionTypeMap"
+													[questionNameMap]="questionNameMap"
+													*ngIf="viewerState.activeQuestionContainer === repeat && viewerState.isLoaded"
+													#questions></traisi-question-container>
+											</ng-container>
+										</ng-container>
+									</ng-container>
+								</ng-container>
+								<ng-container
+									*ngIf="sectionContainer.sectionModel !== null && sectionContainer.sectionModel.isMultiView">
+									<ng-container
+										*ngFor="let groupContainer of sectionContainer.children; let j = index">
+										<ng-container
+											*ngFor="let repeatContainer of groupContainer.children; let k = index">
+											<ng-container
+												*ngFor="let repeat of repeatContainer.children; let q = index">
+												<traisi-question-container class="flex-grow-1 d-flex flex-column"
+													[surveyViewer]="ref" [respondent]="viewerState.activeRespondent"
+													[question]="repeat.questionModel"
+													[surveyViewQuestion]="repeat.questionModel" [surveyId]="surveyId"
+													[repeatContainer]="repeatContainer" [repeatNumber]="q"
+													[sectionRepeatNumber]="sectionRepeat.repeatIndex"
+													[container]="repeat" [questionTypeMap]="questionTypeMap"
+													[questionNameMap]="questionNameMap" *ngIf="
 														viewerState.activeSection !== undefined &&
 														viewerState.activeSection.id === sectionContainer.sectionModel.id &&
 														viewerState.isLoaded
-													"
-                                                    #questions
-                                                ></traisi-question-container>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                    </ng-container>
-                </div>
-                <div
-                    class="group-member-names-container d-none d-md-block"
-                    *ngIf="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
-                >
-                    <div class="group-member-names-section">
-                        <span
-                            *ngFor="let groupMember of viewerState.groupMembers; let m = index"
-                            class="group-member-name"
-                            (click)="showGroupMember(m)"
-                            [ngClass]="{
+													" #questions></traisi-question-container>
+											</ng-container>
+										</ng-container>
+									</ng-container>
+								</ng-container>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+				</div>
+				<div class="group-member-names-container d-none d-md-block"
+					*ngIf="viewerState.isSectionActive && viewerState.activeSection.isHousehold">
+					<div class="group-member-names-section">
+						<span *ngFor="let groupMember of viewerState.groupMembers; let m = index"
+							class="group-member-name" (click)="showGroupMember(m)" [ngClass]="{
 								'group-member-active': groupMember == viewerState.activeRespondent,
 								'group-member-complete': getGroupMemberCompletionState(m) && groupMember != viewerState.activeRespondent
-							}"
-                        >
-                            {{ groupMember.name }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div
-        id="question-viewer-nav"
-        class="pl-md-3"
-        [class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
-    >
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <div class="nav-button-container">
-                    <button
-                        [ngClass]="navButtonClass"
-                        (click)="navigatePrevious()"
-                        [disabled]="!viewerState.isPreviousEnabled || viewerState.isNavProcessing"
-                        class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
-                        type="button"
-                    >
-                        <i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i>
-                        {{ 'Viewer.Previous' | translate }}
-                    </button>
-                </div>
-                <button
-                    *ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
-                    [ngClass]="navButtonClass"
-                    (click)="navigateNext()"
-                    [disabled]="!viewerState.isNextEnabled || viewerState.isNavProcessing"
-                    class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
-                    type="button"
-                >
-                    <div
-                        class="progress"
-                        *ngIf="isNextProcessing"
-                    >
-                        <div
-                            class="progress-bar progress-bar-striped progress-bar-animated"
-                            role="progressbar"
-                            aria-valuenow="100"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            style="width: 100%"
-                        ></div>
-                    </div>
-                    <div *ngIf="!isNextProcessing && !viewerState.isNavComplete">
-                        {{ 'Viewer.Next' | translate }}
-                        <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
-                    </div>
-                </button>
-                <button
-                    *ngIf="viewerState.isNavFinished"
-                    [ngClass]="navButtonClass"
-                    [disabled]="!viewerState.isNavComplete"
-                    (click)="navigateCompleteSurvey()"
-                    class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
-                    type="button"
-                >
-                    <div>
-                        {{ 'Viewer.CompleteSurvey' | translate }}
-                        <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div>
-    <ndc-dynamic
-        *ngIf="footerComponent"
-        [ndcDynamicComponent]="footerComponent"
-        [ndcDynamicInputs]="footerInputs"
-    >
-    </ndc-dynamic>
+							}">
+							{{ groupMember.name }}
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="question-viewer-nav" class="pl-md-3"
+		[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold">
+		<div class="row justify-content-center">
+			<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
+				[disabled]="!viewerState.isPreviousEnabled || viewerState.isNavProcessing"
+				class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button" type="button">
+				<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i>
+				{{ 'Viewer.Previous' | translate }}
+			</button>
+			<button *ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished" [ngClass]="navButtonClass"
+				(click)="navigateNext()" [disabled]="!viewerState.isNextEnabled || viewerState.isNavProcessing"
+				class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button" type="button">
+				<div class="progress" *ngIf="isNextProcessing">
+					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+						aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+				</div>
+				<div *ngIf="!isNextProcessing && !viewerState.isNavComplete">
+					{{ 'Viewer.Next' | translate }}
+					<i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+				</div>
+			</button>
+			<button *ngIf="viewerState.isNavFinished" [ngClass]="navButtonClass" [disabled]="!viewerState.isNavComplete"
+				(click)="navigateCompleteSurvey()" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button"
+				type="button">
+				<div>
+					{{ 'Viewer.CompleteSurvey' | translate }}
+					<i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+				</div>
+			</button>
+
+		</div>
+	</div>
+	<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent" [ndcDynamicInputs]="footerInputs">
+	</ndc-dynamic>
 </div>
