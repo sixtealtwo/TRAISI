@@ -705,7 +705,13 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	/**
+	 *
+	 * @param partId
+	 * @param dropResult
+	 */
 	public onDropInPart(partId: number, dropResult: IDropResult): void {
+		console.log('on drop in part');
 		if (this.dragResult) {
 			if (partId !== dropResult.payload.id) {
 				let questionPart = this.qPartQuestions.get(partId);
