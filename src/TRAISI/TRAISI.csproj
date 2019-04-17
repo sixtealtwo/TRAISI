@@ -78,11 +78,12 @@
 		<EmbeddedResource Remove="ClientApp\dist\**" />
 	</ItemGroup>
 
-	<Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Debug'">
+
+	<!-- <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Debug'">
 		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm install" />
 		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm run build" />
 		<Message Text="Compiled and bundled JS library" Importance="High" />
-	</Target>
+	</Target> -->
 
 	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
 		<!-- Ensure Node.js is installed -->

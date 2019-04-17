@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config=webpack.config.js",
     "prod": "webpack --config=webpack.config.prod.js -p --optimize-minimize --aot",
-    "watch": "webpack --config=webpack.config.dev.js --watch --progress"
+	"watch": "webpack --config=webpack.config.dev.js --watch --progress",
+	"staging": "webpack --config=webpack.config.dev.js --progress"
   },
   "author": "University of Toronto",
   "license": "ISC",

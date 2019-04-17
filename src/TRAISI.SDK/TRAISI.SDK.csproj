@@ -32,6 +32,15 @@
 		<PackageReference Include="Newtonsoft.JSON" Version="11.0.2" />
 		<!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" /> -->
 	</ItemGroup>
+
+	<Target Name="NpmCommands" BeforeTargets="Compile" Condition="$(staging) == true AND $(Configuration) != 'Release'">
+		<!-- <Exec Command="npm run build" /> -->
+		<Message Importance="high" Text="Building TRAISI.SDK module library." />
+		<Exec WorkingDirectory="Module/" Command="npm install" />
+		<Exec WorkingDirectory="Module/" Command="npm run build" />
+		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />
+
+	</Target>
 	<Target Name="PreBuild" AfterTargets="Compile" Condition="'$(Configuration)' == 'Release'">
 		<Exec WorkingDirectory="Module/" Command="npm install" />
 		<Exec WorkingDirectory="Module/" Command="npm run build" />

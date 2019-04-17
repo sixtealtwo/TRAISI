@@ -43,12 +43,14 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		this.isLoaded = false;
 	}
 
+	/**
+	 *
+	 */
 	public ngOnInit(): void {
 		this.onQuestionShown();
 
 		this.configuration.maxLength = parseInt('' + this.configuration.maxLength, 10);
 		this.configuration.multiline = '' + this.configuration.multiline === 'false' ? false : true;
-
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 

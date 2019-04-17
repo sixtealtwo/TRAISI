@@ -1,47 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <DotNetCliToolReference Include="DotNetTraisi" Version="1.0.1" />
-  </ItemGroup>
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />
-    <None Remove="node_modules/**" />
-    <Compile Remove="node_modules/**" />
-    <EmbeddedResource Include="dist/**" />
-    <EmbeddedResource Include="src\locales.json">
-      <LogicalName>locales</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' != 'Release'">
-    <Exec Command="npm run build" />
-    <Message Text="Compiled and bundled JS library" Importance="High" />
-  </Target>
+	<ItemGroup>
+		<DotNetCliToolReference Include="DotNetTraisi" Version="1.0.1" />
+	</ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<LangVersion>7.1</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<LangVersion>7.1</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />
+		<None Remove="node_modules/**" />
+		<Compile Remove="node_modules/**" />
+		<EmbeddedResource Include="dist/**" />
+		<EmbeddedResource Include="src\locales.json">
+			<LogicalName>locales</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+	<Target Name="PreBuild" BeforeTargets="Compile" Condition="$(Configuration) == 'Debug'">
+		<Exec Command="npm run build" />
+		<Message Text="Compiled and bundled JS library" Importance="High" />
+	</Target>
 
-  <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="npm install" />
-    <Exec Command="npm run prod" />
-    <Message Text="Compiled and bundled JS library" Importance="High" />
-  </Target>
+	<Target Name="NpmCommands" BeforeTargets="BeforeBuild" Condition="$(staging) == true AND $(Configuration) != 'Release'">
+		<!-- <Exec Command="npm run build" /> -->
+		<Message Importance="high" Text="Building question modules." />
+		<Exec Command="npm run staging" />
+		<Message Importance="high" Text="Completed staging build of questions modules, front end code in extensions folder." />
+
+	</Target>
+
+	<Target Name="PreBuild" BeforeTargets="Compile" Condition="$(Configuration) == 'Release'">
+		<Exec Command="npm install" />
+		<Exec Command="npm run prod" />
+		<Message Text="Compiled and bundled JS library" Importance="High" />
+	</Target>
 
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
-    <Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
-  </Target>
-  <ItemGroup>
-    <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
-    <EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
-  </ItemGroup>
+	<Target Name="AfterBuildCopy" AfterTargets="AfterBuild">
+		<Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
+		<Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
+	</Target>
+	<ItemGroup>
+		<ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />
+		<EmbeddedResource Include="src/resources/numberquestion-format.json" LogicalName="numberquestion-format" />
+	</ItemGroup>
 </Project>
