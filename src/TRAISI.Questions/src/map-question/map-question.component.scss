@@ -139,3 +139,14 @@
     }
 } */
 }
+
+/* resizing for multi display */
+.multi-display traisi-map-question .map-container {
+  position: relative;
+  height: 300px;
+  display: block;
+}
+
+.multi-display .view-full {
+  position: relative;
+}

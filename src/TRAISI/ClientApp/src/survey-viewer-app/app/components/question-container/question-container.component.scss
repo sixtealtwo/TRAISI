@@ -2,10 +2,16 @@
 @import "../../../assets/scss/application.scss";
 
 .question-header {
-  display: flex;
+  display: block;
+  /*
+  display:flex;
   align-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: row; */
+}
+
+.header-row {
+	align-items:center;
 }
 
 .question-widget {
@@ -59,6 +65,10 @@
   position: absolute;
 }
 
+.multi-display .view-full {
+  position: relative;
+}
+
 .header-label {
   flex-grow: 1;
 }
@@ -85,7 +95,8 @@
 
   .question-number-container {
     max-width: 90px;
-    position: relative;
+	position: relative;
+	top:-10px;
   }
 
   .question-number-container-section {
