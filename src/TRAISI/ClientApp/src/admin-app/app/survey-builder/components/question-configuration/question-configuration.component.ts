@@ -115,7 +115,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public language: string;
 
 	@Output()
-	configResult = new EventEmitter<string>();
+	public configResult = new EventEmitter<string>();
 
 	@ViewChild('conditionals')
 	public conditionalsComponent: QuestionConditionalsComponent;
@@ -141,25 +141,24 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private cDRef: ChangeDetectorRef
 	) {}
 
-	ngOnInit() {
-	}
+	public ngOnInit() {}
 
-	pipeDropdown(e: TreeviewSelection): string {
+	public pipeDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
 		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
 	}
 
-	catiPipeDropdown(e: TreeviewSelection): string {
+	public catiPipeDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
 		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
 	}
 
-	repeatDropdown(e: TreeviewSelection): string {
+	public repeatDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n).selectedItem;
 		return selected !== undefined && selected !== null ? selected.text : 'Select Question';
 	}
 
-	ngAfterViewInit() {
+	public ngAfterViewInit() {
 		// this.updateAdvancedParams();
 		setTimeout(() => {
 			this.configTargets.changes.subscribe(item => {
@@ -168,15 +167,15 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}, 200);
 	}
 
-	questiontextEditorCreated(quillInstance: any) {
+	public questiontextEditorCreated(quillInstance: any) {
 		this.questionQuillEditor = quillInstance;
 	}
 
-	catiQuestiontextEditorCreated(quillInstance: any) {
+	public catiQuestiontextEditorCreated(quillInstance: any) {
 		this.catiQuestionQuillEditor = quillInstance;
 	}
 
-	updateAdvancedParams() {
+	public updateAdvancedParams() {
 		const paramComponents = this.parameterComponents();
 		this.childrenComponents = [];
 		if (this.configurations.length > 0) {
@@ -207,7 +206,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		// this.cDRef.detectChanges();
 	}
 
-	parameterComponents() {
+	public parameterComponents() {
 		let widgetComponents = {
 			Checkbox: CheckboxComponent,
 			Date: DateInputComponent,
@@ -226,7 +225,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		return widgetComponents;
 	}
 
-	advancedConfig() {
+	public advancedConfig() {
 		setTimeout(() => {
 			window.dispatchEvent(new Event('resize'));
 		}, 0);
@@ -247,11 +246,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		return this.conditionalsComponent.getUpdatedConditionals();
 	}
 
-	cancel() {
+	public cancel() {
 		this.configResult.emit('cancel');
 	}
 
-	delete() {
+	public delete() {
 		this.configResult.emit('delete');
 	}
 
@@ -328,7 +327,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	processConfigurations() {
+	public processConfigurations() {
 		this.configurations = Object.values(this.questionType.questionConfigurations);
 
 		this.processQuestionTree();
@@ -364,28 +363,25 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 						});
 					}
 				},
-				error => {
-				}
+				error => {}
 			);
 		}
 	}
 
 	private loadPastConditionals() {
-		this.builderService
-			.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.questionPart.id)
-			.subscribe(conditionals => {
-				this.builderService
-					.getQuestionPartOptionConditionals(this.surveyId, this.questionBeingEdited.questionPart.id)
-					.subscribe(oConditionals => {
-						this.sourceQuestionConditionals = conditionals.filter(
-							c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
-						);
-						this.sourceQuestionOptionConditionals = oConditionals.filter(
-							c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
-						);
-						this.conditionalsLoaded = true;
-					});
-			});
+		this.builderService.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.questionPart.id).subscribe(conditionals => {
+			this.builderService
+				.getQuestionPartOptionConditionals(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.subscribe(oConditionals => {
+					this.sourceQuestionConditionals = conditionals.filter(
+						c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
+					);
+					this.sourceQuestionOptionConditionals = oConditionals.filter(
+						c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
+					);
+					this.conditionalsLoaded = true;
+				});
+		});
 	}
 
 	private getQuestionResponseType(typeValue: string): string {
@@ -416,16 +412,20 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public allowConditionals(): boolean {
 		if (this.questionType.typeName === 'Survey Part' || this.questionType.responseType === 'None') {
 			return false;
 		} else if (this.questionType.responseType === 'OptionSelect' || this.questionType.responseType === 'OptionList') {
+
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
 				return true;
 			} else {
 				return false;
 			}
-		}	else {
+		} else {
 			return true;
 		}
 	}
@@ -440,47 +440,45 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.thisQuestion = [];
 		let questionHitThisPage: boolean = false;
 		let questionBreak = '';
-		if (
-			this.questionType.typeName === 'Survey Part' &&
-			this.questionBeingEdited.questionPartViewChildren.length > 0
-		) {
-			questionBreak = `question~${
-				this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType
-			}~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
+		if (this.questionType.typeName === 'Survey Part' && this.questionBeingEdited.questionPartViewChildren.length > 0) {
+			questionBreak = `question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${
+				this.questionBeingEdited.questionPartViewChildren[0].questionPart.id
+			}`;
 		} else if (this.questionType.typeName !== 'Survey Part') {
 			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}
 
 		// if (questionBreak !== '') {
-			this.fullStructure.forEach(treeElement => {
-				let page = {
-					value: treeElement.value,
-					text: treeElement.text,
-					checked: false,
-					children: []
-				};
 
-				if (treeElement.children) {
-					let sectionName = '';
-					if (this.questionType.typeName === 'Survey Part') {
-						sectionName = `part~${this.questionBeingEdited.id}`;
-					}
-					let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
-						page,
-						treeElement,
-						questionHitThisPage,
-						questionBreak,
-						sectionName
-					);
-					page = pageReturn;
-					questionHitThisPage = questionHitReturn;
+		this.fullStructure.forEach(treeElement => {
+			let page = {
+				value: treeElement.value,
+				text: treeElement.text,
+				checked: false,
+				children: []
+			};
+
+			if (treeElement.children) {
+				let sectionName = '';
+				if (this.questionType.typeName === 'Survey Part') {
+					sectionName = `part~${this.questionBeingEdited.id}`;
 				}
-				if (questionHitThisPage && page.children.length > 0) {
-					this.questionOptionsAfter.push(new TreeviewItem(page));
-				} else if (page.children.length > 0) {
-					this.questionsBefore.push(new TreeviewItem(page));
-				}
-			});
+				let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
+					page,
+					treeElement,
+					questionHitThisPage,
+					questionBreak,
+					sectionName
+				);
+				page = pageReturn;
+				questionHitThisPage = questionHitReturn;
+			}
+			if (questionHitThisPage && page.children.length > 0) {
+				this.questionOptionsAfter.push(new TreeviewItem(page));
+			} else if (page.children.length > 0) {
+				this.questionsBefore.push(new TreeviewItem(page));
+			}
+		});
 		// }
 	}
 
@@ -495,6 +493,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		for (let element of treeElement.children) {
 			if (element.value === questionBreak) {
 				this.thisQuestion = [element];
+
 				this.repeatSourcesBefore = repeatSources;
 				if (page.children.length > 0) {
 					this.questionsBefore.push(new TreeviewItem(page));
@@ -507,7 +506,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				questionHit = true;
 			} else {
-
 				if (element.value === sectionBreak) {
 					this.repeatSourcesBefore = repeatSources;
 					if (page.children.length > 0) {
@@ -621,5 +619,4 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 		}
 	}
-
 }

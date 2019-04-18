@@ -987,6 +987,12 @@ namespace TRAISI.Services
             this._unitOfWork.QuestionOptionConditionals.UpdateRange(updateTarget);
         }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="surveyViewName"></param>
+		/// <returns></returns>
         public List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName)
         {
             return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();
