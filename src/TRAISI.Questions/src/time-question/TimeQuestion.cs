@@ -7,7 +7,8 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.SDK.Questions
 {
-    [SurveyQuestion(QuestionResponseType.DateTime, CodeBundleName = "traisi-questions-general.module.js")]
+	[SurveyQuestion(QuestionResponseType.DateTime, CodeBundleName = "traisi-questions-general.module.js",
+	ResponseValidator = typeof(DateQuestionValidator))]
     public class TimeQuestion : ISurveyQuestion
     {
         public string TypeName => "Time";

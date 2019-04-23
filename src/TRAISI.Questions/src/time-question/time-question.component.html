@@ -1,4 +1,3 @@
 <div class="time-question-container">
-<timepicker [(ngModel)]="mytime"></timepicker>
-<pre class="alert alert-info">Time is: {{mytime}}</pre>
+	<timepicker [minuteStep]="1" [(ngModel)]="inputTime" (ngModelChange)="ngModelChange($event)"></timepicker>
 </div>

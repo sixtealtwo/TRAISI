@@ -1,6 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { QuestionConfiguration, ResponseTypes,
-	SurveyQuestion, SurveyResponder, SurveyViewer, TimeResponseData } from 'traisi-question-sdk';
+import {
+	QuestionConfiguration,
+	ResponseTypes,
+	SurveyQuestion,
+	SurveyResponder,
+	SurveyViewer,
+	TimeResponseData,
+	ResponseValidationState
+} from 'traisi-question-sdk';
 import { Time } from '@angular/common';
 
 @Component({
@@ -30,6 +37,9 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'time';
 		this.inputTime = new Date();
+		this.inputTime.setHours(0);
+		this.inputTime.setMinutes(0);
+		this.inputTime.setSeconds(0);
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
@@ -45,12 +55,33 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		this.hours = 12;
 		this.minutes = 0;
 		this.am = true;
+
+		this.savedResponse.subscribe(this.onSavedResponseData);
+	}
+
+	/**
+	 *
+	 * @param timeValue
+	 */
+	public ngModelChange(timeValue): void {
+		let data = {
+			value: timeValue
+		};
+		if (timeValue !== null) {
+			this.response.emit(data);
+			this.validationState.emit(ResponseValidationState.VALID);
+		} else {
+			// this.validationState.emit(ResponseValidationState.INVALID);
+		}
 	}
 
 	private onSavedResponseData: (response: TimeResponseData[] | 'none') => void = (response: TimeResponseData[] | 'none') => {
 		if (response !== 'none') {
 			let timeValue = new Date(response[0].value);
 			this.inputTime = timeValue;
+
+			console.log('got saved response');
+			console.log(timeValue);
 		}
 	};
 }

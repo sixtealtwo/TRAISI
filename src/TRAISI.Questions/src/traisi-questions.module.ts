@@ -117,7 +117,7 @@ export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 			]
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule, TimepickerModule]
 })
 export default class TraisiQuestions {
 	public components: Array<{ name: string; id: string; component: any }>;
