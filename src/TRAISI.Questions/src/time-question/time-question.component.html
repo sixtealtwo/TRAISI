@@ -1,24 +1,4 @@
 <div class="time-question-container">
-    <div class="input-group">
-
-        <select class="form-control hours" [(ngModel)]="hours">
-            <option>12</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
-        <select class="form-control minutes"  [(ngModel)]="minutes">
-            <option>0</option>
-            <option>5</option>
-            <option>10</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
-        <select class="form-control ampm"  [(ngModel)]="am">
-            <option [ngValue]="true">AM</option>
-            <option [ngValue]="false">PM</option>
-
-        </select>
-    </div>
+<timepicker [(ngModel)]="mytime"></timepicker>
+<pre class="alert alert-info">Time is: {{mytime}}</pre>
 </div>

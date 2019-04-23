@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { QuestionConfiguration, ResponseTypes, SurveyQuestion, SurveyResponder, SurveyViewer } from 'traisi-question-sdk';
+import { QuestionConfiguration, ResponseTypes,
+	SurveyQuestion, SurveyResponder, SurveyViewer, TimeResponseData } from 'traisi-question-sdk';
+import { Time } from '@angular/common';
 
 @Component({
 	selector: 'traisi-time-question',
@@ -7,16 +9,18 @@ import { QuestionConfiguration, ResponseTypes, SurveyQuestion, SurveyResponder, 
 	styles: [require('./time-question.component.scss').toString()]
 })
 export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> implements OnInit {
-	readonly QUESTION_TYPE_NAME: string = 'Time Question';
+	public readonly QUESTION_TYPE_NAME: string = 'Time Question';
 
-	typeName: string;
-	icon: string;
+	public typeName: string;
+	public icon: string;
 
 	public hours: number;
 
 	public minutes: number;
 
 	public am: boolean;
+
+	public inputTime: Date;
 
 	constructor(
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
@@ -25,7 +29,7 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'time';
-
+		this.inputTime = new Date();
 		this.surveyViewerService.configurationData.subscribe(this.loadConfigurationData);
 	}
 
@@ -33,13 +37,20 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {
+	public loadConfigurationData(data: QuestionConfiguration[]) {
 		console.log(data);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.hours = 12;
 		this.minutes = 0;
 		this.am = true;
 	}
+
+	private onSavedResponseData: (response: TimeResponseData[] | 'none') => void = (response: TimeResponseData[] | 'none') => {
+		if (response !== 'none') {
+			let timeValue = new Date(response[0].value);
+			this.inputTime = timeValue;
+		}
+	};
 }

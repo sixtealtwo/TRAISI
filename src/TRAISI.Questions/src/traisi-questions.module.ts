@@ -19,7 +19,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
 import { SurveyQuestion, ResponseTypes } from '../../TRAISI.SDK/Module/dist';
-
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 @NgModule({
 	declarations: [
