@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -21,7 +21,8 @@ declare var $: any;
 @Component({
 	selector: 'traisi-select-question',
 	template: require('./select-question.component.html').toString(),
-	styles: [require('./select-question.component.scss').toString()]
+	styles: [require('./select-question.component.scss').toString()],
+	encapsulation: ViewEncapsulation.None
 })
 export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
 	implements OnInit, OnOptionsLoaded, AfterViewInit {
