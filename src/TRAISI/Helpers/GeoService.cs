@@ -33,7 +33,7 @@ namespace TRAISI.Helpers {
 		private static readonly string GOOGLE_MODE_DRIVING = "driving";
 		private static readonly string GOOGLE_MODE_TRANSIT = "transit";
 		private static readonly string GOOGLE_MODE_WALKING = "walking";
-		private static readonly string GOOGLE_MODE_BICYCLING = "bicycling ";
+		private static readonly string GOOGLE_MODE_BICYCLING = "bicycling";
 
 		private static readonly string[] GOOGLE_MODES = new string[] {
 			GOOGLE_MODE_DRIVING,
