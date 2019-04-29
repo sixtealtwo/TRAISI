@@ -42,6 +42,7 @@ using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenIddict.Abstractions;
 using TRAISI.Helpers.Interfaces;
+using System.Reflection;
 
 namespace TRAISI
 {
@@ -367,9 +368,32 @@ namespace TRAISI
 
 			// Persistent Business Services
 			services.AddSingleton<IMailgunMailer, MailgunMailer>();
-			
+
 			// TODO (change based on config)
-			services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
+
+			if (Configuration.GetSection("GeoConfig")["Provider"] == "Google")
+			{
+				services.AddSingleton<IGeoServiceProvider, GoogleGeoService>();
+			}
+			else if (Configuration.GetSection("GeoConfig")["Provider"] == "Mapbox")
+			{
+				services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
+			}
+			else
+			{
+				try
+				{
+					var providerName = Type.GetType(Configuration.GetValue<string>("GeoConfig:Provider"));
+					var addSingletonMethod = services.GetType().GetMethods();
+					services.AddSingleton(typeof(IGeoServiceProvider), providerName);
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine("Unable to instantiate geoservice provider.");
+				}
+
+
+			}
 
 			services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
 

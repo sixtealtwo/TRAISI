@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using TRAISI.Helpers;
+using TRAISI.Helpers.Interfaces;
 using TRAISI.ViewModels;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,9 +19,9 @@ namespace TRAISI.Controllers {
     // [Authorize]
     [Route ("api/[controller]")]
     public class GeoServiceController : Controller {
-        private readonly IGeoService _geoService;
+        private readonly IGeoServiceProvider _geoService;
 
-        public GeoServiceController (IGeoService geoService) {
+        public GeoServiceController (IGeoServiceProvider geoService) {
             this._geoService = geoService;
 
         }

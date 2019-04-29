@@ -13,6 +13,10 @@ namespace TRAISI.Helpers
 		private GeoConfig _config;
 		private RestClient _mapboxApiClient;
 
+		private static readonly string MAPBOX_MODE_DRIVING = "driving";
+		private static readonly string GOOGLE_MODE_WALKING = "walking";
+		private static readonly string GOOGLE_MODE_BICYCLING = "ciclying";
+
 		/// <summary>
 		/// 
 		/// </summary>
