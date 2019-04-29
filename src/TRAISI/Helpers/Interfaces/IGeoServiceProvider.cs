@@ -5,6 +5,8 @@ namespace TRAISI.Helpers.Interfaces
 {
     public interface IGeoServiceProvider
     {
+
+		
 		/// <summary>
 		/// 
 		/// </summary>
