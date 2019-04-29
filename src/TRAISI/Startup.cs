@@ -41,6 +41,7 @@ using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenIddict.Abstractions;
+using TRAISI.Helpers.Interfaces;
 
 namespace TRAISI
 {
@@ -361,9 +362,14 @@ namespace TRAISI
 			services.AddScoped<ISurveyViewerService, SurveyViewerService>();
 			services.AddScoped<IResponderService, ResponderService>();
 
+			// add memory cache
+			services.AddMemoryCache();
+
 			// Persistent Business Services
 			services.AddSingleton<IMailgunMailer, MailgunMailer>();
-			services.AddSingleton<IGeoService, GeoService>();
+			
+			// TODO (change based on config)
+			services.AddSingleton<IGeoServiceProvider, MapBoxGeoService>();
 
 			services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
 
