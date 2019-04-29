@@ -6,7 +6,7 @@ using TRAISI.Helpers.Interfaces;
 
 namespace TRAISI.Helpers
 {
-	public class MapBoxGeoService : IGeoServiceProvider
+	public class MapboxGeoService : IGeoServiceProvider
 	{
 
 		private static readonly string MAPBOX_DISTANCE_MATRIX_API = "https://api.mapbox.com/directions-matrix/v1/mapbox/";
@@ -17,7 +17,7 @@ namespace TRAISI.Helpers
 		/// 
 		/// </summary>
 		/// <param name="config"></param>
-		public MapBoxGeoService(IOptions<GeoConfig> config)
+		public MapboxGeoService(IOptions<GeoConfig> config)
 		{
 			_config = config.Value;
 			this._mapboxApiClient = new RestClient(MAPBOX_DISTANCE_MATRIX_API);

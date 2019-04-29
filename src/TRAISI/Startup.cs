@@ -369,7 +369,7 @@ namespace TRAISI
 			services.AddSingleton<IMailgunMailer, MailgunMailer>();
 			
 			// TODO (change based on config)
-			services.AddSingleton<IGeoServiceProvider, MapBoxGeoService>();
+			services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
 
 			services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
 
