@@ -6,28 +6,11 @@ using Geocoding;
 using Geocoding.Google;
 using Microsoft.Extensions.Options;
 using RestSharp;
+using TRAISI.Helpers.Interfaces;
 
 namespace TRAISI.Helpers {
-	public interface IGeoService {
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		/// <returns></returns>
-		Task<string> ReverseGeocodeAsync (double latitude, double longitude);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="origins"></param>
-		/// <param name="destinations"></param>
-		/// <returns></returns>
-		Task<Dictionary<string,string>> DistanceMatrix (List<string> origins, List<string> destinations);
-	}
-
-	public class GeoService : IGeoService {
+	public class GoogleGeoService : IGeoServiceProvider {
 
 		private static readonly string GOOGLE_API_URL = "https://maps.googleapis.com/maps/api";
 		private static readonly string GOOGLE_MODE_DRIVING = "driving";
@@ -50,7 +33,7 @@ namespace TRAISI.Helpers {
 		/// 
 		/// </summary>
 		/// <param name="config"></param>
-		public GeoService (IOptions<GeoConfig> config) {
+		public GoogleGeoService (IOptions<GeoConfig> config) {
 			_config = config.Value;
 			this._geocoder = new GoogleGeocoder () { ApiKey = _config.APIKey };
 			this._googleApiClient = new RestClient (GOOGLE_API_URL);
@@ -92,6 +75,12 @@ namespace TRAISI.Helpers {
 			return resultTask.Task;
 
 		}
+
+		Task<string> IGeoServiceProvider.ReverseGeocodeAsync(double latitude, double longitude)
+		{
+			throw new NotImplementedException();
+		}
+
 	}
 
 	public class GeoConfig {
