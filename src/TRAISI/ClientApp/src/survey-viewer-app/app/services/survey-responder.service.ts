@@ -55,9 +55,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
-		// determine if responses are in question cache
-		//if (Object.keys(this._cachedSavedResponses).some(r => questionIds.includes(Number(r)))) {
-		// use cached responses
 
 		let responses = [];
 		let toRetrieve = [];
@@ -87,7 +84,13 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
-		return this._cachedByNameSavedResponses[questionName][respondent.id];
+		if ((questionName in this._cachedByNameSavedResponses === false) ||
+			(respondent.id in this._cachedByNameSavedResponses === false)) {
+			return "NO_RESPONSE";
+		}
+		else {
+			return this._cachedByNameSavedResponses[questionName][respondent.id];
+		}
 	}
 
 	/**
@@ -157,15 +160,22 @@ export class SurveyResponderService implements SurveyResponder {
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			map(responses => {
+
+				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
 						if (responses[i] === undefined) {
 							continue;
 						}
-						responses[i].forEach(responseValue => {
-							this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
-						});
+						if (!(responses[i] instanceof Array)) {
+							this._cachedSavedResponses[questionIds[i]][respondentId].push(responses[i]);
+						}
+						else {
+							responses[i].forEach(responseValue => {
+								this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
+							});
+						}
 					}
 				}
 			})

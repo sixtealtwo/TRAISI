@@ -4,6 +4,10 @@
 .group-member-names-section {
 }
 
+traisi-survey-header-display {
+	position: relative;
+}
+
 #welcome-header-editor {
 	z-index: 1000;
 }
@@ -32,6 +36,8 @@
 	width: 100%;
 	height: 100%;
 	flex-grow: 1;
+
+
 }
 
 .question-section {

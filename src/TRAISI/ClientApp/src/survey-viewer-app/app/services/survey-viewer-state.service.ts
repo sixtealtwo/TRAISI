@@ -86,7 +86,7 @@ export class SurveyViewerStateService {
 	 * @param groupMember
 	 * @param state
 	 */
-	public setGroupQuestionValidationState(memberIndex: number, state: ResponseValidationState): void {}
+	public setGroupQuestionValidationState(memberIndex: number, state: ResponseValidationState): void { }
 
 	/**
 	 * Sets active question
@@ -310,7 +310,9 @@ export class SurveyViewerStateService {
 						sourceQuestionIds.push(targetConditional.sourceQuestionId);
 					});
 
+
 					conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
+
 				});
 
 				forkJoin(conditionalEvals).subscribe(values => {
@@ -319,6 +321,9 @@ export class SurveyViewerStateService {
 						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
 							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
+							if(response === undefined || response.length == 0) {
+								return;
+							}
 							return this._conditionalEvaluator.evaluateConditional(
 								evalConditional.conditionalType,
 								response,

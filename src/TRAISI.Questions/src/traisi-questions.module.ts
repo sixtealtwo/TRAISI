@@ -20,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
 import { SurveyQuestion, ResponseTypes } from '../../TRAISI.SDK/Module/dist';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 @NgModule({
 	declarations: [
@@ -117,7 +118,7 @@ export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 			]
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule, TimepickerModule]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule, TimepickerModule,TooltipModule.forRoot()]
 })
 export default class TraisiQuestions {
 	public components: Array<{ name: string; id: string; component: any }>;

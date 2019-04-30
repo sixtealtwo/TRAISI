@@ -1,4 +1,8 @@
 <div class="traisi-map-question map-container">
+
+    <div class="address-overlay">
+        <span #addressOverlayText></span>
+    </div>
     <mgl-map #mapbox [style]="'https://maps.tilehosting.com/styles/streets/style.json?key=5YOsrAa6pBZnCp812wTQ'"
         (click)="mapClick($event)">
 

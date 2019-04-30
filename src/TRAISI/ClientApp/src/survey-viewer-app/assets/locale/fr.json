@@ -11,7 +11,8 @@
 	"Viewer": {
 		"Next": "Next",
 		"Previous": "Previous",
-		"CompleteSurvey": "Complete Survey"
+		"CompleteSurvey": "Complete Survey",
+		"Incomplete": "All required questions must be completed before continuning."
 	},
 	"TermsAndConditions": {
 		"TermsAndConditions": "Terms and Conditions",

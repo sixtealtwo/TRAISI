@@ -48,6 +48,7 @@
 											<ng-container
 												*ngFor="let repeat of repeatContainer.children; let q = index">
 												<traisi-question-container class="flex-grow-1 d-flex flex-column"
+												[attr.data-questionid]="repeat.questionModel.questionId"
 													[surveyViewer]="ref" [respondent]="viewerState.activeRespondent"
 													[question]="repeat.questionModel"
 													[surveyViewQuestion]="repeat.questionModel" [surveyId]="surveyId"

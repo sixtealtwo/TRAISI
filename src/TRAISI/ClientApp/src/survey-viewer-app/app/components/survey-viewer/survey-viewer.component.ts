@@ -50,6 +50,7 @@ import { flatMap, share } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip/public_api';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -109,6 +110,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	@ViewChildren('questions')
 	public questionContainers!: QueryList<QuestionContainerComponent>;
+
 
 	public activeQuestion: any;
 
@@ -171,7 +173,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		private _viewerStateService: SurveyViewerStateService,
 		private _navigation: SurveyViewerNavigationService,
 		private _sessionService: SurveyViewerSession,
-		private route: ActivatedRoute,
+		private _route: ActivatedRoute,
 		private _router: Router,
 		private _titleService: Title,
 		private elementRef: ElementRef
@@ -185,6 +187,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Initialization
 	 */
 	public ngOnInit(): void {
+
+
+		console.log(this._route);
+		console.log(this._route.children);
 		this.currentUser = this.surveyViewerService.currentUser;
 		this._sessionService.data
 			.pipe(
@@ -238,6 +244,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			});
 
 		this.isShowComplete = false;
+
+
 	}
 
 	/**
@@ -285,7 +293,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param pages
 	 */
 	private loadQuestions(pages: Array<SurveyViewPage>): void {
-		console.log('lq called');
 		this._surveyResponderService
 			.getSurveyPrimaryRespondent(this.surveyId)
 			.pipe(
@@ -464,6 +471,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.isQuestionLoaded = true;
 
 				console.log(this.viewerState);
+
+				console.log(this.nextTooltip);
 			});
 	}
 
@@ -486,7 +495,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => { };
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -640,9 +649,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void {}
+	public ngAfterContentInit(): void { }
 
-	public ngAfterViewChecked(): void {}
+	public ngAfterViewChecked(): void { }
 
 	/**
 	 * Uses dark buttons
