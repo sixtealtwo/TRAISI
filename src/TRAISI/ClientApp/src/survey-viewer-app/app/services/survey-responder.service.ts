@@ -84,8 +84,8 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
-		if ((questionName in this._cachedByNameSavedResponses === false) ||
-			(respondent.id in this._cachedByNameSavedResponses === false)) {
+		if ((questionName in this._cachedByNameSavedResponses === false) &&
+			(respondent.id in this._cachedByNameSavedResponses[questionName] === false)) {
 			return "NO_RESPONSE";
 		}
 		else {
@@ -110,17 +110,28 @@ export class SurveyResponderService implements SurveyResponder {
 			}
 			return Observable.of(responses);
 		} else {
-			// don't use cached responses
-			let responses = this._surveyResponseEndpointService
-				.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondent.id)
-				.pipe(share());
-			responses.subscribe((results: Array<any>) => {
-				for (let result of results) {
-					this._cachedByNameSavedResponses[String(result.questionPart.name)] = {};
-					this._cachedByNameSavedResponses[String(result.questionPart.name)][respondent.id] = result.responseValues;
-				}
-			});
-			return responses;
+
+			return Observable.create(obs => {
+				// don't use cached responses
+				let responses = this._surveyResponseEndpointService
+					.getListResponsesForQuestionsByNameUrlEndpoint(questionNames, respondent.id)
+					.pipe(share());
+				responses.subscribe((results: Array<any>) => {
+					for (let result of results) {
+						this._cachedByNameSavedResponses[String(result.questionPart.name)] = {};
+						this._cachedByNameSavedResponses[String(result.questionPart.name)][respondent.id] = result.responseValues;
+
+
+					}
+
+					obs.next(results);
+					obs.complete();
+				});
+
+
+			}
+
+
 		}
 	}
 

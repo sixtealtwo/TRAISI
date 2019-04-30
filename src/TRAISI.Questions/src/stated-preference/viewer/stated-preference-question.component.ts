@@ -74,11 +74,13 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			},
 			distanceMatrixMap: {}
 		};
+
+
 	}
 
-	public onQuestionShown(): void {}
-	public onQuestionHidden(): void {}
-	public onResponseSaved(result: any): void {}
+	public onQuestionShown(): void { }
+	public onQuestionHidden(): void { }
+	public onResponseSaved(result: any): void { }
 
 	/**
 	 * @private
@@ -157,6 +159,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 							);
 							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
 						}
+
 						return <Observable<any>>(
 							this._viewerApi.getDistanceMatrixEndpoint(
 								Array.from(this.context.distanceMatrixQueries.origins.values()),
@@ -191,7 +194,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private onSavedResponseData: (response: ResponseData<any>[] | 'none') => void = (response: ResponseData<any>[] | 'none') => {
-		console.log('in here ');
 		if (response !== 'none') {
 			let r = JSON.parse(response[0]['value']).value;
 			this.inputModel.value = r;
@@ -230,11 +232,25 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			}
 		} else {
 			if (type === 'distance' || type === 'duration' || type === 'time') {
-				this.responsesToLoad.push(arguments[2]);
-				this.distanceMatrixQuestionQueries.origins.add(arguments[0]);
-				this.distanceMatrixQuestionQueries.destinations.add(arguments[2]);
+				if (this.responsesToLoad.indexOf(arguments[2]) < 0) {
+					this.responsesToLoad.push(arguments[2]);
+					this.distanceMatrixQuestionQueries.destinations.add(arguments[2]);
+				}
+				if (this.responsesToLoad.indexOf(arguments[0]) < 0) {
+					this.responsesToLoad.push(arguments[0]);
+				}
+
+				if (!(arguments[0] in this.distanceMatrixQuestionQueries.origins)) {
+					this.distanceMatrixQuestionQueries.origins.add(arguments[0]);
+				}
+				if (!(arguments[2] in this.distanceMatrixQuestionQueries.destinations)) {
+					this.distanceMatrixQuestionQueries.destinations.add(arguments[2]);
+				}
+
 			}
-			this.responsesToLoad.push(questionName);
+			if (this.responsesToLoad.indexOf(questionName) < 0) {
+				this.responsesToLoad.push(questionName);
+			}
 		}
 		return questionName;
 	}
@@ -246,6 +262,10 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 				return String(this.parseTripRouteDistance(jValue, arguments[1][2]));
 			}
 		} else {
+			console.log('before parse matrix');
+			console.log(arguments);
+			console.log(this.context);
+			
 			return this.parseMatrix(
 				this.context.distanceMatrixResults,
 				arguments[1][2],
@@ -268,15 +288,15 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public parseMatrix(results, to, from, type, mode = 'driving'): string {
+
 		let rowIndex = results[mode].origin_addresses.findIndex(e => e === this.context.distanceMatrixMap[from]);
 		let colIndex = results[mode].destination_addresses.findIndex(e => e === this.context.distanceMatrixMap[to]);
-		
-		if(rowIndex >= 0 && colIndex >= 0)
-		{
-		return results[mode].rows[rowIndex].elements[colIndex][type].value;
+
+		if (rowIndex >= 0 && colIndex >= 0) {
+			let val = results[mode].rows[rowIndex].elements[colIndex][type].value;
+			return  val;
 		}
-		else
-		{
+		else {
 			return "N/A (No Information)";
 		}
 	}
@@ -330,5 +350,5 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	/**
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public ngAfterViewInit(): void {}
+	public ngAfterViewInit(): void { }
 }
