@@ -452,6 +452,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					});
 				});
 
+				this._surveyResponderService.initQuestionIdNameMaps(this._viewerStateService.viewerState);
+
 				this.viewerState.activeQuestionIndex = 0;
 
 				this.viewerState.surveyQuestionsFull = this.viewerState.surveyQuestions.concat([]);

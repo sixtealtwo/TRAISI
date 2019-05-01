@@ -14,6 +14,7 @@ import { SurveyViewerService } from './survey-viewer.service';
 import { flatMap, map, share, tap } from 'rxjs/operators';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
+import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -42,6 +43,18 @@ export class SurveyResponderService implements SurveyResponder {
 	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {
 		this._cachedSavedResponses = {};
 		this._cachedByNameSavedResponses = {};
+	}
+
+	/**
+	 *
+	 * @param state
+	 */
+	public initQuestionIdNameMaps(state: SurveyViewerState): void {
+		for (let q in state.questionMap) {
+			this._questionIdToNameMap[q] = state.questionMap[q].name;
+			this._questionNameToIdMap[state.questionMap[q].name] = Number(q);
+		}
+		console.log(this);
 	}
 
 	/**
