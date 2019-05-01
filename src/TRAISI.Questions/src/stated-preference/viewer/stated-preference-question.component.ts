@@ -260,9 +260,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 				return String(this.parseTripRouteDistance(jValue, arguments[1][2]));
 			}
 		} else {
-			console.log('before parse matrix');
-			console.log(arguments);
-			console.log(this.context);
+
 
 			return this.parseMatrix(
 				this.context.distanceMatrixResults,
@@ -289,8 +287,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		let rowIndex = results[mode].origin_addresses.findIndex(e => e === this.context.distanceMatrixMap[from]);
 		let colIndex = results[mode].destination_addresses.findIndex(e => e === this.context.distanceMatrixMap[to]);
 
-		console.log(this);
-		console.log(arguments);
+
 		if (rowIndex >= 0 && colIndex >= 0) {
 			let val = results[mode].rows[rowIndex].elements[colIndex][type].value;
 			return val;
