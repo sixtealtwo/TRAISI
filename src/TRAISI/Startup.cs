@@ -389,7 +389,7 @@ namespace TRAISI
 				}
 				catch (Exception e)
 				{
-					Console.WriteLine("Unable to instantiate geoservice provider.");
+					Console.WriteLine($"Unable to instantiate geoservice provider: ${e.Message}");
 				}
 
 

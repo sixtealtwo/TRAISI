@@ -129,7 +129,7 @@ export class SurveyResponderService implements SurveyResponder {
 				});
 
 
-			}
+			});
 
 
 		}

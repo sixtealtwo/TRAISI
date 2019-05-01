@@ -111,7 +111,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	@ViewChildren('questions')
 	public questionContainers!: QueryList<QuestionContainerComponent>;
 
-
 	public activeQuestion: any;
 
 	public surveyName: string;
@@ -187,8 +186,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Initialization
 	 */
 	public ngOnInit(): void {
-
-
 		console.log(this._route);
 		console.log(this._route.children);
 		this.currentUser = this.surveyViewerService.currentUser;
@@ -244,8 +241,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			});
 
 		this.isShowComplete = false;
-
-
 	}
 
 	/**
@@ -469,10 +464,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
-
-				console.log(this.viewerState);
-
-				console.log(this.nextTooltip);
 			});
 	}
 
@@ -495,7 +486,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => { };
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -649,9 +640,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void { }
+	public ngAfterContentInit(): void {}
 
-	public ngAfterViewChecked(): void { }
+	public ngAfterViewChecked(): void {}
 
 	/**
 	 * Uses dark buttons
