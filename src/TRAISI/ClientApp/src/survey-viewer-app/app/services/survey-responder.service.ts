@@ -100,6 +100,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
+
+		if(this._cachedByNameSavedResponses[questionName] === undefined)
+		{
+			return 'NO_RESPONSE';
+		}
 		if (
 			questionName in this._cachedByNameSavedResponses === false &&
 			respondent.id in this._cachedByNameSavedResponses[questionName] === false
