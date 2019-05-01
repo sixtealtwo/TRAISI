@@ -49,6 +49,12 @@ namespace TRAISI.Helpers
 
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="latitude"></param>
+		/// <param name="longitude"></param>
+		/// <returns></returns>
 		public async Task<string> ReverseGeocodeAsync(double latitude, double longitude)
 		{
 			var result = await this._geocoder.ReverseGeocodeAsync(latitude, longitude);

@@ -26,6 +26,10 @@ export class SurveyResponderService implements SurveyResponder {
 
 	private _cachedByNameSavedResponses: { [questionName: string]: { [respondentId: number]: any } };
 
+	private _questionIdToNameMap: { [key: number]: string } = {};
+
+	private _questionNameToIdMap: { [key: string]: number } = {};
+
 	public id: number;
 
 	public primaryRespondent: SurveyRespondent;
@@ -55,7 +59,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
-
 		let responses = [];
 		let toRetrieve = [];
 		for (let id of questionIds) {
@@ -84,11 +87,12 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
-		if ((questionName in this._cachedByNameSavedResponses === false) &&
-			(respondent.id in this._cachedByNameSavedResponses[questionName] === false)) {
-			return "NO_RESPONSE";
-		}
-		else {
+		if (
+			questionName in this._cachedByNameSavedResponses === false &&
+			respondent.id in this._cachedByNameSavedResponses[questionName] === false
+		) {
+			return 'NO_RESPONSE';
+		} else {
 			return this._cachedByNameSavedResponses[questionName][respondent.id];
 		}
 	}
@@ -110,7 +114,6 @@ export class SurveyResponderService implements SurveyResponder {
 			}
 			return Observable.of(responses);
 		} else {
-
 			return Observable.create(obs => {
 				// don't use cached responses
 				let responses = this._surveyResponseEndpointService
@@ -120,18 +123,12 @@ export class SurveyResponderService implements SurveyResponder {
 					for (let result of results) {
 						this._cachedByNameSavedResponses[String(result.questionPart.name)] = {};
 						this._cachedByNameSavedResponses[String(result.questionPart.name)][respondent.id] = result.responseValues;
-
-
 					}
 
 					obs.next(results);
 					obs.complete();
 				});
-
-
 			});
-
-
 		}
 	}
 
@@ -171,7 +168,6 @@ export class SurveyResponderService implements SurveyResponder {
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			map(responses => {
-
 				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
@@ -181,8 +177,7 @@ export class SurveyResponderService implements SurveyResponder {
 						}
 						if (!(responses[i] instanceof Array)) {
 							this._cachedSavedResponses[questionIds[i]][respondentId].push(responses[i]);
-						}
-						else {
+						} else {
 							responses[i].forEach(responseValue => {
 								this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
 							});
@@ -214,7 +209,6 @@ export class SurveyResponderService implements SurveyResponder {
 		if (this._cachedSavedResponses[questionId] === undefined) {
 			this._cachedSavedResponses[questionId] = {};
 		}
-
 		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
 	}
 

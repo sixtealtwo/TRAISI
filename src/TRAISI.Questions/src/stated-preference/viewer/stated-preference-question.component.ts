@@ -289,9 +289,12 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 */
 	public parseMatrix(results, to, from, type, mode = 'driving'): string {
 
+		
 		let rowIndex = results[mode].origin_addresses.findIndex(e => e === this.context.distanceMatrixMap[from]);
 		let colIndex = results[mode].destination_addresses.findIndex(e => e === this.context.distanceMatrixMap[to]);
 
+		console.log(this);
+		console.log(arguments);
 		if (rowIndex >= 0 && colIndex >= 0) {
 			let val = results[mode].rows[rowIndex].elements[colIndex][type].value;
 			return  val;
