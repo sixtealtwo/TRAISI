@@ -181,7 +181,6 @@ export class SurveyResponderService implements SurveyResponder {
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			map(responses => {
-				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -221,6 +220,9 @@ export class SurveyResponderService implements SurveyResponder {
 	): Observable<{}> {
 		if (this._cachedSavedResponses[questionId] === undefined) {
 			this._cachedSavedResponses[questionId] = {};
+		}
+		if (this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]] === undefined) {
+			this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]] = {};
 		}
 		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
 	}
@@ -342,6 +344,7 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>
 	): void {
 		if (responseValid) {
+			this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]][respondentId] = [data];
 			this._cachedSavedResponses[questionId][respondentId] = data;
 		}
 

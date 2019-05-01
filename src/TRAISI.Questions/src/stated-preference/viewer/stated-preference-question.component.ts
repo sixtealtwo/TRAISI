@@ -74,13 +74,11 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			},
 			distanceMatrixMap: {}
 		};
-
-
 	}
 
-	public onQuestionShown(): void { }
-	public onQuestionHidden(): void { }
-	public onResponseSaved(result: any): void { }
+	public onQuestionShown(): void {}
+	public onQuestionHidden(): void {}
+	public onResponseSaved(result: any): void {}
 
 	/**
 	 * @private
@@ -147,6 +145,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 					concatMap(value => {
 						this.displayModelColumns.next(columnArray);
 						for (let o of Array.from(this.context.distanceMatrixQuestionQueries.origins.values())) {
+							let response = this._responderService.getResponseValue(o, this.respondent);
 							this.context.distanceMatrixQueries.origins.add(
 								this._responderService.getResponseValue(o, this.respondent)[0].address
 							);
@@ -246,7 +245,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 				if (!(arguments[2] in this.distanceMatrixQuestionQueries.destinations)) {
 					this.distanceMatrixQuestionQueries.destinations.add(arguments[2]);
 				}
-
 			}
 			if (this.responsesToLoad.indexOf(questionName) < 0) {
 				this.responsesToLoad.push(questionName);
@@ -265,7 +263,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 			console.log('before parse matrix');
 			console.log(arguments);
 			console.log(this.context);
-			
+
 			return this.parseMatrix(
 				this.context.distanceMatrixResults,
 				arguments[1][2],
@@ -288,8 +286,6 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public parseMatrix(results, to, from, type, mode = 'driving'): string {
-
-		
 		let rowIndex = results[mode].origin_addresses.findIndex(e => e === this.context.distanceMatrixMap[from]);
 		let colIndex = results[mode].destination_addresses.findIndex(e => e === this.context.distanceMatrixMap[to]);
 
@@ -297,10 +293,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		console.log(arguments);
 		if (rowIndex >= 0 && colIndex >= 0) {
 			let val = results[mode].rows[rowIndex].elements[colIndex][type].value;
-			return  val;
-		}
-		else {
-			return "N/A (No Information)";
+			return val;
+		} else {
+			return 'N/A (No Information)';
 		}
 	}
 
@@ -353,5 +348,5 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	/**
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public ngAfterViewInit(): void { }
+	public ngAfterViewInit(): void {}
 }
