@@ -99,7 +99,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];
-	constructor(private changeDetectRef: ChangeDetectorRef) {}
+	constructor(private changeDetectRef: ChangeDetectorRef) { }
 
 	public ngOnInit(): void {
 		this.setConditionsForQuestionType();
@@ -107,8 +107,11 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.sourceGroup.condition = this.dropDownListItems[0];
 		}
 		if (this.responseType === 'OptionList' || this.responseType === 'OptionSelect') {
+			console.log('in ngOnInit of conditional');
 			this.optionList.forEach((element) => {
+				console.log(element);
 				let valueSplit: string[] = element.value.split('~'); // [0] - 'option', [1] - option group name, [2] - option id
+				console.log(this.questionOptions);
 				let codeFromId = this.questionOptions.get(valueSplit[1]).filter((o) => o.id === +valueSplit[2])[0].code;
 				let valueCheck = `"name":"${valueSplit[1]}","code":"${codeFromId}"`;
 				let copiedItem = new TreeviewItem({

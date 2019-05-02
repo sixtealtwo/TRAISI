@@ -357,6 +357,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 			this.builderService.getQuestionPartOptions(this.surveyId, this.questionBeingEdited.questionPart.id, this.language).subscribe(
 				options => {
+					console.log(options);
 					if (options !== null) {
 						options.forEach(option => {
 							this.questionOptions.get(option.name).push(option);

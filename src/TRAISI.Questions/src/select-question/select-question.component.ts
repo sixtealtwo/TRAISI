@@ -30,7 +30,6 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 
 	typeName: string;
 	icon: string;
-
 	selectOptions: QuestionOption[];
 	selectedOptionId: string;
 
@@ -102,7 +101,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
-		this.autoAdvance.emit(500);
+		//this.autoAdvance.emit(500);
 	}
 
 

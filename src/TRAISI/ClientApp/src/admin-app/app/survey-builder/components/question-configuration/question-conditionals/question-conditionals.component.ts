@@ -86,7 +86,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 
 	constructor(private changeDetectRef: ChangeDetectorRef) {}
 
-	ngOnInit() {}
+	public ngOnInit(): void {}
 
 	ngAfterViewInit() {
 		if (this.questionType.responseType === 'Location') {

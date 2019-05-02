@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as dot from 'dot';
-import { Observable, ReplaySubject, zip, forkJoin } from 'rxjs';
+import { Observable, ReplaySubject, zip, forkJoin, EMPTY, of } from 'rxjs';
 import {
 	OnSaveResponseStatus,
 	OnVisibilityChanged,
@@ -76,9 +76,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		};
 	}
 
-	public onQuestionShown(): void {}
-	public onQuestionHidden(): void {}
-	public onResponseSaved(result: any): void {}
+	public onQuestionShown(): void { }
+	public onQuestionHidden(): void { }
+	public onResponseSaved(result: any): void { }
 
 	/**
 	 * @private
@@ -159,12 +159,19 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
 						}
 
-						return <Observable<any>>(
-							this._viewerApi.getDistanceMatrixEndpoint(
-								Array.from(this.context.distanceMatrixQueries.origins.values()),
-								Array.from(this.context.distanceMatrixQueries.destinations.values())
-							)
-						);
+						let originsArray = Array.from(this.context.distanceMatrixQueries.origins.values());
+						let destinationsArray = Array.from(this.context.distanceMatrixQueries.destinations.values());
+						if (originsArray.length === 0 && destinationsArray.length === 0) {
+							return of({});
+						}
+						else {
+							return <Observable<any>>(
+								this._viewerApi.getDistanceMatrixEndpoint(
+									originsArray,
+									destinationsArray
+								)
+							);
+						}
 					})
 				)
 				.subscribe(results => {
@@ -345,5 +352,5 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	/**
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
-	public ngAfterViewInit(): void {}
+	public ngAfterViewInit(): void { }
 }

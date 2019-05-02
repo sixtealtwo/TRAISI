@@ -15,6 +15,7 @@ import { flatMap, map, share, tap } from 'rxjs/operators';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
+import { SurveyResponseState } from 'app/models/survey-response-states.enum';
 
 @Injectable({
 	providedIn: 'root'
@@ -54,7 +55,6 @@ export class SurveyResponderService implements SurveyResponder {
 			this._questionIdToNameMap[q] = state.questionMap[q].name;
 			this._questionNameToIdMap[state.questionMap[q].name] = Number(q);
 		}
-		console.log(this);
 	}
 
 	/**
@@ -62,8 +62,14 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param questionId
 	 * @param respondentId
 	 */
-	public getCachedSavedResponse(questionId: number, respondentId: number): any {
-		return this._cachedSavedResponses[questionId][respondentId];
+	public getCachedSavedResponse(questionId: number, respondentId: number): any | SurveyResponseState {
+		if (questionId in this._cachedSavedResponses) {
+			return this._cachedSavedResponses[questionId][respondentId];
+		}
+		else {
+			return SurveyResponseState.NoResponseExists;
+
+		}
 	}
 
 	/**
@@ -99,20 +105,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {*}
 	 * @memberof SurveyResponderService
 	 */
-	public getResponseValue(questionName: string, respondent: SurveyRespondent): any {
+	public getResponseValue(questionName: string, respondent: SurveyRespondent): any | SurveyResponseState {
 
-		if(this._cachedByNameSavedResponses[questionName] === undefined)
-		{
-			return 'NO_RESPONSE';
-		}
-		if (
-			questionName in this._cachedByNameSavedResponses === false &&
-			respondent.id in this._cachedByNameSavedResponses[questionName] === false
-		) {
-			return 'NO_RESPONSE';
-		} else {
-			return this._cachedByNameSavedResponses[questionName][respondent.id];
-		}
+		let questionId = this._questionNameToIdMap[questionName];
+		return this.getCachedSavedResponse(questionId, respondent.id);
 	}
 
 	/**
@@ -122,6 +118,15 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any> {
+		//convert questionNames into questionIds
+
+		let questionIds = []
+		for(let questionName of questionNames)
+		{
+			questionIds.push(this._questionNameToIdMap[questionName])
+		}
+
+		return this.readyCachedSavedResponses(questionIds, respondent.id); /*
 		if (Object.keys(this._cachedByNameSavedResponses).some(r => questionNames.includes(String(r)))) {
 			// use cached responses
 			let responses = [];
@@ -147,7 +152,7 @@ export class SurveyResponderService implements SurveyResponder {
 					obs.complete();
 				});
 			});
-		}
+		}*/
 	}
 
 	/**
@@ -226,9 +231,7 @@ export class SurveyResponderService implements SurveyResponder {
 		if (this._cachedSavedResponses[questionId] === undefined) {
 			this._cachedSavedResponses[questionId] = {};
 		}
-		if (this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]] === undefined) {
-			this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]] = {};
-		}
+
 		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
 	}
 
@@ -349,7 +352,7 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>
 	): void {
 		if (responseValid) {
-			this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]][respondentId] = [data];
+			// this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]][respondentId] = [data];
 			this._cachedSavedResponses[questionId][respondentId] = data;
 		}
 
