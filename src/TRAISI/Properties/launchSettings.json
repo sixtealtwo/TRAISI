@@ -4,7 +4,6 @@
 			"commandName": "Project",
 			"launchBrowser": true,
 			"environmentVariables": {
-				"ASPNETCORE_My_Environment": "1",
 				"ASPNETCORE_DETAILEDERRORS": "1",
 				"ASPNETCORE_ENVIRONMENT": "Development"
 			},
@@ -15,8 +14,7 @@
       "launchBrowser": true,
       
 			"environmentVariables": {
-        "TRAISI_TEST": true,
-				"ASPNETCORE_My_Environment": "1",
+        "TRAISI_STAGING_TEST": true,
 				"ASPNETCORE_DETAILEDERRORS": "1",
 				"ASPNETCORE_ENVIRONMENT": "Development"
 			},
