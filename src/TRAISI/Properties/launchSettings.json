@@ -1,0 +1,26 @@
+{
+	"profiles": {
+		"Development": {
+			"commandName": "Project",
+			"launchBrowser": true,
+			"environmentVariables": {
+				"ASPNETCORE_My_Environment": "1",
+				"ASPNETCORE_DETAILEDERRORS": "1",
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			},
+			"applicationUrl": "http://0.0.0.0:5000"
+    },
+    "Staging": {
+			"commandName": "Project",
+      "launchBrowser": true,
+      
+			"environmentVariables": {
+        "TRAISI_TEST": true,
+				"ASPNETCORE_My_Environment": "1",
+				"ASPNETCORE_DETAILEDERRORS": "1",
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			},
+			"applicationUrl": "http://0.0.0.0:8000"
+		}
+	}
+}
