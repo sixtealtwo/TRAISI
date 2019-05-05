@@ -18,10 +18,10 @@ import { HouseholdQuestionComponent } from 'household-question/household-questio
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
-import { SurveyQuestion, ResponseTypes } from '../../TRAISI.SDK/Module/dist';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
+export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
 	declarations: [
 		TextQuestionComponent,
@@ -118,7 +118,8 @@ export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 			]
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, TextMaskModule, NgSelectModule, TimepickerModule,TooltipModule.forRoot()]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot,
+		 TextMaskModule, NgSelectModule, TimepickerModule,]
 })
 export default class TraisiQuestions {
 	public components: Array<{ name: string; id: string; component: any }>;
