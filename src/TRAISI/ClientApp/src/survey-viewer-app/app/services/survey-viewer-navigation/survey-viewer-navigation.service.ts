@@ -79,14 +79,11 @@ export class SurveyViewerNavigationService {
 					}
 					this._state.viewerState.isPreviousEnabled = true;
 
-
-
 					let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
 						.activeViewContainer;
 					let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
 						.parentSectionContainer;
 					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
-					console.log(nextContainer);
 					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
 
 					if (isHousehold && currentParentContainer !== nextParentContainer) {
