@@ -2,7 +2,7 @@
 	<!--<select class="custom-select">
         <option [ngValue]="option.id" *ngFor="let option of selectOptions">{{option.label}}</option> 
 		</select>-->
-	<ng-select [items]="selectOptions" bindLabel="label" autofocus bindValue="code" [virtualScroll]="true"
+	<ng-select [items]="selectOptions" bindLabel="label" bindValue="code" [virtualScroll]="true"
 		[(ngModel)]="selectedOptionId" (change)="onModelChanged($event)">
 	</ng-select>
 </div>

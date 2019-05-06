@@ -145,18 +145,26 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 					concatMap(value => {
 						this.displayModelColumns.next(columnArray);
 						for (let o of Array.from(this.context.distanceMatrixQuestionQueries.origins.values())) {
-							let response = this._responderService.getResponseValue(o, this.respondent);
-							this.context.distanceMatrixQueries.origins.add(
-								this._responderService.getResponseValue(o, this.respondent)[0].address
-							);
+							let responseValue = this._responderService.getResponseValue(o, this.respondent);
+							if (responseValue[0] !== undefined) {
+								this.context.distanceMatrixQueries.origins.add(
+									this._responderService.getResponseValue(o, this.respondent)[0].address
+								);
+								this.context.distanceMatrixMap[o] = responseValue[0].address;
+							}
+							else {
+								// console.log(responseValue);
+							}
 
-							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
 						}
 						for (let o of Array.from(this.context.distanceMatrixQuestionQueries.destinations.values())) {
-							this.context.distanceMatrixQueries.destinations.add(
-								this._responderService.getResponseValue(o, this.respondent)[0].address
-							);
-							this.context.distanceMatrixMap[o] = this._responderService.getResponseValue(o, this.respondent)[0].address;
+							let responseValue = this._responderService.getResponseValue(o, this.respondent);
+							if (responseValue[0] !== undefined) {
+								this.context.distanceMatrixQueries.destinations.add(
+									responseValue[0].address
+								);
+								this.context.distanceMatrixMap[o] = responseValue[0].address;
+							}
 						}
 
 						let originsArray = Array.from(this.context.distanceMatrixQueries.origins.values());
@@ -228,7 +236,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 		if (this.isResponsesLoaded) {
 			let value = this.component._responderService.getResponseValue(questionName, this.component.respondent);
 			if (type == undefined) {
-				return value[0].value;
+				return value[0] === undefined ? "NULL" : value[0].value;
 			} else if (type === 'distance') {
 				return String(this.component.parseDistance.call(this.component, value, arguments));
 			} else if (type === 'time') {
@@ -291,6 +299,9 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	public parseMatrix(results, to, from, type, mode = 'driving'): string {
+		if (results[mode] === undefined) {
+			return "NULL";
+		}
 		let rowIndex = results[mode].origin_addresses.findIndex(e => e === this.context.distanceMatrixMap[from]);
 		let colIndex = results[mode].destination_addresses.findIndex(e => e === this.context.distanceMatrixMap[to]);
 

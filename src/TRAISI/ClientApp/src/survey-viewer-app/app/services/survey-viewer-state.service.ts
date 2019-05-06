@@ -318,18 +318,27 @@ export class SurveyViewerStateService {
 				forkJoin(conditionalEvals).subscribe(values => {
 					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
 						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
-						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
-							if(response === undefined || response.length == 0) {
+						console.log('evaluating: ');
+						console.log(targetQuestion);
+						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
+
+
+							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+							console.log('response');
+							console.log(response);
+							if (response === undefined || response.length == 0) {
+								console.log(' response ')
 								return;
 							}
-							return this._conditionalEvaluator.evaluateConditional(
+							let evalResult = this._conditionalEvaluator.evaluateConditional(
 								evalConditional.conditionalType,
 								response,
 								'',
 								evalConditional.value
 							);
+							console.log('evalResult :' + evalResult);
+							return evalResult;
 						});
 
 						if (targetQuestion.isRespondentHidden === undefined) {
@@ -337,6 +346,7 @@ export class SurveyViewerStateService {
 						}
 						targetQuestion.isRespondentHidden[respondentId] = evalTrue;
 						targetQuestion.isHidden = evalTrue;
+						console.log(targetQuestion);
 					});
 					observer.complete();
 				});

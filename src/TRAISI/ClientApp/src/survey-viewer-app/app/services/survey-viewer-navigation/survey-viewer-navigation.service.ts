@@ -1,6 +1,6 @@
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
 import { Injectable, Inject } from '@angular/core';
-import { Observable, Subject, concat } from 'rxjs';
+import { Observable, Subject, concat, BehaviorSubject } from 'rxjs';
 import { SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { SurveyQuestionContainer } from './survey-question-container';
@@ -19,7 +19,8 @@ import { SurveySectionRepeatContainer } from './survey-section-repeat-container'
 	providedIn: 'root'
 })
 export class SurveyViewerNavigationService {
-	public navigationCompleted: Subject<boolean>;
+
+	public navigationCompleted: BehaviorSubject<boolean>;
 
 	public isNavigationPreviousEnabled: boolean = true;
 
@@ -41,7 +42,7 @@ export class SurveyViewerNavigationService {
 		private _router: Router,
 		private _location: Location
 	) {
-		this.navigationCompleted = new Subject<boolean>();
+		this.navigationCompleted = new BehaviorSubject<boolean>(true);
 	}
 
 	/**
@@ -74,16 +75,18 @@ export class SurveyViewerNavigationService {
 
 					if (this._state.viewerState.activeViewContainer === undefined) {
 						this.updateState();
-						// nav$.unsubscribe();
 						return;
 					}
 					this._state.viewerState.isPreviousEnabled = true;
+
+
 
 					let nextContainer = this._state.viewerState.viewContainers[this._state.viewerState.activeViewContainerIndex]
 						.activeViewContainer;
 					let currentParentContainer = (<SurveyQuestionContainer>this._state.viewerState.activeQuestionContainer)
 						.parentSectionContainer;
 					let nextParentContainer = (<SurveyQuestionContainer>nextContainer).parentSectionContainer;
+					console.log(nextContainer);
 					let isHousehold = nextParentContainer ? nextParentContainer.isHousehold : null;
 
 					if (isHousehold && currentParentContainer !== nextParentContainer) {
@@ -243,7 +246,7 @@ export class SurveyViewerNavigationService {
 						activeQuestionContainer.questionInstance !== undefined &&
 						activeQuestionContainer.questionModel.respondentValidationState !== undefined &&
 						activeQuestionContainer.questionModel.respondentValidationState[this._state.viewerState.activeRespondent.id] !==
-							ResponseValidationState.VALID
+						ResponseValidationState.VALID
 					) {
 						allValid = false;
 						break;

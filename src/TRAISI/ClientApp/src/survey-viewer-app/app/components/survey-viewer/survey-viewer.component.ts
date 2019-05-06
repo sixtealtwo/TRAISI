@@ -1,56 +1,34 @@
-import {
-	Component,
-	OnInit,
-	ViewChild,
-	ViewContainerRef,
-	ComponentFactory,
-	SystemJsNgModuleLoader,
-	Inject,
-	ChangeDetectorRef,
-	QueryList,
-	AfterViewInit,
-	AfterContentInit,
-	ViewChildren,
-	ContentChildren,
-	AfterContentChecked,
-	AfterViewChecked,
-	HostListener,
-	ElementRef
-} from '@angular/core';
-import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { QuestionLoaderService } from '../../services/question-loader.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SurveyViewPage } from '../../models/survey-view-page.model';
-import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
+import { animate, keyframes, query, stagger, style, transition, trigger } from '@angular/animations';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
+import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { sortBy } from 'lodash';
-import { QuestionContainerComponent } from '../question-container/question-container.component';
-import { SurveyQuestion, ResponseValidationState, SurveyRespondent } from 'traisi-question-sdk';
-import { SurveyViewQuestion } from '../../models/survey-view-question.model';
-import { SurveyViewSection } from '../../models/survey-view-section.model';
-import { SurveyViewerState } from '../../models/survey-viewer-state.model';
-import { SurveyResponderService } from '../../services/survey-responder.service';
+import { flatMap, share } from 'rxjs/operators';
+import { SurveyUser } from 'shared/models/survey-user.model';
+import { Utilities } from 'shared/services/utilities';
+import { ResponseValidationState, SurveyRespondent } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
-import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
-import { trigger, state, style, animate, transition, stagger, query, keyframes } from '@angular/animations';
+import { SurveyViewPage } from '../../models/survey-view-page.model';
+import { SurveyViewQuestion } from '../../models/survey-view-question.model';
+import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerTheme } from '../../models/survey-viewer-theme.model';
+import { SurveyResponderService } from '../../services/survey-responder.service';
+import { SurveyGroupContainer } from '../../services/survey-viewer-navigation/survey-group-container';
+import { SurveyPageContainer } from '../../services/survey-viewer-navigation/survey-page-container';
+import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
+import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
+import { SurveySectionContainer } from '../../services/survey-viewer-navigation/survey-section-container';
+import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
+import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { QuestionContainerComponent } from '../question-container/question-container.component';
+import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Header1Component } from '../special-page-builder/header1/header1.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
-import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
-import { Utilities } from 'shared/services/utilities';
-import { SurveyUser } from 'shared/models/survey-user.model';
-import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
-import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
-import { SurveySectionContainer } from '../../services/survey-viewer-navigation/survey-section-container';
-import { SurveyGroupContainer } from '../../services/survey-viewer-navigation/survey-group-container';
-import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
-import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
-import { SurveyPageContainer } from '../../services/survey-viewer-navigation/survey-page-container';
-import { Title } from '@angular/platform-browser';
-import { flatMap, share } from 'rxjs/operators';
-import { zip } from 'rxjs';
-import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
-import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip/public_api';
+import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -104,6 +82,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public questionTextColour: string;
 	public sectionTitleColour: string;
 	public useLightNavigationLines: boolean;
+
+	public scrollTop: number = 0;
+
+	@ViewChild('surveyBodyContainer')
+	public surveyBodyContainer: ElementRef;
 
 	@ViewChild(SurveyHeaderDisplayComponent)
 	public headerDisplay: SurveyHeaderDisplayComponent;
@@ -186,8 +169,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Initialization
 	 */
 	public ngOnInit(): void {
-		console.log(this._route);
-		console.log(this._route.children);
+
 		this.currentUser = this.surveyViewerService.currentUser;
 		this._sessionService.data
 			.pipe(
@@ -466,6 +448,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
+
+				console.log(this.surveyBodyContainer);
 			});
 	}
 
@@ -488,7 +472,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 *
 	 * @param state
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => { };
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -529,6 +513,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigationCompleted = (navStatus: boolean) => {
 		this.viewerState.isNavProcessing = false;
+		this.scrollTop = 0;
+		this.surveyBodyContainer.nativeElement.scrollTop = 0;
+		console.log('nav finihed');
+
+
+
 	};
 
 	/**
@@ -545,6 +535,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this._navigation.navigateNext();
+
 	}
 
 	private surveyQuestionsChanged: () => void = () => {
@@ -642,9 +633,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void {}
+	public ngAfterContentInit(): void { }
 
-	public ngAfterViewChecked(): void {}
+	public ngAfterViewChecked(): void { }
 
 	/**
 	 * Uses dark buttons

@@ -302,7 +302,6 @@ export class QuestionLoaderService {
 						);
 						o.next(componentRef);
 						o.complete();
-						console.log('done');
 					}
 			})
 		});

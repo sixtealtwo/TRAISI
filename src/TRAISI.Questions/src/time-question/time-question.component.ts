@@ -48,7 +48,6 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 	 * @param data
 	 */
 	public loadConfigurationData(data: QuestionConfiguration[]) {
-		console.log(data);
 	}
 
 	public ngOnInit(): void {
@@ -79,9 +78,6 @@ export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> im
 		if (response !== 'none') {
 			let timeValue = new Date(response[0].value);
 			this.inputTime = timeValue;
-
-			console.log('got saved response');
-			console.log(timeValue);
 		}
 	};
 }

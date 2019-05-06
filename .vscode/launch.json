@@ -52,7 +52,7 @@
 				"args": "http://localhost:80",
 				"windows": {
 					"command": "cmd.exe",
-					"args": "/C start http://localhost:80"
+					"args": "/C start http://localhost:8000"
 				},
 				"osx": {
 					"command": "open"
@@ -64,7 +64,7 @@
 
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-				"ASPNETCORE_URLS": "http://0.0.0.0:80/"
+				"ASPNETCORE_URLS": "http://0.0.0.0:8000/"
 			},
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"

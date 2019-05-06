@@ -137,7 +137,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService
-	) {}
+	) { }
 
 	/**
 	 * Calcs unique repeat number
@@ -240,9 +240,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
 			},
-			error => {},
+			error => { },
 			() => {
-				console.log('complete');
 			}
 		);
 	}
@@ -350,6 +349,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Will unload is called before the active question is swapped out of view.
 	 */
 	public traisiQuestionWillUnload(): void {
-		this._questionInstance.traisiOnUnloaded();
+		if (this._questionInstance !== undefined) {
+			this._questionInstance.traisiOnUnloaded();
+		}
 	}
 }

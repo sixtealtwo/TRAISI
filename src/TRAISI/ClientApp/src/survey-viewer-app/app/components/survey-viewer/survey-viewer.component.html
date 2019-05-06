@@ -8,11 +8,7 @@
 
 	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines"
 		#header></traisi-survey-header-display>
-
-
-
-
-	<div class="survey-body-container flex-grow-1 d-flex flex-column">
+	<div class="survey-body-container flex-grow-1 d-flex flex-column" id="survey-body-container" #surveyBodyContainer [scrollTop]="scrollTop">
 		<div class="survey-body flex-grow-1 d-flex flex-column">
 			<div class="survey-section-header mx-md-3" *ngIf="viewerState.isSectionActive"
 				[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
@@ -23,8 +19,6 @@
 					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
 				</span>
 			</div>
-
-
 
 
 			<div class="questions-container flex-grow-1">
@@ -38,26 +32,32 @@
 					}">
 					<ng-container *ngFor="let page of viewerState.viewContainers; let p = index">
 						<ng-container *ngFor="let sectionRepeat of page.children; let r = index">
+
 							<ng-container *ngFor="let sectionContainer of sectionRepeat.children; let i = index">
 								<ng-container
 									*ngIf="sectionContainer.sectionModel === null || !sectionContainer.sectionModel.isMultiView">
 									<ng-container
 										*ngFor="let groupContainer of sectionContainer.children; let j = index">
+
 										<ng-container
 											*ngFor="let repeatContainer of groupContainer.children; let k = index">
 											<ng-container
 												*ngFor="let repeat of repeatContainer.children; let q = index">
 												<traisi-question-container class="flex-grow-1 d-flex flex-column"
-												[attr.data-questionid]="repeat.questionModel.questionId"
+													[attr.data-questionid]="repeat.questionModel.questionId"
+													[attr.data-question-name]="repeat.questionModel.name"
+													[attr.data-multiview]="sectionContainer.sectionModel == null ? false : sectionContainer.sectionModel.isMultiView"
 													[surveyViewer]="ref" [respondent]="viewerState.activeRespondent"
 													[question]="repeat.questionModel"
 													[surveyViewQuestion]="repeat.questionModel" [surveyId]="surveyId"
 													[repeatContainer]="repeatContainer" [repeatNumber]="q"
+													[attr.data-view-index-q]="q" [attr.data-view-index-k]="k"
+													[attr.data-view-index-j]="j" [attr.data-view-index-i]="i"
+													[attr.data-view-index-r]="r" [attr.data-view-index-p]="p"
 													[sectionRepeatNumber]="sectionRepeat.repeatIndex"
 													[container]="repeat" [questionTypeMap]="questionTypeMap"
-													[questionNameMap]="questionNameMap"
-													*ngIf="viewerState.activeQuestionContainer === repeat && viewerState.isLoaded"
-													#questions></traisi-question-container>
+													[questionNameMap]="questionNameMap" *ngIf="viewerState.activeQuestionContainer === repeat && viewerState.isLoaded &&
+													viewerState.activePageIndex === p" #questions></traisi-question-container>
 											</ng-container>
 										</ng-container>
 									</ng-container>
@@ -73,6 +73,12 @@
 												<traisi-question-container class="flex-grow-1 d-flex flex-column"
 													[surveyViewer]="ref" [respondent]="viewerState.activeRespondent"
 													[question]="repeat.questionModel"
+													[attr.data-questionid]="repeat.questionModel.questionId"
+													[attr.data-question-name]="repeat.questionModel.name"
+													[attr.data-multiview]="sectionContainer.sectionModel.isMultiView"
+													[attr.data-view-index-q]="q" [attr.data-view-index-k]="k"
+													[attr.data-view-index-j]="j" [attr.data-view-index-i]="i"
+													[attr.data-view-index-r]="r" [attr.data-view-index-p]="p"
 													[surveyViewQuestion]="repeat.questionModel" [surveyId]="surveyId"
 													[repeatContainer]="repeatContainer" [repeatNumber]="q"
 													[sectionRepeatNumber]="sectionRepeat.repeatIndex"
@@ -80,8 +86,8 @@
 													[questionNameMap]="questionNameMap" *ngIf="
 														viewerState.activeSection !== undefined &&
 														viewerState.activeSection.id === sectionContainer.sectionModel.id &&
-														viewerState.isLoaded
-													" #questions></traisi-question-container>
+														viewerState.isLoaded &&
+														viewerState.activePageIndex === p" #questions></traisi-question-container>
 											</ng-container>
 										</ng-container>
 									</ng-container>
