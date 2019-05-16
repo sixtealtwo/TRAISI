@@ -23,8 +23,8 @@
 			"traisi-question-sdk": [
 			  "../../../../TRAISI.SDK/Module/src/"
 			],
-			"shared/*": [
-				"../shared/*"
+			"shared/": [
+				"../shared/"
 			  ]
 		}
 	},
@@ -34,8 +34,7 @@
 	],
 	"exclude": [
 		"src/test.ts",
-		"../admin-app/**/*.ts",
-		"../admin-app/**/*.spec.ts",
+		"../admin-app/**/*",
 		"**/*.spec.ts"
 	]
 }

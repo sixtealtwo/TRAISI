@@ -268,11 +268,11 @@
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"main": "src/survey-viewer-app/src/test.ts",
-						"polyfills": "src/survey-viewer-app/src/polyfills.ts",
+						"main": "src/survey-viewer-app/test.ts",
+						"polyfills": "src/survey-viewer-app/polyfills.ts",
 						"tsConfig": "src/survey-viewer-app/tsconfig.spec.json",
 						"karmaConfig": "src/survey-viewer-app/karma.conf.js",
-						"styles": ["src/survey-viewer-app/src/styles.scss"],
+						"styles": ["src/survey-viewer-app/styles.scss"],
 						"scripts": [],
 						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"]
 					}
