@@ -3,7 +3,6 @@ import { Header1Component } from './header1/header1.component';
 import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-access1.component';
 import { TextBlock1Component } from './text-block1/text-block1.component';
 import { Header2Component } from './header2/header2.component';
-import { IContainerOptions } from '../../../shared/ngx-smooth-dnd/container/container.component';
 import { Footer1Component } from './footer1/footer1.component';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
@@ -49,8 +48,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public termsFooterHTML: string;
 	public screeningQuestionsHTML: string;
 
-	private dragOverContainer: Object = new Object();
-	private bestSectionTextColour: string[] = [];
+	public dragOverContainer: Object = new Object();
+	public bestSectionTextColour: string[] = [];
 
 	@Input()
 	public pageType: string;
