@@ -3,7 +3,6 @@
 	"compilerOptions": {
 		"outDir": "../out-tsc/spec",
 		"rootDirs": [
-			"../shared/services"
 		],
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
@@ -37,7 +36,7 @@
 		"app/app.component.spec.ts"
 	],
 	"include": [
-		"app/**/*",
+		"**/*",
 		"**/*.spec.ts",
 		"**/*.d.ts"
 	]
