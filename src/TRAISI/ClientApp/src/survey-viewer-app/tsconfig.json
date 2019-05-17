@@ -1,12 +1,12 @@
 {
-
-
 	"compilerOptions": {
 		"lib": [
 			"es2017",
 			"dom"
 		],
-		"rootDirs": ["../shared/services"],
+		"rootDirs": [
+			"../shared/services"
+		],
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"declaration": false,
@@ -15,22 +15,23 @@
 		"baseUrl": ".",
 		"target": "es5",
 		"module": "es2015",
-		"types": ["node"],
+		"types": [
+			"node"
+		],
 		"paths": {
 			"traisi-sdk/*": [
-			  "../../../../TRAISI.SDK/Module/src/*"
+				"../../../../TRAISI.SDK/Module/src/*"
 			],
 			"traisi-question-sdk": [
-			  "../../../../TRAISI.SDK/Module/src/"
+				"../../../../TRAISI.SDK/Module/src/"
 			],
-			"shared/": [
-				"../shared/"
-			  ]
+			"shared/*": [
+				"../shared/*"
+			]
 		}
 	},
 	"include": [
-		"../shared/**/*.ts",
-		"./**/*.ts"
+		"**/*.ts"
 	],
 	"exclude": [
 		"src/test.ts",

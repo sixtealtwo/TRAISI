@@ -23,7 +23,7 @@ import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyResponderEndpointService } from './services/survey-responder-endpoint.service';
 import { SurveyResponderService } from './services/survey-responder.service';
 import 'jquery';
-import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
+import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SurveyViewerTranslateLanguageLoader } from './services/survey-viewer-translation.service';
@@ -43,7 +43,7 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
-import { SafePipe } from 'shared/pipes/safe.pipe';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';

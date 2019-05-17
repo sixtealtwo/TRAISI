@@ -11,7 +11,7 @@
 		"types": ["node","jasmine"],
 		"typeRoots": ["node_modules/@types"],
 		"lib": ["es2017", "dom"],
-		"baseUrl": "src",
+		"baseUrl": ".",
 		"paths": {
 			"traisi-question-sdk": ["../../TRAISI.SDK/Module"],
 			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
@@ -21,5 +21,5 @@
 		}
 	},
 	"include": ["./src/shared/**/*.ts"],
-	"exclude": ["node_modules", "src/test.ts", "**/*.spec.ts"]
+	"exclude": ["node_modules"]
 }

@@ -1,5 +1,8 @@
 import { animate, keyframes, query, stagger, style, transition, trigger } from '@angular/animations';
-import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+	AfterContentInit, AfterViewChecked, AfterViewInit,
+	Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';

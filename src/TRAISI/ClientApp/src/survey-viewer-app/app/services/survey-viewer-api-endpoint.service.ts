@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { EndpointFactory } from 'shared/services/endpoint-factory.service';
 import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
