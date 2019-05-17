@@ -6,15 +6,10 @@ import {
 	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
 	QuestionOption
 } from 'traisi-question-sdk';
 
-
+import templateString from './likert-question.component.html';
 /**
  *
  * @export
@@ -24,13 +19,13 @@ import {
  */
 @Component({
 	selector: 'traisi-likert-question',
-	template: require('./likert-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./likert-question.component.scss').toString()]
 })
 export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Likert Question';
 
-	
+
 	public selectedOption: any;
 
 	/**
@@ -81,8 +76,8 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 
 	/**
 	 * Response saved callback.
-	 * @param result 
-	 */	
+	 * @param result
+	 */
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 		// this.autoAdvance.emit(500);

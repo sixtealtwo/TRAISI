@@ -11,11 +11,12 @@ import {
 	SurveyQuestion,
 	SurveyViewer
 } from 'traisi-question-sdk';
+import templateString from './text-question.component.html';
 import { TextQuestionConfiguration } from './text-question.configuration';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: require('./text-question.component.html'),
+	template: templateString,
 	styles: [require('./text-question.component.scss')]
 })
 export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>

@@ -14,12 +14,12 @@ import {
 	NgZone
 } from '@angular/core';
 import { DraggableComponent } from '../draggable/draggable.component';
-import SmoothDnD, { constants, dropHandlers } from 'smooth-dnd';
+import SmoothDnD, { constants, dropHandlers, ContainerOptions, DropResult } from 'smooth-dnd';
 import { wrappedError } from '@angular/core/src/error_handler';
 
-SmoothDnD.wrapChild = child => {
-	return child;
-};
+//SmoothDnD.wrapChild = (child:any) => {
+///	return child;
+//};
 
 SmoothDnD.dropHandler = dropHandlers.reactDropHandler().handler;
 
@@ -46,10 +46,10 @@ export interface IDragEvent {
 export type IPayload = any;
 
 export interface IContainerOptions {
-	orientation?: string;
-	behaviour?: string;
+	// orientation?: string;
+	// behaviour?: string;
 	groupName?: string;
-	lockAxis?: string;
+	// lockAxis?: string;
 	dragHandleSelector?: string;
 	nonDragAreaSelector?: string;
 	dragBeginDelay?: number;
@@ -76,6 +76,7 @@ export class ContainerComponent implements AfterViewInit, OnDestroy {
 	private container: any;
 	@ContentChildren(DraggableComponent)
 	draggables: QueryList<DraggableComponent>;
+
 	@ViewChild('container')
 	containerElementRef: ElementRef;
 
@@ -103,33 +104,33 @@ export class ContainerComponent implements AfterViewInit, OnDestroy {
 	dropClass;
 
 	@Output()
-	dragStart = new EventEmitter<IDragEvent>();
+	public dragStart = new EventEmitter<IDragEvent>();
 	@Output()
-	dragEnd = new EventEmitter<IDragEvent>();
+	public dragEnd = new EventEmitter<IDragEvent>();
 	@Output()
-	drop = new EventEmitter<IDropResult>();
+	public drop = new EventEmitter<DropResult>();
 	@Input()
-	getChildPayload: (index: number) => {};
+	public getChildPayload: (index: number) => {};
 	@Input()
-	shouldAnimateDrop: (sourceContainerOptions: IContainerOptions, payload: IPayload) => boolean;
+	public shouldAnimateDrop: (sourceContainerOptions: ContainerOptions, payload: IPayload) => boolean;
 	@Input()
-	shouldAcceptDrop: (sourceContainerOptions: IContainerOptions, payload: IPayload) => boolean;
+	public shouldAcceptDrop: (sourceContainerOptions: ContainerOptions, payload: IPayload) => boolean;
 	@Output()
-	dragEnter = new EventEmitter();
+	public dragEnter = new EventEmitter();
 	@Output()
-	dragLeave = new EventEmitter();
+	public dragLeave = new EventEmitter();
 
-	constructor(private _ngZone: NgZone) {}
+	constructor(private _ngZone: NgZone) { }
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 		this.container = SmoothDnD(this.containerElementRef.nativeElement, this.getOptions());
 	}
-	ngOnDestroy(): void {
+	public ngOnDestroy(): void {
 		this.container.dispose();
 	}
 
-	private getOptions(): IContainerOptions {
-		const options: IContainerOptions = {};
+	private getOptions(): ContainerOptions {
+		const options: ContainerOptions = {};
 		if (this.orientation) { options.orientation = this.orientation; }
 		if (this.behaviour) { options.behaviour = this.behaviour; }
 		if (this.groupName) { options.groupName = this.groupName; }
@@ -159,7 +160,7 @@ export class ContainerComponent implements AfterViewInit, OnDestroy {
 		}
 
 		if (this.drop) {
-			options.onDrop = (dropResult: IDropResult) => {
+			options.onDrop = (dropResult: DropResult) => {
 				this.getNgZone(() => {
 					this.drop.emit(dropResult);
 				});

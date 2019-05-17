@@ -1,37 +1,27 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
 	SurveyQuestion,
-	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption
+	ResponseTypes
 } from 'traisi-question-sdk';
+import templateString from './heading-question.component.html';
 @Component({
 	selector: 'traisi-heading-question',
-	template: <string>require('./heading-question.component.html'),
+	template: templateString,
 	styles: [require('./heading-question.component.scss').toString()]
 })
 export class HeadingQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit {
 
-	readonly QUESTION_TYPE_NAME: string = 'Heading';
-	public T: ResponseTypes.None;
-	typeName: string;
-	icon: string;
 
-	constructor() {
+	public T: ResponseTypes.None;
+
+
+	public constructor() {
 		super();
-		this.typeName = this.QUESTION_TYPE_NAME;
-		this.icon = 'heading';
+
 
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		console.log('init');
 	}
 

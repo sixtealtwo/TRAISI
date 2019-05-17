@@ -1,15 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { LngLatLike, MapMouseEvent, Marker } from 'mapbox-gl';
+import { LngLatLike, MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 import { ReplaySubject } from 'rxjs';
-import { LocationResponseData, OnVisibilityChanged, ResponseData, ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyViewer } from 'traisi-question-sdk';
+import {
+	LocationResponseData, OnVisibilityChanged, ResponseData,
+	ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyViewer
+} from 'traisi-question-sdk';
 import { GeoLocation } from '../models/geo-location.model';
 import { MapEndpointService } from '../services/mapservice.service';
-
+import templateString from './map-question.component.html';
 @Component({
 	selector: 'traisi-map-question',
-	template: '' + <string>require('./map-question.component.html').toString(),
+	template: '' + <string>templateString,
 	encapsulation: ViewEncapsulation.None,
 	styles: [require('./map-question.component.scss').toString()]
 })
@@ -22,21 +25,21 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public purpose: string = '';
 
-	private _markerPosition: LngLatLike = [-79.4, 43.67];
+	private _markerPosition: number[] = [-79.4, 43.67];
 
-	private _defaultPosition: LngLatLike = [-79.4, 43.67];
+	private _defaultPosition: number[] = [-79.4, 43.67];
 
 	/**
 	 * Gets marker position
 	 */
-	public get markerPosition(): LngLatLike {
+	public get markerPosition(): number[] {
 		return this._markerPosition;
 	}
 
 	/**
 	 * Sets marker position
 	 */
-	public set markerPosition(val: LngLatLike) {
+	public set markerPosition(val: number[]) {
 		if (val !== undefined) {
 			this.locationLoaded = true;
 		} else {
@@ -105,7 +108,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Flys to position
 	 * @param val
 	 */
-	private flyToPosition(val: LngLatLike, zoomLevel?: number): void {
+	private flyToPosition(val: number[], zoomLevel?: number): void {
 		let obj: mapboxgl.FlyToOptions;
 
 		this.markerPosition = val;
@@ -114,7 +117,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 				zoomLevel = this._mapinstance.getZoom();
 			}
 			this._mapinstance.flyTo({
-				center: val,
+				center: new LngLat(val[0], val[1]),
 				animate: true,
 				duration: 2000,
 				zoom: zoomLevel
@@ -238,7 +241,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param event
 	 */
 	public onDragEnd(event: Marker): void {
-		this.flyToPosition(event.getLngLat());
+		this.flyToPosition(event.getLngLat().toArray());
 		this.mapEndpointService.reverseGeocode(event.getLngLat().lat, event.getLngLat().lng).subscribe((result: GeoLocation) => {
 			this.locationSearch = result.address;
 			this.mapGeocoder.control._inputEl.value = result.address;
@@ -279,7 +282,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public mapClick(event: MapMouseEvent): void {
 		if (event.lngLat) {
-			this.markerPosition = event.lngLat;
+			this.markerPosition = event.lngLat.toArray();
 			let marker: Marker = new Marker();
 			marker.setLngLat(event.lngLat);
 			this.onDragEnd(marker);

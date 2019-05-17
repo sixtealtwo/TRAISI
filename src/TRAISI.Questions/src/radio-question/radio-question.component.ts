@@ -27,9 +27,10 @@ import {
 	OptionSelectResponseData
 } from 'traisi-question-sdk';
 
+import templateString from './radio-question.component.html';
 @Component({
 	selector: 'traisi-radio-question',
-	template: <string>require('./radio-question.component.html'),
+	template: <string>templateString,
 	styles: [require('./radio-question.component.scss').toString()]
 })
 export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {

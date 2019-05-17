@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { forEach } from '@angular/router/src/utils/collection';
-import { P } from '@angular/core/src/render3';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 

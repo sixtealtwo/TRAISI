@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "type": "chrome",
             "request": "attach",
@@ -13,7 +14,7 @@
             "webRoot": "${workspaceFolder}"
         },
         {
-            "name": "TRAISI Launch (web)",
+            "name": "TRAISI Launch (web) 5000",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -44,7 +45,7 @@
             }
         },
         {
-            "name": "TRAISI Launch (web) 2",
+            "name": "TRAISI Launch (web) 6000",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",

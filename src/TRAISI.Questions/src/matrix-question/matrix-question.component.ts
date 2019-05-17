@@ -12,10 +12,10 @@ import {
 	OnOptionsLoaded,
 	QuestionOption
 } from 'traisi-question-sdk';
-
+import templateString from './matrix-question.component.html';
 @Component({
 	selector: 'traisi-matrix-question',
-	template: require('./matrix-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./matrix-question.component.scss').toString()]
 })
 export class MatrixQuestionComponent extends SurveyQuestion<ResponseTypes.Json> implements OnInit {

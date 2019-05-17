@@ -9,6 +9,7 @@ import { Utilities } from '../../../../../shared/services/utilities';
 import { AlertService, DialogType } from '../../../../../shared/services/alert.service';
 import { QuestionPartView } from '../../models/question-part-view.model';
 import { fadeInOut } from '../../../services/animations';
+import { ContainerOptions } from 'smooth-dnd';
 
 @Component({
 	selector: 'app-special-page-builder',
@@ -442,7 +443,8 @@ export class SpecialPageBuilderComponent implements OnInit {
 		});
 	}
 
-	public shouldAnimateDrop(sourceContainerOptions: IContainerOptions, payload: any): boolean {
+
+	public shouldAnimateDrop(sourceContainerOptions: ContainerOptions, payload: any): boolean {
 		if (sourceContainerOptions.groupName === 'special-content' && sourceContainerOptions.behaviour === 'move') {
 			return true;
 		}

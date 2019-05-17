@@ -93,11 +93,11 @@
 					</button>
 				</div>
 				<div class="col text-right">
-					<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
-						onText="CATI" offText="Standard" [(value)]="enableCATI"></ngx-toggle>
-					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
+					<ng-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
+						onText="CATI" offText="Standard" [(value)]="enableCATI"></ng-toggle>
+					<ng-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
 						offText="Edit" [(value)]="welcomePagePreview.value" (valueChange)="toggleSidebarForPreview()">
-					</ngx-toggle>
+					</ng-toggle>
 				</div>
 			</div>
 		</div>
@@ -127,9 +127,9 @@
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
+					<ng-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
 						onText="CATI" offText="Standard" [(value)]="enableCATI" (valueChange)="refreshSpecialPage()">
-					</ngx-toggle>
+					</ng-toggle>
 
 				</div>
 			</div>
@@ -159,13 +159,13 @@
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
+					<ng-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
 						onText="CATI" offText="Standard" [(value)]="enableCATI" (valueChange)="refreshSpecialPage()">
-					</ngx-toggle>
+					</ng-toggle>
 
-					<ngx-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview"
+					<ng-toggle class="pull-right mr-3" onColor="success" offColor="primary" onText="Preview"
 						offText="Edit" [(value)]="privacyPagePreview.value" (valueChange)="toggleSidebarForPreview()">
-					</ngx-toggle>
+					</ng-toggle>
 				</div>
 			</div>
 		</div>
@@ -190,9 +190,9 @@
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
+					<ng-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
 						offText="Edit" [(value)]="questionViewerPreview.value"
-						(valueChange)="toggleSidebarForPreview()"></ngx-toggle>
+						(valueChange)="toggleSidebarForPreview()"></ng-toggle>
 				</div>
 			</div>
 		</div>
@@ -236,12 +236,12 @@
 					</button>
 				</div>
 				<div class="col pull-right text-right">
-					<ngx-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
-						onText="CATI" offText="Standard" [(value)]="enableCATI"></ngx-toggle>
+					<ng-toggle *ngIf="catiExists" class="pull-right ml-2" onColor="success" offColor="primary"
+						onText="CATI" offText="Standard" [(value)]="enableCATI"></ng-toggle>
 
-					<ngx-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
+					<ng-toggle class="pull-right mr-2" onColor="success" offColor="primary" onText="Preview"
 						offText="Edit" [(value)]="thankYouPagePreview.value" (valueChange)="toggleSidebarForPreview()">
-					</ngx-toggle>
+					</ng-toggle>
 				</div>
 			</div>
 		</div>

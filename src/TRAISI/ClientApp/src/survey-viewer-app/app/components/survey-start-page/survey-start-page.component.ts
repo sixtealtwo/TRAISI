@@ -14,12 +14,10 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router, NavigationEnd, RouterOutlet, Params } from '@angular/router';
 import { SurveyStart } from '../../models/survey-start.model';
 import { User } from 'shared/models/user.model';
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { TranslateService } from '@ngx-translate/core';
 import { SurveyShortcodePageComponent } from '../survey-shortcode-page/survey-shortcode-page.component';
 import { SurveyGroupcodePageComponent } from '../survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display-page/survey-shortcode-display-page.component';
-import { P } from '@angular/core/src/render3';
+
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { zip } from 'rxjs';

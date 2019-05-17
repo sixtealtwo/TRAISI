@@ -33,8 +33,8 @@ import { BUILDER_SERVICE } from 'traisi-question-sdk';
 const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
-class NewBlock extends Block {}
-NewBlock.tagName = 'DIV';
+class NewBlock extends Block { }
+NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -91,7 +91,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
-	private currentPage: string = 'welcome';
+	public currentPage: string = 'welcome';
 
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
@@ -174,7 +174,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 					this.pageThemeInfo = {};
 					this.pageThemeInfo.viewerTemplate = '';
 				}
-			} catch (e) {}
+			} catch (e) { }
 
 			this.surveyBuilderService
 				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
@@ -270,7 +270,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -294,7 +294,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -312,7 +312,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 	}
 
@@ -335,7 +335,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
 	}
@@ -359,7 +359,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 				}
 				this.notificationService.indicateSurveyChange(this.surveyId);
 			},
-			(error) => {}
+			(error) => { }
 		);
 	}
 
@@ -577,7 +577,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 							this.surveyBuilderService
 								.updateCATIViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
 								.subscribe(
-									(result) => {},
+									(result) => { },
 									(error) => {
 										this.allPages = pageCache;
 									}

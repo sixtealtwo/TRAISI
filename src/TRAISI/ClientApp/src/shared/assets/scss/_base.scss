@@ -27,7 +27,7 @@ app, .app {
 }
 
 .page-controls, .content-wrap{
-	
+
 	@include media-breakpoint-down(sm) {
 		left: $sidebar-width;
  	  @include transition(left $sidebar-transition-time ease-in-out);
@@ -41,10 +41,10 @@ app, .app {
     left: 0
   }
 
-  
+
 }
 
-.page-controls-builder, .content-wrap-builder { 
+.page-controls-builder, .content-wrap-builder {
 	margin-left: $sidebar-width-closed;
 	left: $sidebar-width - $sidebar-width-closed;
 	@include transition(left $sidebar-transition-time ease-in-out);
@@ -56,7 +56,7 @@ app, .app {
       margin-left: $sidebar-width;
     }
 	}
-	
+
 }
 
 .page-controls{
@@ -150,7 +150,7 @@ app, .app {
     padding-left: 20px;
     padding-right: 20px;
 	}
-	
+
 	@media(hover: none) {
 		overflow-x: hidden;
 	}
@@ -261,7 +261,7 @@ app, .app {
       .fa-database {
         vertical-align: -1px;
 			}
-			
+
 			.fas, .far, .fab {
 				vertical-align: -0.23em;
 			}
@@ -1178,12 +1178,12 @@ app, .app {
 input.parsley-error{
 	border-color: theme-color('danger');
  }
- 
+
  .parsley-errors-list{
 	font-size: $small-font-size;
 	padding-left: 0;
 	margin-bottom: 5px;
- 
+
 	li{
 		list-style: none;
 		color: theme-color('danger');

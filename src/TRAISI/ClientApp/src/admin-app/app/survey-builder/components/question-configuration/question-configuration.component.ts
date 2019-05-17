@@ -46,7 +46,7 @@ const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
 class NewBlock extends Block {}
-NewBlock.tagName = 'DIV';
+NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 
 @Component({

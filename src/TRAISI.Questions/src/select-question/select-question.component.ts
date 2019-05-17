@@ -15,12 +15,12 @@ import {
 	ResponseData,
 	OptionSelectResponseData
 } from 'traisi-question-sdk';
-
+import templateString from './select-question.component.html';
 declare var $: any;
 
 @Component({
 	selector: 'traisi-select-question',
-	template: require('./select-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./select-question.component.scss').toString()],
 	encapsulation: ViewEncapsulation.None
 })

@@ -5,19 +5,15 @@ import {
 	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
 	OptionSelectResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
-
+import templateString from './checkbox-question.component.html';
 @Component({
 	selector: 'traisi-checkbox-question',
-	template: require('./checkbox-question.component.html'),
+	template: templateString,
 	styles: [require('./checkbox-question.component.scss').toString()]
 })
 export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {

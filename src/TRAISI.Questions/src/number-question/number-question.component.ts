@@ -6,25 +6,18 @@ import {
 	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption,
 	ResponseData,
 	DecimalResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
-import { PartialObserver } from 'rxjs';
 import { NumberQuestionConfiguration } from './number-question.configuration';
-
-import { map, debounceTime } from 'rxjs/operators';
+import templateString from './number-question.component.html';
+import {  debounceTime } from 'rxjs/operators';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 @Component({
 	selector: 'traisi-number-question',
-	template: require('./number-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./number-question.component.scss').toString()]
 })
 export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {

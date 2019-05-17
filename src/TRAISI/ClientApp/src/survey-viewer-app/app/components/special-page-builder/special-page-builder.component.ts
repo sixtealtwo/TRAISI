@@ -14,7 +14,9 @@ import { Utilities } from '../../../../shared/services/utilities';
 const Parchment = Quill.import('parchment');
 let Block = Parchment.query('block');
 
-class NewBlock extends Block {}
+class NewBlock extends Block {
+	public static tagName: string;
+}
 NewBlock.tagName = 'DIV';
 Quill.register(NewBlock, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
@@ -70,7 +72,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public pageThemeInfo: any;
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
-	@Output()	public termsAccepted: EventEmitter<void> = new EventEmitter();
+	@Output() public termsAccepted: EventEmitter<void> = new EventEmitter();
 
 	constructor() {
 	}

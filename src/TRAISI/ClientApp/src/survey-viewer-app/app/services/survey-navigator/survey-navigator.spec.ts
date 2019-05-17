@@ -8,7 +8,7 @@ describe('SurveyNavigator', () => {
 
 	beforeEach(() => { navigator = new SurveyNavigator(null); });
 
-	it('#getValue should return real value', () => {
+	it('initial navigation state should be null', () => {
 
 		navigator.navigationStateChanged.subscribe(value => {
 			expect(value).toEqual(null);

@@ -70,6 +70,7 @@ import 'web-animations-js'; // Run `npm install --save web-animations-js`.
  */
 import 'zone.js/dist/zone'; // Included with Angular CLI.
 
+
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
@@ -78,7 +79,7 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 (window as any).global = window;
 
 if (!Element.prototype.matches) {
-	Element.prototype.matches = Element.prototype.msMatchesSelector;
+	Element.prototype.matches = Element.prototype['msMatchesSelector'];
 }
 
 if (!String.prototype.includes) {

@@ -1,129 +1,135 @@
-@import 'src/shared/assets/scss/helpers';
+@import "src/shared/assets/scss/helpers";
 
 .builder-qtypes .ngx-dnd-container {
-	background: none !important;
-	border: 0px solid rgb(236, 104, 104) !important;
-	padding: 5px;
+  background: none !important;
+  border: 0px solid rgb(236, 104, 104) !important;
+  padding: 5px;
+}
+
+.content-drag-item {
+  z-index: 1000;
 }
 
 .builder-qtypes {
-	margin-top: 50px;
+  margin-top: 50px;
 }
 
-li.chooser a{
-	display: block;
+li.chooser a {
+  display: block;
 
-	text-decoration: none;
+  text-decoration: none;
 
-	.toggle{
-		float: right;
-		line-height: 18px;
-		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
-		transition: transform .35s ease;
-	}
+  .toggle {
+    float: right;
+    line-height: 18px;
+    margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+    transition: transform 0.35s ease;
+  }
 
-	&.collapsed .toggle{
-		transform: rotate(90deg);
-	}
+  &.collapsed .toggle {
+    transform: rotate(90deg);
+  }
 
-	.badge{
-		float: right;
-		line-height: 8px;
-		margin-top: 7px;
-		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
-		padding: $padding-base-vertical;
-		border-radius: $border-radius-sm;
+  .badge {
+    float: right;
+    line-height: 8px;
+    margin-top: 7px;
+    margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+    padding: $padding-base-vertical;
+    border-radius: $border-radius-sm;
 
-		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
-			margin-top: 11px;
-		}
-	}
+    @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height),
+      (max-width: map_get($grid-breakpoints, md) - 1px) {
+      margin-top: 11px;
+    }
+  }
 }
 
-#qTypesList > .smooth-dnd-container:last-child
-{
-	border-bottom: 1px solid $gray-400;
+#qTypesList > .smooth-dnd-container:last-child {
+  border-bottom: 1px solid $gray-400;
 }
 
 li.chooser {
-	list-style:none;
-	background-color: $sidebar-bg-color;
-	color: white;
+  list-style: none;
+  background-color: $sidebar-bg-color;
+  color: white;
 }
 
 .section-tool-item {
-	background-color: $widget-title-color !important;
+  background-color: $widget-title-color !important;
 }
 
-li.chooser > a{
-	position: relative;
-	border-top: 1px solid $gray-400;
-	padding-left: 50px;
-	line-height: 44px;
+li.chooser > a {
+  position: relative;
+  border-top: 1px solid $gray-400;
+  padding-left: 50px;
+  line-height: 44px;
 
-	&:hover{
-		background-color: $sidebar-item-hover-bg-color;
-	}
+  &:hover {
+    background-color: $sidebar-item-hover-bg-color;
+  }
 
-	@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
-		line-height: 44px;
-	}
+  @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height),
+    (max-width: map_get($grid-breakpoints, md) - 1px) {
+    line-height: 44px;
+  }
 
-	.icon{
-		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
-			top: 8px;
-		}
+  .icon {
+    @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height),
+      (max-width: map_get($grid-breakpoints, md) - 1px) {
+      top: 8px;
+    }
 
-		display: block;
-		position: absolute;
-		top: 8px;
-		left: $sidebar-padding-horizontal;
-		width: 28px;
-		height: 28px;
-		line-height: 24px;
-		text-align: center;
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: $sidebar-padding-horizontal;
+    width: 28px;
+    height: 28px;
+    line-height: 24px;
+    text-align: center;
 
-		.fa, .glyphicon{
-			font-size: 16px;
-			color: rgba($sidebar-color, .7);
-		}
+    .fa,
+    .glyphicon {
+      font-size: 16px;
+      color: rgba($sidebar-color, 0.7);
+    }
 
-		.fa-database {
-			vertical-align: -1px;
-		}
+    .fa-database {
+      vertical-align: -1px;
+    }
+  }
 
-	}
+  .toggle {
+    line-height: 35px;
 
-	.toggle{
-		line-height: 35px;
-
-		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
-			line-height: 44px;
-		}
-	}
-
+    @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height),
+      (max-width: map_get($grid-breakpoints, md) - 1px) {
+      line-height: 44px;
+    }
+  }
 }
 
 .tooltip-builder {
-	font-size:14px;
-	font-family: unset;
-	font-weight: unset;
-	margin-left: -2px;
-	.tooltip-inner {
-		background-color: $sidebar-item-hover-bg-color;
-	}
+  font-size: 14px;
+  font-family: unset;
+  font-weight: unset;
+  margin-left: -2px;
+  .tooltip-inner {
+    background-color: $sidebar-item-hover-bg-color;
+  }
 }
 
 smooth-dnd-container {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 smooth-dnd-draggable {
-	touch-action: none;
-	touch-action: manipulation;
+  touch-action: none;
+  touch-action: manipulation;
 }
 
 .chooser-icon {
-	margin-top: 5px;
+  margin-top: 5px;
 }

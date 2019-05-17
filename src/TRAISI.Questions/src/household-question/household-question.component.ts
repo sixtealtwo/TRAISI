@@ -3,22 +3,14 @@ import {
 	SurveyQuestion,
 	ResponseTypes,
 	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption,
 	SurveyRespondent,
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
-
+import templateString from './household-question.component.html';
 @Component({
 	selector: 'traisi-household-question',
-	template: require('./household-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./household-question.component.scss').toString()]
 })
 export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck, AfterContentInit {

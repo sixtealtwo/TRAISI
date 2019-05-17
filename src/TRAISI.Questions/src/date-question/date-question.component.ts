@@ -11,14 +11,7 @@ import {
 	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption,
 	DateResponseData,
-	ResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import {
@@ -26,10 +19,10 @@ import {
 	BsDatepickerConfig
 } from 'ngx-bootstrap/datepicker';
 import { DateQuestionConfiguration } from './date-question.configuration';
-
+import templateString from './date-question.component.html';
 @Component({
 	selector: 'traisi-date-question',
-	template: require('./date-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./date-question.component.scss').toString()]
 })
 export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>

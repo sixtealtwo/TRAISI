@@ -12,10 +12,10 @@ import {
 	OnOptionsLoaded,
 	QuestionOption
 } from 'traisi-question-sdk';
-
+import templateString from './range-question.component.html';
 @Component({
 	selector: 'traisi-range-question',
-	template: require('./range-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./range-question.component.scss').toString()]
 })
 export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> implements OnInit {

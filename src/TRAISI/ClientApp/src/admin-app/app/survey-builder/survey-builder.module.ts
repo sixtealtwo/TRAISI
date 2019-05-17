@@ -48,7 +48,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { AngularDraggableModule } from 'angular2-draggable';
-import { NgxToggleModule } from 'ngx-toggle';
+import {NgToggleModule} from '@nth-cloud/ng-toggle';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
@@ -80,7 +80,7 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 		DropzoneModule,
 		ColorPickerModule,
 		AngularDraggableModule,
-		NgxToggleModule,
+		NgToggleModule,
 		ContextMenuModule,
 		IconPickerModule,
 		PaginationModule.forRoot(),
@@ -103,7 +103,7 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 			allowParentSelection: true,
 			expandMode: 'None'
 		}),
-		NgxMapboxGLModule.forRoot({
+		NgxMapboxGLModule.withConfig({
 			accessToken:
 				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
 		}),

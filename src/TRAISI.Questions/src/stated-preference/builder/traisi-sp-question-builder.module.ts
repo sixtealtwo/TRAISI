@@ -5,7 +5,7 @@ import { StatedPreferenceBuilderComponent } from './stated-preference-builder.co
 import { FormsModule } from '@angular/forms';
 import { CdkTableModule } from '@angular/cdk/table';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
-require('jsoneditor'); 
+require('jsoneditor');
 @NgModule({
 	declarations: [ StatedPreferenceBuilderComponent],
 	entryComponents: [ StatedPreferenceBuilderComponent],

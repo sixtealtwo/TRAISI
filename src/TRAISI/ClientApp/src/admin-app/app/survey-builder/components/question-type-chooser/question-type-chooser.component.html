@@ -42,7 +42,7 @@
 					<i class="toggle fas fa-angle-down"></i>
 				</a>
 				<ul id="layout-headers" class="collapse">
-					<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
+					<smooth-dnd-container [dragClass]="content-drag-item" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
 						<smooth-dnd-draggable>
 							<li class="chooser">
 								<a>
@@ -76,7 +76,8 @@
 					<i class="toggle fas fa-angle-down"></i>
 				</a>
 				<ul id="layout-surveyAccess" class="collapse">
-					<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-surveyAccess'" [getChildPayload]="getPageSurveyAccessPayload">
+					<smooth-dnd-container  [dragClass]="content-drag-item"
+					 id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-surveyAccess'" [getChildPayload]="getPageSurveyAccessPayload">
 						<smooth-dnd-draggable>
 							<li class="chooser">
 								<a>
@@ -100,7 +101,7 @@
 					<i class="toggle fas fa-angle-down"></i>
 				</a>
 				<ul id="layout-content" class="collapse">
-					<smooth-dnd-container id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-content'" [getChildPayload]="getPageContentPayload">
+					<smooth-dnd-container [dragClass]="content-drag-item" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-content'" [getChildPayload]="getPageContentPayload">
 						<smooth-dnd-draggable>
 							<li class="chooser">
 								<a>
@@ -124,7 +125,7 @@
 					<i class="toggle fas fa-angle-down"></i>
 				</a>
 				<ul id="layout-footers" class="collapse">
-					<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-footer'" [getChildPayload]="getPageFooterPayload">
+					<smooth-dnd-container [dragClass]="content-drag-item" *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-footer'" [getChildPayload]="getPageFooterPayload">
 						<smooth-dnd-draggable>
 							<li class="chooser">
 								<a>

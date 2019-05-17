@@ -9,10 +9,11 @@ import {
 	ResponseValidationState
 } from 'traisi-question-sdk';
 import { Time } from '@angular/common';
+import templateString from './time-question.component.html';
 
 @Component({
 	selector: 'traisi-time-question',
-	template: require('./time-question.component.html').toString(),
+	template: templateString,
 	styles: [require('./time-question.component.scss').toString()]
 })
 export class TimeQuestionComponent extends SurveyQuestion<ResponseTypes.Time> implements OnInit {
