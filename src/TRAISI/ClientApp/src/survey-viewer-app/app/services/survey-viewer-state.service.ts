@@ -3,9 +3,8 @@ import { SurveyViewerState } from '../models/survey-viewer-state.model';
 import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer, forkJoin, AsyncSubject, EMPTY, of, pipe, empty } from 'rxjs';
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../models/survey-view-group-member.model';
-import { QuestionContainerComponent } from '../components/question-container/question-container.component';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
-import { SurveyViewerConditionalEvaluator } from './survey-viewer-conditional-evaluator.service';
+import { ConditionalEvaluator } from './conditional-evaluator/conditional-evaluator.service';
 import { EventEmitter } from 'events';
 import { SurveyViewConditional } from 'app/models/survey-view-conditional.model';
 import { SurveyResponderService } from './survey-responder.service';
@@ -30,7 +29,7 @@ export class SurveyViewerStateService {
 	 * @param _responderService
 	 */
 	public constructor(
-		private _conditionalEvaluator: SurveyViewerConditionalEvaluator,
+		private _conditionalEvaluator: ConditionalEvaluator,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService
 	) {
 		this.viewerState = {
@@ -322,7 +321,7 @@ export class SurveyViewerStateService {
 						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
 							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
-							if (response === undefined || response.length == 0) {
+							if (response === undefined || response.length === 0) {
 								return;
 							}
 							let evalResult = this._conditionalEvaluator.evaluateConditional(

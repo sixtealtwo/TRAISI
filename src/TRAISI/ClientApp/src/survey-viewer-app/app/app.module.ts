@@ -46,7 +46,7 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { SurveyViewerConditionalEvaluator } from './services/survey-viewer-conditional-evaluator.service';
+import { ConditionalEvaluator } from './services/conditional-evaluator/conditional-evaluator.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
@@ -130,7 +130,7 @@ import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-end
 		SurveyViewerEndpointService,
 		ConfigurationService,
 		QuestionLoaderService,
-		SurveyViewerConditionalEvaluator,
+		ConditionalEvaluator,
 		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
 		SurveyViewerStateService,
 		FormControlDirective,

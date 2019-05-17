@@ -1,13 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { SurveyViewerStateService } from './survey-viewer-state.service';
-import { SurveyResponderService } from './survey-responder.service';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { every as _every, some as _some } from 'lodash';
 import { point } from '@turf/helpers';
+
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyViewerConditionalEvaluator {
+export class ConditionalEvaluator {
 	/**
 	 *
 	 * @param _state q
@@ -88,8 +87,6 @@ export class SurveyViewerConditionalEvaluator {
 	}
 
 	private evaluatGreaterThan(sourceData: any[], value: any): boolean {
-		console.log(sourceData);
-		console.log(value);
 		const val: boolean = sourceData[0].value > parseInt(value, 10);
 
 		return val;
