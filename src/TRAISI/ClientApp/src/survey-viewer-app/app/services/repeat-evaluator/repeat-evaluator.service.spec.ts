@@ -2,7 +2,7 @@
 import { } from 'jasmine';
 import { RepeatEvaluator } from './repeat-evaluator.service';
 
-describe('SurveyNavigator', () => {
+describe('Repeat Evaluator', () => {
 
 	let repeatEvaluator: RepeatEvaluator;
 

@@ -30,4 +30,24 @@ export class SurveyNavigator {
 
 		this.navigationStateChanged.next(null);
 	}
+
+	/**
+	 *
+	 */
+	public navigateNext(): Subject<void> {
+
+		let subject = new Subject<void>();
+
+		return subject;
+	}
+
+	/**
+	 *
+	 */
+	public navigatePrevious(): Subject<void> {
+
+		let subject = new Subject<void>();
+
+		return subject;
+	}
 }
