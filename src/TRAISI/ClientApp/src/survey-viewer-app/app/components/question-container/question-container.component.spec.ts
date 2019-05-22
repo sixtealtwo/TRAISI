@@ -1,10 +1,10 @@
 
-import { SurveyNavigator } from './survey-navigator.service';
+
 import { } from 'jasmine';
 
-describe('SurveyNavigator', () => {
+describe('QuestionContainerComponent', () => {
 
-	let navigator: SurveyNavigator;
+	/*let navigator: SurveyNavigator;
 
 	beforeEach(() => { navigator = new SurveyNavigator(null); });
 
@@ -22,6 +22,6 @@ describe('SurveyNavigator', () => {
 			expect(value).toEqual(null);
 		});
 
-	});
+	}); */
 
 });
