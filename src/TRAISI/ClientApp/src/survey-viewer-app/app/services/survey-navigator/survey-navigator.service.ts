@@ -50,4 +50,16 @@ export class SurveyNavigator {
 
 		return subject;
 	}
+
+	public navigateToQuestion(questionId: number): Subject<void> {
+		let subject = new Subject<void>();
+
+		return subject;
+	}
+
+	public navigateToPage(pageId: number): Subject<void> {
+		let subject = new Subject<void>();
+
+		return subject;
+	}
 }
