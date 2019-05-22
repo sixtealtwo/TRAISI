@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Utilities } from '../../../../../shared/services/utilities';
+import { Utilities } from 'shared/services/utilities';
 
 
 @Component({
