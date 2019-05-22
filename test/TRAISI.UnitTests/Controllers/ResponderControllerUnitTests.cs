@@ -11,7 +11,7 @@ namespace TRAISI.UnitTests.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[Fact]
-		public async Task SaveResponse_ForRespondent_ReturnsSuccessResult() {
+		public  void SaveResponse_ForRespondent_ReturnsSuccessResult() {
 
 			Assert.Equal(0,0);
 
@@ -22,7 +22,7 @@ namespace TRAISI.UnitTests.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[Fact]
-		public async Task SavedResponse_ForRespondent_ReturnsResponse()
+		public  void SavedResponse_ForRespondent_ReturnsResponse()
 		{
 
 			Assert.Equal(0, 0);

@@ -52,20 +52,20 @@ namespace TRAISI.Controllers
 
 		[HttpPost("~/connect/token")]
 		[Produces("application/json")]
-		public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
+		public async Task<IActionResult> Exchange(OpenIdConnectRequest connectRequest)
 		{
-			if (request.IsPasswordGrantType())
+			if (connectRequest.IsPasswordGrantType())
 			{
 				ApplicationUser user = null;
-				if (request.HasParameter("survey_user"))
+				if (connectRequest.HasParameter("survey_user"))
 				{
 					user = await this._accountManager.GetSurveyUserByShortcodeAsync(
-						int.Parse(request.GetParameter("survey_id")?.Value.ToString()),
-						 request.GetParameter("shortcode")?.Value.ToString());
+						int.Parse(connectRequest.GetParameter("survey_id")?.Value.ToString()),
+						 connectRequest.GetParameter("shortcode")?.Value.ToString());
 				}
 				else
 				{
-					user = await _userManager.FindByEmailAsync(request.Username) ?? await _userManager.FindByNameAsync(request.Username);
+					user = await _userManager.FindByEmailAsync(connectRequest.Username) ?? await _userManager.FindByNameAsync(connectRequest.Username);
 				}
 				if (user == null)
 				{
@@ -88,7 +88,7 @@ namespace TRAISI.Controllers
 
 
 				// Validate the username/password parameters and ensure the account is not locked out.
-				var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+				var result = await _signInManager.CheckPasswordSignInAsync(user, connectRequest.Password, true);
 
 				// Ensure the user is not already locked out.
 				if (result.IsLockedOut)
@@ -132,11 +132,11 @@ namespace TRAISI.Controllers
 
 
 				// Create a new authentication ticket.
-				var ticket = await CreateTicketAsync(request, user);
+				var ticket = await CreateTicketAsync(connectRequest, user);
 
 				return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
 			}
-			else if (request.IsRefreshTokenGrantType())
+			else if (connectRequest.IsRefreshTokenGrantType())
 			{
 				// Retrieve the claims principal stored in the refresh token.
 				var info = await HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
@@ -167,7 +167,7 @@ namespace TRAISI.Controllers
 
 				// Create a new authentication ticket, but reuse the properties stored
 				// in the refresh token, including the scopes originally granted.
-				var ticket = await CreateTicketAsync(request, user);
+				var ticket = await CreateTicketAsync(connectRequest, user);
 
 				return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
 			}
