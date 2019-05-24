@@ -5,6 +5,7 @@ import {
 
 import { Observable } from 'rxjs';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
+import { AuthService } from 'shared/services/auth.service';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
@@ -15,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 	 * @param {SurveyViewerSession} _session
 	 * @memberof AuthInterceptor
 	 */
-	public constructor(private _session: SurveyViewerSession) {
+	public constructor(private _session: SurveyViewerSession, private _auth: AuthService) {
 
 	}
 
@@ -29,6 +30,11 @@ export class AuthInterceptor implements HttpInterceptor {
 	 */
 	public intercept(req: HttpRequest<any>, next: HttpHandler):
 		Observable<HttpEvent<any>> {
-		return next.handle(req);
+
+		const authReq = req.clone({
+
+		});
+
+		return next.handle(authReq);
 	}
 }
