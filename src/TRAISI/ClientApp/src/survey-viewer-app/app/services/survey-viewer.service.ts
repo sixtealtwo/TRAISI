@@ -487,7 +487,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	}
 
 	public preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<{}> {
-		this._surveyState.viewerState.surveyQuestions;
+		// this._surveyState.viewerState.surveyQuestions;
 		return Observable.of();
 	}
 }

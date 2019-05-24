@@ -68,7 +68,6 @@ export class SurveyViewerSession {
 				this._data.groupcode = null;
 			}
 
-			console.log('done');
 			this._data.isUsingGroupcode = this._data.groupcode !== null;
 			this.data.next(this._data);
 
