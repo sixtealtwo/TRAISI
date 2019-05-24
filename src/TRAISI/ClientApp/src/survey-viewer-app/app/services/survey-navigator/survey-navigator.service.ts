@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable, Observer } from 'rxjs';
 import { NavigationState } from '../../models/navigation-state.model';
 
 
@@ -34,32 +34,42 @@ export class SurveyNavigator {
 	/**
 	 *
 	 */
-	public navigateNext(): Subject<void> {
+	public navigateNext(): Observable<void> {
 
-		let subject = new Subject<void>();
+		return new Observable((obs: Observer<void>) => {
 
-		return subject;
+
+			obs.complete();
+		});
 	}
 
 	/**
 	 *
 	 */
-	public navigatePrevious(): Subject<void> {
+	public navigatePrevious(): Observable<void> {
 
-		let subject = new Subject<void>();
+		return new Observable((obs: Observer<void>) => {
 
-		return subject;
+
+			obs.complete();
+		});
 	}
 
-	public navigateToQuestion(questionId: number): Subject<void> {
-		let subject = new Subject<void>();
+	public navigateToQuestion(questionId: number): Observable<void> {
 
-		return subject;
+		return new Observable((obs: Observer<void>) => {
+
+
+			obs.complete();
+		});
 	}
 
-	public navigateToPage(pageId: number): Subject<void> {
-		let subject = new Subject<void>();
+	public navigateToPage(pageId: number): Observable<void> {
 
-		return subject;
+		return new Observable((obs: Observer<void>) => {
+
+
+			obs.complete();
+		});
 	}
 }
