@@ -428,13 +428,9 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					this.activeSurveyId.next(this._activeSurveyId);
 					this.activeSurveyTitle.next(this._activeSurveyTitle);
 
-					console.log('here');
-					// this.authService.logout();
 				},
 				error => {
 					console.log(error);
-					// this.authService.logout();
-
 					this.router.navigate(['/', this.activeSurveyCode, 'error']);
 				}
 			);
