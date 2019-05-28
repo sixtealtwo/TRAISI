@@ -1,5 +1,4 @@
 
-import { ComponentFactory } from '@angular/core/src/render3';
 
 import { ResponseTypes, SurveyQuestion } from './survey-question';
 

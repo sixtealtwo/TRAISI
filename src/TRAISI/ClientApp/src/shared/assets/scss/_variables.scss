@@ -28,8 +28,8 @@ $font-size-index:         0.7rem;
 
 $small-font-size: 85% !default;
 
-$font-family-base: 'Montserrat', sans-serif;
-$font-family-sans-serif: 'Montserrat', sans-serif;
+$font-family-base: 'Open Sans', sans-serif;
+$font-family-sans-serif: 'Open Sans', sans-serif;
 
 // Color system
 //
@@ -211,6 +211,8 @@ $screen-lg-height: 670px !default;
 //
 $btn-default-bg: $addition-bg !default;
 $btn-default-border: rgba(0, 0, 0, 0.15) !default;
+
+$btn-default-color: $blue;
 
 // Dropdowns
 $dropdown-link-color: $text-color;

@@ -2,7 +2,11 @@
 @import "mixins";
 
 
-@import "~bootstrap/scss/bootstrap";
+//@import "bootstrap-sass/bootstrap/variables";
+@import "~bootstrap/scss/bootstrap"; 
+
+//@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
 @import "~awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
 
 
@@ -11,14 +15,14 @@
 @import './fonts/flaticon/flaticon';
 
 
-@import "bootstrap-override";
+@import "bootstrap-override"; 
 @import "libs-override";
 
 @import "select2-variables";
 @import '~select2/src/scss/core';
-@import '~select2-bootstrap-theme/src/select2-bootstrap';
+//@import '~select2-bootstrap-theme/src/select2-bootstrap';
 @import '~awesome-bootstrap-checkbox/awesome-bootstrap-checkbox';
-@import '~ngx-bootstrap/datepicker/bs-datepicker';
+@import '~ngx-bootstrap/datepicker/bs-datepicker'; 
 //
 
 

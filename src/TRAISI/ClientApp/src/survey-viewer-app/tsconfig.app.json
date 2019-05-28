@@ -11,10 +11,10 @@
 		"experimentalDecorators": true,
 		"declaration": false,
 		"moduleResolution": "node",
+		"target": "es6",
+		"module": "es6",
 		"outDir": "../out-tsc/app",
 		"baseUrl": ".",
-		"target": "es5",
-		"module": "es2015",
 		"types": [
 			"node"
 		],
@@ -27,6 +27,7 @@
 			]
 		}
 	},
+	"files": ["polyfills.ts"],
 	"include": [
 		"../shared/**/*.ts",
 		"./**/*.ts"

@@ -6,9 +6,9 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"target": "es5",
+		"target": "es6",
 		"strict": false,
-		"module": "amd",
+		"module": "esnext",
 		"outDir": "dist",
 		"lib": [
 			"es2016",

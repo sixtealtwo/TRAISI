@@ -1,19 +1,11 @@
 import {
 	Component,
-	ViewEncapsulation,
 	OnInit,
-	OnDestroy,
-	ViewChildren,
-	AfterViewInit,
-	QueryList,
-	ElementRef,
 	HostListener,
 	ViewChild
 } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../../shared/services/alert.service';
 import { NotificationService } from './services/notification.service';
 import { AppTranslationService } from '../../shared/services/app-translation.service';
@@ -22,7 +14,6 @@ import { LocalStoreManager } from '../../shared/services/local-store-manager.ser
 import { AppTitleService } from './services/app-title.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { ConfigurationService } from '../../shared/services/configuration.service';
-import { Permission } from '../../shared/models/permission.model';
 
 declare let alertify: any;
 declare const SystemJS;
