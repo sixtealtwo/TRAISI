@@ -37,12 +37,10 @@ export class AppComponent implements OnInit {
 	@HostListener('window:beforeunload', ['$event'])
 	public beforeUnloadHander(event: any): void { }
 
-	constructor(
+	public constructor(
 		storageManager: LocalStoreManager,
 		private _toastrService: ToastrService,
-		private accountService: AccountService,
 		private alertService: AlertService,
-		private notificationService: NotificationService,
 		private appTitleService: AppTitleService,
 		private authService: AuthService,
 		private translationService: AppTranslationService,
