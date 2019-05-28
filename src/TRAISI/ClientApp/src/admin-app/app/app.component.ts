@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 	public toastContainer: ToastContainerDirective;
 
 	@HostListener('window:beforeunload', ['$event'])
-	public beforeUnloadHander(event: any): void {}
+	public beforeUnloadHander(event: any): void { }
 
 	constructor(
 		storageManager: LocalStoreManager,
@@ -63,10 +63,6 @@ export class AppComponent implements OnInit {
 		translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
 		translationService.setDefaultLanguage('en');
 
-		//this.toastyConfig.theme = 'bootstrap';
-		//this.toastyConfig.position = 'top-right';
-		//this.toastyConfig.limit = 100;
-		//this.toastyConfig.showClose = true;
 
 		this.appTitleService.appName = this.appTitle;
 	}
@@ -138,7 +134,7 @@ export class AppComponent implements OnInit {
 	 *
 	 * @param dialog
 	 */
-	public showDialog(dialog: AlertDialog) {
+	public showDialog(dialog: AlertDialog): void {
 		alertify.set({
 			labels: {
 				ok: dialog.okLabel || 'OK',
@@ -233,7 +229,7 @@ export class AppComponent implements OnInit {
 		}
 	}
 
-	public getYear() {
+	public getYear(): number {
 		return new Date().getUTCFullYear();
 	}
 

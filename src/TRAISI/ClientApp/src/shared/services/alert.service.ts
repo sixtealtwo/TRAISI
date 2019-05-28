@@ -1,10 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpResponseBase} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-
 import {Utilities} from './utilities';
 
 
+/**
+ * Alert service for admin portion of TRAISI. Responsible for logging console messages and displaying
+ * various types of toast messages.
+ * @export
+ * @class AlertService
+ */
 @Injectable({providedIn: 'root'})
 export class AlertService {
 
@@ -91,6 +96,7 @@ export class AlertService {
 		}
 		else {
 
+	
 			if (error) {
 
 				let msg = `Severity: "${MessageSeverity[severity]}", Summary: "${data}",
@@ -123,6 +129,14 @@ export class AlertService {
 	}
 
 
+	/**
+	 * 
+	 * @private
+	 * @param {string} summary
+	 * @param {string} detail
+	 * @param {MessageSeverity} severity
+	 * @param {boolean} isSticky
+	 */
 	private showMessageHelper(summary: string, detail: string, severity: MessageSeverity, isSticky: boolean) {
 
 		if (isSticky) {
@@ -148,48 +162,55 @@ export class AlertService {
 		}, 500);
 	}
 
-	stopLoadingMessage() {
+	public stopLoadingMessage(): void {
 		this._isLoading = false;
 		clearTimeout(this.loadingMessageId);
 		this.resetStickyMessage();
 	}
 
-	logError(msg) {
+	public logError(msg): void {
 		console.error(msg);
 	}
 
-	logInfo(msg) {
+	public logInfo(msg): void {
 		console.log(msg);
 	}
 
-	logMessage(msg) {
+	public logMessage(msg): void {
 		console.log(msg);
 	}
 
-	logTrace(msg) {
+	public logTrace(msg): void {
 		console.log(msg);
 	}
 
-	logWarning(msg) {
+	public logWarning(msg): void {
 		console.warn(msg);
 	}
 
 
-	resetStickyMessage() {
+	/**
+	 *
+	 */
+	public resetStickyMessage(): void {
 		this.stickyMessages.next();
 	}
 
 
-	getDialogEvent(): Observable<AlertDialog> {
+	/**
+	 *
+	 * @returns {Observable<AlertDialog>}
+	 */
+	public getDialogEvent(): Observable<AlertDialog> {
 		return this.dialogs.asObservable();
 	}
 
 
-	getMessageEvent(): Observable<AlertMessage> {
+	public getMessageEvent(): Observable<AlertMessage> {
 		return this.messages.asObservable();
 	}
 
-	getStickyMessageEvent(): Observable<AlertMessage> {
+	public getStickyMessageEvent(): Observable<AlertMessage> {
 		return this.stickyMessages.asObservable();
 	}
 
