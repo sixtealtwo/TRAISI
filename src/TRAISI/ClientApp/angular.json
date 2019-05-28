@@ -38,7 +38,6 @@
 							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
-							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
 							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
 							"src/shared/assets/scss/alertify.core.css",
@@ -127,13 +126,13 @@
 							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
-							"node_modules/ng2-toasty/bundles/style-bootstrap.css",
 							"node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
 							"node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
 							"src/admin-app/scss/alertify.core.css",
 							"src/admin-app/scss/alertify.bootstrap.css",
 							"node_modules/dropzone/dist/min/dropzone.min.css",
-							"node_modules/mapbox-gl/dist/mapbox-gl.css"
+							"node_modules/mapbox-gl/dist/mapbox-gl.css",
+							"node_modules/ngx-toastr/toastr.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.min.js",
@@ -281,10 +280,7 @@
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
-						"tsConfig": [
-							"src/survey-viewer-app/tsconfig.app.json",
-							"src/survey-viewer-app/tsconfig.spec.json"
-						],
+						"tsConfig": ["src/survey-viewer-app/tsconfig.app.json", "src/survey-viewer-app/tsconfig.spec.json"],
 						"exclude": ["**/node_modules/**"]
 					}
 				}
