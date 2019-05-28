@@ -14,13 +14,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import {
-	AlertService,
-	AlertDialog,
-	DialogType,
-	AlertMessage,
-	MessageSeverity
-} from '../../shared/services/alert.service';
+import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../../shared/services/alert.service';
 import { NotificationService } from './services/notification.service';
 import { AppTranslationService } from '../../shared/services/app-translation.service';
 import { AccountService } from './services/account.service';
@@ -35,25 +29,22 @@ declare const SystemJS;
 
 @Component({
 	selector: 'app-root',
-	template: `<router-outlet><div toastContainer></div></router-outlet>`
+	template: `
+		<router-outlet><div toastContainer></div></router-outlet>
+	`
 })
 export class AppComponent implements OnInit {
-	isAppLoaded: boolean;
-	isUserLoggedIn: boolean;
+	public isAppLoaded: boolean;
+	public isUserLoggedIn: boolean;
 
-	appTitle = 'TRAISI';
-	stickyToasties: number[] = [];
+	public appTitle = 'TRAISI';
+	public stickyToasties: number[] = [];
 
 	@ViewChild(ToastContainerDirective)
 	public toastContainer: ToastContainerDirective;
- 
 
-	@HostListener('window:beforeunload', [ '$event' ])
-  public beforeUnloadHander(event: any): void {
-
-
-
-  }
+	@HostListener('window:beforeunload', ['$event'])
+	public beforeUnloadHander(event: any): void {}
 
 	constructor(
 		storageManager: LocalStoreManager,
@@ -90,9 +81,7 @@ export class AppComponent implements OnInit {
 
 		this.alertService.getDialogEvent().subscribe(alert => this.showDialog(alert));
 		this.alertService.getMessageEvent().subscribe(message => this.showToast(message, false));
-		this.alertService
-			.getStickyMessageEvent()
-			.subscribe(message => this.showToast(message, true));
+		this.alertService.getStickyMessageEvent().subscribe(message => this.showToast(message, true));
 
 		setTimeout(() => {
 			if (this.isUserLoggedIn) {
@@ -100,11 +89,7 @@ export class AppComponent implements OnInit {
 
 				if (!this.authService.currentUser.roles.includes('respondent')) {
 					if (!this.authService.isSessionExpired) {
-						this.alertService.showMessage(
-							'Login',
-							`Welcome back ${this.userName}!`,
-							MessageSeverity.default
-						);
+						this.alertService.showMessage('Login', `Welcome back ${this.userName}!`, MessageSeverity.default);
 					} else {
 						this.alertService.showStickyMessage(
 							'Session Expired',
@@ -210,50 +195,45 @@ export class AppComponent implements OnInit {
 			return;
 		}
 
-		//const toastOptions: ToastOptions = {
-		//	title: message.summary,
-		//	msg: message.detail,
-		//	timeout: isSticky ? 0 : 4000
-		// };
+		const toastOptions = {
+			timeOut: isSticky ? 0 : 4000
+		};
 
-		if (isSticky) {
-			/* toastOptions.onAdd = (toast: ToastData) => this.stickyToasties.push(toast.id);
-
-			toastOptions.onRemove = (toast: ToastData) => {
-				const index = this.stickyToasties.indexOf(toast.id, 0);
-
-				if (index > -1) {
-					this.stickyToasties.splice(index, 1);
-				}
-
-				toast.onAdd = null;
-				toast.onRemove = null;
-			}; */
-		}
-
+		let toast;
 		switch (message.severity) {
 			case MessageSeverity.default:
-				this._toastrService.info(message.detail,message.summary);
+				toast = this._toastrService.info(message.detail, message.summary, toastOptions);
+				toast.toastId;
 				break;
 			case MessageSeverity.info:
-				this._toastrService.info(message.detail,message.summary);
+				toast = this._toastrService.info(message.detail, message.summary, toastOptions);
 				break;
 			case MessageSeverity.success:
-				this._toastrService.success(message.detail,message.summary);
+				toast = this._toastrService.success(message.detail, message.summary, toastOptions);
 				break;
 			case MessageSeverity.error:
-				this._toastrService.error(message.detail,message.summary);
+				toast = this._toastrService.error(message.detail, message.summary, toastOptions);
 				break;
 			case MessageSeverity.warn:
-				this._toastrService.warning(message.detail,message.summary);
+				toast = this._toastrService.warning(message.detail, message.summary, toastOptions);
 				break;
 			case MessageSeverity.wait:
-				this._toastrService.info(message.detail,message.summary);
+				toast = this._toastrService.info(message.detail, message.summary, toastOptions);
 				break;
+		}
+
+		if (isSticky) {
+			this.stickyToasties.push(toast.toastId);
+			toast.onHidden.subscribe(result => {
+				const index = this.stickyToasties.findIndex(id => id === toast.toastId);
+				if (index >= 0) {
+					this.stickyToasties.splice(index);
+				}
+			});
 		}
 	}
 
-	getYear() {
+	public getYear() {
 		return new Date().getUTCFullYear();
 	}
 

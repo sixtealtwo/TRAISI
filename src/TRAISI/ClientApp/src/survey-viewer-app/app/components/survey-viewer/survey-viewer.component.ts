@@ -30,8 +30,9 @@ import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionContainerComponent } from '../question-container/question-container.component';
 import { Footer1Component } from '../special-page-builder/footer1/footer1.component';
 import { Header1Component } from '../special-page-builder/header1/header1.component';
-import { Header2Component } from '../special-page-builder/header2/header2.component';
+// import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
+import { Header2Component } from '../special-page-builder/header2/header2.component';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -471,9 +472,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
+
 	/**
 	 *
-	 * @param state
+	 *
+	 * @private
 	 */
 	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => { };
 

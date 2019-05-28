@@ -133,7 +133,13 @@ export class AlertService {
 	}
 
 
-	startLoadingMessage(message = 'Loading...', caption = '') {
+	/**
+	 *
+	 *
+	 * @param {string} [message='Loading...']
+	 * @param {string} [caption='']
+	 */
+	public startLoadingMessage(message = 'Loading...', caption = ''): void {
 		this._isLoading = true;
 		clearTimeout(this.loadingMessageId);
 
