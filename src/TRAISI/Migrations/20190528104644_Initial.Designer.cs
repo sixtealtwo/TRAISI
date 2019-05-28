@@ -11,8 +11,8 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190409180711_UpdateDeleteBehaviour2")]
-    partial class UpdateDeleteBehaviour2
+    [Migration("20190528104644_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -426,6 +426,12 @@ namespace TRAISI.Migrations
 
                     b.Property<string>("Icon");
 
+                    b.Property<bool>("IsHousehold");
+
+                    b.Property<bool>("IsMultiView");
+
+                    b.Property<bool>("IsOptional");
+
                     b.Property<int>("Order");
 
                     b.Property<int?>("ParentViewId");
@@ -435,10 +441,6 @@ namespace TRAISI.Migrations
                     b.Property<int?>("RepeatSourceId");
 
                     b.Property<int?>("SurveyViewId");
-
-                    b.Property<bool>("isHousehold");
-
-                    b.Property<bool>("isOptional");
 
                     b.HasKey("Id");
 

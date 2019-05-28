@@ -377,7 +377,7 @@ namespace TRAISI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     SurveyId = table.Column<int>(nullable: true),
-                    GroupCodeId = table.Column<int>(nullable: true),
+                    GroupcodeId = table.Column<int>(nullable: true),
                     Code = table.Column<string>(nullable: true),
                     IsTest = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false)
@@ -386,8 +386,8 @@ namespace TRAISI.Migrations
                 {
                     table.PrimaryKey("PK_Shortcodes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shortcodes_Groupcodes_GroupCodeId",
-                        column: x => x.GroupCodeId,
+                        name: "FK_Shortcodes_Groupcodes_GroupcodeId",
+                        column: x => x.GroupcodeId,
                         principalTable: "Groupcodes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -483,8 +483,9 @@ namespace TRAISI.Migrations
                     ParentViewId = table.Column<int>(nullable: true),
                     SurveyViewId = table.Column<int>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    isOptional = table.Column<bool>(nullable: false),
-                    isHousehold = table.Column<bool>(nullable: false),
+                    IsOptional = table.Column<bool>(nullable: false),
+                    IsHousehold = table.Column<bool>(nullable: false),
+                    IsMultiView = table.Column<bool>(nullable: false),
                     RepeatSourceId = table.Column<int>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
                     CATIDependentId = table.Column<int>(nullable: true)
@@ -821,6 +822,27 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SurveyAccessRecords",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    QueryParams = table.Column<string>(type: "jsonb", nullable: true),
+                    AccessDateTime = table.Column<DateTime>(nullable: false),
+                    UserAgent = table.Column<string>(nullable: true),
+                    AccessUserId = table.Column<string>(nullable: true),
+                    PrimaryRespondentId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyAccessRecords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurveyPermissions",
                 columns: table => new
                 {
@@ -877,7 +899,7 @@ namespace TRAISI.Migrations
                         column: x => x.SurveyId,
                         principalTable: "Surveys",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_SurveyRespondents_SurveyRespondentGroups_SurveyRespondentGr~",
                         column: x => x.SurveyRespondentGroupId,
@@ -935,31 +957,6 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SurveyAccessRecords",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    QueryString = table.Column<string>(nullable: true),
-                    AccessDateTime = table.Column<DateTime>(nullable: false),
-                    PrimaryRespondentId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SurveyAccessRecords", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SurveyAccessRecords_SurveyRespondents_PrimaryRespondentId",
-                        column: x => x.PrimaryRespondentId,
-                        principalTable: "SurveyRespondents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SurveyResponses",
                 columns: table => new
                 {
@@ -971,7 +968,6 @@ namespace TRAISI.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     QuestionPartId = table.Column<int>(nullable: true),
                     Repeat = table.Column<int>(nullable: false),
-                    ResponseValueId = table.Column<int>(nullable: false),
                     RespondentId = table.Column<int>(nullable: true),
                     SurveyAccessRecordId = table.Column<int>(nullable: true)
                 },
@@ -983,7 +979,7 @@ namespace TRAISI.Migrations
                         column: x => x.QuestionPartId,
                         principalTable: "QuestionParts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SurveyResponses_SurveyRespondents_RespondentId",
                         column: x => x.RespondentId,
@@ -1198,6 +1194,12 @@ namespace TRAISI.Migrations
                 column: "QuestionPartParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuestionOptions_Code_QuestionPartParentId",
+                table: "QuestionOptions",
+                columns: new[] { "Code", "QuestionPartParentId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionParts_QuestionPartId",
                 table: "QuestionParts",
                 column: "QuestionPartId");
@@ -1253,14 +1255,19 @@ namespace TRAISI.Migrations
                 column: "SurveyViewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shortcodes_GroupCodeId",
+                name: "IX_Shortcodes_GroupcodeId",
                 table: "Shortcodes",
-                column: "GroupCodeId");
+                column: "GroupcodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shortcodes_SurveyId",
                 table: "Shortcodes",
                 column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyAccessRecords_AccessUserId",
+                table: "SurveyAccessRecords",
+                column: "AccessUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyAccessRecords_PrimaryRespondentId",
@@ -1397,6 +1404,22 @@ namespace TRAISI.Migrations
                 table: "GroupMembers",
                 column: "UserId",
                 principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_SurveyAccessRecords_AspNetUsers_AccessUserId",
+                table: "SurveyAccessRecords",
+                column: "AccessUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_SurveyAccessRecords_SurveyRespondents_PrimaryRespondentId",
+                table: "SurveyAccessRecords",
+                column: "PrimaryRespondentId",
+                principalTable: "SurveyRespondents",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
