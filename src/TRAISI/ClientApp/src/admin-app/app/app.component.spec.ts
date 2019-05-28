@@ -10,12 +10,10 @@ import { LoginComponent } from './login/login.component';
 
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ToastyModule } from 'ng2-toasty';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
-import { AuthService } from '../../shared/services/auth.service';
 import { AppTitleService } from './services/app-title.service';
 import { AppTranslationService, TranslateLanguageLoader } from '../../shared/services/app-translation.service';
 import { ConfigurationService } from '../../shared/services/configuration.service';
@@ -26,6 +24,8 @@ import { NotificationService } from './services/notification.service';
 import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
 import { AccountEndpoint } from './services/account-endpoint.service';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+import { AuthService } from '../../shared/services/auth.service';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -41,10 +41,11 @@ describe('AppComponent', () => {
 					}
 				}),
 				NgxDatatableModule,
-				ToastyModule.forRoot(),
 				TooltipModule.forRoot(),
 				PopoverModule.forRoot(),
-				ModalModule.forRoot()
+				ModalModule.forRoot(),
+				ToastrModule.forRoot({ positionClass: 'inline' }),
+				ToastContainerModule
 			],
 			declarations: [AppComponent, LoginComponent],
 			providers: [

@@ -7,10 +7,11 @@ import {
 	AfterViewInit,
 	QueryList,
 	ElementRef,
-	HostListener
+	HostListener,
+	ViewChild
 } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import {
@@ -34,7 +35,7 @@ declare const SystemJS;
 
 @Component({
 	selector: 'app-root',
-	template: `<router-outlet><ng2-toasty></ng2-toasty></router-outlet>`
+	template: `<router-outlet><div toastContainer></div></router-outlet>`
 })
 export class AppComponent implements OnInit {
 	isAppLoaded: boolean;
@@ -42,6 +43,10 @@ export class AppComponent implements OnInit {
 
 	appTitle = 'TRAISI';
 	stickyToasties: number[] = [];
+
+	@ViewChild(ToastContainerDirective)
+	public toastContainer: ToastContainerDirective;
+ 
 
 	@HostListener('window:beforeunload', [ '$event' ])
   public beforeUnloadHander(event: any): void {
@@ -52,8 +57,7 @@ export class AppComponent implements OnInit {
 
 	constructor(
 		storageManager: LocalStoreManager,
-		private toastyService: ToastyService,
-		private toastyConfig: ToastyConfig,
+		private _toastrService: ToastrService,
 		private accountService: AccountService,
 		private alertService: AlertService,
 		private notificationService: NotificationService,
@@ -68,16 +72,18 @@ export class AppComponent implements OnInit {
 		translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
 		translationService.setDefaultLanguage('en');
 
-		this.toastyConfig.theme = 'bootstrap';
-		this.toastyConfig.position = 'top-right';
-		this.toastyConfig.limit = 100;
-		this.toastyConfig.showClose = true;
+		//this.toastyConfig.theme = 'bootstrap';
+		//this.toastyConfig.position = 'top-right';
+		//this.toastyConfig.limit = 100;
+		//this.toastyConfig.showClose = true;
 
 		this.appTitleService.appName = this.appTitle;
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.isUserLoggedIn = this.authService.isLoggedIn;
+
+		this._toastrService.overlayContainer = this.toastContainer;
 
 		// 1 sec to ensure all the effort to get the css animation working is appreciated :|, Preboot screen is removed .5 sec later
 		setTimeout(() => (this.isAppLoaded = true), 1000);
@@ -147,7 +153,7 @@ export class AppComponent implements OnInit {
 	 *
 	 * @param dialog
 	 */
-	showDialog(dialog: AlertDialog) {
+	public showDialog(dialog: AlertDialog) {
 		alertify.set({
 			labels: {
 				ok: dialog.okLabel || 'OK',
@@ -195,23 +201,23 @@ export class AppComponent implements OnInit {
 	 * @param message
 	 * @param isSticky
 	 */
-	showToast(message: AlertMessage, isSticky: boolean) {
+	public showToast(message: AlertMessage, isSticky: boolean): void {
 		if (message == null) {
 			for (const id of this.stickyToasties.slice(0)) {
-				this.toastyService.clear(id);
+				this._toastrService.clear(id);
 			}
 
 			return;
 		}
 
-		const toastOptions: ToastOptions = {
-			title: message.summary,
-			msg: message.detail,
-			timeout: isSticky ? 0 : 4000
-		};
+		//const toastOptions: ToastOptions = {
+		//	title: message.summary,
+		//	msg: message.detail,
+		//	timeout: isSticky ? 0 : 4000
+		// };
 
 		if (isSticky) {
-			toastOptions.onAdd = (toast: ToastData) => this.stickyToasties.push(toast.id);
+			/* toastOptions.onAdd = (toast: ToastData) => this.stickyToasties.push(toast.id);
 
 			toastOptions.onRemove = (toast: ToastData) => {
 				const index = this.stickyToasties.indexOf(toast.id, 0);
@@ -222,27 +228,27 @@ export class AppComponent implements OnInit {
 
 				toast.onAdd = null;
 				toast.onRemove = null;
-			};
+			}; */
 		}
 
 		switch (message.severity) {
 			case MessageSeverity.default:
-				this.toastyService.default(toastOptions);
+				this._toastrService.info(message.detail,message.summary);
 				break;
 			case MessageSeverity.info:
-				this.toastyService.info(toastOptions);
+				this._toastrService.info(message.detail,message.summary);
 				break;
 			case MessageSeverity.success:
-				this.toastyService.success(toastOptions);
+				this._toastrService.success(message.detail,message.summary);
 				break;
 			case MessageSeverity.error:
-				this.toastyService.error(toastOptions);
+				this._toastrService.error(message.detail,message.summary);
 				break;
 			case MessageSeverity.warn:
-				this.toastyService.warning(toastOptions);
+				this._toastrService.warning(message.detail,message.summary);
 				break;
 			case MessageSeverity.wait:
-				this.toastyService.wait(toastOptions);
+				this._toastrService.info(message.detail,message.summary);
 				break;
 		}
 	}

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ToastyModule } from 'ng2-toasty';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -76,7 +76,6 @@ const APP_PROVIDERS = [AppConfig];
 			}
 		}),
 		NgxDatatableModule,
-		ToastyModule.forRoot(),
 		TooltipModule.forRoot(),
 		PopoverModule.forRoot(),
 		CarouselModule.forRoot(),
@@ -86,15 +85,10 @@ const APP_PROVIDERS = [AppConfig];
 		ContextMenuModule.forRoot({
 			autoFocus: true
 		}),
-		MonacoEditorModule.forRoot(monacoConfig)
+		MonacoEditorModule.forRoot(monacoConfig),
+		ToastrModule.forRoot({ positionClass: 'toast-top-right', progressBar: true, timeOut: 4000, closeButton: true }),
+		ToastContainerModule
 	],
-	providers: [
-		APP_PROVIDERS,
-		AppTranslationService,
-		LocalStoreManager,
-		EndpointFactory,
-		TranslatePipe,
-		TitleCasePipe
-	]
+	providers: [APP_PROVIDERS, AppTranslationService, LocalStoreManager, EndpointFactory, TranslatePipe, TitleCasePipe]
 })
 export class AppModule {}

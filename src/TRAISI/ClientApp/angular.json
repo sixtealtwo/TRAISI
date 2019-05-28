@@ -49,7 +49,8 @@
 							"node_modules/quill/dist/quill.core.css",
 							"node_modules/quill/dist/quill.snow.css",
 							"node_modules/quill/dist/quill.bubble.css",
-							"node_modules/angular2-draggable/css/resizable.min.css"
+							"node_modules/angular2-draggable/css/resizable.min.css",
+							"node_modules/ngx-toastr/toastr.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.min.js",
