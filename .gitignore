@@ -258,6 +258,7 @@ Thumbs.db
 !.vscode/settings.json
 .rider/
 .idea/
+.angulardoc.json
 
 #local coniguration
 appsettings.local.json
