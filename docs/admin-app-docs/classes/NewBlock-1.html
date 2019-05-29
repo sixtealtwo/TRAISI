@@ -1,0 +1,770 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>NewBlock</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/admin-app/app/survey-builder/components/question-configuration/question-configuration.component.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../miscellaneous/variables.html#Block" target="_self" >Block</a></code>
+            </p>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	OnInit,
+	Output,
+	EventEmitter,
+	ViewChildren,
+	ViewContainerRef,
+	QueryList,
+	ComponentFactoryResolver,
+	ChangeDetectorRef,
+	AfterViewInit,
+	ViewChild,
+	ViewEncapsulation,
+	Input
+} from &#x27;@angular/core&#x27;;
+import { QuestionTypeDefinition } from &#x27;../../models/question-type-definition&#x27;;
+import { QuestionPartView } from &#x27;../../models/question-part-view.model&#x27;;
+import { AuthService } from &#x27;../../../../../shared/services/auth.service&#x27;;
+import { ConfigurationService } from &#x27;../../../../../shared/services/configuration.service&#x27;;
+import { CheckboxComponent } from &#x27;./checkbox-field/checkbox.component&#x27;;
+import { QuestionConfigurationDefinition } from &#x27;../../models/question-configuration-definition.model&#x27;;
+import { DateInputComponent } from &#x27;./date-input-field/date-input.component&#x27;;
+import { DropdownListComponent } from &#x27;./dropdown-list-field/dropdown-list.component&#x27;;
+import { MultiSelectComponent } from &#x27;./multi-select-field/multi-select.component&#x27;;
+import { TextboxComponent } from &#x27;./textbox-field/textbox.component&#x27;;
+import { TextAreaComponent } from &#x27;./textarea-field/textarea.component&#x27;;
+import { NumericTextboxComponent } from &#x27;./numeric-textbox-field/numeric-textbox.component&#x27;;
+import { SliderComponent } from &#x27;./slider-field/slider.component&#x27;;
+import { SwitchComponent } from &#x27;./switch-field/switch.component&#x27;;
+import { TimeInputComponent } from &#x27;./time-input-field/time-input.component&#x27;;
+import { LocationFieldComponent } from &#x27;./location-field/location.component&#x27;;
+import { RadioComponent } from &#x27;./radio-field/radio.component&#x27;;
+import { SurveyBuilderService } from &#x27;../../services/survey-builder.service&#x27;;
+import { QuestionConfigurationValue } from &#x27;../../models/question-configuration-value.model&#x27;;
+import { TreeviewItem, TreeviewI18nDefault, TreeviewSelection } from &#x27;ngx-treeview&#x27;;
+import { QuestionConditional } from &#x27;../../models/question-conditional.model&#x27;;
+import { QuestionOptionConditional } from &#x27;../../models/question-option-conditional.model&#x27;;
+import { QuestionConditionalsComponent } from &#x27;./question-conditionals/question-conditionals.component&#x27;;
+import Quill from &#x27;quill&#x27;;
+import { DropdownTreeviewSelectComponent } from &#x27;../../../shared/dropdown-treeview-select/dropdown-treeview-select.component&#x27;;
+import { DropdownTreeviewSelectI18n } from &#x27;../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n&#x27;;
+import { QuestionOptionValue } from &#x27;../../models/question-option-value.model&#x27;;
+
+// override p with div tag
+const Parchment &#x3D; Quill.import(&#x27;parchment&#x27;);
+let Block &#x3D; Parchment.query(&#x27;block&#x27;);
+
+class NewBlock extends Block {}
+NewBlock.tagName &#x3D; &#x27;DIV&#x27;;
+Quill.register(NewBlock, true);
+
+@Component({
+	selector: &#x27;app-question-configuration&#x27;,
+	templateUrl: &#x27;./question-configuration.component.html&#x27;,
+	styleUrls: [&#x27;./question-configuration.component.scss&#x27;],
+	encapsulation: ViewEncapsulation.None
+})
+export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
+	public surveyId: number;
+
+	public questionType: QuestionTypeDefinition;
+	public questionBeingEdited: QuestionPartView;
+	public editing: boolean &#x3D; false;
+
+	public newQuestion: boolean &#x3D; true;
+
+	public configurations: QuestionConfigurationDefinition[] &#x3D; [];
+
+	public configurationValues: QuestionConfigurationValue[] &#x3D; [];
+
+	public sourceQuestionConditionals: QuestionConditional[] &#x3D; [];
+
+	public sourceQuestionOptionConditionals: QuestionOptionConditional[] &#x3D; [];
+
+	public questionOptions: Map&lt;string, QuestionOptionValue[]&gt; &#x3D; new Map&lt;string, QuestionOptionValue[]&gt;();
+
+	public childrenComponents &#x3D; [];
+
+	public fullStructure: TreeviewItem[] &#x3D; [];
+	public questionOptionsAfter: TreeviewItem[] &#x3D; [];
+	public questionsBefore: TreeviewItem[] &#x3D; [];
+	public repeatSourcesBefore: TreeviewItem[] &#x3D; [];
+	public thisQuestion: TreeviewItem[] &#x3D; [];
+	public householdExistsBefore: boolean &#x3D; false;
+
+	public treedropdownSingleConfig &#x3D; {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
+
+	public cursorPosition: number;
+	public catiCursorPosition: number;
+
+	public conditionalsLoaded: boolean &#x3D; false;
+	public isSaving: boolean &#x3D; false;
+
+	public quillQuestionTextModules &#x3D; {
+		toolbar: [
+			[&#x27;bold&#x27;, &#x27;italic&#x27;, &#x27;underline&#x27;], // toggled buttons
+			[{ script: &#x27;sub&#x27; }, { script: &#x27;super&#x27; }], // superscript/subscript
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ align: [] }],
+			[&#x27;clean&#x27;] // remove formatting button
+		]
+	};
+
+	@Input()
+	public qTypeDefinitions: Map&lt;string, QuestionTypeDefinition&gt; &#x3D; new Map&lt;string, QuestionTypeDefinition&gt;();
+
+	@Input()
+	public language: string;
+
+	@Output()
+	public configResult &#x3D; new EventEmitter&lt;string&gt;();
+
+	@ViewChild(&#x27;conditionals&#x27;)
+	public conditionalsComponent: QuestionConditionalsComponent;
+
+	@ViewChild(&#x27;pipeTreeSelect&#x27;)
+	public pipeTreeSelect: DropdownTreeviewSelectComponent;
+
+	@ViewChild(&#x27;catiPipeTreeSelect&#x27;)
+	public catiPipeTreeSelect: DropdownTreeviewSelectComponent;
+
+	@ViewChild(&#x27;repeatTreeSelect&#x27;)
+	public repeatTreeSelect: DropdownTreeviewSelectComponent;
+
+	private questionQuillEditor: any;
+	private catiQuestionQuillEditor: any;
+
+	@ViewChildren(&#x27;dynamic&#x27;, { read: ViewContainerRef })
+	public configTargets: QueryList&lt;ViewContainerRef&gt;;
+
+	constructor(
+		private builderService: SurveyBuilderService,
+		private componentFactoryResolver: ComponentFactoryResolver,
+		private cDRef: ChangeDetectorRef
+	) {}
+
+	public ngOnInit() {}
+
+	public pipeDropdown(e: TreeviewSelection): string {
+		let selected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.pipeTreeSelect.i18n).selectedItem;
+		return selected !&#x3D;&#x3D; undefined &amp;&amp; selected !&#x3D;&#x3D; null ? selected.text : &#x27;Pipe Question&#x27;;
+	}
+
+	public catiPipeDropdown(e: TreeviewSelection): string {
+		let selected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.catiPipeTreeSelect.i18n).selectedItem;
+		return selected !&#x3D;&#x3D; undefined &amp;&amp; selected !&#x3D;&#x3D; null ? selected.text : &#x27;Pipe Question&#x27;;
+	}
+
+	public repeatDropdown(e: TreeviewSelection): string {
+		let selected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.repeatTreeSelect.i18n).selectedItem;
+		return selected !&#x3D;&#x3D; undefined &amp;&amp; selected !&#x3D;&#x3D; null ? selected.text : &#x27;Select Question&#x27;;
+	}
+
+	public ngAfterViewInit() {
+		// this.updateAdvancedParams();
+		setTimeout(() &#x3D;&gt; {
+			this.configTargets.changes.subscribe(item &#x3D;&gt; {
+				this.updateAdvancedParams();
+			});
+		}, 200);
+	}
+
+	public questiontextEditorCreated(quillInstance: any) {
+		this.questionQuillEditor &#x3D; quillInstance;
+	}
+
+	public catiQuestiontextEditorCreated(quillInstance: any) {
+		this.catiQuestionQuillEditor &#x3D; quillInstance;
+	}
+
+	public updateAdvancedParams() {
+		const paramComponents &#x3D; this.parameterComponents();
+		this.childrenComponents &#x3D; [];
+		if (this.configurations.length &gt; 0) {
+			this.builderService
+				.getQuestionPartConfigurations(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.subscribe(configurationValues &#x3D;&gt; {
+					for (let i &#x3D; 0; i &lt; this.configTargets.toArray().length; i++) {
+						let conf &#x3D; this.configurations[i];
+						let component &#x3D; paramComponents[conf.builderType];
+
+						if (component) {
+							let target &#x3D; this.configTargets.toArray()[i];
+							target.clear();
+							let paramComponent &#x3D; this.componentFactoryResolver.resolveComponentFactory(component);
+
+							let cmpRef: any &#x3D; target.createComponent(paramComponent);
+
+							cmpRef.instance.id &#x3D; i;
+							cmpRef.instance.questionConfiguration &#x3D; conf;
+							if (configurationValues.has(conf.name)) {
+								cmpRef.instance.processPriorValue(configurationValues.get(conf.name));
+							}
+							this.childrenComponents.push(cmpRef);
+						}
+					}
+				});
+		}
+		// this.cDRef.detectChanges();
+	}
+
+	public parameterComponents() {
+		let widgetComponents &#x3D; {
+			Checkbox: CheckboxComponent,
+			Date: DateInputComponent,
+			SingleSelect: DropdownListComponent,
+			MultiSelect: MultiSelectComponent,
+			Text: TextboxComponent,
+			TextArea: TextAreaComponent,
+			NumericText: NumericTextboxComponent,
+			Slider: SliderComponent,
+			Switch: SwitchComponent,
+			Time: TimeInputComponent,
+			Location: LocationFieldComponent,
+			Radio: RadioComponent
+		};
+
+		return widgetComponents;
+	}
+
+	public advancedConfig() {
+		setTimeout(() &#x3D;&gt; {
+			window.dispatchEvent(new Event(&#x27;resize&#x27;));
+		}, 0);
+	}
+
+	public saveConfiguration(): void {
+		this.configurationValues &#x3D; [];
+		this.childrenComponents.forEach(compRef &#x3D;&gt; {
+			this.configurationValues.push(
+				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
+			);
+		});
+		this.isSaving &#x3D; true;
+		this.configResult.emit(&#x27;save&#x27;);
+	}
+
+	public getUpdatedConditionals(): [QuestionConditional[], QuestionOptionConditional[]] {
+		return this.conditionalsComponent.getUpdatedConditionals();
+	}
+
+	public cancel() {
+		this.configResult.emit(&#x27;cancel&#x27;);
+	}
+
+	public delete() {
+		this.configResult.emit(&#x27;delete&#x27;);
+	}
+
+	public pipeQuestion() {
+		let pipeQSelected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.pipeTreeSelect.i18n).selectedItem;
+		if (pipeQSelected) {
+			let currentCursorPosition &#x3D; this.cursorPosition;
+			if (currentCursorPosition &#x3D;&#x3D;&#x3D; undefined) {
+				currentCursorPosition &#x3D; this.questionQuillEditor.getLength() - 1;
+			}
+			this.questionQuillEditor.insertText(currentCursorPosition, &#x60;{{ ${pipeQSelected.text} }}&#x60;);
+			this.cursorPosition +&#x3D; pipeQSelected.text.length + 6;
+			this.questionQuillEditor.setSelection(this.cursorPosition);
+			this.questionQuillEditor.focus();
+			(&lt;DropdownTreeviewSelectI18n&gt;this.pipeTreeSelect.i18n).selectedItem &#x3D; undefined;
+			this.pipeTreeSelect.value &#x3D; undefined;
+		}
+	}
+
+	public pipeCatiQuestion() {
+		let pipeQSelected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.catiPipeTreeSelect.i18n).selectedItem;
+		if (pipeQSelected) {
+			let currentCursorPosition &#x3D; this.catiCursorPosition;
+			if (currentCursorPosition &#x3D;&#x3D;&#x3D; undefined) {
+				currentCursorPosition &#x3D; this.catiQuestionQuillEditor.getLength() - 1;
+			}
+			this.catiQuestionQuillEditor.insertText(currentCursorPosition, &#x60;{{ ${pipeQSelected.text} }}&#x60;);
+			this.catiCursorPosition +&#x3D; pipeQSelected.text.length + 6;
+			this.catiQuestionQuillEditor.setSelection(this.catiCursorPosition);
+			this.catiQuestionQuillEditor.focus();
+			(&lt;DropdownTreeviewSelectI18n&gt;this.catiPipeTreeSelect.i18n).selectedItem &#x3D; undefined;
+			this.catiPipeTreeSelect.value &#x3D; undefined;
+		}
+	}
+
+	public repeatQuestion(enabled: boolean) {
+		if (!enabled) {
+			this.questionBeingEdited.repeatSourceQuestionName &#x3D; null;
+		} else {
+			let repeatQSelected &#x3D; (&lt;DropdownTreeviewSelectI18n&gt;this.repeatTreeSelect.i18n).selectedItem;
+			if (repeatQSelected) {
+				this.questionBeingEdited.repeatSourceQuestionName &#x3D; repeatQSelected.value;
+			} else {
+				this.questionBeingEdited.repeatSourceQuestionName &#x3D; null;
+			}
+		}
+	}
+
+	public recordCursor(selection: any) {
+		let newPosition &#x3D; selection.range;
+		if (newPosition !&#x3D;&#x3D; null) {
+			this.cursorPosition &#x3D; newPosition.index;
+		}
+	}
+
+	public recordCatiCursor(selection: any) {
+		let newPosition &#x3D; selection.range;
+		if (newPosition !&#x3D;&#x3D; null) {
+			this.catiCursorPosition &#x3D; newPosition.index;
+		}
+	}
+
+	public updateCursorOnType() {
+		let selection &#x3D; this.questionQuillEditor.getSelection();
+		if (selection) {
+			this.cursorPosition &#x3D; this.questionQuillEditor.getSelection().index;
+		}
+	}
+
+	public updateCatiCursorOnType() {
+		let selection &#x3D; this.catiQuestionQuillEditor.getSelection();
+		if (selection) {
+			this.catiCursorPosition &#x3D; this.catiQuestionQuillEditor.getSelection().index;
+		}
+	}
+
+	public processConfigurations() {
+		this.configurations &#x3D; Object.values(this.questionType.questionConfigurations);
+
+		this.processQuestionTree();
+		if (this.questionType.typeName !&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+			this.loadPastConditionals();
+		}
+		this.repeatTreeSelect.value &#x3D; this.questionBeingEdited.repeatSourceQuestionName;
+		setTimeout(() &#x3D;&gt; {
+			if (this.pipeTreeSelect) {
+				this.pipeTreeSelect.i18n.getText &#x3D; e &#x3D;&gt; this.pipeDropdown(e);
+			}
+			if (this.catiPipeTreeSelect) {
+				this.catiPipeTreeSelect.i18n.getText &#x3D; e &#x3D;&gt; this.pipeDropdown(e);
+			}
+			if (this.repeatTreeSelect) {
+				this.repeatTreeSelect.i18n.getText &#x3D; e &#x3D;&gt; this.repeatDropdown(e);
+			}
+		}, 0);
+
+		this.questionOptions &#x3D; new Map&lt;string, QuestionOptionValue[]&gt;();
+
+		if (this.questionBeingEdited.questionPart) {
+			let qOptions &#x3D; this.qTypeDefinitions.get(this.questionBeingEdited.questionPart.questionType).questionOptions;
+			Object.keys(qOptions).forEach(q &#x3D;&gt; {
+				this.questionOptions.set(q, []);
+			});
+
+			this.builderService.getQuestionPartOptions(this.surveyId, this.questionBeingEdited.questionPart.id, this.language).subscribe(
+				options &#x3D;&gt; {
+					console.log(options);
+					if (options !&#x3D;&#x3D; null) {
+						options.forEach(option &#x3D;&gt; {
+							this.questionOptions.get(option.name).push(option);
+						});
+					}
+				},
+				error &#x3D;&gt; {}
+			);
+		}
+	}
+
+	private loadPastConditionals() {
+		this.builderService.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.questionPart.id).subscribe(conditionals &#x3D;&gt; {
+			this.builderService
+				.getQuestionPartOptionConditionals(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.subscribe(oConditionals &#x3D;&gt; {
+					this.sourceQuestionConditionals &#x3D; conditionals.filter(
+						c &#x3D;&gt; c.sourceQuestionId &#x3D;&#x3D;&#x3D; this.questionBeingEdited.questionPart.id
+					);
+					this.sourceQuestionOptionConditionals &#x3D; oConditionals.filter(
+						c &#x3D;&gt; c.sourceQuestionId &#x3D;&#x3D;&#x3D; this.questionBeingEdited.questionPart.id
+					);
+					this.conditionalsLoaded &#x3D; true;
+				});
+		});
+	}
+
+	private getQuestionResponseType(typeValue: string): string {
+		let questionType &#x3D; typeValue.split(&#x27;~&#x27;)[1];
+		return this.qTypeDefinitions.get(questionType).responseType;
+	}
+
+	private getQuestionType(typeValue: string): string {
+		let questionType &#x3D; typeValue.split(&#x27;~&#x27;)[1];
+		return this.qTypeDefinitions.get(questionType).typeName;
+	}
+
+	private allowAsRepeatSource(typeValue: string): boolean {
+		let responseType &#x3D; this.getQuestionResponseType(typeValue);
+		if (responseType &#x3D;&#x3D;&#x3D; &#x27;Integer&#x27;) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private isHouseholdSource(typeValue: string): boolean {
+		let questionType &#x3D; this.getQuestionType(typeValue);
+		if (questionType &#x3D;&#x3D;&#x3D; &#x27;household&#x27;) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public allowConditionals(): boolean {
+		if (this.questionType.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27; || this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;None&#x27;) {
+			return false;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionSelect&#x27; || this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27;) {
+
+			if (this.thisQuestion[0] &amp;&amp; this.thisQuestion[0].children) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	// private getOptionResponseType(questionTypeValue: string, optionTypeValue: string): string {}
+
+	private processQuestionTree() {
+		this.questionsBefore &#x3D; [];
+		this.questionOptionsAfter &#x3D; [];
+		this.repeatSourcesBefore &#x3D; [];
+		this.householdExistsBefore &#x3D; false;
+		this.thisQuestion &#x3D; [];
+		let questionHitThisPage: boolean &#x3D; false;
+		let questionBreak &#x3D; &#x27;&#x27;;
+		if (this.questionType.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27; &amp;&amp; this.questionBeingEdited.questionPartViewChildren.length &gt; 0) {
+			questionBreak &#x3D; &#x60;question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${
+				this.questionBeingEdited.questionPartViewChildren[0].questionPart.id
+			}&#x60;;
+		} else if (this.questionType.typeName !&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+			questionBreak &#x3D; &#x60;question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}&#x60;;
+		}
+
+		// if (questionBreak !&#x3D;&#x3D; &#x27;&#x27;) {
+
+		this.fullStructure.forEach(treeElement &#x3D;&gt; {
+			let page &#x3D; {
+				value: treeElement.value,
+				text: treeElement.text,
+				checked: false,
+				children: []
+			};
+
+			if (treeElement.children) {
+				let sectionName &#x3D; &#x27;&#x27;;
+				if (this.questionType.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+					sectionName &#x3D; &#x60;part~${this.questionBeingEdited.id}&#x60;;
+				}
+				let { pageReturn, questionHitReturn } &#x3D; this.processQuestionPageIntoTree(
+					page,
+					treeElement,
+					questionHitThisPage,
+					questionBreak,
+					sectionName
+				);
+				page &#x3D; pageReturn;
+				questionHitThisPage &#x3D; questionHitReturn;
+			}
+			if (questionHitThisPage &amp;&amp; page.children.length &gt; 0) {
+				this.questionOptionsAfter.push(new TreeviewItem(page));
+			} else if (page.children.length &gt; 0) {
+				this.questionsBefore.push(new TreeviewItem(page));
+			}
+		});
+		// }
+	}
+
+	private processQuestionPageIntoTree(
+		page: any,
+		treeElement: TreeviewItem,
+		questionHit: boolean,
+		questionBreak: string,
+		sectionBreak: string
+	) {
+		let repeatSources &#x3D; [];
+		for (let element of treeElement.children) {
+			if (element.value &#x3D;&#x3D;&#x3D; questionBreak) {
+				this.thisQuestion &#x3D; [element];
+
+				this.repeatSourcesBefore &#x3D; repeatSources;
+				if (page.children.length &gt; 0) {
+					this.questionsBefore.push(new TreeviewItem(page));
+					page &#x3D; {
+						value: treeElement.value,
+						text: treeElement.text,
+						checked: false,
+						children: []
+					};
+				}
+				questionHit &#x3D; true;
+			} else {
+				if (element.value &#x3D;&#x3D;&#x3D; sectionBreak) {
+					this.repeatSourcesBefore &#x3D; repeatSources;
+					if (page.children.length &gt; 0) {
+						this.questionsBefore.push(new TreeviewItem(page));
+						page &#x3D; {
+							value: treeElement.value,
+							text: treeElement.text,
+							checked: false,
+							children: []
+						};
+					}
+					questionHit &#x3D; true;
+				}
+
+				if (!questionHit &amp;&amp; element.children) {
+					if ((&lt;string&gt;element.children[0].value).startsWith(&#x27;option&#x27;)) {
+						this.clearOptionsFromElement(element);
+					}
+				}
+
+				let elementCopy &#x3D; {
+					value: element.value,
+					text: element.text,
+					checked: false,
+					children: []
+				};
+				if (element.children) {
+					let { pageReturn, partReturn, questionHitReturn } &#x3D; this.processQuestionPartIntoTree(
+						page,
+						element,
+						elementCopy,
+						questionHit,
+						questionBreak,
+						element.value &#x3D;&#x3D;&#x3D; sectionBreak
+					);
+					page &#x3D; pageReturn;
+					elementCopy &#x3D; partReturn;
+					questionHit &#x3D; questionHitReturn;
+				}
+				if (!((&lt;string&gt;element.value).startsWith(&#x27;part&#x27;) &amp;&amp; elementCopy.children.length &#x3D;&#x3D;&#x3D; 0)) {
+					page.children.push(new TreeviewItem(elementCopy));
+				}
+				if (!(&lt;string&gt;element.value).startsWith(&#x27;part&#x27;) &amp;&amp; !questionHit &amp;&amp; this.allowAsRepeatSource(element.value)) {
+					repeatSources.push(new TreeviewItem(elementCopy));
+				}
+				if (!(&lt;string&gt;element.value).startsWith(&#x27;part&#x27;) &amp;&amp; !questionHit &amp;&amp; this.isHouseholdSource(element.value)) {
+					this.householdExistsBefore &#x3D; true;
+				}
+			}
+		}
+		return { pageReturn: page, questionHitReturn: questionHit };
+	}
+
+	private processQuestionPartIntoTree(
+		page: any,
+		partSource: TreeviewItem,
+		part,
+		questionHit: boolean,
+		questionBreak: string,
+		ignoreRepeat: boolean
+	) {
+		let repeatSources &#x3D; [];
+		for (let element of partSource.children) {
+			if (element.value &#x3D;&#x3D;&#x3D; questionBreak) {
+				this.thisQuestion &#x3D; [element];
+				if (!ignoreRepeat) {
+					this.repeatSourcesBefore &#x3D; repeatSources;
+				}
+				if (page.children.length &gt; 0 || part.children.length &gt; 0) {
+					if (part.children.length &gt; 0) {
+						page.children.push(part);
+					}
+					this.questionsBefore.push(new TreeviewItem(page));
+					page &#x3D; {
+						value: page.value,
+						text: page.text,
+						checked: false,
+						children: []
+					};
+					part &#x3D; {
+						value: partSource.value,
+						text: partSource.text,
+						checked: false,
+						children: []
+					};
+				}
+				questionHit &#x3D; true;
+			} else {
+				if (!questionHit &amp;&amp; element.children) {
+					if ((&lt;string&gt;element.children[0].value).startsWith(&#x27;option&#x27;)) {
+						this.clearOptionsFromElement(element);
+					}
+				}
+				part.children.push(element);
+				if (!questionHit &amp;&amp; this.allowAsRepeatSource(element.value)) {
+					repeatSources.push(element);
+				}
+			}
+		}
+		return { pageReturn: page, partReturn: part, questionHitReturn: questionHit };
+	}
+
+	private clearOptionsFromElement(element: TreeviewItem) {
+		if (element.children &amp;&amp; element.children.length &gt; 0) {
+			if ((&lt;string&gt;element.children[0].value).startsWith(&#x27;option&#x27;)) {
+				element.children &#x3D; undefined;
+			} else {
+				element.children.forEach(child &#x3D;&gt; {
+					this.clearOptionsFromElement(child);
+				});
+			}
+		}
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'NewBlock-1.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

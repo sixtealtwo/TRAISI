@@ -1,0 +1,2006 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>DashboardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/dashboard/dashboard.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-dashboard</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./dashboard.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dashboard.template.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_mapURL">_mapURL</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#echartsInitOptions">echartsInitOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#echartsInstance">echartsInstance</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mapLoaded">mapLoaded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#options">options</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#options2">options2</a>
+                            </li>
+                            <li>
+                                <a href="#zonePopMap">zonePopMap</a>
+                            </li>
+                            <li>
+                                <a href="#zonePopulation">zonePopulation</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getMapData">getMapData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onChartInit">onChartInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="556" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:556</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMapData"></a>
+                    <span class="name">
+                        <b>
+                            getMapData
+                        </b>
+                        <a href="#getMapData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMapData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="563"
+                            class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:563</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="567"
+                            class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:567</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChartInit"></a>
+                    <span class="name">
+                        <b>
+                            onChartInit
+                        </b>
+                        <a href="#onChartInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onChartInit(ec)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="666"
+                            class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:666</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ec</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_mapURL"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _mapURL</b>
+                            <a href="#_mapURL"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;assets/maps/tts-zones-pd.json&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="555" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:555</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="echartsInitOptions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            echartsInitOptions</b>
+                            <a href="#echartsInitOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		renderer: &#x27;canvas&#x27;
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:15</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="echartsInstance"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            echartsInstance</b>
+                            <a href="#echartsInstance"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mapLoaded"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            mapLoaded</b>
+                            <a href="#mapLoaded"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="556" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:556</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="options"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            options</b>
+                            <a href="#options"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="options2"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            options2</b>
+                            <a href="#options2"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="zonePopMap"></a>
+                        <span class="name">
+                            <b>
+                            zonePopMap</b>
+                            <a href="#zonePopMap"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="553" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:553</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="zonePopulation"></a>
+                        <span class="name">
+                            <b>
+                            zonePopulation</b>
+                            <a href="#zonePopulation"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+		{
+			PlanningDistrict: &#x27;PD 1 of Toronto&#x27;,
+			Unexpanded: 13304,
+			Expanded: 263028
+		},
+		{
+			PlanningDistrict: &#x27;PD 2 of Toronto&#x27;,
+			Unexpanded: 8887,
+			Expanded: 200607
+		},
+		{
+			PlanningDistrict: &#x27;PD 3 of Toronto&#x27;,
+			Unexpanded: 10316,
+			Expanded: 234531
+		},
+		{
+			PlanningDistrict: &#x27;PD 4 of Toronto&#x27;,
+			Unexpanded: 10622,
+			Expanded: 233122
+		},
+		{
+			PlanningDistrict: &#x27;PD 5 of Toronto&#x27;,
+			Unexpanded: 5501,
+			Expanded: 121935
+		},
+		{
+			PlanningDistrict: &#x27;PD 6 of Toronto&#x27;,
+			Unexpanded: 9918,
+			Expanded: 210993
+		},
+		{
+			PlanningDistrict: &#x27;PD 7 of Toronto&#x27;,
+			Unexpanded: 3423,
+			Expanded: 66335
+		},
+		{
+			PlanningDistrict: &#x27;PD 8 of Toronto&#x27;,
+			Unexpanded: 9474,
+			Expanded: 197781
+		},
+		{
+			PlanningDistrict: &#x27;PD 9 of Toronto&#x27;,
+			Unexpanded: 3865,
+			Expanded: 94229
+		},
+		{
+			PlanningDistrict: &#x27;PD 10 of Toronto&#x27;,
+			Unexpanded: 6414,
+			Expanded: 146543
+		},
+		{
+			PlanningDistrict: &#x27;PD 11 of Toronto&#x27;,
+			Unexpanded: 9908,
+			Expanded: 206713
+		},
+		{
+			PlanningDistrict: &#x27;PD 12 of Toronto&#x27;,
+			Unexpanded: 3927,
+			Expanded: 80857
+		},
+		{
+			PlanningDistrict: &#x27;PD 13 of Toronto&#x27;,
+			Unexpanded: 9526,
+			Expanded: 229816
+		},
+		{
+			PlanningDistrict: &#x27;PD 14 of Toronto&#x27;,
+			Unexpanded: 3124,
+			Expanded: 63079
+		},
+		{
+			PlanningDistrict: &#x27;PD 15 of Toronto&#x27;,
+			Unexpanded: 3793,
+			Expanded: 83791
+		},
+		{
+			PlanningDistrict: &#x27;PD 16 of Toronto&#x27;,
+			Unexpanded: 10805,
+			Expanded: 238131
+		},
+		{
+			PlanningDistrict: &#x27;Brock&#x27;,
+			Unexpanded: 552,
+			Expanded: 11311
+		},
+		{
+			PlanningDistrict: &#x27;Uxbridge&#x27;,
+			Unexpanded: 1079,
+			Expanded: 20849
+		},
+		{
+			PlanningDistrict: &#x27;Scugog&#x27;,
+			Unexpanded: 1121,
+			Expanded: 21206
+		},
+		{
+			PlanningDistrict: &#x27;Pickering&#x27;,
+			Unexpanded: 4099,
+			Expanded: 90250
+		},
+		{
+			PlanningDistrict: &#x27;Ajax&#x27;,
+			Unexpanded: 5274,
+			Expanded: 116815
+		},
+		{
+			PlanningDistrict: &#x27;Whitby&#x27;,
+			Unexpanded: 5823,
+			Expanded: 126060
+		},
+		{
+			PlanningDistrict: &#x27;Oshawa&#x27;,
+			Unexpanded: 7475,
+			Expanded: 156884
+		},
+		{
+			PlanningDistrict: &#x27;Clarington&#x27;,
+			Unexpanded: 4180,
+			Expanded: 91184
+		},
+		{
+			PlanningDistrict: &#x27;Georgina&#x27;,
+			Unexpanded: 2135,
+			Expanded: 45464
+		},
+		{
+			PlanningDistrict: &#x27;East Gwillimbury&#x27;,
+			Unexpanded: 1163,
+			Expanded: 23869
+		},
+		{
+			PlanningDistrict: &#x27;Newmarket&#x27;,
+			Unexpanded: 3737,
+			Expanded: 81848
+		},
+		{
+			PlanningDistrict: &#x27;Aurora&#x27;,
+			Unexpanded: 2528,
+			Expanded: 54783
+		},
+		{
+			PlanningDistrict: &#x27;Richmond Hill&#x27;,
+			Unexpanded: 9192,
+			Expanded: 192245
+		},
+		{
+			PlanningDistrict: &#x27;Whitchurch-Stouffville&#x27;,
+			Unexpanded: 1742,
+			Expanded: 45076
+		},
+		{
+			PlanningDistrict: &#x27;Markham&#x27;,
+			Unexpanded: 15501,
+			Expanded: 323645
+		},
+		{
+			PlanningDistrict: &#x27;King&#x27;,
+			Unexpanded: 1037,
+			Expanded: 24367
+		},
+		{
+			PlanningDistrict: &#x27;Vaughan&#x27;,
+			Unexpanded: 14588,
+			Expanded: 299699
+		},
+		{
+			PlanningDistrict: &#x27;Caledon&#x27;,
+			Unexpanded: 3281,
+			Expanded: 65624
+		},
+		{
+			PlanningDistrict: &#x27;Brampton&#x27;,
+			Unexpanded: 26005,
+			Expanded: 579327
+		},
+		{
+			PlanningDistrict: &#x27;Mississauga&#x27;,
+			Unexpanded: 32599,
+			Expanded: 707195
+		},
+		{
+			PlanningDistrict: &#x27;Halton Hills&#x27;,
+			Unexpanded: 2820,
+			Expanded: 60001
+		},
+		{
+			PlanningDistrict: &#x27;Milton&#x27;,
+			Unexpanded: 5349,
+			Expanded: 108241
+		},
+		{
+			PlanningDistrict: &#x27;Oakville&#x27;,
+			Unexpanded: 8561,
+			Expanded: 190971
+		},
+		{
+			PlanningDistrict: &#x27;Burlington&#x27;,
+			Unexpanded: 7987,
+			Expanded: 180023
+		},
+		{
+			PlanningDistrict: &#x27;Flamborough&#x27;,
+			Unexpanded: 1531,
+			Expanded: 42346
+		},
+		{
+			PlanningDistrict: &#x27;Dundas&#x27;,
+			Unexpanded: 672,
+			Expanded: 23222
+		},
+		{
+			PlanningDistrict: &#x27;Ancaster&#x27;,
+			Unexpanded: 1023,
+			Expanded: 39929
+		},
+		{
+			PlanningDistrict: &#x27;Glanbrook&#x27;,
+			Unexpanded: 761,
+			Expanded: 29114
+		},
+		{
+			PlanningDistrict: &#x27;Stoney Creek&#x27;,
+			Unexpanded: 2025,
+			Expanded: 67920
+		},
+		{
+			PlanningDistrict: &#x27;Hamilton&#x27;,
+			Unexpanded: 8216,
+			Expanded: 322979
+		},
+		{
+			PlanningDistrict: &#x27;Grimsby&#x27;,
+			Unexpanded: 1258,
+			Expanded: 27164
+		},
+		{
+			PlanningDistrict: &#x27;Lincoln&#x27;,
+			Unexpanded: 1073,
+			Expanded: 22894
+		},
+		{
+			PlanningDistrict: &#x27;Pelham&#x27;,
+			Unexpanded: 753,
+			Expanded: 16559
+		},
+		{
+			PlanningDistrict: &#x27;Niagara-on-the-Lake&#x27;,
+			Unexpanded: 773,
+			Expanded: 16662
+		},
+		{
+			PlanningDistrict: &#x27;St. Catharines&#x27;,
+			Unexpanded: 5776,
+			Expanded: 129509
+		},
+		{
+			PlanningDistrict: &#x27;Thorold&#x27;,
+			Unexpanded: 935,
+			Expanded: 18378
+		},
+		{
+			PlanningDistrict: &#x27;Niagara Falls&#x27;,
+			Unexpanded: 3632,
+			Expanded: 85418
+		},
+		{
+			PlanningDistrict: &#x27;Welland&#x27;,
+			Unexpanded: 2309,
+			Expanded: 51424
+		},
+		{
+			PlanningDistrict: &#x27;Port Colbourne&#x27;,
+			Unexpanded: 817,
+			Expanded: 17830
+		},
+		{
+			PlanningDistrict: &#x27;Fort Erie&#x27;,
+			Unexpanded: 1384,
+			Expanded: 30478
+		},
+		{
+			PlanningDistrict: &#x27;West Lincoln&#x27;,
+			Unexpanded: 651,
+			Expanded: 14422
+		},
+		{
+			PlanningDistrict: &#x27;Wainfleet&#x27;,
+			Unexpanded: 267,
+			Expanded: 6207
+		},
+		{
+			PlanningDistrict: &#x27;Waterloo&#x27;,
+			Unexpanded: 5007,
+			Expanded: 103040
+		},
+		{
+			PlanningDistrict: &#x27;Kitchener&#x27;,
+			Unexpanded: 9790,
+			Expanded: 228189
+		},
+		{
+			PlanningDistrict: &#x27;Cambridge&#x27;,
+			Unexpanded: 5411,
+			Expanded: 127121
+		},
+		{
+			PlanningDistrict: &#x27;North Dumfries&#x27;,
+			Unexpanded: 479,
+			Expanded: 10387
+		},
+		{
+			PlanningDistrict: &#x27;Wilmot&#x27;,
+			Unexpanded: 832,
+			Expanded: 20450
+		},
+		{
+			PlanningDistrict: &#x27;Wellesley&#x27;,
+			Unexpanded: 532,
+			Expanded: 11131
+		},
+		{
+			PlanningDistrict: &#x27;Woolwich&#x27;,
+			Unexpanded: 1058,
+			Expanded: 24155
+		},
+		{
+			PlanningDistrict: &#x27;Guelph City&#x27;,
+			Unexpanded: 5676,
+			Expanded: 129404
+		},
+		{
+			PlanningDistrict: &#x27;Puslinch&#x27;,
+			Unexpanded: 336,
+			Expanded: 7352
+		},
+		{
+			PlanningDistrict: &#x27;Guelph/Eramosa&#x27;,
+			Unexpanded: 615,
+			Expanded: 12620
+		},
+		{
+			PlanningDistrict: &#x27;Centre Wellington&#x27;,
+			Unexpanded: 1485,
+			Expanded: 27843
+		},
+		{
+			PlanningDistrict: &#x27;Erin&#x27;,
+			Unexpanded: 536,
+			Expanded: 11459
+		},
+		{
+			PlanningDistrict: &#x27;Orangeville&#x27;,
+			Unexpanded: 1355,
+			Expanded: 28332
+		},
+		{
+			PlanningDistrict: &#x27;Barrie&#x27;,
+			Unexpanded: 6775,
+			Expanded: 138028
+		},
+		{
+			PlanningDistrict: &#x27;Innisfil&#x27;,
+			Unexpanded: 1607,
+			Expanded: 36709
+		},
+		{
+			PlanningDistrict: &#x27;Bradford West Gwillimbury&#x27;,
+			Unexpanded: 1503,
+			Expanded: 34668
+		},
+		{
+			PlanningDistrict: &#x27;New Tecumseth&#x27;,
+			Unexpanded: 1535,
+			Expanded: 33425
+		},
+		{
+			PlanningDistrict: &#x27;Adjala-Tosorontio&#x27;,
+			Unexpanded: 473,
+			Expanded: 10727
+		},
+		{
+			PlanningDistrict: &#x27;Essa&#x27;,
+			Unexpanded: 982,
+			Expanded: 20255
+		},
+		{
+			PlanningDistrict: &#x27;Clearview&#x27;,
+			Unexpanded: 601,
+			Expanded: 13471
+		},
+		{
+			PlanningDistrict: &#x27;Springwater&#x27;,
+			Unexpanded: 703,
+			Expanded: 19170
+		},
+		{
+			PlanningDistrict: &#x27;Kawartha Lakes&#x27;,
+			Unexpanded: 3342,
+			Expanded: 73420
+		},
+		{
+			PlanningDistrict: &#x27;Peterborough City&#x27;,
+			Unexpanded: 3258,
+			Expanded: 78308
+		},
+		{
+			PlanningDistrict: &#x27;Cavan-Millbrook-North Monaghan&#x27;,
+			Unexpanded: 431,
+			Expanded: 8488
+		},
+		{
+			PlanningDistrict: &#x27;Otonabee-South Monaghan&#x27;,
+			Unexpanded: 391,
+			Expanded: 6947
+		},
+		{
+			PlanningDistrict: &#x27;Asphodel-Norwood&#x27;,
+			Unexpanded: 150,
+			Expanded: 4001
+		},
+		{
+			PlanningDistrict: &#x27;Dummer-Douro&#x27;,
+			Unexpanded: 351,
+			Expanded: 6802
+		},
+		{
+			PlanningDistrict: &#x27;Selwyn&#x27;,
+			Unexpanded: 781,
+			Expanded: 17827
+		},
+		{
+			PlanningDistrict: &#x27;Brant&#x27;,
+			Unexpanded: 2027,
+			Expanded: 36277
+		},
+		{
+			PlanningDistrict: &#x27;Collingwood&#x27;,
+			Unexpanded: 964,
+			Expanded: 21635
+		},
+		{
+			PlanningDistrict: &#x27;Wasaga Beach&#x27;,
+			Unexpanded: 1085,
+			Expanded: 20294
+		},
+		{
+			PlanningDistrict: &#x27;Tiny&#x27;,
+			Unexpanded: 522,
+			Expanded: 12280
+		},
+		{
+			PlanningDistrict: &#x27;Penetangushene&#x27;,
+			Unexpanded: 433,
+			Expanded: 8380
+		},
+		{
+			PlanningDistrict: &#x27;Midland&#x27;,
+			Unexpanded: 689,
+			Expanded: 16395
+		},
+		{
+			PlanningDistrict: &#x27;Tay&#x27;,
+			Unexpanded: 477,
+			Expanded: 9936
+		},
+		{
+			PlanningDistrict: &#x27;Oro-Medonte&#x27;,
+			Unexpanded: 898,
+			Expanded: 20860
+		},
+		{
+			PlanningDistrict: &#x27;Severn&#x27;,
+			Unexpanded: 567,
+			Expanded: 13449
+		},
+		{
+			PlanningDistrict: &#x27;Ramara&#x27;,
+			Unexpanded: 473,
+			Expanded: 9806
+		},
+		{
+			PlanningDistrict: &#x27;Orillia&#x27;,
+			Unexpanded: 1351,
+			Expanded: 29990
+		},
+		{
+			PlanningDistrict: &#x27;Mulmur&#x27;,
+			Unexpanded: 216,
+			Expanded: 3493
+		},
+		{
+			PlanningDistrict: &#x27;Shelburne&#x27;,
+			Unexpanded: 257,
+			Expanded: 7787
+		},
+		{
+			PlanningDistrict: &#x27;Amaranth&#x27;,
+			Unexpanded: 196,
+			Expanded: 3794
+		},
+		{
+			PlanningDistrict: &#x27;Melancthon&#x27;,
+			Unexpanded: 97,
+			Expanded: 2910
+		},
+		{
+			PlanningDistrict: &#x27;Mono Township&#x27;,
+			Unexpanded: 412,
+			Expanded: 8355
+		},
+		{
+			PlanningDistrict: &#x27;East Luther Grand Valley&#x27;,
+			Unexpanded: 84,
+			Expanded: 3269
+		},
+		{
+			PlanningDistrict: &#x27;East Garafraxa&#x27;,
+			Unexpanded: 332,
+			Expanded: 2619
+		},
+		{
+			PlanningDistrict: &#x27;Brantford&#x27;,
+			Unexpanded: 4319,
+			Expanded: 96659
+		},
+		{
+			PlanningDistrict: &#x27;Lakefield-Smith-Enismore&#x27;,
+			Unexpanded: 0,
+			Expanded: 0
+		}
+	]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/admin-app/app/dashboard/dashboard.component.ts:20</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import * as echarts from &#x27;echarts&#x27;;
+
+import { of as observableOf, Observable, Subject } from &#x27;rxjs&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+
+@Component({
+	selector: &#x27;app-dashboard&#x27;,
+	styleUrls: [&#x27;./dashboard.component.scss&#x27;],
+	templateUrl: &#x27;./dashboard.template.html&#x27;
+})
+export class DashboardComponent implements OnInit {
+	public options: any &#x3D; {};
+	public options2: any &#x3D; {};
+	public echartsInitOptions: any &#x3D; {
+		renderer: &#x27;canvas&#x27;
+	};
+	public echartsInstance: any;
+
+	zonePopulation &#x3D; [
+		{
+			PlanningDistrict: &#x27;PD 1 of Toronto&#x27;,
+			Unexpanded: 13304,
+			Expanded: 263028
+		},
+		{
+			PlanningDistrict: &#x27;PD 2 of Toronto&#x27;,
+			Unexpanded: 8887,
+			Expanded: 200607
+		},
+		{
+			PlanningDistrict: &#x27;PD 3 of Toronto&#x27;,
+			Unexpanded: 10316,
+			Expanded: 234531
+		},
+		{
+			PlanningDistrict: &#x27;PD 4 of Toronto&#x27;,
+			Unexpanded: 10622,
+			Expanded: 233122
+		},
+		{
+			PlanningDistrict: &#x27;PD 5 of Toronto&#x27;,
+			Unexpanded: 5501,
+			Expanded: 121935
+		},
+		{
+			PlanningDistrict: &#x27;PD 6 of Toronto&#x27;,
+			Unexpanded: 9918,
+			Expanded: 210993
+		},
+		{
+			PlanningDistrict: &#x27;PD 7 of Toronto&#x27;,
+			Unexpanded: 3423,
+			Expanded: 66335
+		},
+		{
+			PlanningDistrict: &#x27;PD 8 of Toronto&#x27;,
+			Unexpanded: 9474,
+			Expanded: 197781
+		},
+		{
+			PlanningDistrict: &#x27;PD 9 of Toronto&#x27;,
+			Unexpanded: 3865,
+			Expanded: 94229
+		},
+		{
+			PlanningDistrict: &#x27;PD 10 of Toronto&#x27;,
+			Unexpanded: 6414,
+			Expanded: 146543
+		},
+		{
+			PlanningDistrict: &#x27;PD 11 of Toronto&#x27;,
+			Unexpanded: 9908,
+			Expanded: 206713
+		},
+		{
+			PlanningDistrict: &#x27;PD 12 of Toronto&#x27;,
+			Unexpanded: 3927,
+			Expanded: 80857
+		},
+		{
+			PlanningDistrict: &#x27;PD 13 of Toronto&#x27;,
+			Unexpanded: 9526,
+			Expanded: 229816
+		},
+		{
+			PlanningDistrict: &#x27;PD 14 of Toronto&#x27;,
+			Unexpanded: 3124,
+			Expanded: 63079
+		},
+		{
+			PlanningDistrict: &#x27;PD 15 of Toronto&#x27;,
+			Unexpanded: 3793,
+			Expanded: 83791
+		},
+		{
+			PlanningDistrict: &#x27;PD 16 of Toronto&#x27;,
+			Unexpanded: 10805,
+			Expanded: 238131
+		},
+		{
+			PlanningDistrict: &#x27;Brock&#x27;,
+			Unexpanded: 552,
+			Expanded: 11311
+		},
+		{
+			PlanningDistrict: &#x27;Uxbridge&#x27;,
+			Unexpanded: 1079,
+			Expanded: 20849
+		},
+		{
+			PlanningDistrict: &#x27;Scugog&#x27;,
+			Unexpanded: 1121,
+			Expanded: 21206
+		},
+		{
+			PlanningDistrict: &#x27;Pickering&#x27;,
+			Unexpanded: 4099,
+			Expanded: 90250
+		},
+		{
+			PlanningDistrict: &#x27;Ajax&#x27;,
+			Unexpanded: 5274,
+			Expanded: 116815
+		},
+		{
+			PlanningDistrict: &#x27;Whitby&#x27;,
+			Unexpanded: 5823,
+			Expanded: 126060
+		},
+		{
+			PlanningDistrict: &#x27;Oshawa&#x27;,
+			Unexpanded: 7475,
+			Expanded: 156884
+		},
+		{
+			PlanningDistrict: &#x27;Clarington&#x27;,
+			Unexpanded: 4180,
+			Expanded: 91184
+		},
+		{
+			PlanningDistrict: &#x27;Georgina&#x27;,
+			Unexpanded: 2135,
+			Expanded: 45464
+		},
+		{
+			PlanningDistrict: &#x27;East Gwillimbury&#x27;,
+			Unexpanded: 1163,
+			Expanded: 23869
+		},
+		{
+			PlanningDistrict: &#x27;Newmarket&#x27;,
+			Unexpanded: 3737,
+			Expanded: 81848
+		},
+		{
+			PlanningDistrict: &#x27;Aurora&#x27;,
+			Unexpanded: 2528,
+			Expanded: 54783
+		},
+		{
+			PlanningDistrict: &#x27;Richmond Hill&#x27;,
+			Unexpanded: 9192,
+			Expanded: 192245
+		},
+		{
+			PlanningDistrict: &#x27;Whitchurch-Stouffville&#x27;,
+			Unexpanded: 1742,
+			Expanded: 45076
+		},
+		{
+			PlanningDistrict: &#x27;Markham&#x27;,
+			Unexpanded: 15501,
+			Expanded: 323645
+		},
+		{
+			PlanningDistrict: &#x27;King&#x27;,
+			Unexpanded: 1037,
+			Expanded: 24367
+		},
+		{
+			PlanningDistrict: &#x27;Vaughan&#x27;,
+			Unexpanded: 14588,
+			Expanded: 299699
+		},
+		{
+			PlanningDistrict: &#x27;Caledon&#x27;,
+			Unexpanded: 3281,
+			Expanded: 65624
+		},
+		{
+			PlanningDistrict: &#x27;Brampton&#x27;,
+			Unexpanded: 26005,
+			Expanded: 579327
+		},
+		{
+			PlanningDistrict: &#x27;Mississauga&#x27;,
+			Unexpanded: 32599,
+			Expanded: 707195
+		},
+		{
+			PlanningDistrict: &#x27;Halton Hills&#x27;,
+			Unexpanded: 2820,
+			Expanded: 60001
+		},
+		{
+			PlanningDistrict: &#x27;Milton&#x27;,
+			Unexpanded: 5349,
+			Expanded: 108241
+		},
+		{
+			PlanningDistrict: &#x27;Oakville&#x27;,
+			Unexpanded: 8561,
+			Expanded: 190971
+		},
+		{
+			PlanningDistrict: &#x27;Burlington&#x27;,
+			Unexpanded: 7987,
+			Expanded: 180023
+		},
+		{
+			PlanningDistrict: &#x27;Flamborough&#x27;,
+			Unexpanded: 1531,
+			Expanded: 42346
+		},
+		{
+			PlanningDistrict: &#x27;Dundas&#x27;,
+			Unexpanded: 672,
+			Expanded: 23222
+		},
+		{
+			PlanningDistrict: &#x27;Ancaster&#x27;,
+			Unexpanded: 1023,
+			Expanded: 39929
+		},
+		{
+			PlanningDistrict: &#x27;Glanbrook&#x27;,
+			Unexpanded: 761,
+			Expanded: 29114
+		},
+		{
+			PlanningDistrict: &#x27;Stoney Creek&#x27;,
+			Unexpanded: 2025,
+			Expanded: 67920
+		},
+		{
+			PlanningDistrict: &#x27;Hamilton&#x27;,
+			Unexpanded: 8216,
+			Expanded: 322979
+		},
+		{
+			PlanningDistrict: &#x27;Grimsby&#x27;,
+			Unexpanded: 1258,
+			Expanded: 27164
+		},
+		{
+			PlanningDistrict: &#x27;Lincoln&#x27;,
+			Unexpanded: 1073,
+			Expanded: 22894
+		},
+		{
+			PlanningDistrict: &#x27;Pelham&#x27;,
+			Unexpanded: 753,
+			Expanded: 16559
+		},
+		{
+			PlanningDistrict: &#x27;Niagara-on-the-Lake&#x27;,
+			Unexpanded: 773,
+			Expanded: 16662
+		},
+		{
+			PlanningDistrict: &#x27;St. Catharines&#x27;,
+			Unexpanded: 5776,
+			Expanded: 129509
+		},
+		{
+			PlanningDistrict: &#x27;Thorold&#x27;,
+			Unexpanded: 935,
+			Expanded: 18378
+		},
+		{
+			PlanningDistrict: &#x27;Niagara Falls&#x27;,
+			Unexpanded: 3632,
+			Expanded: 85418
+		},
+		{
+			PlanningDistrict: &#x27;Welland&#x27;,
+			Unexpanded: 2309,
+			Expanded: 51424
+		},
+		{
+			PlanningDistrict: &#x27;Port Colbourne&#x27;,
+			Unexpanded: 817,
+			Expanded: 17830
+		},
+		{
+			PlanningDistrict: &#x27;Fort Erie&#x27;,
+			Unexpanded: 1384,
+			Expanded: 30478
+		},
+		{
+			PlanningDistrict: &#x27;West Lincoln&#x27;,
+			Unexpanded: 651,
+			Expanded: 14422
+		},
+		{
+			PlanningDistrict: &#x27;Wainfleet&#x27;,
+			Unexpanded: 267,
+			Expanded: 6207
+		},
+		{
+			PlanningDistrict: &#x27;Waterloo&#x27;,
+			Unexpanded: 5007,
+			Expanded: 103040
+		},
+		{
+			PlanningDistrict: &#x27;Kitchener&#x27;,
+			Unexpanded: 9790,
+			Expanded: 228189
+		},
+		{
+			PlanningDistrict: &#x27;Cambridge&#x27;,
+			Unexpanded: 5411,
+			Expanded: 127121
+		},
+		{
+			PlanningDistrict: &#x27;North Dumfries&#x27;,
+			Unexpanded: 479,
+			Expanded: 10387
+		},
+		{
+			PlanningDistrict: &#x27;Wilmot&#x27;,
+			Unexpanded: 832,
+			Expanded: 20450
+		},
+		{
+			PlanningDistrict: &#x27;Wellesley&#x27;,
+			Unexpanded: 532,
+			Expanded: 11131
+		},
+		{
+			PlanningDistrict: &#x27;Woolwich&#x27;,
+			Unexpanded: 1058,
+			Expanded: 24155
+		},
+		{
+			PlanningDistrict: &#x27;Guelph City&#x27;,
+			Unexpanded: 5676,
+			Expanded: 129404
+		},
+		{
+			PlanningDistrict: &#x27;Puslinch&#x27;,
+			Unexpanded: 336,
+			Expanded: 7352
+		},
+		{
+			PlanningDistrict: &#x27;Guelph/Eramosa&#x27;,
+			Unexpanded: 615,
+			Expanded: 12620
+		},
+		{
+			PlanningDistrict: &#x27;Centre Wellington&#x27;,
+			Unexpanded: 1485,
+			Expanded: 27843
+		},
+		{
+			PlanningDistrict: &#x27;Erin&#x27;,
+			Unexpanded: 536,
+			Expanded: 11459
+		},
+		{
+			PlanningDistrict: &#x27;Orangeville&#x27;,
+			Unexpanded: 1355,
+			Expanded: 28332
+		},
+		{
+			PlanningDistrict: &#x27;Barrie&#x27;,
+			Unexpanded: 6775,
+			Expanded: 138028
+		},
+		{
+			PlanningDistrict: &#x27;Innisfil&#x27;,
+			Unexpanded: 1607,
+			Expanded: 36709
+		},
+		{
+			PlanningDistrict: &#x27;Bradford West Gwillimbury&#x27;,
+			Unexpanded: 1503,
+			Expanded: 34668
+		},
+		{
+			PlanningDistrict: &#x27;New Tecumseth&#x27;,
+			Unexpanded: 1535,
+			Expanded: 33425
+		},
+		{
+			PlanningDistrict: &#x27;Adjala-Tosorontio&#x27;,
+			Unexpanded: 473,
+			Expanded: 10727
+		},
+		{
+			PlanningDistrict: &#x27;Essa&#x27;,
+			Unexpanded: 982,
+			Expanded: 20255
+		},
+		{
+			PlanningDistrict: &#x27;Clearview&#x27;,
+			Unexpanded: 601,
+			Expanded: 13471
+		},
+		{
+			PlanningDistrict: &#x27;Springwater&#x27;,
+			Unexpanded: 703,
+			Expanded: 19170
+		},
+		{
+			PlanningDistrict: &#x27;Kawartha Lakes&#x27;,
+			Unexpanded: 3342,
+			Expanded: 73420
+		},
+		{
+			PlanningDistrict: &#x27;Peterborough City&#x27;,
+			Unexpanded: 3258,
+			Expanded: 78308
+		},
+		{
+			PlanningDistrict: &#x27;Cavan-Millbrook-North Monaghan&#x27;,
+			Unexpanded: 431,
+			Expanded: 8488
+		},
+		{
+			PlanningDistrict: &#x27;Otonabee-South Monaghan&#x27;,
+			Unexpanded: 391,
+			Expanded: 6947
+		},
+		{
+			PlanningDistrict: &#x27;Asphodel-Norwood&#x27;,
+			Unexpanded: 150,
+			Expanded: 4001
+		},
+		{
+			PlanningDistrict: &#x27;Dummer-Douro&#x27;,
+			Unexpanded: 351,
+			Expanded: 6802
+		},
+		{
+			PlanningDistrict: &#x27;Selwyn&#x27;,
+			Unexpanded: 781,
+			Expanded: 17827
+		},
+		{
+			PlanningDistrict: &#x27;Brant&#x27;,
+			Unexpanded: 2027,
+			Expanded: 36277
+		},
+		{
+			PlanningDistrict: &#x27;Collingwood&#x27;,
+			Unexpanded: 964,
+			Expanded: 21635
+		},
+		{
+			PlanningDistrict: &#x27;Wasaga Beach&#x27;,
+			Unexpanded: 1085,
+			Expanded: 20294
+		},
+		{
+			PlanningDistrict: &#x27;Tiny&#x27;,
+			Unexpanded: 522,
+			Expanded: 12280
+		},
+		{
+			PlanningDistrict: &#x27;Penetangushene&#x27;,
+			Unexpanded: 433,
+			Expanded: 8380
+		},
+		{
+			PlanningDistrict: &#x27;Midland&#x27;,
+			Unexpanded: 689,
+			Expanded: 16395
+		},
+		{
+			PlanningDistrict: &#x27;Tay&#x27;,
+			Unexpanded: 477,
+			Expanded: 9936
+		},
+		{
+			PlanningDistrict: &#x27;Oro-Medonte&#x27;,
+			Unexpanded: 898,
+			Expanded: 20860
+		},
+		{
+			PlanningDistrict: &#x27;Severn&#x27;,
+			Unexpanded: 567,
+			Expanded: 13449
+		},
+		{
+			PlanningDistrict: &#x27;Ramara&#x27;,
+			Unexpanded: 473,
+			Expanded: 9806
+		},
+		{
+			PlanningDistrict: &#x27;Orillia&#x27;,
+			Unexpanded: 1351,
+			Expanded: 29990
+		},
+		{
+			PlanningDistrict: &#x27;Mulmur&#x27;,
+			Unexpanded: 216,
+			Expanded: 3493
+		},
+		{
+			PlanningDistrict: &#x27;Shelburne&#x27;,
+			Unexpanded: 257,
+			Expanded: 7787
+		},
+		{
+			PlanningDistrict: &#x27;Amaranth&#x27;,
+			Unexpanded: 196,
+			Expanded: 3794
+		},
+		{
+			PlanningDistrict: &#x27;Melancthon&#x27;,
+			Unexpanded: 97,
+			Expanded: 2910
+		},
+		{
+			PlanningDistrict: &#x27;Mono Township&#x27;,
+			Unexpanded: 412,
+			Expanded: 8355
+		},
+		{
+			PlanningDistrict: &#x27;East Luther Grand Valley&#x27;,
+			Unexpanded: 84,
+			Expanded: 3269
+		},
+		{
+			PlanningDistrict: &#x27;East Garafraxa&#x27;,
+			Unexpanded: 332,
+			Expanded: 2619
+		},
+		{
+			PlanningDistrict: &#x27;Brantford&#x27;,
+			Unexpanded: 4319,
+			Expanded: 96659
+		},
+		{
+			PlanningDistrict: &#x27;Lakefield-Smith-Enismore&#x27;,
+			Unexpanded: 0,
+			Expanded: 0
+		}
+	];
+
+	zonePopMap &#x3D; [];
+
+	private _mapURL &#x3D; &#x27;assets/maps/tts-zones-pd.json&#x27;;
+	public mapLoaded: boolean &#x3D; false;
+
+	constructor(private http: HttpClient) {
+		this.zonePopulation.forEach(zoneinfo &#x3D;&gt; {
+			this.zonePopMap[zoneinfo.PlanningDistrict] &#x3D; zoneinfo;
+		});
+	}
+	getMapData(): Observable&lt;any&gt; {
+		return this.http.get(this._mapURL);
+	}
+
+	public ngOnInit(): void {
+		this.getMapData().subscribe(geoJson &#x3D;&gt; {
+			this.mapLoaded &#x3D; true;
+			// register map:
+			echarts.registerMap(&#x27;TTS&#x27;, geoJson);
+
+			function randomValue() {
+				return Math.round(Math.random() * 8000);
+			}
+
+			let maxpop &#x3D; 0;
+
+			let zoneInfo &#x3D; [];
+			geoJson.features.forEach(element &#x3D;&gt; {
+				/*if (this.zonePopMap[element.properties.name] &#x3D;&#x3D;&#x3D; undefined) {
+					console.log(&#x27;Problem with &#x27; + element.properties.name);
+				}*/
+				let unexpanded &#x3D; 10000 * this.zonePopMap[element.properties.name].Unexpanded / element.properties.AREA;
+				if (unexpanded &gt; maxpop) {
+					maxpop &#x3D; unexpanded;
+				}
+				zoneInfo.push({ name: element.properties.name, value: unexpanded });
+			});
+
+			// update options:
+			this.options &#x3D; {
+				tooltip: {
+					formatter: &#x60;{b}&#x60;
+				},
+				visualMap: {
+					show: false,
+					min: 0,
+					max: maxpop,
+					left: &#x27;left&#x27;,
+					top: &#x27;bottom&#x27;,
+					text: [&#x27;High&#x27;, &#x27;Low&#x27;],
+					seriesIndex: [0],
+					inRange: {
+						color: [&#x27;#e0ffff&#x27;, &#x27;#ff0000&#x27;],
+						colorAlpha: 0.3
+					},
+					calculable: true
+				},
+				toolbox: {
+					show: true,
+					orient: &#x27;vertical&#x27;,
+					top: &#x27;center&#x27;,
+					right: &#x27;20px&#x27;,
+					z: 20,
+					zlevel: 20,
+					feature: {
+						dataView: {
+							readOnly: true,
+							title: &#x27;data view&#x27;
+						},
+						saveAsImage: {
+							pixelRatio: 5
+						}
+					}
+				},
+				geo: {
+					map: &#x27;TTS&#x27;,
+					roam: true,
+					label: {
+						emphasis: {
+							textStyle: {
+								color: &#x27;#fff&#x27;
+							},
+							show: false
+						}
+					},
+					itemStyle: {
+						normal: {
+							borderColor: &#x27;rgba(0, 0, 0, 0.2)&#x27;
+						},
+						emphasis: {
+							areaColor: &#x27;#ff0000&#x27;,
+							shadowOffsetX: 0,
+							shadowOffsetY: 0,
+							shadowBlur: 20,
+							borderWidth: 0,
+							shadowColor: &#x27;rgba(0, 0, 0, 0.5)&#x27;
+						}
+					}
+				},
+				series: [
+					{
+						name: &#x27;TTS Zone&#x27;,
+						type: &#x27;map&#x27;,
+						geoIndex: 0,
+						// tooltip: {show: false},
+						data: zoneInfo
+					}
+				]
+			};
+		});
+
+	}
+
+	onChartInit(ec) {
+		this.echartsInstance &#x3D; ec;
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;h1 class&#x3D;&quot;page-title&quot;&gt;{{ &#x27;home.Dashboard&#x27; | translate }} &lt;small&gt;&lt;small&gt;{{ &#x27;home.YourSummary&#x27; | translate }}&lt;/small&gt;&lt;/small&gt;&lt;/h1&gt;
+
+&lt;div class&#x3D;&quot;row&quot;&gt;
+  &lt;div class&#x3D;&quot;col-md-11&quot;&gt;
+    &lt;section widget class&#x3D;&quot;widget&quot;&gt;
+      &lt;header&gt;
+        &lt;h4 [innerHTML]&#x3D;&quot;&#x27;home.OngoingSurveys&#x27; | translate&quot;&gt;
+          
+        &lt;/h4&gt;
+        &lt;div class&#x3D;&quot;widget-controls&quot;&gt;
+          &lt;a data-widgster&#x3D;&quot;expand&quot; title&#x3D;&quot;Expand&quot; href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;glyphicon glyphicon-chevron-up&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+          &lt;a data-widgster&#x3D;&quot;collapse&quot; title&#x3D;&quot;Collapse&quot; href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;glyphicon glyphicon-chevron-down&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+          &lt;a href&#x3D;&quot;#&quot; data-widgster&#x3D;&quot;close&quot;&gt;&lt;i class&#x3D;&quot;glyphicon glyphicon-remove&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+      &lt;div class&#x3D;&quot;widget-body&quot;&gt;
+        &lt;!--&lt;img class&#x3D;&quot;pull-left mr-sm&quot; src&#x3D;&quot;assets/img/a2.png&quot; alt&#x3D;&quot;Angular&quot; width&#x3D;&quot;100&quot;&gt;--&gt;
+        &lt;p class&#x3D;&quot;lead&quot;&gt;Welcome to your &lt;strong&gt;TRAISI&lt;/strong&gt; homepage&lt;/p&gt;
+        &lt;p class&#x3D;&quot;fs-mini&quot;&gt;&lt;/p&gt;
+			&lt;/div&gt;
+			&lt;div echarts [options]&#x3D;&quot;options&quot; [loading]&#x3D;&quot;!mapLoaded&quot; [initOpts]&#x3D;&quot;echartsInitOptions&quot; class&#x3D;&quot;tts-map&quot; &gt;&lt;/div&gt;
+			&lt;!--&lt;div echarts [options]&#x3D;&quot;options2&quot; [loading]&#x3D;&quot;!mapLoaded&quot; class&#x3D;&quot;tts-map&quot; &gt;&lt;/div&gt;--&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./dashboard.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.tts-map {
+	height: 70vh;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><h1 class="page-title">{{ \'home.Dashboard\' | translate }} <small><small>{{ \'home.YourSummary\' | translate }}</small></small></h1><div class="row">  <div class="col-md-11">    <section widget class="widget">      <header>        <h4 [innerHTML]="\'home.OngoingSurveys\' | translate">                  </h4>        <div class="widget-controls">          <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>          <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>          <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>        </div>      </header>      <div class="widget-body">        <!--<img class="pull-left mr-sm" src="assets/img/a2.png" alt="Angular" width="100">-->        <p class="lead">Welcome to your <strong>TRAISI</strong> homepage</p>        <p class="fs-mini"></p>			</div>			<div echarts [options]="options" [loading]="!mapLoaded" [initOpts]="echartsInitOptions" class="tts-map" ></div>			<!--<div echarts [options]="options2" [loading]="!mapLoaded" class="tts-map" ></div>-->    </section>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'DashboardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DashboardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,790 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>NewBlock</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/admin-app/app/survey-builder/survey-builder.component.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../miscellaneous/variables.html#Block" target="_self" >Block</a></code>
+            </p>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
+import { SurveyBuilderService } from &#x27;./services/survey-builder.service&#x27;;
+import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+import { AuthService } from &#x27;../../../shared/services/auth.service&#x27;;
+import { ConfigurationService } from &#x27;../../../shared/services/configuration.service&#x27;;
+import { UploadPath } from &#x27;./models/upload-path&#x27;;
+import { QuestionTypeDefinition } from &#x27;./models/question-type-definition&#x27;;
+import { AlertService, DialogType, MessageSeverity } from &#x27;../../../shared/services/alert.service&#x27;;
+import { NestedDragAndDropListComponent } from &#x27;./components/nested-drag-and-drop-list/nested-drag-and-drop-list.component&#x27;;
+import { QuestionPartView } from &#x27;./models/question-part-view.model&#x27;;
+import { WelcomePage } from &#x27;./models/welcome-page.model&#x27;;
+import { TermsAndConditionsPage } from &#x27;./models/terms-and-conditions-page.model&#x27;;
+import { ThankYouPage } from &#x27;./models/thank-you-page.model&#x27;;
+import { Utilities } from &#x27;../../../shared/services/utilities&#x27;;
+import { Subject } from &#x27;rxjs&#x27;;
+import { ModalDirective } from &#x27;ngx-bootstrap&#x27;;
+import { QuestionTypeChooserComponent } from &#x27;./components/question-type-chooser/question-type-chooser.component&#x27;;
+import { QuestionPartViewLabel } from &#x27;./models/question-part-view-label.model&#x27;;
+import { Order } from &#x27;./models/order.model&#x27;;
+import { Survey } from &#x27;../models/survey.model&#x27;;
+import { SurveyService } from &#x27;../services/survey.service&#x27;;
+import Quill from &#x27;quill&#x27;;
+import BlotFormatter from &#x27;quill-blot-formatter&#x27;;
+import { SpecialPageBuilderComponent } from &#x27;./components/special-page-builder/special-page-builder.component&#x27;;
+import { fadeInOut } from &#x27;../services/animations&#x27;;
+import { RealTimeNotificationServce } from &#x27;../services/real-time-notification.service&#x27;;
+import { SurveyNotification } from &#x27;../models/survey-notification&#x27;;
+import { ViewContainerData } from &#x27;@angular/core/src/view&#x27;;
+import { ScreeningQuestions } from &#x27;./models/screening-questions.model&#x27;;
+import { BUILDER_SERVICE } from &#x27;traisi-question-sdk&#x27;;
+
+// override p with div tag
+const Parchment &#x3D; Quill.import(&#x27;parchment&#x27;);
+let Block &#x3D; Parchment.query(&#x27;block&#x27;);
+
+class NewBlock extends Block {}
+NewBlock.tagName &#x3D; &#x27;DIV&#x27;;
+Quill.register(NewBlock, true);
+Quill.register(&#x27;modules/blotFormatter&#x27;, BlotFormatter);
+
+// expand fonts available
+// Add fonts to whitelist
+let Font &#x3D; Quill.import(&#x27;formats/font&#x27;);
+// We do not add Sans Serif since it is the default
+Font.whitelist &#x3D; [&#x27;montserrat&#x27;, &#x27;sofia&#x27;, &#x27;roboto&#x27;];
+Quill.register(Font, true);
+
+@Component({
+	selector: &#x27;traisi-survey-builder&#x27;,
+	templateUrl: &#x27;./survey-builder.component.html&#x27;,
+	styleUrls: [&#x27;./survey-builder.component.scss&#x27;],
+	encapsulation: ViewEncapsulation.None,
+	animations: [fadeInOut]
+})
+export class SurveyBuilderComponent implements OnInit, OnDestroy {
+	public surveyId: number;
+	public survey: Survey &#x3D; new Survey();
+
+	public allPages: QuestionPartView[] &#x3D; [];
+	public newPageTitle: string;
+	public newPageIcon: string;
+	public currentLanguage: string &#x3D; &#x27;en&#x27;;
+
+	public pageThemeInfo: any &#x3D; {};
+
+	public catiExists: boolean &#x3D; false;
+	public enableCATI: boolean &#x3D; false;
+
+	public catiWelcomePage: WelcomePage &#x3D; new WelcomePage();
+	public catiTermsAndConditionsPage: TermsAndConditionsPage &#x3D; new TermsAndConditionsPage();
+	public catiThankYouPage: ThankYouPage &#x3D; new ThankYouPage();
+	public catiScreeningQuestions: ScreeningQuestions &#x3D; new ScreeningQuestions();
+
+	public welcomePage: WelcomePage &#x3D; new WelcomePage();
+	public termsAndConditionsPage: TermsAndConditionsPage &#x3D; new TermsAndConditionsPage();
+	public screeningQuestions: ScreeningQuestions &#x3D; new ScreeningQuestions();
+	public thankYouPage: ThankYouPage &#x3D; new ThankYouPage();
+	public loadedSpecialPages: boolean &#x3D; false;
+	public loadedIndividualPage: boolean &#x3D; true;
+
+	public welcomePagePreview: any &#x3D; { value: false };
+	public privacyPagePreview: any &#x3D; { value: false };
+	public thankYouPagePreview: any &#x3D; { value: false };
+	public questionViewerPreview: any &#x3D; { value: false };
+	public screeningPagePreview: any &#x3D; { value: false };
+
+	public currentSurveyPage: QuestionPartView;
+	public currentSurveyPageEdit: QuestionPartView;
+
+	public householdAdded: boolean &#x3D; false;
+
+	public qTypeDefinitions: Map&lt;string, QuestionTypeDefinition&gt; &#x3D; new Map&lt;string, QuestionTypeDefinition&gt;();
+
+	private currentPage: string &#x3D; &#x27;welcome&#x27;;
+
+	private lastDragEnter: string[] &#x3D; [];
+	private lastDragLeave: string[] &#x3D; [];
+	private dragResult: Subject&lt;boolean&gt;;
+	private surveyUpdate: Subject&lt;SurveyNotification&gt;;
+
+	@ViewChild(&#x27;surveyPageDragAndDrop&#x27;)
+	public surveyPage: NestedDragAndDropListComponent;
+	@ViewChild(&#x27;questionChooser&#x27;)
+	public questionChooser: QuestionTypeChooserComponent;
+	@ViewChild(&#x27;createPageModal&#x27;)
+	public createPageModal: ModalDirective;
+	@ViewChild(&#x27;editPageModal&#x27;)
+	public editPageModal: ModalDirective;
+	@ViewChild(&#x27;welcomeEditor&#x27;)
+	public welcomeEditor: SpecialPageBuilderComponent;
+	@ViewChild(&#x27;privacyPolicyEditor&#x27;)
+	public privacyPolicyEditor: SpecialPageBuilderComponent;
+	@ViewChild(&#x27;questionViewerEditor&#x27;)
+	public questionViewerEditor: SpecialPageBuilderComponent;
+	@ViewChild(&#x27;thankYouEditor&#x27;)
+	public thankYouEditor: SpecialPageBuilderComponent;
+	@ViewChild(&#x27;screeningEditor&#x27;)
+	public screeningEditor: SpecialPageBuilderComponent;
+
+	constructor(
+		private surveyBuilderService: SurveyBuilderService,
+		private configurationService: ConfigurationService,
+		private surveyService: SurveyService,
+		private authService: AuthService,
+		private route: ActivatedRoute,
+		private alertService: AlertService,
+		private cdRef: ChangeDetectorRef,
+		private notificationService: RealTimeNotificationServce
+	) {
+		this.route.params.subscribe((params) &#x3D;&gt; {
+			this.surveyId &#x3D; params[&#x27;id&#x27;];
+			this.notificationService.surveyStatus(this.surveyId, true);
+			this.surveyService.getSurvey(this.surveyId).subscribe((survey) &#x3D;&gt; {
+				this.survey &#x3D; survey;
+			});
+		});
+		this.getPagePayload &#x3D; this.getPagePayload.bind(this);
+	}
+
+	public ngOnInit(): void {
+		this.loadPageStructure();
+		this.surveyUpdate &#x3D; this.notificationService.registerChannel(&#x60;survey-${this.surveyId}&#x60;);
+		this.surveyUpdate.subscribe((value) &#x3D;&gt; {
+			this.loadPageStructure();
+		});
+		this.switchPage(&#x27;welcome&#x27;);
+	}
+
+	public ngOnDestroy(): void {
+		if (
+			this.welcomePagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.privacyPagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.thankYouPagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.questionViewerPreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.screeningPagePreview.value &#x3D;&#x3D;&#x3D; true
+		) {
+			this.welcomePagePreview.value &#x3D; false;
+			this.privacyPagePreview.value &#x3D; false;
+			this.thankYouPagePreview.value &#x3D; false;
+			this.questionViewerPreview.value &#x3D; false;
+			this.screeningPagePreview.value &#x3D; false;
+			this.toggleSidebarForPreview();
+		}
+		this.notificationService.surveyStatus(this.surveyId, false);
+		this.notificationService.deRegisterChannel(&#x60;survey-${this.surveyId}&#x60;);
+	}
+
+	public loadPageStructure(): void {
+		this.loadedSpecialPages &#x3D; false;
+		this.surveyBuilderService.getSurveyStyles(this.surveyId).subscribe((styles) &#x3D;&gt; {
+			try {
+				this.pageThemeInfo &#x3D; JSON.parse(styles);
+				if (this.pageThemeInfo &#x3D;&#x3D;&#x3D; null) {
+					this.pageThemeInfo &#x3D; {};
+					this.pageThemeInfo.viewerTemplate &#x3D; &#x27;&#x27;;
+				}
+			} catch (e) {}
+
+			this.surveyBuilderService
+				.getStandardViewPageStructure(this.surveyId, this.currentLanguage)
+				.subscribe((page) &#x3D;&gt; {
+					this.allPages &#x3D; page.pages;
+					this.welcomePage &#x3D; page.welcomePage &#x3D;&#x3D;&#x3D; null ? new WelcomePage() : page.welcomePage;
+					this.termsAndConditionsPage &#x3D;
+						page.termsAndConditionsPage &#x3D;&#x3D;&#x3D; null
+							? new TermsAndConditionsPage()
+							: page.termsAndConditionsPage;
+					this.thankYouPage &#x3D;
+						page.surveyCompletionPage &#x3D;&#x3D;&#x3D; null ? new ThankYouPage() : page.surveyCompletionPage;
+					this.screeningQuestions &#x3D;
+						page.screeningQuestions &#x3D;&#x3D;&#x3D; null ? new ScreeningQuestions() : page.screeningQuestions;
+					this.catiExists &#x3D; false;
+					this.enableCATI &#x3D; false;
+					this.refreshSurveyPage();
+					if (this.allPages.length &gt; 0 &amp;&amp; this.allPages[0].catiDependent) {
+						this.catiExists &#x3D; true;
+						this.enableCATI &#x3D; false;
+						this.surveyBuilderService
+							.getCATIViewPageStructure(this.surveyId, this.currentLanguage)
+							.subscribe((structure) &#x3D;&gt; {
+								this.catiWelcomePage &#x3D; structure.welcomePage;
+								this.catiTermsAndConditionsPage &#x3D; structure.termsAndConditionsPage;
+								this.catiThankYouPage &#x3D; structure.surveyCompletionPage;
+								this.catiScreeningQuestions &#x3D; structure.screeningQuestions;
+								this.loadedSpecialPages &#x3D; true;
+							});
+					}
+					this.loadedSpecialPages &#x3D; true;
+				});
+		});
+	}
+
+	public createCATI(): void {
+		this.surveyBuilderService.createCATIView(this.surveyId, this.currentLanguage).subscribe((catiStructure) &#x3D;&gt; {
+			this.loadPageStructure();
+			this.notificationService.indicateSurveyChange(this.surveyId);
+		});
+	}
+
+	public deleteCATI(): void {
+		this.alertService.showDialog(
+			&#x27;Are you sure you want to delete the CATI view for this language?&#x27;,
+			DialogType.confirm,
+			() &#x3D;&gt; {
+				this.surveyBuilderService.deleteCATIView(this.surveyId, this.currentLanguage).subscribe((result) &#x3D;&gt; {
+					this.loadPageStructure();
+					this.notificationService.indicateSurveyChange(this.surveyId);
+				});
+			}
+		);
+	}
+
+	private refreshSurveyPage(): void {
+		if (this.currentPage &#x3D;&#x3D;&#x3D; &#x27;surveyPage&#x27;) {
+			this.switchSurveyPage(this.currentSurveyPage.id);
+		}
+	}
+
+	public refreshSpecialPage(): void {
+		/*this.loadedSpecialPages &#x3D; false;
+		setTimeout(() &#x3D;&gt; {
+			this.loadedSpecialPages &#x3D; true;
+		}, 100);
+		//this.cdRef.detectChanges();*/
+	}
+
+	public mapQuestionTypeDefinitions(): void {
+		this.questionChooser.questionTypeDefinitions.forEach((q) &#x3D;&gt; {
+			this.qTypeDefinitions.set(q.typeName, q);
+		});
+	}
+
+	public saveWelcomePage(showMessage: boolean): void {
+		this.welcomeEditor.updatePageData();
+		let wPage: WelcomePage;
+		if (this.enableCATI) {
+			wPage &#x3D; this.catiWelcomePage;
+		} else {
+			wPage &#x3D; this.welcomePage;
+		}
+
+		this.surveyBuilderService.updateWelcomePage(this.surveyId, wPage).subscribe(
+			(result) &#x3D;&gt; {
+				if (showMessage) {
+					this.alertService.showMessage(
+						&#x27;Success&#x27;,
+						&#x60;Welcome page was saved successfully!&#x60;,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {}
+		);
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+	}
+
+	public saveTAndCPage(showMessage: boolean): void {
+		this.privacyPolicyEditor.updatePageData();
+		let tcPage: TermsAndConditionsPage;
+		if (this.enableCATI) {
+			tcPage &#x3D; this.catiTermsAndConditionsPage;
+		} else {
+			tcPage &#x3D; this.termsAndConditionsPage;
+		}
+		this.surveyBuilderService.updateTermsAndConditionsPage(this.surveyId, tcPage).subscribe(
+			(result) &#x3D;&gt; {
+				if (showMessage) {
+					this.alertService.showMessage(
+						&#x27;Success&#x27;,
+						&#x60;Terms and conditions page was saved successfully!&#x60;,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {}
+		);
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+	}
+
+	public saveQuestionViewerPage(showMessage: boolean): void {
+		this.questionViewerEditor.updatePageData();
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe(
+			(result) &#x3D;&gt; {
+				if (showMessage) {
+					this.alertService.showMessage(
+						&#x27;Success&#x27;,
+						&#x60;Question viewer theme saved successfully!&#x60;,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {}
+		);
+	}
+
+	public saveThankYouPage(showMessage: boolean): void {
+		this.thankYouEditor.updatePageData();
+		let tPage: ThankYouPage;
+		if (this.enableCATI) {
+			tPage &#x3D; this.catiThankYouPage;
+		} else {
+			tPage &#x3D; this.thankYouPage;
+		}
+		this.surveyBuilderService.updateThankYouPage(this.surveyId, tPage).subscribe(
+			(result) &#x3D;&gt; {
+				if (showMessage) {
+					this.alertService.showMessage(
+						&#x27;Success&#x27;,
+						&#x60;Thank you page was saved successfully!&#x60;,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {}
+		);
+		this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+	}
+
+	public saveScreeningPage(showMessage: boolean): void {
+		this.screeningEditor.updatePageData();
+		let sPage: ScreeningQuestions;
+		if (this.enableCATI) {
+			sPage &#x3D; this.catiScreeningQuestions;
+		} else {
+			sPage &#x3D; this.screeningQuestions;
+		}
+		this.surveyBuilderService.updateScreeningQuestions(this.surveyId, sPage).subscribe(
+			(result) &#x3D;&gt; {
+				if (showMessage) {
+					this.alertService.showMessage(
+						&#x27;Success&#x27;,
+						&#x60;Screening questions were saved successfully!&#x60;,
+						MessageSeverity.success
+					);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {}
+		);
+	}
+
+	public resetThemeColors(): void {
+		this.alertService.showDialog(&#x27;Are you sure you want to reset all custom colours?&#x27;, DialogType.confirm, () &#x3D;&gt; {
+			this.pageThemeInfo &#x3D; {};
+			this.surveyBuilderService.updateSurveyStyles(this.surveyId, JSON.stringify(this.pageThemeInfo)).subscribe();
+		});
+	}
+
+	public addQuestionTypeToList(qType: QuestionTypeDefinition): void {
+		this.surveyPage.addQuestionTypeToList(qType);
+	}
+
+	public switchPage(pageName: string): void {
+		console.log(this.screeningQuestions);
+		this.currentPage &#x3D; pageName;
+		let priorPageId &#x3D; this.currentSurveyPage ? this.currentSurveyPage.id : -1;
+		this.currentSurveyPage &#x3D; undefined;
+		if (this.surveyPage) {
+			this.surveyPage.currentPage &#x3D; new QuestionPartView();
+		}
+		setTimeout(() &#x3D;&gt; {
+			if (priorPageId !&#x3D;&#x3D; -1) {
+				let thisPage &#x3D; &lt;any&gt;$(&#x27;#&#x27; + priorPageId + &#x27;-tab&#x27;);
+				thisPage.removeClass(&#x27;active&#x27;);
+				thisPage.removeClass(&#x27;show&#x27;);
+			}
+		}, 0);
+	}
+
+	public switchSurveyPage(pageId: number): void {
+		this.currentPage &#x3D; &#x27;surveyPage&#x27;;
+		let priorPageId &#x3D; this.currentSurveyPage ? this.currentSurveyPage.id : -1;
+		setTimeout(() &#x3D;&gt; {
+			if (priorPageId !&#x3D;&#x3D; -1) {
+				let thisPage &#x3D; &lt;any&gt;$(&#x27;#&#x27; + priorPageId + &#x27;-tab&#x27;);
+				thisPage.removeClass(&#x27;active&#x27;);
+				thisPage.removeClass(&#x27;show&#x27;);
+			}
+			let nextPage &#x3D; &lt;any&gt;$(&#x27;#&#x27; + pageId + &#x27;-tab&#x27;);
+			nextPage.tab(&#x27;show&#x27;);
+		}, 0);
+
+		this.loadedIndividualPage &#x3D; false;
+		this.surveyBuilderService
+			.getQuestionPartViewPageStructure(this.surveyId, pageId, this.currentLanguage)
+			.subscribe((page) &#x3D;&gt; {
+				this.currentSurveyPage &#x3D; page;
+				this.surveyPage.currentPage &#x3D; page;
+				this.surveyPage.partsLeftToLoad &#x3D; 1;
+				this.surveyPage.updateFullStructure(false);
+				this.surveyPage.qPartQuestions &#x3D; new Map&lt;number, QuestionPartView&gt;();
+				page.questionPartViewChildren.forEach((qc) &#x3D;&gt; {
+					if (qc.questionPart &#x3D;&#x3D;&#x3D; null) {
+						this.surveyPage.partsLeftToLoad++;
+						this.surveyPage.qPartQuestions.set(qc.id, qc);
+						this.surveyPage.partsLeftToLoad--;
+						/*this.surveyBuilderService
+							.getQuestionPartViewPageStructure(this.surveyId, qc.id, this.currentLanguage)
+							.subscribe(qPart &#x3D;&gt; {
+								qc.questionPartViewChildren &#x3D; qPart.questionPartViewChildren;
+								this.surveyPage.partsLeftToLoad--;
+							});*/
+					}
+				});
+				this.loadedIndividualPage &#x3D; true;
+			});
+	}
+
+	private navigateToFirst(): void {
+		let firstTab &#x3D; &lt;any&gt;$(&#x27;#welcome-tab&#x27;);
+		firstTab.tab(&#x27;show&#x27;);
+		this.currentSurveyPage &#x3D; undefined;
+		this.currentPage &#x3D; &#x27;welcome&#x27;;
+	}
+
+	public editCurrentPage(): void {
+		this.currentSurveyPageEdit &#x3D; new Survey();
+		Object.assign(this.currentSurveyPageEdit, this.currentSurveyPage);
+		this.editPageModal.show();
+	}
+
+	public savePage(): void {
+		// set cati label as the same as standard
+		if (this.catiExists) {
+			this.currentSurveyPageEdit.catiDependent.label.value &#x3D; this.currentSurveyPageEdit.label.value;
+		}
+
+		this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, this.currentSurveyPageEdit).subscribe(
+			(result) &#x3D;&gt; {
+				Object.assign(this.currentSurveyPage, this.currentSurveyPageEdit);
+				let pageTab &#x3D; this.allPages.filter((p) &#x3D;&gt; p.id &#x3D;&#x3D;&#x3D; this.currentSurveyPageEdit.id)[0];
+				pageTab.label.value &#x3D; this.currentSurveyPageEdit.label.value;
+				pageTab.icon &#x3D; this.currentSurveyPageEdit.icon;
+				this.editPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {
+				this.alertService.showMessage(
+					&#x27;Error&#x27;,
+					&#x60;Problem updating page!\r\nErrors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+					MessageSeverity.error
+				);
+			}
+		);
+	}
+
+	public deletePage(pageId: number): void {
+		this.alertService.showDialog(&#x27;Are you sure you want to delete the page?&#x27;, DialogType.confirm, () &#x3D;&gt;
+			this.continueDelete(pageId)
+		);
+	}
+
+	public continueDelete(pageId: number): void {
+		this.surveyBuilderService.deleteStandardPage(this.surveyId, pageId).subscribe(
+			(result) &#x3D;&gt; {
+				this.loadPageStructure();
+				if (pageId &#x3D;&#x3D;&#x3D; this.currentSurveyPage.id) {
+					this.navigateToFirst();
+				}
+				this.alertService.showMessage(&#x27;Success&#x27;, &#x60;Page was removed successfully!&#x60;, MessageSeverity.success);
+				this.editPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {
+				this.alertService.showMessage(
+					&#x27;Error&#x27;,
+					&#x60;Problem removing page!\r\nErrors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+					MessageSeverity.error
+				);
+			}
+		);
+	}
+
+	public createPage(title: string, icon: string): void {
+		let newlabel: QuestionPartViewLabel &#x3D; new QuestionPartViewLabel(0, title, this.currentLanguage);
+		let newPage: QuestionPartView &#x3D; new QuestionPartView(0, newlabel, icon);
+
+		this.surveyBuilderService.addStandardPage(this.surveyId, this.currentLanguage, newPage).subscribe(
+			(result) &#x3D;&gt; {
+				this.loadPageStructure();
+				if (this.surveyPage) {
+					this.surveyPage.updateFullStructure(true);
+				}
+				this.alertService.showMessage(&#x27;Success&#x27;, &#x60;Page was added successfully!&#x60;, MessageSeverity.success);
+				this.createPageModal.hide();
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			},
+			(error) &#x3D;&gt; {
+				this.alertService.showMessage(
+					&#x27;Error&#x27;,
+					&#x60;Problem adding page!\r\nErrors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+					MessageSeverity.error
+				);
+			}
+		);
+	}
+
+	public updatePageOrder(): void {
+		this.allPages.forEach((page, index) &#x3D;&gt; {
+			page.order &#x3D; index;
+		});
+	}
+
+	public onDragEnd(event: any): void {
+		if (this.lastDragEnter.length !&#x3D;&#x3D; this.lastDragLeave.length) {
+			this.dragResult &#x3D; new Subject&lt;boolean&gt;();
+		}
+		this.lastDragEnter &#x3D; [];
+		this.lastDragLeave &#x3D; [];
+	}
+
+	public onDragEnter(): void {
+		this.lastDragEnter.push(&#x27;page-container&#x27;);
+	}
+
+	public onDragLeave(): void {
+		this.lastDragLeave.push(&#x27;page-container&#x27;);
+	}
+
+	public onDrop(dropResult: any): void {
+		if (dropResult.addedIndex !&#x3D;&#x3D; dropResult.removedIndex) {
+			this.alertService.showDialog(
+				&#x27;Are you sure you want to move the page?&#x27;,
+				DialogType.confirm,
+				() &#x3D;&gt; this.dragResult.next(true),
+				() &#x3D;&gt; this.dragResult.next(false)
+			);
+
+			if (this.dragResult) {
+				// create shadow list to give illusion of transfer before decision made
+				let pageCache &#x3D; [...this.allPages];
+				this.allPages &#x3D; Utilities.applyDrag(this.allPages, dropResult);
+				this.dragResult.subscribe((proceed) &#x3D;&gt; {
+					this.dragResult.unsubscribe();
+					if (proceed &#x3D;&#x3D;&#x3D; false) {
+						this.allPages &#x3D; pageCache;
+					} else {
+						this.updatePageOrder();
+						let pagesOrder: Order[] &#x3D; this.allPages.map((ap) &#x3D;&gt; new Order(ap.id, ap.order));
+						this.surveyBuilderService
+							.updateStandardViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
+							.subscribe(
+								(result) &#x3D;&gt; {
+									this.surveyPage.updateFullStructure(true);
+								},
+								(error) &#x3D;&gt; {
+									this.allPages &#x3D; pageCache;
+									this.surveyPage.updateFullStructure(true);
+								}
+							);
+						if (this.catiExists) {
+							pagesOrder &#x3D; this.allPages.map((ap) &#x3D;&gt; new Order(ap.catiDependent.id, ap.order));
+							this.surveyBuilderService
+								.updateCATIViewPageOrder(this.surveyId, pagesOrder, dropResult.payload.id)
+								.subscribe(
+									(result) &#x3D;&gt; {},
+									(error) &#x3D;&gt; {
+										this.allPages &#x3D; pageCache;
+									}
+								);
+						}
+					}
+					this.dragResult &#x3D; undefined;
+				});
+			}
+		}
+	}
+
+	public getPagePayload(index: number): QuestionPartView {
+		return this.allPages[index];
+	}
+
+	public toggleSidebarForPreview(): void {
+		if (
+			this.welcomePagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.privacyPagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.thankYouPagePreview.value &#x3D;&#x3D;&#x3D; true ||
+			this.questionViewerPreview.value &#x3D;&#x3D;&#x3D; true
+		) {
+			$(&#x27;.content-wrap-builder&#x27;).addClass(&#x27;ml-0&#x27;);
+			$(&#x27;.content-wrap-builder&#x27;).addClass(&#x27;remove-left-margin&#x27;);
+			$(&#x27;.page-controls&#x27;).addClass(&#x27;ml-0&#x27;);
+			$(&#x27;.page-controls&#x27;).addClass(&#x27;hide-using-height&#x27;);
+			$(&#x27;.navbar-brand&#x27;).addClass(&#x27;invisible&#x27;);
+			$(&#x27;.content&#x27;).addClass(&#x27;eliminate-content-padding&#x27;);
+			$(&#x27;.tab-pane&#x27;).css(&#x27;margin-top&#x27;, &#x27;-49px&#x27;);
+			$(&#x27;.tab-pane&#x27;).addClass(&#x27;remove-padding&#x27;);
+			$(&#x27;.nav&#x27;).addClass(&#x27;hide-using-height&#x27;);
+			$(&#x27;.sidebar-toggle-button&#x27;).addClass(&#x27;invisible&#x27;);
+			$(&#x27;.nav-user&#x27;).addClass(&#x27;invisible&#x27;);
+			$(&#x27;.survey-builder-header&#x27;).addClass(&#x27;hide-overflow&#x27;);
+			setTimeout(() &#x3D;&gt; {
+				$(&#x27;.sidebar&#x27;).addClass(&#x27;d-none&#x27;);
+			}, 500);
+		} else {
+			$(&#x27;.content-wrap-builder&#x27;).removeClass(&#x27;ml-0&#x27;);
+			$(&#x27;.content-wrap-builder&#x27;).removeClass(&#x27;remove-left-margin&#x27;);
+			$(&#x27;.page-controls&#x27;).removeClass(&#x27;ml-0&#x27;);
+			$(&#x27;.page-controls&#x27;).removeClass(&#x27;hide-using-height&#x27;);
+			$(&#x27;.navbar-brand&#x27;).removeClass(&#x27;invisible&#x27;);
+			$(&#x27;.content&#x27;).removeClass(&#x27;eliminate-content-padding&#x27;);
+			$(&#x27;.tab-pane&#x27;).css(&#x27;margin-top&#x27;, &#x27;unset&#x27;);
+			$(&#x27;.tab-pane&#x27;).removeClass(&#x27;remove-padding&#x27;);
+			$(&#x27;.nav&#x27;).removeClass(&#x27;hide-using-height&#x27;);
+			$(&#x27;.sidebar-toggle-button&#x27;).removeClass(&#x27;invisible&#x27;);
+			$(&#x27;.nav-user&#x27;).removeClass(&#x27;invisible&#x27;);
+			$(&#x27;.survey-builder-header&#x27;).removeClass(&#x27;hide-overflow&#x27;);
+			$(&#x27;.sidebar&#x27;).removeClass(&#x27;d-none&#x27;);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public previewSurvey(event: any): void {
+		window.open(&#x60;/survey/${this.survey.code}/start&#x60;, &#x27;_blank&#x27;);
+		event.stopPropagation();
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'NewBlock.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

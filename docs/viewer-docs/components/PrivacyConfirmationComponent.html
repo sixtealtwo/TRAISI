@@ -1,0 +1,876 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Survey Viewer App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Survey Viewer App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>PrivacyConfirmationComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-privacy-confirmation</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./privacy-confirmation.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./privacy-confirmation.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#acceptTermsHTML">acceptTermsHTML</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#footerTextColour">footerTextColour</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pageHTMLJson">pageHTMLJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#quillMinimalModules">quillMinimalModules</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#quillModules">quillModules</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#acceptTerms">acceptTerms</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#stripHTML">stripHTML</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#pageHTML">pageHTML</a>
+                            </li>
+                            <li>
+                                <a href="#pageThemeInfo">pageThemeInfo</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#termsAccepted">termsAccepted</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageHTML"></a>
+                        <b>pageHTML</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageThemeInfo"></a>
+                        <b>pageThemeInfo</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="termsAccepted"></a>
+                        <b>termsAccepted</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:48</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="acceptTerms"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            acceptTerms
+                        </b>
+                        <a href="#acceptTerms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>acceptTerms()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stripHTML"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            stripHTML
+                        </b>
+                        <a href="#stripHTML"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stripHTML(htmlString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>htmlString</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="acceptTermsHTML"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            acceptTermsHTML</b>
+                            <a href="#acceptTermsHTML"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="footerTextColour"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            footerTextColour</b>
+                            <a href="#footerTextColour"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageHTMLJson"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            pageHTMLJson</b>
+                            <a href="#pageHTMLJson"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="quillMinimalModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            quillMinimalModules</b>
+                            <a href="#quillMinimalModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		toolbar: []
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:12</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="quillModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            quillModules</b>
+                            <a href="#quillModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		toolbar: [
+			[&#x27;bold&#x27;, &#x27;italic&#x27;, &#x27;underline&#x27;, &#x27;strike&#x27;], // toggled buttons
+			[&#x27;blockquote&#x27;, &#x27;code-block&#x27;],
+
+			[{ list: &#x27;ordered&#x27; }, { list: &#x27;bullet&#x27; }],
+			[{ script: &#x27;sub&#x27; }, { script: &#x27;super&#x27; }], // superscript/subscript
+			[{ indent: &#x27;-1&#x27; }, { indent: &#x27;+1&#x27; }], // outdent/indent
+			[{ direction: &#x27;rtl&#x27; }], // text direction
+
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ font: [&#x27;montserrat&#x27;, &#x27;sofia&#x27;, &#x27;roboto&#x27;] }],
+			[{ size: [] }],
+			[{ align: [] }],
+
+			[&#x27;clean&#x27;], // remove formatting button
+
+			[&#x27;link&#x27;] // link and image, video
+		]
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/survey-viewer-app/app/components/special-page-builder/privacy-confirmation/privacy-confirmation.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Input, Output, EventEmitter } from &#x27;@angular/core&#x27;;
+import { Utilities } from &#x27;../../../../../shared/services/utilities&#x27;;
+
+
+@Component({
+  selector: &#x27;app-privacy-confirmation&#x27;,
+  templateUrl: &#x27;./privacy-confirmation.component.html&#x27;,
+  styleUrls: [&#x27;./privacy-confirmation.component.scss&#x27;]
+})
+export class PrivacyConfirmationComponent implements OnInit {
+
+	public quillMinimalModules: Object &#x3D; {
+		toolbar: []
+	};
+
+	public quillModules: Object &#x3D; {
+		toolbar: [
+			[&#x27;bold&#x27;, &#x27;italic&#x27;, &#x27;underline&#x27;, &#x27;strike&#x27;], // toggled buttons
+			[&#x27;blockquote&#x27;, &#x27;code-block&#x27;],
+
+			[{ list: &#x27;ordered&#x27; }, { list: &#x27;bullet&#x27; }],
+			[{ script: &#x27;sub&#x27; }, { script: &#x27;super&#x27; }], // superscript/subscript
+			[{ indent: &#x27;-1&#x27; }, { indent: &#x27;+1&#x27; }], // outdent/indent
+			[{ direction: &#x27;rtl&#x27; }], // text direction
+
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ font: [&#x27;montserrat&#x27;, &#x27;sofia&#x27;, &#x27;roboto&#x27;] }],
+			[{ size: [] }],
+			[{ align: [] }],
+
+			[&#x27;clean&#x27;], // remove formatting button
+
+			[&#x27;link&#x27;] // link and image, video
+		]
+	};
+
+	public footerTextColour: string;
+
+	public acceptTermsHTML: string;
+
+	private pageHTMLJson: any;
+
+	@Input()
+	public pageHTML: string;
+	@Input() public pageThemeInfo: any;
+	@Output()	public termsAccepted: EventEmitter&lt;void&gt; &#x3D; new EventEmitter();
+
+  constructor() { }
+
+  public ngOnInit(): void {
+		try {
+			let pageData &#x3D; JSON.parse(this.pageHTML);
+			this.pageHTMLJson &#x3D; pageData;
+			this.acceptTermsHTML &#x3D; pageData.acceptTerms;
+		} catch (e) {
+			this.pageHTMLJson &#x3D; {};
+		}
+		if (!(&#x27;termsAcceptColour&#x27; in this.pageThemeInfo)) {
+			this.pageThemeInfo.termsAcceptColour &#x3D; &#x27;rgb(36,36,36)&#x27;;
+		}
+		this.footerTextColour &#x3D; Utilities.whiteOrBlackText(this.pageThemeInfo.termsAcceptColour);
+	}
+
+	public stripHTML(htmlString: string): string {
+		return $(htmlString).text();
+	}
+
+	public acceptTerms(): void {
+		this.termsAccepted.emit();
+	}
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;privacy-confirmation-spacer&quot;&gt;&lt;/div&gt;
+&lt;div id&#x3D;&quot;privacy-confirmation-container&quot; [style.background-color]&#x3D;&quot;pageThemeInfo.termsAcceptColour&quot; class&#x3D;&quot;fixed-bottom&quot;&gt;
+	&lt;div class&#x3D;&quot;privacy-confirmation-container-inner&quot;&gt;
+		&lt;div class&#x3D;&quot;col-md-9 col-12&quot; [style.color]&#x3D;&quot;footerTextColour&quot;&gt;
+			&lt;quill-editor
+				class&#x3D;&quot;quill-page-editor ql-previewmode&quot;
+				[modules]&#x3D;&quot;quillModules&quot;
+				theme&#x3D;&quot;bubble&quot;
+				[readOnly]&#x3D;&quot;true&quot;
+				placeholder&#x3D;&quot;&quot;
+				[(ngModel)]&#x3D;&quot;pageHTMLJson.termsHtml&quot;
+			&gt;&lt;/quill-editor&gt;
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-12 col-md-3 justify-content-center d-flex align-items-center&quot;&gt;
+			&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;accept-privacy-button btn btn-primary&quot; (click)&#x3D;&quot;acceptTerms()&quot;&gt;
+				{{ stripHTML(acceptTermsHTML) }}
+			&lt;/button&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./privacy-confirmation.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">#privacy-confirmation-container {
+  margin-top: 10px;
+  padding: 10px 20px 10px 10px;
+}
+
+#privacy-confirmation-spacer {
+  height: 100px;
+}
+
+.accept-privacy-button {
+  border-radius: 10px;
+  min-width: 80px;
+  text-align: center;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+.privacy-confirmation-container-inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="privacy-confirmation-spacer"></div><div id="privacy-confirmation-container" [style.background-color]="pageThemeInfo.termsAcceptColour" class="fixed-bottom">	<div class="privacy-confirmation-container-inner">		<div class="col-md-9 col-12" [style.color]="footerTextColour">			<quill-editor				class="quill-page-editor ql-previewmode"				[modules]="quillModules"				theme="bubble"				[readOnly]="true"				placeholder=""				[(ngModel)]="pageHTMLJson.termsHtml"			></quill-editor>		</div>		<div class="col-12 col-md-3 justify-content-center d-flex align-items-center">			<button type="button" class="accept-privacy-button btn btn-primary" (click)="acceptTerms()">				{{ stripHTML(acceptTermsHTML) }}			</button>		</div>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AdminToolbarComponent', 'selector': 'traisi-admin-toolbar'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionContainerComponent', 'selector': 'traisi-question-container'},{'name': 'QuestionPlaceholderComponent', 'selector': 'traisi-question-placeholder'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SurveyErrorComponent', 'selector': 'app-survey-error'},{'name': 'SurveyGroupcodePageComponent', 'selector': 'traisi-survey-groupcode-page'},{'name': 'SurveyHeaderDisplayComponent', 'selector': 'traisi-survey-header-display'},{'name': 'SurveyScreeningPageComponent', 'selector': 'survey-screening-page'},{'name': 'SurveyShortcodeDisplayPageComponent', 'selector': 'traisi-survey-shortcode-display-page'},{'name': 'SurveyShortcodePageComponent', 'selector': 'traisi-survey-shortcode-page'},{'name': 'SurveyStartPageComponent', 'selector': 'traisi-survey-start-page'},{'name': 'SurveyTermsPageComponent', 'selector': 'app-survey-terms-page'},{'name': 'SurveyThankYouPageComponent', 'selector': 'traisi-survey-thankyou-page'},{'name': 'SurveyViewerComponent', 'selector': 'traisi-survey-viewer'},{'name': 'SurveyViewerContainerComponent', 'selector': 'app-survey-viewer-container'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'}];
+    var DIRECTIVES = [{'name': 'LoadingPlaceholderDirective', 'selector': '[traisiLoadingPlaceholder]'},{'name': 'SurveyInternalViewDirective', 'selector': '[traisiSurveyInternalView]'}];
+    var ACTUAL_COMPONENT = {'name': 'PrivacyConfirmationComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PrivacyConfirmationComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -11,7 +11,12 @@
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e",
-		"compodoc": "npx compodoc -p src/survey-viewer-app/tsconfig.json -d ../../../docs",
+		"compodoc-admin": "npx compodoc -p ./src/admin-app/tsconfig.json -d ../../../docs/admin-app-docs -n \"Admin App\"",
+		"admin-doc": "npx compodoc -s -d ../../../docs/admin-app-docs",
+		"compodoc-shared": "npx compodoc -p ./tsconfig.json -d ../../../docs/shared-docs -n \"Shared\"",
+		"shared-doc": "npx compodoc -s -d ../../../docs/shared-docs",
+		"compodoc-viewer": "npx compodoc -p ./src/survey-viewer-app/tsconfig.json -d ../../../docs/viewer-docs -n \"Survey Viewer App\"",
+		"viewer-doc": "npx compodoc -s -d ../../../docs/viewer-docs",
 		"bundle-report": "webpack-bundle-analyzer dist/survey/stats.json",
 		"postinstall": "node patch.js"
 	},

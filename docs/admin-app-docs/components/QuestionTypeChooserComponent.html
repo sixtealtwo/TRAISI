@@ -1,0 +1,1996 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>QuestionTypeChooserComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>traisi-question-type-chooser</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./question-type-chooser.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./question-type-chooser.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#$el">$el</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#config">config</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dragItemIndex">dragItemIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#questionTypeDefinitions">questionTypeDefinitions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#wasDragging">wasDragging</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addQuestionTypeToList">addQuestionTypeToList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addSectionToList">addSectionToList</a>
+                            </li>
+                            <li>
+                                <a href="#getPageContentPayload">getPageContentPayload</a>
+                            </li>
+                            <li>
+                                <a href="#getPageFooterPayload">getPageFooterPayload</a>
+                            </li>
+                            <li>
+                                <a href="#getPageHeaderPayload">getPageHeaderPayload</a>
+                            </li>
+                            <li>
+                                <a href="#getPageSurveyAccessPayload">getPageSurveyAccessPayload</a>
+                            </li>
+                            <li>
+                                <a href="#getQuestionPayload">getQuestionPayload</a>
+                            </li>
+                            <li>
+                                <a href="#getQuestionTypeName">getQuestionTypeName</a>
+                            </li>
+                            <li>
+                                <a href="#initSidebarScroll">initSidebarScroll</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onDragEnd">onDragEnd</a>
+                            </li>
+                            <li>
+                                <a href="#onDragStart">onDragStart</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSidebarOverflow">toggleSidebarOverflow</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#disabled">disabled</a>
+                            </li>
+                            <li>
+                                <a href="#householdAdded">householdAdded</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addQuestionType">addQuestionType</a>
+                            </li>
+                            <li>
+                                <a href="#loadedQuestionTypes">loadedQuestionTypes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(surveyBuilderService: <a href="../injectables/SurveyBuilderService.html">SurveyBuilderService</a>, config: <a href="../injectables/AppConfig.html">AppConfig</a>, el: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, configurationService: <a href="../injectables/ConfigurationService.html">ConfigurationService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyBuilderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyBuilderService.html" target="_self" >SurveyBuilderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AppConfig.html" target="_self" >AppConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>el</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configurationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="disabled"></a>
+                        <b>disabled</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="householdAdded"></a>
+                        <b>householdAdded</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addQuestionType"></a>
+                        <b>addQuestionType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >EventEmitter&lt;QuestionTypeDefinition&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadedQuestionTypes"></a>
+                        <b>loadedQuestionTypes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addQuestionTypeToList"></a>
+                    <span class="name">
+                        <b>
+                            addQuestionTypeToList
+                        </b>
+                        <a href="#addQuestionTypeToList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addQuestionTypeToList(qType: <a href="../interfaces/QuestionTypeDefinition.html">QuestionTypeDefinition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>qType</td>
+                                    <td>
+                                                <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSectionToList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addSectionToList
+                        </b>
+                        <a href="#addSectionToList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addSectionToList()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:96</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPageContentPayload"></a>
+                    <span class="name">
+                        <b>
+                            getPageContentPayload
+                        </b>
+                        <a href="#getPageContentPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPageContentPayload(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:156</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPageFooterPayload"></a>
+                    <span class="name">
+                        <b>
+                            getPageFooterPayload
+                        </b>
+                        <a href="#getPageFooterPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPageFooterPayload(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:162</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPageHeaderPayload"></a>
+                    <span class="name">
+                        <b>
+                            getPageHeaderPayload
+                        </b>
+                        <a href="#getPageHeaderPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPageHeaderPayload(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPageSurveyAccessPayload"></a>
+                    <span class="name">
+                        <b>
+                            getPageSurveyAccessPayload
+                        </b>
+                        <a href="#getPageSurveyAccessPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPageSurveyAccessPayload(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionPayload"></a>
+                    <span class="name">
+                        <b>
+                            getQuestionPayload
+                        </b>
+                        <a href="#getQuestionPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getQuestionPayload(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:130</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionTypeName"></a>
+                    <span class="name">
+                        <b>
+                            getQuestionTypeName
+                        </b>
+                        <a href="#getQuestionTypeName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getQuestionTypeName(typeDef: <a href="../interfaces/QuestionTypeDefinition.html">QuestionTypeDefinition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:166</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeDef</td>
+                                    <td>
+                                                <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initSidebarScroll"></a>
+                    <span class="name">
+                        <b>
+                            initSidebarScroll
+                        </b>
+                        <a href="#initSidebarScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initSidebarScroll()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:72</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:53</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Component initialization</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragEnd"></a>
+                    <span class="name">
+                        <b>
+                            onDragEnd
+                        </b>
+                        <a href="#onDragEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDragEnd(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragStart"></a>
+                    <span class="name">
+                        <b>
+                            onDragStart
+                        </b>
+                        <a href="#onDragStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDragStart(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSidebarOverflow"></a>
+                    <span class="name">
+                        <b>
+                            toggleSidebarOverflow
+                        </b>
+                        <a href="#toggleSidebarOverflow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSidebarOverflow($event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="$el"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            $el</b>
+                            <a href="#$el"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            config</b>
+                            <a href="#config"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dragItemIndex"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dragItemIndex</b>
+                            <a href="#dragItemIndex"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionTypeDefinitions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            questionTypeDefinitions</b>
+                            <a href="#questionTypeDefinitions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="wasDragging"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            wasDragging</b>
+                            <a href="#wasDragging"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/admin-app/app/survey-builder/components/question-type-chooser/question-type-chooser.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	OnInit,
+	ViewEncapsulation,
+	ElementRef,
+	Output,
+	EventEmitter,
+	HostListener,
+	Input,
+	AfterViewInit
+} from &#x27;@angular/core&#x27;;
+import { SurveyBuilderService } from &#x27;../../services/survey-builder.service&#x27;;
+import { QuestionTypeDefinition } from &#x27;../../models/question-type-definition&#x27;;
+import { AppConfig } from &#x27;../../../app.config&#x27;;
+import { ConfigurationService } from &#x27;../../../../../shared/services/configuration.service&#x27;;
+
+@Component({
+	selector: &#x27;traisi-question-type-chooser&#x27;,
+	templateUrl: &#x27;./question-type-chooser.component.html&#x27;,
+	styleUrls: [&#x27;./question-type-chooser.component.scss&#x27;],
+	encapsulation: ViewEncapsulation.None
+})
+export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
+	public questionTypeDefinitions: QuestionTypeDefinition[];
+	public config: any;
+	public $el: any;
+	public dragItemIndex: number &#x3D; 0;
+	public wasDragging: boolean &#x3D; false;
+
+	@Input()
+	householdAdded: boolean &#x3D; false;
+	@Input()
+	disabled: boolean &#x3D; false;
+	@Output()
+	addQuestionType: EventEmitter&lt;QuestionTypeDefinition&gt; &#x3D; new EventEmitter&lt;QuestionTypeDefinition&gt;();
+	@Output()
+	loadedQuestionTypes: EventEmitter&lt;any&gt; &#x3D; new EventEmitter();
+
+	constructor(
+		private surveyBuilderService: SurveyBuilderService,
+		config: AppConfig,
+		private el: ElementRef,
+		private configurationService: ConfigurationService
+	) {
+		this.config &#x3D; config.getConfig();
+		this.$el &#x3D; jQuery(el.nativeElement);
+		this.getQuestionPayload &#x3D; this.getQuestionPayload.bind(this);
+	}
+
+	/**
+	 * Component initialization
+	 */
+	ngOnInit() {
+		this.questionTypeDefinitions &#x3D; [];
+
+		// retrieve all question types from the server
+		this.surveyBuilderService.getQuestionTypes().subscribe((value: QuestionTypeDefinition[]) &#x3D;&gt; {
+			this.questionTypeDefinitions &#x3D; value;
+			this.loadedQuestionTypes.emit();
+		});
+
+		jQuery(window).on(&#x27;sn:resize&#x27;, this.initSidebarScroll.bind(this));
+		this.initSidebarScroll();
+	}
+
+	ngAfterViewInit() {
+		this.el.nativeElement.addEventListener(&#x27;touchmove&#x27;, event &#x3D;&gt; event.preventDefault());
+	}
+
+
+
+	initSidebarScroll(): void {
+		const $sidebarContent &#x3D; this.$el.find(&#x27;.js-builder-sidebar-content&#x27;);
+		if (this.$el.find(&#x27;.slimScrollDiv&#x27;).length !&#x3D;&#x3D; 0) {
+			$sidebarContent.slimscroll({
+				destroy: true
+			});
+		}
+		$sidebarContent.slimscroll({
+			height: window.innerHeight,
+			size: &#x27;4px&#x27;
+		});
+	}
+
+	toggleSidebarOverflow($event) {
+		jQuery(&#x27;#builderSidebar&#x27;).css(&#x27;z-index&#x27;, $event ? &#x27;2&#x27; : &#x27;0&#x27;);
+		jQuery(&#x27;.js-builder-sidebar-content, .slimScrollDiv&#x27;).css(&#x27;overflow&#x27;, $event ? &#x27;visible&#x27; : &#x27;hidden&#x27;);
+	}
+
+	addQuestionTypeToList(qType: QuestionTypeDefinition) {
+		if (!this.wasDragging) {
+			this.addQuestionType.emit(qType);
+		}
+	}
+
+	public addSectionToList(): void {
+		if (!this.wasDragging) {
+			let surveyPart: QuestionTypeDefinition &#x3D; {
+				typeName: &#x27;Survey Part&#x27;,
+				icon: &#x27;fas fa-archive&#x27;,
+				questionOptions: {},
+				questionConfigurations: {},
+				responseType: &#x27;&#x27;,
+				customBuilderViewName: &#x27;&#x27;,
+				hasCustomBuilderView: false,
+				typeNameLocales: { en: &#x27;Section&#x27;, fr: &#x27;Section&#x27; }
+			};
+			this.addQuestionType.emit(surveyPart);
+		}
+	}
+
+	onDragStart(event: any) {
+		// $(&#x27;.collapse.details&#x27;).collapse(&#x27;hide&#x27;);
+		/*if (event.payload.typeName !&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+			$(&#x27;.collapse:not(.details)&#x27;).collapse(&#x27;show&#x27;);
+		}*/
+		if (event.isSource) {
+			this.wasDragging &#x3D; true;
+		}
+	}
+
+	onDragEnd(event: any) {
+		if (event.isSource) {
+			setTimeout(() &#x3D;&gt; {
+				this.wasDragging &#x3D; false;
+			}, 0);
+		}
+	}
+
+	getQuestionPayload(index) {
+		$(&#x27;.collapse.details&#x27;).collapse(&#x27;hide&#x27;);
+		$(&#x27;.collapse:not(.details)&#x27;).collapse(&#x27;show&#x27;);
+		if (index &#x3D;&#x3D;&#x3D; 0) {
+			let surveyPart &#x3D; {
+				typeName: &#x27;Survey Part&#x27;,
+				icon: &#x27;fas fa-archive&#x27;,
+				questionOptions: {},
+				questionConfigurations: {},
+				responseType: &#x27;&#x27;,
+				typeNameLocales: { en: &#x27;Section&#x27;, fr: &#x27;Section&#x27; }
+			};
+			return surveyPart;
+		} else {
+			return this.questionTypeDefinitions[index - 1];
+		}
+	}
+
+	getPageHeaderPayload(index) {
+		return &#x27;header&#x27; + (index + 1);
+	}
+
+	getPageSurveyAccessPayload(index) {
+		return &#x27;mainSurveyAccess&#x27; + (index + 1);
+	}
+
+	getPageContentPayload(index) {
+		if (index &#x3D;&#x3D;&#x3D; 0) {
+			return &#x27;textBlock1&#x27;;
+		}
+	}
+
+	getPageFooterPayload(index) {
+		return &#x27;footer&#x27; + (index + 1);
+	}
+
+	getQuestionTypeName(typeDef: QuestionTypeDefinition) {
+		return typeDef.typeNameLocales[this.configurationService.language];
+	}
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;js-builder-sidebar-content&quot;&gt;
+	&lt;header class&#x3D;&quot;logo&quot;&gt;
+		&lt;a [routerLink]&#x3D;&quot; [&#x27;&#x27;] &quot;&gt;
+			&lt;img src&#x3D;&quot;{{ config.logo }} &quot; height&#x3D;&quot;59&quot;&gt;
+		&lt;/a&gt;
+	&lt;/header&gt;
+	&lt;!-- main notification links are placed inside of .sidebar-nav --&gt;
+	&lt;div class&#x3D;&quot;builder-qtypes&quot;&gt;
+		&lt;ul class&#x3D;&quot;sidebar-nav&quot;&gt;
+			&lt;smooth-dnd-container *ngIf&#x3D;&quot;!disabled&quot; id&#x3D;&quot;qTypesList&quot; [behaviour]&#x3D;&quot;&#x27;copy&#x27;&quot; (dragStart)&#x3D;&quot;onDragStart($event)&quot; (dragEnd)&#x3D;&quot;onDragEnd($event)&quot;
+			 [groupName]&#x3D;&quot;&#x27;builder-questions&#x27;&quot; [getChildPayload]&#x3D;&quot;getQuestionPayload&quot;&gt;
+				&lt;smooth-dnd-draggable&gt;
+					&lt;li class&#x3D;&quot;chooser section-tool-item&quot;&gt;
+						&lt;a (click)&#x3D;&quot;addSectionToList()&quot;&gt;
+							&lt;span class&#x3D;&quot;icon&quot; [tooltip]&#x3D;&quot;&#x27;Section&#x27;&quot; placement&#x3D;&quot;right&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+								&lt;i class&#x3D;&quot;chooser-icon fas fa-archive&quot;&gt;&lt;/i&gt;
+							&lt;/span&gt;
+							Section
+						&lt;/a&gt;
+					&lt;/li&gt;
+				&lt;/smooth-dnd-draggable&gt;
+				&lt;ng-container *ngFor&#x3D;&quot;let item of questionTypeDefinitions&quot;&gt;
+					&lt;smooth-dnd-draggable [hidden]&#x3D;&quot;(item.typeName &#x3D;&#x3D; &#x27;household&#x27; &amp;&amp; householdAdded)&quot;&gt;
+						&lt;li class&#x3D;&quot;chooser&quot;&gt;
+							&lt;a (click)&#x3D;&quot;addQuestionTypeToList(item)&quot;&gt;
+								&lt;span class&#x3D;&quot;icon&quot; [tooltip]&#x3D;&quot;getQuestionTypeName(item)&quot; placement&#x3D;&quot;right&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+									&lt;i class&#x3D;&quot;chooser-icon&quot; [ngClass]&#x3D;&quot;item.icon&quot;&gt;&lt;/i&gt;
+								&lt;/span&gt;
+								{{ getQuestionTypeName(item) }}
+							&lt;/a&gt;
+						&lt;/li&gt;
+					&lt;/smooth-dnd-draggable&gt;
+				&lt;/ng-container&gt;
+			&lt;/smooth-dnd-container&gt;
+			&lt;li *ngIf&#x3D;&quot;disabled&quot;&gt;
+				&lt;!-- an example of nested submenu. basic bootstrap collapse component --&gt;
+				&lt;a class&#x3D;&quot;collapsed&quot; data-target&#x3D;&quot;#layout-headers&quot; data-toggle&#x3D;&quot;collapse&quot;&gt;
+					&lt;span class&#x3D;&quot;icon&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-th-large&quot;&gt;&lt;/i&gt;
+					&lt;/span&gt;
+					Headers
+					&lt;i class&#x3D;&quot;toggle fas fa-angle-down&quot;&gt;&lt;/i&gt;
+				&lt;/a&gt;
+				&lt;ul id&#x3D;&quot;layout-headers&quot; class&#x3D;&quot;collapse&quot;&gt;
+					&lt;smooth-dnd-container id&#x3D;&quot;pageBuilderList&quot; [behaviour]&#x3D;&quot;&#x27;copy&#x27;&quot; [groupName]&#x3D;&quot;&#x27;special-header&#x27;&quot; [getChildPayload]&#x3D;&quot;getPageHeaderPayload&quot;&gt;
+						&lt;smooth-dnd-draggable&gt;
+							&lt;li class&#x3D;&quot;chooser&quot;&gt;
+								&lt;a&gt;
+									&lt;span class&#x3D;&quot;icon&quot; placement&#x3D;&quot;right&quot; tooltip&#x3D;&quot;Centred Logo Header&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+										&lt;i class&#x3D;&quot;chooser-icon fas fa-th-large&quot;&gt;&lt;/i&gt;
+									&lt;/span&gt;
+									1 Logo
+								&lt;/a&gt;
+							&lt;/li&gt;
+						&lt;/smooth-dnd-draggable&gt;
+						&lt;smooth-dnd-draggable&gt;
+							&lt;li class&#x3D;&quot;chooser&quot;&gt;
+								&lt;a&gt;
+									&lt;span class&#x3D;&quot;icon&quot; placement&#x3D;&quot;right&quot; tooltip&#x3D;&quot;Two Logo Header&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+										&lt;i class&#x3D;&quot;chooser-icon fas fa-th-large&quot;&gt;&lt;/i&gt;
+									&lt;/span&gt;
+									2 Logo
+								&lt;/a&gt;
+							&lt;/li&gt;
+						&lt;/smooth-dnd-draggable&gt;
+					&lt;/smooth-dnd-container&gt;
+				&lt;/ul&gt;
+			&lt;/li&gt;
+			&lt;li *ngIf&#x3D;&quot;disabled&quot;&gt;
+				&lt;!-- an example of nested submenu. basic bootstrap collapse component --&gt;
+				&lt;a class&#x3D;&quot;collapsed&quot; data-target&#x3D;&quot;#layout-surveyAccess&quot; data-toggle&#x3D;&quot;collapse&quot;&gt;
+					&lt;span class&#x3D;&quot;icon&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-th-large&quot;&gt;&lt;/i&gt;
+					&lt;/span&gt;
+					Survey Starts
+					&lt;i class&#x3D;&quot;toggle fas fa-angle-down&quot;&gt;&lt;/i&gt;
+				&lt;/a&gt;
+				&lt;ul id&#x3D;&quot;layout-surveyAccess&quot; class&#x3D;&quot;collapse&quot;&gt;
+					&lt;smooth-dnd-container id&#x3D;&quot;pageBuilderList&quot; [behaviour]&#x3D;&quot;&#x27;copy&#x27;&quot; [groupName]&#x3D;&quot;&#x27;special-surveyAccess&#x27;&quot; [getChildPayload]&#x3D;&quot;getPageSurveyAccessPayload&quot;&gt;
+						&lt;smooth-dnd-draggable&gt;
+							&lt;li class&#x3D;&quot;chooser&quot;&gt;
+								&lt;a&gt;
+									&lt;span class&#x3D;&quot;icon&quot; placement&#x3D;&quot;right&quot; tooltip&#x3D;&quot;Two Column Media Survey Start Section&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+										&lt;i class&#x3D;&quot;chooser-icon fas fa-th-large&quot;&gt;&lt;/i&gt;
+									&lt;/span&gt;
+									Media Start
+								&lt;/a&gt;
+							&lt;/li&gt;
+						&lt;/smooth-dnd-draggable&gt;
+					&lt;/smooth-dnd-container&gt;
+				&lt;/ul&gt;
+			&lt;/li&gt;
+			&lt;li *ngIf&#x3D;&quot;disabled&quot;&gt;
+				&lt;!-- an example of nested submenu. basic bootstrap collapse component --&gt;
+				&lt;a class&#x3D;&quot;collapsed&quot; data-target&#x3D;&quot;#layout-content&quot; data-toggle&#x3D;&quot;collapse&quot;&gt;
+					&lt;span class&#x3D;&quot;icon&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-th-large&quot;&gt;&lt;/i&gt;
+					&lt;/span&gt;
+					Other Content
+					&lt;i class&#x3D;&quot;toggle fas fa-angle-down&quot;&gt;&lt;/i&gt;
+				&lt;/a&gt;
+				&lt;ul id&#x3D;&quot;layout-content&quot; class&#x3D;&quot;collapse&quot;&gt;
+					&lt;smooth-dnd-container id&#x3D;&quot;pageBuilderList&quot; [behaviour]&#x3D;&quot;&#x27;copy&#x27;&quot; [groupName]&#x3D;&quot;&#x27;special-content&#x27;&quot; [getChildPayload]&#x3D;&quot;getPageContentPayload&quot;&gt;
+						&lt;smooth-dnd-draggable&gt;
+							&lt;li class&#x3D;&quot;chooser&quot;&gt;
+								&lt;a&gt;
+									&lt;span class&#x3D;&quot;icon&quot; placement&#x3D;&quot;right&quot; tooltip&#x3D;&quot;Generic Text Area&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+										&lt;i class&#x3D;&quot;chooser-icon fas fa-th-large&quot;&gt;&lt;/i&gt;
+									&lt;/span&gt;
+									Text Area
+								&lt;/a&gt;
+							&lt;/li&gt;
+						&lt;/smooth-dnd-draggable&gt;
+					&lt;/smooth-dnd-container&gt;
+				&lt;/ul&gt;
+			&lt;/li&gt;
+			&lt;li *ngIf&#x3D;&quot;disabled&quot;&gt;
+				&lt;!-- an example of nested submenu. basic bootstrap collapse component --&gt;
+				&lt;a class&#x3D;&quot;collapsed&quot; data-target&#x3D;&quot;#layout-footers&quot; data-toggle&#x3D;&quot;collapse&quot;&gt;
+					&lt;span class&#x3D;&quot;icon&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-th-large&quot;&gt;&lt;/i&gt;
+					&lt;/span&gt;
+					Footers
+					&lt;i class&#x3D;&quot;toggle fas fa-angle-down&quot;&gt;&lt;/i&gt;
+				&lt;/a&gt;
+				&lt;ul id&#x3D;&quot;layout-footers&quot; class&#x3D;&quot;collapse&quot;&gt;
+					&lt;smooth-dnd-container *ngIf&#x3D;&quot;disabled&quot; id&#x3D;&quot;pageBuilderList&quot; [behaviour]&#x3D;&quot;&#x27;copy&#x27;&quot; [groupName]&#x3D;&quot;&#x27;special-footer&#x27;&quot; [getChildPayload]&#x3D;&quot;getPageFooterPayload&quot;&gt;
+						&lt;smooth-dnd-draggable&gt;
+							&lt;li class&#x3D;&quot;chooser&quot;&gt;
+								&lt;a&gt;
+									&lt;span class&#x3D;&quot;icon&quot; placement&#x3D;&quot;right&quot; tooltip&#x3D;&quot;Centred Copyright Footer&quot; container&#x3D;&quot;body&quot; containerClass&#x3D;&quot;tooltip-builder&quot;&gt;
+										&lt;i class&#x3D;&quot;chooser-icon fas fa-th-large&quot;&gt;&lt;/i&gt;
+									&lt;/span&gt;
+									Simple Copyright
+								&lt;/a&gt;
+							&lt;/li&gt;
+						&lt;/smooth-dnd-draggable&gt;
+					&lt;/smooth-dnd-container&gt;
+				&lt;/ul&gt;
+			&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./question-type-chooser.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/shared/assets/scss/helpers&#x27;;
+
+.builder-qtypes .ngx-dnd-container {
+	background: none !important;
+	border: 0px solid rgb(236, 104, 104) !important;
+	padding: 5px;
+}
+
+.builder-qtypes {
+	margin-top: 50px;
+}
+
+li.chooser a{
+	display: block;
+
+	text-decoration: none;
+
+	.toggle{
+		float: right;
+		line-height: 18px;
+		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+		transition: transform .35s ease;
+	}
+
+	&amp;.collapsed .toggle{
+		transform: rotate(90deg);
+	}
+
+	.badge{
+		float: right;
+		line-height: 8px;
+		margin-top: 7px;
+		margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
+		padding: $padding-base-vertical;
+		border-radius: $border-radius-sm;
+
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			margin-top: 11px;
+		}
+	}
+}
+
+#qTypesList &gt; .smooth-dnd-container:last-child
+{
+	border-bottom: 1px solid $gray-400;
+}
+
+li.chooser {
+	list-style:none;
+	background-color: $sidebar-bg-color;
+	color: white;
+}
+
+.section-tool-item {
+	background-color: $widget-title-color !important;
+}
+
+li.chooser &gt; a{
+	position: relative;
+	border-top: 1px solid $gray-400;
+	padding-left: 50px;
+	line-height: 44px;
+
+	&amp;:hover{
+		background-color: $sidebar-item-hover-bg-color;
+	}
+
+	@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+		line-height: 44px;
+	}
+
+	.icon{
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			top: 8px;
+		}
+
+		display: block;
+		position: absolute;
+		top: 8px;
+		left: $sidebar-padding-horizontal;
+		width: 28px;
+		height: 28px;
+		line-height: 24px;
+		text-align: center;
+
+		.fa, .glyphicon{
+			font-size: 16px;
+			color: rgba($sidebar-color, .7);
+		}
+
+		.fa-database {
+			vertical-align: -1px;
+		}
+
+	}
+
+	.toggle{
+		line-height: 35px;
+
+		@media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
+			line-height: 44px;
+		}
+	}
+
+}
+
+.tooltip-builder {
+	font-size:14px;
+	font-family: unset;
+	font-weight: unset;
+	margin-left: -2px;
+	.tooltip-inner {
+		background-color: $sidebar-item-hover-bg-color;
+	}
+}
+
+smooth-dnd-container {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+smooth-dnd-draggable {
+	touch-action: none;
+	touch-action: manipulation;
+}
+
+.chooser-icon {
+	margin-top: 5px;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="js-builder-sidebar-content">	<header class="logo">		<a [routerLink]=" [\'\'] ">			<img src="{{ config.logo }} " height="59">		</a>	</header>	<!-- main notification links are placed inside of .sidebar-nav -->	<div class="builder-qtypes">		<ul class="sidebar-nav">			<smooth-dnd-container *ngIf="!disabled" id="qTypesList" [behaviour]="\'copy\'" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)"			 [groupName]="\'builder-questions\'" [getChildPayload]="getQuestionPayload">				<smooth-dnd-draggable>					<li class="chooser section-tool-item">						<a (click)="addSectionToList()">							<span class="icon" [tooltip]="\'Section\'" placement="right" container="body" containerClass="tooltip-builder">								<i class="chooser-icon fas fa-archive"></i>							</span>							Section						</a>					</li>				</smooth-dnd-draggable>				<ng-container *ngFor="let item of questionTypeDefinitions">					<smooth-dnd-draggable [hidden]="(item.typeName == \'household\' && householdAdded)">						<li class="chooser">							<a (click)="addQuestionTypeToList(item)">								<span class="icon" [tooltip]="getQuestionTypeName(item)" placement="right" container="body" containerClass="tooltip-builder">									<i class="chooser-icon" [ngClass]="item.icon"></i>								</span>								{{ getQuestionTypeName(item) }}							</a>						</li>					</smooth-dnd-draggable>				</ng-container>			</smooth-dnd-container>			<li *ngIf="disabled">				<!-- an example of nested submenu. basic bootstrap collapse component -->				<a class="collapsed" data-target="#layout-headers" data-toggle="collapse">					<span class="icon">						<i class="fas fa-th-large"></i>					</span>					Headers					<i class="toggle fas fa-angle-down"></i>				</a>				<ul id="layout-headers" class="collapse">					<smooth-dnd-container id="pageBuilderList" [behaviour]="\'copy\'" [groupName]="\'special-header\'" [getChildPayload]="getPageHeaderPayload">						<smooth-dnd-draggable>							<li class="chooser">								<a>									<span class="icon" placement="right" tooltip="Centred Logo Header" container="body" containerClass="tooltip-builder">										<i class="chooser-icon fas fa-th-large"></i>									</span>									1 Logo								</a>							</li>						</smooth-dnd-draggable>						<smooth-dnd-draggable>							<li class="chooser">								<a>									<span class="icon" placement="right" tooltip="Two Logo Header" container="body" containerClass="tooltip-builder">										<i class="chooser-icon fas fa-th-large"></i>									</span>									2 Logo								</a>							</li>						</smooth-dnd-draggable>					</smooth-dnd-container>				</ul>			</li>			<li *ngIf="disabled">				<!-- an example of nested submenu. basic bootstrap collapse component -->				<a class="collapsed" data-target="#layout-surveyAccess" data-toggle="collapse">					<span class="icon">						<i class="fas fa-th-large"></i>					</span>					Survey Starts					<i class="toggle fas fa-angle-down"></i>				</a>				<ul id="layout-surveyAccess" class="collapse">					<smooth-dnd-container id="pageBuilderList" [behaviour]="\'copy\'" [groupName]="\'special-surveyAccess\'" [getChildPayload]="getPageSurveyAccessPayload">						<smooth-dnd-draggable>							<li class="chooser">								<a>									<span class="icon" placement="right" tooltip="Two Column Media Survey Start Section" container="body" containerClass="tooltip-builder">										<i class="chooser-icon fas fa-th-large"></i>									</span>									Media Start								</a>							</li>						</smooth-dnd-draggable>					</smooth-dnd-container>				</ul>			</li>			<li *ngIf="disabled">				<!-- an example of nested submenu. basic bootstrap collapse component -->				<a class="collapsed" data-target="#layout-content" data-toggle="collapse">					<span class="icon">						<i class="fas fa-th-large"></i>					</span>					Other Content					<i class="toggle fas fa-angle-down"></i>				</a>				<ul id="layout-content" class="collapse">					<smooth-dnd-container id="pageBuilderList" [behaviour]="\'copy\'" [groupName]="\'special-content\'" [getChildPayload]="getPageContentPayload">						<smooth-dnd-draggable>							<li class="chooser">								<a>									<span class="icon" placement="right" tooltip="Generic Text Area" container="body" containerClass="tooltip-builder">										<i class="chooser-icon fas fa-th-large"></i>									</span>									Text Area								</a>							</li>						</smooth-dnd-draggable>					</smooth-dnd-container>				</ul>			</li>			<li *ngIf="disabled">				<!-- an example of nested submenu. basic bootstrap collapse component -->				<a class="collapsed" data-target="#layout-footers" data-toggle="collapse">					<span class="icon">						<i class="fas fa-th-large"></i>					</span>					Footers					<i class="toggle fas fa-angle-down"></i>				</a>				<ul id="layout-footers" class="collapse">					<smooth-dnd-container *ngIf="disabled" id="pageBuilderList" [behaviour]="\'copy\'" [groupName]="\'special-footer\'" [getChildPayload]="getPageFooterPayload">						<smooth-dnd-draggable>							<li class="chooser">								<a>									<span class="icon" placement="right" tooltip="Centred Copyright Footer" container="body" containerClass="tooltip-builder">										<i class="chooser-icon fas fa-th-large"></i>									</span>									Simple Copyright								</a>							</li>						</smooth-dnd-draggable>					</smooth-dnd-container>				</ul>			</li>		</ul>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'QuestionTypeChooserComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QuestionTypeChooserComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
