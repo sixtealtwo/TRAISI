@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, ElementRef, Renderer2, NgZone, ViewChild, HostBinding, OnInit } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { AppConfig } from '../app.config';
+import { AdminAppConfig } from '../admin-app-config.service';
 import { AuthService } from '..../../../shared/services/auth.service';
 import { SurveyBuilderComponent } from '../survey-builder/survey-builder.component';
 import { AccountService } from 'app/services/account.service';
@@ -28,7 +28,7 @@ export class LayoutComponent implements OnInit {
 	userName: string;
 	onBuilder: boolean = false;
 	constructor(
-		config: AppConfig,
+		config: AdminAppConfig,
 		el: ElementRef,
 		router: Router,
 		private renderer: Renderer2,

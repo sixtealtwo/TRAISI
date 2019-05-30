@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from '../../app.component';
+import { AdminAppComponent } from '../../admin-app.component';
 import { LoginComponent } from '../../login/login.component';
 
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';

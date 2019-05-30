@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
-import { AppConfig } from '../../../app.config';
+import { AdminAppConfig } from '../../../admin-app-config.service';
 import { ConfigurationService } from '../../../../../shared/services/configuration.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
-		config: AppConfig,
+		config: AdminAppConfig,
 		private el: ElementRef,
 		private configurationService: ConfigurationService
 	) {

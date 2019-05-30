@@ -1,0 +1,2235 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>QuestionContainerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/survey-viewer-app/app/components/question-container/question-container.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>traisi-question-container</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./question-container.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./question-container.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_questionInstance">_questionInstance</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_responseSaved">_responseSaved</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#alreadyNavigated">alreadyNavigated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#displayClass">displayClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isLoaded">isLoaded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onResponseSaved">onResponseSaved</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onResponseValidationStateChanged">onResponseValidationStateChanged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#questionOutlet">questionOutlet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#responseValidationState">responseValidationState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#titleLabel">titleLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#validationStates">validationStates</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#viewContainerRef">viewContainerRef</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#autoAdvance">autoAdvance</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#calcUniqueRepeatNumber">calcUniqueRepeatNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processPipedQuestionLabel">processPipedQuestionLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#retrieveHouseholdTag">retrieveHouseholdTag</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#retrieveRepeatNumber">retrieveRepeatNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#traisiQuestionWillUnload">traisiQuestionWillUnload</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#container">container</a>
+                            </li>
+                            <li>
+                                <a href="#question">question</a>
+                            </li>
+                            <li>
+                                <a href="#questionNameMap">questionNameMap</a>
+                            </li>
+                            <li>
+                                <a href="#questionTypeMap">questionTypeMap</a>
+                            </li>
+                            <li>
+                                <a href="#repeatContainer">repeatContainer</a>
+                            </li>
+                            <li>
+                                <a href="#repeatNumber">repeatNumber</a>
+                            </li>
+                            <li>
+                                <a href="#respondent">respondent</a>
+                            </li>
+                            <li>
+                                <a href="#sectionRepeatNumber">sectionRepeatNumber</a>
+                            </li>
+                            <li>
+                                <a href="#surveyId">surveyId</a>
+                            </li>
+                            <li>
+                                <a href="#surveyViewer">surveyViewer</a>
+                            </li>
+                            <li>
+                                <a href="#surveyViewQuestion">surveyViewQuestion</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#surveyQuestionInstance">surveyQuestionInstance</a>
+                                </li>
+                                <li>
+                                    <a href="#navigation">navigation</a>
+                                </li>
+                                <li>
+                                    <a href="#navIndex">navIndex</a>
+                                </li>
+                                <li>
+                                    <a href="#viewerState">viewerState</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(questionLoaderService: <a href="../injectables/QuestionLoaderService.html">QuestionLoaderService</a>, surveyViewerService: <a href="../injectables/SurveyViewerService.html">SurveyViewerService</a>, _viewerStateService: <a href="../injectables/SurveyViewerStateService.html">SurveyViewerStateService</a>, _responderService: <a href="../injectables/SurveyResponderService.html">SurveyResponderService</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, _navigation: <a href="../injectables/SurveyViewerNavigationService.html">SurveyViewerNavigationService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:122</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of question container component.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>questionLoaderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/QuestionLoaderService.html" target="_self" >QuestionLoaderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>surveyViewerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerService.html" target="_self" >SurveyViewerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_viewerStateService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerStateService.html" target="_self" >SurveyViewerStateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_responderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyResponderService.html" target="_self" >SurveyResponderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>viewContainerRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_navigation</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerNavigationService.html" target="_self" >SurveyViewerNavigationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="container"></a>
+                        <b>container</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/SurveyQuestionContainer.html" target="_self" >SurveyQuestionContainer</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:66</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="question"></a>
+                        <b>question</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Survey.html" target="_self" >ISurveyQuestion</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:57</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionNameMap"></a>
+                        <b>questionNameMap</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:87</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionTypeMap"></a>
+                        <b>questionTypeMap</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:84</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="repeatContainer"></a>
+                        <b>repeatContainer</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/SurveyRepeatContainer.html" target="_self" >SurveyRepeatContainer</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:81</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="repeatNumber"></a>
+                        <b>repeatNumber</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:75</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="respondent"></a>
+                        <b>respondent</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SurveyViewGroupMember.html" target="_self" >SurveyViewGroupMember</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:72</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sectionRepeatNumber"></a>
+                        <b>sectionRepeatNumber</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:78</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyId"></a>
+                        <b>surveyId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyViewer"></a>
+                        <b>surveyViewer</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/SurveyViewerComponent.html" target="_self" >SurveyViewerComponent</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:63</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyViewQuestion"></a>
+                        <b>surveyViewQuestion</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SurveyViewQuestion.html" target="_self" >SurveyViewQuestion</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:69</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoAdvance"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            autoAdvance
+                        </b>
+                        <a href="#autoAdvance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>autoAdvance()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:253</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Autos advance</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcUniqueRepeatNumber"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            calcUniqueRepeatNumber
+                        </b>
+                        <a href="#calcUniqueRepeatNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calcUniqueRepeatNumber()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:146</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Calcs unique repeat number</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>unique repeat number</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:153</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Unregister question etc and unsubscribe certain subs</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processPipedQuestionLabel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            processPipedQuestionLabel
+                        </b>
+                        <a href="#processPipedQuestionLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processPipedQuestionLabel(rawLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:285</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process piped question label</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rawLabel</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="retrieveHouseholdTag"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            retrieveHouseholdTag
+                        </b>
+                        <a href="#retrieveHouseholdTag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>retrieveHouseholdTag()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:264</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieves household tag</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>household tag</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="retrieveRepeatNumber"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            retrieveRepeatNumber
+                        </b>
+                        <a href="#retrieveRepeatNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>retrieveRepeatNumber()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:273</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieves repeat number</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>repeat number</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="traisiQuestionWillUnload"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            traisiQuestionWillUnload
+                        </b>
+                        <a href="#traisiQuestionWillUnload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>traisiQuestionWillUnload()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="352"
+                            class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:352</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Will unload is called before the active question is swapped out of view.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_questionInstance"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _questionInstance</b>
+                            <a href="#_questionInstance"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Survey.html" target="_self" >SurveyQuestion&lt;any&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:96</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_responseSaved"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _responseSaved</b>
+                            <a href="#_responseSaved"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subject&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:92</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="alreadyNavigated"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            alreadyNavigated</b>
+                            <a href="#alreadyNavigated"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:122</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="displayClass"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            displayClass</b>
+                            <a href="#displayClass"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;view-compact&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:104</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoaded"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isLoaded</b>
+                            <a href="#isLoaded"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:98</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onResponseSaved"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onResponseSaved</b>
+                            <a href="#onResponseSaved"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="341" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:341</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Determines whether response saved on</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onResponseValidationStateChanged"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onResponseValidationStateChanged</b>
+                            <a href="#onResponseValidationStateChanged"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="320" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:320</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Determines whether response validation state changed on</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionOutlet"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            questionOutlet</b>
+                            <a href="#questionOutlet"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;questionTemplate&#x27;, {read: ViewContainerRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:90</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="responseValidationState"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            responseValidationState</b>
+                            <a href="#responseValidationState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ResponseValidationState</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:102</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="titleLabel"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            titleLabel</b>
+                            <a href="#titleLabel"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>BehaviorSubject&lt;string&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:94</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validationStates"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            validationStates</b>
+                            <a href="#validationStates"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>ResponseValidationState</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:100</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="viewContainerRef"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            viewContainerRef</b>
+                            <a href="#viewContainerRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:138</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyQuestionInstance"></a>
+                        <span class="name"><b>surveyQuestionInstance</b><a href="#surveyQuestionInstance"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>surveyQuestionInstance()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:106</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navigation"></a>
+                        <span class="name"><b>navigation</b><a href="#navigation"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>navigation()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:110</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navIndex"></a>
+                        <span class="name"><b>navIndex</b><a href="#navIndex"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>navIndex()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:114</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="viewerState"></a>
+                        <span class="name"><b>viewerState</b><a href="#viewerState"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>viewerState()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/survey-viewer-app/app/components/question-container/question-container.component.ts:118</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	ComponentRef,
+	Input,
+	OnInit,
+	OnDestroy,
+	ViewChild,
+	ViewContainerRef,
+	Inject,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	EventEmitter,
+	Output,
+	ViewEncapsulation
+} from &#x27;@angular/core&#x27;;
+import { QuestionLoaderService } from &#x27;../../services/question-loader.service&#x27;;
+import { SurveyViewerService } from &#x27;../../services/survey-viewer.service&#x27;;
+import { SurveyViewQuestionOption } from &#x27;../../models/survey-view-question-option.model&#x27;;
+import {
+	OnOptionsLoaded,
+	OnSurveyQuestionInit,
+	SurveyResponder,
+	SurveyQuestion,
+	ResponseValidationState,
+	ResponseTypes,
+	ResponseData
+} from &#x27;traisi-question-sdk&#x27;;
+import { SurveyResponderService } from &#x27;../../services/survey-responder.service&#x27;;
+import { SurveyViewQuestion as ISurveyQuestion, SurveyViewQuestion } from &#x27;../../models/survey-view-question.model&#x27;;
+import { ReplaySubject } from &#x27;rxjs/ReplaySubject&#x27;;
+import { BehaviorSubject, Subject } from &#x27;rxjs&#x27;;
+import { SurveyViewerComponent } from &#x27;../survey-viewer/survey-viewer.component&#x27;;
+import { SurveyViewGroupMember } from &#x27;../../models/survey-view-group-member.model&#x27;;
+import { SurveyViewerStateService } from &#x27;../../services/survey-viewer-state.service&#x27;;
+import { Utilities } from &#x27;shared/services/utilities&#x27;;
+import { animate, state, style, transition, trigger } from &#x27;@angular/animations&#x27;;
+import { SurveyRepeatContainer } from &#x27;../../services/survey-viewer-navigation/survey-repeat-container&#x27;;
+import { SurveyQuestionContainer } from &#x27;../../services/survey-viewer-navigation/survey-question-container&#x27;;
+import { SurveyViewerNavigationService } from &#x27;../../services/survey-viewer-navigation/survey-viewer-navigation.service&#x27;;
+import { SurveyViewerState } from &#x27;../../models/survey-viewer-state.model&#x27;;
+
+export { IconDefinition } from &#x27;@fortawesome/free-solid-svg-icons&#x27;;
+
+export const fadeInOut &#x3D; trigger(&#x27;fadeInOut&#x27;, [
+	transition(&#x27;:enter&#x27;, [style({ opacity: 0 }), animate(&#x27;0.4s ease-in&#x27;, style({ opacity: 1 }))]),
+	transition(&#x27;:leave&#x27;, [animate(&#x27;0.4s 10ms ease-out&#x27;, style({ opacity: 0 }))])
+]);
+
+@Component({
+	selector: &#x27;traisi-question-container&#x27;,
+	templateUrl: &#x27;./question-container.component.html&#x27;,
+	styleUrls: [&#x27;./question-container.component.scss&#x27;],
+	animations: [fadeInOut]
+})
+export class QuestionContainerComponent implements OnInit, OnDestroy {
+	@Input()
+	public question: ISurveyQuestion;
+
+	@Input()
+	public surveyId: number;
+
+	@Input()
+	public surveyViewer: SurveyViewerComponent;
+
+	@Input()
+	public container: SurveyQuestionContainer;
+
+	@Input()
+	public surveyViewQuestion: SurveyViewQuestion;
+
+	@Input()
+	public respondent: SurveyViewGroupMember;
+
+	@Input()
+	public repeatNumber: number &#x3D; 0;
+
+	@Input()
+	public sectionRepeatNumber: number &#x3D; 0;
+
+	@Input()
+	public repeatContainer: SurveyRepeatContainer;
+
+	@Input()
+	public questionTypeMap: { [id: number]: string };
+
+	@Input()
+	public questionNameMap: { [name: string]: number };
+
+	@ViewChild(&#x27;questionTemplate&#x27;, { read: ViewContainerRef })
+	public questionOutlet: ViewContainerRef;
+
+	private _responseSaved: Subject&lt;boolean&gt;;
+
+	public titleLabel: BehaviorSubject&lt;string&gt;;
+
+	private _questionInstance: SurveyQuestion&lt;any&gt;;
+
+	public isLoaded: boolean &#x3D; false;
+
+	public validationStates: typeof ResponseValidationState &#x3D; ResponseValidationState;
+
+	public responseValidationState: ResponseValidationState;
+
+	public displayClass: string &#x3D; &#x27;view-compact&#x27;;
+
+	get surveyQuestionInstance(): SurveyQuestion&lt;any&gt; {
+		return this._questionInstance;
+	}
+
+	public get navigation(): SurveyViewerNavigationService {
+		return this._navigation;
+	}
+
+	public get navIndex(): number {
+		return this._viewerStateService.viewerState.questionNavIndex + 1;
+	}
+
+	public get viewerState(): SurveyViewerState {
+		return this._viewerStateService.viewerState;
+	}
+
+	private alreadyNavigated: boolean &#x3D; false;
+
+	/**
+	 * Creates an instance of question container component.
+	 * @param questionLoaderService
+	 * @param surveyViewerService
+	 * @param _viewerStateService
+	 * @param _responderService
+	 * @param viewContainerRef
+	 * @param _navigation
+	 */
+	constructor(
+		@Inject(&#x27;QuestionLoaderService&#x27;) private questionLoaderService: QuestionLoaderService,
+		@Inject(&#x27;SurveyViewerService&#x27;) private surveyViewerService: SurveyViewerService,
+		private _viewerStateService: SurveyViewerStateService,
+		@Inject(&#x27;SurveyResponderService&#x27;) private _responderService: SurveyResponderService,
+		public viewContainerRef: ViewContainerRef,
+		private _navigation: SurveyViewerNavigationService
+	) {}
+
+	/**
+	 * Calcs unique repeat number
+	 * @returns unique repeat number
+	 */
+	private calcUniqueRepeatNumber(): number {
+		return this.repeatContainer.children.length * this.sectionRepeatNumber + this.repeatNumber;
+	}
+
+	/**
+	 * Unregister question etc and unsubscribe certain subs
+	 */
+	public ngOnDestroy(): void {
+	}
+
+	/**
+	 *
+	 */
+	public ngOnInit(): void {
+		/**
+		 * Load the question component into the specified question outlet.
+		 */
+
+		this.responseValidationState &#x3D; ResponseValidationState.PRISTINE;
+		this.processPipedQuestionLabel(this.question.label);
+
+		this.container.questionInstance &#x3D; this;
+		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
+			(componentRef: ComponentRef&lt;any&gt;) &#x3D;&gt; {
+				let surveyQuestionInstance &#x3D; &lt;SurveyQuestion&lt;any&gt;&gt;componentRef.instance;
+
+				surveyQuestionInstance.loadConfiguration(this.question.configuration);
+
+				// call traisiOnInit to notify of initialization finishing
+				surveyQuestionInstance.questionId &#x3D; this.question.questionId;
+
+				surveyQuestionInstance.surveyId &#x3D; this.surveyId;
+
+				(&lt;SurveyQuestion&lt;any&gt;&gt;componentRef.instance).configuration &#x3D; Object.assign({}, this.question.configuration);
+
+				this.displayClass &#x3D; (&lt;SurveyQuestion&lt;any&gt;&gt;componentRef.instance).displayClass;
+				this._responseSaved &#x3D; new Subject&lt;boolean&gt;();
+
+				this._responderService.registerQuestion(
+					componentRef.instance,
+					this.surveyId,
+					this.question.questionId,
+					this.respondent.id,
+					this._responseSaved,
+					this.surveyViewQuestion,
+					this.calcUniqueRepeatNumber()
+				);
+
+				this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
+
+				this._responseSaved.subscribe(this.onResponseSaved);
+
+				this._responderService
+					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())
+					.subscribe(response &#x3D;&gt; {
+						surveyQuestionInstance.savedResponse.next(
+							response &#x3D;&#x3D;&#x3D; undefined || response &#x3D;&#x3D;&#x3D; null ? &#x27;none&#x27; : response.responseValues
+						);
+
+						surveyQuestionInstance.traisiOnLoaded();
+					});
+
+				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
+				surveyQuestionInstance.autoAdvance.subscribe((result: number) &#x3D;&gt; {
+					setTimeout(() &#x3D;&gt; {
+						this.autoAdvance();
+					}, result);
+				});
+
+				surveyQuestionInstance.respondent &#x3D; this.respondent;
+				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
+				this.surveyViewerService
+					.getQuestionOptions(this.surveyId, this.question.questionId, &#x27;en&#x27;, null)
+					.subscribe((options: SurveyViewQuestionOption[]) &#x3D;&gt; {
+						this.isLoaded &#x3D; true;
+
+						this._questionInstance &#x3D; componentRef.instance;
+						if (componentRef.instance.__proto__.hasOwnProperty(&#x27;onOptionsLoaded&#x27;)) {
+							(&lt;OnOptionsLoaded&gt;componentRef.instance).onOptionsLoaded(options);
+						}
+						(&lt;ReplaySubject&lt;any&gt;&gt;(&lt;SurveyQuestion&lt;any&gt;&gt;componentRef.instance).questionOptions).next(options);
+						if (componentRef.instance.__proto__.hasOwnProperty(&#x27;onSurveyQuestionInit&#x27;)) {
+							(&lt;OnSurveyQuestionInit&gt;componentRef.instance).onSurveyQuestionInit(this.question.configuration);
+						}
+						(&lt;ReplaySubject&lt;any&gt;&gt;(&lt;SurveyQuestion&lt;any&gt;&gt;componentRef.instance).configurations).next(this.question.configuration);
+						setTimeout(() &#x3D;&gt; {
+							this._navigation.navigationCompleted.next(true);
+							this._navigation.navigationCompleted.subscribe(result &#x3D;&gt; {
+								this.alreadyNavigated &#x3D; true;
+							});
+						}, 100);
+					});
+				this._viewerStateService.viewerState.isNextEnabled &#x3D; false;
+				if (this.question.isOptional) {
+					this._viewerStateService.viewerState.isNextEnabled &#x3D; true;
+				}
+			},
+			error &#x3D;&gt; {},
+			() &#x3D;&gt; {
+				console.log(&#x27;complete&#x27;);
+			}
+		);
+	}
+
+	/**
+	 * Autos advance
+	 */
+	private autoAdvance(): void {
+		if (!this.alreadyNavigated &amp;&amp; !this._viewerStateService.viewerState.isNavComplete) {
+			this.navigation.navigateNext();
+			this.alreadyNavigated &#x3D; false;
+		}
+	}
+
+	/**
+	 * Retrieves household tag
+	 * @returns household tag
+	 */
+	private retrieveHouseholdTag(): string {
+		let questionId: number &#x3D; +Object.keys(this.questionTypeMap).find(key &#x3D;&gt; this.questionTypeMap[key] &#x3D;&#x3D;&#x3D; &#x27;household&#x27;);
+		return Object.keys(this.questionNameMap).find(key &#x3D;&gt; this.questionNameMap[key] &#x3D;&#x3D;&#x3D; questionId);
+	}
+
+	/**
+	 * Retrieves repeat number
+	 * @returns repeat number
+	 */
+	private retrieveRepeatNumber(): number {
+		if (this.surveyViewQuestion.parentSection.isRepeat &amp;&amp; !this.surveyViewQuestion.isRepeat) {
+			return this.sectionRepeatNumber;
+		} else {
+			return this.repeatNumber;
+		}
+	}
+
+	/**
+	 * Process piped question label
+	 * @param rawLabel
+	 */
+	private processPipedQuestionLabel(rawLabel: string): void {
+		let processedLabel &#x3D; Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
+
+		// get tag list
+		let tags &#x3D; Utilities.extractPlaceholders(processedLabel);
+
+		if (tags &amp;&amp; tags.length &gt; 0) {
+			let questionIdsForResponse &#x3D; tags.map(tag &#x3D;&gt; this.questionNameMap[tag]);
+
+			questionIdsForResponse &#x3D; questionIdsForResponse.filter(f &#x3D;&gt; {
+				return f !&#x3D;&#x3D; undefined;
+			});
+
+			if (questionIdsForResponse.length &gt; 0) {
+				this._responderService.listResponsesForQuestions(questionIdsForResponse, this.respondent.id).subscribe(responses &#x3D;&gt; {
+					tags.forEach((tag, index) &#x3D;&gt; {
+						if (this.questionNameMap[tag] &#x3D;&#x3D;&#x3D; this.question.repeatSource) {
+							processedLabel &#x3D; Utilities.replacePlaceholder(processedLabel, tag, &#x60;${this.repeatNumber + 1}&#x60;);
+						} else if (this.question.parentSection &amp;&amp; this.question.parentSection.repeatSource &#x3D;&#x3D;&#x3D; this.questionNameMap[tag]) {
+							processedLabel &#x3D; Utilities.replacePlaceholder(processedLabel, tag, &#x60;${this.sectionRepeatNumber + 1}&#x60;);
+						} else {
+							processedLabel &#x3D; Utilities.replacePlaceholder(processedLabel, tag, responses[index].responseValues[0].value);
+						}
+					});
+					this.titleLabel &#x3D; new BehaviorSubject(processedLabel);
+				});
+			}
+		} else {
+			this.titleLabel &#x3D; new BehaviorSubject(processedLabel);
+		}
+	}
+
+	/**
+	 * Determines whether response validation state changed on
+	 */
+	private onResponseValidationStateChanged: (validationState: ResponseValidationState) &#x3D;&gt; void &#x3D; (
+		validationState: ResponseValidationState
+	): void &#x3D;&gt; {
+		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
+		this.responseValidationState &#x3D; validationState;
+		if (this.surveyViewQuestion.respondentValidationState &#x3D;&#x3D;&#x3D; undefined) {
+			this.surveyViewQuestion.respondentValidationState &#x3D; {};
+		}
+		this.surveyViewQuestion.respondentValidationState[this.respondent.id] &#x3D; validationState;
+
+		// just call the update after everything else waiting to be processed
+		setTimeout(() &#x3D;&gt; {
+			this._navigation.updateNavigationStates();
+		});
+
+		// this.surveyViewer.validateNavigation();
+	};
+
+	/**
+	 * Determines whether response saved on
+	 */
+	private onResponseSaved: (responseValid: boolean) &#x3D;&gt; void &#x3D; (responseValid: boolean): void &#x3D;&gt; {
+		if (responseValid) {
+			// this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
+			// this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
+			// this.surveyViewer.updateNavigation();
+		}
+	};
+
+	/**
+	 * Will unload is called before the active question is swapped out of view.
+	 */
+	public traisiQuestionWillUnload(): void {
+		this._questionInstance.traisiOnUnloaded();
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;section [@fadeInOut] class&#x3D;&quot;widget flex-grow-1  mb-0 mb-md-3 question-widget mx-md-3 card&quot; [ngClass]&#x3D;&quot;displayClass&quot;&gt;
+	&lt;div class&#x3D;&quot;card-header question-container&quot;&gt;
+		&lt;div class&#x3D;&quot;question-header container-fluid&quot;&gt;
+			&lt;div class&#x3D;&quot;row flex-nowrap header-row&quot;&gt;
+				&lt;div class&#x3D;&quot;question-number-container col&quot;&gt;
+					&lt;div class&#x3D;&quot;question-number badge badge-danger mt-3&quot;
+						[ngClass]&#x3D;&quot;{ &#x27;question-section&#x27;: question.parentSection !&#x3D;&#x3D; undefined }&quot;&gt;
+						&lt;span *ngIf&#x3D;&quot;question.repeatNumber &#x3D;&#x3D;&#x3D; undefined &amp;&amp; question.parentSection &#x3D;&#x3D;&#x3D; undefined&quot;&gt;
+							Q{{ surveyViewQuestion.viewOrder + 1 }}
+						&lt;/span&gt;
+						&lt;span *ngIf&#x3D;&quot;question.repeatNumber &#x3D;&#x3D;&#x3D; undefined &amp;&amp; question.parentSection !&#x3D;&#x3D; undefined&quot;&gt;
+							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }}
+						&lt;/span&gt;
+						&lt;span *ngIf&#x3D;&quot;question.repeatNumber !&#x3D;&#x3D; undefined &amp;&amp; question.parentSection !&#x3D;&#x3D; undefined&quot;&gt;
+							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }} -
+							{{ repeatNumber + 1 }}
+						&lt;/span&gt;
+						&lt;span *ngIf&#x3D;&quot;question.repeatNumber !&#x3D;&#x3D; undefined &amp;&amp; question.parentSection &#x3D;&#x3D;&#x3D; undefined&quot;&gt;
+							Q{{ surveyViewQuestion.viewOrder + 1 }} - {{ repeatNumber + 1 }}
+						&lt;/span&gt;
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;question-complete animated tada slow&quot;
+						*ngIf&#x3D;&quot;responseValidationState &#x3D;&#x3D;&#x3D; validationStates.VALID&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-check-circle&quot;&gt;&lt;/i&gt;
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;question-incomplete animated tada slow&quot;
+						*ngIf&#x3D;&quot;responseValidationState &#x3D;&#x3D;&#x3D; validationStates.INVALID&quot;&gt;
+						&lt;i class&#x3D;&quot;fas fa-times-circle&quot;&gt;&lt;/i&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class&#x3D;&quot;question-header-text col&quot; [innerHTML]&#x3D;&quot;titleLabel | async | safeHtml&quot;&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;!--
+			&lt;span class&#x3D;&quot;question-validation&quot;&gt;
+
+				&lt;i class&#x3D;&quot;fas fa-check-circle validation-icon&quot; [ngClass]&#x3D;&quot;{&#x27;pristine&#x27;:responseValidationState &#x3D;&#x3D; validationStates.PRISTINE,
+
+					&#x27;invalid&#x27;:responseValidationState &#x3D;&#x3D; validationStates.INVALID,
+
+								&#x27;valid&#x27;: responseValidationState &#x3D;&#x3D; validationStates.VALID}&quot;&gt;&lt;/i&gt;
+
+
+			&lt;/span&gt;
+
+			&lt;span class&#x3D;&quot;question-index badge badge-pill badge-secondary&quot; *ngIf&#x3D;&quot;question.repeatNumber &#x3D;&#x3D;&#x3D; undefined&quot;&gt;
+
+				Q{{ questionIndex+1 }}
+
+			&lt;/span&gt;
+
+			&lt;span class&#x3D;&quot;question-index badge badge-pill badge-secondary&quot; *ngIf&#x3D;&quot;question.repeatNumber !&#x3D;&#x3D; undefined&quot;&gt;
+
+				Q{{ questionIndex+1 }} - {{question.repeatNumber + 1}}
+
+			&lt;/span&gt;
+		--&gt;
+
+		&lt;span class&#x3D;&quot;badge badge-info&quot; *ngIf&#x3D;&quot;question.isOptional&quot;&gt;Optional&lt;/span&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class&#x3D;&quot;question-header-divider mt-3 mb-0 mb-md-3&quot;&gt;&lt;/div&gt;--&gt;
+	&lt;div class&#x3D;&quot;widget-body card-body&quot;&gt;
+		&lt;div class&#x3D;&quot;question-container-inner&quot;&gt;
+			&lt;ng-container *ngTemplateOutlet&#x3D;&quot;!isLoaded ? loadingTemplate : questionTemplate&quot;&gt; &lt;/ng-container&gt;
+		&lt;/div&gt;
+		&lt;ng-template #loadingTemplate&gt;
+			&lt;!-- &lt;traisi-question-placeholder&gt;&lt;/traisi-question-placeholder&gt; --&gt;
+		&lt;/ng-template&gt;
+
+		&lt;ng-template #questionTemplate&gt;
+			&lt;ng-container #container&gt;&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+	&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./question-container.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/shared/assets/scss/helpers&quot;;
+@import &quot;../../../assets/scss/application.scss&quot;;
+
+.question-header {
+  display: block;
+  /*
+  display:flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: row; */
+}
+
+.header-row {
+	align-items:center;
+}
+
+.question-widget {
+  //position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  // border: solid 1px #64689a;
+}
+
+.question-index {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.header-label div {
+  display: inline-block !important;
+}
+
+.validation-icon.pristine {
+  display: none;
+}
+
+.validation-icon.valid {
+  color: $info;
+}
+
+.validation-icon.invalid {
+  color: $info;
+}
+
+.validation-icon {
+  font-size: 24px;
+}
+
+.widget-body {
+  flex-grow: 1;
+  position: relative;
+}
+
+.view-compact {
+  position: relative;
+}
+
+.view-full {
+  position: absolute;
+}
+
+.multi-display .view-full {
+  position: relative;
+}
+
+.header-label {
+  flex-grow: 1;
+}
+
+.question-header {
+  position: relative;
+
+  ::ng-deep .piped-value {
+    border: solid 1px #a4dbf1;
+    font-weight: 500 !important;
+    color: black;
+    background: #daeff7;
+    padding: 2px 4px;
+    border-radius: 5px;
+  }
+
+  ::ng-deep .piped-value:hover {
+    background: #e2eef3;
+  }
+
+  .question-header .row {
+    align-items: center;
+  }
+
+  .question-number-container {
+    max-width: 90px;
+	position: relative;
+	top:-10px;
+  }
+
+  .question-number-container-section {
+    max-width: 80px;
+    position: relative;
+  }
+
+  .question-number {
+    vertical-align: middle !important;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 16px;
+    padding: 8px;
+    // max-height: 32px;
+  }
+  .question-complete {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 24px;
+    i {
+      background-color: lightgreen;
+      border-radius: 50%;
+    }
+
+    animation-iteration-count: 5;
+  }
+
+  .question-incomplete {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 24px;
+    i {
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    animation-iteration-count: 5;
+  }
+  .question-header-text {
+    max-width: calc(100% - 70px);
+    font-weight: 400;
+  }
+}
+
+.question-header-divider {
+  height: 5px;
+  border-top: 1px solid rgb(200, 200, 200);
+}
+
+.question-section {
+  background-color: #01688b !important;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><section [@fadeInOut] class="widget flex-grow-1  mb-0 mb-md-3 question-widget mx-md-3 card" [ngClass]="displayClass">	<div class="card-header question-container">		<div class="question-header container-fluid">			<div class="row flex-nowrap header-row">				<div class="question-number-container col">					<div class="question-number badge badge-danger mt-3"						[ngClass]="{ \'question-section\': question.parentSection !== undefined }">						<span *ngIf="question.repeatNumber === undefined && question.parentSection === undefined">							Q{{ surveyViewQuestion.viewOrder + 1 }}						</span>						<span *ngIf="question.repeatNumber === undefined && question.parentSection !== undefined">							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }}						</span>						<span *ngIf="question.repeatNumber !== undefined && question.parentSection !== undefined">							Q{{ surveyViewQuestion.viewOrder + 1 }}.{{ surveyViewQuestion.inSectionIndex + 1 }} -							{{ repeatNumber + 1 }}						</span>						<span *ngIf="question.repeatNumber !== undefined && question.parentSection === undefined">							Q{{ surveyViewQuestion.viewOrder + 1 }} - {{ repeatNumber + 1 }}						</span>					</div>					<div class="question-complete animated tada slow"						*ngIf="responseValidationState === validationStates.VALID">						<i class="fas fa-check-circle"></i>					</div>					<div class="question-incomplete animated tada slow"						*ngIf="responseValidationState === validationStates.INVALID">						<i class="fas fa-times-circle"></i>					</div>				</div>				<div class="question-header-text col" [innerHTML]="titleLabel | async | safeHtml">				</div>			</div>		</div>		<!--			<span class="question-validation">				<i class="fas fa-check-circle validation-icon" [ngClass]="{\'pristine\':responseValidationState == validationStates.PRISTINE,					\'invalid\':responseValidationState == validationStates.INVALID,								\'valid\': responseValidationState == validationStates.VALID}"></i>			</span>			<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber === undefined">				Q{{ questionIndex+1 }}			</span>			<span class="question-index badge badge-pill badge-secondary" *ngIf="question.repeatNumber !== undefined">				Q{{ questionIndex+1 }} - {{question.repeatNumber + 1}}			</span>		-->		<span class="badge badge-info" *ngIf="question.isOptional">Optional</span>	</div>	<!-- <div class="question-header-divider mt-3 mb-0 mb-md-3"></div>-->	<div class="widget-body card-body">		<div class="question-container-inner">			<ng-container *ngTemplateOutlet="!isLoaded ? loadingTemplate : questionTemplate"> </ng-container>		</div>		<ng-template #loadingTemplate>			<!-- <traisi-question-placeholder></traisi-question-placeholder> -->		</ng-template>		<ng-template #questionTemplate>			<ng-container #container></ng-container>		</ng-template>	</div></section></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'AdminToolbarComponent', 'selector': 'traisi-admin-toolbar'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionContainerComponent', 'selector': 'traisi-question-container'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionPlaceholderComponent', 'selector': 'traisi-question-placeholder'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyErrorComponent', 'selector': 'app-survey-error'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveyGroupcodePageComponent', 'selector': 'traisi-survey-groupcode-page'},{'name': 'SurveyHeaderDisplayComponent', 'selector': 'traisi-survey-header-display'},{'name': 'SurveyScreeningPageComponent', 'selector': 'survey-screening-page'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveyShortcodeDisplayPageComponent', 'selector': 'traisi-survey-shortcode-display-page'},{'name': 'SurveyShortcodePageComponent', 'selector': 'traisi-survey-shortcode-page'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SurveyStartPageComponent', 'selector': 'traisi-survey-start-page'},{'name': 'SurveyTermsPageComponent', 'selector': 'app-survey-terms-page'},{'name': 'SurveyThankYouPageComponent', 'selector': 'traisi-survey-thankyou-page'},{'name': 'SurveyViewerComponent', 'selector': 'traisi-survey-viewer'},{'name': 'SurveyViewerContainerComponent', 'selector': 'app-survey-viewer-container'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'LoadingPlaceholderDirective', 'selector': '[traisiLoadingPlaceholder]'},{'name': 'SurveyInternalViewDirective', 'selector': '[traisiSurveyInternalView]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'QuestionContainerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QuestionContainerComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

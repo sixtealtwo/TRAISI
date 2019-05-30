@@ -1,0 +1,447 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>RolesChangedEventArg</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/admin-app/app/services/account.service.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#operation">operation</a>
+                                </li>
+                                <li>
+                                        <a href="#roles">roles</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="operation"></a>
+                                        <span class="name"><b>operation</b><a href="#operation"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>operation:         <code><a href="../classes/Role.html" target="_self" >RolesChangedOperation</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/Role.html" target="_self" >RolesChangedOperation</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="roles"></a>
+                                        <span class="name"><b>roles</b><a href="#roles"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>roles:         <code><a href="../classes/Role.html" target="_self" >Role[] | string[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/Role.html" target="_self" >Role[] | string[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { forkJoin as observableForkJoin, Observable, Subject, BehaviorSubject } from &#x27;rxjs&#x27;;
+
+import { tap, mergeMap } from &#x27;rxjs/operators&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
+import { Router, NavigationExtras } from &#x27;@angular/router&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+
+import { AccountEndpoint } from &#x27;./account-endpoint.service&#x27;;
+import { AuthService } from &#x27;../../../shared/services/auth.service&#x27;;
+import { User } from &#x27;../../../shared/models/user.model&#x27;;
+import { Role } from &#x27;../models/role.model&#x27;;
+import { Permission, PermissionNames, PermissionValues } from &#x27;../../../shared/models/permission.model&#x27;;
+import { UserEdit } from &#x27;../models/user-edit.model&#x27;;
+import { UserAccountInfo } from &#x27;app/models/user-account-info.model&#x27;;
+
+export type RolesChangedOperation &#x3D; &#x27;add&#x27; | &#x27;delete&#x27; | &#x27;modify&#x27;;
+export interface RolesChangedEventArg {
+	roles: Role[] | string[];
+	operation: RolesChangedOperation;
+}
+
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class AccountService {
+	public static readonly roleAddedOperation: RolesChangedOperation &#x3D; &#x27;add&#x27;;
+	public static readonly roleDeletedOperation: RolesChangedOperation &#x3D; &#x27;delete&#x27;;
+	public static readonly roleModifiedOperation: RolesChangedOperation &#x3D; &#x27;modify&#x27;;
+
+	private _currentUserAccount: BehaviorSubject&lt;UserAccountInfo&gt;;
+
+	private _rolesChanged &#x3D; new Subject&lt;RolesChangedEventArg&gt;();
+
+	/**
+	 *
+	 */
+	public get currentUserAccount(): any {
+		if (this._currentUserAccount.value.user &#x3D;&#x3D;&#x3D; null) {
+			this.accountEndpoint.getUserAccountByIdEndpoint(this.authService.currentUser.id).subscribe(
+				account &#x3D;&gt; {
+					console.log(account);
+					let info &#x3D; { user: account[&#x27;item1&#x27;], roles: account[&#x27;item2&#x27;] };
+					this._currentUserAccount.next(info);
+				},
+				error &#x3D;&gt; {
+					console.log(error);
+				}
+			);
+		}
+
+		return this._currentUserAccount.value;
+	}
+
+	/**
+	 *
+	 * @param router
+	 * @param http
+	 * @param authService
+	 * @param accountEndpoint
+	 */
+	constructor(
+		private router: Router,
+		private http: HttpClient,
+		private authService: AuthService,
+		private accountEndpoint: AccountEndpoint
+	) {
+		this._currentUserAccount &#x3D; new BehaviorSubject&lt;any&gt;({ user: null, roles: [] });
+	}
+
+	public getUser(userId?: string) {
+		return this.accountEndpoint.getUserEndpoint&lt;User&gt;(userId);
+	}
+
+	public getUserAndRoles(userId?: string) {
+		return observableForkJoin(this.accountEndpoint.getUserEndpoint&lt;User&gt;(userId), this.accountEndpoint.getRolesEndpoint&lt;Role[]&gt;());
+	}
+
+	public getUsers(page?: number, pageSize?: number) {
+		return this.accountEndpoint.getUsersEndpoint&lt;User[]&gt;(page, pageSize);
+	}
+
+	public getSoloUsers(page?: number, pageSize?: number) {
+		return this.accountEndpoint.getSoloUsersEndpoint&lt;User[]&gt;(page, pageSize);
+	}
+
+	public getUsersAndRoles(page?: number, pageSize?: number) {
+		return observableForkJoin(
+			this.accountEndpoint.getUsersEndpoint&lt;User[]&gt;(page, pageSize),
+			this.accountEndpoint.getRolesEndpoint&lt;Role[]&gt;()
+		);
+	}
+
+	public getSoloUsersAndRoles(page?: number, pageSize?: number) {
+		return observableForkJoin(
+			this.accountEndpoint.getSoloUsersEndpoint&lt;User[]&gt;(page, pageSize),
+			this.accountEndpoint.getRolesEndpoint&lt;Role[]&gt;()
+		);
+	}
+
+	public updateUser(user: UserEdit) {
+		if (user.id) {
+			return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
+		} else {
+			return this.accountEndpoint.getUserByUserNameEndpoint&lt;User&gt;(user.userName).pipe(
+				mergeMap(foundUser &#x3D;&gt; {
+					user.id &#x3D; foundUser.id;
+					return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
+				})
+			);
+		}
+		// force refresh
+		// this.currentUser &#x3D; undefined;
+	}
+
+	public newUser(user: UserEdit) {
+		return this.accountEndpoint.getNewUserEndpoint&lt;User&gt;(user);
+	}
+
+	public getUserPreferences() {
+		return this.accountEndpoint.getUserPreferencesEndpoint&lt;string&gt;();
+	}
+
+	public updateUserPreferences(configuration: string) {
+		return this.accountEndpoint.getUpdateUserPreferencesEndpoint(configuration);
+	}
+
+	public deleteUser(userOrUserId: string | UserEdit): Observable&lt;User&gt; {
+		if (typeof userOrUserId &#x3D;&#x3D;&#x3D; &#x27;string&#x27; || userOrUserId instanceof String) {
+			return this.accountEndpoint
+				.getDeleteUserEndpoint&lt;User&gt;(&lt;string&gt;userOrUserId)
+				.pipe(tap(data &#x3D;&gt; this.onRolesUserCountChanged(data.roles)));
+		} else {
+			if (userOrUserId.id) {
+				return this.deleteUser(userOrUserId.id);
+			} else {
+				return this.accountEndpoint
+					.getUserByUserNameEndpoint&lt;User&gt;(userOrUserId.userName)
+					.pipe(mergeMap(user &#x3D;&gt; this.deleteUser(user.id)));
+			}
+		}
+	}
+
+	public unblockUser(userId: string) {
+		return this.accountEndpoint.getUnblockUserEndpoint(userId);
+	}
+
+	public userHasPermission(permissionValue: PermissionValues): boolean {
+		return this.permissions.some(p &#x3D;&gt; p &#x3D;&#x3D;&#x3D; permissionValue);
+	}
+
+	public refreshLoggedInUser() {
+		return this.authService.refreshLogin();
+	}
+
+	public getRoles(page?: number, pageSize?: number) {
+		return this.accountEndpoint.getRolesEndpoint&lt;Role[]&gt;(page, pageSize);
+	}
+
+	public getRolesAndPermissions(page?: number, pageSize?: number) {
+		return observableForkJoin(
+			this.accountEndpoint.getRolesEndpoint&lt;Role[]&gt;(page, pageSize),
+			this.accountEndpoint.getPermissionsEndpoint&lt;Permission[]&gt;()
+		);
+	}
+
+	public updateRole(role: Role) {
+		if (role.id) {
+			return this.accountEndpoint
+				.getUpdateRoleEndpoint(role, role.id)
+				.pipe(tap(data &#x3D;&gt; this.onRolesChanged([role], AccountService.roleModifiedOperation)));
+		} else {
+			return this.accountEndpoint.getRoleByRoleNameEndpoint&lt;Role&gt;(role.name).pipe(
+				mergeMap(foundRole &#x3D;&gt; {
+					role.id &#x3D; foundRole.id;
+					return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id);
+				}),
+				tap(data &#x3D;&gt; this.onRolesChanged([role], AccountService.roleModifiedOperation))
+			);
+		}
+	}
+
+	public newRole(role: Role) {
+		return this.accountEndpoint
+			.getNewRoleEndpoint&lt;Role&gt;(role)
+			.pipe(tap(data &#x3D;&gt; this.onRolesChanged([role], AccountService.roleAddedOperation)));
+	}
+
+	public deleteRole(roleOrRoleId: string | Role): Observable&lt;Role&gt; {
+		if (typeof roleOrRoleId &#x3D;&#x3D;&#x3D; &#x27;string&#x27; || roleOrRoleId instanceof String) {
+			return this.accountEndpoint
+				.getDeleteRoleEndpoint&lt;Role&gt;(&lt;string&gt;roleOrRoleId)
+				.pipe(tap(data &#x3D;&gt; this.onRolesChanged([data], AccountService.roleDeletedOperation)));
+		} else {
+			if (roleOrRoleId.id) {
+				return this.deleteRole(roleOrRoleId.id);
+			} else {
+				return this.accountEndpoint
+					.getRoleByRoleNameEndpoint&lt;Role&gt;(roleOrRoleId.name)
+					.pipe(mergeMap(role &#x3D;&gt; this.deleteRole(role.id)));
+			}
+		}
+	}
+
+	public getUserAccount(userId: string) {
+		return this.accountEndpoint.getUserAccountByIdEndpoint(userId);
+	}
+
+	public getPermissions() {
+		return this.accountEndpoint.getPermissionsEndpoint&lt;Permission[]&gt;();
+	}
+
+	private onRolesChanged(roles: Role[] | string[], op: RolesChangedOperation) {
+		this._rolesChanged.next({ roles: roles, operation: op });
+	}
+
+	public onRolesUserCountChanged(roles: Role[] | string[]) {
+		return this.onRolesChanged(roles, AccountService.roleModifiedOperation);
+	}
+
+	public getRolesChangedEvent(): Observable&lt;RolesChangedEventArg&gt; {
+		return this._rolesChanged.asObservable();
+	}
+
+	get permissions(): PermissionValues[] {
+		return this.authService.userPermissions;
+	}
+
+	get currentUser() {
+		return this.authService.currentUser;
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'RolesChangedEventArg.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

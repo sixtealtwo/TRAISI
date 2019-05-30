@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, ElementRef, Input, Output, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { AppConfig } from '../../app.config';
+import { AdminAppConfig } from '../../admin-app-config.service';
 import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { ConfigurationService } from '../../../../shared/services/configuration.service';
 import { Location, HashLocationStrategy } from '@angular/common';
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		el: ElementRef,
-		config: AppConfig,
+		config: AdminAppConfig,
 		private router: Router,
 		private accountService: AccountService,
 		private translationService: AppTranslationService,

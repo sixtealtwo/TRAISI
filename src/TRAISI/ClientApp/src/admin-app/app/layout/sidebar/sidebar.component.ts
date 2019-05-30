@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, ElementRef, AfterViewInit, Input, Output } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AppConfig } from '../../app.config';
+import { AdminAppConfig } from '../../admin-app-config.service';
 import { AccountService } from '../../services/account.service';
 import { UserGroupService } from '../../services/user-group.service';
 
@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	@Input() userName: string;
 
 	constructor(
-		config: AppConfig,
+		config: AdminAppConfig,
 		el: ElementRef,
 		router: Router,
 		location: Location,
