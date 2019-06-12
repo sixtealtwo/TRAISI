@@ -57,7 +57,16 @@ namespace TRAISI.Helpers
 		/// <returns></returns>
 		public async Task<string> ReverseGeocodeAsync(double latitude, double longitude)
 		{
-			var result = await this._geocoder.ReverseGeocodeAsync(latitude, longitude);
+			IEnumerable<Address> result = null;
+			try {
+				result = await this._geocoder.ReverseGeocodeAsync(latitude, longitude);
+				return result.First().FormattedAddress;
+			}
+			catch(Exception e) {
+				
+				Console.WriteLine(e);
+			}
+			
 			return result.First().FormattedAddress;
 		}
 
