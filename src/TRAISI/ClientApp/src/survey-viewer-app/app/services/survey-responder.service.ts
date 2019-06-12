@@ -7,12 +7,10 @@ import {
 	ResponseData,
 	ResponseValue,
 	SurveyRespondent
-} from '../../../../../../TRAISI.SDK/Module/src';
+} from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY } from 'rxjs';
-import { SurveyViewerService } from './survey-viewer.service';
 import { flatMap, map, share, tap } from 'rxjs/operators';
-import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { SurveyResponseState } from 'app/models/survey-response-states.enum';
@@ -65,10 +63,8 @@ export class SurveyResponderService implements SurveyResponder {
 	public getCachedSavedResponse(questionId: number, respondentId: number): any | SurveyResponseState {
 		if (questionId in this._cachedSavedResponses) {
 			return this._cachedSavedResponses[questionId][respondentId];
-		}
-		else {
+		} else {
 			return SurveyResponseState.NoResponseExists;
-
 		}
 	}
 
@@ -79,14 +75,16 @@ export class SurveyResponderService implements SurveyResponder {
 	 */
 	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
 		let responses = [];
-		let toRetrieve = [];
-		for (let id of questionIds) {
+		let toRetrieve = questionIds;
+
+		/*for (let id of questionIds) {
 			if (id in this._cachedSavedResponses) {
 				responses.push(this._cachedSavedResponses[id][respondentId]);
 			} else {
 				toRetrieve.push(id);
 			}
-		}
+		}*/ 
+
 
 		if (toRetrieve.length > 0) {
 			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(toRetrieve, respondentId).pipe(
@@ -106,7 +104,6 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public getResponseValue(questionName: string, respondent: SurveyRespondent): any | SurveyResponseState {
-
 		let questionId = this._questionNameToIdMap[questionName];
 		return this.getCachedSavedResponse(questionId, respondent.id);
 	}
@@ -118,15 +115,17 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any> {
-		//convert questionNames into questionIds
+		// convert questionNames into questionIds
 
-		let questionIds = []
-		for(let questionName of questionNames)
-		{
-			questionIds.push(this._questionNameToIdMap[questionName])
+		let questionIds = [];
+		for (let questionName of questionNames) {
+			questionIds.push(this._questionNameToIdMap[questionName]);
 		}
 
-		return this.readyCachedSavedResponses(questionIds, respondent.id); /*
+		return this.readyCachedSavedResponses(
+			questionIds,
+			respondent.id
+		); /*
 		if (Object.keys(this._cachedByNameSavedResponses).some(r => questionNames.includes(String(r)))) {
 			// use cached responses
 			let responses = [];
@@ -191,16 +190,17 @@ export class SurveyResponderService implements SurveyResponder {
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			map(responses => {
+				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
 						if (responses[i] === undefined) {
 							continue;
 						}
-						if (!(responses[i] instanceof Array)) {
-							this._cachedSavedResponses[questionIds[i]][respondentId].push(responses[i]);
+						if (!(responses[i].responseValues instanceof Array)) {
+							this._cachedSavedResponses[questionIds[i]][respondentId].push(responses[i].responseValues);
 						} else {
-							responses[i].forEach(responseValue => {
+							responses[i].responseValues.forEach(responseValue => {
 								this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
 							});
 						}
@@ -424,7 +424,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
-		//get all question IDs
+		// get all question IDs
 		return Observable.of();
 	}
 }

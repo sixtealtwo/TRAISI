@@ -1,7 +1,15 @@
 import { animate, keyframes, query, stagger, style, transition, trigger } from '@angular/animations';
 import {
-	AfterContentInit, AfterViewChecked, AfterViewInit,
-	Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren
+	AfterContentInit,
+	AfterViewChecked,
+	AfterViewInit,
+	Component,
+	ElementRef,
+	Inject,
+	OnInit,
+	QueryList,
+	ViewChild,
+	ViewChildren
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,6 +41,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 // import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
+import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -119,7 +128,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public get isNavigationPreviousEnabled(): boolean {
-		return this._navigation.isNavigationPreviousEnabled;
+		return this._navigationService.isNavigationPreviousEnabled;
 	}
 
 	public pageThemeInfo: any;
@@ -145,7 +154,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * @param {SurveyViewerService} surveyViewerService
 	 * @param {SurveyResponderService} _surveyResponderService
 	 * @param {SurveyViewerStateService} _viewerStateService
-	 * @param {SurveyViewerNavigationService} _navigation
+	 * @param {SurveyViewerNavigationService} _navigationService
 	 * @param {SurveyViewerSession} _sessionService
 	 * @param {ActivatedRoute} route
 	 * @param {Router} _router
@@ -157,7 +166,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewerService,
 		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponderService,
 		private _viewerStateService: SurveyViewerStateService,
-		private _navigation: SurveyViewerNavigationService,
+		private _navigationService: SurveyViewerNavigationService,
+		public navigator: SurveyNavigator,
 		private _sessionService: SurveyViewerSession,
 		private _route: ActivatedRoute,
 		private _router: Router,
@@ -173,7 +183,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Initialization
 	 */
 	public ngOnInit(): void {
-
 		this.currentUser = this.surveyViewerService.currentUser;
 		this._sessionService.data
 			.pipe(
@@ -447,13 +456,39 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.activeQuestionIndex = 0;
 				this.viewerState.activePageIndex = 0;
 
-				this._navigation.navigationCompleted.subscribe(this.navigationCompleted);
-				this._navigation.initialize();
+				this._navigationService.navigationCompleted.subscribe(this.navigationCompleted);
+				this._navigationService.initialize();
+
+				let order = 0;
+				let questions = [];
+				for (let page of this.viewerState.surveyPages) {
+					let qs = [];
+					qs = qs.concat(page.questions);
+					for (let s of page.sections) {
+						qs.push(s);
+					}
+					sortBy(qs, () => {
+						return qs['order'];
+					});
+
+					for (let q of qs) {
+						if (q['questions'] === undefined) {
+							questions.push(q);
+						} else {
+							for (let sectionQuestion of q['questions']) {
+								questions.push(sectionQuestion);
+							}
+						}
+					}
+				}
+
+				console.log(questions); 
+				this.viewerState.surveyQuestions = questions;
+
+				this.navigator.initialize();
 
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
-
-				console.log(this.surveyBodyContainer);
 			});
 	}
 
@@ -472,13 +507,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
-
 	/**
 	 *
 	 *
 	 * @private
 	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => { };
+	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -490,6 +524,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			this.viewerState.activeQuestion.parentSection.isHousehold
 		);
 	}
+
+	public trackById(question,question2) {
+		// console.log(question,question2); 
+		return question2.id    
+	  }
 
 	public updateNavigation(): void {
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
@@ -522,9 +561,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.scrollTop = 0;
 		this.surveyBodyContainer.nativeElement.scrollTop = 0;
 		console.log('nav finihed');
-
-
-
 	};
 
 	/**
@@ -532,7 +568,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigatePrevious(): void {
 		this.viewerState.isNavProcessing = true;
-		this._navigation.navigatePrevious();
+		// this._navigationService.navigatePrevious();
+
+		this.navigator.navigatePrevious().subscribe({
+			next: v => {
+				console.log('prev state: v');
+				console.log(v);
+			},
+			complete: () => {
+				console.log('nav complete');
+			}
+		});
 	}
 
 	/**
@@ -540,8 +586,17 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 */
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
-		this._navigation.navigateNext();
+		// this._navigationService.navigateNext();
 
+		this.navigator.navigateNext().subscribe({
+			next: v => {
+				console.log('next state: v');
+				console.log(v);
+			},
+			complete: () => {
+				console.log('nav complete');
+			}
+		});
 	}
 
 	private surveyQuestionsChanged: () => void = () => {
@@ -560,7 +615,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		activeSection.setGroupMemberActive(memberIndex);
 
-		this._navigation.updateState();
+		this._navigationService.updateState();
 	}
 
 	/**
@@ -639,9 +694,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void { }
+	public ngAfterContentInit(): void {}
 
-	public ngAfterViewChecked(): void { }
+	public ngAfterViewChecked(): void {}
 
 	/**
 	 * Uses dark buttons

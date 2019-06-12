@@ -2,6 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { every as _every, some as _some } from 'lodash';
 import { point } from '@turf/helpers';
+import { SurveyResponderService } from '../survey-responder.service';
+import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
+import { Observable } from 'rxjs';
+import { SurveyViewerStateService } from '../survey-viewer-state.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,7 +16,7 @@ export class ConditionalEvaluator {
 	 * @param _state q
 	 * @param _responderService
 	 */
-	constructor() {}
+	constructor(private _responderService: SurveyResponderService, private _state: SurveyViewerStateService) {}
 
 	/**
 	 *
@@ -63,6 +67,7 @@ export class ConditionalEvaluator {
 	 * @param value
 	 */
 	private evaluateContains(sourceData: any[], value: string): boolean {
+
 		const val: boolean = sourceData[0].value.indexOf(value) >= 0;
 
 		return val;
@@ -168,5 +173,67 @@ export class ConditionalEvaluator {
 		} else {
 			return false;
 		}
+	}
+
+	public shouldHide(
+		question: SurveyViewQuestion,
+		respondentId: number
+	): Observable<{ shouldHide: boolean; question: SurveyViewQuestion }> {
+		return Observable.create(observer => {
+			if (question.targetConditionals.length === 0) {
+				observer.next({ shouldHide: false, question: question });
+				observer.complete();
+			} else {
+				let sourceIds = [];
+				for (let source of question.targetConditionals) {
+					let sourceQuestion = this._state.viewerState.questionMap[source.sourceQuestionId];
+					sourceIds.push(sourceQuestion.questionId);
+				}
+
+				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe(v => {
+
+					let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
+						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+
+						if (response === undefined || response.length === 0) {
+							return true;
+						}
+						let evalResult = this.evaluateConditional(evalConditional.conditionalType, response, '', evalConditional.value);
+						return evalResult;
+					});
+
+					observer.next({ shouldHide: evalTrue, question: question });
+					observer.complete();
+				});
+
+				/*forkJoin(conditionalEvals).subscribe(values => {
+					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
+
+						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
+							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+
+							if (response === undefined || response.length === 0) {
+								return;
+							}
+							let evalResult = this._conditionalEvaluator.evaluateConditional(
+								evalConditional.conditionalType,
+								response,
+								'',
+								evalConditional.value
+							);
+							return evalResult;
+						});
+
+						if (targetQuestion.isRespondentHidden === undefined) {
+							targetQuestion.isRespondentHidden = {};
+						}
+						targetQuestion.isRespondentHidden[respondentId] = evalTrue;
+						targetQuestion.isHidden = evalTrue;
+					});
+					observer.complete();
+				}); */
+			}
+		});
 	}
 }

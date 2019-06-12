@@ -29,7 +29,6 @@ export class SurveyViewerStateService {
 	 * @param _responderService
 	 */
 	public constructor(
-		private _conditionalEvaluator: ConditionalEvaluator,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService
 	) {
 		this.viewerState = {
@@ -324,13 +323,13 @@ export class SurveyViewerStateService {
 							if (response === undefined || response.length === 0) {
 								return;
 							}
-							let evalResult = this._conditionalEvaluator.evaluateConditional(
+							/*let evalResult = this._conditionalEvaluator.evaluateConditional(
 								evalConditional.conditionalType,
 								response,
 								'',
 								evalConditional.value
-							);
-							return evalResult;
+							); */
+							return false;
 						});
 
 						if (targetQuestion.isRespondentHidden === undefined) {

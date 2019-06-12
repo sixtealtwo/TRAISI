@@ -6,7 +6,7 @@ describe('SurveyNavigator', () => {
 
 	let navigator: SurveyNavigator;
 
-	beforeEach(() => { navigator = new SurveyNavigator(null); });
+	beforeEach(() => { navigator = new SurveyNavigator(null,null); });
 
 	it('initial navigation state should be null', () => {
 

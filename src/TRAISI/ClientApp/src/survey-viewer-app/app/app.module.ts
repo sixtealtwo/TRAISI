@@ -60,6 +60,7 @@ import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortco
 import { SurveyViewerSession } from './services/survey-viewer-session.service';
 import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-endpoint.service';
 import { httpInterceptorProviders } from './http-interceptors';
+import { SurveyNavigator } from './services/survey-navigator/survey-navigator.service';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -139,7 +140,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 		SurveyViewerSession,
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
-
+		SurveyNavigator,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
 	],
 	bootstrap: [SurveyViewerContainerComponent]

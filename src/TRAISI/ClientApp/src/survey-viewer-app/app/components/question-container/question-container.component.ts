@@ -38,6 +38,8 @@ import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/s
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
+import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
+import { skip, share, distinct } from 'rxjs/operators';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -63,9 +65,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	public surveyViewer: SurveyViewerComponent;
 
 	@Input()
-	public container: SurveyQuestionContainer;
-
-	@Input()
 	public surveyViewQuestion: SurveyViewQuestion;
 
 	@Input()
@@ -77,8 +76,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public sectionRepeatNumber: number = 0;
 
-	@Input()
-	public repeatContainer: SurveyRepeatContainer;
+	// @Input()
+	// public repeatContainer: SurveyRepeatContainer;
 
 	@Input()
 	public questionTypeMap: { [id: number]: string };
@@ -136,22 +135,23 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		private _viewerStateService: SurveyViewerStateService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
-		private _navigation: SurveyViewerNavigationService
-	) { }
+		private _navigation: SurveyViewerNavigationService,
+		private _navigator: SurveyNavigator
+	) {}
 
 	/**
 	 * Calcs unique repeat number
 	 * @returns unique repeat number
 	 */
 	private calcUniqueRepeatNumber(): number {
-		return this.repeatContainer.children.length * this.sectionRepeatNumber + this.repeatNumber;
+		return 0;
+		// return this.repeatContainer.children.length * this.sectionRepeatNumber + this.repeatNumber;
 	}
 
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void {
-	}
+	public ngOnDestroy(): void {}
 
 	/**
 	 *
@@ -164,7 +164,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
 
-		this.container.questionInstance = this;
+		// this.container.questionInstance = this;
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
 			(componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
@@ -191,9 +191,15 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this.calcUniqueRepeatNumber()
 				);
 
-				this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
+				// this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
 
-				this._responseSaved.subscribe(this.onResponseSaved);
+				this._responseSaved
+					.pipe(
+						share(),
+						skip(1),
+						distinct()
+					)
+					.subscribe(this.onResponseSaved); 
 
 				this._responderService
 					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())
@@ -240,9 +246,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
 			},
-			error => { },
-			() => {
-			}
+			error => {},
+			() => {}
 		);
 	}
 
@@ -338,11 +343,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Determines whether response saved on
 	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
+		console.log('onResponseSaved');
 		if (responseValid) {
 			// this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
 			// this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
-			// this.surveyViewer.updateNavigation();
 		}
+		this._navigator.responseChanged();
 	};
 
 	/**
