@@ -11,17 +11,17 @@
 	<div class="survey-body-container flex-grow-1 d-flex flex-column" id="survey-body-container" #surveyBodyContainer
 		[scrollTop]="scrollTop">
 		<div class="survey-body flex-grow-1 d-flex flex-column" *ngIf="navigator.navigationState$ | async as state">
-			<div class="survey-section-header mx-md-3" *ngIf="viewerState.isSectionActive"
+			<div class="survey-section-header mx-md-3" *ngIf="state.activeSectionId >= 0"
 				[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
-				[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
+				[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
 				[ngClass]="{ 'mt-3 mt-md-0': viewerState.isSectionActive }"
-				[innerHTML]="processedSectionLabel(viewerState.activeSection.label) | safeHtml">
-				<span class="repeat-header" *ngIf="viewerState.activeSection.isRepeat">
+				[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml">
+				<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
 					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
 				</span>
 			</div>
 
-			<div class="questions-container flex-grow-1">
+			<div class="questions-container flex-grow-1" style="overflow: scroll">
 				<div class="question-section d-flex flex-column" [ngClass]="{
 					'd-flex flex-column':
 						!state.isMultiView,

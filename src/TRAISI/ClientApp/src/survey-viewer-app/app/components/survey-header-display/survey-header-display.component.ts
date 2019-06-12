@@ -4,6 +4,7 @@ import { SurveyViewerStateService } from '../../services/survey-viewer-state.ser
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
+import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
 
 @Component({
 	selector: 'traisi-survey-header-display',
@@ -38,6 +39,7 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 		private _cdRef: ChangeDetectorRef,
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		private _navigation: SurveyViewerNavigationService,
+		public navigator: SurveyNavigator
 	) {}
 
 	public ngOnInit(): void {

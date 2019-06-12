@@ -138,14 +138,6 @@ export class SurveyNavigator {
 			].parentSection.questions.length;
 		}
 
-		newState.activePage = this._state.viewerState.surveyPages[
-			this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].pageIndex
-		];
-		newState.activeSectionId =
-			this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].parentSection === undefined
-				? -1
-				: this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].parentSection.id;
-
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
@@ -164,14 +156,6 @@ export class SurveyNavigator {
 			].parentSection.questions.length;
 		} */
 
-		newState.activePage = this._state.viewerState.surveyPages[
-			this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].pageIndex
-		];
-		newState.activeSectionId =
-			this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].parentSection === undefined
-				? -1
-				: this._state.viewerState.surveyQuestions[newState.activeQuestionIndex].parentSection.id;
-
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
@@ -184,8 +168,24 @@ export class SurveyNavigator {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState)
 				.pipe(share())
+
 				.subscribe(questionInstances => {
 					navigationState.activeQuestionInstances = questionInstances;
+
+					if (questionInstances.length > 0) {
+						navigationState.activePage = this._state.viewerState.surveyPages[
+							this._state.viewerState.surveyQuestions[questionInstances[0].index].pageIndex
+						];
+						navigationState.activeSectionId =
+							this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection === undefined
+								? -1
+								: this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection.id;
+
+						navigationState.activeSection =
+							this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection === undefined
+								? undefined
+								: this._state.viewerState.surveyQuestions[questionInstances[0].index].parentSection;
+					}
 
 					obs.next(navigationState);
 					obs.complete();
