@@ -1,6 +1,5 @@
 {
-    "typescript.tsdk": "./src/TRAISI/ClientApp/node_modules/typescript/lib",
-    "tslint.configFile": "./src/TRAISI/ClientApp/tslint.json",
+	"typescript.tsdk": "./src/TRAISI/ClientApp/node_modules/typescript/lib",
     "prettier.useTabs": true,
     "prettier.tabWidth": 4,
     "prettier.eslintIntegration": true,
@@ -15,5 +14,6 @@
 	"docthis.includeMemberOfOnClassMembers": false,
 	"docthis.inferTypesFromNames": true,
 	"prettier.tslintIntegration": true,
-	"angular-template-formatter.closeTagSameLine": true
+	"angular-template-formatter.closeTagSameLine": true,
+	"tslint.configFile": "tslint.json"
 }
