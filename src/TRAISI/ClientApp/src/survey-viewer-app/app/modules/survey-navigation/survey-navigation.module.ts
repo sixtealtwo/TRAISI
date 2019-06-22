@@ -4,6 +4,7 @@ import { SurveyNavigator } from './services/survey-navigator/survey-navigator.se
 @NgModule({
 	imports: [],
 	declarations: [],
-	providers: [SurveyNavigator]
+	providers: [SurveyNavigator],
+	exports: [SurveyNavigator]
 })
 export class SurveyNavigationModule {}
