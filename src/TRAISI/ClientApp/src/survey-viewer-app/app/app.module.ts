@@ -60,7 +60,8 @@ import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortco
 import { SurveyViewerSession } from './services/survey-viewer-session.service';
 import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-endpoint.service';
 import { httpInterceptorProviders } from './http-interceptors';
-import { SurveyNavigator } from './services/survey-navigator/survey-navigator.service';
+import { SurveyNavigator } from './modules/survey-navigation/services/survey-navigator/survey-navigator.service';
+import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -120,7 +121,8 @@ import { SurveyNavigator } from './services/survey-navigator/survey-navigator.se
 			Footer1Component
 		]),
 		TooltipModule.forRoot(),
-		TimepickerModule.forRoot()
+		TimepickerModule.forRoot(),
+		SurveyNavigationModule
 	],
 	providers: [
 		LocalStoreManager,
@@ -140,7 +142,6 @@ import { SurveyNavigator } from './services/survey-navigator/survey-navigator.se
 		SurveyViewerSession,
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
-		SurveyNavigator,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
 	],
 	bootstrap: [SurveyViewerContainerComponent]

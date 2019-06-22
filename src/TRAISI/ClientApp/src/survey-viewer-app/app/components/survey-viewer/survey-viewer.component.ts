@@ -41,7 +41,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 // import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
-import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
+import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 
 interface SpecialPageDataInput {
 	pageHTML: string;
@@ -482,7 +482,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					}
 				}
 
-				console.log(questions); 
+				console.log(questions);
 				this.viewerState.surveyQuestions = questions;
 
 				this.navigator.initialize();
@@ -526,8 +526,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	}
 
 	public trackById(question,question2) {
-		// console.log(question,question2); 
-		return question2.id    
+		// console.log(question,question2);
+		return question2.id
 	  }
 
 	public updateNavigation(): void {

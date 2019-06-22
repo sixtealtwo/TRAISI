@@ -38,7 +38,7 @@ import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/s
 import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
-import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
+import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { skip, share, distinct } from 'rxjs/operators';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -199,7 +199,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						skip(1),
 						distinct()
 					)
-					.subscribe(this.onResponseSaved); 
+					.subscribe(this.onResponseSaved);
 
 				this._responderService
 					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())

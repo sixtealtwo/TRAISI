@@ -4,7 +4,7 @@ import { SurveyViewerStateService } from '../../services/survey-viewer-state.ser
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
-import { SurveyNavigator } from 'app/services/survey-navigator/survey-navigator.service';
+import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 
 @Component({
 	selector: 'traisi-survey-header-display',

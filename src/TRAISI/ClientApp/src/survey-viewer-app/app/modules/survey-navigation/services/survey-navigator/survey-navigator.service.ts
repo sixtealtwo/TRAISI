@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { SurveyViewerStateService } from '../survey-viewer-state.service';
+import { SurveyViewerStateService } from '../../../../services/survey-viewer-state.service';
 import { Subject, Observable, Observer, BehaviorSubject, EMPTY, forkJoin } from 'rxjs';
-import { NavigationState } from '../../models/navigation-state.model';
+import { NavigationState } from '../../../../models/navigation-state.model';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { findIndex } from 'lodash';
 import { expand, share } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
-import { ConditionalEvaluator } from '../conditional-evaluator/conditional-evaluator.service';
+import { ConditionalEvaluator } from '../../../../services/conditional-evaluator/conditional-evaluator.service';
 
 /**
  *
