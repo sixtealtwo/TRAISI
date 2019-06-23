@@ -57,6 +57,8 @@ namespace DAL.Models.Questions
 
 		public bool IsMultiView { get; set; }
 
+        public bool IsDefaultHidden { get; set;}
+
         public QuestionPart RepeatSource { get; set; }
 
         public string Icon { get; set; }
