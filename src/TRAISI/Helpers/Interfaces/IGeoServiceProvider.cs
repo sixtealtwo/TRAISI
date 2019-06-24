@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,5 +23,12 @@ namespace TRAISI.Helpers.Interfaces
 		/// <param name="destinations"></param>
 		/// <returns></returns>
 		Task<Dictionary<string, string>> DistanceMatrix(List<string> origins, List<string> destinations);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns></returns>
+		Task<Tuple<double,double>> GeocodeAsync(string address);
     }
 }

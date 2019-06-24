@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -27,13 +28,18 @@ namespace TRAISI.Helpers
 			this._mapboxApiClient = new RestClient(MAPBOX_DISTANCE_MATRIX_API);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="origins"></param>
-		/// <param name="destinations"></param>
-		/// <returns></returns>
-		Task<Dictionary<string, string>> IGeoServiceProvider.DistanceMatrix(List<string> origins, List<string> destinations)
+        public Task<Tuple<double, double>> GeocodeAsync(string address)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="origins"></param>
+        /// <param name="destinations"></param>
+        /// <returns></returns>
+        Task<Dictionary<string, string>> IGeoServiceProvider.DistanceMatrix(List<string> origins, List<string> destinations)
 		{
 			throw new System.NotImplementedException();
 		}

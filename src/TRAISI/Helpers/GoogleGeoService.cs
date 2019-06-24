@@ -118,7 +118,12 @@ namespace TRAISI.Helpers
 			return apiResults;
 
 		}
-	}
+
+        public Task<Tuple<double, double>> GeocodeAsync(string address)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 	public class GeoConfig
 	{
