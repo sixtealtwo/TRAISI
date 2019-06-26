@@ -3,7 +3,7 @@ import { SurveyNavigator } from './services/survey-navigator/survey-navigator.se
 
 @NgModule({
 	imports: [],
-	declarations: [],
+	declarations: [SurveyNavigator],
 	providers: [SurveyNavigator],
 	exports: [SurveyNavigator]
 })
