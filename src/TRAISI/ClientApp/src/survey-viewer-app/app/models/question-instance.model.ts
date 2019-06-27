@@ -7,4 +7,6 @@ export interface QuestionInstance {
 
 	model: SurveyViewQuestion;
 
+	isValidated: boolean;
+
 }
