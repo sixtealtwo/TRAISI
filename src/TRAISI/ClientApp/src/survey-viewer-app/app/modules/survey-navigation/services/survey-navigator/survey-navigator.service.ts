@@ -196,20 +196,9 @@ export class SurveyNavigator {
 	 */
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
-		// if (!this._isMultiViewActive(currentState)) {
-		//if (!this._isMultiViewActive(currentState)) {
 		newState.activeQuestionIndex -= 1;
-		//} else {
-
-		// determine index in section
-		//	newState.activeQuestionIndex -= this._state.viewerState.surveyQuestions[
-		//		currentState.activeQuestionIndex
-		//	].parentSection.questions.length;
-		//}
-
 		return this._initState(newState).pipe(
 			expand(state => {
-				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
 				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
 			})
 		);
