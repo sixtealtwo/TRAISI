@@ -268,7 +268,7 @@ export class SurveyNavigator {
 							continue;
 						}
 						let questionInstance: QuestionInstance = {
-							id: '' + result.question.id,
+							id:  String(result.question.id),
 							index: navigationState.activeQuestionIndex,
 							model: result.question
 						};
