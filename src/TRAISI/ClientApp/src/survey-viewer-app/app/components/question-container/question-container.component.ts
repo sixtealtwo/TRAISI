@@ -80,6 +80,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public questionInstance: QuestionInstance;
 
+	@Input()
+	public activeQuestionIndex: number = 0;
+
+
 	// @Input()
 	// public repeatContainer: SurveyRepeatContainer;
 
@@ -164,7 +168,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
-
 		this.responseValidationState = ResponseValidationState.PRISTINE;
 		this.processPipedQuestionLabel(this.question.label);
 
@@ -334,8 +337,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
-		console.log(validationState);
-		this.questionInstance.validationState = validationState;
+		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState = validationState;
 
 		// just call the update after everything else waiting to be processed
 		setTimeout(() => {

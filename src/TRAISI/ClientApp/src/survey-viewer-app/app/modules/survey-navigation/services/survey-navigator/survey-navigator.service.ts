@@ -286,13 +286,13 @@ export class SurveyNavigator {
 	private _checkValidation(): boolean {
 		// let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
 		let allValid: boolean = true;
-		for(let instance of this.navigationState$.value.activeQuestionInstances) {
-			if(instance.validationState !== ResponseValidationState.VALID){
+		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
+			if (instance.validationState !== ResponseValidationState.VALID) {
 				allValid = false;
 				break;
 			}
 		}
-		console.log(allValid);
+
 		return allValid;
 	}
 
@@ -300,12 +300,13 @@ export class SurveyNavigator {
 	 *
 	 */
 	public responseChanged(): void {
-		this._initState(this.navigationState$.value)
+		this._initState(this.navigationState$.getValue())
 			.pipe(
-				tap(val => {
-					this._checkValidation()
-				}),
-				share())
-			.subscribe();
+				share()).subscribe(() => {
+					setTimeout(() => {
+						this.nextEnabled$.next(this._checkValidation());
+					});
+
+				});
 	}
 }

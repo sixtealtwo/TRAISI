@@ -572,11 +572,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.navigator.navigatePrevious().subscribe({
 			next: v => {
-				console.log('prev state: v');
-				console.log(v);
 			},
 			complete: () => {
-				console.log('nav complete');
+
 			}
 		});
 	}

@@ -28,11 +28,13 @@
 					'multi-display':
 					state.isMultiView}">
 
-					<ng-container *ngFor="let question of state.activeQuestionInstances; trackBy: trackById">
+					<ng-container
+						*ngFor="let question of state.activeQuestionInstances; trackBy: trackById; let i = index">
 
 						<traisi-question-container class="flex-grow-1 d-flex flex-column" [surveyViewer]="ref"
-							[questionInstance]="question" [respondent]="viewerState.activeRespondent"
-							[question]="question.model" [attr.data-questionid]="question.model.questionId"
+							[activeQuestionIndex]="i" [questionInstance]="question"
+							[respondent]="viewerState.activeRespondent" [question]="question.model"
+							[attr.data-questionid]="question.model.questionId"
 							[attr.data-question-name]="question.model.name" [attr.data-multiview]="state.isMultiView"
 							[surveyViewQuestion]="question.model" [surveyId]="surveyId" [repeatNumber]="0"
 							[sectionRepeatNumber]="0" [questionTypeMap]="questionTypeMap"
