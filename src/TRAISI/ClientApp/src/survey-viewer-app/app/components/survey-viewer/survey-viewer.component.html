@@ -46,7 +46,7 @@
 			</div>
 
 
-			<!-- 
+			<!--
 			<div class="questions-container flex-grow-1">
 				<div class="question-section d-flex flex-column" *ngIf="viewerState.isLoaded" [ngClass]="{
 						'd-flex flex-column':
@@ -141,7 +141,7 @@
 				[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold">
 				<div class="row justify-content-center">
 					<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
-						[disabled]="!state.isPreviousEnabled"
+						[disabled]="!(navigator.previousEnabled$ | async)"
 						class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3 survey-nav-button" type="button">
 						<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i>
 						{{ 'Viewer.Previous' | translate }}

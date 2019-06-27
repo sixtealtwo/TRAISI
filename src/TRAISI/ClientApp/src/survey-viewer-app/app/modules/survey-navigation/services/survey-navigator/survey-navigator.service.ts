@@ -30,6 +30,8 @@ export class SurveyNavigator {
 	 */
 	public navigationState$: BehaviorSubject<NavigationState>;
 
+	public previousEnabled$: BehaviorSubject<boolean>;
+
 	/**
 	 *Creates an instance of SurveyNavigator.
 	 * @param {SurveyViewerStateService} _surveyState
@@ -46,6 +48,7 @@ export class SurveyNavigator {
 		};
 
 		this.navigationState$ = new BehaviorSubject<NavigationState>(initialState);
+		this.previousEnabled$ = new BehaviorSubject<boolean>(false);
 		this.navigationStateChanged.next(initialState);
 	}
 
@@ -66,6 +69,7 @@ export class SurveyNavigator {
 	public navigateNext(): Observable<NavigationState> {
 		let nav = this._incrementNavigation(this.navigationState$.value).pipe(share());
 		nav.subscribe(state => {
+			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 		});
 		return nav;
@@ -77,6 +81,10 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe(state => {
+			if(state.activeQuestionIndex === 0)
+			{
+				this.previousEnabled$.next(false);
+			}
 			this.navigationState$.next(state);
 		});
 		return prev;
@@ -90,7 +98,7 @@ export class SurveyNavigator {
 
 	public navigateToPage(pageId: number): Observable<NavigationState> {
 		let pageIndex = findIndex(this._state.viewerState.surveyPages, page => {
-			return page.id == pageId;
+			return page.id === pageId;
 		});
 
 		return new Observable((obs: Observer<NavigationState>) => {
@@ -114,7 +122,6 @@ export class SurveyNavigator {
 			this._initQuestionInstancesForState(navigationState).subscribe(questionInstances => {
 				navigationState.activeQuestionInstances = questionInstances;
 
-				console.log(navigationState);
 			});
 		});
 	}
@@ -141,29 +148,38 @@ export class SurveyNavigator {
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
-				return state.activeQuestionInstances.length == 0 ? EMPTY : EMPTY;
+				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
 			})
 		);
 	}
 
+	/**
+	 *
+	 * @param currentState
+	 */
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 		// if (!this._isMultiViewActive(currentState)) {
-		newState.activeQuestionIndex -= 1;
-		/*} else {
+		if (!this._isMultiViewActive(currentState)) {
+			newState.activeQuestionIndex -= 1;
+		} else {
 			newState.activeQuestionIndex -= this._state.viewerState.surveyQuestions[
 				currentState.activeQuestionIndex
 			].parentSection.questions.length;
-		} */
+		}
 
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
-				return state.activeQuestionInstances.length == 0 ? EMPTY : EMPTY;
+				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
 			})
 		);
 	}
 
+	/**
+	 *
+	 * @param navigationState
+	 */
 	private _initState(navigationState: NavigationState): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState)
