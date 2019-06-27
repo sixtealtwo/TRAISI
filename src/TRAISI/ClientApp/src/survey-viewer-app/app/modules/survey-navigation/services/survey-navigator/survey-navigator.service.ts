@@ -9,7 +9,7 @@ import { findIndex, every } from 'lodash';
 import { expand, share, tap } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
-import { ResponseValidationState } from '../../../../../../../../../TRAISI.SDK/Module/src/question-response-state';
+import { ResponseValidationState } from 'traisi-question-sdk';
 
 /**
  *
@@ -99,7 +99,14 @@ export class SurveyNavigator {
 			if (state.activeQuestionIndex === 0) {
 				this.previousEnabled$.next(false);
 			}
+
+			if (this._isMultiViewActive(state)) {
+				state.activeQuestionIndex -= this._state.viewerState.surveyQuestions[
+					state.activeQuestionIndex
+				].parentSection.questions.length - 1;
+			}
 			this.navigationState$.next(state);
+
 		});
 		return prev;
 	}
@@ -190,13 +197,15 @@ export class SurveyNavigator {
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 		// if (!this._isMultiViewActive(currentState)) {
-		if (!this._isMultiViewActive(currentState)) {
-			newState.activeQuestionIndex -= 1;
-		} else {
-			newState.activeQuestionIndex -= this._state.viewerState.surveyQuestions[
-				currentState.activeQuestionIndex
-			].parentSection.questions.length;
-		}
+		//if (!this._isMultiViewActive(currentState)) {
+		newState.activeQuestionIndex -= 1;
+		//} else {
+
+		// determine index in section
+		//	newState.activeQuestionIndex -= this._state.viewerState.surveyQuestions[
+		//		currentState.activeQuestionIndex
+		//	].parentSection.questions.length;
+		//}
 
 		return this._initState(newState).pipe(
 			expand(state => {
@@ -205,6 +214,8 @@ export class SurveyNavigator {
 			})
 		);
 	}
+
+
 
 	/**
 	 *
