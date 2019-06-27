@@ -83,7 +83,7 @@ export class SurveyResponderService implements SurveyResponder {
 			} else {
 				toRetrieve.push(id);
 			}
-		}*/ 
+		}*/
 
 
 		if (toRetrieve.length > 0) {

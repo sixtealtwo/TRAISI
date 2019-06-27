@@ -40,6 +40,7 @@ import { SurveyViewerNavigationService } from '../../services/survey-viewer-navi
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { skip, share, distinct } from 'rxjs/operators';
+import { QuestionInstance } from 'app/models/question-instance.model';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -75,6 +76,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public sectionRepeatNumber: number = 0;
+
+	@Input()
+	public questionInstance: QuestionInstance;
 
 	// @Input()
 	// public repeatContainer: SurveyRepeatContainer;
@@ -137,7 +141,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService,
 		private _navigator: SurveyNavigator
-	) {}
+	) { }
 
 	/**
 	 * Calcs unique repeat number
@@ -151,7 +155,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void {}
+	public ngOnDestroy(): void { }
 
 	/**
 	 *
@@ -197,7 +201,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					.pipe(
 						share(),
 						skip(1),
-						distinct()
 					)
 					.subscribe(this.onResponseSaved);
 
@@ -246,8 +249,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
 			},
-			error => {},
-			() => {}
+			error => { },
+			() => { }
 		);
 	}
 
@@ -330,6 +333,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 			this.surveyViewQuestion.respondentValidationState = {};
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
+
+		this.questionInstance.validationState = validationState;
 
 		// just call the update after everything else waiting to be processed
 		setTimeout(() => {

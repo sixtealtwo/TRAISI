@@ -5,10 +5,11 @@ import { NavigationState } from '../../../../models/navigation-state.model';
 import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
-import { findIndex } from 'lodash';
-import { expand, share } from 'rxjs/operators';
+import { findIndex, every } from 'lodash';
+import { expand, share, tap } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
-import { ConditionalEvaluator } from '../../../../services/conditional-evaluator/conditional-evaluator.service';
+import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
+import { ResponseValidationState } from '../../../../../../../../../TRAISI.SDK/Module/src/question-response-state';
 
 /**
  *
@@ -268,9 +269,10 @@ export class SurveyNavigator {
 							continue;
 						}
 						let questionInstance: QuestionInstance = {
-							id:  String(result.question.id),
+							id: '' + result.question.id,
 							index: navigationState.activeQuestionIndex,
-							model: result.question
+							model: result.question,
+							validationState: ResponseValidationState.PRISTINE
 						};
 						questionInstances.push(questionInstance);
 					}
@@ -282,12 +284,18 @@ export class SurveyNavigator {
 	}
 
 	private _checkValidation(): boolean {
-		return true;
+		let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
+		console.log(valid);
+		return valid;
 	}
 
 	public responseChanged(): void {
 		this._initState(this.navigationState$.value)
-			.pipe(share())
+			.pipe(
+				tap(val => {
+					this._checkValidation()
+				}),
+				share())
 			.subscribe();
 	}
 }
