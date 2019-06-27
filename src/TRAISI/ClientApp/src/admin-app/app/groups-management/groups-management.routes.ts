@@ -2,8 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { GroupsManagementComponent } from './groups-management.component';
 
 
-const routes: Routes = [
+const GroupManagementRoute: Routes = [
 	{ path: '', component: GroupsManagementComponent, data: { title: 'Manage Groups' } },
 ];
 
-export const ROUTES = RouterModule.forChild(routes);
+export const GroupManagementRouteModule = RouterModule.forChild(GroupManagementRoute);

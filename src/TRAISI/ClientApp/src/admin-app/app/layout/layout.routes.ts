@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ChatAppComponent } from '../chat-app/chat-app.component';
 
-const routes: Routes = [
+const layoutRoutes: Routes = [
 	{
 		path: '',
 		component: LayoutComponent,
@@ -50,4 +50,4 @@ const routes: Routes = [
 	}
 ];
 
-export const ROUTES = RouterModule.forChild(routes);
+export const LayoutRoutesModule = RouterModule.forChild(layoutRoutes);

@@ -12,7 +12,7 @@ import { SurveyShortcodeDisplayPageComponent } from 'app/components/survey-short
 import { SurveyGroupcodePageComponent } from 'app/components/survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodePageComponent } from 'app/components/survey-shortcode-page/survey-shortcode-page.component';
 
-export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
+const routes: Routes = [
 	{
 		path: 'error',
 		component: SurveyErrorComponent
@@ -91,4 +91,6 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 			}
 		]
 	}
-]);
+];
+
+export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot(routes);

@@ -9,7 +9,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
-import { ROUTES } from './layout.routes';
+import { LayoutRoutesModule } from './layout.routes';
 
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -26,7 +26,7 @@ import { ChatAppComponent } from '../chat-app/chat-app.component';
 		TooltipModule.forRoot(),
 		BsDropdownModule.forRoot(),
 		ModalModule.forRoot(),
-		ROUTES,
+		LayoutRoutesModule,
 		FormsModule,
 		LoadingBarRouterModule,
 		TranslateModule.forChild({

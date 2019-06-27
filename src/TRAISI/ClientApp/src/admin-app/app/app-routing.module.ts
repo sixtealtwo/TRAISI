@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import {RouterModule, PreloadAllModules, NoPreloading, Routes} from '@angular/router';
-
-import { AuthService } from '../../shared/services/auth.service';
-import { AuthGuard } from './services/auth-guard.service';
-import { ErrorComponent } from './error/error.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, PreloadAllModules, Routes} from '@angular/router';
+import {AuthService} from 'shared/services';
+import {AuthGuard} from './services/auth-guard.service';
+import {ErrorComponent} from './error/error.component';
 
 const AppRoutes: Routes = [
 	{

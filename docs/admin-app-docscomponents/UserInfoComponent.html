@@ -1,0 +1,2993 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	    <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../">Admin App</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./modules.html" >
+                            <span class="fa fa-archive"></span>
+                            <span>Modules</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            ></span>
+                        </a>
+                        <ul class="links collapse in"
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="../modules/AccountManagementModule.html" >AccountManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/AppModule.html" >AppModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/AppRoutingModule.html" >AppRoutingModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/DashboardModule.html" >DashboardModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/GroupsManagementModule.html" >GroupsManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/LayoutModule.html" >LayoutModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/LoginModule.html" >LoginModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/NgxSmoothDnDModule.html" >NgxSmoothDnDModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SharedModule.html" >SharedModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveyBuilderModule.html" >SurveyBuilderModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveyExecuteModule.html" >SurveyExecuteModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveysManagementModule.html" >SurveysManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/UsersManagementModule.html" >UsersManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/WidgetModule.html" >WidgetModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-cogs"></span>
+                            <span>Components</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-components-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-components-links"
+                            >
+                                <li class="link">
+                                    <a href="../components/AppComponent.html" >AppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatAppComponent.html" >ChatAppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatMessageComponent.html" >ChatMessageComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatSidebarComponent.html" >ChatSidebarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/CheckboxComponent.html" >CheckboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ConductSurveyComponent.html" >ConductSurveyComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ContainerComponent.html" >ContainerComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DashboardComponent.html" >DashboardComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DateInputComponent.html" >DateInputComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DraggableComponent.html" >DraggableComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DropdownListComponent.html" >DropdownListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DropdownTreeviewSelectComponent.html" >DropdownTreeviewSelectComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ErrorComponent.html" >ErrorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Footer1Component.html" >Footer1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/GroupsManagementComponent.html" >GroupsManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Header1Component.html" >Header1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Header2Component.html" >Header2Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ItemListComponent.html" >ItemListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LayoutComponent.html" >LayoutComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LocationFieldComponent.html" >LocationFieldComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LoginComponent.html" >LoginComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/MainSurveyAccess1Component.html" >MainSurveyAccess1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/MultiSelectComponent.html" >MultiSelectComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NestedDragAndDropListComponent.html" >NestedDragAndDropListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NumericTextboxComponent.html" >NumericTextboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/PrivacyConfirmationComponent.html" >PrivacyConfirmationComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionConditionalsComponent.html" >QuestionConditionalsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionConfigurationComponent.html" >QuestionConfigurationComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionDetailsComponent.html" >QuestionDetailsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionTypeChooserComponent.html" >QuestionTypeChooserComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionViewerComponent.html" >QuestionViewerComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RadioComponent.html" >RadioComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RoleEditorComponent.html" >RoleEditorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RolesManagementComponent.html" >RolesManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ScreeningQuestionsComponent.html" >ScreeningQuestionsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SearchBoxComponent.html" >SearchBoxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SidebarComponent.html" >SidebarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SliderComponent.html" >SliderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SourceConditionalComponent.html" >SourceConditionalComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SpecialPageBuilderComponent.html" >SpecialPageBuilderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SponsorsComponent.html" >SponsorsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveyBuilderComponent.html" >SurveyBuilderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveyExecuteComponent.html" >SurveyExecuteComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveysEditorComponent.html" >SurveysEditorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveysManagementComponent.html" >SurveysManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SwitchComponent.html" >SwitchComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TargetConditionalComponent.html" >TargetConditionalComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextAreaComponent.html" >TextAreaComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextBlock1Component.html" >TextBlock1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextboxComponent.html" >TextboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TimeInputComponent.html" >TimeInputComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UserInfoComponent.html"  class="active" >UserInfoComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UserPreferencesComponent.html" >UserPreferencesComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UsersManagementComponent.html" >UsersManagementComponent</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-code"></span>
+                            <span>Directives</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-directives-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-directives-links"
+                            >
+                                <li class="link">
+                                    <a href="../directives/AutofocusDirective.html" >AutofocusDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapDatepickerDirective.html" >BootstrapDatepickerDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapSelectDirective.html" >BootstrapSelectDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapTabDirective.html" >BootstrapTabDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapToggleDirective.html" >BootstrapToggleDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/CustomBuilderContainerDirective.html" >CustomBuilderContainerDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/EqualValidator.html" >EqualValidator</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/LastElementDirective.html" >LastElementDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/WidgetDirective.html" >WidgetDirective</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="../classes/ChatService.html" >ChatService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/CodeGenerator.html" >CodeGenerator</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/DownloadNotification.html" >DownloadNotification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/DropdownTreeviewSelectI18n.html" >DropdownTreeviewSelectI18n</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/EmailTemplate.html" >EmailTemplate</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/GroupCode.html" >GroupCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/GroupMember.html" >GroupMember</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Label.html" >Label</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/NewBlock.html" >NewBlock</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/NewBlock.html" >NewBlock</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Notification.html" >Notification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Order.html" >Order</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditional.html" >QuestionConditional</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditionalSourceGroup.html" >QuestionConditionalSourceGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditionalTargetGroup.html" >QuestionConditionalTargetGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConfigurationValue.html" >QuestionConfigurationValue</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionConditional.html" >QuestionOptionConditional</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionLabel.html" >QuestionOptionLabel</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionValue.html" >QuestionOptionValue</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPart.html" >QuestionPart</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPartView.html" >QuestionPartView</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPartViewLabel.html" >QuestionPartViewLabel</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Role.html" >Role</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ScreeningQuestions.html" >ScreeningQuestions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ShortCode.html" >ShortCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Survey.html" >Survey</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyNotification.html" >SurveyNotification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyPermissions.html" >SurveyPermissions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyQuestionOptionStructure.html" >SurveyQuestionOptionStructure</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyViewStructure.html" >SurveyViewStructure</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/TermsAndConditionsPage.html" >TermsAndConditionsPage</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ThankYouPage.html" >ThankYouPage</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UploadPath.html" >UploadPath</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserEdit.html" >UserEdit</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserGroup.html" >UserGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserGroupAPIKeys.html" >UserGroupAPIKeys</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserLogin.html" >UserLogin</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/WelcomePage.html" >WelcomePage</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-injectables-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="../injectables/AccountEndpoint.html" >AccountEndpoint</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AccountService.html" >AccountService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AppConfig.html" >AppConfig</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AppTitleService.html" >AppTitleService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/CanDeactivateGuard.html" >CanDeactivateGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/CustomBuilderService.html" >CustomBuilderService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/NotificationEndpoint.html" >NotificationEndpoint</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/NotificationService.html" >NotificationService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/RealTimeNotificationServce.html" >RealTimeNotificationServce</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyBuilderEndpointService.html" >SurveyBuilderEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyBuilderService.html" >SurveyBuilderService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyEndpointService.html" >SurveyEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyExecuteEndpointService.html" >SurveyExecuteEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyExecuteService.html" >SurveyExecuteService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyService.html" >SurveyService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/UserGroupEndpointService.html" >UserGroupEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/UserGroupService.html" >UserGroupService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-interfaces-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="../interfaces/CanComponentDeactivate.html" >CanComponentDeactivate</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ConditionalOptionItem.html" >ConditionalOptionItem</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/EventArg.html" >EventArg</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IContainerOptions.html" >IContainerOptions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IDragEvent.html" >IDragEvent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IDropResult.html" >IDropResult</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/Item.html" >Item</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionConfigurationDefinition.html" >QuestionConfigurationDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionOptionDefinition.html" >QuestionOptionDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionTypeDefinition.html" >QuestionTypeDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/RolesChangedEventArg.html" >RolesChangedEventArg</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/UserAccountInfo.html" >UserAccountInfo</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-plus"></span>
+                            <span>Pipes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-pipes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-pipes-links"
+                            >
+                                <li class="link">
+                                    <a href="../pipes/GroupByPipe.html" >GroupByPipe</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../pipes/SafePipe.html" >SafePipe</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../pipes/SearchPipe.html" >SearchPipe</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../">Admin App</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./modules.html" >
+                                   <span class="fa fa-archive"></span>
+                                   <span>Modules</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   ></span>
+                               </a>
+                               <ul class="links collapse in"
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="../modules/AccountManagementModule.html" >AccountManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/AppModule.html" >AppModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/AppRoutingModule.html" >AppRoutingModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/DashboardModule.html" >DashboardModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/GroupsManagementModule.html" >GroupsManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/LayoutModule.html" >LayoutModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/LoginModule.html" >LoginModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/NgxSmoothDnDModule.html" >NgxSmoothDnDModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SharedModule.html" >SharedModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveyBuilderModule.html" >SurveyBuilderModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveyExecuteModule.html" >SurveyExecuteModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveysManagementModule.html" >SurveysManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/UsersManagementModule.html" >UsersManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/WidgetModule.html" >WidgetModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-cogs"></span>
+                                   <span>Components</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#components-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="components-links"
+                   >
+                                       <li class="link">
+                                           <a href="../components/AppComponent.html" >AppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatAppComponent.html" >ChatAppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatMessageComponent.html" >ChatMessageComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatSidebarComponent.html" >ChatSidebarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/CheckboxComponent.html" >CheckboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ConductSurveyComponent.html" >ConductSurveyComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ContainerComponent.html" >ContainerComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DashboardComponent.html" >DashboardComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DateInputComponent.html" >DateInputComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DraggableComponent.html" >DraggableComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DropdownListComponent.html" >DropdownListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DropdownTreeviewSelectComponent.html" >DropdownTreeviewSelectComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ErrorComponent.html" >ErrorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Footer1Component.html" >Footer1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/GroupsManagementComponent.html" >GroupsManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Header1Component.html" >Header1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Header2Component.html" >Header2Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ItemListComponent.html" >ItemListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LayoutComponent.html" >LayoutComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LocationFieldComponent.html" >LocationFieldComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LoginComponent.html" >LoginComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/MainSurveyAccess1Component.html" >MainSurveyAccess1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/MultiSelectComponent.html" >MultiSelectComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NestedDragAndDropListComponent.html" >NestedDragAndDropListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NumericTextboxComponent.html" >NumericTextboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/PrivacyConfirmationComponent.html" >PrivacyConfirmationComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionConditionalsComponent.html" >QuestionConditionalsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionConfigurationComponent.html" >QuestionConfigurationComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionDetailsComponent.html" >QuestionDetailsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionTypeChooserComponent.html" >QuestionTypeChooserComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionViewerComponent.html" >QuestionViewerComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RadioComponent.html" >RadioComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RoleEditorComponent.html" >RoleEditorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RolesManagementComponent.html" >RolesManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ScreeningQuestionsComponent.html" >ScreeningQuestionsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SearchBoxComponent.html" >SearchBoxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SidebarComponent.html" >SidebarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SliderComponent.html" >SliderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SourceConditionalComponent.html" >SourceConditionalComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SpecialPageBuilderComponent.html" >SpecialPageBuilderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SponsorsComponent.html" >SponsorsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveyBuilderComponent.html" >SurveyBuilderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveyExecuteComponent.html" >SurveyExecuteComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveysEditorComponent.html" >SurveysEditorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveysManagementComponent.html" >SurveysManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SwitchComponent.html" >SwitchComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TargetConditionalComponent.html" >TargetConditionalComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextAreaComponent.html" >TextAreaComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextBlock1Component.html" >TextBlock1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextboxComponent.html" >TextboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TimeInputComponent.html" >TimeInputComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UserInfoComponent.html"  class="active" >UserInfoComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UserPreferencesComponent.html" >UserPreferencesComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UsersManagementComponent.html" >UsersManagementComponent</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-code"></span>
+                                   <span>Directives</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#directives-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="directives-links"
+                   >
+                                       <li class="link">
+                                           <a href="../directives/AutofocusDirective.html" >AutofocusDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapDatepickerDirective.html" >BootstrapDatepickerDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapSelectDirective.html" >BootstrapSelectDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapTabDirective.html" >BootstrapTabDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapToggleDirective.html" >BootstrapToggleDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/CustomBuilderContainerDirective.html" >CustomBuilderContainerDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/EqualValidator.html" >EqualValidator</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/LastElementDirective.html" >LastElementDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/WidgetDirective.html" >WidgetDirective</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../classes/ChatService.html" >ChatService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/CodeGenerator.html" >CodeGenerator</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/DownloadNotification.html" >DownloadNotification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/DropdownTreeviewSelectI18n.html" >DropdownTreeviewSelectI18n</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/EmailTemplate.html" >EmailTemplate</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/GroupCode.html" >GroupCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/GroupMember.html" >GroupMember</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Label.html" >Label</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/NewBlock.html" >NewBlock</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/NewBlock.html" >NewBlock</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Notification.html" >Notification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Order.html" >Order</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditional.html" >QuestionConditional</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditionalSourceGroup.html" >QuestionConditionalSourceGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditionalTargetGroup.html" >QuestionConditionalTargetGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConfigurationValue.html" >QuestionConfigurationValue</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionConditional.html" >QuestionOptionConditional</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionLabel.html" >QuestionOptionLabel</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionValue.html" >QuestionOptionValue</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPart.html" >QuestionPart</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPartView.html" >QuestionPartView</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPartViewLabel.html" >QuestionPartViewLabel</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Role.html" >Role</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ScreeningQuestions.html" >ScreeningQuestions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ShortCode.html" >ShortCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Survey.html" >Survey</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyNotification.html" >SurveyNotification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyPermissions.html" >SurveyPermissions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyQuestionOptionStructure.html" >SurveyQuestionOptionStructure</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyViewStructure.html" >SurveyViewStructure</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/TermsAndConditionsPage.html" >TermsAndConditionsPage</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ThankYouPage.html" >ThankYouPage</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UploadPath.html" >UploadPath</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserEdit.html" >UserEdit</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserGroup.html" >UserGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserGroupAPIKeys.html" >UserGroupAPIKeys</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserLogin.html" >UserLogin</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/WelcomePage.html" >WelcomePage</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#injectables-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="../injectables/AccountEndpoint.html" >AccountEndpoint</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AccountService.html" >AccountService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AppConfig.html" >AppConfig</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AppTitleService.html" >AppTitleService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/CanDeactivateGuard.html" >CanDeactivateGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/CustomBuilderService.html" >CustomBuilderService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/NotificationEndpoint.html" >NotificationEndpoint</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/NotificationService.html" >NotificationService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/RealTimeNotificationServce.html" >RealTimeNotificationServce</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyBuilderEndpointService.html" >SurveyBuilderEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyBuilderService.html" >SurveyBuilderService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyEndpointService.html" >SurveyEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyExecuteEndpointService.html" >SurveyExecuteEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyExecuteService.html" >SurveyExecuteService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyService.html" >SurveyService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/UserGroupEndpointService.html" >UserGroupEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/UserGroupService.html" >UserGroupService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#interfaces-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="../interfaces/CanComponentDeactivate.html" >CanComponentDeactivate</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ConditionalOptionItem.html" >ConditionalOptionItem</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/EventArg.html" >EventArg</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IContainerOptions.html" >IContainerOptions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IDragEvent.html" >IDragEvent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IDropResult.html" >IDropResult</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/Item.html" >Item</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionConfigurationDefinition.html" >QuestionConfigurationDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionOptionDefinition.html" >QuestionOptionDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionTypeDefinition.html" >QuestionTypeDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/RolesChangedEventArg.html" >RolesChangedEventArg</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/UserAccountInfo.html" >UserAccountInfo</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-plus"></span>
+                                   <span>Pipes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#pipes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="pipes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../pipes/GroupByPipe.html" >GroupByPipe</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../pipes/SafePipe.html" >SafePipe</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../pipes/SearchPipe.html" >SearchPipe</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content component">
+                   <div class="content-data">
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>UserInfoComponent</li>
+</ol>
+
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+        </li>
+        <li>
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="infos"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/account-management/user-info/user-info.component.ts</code>
+</p>
+
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>user-info</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>user-info.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>user-info.component.html</code></td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+        <h3 id="inputs">Inputs</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-2">
+                            <code>inGroupMode</code>
+                        </td>
+                        <td class="col-md-10">
+                              <p>
+                                <em>Type:</em>    <code>boolean</code>
+
+                              </p>
+                            <p>
+                              <em>Default value: </em><code>false</code>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-2">
+                            <code>isGeneralEditor</code>
+                        </td>
+                        <td class="col-md-10">
+                              <p>
+                                <em>Type:</em>    <code>boolean</code>
+
+                              </p>
+                            <p>
+                              <em>Default value: </em><code>false</code>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-2">
+                            <code>isViewOnly</code>
+                        </td>
+                        <td class="col-md-10">
+                              <p>
+                                <em>Type:</em>    <code>boolean</code>
+
+                              </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </section>
+
+
+    <section>
+        <h3 id="constructor">Constructor</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>constructor(alertService: AlertService, accountService: <a href="../injectables/AccountService.html" >AccountService</a>, translationService: AppTranslationService, authService: AuthService, userGroupService: <a href="../injectables/UserGroupService.html" >UserGroupService</a>)</code>
+                        </td>
+                    </tr>
+    
+                </tbody>
+            </table>
+    </section>
+
+    <section>
+        <h3 id="methods">Methods</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> loadCurrentUserData</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>loadCurrentUserData()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> onCurrentUserDataLoadSuccessful</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>onCurrentUserDataLoadSuccessful(user: User, roles: <a href="../classes/Role.html" >Role[]</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> updateRole</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>updateRole(e: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> onCurrentUserDataLoadFailed</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>onCurrentUserDataLoadFailed(error: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> getRoleByName</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>getRoleByName(name: string)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> showErrorAlert</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>showErrorAlert(caption: string, message: string)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> deletePasswordFromUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>deletePasswordFromUser(user: <a href="../classes/UserEdit.html" >User | UserEdit</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> edit</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>edit()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> save</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>save()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> saveSuccessHelper</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>saveSuccessHelper(user: User)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> saveFailedHelper</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>saveFailedHelper(error: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> testIsRoleUserCountChanged</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>testIsRoleUserCountChanged(currentUser: User, editedUser: User)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> cancel</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>cancel()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> close</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>close()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> refreshLoggedInUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>refreshLoggedInUser()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> changePassword</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>changePassword()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> unlockUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>unlockUser()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> resetForm</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>resetForm(replace: boolean)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> newUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>newUser(allRoles: <a href="../classes/Role.html" >Role[]</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> editUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>editUser(user: User, allRoles: <a href="../classes/Role.html" >Role[]</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> displayUser</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>displayUser(user: User, allRoles: <a href="../classes/Role.html" >Role[]</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> logout</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play circle">
+                                    <span class="fa fa-circle"></span>
+                                </span>
+                            <code>logout()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> setRoles</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>setRoles(user: User, allRoles: <a href="../classes/Role.html" >Role[]</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </section>
+
+    <section>
+        <h3 id="inputs">Properties</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> allRoles</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>allRoles:     <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> canAssignRoles</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>canAssignRoles:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> canViewAllRoles</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>canViewAllRoles:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> changesCancelledCallback</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>changesCancelledCallback:     <code>() &#x3D;&gt; void</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> changesFailedCallback</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>changesFailedCallback:     <code>() &#x3D;&gt; void</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> changesSavedCallback</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>changesSavedCallback:     <code>() &#x3D;&gt; void</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> confirmPassword</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>confirmPassword:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> currentPassword</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>currentPassword:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> editingUserName</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>editingUserName:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> email</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>email:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> form</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>form:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> formResetToggle</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>formResetToggle:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>true</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> groupMemberInfo</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>groupMemberInfo:     <code><a href="../classes/GroupMember.html" target="_self" >GroupMember</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> isChangePassword</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>isChangePassword:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> isEditingSelf</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>isEditingSelf:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> isEditMode</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>isEditMode:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> isNewUser</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>isNewUser:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> isSaving</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>isSaving:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> newPassword</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>newPassword:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> roles</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>roles:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> rolesOptions</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>rolesOptions:     <code>Select2OptionData[]</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> rolesSelector</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>rolesSelector:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> select2Options</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>select2Options:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> selectedRole</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>selectedRole:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> showValidationErrors</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>showValidationErrors:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> uniqueId</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>uniqueId:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> user</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>user:     <code>User</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> userEdit</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>userEdit:     <code><a href="../classes/UserEdit.html" target="_self" >UserEdit</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> userName</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>userName:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> userPassword</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>userPassword:     <code>any</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </section>
+</div>
+        <div class="tab-pane fade tab-source-code" id="source">
+            <pre><code class="hljs javascript">import { Component, ViewEncapsulation, OnInit, ViewChild, Input, Output, AfterViewInit, EventEmitter, Directive } from &#x27;@angular/core&#x27;;
+
+import { AlertService, MessageSeverity } from &#x27;../../../../shared/services/alert.service&#x27;;
+import { AccountService } from &#x27;../../services/account.service&#x27;;
+import { Utilities } from &#x27;../../../../shared/services/utilities&#x27;;
+import { User } from &#x27;../../../../shared/models/user.model&#x27;;
+import { UserEdit } from &#x27;../../models/user-edit.model&#x27;;
+import { Role } from &#x27;../../models/role.model&#x27;;
+import { Permission } from &#x27;../../../../shared/models/permission.model&#x27;;
+import { AppTranslationService } from &#x27;../../../../shared/services/app-translation.service&#x27;;
+import { AuthService } from &#x27;../../../../shared/services/auth.service&#x27;;
+import { Select2OptionData } from &#x27;ng2-select2&#x27;;
+import { GroupMember } from &#x27;../../models/group-member.model&#x27;;
+import { UserGroupService } from &#x27;../../services/user-group.service&#x27;;
+
+declare let jQuery: any;
+
+@Component({
+	selector: &#x27;user-info&#x27;,
+	templateUrl: &#x27;./user-info.component.html&#x27;,
+	styleUrls: [&#x27;./user-info.component.scss&#x27;]
+})
+export class UserInfoComponent implements OnInit, AfterViewInit {
+	public isEditMode &#x3D; false;
+	public isNewUser &#x3D; false;
+	public isSaving &#x3D; false;
+	public isChangePassword &#x3D; false;
+	public isEditingSelf &#x3D; false;
+	public showValidationErrors &#x3D; false;
+	public editingUserName: string;
+	public uniqueId: string &#x3D; Utilities.uniqueId();
+	public user: User &#x3D; new User();
+	public userEdit: UserEdit &#x3D; new UserEdit();
+	public allRoles: Role[] &#x3D; [];
+	public rolesOptions: Array&lt;Select2OptionData&gt;;
+	public selectedRole: string;
+	public select2Options: any &#x3D; {
+		theme: &#x27;bootstrap&#x27;
+	};
+	public formResetToggle &#x3D; true;
+	public groupMemberInfo: GroupMember;
+
+	public changesSavedCallback: () &#x3D;&gt; void;
+	public changesFailedCallback: () &#x3D;&gt; void;
+	public changesCancelledCallback: () &#x3D;&gt; void;
+
+	@Input() public isViewOnly: boolean;
+
+	@Input() public isGeneralEditor: boolean &#x3D; false;
+
+	@Input() public inGroupMode: boolean &#x3D; false;
+
+	@ViewChild(&#x27;f&#x27;) private form;
+
+	// ViewChilds Required because ngIf hides template variables from global scope
+	@ViewChild(&#x27;userName&#x27;) private userName;
+
+	@ViewChild(&#x27;userPassword&#x27;) private userPassword;
+
+	@ViewChild(&#x27;email&#x27;) private email;
+
+	@ViewChild(&#x27;currentPassword&#x27;) private currentPassword;
+
+	@ViewChild(&#x27;newPassword&#x27;) private newPassword;
+
+	@ViewChild(&#x27;confirmPassword&#x27;) private confirmPassword;
+
+	@ViewChild(&#x27;roles&#x27;) private roles;
+
+	@ViewChild(&#x27;rolesSelector&#x27;) private rolesSelector;
+
+	constructor(
+		private alertService: AlertService,
+		private accountService: AccountService,
+		private translationService: AppTranslationService,
+		private authService: AuthService,
+		private userGroupService: UserGroupService
+	) {
+		translationService.addLanguages([&#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;pt&#x27;, &#x27;ar&#x27;, &#x27;ko&#x27;]);
+		translationService.setDefaultLanguage(&#x27;en&#x27;);
+	}
+
+	public ngOnInit() {
+		if (!this.isGeneralEditor) {
+			this.loadCurrentUserData();
+		}
+		this.rolesOptions &#x3D; [];
+		this.accountService.getRoles().subscribe(
+			roles &#x3D;&gt; {
+				for (const role of roles) {
+					this.rolesOptions.push({ text: role.description, id: role.name });
+				}
+				this.selectedRole &#x3D; &#x27;user&#x27;;
+			},
+			error &#x3D;&gt; {}
+		);
+	}
+
+	public ngAfterViewInit(): void {
+		jQuery(&#x27;.parsleyjs&#x27;).parsley();
+	}
+
+	private loadCurrentUserData() {
+		this.alertService.startLoadingMessage();
+
+		if (this.canViewAllRoles) {
+			this.accountService
+				.getUserAndRoles()
+				.subscribe(
+					results &#x3D;&gt; this.onCurrentUserDataLoadSuccessful(results[0], results[1]),
+					error &#x3D;&gt; this.onCurrentUserDataLoadFailed(error)
+				);
+		} else {
+			this.accountService
+				.getUser()
+				.subscribe(
+					user &#x3D;&gt; this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x &#x3D;&gt; new Role(x))),
+					error &#x3D;&gt; this.onCurrentUserDataLoadFailed(error)
+				);
+		}
+	}
+
+	private onCurrentUserDataLoadSuccessful(user: User, roles: Role[]) {
+		this.alertService.stopLoadingMessage();
+		this.user &#x3D; user;
+		this.allRoles &#x3D; roles;
+		this.rolesOptions &#x3D; [];
+
+		for (const role of this.allRoles) {
+			this.rolesOptions.push({ text: role.description, id: role.name });
+		}
+		this.selectedRole &#x3D; this.user.roles[0];
+	}
+
+	public updateRole(e: any): void {
+		if (this.isEditingSelf) {
+			this.user.roles &#x3D; [];
+			this.user.roles.push(e.value);
+		} else {
+			this.userEdit.roles &#x3D; [];
+			this.userEdit.roles.push(e.value);
+		}
+	}
+
+	private onCurrentUserDataLoadFailed(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Load Error&#x27;,
+			&#x60;Unable to retrieve user data from the server.
+											Errors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+			MessageSeverity.error,
+			error
+		);
+
+		this.logout();
+	}
+
+	private getRoleByName(name: string) {
+		return this.allRoles.find(r &#x3D;&gt; r.name &#x3D;&#x3D;&#x3D; name);
+	}
+
+	private showErrorAlert(caption: string, message: string) {
+		this.alertService.showMessage(caption, message, MessageSeverity.error);
+	}
+
+	public deletePasswordFromUser(user: UserEdit | User) {
+		const userEdit &#x3D; &lt;UserEdit&gt;user;
+
+		delete userEdit.currentPassword;
+		delete userEdit.newPassword;
+		delete userEdit.confirmPassword;
+	}
+
+	private edit() {
+		if (!this.isGeneralEditor) {
+			this.isEditingSelf &#x3D; true;
+			this.userEdit &#x3D; new UserEdit();
+			Object.assign(this.userEdit, this.user);
+		} else {
+			if (!this.userEdit) {
+				this.userEdit &#x3D; new UserEdit();
+			}
+
+			this.isEditingSelf &#x3D; this.accountService.currentUser ? this.userEdit.id &#x3D;&#x3D;&#x3D; this.accountService.currentUser.id : false;
+		}
+		console.log(this.userEdit);
+		this.isEditMode &#x3D; true;
+		this.showValidationErrors &#x3D; true;
+		this.isChangePassword &#x3D; false;
+	}
+
+	private save(): void {
+		this.isSaving &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Saving changes...&#x27;);
+
+		if (this.isNewUser) {
+			this.accountService
+				.newUser(this.userEdit)
+				.subscribe(user &#x3D;&gt; this.saveSuccessHelper(user), error &#x3D;&gt; this.saveFailedHelper(error));
+		} else {
+			this.accountService.updateUser(this.userEdit).subscribe(
+				response &#x3D;&gt; {
+					if (this.inGroupMode) {
+						// update user name in group member (one edited is only in userEdit object)
+						this.groupMemberInfo.userName &#x3D; this.groupMemberInfo.user.userName;
+						this.userGroupService
+							.updateGroupMember(this.groupMemberInfo)
+							.subscribe(mresponse &#x3D;&gt; this.saveSuccessHelper(), error &#x3D;&gt; this.saveFailedHelper(error));
+					} else {
+						this.saveSuccessHelper(null);
+					}
+				},
+				error &#x3D;&gt; this.saveFailedHelper(error)
+			);
+		}
+	}
+
+	private saveSuccessHelper(user?: User) {
+		this.testIsRoleUserCountChanged(this.user, this.userEdit);
+
+		if (user) {
+			Object.assign(this.userEdit, user);
+		}
+
+		this.isSaving &#x3D; false;
+		this.alertService.stopLoadingMessage();
+		this.isChangePassword &#x3D; false;
+		this.showValidationErrors &#x3D; false;
+
+		this.deletePasswordFromUser(this.userEdit);
+		Object.assign(this.user, this.userEdit);
+
+		if (this.isGeneralEditor) {
+			if (this.isNewUser) {
+				this.alertService.showMessage(
+					&#x27;Success&#x27;,
+					&#x60;User \&quot;${this.user.userName}\&quot; was created successfully&#x60;,
+					MessageSeverity.success
+				);
+			} else if (!this.isEditingSelf) {
+				this.alertService.showMessage(
+					&#x27;Success&#x27;,
+					&#x60;Changes to user \&quot;${this.user.userName}\&quot; were saved successfully&#x60;,
+					MessageSeverity.success
+				);
+			}
+		}
+
+		this.userEdit &#x3D; new UserEdit();
+
+		this.groupMemberInfo &#x3D; new GroupMember();
+		this.resetForm();
+
+		if (this.isEditingSelf) {
+			this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Changes to your User Profile was saved successfully&#x27;, MessageSeverity.success);
+			this.refreshLoggedInUser();
+		}
+
+		this.isEditMode &#x3D; false;
+
+		if (this.changesSavedCallback) {
+			this.changesSavedCallback();
+		}
+	}
+
+	private saveFailedHelper(error: any) {
+		this.isSaving &#x3D; false;
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Save Error&#x27;,
+			&#x27;The below errors occured whilst saving your changes:&#x27;,
+			MessageSeverity.error,
+			error
+		);
+		this.alertService.showStickyMessage(error, null, MessageSeverity.error);
+		this.userEdit &#x3D; new UserEdit();
+		this.isNewUser &#x3D; true;
+		this.groupMemberInfo &#x3D; new GroupMember();
+		if (this.changesFailedCallback) {
+			this.changesFailedCallback();
+		}
+	}
+
+	private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
+		const rolesAdded &#x3D; this.isNewUser ? editedUser.roles : editedUser.roles.filter(role &#x3D;&gt; currentUser.roles.indexOf(role) &#x3D;&#x3D;&#x3D; -1);
+		const rolesRemoved &#x3D; this.isNewUser ? [] : currentUser.roles.filter(role &#x3D;&gt; editedUser.roles.indexOf(role) &#x3D;&#x3D;&#x3D; -1);
+
+		const modifiedRoles &#x3D; rolesAdded.concat(rolesRemoved);
+
+		if (modifiedRoles.length) {
+			setTimeout(() &#x3D;&gt; this.accountService.onRolesUserCountChanged(modifiedRoles));
+		}
+	}
+
+	private cancel() {
+		if (this.isGeneralEditor) {
+			this.userEdit &#x3D; this.user &#x3D; new UserEdit();
+		} else {
+			this.userEdit &#x3D; new UserEdit();
+		}
+		this.groupMemberInfo &#x3D; new GroupMember();
+		this.showValidationErrors &#x3D; false;
+		this.resetForm();
+
+		this.alertService.showMessage(&#x27;Cancelled&#x27;, &#x27;Operation cancelled by user&#x27;, MessageSeverity.default);
+		this.alertService.resetStickyMessage();
+
+		if (!this.isGeneralEditor) {
+			this.isEditMode &#x3D; false;
+		}
+
+		if (this.changesCancelledCallback) {
+			this.changesCancelledCallback();
+		}
+	}
+
+	private close() {
+		this.userEdit &#x3D; this.user &#x3D; new UserEdit();
+		this.showValidationErrors &#x3D; false;
+		this.resetForm();
+		this.isEditMode &#x3D; false;
+		this.isNewUser &#x3D; true;
+		this.groupMemberInfo &#x3D; new GroupMember();
+		if (this.changesSavedCallback) {
+			this.changesSavedCallback();
+		}
+	}
+
+	private refreshLoggedInUser() {
+		this.accountService.refreshLoggedInUser().subscribe(
+			user &#x3D;&gt; {
+				this.loadCurrentUserData();
+			},
+			error &#x3D;&gt; {
+				this.alertService.resetStickyMessage();
+				this.alertService.showStickyMessage(
+					&#x27;Refresh failed&#x27;,
+					&#x27;An error occured whilst refreshing logged in user information from the server&#x27;,
+					MessageSeverity.error,
+					error
+				);
+			}
+		);
+	}
+
+	private changePassword() {
+		this.isChangePassword &#x3D; true;
+	}
+
+	private unlockUser() {
+		this.isSaving &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Unblocking user...&#x27;);
+
+		this.accountService.unblockUser(this.userEdit.id).subscribe(
+			response &#x3D;&gt; {
+				this.isSaving &#x3D; false;
+				this.userEdit.isLockedOut &#x3D; false;
+				this.alertService.stopLoadingMessage();
+				this.alertService.showMessage(&#x27;Success&#x27;, &#x27;User has been successfully unblocked&#x27;, MessageSeverity.success);
+			},
+			error &#x3D;&gt; {
+				this.isSaving &#x3D; false;
+				this.alertService.stopLoadingMessage();
+				this.alertService.showStickyMessage(
+					&#x27;Unblock Error&#x27;,
+					&#x27;The below errors occured whilst unblocking the user:&#x27;,
+					MessageSeverity.error,
+					error
+				);
+				this.alertService.showStickyMessage(error, null, MessageSeverity.error);
+			}
+		);
+	}
+
+	public resetForm(replace &#x3D; false) {
+		this.isChangePassword &#x3D; false;
+
+		if (!replace) {
+			this.form.reset();
+		} else {
+			this.formResetToggle &#x3D; false;
+
+			setTimeout(() &#x3D;&gt; {
+				this.formResetToggle &#x3D; true;
+			});
+		}
+	}
+
+	public newUser(allRoles: Role[]) {
+		this.isGeneralEditor &#x3D; true;
+		this.isNewUser &#x3D; true;
+
+		this.allRoles &#x3D; [...allRoles];
+		this.editingUserName &#x3D; null;
+		this.user &#x3D; this.userEdit &#x3D; new UserEdit();
+		this.user.roles &#x3D; [];
+		this.user.roles.push(this.selectedRole);
+		this.userEdit.isEnabled &#x3D; true;
+		this.edit();
+
+		return this.userEdit;
+	}
+
+	public editUser(user: User, allRoles: Role[]) {
+		if (user) {
+			this.isGeneralEditor &#x3D; true;
+			this.isNewUser &#x3D; false;
+
+			this.setRoles(user, allRoles);
+			this.editingUserName &#x3D; user.userName;
+			this.user &#x3D; new User();
+			this.userEdit &#x3D; new UserEdit();
+			Object.assign(this.user, user);
+			Object.assign(this.userEdit, user);
+			this.rolesOptions &#x3D; [];
+
+			for (const role of this.allRoles) {
+				this.rolesOptions.push({ text: role.description, id: role.name });
+			}
+			this.selectedRole &#x3D; this.userEdit.roles[0];
+			this.edit();
+
+			return this.userEdit;
+		} else {
+			return this.newUser(allRoles);
+		}
+	}
+	public displayUser(user: User, allRoles?: Role[]) {
+		this.user &#x3D; new User();
+		Object.assign(this.user, user);
+		this.deletePasswordFromUser(this.user);
+		this.setRoles(user, allRoles);
+
+		this.isEditMode &#x3D; false;
+	}
+
+	public logout() {
+		this.authService.logout();
+		this.authService.redirectLogoutUser();
+	}
+
+	private setRoles(user: User, allRoles?: Role[]) {
+		this.allRoles &#x3D; allRoles ? [...allRoles] : [];
+
+		if (user.roles) {
+			for (const ur of user.roles) {
+				if (!this.allRoles.some(r &#x3D;&gt; r.name &#x3D;&#x3D;&#x3D; ur)) {
+					this.allRoles.unshift(new Role(ur));
+				}
+			}
+		}
+
+		if (allRoles &#x3D;&#x3D;&#x3D; null || this.allRoles.length !&#x3D;&#x3D; allRoles.length) {
+			setTimeout(() &#x3D;&gt; this.rolesSelector.refresh());
+		}
+	}
+
+	get canViewAllRoles() {
+		return this.accountService.userHasPermission(Permission.viewRolesPermission);
+	}
+
+	get canAssignRoles() {
+		return this.accountService.userHasPermission(Permission.assignRolesPermission);
+	}
+}
+</code></pre>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
+
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/highlight.pack.js"></script>
+       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="../js/search/search_index.js"></script>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.initHighlightingOnLoad();
+                hljs.initLineNumbersOnLoad();
+            });
+       </script>
+
+    </body>
+</html>

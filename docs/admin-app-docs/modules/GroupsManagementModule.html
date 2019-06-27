@@ -176,7 +176,7 @@ import { TranslateModule, TranslateLoader } from &#x27;@ngx-translate/core&#x27;
 import { NgxDatatableModule } from &#x27;@swimlane/ngx-datatable&#x27;;
 
 import { GroupsManagementComponent } from &#x27;./groups-management.component&#x27;;
-import { ROUTES } from &#x27;./groups-management.routes&#x27;;
+import { GroupManagementRouteModule } from &#x27;./groups-management.routes&#x27;;
 import { ModalModule } from &#x27;ngx-bootstrap&#x27;;
 
 import { MonacoEditorModule } from &#x27;ngx-monaco-editor&#x27;;
@@ -184,7 +184,7 @@ import { MonacoEditorModule } from &#x27;ngx-monaco-editor&#x27;;
 @NgModule({
 	imports: [
 		CommonModule,
-		ROUTES,
+		GroupManagementRouteModule,
 		FormsModule,
 		SharedModule,
 		ModalModule,

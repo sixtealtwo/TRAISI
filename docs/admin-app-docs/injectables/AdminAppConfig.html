@@ -1,0 +1,1315 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>AdminAppConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/admin-app/app/admin-app-config.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#config">config</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resizeCallbacks">resizeCallbacks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#screenSizeCallbacks">screenSizeCallbacks</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#_initOnScreenSizeCallbacks">_initOnScreenSizeCallbacks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#_initResizeEvent">_initResizeEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changeColor">changeColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#darkenColor">darkenColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getConfig">getConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getScreenSize">getScreenSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isScreen">isScreen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#lightenColor">lightenColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#max">max</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#min">min</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onScreenSize">onScreenSize</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:210</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_initOnScreenSizeCallbacks"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            _initOnScreenSizeCallbacks
+                        </b>
+                        <a href="#_initOnScreenSizeCallbacks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_initOnScreenSizeCallbacks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:187</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_initResizeEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            _initResizeEvent
+                        </b>
+                        <a href="#_initResizeEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_initResizeEvent()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:177</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeColor"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            changeColor
+                        </b>
+                        <a href="#changeColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changeColor(color, ratio, darker)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>color</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>ratio</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>darker</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="darkenColor"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            darkenColor
+                        </b>
+                        <a href="#darkenColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>darkenColor(color, ratio)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:165</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>color</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>ratio</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getConfig
+                        </b>
+                        <a href="#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="217"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:217</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getScreenSize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getScreenSize
+                        </b>
+                        <a href="#getScreenSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getScreenSize()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isScreen"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isScreen
+                        </b>
+                        <a href="#isScreen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isScreen(size)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:60</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>size</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lightenColor"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            lightenColor
+                        </b>
+                        <a href="#lightenColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>lightenColor(color, ratio)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:161</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>color</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>ratio</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="max"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            max
+                        </b>
+                        <a href="#max"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>max(array)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:169</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>array</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="min"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            min
+                        </b>
+                        <a href="#min"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>min(array)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:173</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>array</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onScreenSize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onScreenSize
+                        </b>
+                        <a href="#onScreenSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onScreenSize(size, fn, onEnter)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>size</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>fn</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>onEnter</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            config</b>
+                            <a href="#config"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		name: &#x27;traisi&#x27;,
+		logo: &#x27;assets/img/logo_dark.png&#x27;,
+		title: &#x27;TRAISI Version 2&#x27;,
+		version: &#x27;2.0.0&#x27;,
+		/**
+		 * Whether to print and alert some log information
+		 */
+		debug: true,
+		/**
+		 * In-app constants
+		 */
+		settings: {
+			colors: {
+				white: &#x27;#fff&#x27;,
+				black: &#x27;#000&#x27;,
+				&#x27;gray-light&#x27;: &#x27;#999&#x27;,
+				&#x27;gray-lighter&#x27;: &#x27;#eee&#x27;,
+				gray: &#x27;#666&#x27;,
+				&#x27;gray-dark&#x27;: &#x27;#343434&#x27;,
+				&#x27;gray-darker&#x27;: &#x27;#222&#x27;,
+				&#x27;gray-semi-light&#x27;: &#x27;#777&#x27;,
+				&#x27;gray-semi-lighter&#x27;: &#x27;#ddd&#x27;,
+				&#x27;brand-primary&#x27;: &#x27;#5d8fc2&#x27;,
+				&#x27;brand-success&#x27;: &#x27;#64bd63&#x27;,
+				&#x27;brand-warning&#x27;: &#x27;#f0b518&#x27;,
+				&#x27;brand-danger&#x27;: &#x27;#dd5826&#x27;,
+				&#x27;brand-info&#x27;: &#x27;#5dc4bf&#x27;
+			},
+			screens: {
+				&#x27;xs-max&#x27;: 543,
+				&#x27;sm-min&#x27;: 544,
+				&#x27;sm-max&#x27;: 767,
+				&#x27;md-min&#x27;: 768,
+				&#x27;md-max&#x27;: 991,
+				&#x27;lg-min&#x27;: 992,
+				&#x27;lg-max&#x27;: 1199,
+				&#x27;xl-min&#x27;: 1200
+			},
+			navCollapseTimeout: 2500
+		}
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:8</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resizeCallbacks"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            resizeCallbacks</b>
+                            <a href="#resizeCallbacks"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenSizeCallbacks"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            screenSizeCallbacks</b>
+                            <a href="#screenSizeCallbacks"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		xs: { enter: [], exit: [] },
+		sm: { enter: [], exit: [] },
+		md: { enter: [], exit: [] },
+		lg: { enter: [], exit: [] },
+		xl: { enter: [], exit: [] }
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/admin-app/app/admin-app-config.service.ts:52</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+
+declare let jQuery: JQueryStatic;
+
+@Injectable()
+export class AdminAppConfig {
+	public config &#x3D; {
+		name: &#x27;traisi&#x27;,
+		logo: &#x27;assets/img/logo_dark.png&#x27;,
+		title: &#x27;TRAISI Version 2&#x27;,
+		version: &#x27;2.0.0&#x27;,
+		/**
+		 * Whether to print and alert some log information
+		 */
+		debug: true,
+		/**
+		 * In-app constants
+		 */
+		settings: {
+			colors: {
+				white: &#x27;#fff&#x27;,
+				black: &#x27;#000&#x27;,
+				&#x27;gray-light&#x27;: &#x27;#999&#x27;,
+				&#x27;gray-lighter&#x27;: &#x27;#eee&#x27;,
+				gray: &#x27;#666&#x27;,
+				&#x27;gray-dark&#x27;: &#x27;#343434&#x27;,
+				&#x27;gray-darker&#x27;: &#x27;#222&#x27;,
+				&#x27;gray-semi-light&#x27;: &#x27;#777&#x27;,
+				&#x27;gray-semi-lighter&#x27;: &#x27;#ddd&#x27;,
+				&#x27;brand-primary&#x27;: &#x27;#5d8fc2&#x27;,
+				&#x27;brand-success&#x27;: &#x27;#64bd63&#x27;,
+				&#x27;brand-warning&#x27;: &#x27;#f0b518&#x27;,
+				&#x27;brand-danger&#x27;: &#x27;#dd5826&#x27;,
+				&#x27;brand-info&#x27;: &#x27;#5dc4bf&#x27;
+			},
+			screens: {
+				&#x27;xs-max&#x27;: 543,
+				&#x27;sm-min&#x27;: 544,
+				&#x27;sm-max&#x27;: 767,
+				&#x27;md-min&#x27;: 768,
+				&#x27;md-max&#x27;: 991,
+				&#x27;lg-min&#x27;: 992,
+				&#x27;lg-max&#x27;: 1199,
+				&#x27;xl-min&#x27;: 1200
+			},
+			navCollapseTimeout: 2500
+		}
+	};
+
+	public resizeCallbacks &#x3D; [];
+	public screenSizeCallbacks &#x3D; {
+		xs: { enter: [], exit: [] },
+		sm: { enter: [], exit: [] },
+		md: { enter: [], exit: [] },
+		lg: { enter: [], exit: [] },
+		xl: { enter: [], exit: [] }
+	};
+
+	public isScreen(size): boolean {
+		const screenPx &#x3D; window.innerWidth;
+		return (
+			(screenPx &gt;&#x3D; this.config.settings.screens[size + &#x27;-min&#x27;] || size &#x3D;&#x3D;&#x3D; &#x27;xs&#x27;) &amp;&amp;
+			(screenPx &lt;&#x3D; this.config.settings.screens[size + &#x27;-max&#x27;] || size &#x3D;&#x3D;&#x3D; &#x27;xl&#x27;)
+		);
+	}
+
+	public getScreenSize(): string {
+		const screenPx &#x3D; window.innerWidth;
+		if (screenPx &lt;&#x3D; this.config.settings.screens[&#x27;xs-max&#x27;]) {
+			return &#x27;xs&#x27;;
+		}
+		if (screenPx &gt;&#x3D; this.config.settings.screens[&#x27;sm-min&#x27;] &amp;&amp; screenPx &lt;&#x3D; this.config.settings.screens[&#x27;sm-max&#x27;]) {
+			return &#x27;sm&#x27;;
+		}
+		if (screenPx &gt;&#x3D; this.config.settings.screens[&#x27;md-min&#x27;] &amp;&amp; screenPx &lt;&#x3D; this.config.settings.screens[&#x27;md-max&#x27;]) {
+			return &#x27;md&#x27;;
+		}
+		if (screenPx &gt;&#x3D; this.config.settings.screens[&#x27;lg-min&#x27;] &amp;&amp; screenPx &lt;&#x3D; this.config.settings.screens[&#x27;lg-max&#x27;]) {
+			return &#x27;lg&#x27;;
+		}
+		if (screenPx &gt;&#x3D; this.config.settings.screens[&#x27;xl-min&#x27;]) {
+			return &#x27;xl&#x27;;
+		}
+	}
+
+	public onScreenSize(size, fn, /* Boolean&#x3D; */ onEnter): void {
+		onEnter &#x3D; typeof onEnter !&#x3D;&#x3D; &#x27;undefined&#x27; ? onEnter : true;
+		if (typeof size &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+			for (let i &#x3D; 0; i &lt; size.length; i++) {
+				this._screenSizeCallbacks[size[i]][onEnter ? &#x27;enter&#x27; : &#x27;exit&#x27;].push(fn);
+			}
+		} else {
+			this._screenSizeCallbacks[size][onEnter ? &#x27;enter&#x27; : &#x27;exit&#x27;].push(fn);
+		}
+	}
+
+	public changeColor(color, ratio, darker): string {
+		const pad &#x3D; function(num, totalChars): number {
+			const padVal &#x3D; &#x27;0&#x27;;
+			num &#x3D; num + &#x27;&#x27;;
+			while (num.length &lt; totalChars) {
+				num &#x3D; padVal + num;
+			}
+			return num;
+		};
+		// Trim trailing/leading whitespace
+		color &#x3D; color.replace(/^\s*|\s*$/, &#x27;&#x27;);
+
+		// Expand three-digit hex
+		color &#x3D; color.replace(/^#?([a-f0-9])([a-f0-9])([a-f0-9])$/i, &#x27;#$1$1$2$2$3$3&#x27;);
+
+		// Calculate ratio
+		const difference &#x3D; Math.round(ratio * 256) * (darker ? -1 : 1),
+			// Determine if input is RGB(A)
+			rgb &#x3D; color.match(
+				new RegExp(
+					&#x27;^rgba?\\(\\s*&#x27; +
+						&#x27;(\\d|[1-9]\\d|1\\d{2}|2[0-4][0-9]|25[0-5])&#x27; +
+						&#x27;\\s*,\\s*&#x27; +
+						&#x27;(\\d|[1-9]\\d|1\\d{2}|2[0-4][0-9]|25[0-5])&#x27; +
+						&#x27;\\s*,\\s*&#x27; +
+						&#x27;(\\d|[1-9]\\d|1\\d{2}|2[0-4][0-9]|25[0-5])&#x27; +
+						&#x27;(?:\\s*,\\s*&#x27; +
+						&#x27;(0|1|0?\\.\\d+))?&#x27; +
+						&#x27;\\s*\\)$&#x27;,
+					&#x27;i&#x27;
+				)
+			),
+			alpha &#x3D; !!rgb &amp;&amp; rgb[4] !&#x3D;&#x3D; null ? rgb[4] : null,
+			// Convert hex to decimal
+			decimal &#x3D; !!rgb
+				? [rgb[1], rgb[2], rgb[3]]
+				: color
+						.replace(/^#?([a-f0-9][a-f0-9])([a-f0-9][a-f0-9])([a-f0-9][a-f0-9])/i, function(): string {
+							return parseInt(arguments[1], 16) + &#x27;,&#x27; + parseInt(arguments[2], 16) + &#x27;,&#x27; + parseInt(arguments[3], 16);
+						})
+						.split(/,/);
+
+		// Return RGB(A)
+		return !!rgb
+			? &#x27;rgb&#x27; +
+					(alpha !&#x3D;&#x3D; null ? &#x27;a&#x27; : &#x27;&#x27;) +
+					&#x27;(&#x27; +
+					Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[0], 10) + difference, darker ? 0 : 255) +
+					&#x27;, &#x27; +
+					Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[1], 10) + difference, darker ? 0 : 255) +
+					&#x27;, &#x27; +
+					Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[2], 10) + difference, darker ? 0 : 255) +
+					(alpha !&#x3D;&#x3D; null ? &#x27;, &#x27; + alpha : &#x27;&#x27;) +
+					&#x27;)&#x27;
+			: // Return hex
+			  [
+					&#x27;#&#x27;,
+					pad(Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[0], 10) + difference, darker ? 0 : 255).toString(16), 2),
+					pad(Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[1], 10) + difference, darker ? 0 : 255).toString(16), 2),
+					pad(Math[darker ? &#x27;max&#x27; : &#x27;min&#x27;](parseInt(decimal[2], 10) + difference, darker ? 0 : 255).toString(16), 2)
+			  ].join(&#x27;&#x27;);
+	}
+
+	public lightenColor(color, ratio): any {
+		return this.changeColor(color, ratio, false);
+	}
+
+	public darkenColor(color, ratio): any {
+		return this.changeColor(color, ratio, true);
+	}
+
+	public max(array): any {
+		return Math.max.apply(null, array);
+	}
+
+	public min(array): any {
+		return Math.min.apply(null, array);
+	}
+
+	public _initResizeEvent(): void {
+		let resizeTimeout;
+		jQuery(window).on(&#x27;resize&#x27;, () &#x3D;&gt; {
+			clearTimeout(resizeTimeout);
+			resizeTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+				jQuery(window).trigger(&#x27;sn:resize&#x27;);
+			}, 100);
+		});
+	}
+
+	public _initOnScreenSizeCallbacks(): void {
+		let resizeTimeout,
+			prevSize &#x3D; this.getScreenSize();
+
+		jQuery(window).resize(() &#x3D;&gt; {
+			clearTimeout(resizeTimeout);
+			resizeTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+				const size &#x3D; this.getScreenSize();
+				if (size !&#x3D;&#x3D; prevSize) {
+					// run only if something changed
+					// run exit callbacks first
+					this._screenSizeCallbacks[prevSize].exit.forEach(fn &#x3D;&gt; {
+						fn(size, prevSize);
+					});
+					// run enter callbacks then
+					this._screenSizeCallbacks[size].enter.forEach(fn &#x3D;&gt; {
+						fn(size, prevSize);
+					});
+					// console.log(&#x27;screen changed. new: &#x27; + size + &#x27;, old: &#x27; + prevSize);
+				}
+				prevSize &#x3D; size;
+			}, 100);
+		});
+	}
+
+	constructor() {
+		this._initResizeEvent();
+		this._initOnScreenSizeCallbacks();
+	}
+
+	public getConfig(): Object {
+		return this.config;
+	}
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminAppConfig.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

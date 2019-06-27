@@ -9,6 +9,7 @@
 	"prettier.printWidth": 140,
 	"prettier.ignorePath": ".vscode/.prettierignore",
 	"terminal.integrated.shell.windows": "C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe",
+	"terminal.integrated.shellArgs.windows": ["--login", "-i"],
 	"prettier.htmlWhitespaceSensitivity": "ignore",
 	"prettier.jsxBracketSameLine": true,
 	"prettier.jsxSingleQuote": true,
