@@ -292,7 +292,7 @@ export class SurveyNavigator {
 				break;
 			}
 		}
-
+		console.log(allValid);
 		return allValid;
 	}
 
@@ -302,11 +302,9 @@ export class SurveyNavigator {
 	public responseChanged(): void {
 		this._initState(this.navigationState$.getValue())
 			.pipe(
-				share()).subscribe(() => {
-					setTimeout(() => {
-						this.nextEnabled$.next(this._checkValidation());
-					});
-
-				});
+				share(),
+				tap({
+					next: () => setTimeout(() => this.nextEnabled$.next(this._checkValidation()))
+				})).subscribe();
 	}
 }

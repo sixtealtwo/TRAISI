@@ -351,11 +351,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Determines whether response saved on
 	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
-		console.log('onResponseSaved');
-		if (responseValid) {
-			// this._viewerStateService.evaluateConditionals(this.question.questionId, this.respondent.id);
-			// this._viewerStateService.evaluateRepeat(this._viewerStateService.viewerState.activeQuestion, this.respondent.id);
-		}
+		//this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
+		// = this.responseValidationState;
 		this._navigator.responseChanged();
 	};
 
