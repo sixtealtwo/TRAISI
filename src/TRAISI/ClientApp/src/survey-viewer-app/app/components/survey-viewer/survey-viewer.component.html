@@ -2,10 +2,6 @@
 	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
 	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
 	</ndc-dynamic>
-
-
-
-
 	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines"
 		#header></traisi-survey-header-display>
 	<div class="survey-body-container flex-grow-1 d-flex flex-column" id="survey-body-container" #surveyBodyContainer
