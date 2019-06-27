@@ -281,6 +281,10 @@ export class SurveyNavigator {
 		}
 	}
 
+	private _checkValidation(): boolean {
+		return true;
+	}
+
 	public responseChanged(): void {
 		this._initState(this.navigationState$.value)
 			.pipe(share())
