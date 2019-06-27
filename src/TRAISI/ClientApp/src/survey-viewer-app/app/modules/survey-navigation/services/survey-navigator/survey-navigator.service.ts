@@ -292,7 +292,6 @@ export class SurveyNavigator {
 				break;
 			}
 		}
-		console.log(allValid);
 		return allValid;
 	}
 
