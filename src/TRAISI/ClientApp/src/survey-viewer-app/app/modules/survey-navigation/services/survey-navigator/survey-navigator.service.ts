@@ -103,12 +103,20 @@ export class SurveyNavigator {
 		return prev;
 	}
 
+	/**
+	 *
+	 * @param questionId
+	 */
 	public navigateToQuestion(questionId: number): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
 			obs.complete();
 		});
 	}
 
+	/**
+	 *
+	 * @param pageId
+	 */
 	public navigateToPage(pageId: number): Observable<NavigationState> {
 		let pageIndex = findIndex(this._state.viewerState.surveyPages, page => {
 			return page.id === pageId;
@@ -139,6 +147,10 @@ export class SurveyNavigator {
 		});
 	}
 
+	/**
+	 *
+	 * @param state
+	 */
 	private _isMultiViewActive(state: NavigationState): boolean {
 		if (state.activeQuestionInstances[0].model.parentSection !== undefined) {
 			return state.activeQuestionInstances[0].model.parentSection.isMultiView;
@@ -147,6 +159,10 @@ export class SurveyNavigator {
 		}
 	}
 
+	/**
+	 * Increments the current navigation state
+	 * @param currentState
+	 */
 	private _incrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 
@@ -167,7 +183,7 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 *
+	 * Decrements the current navigation state.
 	 * @param currentState
 	 */
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
@@ -197,7 +213,6 @@ export class SurveyNavigator {
 		return new Observable((obs: Observer<NavigationState>) => {
 			this._initQuestionInstancesForState(navigationState)
 				.pipe(share())
-
 				.subscribe(questionInstances => {
 					navigationState.activeQuestionInstances = questionInstances;
 
@@ -222,6 +237,10 @@ export class SurveyNavigator {
 		});
 	}
 
+	/**
+	 *
+	 * @param navigationState
+	 */
 	private _initQuestionInstancesForState(navigationState: NavigationState): Observable<QuestionInstance[]> {
 		console.log(navigationState);
 		let activeQuestion = this._state.viewerState.surveyQuestions[navigationState.activeQuestionIndex];
@@ -242,7 +261,7 @@ export class SurveyNavigator {
 				evals.push(this._conditionalEvaluator.shouldHide(question, this._state.viewerState.activeRespondent.id));
 			}
 
-			return Observable.create(obs => {
+			return new Observable(obs => {
 				forkJoin(evals).subscribe((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
 					for (let result of results) {
 						if (result.shouldHide) {
