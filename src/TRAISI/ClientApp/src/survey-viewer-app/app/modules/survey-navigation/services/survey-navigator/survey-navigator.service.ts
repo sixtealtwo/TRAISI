@@ -284,11 +284,21 @@ export class SurveyNavigator {
 	}
 
 	private _checkValidation(): boolean {
-		let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
-		console.log(valid);
-		return valid;
+		// let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
+		let allValid: boolean = true;
+		for(let instance of this.navigationState$.value.activeQuestionInstances) {
+			if(instance.validationState !== ResponseValidationState.VALID){
+				allValid = false;
+				break;
+			}
+		}
+		console.log(allValid);
+		return allValid;
 	}
 
+	/**
+	 *
+	 */
 	public responseChanged(): void {
 		this._initState(this.navigationState$.value)
 			.pipe(

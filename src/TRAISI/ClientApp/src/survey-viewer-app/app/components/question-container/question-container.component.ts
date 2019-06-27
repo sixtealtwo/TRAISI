@@ -334,6 +334,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
+		console.log(validationState);
 		this.questionInstance.validationState = validationState;
 
 		// just call the update after everything else waiting to be processed
