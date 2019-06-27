@@ -30,7 +30,19 @@ export class SurveyNavigator {
 	 */
 	public navigationState$: BehaviorSubject<NavigationState>;
 
+	/**
+	 *
+	 *
+	 * @type {BehaviorSubject<boolean>}
+	 */
 	public previousEnabled$: BehaviorSubject<boolean>;
+
+	/**
+	 *
+	 *
+	 * @type {BehaviorSubject<boolean>}
+	 */
+	public nextEnabled$: BehaviorSubject<boolean>;
 
 	/**
 	 *Creates an instance of SurveyNavigator.
@@ -49,12 +61,14 @@ export class SurveyNavigator {
 
 		this.navigationState$ = new BehaviorSubject<NavigationState>(initialState);
 		this.previousEnabled$ = new BehaviorSubject<boolean>(false);
+		this.nextEnabled$ = new BehaviorSubject<boolean>(false);
 		this.navigationStateChanged.next(initialState);
 	}
 
 	/** */
 	public initialize(): void {
 		this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe();
+		this.nextEnabled$.next(true);
 	}
 
 	public _getBaseQuestionModels(part: SurveyViewPage | SurveyViewSection): SurveyViewQuestion[] {
@@ -81,8 +95,7 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe(state => {
-			if(state.activeQuestionIndex === 0)
-			{
+			if (state.activeQuestionIndex === 0) {
 				this.previousEnabled$.next(false);
 			}
 			this.navigationState$.next(state);
