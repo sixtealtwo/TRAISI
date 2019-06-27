@@ -122,7 +122,7 @@ import { SurveyNavigationModule } from './modules/survey-navigation/survey-navig
 		]),
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
-		SurveyNavigationModule
+		SurveyNavigationModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,
