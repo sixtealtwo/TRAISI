@@ -146,7 +146,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public ngOnInit(): void {}
 
 	public reset(): void {
-		this._router.navigate( ['#basic']);
+		//  this._router.navigate( ['#basic']);
 	}
 
 	public pipeDropdown(e: TreeviewSelection): string {

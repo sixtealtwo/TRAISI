@@ -28,6 +28,8 @@ import { SurveyNotification } from '../models/survey-notification';
 import { ViewContainerData } from '@angular/core/src/view';
 import { ScreeningQuestions } from './models/screening-questions.model';
 import { BUILDER_SERVICE } from 'traisi-question-sdk';
+import { IconPickerComponent } from 'ngx-icon-picker';
+import { FormGroup, FormControl } from '@angular/forms';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -93,6 +95,12 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public currentPage: string = 'welcome';
 
+	public ipIconPack: string[];
+
+	public iconFormGroup: FormGroup;
+    public iconCss = new FormControl();
+	
+
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];
 	private dragResult: Subject<boolean>;
@@ -135,6 +143,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			});
 		});
 		this.getPagePayload = this.getPagePayload.bind(this);
+		this.ipIconPack = ['fa5'];
 	}
 
 	public ngOnInit(): void {
@@ -144,6 +153,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 			this.loadPageStructure();
 		});
 		this.switchPage('welcome');
+		this.iconFormGroup = new FormGroup({iconCss: this.iconCss});
 	}
 
 	public ngOnDestroy(): void {
