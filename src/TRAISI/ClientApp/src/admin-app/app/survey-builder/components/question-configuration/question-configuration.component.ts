@@ -40,6 +40,7 @@ import Quill from 'quill';
 import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select.component';
 import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
 import { QuestionOptionValue } from '../../models/question-option-value.model';
+import { Router } from '@angular/router';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -138,10 +139,15 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	constructor(
 		private builderService: SurveyBuilderService,
 		private componentFactoryResolver: ComponentFactoryResolver,
-		private cDRef: ChangeDetectorRef
+		private cDRef: ChangeDetectorRef,
+		private _router: Router
 	) {}
 
-	public ngOnInit() {}
+	public ngOnInit(): void {}
+
+	public reset(): void {
+		this._router.navigate( ['#basic']);
+	}
 
 	public pipeDropdown(e: TreeviewSelection): string {
 		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;

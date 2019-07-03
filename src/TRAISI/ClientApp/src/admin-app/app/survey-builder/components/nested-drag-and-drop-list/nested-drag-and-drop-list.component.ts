@@ -230,6 +230,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		} else {
 			this.dealingWithPart = false;
 		}
+		this.qConfiguration.reset(); 
 		this.configurationModal.show();
 	}
 
