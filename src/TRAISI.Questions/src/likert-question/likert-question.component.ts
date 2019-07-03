@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ResponseData, ResponseValidationState } from 'traisi-question-sdk';
+import { ResponseData, ResponseValidationState, OptionSelectResponseData } from 'traisi-question-sdk';
 import {
 	SurveyQuestion,
 	ResponseTypes,
@@ -69,7 +69,8 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 	 * 
 	 * @param option 
 	 */
-	public onModelChanged(option: QuestionOption): void {
+	public onModelChanged(option: OptionSelectResponseData): void {
+		option.value = option.code;
 		this.response.emit([option]);
 
 	}
