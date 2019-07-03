@@ -58,7 +58,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	loadConfigurationData(data: QuestionConfiguration[]) {
+	public loadConfigurationData(data: QuestionConfiguration[]): void {
 
 	}
 
@@ -93,8 +93,9 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 
 	}
 
-	public onModelChanged(option: QuestionOption): void {
+	public onModelChanged(option: OptionSelectResponseData): void {
 		if (option) {
+			option.value = option.code;
 			this.response.emit([option]);
 		}
 	}
