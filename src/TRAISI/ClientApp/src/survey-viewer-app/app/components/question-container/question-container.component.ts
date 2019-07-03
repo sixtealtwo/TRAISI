@@ -83,7 +83,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public activeQuestionIndex: number = 0;
 
-
 	// @Input()
 	// public repeatContainer: SurveyRepeatContainer;
 
@@ -145,7 +144,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		public viewContainerRef: ViewContainerRef,
 		private _navigation: SurveyViewerNavigationService,
 		private _navigator: SurveyNavigator
-	) { }
+	) {}
 
 	/**
 	 * Calcs unique repeat number
@@ -159,7 +158,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Unregister question etc and unsubscribe certain subs
 	 */
-	public ngOnDestroy(): void { }
+	public ngOnDestroy(): void {}
 
 	/**
 	 *
@@ -200,12 +199,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				// this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
 
-				this._responseSaved
-					.pipe(
-						share(),
-						skip(1),
-					)
-					.subscribe(this.onResponseSaved);
+				this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
 
 				this._responderService
 					.getSavedResponse(this.surveyId, this.question.questionId, this.respondent.id, this.calcUniqueRepeatNumber())
@@ -252,8 +246,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					this._viewerStateService.viewerState.isNextEnabled = true;
 				}
 			},
-			error => { },
-			() => { }
+			error => {},
+			() => {}
 		);
 	}
 
@@ -351,7 +345,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Determines whether response saved on
 	 */
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
-		//this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
+		// this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
 		// = this.responseValidationState;
 		this._navigator.responseChanged();
 	};

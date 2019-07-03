@@ -190,7 +190,6 @@ export class SurveyResponderService implements SurveyResponder {
 
 		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
 			map(responses => {
-				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -352,7 +351,7 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>
 	): void {
 		if (responseValid) {
-			// this._cachedByNameSavedResponses[this._questionIdToNameMap[questionId]][respondentId] = [data];
+			console.log(data);
 			this._cachedSavedResponses[questionId][respondentId] = data;
 		}
 

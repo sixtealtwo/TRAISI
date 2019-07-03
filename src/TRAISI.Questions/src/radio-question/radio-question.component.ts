@@ -82,7 +82,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	/**
 	 * Determines whether model changed on
 	 */
-	public onModelChanged(option: QuestionOption): void {
+	public onModelChanged(option: OptionSelectResponseData): void {
+		option.value = option.code;
 		this.response.emit([option]);
 	}
 	/**

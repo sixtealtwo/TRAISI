@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, skip } from 'rxjs/operators';
 import {
 	OnSaveResponseStatus,
 	OnVisibilityChanged,
@@ -73,20 +73,25 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			}
 		}
 
-		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
-			if (this.textInput === undefined) {
-				return;
-			}
-			if (!this.isInputValid(value.textInput)) {
-				this.validationState.emit(ResponseValidationState.INVALID);
-			} else {
-				let data: StringResponseData = {
-					value: this.textInput
-				};
+		this.inputForm.valueChanges
+			.pipe(
+				debounceTime(1000),
+				skip(1)
+			)
+			.subscribe(value => {
+				if (this.textInput === undefined) {
+					return;
+				}
+				if (!this.isInputValid(value.textInput)) {
+					this.validationState.emit(ResponseValidationState.INVALID);
+				} else {
+					let data: StringResponseData = {
+						value: this.textInput
+					};
 
-				this.response.emit(data);
-			}
-		});
+					this.response.emit(data);
+				}
+			});
 		this.isLoaded = true;
 	};
 
