@@ -1,21 +1,12 @@
-<div class="admin-toolbar">
-	<nav class="navbar navbar-expand  navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">Admin</a>
+<span class="admin-toolbar">
 
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	<span class="form-inline my-2 my-lg-0 pr-3">
+		User: {{ currentUser.userName }}
 
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link" (click)="deleteAllResponses()">Delete Responses <span class="sr-only">(current)</span></a>
-				</li>
-			</ul>
+	</span>
+	<a href="#" (click)="deleteAllResponses()">Delete Responses <span class="sr-only">(current)</span></a>
 
-			<span class="form-inline my-2 my-lg-0">
-				User: {{ currentUser.userName }}
 
-			</span>
-		</div>
 
-	</nav>
-</div>
+</span>

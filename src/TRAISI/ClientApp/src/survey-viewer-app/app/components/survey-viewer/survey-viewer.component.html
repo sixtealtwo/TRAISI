@@ -1,5 +1,5 @@
 <div id="question-viewer-wrapper" class="flex-column d-flex" *ngIf="loadedComponents">
-	<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
+
 	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
 	</ndc-dynamic>
 	<traisi-survey-header-display [pageTextColour]="pageTextColour" [useWhiteProgressLine]="useLightNavigationLines"
@@ -48,8 +48,8 @@
 				<div class="row justify-content-center">
 					<span class="w-50 mx-auto text-right mt-2 mb-2">
 						<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
-							[disabled]="!(navigator.previousEnabled$ | async)"
-							class="btn  pl-4 pr-4  survey-nav-button" type="button">
+							[disabled]="!(navigator.previousEnabled$ | async)" class="btn  pl-4 pr-4  survey-nav-button"
+							type="button">
 							<i class="fas fa-arrow-alt-circle-left mr-1"></i>
 							{{ 'Viewer.Previous' | translate }}
 						</button>
@@ -84,4 +84,8 @@
 			<ndc-dynamic *ngIf="footerComponent" [ndcDynamicComponent]="footerComponent"
 				[ndcDynamicInputs]="footerInputs">
 			</ndc-dynamic>
+
+			<div class="admin-container">
+				<traisi-admin-toolbar *ngIf="isAdmin"></traisi-admin-toolbar>
+			</div>
 		</div>

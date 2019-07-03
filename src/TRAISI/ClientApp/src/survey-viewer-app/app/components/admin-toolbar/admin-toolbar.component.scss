@@ -1,5 +1,14 @@
 .admin-toolbar {
-	nav {
-		padding: 10px;
-	}
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+
+traisi-admin-toolbar {
+	position: fixed;
+    right: 10px;
+	bottom: 0;
+	height: 35px;
 }
