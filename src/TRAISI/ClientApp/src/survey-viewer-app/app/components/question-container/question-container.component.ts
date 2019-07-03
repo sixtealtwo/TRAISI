@@ -333,6 +333,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState = validationState;
 
+		this._navigator.validationChanged();
+
 		// just call the update after everything else waiting to be processed
 		setTimeout(() => {
 			this._navigation.updateNavigationStates();
