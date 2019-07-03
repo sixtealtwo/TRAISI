@@ -12,7 +12,7 @@ import {
 } from 'traisi-question-sdk';
 import { NumberQuestionConfiguration } from './number-question.configuration';
 import templateString from './number-question.component.html';
-import {  debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 @Component({
@@ -124,7 +124,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 
-		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
+		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
 			if (this.model !== undefined) {
 				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 
@@ -134,6 +134,8 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 					if (validated && this.inputForm.valid) {
 						this.response.emit(this._numberModel);
+					} else {
+						this.validationState.emit(ResponseValidationState.INVALID);
 					}
 				}
 			}
