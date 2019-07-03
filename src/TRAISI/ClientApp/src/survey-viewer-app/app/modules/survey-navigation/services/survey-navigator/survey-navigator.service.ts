@@ -179,6 +179,7 @@ export class SurveyNavigator {
 			].parentSection.questions.length;
 		}
 
+		console.log(newState.activeQuestionIndex);
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;

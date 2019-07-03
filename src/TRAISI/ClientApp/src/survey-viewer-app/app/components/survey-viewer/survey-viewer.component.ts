@@ -467,8 +467,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					for (let s of page.sections) {
 						qs.push(s);
 					}
-					sortBy(qs, () => {
-						return qs['order'];
+					qs = sortBy(qs, (q) => {
+						return q['order'];
 					});
 
 					for (let q of qs) {
@@ -482,7 +482,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					}
 				}
 
-				console.log(questions);
+				console.log(this.viewerState);
 				this.viewerState.surveyQuestions = questions;
 
 				this.navigator.initialize();
@@ -525,10 +525,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		);
 	}
 
-	public trackById(question,question2) {
+	public trackById(question, question2) {
 		// console.log(question,question2);
-		return question2.id
-	  }
+		return question2.id;
+	}
 
 	public updateNavigation(): void {
 		let conditionalResult = this._viewerStateService.evaluateConditionals(
@@ -571,11 +571,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// this._navigationService.navigatePrevious();
 
 		this.navigator.navigatePrevious().subscribe({
-			next: v => {
-			},
-			complete: () => {
-
-			}
+			next: v => {},
+			complete: () => {}
 		});
 	}
 

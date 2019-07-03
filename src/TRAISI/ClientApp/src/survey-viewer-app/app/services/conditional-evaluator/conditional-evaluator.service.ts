@@ -41,8 +41,6 @@ export class ConditionalEvaluator {
 				return this.evaluatLessThan(sourceData, value);
 			case 'greaterThan':
 				return this.evaluatGreaterThan(sourceData, value);
-			case 'contains':
-				return this.evaluateContains(sourceData, value);
 			case 'isNotEqualTo':
 				return !this.evaluateEquals(sourceData, value);
 			case 'isAnyOf':
@@ -67,10 +65,7 @@ export class ConditionalEvaluator {
 	 * @param value
 	 */
 	private evaluateContains(sourceData: any[], value: string): boolean {
-
-		const val: boolean = sourceData[0].value.indexOf(value) >= 0;
-
-		return val;
+		return sourceData[0].value.indexOf(value) >= 0;
 	}
 
 	/**
@@ -191,7 +186,6 @@ export class ConditionalEvaluator {
 				}
 
 				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe(v => {
-
 					let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
 						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
