@@ -133,7 +133,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 					const validated: boolean = this.validateInput();
 
 					if (validated && this.inputForm.valid) {
-						this.response.emit([{ value: this._numberModel }]);
+						this.response.emit({ value: this._numberModel });
 					} else {
 						this.validationState.emit(ResponseValidationState.INVALID);
 					}

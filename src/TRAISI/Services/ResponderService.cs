@@ -232,7 +232,6 @@ namespace TRAISI.Services
             if (response.ResponseValues.Count == 0) {
                 response.ResponseValues.Add(new IntegerResponse());
             }
-
             (response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
 
         }
