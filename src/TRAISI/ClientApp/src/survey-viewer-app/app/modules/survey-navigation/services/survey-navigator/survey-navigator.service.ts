@@ -91,20 +91,19 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 *
+	 * Navigate to the previous question or section.
 	 */
 	public navigatePrevious(): Observable<NavigationState> {
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe(state => {
-			if (state.activeQuestionIndex === 0) {
-				this.previousEnabled$.next(false);
-			}
-
 			if (this._isMultiViewActive(state)) {
 				state.activeQuestionIndex -=
 					this._state.viewerState.surveyQuestions[state.activeQuestionIndex].parentSection.questions.length - 1;
 			}
 			this.navigationState$.next(state);
+			if (state.activeQuestionIndex === 0) {
+				this.previousEnabled$.next(false);
+			}
 		});
 		return prev;
 	}
@@ -195,6 +194,7 @@ export class SurveyNavigator {
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 		newState.activeQuestionIndex -= 1;
+
 		return this._initState(newState).pipe(
 			expand(state => {
 				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
@@ -302,8 +302,6 @@ export class SurveyNavigator {
 
 	public validationChanged(): void {
 		this.nextEnabled$.next(this._checkValidation());
-
-		console.log(this.navigationState$.value);
 	}
 
 	/**
