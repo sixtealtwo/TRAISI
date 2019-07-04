@@ -1,144 +1,204 @@
 <div class="js-builder-sidebar-content">
-	<header class="logo">
-		<a [routerLink]=" [''] ">
-			<img src="{{ config.logo }} " height="59">
-		</a>
-	</header>
 	<!-- main notification links are placed inside of .sidebar-nav -->
 	<div class="builder-qtypes">
-		<ul class="sidebar-nav">
-			<smooth-dnd-container *ngIf="!disabled" id="qTypesList" [behaviour]="'copy'" (dragStart)="onDragStart($event)" (dragEnd)="onDragEnd($event)"
-			 [groupName]="'builder-questions'" [getChildPayload]="getQuestionPayload">
-				<smooth-dnd-draggable>
-					<li class="chooser section-tool-item">
-						<a (click)="addSectionToList()">
-							<span class="icon" [tooltip]="'Section'" placement="right" container="body" containerClass="tooltip-builder">
-								<i class="chooser-icon fas fa-archive"></i>
+		<smooth-dnd-container
+			*ngIf="!disabled"
+			id="qTypesList"
+			[behaviour]="'copy'"
+			(dragStart)="onDragStart($event)"
+			(dragEnd)="onDragEnd($event)"
+			[groupName]="'builder-questions'"
+			[getChildPayload]="getQuestionPayload"
+		>
+			<smooth-dnd-draggable>
+				<li class="chooser section-tool-item">
+					<a (click)="addSectionToList()">
+						<span class="icon" [tooltip]="'Section'" placement="right" container="body" containerClass="tooltip-builder">
+							<i class="chooser-icon fas fa-archive"></i>
+						</span>
+						Section
+					</a>
+				</li>
+			</smooth-dnd-draggable>
+			<ng-container *ngFor="let item of questionTypeDefinitions">
+				<smooth-dnd-draggable [hidden]="item.typeName == 'household' && householdAdded">
+					<li class="chooser">
+						<a (click)="addQuestionTypeToList(item)">
+							<span
+								class="icon"
+								[tooltip]="getQuestionTypeName(item)"
+								placement="right"
+								container="body"
+								containerClass="tooltip-builder"
+							>
+								<i class="chooser-icon" [ngClass]="item.icon"></i>
 							</span>
-							Section
+							{{ getQuestionTypeName(item) }}
 						</a>
 					</li>
 				</smooth-dnd-draggable>
-				<ng-container *ngFor="let item of questionTypeDefinitions">
-					<smooth-dnd-draggable [hidden]="(item.typeName == 'household' && householdAdded)">
+			</ng-container>
+		</smooth-dnd-container>
+		<li *ngIf="disabled">
+			<!-- an example of nested submenu. basic bootstrap collapse component -->
+			<a class="collapsed" data-target="#layout-headers" data-toggle="collapse">
+				<span class="icon">
+					<i class="fas fa-th-large"></i>
+				</span>
+				Headers
+				<i class="toggle fas fa-angle-down"></i>
+			</a>
+			<ul id="layout-headers" class="collapse">
+				<smooth-dnd-container
+					[dragClass]="content - drag - item"
+					id="pageBuilderList"
+					[behaviour]="'copy'"
+					[groupName]="'special-header'"
+					[getChildPayload]="getPageHeaderPayload"
+				>
+					<smooth-dnd-draggable>
 						<li class="chooser">
-							<a (click)="addQuestionTypeToList(item)">
-								<span class="icon" [tooltip]="getQuestionTypeName(item)" placement="right" container="body" containerClass="tooltip-builder">
-									<i class="chooser-icon" [ngClass]="item.icon"></i>
+							<a>
+								<span
+									class="icon"
+									placement="right"
+									tooltip="Centred Logo Header"
+									container="body"
+									containerClass="tooltip-builder"
+								>
+									<i class="chooser-icon fas fa-th-large"></i>
 								</span>
-								{{ getQuestionTypeName(item) }}
+								1 Logo
 							</a>
 						</li>
 					</smooth-dnd-draggable>
-				</ng-container>
-			</smooth-dnd-container>
-			<li *ngIf="disabled">
-				<!-- an example of nested submenu. basic bootstrap collapse component -->
-				<a class="collapsed" data-target="#layout-headers" data-toggle="collapse">
-					<span class="icon">
-						<i class="fas fa-th-large"></i>
-					</span>
-					Headers
-					<i class="toggle fas fa-angle-down"></i>
-				</a>
-				<ul id="layout-headers" class="collapse">
-					<smooth-dnd-container [dragClass]="content-drag-item" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-header'" [getChildPayload]="getPageHeaderPayload">
-						<smooth-dnd-draggable>
-							<li class="chooser">
-								<a>
-									<span class="icon" placement="right" tooltip="Centred Logo Header" container="body" containerClass="tooltip-builder">
-										<i class="chooser-icon fas fa-th-large"></i>
-									</span>
-									1 Logo
-								</a>
-							</li>
-						</smooth-dnd-draggable>
-						<smooth-dnd-draggable>
-							<li class="chooser">
-								<a>
-									<span class="icon" placement="right" tooltip="Two Logo Header" container="body" containerClass="tooltip-builder">
-										<i class="chooser-icon fas fa-th-large"></i>
-									</span>
-									2 Logo
-								</a>
-							</li>
-						</smooth-dnd-draggable>
-					</smooth-dnd-container>
-				</ul>
-			</li>
-			<li *ngIf="disabled">
-				<!-- an example of nested submenu. basic bootstrap collapse component -->
-				<a class="collapsed" data-target="#layout-surveyAccess" data-toggle="collapse">
-					<span class="icon">
-						<i class="fas fa-th-large"></i>
-					</span>
-					Survey Starts
-					<i class="toggle fas fa-angle-down"></i>
-				</a>
-				<ul id="layout-surveyAccess" class="collapse">
-					<smooth-dnd-container  [dragClass]="content-drag-item"
-					 id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-surveyAccess'" [getChildPayload]="getPageSurveyAccessPayload">
-						<smooth-dnd-draggable>
-							<li class="chooser">
-								<a>
-									<span class="icon" placement="right" tooltip="Two Column Media Survey Start Section" container="body" containerClass="tooltip-builder">
-										<i class="chooser-icon fas fa-th-large"></i>
-									</span>
-									Media Start
-								</a>
-							</li>
-						</smooth-dnd-draggable>
-					</smooth-dnd-container>
-				</ul>
-			</li>
-			<li *ngIf="disabled">
-				<!-- an example of nested submenu. basic bootstrap collapse component -->
-				<a class="collapsed" data-target="#layout-content" data-toggle="collapse">
-					<span class="icon">
-						<i class="fas fa-th-large"></i>
-					</span>
-					Other Content
-					<i class="toggle fas fa-angle-down"></i>
-				</a>
-				<ul id="layout-content" class="collapse">
-					<smooth-dnd-container [dragClass]="content-drag-item" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-content'" [getChildPayload]="getPageContentPayload">
-						<smooth-dnd-draggable>
-							<li class="chooser">
-								<a>
-									<span class="icon" placement="right" tooltip="Generic Text Area" container="body" containerClass="tooltip-builder">
-										<i class="chooser-icon fas fa-th-large"></i>
-									</span>
-									Text Area
-								</a>
-							</li>
-						</smooth-dnd-draggable>
-					</smooth-dnd-container>
-				</ul>
-			</li>
-			<li *ngIf="disabled">
-				<!-- an example of nested submenu. basic bootstrap collapse component -->
-				<a class="collapsed" data-target="#layout-footers" data-toggle="collapse">
-					<span class="icon">
-						<i class="fas fa-th-large"></i>
-					</span>
-					Footers
-					<i class="toggle fas fa-angle-down"></i>
-				</a>
-				<ul id="layout-footers" class="collapse">
-					<smooth-dnd-container [dragClass]="content-drag-item" *ngIf="disabled" id="pageBuilderList" [behaviour]="'copy'" [groupName]="'special-footer'" [getChildPayload]="getPageFooterPayload">
-						<smooth-dnd-draggable>
-							<li class="chooser">
-								<a>
-									<span class="icon" placement="right" tooltip="Centred Copyright Footer" container="body" containerClass="tooltip-builder">
-										<i class="chooser-icon fas fa-th-large"></i>
-									</span>
-									Simple Copyright
-								</a>
-							</li>
-						</smooth-dnd-draggable>
-					</smooth-dnd-container>
-				</ul>
-			</li>
-		</ul>
+					<smooth-dnd-draggable>
+						<li class="chooser">
+							<a>
+								<span
+									class="icon"
+									placement="right"
+									tooltip="Two Logo Header"
+									container="body"
+									containerClass="tooltip-builder"
+								>
+									<i class="chooser-icon fas fa-th-large"></i>
+								</span>
+								2 Logo
+							</a>
+						</li>
+					</smooth-dnd-draggable>
+				</smooth-dnd-container>
+			</ul>
+		</li>
+		<li *ngIf="disabled">
+			<!-- an example of nested submenu. basic bootstrap collapse component -->
+			<a class="collapsed" data-target="#layout-surveyAccess" data-toggle="collapse">
+				<span class="icon">
+					<i class="fas fa-th-large"></i>
+				</span>
+				Survey Starts
+				<i class="toggle fas fa-angle-down"></i>
+			</a>
+			<ul id="layout-surveyAccess" class="collapse">
+				<smooth-dnd-container
+					[dragClass]="content - drag - item"
+					id="pageBuilderList"
+					[behaviour]="'copy'"
+					[groupName]="'special-surveyAccess'"
+					[getChildPayload]="getPageSurveyAccessPayload"
+				>
+					<smooth-dnd-draggable>
+						<li class="chooser">
+							<a>
+								<span
+									class="icon"
+									placement="right"
+									tooltip="Two Column Media Survey Start Section"
+									container="body"
+									containerClass="tooltip-builder"
+								>
+									<i class="chooser-icon fas fa-th-large"></i>
+								</span>
+								Media Start
+							</a>
+						</li>
+					</smooth-dnd-draggable>
+				</smooth-dnd-container>
+			</ul>
+		</li>
+		<li *ngIf="disabled">
+			<!-- an example of nested submenu. basic bootstrap collapse component -->
+			<a class="collapsed" data-target="#layout-content" data-toggle="collapse">
+				<span class="icon">
+					<i class="fas fa-th-large"></i>
+				</span>
+				Other Content
+				<i class="toggle fas fa-angle-down"></i>
+			</a>
+			<ul id="layout-content" class="collapse">
+				<smooth-dnd-container
+					[dragClass]="content - drag - item"
+					id="pageBuilderList"
+					[behaviour]="'copy'"
+					[groupName]="'special-content'"
+					[getChildPayload]="getPageContentPayload"
+				>
+					<smooth-dnd-draggable>
+						<li class="chooser">
+							<a>
+								<span
+									class="icon"
+									placement="right"
+									tooltip="Generic Text Area"
+									container="body"
+									containerClass="tooltip-builder"
+								>
+									<i class="chooser-icon fas fa-th-large"></i>
+								</span>
+								Text Area
+							</a>
+						</li>
+					</smooth-dnd-draggable>
+				</smooth-dnd-container>
+			</ul>
+		</li>
+		<li *ngIf="disabled">
+			<!-- an example of nested submenu. basic bootstrap collapse component -->
+			<a class="collapsed" data-target="#layout-footers" data-toggle="collapse">
+				<span class="icon">
+					<i class="fas fa-th-large"></i>
+				</span>
+				Footers
+				<i class="toggle fas fa-angle-down"></i>
+			</a>
+			<ul id="layout-footers" class="collapse">
+				<smooth-dnd-container
+					[dragClass]="content - drag - item"
+					*ngIf="disabled"
+					id="pageBuilderList"
+					[behaviour]="'copy'"
+					[groupName]="'special-footer'"
+					[getChildPayload]="getPageFooterPayload"
+				>
+					<smooth-dnd-draggable>
+						<li class="chooser">
+							<a>
+								<span
+									class="icon"
+									placement="right"
+									tooltip="Centred Copyright Footer"
+									container="body"
+									containerClass="tooltip-builder"
+								>
+									<i class="chooser-icon fas fa-th-large"></i>
+								</span>
+								Simple Copyright
+							</a>
+						</li>
+					</smooth-dnd-draggable>
+				</smooth-dnd-container>
+			</ul>
+		</li>
 	</div>
 </div>

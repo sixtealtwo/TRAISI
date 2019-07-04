@@ -3,7 +3,7 @@
 		"lib": [
 			"es2017",
 			"dom",
-			"esnext.asynciterable"
+			"esnext"
 		],
 		"rootDirs": [
 			"../shared/services"

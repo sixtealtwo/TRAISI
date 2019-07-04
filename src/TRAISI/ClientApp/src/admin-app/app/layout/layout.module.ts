@@ -19,6 +19,7 @@ import { ChatMessageComponent } from './chat-sidebar/chat-message/chat-message.c
 import { SearchPipe } from './pipes/search.pipe';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { ChatAppComponent } from '../chat-app/chat-app.component';
+import { MainSidebarComponent } from './main-sidebar/main-sidebar.component';
 
 @NgModule({
 	imports: [
@@ -30,7 +31,7 @@ import { ChatAppComponent } from '../chat-app/chat-app.component';
 		FormsModule,
 		LoadingBarRouterModule,
 		TranslateModule.forChild({
-		loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
+			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
 		})
 	],
 	declarations: [
@@ -40,8 +41,8 @@ import { ChatAppComponent } from '../chat-app/chat-app.component';
 		ChatSidebarComponent,
 		SearchPipe,
 		ChatMessageComponent,
-		ChatAppComponent
+		ChatAppComponent,
+		MainSidebarComponent
 	]
 })
-export class LayoutModule {
-}
+export class LayoutModule {}

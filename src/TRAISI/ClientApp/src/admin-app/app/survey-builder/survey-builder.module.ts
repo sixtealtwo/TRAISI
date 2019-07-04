@@ -21,7 +21,6 @@ import { NgxSelectModule } from 'ngx-select-ex';
 import { Select2Module } from 'ng2-select2';
 import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
-import { ChartsModule } from 'ng2-charts';
 import { CheckboxComponent } from './components/question-configuration/checkbox-field/checkbox.component';
 import { DateInputComponent } from './components/question-configuration/date-input-field/date-input.component';
 import { DropdownListComponent } from './components/question-configuration/dropdown-list-field/dropdown-list.component';
@@ -75,7 +74,6 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 		NgxSelectModule,
 		NgxBootstrapSliderModule,
 		Select2Module,
-		ChartsModule,
 		TreeviewModule,
 		DropzoneModule,
 		ColorPickerModule,

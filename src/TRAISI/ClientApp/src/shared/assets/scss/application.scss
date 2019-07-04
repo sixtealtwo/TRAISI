@@ -1,35 +1,37 @@
-@import "variables";
-@import "mixins";
+// @import "variables";
+//@import "mixins";
 
 
 //@import "bootstrap-sass/bootstrap/variables";
-@import "~bootstrap/scss/bootstrap"; 
+@import "theme";
 
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
 
 @import "~awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
 
 
-@import "~font-awesome/scss/font-awesome";
-@import "~glyphicons-halflings/scss/glyphicons-halflings";
-@import './fonts/flaticon/flaticon';
+//@import "~font-awesome/scss/font-awesome";
+//@import "~glyphicons-halflings/scss/glyphicons-halflings";
+//@import './fonts/flaticon/flaticon';
 
 
-@import "bootstrap-override"; 
-@import "libs-override";
+//@import "bootstrap-override";
+//@import "libs-override";
 
-@import "select2-variables";
-@import '~select2/src/scss/core';
+
+
+// @import "select2-variables";
+// @import '~select2/src/scss/core';
 //@import '~select2-bootstrap-theme/src/select2-bootstrap';
 @import '~awesome-bootstrap-checkbox/awesome-bootstrap-checkbox';
-@import '~ngx-bootstrap/datepicker/bs-datepicker'; 
+@import '~ngx-bootstrap/datepicker/bs-datepicker';
 //
 
 
 
 //end custom libs
 
-//everything below this line is required for essential styling
+/*
 @import "font";
 @import "general";
 @import "global-transitions";
@@ -38,4 +40,4 @@
 @import "utils";
 @import "print";
 @import "toasty";
-// @import "quill";
+// @import "quill"; */

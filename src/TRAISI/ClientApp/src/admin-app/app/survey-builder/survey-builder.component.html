@@ -13,9 +13,7 @@
 		</div>
 	</div>
 	<div role="navigation" id="builderSidebar" class="sidebar order-correct">
-		<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded"
-			[disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
-			(loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
+
 	</div>
 	<div [@fadeInOut] class="clearfix" [class.disable-clicks]="!loadedSpecialPages || !loadedIndividualPage">
 		<ul class="nav nav-tabs float-left" id="myTab" role="tablist">
@@ -365,3 +363,27 @@
 		</div>
 	</div>
 </div>
+
+<div class="page-sidebar">
+		<!-- .sidebar-header -->
+		<header class="sidebar-header d-sm-none">
+			<div class="sidebar-section">
+
+			</div>
+		</header>
+		<!-- /.sidebar-header -->
+		<!-- .sidebar-section -->
+		<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded"
+		[disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
+		(loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
+		<button
+			type="button"
+			class="close mt-n1 d-none d-xl-none d-sm-block"
+			onclick="Looper.toggleSidebar()"
+			aria-label="Close"
+		>
+			<span aria-hidden="true">×</span>
+		</button>
+
+		<!-- /.sidebar-section -->
+	</div>
