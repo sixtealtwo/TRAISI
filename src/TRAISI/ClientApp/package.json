@@ -101,6 +101,7 @@
 		"ngx-monaco-editor": "^7.0.0",
 		"ngx-quill": "^5.1.0",
 		"ngx-select-ex": "^3.6.10",
+		"ngx-smooth-dnd": "^0.3.0",
 		"ngx-toastr": "^10.0.4",
 		"ngx-tree-select": "^0.14.0",
 		"ngx-treeview": "^6.0.2",

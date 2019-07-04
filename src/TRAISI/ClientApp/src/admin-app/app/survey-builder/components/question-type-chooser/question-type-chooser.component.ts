@@ -7,12 +7,14 @@ import {
 	EventEmitter,
 	HostListener,
 	Input,
-	AfterViewInit
+	AfterViewInit,
+	ViewChild
 } from '@angular/core';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { AppConfig } from '../../../app.config';
 import { ConfigurationService } from '../../../../../shared/services/configuration.service';
+import { ContainerComponent } from 'ngx-smooth-dnd';
 
 @Component({
 	selector: 'traisi-question-type-chooser',
@@ -35,6 +37,9 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	addQuestionType: EventEmitter<QuestionTypeDefinition> = new EventEmitter<QuestionTypeDefinition>();
 	@Output()
 	loadedQuestionTypes: EventEmitter<any> = new EventEmitter();
+
+	@ViewChild('element')
+	public element: ContainerComponent;
 
 	constructor(
 		private surveyBuilderService: SurveyBuilderService,
@@ -65,8 +70,16 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.el.nativeElement.addEventListener('touchmove', event => event.preventDefault());
+		// this.element.
+
+		// this.element.getGhostParent = this.getGhostParent;
 	}
 
+
+	public getGhostParent(): HTMLElement {
+		console.log('in get ghost parent')
+		return document.body;
+	}
 
 
 	initSidebarScroll(): void {

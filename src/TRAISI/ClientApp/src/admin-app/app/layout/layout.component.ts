@@ -11,7 +11,8 @@ declare let Hammer: any;
 @Component({
 	selector: 'app-layout',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: './layout.template.html'
+	templateUrl: './layout.template.html',
+	styleUrls: ['layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
 	@HostBinding('class.nav-static') navStatic: boolean;

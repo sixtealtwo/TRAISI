@@ -11,7 +11,7 @@ import { NgxTreeSelectModule } from 'ngx-tree-select';
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { QuillModule } from 'ngx-quill';
-import { NgxSmoothDnDModule } from '../shared/ngx-smooth-dnd/ngx-smooth-dnd.module';
+import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
 import { WidgetModule } from '../layout/widget/widget.module';
@@ -47,7 +47,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { AngularDraggableModule } from 'angular2-draggable';
-import {NgToggleModule} from '@nth-cloud/ng-toggle';
+import { NgToggleModule } from '@nth-cloud/ng-toggle';
 import { Header2Component } from './components/special-page-builder/header2/header2.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { SponsorsComponent } from './components/special-page-builder/sponsors/sponsors.component';
@@ -102,8 +102,7 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 			expandMode: 'None'
 		}),
 		NgxMapboxGLModule.withConfig({
-			accessToken:
-				'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
+			accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
 		}),
 		ROUTES,
 

@@ -1,0 +1,8 @@
+.page-sidebar {
+	z-index: 2;
+}
+
+.has-sidebar-expand .page-sidebar.page-sidebar-full {
+	position: fixed;
+	top: 3.5rem;
+}

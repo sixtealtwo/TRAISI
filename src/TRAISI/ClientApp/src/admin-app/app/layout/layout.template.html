@@ -1,5 +1,6 @@
-<div class="app">
+<div class="app has-fullwidth">
 	<header class="app-header app-header-dark">
+
 		<app-navbar
 			id="navbar"
 			(toggleSidebarEvent)="toggleSidebarListener($event)"
@@ -11,7 +12,7 @@
 			[onBuilder]="onBuilder"
 		></app-navbar>
 	</header>
-	<aside class="app-aside app-aside-light app-aside-expand-md">
+	<aside class="app-aside app-aside-expand-md app-aside-light">
 		<app-main-sidebar
 			id="sidebar"
 			role="navigation"
@@ -25,7 +26,8 @@
 		<ngx-loading-bar></ngx-loading-bar>-->
 	<main id="content" class="content app-main" role="main">
 		<div class="wrapper">
-			<div class="page has-sidebar has-sidebar-expand-lg">
+			<div class="page has-sidebar has-sidebar-expand">
+					<div class="sidebar-backdrop"></div>
 				<!-- .page-inner -->
 				<div class="page-inner">
 					<div class="loading-overlay" #spinnerElement>

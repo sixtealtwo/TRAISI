@@ -10,8 +10,7 @@
   z-index: 1000;
 }
 
-.builder-qtypes {
-}
+
 
 li.chooser a {
   display: block;
@@ -48,23 +47,22 @@ li.chooser a {
   border-bottom: 1px solid $gray-400;
 }
 
-li.chooser {
-  list-style: none;
+.drag-item {
+	z-index: 5;
 }
 
-.section-tool-item {
-  background-color: $widget-title-color !important;
+
+
+.list-group li {
+	cursor: pointer;
 }
+
 
 li.chooser > a {
   position: relative;
-  border-top: 1px solid $gray-400;
-  padding-left: 50px;
-  line-height: 44px;
 
-  &:hover {
-    background-color: $sidebar-item-hover-bg-color;
-  }
+
+
 
   @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height),
     (max-width: map_get($grid-breakpoints, md) - 1px) {
