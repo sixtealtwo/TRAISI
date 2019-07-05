@@ -23,8 +23,7 @@ import { Order } from '../../models/order.model';
 import { TreeviewItem } from 'ngx-treeview';
 import { fadeInOut } from '../../../services/animations';
 import { RealTimeNotificationServce } from '../../../services/real-time-notification.service';
-import { IDragEvent, IDropResult } from '../../../shared/ngx-smooth-dnd/container/container.component';
-
+import { ContainerComponent, DraggableComponent, DropResult } from 'ngx-smooth-dnd';
 @Component({
 	selector: 'app-nested-drag-and-drop-list',
 	templateUrl: './nested-drag-and-drop-list.component.html',
@@ -336,7 +335,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		// $('.smooth-dnd-draggable-wrapper .collapse.details').collapse('hide');
 		// $('.collapse:not(.details)').collapse('show');
 		return index => {
-			let test = this.qPartQuestions;
+			let test = this.qPartQuestions;  
 			return this.qPartQuestions.get(part.id).questionPartViewChildren[index];
 		};
 	}
@@ -605,7 +604,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.updateStructure = true;
 	}
 
-	public onDragEnd(event: IDragEvent): void {
+	public onDragEnd(event: {isSource: boolean, payload: any, willAcceptDrop: boolean}): void {
+		
 		if (this.lastDragEnter.length !== this.lastDragLeave.length) {
 			this.dragResult = new Subject<boolean>();
 			if (!this.dragDidNotOriginateFromChooser) {
@@ -631,7 +631,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		this.dragOverContainer = new Object();
 	}
 
-	public onDragStart(event: IDragEvent): void {
+	public onDragStart(event: {isSource: boolean, payload: any, willAcceptDrop: boolean}): void {
 		this.dragDidNotOriginateFromChooser = this.dragDidNotOriginateFromChooser || event.isSource;
 	}
 
@@ -649,7 +649,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		return String.fromCharCode(65 + index);
 	}
 
-	public onDrop(dropResult: IDropResult): void {
+	public onDrop(dropResult: DropResult): void {
 		if (this.dragResult) {
 			// create shadow list to give illusion of transfer before decision made
 			let pageQuestionsCache = [...this.currentPage.questionPartViewChildren];
@@ -698,7 +698,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	public proceedWithDrop(dropResult: IDropResult): void {
+	public proceedWithDrop(dropResult: DropResult): void {
 		dropResult.payload = this.questionBeingEdited;
 		this.currentPage.questionPartViewChildren = Utilities.applyDrag(
 			this.currentPage.questionPartViewChildren,
@@ -711,7 +711,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	 * @param partId
 	 * @param dropResult
 	 */
-	public onDropInPart(partId: number, dropResult: IDropResult): void {
+	public onDropInPart(partId: number, dropResult: DropResult): void {
 		console.log('on drop in part');
 		if (this.dragResult) {
 			if (partId !== dropResult.payload.id) {

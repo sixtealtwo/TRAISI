@@ -9,7 +9,6 @@
 		"experimentalDecorators": true,
 		"paths": {
 			"traisi-question-sdk": ["../../../../TRAISI.SDK/Module"],
-			// "smooth-dnd": ["../../local_node_modules/smooth-dnd/"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
 
 			"shared/*": ["../shared/*"]
