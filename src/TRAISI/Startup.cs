@@ -113,6 +113,9 @@ namespace TRAISI
 				options.User.RequireUniqueEmail = false;
 				options.SignIn.RequireConfirmedEmail = false;
 				options.SignIn.RequireConfirmedPhoneNumber = false;
+				options.Lockout.MaxFailedAccessAttempts = 3;
+				options.Lockout.DefaultLockoutTimeSpan = new System.TimeSpan(0,30,0);
+
 			})
 				.AddRoles<ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
