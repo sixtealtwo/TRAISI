@@ -1,22 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup Condition="'$(Configuration)' != 'cli'">
+	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'cli'">
-		<TargetFrameworks>netcoreapp2.2</TargetFrameworks>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'cli'">
-		<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-		<PackageType>DotnetCliTool</PackageType>
-		<OutputType>Exe</OutputType>
-		<Version>1.0.1</Version>
-		<AssemblyName>dotnet-traisi</AssemblyName>
-		<Author>University of Toronto</Author>
-		<PackageId>DotNetTraisi</PackageId>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Description>Dotnet CLI extension for use with TRAISI. Packages external extensions.</Description>
-	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
 		<LangVersion>7.3</LangVersion>
 	</PropertyGroup>
@@ -32,7 +19,6 @@
 		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
 		<PackageReference Include="Newtonsoft.JSON" Version="12.0.2" />
-		<!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="2.0.0" /> -->
 	</ItemGroup>
 
 	<Target Name="NpmCommands" BeforeTargets="Compile" Condition="$(staging) == true AND $(Configuration) != 'Release'">
@@ -43,26 +29,23 @@
 		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />
 
 	</Target>
-	<Target Name="PreBuild" AfterTargets="Compile" Condition="'$(Configuration)' == 'Release'">
-		<Exec WorkingDirectory="Module/" Command="npm install" />
-		<Exec WorkingDirectory="Module/" Command="npm run build" />
-		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />
-	</Target>
-	<ItemGroup Condition="'$(Configuration)' == 'cli'">
-		<Compile Include="CLITool/**/*.cs" />
-		<EmbeddedResource Include="CLITool/Resources/package.json">
-			<LogicalName>package.json</LogicalName>
-		</EmbeddedResource>
-		<EmbeddedResource Include="CLITool/Resources/tsconfig.json">
-			<LogicalName>tsconfig.json</LogicalName>
-		</EmbeddedResource>
-		<EmbeddedResource Include="CLITool/Resources/webpack.config.js">
-			<LogicalName>webpack.config.js</LogicalName>
-		</EmbeddedResource>
-		<PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-		<Compile Remove="node_modules\**" />
-		<EmbeddedResource Remove="node_modules\**" />
+
+	<ItemGroup>
+		<ClientBuildOutputFiles Include="Client\*.tgz" />
 	</ItemGroup>
+
+	<Target Name="ClientSDKBuildAndCopy" BeforeTargets="Compile" Condition="$(Configuration) == 'Release'">
+		<!-- <Exec Command="npm run build" /> -->
+		<Message Importance="high" Text="Building TRAISI.SDK module library." />
+		<Exec WorkingDirectory="Client/" Command="npm install" />
+		<Exec WorkingDirectory="Client/" Command="npm run build" />
+		<Exec WorkingDirectory="Client/" Command="npm pack" />
+		<Copy SourceFiles="@(ClientBuildOutputFiles)" DestinationFolder="$(OutDir)" />
+		<Copy SourceFiles="@(ClientBuildOutputFiles)" DestinationFolder="$(OutDir)" />
+		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />
+
+	</Target>
+
 	<ItemGroup>
 		<EmbeddedResource Include="dist/*.module.js" />
 	</ItemGroup>
