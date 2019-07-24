@@ -118,6 +118,8 @@ namespace TRAISI.Controllers
             else {
                 return BadRequest("User does not have permissions to execute this survey.");
             }
+
+            
         }
 
         [HttpGet("{id}/{mode}/count")]
