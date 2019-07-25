@@ -1,0 +1,56 @@
+<div *ngIf="isFinishedLoading">
+
+	<app-header1 *ngIf="screeningQuestions.header1" [pageThemeInfo]="pageThemeInfo" [pageObject]="screeningQuestions.header1"></app-header1>
+	<app-header2 *ngIf="screeningQuestions.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="screeningQuestions.header2"></app-header2>
+	<div class="header" [innerHtml]="test"></div>
+
+	<div class="screening-questions-section">
+		<form #screeningForm="ngForm" (ngSubmit)="onSubmitScreeningQuestions()" [formGroup]="screeningFormGroup">
+			<div class="form-group screening-question-group" *ngFor="let question of screeningQuestions.questionsList; index as i">
+				<h5 class="screening-question-header">{{ question }}</h5>
+				<div class="custom-control custom-radio screening-input screening-input-yes">
+					<input
+						required
+						type="radio"
+						id="customRadio-{{ i }}-1"
+						name="{{ i }}"
+						class="custom-control-input"
+						[value]="true"
+						formControlName="{{ i }}"
+						ngModel
+					/>
+					<label class="custom-control-label" for="customRadio-{{ i }}-1">{{ 'ScreeningQuestions.Yes' | translate }}</label>
+				</div>
+				<div class="custom-control custom-radio screening-input screening-input-no">
+					<input
+						required
+						type="radio"
+						id="customRadio-{{ i }}-2"
+						name="{{ i }}"
+						class="custom-control-input"
+						[value]="false"
+						formControlName="{{ i }}"
+						ngModel
+					/>
+					<label class="custom-control-label" for="customRadio-{{ i }}-2">{{ 'ScreeningQuestions.No' | translate }}</label>
+				</div>
+				<div class="text-danger">
+					<small
+						*ngIf="
+							screeningForm.form.controls[i].errors &&
+							screeningForm.form.controls[i].errors.required &&
+							(!screeningForm.form.controls[i] || screeningForm.submitted)
+						"
+						>{{ 'ScreeningQuestions.Required' | translate }}</small
+					>
+				</div>
+			</div>
+
+			<button class="btn btn-primary screening-submit-button" type="submit">{{ 'ScreeningQuestions.Submit' | translate }}</button>
+		</form>
+	</div>
+	<app-footer1 *ngIf="screeningQuestions.footer1" class="footer fixed-bottom screening-footer" [pageThemeInfo]="pageThemeInfo" [pageHTML]="screeningQuestions.footer1"></app-footer1>
+	<!-- <div class="footer fixed-bottom screening-footer" >
+
+	</div>-->
+</div>

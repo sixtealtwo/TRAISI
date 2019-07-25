@@ -1,0 +1,27 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+    "importHelpers": true,
+		"module": "esnext",
+		"outDir": "./dist/out-tsc",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"target": "es2015",
+		"types": ["node", "jasmine"],
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["es2017", "dom","esnext"],
+		"baseUrl": "src",
+		"paths": {
+			"traisi-question-sdk": ["../../TRAISI.SDK/Module"],
+			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
+			"questions/*": ["../../Questions/*"],
+			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
+			"shared/*": ["./src/shared/*"]
+		}
+	},
+	"include": ["./src/shared/**/*.ts"],
+	"exclude": ["node_modules"]
+}

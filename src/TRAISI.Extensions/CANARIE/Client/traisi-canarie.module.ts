@@ -1,0 +1,5 @@
+
+@NgModule({})
+export class TraisiCanarieModule {
+
+}

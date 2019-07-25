@@ -1,0 +1,34 @@
+{
+	"en": {
+		"text": "Text",
+		"checkbox": "Checkbox",
+		"date": "Date",
+		"heading": "Heading",
+		"likert": "Likert",
+		"location": "Location",
+		"matrix": "Matrix",
+		"number": "Number",
+		"radio": "Radio Select",
+		"range": "Range Select",
+		"select": "Dropdown Select",
+		"time": "Time",
+		"household": "Household",
+		"stated_preference": "Stated Preference"
+	},
+	"fr": {
+		"text": "Texte",
+		"checkbox": "Case à Cocher",
+		"date": "Date",
+		"heading": "En-Tête",
+		"likert": "Likert",
+		"location": "Emplacement",
+		"matrix": "Matrice",
+		"number": "Nombre",
+		"radio": "Sélection Radio",
+		"range": "Sélection de Gamme",
+		"select": "Sélection Déroulante",
+		"time": "Temps",
+		"household": "Household",
+		"stated_preference": "Stated Preference"
+	}
+}

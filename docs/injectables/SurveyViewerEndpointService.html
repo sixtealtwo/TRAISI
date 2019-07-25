@@ -1,0 +1,2327 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>SurveyViewerEndpointService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#_surveyViewerUrl">_surveyViewerUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#_surveyViewQuestionsUrl">_surveyViewQuestionsUrl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getDefaultSurveyViewEndpoint">getDefaultSurveyViewEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getQuestionOptionsEndpoint">getQuestionOptionsEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyIdFromCodeEndpoint">getSurveyIdFromCodeEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyStylesEndpoint">getSurveyStylesEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewerRespondentPageQuestionsEndpoint">getSurveyViewerRespondentPageQuestionsEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewerStartSurveyEndpoint">getSurveyViewerStartSurveyEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewerTermsAndConditionsEndpoint">getSurveyViewerTermsAndConditionsEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewerThankYouEndpoint">getSurveyViewerThankYouEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewerWelcomeViewEndpoint">getSurveyViewerWelcomeViewEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewPagesEndpoint">getSurveyViewPagesEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewQuestionConfigurationEndpoint">getSurveyViewQuestionConfigurationEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewQuestionEndpoint">getSurveyViewQuestionEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewQuestionOptionsEndpoint">getSurveyViewQuestionOptionsEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSurveyViewQuestionsEndpoint">getSurveyViewQuestionsEndpoint</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#surveyViewQuestionsUrl">surveyViewQuestionsUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#surveyViewQuestionConfiguration">surveyViewQuestionConfiguration</a>
+                                </li>
+                                <li>
+                                    <a href="#surveyViewerUrl">surveyViewerUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewerWelcomeViewUrl">getSurveyViewerWelcomeViewUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewerStartSurveyUrl">getSurveyViewerStartSurveyUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewerTermsAndConditionsUrl">getSurveyViewerTermsAndConditionsUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewerThankYouUrl">getSurveyViewerThankYouUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getDefaultSurveyViewUrl">getDefaultSurveyViewUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewerRespondentPageQuestionsUrl">getSurveyViewerRespondentPageQuestionsUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewPagesUrl">getSurveyViewPagesUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyViewQuestionOptionsUrl">getSurveyViewQuestionOptionsUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyIdFromCodeUrl">getSurveyIdFromCodeUrl</a>
+                                </li>
+                                <li>
+                                    <a href="#getSurveyStylesUrl">getSurveyStylesUrl</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, configurations: <a href="../injectables/ConfigurationService.html">ConfigurationService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="275" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:275</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Service constructor</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configurations</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>injector</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getDefaultSurveyViewEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getDefaultSurveyViewEndpoint
+                            </b>
+                            <a href="#getDefaultSurveyViewEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getDefaultSurveyViewEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, language: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:183</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>language</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>&#x27;en&#x27;</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getQuestionOptionsEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getQuestionOptionsEndpoint
+                            </b>
+                            <a href="#getQuestionOptionsEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getQuestionOptionsEndpoint(questionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:198</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>questionId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>query</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>null</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyIdFromCodeEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyIdFromCodeEndpoint
+                            </b>
+                            <a href="#getSurveyIdFromCodeEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyIdFromCodeEndpoint(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:73</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>code</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyStylesEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyStylesEndpoint
+                            </b>
+                            <a href="#getSurveyStylesEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyStylesEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:118</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerRespondentPageQuestionsEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewerRespondentPageQuestionsEndpoint
+                            </b>
+                            <a href="#getSurveyViewerRespondentPageQuestionsEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewerRespondentPageQuestionsEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, pageNumber: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, language?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:108</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>pageNumber</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>language</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerStartSurveyEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewerStartSurveyEndpoint
+                            </b>
+                            <a href="#getSurveyViewerStartSurveyEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewerStartSurveyEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, shortcode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:167</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>shortcode</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>null</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerTermsAndConditionsEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewerTermsAndConditionsEndpoint
+                            </b>
+                            <a href="#getSurveyViewerTermsAndConditionsEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewerTermsAndConditionsEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, viewType?: <a href="../undefineds/SurveyViewType.html">SurveyViewType</a>, language?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:128</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>viewType</td>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/enumerations.html#SurveyViewType" target="_self" >SurveyViewType</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>language</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerThankYouEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewerThankYouEndpoint
+                            </b>
+                            <a href="#getSurveyViewerThankYouEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewerThankYouEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, viewType?: <a href="../undefineds/SurveyViewType.html">SurveyViewType</a>, language?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:138</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>viewType</td>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/enumerations.html#SurveyViewType" target="_self" >SurveyViewType</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>language</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerWelcomeViewEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewerWelcomeViewEndpoint
+                            </b>
+                            <a href="#getSurveyViewerWelcomeViewEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewerWelcomeViewEndpoint(surveyName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:152</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyName</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewPagesEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewPagesEndpoint
+                            </b>
+                            <a href="#getSurveyViewPagesEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewPagesEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, viewType?: <a href="../undefineds/SurveyViewType.html">SurveyViewType</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:92</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>SurveyViewPage</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>viewType</td>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/enumerations.html#SurveyViewType" target="_self" >SurveyViewType</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/SurveyViewPage.html" target="_self" >Observable&lt;SurveyViewPage&gt;</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewQuestionConfigurationEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewQuestionConfigurationEndpoint
+                            </b>
+                            <a href="#getSurveyViewQuestionConfigurationEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewQuestionConfigurationEndpoint(questionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:212</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>questionId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewQuestionEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewQuestionEndpoint
+                            </b>
+                            <a href="#getSurveyViewQuestionEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewQuestionEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, questionIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="267" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:267</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Returns a particular question specified by the passed index of a particular survey view.</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>questionIndex</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewQuestionOptionsEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewQuestionOptionsEndpoint
+                            </b>
+                            <a href="#getSurveyViewQuestionOptionsEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewQuestionOptionsEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, questionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, language?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:229</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>SurveyViewQuestionOption</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>questionId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>language</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>query</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/SurveyViewQuestionOption.html" target="_self" >Observable&lt;SurveyViewQuestionOption[]&gt;</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewQuestionsEndpoint"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getSurveyViewQuestionsEndpoint
+                            </b>
+                            <a href="#getSurveyViewQuestionsEndpoint"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getSurveyViewQuestionsEndpoint(surveyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="251" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:251</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Returns the endpoint for retrieving survey questions of a particular survey view</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>surveyId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_surveyViewerUrl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                                <span class="modifier">Readonly</span>
+                            _surveyViewerUrl
+                            </b>
+                            <a href="#_surveyViewerUrl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>_surveyViewerUrl:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;/api/SurveyViewer&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_surveyViewQuestionsUrl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                                <span class="modifier">Readonly</span>
+                            _surveyViewQuestionsUrl
+                            </b>
+                            <a href="#_surveyViewQuestionsUrl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>_surveyViewQuestionsUrl:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;/api/SurveyViewer&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyViewQuestionsUrl"></a>
+                        <span class="name"><b>surveyViewQuestionsUrl</b><a href="#surveyViewQuestionsUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>surveyViewQuestionsUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:16</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyViewQuestionConfiguration"></a>
+                        <span class="name"><b>surveyViewQuestionConfiguration</b><a href="#surveyViewQuestionConfiguration"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>surveyViewQuestionConfiguration()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:20</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyViewerUrl"></a>
+                        <span class="name"><b>surveyViewerUrl</b><a href="#surveyViewerUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>surveyViewerUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:24</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerWelcomeViewUrl"></a>
+                        <span class="name"><b>getSurveyViewerWelcomeViewUrl</b><a href="#getSurveyViewerWelcomeViewUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewerWelcomeViewUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:28</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerStartSurveyUrl"></a>
+                        <span class="name"><b>getSurveyViewerStartSurveyUrl</b><a href="#getSurveyViewerStartSurveyUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewerStartSurveyUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:32</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerTermsAndConditionsUrl"></a>
+                        <span class="name"><b>getSurveyViewerTermsAndConditionsUrl</b><a href="#getSurveyViewerTermsAndConditionsUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewerTermsAndConditionsUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:36</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerThankYouUrl"></a>
+                        <span class="name"><b>getSurveyViewerThankYouUrl</b><a href="#getSurveyViewerThankYouUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewerThankYouUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:40</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getDefaultSurveyViewUrl"></a>
+                        <span class="name"><b>getDefaultSurveyViewUrl</b><a href="#getDefaultSurveyViewUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getDefaultSurveyViewUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:44</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewerRespondentPageQuestionsUrl"></a>
+                        <span class="name"><b>getSurveyViewerRespondentPageQuestionsUrl</b><a href="#getSurveyViewerRespondentPageQuestionsUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewerRespondentPageQuestionsUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:48</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewPagesUrl"></a>
+                        <span class="name"><b>getSurveyViewPagesUrl</b><a href="#getSurveyViewPagesUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewPagesUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:52</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyViewQuestionOptionsUrl"></a>
+                        <span class="name"><b>getSurveyViewQuestionOptionsUrl</b><a href="#getSurveyViewQuestionOptionsUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyViewQuestionOptionsUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:56</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyIdFromCodeUrl"></a>
+                        <span class="name"><b>getSurveyIdFromCodeUrl</b><a href="#getSurveyIdFromCodeUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyIdFromCodeUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:60</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getSurveyStylesUrl"></a>
+                        <span class="name"><b>getSurveyStylesUrl</b><a href="#getSurveyStylesUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>getSurveyStylesUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-endpoint.service.ts:64</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+
+import { catchError } from &#x27;rxjs/internal/operators/catchError&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { SurveyViewType } from &#x27;../models/survey-view-type.enum&#x27;;
+import { ConfigurationService } from &#x27;../../../shared/services/configuration.service&#x27;;
+
+import { SurveyViewerEndpointFactory } from &#x27;./survey-viewer-endpoint-factory.service&#x27;;
+
+@Injectable()
+export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
+	private readonly _surveyViewQuestionsUrl: string &#x3D; &#x27;/api/SurveyViewer&#x27;;
+	private readonly _surveyViewerUrl: string &#x3D; &#x27;/api/SurveyViewer&#x27;;
+
+	public get surveyViewQuestionsUrl(): string {
+		return this.configurations.baseUrl + &#x27;/&#x27; + this._surveyViewQuestionsUrl;
+	}
+
+	get surveyViewQuestionConfiguration(): string {
+		return this.configurations.baseUrl + &#x27;/&#x27; + this._surveyViewQuestionsUrl;
+	}
+
+	get surveyViewerUrl(): string {
+		return this.configurations.baseUrl + &#x27;/&#x27; + this._surveyViewerUrl;
+	}
+
+	private get getSurveyViewerWelcomeViewUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl + &#x27;/welcome&#x27;;
+	}
+
+	private get getSurveyViewerStartSurveyUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl + &#x27;/start&#x27;;
+	}
+
+	private get getSurveyViewerTermsAndConditionsUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl;
+	}
+
+	private get getSurveyViewerThankYouUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl;
+	}
+
+	private get getDefaultSurveyViewUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl + &#x27;/view&#x27;;
+	}
+
+	private get getSurveyViewerRespondentPageQuestionsUrl(): string {
+		return this.configurations.baseUrl + &#x27;&#x27; + this._surveyViewerUrl + &#x27;/viewer&#x27;;
+	}
+
+	private get getSurveyViewPagesUrl(): string {
+		return this.configurations.baseUrl + this._surveyViewerUrl + &#x27;/surveys&#x27;;
+	}
+
+	private get getSurveyViewQuestionOptionsUrl(): string {
+		return this.configurations.baseUrl + this._surveyViewerUrl + &#x27;/surveys&#x27;;
+	}
+
+	private get getSurveyIdFromCodeUrl(): string {
+		return this.configurations.baseUrl + this._surveyViewerUrl + &#x27;/codes&#x27;;
+	}
+
+	private get getSurveyStylesUrl(): string {
+		return this.configurations.baseUrl + this._surveyViewerUrl + &#x27;/styles&#x27;;
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param shortcode
+	 */
+	public getSurveyIdFromCodeEndpoint&lt;T&gt;(code: string): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyIdFromCodeUrl}/${code}&#x60;;
+
+		let headers &#x3D; this.getSurveyViewerRequestHeaders();
+		console.log(headers);
+		return this.http.get&lt;T&gt;(endpointUrl, headers).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyIdFromCodeEndpoint(code));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param pageNumber
+	 * @param language
+	 */
+	// tslint:disable-next-line:no-shadowed-variable
+	public getSurveyViewPagesEndpoint&lt;SurveyViewPage&gt;(surveyId: number, viewType?: SurveyViewType): Observable&lt;SurveyViewPage&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewPagesUrl}/${surveyId}?viewType&#x3D;${viewType}&#x60;;
+
+		return this.http.get&lt;SurveyViewPage[]&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewPagesEndpoint(surveyId, viewType));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param pageNumber
+	 * @param language
+	 */
+	public getSurveyViewerRespondentPageQuestionsEndpoint&lt;T&gt;(surveyId: number, pageNumber: number, language?: string): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewerRespondentPageQuestionsUrl}/${surveyId}/page/${pageNumber}?language&#x3D;${language}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, pageNumber, language));
+			})
+		);
+	}
+
+	public getSurveyStylesEndpoint&lt;T&gt;(surveyId: number): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyStylesUrl}/${surveyId}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyStylesEndpoint(surveyId));
+			})
+		);
+	}
+
+	public getSurveyViewerTermsAndConditionsEndpoint&lt;T&gt;(surveyId: number, viewType?: SurveyViewType, language?: string): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewerTermsAndConditionsUrl}/${surveyId}/terms/${viewType}/${language}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language));
+			})
+		);
+	}
+
+	public getSurveyViewerThankYouEndpoint&lt;T&gt;(surveyId: number, viewType?: SurveyViewType, language?: string): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewerThankYouUrl}/${surveyId}/thankyou/${viewType}/${language}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewerThankYouEndpoint(surveyId, viewType, language));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyName
+	 */
+	public getSurveyViewerWelcomeViewEndpoint&lt;T&gt;(surveyName: string): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewerWelcomeViewUrl}/${surveyName}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewerWelcomeViewEndpoint(surveyName));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param shortcode
+	 */
+	public getSurveyViewerStartSurveyEndpoint&lt;T&gt;(surveyId: number, shortcode: string &#x3D; null): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getSurveyViewerStartSurveyUrl}/${surveyId}/${shortcode}&#x60;;
+
+		console.log(this.getRequestHeaders());
+		return this.http.post&lt;T&gt;(endpointUrl, &#x27;&#x27;, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param language
+	 */
+	public getDefaultSurveyViewEndpoint&lt;T&gt;(surveyId: number, language: string &#x3D; &#x27;en&#x27;): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.getDefaultSurveyViewUrl}/${surveyId}/${language}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getDefaultSurveyViewEndpoint(surveyId, language));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param questionId
+	 * @param query
+	 */
+	public getQuestionOptionsEndpoint&lt;T&gt;(questionId: number, query: string &#x3D; null): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.surveyViewQuestionConfiguration}/question-options/${questionId}/query&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getQuestionOptionsEndpoint(questionId, query));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param questionId
+	 */
+	public getSurveyViewQuestionConfigurationEndpoint&lt;T&gt;(questionId: number): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.surveyViewQuestionConfiguration}/${questionId}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewQuestionsEndpoint(questionId));
+			})
+		);
+	}
+
+	/**
+	 *
+	 * @param surveyId
+	 * @param questionId
+	 * @param language
+	 * @param query
+	 */
+	public getSurveyViewQuestionOptionsEndpoint&lt;SurveyViewQuestionOption&gt;(
+		surveyId: number,
+		questionId: number,
+		language?: string,
+		query?: string
+	): Observable&lt;SurveyViewQuestionOption[]&gt; {
+		let endpointUrl &#x3D; &#x60;${
+			this.getSurveyViewQuestionOptionsUrl
+		}/${surveyId}/questions/${questionId}/options?language&#x3D;${language}&amp;query&#x3D;${query}&#x60;;
+
+		return this.http.get&lt;SurveyViewQuestionOption&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query));
+			})
+		);
+	}
+
+	/**
+	 * Returns the endpoint for retrieving survey questions of a particular survey view
+	 * @param {number} surveyId
+	 * @returns {Observable&lt;T&gt;}
+	 */
+	public getSurveyViewQuestionsEndpoint&lt;T&gt;(surveyId: number): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.surveyViewQuestionsUrl}/${surveyId}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewQuestionsEndpoint(surveyId));
+			})
+		);
+	}
+
+	/**
+	 * Returns a particular question specified by the passed index of a particular survey view.
+	 * @param {number} surveyId
+	 * @param {number} questionIndex
+	 * @returns {Observable&lt;T&gt;}
+	 */
+	public getSurveyViewQuestionEndpoint&lt;T&gt;(surveyId: number, questionIndex: number): Observable&lt;T&gt; {
+		let endpointUrl &#x3D; &#x60;${this.surveyViewQuestionsUrl}/${surveyId}/${questionIndex}&#x60;;
+
+		return this.http.get&lt;T&gt;(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError((error) &#x3D;&gt; {
+				return this.handleError(error, () &#x3D;&gt; this.getSurveyViewQuestionEndpoint(surveyId, questionIndex));
+			})
+		);
+	}
+
+	/**
+	 * Service constructor
+	 * @param http
+	 * @param configurations
+	 * @param injector
+	 */
+	constructor(http: HttpClient, configurations: ConfigurationService, injector: Injector) {
+		super(http, configurations, injector);
+	}
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'SurveyViewerEndpointService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

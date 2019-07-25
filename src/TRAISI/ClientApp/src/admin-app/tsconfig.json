@@ -1,0 +1,19 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"lib": ["es2017", "dom","esnext"],
+		"outDir": "../out-tsc/app",
+		"baseUrl": "./",
+		"module": "esNext",
+		"types": ["node"],
+		"experimentalDecorators": true,
+		"paths": {
+			"traisi-question-sdk": ["../../../../TRAISI.SDK/Module"],
+			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
+
+			"shared/*": ["../shared/*"]
+		}
+	},
+	"include": ["../shared/**/*.ts", "**/*.ts"],
+	"exclude": ["test.ts", "**/*.spec.ts", "**/node_modules/**"]
+}

@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"sourceMap": true,
+        "declaration": false,
+        "rootDirs": ["../src/TRAISI/ClientApp/src/shared/services","../src/TRAISI/ClientApp/src/"],
+		"emitDecoratorMetadata": true,
+		"baseUrl": "../src/TRAISI/ClientApp/src/",
+		"experimentalDecorators": true,
+        "target": "es5",
+		"module": "es2015",
+		"types": ["node"],
+		"traceResolution": true,
+		"typeRoots": ["../src/TRAISI/ClientApp/node_modules/@types"],
+		"lib": ["es2017", "dom"],
+		"paths": {
+			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/src/"],
+			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
+			"questions/*": ["../../Questions/*"],
+			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
+            "shared/*": ["shared/*"],
+            "*":["*"]
+		}
+    },
+    
+	"outDir": "./",
+    "include": ["../src/TRAISI/ClientApp/src/shared/**/*.ts",
+        "../src/TRAISI/ClientApp/src/survey-viewer-app/**/*.ts"
+    ],
+	"exclude": ["../src/TRAISI/ClientApp/node_modules", "../src/TRAISI/ClientApp/**/*.test.ts", "../src/TRAISI/ClientApp/**/*.tpl.ts"]
+}

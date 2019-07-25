@@ -1,0 +1,43 @@
+<div *ngIf="isFinishedLoading">
+	<app-header1 *ngIf="model.header1" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header1"></app-header1>
+	<app-header2 *ngIf="model.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header2"></app-header2>
+	<div class="group-code-content-container">
+		<form #groupcodeForm="ngForm" (ngSubmit)="onGroupcodeSubmit()" [formGroup]="groupcodeFormGroup">
+			<div class="input-group input-group-lg">
+				<input required class="form-control" type="text" formControlName="groupcode" />
+			</div>
+			<div class="groupcode-submit">
+				<button [disabled]="!groupcodeFormGroup.valid" type="submit" class="btn btn-primary">
+					GROUPCODE START TEMP
+				</button>
+			</div>
+
+			<div class="text-danger">
+				<small *ngIf="groupcodeFormGroup.errors && groupcodeFormGroup.errors.invalid">{{
+					'Groupcode.Invalid' | translate
+				}}</small>
+			</div>
+
+			<div *ngIf="(session.data | async) as session">
+				<div *ngIf="session.isLoggedIn">
+					<span
+						>You are currently logged in with an active shortcode:
+						<a [routerLink]="['../shortcode']" [queryParams]="{ shortcode: session.shortcode }">
+							{{ session.shortcode }}</a
+						>
+					</span>
+				</div>
+				<div *ngIf="!session.isLoggedIn">
+					not logged in
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<app-footer1
+		*ngIf="model.footer1"
+		class="footer fixed-bottom groupcode-footer groupcode-footer1"
+		[pageThemeInfo]="pageThemeInfo"
+		[pageHTML]="model.footer1.html"
+	></app-footer1>
+</div>

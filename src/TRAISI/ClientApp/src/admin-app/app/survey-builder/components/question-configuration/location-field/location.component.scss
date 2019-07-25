@@ -1,0 +1,25 @@
+mgl-map {
+    height: 100%;
+		width: 100%;
+}
+
+.map-container {
+	width:100%;
+	height:200px;
+	margin-bottom:30px;
+}
+
+.locationDisplay {
+	background: black;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 2px 2px;
+	margin-top: 0px;
+	text-align: center;
+	width:100%;
+}
+
+.mapMarker {
+    transform: translateY(-50%);
+}

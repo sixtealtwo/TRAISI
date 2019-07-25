@@ -1,0 +1,170 @@
+<div class="top-bar">
+	<div class="top-bar-brand">
+		<a href="/">
+			<img src="assets/img/logo_dark.png" height="32px" alt="" />
+		</a>
+	</div>
+
+	<div class="top-bar-list">
+		<!-- .top-bar-item -->
+		<div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+			<!-- toggle menu -->
+			<button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="Menu" aria-controls="navigation">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</button>
+			<!-- /toggle menu -->
+		</div>
+		<div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+			<div class="dropdown">
+				<button
+					class="btn-account d-none d-md-flex"
+					type="button"
+					data-toggle="dropdown"
+					aria-haspopup="true"
+					aria-expanded="false"
+				>
+					<span class="user-avatar">
+						<img src="assets/img/avatar.png" alt="" />
+					</span>
+					<span class="account-summary pr-lg-4 d-none d-lg-block">
+						<span class="account-name">{{ userName }}</span>
+						<span class="account-description">@ {{ userName }}</span>
+					</span>
+				</button>
+				<div class="dropdown-arrow dropdown-arrow-left"></div>
+				<!-- .dropdown-menu -->
+				<div class="dropdown-menu">
+					<h6 class="dropdown-header d-none d-md-block d-lg-none">{{ userName }}</h6>
+					<a class="dropdown-item" [routerLink]="['/app/account/info']">
+						<span class="dropdown-icon oi oi-person"></span>
+						Profile
+					</a>
+					<a class="dropdown-item" [routerLink]="['/app/account/preferences']">
+						<span class="dropdown-icon oi oi-account-logout"></span>
+						Preferences
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" (click)="logout()">Logout</a>
+				</div>
+				<!-- /.dropdown-menu -->
+			</div>
+		</div>
+
+		<!--
+<ul *ngIf="false" class="navbar-nav flex-row sidebar-toggle-button" [class.d-md-none]="!onBuilder" (click)="$event.preventDefault()">
+	<li class="nav-item">
+		<ng-template #sidebarToggleTooltip>
+			Turn on/off <br> sidebar <br>collapsing
+		</ng-template>
+
+		<a (click)="toggleSidebar('static')" class="nav-link d-none ml-3 d-lg-flex" [tooltip]="sidebarToggleTooltip" placement="bottom">
+			<i class="fas fa-bars fa-lg"></i>
+		</a>
+
+		<a (click)="toggleSidebar('collapse')" class="d-lg-none nav-link" href="#" data-html="true" title="Show/hide sidebar" data-placement="bottom">
+			<span class="text-white d-md-none"><i class="fas fa-bars fa-lg"></i></span>
+			<i class="ml-3 fa fa-bars fa-lg d-none d-md-block d-lg-none"></i>
+		</a>
+	</li>
+	<li class="nav-item d-sm-none d-md-block" [hidden]="!onBuilder">
+			<ng-template #surveyReturnTooltip>
+					Return to Surveys
+				</ng-template>
+				<a  (click)="goBackPage()"  class="nav-link">
+						<span class="icon">
+								<i class="fas fa-cubes mr-2"></i>
+							</span>
+							{{ 'sidebar.ManageSurveys' | translate }}
+				</a>
+	</li>
+
+</ul>-->
+		<!--<ul class="navbar-nav flex-row d-md-none">
+  <li class="nav-item">-->
+		<!-- toggles chat -->
+		<!--   <a class="nav-link" href="#" (click)="toggleChat()">
+      <span class="rounded rounded-lg bg-gray text-white"><i class="fas fa-globe fa-lg"></i></span>
+    </a>
+  </li>
+</ul>-->
+		<!--
+<ul *ngIf="!onBuilder" class="sidebar-nav top-nav flex-row d-none d-md-flex">
+	<li class="traisi-logo">
+		<a [routerLink]=" ['dashboard'] ">
+				<img src="{{ config.logo }} " height="35">
+		</a>
+	</li>
+	<li>
+		<a [routerLink]=" ['surveys'] ">
+			<span class="icon">
+				<i class="fas fa-cubes"></i>
+			</span>
+			{{ 'sidebar.ManageSurveys' | translate }}
+		</a>
+	</li>
+	<li *ngIf="isGroupAdmin && !canManageUsers">
+		<a [routerLink]=" ['groups'] ">
+			<span class="icon">
+				<i class="fas fa-sliders-h"></i>
+			</span>
+			{{ 'sidebar.ManageGroups' | translate }}
+		</a>
+	</li>
+	<li *ngIf="canManageUsers || isGroupAdmin">
+		<a [routerLink]=" ['users'] ">
+			<span class="icon">
+				<i class="fas fa-users"></i>
+			</span>
+			{{ 'sidebar.ManageUsers' | translate }}
+		</a>
+	</li>
+	<li *ngIf="canViewRoles">
+		<a [routerLink]=" ['users/roles'] ">
+			<span class="icon">
+				<i class="fab fa-gg-circle"></i>
+			</span>
+			{{ 'sidebar.ManageRoles' | translate }}
+		</a>
+	</li>
+</ul>
+<a *ngIf="!onBuilder" class="navbar-brand d-md-none" [routerLink]=" ['dashboard'] ">
+	<img src="assets/img/logo_dark.png" height="45">
+</a>
+<div *ngIf="onBuilder && surveyService.lastSurvey" class="navbar-brand d-md-block d-none">
+	<div class="badge badge-primary mr-3">Design</div>{{ surveyService.lastSurvey.name }}
+</div>
+<div *ngIf="onBuilder && surveyService.lastSurvey" class="navbar-brand d-md-none">
+	<div class="badge badge-primary mr-3">Design</div>{{ surveyService.lastSurvey.code }}
+</div>
+-->
+		<!--
+<ul class="navbar-nav mr-3 d-none d-md-flex flex-row nav-user" (click)="$event.preventDefault()">
+	<li class="nav-item dropdown" dropdown placement="bottom right">
+		<a href="#" class="nav-link dropdown-toggle" dropdownToggle>
+			<div class="nav-padding">
+				<span class="thumb-sm avatar float-left pb-1 mr-2 pr-1">
+					<img class="rounded-circle user-avatar" src="assets/img/avatar.png" alt="...">
+				</span>
+				&nbsp;<strong>{{ userName }}</strong>&nbsp;
+			</div>
+		</a>
+		<ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+			<li><a class="dropdown-item" [routerLink]=" ['/app/account/info'] "><i class="glyphicon glyphicon-user"></i> &nbsp; My
+					Account</a></li>
+			<li class="dropdown-divider"></li>
+			<li><a class="dropdown-item" [routerLink]=" ['/app/account/preferences'] "><i class="glyphicon glyphicon-cog"></i> &nbsp;
+					Preferences</a></li>
+			<li class="dropdown-divider"></li>
+			<li><a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> &nbsp; Log Out</a></li>
+		</ul>
+	</li>
+	<!--	<li class="nav-item">
+      <a class="nav-link" href="#" (click)="toggleChat()" id="toggle-chat">
+        <i class="fas fa-globe fa-lg"></i>
+      </a>
+    </li>
+</ul> -->
+	</div>
+</div>

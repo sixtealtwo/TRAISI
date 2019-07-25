@@ -1,0 +1,12 @@
+<div class="form-group form-group-adjust row">
+	<label for="{{ 'checkbox-' + id }}" class="col-md-3 col-form-label text-md-right">{{ questionConfiguration.name}}</label>
+	<div class="col-md-9">
+		<ng-container *ngFor="let option of options; let idx = index">
+			<div class="form-check abc-checkbox abc-checkbox-primary">
+				<input type="checkbox" id="{{option.label}}" class="form-check-input" [checked]="option.status" (change)="onChange($event, option)"/>
+				<label class="form-check-label" for="{{option.label}}">{{ option.label }}</label>
+			</div>
+		</ng-container>				
+	</div>
+</div>
+

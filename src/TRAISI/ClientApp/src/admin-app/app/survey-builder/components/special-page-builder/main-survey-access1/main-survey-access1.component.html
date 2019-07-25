@@ -1,0 +1,52 @@
+<div id="welcome-survey-access" [style.background-color]="pageThemeInfo.pageBackgroundColour">
+	<div class="row justify-content-center mt-4">
+		<div class="col-xl-6 col-lg-11 col-md-11 col-11">
+			<div class="intro-imagevideo text-center" [class.empty-container]="!videoSource && !imageSource && previewMode.value" [style.border-color]="getBestBorderColor()">
+				<div class="row" *ngIf="!videoSource && !imageSource && !previewMode.value">
+					<div class="col-12">
+						<dropzone class="imageVideoDropzone" #videoUpload [config]="imageVideoDropZoneconfig" [message]="'Click or drag image or video here to upload'"
+						 (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>
+					</div>
+					<div class="col-12">
+						<button (click)="embedVideo()" class="w-100 h-100 btn btn-inverse" type="button">
+							Click Here to Embed Video
+						</button>
+					</div>
+				</div>
+				<video *ngIf="videoSource && !videoEmbedded" controls>
+					<source src="{{ videoSource }}" /></video>
+				<div *ngIf="videoSource && videoEmbedded" class="videoWrapper">
+						<iframe [src]="videoSource | safe: 'resourceUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				</div>
+				<img *ngIf="imageSource" src="{{ imageSource }}" />
+				<button *ngIf="(videoSource || imageSource)  && !previewMode.value" type="button" (click)="deleteImageVideo()" class="btn btn-danger delete-imagevideo"><i
+					class="fas fa-times"></i></button>
+			</div>
+		</div>
+		<div class="col-xl-5 col-lg-12 col-md-12">
+			<div class="row mt-3 mt-xl-0 ml-3 ml-xl-0">
+				<div class="col-12" [style.color]="getBestPageBodyTextColor()">
+					<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [readOnly]="previewMode.value" [modules]="quillModules"
+					 (onContentChanged)="updateContent($event)" theme="bubble" placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>
+				</div>
+			</div>
+			<div class="form-group row mt-3 ml-3 ml-xl-0">
+				<div class="col-6">
+					<div class="form-control ml-3 input-mimic" *ngIf="!previewMode.value">
+						<quill-editor class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"
+						 theme="bubble" placeholder="Access code prompt" [(ngModel)]="accessCodeHTML"></quill-editor>
+					</div>
+					<input *ngIf="previewMode.value" type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}"
+					/>
+				</div>
+				<div class="col-5 xs-center">
+					<button type="button" class="begin-survey-button btn btn-primary">
+						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value"
+						 [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)" theme="bubble" placeholder=""
+						 [(ngModel)]="beginSurveyHTML"></quill-editor>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

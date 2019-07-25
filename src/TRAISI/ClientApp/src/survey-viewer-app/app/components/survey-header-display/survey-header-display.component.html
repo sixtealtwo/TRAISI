@@ -1,0 +1,22 @@
+<div class="pages-divider">
+</div>
+<div id="pages-progress-bar" class="d-none d-md-block" *ngIf="navigator.navigationState$ | async as state">
+	<div class="row">
+
+		<div class="col text-center page-wrapper" [class.white-progress-line]="useWhiteProgressLine"
+			*ngFor="let page of viewerState.surveyPages; index as i">
+			<div class="page d-inline-block" [class.active]="state.activePageIndex == i"
+				[class.complete]="completedPages[i]" (click)="setPageActive(i)">
+				<i [ngClass]="page.icon"></i>
+			</div>
+			<div class="page-progress-label" [class.visible]="state.activePageIndex == i"
+				[style.color]="pageTextColour">
+				{{ page.label }}
+			</div>
+		</div>
+		<div class="col text-center page-wrapper" [class.white-progress-line]="useWhiteProgressLine">
+			<div class="page d-inline-block" [class.complete]="surveyComplete"><i class="fas fa-check"></i></div>
+		</div>
+	</div>
+
+</div>

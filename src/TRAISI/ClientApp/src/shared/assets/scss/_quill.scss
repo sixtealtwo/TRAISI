@@ -1,0 +1,39 @@
+.ql-font-sofia {
+	font-family: 'Sofia', sans-serif;
+	}
+	
+	.ql-bubble .ql-picker.ql-font .ql-picker-label[data-value=sofia]::before,
+	.ql-bubble .ql-picker.ql-font .ql-picker-item[data-value=sofia]::before {
+		content: 'Sofia';
+		font-family: 'Sofia', sans-serif;
+	}
+	
+	.ql-font-roboto {
+	font-family: 'Open Sans', sans-serif;
+	}
+	
+	.ql-bubble .ql-picker.ql-font .ql-picker-label[data-value=roboto]::before,
+	.ql-bubble .ql-picker.ql-font .ql-picker-item[data-value=roboto]::before {
+		content: 'Open Sans';
+		font-family: 'Open Sans', sans-serif;
+	}
+	
+	.ql-font-montserrat {
+		font-family: 'Open Sans', sans-serif;
+		}
+		
+		.ql-bubble .ql-picker.ql-font .ql-picker-label[data-value=montserrat]::before,
+		.ql-bubble .ql-picker.ql-font .ql-picker-item[data-value=montserrat]::before {
+			content: 'MontseOpen Sansrrat';
+			font-family: 'Open Sans', sans-serif;
+		}
+	
+	.ql-container {
+		font-family: unset !important;
+	}
+
+	
+	.ql-editor.ql-blank::before {
+		color: $gray-200 !important;
+		mix-blend-mode: luminosity;
+	}

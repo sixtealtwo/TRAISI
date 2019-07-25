@@ -1,0 +1,36 @@
+<div class="sp-container">
+	<div class="sp-table">
+		<form #spForm="ngForm">
+			<table cdk-table [dataSource]="displayModel" class="table table-bordered">
+				<ng-container cdkColumnDef="{{ col }}" *ngFor="let col of (displayModelColumns | async); index as i">
+					<th cdk-header-cell *cdkHeaderCellDef>
+						<span *ngIf="i > 0">{{ col }}</span>
+					</th>
+					<td cdk-cell *cdkCellDef="let row">{{ row[i] }}</td>
+					<td cdk-footer-cell *cdkFooterCellDef (click)="selectChoice($event, col, i)">
+						<div class="custom-control custom-radio" *ngIf="i > 0">
+							<input
+								[(ngModel)]="inputModel.value"
+								[value]="col"
+								type="radio"
+								id="customRadio-{{ i - 1 }}"
+								name="spRadio"
+								class="custom-control-input"
+							/>
+							<label class="custom-control-label" for="customRadio-{{ i - 1 }}">{{ i }}</label>
+						</div>
+					</td>
+				</ng-container>
+
+				<tr cdk-header-row *cdkHeaderRowDef="(displayModelColumns | async)"></tr>
+				<tr cdk-row *cdkRowDef="let row; columns: (displayModelColumns | async)"></tr>
+				<tr cdk-footer-row *cdkFooterRowDef="(displayModelColumns | async)"></tr>
+			</table>
+		</form>
+	</div>
+	<div class="error" *ngIf="hasError">
+		<div class="alert alert-danger" role="alert">
+			There was an error loading or processing the configuration for this question.
+		</div>
+	</div>
+</div>

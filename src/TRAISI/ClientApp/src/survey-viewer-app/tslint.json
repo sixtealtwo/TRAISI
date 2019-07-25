@@ -1,0 +1,19 @@
+{
+    "extends": "../../tslint.json",
+    "rules": {
+		"indent": [true, "tabs", 4],
+
+        "directive-selector": [
+            true,
+            "attribute",
+            ["app","traisi"],
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            ["app","traisi"],
+            "kebab-case"
+        ]
+    }
+}
