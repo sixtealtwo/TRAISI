@@ -5,8 +5,8 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Authorization.Extensions
 {
-    [SurveyAuthorizationHandler(Name="CANARIE")]
-    public class CanarieAuthorizationHandler : ITraisiAuthorizationHandler
+    [SurveyAuthorizationHandler(Name="SAML2")]
+    public class SAML2AuthorizationHandler : TRAISI.SDK.Interfaces.IAuthorizationHandler
     {
         
         public bool ShouldAuthorize(HttpContext s)

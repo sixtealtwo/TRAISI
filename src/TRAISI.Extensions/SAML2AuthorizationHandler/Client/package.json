@@ -1,5 +1,5 @@
 {
-	"name": "traisi-canarie-authorization",
+	"name": "traisi-saml2-authorization",
 	"version": "1.0.0",
 	"description": "Small extension to enable CANARIE based authorization for survey users in TRAISI",
 	"main": "index.js",
