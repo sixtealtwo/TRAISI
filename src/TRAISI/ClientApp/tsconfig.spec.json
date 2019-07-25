@@ -13,8 +13,8 @@
 		"lib": ["es2017", "dom","esnext"],
 		"baseUrl": ".",
 		"paths": {
-			"traisi-question-sdk": ["../../TRAISI.SDK/Module"],
-			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
+			"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
+			"traisi-sdk/*": ["../../TRAISI.SDK/Client/*"],
 			"questions/*": ["../../Questions/*"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]

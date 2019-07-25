@@ -86,7 +86,13 @@ const APP_PROVIDERS = [AppConfig];
 			autoFocus: true
 		}),
 		MonacoEditorModule.forRoot(monacoConfig),
-		ToastrModule.forRoot({ positionClass: 'toast-top-right', progressBar: true, timeOut: 4000, closeButton: true }),
+		ToastrModule.forRoot({
+			positionClass: 'toast-top-right',
+			progressBar: true,
+			timeOut: 4000,
+			closeButton: false,
+			tapToDismiss: true
+		}),
 		ToastContainerModule
 	],
 	providers: [APP_PROVIDERS, AppTranslationService, LocalStoreManager, EndpointFactory, TranslatePipe, TitleCasePipe]

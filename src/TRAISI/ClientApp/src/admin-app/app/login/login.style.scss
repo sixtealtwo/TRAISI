@@ -1,26 +1,9 @@
 @import 'src/shared/assets/scss/helpers';
 
-/***********************************/
-/**             LOGIN             **/
-/***********************************/
-
 .login-page {
   background-color: $gray-light;
 }
 
-footer {
-  margin-bottom: 25px;
-  font-size: $font-size-mini;
-  color: $text-muted;
-  text-align: center;
-
-  @media (min-height: 715px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-}
 
 .login-logo {
   @media (max-width: 467px) {
@@ -58,6 +41,10 @@ footer {
   }
 }
 
+#auth-form {
+	margin-top: 30px;
+}
+
 .widget-login-info{
   font-size: $font-size-mini;
   color: #888;
@@ -66,13 +53,3 @@ footer {
   text-align: center;
 }
 
-.login-form{
-  .form-control{
-    font-size: $font-size-mini;
-    border: none;
-    background-color: $gray-200;
-    &:focus{
-      background-color: $gray-600;
-    }
-  }
-}

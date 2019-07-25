@@ -45,7 +45,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\DAL\DAL.csproj" />
+		<ProjectReference Include="..\TRAISI.Data\TRAISI.Data.csproj" />
 		<ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj" />
 		<ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
 	</ItemGroup>

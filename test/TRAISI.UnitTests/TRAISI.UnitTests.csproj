@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DAL\DAL.csproj" />
+    <ProjectReference Include="..\..\src\TRAISI.Data\TRAISI.Data.csproj" />
     <ProjectReference Include="..\..\src\TRAISI\TRAISI.csproj" />
   </ItemGroup>
 

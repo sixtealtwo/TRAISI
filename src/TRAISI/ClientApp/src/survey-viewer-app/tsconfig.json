@@ -21,10 +21,10 @@
 		],
 		"paths": {
 			"traisi-sdk/*": [
-				"../../../../TRAISI.SDK/Module/src/*"
+				"../../../../TRAISI.SDK/Client/src/*"
 			],
 			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Module/src/"
+				"../../../../TRAISI.SDK/Client/src/"
 			],
 			"shared/*": [
 				"../shared/*"

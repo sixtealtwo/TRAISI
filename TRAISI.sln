@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29021.104
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15E38D17-ECED-49D4-A161-38EC79E795E9}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8910D093-A9E5-482C-80FE-4569E34927B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "src\DAL\DAL.csproj", "{A6389D9B-6C27-457A-BC42-AD509DE717F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.Data", "src\TRAISI.Data\TRAISI.Data.csproj", "{A6389D9B-6C27-457A-BC42-AD509DE717F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI", "src\TRAISI\TRAISI.csproj", "{D03955C9-BCDB-4C49-B531-D4A822A3AA02}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.IntegrationTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.UnitTests", "test\TRAISI.UnitTests\TRAISI.UnitTests.csproj", "{77031B26-BD59-4439-9D1E-7A689EEE5DA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRAISI.Extensions", "src\TRAISI.Extensions\TRAISI.Extensions.csproj", "{3FF31FD6-4FE5-4C15-BC9D-D917B4BA1126}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRAISI.Extensions", "src\TRAISI.Extensions\TRAISI.Extensions.csproj", "{3FF31FD6-4FE5-4C15-BC9D-D917B4BA1126}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

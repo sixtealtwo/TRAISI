@@ -1,111 +1,93 @@
-<div class="container">
-	<main id="content" class="widget-login-container app-main" role="main">
-		<div class="wrapper">
-			<div class="page">
-				<!-- .page-inner -->
-				<div class="page-inner">
-					<div class="row justify-content-center">
-						<div class="col-xl-5 col-md-6 col-10">
-							<h5 class="widget-login-logo animated fadeInUp">
-								<img class="login-logo" src="assets/img/logo_light.png" />
-							</h5>
-							<section class="widget widget-login animated fadeInUp">
-								<header>
-									<h3>Login to TRAISI</h3>
-								</header>
-								<div class="widget-body">
-									<!--<p class="widget-login-info">
+<main id="content" class="auth" role="main">
+	<!-- .page-inner -->
+
+	<header id="auth-header" class="auth-header" style="background-color: #1D202A;">
+		<h1>
+			<img class="login-logo" src="assets/img/logo_dark.png" />
+			<span class="sr-only">Sign In</span>
+		</h1>
+		<canvas class="particles-js-canvas-el" width="1324" height="253" style="width: 100%; height: 100%;"></canvas>
+	</header>
+
+	<!--<p class="widget-login-info">
               Don't have an account? Sign up now!
             </p>-->
-									<form
-										*ngIf="formResetToggle"
-										class="form-horizontal login"
-										name="loginForm"
-										#f="ngForm"
-										novalidate
-										(ngSubmit)="
-											f.form.valid
-												? login()
-												: !email.valid && showErrorAlert('Email is required', 'Please enter a valid email');
-											!password.valid && showErrorAlert('Password is required', 'Please enter a valid password')
-										"
-									>
-										<div class="form-group row" [ngClass]="{ 'was-validated': f.submitted }">
-											<label class="col-form-label text-md-right col-md-2" for="login-email">Email:</label>
-											<div class="col-md-12">
-												<div class="input-group">
-													<span class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-user"></i>
-														</span>
-													</span>
-													<input
-														type="text"
-														id="login-email"
-														name="email"
-														placeholder="Enter email or username"
-														class="form-control feedback-icon"
-														[(ngModel)]="userLogin.email"
-														#email="ngModel"
-														required
-													/>
-													<div class="invalid-feedback">
-														Email is required
-													</div>
-												</div>
-											</div>
-										</div>
+	<form
+			id="auth-form"
+		*ngIf="formResetToggle"
+		class="auth-form"
+		name="loginForm"
+		#f="ngForm"
+		novalidate
+		(ngSubmit)="
+			f.form.valid ? login() : !email.valid && showErrorAlert('Email is required', 'Please enter a valid email');
+			!password.valid && showErrorAlert('Password is required', 'Please enter a valid password')
+		"
+	>
+		<div class="form-group" [ngClass]="{ 'was-validated': f.submitted }">
+			<div class="form-label-group">
+				<input
+					type="text"
+					id="login-email"
+					name="email"
+					placeholder="Enter email or username"
+					class="form-control feedback-icon"
+					[(ngModel)]="userLogin.email"
+					#email="ngModel"
+					required
+				/>
+				<label for="login-email">Username</label>
+				<div class="invalid-feedback">
+					Email is required
+				</div>
+			</div>
+		</div>
 
-										<div class="form-group row" [ngClass]="{ 'was-validated': f.submitted }">
-											<label class="col-form-label text-md-right col-md-2" for="login-password">Password:</label>
-											<div class="col-md-12">
-												<div class="input-group">
-													<span class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-lock"></i>
-														</span>
-													</span>
-													<input
-														type="password"
-														id="login-password"
-														name="password"
-														placeholder="Enter password"
-														class="form-control"
-														[(ngModel)]="userLogin.password"
-														#password="ngModel"
-														required
-													/>
-													<div class="invalid-feedback">
-														Password is required
-													</div>
-												</div>
-											</div>
-										</div>
-										<!--<div class="form-group">
+		<div class="form-group" [ngClass]="{ 'was-validated': f.submitted }">
+			<div class="form-label-group">
+				<input
+					type="password"
+					id="login-password"
+					name="password"
+					placeholder="Enter password"
+					class="form-control"
+					[(ngModel)]="userLogin.password"
+					#password="ngModel"
+					required
+				/>
+				<label for="login-password">Password</label>
+				<div class="invalid-feedback">
+					Password is required
+				</div>
+			</div>
+		</div>
+		<!--<div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <div class="checkbox">
                                     <label><input type="checkbox" name="rememberMe" [(ngModel)]="userLogin.rememberMe"> Remember me</label>
                                 </div>
                             </div>
                         </div>-->
-										<div class="clearfix">
-											<div class="btn-toolbar float-right m-t-1">
-												<button type="submit" class="btn btn-primary btn-sm" [disabled]="isLoading">
-													<i *ngIf="isLoading" class="fas fa-circle-notch fa-spin"></i>
-													{{ isLoading ? 'Loggin in...' : 'Login' }}
-												</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</section>
-						</div>
-					</div>
-				</div>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-lg btn-primary btn-block" [disabled]="isLoading">
+				<i *ngIf="isLoading" class="fas fa-circle-notch fa-spin"></i>
+				{{ isLoading ? 'Loggin in...' : 'Login' }}
+			</button>
+		</div>
+		<div class="form-group text-center">
+			<div class="custom-control custom-control-inline custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="remember-me" />
+				<label class="custom-control-label" for="remember-me">Keep me signed in</label>
 			</div>
 		</div>
-	</main>
-	<footer>
+		<div class="text-center pt-3">
+			<a href="auth-recovery-username.html" class="link">Forgot Username?</a>
+			<span class="mx-2">·</span>
+			<a href="auth-recovery-password.html" class="link">Forgot Password?</a>
+		</div>
+	</form>
+	<footer class="auth-footer">
 		2018 &copy; University of Toronto Transportation Research Institute
 	</footer>
-</div>
+</main>
