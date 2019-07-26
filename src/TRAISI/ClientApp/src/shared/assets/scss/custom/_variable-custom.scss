@@ -1,5 +1,17 @@
 // put your own variables to customize and override the theme variables
 
 
-$app-header-dark-bg: rgb(25, 54, 90);
-$blue: #5F9CB5;
+$app-header-dark-bg: #1c2b4e;
+$traisi-dark-background: #1D202A;
+$traisi-primary: #5f12dd;
+$traisi-primary-light: #8A52E6;
+$traisi-secondary: #097F8E;
+$traisi-contrast: #A8A081;
+$traisi-third: #0E6BA8;
+
+
+$theme-colors: (
+  "primary":$traisi-primary,
+  "secondary": $traisi-secondary,
+  "primary-light": $traisi-primary-light,
+);
