@@ -24,6 +24,13 @@ namespace TRAISI.SDK.Questions
             Description = "The list of available radio responses presented to the user.",
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
+
+        [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
+        Name = "AllowCustomResponse",
+        Description = "Allow user to enter their own custom response.",
+        SurveyBuilderValueType = QuestionBuilderType.Switch,
+        DefaultValue = "false")]
+        public int Min = 0;
     }
 
 }
