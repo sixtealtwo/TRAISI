@@ -24,8 +24,8 @@
 	<Target Name="NpmCommands" BeforeTargets="Compile" Condition="$(staging) == true AND $(Configuration) != 'Release'">
 		<!-- <Exec Command="npm run build" /> -->
 		<Message Importance="high" Text="Building TRAISI.SDK module library." />
-		<Exec WorkingDirectory="Module/" Command="npm install" />
-		<Exec WorkingDirectory="Module/" Command="npm run build" />
+		<Exec WorkingDirectory="Client/" Command="npm install" />
+		<Exec WorkingDirectory="Client/" Command="npm run build" />
 		<Message Text="Compiled and built TRAISI SDK module" Importance="High" />
 
 	</Target>
