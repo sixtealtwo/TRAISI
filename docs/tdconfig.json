@@ -14,8 +14,8 @@
 		"typeRoots": ["../src/TRAISI/ClientApp/node_modules/@types"],
 		"lib": ["es2017", "dom"],
 		"paths": {
-			"traisi-question-sdk": ["../../../TRAISI.SDK/Module/src/"],
-			"traisi-sdk/*": ["../../TRAISI.SDK/Module/*"],
+			"traisi-question-sdk": ["../../../TRAISI.SDK/Client/src/"],
+			"traisi-sdk/*": ["../../TRAISI.SDK/Client/*"],
 			"questions/*": ["../../Questions/*"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
             "shared/*": ["shared/*"],
