@@ -38,6 +38,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 
 	public selectedOption: any;
 
+	public customResponseValue: string;
+
 	@ViewChildren('input')
 	public inputElements: QueryList<ElementRef>;
 
@@ -71,6 +73,9 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 			let optionResponse = <OptionSelectResponseData>response[0];
 
 			this.selectedOption = optionResponse.code;
+			if (optionResponse.code === 'custom-response') {
+				this.customResponseValue = optionResponse.value;
+			}
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
 	};
@@ -86,6 +91,12 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 		option.value = option.code;
 		this.response.emit([option]);
 	}
+
+	public onCustomModelChanged(): void {
+		let response = { code: this.selectedOption, value: this.customResponseValue };
+		this.response.emit([response]);
+	}
+
 	/**
 	 *
 	 *

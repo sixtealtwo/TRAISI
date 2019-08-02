@@ -263,22 +263,19 @@
 					</div>
 				</div>
 
-				<div class="form-group form-group-adjust row" *ngIf="questionBeingEdited.questionPart">
-					<div class="col-12">
+				<div class="" *ngIf="questionBeingEdited.questionPart">
+					<div class="col-12 align-self-center">
 						<div class="form-group form-group-adjust row">
 							<label class="col-md-2 col-form-label text-md-right">Optional</label>
-							<div class="col-md-10">
-								<label class="form-check-label switch" for="isOptionalCheck">
-									<input
-										class="form-check-input"
-										type="checkbox"
-										value=""
-										id="isOptionalCheck"
-										[(ngModel)]="questionBeingEdited.isOptional"
-										name="isOptional"
-									/>
-									<i></i>
-								</label>
+							<div class="col-md-10 align-self-center">
+
+									<div class="custom-control custom-control-inline custom-control-nolabel custom-checkbox">
+											<input type="checkbox" class="custom-control-input" value=""
+											id="isOptionalCheck"
+											[(ngModel)]="questionBeingEdited.isOptional"
+											name="isOptional"> <label class="custom-control-label" for="isOptionalCheck">Basic checkbox</label>
+										  </div>
+
 							</div>
 						</div>
 					</div>

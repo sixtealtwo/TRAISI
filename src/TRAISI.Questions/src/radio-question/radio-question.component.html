@@ -2,8 +2,20 @@
 
     <div *ngFor="let option of options" class="custom-control custom-radio">
         <input class="custom-control-input" id="{{option.id}}" type="radio" [value]="option.code" name="{{option.id}}"
-            [(ngModel)]="selectedOption" (ngModelChange)="onModelChanged(option)" #input/>
+            [(ngModel)]="selectedOption" (ngModelChange)="onModelChanged(option)" #input />
         <label for="{{option.id}}" class="custom-control-label">{{option.label}}</label>
+    </div>
+
+    <div *ngIf="configuration.allowCustomResponse" class="custom-control custom-radio">
+        <input class="custom-control-input" id="custom-response" type="radio" [value]="'custom-response'"
+            name="custom-response" [(ngModel)]="selectedOption" #input />
+        <label for="custom-response" class="custom-control-label">Other</label>
+    </div>
+
+    <div *ngIf="selectedOption && selectedOption == 'custom-response'">
+        <input type="text" [(ngModel)]="customResponseValue" class="form-control form-control-lg"
+            placeholder="Enter response..." name="textInput" (ngModelChange)="onCustomModelChanged()"
+            #customResponseInput>
     </div>
 
 </div>

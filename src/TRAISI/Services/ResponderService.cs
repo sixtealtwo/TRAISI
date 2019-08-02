@@ -301,7 +301,7 @@ namespace TRAISI.Services
             foreach (var val in values) {
                 response.ResponseValues.Add(new OptionSelectResponse()
                 {
-                    Value = val.Name,
+                    Value = val.Value,
                     Name = val.Name,
                     Code = val.Code
                 });
