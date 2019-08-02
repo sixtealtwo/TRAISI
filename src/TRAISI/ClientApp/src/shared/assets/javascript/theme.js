@@ -48,7 +48,8 @@ function () {
     this.skin = localStorage.getItem('skin') || 'default'; // initialized
 
     $(document).ready(function () {
-      _this.init();
+      //_this.init();
+      //console.log('theme.jsloaded');
     });
   }
 
@@ -583,7 +584,11 @@ function () {
       var _this4 = this;
 
       var $trigger = $('[data-toggle="aside"]');
+
+      console.log($('[data-toggle="aside"]'));
+
       $trigger.on('click', function () {
+        
         var isShown = $('.app-aside').hasClass('show');
         $trigger.toggleClass('active', !isShown);
         if (isShown) _this4.hideAside();else _this4.showAside();
@@ -726,6 +731,7 @@ function () {
     key: "hamburger",
     value: function hamburger() {
       $(document).on('click', '.hamburger-toggle', function () {
+        console.log('click');
         $(this).toggleClass('active');
       });
     }

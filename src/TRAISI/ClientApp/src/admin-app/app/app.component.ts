@@ -1,9 +1,4 @@
-import {
-	Component,
-	OnInit,
-	HostListener,
-	ViewChild
-} from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../../shared/services/alert.service';
@@ -17,6 +12,7 @@ import { ConfigurationService } from '../../shared/services/configuration.servic
 
 declare let alertify: any;
 declare const SystemJS;
+declare let Theme: any;
 
 @Component({
 	selector: 'app-root',
@@ -24,7 +20,7 @@ declare const SystemJS;
 		<router-outlet><div toastContainer></div></router-outlet>
 	`
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 	public isAppLoaded: boolean;
 	public isUserLoggedIn: boolean;
 
@@ -35,7 +31,7 @@ export class AppComponent implements OnInit {
 	public toastContainer: ToastContainerDirective;
 
 	@HostListener('window:beforeunload', ['$event'])
-	public beforeUnloadHander(event: any): void { }
+	public beforeUnloadHander(event: any): void {}
 
 	public constructor(
 		storageManager: LocalStoreManager,
@@ -52,8 +48,16 @@ export class AppComponent implements OnInit {
 		translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
 		translationService.setDefaultLanguage('en');
 
-
 		this.appTitleService.appName = this.appTitle;
+	}
+
+	/**
+	 *
+	 */
+	public ngAfterViewInit(): void {}
+
+	public ngAfterContentInit(): void {
+		new Theme().init();
 	}
 
 	public ngOnInit(): void {

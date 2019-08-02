@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, ElementRef, Input, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ElementRef, Input, Output, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { AppTranslationService } from '../../../../shared/services/app-translation.service';
@@ -9,24 +9,23 @@ import { AccountService } from '../../services/account.service';
 import { UserGroupService } from '../../services/user-group.service';
 import { SurveyService } from '../../services/survey.service';
 declare let jQuery: JQueryStatic;
-
+declare let Theme: any;
 @Component({
 	selector: 'app-navbar',
 	templateUrl: './navbar.template.html',
 	styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
+export class NavbarComponent implements OnInit, AfterViewInit, AfterContentInit {
+	public isGroupAdmin: boolean = false;
 
-	isGroupAdmin: boolean = false;
+	@Output() public toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
+	@Output() public toggleChatEvent: EventEmitter<any> = new EventEmitter();
+	@Output() public logoutEvent: EventEmitter<any> = new EventEmitter();
 
-	@Output() toggleSidebarEvent: EventEmitter<any> = new EventEmitter();
-	@Output() toggleChatEvent: EventEmitter<any> = new EventEmitter();
-	@Output() logoutEvent: EventEmitter<any> = new EventEmitter();
-
-	@Input() userName: string;
-	@Input() onBuilder: boolean = false;
-	$el: any;
-	config: any;
+	@Input() public userName: string;
+	@Input() public onBuilder: boolean = false;
+	public $el: any;
+	public config: any;
 
 	constructor(
 		el: ElementRef,
@@ -43,27 +42,31 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 		this.config = config.getConfig();
 	}
 
-	toggleSidebar(state): void {
+	public ngAfterContentInit(): void {
+		new Theme().init();
+	}
+
+	public toggleSidebar(state): void {
 		this.toggleSidebarEvent.emit(state);
 	}
 
-	toggleChat(): void {
+	public toggleChat(): void {
 		this.toggleChatEvent.emit(null);
 	}
 
-	logout(): void {
+	public logout(): void {
 		this.logoutEvent.emit();
 	}
 
-	refreshPage() {
+	public refreshPage() {
 		this.router.navigate([this.router.url]);
 	}
 
-	goBackPage() {
+	public goBackPage() {
 		this.location.back();
 	}
 
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		setTimeout(() => {
 			const $chatNotification = jQuery('#chat-notification');
 			$chatNotification
@@ -74,17 +77,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 					setTimeout(() => {
 						$chatNotification
 							.addClass('animated fadeOut')
-							.one(
-								'webkitAnimationEnd mozAnimationEnd MSAnimationEnd' + ' oanimationend animationend',
-								() => {
-									$chatNotification.addClass('hide');
-								}
-							);
+							.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd' + ' oanimationend animationend', () => {
+								$chatNotification.addClass('hide');
+							});
 					}, 8000);
 				});
-			$chatNotification
-				.siblings('#toggle-chat')
-				.append('<i class="chat-notification-sing animated bounceIn"></i>');
+			$chatNotification.siblings('#toggle-chat').append('<i class="chat-notification-sing animated bounceIn"></i>');
 		}, 4000);
 
 		this.$el.find('.input-group-addon + .form-control').on('blur focus', function(e): void {
@@ -102,11 +100,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 		this.userGroupService.isGroupAdmin().subscribe(result => (this.isGroupAdmin = result));
 	}
 
-	ngAfterViewInit(): void {
+	public ngAfterViewInit(): void {
 		this.changeActiveNavigationItem(this.location);
 	}
 
-	changeActiveNavigationItem(location): void {
+	public changeActiveNavigationItem(location): void {
 		let $newActiveLink;
 		if (location._platformStrategy instanceof HashLocationStrategy) {
 			$newActiveLink = this.$el.find('a[href="#' + location._baseHref + location.path().split('?')[0] + '"]');
