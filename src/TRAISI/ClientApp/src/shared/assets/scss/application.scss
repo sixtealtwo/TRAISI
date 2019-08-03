@@ -13,3 +13,8 @@
 @import '~awesome-bootstrap-checkbox/awesome-bootstrap-checkbox';
 @import '~ngx-bootstrap/datepicker/bs-datepicker';
 //
+
+
+body .pace .pace-activity {
+	display : none;
+}

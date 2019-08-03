@@ -41,6 +41,8 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { BUILDER_SERVICE } from 'traisi-question-sdk';
 import { SurveyBuilderService } from './survey-builder/services/survey-builder.service';
 
+import 'pace-progressbar';
+
 const monacoConfig: NgxMonacoEditorConfig = {
 	baseUrl: './assets', // configure base path for monaco editor
 	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used

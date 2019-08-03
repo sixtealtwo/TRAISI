@@ -50,7 +50,8 @@
 							"node_modules/quill/dist/quill.snow.css",
 							"node_modules/quill/dist/quill.bubble.css",
 							"node_modules/angular2-draggable/css/resizable.min.css",
-							"node_modules/ngx-toastr/toastr.css"
+							"node_modules/ngx-toastr/toastr.css",
+							"node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.min.js",
@@ -67,7 +68,7 @@
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js",
 							"node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js",
-							"src/shared/assets/javascript/theme.js"
+							"src/shared/assets/javascript/theme.js",
 						],
 						"stylePreprocessorOptions": {
 							"includePaths": [
