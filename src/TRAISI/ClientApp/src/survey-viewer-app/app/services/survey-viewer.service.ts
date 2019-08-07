@@ -250,7 +250,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	public loadPageThemeInfo(themeInfo: any): void {
 		this._pageThemeInfo.sectionBackgroundColour = themeInfo['householdHeaderColour'];
 		this._pageThemeInfo.questionViewerColour = themeInfo['questionViewerColour'];
-		this._pageThemeInfo.viewerTemplate = JSON.parse(themeInfo['viewerTemplate']);
+		// this._pageThemeInfo.viewerTemplate = JSON.parse(themeInfo['viewerTemplate']);
 		this.pageThemeInfo.next(this._pageThemeInfo);
 	}
 

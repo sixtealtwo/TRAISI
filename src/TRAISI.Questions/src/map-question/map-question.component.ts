@@ -101,7 +101,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 
-		this.displayClass = 'view-full';
+		// this.displayClass = 'view-full';
 	}
 
 	/**

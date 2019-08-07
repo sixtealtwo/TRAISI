@@ -204,7 +204,13 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					};
 					theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
 					theme.questionViewerColour = pageTheme['questionViewerColour'];
+
+
+					try { 
 					theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
+					} catch   {
+						theme.viewerTemplate = [];
+					}
 
 					this.viewerTheme = theme;
 					theme.viewerTemplate.forEach(sectionInfo => {
