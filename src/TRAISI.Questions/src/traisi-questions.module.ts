@@ -114,7 +114,13 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					name: 'household-question',
 					id: 'household',
 					component: HouseholdQuestionComponent
+				},
+				{
+					name: 'slider-question',
+					id: 'slider',
+					component: HouseholdQuestionComponent
 				}
+			]
 			]
 		}
 	],
