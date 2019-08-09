@@ -11,4 +11,6 @@ export interface QuestionInstance {
 
 	validationState: ResponseValidationState;
 
+	component: any;
+
 }

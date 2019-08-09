@@ -218,6 +218,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					}, result);
 				});
 
+				this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].component = surveyQuestionInstance;
+
 				surveyQuestionInstance.respondent = this.respondent;
 				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
 				this.surveyViewerService
