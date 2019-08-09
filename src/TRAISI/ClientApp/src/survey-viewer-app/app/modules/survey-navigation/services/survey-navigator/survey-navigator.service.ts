@@ -84,8 +84,6 @@ export class SurveyNavigator {
 	public navigateNext(): Observable<NavigationState> {
 		let nav = this._incrementNavigation(this.navigationState$.value).pipe(share());
 
-
-
 		nav.subscribe(state => {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
@@ -174,10 +172,9 @@ export class SurveyNavigator {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 
 		// get active question
-		if(newState.activeQuestionInstances.length === 1 && !newState.activeQuestionInstances[0].component.navigateInternalNext()) {
+		if (newState.activeQuestionInstances.length === 1 && !newState.activeQuestionInstances[0].component.navigateInternalNext()) {
 			// ignore
-		}
-		else if (!this._isMultiViewActive(currentState)) {
+		} else if (!this._isMultiViewActive(currentState)) {
 			newState.activeQuestionIndex += 1;
 		} else {
 			newState.activeQuestionIndex += this._state.viewerState.surveyQuestions[
@@ -199,7 +196,12 @@ export class SurveyNavigator {
 	 */
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
-		newState.activeQuestionIndex -= 1;
+
+		if (newState.activeQuestionInstances.length === 1 && newState.activeQuestionInstances[0].component.canNavigateInternalPrevious()) {
+			newState.activeQuestionInstances[0].component.navigateInternalPrevious();
+		} else {
+			newState.activeQuestionIndex -= 1;
+		}
 
 		return this._initState(newState).pipe(
 			expand(state => {
