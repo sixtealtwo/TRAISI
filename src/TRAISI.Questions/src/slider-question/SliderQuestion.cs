@@ -11,7 +11,7 @@ namespace TRAISI.SDK.Questions
     ResponseValidator = typeof(NumberQuestionValidator))]
     public class SliderQuestion : ISurveyQuestion
     {
-        public string TypeName => "number";
+        public string TypeName => "Slider";
 
         public string Icon
         {
