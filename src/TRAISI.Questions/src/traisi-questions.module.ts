@@ -20,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SliderQuestionComponent } from 'slider-question/slider-question.component';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
@@ -118,7 +119,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 				{
 					name: 'slider-question',
 					id: 'slider',
-					component: HouseholdQuestionComponent
+					component: SliderQuestionComponent
 				}
 			]
 		}

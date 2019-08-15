@@ -1,7 +1,11 @@
-input.form-control {
-	border-left-width: 1px !important;
+
+
+div.slider {
 }
 
-.alert, .alert-danger {
-	margin-top: 10px;
+div.slider-value {
+    text-align: left;
+    font-size: 14px;
+    margin: 10px;
+    font-weight: bold;
 }
