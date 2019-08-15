@@ -44,8 +44,8 @@ namespace TRAISI.SDK.Questions
         Name = "Increment",
         Description = "Range Increment.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
-        DefaultValue = "1")]
-        public int Increment = 100;
+        DefaultValue = "10")]
+        public int Increment = 10;
     }
 
 }
