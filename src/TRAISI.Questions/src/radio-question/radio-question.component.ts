@@ -60,7 +60,9 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 *
 	 */
 	public ngOnInit(): void {
+		console.log(this.configuration);
 		this.configuration['allowCustomResponse'] = this.configuration['allowCustomResponse'] === 'false' ? false : true;
+		console.log(this.configuration);
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
 	}
 
