@@ -21,8 +21,7 @@ import { BehaviorSubject } from 'rxjs';
 	template: templateString,
 	styles: [require('./slider-question.component.scss').toString()]
 })
-export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Range> implements OnInit {
-	public readonly QUESTION_TYPE_NAME: string = 'Range Question';
+export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
 
 	@ViewChild('slider')
 	private sliderElement: ElementRef;
@@ -41,7 +40,7 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Range>
 	public ngOnInit(): void {
 		noUiSlider.create(this.sliderElement.nativeElement, {
 			start: [0],
-			step: parseInt(this.configuration['increment'], 10),
+			step: parseInt(this.configuration['step'], 10),
 			range: {
 				min: [parseInt(this.configuration['min'], 10)],
 				max: [parseInt(this.configuration['max'], 10)]

@@ -11,7 +11,7 @@ namespace TRAISI.SDK.Questions
     ResponseValidator = typeof(NumberQuestionValidator))]
     public class SliderQuestion : ISurveyQuestion
     {
-        public string TypeName => "Slider";
+        public string TypeName => "slider";
 
         public string Icon
         {
@@ -40,7 +40,7 @@ namespace TRAISI.SDK.Questions
         Name = "Step",
         Description = "Slider Step.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
-        DefaultValue = "100")]
+        DefaultValue = "5")]
         public int Step = 5;
     }
 

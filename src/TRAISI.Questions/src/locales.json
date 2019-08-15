@@ -13,7 +13,8 @@
 		"select": "Dropdown Select",
 		"time": "Time",
 		"household": "Household",
-		"stated_preference": "Stated Preference"
+		"stated_preference": "Stated Preference",
+		"slider": "Value Slider"
 	},
 	"fr": {
 		"text": "Texte",
@@ -29,6 +30,7 @@
 		"select": "Sélection Déroulante",
 		"time": "Temps",
 		"household": "Household",
-		"stated_preference": "Stated Preference"
+		"stated_preference": "Stated Preference",
+		"slider": "Value Slider"
 	}
 }

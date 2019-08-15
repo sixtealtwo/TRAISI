@@ -36,7 +36,8 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		DateQuestionComponent,
 		LikertQuestionComponent,
 		NumberQuestionValidatorDirective,
-		HouseholdQuestionComponent
+		HouseholdQuestionComponent,
+		SliderQuestionComponent
 	],
 	entryComponents: [
 		TextQuestionComponent,
@@ -49,7 +50,8 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		TimeQuestionComponent,
 		DateQuestionComponent,
 		LikertQuestionComponent,
-		HouseholdQuestionComponent
+		HouseholdQuestionComponent,
+		SliderQuestionComponent
 	],
 	providers: [
 		{
@@ -117,7 +119,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					component: HouseholdQuestionComponent
 				},
 				{
-					name: 'slider-question',
+					name: 'traisi-slider-question',
 					id: 'slider',
 					component: SliderQuestionComponent
 				}
