@@ -121,11 +121,9 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					component: HouseholdQuestionComponent
 				}
 			]
-			]
 		}
 	],
-	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot,
-		 TextMaskModule, NgSelectModule, TimepickerModule,]
+	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule]
 })
 export default class TraisiQuestions {
 	public components: Array<{ name: string; id: string; component: any }>;
