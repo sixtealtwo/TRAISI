@@ -6,9 +6,9 @@ using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.Authorization.Extensions
 {
+    [SurveyAuthorizationHandler(Name="SAML2")]
     [Route("api/[controller]")]
-    [SurveyAuthorizationHandler(Name = "SAML2")]
-    public class SAML2AuthorizationHandler : Controller, TRAISI.SDK.Interfaces.TraisiIAuthorizationHandler
+    public class SAML2AuthorizationHandler : Controller, TRAISI.SDK.Interfaces.IAuthorizationHandler
     {
 
         [ExtensionConfigurationAttribute(Name = "Sign On URL", Description = "URL of sign on location")]
