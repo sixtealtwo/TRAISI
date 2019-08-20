@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+update_npm () {
+    if test -f "package.json"; then
+        rm -rf node_modules
+        npm install
+        npm run build
+    fi
+}
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 cd ${DIR}
@@ -12,17 +20,15 @@ cd ${DIR}/src/TRAISI.SDK
 dotnet build -c cli
 
 cd ${DIR}/src/TRAISI.SDK/Module
-npm install
-npm run build
+update_npm
 
 echo "Update TRAISI.Questions"
 cd ${DIR}/src/TRAISI.Questions
-npm install
-npm run staging
+update_npm
 
 echo "Update TRAISI/ClientApp"
 cd ${DIR}/src/TRAISI/ClientApp
-npm install
+update_npm
 
 echo "Build Project"
 cd ${DIR}/src/TRAISI
