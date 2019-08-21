@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using DAL.Models.Questions;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace DAL
 {
@@ -28,17 +29,17 @@ namespace DAL
         private readonly IAccountManager _accountManager;
         private readonly ILogger _logger;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="accountManager"></param>
-        /// <param name="logger"></param>
-        public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger)
+        private readonly IConfiguration _configuration;
+
+
+
+        public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger,
+        IConfiguration configuration)
         {
             _accountManager = accountManager;
             _context = context;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task SeedAsync()
@@ -67,8 +68,24 @@ namespace DAL
                 await EnsureRoleAsync(userRoleName, "Basic user", 2, ApplicationPermissions.GetAdministrativePermissionValues());
                 await EnsureRoleAsync(respondentRoleName, "Survey Respondent", 3, new string[] { });
 
-                await CreateUserAsync("admin", "<S9TFpkyRH*4zGc(", "Inbuilt Administrator", "admin@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
-				//await CreateUserAsync("admin2", "tempP@ss456", "Inbuilt Administrator", "admin2@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
+                var adminAccounts = _configuration.GetSection("AdminAccounts").GetChildren();
+
+                _logger.LogInformation("Creating admin accounts.");
+                if (adminAccounts.Count() == 0) {
+                    _logger.LogWarning("No admin accounts exist.");
+                    // throw new Exception("No admin accounts in configuration.");
+
+                }
+
+                foreach (var section in adminAccounts) {
+                    var username = section.GetValue<string>("Username");
+                    var password = section.GetValue<string>("Password");
+                    await CreateUserAsync(username, password, "Inbuilt Administrator",
+                    "admin2@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
+                }
+
+
+                //await CreateUserAsync("admin2", "tempP@ss456", "Inbuilt Administrator", "admin2@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
                 //await CreateUserAsync("user", "tempP@ss789", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
                 //await CreateUserAsync("respondent", "@ss789", "Respondent User", "respondent@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { respondentRoleName });
                 //smto = await CreateUserAsync("smto", "tempP@ss789", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });

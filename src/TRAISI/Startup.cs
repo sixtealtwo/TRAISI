@@ -69,25 +69,24 @@ namespace TRAISI
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 bool.TryParse(Configuration.GetSection("DevelopmentSettings").GetSection("UseSqliteDatabaseProvider").Value,
                     out var development);
 
-                if (development)
-                {
+                if (development) {
                     options.UseSqlite("Data Source=dev.db;");
                 }
-                else
-                {
+                else {
                     var dbString = Configuration.GetValue<string>("database");
-                    if (dbString != null)
-                    {
+                    if (dbString != null) {
                         options.UseNpgsql(dbString,
                             b => b.MigrationsAssembly("TRAISI"));
                     }
-                    else
-                    {
+                    else {
                         options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
                             b => b.MigrationsAssembly("TRAISI"));
                     }
@@ -182,8 +181,7 @@ namespace TRAISI
                 options.SetIdentityTokenLifetime(TimeSpan.FromHours(4));
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
-                if (!_hostingEnvironment.IsProduction())
-                { //Uncomment to only disable Https during development
+                if (!_hostingEnvironment.IsProduction()) { //Uncomment to only disable Https during development
                     options.DisableHttpsRequirement();
                 }
 
@@ -243,8 +241,7 @@ namespace TRAISI
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
-            if (!_hostingEnvironment.IsDevelopment())
-            {
+            if (!_hostingEnvironment.IsDevelopment()) {
                 services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
             }
 
@@ -375,24 +372,19 @@ namespace TRAISI
 
             // TODO (change based on config)
 
-            if (Configuration.GetSection("GeoConfig")["Provider"] == "Google")
-            {
+            if (Configuration.GetSection("GeoConfig")["Provider"] == "Google") {
                 services.AddSingleton<IGeoServiceProvider, GoogleGeoService>();
             }
-            else if (Configuration.GetSection("GeoConfig")["Provider"] == "Mapbox")
-            {
+            else if (Configuration.GetSection("GeoConfig")["Provider"] == "Mapbox") {
                 services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
             }
-            else
-            {
-                try
-                {
+            else {
+                try {
                     var providerName = Type.GetType(Configuration.GetValue<string>("GeoConfig:Provider"));
                     var addSingletonMethod = services.GetType().GetMethods();
                     services.AddSingleton(typeof(IGeoServiceProvider), providerName);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     Console.WriteLine($"Unable to instantiate geoservice provider: ${e.Message}");
                 }
 
@@ -439,12 +431,10 @@ namespace TRAISI
 
             questionTypeManager.LoadQuestionExtensions();
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
+            else {
                 // Enforce https during production
                 var rewriteOptions = new RewriteOptions()
                     .AddRedirectToHttps();
@@ -505,8 +495,7 @@ namespace TRAISI
                     spa.Options.DefaultPage = "/survey/index.html";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
-                    if (env.IsDevelopment() || env.IsStaging())
-                    {
+                    if (env.IsDevelopment() || env.IsStaging()) {
                         spa.UseAngularCliServer("start survey-viewer-app --watch --live-reload");
                     }
                 });
