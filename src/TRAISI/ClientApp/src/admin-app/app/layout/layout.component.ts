@@ -1,9 +1,18 @@
 import { Component, ViewEncapsulation, ElementRef, Renderer2, NgZone, ViewChild, HostBinding, OnInit } from '@angular/core';
-import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import {
+	Router,
+	Event as RouterEvent,
+	NavigationStart,
+	NavigationEnd,
+	NavigationCancel,
+	NavigationError,
+	ActivatedRoute
+} from '@angular/router';
 import { AppConfig } from '../app.config';
 import { AuthService } from '..../../../shared/services/auth.service';
 import { SurveyBuilderComponent } from '../survey-builder/survey-builder.component';
 import { AccountService } from 'app/services/account.service';
+import { BehaviorSubject } from 'rxjs';
 
 declare let jQuery: JQueryStatic;
 declare let Hammer: any;
@@ -15,19 +24,20 @@ declare let Hammer: any;
 	styleUrls: ['layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-	@HostBinding('class.nav-static') navStatic: boolean;
-	@HostBinding('class.chat-sidebar-opened') chatOpened: boolean = false;
-	@HostBinding('class.app') appClass: boolean = true;
-	config: any;
-	configFn: any;
-	$sidebar: any;
-	el: ElementRef;
-	router: Router;
-	@ViewChild('spinnerElement') spinnerElement: ElementRef;
-	@ViewChild('routerComponent') routerComponent: ElementRef;
+	@HostBinding('class.nav-static') public navStatic: boolean;
+	@HostBinding('class.chat-sidebar-opened') public chatOpened: boolean = false;
+	@HostBinding('class.app') public appClass: boolean = true;
+	public config: any;
+	public configFn: any;
+	public $sidebar: any;
+	public el: ElementRef;
+	public router: Router;
+	@ViewChild('spinnerElement') public spinnerElement: ElementRef;
+	@ViewChild('routerComponent') public routerComponent: ElementRef;
 
-	userName: string;
-	onBuilder: boolean = false;
+	public hasSidebar: boolean = false;
+	public userName: string;
+	public onBuilder: boolean = false;
 	constructor(
 		config: AppConfig,
 		el: ElementRef,
@@ -35,21 +45,36 @@ export class LayoutComponent implements OnInit {
 		private renderer: Renderer2,
 		private ngZone: NgZone,
 		private authService: AuthService,
-		private _accountService: AccountService
+		private _accountService: AccountService,
+		private _activatedRoute: ActivatedRoute
 	) {
 		this.el = el;
 		this.config = config.getConfig();
 		this.configFn = config;
 		this.router = router;
+
+		this.router.events.subscribe((event: RouterEvent) => {
+			if (event instanceof NavigationEnd) {
+				let data: any = (<BehaviorSubject<any>>this._activatedRoute.firstChild.data).value;
+				console.log(data);
+				console.log(event);
+				this.hasSidebar = false;
+				if (data['hasSidebar'] !== undefined) {
+					if (data['hasSidebar'] === true) {
+						this.hasSidebar = true;
+					}
+				}
+			}
+		});
 	}
 
-	toggleSidebarListener(state): void {
+	public toggleSidebarListener(state): void {
 		const toggleNavigation = state === 'static' ? this.toggleNavigationState : this.toggleNavigationCollapseState;
 		toggleNavigation.apply(this);
 		localStorage.setItem('nav-static', JSON.stringify(this.navStatic));
 	}
 
-	toggleChatListener(): void {
+	public toggleChatListener(): void {
 		jQuery(this.el.nativeElement)
 			.find('.chat-notification-sing')
 			.remove();
@@ -65,14 +90,14 @@ export class LayoutComponent implements OnInit {
 		}, 1000);
 	}
 
-	toggleNavigationState(): void {
+	public toggleNavigationState(): void {
 		this.navStatic = !this.navStatic;
 		if (!this.navStatic) {
 			this.collapseNavigation();
 		}
 	}
 
-	expandNavigation(): void {
+	public expandNavigation(): void {
 		// this method only makes sense for non-static navigation state
 		if (this.isNavigationStatic() && (this.configFn.isScreen('lg') || this.configFn.isScreen('xl'))) {
 			return;
@@ -86,7 +111,7 @@ export class LayoutComponent implements OnInit {
 			.removeClass('collapsed');
 	}
 
-	collapseNavigation(): void {
+	public collapseNavigation(): void {
 		// this method only makes sense for non-static navigation state
 		if (this.isNavigationStatic() && (this.configFn.isScreen('lg') || this.configFn.isScreen('xl'))) {
 			return;
@@ -103,7 +128,7 @@ export class LayoutComponent implements OnInit {
 	/**
 	 * Check and set navigation collapse according to screen size and navigation state
 	 */
-	checkNavigationState(): void {
+	public checkNavigationState(): void {
 		if (this.isNavigationStatic()) {
 			if (this.configFn.isScreen('sm') || this.configFn.isScreen('xs') || this.configFn.isScreen('md')) {
 				this.collapseNavigation();
@@ -119,11 +144,11 @@ export class LayoutComponent implements OnInit {
 		}
 	}
 
-	isNavigationStatic(): boolean {
+	public isNavigationStatic(): boolean {
 		return this.navStatic === true;
 	}
 
-	toggleNavigationCollapseState(): void {
+	public toggleNavigationCollapseState(): void {
 		if (jQuery('app-layout').is('.nav-collapsed')) {
 			this.expandNavigation();
 		} else {
@@ -131,18 +156,18 @@ export class LayoutComponent implements OnInit {
 		}
 	}
 
-	_sidebarMouseEnter(): void {
+	public _sidebarMouseEnter(): void {
 		if (this.configFn.isScreen('lg') || this.configFn.isScreen('xl')) {
 			this.expandNavigation();
 		}
 	}
-	_sidebarMouseLeave(): void {
+	public _sidebarMouseLeave(): void {
 		if (this.configFn.isScreen('lg') || this.configFn.isScreen('xl')) {
 			this.collapseNavigation();
 		}
 	}
 
-	enableSwipeCollapsing(): void {
+	public enableSwipeCollapsing(): void {
 		const swipe = new Hammer(document.getElementById('navbar'), {
 			touchAction: 'auto'
 		});
@@ -175,13 +200,13 @@ export class LayoutComponent implements OnInit {
 		});
 	}
 
-	collapseNavIfSmallScreen(): void {
+	public collapseNavIfSmallScreen(): void {
 		if (this.configFn.isScreen('xs') || this.configFn.isScreen('sm') || this.configFn.isScreen('md')) {
 			this.collapseNavigation();
 		}
 	}
 
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		if (localStorage.getItem('nav-static') === 'true') {
 			this.navStatic = true;
 		}
@@ -299,20 +324,19 @@ export class LayoutComponent implements OnInit {
 		});
 	}
 
-	logout() {
+	public logout() {
 		this.authService.logout();
 		this.authService.redirectLogoutUser();
 	}
 
-	onActivate(event: any) {
-	 if (event instanceof SurveyBuilderComponent) {
-		 this.onBuilder = true;
-		 if (!this.navStatic) {
-			 this.toggleNavigationState();
-		 }
-	 }
-	 else {
-		 this.onBuilder = false;
-	 }
+	public onActivate(event: any) {
+		if (event instanceof SurveyBuilderComponent) {
+			this.onBuilder = true;
+			if (!this.navStatic) {
+				this.toggleNavigationState();
+			}
+		} else {
+			this.onBuilder = false;
+		}
 	}
 }

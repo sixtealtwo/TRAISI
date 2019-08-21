@@ -9,37 +9,33 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 			{
 				path: 'dashboard',
-				loadChildren: '../dashboard/dashboard.module#DashboardModule'
+				loadChildren: '../dashboard/dashboard.module#DashboardModule',
+				data: { test: false }
 			},
 			{
 				path: 'account',
-				loadChildren:
-					'../account-management/account-management.module#AccountManagementModule'
+				loadChildren: '../account-management/account-management.module#AccountManagementModule'
 			},
 			{
 				path: 'users',
-				loadChildren:
-					'../users-management/users-management.module#UsersManagementModule'
+				loadChildren: '../users-management/users-management.module#UsersManagementModule'
 			},
 			{
 				path: 'surveys',
-				loadChildren:
-					'../surveys-management/surveys-management.module#SurveysManagementModule'
+				loadChildren: '../surveys-management/surveys-management.module#SurveysManagementModule'
 			},
 			{
 				path: 'groups',
-				loadChildren:
-					'../groups-management/groups-management.module#GroupsManagementModule'
+				loadChildren: '../groups-management/groups-management.module#GroupsManagementModule'
 			},
 			{
 				path: 'survey-builder',
-				loadChildren:
-					'../survey-builder/survey-builder.module#SurveyBuilderModule'
+				loadChildren: '../survey-builder/survey-builder.module#SurveyBuilderModule',
+				data: { hasSidebar: true }
 			},
 			{
 				path: 'survey-execute',
-				loadChildren:
-					'../survey-execute/survey-execute.module#SurveyExecuteModule'
+				loadChildren: '../survey-execute/survey-execute.module#SurveyExecuteModule'
 			},
 			{
 				path: 'chat',

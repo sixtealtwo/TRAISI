@@ -26,7 +26,7 @@
 		<ngx-loading-bar></ngx-loading-bar>-->
 	<main id="content" class="content app-main" role="main">
 		<div class="wrapper">
-			<div class="page has-sidebar has-sidebar-expand">
+			<div class="page"  [ngClass]="{'has-sidebar': hasSidebar, 'has-sidebar-expand':hasSidebar}">
 					<div class="sidebar-backdrop"></div>
 				<!-- .page-inner -->
 				<div class="page-inner">
