@@ -30,18 +30,29 @@ export class LayoutComponent implements OnInit {
 	public config: any;
 	public configFn: any;
 	public $sidebar: any;
-	public el: ElementRef;
-	public router: Router;
+
 	@ViewChild('spinnerElement') public spinnerElement: ElementRef;
 	@ViewChild('routerComponent') public routerComponent: ElementRef;
 
 	public hasSidebar: boolean = false;
 	public userName: string;
 	public onBuilder: boolean = false;
+
+	/**
+	 * 
+	 * @param config 
+	 * @param el 
+	 * @param router 
+	 * @param renderer 
+	 * @param ngZone 
+	 * @param authService 
+	 * @param _accountService 
+	 * @param _activatedRoute 
+	 */
 	constructor(
 		config: AppConfig,
-		el: ElementRef,
-		router: Router,
+		public el: ElementRef,
+		public router: Router,
 		private renderer: Renderer2,
 		private ngZone: NgZone,
 		private authService: AuthService,
@@ -56,8 +67,6 @@ export class LayoutComponent implements OnInit {
 		this.router.events.subscribe((event: RouterEvent) => {
 			if (event instanceof NavigationEnd) {
 				let data: any = (<BehaviorSubject<any>>this._activatedRoute.firstChild.data).value;
-				console.log(data);
-				console.log(event);
 				this.hasSidebar = false;
 				if (data['hasSidebar'] !== undefined) {
 					if (data['hasSidebar'] === true) {

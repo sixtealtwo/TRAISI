@@ -6,3 +6,11 @@
 	position: fixed;
 	top: 3.5rem;
 }
+
+.app-aside .top-bar-brand
+{
+	text-align: center;
+	a {
+		flex-grow: 1;
+	}
+}
