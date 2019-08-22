@@ -30,6 +30,8 @@ namespace DAL.Models.Surveys
         public ICollection<Groupcode> GroupCodes { get; set; }
         public ICollection<Shortcode> Shortcodes { get; set; }
 
+        public ICollection<ExtensionConfiguration> ExtensionConfigurations { get; set; }
+
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
         [NotMapped]
@@ -37,14 +39,13 @@ namespace DAL.Models.Surveys
 
         public Survey()
         {
-            this.SurveyViews = new SurveyViewCollection<SurveyView>();
+            SurveyViews = new SurveyViewCollection<SurveyView>();
+            ExtensionConfigurations = new List<ExtensionConfiguration>();
         }
 
-
-
-        /**
-         * 
-         */
+        /// <summary>
+        /// 
+        /// </summary>
         public void PopulateDefaults()
         {
             DefaultLanguage = "en";
@@ -56,6 +57,9 @@ namespace DAL.Models.Surveys
                     Survey = this
                 }
             };
+
+
+
 
             SurveyPermissions = new HashSet<SurveyPermission>();
             SurveyViews = new SurveyViewCollection<SurveyView>()
