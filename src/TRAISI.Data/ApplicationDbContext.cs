@@ -104,7 +104,7 @@ namespace DAL
 
             builder.Entity<Survey>().HasMany(s => s.ExtensionConfigurations).WithOne(s => s.Survey);
             builder.Entity<ExtensionConfiguration>().Property(s => s.Configuration).HasDefaultValue("{}");
-            builder.Entity<ExtensionConfiguration>().HasIndex(p => p.ExtensionName);
+            builder.Entity<ExtensionConfiguration>().HasIndex(p => new { p.Survey, p.ExtensionName});
             builder.Entity<Survey>().Property(s => s.Name).IsRequired().HasMaxLength(100);
             builder.Entity<Survey>().Property(s => s.Code).IsRequired().HasMaxLength(30);
             builder.Entity<Survey>().HasMany(s => s.SurveyViews).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
