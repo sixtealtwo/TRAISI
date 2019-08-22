@@ -6,7 +6,7 @@ namespace TRAISI.SDK.Enums
 	/// <summary>
 	/// Front view question parameter types
 	/// </summary>
-	public enum QuestionConfigurationValueType
+	public enum ConfigurationValueType
 	{
 		String,
 		Integer,

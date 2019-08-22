@@ -9,7 +9,7 @@ namespace TRAISI.SDK
 
         public string Description { get; set; }
 
-        public QuestionConfigurationValueType ValueType { get; set; }
+        public ConfigurationValueType ValueType { get; set; }
 
         public QuestionBuilderType BuilderType { get; set; }
 

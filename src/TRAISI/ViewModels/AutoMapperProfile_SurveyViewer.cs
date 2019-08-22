@@ -203,11 +203,11 @@ namespace TRAISI.ViewModels
 						{
 							switch (a.ValueType)
 							{
-								case QuestionConfigurationValueType.Integer:
+								case ConfigurationValueType.Integer:
 									svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
 									int.Parse(a.Value);
 									break;
-								case QuestionConfigurationValueType.Decimal:
+								case ConfigurationValueType.Decimal:
 									svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
 									double.Parse(a.Value);
 									break;

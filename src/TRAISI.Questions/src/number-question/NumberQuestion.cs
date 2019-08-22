@@ -19,7 +19,7 @@ namespace TRAISI.SDK.Questions
         }
         public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
-        [QuestionConfiguration(QuestionConfigurationValueType.String,
+        [QuestionConfiguration(ConfigurationValueType.String,
         Name = "Number Format",
         Description = "Format of the number.",
         SurveyBuilderValueType = QuestionBuilderType.SingleSelect,
@@ -27,14 +27,14 @@ namespace TRAISI.SDK.Questions
         Resource = "numberquestion-format")]
         public string Format = "Integer";
 
-        [QuestionConfiguration(QuestionConfigurationValueType.Integer,
+        [QuestionConfiguration(ConfigurationValueType.Integer,
         Name = "Min",
         Description = "Minimum Number.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
         DefaultValue = "0")]
         public int Min = 0;
 
-        [QuestionConfiguration(QuestionConfigurationValueType.Integer,
+        [QuestionConfiguration(ConfigurationValueType.Integer,
         Name = "Max",
         Description = "Maximum Number.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,

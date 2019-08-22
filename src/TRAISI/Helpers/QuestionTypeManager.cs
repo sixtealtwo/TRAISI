@@ -341,8 +341,6 @@ namespace TRAISI.Helpers
         /// </summary>
         private List<Assembly> LoadExtensionAssemblies()
         {
-
-
             var extensionAssemblies = new List<Assembly>();
             _logger.LogInformation("Loading TRAISI extensions");
             if (!Directory.Exists("extensions")) {

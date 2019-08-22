@@ -5,7 +5,7 @@ namespace TRAISI.SDK.Interfaces
 {
 
 
-    public interface IAuthorizationHandler
+    public interface TraisiIAuthorizationHandler
     {
 
         bool ShouldAuthorize(HttpContext s);

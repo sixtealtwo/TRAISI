@@ -23,7 +23,7 @@ namespace TRAISI.SDK.Questions
         /// <summary>
         /// The minimum or earliest allowed date
         /// </summary>
-        [QuestionConfiguration(QuestionConfigurationValueType.Date,
+        [QuestionConfiguration(ConfigurationValueType.Date,
         Name = "Min Date",
         Description = "Minimum Date.",
         SurveyBuilderValueType = QuestionBuilderType.Date,
@@ -33,7 +33,7 @@ namespace TRAISI.SDK.Questions
         /// <summary>
         /// the maximum or latest allowed date
         /// </summary>
-        [QuestionConfiguration(QuestionConfigurationValueType.Date,
+        [QuestionConfiguration(ConfigurationValueType.Date,
         Name = "Max Date",
         Description = "Maximum Date.",
         SurveyBuilderValueType = QuestionBuilderType.Date,

@@ -25,7 +25,7 @@ namespace TRAISI.SDK.Questions
             SurveyBuilderValueType = QuestionOptionValueType.KeyValuePair)]
         public ICollection ResponseOptions;
 
-        [QuestionConfiguration(QuestionConfigurationValueType.Boolean,
+        [QuestionConfiguration(ConfigurationValueType.Boolean,
         Name = "AllowCustomResponse",
         Description = "Allow user to enter their own custom response.",
         SurveyBuilderValueType = QuestionBuilderType.Switch,

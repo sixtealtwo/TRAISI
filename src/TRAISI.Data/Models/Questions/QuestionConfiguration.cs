@@ -38,7 +38,7 @@ namespace DAL.Models.Questions
 		/// Holds discriminator information to identity the type of data that is serialized in the Value field.
 		/// </summary>
 		/// <value></value>
-		public QuestionConfigurationValueType ValueType { get; set; }
+		public ConfigurationValueType ValueType { get; set; }
 
 		/// <summary>
 		/// 

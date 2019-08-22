@@ -24,35 +24,35 @@ namespace TRAISI.SDK.Questions
         }
 
 
-        [QuestionConfiguration(QuestionConfigurationValueType.String,
+        [QuestionConfiguration(ConfigurationValueType.String,
             Name = "Mapbox Style",
             Description = "Style string to use for map.",
             SurveyBuilderValueType = QuestionBuilderType.Text,
             DefaultValue = "mapbox://styles/mapbox/streets-v9?optimize=true")]
         public string Style = "mapbox://styles/mapbox/streets-v9?optimize=true";
 
-        [QuestionConfiguration(QuestionConfigurationValueType.String,
+        [QuestionConfiguration(ConfigurationValueType.String,
             Name = "Mapbox Access Token",
             Description = "API Access token for the Mapbox service.",
             SurveyBuilderValueType = QuestionBuilderType.Text,
             DefaultValue = "")]
         public string AccessToken = "";
 
-        [QuestionConfiguration(QuestionConfigurationValueType.Integer,
+        [QuestionConfiguration(ConfigurationValueType.Integer,
             Name = "Mapbox Default Zoom",
             Description = "Initial zoom level.",
             SurveyBuilderValueType = QuestionBuilderType.NumericText,
             DefaultValue = "8")]
         public int Zoom = 8;
 
-        [QuestionConfiguration(QuestionConfigurationValueType.Tuple,
+        [QuestionConfiguration(ConfigurationValueType.Tuple,
             Name = "Mapbox Default Centre",
             Description = "Initial centre location.",
             SurveyBuilderValueType = QuestionBuilderType.Location,
             DefaultValue = "-79.40|43.67")]
         public Tuple<double, double> Centre = new Tuple<double, double>(-79.40, 43.67);
 
-        [QuestionConfiguration(QuestionConfigurationValueType.String,
+        [QuestionConfiguration(ConfigurationValueType.String,
             Name = "Purpose",
             Description = "Purpose of being at location.",
             SurveyBuilderValueType = QuestionBuilderType.SingleSelect,

@@ -3,18 +3,18 @@ using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK.Attributes
 {
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class QuestionConfigurationAttribute : Attribute
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        private QuestionConfigurationValueType _valueType;
+        private ConfigurationValueType _valueType;
 
         private QuestionBuilderType _surveyBuilderValueType;
 
-        public QuestionConfigurationValueType ValueType { get => this._valueType; }
+        public ConfigurationValueType ValueType { get => this._valueType; }
 
         public QuestionBuilderType SurveyBuilderValueType { get => _surveyBuilderValueType; set => _surveyBuilderValueType = value; }
 
@@ -39,7 +39,7 @@ namespace TRAISI.SDK.Attributes
         public string SharedResource { get; set; }
 
         public string DefaultValue { get; set; }
-        public QuestionConfigurationAttribute(QuestionConfigurationValueType valueType)
+        public QuestionConfigurationAttribute(ConfigurationValueType valueType)
         {
             this._valueType = valueType;
         }

@@ -52,7 +52,7 @@ namespace TRAISI.UnitTests
             mockSurveyQuestion.SetupProperty(p => p.TypeName,"TestQuestionType1");
             mockSurveyQuestion.SetupProperty(p => p.Icon, "IconType1");
             
-            TypeDescriptor.AddAttributes(mockSurveyQuestion.Object, new QuestionConfigurationAttribute(QuestionConfigurationValueType.Integer){
+            TypeDescriptor.AddAttributes(mockSurveyQuestion.Object, new QuestionConfigurationAttribute(ConfigurationValueType.Integer){
                 Description = "Description",
 
             });
