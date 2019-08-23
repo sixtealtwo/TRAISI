@@ -375,7 +375,7 @@ namespace TRAISI
             if (Configuration.GetSection("GeoConfig")["Provider"] == "Google") {
                 services.AddSingleton<IGeoServiceProvider, GoogleGeoService>();
             }
-            else if (Configuration.GetSection("GeoConfig")["Provider"] == "Mapbox") {
+            else if (Configuration.GetSection("GeoConfig")["Provider"] == "TRAISI.Helpers.MapBoxGeoService") {
                 services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
             }
             else {
