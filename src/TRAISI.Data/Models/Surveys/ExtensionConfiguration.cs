@@ -10,6 +10,7 @@ namespace DAL.Models.Surveys
         [JsonIgnore]
         public int Id { get; set; }
 
+
         public Survey Survey { get; set; }
 
         [Required]
