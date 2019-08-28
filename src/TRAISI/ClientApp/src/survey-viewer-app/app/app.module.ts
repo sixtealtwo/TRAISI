@@ -62,6 +62,7 @@ import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-end
 import { httpInterceptorProviders } from './http-interceptors';
 import { SurveyNavigator } from './modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
+import { TraisiAuthorizationModule } from './modules/authorization/traisi-authorization.module';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -122,7 +123,8 @@ import { SurveyNavigationModule } from './modules/survey-navigation/survey-navig
 		]),
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
-		SurveyNavigationModule.forRoot()
+		SurveyNavigationModule.forRoot(),
+		TraisiAuthorizationModule
 	],
 	providers: [
 		LocalStoreManager,
