@@ -6,3 +6,5 @@ import { Component } from '@angular/core';
 	styles: require('saml2-authorization.component.scss')
 })
 export class Saml2AuthorizationComponent {
+
+}

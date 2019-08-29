@@ -57,14 +57,10 @@ export class MultiSelectComponent implements OnInit {
 	 * @param last
 	 */
 	public processPriorValue(last: string): void {
-		console.log('last: ');
-		console.log(last);
 		this.multiSelectValues = JSON.parse(last);
 		this.selected = this.multiSelectValues.split(' | ');
 
 		setTimeout(() => {
-			console.log(this.selected);
-			console.log((<any>$(this.selectElement.nativeElement)).selectpicker());
 			(<any>$(this.selectElement.nativeElement)).selectpicker('val', this.selected);
 			(<any>$(this.selectElement.nativeElement)).selectpicker('refresh');
 			console.log((<any>$(this.selectElement.nativeElement)).selectpicker().val());
