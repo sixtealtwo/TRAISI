@@ -15,7 +15,7 @@ namespace TRAISI.Helpers
 
         private ILogger<ExtensionsLoader> _logger;
 
-        private Dictionary<string, TraisiIAuthorizationHandler> AuthorizationHandlers { get; set; }
+        private Dictionary<string, ITraisiIAuthorizationHandler> AuthorizationHandlers { get; set; }
 
         private Dictionary<string, Assembly> _fileAssemblyMap;
 

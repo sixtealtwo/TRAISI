@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace TRAISI.SDK.Interfaces
 {
-
-
-    public interface TraisiIAuthorizationHandler
+    public interface ITraisiIAuthorizationHandler
     {
 
         bool ShouldAuthorize(HttpContext s);

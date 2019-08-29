@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
 import { Select2OptionData } from 'ng2-select2';
+import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
 
 @Component({
 	selector: 'app-multi-select',
@@ -11,43 +12,69 @@ export class MultiSelectComponent implements OnInit {
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
-	options: Select2OptionData[] = [];
-	selected: string[] = [];
+	public options: Select2OptionData[] = [];
+	public selected: string[] = [];
 
-	select2Options: any = {
+	public select2Options: any = {
 		theme: 'bootstrap',
 		multiple: true
 	};
 	public multiSelectValues: string;
 
+	@ViewChild('selectElement')
+	public selectElement: ElementRef;
+
 	constructor() {}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		let optionData = JSON.parse(this.questionConfiguration.resourceData);
 		optionData.options.forEach(element => {
 			this.options.push({ text: element, id: element });
 		});
+
+		$(this.selectElement.nativeElement)['selectpicker']();
 		this.setDefaultValue();
+
+		$(this.selectElement.nativeElement).on('changed.bs.select', (e, clickedIndex, isSelected, previousValue) => {
+			// do something...
+			let values: Array<string> = $(this.selectElement.nativeElement)['selectpicker']('val');
+			this.multiSelectValues = values.join(' | ');
+			// console.log(e);
+		});
 	}
 
-	setDefaultValue() {
+	public setDefaultValue() {
 		this.multiSelectValues = this.questionConfiguration.defaultValue;
 		this.selected.push(this.questionConfiguration.defaultValue);
 	}
 
-	getValue() {
+	public getValue() {
 		return JSON.stringify(this.multiSelectValues);
 	}
 
-	processPriorValue(last: string) {
+	/**
+	 *
+	 * @param last
+	 */
+	public processPriorValue(last: string): void {
+		console.log('last: ');
+		console.log(last);
 		this.multiSelectValues = JSON.parse(last);
 		this.selected = this.multiSelectValues.split(' | ');
+
+		setTimeout(() => {
+			console.log(this.selected);
+			console.log((<any>$(this.selectElement.nativeElement)).selectpicker());
+			(<any>$(this.selectElement.nativeElement)).selectpicker('val', this.selected);
+			(<any>$(this.selectElement.nativeElement)).selectpicker('refresh');
+			console.log((<any>$(this.selectElement.nativeElement)).selectpicker().val());
+		});
 	}
 
-	getSelect2GroupedList(): Select2OptionData[] {
+	public getSelect2GroupedList(): Select2OptionData[] {
 		return this.options;
 	}
-	changed(data: { value: string[] }) {
-		this.multiSelectValues = data.value.join(' | ');
+	public changed(data: { value: string[] }) {
+		// this.multiSelectValues = data.value.join(' | ');
 	}
 }
