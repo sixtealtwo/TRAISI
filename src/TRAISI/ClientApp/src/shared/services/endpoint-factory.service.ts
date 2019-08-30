@@ -50,7 +50,6 @@ export class EndpointFactory {
 			.append('password', password)
 			.append('grant_type', 'password')
 			.append('scope', 'openid email phone profile offline_access roles')
-			.append('test', 'test')
 			.append('resource', window.location.origin);
 
 		let requestBody = params.toString();

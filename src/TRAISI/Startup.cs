@@ -69,7 +69,7 @@ namespace TRAISI
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -359,6 +359,8 @@ namespace TRAISI
             services.AddSingleton<IAuthorizationRequirement, SurveyRespondentAuthorizationRequirement>();
             services.AddSingleton<IQuestionTypeManager, QuestionTypeManager>();
             services.AddSingleton<IExtensionsLoader, ExtensionsLoader>();
+            services.AddScoped<SurveyAuthorizationService>();
+            services.AddScoped<AuthenticationService>();
             services.AddScoped<IRespondentGroupService, RespondentGroupService>();
 
             services.AddScoped<ISurveyViewerService, SurveyViewerService>();
