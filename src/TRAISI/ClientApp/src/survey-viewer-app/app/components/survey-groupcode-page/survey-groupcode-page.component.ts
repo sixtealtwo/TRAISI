@@ -18,7 +18,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewGroupcodePage } from '../../models/survey-view-groupcode-page.model';
 import { SurveyStart } from 'app/models/survey-start.model';
-import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
 import { find as _find } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
@@ -38,7 +37,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public groupcodeFormGroup: FormGroup;
 	private _surveyId: number;
 
-	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef })
+	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef, static: false })
 	public shortcodeDisplayComponent: ViewContainerRef;
 
 	/**

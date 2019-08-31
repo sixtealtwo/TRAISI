@@ -93,7 +93,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()
 	public questionNameMap: { [name: string]: number };
 
-	@ViewChild('questionTemplate', { read: ViewContainerRef })
+	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
 	public questionOutlet: ViewContainerRef;
 
 	private _responseSaved: Subject<boolean>;

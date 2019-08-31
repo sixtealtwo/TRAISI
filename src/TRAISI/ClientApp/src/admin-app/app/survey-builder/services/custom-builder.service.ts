@@ -14,10 +14,6 @@ import * as Upgrade from '@angular/upgrade/static';
 import * as RxjsModule from 'rxjs';
 import * as traisiSdkModule from 'traisi-question-sdk';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { NgModuleDef, NgModuleDecorator, ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
-import { InternalNgModuleRef } from '@angular/core/src/linker/ng_module_factory';
-import { NgModuleFactory } from '@angular/core/src/render3';
-import { NgModuleData, NgModuleProviderDef } from '@angular/core/src/view';
 import * as rxjsOperators from 'rxjs/operators';
 import { find } from 'lodash';
 /**

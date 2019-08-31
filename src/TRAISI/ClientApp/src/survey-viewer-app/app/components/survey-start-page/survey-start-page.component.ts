@@ -45,10 +45,10 @@ export class SurveyStartPageComponent implements OnInit {
 
 	private _queryParams: Params;
 
-	@ViewChild('codeComponent', { read: ViewContainerRef })
+	@ViewChild('codeComponent', { read: ViewContainerRef, static: false })
 	public codeComponent: ViewContainerRef;
 
-	@ViewChild('outlet', { read: RouterOutlet })
+	@ViewChild('outlet', { read: RouterOutlet, static: true })
 	public outlet: RouterOutlet;
 
 	/**

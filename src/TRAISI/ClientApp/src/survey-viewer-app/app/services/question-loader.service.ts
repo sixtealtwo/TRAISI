@@ -44,7 +44,9 @@ import { find } from 'lodash';
 
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { ComponentFactoryBoundToModule } from '@angular/core/src/linker/component_factory_resolver';
+
+
+type ComponentFactoryBoundToModule<T> = any;
 
 declare const SystemJS;
 

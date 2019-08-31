@@ -98,10 +98,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 	public scrollTop: number = 0;
 
-	@ViewChild('surveyBodyContainer')
+	@ViewChild('surveyBodyContainer', { static: false })
 	public surveyBodyContainer: ElementRef;
 
-	@ViewChild(SurveyHeaderDisplayComponent)
+	@ViewChild(SurveyHeaderDisplayComponent, { static: false })
 	public headerDisplay: SurveyHeaderDisplayComponent;
 
 	@ViewChildren('questions')

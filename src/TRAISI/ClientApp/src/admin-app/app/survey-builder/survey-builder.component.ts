@@ -25,10 +25,7 @@ import { SpecialPageBuilderComponent } from './components/special-page-builder/s
 import { fadeInOut } from '../services/animations';
 import { RealTimeNotificationServce } from '../services/real-time-notification.service';
 import { SurveyNotification } from '../models/survey-notification';
-import { ViewContainerData } from '@angular/core/src/view';
 import { ScreeningQuestions } from './models/screening-questions.model';
-import { BUILDER_SERVICE } from 'traisi-question-sdk';
-import { IconPickerComponent } from 'ngx-icon-picker';
 import { FormGroup, FormControl } from '@angular/forms';
 
 // override p with div tag
@@ -99,7 +96,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 
 	public iconFormGroup: FormGroup;
     public iconCss = new FormControl();
-	
+
 
 	private lastDragEnter: string[] = [];
 	private lastDragLeave: string[] = [];

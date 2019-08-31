@@ -7,7 +7,6 @@ import { AlertComponent } from 'ngx-bootstrap/alert';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
@@ -29,7 +28,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 
 	public isFinishedLoading: boolean = false;
 
-	@ViewChild('screeningForm')
+	@ViewChild('screeningForm', { static: false })
 	public formGroup: NgForm;
 
 	public screeningFormGroup: FormGroup;
