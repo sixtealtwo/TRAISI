@@ -9,33 +9,33 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 			{
 				path: 'dashboard',
-				loadChildren: '../dashboard/dashboard.module#DashboardModule',
+				loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
 				data: { test: false }
 			},
 			{
 				path: 'account',
-				loadChildren: '../account-management/account-management.module#AccountManagementModule'
+				loadChildren: () => import('../account-management/account-management.module').then(m => m.AccountManagementModule)
 			},
 			{
 				path: 'users',
-				loadChildren: '../users-management/users-management.module#UsersManagementModule'
+				loadChildren: () => import('../users-management/users-management.module').then(m => m.UsersManagementModule)
 			},
 			{
 				path: 'surveys',
-				loadChildren: '../surveys-management/surveys-management.module#SurveysManagementModule'
+				loadChildren: () => import('../surveys-management/surveys-management.module').then(m => m.SurveysManagementModule)
 			},
 			{
 				path: 'groups',
-				loadChildren: '../groups-management/groups-management.module#GroupsManagementModule'
+				loadChildren: () => import('../groups-management/groups-management.module').then(m => m.GroupsManagementModule)
 			},
 			{
 				path: 'survey-builder',
-				loadChildren: '../survey-builder/survey-builder.module#SurveyBuilderModule',
+				loadChildren: () => import('../survey-builder/survey-builder.module').then(m => m.SurveyBuilderModule),
 				data: { hasSidebar: true }
 			},
 			{
 				path: 'survey-execute',
-				loadChildren: '../survey-execute/survey-execute.module#SurveyExecuteModule'
+				loadChildren: () => import('../survey-execute/survey-execute.module').then(m => m.SurveyExecuteModule)
 			},
 			{
 				path: 'chat',

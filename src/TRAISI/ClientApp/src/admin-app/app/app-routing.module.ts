@@ -23,11 +23,11 @@ import { ErrorComponent } from './error/error.component';
 				{
 					path: 'app',
 					canActivate: [AuthGuard],
-					loadChildren: './layout/layout.module#LayoutModule'
+					loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule)
 				},
 				{
 					path: 'login',
-					loadChildren: './login/login.module#LoginModule'
+					loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
 				},
 				{
 					path: 'error',

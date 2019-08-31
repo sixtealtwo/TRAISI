@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+    "downlevelIteration": true,
 		"lib": [
 			"es2017",
 			"dom",
@@ -12,8 +13,8 @@
 		"experimentalDecorators": true,
 		"declaration": false,
 		"moduleResolution": "node",
-		"target": "es6",
-		"module": "es6",
+		"target": "es2015",
+		"module": "esnext",
 		"outDir": "../out-tsc/app",
 		"baseUrl": ".",
 		"types": [
