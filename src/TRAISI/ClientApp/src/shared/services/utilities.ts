@@ -1,6 +1,73 @@
 import { Injectable } from '@angular/core';
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
+export function getItem(sKey) {
+	return (
+		decodeURIComponent(
+			document.cookie.replace(
+				new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'),
+				'$1'
+			)
+		) || null
+	);
+}
+
+export function setItem(sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+	if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
+		return false;
+	}
+
+	let sExpires = '';
+
+	if (vEnd) {
+		switch (vEnd.constructor) {
+			case Number:
+				sExpires = vEnd === Infinity ? '; expires=Fri, 31 Dec 9999 23:59:59 GMT' : '; max-age=' + vEnd;
+				break;
+			case String:
+				sExpires = '; expires=' + vEnd;
+				break;
+			case Date:
+				sExpires = '; expires=' + vEnd.toUTCString();
+				break;
+		}
+	}
+
+	document.cookie =
+		encodeURIComponent(sKey) +
+		'=' +
+		encodeURIComponent(sValue) +
+		sExpires +
+		(sDomain ? '; domain=' + sDomain : '') +
+		(sPath ? '; path=' + sPath : '') +
+		(bSecure ? '; secure' : '');
+	return true;
+}
+
+export function removeItem(sKey, sPath, sDomain) {
+	if (!sKey) {
+		return false;
+	}
+	document.cookie =
+		encodeURIComponent(sKey) +
+		'=; expires=Thu, 01 Jan 1970 00:00:00 GMT' +
+		(sDomain ? '; domain=' + sDomain : '') +
+		(sPath ? '; path=' + sPath : '');
+	return true;
+}
+
+export function hasItem(sKey) {
+	return new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(document.cookie);
+}
+export function keys() {
+	let aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '').split(/\s*(?:\=[^;]*)?;\s*/);
+	for (let nIdx = 0; nIdx < aKeys.length; nIdx++) {
+		aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
+	}
+	return aKeys;
+}
+
+// @dynamic
 @Injectable()
 export class Utilities {
 	public static readonly captionAndMessageSeparator = ':';
@@ -10,76 +77,11 @@ export class Utilities {
 	public static readonly accessDeniedMessageDetail = '';
 
 	public static cookies = {
-		getItem: sKey => {
-			return (
-				decodeURIComponent(
-					document.cookie.replace(
-						new RegExp(
-							'(?:(?:^|.*;)\\s*' +
-								encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
-								'\\s*\\=\\s*([^;]*).*$)|^.*$'
-						),
-						'$1'
-					)
-				) || null
-			);
-		},
-		setItem: (sKey, sValue, vEnd, sPath, sDomain, bSecure) => {
-			if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
-				return false;
-			}
-
-			let sExpires = '';
-
-			if (vEnd) {
-				switch (vEnd.constructor) {
-					case Number:
-						sExpires = vEnd === Infinity ? '; expires=Fri, 31 Dec 9999 23:59:59 GMT' : '; max-age=' + vEnd;
-						break;
-					case String:
-						sExpires = '; expires=' + vEnd;
-						break;
-					case Date:
-						sExpires = '; expires=' + vEnd.toUTCString();
-						break;
-				}
-			}
-
-			document.cookie =
-				encodeURIComponent(sKey) +
-				'=' +
-				encodeURIComponent(sValue) +
-				sExpires +
-				(sDomain ? '; domain=' + sDomain : '') +
-				(sPath ? '; path=' + sPath : '') +
-				(bSecure ? '; secure' : '');
-			return true;
-		},
-		removeItem: (sKey, sPath, sDomain) => {
-			if (!sKey) {
-				return false;
-			}
-			document.cookie =
-				encodeURIComponent(sKey) +
-				'=; expires=Thu, 01 Jan 1970 00:00:00 GMT' +
-				(sDomain ? '; domain=' + sDomain : '') +
-				(sPath ? '; path=' + sPath : '');
-			return true;
-		},
-		hasItem: sKey => {
-			return new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(
-				document.cookie
-			);
-		},
-		keys: () => {
-			let aKeys = document.cookie
-				.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '')
-				.split(/\s*(?:\=[^;]*)?;\s*/);
-			for (let nIdx = 0; nIdx < aKeys.length; nIdx++) {
-				aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
-			}
-			return aKeys;
-		}
+		getItem: getItem,
+		setItem: setItem,
+		removeItem: removeItem,
+		hasItem: hasItem,
+		keys: keys
 	};
 
 	public static getHttpResponseMessage(data: HttpResponseBase | any): string[] {
@@ -87,9 +89,7 @@ export class Utilities {
 
 		if (data instanceof HttpResponseBase) {
 			if (this.checkNoNetwork(data)) {
-				responses.push(
-					`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`
-				);
+				responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
 			} else {
 				let responseObject = this.getResponseBody(data);
 
@@ -295,7 +295,7 @@ export class Utilities {
 	}
 
 	public static toTitleCase(text: string) {
-		return text.replace(/\w\S*/g, subString => {
+		return text.replace(/\w\S*/g, function(subString) {
 			return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
 		});
 	}
@@ -403,11 +403,7 @@ export class Utilities {
 		if (window.location.origin) {
 			base = window.location.origin;
 		} else {
-			base =
-				window.location.protocol +
-				'//' +
-				window.location.hostname +
-				(window.location.port ? ':' + window.location.port : '');
+			base = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 		}
 		return base.replace(/\/$/, '');
 	}

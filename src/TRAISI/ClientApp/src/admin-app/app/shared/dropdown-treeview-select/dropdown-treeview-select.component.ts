@@ -18,7 +18,7 @@ export class DropdownTreeviewSelectComponent implements OnChanges {
 	value: any;
 	@Output()
 	valueChange = new EventEmitter<any>();
-	@ViewChild(DropdownTreeviewComponent)
+	@ViewChild(DropdownTreeviewComponent, { static: true })
 	dropdownTreeviewComponent: DropdownTreeviewComponent;
 	filterText: string;
 	private dropdownTreeviewSelectI18n: DropdownTreeviewSelectI18n;

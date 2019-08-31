@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SharedModule} from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Select2Module } from 'ng2-select2';
@@ -16,27 +16,29 @@ import { BsDatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 import { SurveysEditorComponent } from './surveys-editor/surveys-editor.component';
 
+export const translateModuleForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
+
+export const bsForRoot = BsDatepickerModule.forRoot();
+export const bsDropdownForRoot = BsDropdownModule.forRoot();
+
 @NgModule({
 	imports: [
 		CommonModule,
-		BsDatepickerModule.forRoot(),
+		bsForRoot,
 		FormsModule,
 		Select2Module,
 		SharedModule,
 		FileUploadModule,
 		ROUTES,
-		TranslateModule.forChild({
-			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
-		}),
+		translateModuleForChild,
 		ModalModule,
 		AccountManagementModule,
 		NgxDatatableModule,
 		TooltipModule,
-		BsDropdownModule.forRoot()
+		bsDropdownForRoot
 	],
-	declarations: [
-		SurveysManagementComponent,
-		SurveysEditorComponent
-	]
+	declarations: [SurveysManagementComponent, SurveysEditorComponent]
 })
-export class SurveysManagementModule { }
+export class SurveysManagementModule {}

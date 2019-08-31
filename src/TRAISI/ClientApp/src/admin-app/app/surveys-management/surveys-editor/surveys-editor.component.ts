@@ -58,7 +58,7 @@ export class SurveysEditorComponent implements OnInit {
 	@Input()
 	public importing: boolean = false;
 
-	@ViewChild('f')
+	@ViewChild('f', { static: true })
 	private form: any;
 
 	constructor(

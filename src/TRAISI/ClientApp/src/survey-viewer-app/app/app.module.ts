@@ -23,7 +23,6 @@ import { SurveyViewerService } from './services/survey-viewer.service';
 import { SurveyResponderEndpointService } from './services/survey-responder-endpoint.service';
 import { SurveyResponderService } from './services/survey-responder.service';
 import 'jquery';
-import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SurveyViewerTranslateLanguageLoader } from './services/survey-viewer-translation.service';
@@ -43,7 +42,6 @@ import { MainSurveyAccess1Component } from './components/special-page-builder/ma
 import { TextBlock1Component } from './components/special-page-builder/text-block1/text-block1.component';
 import { Footer1Component } from './components/special-page-builder/footer1/footer1.component';
 import { PrivacyConfirmationComponent } from './components/special-page-builder/privacy-confirmation/privacy-confirmation.component';
-import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ConditionalEvaluator } from './services/conditional-evaluator/conditional-evaluator.service';
@@ -61,7 +59,10 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { SurveyNavigator } from './modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
 import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-viewer-authorization.module';
-
+import { PipesModule } from 'shared/pipes/pipes.module';
+import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
+import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
+import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -74,13 +75,13 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 		SurveyHeaderDisplayComponent,
 		SurveyTermsPageComponent,
 		SurveyViewerComponent,
-		SafeHtmlPipe,
-		SafePipe,
 		SurveyShortcodeDisplayPageComponent,
 		SpecialPageBuilderComponent,
 		PrivacyConfirmationComponent,
 		Header1Component,
 		Header2Component,
+		SurveyInternalViewDirective,
+		Saml2AuthorizationComponent,
 		SurveyScreeningPageComponent,
 		MainSurveyAccess1Component,
 		TextBlock1Component,
@@ -95,6 +96,7 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 		BrowserModule,
 		CommonModule,
 		RouterModule,
+		PipesModule,
 		HttpClientModule,
 		BrowserAnimationsModule,
 		FormsModule,
@@ -145,4 +147,4 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })
-export class AppModule { }
+export class AppModule {}

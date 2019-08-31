@@ -15,7 +15,7 @@ export class LocationFieldComponent implements OnInit, AfterViewInit {
 	public markerPosition;
 
 
-	@ViewChild('mapbox') mapGL: MapComponent;
+	@ViewChild('mapbox', { static: true }) mapGL: MapComponent;
 
 	constructor(private cdRef: ChangeDetectorRef) {
 

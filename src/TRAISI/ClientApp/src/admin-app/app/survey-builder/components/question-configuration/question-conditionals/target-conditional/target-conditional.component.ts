@@ -91,7 +91,7 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 		QuestionConditionalTargetGroup
 	>();
 
-	@ViewChild('optionTargets')
+	@ViewChild('optionTargets', { static: false })
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];

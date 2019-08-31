@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 	public appTitle = 'TRAISI';
 	public stickyToasties: number[] = [];
 
-	@ViewChild(ToastContainerDirective)
+	@ViewChild(ToastContainerDirective, { static: true })
 	public toastContainer: ToastContainerDirective;
 
 	@HostListener('window:beforeunload', ['$event'])

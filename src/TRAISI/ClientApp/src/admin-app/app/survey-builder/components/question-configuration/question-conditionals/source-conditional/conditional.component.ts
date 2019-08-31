@@ -95,7 +95,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		QuestionConditionalSourceGroup
 	>();
 
-	@ViewChild('optionTargets')
+	@ViewChild('optionTargets', { static: true })
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];

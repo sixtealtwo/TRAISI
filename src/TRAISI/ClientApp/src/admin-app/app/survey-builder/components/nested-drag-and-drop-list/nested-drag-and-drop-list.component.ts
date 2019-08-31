@@ -63,9 +63,9 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	@Output()
 	public householdAddedChange: EventEmitter<boolean> = new EventEmitter();
 
-	@ViewChild('configurationModal')
+	@ViewChild('configurationModal', { static: true })
 	public configurationModal: ModalDirective;
-	@ViewChild('qConfiguration')
+	@ViewChild('qConfiguration', { static: true })
 	public qConfiguration: QuestionConfigurationComponent;
 
 	@HostListener('touchmove', ['$event'])

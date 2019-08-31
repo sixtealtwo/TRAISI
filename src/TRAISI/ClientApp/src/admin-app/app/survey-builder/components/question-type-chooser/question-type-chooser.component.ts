@@ -38,7 +38,7 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 	@Output()
 	loadedQuestionTypes: EventEmitter<any> = new EventEmitter();
 
-	@ViewChild('element')
+	@ViewChild('element', { static: false })
 	public element: ContainerComponent;
 
 	constructor(

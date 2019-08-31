@@ -53,7 +53,8 @@ export const fadeInOut = trigger('fadeInOut', [
 	selector: 'traisi-question-container',
 	templateUrl: './question-container.component.html',
 	styleUrls: ['./question-container.component.scss'],
-	animations: [fadeInOut]
+	animations: [fadeInOut],
+
 })
 export class QuestionContainerComponent implements OnInit, OnDestroy {
 	@Input()

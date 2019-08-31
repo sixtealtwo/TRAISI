@@ -50,24 +50,24 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 	@Input() public inGroupMode: boolean = false;
 
-	@ViewChild('f') private form;
+	@ViewChild('f', { static: false }) private form;
 
 	// ViewChilds Required because ngIf hides template variables from global scope
-	@ViewChild('userName') private userName;
+	@ViewChild('userName', { static: false }) private userName;
 
-	@ViewChild('userPassword') private userPassword;
+	@ViewChild('userPassword', { static: false }) private userPassword;
 
-	@ViewChild('email') private email;
+	@ViewChild('email', { static: false }) private email;
 
-	@ViewChild('currentPassword') private currentPassword;
+	@ViewChild('currentPassword', { static: false }) private currentPassword;
 
-	@ViewChild('newPassword') private newPassword;
+	@ViewChild('newPassword', { static: false }) private newPassword;
 
-	@ViewChild('confirmPassword') private confirmPassword;
+	@ViewChild('confirmPassword', { static: false }) private confirmPassword;
 
-	@ViewChild('roles') private roles;
+	@ViewChild('roles', { static: false }) private roles;
 
-	@ViewChild('rolesSelector') private rolesSelector;
+	@ViewChild('rolesSelector', { static: false }) private rolesSelector;
 
 	constructor(
 		private alertService: AlertService,

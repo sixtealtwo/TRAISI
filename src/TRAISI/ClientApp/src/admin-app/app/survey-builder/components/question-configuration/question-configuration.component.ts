@@ -118,16 +118,16 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@Output()
 	public configResult = new EventEmitter<string>();
 
-	@ViewChild('conditionals')
+	@ViewChild('conditionals', { static: false })
 	public conditionalsComponent: QuestionConditionalsComponent;
 
-	@ViewChild('pipeTreeSelect')
+	@ViewChild('pipeTreeSelect', { static: false })
 	public pipeTreeSelect: DropdownTreeviewSelectComponent;
 
-	@ViewChild('catiPipeTreeSelect')
+	@ViewChild('catiPipeTreeSelect', { static: false })
 	public catiPipeTreeSelect: DropdownTreeviewSelectComponent;
 
-	@ViewChild('repeatTreeSelect')
+	@ViewChild('repeatTreeSelect', { static: false })
 	public repeatTreeSelect: DropdownTreeviewSelectComponent;
 
 	private questionQuillEditor: any;

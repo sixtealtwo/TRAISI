@@ -65,37 +65,37 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	private downloadNotifier: Subject<DownloadNotification>;
 	public downloadIndicator: boolean = false;
 
-	@ViewChild('soloTable')
+	@ViewChild('soloTable', { static: false })
 	public table: any;
 
-	@ViewChild('sharedTable')
+	@ViewChild('sharedTable', { static: false })
 	public sTable: any;
 
-	@ViewChild('groupTable')
+	@ViewChild('groupTable', { static: false })
 	public gTable: any;
 
-	@ViewChild('editorModal')
+	@ViewChild('editorModal', { static: true })
 	public editorModal: ModalDirective;
 
-	@ViewChild('shareModal')
+	@ViewChild('shareModal', { static: true })
 	public shareModal: ModalDirective;
 
-	@ViewChild('surveyEditor')
+	@ViewChild('surveyEditor', { static: true })
 	public surveyEditor: SurveysEditorComponent;
 
-	@ViewChild('actionsTemplate')
+	@ViewChild('actionsTemplate', { static: true })
 	public actionsTemplate: TemplateRef<any>;
 
-	@ViewChild('surveyTagTemplate')
+	@ViewChild('surveyTagTemplate', { static: true })
 	public surveyTagTemplate: TemplateRef<any>;
 
-	@ViewChild('dateTemplate')
+	@ViewChild('dateTemplate', { static: true })
 	public dateTemplate: TemplateRef<any>;
 
-	@ViewChild('expandTemplate')
+	@ViewChild('expandTemplate', { static: true })
 	public expandTemplate: TemplateRef<any>;
 
-	@ViewChild('textTemplate')
+	@ViewChild('textTemplate', { static: true })
 	public textTemplate: TemplateRef<any>;
 
 	/**

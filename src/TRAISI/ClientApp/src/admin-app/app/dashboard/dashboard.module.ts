@@ -9,19 +9,14 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 
 export const routes = [{ path: '', component: DashboardComponent, pathMatch: 'full' }];
-
+export const routerForChild = RouterModule.forChild(routes);
+export const translateForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
 @NgModule({
-	imports: [
-		CommonModule,
-		RouterModule.forChild(routes),
-		WidgetModule,
-		NgxEchartsModule,
-		TranslateModule.forChild({
-			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
-		})
-	],
+	imports: [CommonModule, routerForChild, WidgetModule, NgxEchartsModule, translateForChild],
 	declarations: [DashboardComponent]
 })
 export class DashboardModule {
-	static routes = routes;
+	public static routes = routes;
 }

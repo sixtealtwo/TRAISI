@@ -20,6 +20,10 @@ import { SharedModule } from '../shared/shared.module';
 import { GroupByPipe } from '../pipes/group-by.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 
+export const translateModuleForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -27,18 +31,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 		Select2Module,
 		SharedModule,
 		ROUTES,
-		TranslateModule.forChild({
-			loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-		}),
+		translateModuleForChild,
 		ModalModule,
 		AccountManagementModule,
 		NgxDatatableModule,
 		TooltipModule
 	],
-	declarations: [UsersManagementComponent,
-		RolesManagementComponent,
-		RoleEditorComponent,
-		GroupByPipe
-	]
+	declarations: [UsersManagementComponent, RolesManagementComponent, RoleEditorComponent, GroupByPipe]
 })
-export class UsersManagementModule { }
+export class UsersManagementModule {}

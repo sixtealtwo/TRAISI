@@ -96,7 +96,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	 * @type {CustomBuilderContainerDirective}
 	 * @memberof QuestionDetailsComponent
 	 */
-	@ViewChild(CustomBuilderContainerDirective)
+	@ViewChild(CustomBuilderContainerDirective, { static: false })
 	public customBuilderContainer: CustomBuilderContainerDirective;
 
 	@Input()

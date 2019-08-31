@@ -12,6 +12,9 @@ import { ModalModule } from 'ngx-bootstrap';
 
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
+export const translateModuleForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
 @NgModule({
 	imports: [
 		CommonModule,
@@ -19,9 +22,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 		FormsModule,
 		SharedModule,
 		ModalModule,
-		TranslateModule.forChild({
-			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
-		}),
+		translateModuleForChild,
 		NgxDatatableModule,
 		MonacoEditorModule
 	],

@@ -51,7 +51,7 @@ export class Header2Component implements OnInit, AfterViewInit {
 	@Output()
 	public deleteComponent = new EventEmitter();
 
-	@ViewChild('imageMenu')
+	@ViewChild('imageMenu', { static: true })
 	public imageMenu: ContextMenuComponent;
 
   constructor(

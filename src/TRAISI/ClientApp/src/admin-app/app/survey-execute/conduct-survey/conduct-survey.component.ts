@@ -78,11 +78,11 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 		timeout: 3000000
 	};
 
-	@ViewChild('indivUpload')
+	@ViewChild('indivUpload', { static: true })
 	dropZoneIndiv: DropzoneComponent;
-	@ViewChild('groupUpload')
+	@ViewChild('groupUpload', { static: true })
 	dropZoneGroup: DropzoneComponent;
-	@ViewChild('dateTemplate')
+	@ViewChild('dateTemplate', { static: true })
 	dateTemplate: TemplateRef<any>;
 
 	constructor(

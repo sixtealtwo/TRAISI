@@ -56,25 +56,25 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 	public groupBeingViewed: boolean = false;
 	public groupActive: string;
 
-	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
+	@ViewChild('indexTemplate', { static: true }) indexTemplate: TemplateRef<any>;
 
-	@ViewChild('userNameTemplate') userNameTemplate: TemplateRef<any>;
+	@ViewChild('userNameTemplate', { static: true }) userNameTemplate: TemplateRef<any>;
 
-	@ViewChild('rolesTemplate') rolesTemplate: TemplateRef<any>;
+	@ViewChild('rolesTemplate', { static: true }) rolesTemplate: TemplateRef<any>;
 
-	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
+	@ViewChild('actionsTemplate', { static: true }) actionsTemplate: TemplateRef<any>;
 
-	@ViewChild('indexTemplateG') indexTemplateG: TemplateRef<any>;
+	@ViewChild('indexTemplateG', { static: true }) indexTemplateG: TemplateRef<any>;
 
-	@ViewChild('userNameTemplateG') userNameTemplateG: TemplateRef<any>;
+	@ViewChild('userNameTemplateG', { static: true }) userNameTemplateG: TemplateRef<any>;
 
-	@ViewChild('rolesTemplateG') rolesTemplateG: TemplateRef<any>;
+	@ViewChild('rolesTemplateG', { static: true }) rolesTemplateG: TemplateRef<any>;
 
-	@ViewChild('actionsTemplateG') actionsTemplateG: TemplateRef<any>;
+	@ViewChild('actionsTemplateG', { static: true }) actionsTemplateG: TemplateRef<any>;
 
-	@ViewChild('editorModal') editorModal: ModalDirective;
+	@ViewChild('editorModal', { static: true }) editorModal: ModalDirective;
 
-	@ViewChild('userEditor') userEditor: UserInfoComponent;
+	@ViewChild('userEditor', { static: true }) userEditor: UserInfoComponent;
 
 	constructor(
 		private alertService: AlertService,

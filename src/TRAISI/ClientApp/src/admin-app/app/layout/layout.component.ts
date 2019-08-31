@@ -31,8 +31,8 @@ export class LayoutComponent implements OnInit {
 	public configFn: any;
 	public $sidebar: any;
 
-	@ViewChild('spinnerElement') public spinnerElement: ElementRef;
-	@ViewChild('routerComponent') public routerComponent: ElementRef;
+	@ViewChild('spinnerElement', { static: true }) public spinnerElement: ElementRef;
+	@ViewChild('routerComponent', { static: true }) public routerComponent: ElementRef;
 
 	public hasSidebar: boolean = false;
 	public userName: string;

@@ -9,22 +9,14 @@ import { Select2Module } from 'ng2-select2';
 
 import { ROUTES } from './account-management.routes';
 
+export const translateForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
+
+// @dynamic
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		Select2Module,
-		ROUTES,
-		TranslateModule.forChild({
-		loader: {provide: TranslateLoader, useClass: TranslateLanguageLoader}
-		})
-	],
-	declarations: [
-		UserPreferencesComponent,
-		UserInfoComponent
-	],
+	imports: [CommonModule, FormsModule, Select2Module, ROUTES, translateForChild],
+	declarations: [UserPreferencesComponent, UserInfoComponent],
 	exports: [UserInfoComponent]
 })
-
-export class AccountManagementModule {
-}
+export class AccountManagementModule {}

@@ -51,10 +51,10 @@ export class GroupsManagementComponent implements OnInit {
 
 	editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
 
-	@ViewChild('indexTemplate') indexTemplate: TemplateRef<any>;
-	@ViewChild('actionsTemplate') actionsTemplate: TemplateRef<any>;
+	@ViewChild('indexTemplate', { static: true }) indexTemplate: TemplateRef<any>;
+	@ViewChild('actionsTemplate', { static: true }) actionsTemplate: TemplateRef<any>;
 
-	@ViewChild('editorModal') editorModal: ModalDirective;
+	@ViewChild('editorModal', { static: true }) editorModal: ModalDirective;
 
 	constructor(
 		private alertService: AlertService,

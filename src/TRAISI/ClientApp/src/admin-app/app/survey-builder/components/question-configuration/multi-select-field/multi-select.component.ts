@@ -21,7 +21,7 @@ export class MultiSelectComponent implements OnInit {
 	};
 	public multiSelectValues: string;
 
-	@ViewChild('selectElement')
+	@ViewChild('selectElement', { static: true })
 	public selectElement: ElementRef;
 
 	constructor() {}

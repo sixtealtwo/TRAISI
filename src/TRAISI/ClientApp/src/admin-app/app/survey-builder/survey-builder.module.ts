@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SurveyBuilderComponent } from './survey-builder.component';
 import { ROUTES } from './survey-builder.routes';
@@ -58,7 +58,38 @@ import { IconPickerModule } from 'ngx-icon-picker';
 import { CustomBuilderService } from './services/custom-builder.service';
 import { CustomBuilderContainerDirective } from './directives/custom-builder-container.directive';
 import { ScreeningQuestionsComponent } from './components/special-page-builder/screening-questions/screening-questions.component';
-import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-question-sdk';
+import { BUILDER_SERVICE, TraisiSurveyBuilder } from 'traisi-question-sdk';
+
+export const SURVEY_BUILDER = new InjectionToken("builder.service");
+export const bsDatepicker = BsDatepickerModule.forRoot();
+export const pagination = PaginationModule.forRoot();
+export const buttons = ButtonsModule.forRoot();
+export const dynamicWithComponents = DynamicModule.withComponents([
+	Header1Component,
+	Header2Component,
+	MainSurveyAccess1Component,
+	TextBlock1Component,
+	Footer1Component
+]);
+
+export const ngxTreeSelect = NgxTreeSelectModule.forRoot({
+	allowFilter: false,
+	filterPlaceholder: 'Type your filter here...',
+	maxVisibleItemCount: 5,
+	idField: 'value',
+	textField: 'text',
+	childrenField: 'children',
+	allowParentSelection: true,
+	expandMode: 'None'
+});
+
+export const ngxMapbox = NgxMapboxGLModule.withConfig({
+	accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
+});
+
+export const translateForChild = TranslateModule.forChild({
+	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
+});
 
 @NgModule({
 	imports: [
@@ -70,7 +101,7 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 		NgxSmoothDnDModule,
 		TooltipModule,
 		QuillModule,
-		BsDatepickerModule.forRoot(),
+		bsDatepicker,
 		NgxSelectModule,
 		NgxBootstrapSliderModule,
 		Select2Module,
@@ -81,34 +112,14 @@ import { BUILDER_SERVICE, TraisiSurveyBuilder, SURVEY_BUILDER } from 'traisi-que
 		NgToggleModule,
 		ContextMenuModule,
 		IconPickerModule,
-		PaginationModule.forRoot(),
-		ButtonsModule.forRoot(),
-		DynamicModule.withComponents([
-			Header1Component,
-			Header2Component,
-			MainSurveyAccess1Component,
-			TextBlock1Component,
-			Footer1Component
-		]),
+		pagination,
+		buttons,
+		dynamicWithComponents,
 		AmazingTimePickerModule,
-		NgxTreeSelectModule.forRoot({
-			allowFilter: false,
-			filterPlaceholder: 'Type your filter here...',
-			maxVisibleItemCount: 5,
-			idField: 'value',
-			textField: 'text',
-			childrenField: 'children',
-			allowParentSelection: true,
-			expandMode: 'None'
-		}),
-		NgxMapboxGLModule.withConfig({
-			accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
-		}),
+		ngxTreeSelect,
+		ngxMapbox,
 		ROUTES,
-
-		TranslateModule.forChild({
-			loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
-		})
+		translateForChild
 	],
 	declarations: [
 		SurveyBuilderComponent,

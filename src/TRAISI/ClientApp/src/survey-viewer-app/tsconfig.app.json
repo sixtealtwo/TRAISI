@@ -20,16 +20,20 @@
 			"node"
 		],
 		"paths": {
-			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Client/"
-			],
+			"@angular/*": ["../../node_modules/@angular/*"],
+			//"traisi-question-sdk": [
+			//	"../../../../TRAISI.SDK/Client/"
+			//],
 			"shared/*": [
 				"../shared/*"
 			]
 		}
 	},
-	"angularCompilerOptions": { }
-	,
+	"angularCompilerOptions": {
+		"skipTemplateCodegen": true,
+		"strictMetadataEmit": false,
+		"fullTemplateTypeCheck": true
+	},
 	"files": ["polyfills.ts"],
 	"include": [
 		"../shared/**/*.ts",
