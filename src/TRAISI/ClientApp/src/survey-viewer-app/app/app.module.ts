@@ -88,7 +88,7 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 		TextBlock1Component,
 		AdminToolbarComponent,
 		SurveyThankYouPageComponent,
-		SurveyQuestionViewDirective,
+		// SurveyQuestionViewDirective,
 		SurveyGroupcodePageComponent,
 		SurveyShortcodePageComponent,
 		SurveyQuestionInternalViewDirective,
