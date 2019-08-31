@@ -43,10 +43,14 @@ import { SurveyBuilderService } from './survey-builder/services/survey-builder.s
 
 import 'pace-progressbar';
 
+
+
+export function monacoLoad () {};
+
 const monacoConfig: NgxMonacoEditorConfig = {
 	baseUrl: './assets', // configure base path for monaco editor
 	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-	onMonacoLoad: () => {} // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
+	onMonacoLoad: monacoLoad // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
 };
 
 const APP_PROVIDERS = [AppConfig];

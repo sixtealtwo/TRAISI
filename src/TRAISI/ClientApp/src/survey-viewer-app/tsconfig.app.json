@@ -9,7 +9,6 @@
 		"rootDirs": [
 			"../shared/services"
 		],
-		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"declaration": false,
 		"moduleResolution": "node",
@@ -29,6 +28,8 @@
 			]
 		}
 	},
+	"angularCompilerOptions": { }
+	,
 	"files": ["polyfills.ts"],
 	"include": [
 		"../shared/**/*.ts",

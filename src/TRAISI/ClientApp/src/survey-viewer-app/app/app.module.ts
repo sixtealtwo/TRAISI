@@ -51,8 +51,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
-import { SurveyQuestionViewDirective } from 'traisi-question-sdk';
-import { SurveyQuestionInternalViewDirective } from 'traisi-question-sdk';
 import { SurveyGroupcodePageComponent } from './components/survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyScreeningPageComponent } from './components/survey-screening-page/survey-screening-page.component';
 import { SurveyShortcodePageComponent } from './components/survey-shortcode-page/survey-shortcode-page.component';
@@ -91,7 +89,6 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 		// SurveyQuestionViewDirective,
 		SurveyGroupcodePageComponent,
 		SurveyShortcodePageComponent,
-		SurveyQuestionInternalViewDirective,
 		Footer1Component
 	],
 	imports: [

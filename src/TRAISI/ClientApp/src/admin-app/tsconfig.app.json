@@ -7,11 +7,12 @@
 		"types": ["node"],
 		"experimentalDecorators": true,
 		"paths": {
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/"],
+			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/"],
+			"@angular/*": ["../node_modules/@angular/*"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
-			"shared/*": ["../shared/*"],
-			"core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
-			"core-js/es6/*": ["node_modules/core-js/es/*"]
+			// "shared/*": ["../shared/*"],
+			//"core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+			//"core-js/es6/*": ["node_modules/core-js/es/*"]
 		}
 	},
 	"include": ["../shared/**/*.ts", "**/*.ts"],

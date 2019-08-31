@@ -3,8 +3,8 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
 	imports:        [],
-	declarations:   [SafeHtmlPipe],
-	exports:        [SafeHtmlPipe],
+	declarations:   [],
+	exports:        [],
 })
 
 export class PipesModule {
