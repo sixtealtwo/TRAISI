@@ -25,10 +25,10 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 
 	public isLoaded: boolean;
 
-	@ViewChild('inputElement')
+	@ViewChild('inputElement', { static: true })
 	private textInputElement: HTMLInputElement;
 
-	@ViewChild('f')
+	@ViewChild('f', { static: true })
 	public inputForm: NgForm;
 
 	public configuration: TextQuestionConfiguration;
