@@ -29,7 +29,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 	public numberMask: any;
 
-	@ViewChild('f')
+	@ViewChild('f', {static: true})
 	public inputForm: NgForm;
 
 	/**

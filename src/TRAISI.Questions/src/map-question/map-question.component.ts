@@ -4,8 +4,13 @@ import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 import { ReplaySubject } from 'rxjs';
 import {
-	LocationResponseData, OnVisibilityChanged, ResponseData,
-	ResponseTypes, ResponseValidationState, SurveyQuestion, SurveyViewer
+	LocationResponseData,
+	OnVisibilityChanged,
+	ResponseData,
+	ResponseTypes,
+	ResponseValidationState,
+	SurveyQuestion,
+	SurveyViewer
 } from 'traisi-question-sdk';
 import { GeoLocation } from '../models/geo-location.model';
 import { MapEndpointService } from '../services/mapservice.service';
@@ -73,14 +78,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		}
 	}
 
-	@ViewChild('mapbox')
+	@ViewChild('mapbox', { static: true })
 	public mapGL: MapComponent;
-	@ViewChild('geocoder')
+	@ViewChild('geocoder', { static: true })
 	public mapGeocoder: any;
-	@ViewChild('geoLocator')
+	@ViewChild('geoLocator', { static: true })
 	public mapGeoLocator: any;
 
-	@ViewChild('mapMarker')
+	@ViewChild('mapMarker', { static: true })
 	public mapMarker: ElementRef;
 
 	private _mapinstance: mapboxgl.Map;
@@ -234,7 +239,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether drag start on
 	 * @param event
 	 */
-	public onDragStart(event: any): void { }
+	public onDragStart(event: any): void {}
 
 	/**
 	 *
@@ -274,7 +279,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 *
 	 * @param event
 	 */
-	public onDrag(event: MapMouseEvent): void { }
+	public onDrag(event: MapMouseEvent): void {}
 
 	/**
 	 *
@@ -313,7 +318,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	/**
 	 * Determines whether question hidden on
 	 */
-	public onQuestionHidden(): void { }
+	public onQuestionHidden(): void {}
 
 	/**
 	 * Loads configuration

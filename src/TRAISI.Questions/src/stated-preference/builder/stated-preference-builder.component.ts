@@ -2,7 +2,18 @@ import { AfterViewInit, Component, Inject, Injector, OnInit, ViewChild, ViewEnca
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BUILDER_SERVICE, CustomBuilderOnHidden, CustomBuilderOnInit, CustomBuilderOnShown, QuestionOptionValue, QUESTION_ID, ResponseTypes, SurveyQuestion, SURVEY_ID, TraisiSurveyBuilder } from 'traisi-question-sdk';
+import {
+	BUILDER_SERVICE,
+	CustomBuilderOnHidden,
+	CustomBuilderOnInit,
+	CustomBuilderOnShown,
+	QuestionOptionValue,
+	QUESTION_ID,
+	ResponseTypes,
+	SurveyQuestion,
+	SURVEY_ID,
+	TraisiSurveyBuilder
+} from 'traisi-question-sdk';
 import demoConfig from './demo-config.model';
 const defaultOption = {
 	code: 'Response Options',
@@ -36,7 +47,7 @@ export class StatedPreferenceBuilderComponent
 	public modelOption: BehaviorSubject<QuestionOptionValue>;
 	public modelJson: BehaviorSubject<any>;
 	public editorOptions: JsonEditorOptions;
-	@ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
+	@ViewChild(JsonEditorComponent, { static: true }) public editor: JsonEditorComponent;
 
 	/**
 	 *Creates an instance of StatedPreferenceBuilderComponent.
@@ -87,7 +98,7 @@ export class StatedPreferenceBuilderComponent
 	 *
 	 * @memberof StatedPreferenceBuilderComponent
 	 */
-	public customBuilderInitialized(injector?: Injector): void { }
+	public customBuilderInitialized(injector?: Injector): void {}
 
 	public customBuilderHidden(): void {
 		console.log('SP hidden was called');
@@ -115,7 +126,7 @@ export class StatedPreferenceBuilderComponent
 	public onSave(): void {
 		this.modelOption.value.optionLabel.value = this.editor.getText();
 		this._surveyBuilder.setQuestionPartOption(this._surveyId, this._questionId, this.modelOption.value).subscribe({
-			error: (error) => {
+			error: error => {
 				console.log(error);
 			}
 		});

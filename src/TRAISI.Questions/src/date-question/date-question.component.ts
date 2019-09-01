@@ -27,7 +27,7 @@ import templateString from './date-question.component.html';
 })
 export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>
 	implements OnInit {
-	@ViewChild('dateInput')
+	@ViewChild('dateInput', {static: true})
 	public dateInput: BsDatepickerDirective;
 
 	public dateData: Date;

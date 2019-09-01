@@ -24,7 +24,7 @@ import { BehaviorSubject } from 'rxjs';
 export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Range Question';
 
-	@ViewChild('slider')
+	@ViewChild('slider', {static: true})
 	private sliderElement: ElementRef;
 
 	public sliderValue: BehaviorSubject<string>;

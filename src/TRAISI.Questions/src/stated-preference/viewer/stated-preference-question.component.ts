@@ -41,7 +41,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	public inputModel: { value?: string };
 	public context: StatedPreferenceTemplateContext;
 
-	@ViewChild('spForm')
+	@ViewChild('spForm', {static: true})
 	public spForm: NgForm;
 
 	/**

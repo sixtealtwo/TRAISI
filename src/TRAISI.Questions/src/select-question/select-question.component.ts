@@ -26,15 +26,15 @@ declare var $: any;
 })
 export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
 	implements OnInit, OnOptionsLoaded, AfterViewInit {
-	readonly QUESTION_TYPE_NAME: string = 'Select Question';
+	public readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
-	typeName: string;
-	icon: string;
-	selectOptions: QuestionOption[];
-	selectedOptionId: string;
+	public typeName: string;
+	public icon: string;
+	public selectOptions: QuestionOption[];
+	public selectedOptionId: string;
 
-	@ViewChild('select')
-	selectElement: ElementRef;
+	@ViewChild('select', {static: true})
+	public selectElement: ElementRef;
 
 	/**
 	 *
@@ -102,7 +102,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 
 	public onResponseSaved(result: any): void {
 		this.validationState.emit(ResponseValidationState.VALID);
-		//this.autoAdvance.emit(500);
+		// this.autoAdvance.emit(500);
 	}
 
 

@@ -23,7 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
 
-	@ViewChild('slider')
+	@ViewChild('slider', {static: true})
 	private sliderElement: ElementRef;
 
 	public sliderValue: BehaviorSubject<string>;

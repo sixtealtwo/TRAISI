@@ -40,7 +40,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 
 	public customResponseValue: string;
 
-	@ViewChildren('input')
+	@ViewChildren('input', {})
 	public inputElements: QueryList<ElementRef>;
 
 	/**
@@ -60,9 +60,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 *
 	 */
 	public ngOnInit(): void {
-		console.log(this.configuration);
+
 		this.configuration['allowCustomResponse'] = this.configuration['allowCustomResponse'] === 'true' ? true : false;
-		console.log(this.configuration);
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
 	}
 
