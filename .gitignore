@@ -31,6 +31,8 @@ Bin/
 obj/
 Obj/
 dist/
+
+!systemjs/dist/
 # Visual Studio 2015 cache/options directory
 .vs/
 /src/TRAISI/wwwroot/dist/

@@ -54,7 +54,7 @@
 							"node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
 						],
 						"scripts": [
-							"src/shared/systemjs/dist/system.js",
+							"src/shared/systemjs/system.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/parsleyjs/dist/parsley.min.js",
 							"src/shared/assets/javascript/popper.min.js",
@@ -149,7 +149,7 @@
 							"node_modules/bootstrap-slider/dist/bootstrap-slider.min.js",
 							"src/admin-app/assets/scripts/alertify.js",
 							"node_modules/select2/dist/js/select2.min.js",
-							"node_modules/systemjs/dist/system.js",
+							"node_modules/systemjs/system.js",
 							"node_modules/echarts/dist/echarts-en.min.js",
 							"node_modules/echarts-gl/dist/echarts-gl.min.js"
 						],
@@ -217,7 +217,7 @@
 							// "src/survey-viewer-app/assets/scss/application.scss"
 						],
 						"scripts": [
-							"src/shared/systemjs/dist/system.js",
+							"src/shared/systemjs/system.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/popper.js/dist/umd/popper.min.js",
 							"node_modules/bootstrap/dist/js/bootstrap.min.js",
