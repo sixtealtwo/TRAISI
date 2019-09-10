@@ -14,14 +14,7 @@ import {
 	Type
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
-import {
-	Observable,
-	of,
-	Operator,
-	Subscriber,
-	Observer,
-	ReplaySubject
-} from 'rxjs';
+import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
@@ -44,7 +37,6 @@ import { find } from 'lodash';
 
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
-
 
 type ComponentFactoryBoundToModule<T> = any;
 
@@ -84,69 +76,24 @@ export class QuestionLoaderService {
 
 	private init(): void {
 		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
-		SystemJS.registry.set(
-			'@angular/common',
-			SystemJS.newModule(AngularCommon)
-		);
-		SystemJS.registry.set(
-			'@angular/common/http',
-			SystemJS.newModule(AngularHttp)
-		);
-		SystemJS.registry.set(
-			'@angular/forms',
-			SystemJS.newModule(AngularForms)
-		);
-		SystemJS.registry.set(
-			'@angular/platform-browser',
-			SystemJS.newModule(BrowserModule)
-		);
-		SystemJS.registry.set(
-			'@angular/upgrade/static',
-			SystemJS.newModule(Upgrade)
-		);
-		SystemJS.registry.set(
-			'@angular/upgrade',
-			SystemJS.newModule(UpgradeModule)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/popover',
-			SystemJS.newModule(popover)
-		);
+		SystemJS.registry.set('@angular/common', SystemJS.newModule(AngularCommon));
+		SystemJS.registry.set('@angular/common/http', SystemJS.newModule(AngularHttp));
+		SystemJS.registry.set('@angular/forms', SystemJS.newModule(AngularForms));
+		SystemJS.registry.set('@angular/platform-browser', SystemJS.newModule(BrowserModule));
+		SystemJS.registry.set('@angular/upgrade/static', SystemJS.newModule(Upgrade));
+		SystemJS.registry.set('@angular/upgrade', SystemJS.newModule(UpgradeModule));
+		SystemJS.registry.set('ngx-bootstrap/popover', SystemJS.newModule(popover));
 		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
-		SystemJS.registry.set(
-			'ngx-bootstrap/datepicker',
-			SystemJS.newModule(datepicker)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/buttons',
-			SystemJS.newModule(buttons)
-		);
+		SystemJS.registry.set('ngx-bootstrap/datepicker', SystemJS.newModule(datepicker));
+		SystemJS.registry.set('ngx-bootstrap/buttons', SystemJS.newModule(buttons));
 		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
-		SystemJS.registry.set(
-			'ngx-bootstrap/dropdown',
-			SystemJS.newModule(dropdown)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/carousel',
-			SystemJS.newModule(carousel)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/tooltip',
-			SystemJS.newModule(tooltip)
-		);
-		SystemJS.registry.set(
-			'ngx-bootstrap/timepicker',
-			SystemJS.newModule(timePicker)
-		);
-		SystemJS.registry.set(
-			'traisi-question-sdk',
-			SystemJS.newModule(traisiSdkModule)
-		);
+		SystemJS.registry.set('ngx-bootstrap/dropdown', SystemJS.newModule(dropdown));
+		SystemJS.registry.set('ngx-bootstrap/carousel', SystemJS.newModule(carousel));
+		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
+		SystemJS.registry.set('ngx-bootstrap/timepicker', SystemJS.newModule(timePicker));
+		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
-		SystemJS.registry.set(
-			'rxjs/operators',
-			SystemJS.newModule(rxjsOperators)
-		);
+		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
 	}
 
 	/**
@@ -163,9 +110,7 @@ export class QuestionLoaderService {
 	 * @returns {Observable<any>}
 	 * @memberof QuestionLoaderService
 	 */
-	public getQuestionComponentFactory(
-		questionType: string
-	): Observable<ComponentFactoryBoundToModule<any>> {
+	public getQuestionComponentFactory(questionType: string): Observable<ComponentFactoryBoundToModule<any>> {
 		// reuse the preloaded component factory
 
 		if (questionType in this._componentFactories) {
@@ -173,86 +118,47 @@ export class QuestionLoaderService {
 		}
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
-
-			return rxjs
-				.of(
-					this.createComponentFactory(
-						this._moduleRefs[questionType],
-						questionType
-					)
-				)
-				.pipe(
-					rxjsOperators.map(
-						(
-							componentFactory: ComponentFactoryBoundToModule<any>
-						) => {
-							if (!(questionType in this._componentFactories)) {
-								this._componentFactories[
-									questionType
-								] = componentFactory;
-							}
-							return componentFactory;
-						}
-					)
-				);
+			return rxjs.of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
+				rxjsOperators.map((componentFactory: ComponentFactoryBoundToModule<any>) => {
+					if (!(questionType in this._componentFactories)) {
+						this._componentFactories[questionType] = componentFactory;
+					}
+					return componentFactory;
+				})
+			);
 		} else {
-			return rxjs
-				.from(
-					SystemJS.import(
-						this._questionLoaderEndpointService.getClientCodeEndpointUrl(
-							questionType
-						)
-					)
-				)
-				.pipe(
-					rxjsOperators.map((module: any) => {
+			return rxjs.from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))).pipe(
+				rxjsOperators.map((module: any) => {
+					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
+					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
+					this._moduleRefs[<string>questionType] = moduleRef;
+					return moduleRef;
+				}),
+				rxjsOperators.map((moduleRef: any) => {
+					const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
+						this.createComponentFactory(moduleRef, questionType)
+					);
+					return componentFactory;
+				}),
+				rxjsOperators.expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
+					if (!(questionType in this._componentFactories)) {
+						this._componentFactories[questionType] = componentFactory;
+					} else {
+						return rxjs.EMPTY;
+					}
 
-						const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(
-							module.default
-						);
-						const moduleRef: any = moduleFactory.ngModuleFactory.create(
-							this.injector
-						);
-						this._moduleRefs[<string>questionType] = moduleRef;
-						return moduleRef;
-					}),
-					rxjsOperators.map((moduleRef: any) => {
-
-						const componentFactory: ComponentFactoryBoundToModule<
-							any
-						> = <ComponentFactoryBoundToModule<any>>(
-							this.createComponentFactory(moduleRef, questionType)
-						);
-						return componentFactory;
-					}),
-					rxjsOperators.expand(
-						(
-							componentFactory: ComponentFactoryBoundToModule<any>
-						) => {
-							if (!(questionType in this._componentFactories)) {
-								this._componentFactories[
-									questionType
-								] = componentFactory;
-
-							} else {
-								return rxjs.EMPTY;
-							}
-
-							let hasDependency: boolean = false;
-							for (let key of Object.keys(componentFactory['ngModule']._providers)) {
-								let provider = componentFactory['ngModule']._providers[key];
-								if (provider.hasOwnProperty('dependency')) {
-									hasDependency = true;
-									return this.getQuestionComponentFactory(
-										provider.name
-									);
-								}
-							}
-							return rxjs.of(componentFactory);
+					let hasDependency: boolean = false;
+					for (let key of Object.keys(componentFactory['ngModule']._providers)) {
+						let provider = componentFactory['ngModule']._providers[key];
+						if (provider.hasOwnProperty('dependency')) {
+							hasDependency = true;
+							return this.getQuestionComponentFactory(provider.name);
 						}
-					),
-					rxjsOperators.share()
-				);
+					}
+					return rxjs.of(componentFactory);
+				}),
+				rxjsOperators.share()
+			);
 		}
 	}
 
@@ -261,19 +167,16 @@ export class QuestionLoaderService {
 	 * @param moduleRef
 	 * @param questionType
 	 */
-	private createComponentFactory(
-		moduleRef: NgModuleRef<any>,
-		questionType: string
-	): ComponentFactoryBoundToModule<any> {
+	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType: string): ComponentFactoryBoundToModule<any> {
 		const widgets = moduleRef.injector.get<Array<any>>(<any>'widgets', []);
 		const resolver = moduleRef.componentFactoryResolver;
 		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
-		const componentFactory: ComponentFactoryBoundToModule<any> = <
-			ComponentFactoryBoundToModule<any>
-			>resolver.resolveComponentFactory(widget.component);
+		const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
+			resolver.resolveComponentFactory(widget.component)
+		);
 
 		if (!(questionType in this._componentFactories)) {
 			// 	this._componentFactories[questionType] = componentFactory;
@@ -286,26 +189,20 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 * @param viewContainerRef
 	 */
-	public loadQuestionComponent(
-		question: ISurveyQuestion,
-		viewContainerRef: ViewContainerRef
-	): Observable<ComponentRef<any>> {
-		return Observable.create((o) => {
-
+	public loadQuestionComponent(question: ISurveyQuestion, viewContainerRef: ViewContainerRef): Observable<ComponentRef<any>> {
+		return Observable.create(o => {
 			this.getQuestionComponentFactory(question.questionType).subscribe({
-				next: (componentFactory) => {
-				},
-				complete:
-					() => {
-						let componentRef = viewContainerRef.createComponent(
-							this._componentFactories[question.questionType],
-							undefined,
-							this.injector
-						);
-						o.next(componentRef);
-						o.complete();
-					}
-			})
+				next: componentFactory => {},
+				complete: () => {
+					let componentRef = viewContainerRef.createComponent(
+						this._componentFactories[question.questionType],
+						undefined,
+						this.injector
+					);
+					o.next(componentRef);
+					o.complete();
+				}
+			});
 		});
 	}
 }

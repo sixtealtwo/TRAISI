@@ -11,7 +11,10 @@ import {
 	ChangeDetectorRef,
 	EventEmitter,
 	Output,
-	ViewEncapsulation
+	ViewEncapsulation,
+	AfterViewChecked,
+	AfterViewInit,
+	AfterContentInit
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -53,10 +56,9 @@ export const fadeInOut = trigger('fadeInOut', [
 	selector: 'traisi-question-container',
 	templateUrl: './question-container.component.html',
 	styleUrls: ['./question-container.component.scss'],
-	animations: [fadeInOut],
-
+	animations: [fadeInOut]
 })
-export class QuestionContainerComponent implements OnInit, OnDestroy {
+export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
 	@Input()
 	public question: ISurveyQuestion;
 
@@ -161,6 +163,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 */
 	public ngOnDestroy(): void {}
 
+	public ngAfterContentInit(): void {
+		// throw new Error("Method not implemented.");
+	}
+	public ngAfterViewInit(): void {
+		// this.ngOnInit2();
+	}
 	/**
 	 *
 	 */
@@ -175,6 +183,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
 			(componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
+
+				console.log(componentRef);
+				console.log(this.questionOutlet);
 
 				surveyQuestionInstance.loadConfiguration(this.question.configuration);
 
@@ -219,7 +230,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 					}, result);
 				});
 
-				this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].component = surveyQuestionInstance;
+				this._navigator.navigationState$.getValue().activeQuestionInstances[
+					this.activeQuestionIndex
+				].component = surveyQuestionInstance;
 
 				surveyQuestionInstance.respondent = this.respondent;
 				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);

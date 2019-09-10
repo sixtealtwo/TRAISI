@@ -112,7 +112,7 @@ import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
 		BsDatepickerModule.forRoot(),
 		AlertModule.forRoot(),
 		PopoverModule.forRoot(),
-		QuillModule,
+		QuillModule.forRoot(),
 		DynamicModule.withComponents([
 			Header1Component,
 			Header2Component,

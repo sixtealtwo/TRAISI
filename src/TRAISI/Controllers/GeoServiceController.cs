@@ -63,11 +63,11 @@ namespace TRAISI.Controllers
         [HttpGet]
         [Route("routeplanner")]
         public async Task<IActionResult> RoutePlanner([FromQuery] string arrival, [FromQuery] string departure, [FromQuery] string date,
-        [FromQuery] string mode)
+        [FromQuery] string mode, [FromQuery] string accessibiliy = "none")
         {
 
-            string [] depCoords = departure.Split("|");
-            string [] arrCoords = arrival.Split("|");
+            string[] depCoords = departure.Split("|");
+            string[] arrCoords = arrival.Split("|");
 
             var request = new RestRequest("PlanTrips/json", Method.GET);
             request.AddParameter("user_key", "e447b4a0ad00018a370c7ab0760e3cfd");
@@ -78,8 +78,9 @@ namespace TRAISI.Controllers
             request.AddParameter("ArrivalLatitude", arrCoords[0]);
             request.AddParameter("ArrivalLongitude", arrCoords[1]);
             request.AddParameter("TripModes", mode);
-            request.AddParameter("Date",date);
-            request.AddParameter("DateType","DEPARTURE");
+            request.AddParameter("Date", date);
+            request.AddParameter("Accessibility", accessibiliy);
+            request.AddParameter("DateType", "DEPARTURE");
             request.AddParameter("Algorithm", "FASTEST");
 
             var response = await _triplinx.ExecuteGetTaskAsync(request);

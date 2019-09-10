@@ -100,7 +100,7 @@ export const translateForChild = TranslateModule.forChild({
 		FormsModule,
 		NgxSmoothDnDModule,
 		TooltipModule,
-		QuillModule,
+		QuillModule.forRoot(),
 		bsDatepicker,
 		NgxSelectModule,
 		NgxBootstrapSliderModule,
