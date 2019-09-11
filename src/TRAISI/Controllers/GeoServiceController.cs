@@ -61,10 +61,20 @@ namespace TRAISI.Controllers
             return new OkObjectResult(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arrival"></param>
+        /// <param name="departure"></param>
+        /// <param name="date"></param>
+        /// <param name="mode"></param>
+        /// <param name="accessibiliy"></param>
+        /// <param name="transitModes"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("routeplanner")]
         public async Task<IActionResult> RoutePlanner([FromQuery] string arrival, [FromQuery] string departure, [FromQuery] string date,
-        [FromQuery] string mode, [FromQuery] string accessibiliy = "none")
+        [FromQuery] string mode, [FromQuery] string accessibiliy = "none", [FromQuery] string transitModes)
         {
 
             string[] depCoords = departure.Split("|");
@@ -80,6 +90,10 @@ namespace TRAISI.Controllers
             request.AddParameter("ArrivalLongitude", arrCoords[1]);
             request.AddParameter("TripModes", mode);
             request.AddParameter("Date", date);
+            if (transitModes.Trim().Length > 0) {
+                request.AddParameter("Modes", transitModes.Trim());
+            }
+
             request.AddParameter("Accessibility", accessibiliy);
             request.AddParameter("DateType", "DEPARTURE");
             request.AddParameter("Algorithm", "FASTEST");
