@@ -14,6 +14,8 @@ export class RealTimeNotificationServce {
 	private connectionmade: ReplaySubject<boolean>;
 
 	constructor(private authService: AuthService) {
+
+		Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 		this.connectionmade = new ReplaySubject<boolean>();
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl('/notify', { accessTokenFactory: () => this.authService.accessToken, logger: LogLevel.None })
