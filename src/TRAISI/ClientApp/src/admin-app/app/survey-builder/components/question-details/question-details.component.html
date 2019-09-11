@@ -13,13 +13,13 @@
 					*ngFor="let item of items.get(qOptionDefinition.name) | slice:(optionPage[i]-1)*numberPerPage:optionPage[i]*numberPerPage">
 					<div class="form-group row response-option-container">
 						<div class="input-group col-md-12">
-							<input #key type="text" class="form-control optionKey"
+							<input #key type="text" class="form-control optionKey  option-input"
 								(keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, key, i)"
 								(keydown.ArrowRight)="onArrowRight($event, key)"
 								(keydown.ArrowUp)="onArrowUp($event, key, 0)"
 								(keydown.ArrowDown)="onArrowDown($event, key, 0, i)" id="code"
 								[(ngModel)]="item.code" />
-							<input #value type="text" class="form-control optionValue"
+							<input #value type="text" class="form-control optionValue option-input"
 								(keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, value, i)"
 								(keydown.ArrowLeft)="onArrowLeft($event, value)"
 								(keydown.ArrowUp)="onArrowUp($event, value, 1)"
