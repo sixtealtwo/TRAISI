@@ -13,11 +13,9 @@ namespace TRAISI.Helpers
         private static readonly string GEOCODER_API_URL = "https://geocoder.ca/";
         private GeoConfig _config;
 
-        private readonly RestClient _geocodeClient;
+        private readonly string _apiKey;
 
-        // private static readonly string MAPBOX_MODE_DRIVING = "driving";
-        // private static readonly string GOOGLE_MODE_WALKING = "walking";
-        // private static readonly string GOOGLE_MODE_BICYCLING = "ciclying";
+        private readonly RestClient _geocodeClient;
 
         /// <summary>
         /// 
@@ -26,15 +24,22 @@ namespace TRAISI.Helpers
         public GeocodeGeoService(IOptions<GeoConfig> config)
         {
             _config = config.Value;
+            this._apiKey = _config.APIKey;
+
             this._geocodeClient = new RestClient(GEOCODER_API_URL);
         }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns></returns>
         public async Task<Tuple<double, double>> GeocodeAsync(string address)
         {
             var request = new RestRequest(Method.GET);
             request.AddParameter("locate", address);
             request.AddParameter("json", 1);
-            request.AddParameter("auth", "136696805604567884046x6474");
+            request.AddParameter("auth", this._apiKey);
 
             var response = await this._geocodeClient.ExecuteTaskAsync(request);
 
@@ -52,12 +57,12 @@ namespace TRAISI.Helpers
             throw new System.NotImplementedException();
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
         public async Task<string> ReverseGeocodeAsync(double latitude, double longitude)
         {
             var request = new RestRequest(Method.GET);
@@ -65,9 +70,15 @@ namespace TRAISI.Helpers
             request.AddParameter("longt", longitude);
             request.AddParameter("json", 1);
             request.AddParameter("reverse", 1);
-            request.AddParameter("auth", "136696805604567884046x6474");
+            request.AddParameter("auth", this._apiKey);
             var response = await this._geocodeClient.ExecuteTaskAsync(request);
-            return response.Content;
+
+            var content = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
+
+            var address = $"{content["stnumber"]} {content["staddress"]}, " +
+             $"{content["city"]} {content["prov"]}, {content["postal"]}";
+
+            return address;
         }
 
     }

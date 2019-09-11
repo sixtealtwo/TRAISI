@@ -153,11 +153,13 @@
 
 .btn-secondary {
   color: $body-color;
+
   background: linear-gradient(to bottom, $white, $secondary);
   border-color: darken($secondary, 10%);
   box-shadow: 0 1px 0 0 rgba($black, .05);
 
   @include hover {
+    color: $body-color;
     background: linear-gradient(to bottom, $secondary, $secondary);
     border-color: darken($secondary, 10%);
   }
