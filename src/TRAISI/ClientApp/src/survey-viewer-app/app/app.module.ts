@@ -142,4 +142,4 @@ import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-end
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })
-export class ViewerAppModule { }
+export class AppModule { }

@@ -1,11 +1,10 @@
-/* tslint:disable:typedef */
 import { Injectable } from '@angular/core';
 
 declare let jQuery: JQueryStatic;
 
 @Injectable()
-export class AdminAppConfig {
-	public config = {
+export class AppConfig {
+	config = {
 		name: 'traisi',
 		logo: 'assets/img/logo_dark.png',
 		title: 'TRAISI Version 2',
@@ -48,8 +47,8 @@ export class AdminAppConfig {
 		}
 	};
 
-	public resizeCallbacks = [];
-	public screenSizeCallbacks = {
+	_resizeCallbacks = [];
+	_screenSizeCallbacks = {
 		xs: { enter: [], exit: [] },
 		sm: { enter: [], exit: [] },
 		md: { enter: [], exit: [] },
@@ -57,7 +56,7 @@ export class AdminAppConfig {
 		xl: { enter: [], exit: [] }
 	};
 
-	public isScreen(size): boolean {
+	isScreen(size): boolean {
 		const screenPx = window.innerWidth;
 		return (
 			(screenPx >= this.config.settings.screens[size + '-min'] || size === 'xs') &&
@@ -65,7 +64,7 @@ export class AdminAppConfig {
 		);
 	}
 
-	public getScreenSize(): string {
+	getScreenSize(): string {
 		const screenPx = window.innerWidth;
 		if (screenPx <= this.config.settings.screens['xs-max']) {
 			return 'xs';
@@ -84,7 +83,7 @@ export class AdminAppConfig {
 		}
 	}
 
-	public onScreenSize(size, fn, /* Boolean= */ onEnter): void {
+	onScreenSize(size, fn, /* Boolean= */ onEnter): void {
 		onEnter = typeof onEnter !== 'undefined' ? onEnter : true;
 		if (typeof size === 'object') {
 			for (let i = 0; i < size.length; i++) {
@@ -95,7 +94,7 @@ export class AdminAppConfig {
 		}
 	}
 
-	public changeColor(color, ratio, darker): string {
+	changeColor(color, ratio, darker): string {
 		const pad = function(num, totalChars): number {
 			const padVal = '0';
 			num = num + '';
@@ -158,23 +157,23 @@ export class AdminAppConfig {
 			  ].join('');
 	}
 
-	public lightenColor(color, ratio): any {
+	lightenColor(color, ratio): any {
 		return this.changeColor(color, ratio, false);
 	}
 
-	public darkenColor(color, ratio): any {
+	darkenColor(color, ratio): any {
 		return this.changeColor(color, ratio, true);
 	}
 
-	public max(array): any {
+	max(array): any {
 		return Math.max.apply(null, array);
 	}
 
-	public min(array): any {
+	min(array): any {
 		return Math.min.apply(null, array);
 	}
 
-	public _initResizeEvent(): void {
+	_initResizeEvent(): void {
 		let resizeTimeout;
 		jQuery(window).on('resize', () => {
 			clearTimeout(resizeTimeout);
@@ -184,7 +183,7 @@ export class AdminAppConfig {
 		});
 	}
 
-	public _initOnScreenSizeCallbacks(): void {
+	_initOnScreenSizeCallbacks(): void {
 		let resizeTimeout,
 			prevSize = this.getScreenSize();
 
@@ -214,7 +213,7 @@ export class AdminAppConfig {
 		this._initOnScreenSizeCallbacks();
 	}
 
-	public getConfig(): Object {
+	getConfig(): Object {
 		return this.config;
 	}
 }

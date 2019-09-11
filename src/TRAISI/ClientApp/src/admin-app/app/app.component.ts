@@ -36,7 +36,7 @@ declare const SystemJS;
 	selector: 'app-root',
 	template: `<router-outlet><ng2-toasty></ng2-toasty></router-outlet>`
 })
-export class AdminAppComponent implements OnInit {
+export class AppComponent implements OnInit {
 	isAppLoaded: boolean;
 	isUserLoggedIn: boolean;
 

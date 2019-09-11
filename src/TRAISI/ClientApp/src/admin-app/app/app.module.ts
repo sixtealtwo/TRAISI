@@ -30,8 +30,8 @@ import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directiv
 import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
 
-import { AdminAppComponent } from './admin-app.component';
-import { AdminAppConfig } from './admin-app-config.service';
+import { AppComponent } from './app.component';
+import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { TitleCasePipe } from '@angular/common';
@@ -47,12 +47,12 @@ const monacoConfig: NgxMonacoEditorConfig = {
 	onMonacoLoad: () => {} // here monaco object will be available as window.monaco use this function to extend monaco editor functionality.
 };
 
-const APP_PROVIDERS = [AdminAppConfig];
+const APP_PROVIDERS = [AppConfig];
 
 @NgModule({
-	bootstrap: [AdminAppComponent],
+	bootstrap: [AppComponent],
 	declarations: [
-		AdminAppComponent,
+		AppComponent,
 		ErrorComponent,
 		EqualValidator,
 		LastElementDirective,
@@ -97,4 +97,4 @@ const APP_PROVIDERS = [AdminAppConfig];
 		TitleCasePipe
 	]
 })
-export class AdminAppModule {}
+export class AppModule {}

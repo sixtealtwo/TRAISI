@@ -20,6 +20,6 @@
 			"shared/*": ["./src/shared/*"]
 		}
 	},
-	"include": ["./src/shared/**/*.ts", "./src/admin-app/**/*.ts", "./src/survey-viewer-app/**/*.ts"],
+	"include": ["./src/shared/**/*.ts"],
 	"exclude": ["node_modules", "src/test.ts", "**/*.spec.ts"]
 }
