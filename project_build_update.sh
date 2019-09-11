@@ -2,7 +2,6 @@
 
 update_npm () {
     if test -f "package.json"; then
-        rm -rf node_modules
         npm install
         npm run build
     fi
@@ -24,7 +23,10 @@ update_npm
 
 echo "Update TRAISI.Questions"
 cd ${DIR}/src/TRAISI.Questions
-update_npm
+if test -f "package.json"; then
+    npm install
+    npm run staging
+fi
 
 echo "Update TRAISI/ClientApp"
 cd ${DIR}/src/TRAISI/ClientApp
