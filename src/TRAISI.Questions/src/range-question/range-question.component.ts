@@ -10,7 +10,10 @@ import {
 	OnSaveResponseStatus,
 	StringResponseData,
 	OnOptionsLoaded,
-	QuestionOption
+	QuestionOption,
+	ResponseData,
+	RangeResponseData,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 import templateString from './range-question.component.html';
 import noUiSlider from 'nouislider';
@@ -21,10 +24,10 @@ import { BehaviorSubject } from 'rxjs';
 	template: templateString,
 	styles: [require('./range-question.component.scss').toString()]
 })
-export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> implements OnInit {
+export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Range Question';
 
-	@ViewChild('slider', {static: true})
+	@ViewChild('slider', { static: true })
 	private sliderElement: ElementRef;
 
 	public sliderValue: BehaviorSubject<string>;
@@ -39,7 +42,6 @@ export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> 
 	}
 
 	public ngOnInit(): void {
-		console.log(this.configuration);
 		noUiSlider.create(this.sliderElement.nativeElement, {
 			start: [0],
 			step: parseInt(this.configuration['increment'], 10),
@@ -50,10 +52,32 @@ export class RangeQuestionComponent extends SurveyQuestion<ResponseTypes.Range> 
 		});
 
 		this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
+
+		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
+
+	/**
+	 *
+	 */
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.Decminal>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.Range>[] | 'none'
+	) => {
+		if (response !== 'none') {
+			let rangeResponse = <RangeResponseData>response[0];
+
+			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(rangeResponse['value']));
+			this.validationState.emit(ResponseValidationState.VALID);
+		} else {
+			console.log('no response');
+			// console.log('no response value');
+		}
+	};
 
 	public sliderUpdate = (values, handle, unencoded, isTap, positions): void => {
 		// this.sliderValue = values[0];
-		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(parseInt(values[0], 10)));
+
+		let value = parseInt(values[0], 10);
+		this.response.emit({ value: value });
+		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
 	};
 }

@@ -325,8 +325,6 @@ namespace TRAISI.Services
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new DecimalResponse());
             }
-
-
             (response.ResponseValues[0] as DecimalResponse).Value = responseData.GetValue("value").ToObject<double>();
 
         }
@@ -348,6 +346,17 @@ namespace TRAISI.Services
             response.ResponseValues.AddRange(values);
             return;
         }
+
+		internal void SaveRangeResponse(SurveyResponse response, JObject responseData) {
+			if (response.ResponseValues.Count == 0)
+			{
+				//response.ResponseValues = new List<ResponseValue>();
+				response.ResponseValues.Add(new DecimalResponse());
+			}
+
+
+			(response.ResponseValues[0] as DecimalResponse).Value = responseData.GetValue("value").ToObject<double>();
+		}
 
 
         /// <summary>
