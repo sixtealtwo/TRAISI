@@ -49,6 +49,7 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
+		console.log('in navigate next');
 		this.notifyUnloaded();
 		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.isNextEnabled = false;
@@ -104,6 +105,10 @@ export class SurveyViewerNavigationService {
 						// nav$.unsubscribe();
 						this.updateState();
 					}
+				},
+
+				error: error => {
+					console.error(error);
 				}
 			});
 		}

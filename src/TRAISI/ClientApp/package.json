@@ -121,7 +121,6 @@
     "systemjs": "^6.0.0",
     "systemjs-plugin-babel": "0.0.25",
     "tar": "^4.4.8",
-    "traisi-saml2-authorization": "file:../../TRAISI.Extensions/SAML2AuthorizationHandler/Client",
     "turf-point": "^2.0.1",
     "web-animations-js": "^2.3.2",
     "webpack-raphael": "2.1.4",
