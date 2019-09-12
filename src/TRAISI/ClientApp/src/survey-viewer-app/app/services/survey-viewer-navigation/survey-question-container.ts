@@ -42,7 +42,6 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		return this._member;
 	}
 
-
 	public set forRespondent(member: SurveyViewGroupMember) {
 		this._member = member;
 	}
@@ -80,11 +79,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * @param section
 	 * @param [_member]
 	 */
-	constructor(
-		question: SurveyViewQuestion,
-		section: SurveySectionContainer,
-		private _member?: SurveyViewGroupMember
-	) {
+	constructor(question: SurveyViewQuestion, section: SurveySectionContainer, private _member?: SurveyViewGroupMember) {
 		super();
 
 		this._questionModel = question;
@@ -104,7 +99,6 @@ export class SurveyQuestionContainer extends SurveyContainer {
 		if (this._questionModel.repeatChildren !== undefined) {
 		}
 		this._activeQuestionInstanceIndex = 0;
-
 
 		return null;
 	}
@@ -129,16 +123,7 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * @returns true if previous
 	 */
 	public navigatePrevious(): boolean {
-		if (this._questionInstance === undefined) {
-			return true;
-		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalPrevious()) {
-			return true;
-		} else {
-			setTimeout(() => {
-				this._questionInstance.navigation.navigationCompleted.next(true);
-			});
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -146,16 +131,6 @@ export class SurveyQuestionContainer extends SurveyContainer {
 	 * @returns true if next
 	 */
 	public navigateNext(): boolean {
-		if (this._questionInstance === undefined) {
-			return true;
-		} else if (this._questionInstance.surveyQuestionInstance.navigateInternalNext()) {
-			return true;
-		} else {
-			setTimeout(() => {
-				this._questionInstance.navigation.navigationCompleted.next(true);
-			});
-
-			return false;
-		}
+		return false;
 	}
 }

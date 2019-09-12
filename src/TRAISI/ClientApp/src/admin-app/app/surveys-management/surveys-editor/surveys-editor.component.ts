@@ -27,6 +27,9 @@ export class SurveysEditorComponent implements OnInit {
 	public canDeleteSurvey: boolean = false;
 	public isSaving: boolean = false;
 
+	public groupsOptions: Array<{ id: string; text: string }> = [];
+	public selectedGroup: string;
+
 	public bsConfig: Partial<BsDatepickerConfig> = Object.assign(
 		{},
 		{

@@ -37,8 +37,6 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { SurveyRepeatContainer } from '../../services/survey-viewer-navigation/survey-repeat-container';
-import { SurveyQuestionContainer } from '../../services/survey-viewer-navigation/survey-question-container';
 import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
@@ -116,10 +114,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		return this._questionInstance;
 	}
 
-	public get navigation(): SurveyViewerNavigationService {
-		return this._navigation;
-	}
-
 	public get navIndex(): number {
 		return this._viewerStateService.viewerState.questionNavIndex + 1;
 	}
@@ -145,7 +139,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		private _viewerStateService: SurveyViewerStateService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
-		private _navigation: SurveyViewerNavigationService,
 		private _navigator: SurveyNavigator
 	) {}
 
@@ -183,7 +176,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		this.questionLoaderService.loadQuestionComponent(this.question, this.questionOutlet).subscribe(
 			(componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
-
 
 				surveyQuestionInstance.loadConfiguration(this.question.configuration);
 
@@ -248,12 +240,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
 						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configurations).next(this.question.configuration);
-						setTimeout(() => {
-							this._navigation.navigationCompleted.next(true);
-							this._navigation.navigationCompleted.subscribe(result => {
-								this.alreadyNavigated = true;
-							});
-						}, 100);
 					});
 				this._viewerStateService.viewerState.isNextEnabled = false;
 				if (this.question.isOptional) {
@@ -270,7 +256,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	 */
 	private autoAdvance(): void {
 		if (!this.alreadyNavigated && !this._viewerStateService.viewerState.isNavComplete) {
-			this.navigation.navigateNext();
+			// this.navigation.navigateNext();
 			this.alreadyNavigated = false;
 		}
 	}
@@ -350,9 +336,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		this._navigator.validationChanged();
 
 		// just call the update after everything else waiting to be processed
-		setTimeout(() => {
-			this._navigation.updateNavigationStates();
-		});
 
 		// this.surveyViewer.validateNavigation();
 	};

@@ -1,18 +1,5 @@
-import {
-	Component,
-	Input,
-	OnInit,
-	ChangeDetectorRef,
-	Inject,
-	ElementRef,
-	ViewContainerRef,
-	ViewChild
-} from '@angular/core';
-import { SurveyViewPage } from '../../models/survey-view-page.model';
-import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
-import { SurveyViewerState } from '../../models/survey-viewer-state.model';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewContainerRef, ViewChild } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -59,7 +46,6 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	) {
 		this.isFinishedLoading = false;
 		this.model = {};
-
 	}
 
 	/**
@@ -110,20 +96,18 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	 */
 	public onGroupcodeSubmit(): void {
 		// this.groupcodeFormGroup.reset();
-		this._surveyViewerService
-			.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode)
-			.subscribe(result => {
-				if (result) {
-					this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
-				} else {
-					this.groupcodeFormGroup.setErrors({
-						invalid: true
-					});
+		this._surveyViewerService.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode).subscribe(result => {
+			if (result) {
+				this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
+			} else {
+				this.groupcodeFormGroup.setErrors({
+					invalid: true
+				});
 
-					console.log(this.groupcodeFormGroup);
-					// show error message
-				}
-			});
+				console.log(this.groupcodeFormGroup);
+				// show error message
+			}
+		});
 		//
 	}
 }

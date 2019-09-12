@@ -3,7 +3,6 @@ import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyStart } from 'app/models/survey-start.model';
