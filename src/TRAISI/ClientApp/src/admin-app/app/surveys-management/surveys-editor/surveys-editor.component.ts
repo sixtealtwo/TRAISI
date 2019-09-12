@@ -3,7 +3,6 @@ import { SurveyService } from '../../services/survey.service';
 import { Survey } from '../../models/survey.model';
 import { UserGroupService } from '../../services/user-group.service';
 import { AlertService, MessageSeverity } from '../../../../shared/services/alert.service';
-import { Select2OptionData } from 'ng2-select2';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FileUploader, FileUploaderOptions, FileItem, Headers, FileLikeObject } from 'ng2-file-upload';
 import { ConfigurationService } from '../../../../shared/services/configuration.service';
@@ -28,12 +27,6 @@ export class SurveysEditorComponent implements OnInit {
 	public canDeleteSurvey: boolean = false;
 	public isSaving: boolean = false;
 
-	public groupsOptions: Array<Select2OptionData>;
-	public selectedGroup: string;
-	public select2Options: any = {
-		theme: 'bootstrap'
-	};
-
 	public bsConfig: Partial<BsDatepickerConfig> = Object.assign(
 		{},
 		{
@@ -49,7 +42,6 @@ export class SurveysEditorComponent implements OnInit {
 		queueLimit: 2,
 		url: this.configurationService.baseUrl + '/api/survey/import',
 		removeAfterUpload: true
-
 	};
 
 	public uploader: FileUploader = new FileUploader(this.importOptions);
@@ -69,9 +61,7 @@ export class SurveysEditorComponent implements OnInit {
 		private authService: AuthService
 	) {}
 
-	public ngOnInit(): void {
-
-	}
+	public ngOnInit(): void {}
 
 	/**
 	 * Called when the new survey form is submitted.
@@ -97,18 +87,13 @@ export class SurveysEditorComponent implements OnInit {
 					this.uploader.addToQueue(files);
 				};
 				this.uploader.uploadAll();
-
-
 			} else {
-			this.surveyService
-				.createSurvey(this.model)
-				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+				this.surveyService
+					.createSurvey(this.model)
+					.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
 			}
 		} else {
-			console.log(this.model);
-			this.surveyService
-				.editSurvey(this.model)
-				.subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+			this.surveyService.editSurvey(this.model).subscribe(value => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
 		}
 	}
 
@@ -117,11 +102,7 @@ export class SurveysEditorComponent implements OnInit {
 		this.isSaving = false;
 		this.importFile = undefined;
 		if (this.isNewSurvey) {
-			this.alertService.showMessage(
-				'Success',
-				`Survey \"${this.model.name}\" was created successfully`,
-				MessageSeverity.success
-			);
+			this.alertService.showMessage('Success', `Survey \"${this.model.name}\" was created successfully`, MessageSeverity.success);
 		} else {
 			this.alertService.showMessage(
 				'Success',
@@ -172,8 +153,7 @@ export class SurveysEditorComponent implements OnInit {
 	}
 
 	public updateGroup(e: any): void {
-		this.model.group = e.value;
-		this.selectedGroup = e.value;
+		this.model.group = e;
 	}
 
 	public setImportFile(files: FileLikeObject[]): void {

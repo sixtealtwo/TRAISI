@@ -87,9 +87,6 @@ export class SurveyNavigator {
 		nav.subscribe(state => {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
-
-			console.log('done navigationg');
-			console.log(state);
 		});
 		return nav;
 	}
@@ -100,9 +97,11 @@ export class SurveyNavigator {
 	public navigatePrevious(): Observable<NavigationState> {
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe(state => {
-			if (this._isMultiViewActive(state)) {
-				state.activeQuestionIndex -=
-					this._state.viewerState.surveyQuestions[state.activeQuestionIndex].parentSection.questions.length - 1;
+			if (state.activeQuestionInstances.length > 0) {
+				if (this._isMultiViewActive(state)) {
+					state.activeQuestionIndex -=
+						this._state.viewerState.surveyQuestions[state.activeQuestionIndex].parentSection.questions.length - 1;
+				}
 			}
 			this.navigationState$.next(state);
 			if (state.activeQuestionIndex === 0) {
@@ -188,7 +187,7 @@ export class SurveyNavigator {
 		return this._initState(newState).pipe(
 			expand(state => {
 				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
-				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
+				return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(currentState) : EMPTY;
 			})
 		);
 	}
@@ -208,7 +207,7 @@ export class SurveyNavigator {
 
 		return this._initState(newState).pipe(
 			expand(state => {
-				return state.activeQuestionInstances.length === 0 ? EMPTY : EMPTY;
+				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
 			})
 		);
 	}
@@ -270,6 +269,7 @@ export class SurveyNavigator {
 
 			return new Observable(obs => {
 				forkJoin(evals).subscribe((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
+
 					for (let result of results) {
 						if (result.shouldHide) {
 							continue;
