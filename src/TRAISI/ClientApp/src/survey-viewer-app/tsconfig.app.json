@@ -1,14 +1,8 @@
 {
 	"compilerOptions": {
-    "downlevelIteration": true,
-		"lib": [
-			"es2017",
-			"dom",
-			"esnext"
-		],
-		"rootDirs": [
-			"../shared/services"
-		],
+		"downlevelIteration": true,
+		"lib": ["es2017", "dom", "esnext"],
+		"rootDirs": ["../shared/services"],
 		"experimentalDecorators": true,
 		"declaration": false,
 		"moduleResolution": "node",
@@ -16,17 +10,11 @@
 		"module": "esnext",
 		"outDir": "../out-tsc/app",
 		"baseUrl": ".",
-		"types": [
-			"node"
-		],
+		"types": ["node"],
 		"paths": {
 			"@angular/*": ["../../node_modules/@angular/*"],
-			//"traisi-question-sdk": [
-			//	"../../../../TRAISI.SDK/Client/"
-			//],
-			"shared/*": [
-				"../shared/*"
-			]
+			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/"],
+			"shared/*": ["../shared/*"]
 		}
 	},
 	"angularCompilerOptions": {
@@ -35,14 +23,6 @@
 		"fullTemplateTypeCheck": true
 	},
 	"files": ["polyfills.ts"],
-	"include": [
-		"../shared/**/*.ts",
-		"./**/*.ts"
-	],
-	"exclude": [
-		"src/test.ts",
-		"../admin-app/**/*.ts",
-		"../admin-app/**/*.spec.ts",
-		"**/*.spec.ts"
-	]
+	"include": ["../shared/**/*.ts", "./**/*.ts"],
+	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts"]
 }
