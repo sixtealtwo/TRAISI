@@ -49,10 +49,10 @@
 			"internalConsoleOptions": "openOnSessionStart",
 			"launchBrowser": {
 				"enabled": true,
-				"args": "http://localhost:80",
+				"args": "http://localhost:8777",
 				"windows": {
 					"command": "cmd.exe",
-					"args": "/C start http://localhost:8000"
+					"args": "/C start http://localhost:8777"
 				},
 				"osx": {
 					"command": "open"
