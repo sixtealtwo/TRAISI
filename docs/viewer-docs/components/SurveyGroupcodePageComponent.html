@@ -1,0 +1,1097 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Survey Viewer App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Survey Viewer App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>SurveyGroupcodePageComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>traisi-survey-groupcode-page</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./survey-groupcode-page.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./survey-groupcode-page.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_surveyId">_surveyId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_surveyName">_surveyName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupcodeFormGroup">groupcodeFormGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isFinishedLoading">isFinishedLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#model">model</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#pageThemeInfo">pageThemeInfo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#session">session</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#shortcodeDisplayComponent">shortcodeDisplayComponent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#startPageComponent">startPageComponent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#surveyStartModel">surveyStartModel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#checkSurveyUserLoginStatus">checkSurveyUserLoginStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onGroupcodeSubmit">onGroupcodeSubmit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#showShortcodeDisplay">showShortcodeDisplay</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                                <span class="modifier">Public</span>
+                        <code>constructor(_surveyViewerService: <a href="../injectables/SurveyViewerService.html">SurveyViewerService</a>, _route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, _router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, _translate: TranslateService, _elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, session: <a href="../injectables/SurveyViewerSession.html">SurveyViewerSession</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of SurveyGroupcodePageComponent.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>_surveyViewerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerService.html" target="_self" >SurveyViewerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_translate</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_elementRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>session</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerSession.html" target="_self" >SurveyViewerSession</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkSurveyUserLoginStatus"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            checkSurveyUserLoginStatus
+                        </b>
+                        <a href="#checkSurveyUserLoginStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkSurveyUserLoginStatus()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onGroupcodeSubmit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onGroupcodeSubmit
+                        </b>
+                        <a href="#onGroupcodeSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onGroupcodeSubmit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showShortcodeDisplay"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            showShortcodeDisplay
+                        </b>
+                        <a href="#showShortcodeDisplay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showShortcodeDisplay()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_surveyId"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _surveyId</b>
+                            <a href="#_surveyId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_surveyName"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _surveyName</b>
+                            <a href="#_surveyName"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="groupcodeFormGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            groupcodeFormGroup</b>
+                            <a href="#groupcodeFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isFinishedLoading"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isFinishedLoading</b>
+                            <a href="#isFinishedLoading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="model"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            model</b>
+                            <a href="#model"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/SurveyViewGroupcodePage.html" target="_self" >SurveyViewGroupcodePage</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageThemeInfo"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            pageThemeInfo</b>
+                            <a href="#pageThemeInfo"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="session"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            session</b>
+                            <a href="#session"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/SurveyViewerSession.html" target="_self" >SurveyViewerSession</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shortcodeDisplayComponent"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            shortcodeDisplayComponent</b>
+                            <a href="#shortcodeDisplayComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;shortcodeDisplayComponent&#x27;, {read: ViewContainerRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="startPageComponent"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            startPageComponent</b>
+                            <a href="#startPageComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SurveyStart.html" target="_self" >SurveyStartPageComponent</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyStartModel"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            surveyStartModel</b>
+                            <a href="#surveyStartModel"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SurveyStart.html" target="_self" >SurveyStart</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/survey-viewer-app/app/components/survey-groupcode-page/survey-groupcode-page.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	Input,
+	OnInit,
+	ChangeDetectorRef,
+	Inject,
+	ElementRef,
+	ViewContainerRef,
+	ViewChild
+} from &#x27;@angular/core&#x27;;
+import { SurveyViewPage } from &#x27;../../models/survey-view-page.model&#x27;;
+import { SurveyViewerStateService } from &#x27;../../services/survey-viewer-state.service&#x27;;
+import { SurveyViewerState } from &#x27;../../models/survey-viewer-state.model&#x27;;
+import { SurveyViewerService } from &#x27;../../services/survey-viewer.service&#x27;;
+import { SurveyViewerNavigationService } from &#x27;../../services/survey-viewer-navigation/survey-viewer-navigation.service&#x27;;
+import { SurveyStartPageComponent } from &#x27;../survey-start-page/survey-start-page.component&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
+import { SurveyViewGroupcodePage } from &#x27;../../models/survey-view-groupcode-page.model&#x27;;
+import { SurveyStart } from &#x27;app/models/survey-start.model&#x27;;
+import { MAX_LENGTH_VALIDATOR } from &#x27;@angular/forms/src/directives/validators&#x27;;
+import { find as _find } from &#x27;lodash&#x27;;
+import { FormGroup, FormControl } from &#x27;@angular/forms&#x27;;
+import { SurveyViewerSession } from &#x27;app/services/survey-viewer-session.service&#x27;;
+
+@Component({
+	selector: &#x27;traisi-survey-groupcode-page&#x27;,
+	templateUrl: &#x27;./survey-groupcode-page.component.html&#x27;,
+	styleUrls: [&#x27;./survey-groupcode-page.component.scss&#x27;]
+})
+export class SurveyGroupcodePageComponent implements OnInit {
+	public startPageComponent: SurveyStartPageComponent;
+	public isFinishedLoading: boolean &#x3D; false;
+	public model: SurveyViewGroupcodePage;
+	public surveyStartModel: SurveyStart;
+	public pageThemeInfo: any;
+	private _surveyName: string;
+	public groupcodeFormGroup: FormGroup;
+	private _surveyId: number;
+
+	@ViewChild(&#x27;shortcodeDisplayComponent&#x27;, { read: ViewContainerRef })
+	public shortcodeDisplayComponent: ViewContainerRef;
+
+	/**
+	 *Creates an instance of SurveyGroupcodePageComponent.
+	 * @param {SurveyViewerService} _surveyViewerService
+	 * @param {ActivatedRoute} _route
+	 * @param {Router} _router
+	 * @param {TranslateService} _translate
+	 * @param {ElementRef} _elementRef
+	 * @memberof SurveyGroupcodePageComponent
+	 */
+	public constructor(
+		@Inject(&#x27;SurveyViewerService&#x27;) private _surveyViewerService: SurveyViewerService,
+		private _route: ActivatedRoute,
+		private _router: Router,
+		private _translate: TranslateService,
+		private _elementRef: ElementRef,
+		public session: SurveyViewerSession
+	) {
+		this.isFinishedLoading &#x3D; false;
+		this.model &#x3D; {};
+
+	}
+
+	/**
+	 *
+	 */
+	public ngOnInit(): void {
+		this._surveyViewerService.pageThemeInfo.subscribe(info &#x3D;&gt; {
+			this.pageThemeInfo &#x3D; info;
+
+			this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) &#x3D;&gt; {
+				this.surveyStartModel &#x3D; surveyStartModel;
+
+				let m &#x3D; JSON.parse(this.surveyStartModel.welcomeText);
+
+				this.model.header1 &#x3D; _find(m, x &#x3D;&gt; x.sectionType &#x3D;&#x3D;&#x3D; &#x27;header1&#x27;);
+				this.model.header2 &#x3D; _find(m, x &#x3D;&gt; x.sectionType &#x3D;&#x3D;&#x3D; &#x27;header2&#x27;);
+				this.model.footer1 &#x3D; _find(m, x &#x3D;&gt; x.sectionType &#x3D;&#x3D;&#x3D; &#x27;footer1&#x27;);
+
+				this.groupcodeFormGroup &#x3D; new FormGroup({});
+				this.groupcodeFormGroup.addControl(&#x27;groupcode&#x27;, new FormControl(&#x27;&#x27;));
+
+				this._surveyViewerService.activeSurveyId.subscribe((surveyId: number) &#x3D;&gt; {
+					this._surveyId &#x3D; surveyId;
+				});
+
+				this.checkSurveyUserLoginStatus();
+				this.isFinishedLoading &#x3D; true;
+			});
+		});
+		return;
+	}
+
+	/**
+	 *
+	 *
+	 * @private
+	 * @type {void}
+	 * @memberof SurveyGroupcodePageComponent
+	 */
+	private checkSurveyUserLoginStatus(): void {}
+
+	public showShortcodeDisplay(): void {}
+
+	/**
+	 *
+	 *
+	 * @memberof SurveyGroupcodePageComponent
+	 */
+	public onGroupcodeSubmit(): void {
+		// this.groupcodeFormGroup.reset();
+		this._surveyViewerService
+			.validateSurveyGroupcode(this._surveyId, this.groupcodeFormGroup.value.groupcode)
+			.subscribe(result &#x3D;&gt; {
+				if (result) {
+					this.startPageComponent.groupcodeStartSurvey(this.groupcodeFormGroup.value.groupcode);
+				} else {
+					this.groupcodeFormGroup.setErrors({
+						invalid: true
+					});
+
+					console.log(this.groupcodeFormGroup);
+					// show error message
+				}
+			});
+		//
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div *ngIf&#x3D;&quot;isFinishedLoading&quot;&gt;
+	&lt;app-header1 *ngIf&#x3D;&quot;model.header1&quot; [pageThemeInfo]&#x3D;&quot;pageThemeInfo&quot; [pageObject]&#x3D;&quot;model.header1&quot;&gt;&lt;/app-header1&gt;
+	&lt;app-header2 *ngIf&#x3D;&quot;model.header2&quot; [pageThemeInfo]&#x3D;&quot;pageThemeInfo&quot; [pageObject]&#x3D;&quot;model.header2&quot;&gt;&lt;/app-header2&gt;
+	&lt;div class&#x3D;&quot;group-code-content-container&quot;&gt;
+		&lt;form #groupcodeForm&#x3D;&quot;ngForm&quot; (ngSubmit)&#x3D;&quot;onGroupcodeSubmit()&quot; [formGroup]&#x3D;&quot;groupcodeFormGroup&quot;&gt;
+			&lt;div class&#x3D;&quot;input-group input-group-lg&quot;&gt;
+				&lt;input required class&#x3D;&quot;form-control&quot; type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;groupcode&quot; /&gt;
+			&lt;/div&gt;
+			&lt;div class&#x3D;&quot;groupcode-submit&quot;&gt;
+				&lt;button [disabled]&#x3D;&quot;!groupcodeFormGroup.valid&quot; type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-primary&quot;&gt;
+					GROUPCODE START TEMP
+				&lt;/button&gt;
+			&lt;/div&gt;
+
+			&lt;div class&#x3D;&quot;text-danger&quot;&gt;
+				&lt;small *ngIf&#x3D;&quot;groupcodeFormGroup.errors &amp;&amp; groupcodeFormGroup.errors.invalid&quot;&gt;{{
+					&#x27;Groupcode.Invalid&#x27; | translate
+				}}&lt;/small&gt;
+			&lt;/div&gt;
+
+			&lt;div *ngIf&#x3D;&quot;(session.data | async) as session&quot;&gt;
+				&lt;div *ngIf&#x3D;&quot;session.isLoggedIn&quot;&gt;
+					&lt;span
+						&gt;You are currently logged in with an active shortcode:
+						&lt;a [routerLink]&#x3D;&quot;[&#x27;../shortcode&#x27;]&quot; [queryParams]&#x3D;&quot;{ shortcode: session.shortcode }&quot;&gt;
+							{{ session.shortcode }}&lt;/a
+						&gt;
+					&lt;/span&gt;
+				&lt;/div&gt;
+				&lt;div *ngIf&#x3D;&quot;!session.isLoggedIn&quot;&gt;
+					not logged in
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/form&gt;
+	&lt;/div&gt;
+
+	&lt;app-footer1
+		*ngIf&#x3D;&quot;model.footer1&quot;
+		class&#x3D;&quot;footer fixed-bottom groupcode-footer groupcode-footer1&quot;
+		[pageThemeInfo]&#x3D;&quot;pageThemeInfo&quot;
+		[pageHTML]&#x3D;&quot;model.footer1.html&quot;
+	&gt;&lt;/app-footer1&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./survey-groupcode-page.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.group-code-content-container {
+	max-width: 500px;
+	margin: auto;
+	text-align: center;
+
+	.groupcode-submit {
+		margin-top: 20px;
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div *ngIf="isFinishedLoading">	<app-header1 *ngIf="model.header1" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header1"></app-header1>	<app-header2 *ngIf="model.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="model.header2"></app-header2>	<div class="group-code-content-container">		<form #groupcodeForm="ngForm" (ngSubmit)="onGroupcodeSubmit()" [formGroup]="groupcodeFormGroup">			<div class="input-group input-group-lg">				<input required class="form-control" type="text" formControlName="groupcode" />			</div>			<div class="groupcode-submit">				<button [disabled]="!groupcodeFormGroup.valid" type="submit" class="btn btn-primary">					GROUPCODE START TEMP				</button>			</div>			<div class="text-danger">				<small *ngIf="groupcodeFormGroup.errors && groupcodeFormGroup.errors.invalid">{{					\'Groupcode.Invalid\' | translate				}}</small>			</div>			<div *ngIf="(session.data | async) as session">				<div *ngIf="session.isLoggedIn">					<span						>You are currently logged in with an active shortcode:						<a [routerLink]="[\'../shortcode\']" [queryParams]="{ shortcode: session.shortcode }">							{{ session.shortcode }}</a						>					</span>				</div>				<div *ngIf="!session.isLoggedIn">					not logged in				</div>			</div>		</form>	</div>	<app-footer1		*ngIf="model.footer1"		class="footer fixed-bottom groupcode-footer groupcode-footer1"		[pageThemeInfo]="pageThemeInfo"		[pageHTML]="model.footer1.html"	></app-footer1></div></div>'
+    var COMPONENTS = [{'name': 'AdminToolbarComponent', 'selector': 'traisi-admin-toolbar'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionContainerComponent', 'selector': 'traisi-question-container'},{'name': 'QuestionPlaceholderComponent', 'selector': 'traisi-question-placeholder'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SurveyErrorComponent', 'selector': 'app-survey-error'},{'name': 'SurveyGroupcodePageComponent', 'selector': 'traisi-survey-groupcode-page'},{'name': 'SurveyHeaderDisplayComponent', 'selector': 'traisi-survey-header-display'},{'name': 'SurveyScreeningPageComponent', 'selector': 'survey-screening-page'},{'name': 'SurveyShortcodeDisplayPageComponent', 'selector': 'traisi-survey-shortcode-display-page'},{'name': 'SurveyShortcodePageComponent', 'selector': 'traisi-survey-shortcode-page'},{'name': 'SurveyStartPageComponent', 'selector': 'traisi-survey-start-page'},{'name': 'SurveyTermsPageComponent', 'selector': 'app-survey-terms-page'},{'name': 'SurveyThankYouPageComponent', 'selector': 'traisi-survey-thankyou-page'},{'name': 'SurveyViewerComponent', 'selector': 'traisi-survey-viewer'},{'name': 'SurveyViewerContainerComponent', 'selector': 'app-survey-viewer-container'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'}];
+    var DIRECTIVES = [{'name': 'LoadingPlaceholderDirective', 'selector': '[traisiLoadingPlaceholder]'},{'name': 'SurveyInternalViewDirective', 'selector': '[traisiSurveyInternalView]'}];
+    var ACTUAL_COMPONENT = {'name': 'SurveyGroupcodePageComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SurveyGroupcodePageComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

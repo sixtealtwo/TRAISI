@@ -1,0 +1,1928 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>SurveySectionContainer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_activeGroupMemberIndex">_activeGroupMemberIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_children">_children</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_sectionModel">_sectionModel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#containerId">containerId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#canNavigateNext">canNavigateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#canNavigatePrevious">canNavigatePrevious</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#decrementGroup">decrementGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#incrementGroup">incrementGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initialize">initialize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#iterateNext">iterateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#iteratePrevious">iteratePrevious</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#navigateNext">navigateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#navigatePrevious">navigatePrevious</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setGroupMemberActive">setGroupMemberActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateGroup">updateGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateGroups">updateGroups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#canNavigateNext">canNavigateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#canNavigatePrevious">canNavigatePrevious</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#initialize">initialize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#iterateNext">iterateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#iteratePrevious">iteratePrevious</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#navigateNext">navigateNext</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#navigatePrevious">navigatePrevious</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#containerId">containerId</a>
+                                </li>
+                                <li>
+                                    <a href="#activeGroupContainer">activeGroupContainer</a>
+                                </li>
+                                <li>
+                                    <a href="#sectionModel">sectionModel</a>
+                                </li>
+                                <li>
+                                    <a href="#activeViewContainer">activeViewContainer</a>
+                                </li>
+                                <li>
+                                    <a href="#activeQuestion">activeQuestion</a>
+                                </li>
+                                <li>
+                                    <a href="#isComplete">isComplete</a>
+                                </li>
+                                <li>
+                                    <a href="#groupContainers">groupContainers</a>
+                                </li>
+                                <li>
+                                    <a href="#children">children</a>
+                                </li>
+                                <li>
+                                    <a href="#isHousehold">isHousehold</a>
+                                </li>
+                                <li>
+                                    <a href="#activeRespondent">activeRespondent</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                                <span class="modifier">Public</span>
+                        <code>constructor(section: <a href="../interfaces/SurveyViewSection.html">SurveyViewSection</a>, _state: <a href="../injectables/SurveyViewerStateService.html">SurveyViewerStateService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:79</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of survey section container.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>section</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/SurveyViewSection.html" target="_self" >SurveyViewSection</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>_state</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyViewerStateService.html" target="_self" >SurveyViewerStateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_activeGroupMemberIndex"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _activeGroupMemberIndex</b>
+                            <a href="#_activeGroupMemberIndex"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_children"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _children</b>
+                            <a href="#_children"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Array&lt;SurveyGroupContainer&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_sectionModel"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _sectionModel</b>
+                            <a href="#_sectionModel"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/SurveyViewSection.html" target="_self" >SurveyViewSection</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:12</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="containerId"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Abstract</span>
+                            containerId</b>
+                            <a href="#containerId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:4</a></code>
+</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canNavigateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            canNavigateNext
+                        </b>
+                        <a href="#canNavigateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canNavigateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:100</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canNavigatePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            canNavigatePrevious
+                        </b>
+                        <a href="#canNavigatePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canNavigatePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="decrementGroup"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            decrementGroup
+                        </b>
+                        <a href="#decrementGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>decrementGroup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:191</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Increments question</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="incrementGroup"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            incrementGroup
+                        </b>
+                        <a href="#incrementGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>incrementGroup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:182</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Increments question</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            initialize
+                        </b>
+                        <a href="#initialize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initialize()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:201</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initializes survey section container</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subject&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>initialize</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iterateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            iterateNext
+                        </b>
+                        <a href="#iterateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>iterateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:93</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iteratePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            iteratePrevious
+                        </b>
+                        <a href="#iteratePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>iteratePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:96</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            navigateNext
+                        </b>
+                        <a href="#navigateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Navigates next</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if next</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigatePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            navigatePrevious
+                        </b>
+                        <a href="#navigatePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigatePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Navigates previous</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if previous</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setGroupMemberActive"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setGroupMemberActive
+                        </b>
+                        <a href="#setGroupMemberActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setGroupMemberActive(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets group member active</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateGroup"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateGroup
+                        </b>
+                        <a href="#updateGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateGroup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:117</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateGroups"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateGroups
+                        </b>
+                        <a href="#updateGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateGroups()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:233</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canNavigateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Abstract</span>
+                            canNavigateNext
+                        </b>
+                        <a href="#canNavigateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canNavigateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:9</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canNavigatePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Abstract</span>
+                            canNavigatePrevious
+                        </b>
+                        <a href="#canNavigatePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canNavigatePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:10</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Abstract</span>
+                            initialize
+                        </b>
+                        <a href="#initialize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initialize()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:8</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subject | boolean</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iterateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            iterateNext
+                        </b>
+                        <a href="#iterateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>iterateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:12</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iteratePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            iteratePrevious
+                        </b>
+                        <a href="#iteratePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>iteratePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:16</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateNext"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Abstract</span>
+                            navigateNext
+                        </b>
+                        <a href="#navigateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigateNext()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:7</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigatePrevious"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Abstract</span>
+                            navigatePrevious
+                        </b>
+                        <a href="#navigatePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigatePrevious()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/SurveyContainer.html" target="_self" >SurveyContainer</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/SurveyContainer.html#source" target="_self" >SurveyContainer:6</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="containerId"></a>
+                        <span class="name"><b>containerId</b><a href="#containerId"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>containerId()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:18</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeGroupContainer"></a>
+                        <span class="name"><b>activeGroupContainer</b><a href="#activeGroupContainer"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>activeGroupContainer()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:22</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sectionModel"></a>
+                        <span class="name"><b>sectionModel</b><a href="#sectionModel"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>sectionModel()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:26</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeViewContainer"></a>
+                        <span class="name"><b>activeViewContainer</b><a href="#activeViewContainer"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>activeViewContainer()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:30</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeQuestion"></a>
+                        <span class="name"><b>activeQuestion</b><a href="#activeQuestion"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>activeQuestion()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:34</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isComplete"></a>
+                        <span class="name"><b>isComplete</b><a href="#isComplete"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isComplete()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:38</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="groupContainers"></a>
+                        <span class="name"><b>groupContainers</b><a href="#groupContainers"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>groupContainers()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:49</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="children"></a>
+                        <span class="name"><b>children</b><a href="#children"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>children()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:56</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets child containers</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Array&lt;SurveyGroupContainer&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isHousehold"></a>
+                        <span class="name"><b>isHousehold</b><a href="#isHousehold"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isHousehold()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:60</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeRespondent"></a>
+                        <span class="name"><b>activeRespondent</b><a href="#activeRespondent"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>activeRespondent()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/survey-viewer-app/app/services/survey-viewer-navigation/survey-section-container.ts:69</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SurveyContainer } from &#x27;./survey-container&#x27;;
+import { SurveyViewQuestion } from &#x27;../../models/survey-view-question.model&#x27;;
+import { Subject } from &#x27;rxjs&#x27;;
+import { SurveyQuestionContainer } from &#x27;./survey-question-container&#x27;;
+import { SurveyViewSection } from &#x27;app/models/survey-view-section.model&#x27;;
+import { SurveyGroupContainer } from &#x27;./survey-group-container&#x27;;
+import { SurveyViewerStateService } from &#x27;../survey-viewer-state.service&#x27;;
+import { SurveyViewGroupMember } from &#x27;../../models/survey-view-group-member.model&#x27;;
+import { SurveyRepeatContainer } from &#x27;./survey-repeat-container&#x27;;
+
+export class SurveySectionContainer extends SurveyContainer {
+	private _sectionModel: SurveyViewSection;
+
+	private _children: Array&lt;SurveyGroupContainer&gt;;
+
+	private _activeGroupMemberIndex: number &#x3D; 0;
+
+	public get containerId(): number {
+		return this._sectionModel.id;
+	}
+
+	public get activeGroupContainer(): SurveyGroupContainer {
+		return this._children[this._activeGroupMemberIndex];
+	}
+
+	public get sectionModel(): SurveyViewSection {
+		return this._sectionModel;
+	}
+
+	public get activeViewContainer(): SurveyContainer {
+		return this._children[this._activeGroupMemberIndex].activeViewContainer;
+	}
+
+	public get activeQuestion(): SurveyViewQuestion {
+		return null;
+	}
+
+	public get isComplete(): boolean {
+		let complete &#x3D; true;
+
+		this.children.forEach(groupContainer &#x3D;&gt; {
+			if (!groupContainer.isComplete) {
+				complete &#x3D; false;
+			}
+		});
+		return complete;
+	}
+
+	public get groupContainers(): Array&lt;SurveyGroupContainer&gt; {
+		return this._children;
+	}
+
+	/**
+	 * Gets child containers
+	 */
+	public get children(): Array&lt;SurveyGroupContainer&gt; {
+		return this._children;
+	}
+
+	public get isHousehold(): boolean {
+		if (this._sectionModel !&#x3D;&#x3D; null) {
+			if (this._sectionModel.isHousehold &#x3D;&#x3D;&#x3D; true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public get activeRespondent(): SurveyViewGroupMember {
+		if (this._sectionModel !&#x3D;&#x3D; null) {
+			if (this._sectionModel.isHousehold &#x3D;&#x3D;&#x3D; false) {
+				return this._state.viewerState.primaryRespondent;
+			} else {
+				return this._state.viewerState.groupMembers[this._activeGroupMemberIndex];
+			}
+		} else {
+			return this._state.viewerState.primaryRespondent;
+		}
+	}
+
+	/**
+	 * Creates an instance of survey section container.
+	 * @param section
+	 */
+	public constructor(section: SurveyViewSection, private _state: SurveyViewerStateService) {
+		super();
+
+		this._sectionModel &#x3D; section;
+		this._children &#x3D; [];
+		this.initialize();
+	}
+
+	public iterateNext(): boolean {
+		return this.activeGroupContainer.iterateNext();
+	}
+	public iteratePrevious(): boolean {
+		return this.activeGroupContainer.iteratePrevious();
+	}
+
+	public canNavigateNext(): boolean {
+		let val &#x3D; this.activeGroupContainer.canNavigateNext();
+		if (this._activeGroupMemberIndex &lt; this._children.length - 1 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public canNavigatePrevious(): boolean {
+		let val &#x3D; this.activeGroupContainer.canNavigatePrevious();
+		if (this._activeGroupMemberIndex &gt; 0 || val) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public updateGroup(): void {
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+	}
+
+	/**
+	 * Sets group member active
+	 * @param index
+	 */
+	public setGroupMemberActive(index: number): void {
+		this._activeGroupMemberIndex &#x3D; index;
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+	}
+
+	/**
+	 * Navigates previous
+	 * @returns true if previous
+	 */
+	public navigatePrevious(): boolean {
+		if (this._sectionModel !&#x3D;&#x3D; null &amp;&amp; this.sectionModel.isMultiView) {
+			return true;
+		}
+		if (this.activeGroupContainer.navigatePrevious()) {
+			if (this._activeGroupMemberIndex &lt;&#x3D; 0) {
+				return true;
+			} else {
+				this.decrementGroup();
+
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Navigates next
+	 * @returns true if next
+	 */
+	public navigateNext(): boolean {
+		// returns true if there is no longer any internal navigation
+
+		// return true if this is a multiview
+		if (this._sectionModel !&#x3D;&#x3D; null &amp;&amp; this.sectionModel.isMultiView) {
+			return true;
+		}
+
+		if (this.activeGroupContainer.navigateNext()) {
+			if (
+				(this.isHousehold &amp;&amp; this._activeGroupMemberIndex &gt;&#x3D; this._state.viewerState.groupMembers.length - 1) ||
+				!this.isHousehold
+			) {
+				return true;
+			} else {
+				this.incrementGroup();
+
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Increments question
+	 */
+	private incrementGroup(): void {
+		this._activeGroupMemberIndex++;
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+		this.activeGroupContainer.initialize();
+	}
+
+	/**
+	 * Increments question
+	 */
+	private decrementGroup(): void {
+		this._activeGroupMemberIndex--;
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+		this.activeGroupContainer.initialize();
+	}
+
+	/**
+	 * Initializes survey section container
+	 * @returns initialize
+	 */
+	public initialize(): Subject&lt;void&gt; {
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+
+		if (this._sectionModel !&#x3D;&#x3D; null &amp;&amp; this._sectionModel.isHousehold) {
+			if (this.groupContainers.length &#x3D;&#x3D;&#x3D; 0) {
+				this._state.viewerState.groupMembers.forEach(member &#x3D;&gt; {
+					let groupContainer &#x3D; new SurveyGroupContainer(this._state);
+					this.groupContainers.push(groupContainer);
+				});
+			}
+		} else if (this._sectionModel !&#x3D;&#x3D; null) {
+			let groupContainer &#x3D; new SurveyGroupContainer(this._state);
+
+			this.groupContainers.push(groupContainer);
+		}
+
+		// this.activeQuestionContainer.initialize();
+
+		// this._children &#x3D; [];
+
+		/* his._questionContainers.forEach((container) &#x3D;&gt; {
+			container.initialize();
+			this._children &#x3D; this._children.concat(container.children);
+		}); */
+
+		if (this.activeGroupContainer !&#x3D;&#x3D; undefined) {
+			this.activeGroupContainer.initialize();
+		}
+
+		return null;
+	}
+
+	public updateGroups(): void {
+		this._state.viewerState.activeRespondent &#x3D; this.activeRespondent;
+		let questionRepeats &#x3D; this.groupContainers[0].children;
+		if (this._sectionModel !&#x3D;&#x3D; null &amp;&amp; this._sectionModel.isHousehold) {
+			if (this.children.length &lt; this._state.viewerState.groupMembers.length) {
+				this._state.viewerState.groupMembers.forEach((member, index) &#x3D;&gt; {
+					if (index &gt;&#x3D; this.children.length) {
+						let groupContainer &#x3D; new SurveyGroupContainer(this._state, member);
+						this.groupContainers.push(groupContainer);
+						questionRepeats.forEach(questionRepeatContainer &#x3D;&gt; {
+							let question &#x3D; questionRepeatContainer.activeQuestionContainer.questionModel;
+							let repeatContainer &#x3D; new SurveyRepeatContainer(question, this._state, groupContainer.forRespondent);
+							let container &#x3D; new SurveyQuestionContainer(question, this);
+							repeatContainer.addQuestionContainer(container);
+
+							groupContainer.repeatContainers.push(repeatContainer);
+						});
+					}
+				});
+
+				/*this.groupContainers.forEach(groupContainer &#x3D;&gt; {
+					questionRepeats.forEach(questionRepeatContainer &#x3D;&gt; {
+						let question &#x3D; questionRepeatContainer.children[0].questionModel;
+						let repeatContainer &#x3D; new SurveyRepeatContainer(
+							question,
+							this._state,
+							groupContainer.forRespondent
+						);
+
+						let container &#x3D; new SurveyQuestionContainer(question, this);
+						repeatContainer.addQuestionContainer(container);
+
+						groupContainer.repeatContainers.push(repeatContainer);
+					});
+				}); */
+			} else if (this.children.length &gt; this._state.viewerState.groupMembers.length) {
+				this._children &#x3D; this._children.slice(this.children.length - this._state.viewerState.groupMembers.length);
+			}
+
+			this._state.viewerState.groupMembers.forEach((member, index) &#x3D;&gt; {
+				this.groupContainers[index].forRespondent &#x3D; this._state.viewerState.groupMembers[index];
+
+				this.groupContainers[index].repeatContainers.forEach(repeat &#x3D;&gt; {
+					repeat.forRespondent &#x3D; this._state.viewerState.groupMembers[index];
+
+					repeat.children.forEach(q &#x3D;&gt; {
+						q.forRespondent &#x3D; this._state.viewerState.groupMembers[index];
+					});
+				});
+			});
+		}
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'SurveySectionContainer.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2502 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>QuestionConditionalsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../classes/Order.html" target="_self" >{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-question-conditionals</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./question-conditionals.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./question-conditionals.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#conditionalFields">conditionalFields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentLocationConditional">currentLocationConditional</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#drawControl">drawControl</a>
+                            </li>
+                            <li>
+                                <a href="#locationModal">locationModal</a>
+                            </li>
+                            <li>
+                                <a href="#mapGL">mapGL</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sourceConditionals">sourceConditionals</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#targetConditionals">targetConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#tConditionalFields">tConditionalFields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#treedropdownConfig">treedropdownConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#treedropdownSingleConfig">treedropdownSingleConfig</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addSourceConditional">addSourceConditional</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addTargetConditional">addTargetConditional</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cloneTargetList">cloneTargetList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#configureMapSettings">configureMapSettings</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deleteSourceConditional">deleteSourceConditional</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deleteTargetConditional">deleteTargetConditional</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getDefaultValue">getDefaultValue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getUpdatedConditionals">getUpdatedConditionals</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadPriorSourceConditionals">loadPriorSourceConditionals</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadPriorTargetConditionals">loadPriorTargetConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#locationBoundsShown">locationBoundsShown</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSelectedChange">onSelectedChange</a>
+                            </li>
+                            <li>
+                                <a href="#saveBounds">saveBounds</a>
+                            </li>
+                            <li>
+                                <a href="#showLocationBoundsModal">showLocationBoundsModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validConditionValue">validConditionValue</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#questionBeingEdited">questionBeingEdited</a>
+                            </li>
+                            <li>
+                                <a href="#questionOptions">questionOptions</a>
+                            </li>
+                            <li>
+                                <a href="#questionOptionsAfter">questionOptionsAfter</a>
+                            </li>
+                            <li>
+                                <a href="#questionsBefore">questionsBefore</a>
+                            </li>
+                            <li>
+                                <a href="#questionType">questionType</a>
+                            </li>
+                            <li>
+                                <a href="#sourceQuestionConditionals">sourceQuestionConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#sourceQuestionOptionConditionals">sourceQuestionOptionConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#targetQuestionConditionals">targetQuestionConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#targetQuestionOptionConditionals">targetQuestionOptionConditionals</a>
+                            </li>
+                            <li>
+                                <a href="#thisQuestion">thisQuestion</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(changeDetectRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:85</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>changeDetectRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionBeingEdited"></a>
+                        <b>questionBeingEdited</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:57</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionOptions"></a>
+                        <b>questionOptions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionOptionValue.html" target="_self" >Map&lt;string | QuestionOptionValue[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, QuestionOptionValue[]&gt;()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:66</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionOptionsAfter"></a>
+                        <b>questionOptionsAfter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionsBefore"></a>
+                        <b>questionsBefore</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:62</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionType"></a>
+                        <b>questionType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:55</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceQuestionConditionals"></a>
+                        <b>sourceQuestionConditionals</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionConditional.html" target="_self" >QuestionConditional[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:69</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceQuestionOptionConditionals"></a>
+                        <b>sourceQuestionOptionConditionals</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionOptionConditional.html" target="_self" >QuestionOptionConditional[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:71</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="targetQuestionConditionals"></a>
+                        <b>targetQuestionConditionals</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionConditional.html" target="_self" >QuestionConditional[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:74</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="targetQuestionOptionConditionals"></a>
+                        <b>targetQuestionOptionConditionals</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionOptionConditional.html" target="_self" >QuestionOptionConditional[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:76</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="thisQuestion"></a>
+                        <b>thisQuestion</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:64</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSourceConditional"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addSourceConditional
+                        </b>
+                        <a href="#addSourceConditional"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addSourceConditional()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:277</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addTargetConditional"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addTargetConditional
+                        </b>
+                        <a href="#addTargetConditional"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addTargetConditional()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:287</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cloneTargetList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            cloneTargetList
+                        </b>
+                        <a href="#cloneTargetList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cloneTargetList(parentList: <a href="../interfaces/Item.html">TreeviewItem[]</a>, checkedValues: string[], forceCheck: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:339</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parentList</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>checkedValues</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>forceCheck</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configureMapSettings"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            configureMapSettings
+                        </b>
+                        <a href="#configureMapSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>configureMapSettings()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteSourceConditional"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deleteSourceConditional
+                        </b>
+                        <a href="#deleteSourceConditional"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteSourceConditional(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="298"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:298</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteTargetConditional"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deleteTargetConditional
+                        </b>
+                        <a href="#deleteTargetConditional"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteTargetConditional(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:302</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDefaultValue"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getDefaultValue
+                        </b>
+                        <a href="#getDefaultValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDefaultValue()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:312</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUpdatedConditionals"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getUpdatedConditionals
+                        </b>
+                        <a href="#getUpdatedConditionals"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUpdatedConditionals()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:113</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadPriorSourceConditionals"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadPriorSourceConditionals
+                        </b>
+                        <a href="#loadPriorSourceConditionals"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadPriorSourceConditionals()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:195</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadPriorTargetConditionals"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadPriorTargetConditionals
+                        </b>
+                        <a href="#loadPriorTargetConditionals"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadPriorTargetConditionals()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="locationBoundsShown"></a>
+                    <span class="name">
+                        <b>
+                            locationBoundsShown
+                        </b>
+                        <a href="#locationBoundsShown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>locationBoundsShown()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="306"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:306</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:91</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectedChange"></a>
+                    <span class="name">
+                        <b>
+                            onSelectedChange
+                        </b>
+                        <a href="#onSelectedChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelectedChange(downlineItems: <a href="../interfaces/Item.html">DownlineTreeviewItem[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:394</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>downlineItems</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >DownlineTreeviewItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveBounds"></a>
+                    <span class="name">
+                        <b>
+                            saveBounds
+                        </b>
+                        <a href="#saveBounds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveBounds()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:384</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showLocationBoundsModal"></a>
+                    <span class="name">
+                        <b>
+                            showLocationBoundsModal
+                        </b>
+                        <a href="#showLocationBoundsModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showLocationBoundsModal(conditional: QuestionConditionalSourceGroup | QuestionConditionalTargetGroup)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:364</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>conditional</td>
+                                    <td>
+                                            <code>QuestionConditionalSourceGroup | QuestionConditionalTargetGroup</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validConditionValue"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            validConditionValue
+                        </b>
+                        <a href="#validConditionValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validConditionValue(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:173</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="conditionalFields"></a>
+                        <span class="name">
+                            <b>
+                            conditionalFields</b>
+                            <a href="#conditionalFields"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../components/SourceConditionalComponent.html" target="_self" >QueryList&lt;SourceConditionalComponent&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChildren(&#x27;sConditionals&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:83</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentLocationConditional"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            currentLocationConditional</b>
+                            <a href="#currentLocationConditional"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>QuestionConditionalSourceGroup | QuestionConditionalTargetGroup</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="drawControl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            drawControl</b>
+                            <a href="#drawControl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MapboxDraw</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="locationModal"></a>
+                        <span class="name">
+                            <b>
+                            locationModal</b>
+                            <a href="#locationModal"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ModalDirective</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;locationModal&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mapGL"></a>
+                        <span class="name">
+                            <b>
+                            mapGL</b>
+                            <a href="#mapGL"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MapComponent</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;mapbox&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:81</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceConditionals"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            sourceConditionals</b>
+                            <a href="#sourceConditionals"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>QuestionConditionalSourceGroup[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="targetConditionals"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            targetConditionals</b>
+                            <a href="#targetConditionals"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>QuestionConditionalTargetGroup[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tConditionalFields"></a>
+                        <span class="name">
+                            <b>
+                            tConditionalFields</b>
+                            <a href="#tConditionalFields"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../components/TargetConditionalComponent.html" target="_self" >QueryList&lt;TargetConditionalComponent&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChildren(&#x27;tConditionals&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:85</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="treedropdownConfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            treedropdownConfig</b>
+                            <a href="#treedropdownConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TreeviewConfig</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		hasAllCheckBox: false,
+		hasFilter: true,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500,
+		hasDivider: false
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="treedropdownSingleConfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            treedropdownSingleConfig</b>
+                            <a href="#treedropdownSingleConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TreeviewConfig</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500,
+		hasDivider: false
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/question-conditionals.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Input, ViewChild, AfterViewInit, ViewChildren, QueryList, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
+import {
+	TreeviewItem,
+	DownlineTreeviewItem,
+	TreeviewEventParser,
+	OrderDownlineTreeviewEventParser,
+	TreeviewConfig
+} from &#x27;ngx-treeview&#x27;;
+import { QuestionConditionalSourceGroup } from &#x27;../../../models/question-conditional-source-group.model&#x27;;
+import { QuestionConditionalTargetGroup } from &#x27;../../../models/question-conditional-target-group.model&#x27;;
+import { QuestionTypeDefinition } from &#x27;../../../models/question-type-definition&#x27;;
+import { QuestionPartView } from &#x27;../../../models/question-part-view.model&#x27;;
+import { ModalDirective } from &#x27;ngx-bootstrap&#x27;;
+import { MapComponent } from &#x27;ngx-mapbox-gl&#x27;;
+import * as MapboxDraw from &#x27;@mapbox/mapbox-gl-draw&#x27;;
+import { Control } from &#x27;mapbox-gl&#x27;;
+import { SourceConditionalComponent } from &#x27;./source-conditional/conditional.component&#x27;;
+import { QuestionConditional } from &#x27;../../../models/question-conditional.model&#x27;;
+import { QuestionOptionConditional } from &#x27;../../../models/question-option-conditional.model&#x27;;
+import { TargetConditionalComponent } from &#x27;./target-conditional/target-conditional.component&#x27;;
+import { QuestionOptionValue } from &#x27;../../../models/question-option-value.model&#x27;;
+
+@Component({
+	selector: &#x27;app-question-conditionals&#x27;,
+	templateUrl: &#x27;./question-conditionals.component.html&#x27;,
+	styleUrls: [&#x27;./question-conditionals.component.scss&#x27;],
+	providers: [{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }]
+})
+export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
+	public treedropdownConfig: TreeviewConfig &#x3D; {
+		hasAllCheckBox: false,
+		hasFilter: true,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500,
+		hasDivider: false
+	};
+
+	public treedropdownSingleConfig: TreeviewConfig &#x3D; {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500,
+		hasDivider: false
+	};
+
+	public sourceConditionals: QuestionConditionalSourceGroup[] &#x3D; [];
+	public targetConditionals: QuestionConditionalTargetGroup[] &#x3D; [];
+
+	private currentLocationConditional: QuestionConditionalSourceGroup | QuestionConditionalTargetGroup;
+
+	private drawControl: MapboxDraw;
+	@Input()
+	public questionType: QuestionTypeDefinition;
+	@Input()
+	public questionBeingEdited: QuestionPartView;
+
+	@Input()
+	public questionOptionsAfter: TreeviewItem[] &#x3D; [];
+	@Input()
+	public questionsBefore: TreeviewItem[] &#x3D; [];
+	@Input()
+	public thisQuestion: TreeviewItem[] &#x3D; [];
+	@Input()
+	public questionOptions: Map&lt;string, QuestionOptionValue[]&gt; &#x3D; new Map&lt;string, QuestionOptionValue[]&gt;();
+
+	@Input()
+	public sourceQuestionConditionals: QuestionConditional[] &#x3D; [];
+	@Input()
+	public sourceQuestionOptionConditionals: QuestionOptionConditional[] &#x3D; [];
+
+	@Input()
+	public targetQuestionConditionals: QuestionConditional[] &#x3D; [];
+	@Input()
+	public targetQuestionOptionConditionals: QuestionOptionConditional[] &#x3D; [];
+
+	@ViewChild(&#x27;locationModal&#x27;)
+	locationModal: ModalDirective;
+	@ViewChild(&#x27;mapbox&#x27;)
+	mapGL: MapComponent;
+	@ViewChildren(&#x27;sConditionals&#x27;)
+	conditionalFields: QueryList&lt;SourceConditionalComponent&gt;;
+	@ViewChildren(&#x27;tConditionals&#x27;)
+	tConditionalFields: QueryList&lt;TargetConditionalComponent&gt;;
+
+	constructor(private changeDetectRef: ChangeDetectorRef) {}
+
+	public ngOnInit(): void {}
+
+	ngAfterViewInit() {
+		if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Location&#x27;) {
+			this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) &#x3D;&gt; {
+				map.zoom &#x3D; 9;
+				map.center &#x3D; [-79.3, 43.7];
+			});
+		}
+		this.loadPriorSourceConditionals();
+		this.changeDetectRef.detectChanges();
+	}
+
+	private configureMapSettings(): void {
+		this.mapGL.zoom &#x3D; [9];
+		this.mapGL.minZoom &#x3D; 7;
+		this.mapGL.center &#x3D; [-79.3, 43.7];
+		this.mapGL.doubleClickZoom &#x3D; false;
+		this.mapGL.attributionControl &#x3D; false;
+
+		this.mapGL.mapInstance.setCenter([-79.3, 43.7]);
+		this.mapGL.mapInstance.setZoom(9);
+	}
+
+	public getUpdatedConditionals(): [QuestionConditional[], QuestionOptionConditional[]] {
+		let updatedQConditionals: QuestionConditional[] &#x3D; [];
+		let updatedQOConditionals: QuestionOptionConditional[] &#x3D; [];
+
+		let qi: number &#x3D; 0;
+		let oi: number &#x3D; 0;
+		let qmax: number &#x3D; this.sourceQuestionConditionals.length;
+		let omax: number &#x3D; this.sourceQuestionOptionConditionals.length;
+
+		this.conditionalFields.forEach(field &#x3D;&gt; {
+			field.updateConditionalsValues();
+			field.sourceQuestionConditionalsList.forEach(qConditional &#x3D;&gt; {
+				if (this.validConditionValue(qConditional.value)){
+					let conditionWithoutSpaces &#x3D; qConditional.condition.replace(/ /g, &#x27;&#x27;);
+					// ensure condition doesn&#x27;t already exist
+					let existing: QuestionConditional &#x3D; updatedQConditionals.filter(
+						c &#x3D;&gt;
+							c.condition &#x3D;&#x3D;&#x3D; conditionWithoutSpaces &amp;&amp;
+							c.value &#x3D;&#x3D;&#x3D; qConditional.value &amp;&amp;
+							c.targetQuestionId &#x3D;&#x3D;&#x3D; qConditional.targetQuestionId
+					)[0];
+					if (!existing) {
+						if (qi &lt; qmax) {
+							qConditional.id &#x3D; this.sourceQuestionConditionals[qi++].id;
+						}
+						qConditional.condition &#x3D; conditionWithoutSpaces;
+						updatedQConditionals.push(qConditional);
+					}
+				}
+			});
+
+			field.sourceQuestionOptionConditionalsList.forEach(oConditional &#x3D;&gt; {
+				if (this.validConditionValue(oConditional.value)) {
+					let conditionWithoutSpaces &#x3D; oConditional.condition.replace(/ /g, &#x27;&#x27;);
+					// ensure condition doesn&#x27;t already exist
+					let existing: QuestionOptionConditional &#x3D; updatedQOConditionals.filter(
+						c &#x3D;&gt;
+							c.condition &#x3D;&#x3D;&#x3D; conditionWithoutSpaces &amp;&amp;
+							c.value &#x3D;&#x3D;&#x3D; oConditional.value &amp;&amp;
+							c.targetOptionId &#x3D;&#x3D;&#x3D; oConditional.targetOptionId
+					)[0];
+					if (!existing) {
+						if (oi &lt; omax) {
+							oConditional.id &#x3D; this.sourceQuestionOptionConditionals[oi++].id;
+						}
+						oConditional.condition &#x3D; conditionWithoutSpaces;
+						updatedQOConditionals.push(oConditional);
+					}
+				}
+			});
+		});
+
+		qi &#x3D; 0;
+		oi &#x3D; 0;
+		qmax &#x3D; this.targetQuestionConditionals.length;
+		omax &#x3D; this.targetQuestionOptionConditionals.length;
+
+		return [updatedQConditionals, updatedQOConditionals];
+	}
+
+	private validConditionValue(value: string): boolean {
+		let valid: boolean &#x3D; true;
+		if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Location&#x27;) {
+			if (value &#x3D;&#x3D;&#x3D; null) {
+				valid &#x3D; false;
+			} else {
+				if (JSON.parse(value).features.length &#x3D;&#x3D;&#x3D; 0) {
+					valid &#x3D; false;
+				}
+			}
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Json&#x27;) {
+			if (value &#x3D;&#x3D;&#x3D; null) {
+				valid &#x3D; false;
+			}
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27;) {
+			if (value &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+				valid &#x3D; false;
+			}
+		}
+		return valid;
+	}
+
+	public loadPriorSourceConditionals() {
+		let sourceConditionalsMap: Map&lt;string, string[]&gt; &#x3D; new Map&lt;string, string[]&gt;();
+
+		// process both conditionals lists to map checked values into map where key is &#x27;condition|value&#x27; and value is list of ids
+		this.sourceQuestionConditionals.forEach(conditional &#x3D;&gt; {
+			// put spaces in condition between capitals
+			let conditionSpaced: string &#x3D; conditional.condition.replace(/([A-Z])/g, &#x27; $1&#x27;).trim();
+			// create key
+			let conditionalKey: string &#x3D; &#x60;${conditionSpaced}|${conditional.value}&#x60;;
+			if (!sourceConditionalsMap.has(conditionalKey)) {
+				sourceConditionalsMap.set(conditionalKey, []);
+			}
+			let conditionalIds &#x3D; sourceConditionalsMap.get(conditionalKey);
+			conditionalIds.push(&#x60;question~${conditional.targetQuestionId}&#x60;);
+		});
+		this.sourceQuestionOptionConditionals.forEach(conditional &#x3D;&gt; {
+			// put spaces in condition between capitals
+			let conditionSpaced: string &#x3D; conditional.condition.replace(/([A-Z])/g, &#x27; $1&#x27;).trim();
+			// create key
+			let conditionalKey: string &#x3D; &#x60;${conditionSpaced}|${conditional.value}&#x60;;
+			if (!sourceConditionalsMap.has(conditionalKey)) {
+				sourceConditionalsMap.set(conditionalKey, []);
+			}
+			let conditionalIds &#x3D; sourceConditionalsMap.get(conditionalKey);
+			conditionalIds.push(&#x60;option~${conditional.targetOptionId}&#x60;);
+		});
+
+		// go through map and create conditionals
+		sourceConditionalsMap.forEach((ids: string[], conditionalKey: string) &#x3D;&gt; {
+			let keySplit &#x3D; conditionalKey.split(&#x27;|&#x27;);
+			let newSourceGroup: QuestionConditionalSourceGroup &#x3D; new QuestionConditionalSourceGroup(
+				this.sourceConditionals.length,
+				keySplit[0],
+				keySplit[1],
+				this.cloneTargetList(this.questionOptionsAfter, ids, false)
+			);
+			this.sourceConditionals.push(newSourceGroup);
+		});
+
+	}
+
+	public loadPriorTargetConditionals() {
+		let targetConditionalsMap: Map&lt;string, string[]&gt; &#x3D; new Map&lt;string, string[]&gt;();
+
+		// process both conditionals lists to map checked values into map where key is &#x27;condition|value&#x27; and value is list of ids
+		this.targetQuestionConditionals.forEach(conditional &#x3D;&gt; {
+			// put spaces in condition between capitals
+			let conditionSpaced: string &#x3D; conditional.condition.replace(/([A-Z])/g, &#x27; $1&#x27;).trim();
+			// create key
+			let conditionalKey: string &#x3D; &#x60;question~${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}&#x60;;
+			if (!targetConditionalsMap.has(conditionalKey)) {
+				targetConditionalsMap.set(conditionalKey, []);
+			}
+			let conditionalIds &#x3D; targetConditionalsMap.get(conditionalKey);
+			conditionalIds.push(&#x60;question|${conditional.targetQuestionId}&#x60;);
+		});
+		this.targetQuestionOptionConditionals.forEach(conditional &#x3D;&gt; {
+			// put spaces in condition between capitals
+			let conditionSpaced: string &#x3D; conditional.condition.replace(/([A-Z])/g, &#x27; $1&#x27;).trim();
+			// create key
+			let conditionalKey: string &#x3D; &#x60;question~${conditional.sourceQuestionId}|${conditionSpaced}|${conditional.value}&#x60;;
+			if (!targetConditionalsMap.has(conditionalKey)) {
+				targetConditionalsMap.set(conditionalKey, []);
+			}
+			let conditionalIds &#x3D; targetConditionalsMap.get(conditionalKey);
+			conditionalIds.push(&#x60;option~${conditional.targetOptionId}&#x60;);
+		});
+
+		// go through map and create conditionals
+		targetConditionalsMap.forEach((ids: string[], conditionalKey: string) &#x3D;&gt; {
+			let keySplit &#x3D; conditionalKey.split(&#x27;~&#x27;);
+			let newTargetGroup: QuestionConditionalTargetGroup &#x3D; new QuestionConditionalTargetGroup(
+				this.targetConditionals.length,
+				keySplit[0],
+				keySplit[1],
+				keySplit[2],
+				this.cloneTargetList(this.thisQuestion, ids, false)
+			);
+			this.targetConditionals.push(newTargetGroup);
+		});
+	}
+
+	public addSourceConditional() {
+		let newSourceGroup: QuestionConditionalSourceGroup &#x3D; new QuestionConditionalSourceGroup(
+			this.sourceConditionals.length,
+			&#x27;&#x27;,
+			this.getDefaultValue(),
+			this.cloneTargetList(this.questionOptionsAfter, [], false)
+		);
+		this.sourceConditionals.push(newSourceGroup);
+	}
+
+	public addTargetConditional() {
+		let newTargetGroup: QuestionConditionalTargetGroup &#x3D; new QuestionConditionalTargetGroup(
+			this.sourceConditionals.length,
+			null,
+			&#x27;&#x27;,
+			this.getDefaultValue(),
+			this.cloneTargetList(this.thisQuestion, [], false)
+		);
+		this.sourceConditionals.push(newTargetGroup);
+	}
+
+	public deleteSourceConditional(i: number) {
+		this.sourceConditionals &#x3D; this.sourceConditionals.filter(s &#x3D;&gt; s.index !&#x3D;&#x3D; i);
+	}
+
+	public deleteTargetConditional(i: number) {
+		this.targetConditionals &#x3D; this.targetConditionals.filter(s &#x3D;&gt; s.index !&#x3D;&#x3D; i);
+	}
+
+	locationBoundsShown() {
+		setTimeout(() &#x3D;&gt; {
+			window.dispatchEvent(new Event(&#x27;resize&#x27;));
+		}, 0);
+	}
+
+	private getDefaultValue(): string {
+		let responseValue: string;
+		if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;String&#x27;) {
+			responseValue &#x3D; &#x27;&#x27;;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Boolean&#x27;) {
+			responseValue &#x3D; &#x27;false&#x27;;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Integer&#x27;) {
+			responseValue &#x3D; &#x27;0&#x27;;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Decimal&#x27;) {
+			responseValue &#x3D; &#x27;0.0&#x27;;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Location&#x27;) {
+			responseValue &#x3D; null;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;Json&#x27;) {
+			responseValue &#x3D; null;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionSelect&#x27;) {
+			responseValue &#x3D; this.thisQuestion[0].children[0].value;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27;) {
+			responseValue &#x3D; &#x27;&#x27;;
+		} else if (this.questionType.responseType &#x3D;&#x3D;&#x3D; &#x27;DateTime&#x27;) {
+			let startDate &#x3D; new Date();
+			let endDate &#x3D; new Date();
+			endDate.setDate(startDate.getDate() + 1);
+			responseValue &#x3D; JSON.stringify([startDate, endDate]);
+		}
+		return responseValue;
+	}
+
+	private cloneTargetList(parentList: TreeviewItem[], checkedValues: string[], forceCheck: boolean): TreeviewItem[] {
+		if (parentList &#x3D;&#x3D;&#x3D; undefined) {
+			return undefined;
+		}
+		let tree: TreeviewItem[] &#x3D; [];
+		for (let treeItem of parentList) {
+			let checkValue: string;
+			if ((&lt;string&gt;treeItem.value).startsWith(&#x27;question&#x27;)) {
+				let split &#x3D; (&lt;string&gt;treeItem.value).split(&#x27;~&#x27;);
+				checkValue &#x3D; &#x60;${split[0]}~${split[2]}&#x60;;
+			} else {
+				let split &#x3D; (&lt;string&gt;treeItem.value).split(&#x27;~&#x27;);
+				checkValue &#x3D; &#x60;${split[0]}~${split[2]}&#x60;;
+			}
+			let treeItemCopy &#x3D; new TreeviewItem({
+				value: treeItem.value,
+				text: treeItem.text,
+				checked: checkedValues.includes(checkValue) || forceCheck,
+				children: this.cloneTargetList(treeItem.children, checkedValues, checkedValues.includes(checkValue))
+			});
+			tree.push(treeItemCopy);
+		}
+		return tree;
+	}
+
+	showLocationBoundsModal(conditional: QuestionConditionalSourceGroup | QuestionConditionalTargetGroup) {
+		this.currentLocationConditional &#x3D; conditional;
+		this.drawControl &#x3D; new MapboxDraw({
+			displayControlsDefault: false,
+			controls: {
+				polygon: true,
+				trash: true
+			}
+		});
+		this.mapGL.mapInstance.addControl(this.drawControl);
+		// this.mapGL.mapInstance.on(&#x27;draw.update&#x27;, e &#x3D;&gt; this.updateBounds(e));
+		// this.mapGL.mapInstance.on(&#x27;draw.create&#x27;, e &#x3D;&gt; this.updateBounds(e));
+		if (conditional.value) {
+			this.drawControl.add(JSON.parse(conditional.value));
+		}
+		this.locationModal.show();
+	}
+
+	// private updateBounds(bounds: any) {}
+
+	saveBounds() {
+		this.currentLocationConditional.value &#x3D; JSON.stringify(this.drawControl.getAll());
+		let conditionalComponent &#x3D; this.conditionalFields.filter(
+			c &#x3D;&gt; c.sourceGroup &#x3D;&#x3D;&#x3D; this.currentLocationConditional
+		)[0];
+
+		this.mapGL.mapInstance.removeControl(this.drawControl);
+		this.locationModal.hide();
+	}
+
+	onSelectedChange(downlineItems: DownlineTreeviewItem[]) {
+
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;conditionals-wrapper&quot;&gt;
+	&lt;h4 class&#x3D;&quot;text-center&quot;&gt;Question as Source&lt;/h4&gt;
+	&lt;div class&#x3D;&quot;row d-md-none d-none d-lg-flex conditional-header&quot; *ngIf&#x3D;&quot;sourceConditionals.length &gt; 0&quot;&gt;
+		&lt;div class&#x3D;&quot;col-lg-3&quot;&gt;
+			Condition
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-lg-4&quot;&gt;
+			Value(s)
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-lg-5&quot;&gt;
+			Hide Target(s)
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class&#x3D;&quot;row&quot; *ngFor&#x3D;&quot;let conditional of sourceConditionals; let i &#x3D; index&quot;&gt;
+		&lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+			&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;conditional-delete-button pull-right btn btn-danger&quot; (click)&#x3D;&quot;deleteSourceConditional(conditional.index)&quot;&gt;
+				&lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+			&lt;div class&#x3D;&quot;conditional-row&quot;&gt;
+				&lt;app-conditional #sConditionals [optionList]&#x3D;&quot;thisQuestion[0].children&quot;  [questionOptions]&#x3D;&quot;questionOptions&quot; [sourceGroup]&#x3D;&quot;conditional&quot; [questionPartId]&#x3D;&quot;questionBeingEdited.questionPart.id&quot;
+				 [questionType]&#x3D;&quot;questionType.typeName&quot; [responseType]&#x3D;&quot;questionType.responseType&quot; (setBoundsSelected)&#x3D;&quot;showLocationBoundsModal($event)&quot;&gt;&lt;/app-conditional&gt;
+				&lt;div class&#x3D;&quot;row&quot;&gt;
+					&lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+						&lt;hr class&#x3D;&quot;edit-separator-hr&quot; /&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;br/&gt;
+	&lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
+		&lt;div&gt;
+			&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;addSourceConditional()&quot;&gt;
+				&lt;i class&#x3D;&quot;fas fa-plus-circle&quot;&gt;&lt;/i&gt; Add Conditional
+			&lt;/button&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!--&lt;div class&#x3D;&quot;conditionals-wrapper&quot;&gt;
+	&lt;h4 class&#x3D;&quot;text-center&quot;&gt;Question as Target&lt;/h4&gt;
+	&lt;div class&#x3D;&quot;row d-md-none d-none d-lg-flex conditional-header&quot; *ngIf&#x3D;&quot;targetConditionals.length &gt; 0&quot;&gt;
+		&lt;div class&#x3D;&quot;col-lg&quot;&gt;
+			Source
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-lg&quot;&gt;
+			Condition
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-lg&quot;&gt;
+			Value(s)
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-lg&quot; *ngIf&#x3D;&quot;questionType.responseType &#x3D;&#x3D; &#x27;OptionList&#x27; || questionType.responseType &#x3D;&#x3D; &#x27;OptionSelect&#x27;&quot;&gt;
+			Hide Target(s)
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class&#x3D;&quot;row&quot; *ngFor&#x3D;&quot;let conditional of targetConditionals; let i &#x3D; index&quot;&gt;
+		&lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+			&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;conditional-delete-button pull-right btn btn-danger&quot; (click)&#x3D;&quot;deleteTargetConditional(conditional.index)&quot;&gt;
+				&lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+			&lt;div class&#x3D;&quot;conditional-row&quot;&gt;
+					&lt;app-target-conditional #tConditionals [optionList]&#x3D;&quot;thisQuestion[0].children&quot; [sourceGroup]&#x3D;&quot;conditional&quot; [questionPartId]&#x3D;&quot;questionBeingEdited.questionPart.id&quot;
+					 [questionType]&#x3D;&quot;questionType.typeName&quot; [responseType]&#x3D;&quot;questionType.responseType&quot; (setBoundsSelected)&#x3D;&quot;showLocationBoundsModal($event)&quot;&gt;&lt;/app-target-conditional&gt;
+					&lt;div class&#x3D;&quot;row&quot;&gt;
+						&lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+							&lt;hr class&#x3D;&quot;edit-separator-hr&quot; /&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;br/&gt;
+	&lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
+		&lt;div&gt;
+			&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;addTargetConditional()&quot;&gt;
+				&lt;i class&#x3D;&quot;fas fa-plus-circle&quot;&gt;&lt;/i&gt; Add Conditional
+			&lt;/button&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;--&gt;
+
+
+&lt;div class&#x3D;&quot;modal fade&quot; bsModal #locationModal&#x3D;&quot;bs-modal&quot; (onShown)&#x3D;&quot;locationBoundsShown()&quot; [config]&#x3D;&quot;{backdrop: &#x27;static&#x27;}&quot;
+ tabindex&#x3D;&quot;-1&quot;&gt;
+	&lt;div class&#x3D;&quot;modal-dialog modal-lg&quot; *ngIf&#x3D;&quot;questionType.responseType &#x3D;&#x3D; &#x27;Location&#x27;&quot;&gt;
+		&lt;div class&#x3D;&quot;modal-content&quot;&gt;
+			&lt;div class&#x3D;&quot;modal-body&quot;&gt;
+				&lt;div class&#x3D;&quot;map-container&quot;&gt;
+					&lt;mgl-map #mapbox [style]&#x3D;&quot;&#x27;mapbox://styles/mapbox/streets-v9&#x27;&quot;&gt;
+					&lt;/mgl-map&gt;
+				&lt;/div&gt;
+				&lt;div&gt;
+					&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; data-dismiss&#x3D;&quot;modal&quot; (click)&#x3D;&quot;saveBounds()&quot;&gt;
+						&lt;i class&#x3D;&#x27;fas fa-eye&#x27;&gt;&lt;/i&gt;Set Bounds
+					&lt;/button&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;!--
+Before: &lt;ngx-dropdown-treeview-select
+[items]&#x3D;&quot;questionsBefore&quot;
+[config]&#x3D;&quot;treedropdownSingleConfig&quot;
+(selectedChange)&#x3D;&quot;onSelectedChange($event)&quot;&gt;
+&lt;/ngx-dropdown-treeview-select&gt;
+After: &lt;ngx-dropdown-treeview
+[items]&#x3D;&quot;questionOptionsAfter&quot;
+[config]&#x3D;&quot;treedropdownConfig&quot;
+(selectedChange)&#x3D;&quot;onSelectedChange($event)&quot;&gt;
+&lt;/ngx-dropdown-treeview&gt;
+This: &lt;ngx-dropdown-treeview
+[items]&#x3D;&quot;thisQuestion&quot;
+[config]&#x3D;&quot;treedropdownConfig&quot;
+(selectedChange)&#x3D;&quot;onSelectedChange($event)&quot;&gt;
+&lt;/ngx-dropdown-treeview&gt;
+--&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./question-conditionals.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.conditional-delete-button {
+	width: 45px;
+}
+
+.conditional-row {
+	width: calc(100% - 50px) !important;
+}
+
+.conditional-header {
+	width: calc(100% - 20px) !important;
+}
+
+mgl-map {
+	height: 100%;
+	width: 100%;
+}
+
+.map-container {
+	width:100%;
+	height:450px;
+	margin-bottom:30px;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="conditionals-wrapper">	<h4 class="text-center">Question as Source</h4>	<div class="row d-md-none d-none d-lg-flex conditional-header" *ngIf="sourceConditionals.length > 0">		<div class="col-lg-3">			Condition		</div>		<div class="col-lg-4">			Value(s)		</div>		<div class="col-lg-5">			Hide Target(s)		</div>	</div>	<div class="row" *ngFor="let conditional of sourceConditionals; let i = index">		<div class="col-md-12">			<button type="button" class="conditional-delete-button pull-right btn btn-danger" (click)="deleteSourceConditional(conditional.index)">				<i class="fas fa-times"></i>			</button>			<div class="conditional-row">				<app-conditional #sConditionals [optionList]="thisQuestion[0].children"  [questionOptions]="questionOptions" [sourceGroup]="conditional" [questionPartId]="questionBeingEdited.questionPart.id"				 [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)"></app-conditional>				<div class="row">					<div class="col-md-12">						<hr class="edit-separator-hr" />					</div>				</div>			</div>		</div>	</div>	<br/>	<div class="row justify-content-center">		<div>			<button type="button" class="btn btn-primary" (click)="addSourceConditional()">				<i class="fas fa-plus-circle"></i> Add Conditional			</button>		</div>	</div></div><!--<div class="conditionals-wrapper">	<h4 class="text-center">Question as Target</h4>	<div class="row d-md-none d-none d-lg-flex conditional-header" *ngIf="targetConditionals.length > 0">		<div class="col-lg">			Source		</div>		<div class="col-lg">			Condition		</div>		<div class="col-lg">			Value(s)		</div>		<div class="col-lg" *ngIf="questionType.responseType == \'OptionList\' || questionType.responseType == \'OptionSelect\'">			Hide Target(s)		</div>	</div>	<div class="row" *ngFor="let conditional of targetConditionals; let i = index">		<div class="col-md-12">			<button type="button" class="conditional-delete-button pull-right btn btn-danger" (click)="deleteTargetConditional(conditional.index)">				<i class="fas fa-times"></i>			</button>			<div class="conditional-row">					<app-target-conditional #tConditionals [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [questionPartId]="questionBeingEdited.questionPart.id"					 [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)"></app-target-conditional>					<div class="row">						<div class="col-md-12">							<hr class="edit-separator-hr" />						</div>					</div>				</div>		</div>	</div>	<br/>	<div class="row justify-content-center">		<div>			<button type="button" class="btn btn-primary" (click)="addTargetConditional()">				<i class="fas fa-plus-circle"></i> Add Conditional			</button>		</div>	</div></div>--><div class="modal fade" bsModal #locationModal="bs-modal" (onShown)="locationBoundsShown()" [config]="{backdrop: \'static\'}" tabindex="-1">	<div class="modal-dialog modal-lg" *ngIf="questionType.responseType == \'Location\'">		<div class="modal-content">			<div class="modal-body">				<div class="map-container">					<mgl-map #mapbox [style]="\'mapbox://styles/mapbox/streets-v9\'">					</mgl-map>				</div>				<div>					<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="saveBounds()">						<i class=\'fas fa-eye\'></i>Set Bounds					</button>				</div>			</div>		</div>	</div></div><!--Before: <ngx-dropdown-treeview-select[items]="questionsBefore"[config]="treedropdownSingleConfig"(selectedChange)="onSelectedChange($event)"></ngx-dropdown-treeview-select>After: <ngx-dropdown-treeview[items]="questionOptionsAfter"[config]="treedropdownConfig"(selectedChange)="onSelectedChange($event)"></ngx-dropdown-treeview>This: <ngx-dropdown-treeview[items]="thisQuestion"[config]="treedropdownConfig"(selectedChange)="onSelectedChange($event)"></ngx-dropdown-treeview>--></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'AdminToolbarComponent', 'selector': 'traisi-admin-toolbar'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionContainerComponent', 'selector': 'traisi-question-container'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionPlaceholderComponent', 'selector': 'traisi-question-placeholder'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyErrorComponent', 'selector': 'app-survey-error'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveyGroupcodePageComponent', 'selector': 'traisi-survey-groupcode-page'},{'name': 'SurveyHeaderDisplayComponent', 'selector': 'traisi-survey-header-display'},{'name': 'SurveyScreeningPageComponent', 'selector': 'survey-screening-page'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveyShortcodeDisplayPageComponent', 'selector': 'traisi-survey-shortcode-display-page'},{'name': 'SurveyShortcodePageComponent', 'selector': 'traisi-survey-shortcode-page'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SurveyStartPageComponent', 'selector': 'traisi-survey-start-page'},{'name': 'SurveyTermsPageComponent', 'selector': 'app-survey-terms-page'},{'name': 'SurveyThankYouPageComponent', 'selector': 'traisi-survey-thankyou-page'},{'name': 'SurveyViewerComponent', 'selector': 'traisi-survey-viewer'},{'name': 'SurveyViewerContainerComponent', 'selector': 'app-survey-viewer-container'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'LoadingPlaceholderDirective', 'selector': '[traisiLoadingPlaceholder]'},{'name': 'SurveyInternalViewDirective', 'selector': '[traisiSurveyInternalView]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'QuestionConditionalsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QuestionConditionalsComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

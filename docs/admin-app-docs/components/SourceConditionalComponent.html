@@ -1,0 +1,2445 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>SourceConditionalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../classes/Order.html" target="_self" >{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-conditional</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./conditional.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./conditional.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bsConfig">bsConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#checkedWithParents">checkedWithParents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#copiedOptionList">copiedOptionList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dateRange">dateRange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dropDownListItems">dropDownListItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#optionSelectValues">optionSelectValues</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#optionTargetsTreeDropdown">optionTargetsTreeDropdown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sourceQuestionConditionalsList">sourceQuestionConditionalsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sourceQuestionOptionConditionalsList">sourceQuestionOptionConditionalsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#treedropdownConfig">treedropdownConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#treedropdownSingleConfig">treedropdownSingleConfig</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#conditionValueChanged">conditionValueChanged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getItemType">getItemType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getPrunedCheckedTargets">getPrunedCheckedTargets</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getQuestionOptionLabel">getQuestionOptionLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDateChange">onDateChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onSelectedChangeOptions">onSelectedChangeOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onSelectedChangeTargets">onSelectedChangeTargets</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setConditionsForQuestionType">setConditionsForQuestionType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#showBoundsModal">showBoundsModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#targetsDropdown">targetsDropdown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateConditionalsValues">updateConditionalsValues</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#optionList">optionList</a>
+                            </li>
+                            <li>
+                                <a href="#questionOptions">questionOptions</a>
+                            </li>
+                            <li>
+                                <a href="#questionPartId">questionPartId</a>
+                            </li>
+                            <li>
+                                <a href="#questionType">questionType</a>
+                            </li>
+                            <li>
+                                <a href="#responseType">responseType</a>
+                            </li>
+                            <li>
+                                <a href="#sourceGroup">sourceGroup</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#setBoundsSelected">setBoundsSelected</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#booleanValue">booleanValue</a>
+                                </li>
+                                <li>
+                                    <a href="#numberValue">numberValue</a>
+                                </li>
+                                <li>
+                                    <a href="#optionSelectValue">optionSelectValue</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(changeDetectRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:101</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>changeDetectRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="optionList"></a>
+                        <b>optionList</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:88</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionOptions"></a>
+                        <b>questionOptions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionOptionValue.html" target="_self" >Map&lt;string | QuestionOptionValue[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, QuestionOptionValue[]&gt;()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:91</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionPartId"></a>
+                        <b>questionPartId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:82</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionType"></a>
+                        <b>questionType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:79</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="responseType"></a>
+                        <b>responseType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:76</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceGroup"></a>
+                        <b>sourceGroup</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionConditionalSourceGroup.html" target="_self" >QuestionConditionalSourceGroup</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:85</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setBoundsSelected"></a>
+                        <b>setBoundsSelected</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;QuestionConditionalSourceGroup&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:94</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="conditionValueChanged"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            conditionValueChanged
+                        </b>
+                        <a href="#conditionValueChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>conditionValueChanged(e: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:196</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getItemType"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getItemType
+                        </b>
+                        <a href="#getItemType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getItemType(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:314</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPrunedCheckedTargets"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getPrunedCheckedTargets
+                        </b>
+                        <a href="#getPrunedCheckedTargets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPrunedCheckedTargets()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionOptionLabel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getQuestionOptionLabel
+                        </b>
+                        <a href="#getQuestionOptionLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQuestionOptionLabel(item: <a href="../interfaces/Item.html">TreeviewItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:164</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:104</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDateChange"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDateChange
+                        </b>
+                        <a href="#onDateChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDateChange(newRange: Date[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="343"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:343</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newRange</td>
+                                    <td>
+                                            <code>Date[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectedChangeOptions"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onSelectedChangeOptions
+                        </b>
+                        <a href="#onSelectedChangeOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onSelectedChangeOptions(downlineItems: <a href="../interfaces/Item.html">DownlineTreeviewItem[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="290"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:290</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>downlineItems</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >DownlineTreeviewItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectedChangeTargets"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onSelectedChangeTargets
+                        </b>
+                        <a href="#onSelectedChangeTargets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onSelectedChangeTargets(downlineItems: <a href="../interfaces/Item.html">DownlineTreeviewItem[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:216</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>downlineItems</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >DownlineTreeviewItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setConditionsForQuestionType"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            setConditionsForQuestionType
+                        </b>
+                        <a href="#setConditionsForQuestionType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setConditionsForQuestionType()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:173</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showBoundsModal"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            showBoundsModal
+                        </b>
+                        <a href="#showBoundsModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showBoundsModal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:135</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="targetsDropdown"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            targetsDropdown
+                        </b>
+                        <a href="#targetsDropdown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>targetsDropdown(e: TreeviewSelection)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:139</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+                                    <td>
+                                            <code>TreeviewSelection</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateConditionalsValues"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateConditionalsValues
+                        </b>
+                        <a href="#updateConditionalsValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateConditionalsValues()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:207</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bsConfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            bsConfig</b>
+                            <a href="#bsConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Partial&lt;BsDaterangepickerConfig&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Object.assign(
+		{},
+		{
+			containerClass: &#x27;theme-default&#x27;,
+			dateInputFormat: &#x27;YYYY-MM-DD&#x27;
+		}
+	)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="checkedWithParents"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            checkedWithParents</b>
+                            <a href="#checkedWithParents"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >DownlineTreeviewItem[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:71</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="copiedOptionList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            copiedOptionList</b>
+                            <a href="#copiedOptionList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:67</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dateRange"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dateRange</b>
+                            <a href="#dateRange"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Date[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:73</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dropDownListItems"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dropDownListItems</b>
+                            <a href="#dropDownListItems"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Array&lt;string&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="optionSelectValues"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            optionSelectValues</b>
+                            <a href="#optionSelectValues"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:101</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="optionTargetsTreeDropdown"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            optionTargetsTreeDropdown</b>
+                            <a href="#optionTargetsTreeDropdown"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>DropdownTreeviewComponent</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;optionTargets&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:99</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceQuestionConditionalsList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            sourceQuestionConditionalsList</b>
+                            <a href="#sourceQuestionConditionalsList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/QuestionConditional.html" target="_self" >QuestionConditional[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sourceQuestionOptionConditionalsList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            sourceQuestionOptionConditionalsList</b>
+                            <a href="#sourceQuestionOptionConditionalsList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/QuestionOptionConditional.html" target="_self" >QuestionOptionConditional[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="treedropdownConfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            treedropdownConfig</b>
+                            <a href="#treedropdownConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TreeviewConfig</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasDivider: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="treedropdownSingleConfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            treedropdownSingleConfig</b>
+                            <a href="#treedropdownSingleConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TreeviewConfig</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasDivider: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="booleanValue"></a>
+                        <span class="name"><b>booleanValue</b><a href="#booleanValue"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>booleanValue()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="318" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:318</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>booleanValue(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="321" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:321</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="numberValue"></a>
+                        <span class="name"><b>numberValue</b><a href="#numberValue"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>numberValue()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="329" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:329</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>numberValue(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="332" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:332</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="optionSelectValue"></a>
+                        <span class="name"><b>optionSelectValue</b><a href="#optionSelectValue"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>optionSelectValue()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="336" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:336</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>optionSelectValue(value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="339" class="link-to-prism">src/admin-app/app/survey-builder/components/question-configuration/question-conditionals/source-conditional/conditional.component.ts:339</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	OnInit,
+	Input,
+	ViewChild,
+	AfterViewInit,
+	EventEmitter,
+	Output,
+	ChangeDetectorRef
+} from &#x27;@angular/core&#x27;;
+import {
+	TreeviewItem,
+	DownlineTreeviewItem,
+	TreeviewEventParser,
+	OrderDownlineTreeviewEventParser,
+	DropdownTreeviewComponent,
+	TreeviewSelection,
+	TreeviewI18nDefault,
+	TreeviewConfig
+} from &#x27;ngx-treeview&#x27;;
+import { QuestionConditionalSourceGroup } from &#x27;../../../../models/question-conditional-source-group.model&#x27;;
+import { QuestionConditional } from &#x27;../../../../models/question-conditional.model&#x27;;
+import { QuestionOptionConditional } from &#x27;../../../../models/question-option-conditional.model&#x27;;
+import { BsDaterangepickerConfig } from &#x27;ngx-bootstrap&#x27;;
+import { QuestionOptionValue } from &#x27;../../../../models/question-option-value.model&#x27;;
+
+interface ConditionalOptionItem {
+	name: string;
+	code: string;
+}
+
+@Component({
+	selector: &#x27;app-conditional&#x27;,
+	templateUrl: &#x27;./conditional.component.html&#x27;,
+	styleUrls: [&#x27;./conditional.component.scss&#x27;],
+	providers: [{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }]
+})
+export class SourceConditionalComponent implements OnInit, AfterViewInit {
+	public dropDownListItems: Array&lt;string&gt; &#x3D; [];
+
+	public treedropdownConfig: TreeviewConfig &#x3D; {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasDivider: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
+
+	public treedropdownSingleConfig: TreeviewConfig &#x3D; {
+		hasAllCheckBox: false,
+		hasFilter: false,
+		hasDivider: false,
+		hasCollapseExpand: false,
+		decoupleChildFromParent: false,
+		maxHeight: 500
+	};
+
+	public bsConfig: Partial&lt;BsDaterangepickerConfig&gt; &#x3D; Object.assign(
+		{},
+		{
+			containerClass: &#x27;theme-default&#x27;,
+			dateInputFormat: &#x27;YYYY-MM-DD&#x27;
+		}
+	);
+
+	public copiedOptionList: any[] &#x3D; [];
+	public sourceQuestionConditionalsList: QuestionConditional[] &#x3D; [];
+	public sourceQuestionOptionConditionalsList: QuestionOptionConditional[] &#x3D; [];
+
+	private checkedWithParents: DownlineTreeviewItem[] &#x3D; [];
+
+	public dateRange: Date[] &#x3D; [];
+
+	@Input()
+	public responseType: string;
+
+	@Input()
+	public questionType: string;
+
+	@Input()
+	public questionPartId: number;
+
+	@Input()
+	public sourceGroup: QuestionConditionalSourceGroup;
+
+	@Input()
+	public optionList: TreeviewItem[];
+
+	@Input()
+	public questionOptions: Map&lt;string, QuestionOptionValue[]&gt; &#x3D; new Map&lt;string, QuestionOptionValue[]&gt;();
+
+	@Output()
+	public setBoundsSelected: EventEmitter&lt;QuestionConditionalSourceGroup&gt; &#x3D; new EventEmitter&lt;
+		QuestionConditionalSourceGroup
+	&gt;();
+
+	@ViewChild(&#x27;optionTargets&#x27;)
+	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
+
+	public optionSelectValues: any[] &#x3D; [];
+	constructor(private changeDetectRef: ChangeDetectorRef) { }
+
+	public ngOnInit(): void {
+		this.setConditionsForQuestionType();
+		if (this.sourceGroup.condition &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+			this.sourceGroup.condition &#x3D; this.dropDownListItems[0];
+		}
+		if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27; || this.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionSelect&#x27;) {
+			console.log(&#x27;in ngOnInit of conditional&#x27;);
+			this.optionList.forEach((element) &#x3D;&gt; {
+				console.log(element);
+				let valueSplit: string[] &#x3D; element.value.split(&#x27;~&#x27;); // [0] - &#x27;option&#x27;, [1] - option group name, [2] - option id
+				console.log(this.questionOptions);
+				let codeFromId &#x3D; this.questionOptions.get(valueSplit[1]).filter((o) &#x3D;&gt; o.id &#x3D;&#x3D;&#x3D; +valueSplit[2])[0].code;
+				let valueCheck &#x3D; &#x60;&quot;name&quot;:&quot;${valueSplit[1]}&quot;,&quot;code&quot;:&quot;${codeFromId}&quot;&#x60;;
+				let copiedItem &#x3D; new TreeviewItem({
+					value: element.value,
+					text: element.text,
+					checked: this.sourceGroup.value.includes(valueCheck)
+				});
+				this.copiedOptionList.push(copiedItem);
+			});
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;DateTime&#x27;) {
+			this.dateRange &#x3D; JSON.parse(this.sourceGroup.value);
+		}
+	}
+
+	public ngAfterViewInit(): void {
+		this.optionTargetsTreeDropdown.i18n &#x3D; new TreeviewI18nDefault();
+		this.optionTargetsTreeDropdown.i18n.getText &#x3D; (e) &#x3D;&gt; this.targetsDropdown(e);
+		this.changeDetectRef.detectChanges();
+	}
+
+	public showBoundsModal(): void {
+		this.setBoundsSelected.emit(this.sourceGroup);
+	}
+
+	private targetsDropdown(e: TreeviewSelection): string {
+		if (e.checkedItems.length &gt; 0) {
+			return this.getPrunedCheckedTargets()
+				.map((i) &#x3D;&gt; this.getQuestionOptionLabel(i))
+				.join(&#x27;, &#x27;); // &#x60;${e.checkedItems.length} targets&#x60;;
+		} else {
+			return &#x27;Select hide targets&#x27;;
+		}
+	}
+
+	private getPrunedCheckedTargets(): TreeviewItem[] {
+		let pruned: TreeviewItem[] &#x3D; [];
+
+		this.checkedWithParents.forEach((item) &#x3D;&gt; {
+			if (item.parent &amp;&amp; item.parent.item.checked &amp;&amp; !item.parent.item.value.startsWith(&#x27;part&#x27;)) {
+				if (!pruned.includes(item.parent.item)) {
+					pruned.push(item.parent.item);
+				}
+			} else {
+				pruned.push(item.item);
+			}
+		});
+		return pruned;
+	}
+
+	private getQuestionOptionLabel(item: TreeviewItem): string {
+		let itemType &#x3D; this.getItemType(item.value);
+		if (itemType &#x3D;&#x3D;&#x3D; &#x27;question&#x27;) {
+			return &#x60;Q:${item.text}&#x60;;
+		} else if (itemType &#x3D;&#x3D;&#x3D; &#x27;option&#x27;) {
+			return &#x60;O:${item.text}&#x60;;
+		}
+	}
+
+	private setConditionsForQuestionType(): void {
+
+		if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;String&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Contains&#x27;, &#x27;Does Not Contain&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;Boolean&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Is Equal To&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;Integer&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Is Equal To&#x27;, &#x27;Is Not Equal To&#x27;, &#x27;Greater Than&#x27;, &#x27;Less Than&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;Decimal&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Is Equal To&#x27;, &#x27;Is Not Equal To&#x27;, &#x27;Greater Than&#x27;, &#x27;Less Than&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;Location&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;In Bounds&#x27;, &#x27;Out Of Bounds&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;Json&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Contains&#x27;, &#x27;Does Not Contain&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionSelect&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Is Any Of&#x27;, &#x27;Is All Of&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;Is Any Of&#x27;, &#x27;Is All Of&#x27;];
+		} else if (this.responseType &#x3D;&#x3D;&#x3D; &#x27;DateTime&#x27;) {
+			this.dropDownListItems &#x3D; [&#x27;In Range&#x27;, &#x27;Outside Range&#x27;];
+		}
+	}
+
+	public conditionValueChanged(e: string): void {
+		this.sourceGroup.condition &#x3D; this.dropDownListItems.filter((dd) &#x3D;&gt; dd &#x3D;&#x3D;&#x3D; e)[0];
+		// update condition value in conditionals lists
+		this.sourceQuestionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.condition &#x3D; this.sourceGroup.condition;
+		});
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.condition &#x3D; this.sourceGroup.condition;
+		});
+	}
+
+	public updateConditionalsValues(): void {
+		this.sourceQuestionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.value &#x3D; this.sourceGroup.value;
+		});
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.value &#x3D; this.sourceGroup.value;
+		});
+	}
+
+	public onSelectedChangeTargets(downlineItems: DownlineTreeviewItem[]): void {
+		this.checkedWithParents &#x3D; downlineItems;
+		let priorSourceQuestionConditionals &#x3D; this.sourceQuestionConditionalsList;
+		let priorSourceQuestionOptionConditionals &#x3D; this.sourceQuestionOptionConditionalsList;
+		this.sourceQuestionConditionalsList &#x3D; [];
+		this.sourceQuestionOptionConditionalsList &#x3D; [];
+
+		downlineItems.forEach((selectedTarget) &#x3D;&gt; {
+			// if option, add only if parent question is unchecked
+			if ((&lt;string&gt;selectedTarget.item.value).startsWith(&#x27;option&#x27;)) {
+				if (!selectedTarget.parent.item.checked) {
+					let id &#x3D; +selectedTarget.item.value.split(&#x27;~&#x27;)[2];
+					let existing: QuestionOptionConditional &#x3D; priorSourceQuestionOptionConditionals.filter(
+						(o) &#x3D;&gt; o.targetOptionId &#x3D;&#x3D;&#x3D; id
+					)[0];
+					if (existing) {
+						this.sourceQuestionOptionConditionalsList.push(existing);
+					} else {
+						let newOptionConditional: QuestionOptionConditional &#x3D; new QuestionOptionConditional(
+							0,
+							id,
+							this.questionPartId,
+							this.sourceGroup.condition,
+							this.sourceGroup.value
+						);
+						this.sourceQuestionOptionConditionalsList.push(newOptionConditional);
+					}
+				} else {
+					let idSplit &#x3D; selectedTarget.parent.item.value.split(&#x27;~&#x27;);
+					let id &#x3D; +idSplit[2];
+					let existingPrevious: QuestionConditional &#x3D; priorSourceQuestionConditionals.filter(
+						(o) &#x3D;&gt; o.targetQuestionId &#x3D;&#x3D;&#x3D; id
+					)[0];
+					let existingAlready: QuestionConditional &#x3D; this.sourceQuestionConditionalsList.filter(
+						(o) &#x3D;&gt; o.targetQuestionId &#x3D;&#x3D;&#x3D; id
+					)[0];
+					if (existingAlready &#x3D;&#x3D;&#x3D; undefined) {
+						if (existingPrevious) {
+							this.sourceQuestionConditionalsList.push(existingPrevious);
+						} else {
+							let newConditional: QuestionConditional &#x3D; new QuestionConditional(
+								0,
+								id,
+								this.questionPartId,
+								this.sourceGroup.condition,
+								this.sourceGroup.value
+							);
+							this.sourceQuestionConditionalsList.push(newConditional);
+						}
+					}
+				}
+			} else if ((&lt;string&gt;selectedTarget.item.value).startsWith(&#x27;question&#x27;)) {
+				// if question, always add, after searching for existing
+				let idSplit &#x3D; selectedTarget.item.value.split(&#x27;~&#x27;);
+				let id &#x3D; +idSplit[2];
+				let existing: QuestionConditional &#x3D; priorSourceQuestionConditionals.filter(
+					(o) &#x3D;&gt; o.targetQuestionId &#x3D;&#x3D;&#x3D; id
+				)[0];
+				if (existing) {
+					this.sourceQuestionConditionalsList.push(existing);
+				} else {
+					let newConditional: QuestionConditional &#x3D; new QuestionConditional(
+						0,
+						id,
+						this.questionPartId,
+						this.sourceGroup.condition,
+						this.sourceGroup.value
+					);
+					this.sourceQuestionConditionalsList.push(newConditional);
+				}
+			}
+		});
+	}
+
+	public onSelectedChangeOptions(downlineItems: DownlineTreeviewItem[]): void {
+		// split value into json structure and stringify
+		let valueStructure: Object &#x3D; {};
+		this.sourceGroup.value &#x3D; JSON.stringify(
+			downlineItems.map((i) &#x3D;&gt; {
+				let split: string[] &#x3D; i.item.value.split(&#x27;~&#x27;); // [0] - &#x27;option&#x27;, [1] - option group name, [2] - option id
+				let codeFromId &#x3D; this.questionOptions.get(split[1]).filter((o) &#x3D;&gt; o.id &#x3D;&#x3D;&#x3D; +split[2])[0].code;
+				let conditionalOptionSelect: ConditionalOptionItem &#x3D; {
+					name: split[1],
+					code: codeFromId
+				};
+				return conditionalOptionSelect;
+			})
+		);
+		this.sourceQuestionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.value &#x3D; this.sourceGroup.value;
+		});
+		this.sourceQuestionOptionConditionalsList.forEach((conditional) &#x3D;&gt; {
+			conditional.value &#x3D; this.sourceGroup.value;
+		});
+	}
+
+	// property conversions based on type
+
+	public getItemType(value: string): string {
+		return value.split(&#x27;~&#x27;)[0];
+	}
+
+	get booleanValue(): boolean {
+		return this.sourceGroup.value &#x3D;&#x3D;&#x3D; &#x27;true&#x27;;
+	}
+	set booleanValue(value: boolean) {
+		if (value &#x3D;&#x3D;&#x3D; true) {
+			this.sourceGroup.value &#x3D; &#x27;true&#x27;;
+		} else {
+			this.sourceGroup.value &#x3D; &#x27;false&#x27;;
+		}
+	}
+
+	get numberValue(): number {
+		return +this.sourceGroup.value;
+	}
+	set numberValue(value: number) {
+		this.sourceGroup.value &#x3D; &#x60;${value}&#x60;;
+	}
+
+	get optionSelectValue(): any {
+		return this.sourceGroup.value;
+	}
+	set optionSelectValue(value: any) {
+		this.sourceGroup.value &#x3D; value;
+	}
+
+	public onDateChange(newRange: Date[]): void {
+		this.sourceGroup.value &#x3D; JSON.stringify(newRange);
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row&quot;&gt;
+	&lt;div class&#x3D;&quot;col-lg-3 conditional-row&quot;&gt;
+		&lt;ngx-select [defaultValue]&#x3D;&quot;sourceGroup.condition&quot; [allowClear]&#x3D;&quot;false&quot; [items]&#x3D;&quot;dropDownListItems&quot; (select)&#x3D;&quot;conditionValueChanged($event)&quot;
+		 placeholder&#x3D;&quot;Select Condition&quot;&gt;
+			&lt;ng-template ngx-select-option-not-found&gt;
+				Nothing found
+			&lt;/ng-template&gt;
+		&lt;/ngx-select&gt;
+	&lt;/div&gt;
+	&lt;div class&#x3D;&quot;col-lg-4 conditional-row&quot;&gt;
+		&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;String&#x27;; else rElseIf1&quot;&gt;
+			&lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;sourceGroup.value&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot; placeholder&#x3D;&quot;Enter value&quot;
+			/&gt;
+		&lt;/ng-container&gt;
+		&lt;ng-template #rElseIf1&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;Boolean&#x27;; else rElseIf2&quot;&gt;
+				&lt;div class&#x3D;&quot;display-inline-block checkbox-ios&quot;&gt;
+					&lt;label class&#x3D;&quot;form-check-label&quot; for&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot; class&#x3D;&quot;switch&quot;&gt;
+						&lt;input [(ngModel)]&#x3D;&quot;booleanValue&quot; class&#x3D;&quot;form-check-input&quot; type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;ios&quot; checked id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot;&gt;&lt;i&gt;&lt;/i&gt;
+					&lt;/label&gt;
+				&lt;/div&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf2&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;Integer&#x27;; else rElseIf3&quot;&gt;
+				&lt;input type&#x3D;&quot;number&quot; [(ngModel)]&#x3D;&quot;numberValue&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot; placeholder&#x3D;&quot;0&quot;
+				/&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf3&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;Decimal&#x27;; else rElseIf4&quot;&gt;
+				&lt;input type&#x3D;&quot;number&quot; [(ngModel)]&#x3D;&quot;numberValue&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot; placeholder&#x3D;&quot;0&quot;
+				/&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf4&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;Location&#x27;; else rElseIf5&quot;&gt;
+				&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;bounds-button btn btn-danger&quot; data-dismiss&#x3D;&quot;modal&quot; (click)&#x3D;&quot;showBoundsModal()&quot;&gt;
+						&lt;i class&#x3D;&#x27;fas fa-eye&#x27;&gt;&lt;/i&gt;Set Bounds
+				&lt;/button&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf5&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;Json&#x27;; else rElseIf6&quot;&gt;
+				&lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;sourceGroup.value&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot; placeholder&#x3D;&quot;Enter value&quot;
+				/&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf6&gt;
+
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D;&#x3D; &#x27;OptionList&#x27; || responseType &#x3D;&#x3D;&#x3D; &#x27;OptionSelect&#x27;; else rElseIf7&quot;&gt;
+				&lt;ngx-dropdown-treeview [items]&#x3D;&quot;copiedOptionList&quot; [itemTemplate]&#x3D;&quot;itemTemplate&quot; [config]&#x3D;&quot;treedropdownConfig&quot; (selectedChange)&#x3D;&quot;onSelectedChangeOptions($event)&quot;&gt;
+				&lt;/ngx-dropdown-treeview&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;ng-template #rElseIf7&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;DateTime&#x27;&quot;&gt;
+					&lt;input type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;Date Range&quot; class&#x3D;&quot;form-control&quot; bsDaterangepicker id&#x3D;&quot;{{ &#x27;conditionalValue-&#x27; + sourceGroup.id }}&quot;
+					#dpStart&#x3D;&quot;bsDaterangepicker&quot; [bsConfig]&#x3D;&quot;bsConfig&quot; [(ngModel)]&#x3D;&quot;dateRange&quot; (bsValueChange)&#x3D;&quot;onDateChange($event)&quot;&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;
+		&lt;!--&lt;ng-template #rElseIf8&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;responseType &#x3D;&#x3D; &#x27;OptionSelect&#x27;&quot;&gt;
+				&lt;ngx-dropdown-treeview-select [items]&#x3D;&quot;copiedOptionList&quot; #questionOptionsSelect [config]&#x3D;&quot;treedropdownSingleConfig&quot; [(value)]&#x3D;&quot;sourceGroup.value&quot;&gt;
+				&lt;/ngx-dropdown-treeview-select&gt;
+			&lt;/ng-container&gt;
+		&lt;/ng-template&gt;--&gt;
+	&lt;/div&gt;
+	&lt;div class&#x3D;&quot;col-lg-5 conditional-row&quot;&gt;
+		&lt;ngx-dropdown-treeview #optionTargets [items]&#x3D;&quot;sourceGroup.targets&quot; [itemTemplate]&#x3D;&quot;itemTemplate&quot; [config]&#x3D;&quot;treedropdownConfig&quot; (selectedChange)&#x3D;&quot;onSelectedChangeTargets($event)&quot;&gt;
+		&lt;/ngx-dropdown-treeview&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;ng-template #itemTemplate let-item&#x3D;&quot;item&quot; let-onCollapseExpand&#x3D;&quot;onCollapseExpand&quot; let-onCheckedChange&#x3D;&quot;onCheckedChange&quot;&gt;
+	&lt;div class&#x3D;&quot;form-inline row-item&quot;&gt;
+		&lt;i *ngIf&#x3D;&quot;item.children&quot; (click)&#x3D;&quot;onCollapseExpand()&quot; aria-hidden&#x3D;&quot;true&quot; class&#x3D;&quot;fa&quot; [class.fa-caret-right]&#x3D;&quot;item.collapsed&quot;
+			[class.fa-caret-down]&#x3D;&quot;!item.collapsed&quot;&gt;&lt;/i&gt;
+		&lt;div class&#x3D;&quot;form-check abc-checkbox abc-checkbox-primary&quot;&gt;
+			&lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;form-check-input&quot; [(ngModel)]&#x3D;&quot;item.checked&quot; (ngModelChange)&#x3D;&quot;onCheckedChange()&quot; [disabled]&#x3D;&quot;item.disabled&quot;
+				[indeterminate]&#x3D;&quot;item.indeterminate&quot; /&gt;
+			&lt;label class&#x3D;&quot;form-check-label&quot; (click)&#x3D;&quot;item.checked &#x3D; !item.checked; onCheckedChange()&quot;&gt;
+				&lt;span *ngIf&#x3D;&quot;getItemType(item.value) &#x3D;&#x3D; &#x27;question&#x27;&quot; class&#x3D;&quot;badge badge-primary&quot;&gt;Q&lt;/span&gt;
+				&lt;span *ngIf&#x3D;&quot;getItemType(item.value) &#x3D;&#x3D; &#x27;option&#x27;&quot; class&#x3D;&quot;badge badge-secondary&quot;&gt;O&lt;/span&gt;
+				&lt;span *ngIf&#x3D;&quot;getItemType(item.value) &#x3D;&#x3D; &#x27;part&#x27;&quot; class&#x3D;&quot;badge badge-danger&quot;&gt;P&lt;/span&gt; {{ item.text }}
+			&lt;/label&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/ng-template&gt;
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./conditional.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.conditional-row {
+	margin-bottom: 5px;
+}
+
+.bounds-button {
+	width:100%;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="row">	<div class="col-lg-3 conditional-row">		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="conditionValueChanged($event)"		 placeholder="Select Condition">			<ng-template ngx-select-option-not-found>				Nothing found			</ng-template>		</ngx-select>	</div>	<div class="col-lg-4 conditional-row">		<ng-container *ngIf="responseType == \'String\'; else rElseIf1">			<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ \'conditionalValue-\' + sourceGroup.id }}" placeholder="Enter value"			/>		</ng-container>		<ng-template #rElseIf1>			<ng-container *ngIf="responseType == \'Boolean\'; else rElseIf2">				<div class="display-inline-block checkbox-ios">					<label class="form-check-label" for="{{ \'conditionalValue-\' + sourceGroup.id }}" class="switch">						<input [(ngModel)]="booleanValue" class="form-check-input" type="checkbox" class="ios" checked id="{{ \'conditionalValue-\' + sourceGroup.id }}"><i></i>					</label>				</div>			</ng-container>		</ng-template>		<ng-template #rElseIf2>			<ng-container *ngIf="responseType == \'Integer\'; else rElseIf3">				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ \'conditionalValue-\' + sourceGroup.id }}" placeholder="0"				/>			</ng-container>		</ng-template>		<ng-template #rElseIf3>			<ng-container *ngIf="responseType == \'Decimal\'; else rElseIf4">				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ \'conditionalValue-\' + sourceGroup.id }}" placeholder="0"				/>			</ng-container>		</ng-template>		<ng-template #rElseIf4>			<ng-container *ngIf="responseType == \'Location\'; else rElseIf5">				<button type="button" class="bounds-button btn btn-danger" data-dismiss="modal" (click)="showBoundsModal()">						<i class=\'fas fa-eye\'></i>Set Bounds				</button>			</ng-container>		</ng-template>		<ng-template #rElseIf5>			<ng-container *ngIf="responseType == \'Json\'; else rElseIf6">				<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ \'conditionalValue-\' + sourceGroup.id }}" placeholder="Enter value"				/>			</ng-container>		</ng-template>		<ng-template #rElseIf6>			<ng-container *ngIf="responseType === \'OptionList\' || responseType === \'OptionSelect\'; else rElseIf7">				<ngx-dropdown-treeview [items]="copiedOptionList" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">				</ngx-dropdown-treeview>			</ng-container>		</ng-template>		<ng-template #rElseIf7>			<ng-container *ngIf="responseType == \'DateTime\'">					<input type="text" placeholder="Date Range" class="form-control" bsDaterangepicker id="{{ \'conditionalValue-\' + sourceGroup.id }}"					#dpStart="bsDaterangepicker" [bsConfig]="bsConfig" [(ngModel)]="dateRange" (bsValueChange)="onDateChange($event)">			</ng-container>		</ng-template>		<!--<ng-template #rElseIf8>			<ng-container *ngIf="responseType == \'OptionSelect\'">				<ngx-dropdown-treeview-select [items]="copiedOptionList" #questionOptionsSelect [config]="treedropdownSingleConfig" [(value)]="sourceGroup.value">				</ngx-dropdown-treeview-select>			</ng-container>		</ng-template>-->	</div>	<div class="col-lg-5 conditional-row">		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeTargets($event)">		</ngx-dropdown-treeview>	</div></div><ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">	<div class="form-inline row-item">		<i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"			[class.fa-caret-down]="!item.collapsed"></i>		<div class="form-check abc-checkbox abc-checkbox-primary">			<input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"				[indeterminate]="item.indeterminate" />			<label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">				<span *ngIf="getItemType(item.value) == \'question\'" class="badge badge-primary">Q</span>				<span *ngIf="getItemType(item.value) == \'option\'" class="badge badge-secondary">O</span>				<span *ngIf="getItemType(item.value) == \'part\'" class="badge badge-danger">P</span> {{ item.text }}			</label>		</div>	</div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'SourceConditionalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SourceConditionalComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

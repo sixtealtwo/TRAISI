@@ -1,0 +1,2420 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>MainSurveyAccess1Component</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-main-survey-access1</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./main-survey-access1.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./main-survey-access1.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#accessCodeHTML">accessCodeHTML</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#baseUrl">baseUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#beginSurveyHTML">beginSurveyHTML</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#imageSource">imageSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#imageVideoDropZoneconfig">imageVideoDropZoneconfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#introTextHTML">introTextHTML</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pageHTMLJson">pageHTMLJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#quillMinimalModules">quillMinimalModules</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#quillModules">quillModules</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#quillVideoModules">quillVideoModules</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#videoEmbedded">videoEmbedded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#videoSource">videoSource</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearUploads">clearUploads</a>
+                            </li>
+                            <li>
+                                <a href="#deleteImageVideo">deleteImageVideo</a>
+                            </li>
+                            <li>
+                                <a href="#embedVideo">embedVideo</a>
+                            </li>
+                            <li>
+                                <a href="#getBestBorderColor">getBestBorderColor</a>
+                            </li>
+                            <li>
+                                <a href="#getBestPageBodyTextColor">getBestPageBodyTextColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isAValidUrl">isAValidUrl</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onUploadError">onUploadError</a>
+                            </li>
+                            <li>
+                                <a href="#onUploadSuccessIndiv">onUploadSuccessIndiv</a>
+                            </li>
+                            <li>
+                                <a href="#pageBackgroundColourChange">pageBackgroundColourChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processDZError">processDZError</a>
+                            </li>
+                            <li>
+                                <a href="#stripHTML">stripHTML</a>
+                            </li>
+                            <li>
+                                <a href="#updateAccessCodeContent">updateAccessCodeContent</a>
+                            </li>
+                            <li>
+                                <a href="#updateBeginSurveyContent">updateBeginSurveyContent</a>
+                            </li>
+                            <li>
+                                <a href="#updateContent">updateContent</a>
+                            </li>
+                            <li>
+                                <a href="#updateImageVideoContent">updateImageVideoContent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updatePageHTML">updatePageHTML</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#pageHTML">pageHTML</a>
+                            </li>
+                            <li>
+                                <a href="#pageThemeInfo">pageThemeInfo</a>
+                            </li>
+                            <li>
+                                <a href="#previewMode">previewMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#forceSave">forceSave</a>
+                            </li>
+                            <li>
+                                <a href="#pageHTMLChange">pageHTMLChange</a>
+                            </li>
+                            <li>
+                                <a href="#pageThemeInfoChange">pageThemeInfoChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(configurationService: <a href="../injectables/ConfigurationService.html">ConfigurationService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, alertService: <a href="../injectables/AlertService.html">AlertService</a>, surveyBuilderService: <a href="../injectables/SurveyBuilderService.html">SurveyBuilderService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:85</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>configurationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>alertService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AlertService.html" target="_self" >AlertService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>surveyBuilderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyBuilderService.html" target="_self" >SurveyBuilderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sanitizer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank" >DomSanitizer</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageHTML"></a>
+                        <b>pageHTML</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:76</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageThemeInfo"></a>
+                        <b>pageThemeInfo</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:78</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="previewMode"></a>
+                        <b>previewMode</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:74</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="forceSave"></a>
+                        <b>forceSave</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:85</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageHTMLChange"></a>
+                        <b>pageHTMLChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:80</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageThemeInfoChange"></a>
+                        <b>pageThemeInfoChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:82</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearUploads"></a>
+                    <span class="name">
+                        <b>
+                            clearUploads
+                        </b>
+                        <a href="#clearUploads"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearUploads()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:199</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteImageVideo"></a>
+                    <span class="name">
+                        <b>
+                            deleteImageVideo
+                        </b>
+                        <a href="#deleteImageVideo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteImageVideo()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="embedVideo"></a>
+                    <span class="name">
+                        <b>
+                            embedVideo
+                        </b>
+                        <a href="#embedVideo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>embedVideo()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBestBorderColor"></a>
+                    <span class="name">
+                        <b>
+                            getBestBorderColor
+                        </b>
+                        <a href="#getBestBorderColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBestBorderColor()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:249</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBestPageBodyTextColor"></a>
+                    <span class="name">
+                        <b>
+                            getBestPageBodyTextColor
+                        </b>
+                        <a href="#getBestPageBodyTextColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBestPageBodyTextColor()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:241</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAValidUrl"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            isAValidUrl
+                        </b>
+                        <a href="#isAValidUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isAValidUrl(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUploadError"></a>
+                    <span class="name">
+                        <b>
+                            onUploadError
+                        </b>
+                        <a href="#onUploadError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onUploadError(error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>error</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUploadSuccessIndiv"></a>
+                    <span class="name">
+                        <b>
+                            onUploadSuccessIndiv
+                        </b>
+                        <a href="#onUploadSuccessIndiv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onUploadSuccessIndiv(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:166</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pageBackgroundColourChange"></a>
+                    <span class="name">
+                        <b>
+                            pageBackgroundColourChange
+                        </b>
+                        <a href="#pageBackgroundColourChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>pageBackgroundColourChange(newColour: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newColour</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processDZError"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            processDZError
+                        </b>
+                        <a href="#processDZError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processDZError(errors: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errors</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stripHTML"></a>
+                    <span class="name">
+                        <b>
+                            stripHTML
+                        </b>
+                        <a href="#stripHTML"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stripHTML(htmlString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:262</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>htmlString</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAccessCodeContent"></a>
+                    <span class="name">
+                        <b>
+                            updateAccessCodeContent
+                        </b>
+                        <a href="#updateAccessCodeContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateAccessCodeContent(contentInfo: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:221</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>contentInfo</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateBeginSurveyContent"></a>
+                    <span class="name">
+                        <b>
+                            updateBeginSurveyContent
+                        </b>
+                        <a href="#updateBeginSurveyContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateBeginSurveyContent(contentInfo: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>contentInfo</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateContent"></a>
+                    <span class="name">
+                        <b>
+                            updateContent
+                        </b>
+                        <a href="#updateContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateContent(contentInfo: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:216</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>contentInfo</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateImageVideoContent"></a>
+                    <span class="name">
+                        <b>
+                            updateImageVideoContent
+                        </b>
+                        <a href="#updateImageVideoContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateImageVideoContent()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:203</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updatePageHTML"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            updatePageHTML
+                        </b>
+                        <a href="#updatePageHTML"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updatePageHTML()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:231</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="accessCodeHTML"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            accessCodeHTML</b>
+                            <a href="#accessCodeHTML"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="baseUrl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            baseUrl</b>
+                            <a href="#baseUrl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="beginSurveyHTML"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            beginSurveyHTML</b>
+                            <a href="#beginSurveyHTML"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:70</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="imageSource"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            imageSource</b>
+                            <a href="#imageSource"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="imageVideoDropZoneconfig"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            imageVideoDropZoneconfig</b>
+                            <a href="#imageVideoDropZoneconfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>DropzoneConfigInterface</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: &#x27;video/*, image/*&#x27;,
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="introTextHTML"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            introTextHTML</b>
+                            <a href="#introTextHTML"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageHTMLJson"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            pageHTMLJson</b>
+                            <a href="#pageHTMLJson"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="quillMinimalModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            quillMinimalModules</b>
+                            <a href="#quillMinimalModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		toolbar: []
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:64</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="quillModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            quillModules</b>
+                            <a href="#quillModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		toolbar: [
+			[&#x27;bold&#x27;, &#x27;italic&#x27;, &#x27;underline&#x27;, &#x27;strike&#x27;], // toggled buttons
+			[&#x27;blockquote&#x27;, &#x27;code-block&#x27;],
+
+			[{ list: &#x27;ordered&#x27; }, { list: &#x27;bullet&#x27; }],
+			[{ script: &#x27;sub&#x27; }, { script: &#x27;super&#x27; }], // superscript/subscript
+			[{ indent: &#x27;-1&#x27; }, { indent: &#x27;+1&#x27; }], // outdent/indent
+			[{ direction: &#x27;rtl&#x27; }], // text direction
+
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ font: [&#x27;montserrat&#x27;, &#x27;sofia&#x27;, &#x27;roboto&#x27;] }],
+			[{ size: [] }],
+			[{ align: [] }],
+
+			[&#x27;clean&#x27;], // remove formatting button
+
+			[&#x27;link&#x27;] // link and image, video
+		]
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="quillVideoModules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            quillVideoModules</b>
+                            <a href="#quillVideoModules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		blotFormatter: {},
+		toolbar: [
+			[&#x27;video&#x27;], // link and image, video
+			[{ align: [] }]
+		]
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="videoEmbedded"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            videoEmbedded</b>
+                            <a href="#videoEmbedded"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="videoSource"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            videoSource</b>
+                            <a href="#videoSource"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/admin-app/app/survey-builder/components/special-page-builder/main-survey-access1/main-survey-access1.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from &#x27;@angular/core&#x27;;
+import { DropzoneConfigInterface } from &#x27;ngx-dropzone-wrapper&#x27;;
+import { ConfigurationService } from &#x27;../../../../../../shared/services/configuration.service&#x27;;
+import { AuthService } from &#x27;../../../../../../shared/services&#x27;;
+import { AlertService, MessageSeverity, DialogType } from &#x27;../../../../../../shared/services/alert.service&#x27;;
+import { Utilities } from &#x27;../../../../../../shared/services/utilities&#x27;;
+import { SurveyBuilderService } from &#x27;../../../services/survey-builder.service&#x27;;
+import { UploadPath } from &#x27;../../../models/upload-path&#x27;;
+import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
+
+@Component({
+	selector: &#x27;app-main-survey-access1&#x27;,
+	templateUrl: &#x27;./main-survey-access1.component.html&#x27;,
+	styleUrls: [&#x27;./main-survey-access1.component.scss&#x27;],
+	encapsulation: ViewEncapsulation.None
+})
+export class MainSurveyAccess1Component implements OnInit {
+	public quillVideoModules &#x3D; {
+		blotFormatter: {},
+		toolbar: [
+			[&#x27;video&#x27;], // link and image, video
+			[{ align: [] }]
+		]
+	};
+	public quillModules &#x3D; {
+		toolbar: [
+			[&#x27;bold&#x27;, &#x27;italic&#x27;, &#x27;underline&#x27;, &#x27;strike&#x27;], // toggled buttons
+			[&#x27;blockquote&#x27;, &#x27;code-block&#x27;],
+
+			[{ list: &#x27;ordered&#x27; }, { list: &#x27;bullet&#x27; }],
+			[{ script: &#x27;sub&#x27; }, { script: &#x27;super&#x27; }], // superscript/subscript
+			[{ indent: &#x27;-1&#x27; }, { indent: &#x27;+1&#x27; }], // outdent/indent
+			[{ direction: &#x27;rtl&#x27; }], // text direction
+
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+			[{ color: [] }], // dropdown with defaults from theme
+			[{ font: [&#x27;montserrat&#x27;, &#x27;sofia&#x27;, &#x27;roboto&#x27;] }],
+			[{ size: [] }],
+			[{ align: [] }],
+
+			[&#x27;clean&#x27;], // remove formatting button
+
+			[&#x27;link&#x27;] // link and image, video
+		]
+	};
+
+	private baseUrl: string;
+	public videoEmbedded: boolean &#x3D; false;
+	public videoSource: string;
+	public imageSource: string;
+
+	public imageVideoDropZoneconfig: DropzoneConfigInterface &#x3D; {
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: &#x27;video/*, image/*&#x27;,
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	};
+
+	public quillMinimalModules &#x3D; {
+		toolbar: []
+	};
+
+	public introTextHTML: string;
+	public accessCodeHTML: string;
+	public beginSurveyHTML: string;
+
+	private pageHTMLJson: any;
+	@Input()
+	public previewMode: any;
+	@Input()
+	public pageHTML: string;
+	@Input()
+	public pageThemeInfo: any;
+	@Output()
+	public pageHTMLChange &#x3D; new EventEmitter();
+	@Output()
+	public pageThemeInfoChange &#x3D; new EventEmitter();
+
+	@Output()
+	public forceSave &#x3D; new EventEmitter();
+
+	constructor(
+		private configurationService: ConfigurationService,
+		private authService: AuthService,
+		private alertService: AlertService,
+		private surveyBuilderService: SurveyBuilderService,
+		private sanitizer: DomSanitizer
+	) {
+		this.baseUrl &#x3D; configurationService.baseUrl;
+		this.imageVideoDropZoneconfig.url &#x3D; this.baseUrl + &#x27;/api/Upload&#x27;;
+		this.imageVideoDropZoneconfig.headers &#x3D; {
+			Authorization: &#x27;Bearer &#x27; + this.authService.accessToken
+		};
+	}
+
+	ngOnInit() {
+		try {
+			let pageData &#x3D; JSON.parse(this.pageHTML);
+			this.pageHTMLJson &#x3D; pageData;
+			if (this.pageHTMLJson.mediaType) {
+				if (this.pageHTMLJson.mediaType &#x3D;&#x3D;&#x3D; &#x27;video&#x27;) {
+					this.videoSource &#x3D; pageData.media;
+				} else if (this.pageHTMLJson.mediaType &#x3D;&#x3D;&#x3D; &#x27;embededVideo&#x27;) {
+					this.videoSource &#x3D; pageData.media;
+					this.videoEmbedded &#x3D; true;
+				} else if (this.pageHTMLJson.mediaType &#x3D;&#x3D;&#x3D; &#x27;image&#x27;) {
+					this.imageSource &#x3D; pageData.media;
+				}
+			}
+
+			this.introTextHTML &#x3D; pageData.introText;
+			this.accessCodeHTML &#x3D; pageData.accessCode;
+			this.beginSurveyHTML &#x3D; pageData.beginSurvey;
+		} catch (e) {
+			this.pageHTMLJson &#x3D; {};
+			this.videoSource &#x3D; undefined;
+			this.introTextHTML &#x3D; &#x27;&#x27;;
+			this.accessCodeHTML &#x3D; &#x27;Enter Access Code&#x27;;
+			this.beginSurveyHTML &#x3D; &#x27;Begin Survey&#x27;;
+		}
+	}
+
+	private isAValidUrl(value: string): boolean {
+		try {
+			const url &#x3D; new URL(value);
+			return true;
+		} catch (TypeError) {
+			return false;
+		}
+	}
+
+	embedVideo() {
+		this.alertService.showDialog(&#x27;Please enter the video embed url&#x27;, DialogType.prompt, link &#x3D;&gt; {
+			if (this.isAValidUrl(link)) {
+				this.videoSource &#x3D; link;
+				this.videoEmbedded &#x3D; true;
+				this.updateImageVideoContent();
+			}
+		});
+	}
+
+	onUploadError(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Generation Error&#x27;,
+			&#x60;An error occured while uploading the video.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+				this.processDZError(error[1])
+			)}&quot;&#x60;,
+			MessageSeverity.error
+		);
+	}
+
+	private processDZError(errors: any): string {
+		let errorString: string &#x3D; &#x27;&#x27;;
+		for (const error of errors[&#x27;&#x27;]) {
+			errorString +&#x3D; error + &#x27;\n&#x27;;
+		}
+		return errorString;
+	}
+
+	onUploadSuccessIndiv(event: any) {
+		console.log(event);
+		if ((&lt;string&gt;event[0].type).startsWith(&#x27;video&#x27;)) {
+			this.videoSource &#x3D; event[1].link;
+		} else {
+			this.imageSource &#x3D; event[1].link;
+		}
+		this.updateImageVideoContent();
+	}
+
+	deleteImageVideo() {
+		let uploadPath;
+		if (this.videoSource &amp;&amp; this.videoEmbedded) {
+			this.videoSource &#x3D; undefined;
+			this.imageSource &#x3D; undefined;
+			this.videoEmbedded &#x3D; false;
+			this.updateImageVideoContent();
+		} else {
+			if (this.videoSource &amp;&amp; !this.videoEmbedded) {
+				uploadPath &#x3D; new UploadPath(this.videoSource);
+				this.videoEmbedded &#x3D; false;
+			} else if (this.imageSource) {
+				uploadPath &#x3D; new UploadPath(this.imageSource);
+			}
+			if (uploadPath) {
+				this.surveyBuilderService.deleteUploadedFile(uploadPath).subscribe();
+				this.videoSource &#x3D; undefined;
+				this.imageSource &#x3D; undefined;
+				this.updateImageVideoContent();
+			}
+		}
+	}
+
+	clearUploads() {
+		this.deleteImageVideo();
+	}
+
+	updateImageVideoContent() {
+		this.pageHTMLJson.media &#x3D; this.videoSource ? this.videoSource : this.imageSource;
+		this.pageHTMLJson.mediaType &#x3D; this.pageHTMLJson.media
+			? this.videoSource
+				? this.videoEmbedded
+					? &#x27;embededVideo&#x27;
+					: &#x27;video&#x27;
+				: &#x27;image&#x27;
+			: undefined;
+		this.updatePageHTML();
+		this.forceSave.emit();
+	}
+
+	updateContent(contentInfo: any) {
+		this.pageHTMLJson.introText &#x3D; this.introTextHTML;
+		this.updatePageHTML();
+	}
+
+	updateAccessCodeContent(contentInfo: any) {
+		this.pageHTMLJson.accessCode &#x3D; this.accessCodeHTML;
+		this.updatePageHTML();
+	}
+
+	updateBeginSurveyContent(contentInfo: any) {
+		this.pageHTMLJson.beginSurvey &#x3D; this.beginSurveyHTML;
+		this.updatePageHTML();
+	}
+
+	private updatePageHTML() {
+		this.pageHTML &#x3D; JSON.stringify(this.pageHTMLJson);
+		this.pageHTMLChange.emit(this.pageHTML);
+	}
+
+	pageBackgroundColourChange(newColour: string): void {
+		this.pageThemeInfo.pageBackgroundColour &#x3D; newColour;
+		this.pageThemeInfoChange.emit(this.pageThemeInfo);
+	}
+
+	getBestPageBodyTextColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+		} else {
+			return &#x27;rgb(0,0,0)&#x27;;
+		}
+	}
+
+	getBestBorderColor() {
+		if (this.pageThemeInfo.pageBackgroundColour) {
+			let borderColor &#x3D; Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+			if (borderColor &#x3D;&#x3D;&#x3D; &#x27;rgb(255,255,255)&#x27;) {
+				return &#x27;rgb(200,200,200)&#x27;;
+			} else {
+				return borderColor;
+			}
+		} else {
+			return &#x27;rgb(0,0,0)&#x27;;
+		}
+	}
+
+	stripHTML(htmlString: string) {
+		return $(htmlString).text();
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;welcome-survey-access&quot; [style.background-color]&#x3D;&quot;pageThemeInfo.pageBackgroundColour&quot;&gt;
+	&lt;div class&#x3D;&quot;row justify-content-center mt-4&quot;&gt;
+		&lt;div class&#x3D;&quot;col-xl-6 col-lg-11 col-md-11 col-11&quot;&gt;
+			&lt;div class&#x3D;&quot;intro-imagevideo text-center&quot; [class.empty-container]&#x3D;&quot;!videoSource &amp;&amp; !imageSource &amp;&amp; previewMode.value&quot; [style.border-color]&#x3D;&quot;getBestBorderColor()&quot;&gt;
+				&lt;div class&#x3D;&quot;row&quot; *ngIf&#x3D;&quot;!videoSource &amp;&amp; !imageSource &amp;&amp; !previewMode.value&quot;&gt;
+					&lt;div class&#x3D;&quot;col-12&quot;&gt;
+						&lt;dropzone class&#x3D;&quot;imageVideoDropzone&quot; #videoUpload [config]&#x3D;&quot;imageVideoDropZoneconfig&quot; [message]&#x3D;&quot;&#x27;Click or drag image or video here to upload&#x27;&quot;
+						 (error)&#x3D;&quot;onUploadError($event)&quot; (success)&#x3D;&quot;onUploadSuccessIndiv($event)&quot;&gt;&lt;/dropzone&gt;
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;col-12&quot;&gt;
+						&lt;button (click)&#x3D;&quot;embedVideo()&quot; class&#x3D;&quot;w-100 h-100 btn btn-inverse&quot; type&#x3D;&quot;button&quot;&gt;
+							Click Here to Embed Video
+						&lt;/button&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;video *ngIf&#x3D;&quot;videoSource &amp;&amp; !videoEmbedded&quot; controls&gt;
+					&lt;source src&#x3D;&quot;{{ videoSource }}&quot; /&gt;&lt;/video&gt;
+				&lt;div *ngIf&#x3D;&quot;videoSource &amp;&amp; videoEmbedded&quot; class&#x3D;&quot;videoWrapper&quot;&gt;
+						&lt;iframe [src]&#x3D;&quot;videoSource | safe: &#x27;resourceUrl&#x27;&quot; frameborder&#x3D;&quot;0&quot; allow&#x3D;&quot;autoplay; encrypted-media&quot; allowfullscreen&gt;&lt;/iframe&gt;
+				&lt;/div&gt;
+				&lt;img *ngIf&#x3D;&quot;imageSource&quot; src&#x3D;&quot;{{ imageSource }}&quot; /&gt;
+				&lt;button *ngIf&#x3D;&quot;(videoSource || imageSource)  &amp;&amp; !previewMode.value&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;deleteImageVideo()&quot; class&#x3D;&quot;btn btn-danger delete-imagevideo&quot;&gt;&lt;i
+					class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;div class&#x3D;&quot;col-xl-5 col-lg-12 col-md-12&quot;&gt;
+			&lt;div class&#x3D;&quot;row mt-3 mt-xl-0 ml-3 ml-xl-0&quot;&gt;
+				&lt;div class&#x3D;&quot;col-12&quot; [style.color]&#x3D;&quot;getBestPageBodyTextColor()&quot;&gt;
+					&lt;quill-editor [class.ql-previewmode]&#x3D;&quot;previewMode.value&quot; class&#x3D;&quot;quill-page-editor&quot; [readOnly]&#x3D;&quot;previewMode.value&quot; [modules]&#x3D;&quot;quillModules&quot;
+					 (onContentChanged)&#x3D;&quot;updateContent($event)&quot; theme&#x3D;&quot;bubble&quot; placeholder&#x3D;&quot;Insert survey introduction&quot; [(ngModel)]&#x3D;&quot;introTextHTML&quot;&gt;&lt;/quill-editor&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class&#x3D;&quot;form-group row mt-3 ml-3 ml-xl-0&quot;&gt;
+				&lt;div class&#x3D;&quot;col-6&quot;&gt;
+					&lt;div class&#x3D;&quot;form-control ml-3 input-mimic&quot; *ngIf&#x3D;&quot;!previewMode.value&quot;&gt;
+						&lt;quill-editor class&#x3D;&quot;quill-page-editor no-padding-quill&quot; [readOnly]&#x3D;&quot;previewMode.value&quot; [modules]&#x3D;&quot;quillMinimalModules&quot; (onContentChanged)&#x3D;&quot;updateAccessCodeContent($event)&quot;
+						 theme&#x3D;&quot;bubble&quot; placeholder&#x3D;&quot;Access code prompt&quot; [(ngModel)]&#x3D;&quot;accessCodeHTML&quot;&gt;&lt;/quill-editor&gt;
+					&lt;/div&gt;
+					&lt;input *ngIf&#x3D;&quot;previewMode.value&quot; type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control mr-3 ml-3&quot; placeholder&#x3D;&quot;{{ stripHTML(accessCodeHTML) }}&quot;
+					/&gt;
+				&lt;/div&gt;
+				&lt;div class&#x3D;&quot;col-5 xs-center&quot;&gt;
+					&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;begin-survey-button btn btn-primary&quot;&gt;
+						&lt;quill-editor [class.ql-previewmode]&#x3D;&quot;previewMode.value&quot; class&#x3D;&quot;quill-page-editor no-padding-quill&quot; [readOnly]&#x3D;&quot;previewMode.value&quot;
+						 [modules]&#x3D;&quot;quillMinimalModules&quot; (onContentChanged)&#x3D;&quot;updateBeginSurveyContent($event)&quot; theme&#x3D;&quot;bubble&quot; placeholder&#x3D;&quot;&quot;
+						 [(ngModel)]&#x3D;&quot;beginSurveyHTML&quot;&gt;&lt;/quill-editor&gt;
+					&lt;/button&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./main-survey-access1.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/shared/assets/scss/helpers&#x27;;
+
+#welcome-survey-access {
+	margin-top: 5px;
+	margin-bottom: 40px;
+}
+
+.intro-imagevideo {
+	border-width: 18px;
+	border-style: solid;
+	border-radius: 20px;
+	text-align:center;
+	vertical-align: middle;
+	background-color: black;
+	position: relative;
+
+	video, img {
+		width: 100%;
+		height: auto;
+	}
+
+	.embed-link {
+		color: white;
+		text-align: center;
+		padding-top: 20%;
+		vertical-align: middle;
+	}
+	.videoWrapper {
+		position: relative;
+		padding-bottom: 56.25%; /* 16:9 */
+		padding-top: 25px;
+		height: 0;
+	}
+	.videoWrapper iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.empty-container {
+	padding-top: 50%;
+}
+
+.begin-survey-button {
+	border-radius: 10px;
+	min-width: 50px;
+	text-align: center;
+	user-select: text;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+}
+
+.xs-center {
+	@include media-breakpoint-down(xs) {
+		text-align: center;
+	}
+}
+
+.no-padding-quill {
+	.ql-editor {
+		padding: 0px !important;
+		overflow: hidden;
+	}
+	.ql-tooltip {
+		display: none !important;
+	}
+}
+
+.blot-formatter__toolbar-button { display: none !important; }
+
+.imageVideoDropzone {
+	height: auto !important;
+	.dz-message {
+		padding-top: 50%;
+		overflow: hidden !important;
+		border: none !important;
+		background-color: transparent !important;
+		color: white !important;
+	}
+}
+
+.delete-imagevideo {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+.page-background-color-picker {
+	position: absolute;
+	right: 15px;
+	z-index: 50;
+	transform: scale(0.7);
+}
+
+.input-mimic {
+	border-left-width: 5px;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="welcome-survey-access" [style.background-color]="pageThemeInfo.pageBackgroundColour">	<div class="row justify-content-center mt-4">		<div class="col-xl-6 col-lg-11 col-md-11 col-11">			<div class="intro-imagevideo text-center" [class.empty-container]="!videoSource && !imageSource && previewMode.value" [style.border-color]="getBestBorderColor()">				<div class="row" *ngIf="!videoSource && !imageSource && !previewMode.value">					<div class="col-12">						<dropzone class="imageVideoDropzone" #videoUpload [config]="imageVideoDropZoneconfig" [message]="\'Click or drag image or video here to upload\'"						 (error)="onUploadError($event)" (success)="onUploadSuccessIndiv($event)"></dropzone>					</div>					<div class="col-12">						<button (click)="embedVideo()" class="w-100 h-100 btn btn-inverse" type="button">							Click Here to Embed Video						</button>					</div>				</div>				<video *ngIf="videoSource && !videoEmbedded" controls>					<source src="{{ videoSource }}" /></video>				<div *ngIf="videoSource && videoEmbedded" class="videoWrapper">						<iframe [src]="videoSource | safe: \'resourceUrl\'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>				</div>				<img *ngIf="imageSource" src="{{ imageSource }}" />				<button *ngIf="(videoSource || imageSource)  && !previewMode.value" type="button" (click)="deleteImageVideo()" class="btn btn-danger delete-imagevideo"><i					class="fas fa-times"></i></button>			</div>		</div>		<div class="col-xl-5 col-lg-12 col-md-12">			<div class="row mt-3 mt-xl-0 ml-3 ml-xl-0">				<div class="col-12" [style.color]="getBestPageBodyTextColor()">					<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor" [readOnly]="previewMode.value" [modules]="quillModules"					 (onContentChanged)="updateContent($event)" theme="bubble" placeholder="Insert survey introduction" [(ngModel)]="introTextHTML"></quill-editor>				</div>			</div>			<div class="form-group row mt-3 ml-3 ml-xl-0">				<div class="col-6">					<div class="form-control ml-3 input-mimic" *ngIf="!previewMode.value">						<quill-editor class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value" [modules]="quillMinimalModules" (onContentChanged)="updateAccessCodeContent($event)"						 theme="bubble" placeholder="Access code prompt" [(ngModel)]="accessCodeHTML"></quill-editor>					</div>					<input *ngIf="previewMode.value" type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}"					/>				</div>				<div class="col-5 xs-center">					<button type="button" class="begin-survey-button btn btn-primary">						<quill-editor [class.ql-previewmode]="previewMode.value" class="quill-page-editor no-padding-quill" [readOnly]="previewMode.value"						 [modules]="quillMinimalModules" (onContentChanged)="updateBeginSurveyContent($event)" theme="bubble" placeholder=""						 [(ngModel)]="beginSurveyHTML"></quill-editor>					</button>				</div>			</div>		</div>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'MainSurveyAccess1Component'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MainSurveyAccess1Component.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

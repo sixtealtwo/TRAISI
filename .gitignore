@@ -1,4 +1,4 @@
-#/src/TRAISI/Properties/launchSettings.json
+/src/TRAISI/Properties/launchSettings.json
 /src/TRAISI/Properties/PublishProfiles
 /src/TRAISI/_Factory
 
@@ -31,8 +31,6 @@ Bin/
 obj/
 Obj/
 dist/
-
-!systemjs/dist/
 # Visual Studio 2015 cache/options directory
 .vs/
 /src/TRAISI/wwwroot/dist/
@@ -197,9 +195,9 @@ ClientBin/
 orleans.codegen.cs
 
 /src/TRAISI/node_modules
-/src/TRAISI.SDK/Client/node_modules
+/src/TRAISI.SDK/Module/node_modules
 /src/TRAISI.SDK/node_modules
-
+node_modules/
 /src/TRAISI/package-lock.json
 /src/TRAISI/yarn.lock
 
@@ -256,10 +254,12 @@ _Pvt_Extensions
 *.licenseheader
 Thumbs.db
 /.cr
+.vscode/solution-explorer
 .vscode/settings.json
 !.vscode/settings.json
 .rider/
 .idea/
+.angulardoc.json
 
 #local coniguration
 appsettings.local.json
@@ -270,6 +270,6 @@ src/TRAISI/extensions/
 traisi_testing.db
 !/src/TRAISI/ClientApp/local_node_modules/smooth-dnd/dist/
 
-#!/src/TRAISI.SDK/bin/cli/gitkeep
+!/src/TRAISI.SDK/bin/cli/gitkeep
 
-node_modules/
+!systemjs/dist/

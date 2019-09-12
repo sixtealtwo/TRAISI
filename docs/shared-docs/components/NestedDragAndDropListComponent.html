@@ -1,0 +1,4615 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>traisi documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">traisi documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>NestedDragAndDropListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-nested-drag-and-drop-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./nested-drag-and-drop-list.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./nested-drag-and-drop-list.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addingNewQuestion">addingNewQuestion</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#configurationModal">configurationModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#configurationModalShowing">configurationModalShowing</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#currentPage">currentPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dealingWithPart">dealingWithPart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dragDidNotOriginateFromChooser">dragDidNotOriginateFromChooser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dragOverContainer">dragOverContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dragResult">dragResult</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fullStructure">fullStructure</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastDragEnter">lastDragEnter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastDragLeave">lastDragLeave</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#partsLeftToLoad">partsLeftToLoad</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#qConfiguration">qConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#qPartQuestions">qPartQuestions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#questionBeingEdited">questionBeingEdited</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startingNumber">startingNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateStructure">updateStructure</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addNewQuestionPartView">addNewQuestionPartView</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addQuestionTypeToList">addQuestionTypeToList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cancelConfiguration">cancelConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#configurationHidden">configurationHidden</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#configurationShown">configurationShown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#continueDelete">continueDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deleteQuestion">deleteQuestion</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editQuestionConfiguration">editQuestionConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#generateQuestionViewFromType">generateQuestionViewFromType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCharFromIndex">getCharFromIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getIcon">getIcon</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getQuestionInPartPayload">getQuestionInPartPayload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getQuestionPartViewChildren">getQuestionPartViewChildren</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getQuestionPayload">getQuestionPayload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDragEnd">onDragEnd</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDragEnter">onDragEnter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDragLeave">onDragLeave</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDragStart">onDragStart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDrop">onDrop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDropInPart">onDropInPart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#proceedWithDrop">proceedWithDrop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#processConfiguration">processConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#processHouseholdCheck">processHouseholdCheck</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#processHouseholdCheckItems">processHouseholdCheckItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#saveConfiguration">saveConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#shouldAcceptDrop">shouldAcceptDrop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#shouldAcceptDropPart">shouldAcceptDropPart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateFullStructure">updateFullStructure</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateQuestionOffset">updateQuestionOffset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateQuestionOrder">updateQuestionOrder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#catiEnabled">catiEnabled</a>
+                            </li>
+                            <li>
+                                <a href="#currentLanguage">currentLanguage</a>
+                            </li>
+                            <li>
+                                <a href="#householdAdded">householdAdded</a>
+                            </li>
+                            <li>
+                                <a href="#qTypeDefinitions">qTypeDefinitions</a>
+                            </li>
+                            <li>
+                                <a href="#surveyId">surveyId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#householdAddedChange">householdAddedChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#touchmove">touchmove</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(alertService: <a href="../injectables/AlertService.html">AlertService</a>, surveyBuilderService: <a href="../injectables/SurveyBuilderService.html">SurveyBuilderService</a>, elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, notificationService: <a href="../injectables/RealTimeNotificationServce.html">RealTimeNotificationServce</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:75</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>alertService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AlertService.html" target="_self" >AlertService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>surveyBuilderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SurveyBuilderService.html" target="_self" >SurveyBuilderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notificationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RealTimeNotificationServce.html" target="_self" >RealTimeNotificationServce</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="catiEnabled"></a>
+                        <b>catiEnabled</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentLanguage"></a>
+                        <b>currentLanguage</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:56</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="householdAdded"></a>
+                        <b>householdAdded</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:63</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qTypeDefinitions"></a>
+                        <b>qTypeDefinitions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >Map&lt;string | QuestionTypeDefinition&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="surveyId"></a>
+                        <b>surveyId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:54</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="householdAddedChange"></a>
+                        <b>householdAddedChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:65</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touchmove"></a>
+                    <span class="name">
+                        <b>
+                            touchmove
+                        </b>
+                        <a href="#touchmove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>touchmove(e: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:73</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addNewQuestionPartView"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addNewQuestionPartView
+                        </b>
+                        <a href="#addNewQuestionPartView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addNewQuestionPartView(newPartView: <a href="../classes/QuestionPartView.html">QuestionPartView</a>, parentView: <a href="../classes/QuestionPartView.html">QuestionPartView</a>, addToList: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:268</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newPartView</td>
+                                    <td>
+                                                <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>parentView</td>
+                                    <td>
+                                                <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>addToList</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addQuestionTypeToList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addQuestionTypeToList
+                        </b>
+                        <a href="#addQuestionTypeToList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addQuestionTypeToList(qType: <a href="../interfaces/QuestionTypeDefinition.html">QuestionTypeDefinition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>qType</td>
+                                    <td>
+                                                <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelConfiguration"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            cancelConfiguration
+                        </b>
+                        <a href="#cancelConfiguration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancelConfiguration()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="554"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:554</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configurationHidden"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            configurationHidden
+                        </b>
+                        <a href="#configurationHidden"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>configurationHidden(event: ModalDirective)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:205</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>ModalDirective</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configurationShown"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            configurationShown
+                        </b>
+                        <a href="#configurationShown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>configurationShown()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:171</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="continueDelete"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            continueDelete
+                        </b>
+                        <a href="#continueDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>continueDelete()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="568"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:568</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteQuestion"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deleteQuestion
+                        </b>
+                        <a href="#deleteQuestion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteQuestion()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="561"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:561</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editQuestionConfiguration"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            editQuestionConfiguration
+                        </b>
+                        <a href="#editQuestionConfiguration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>editQuestionConfiguration(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, question: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:223</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>question</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateQuestionViewFromType"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            generateQuestionViewFromType
+                        </b>
+                        <a href="#generateQuestionViewFromType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateQuestionViewFromType(qType: <a href="../interfaces/QuestionTypeDefinition.html">QuestionTypeDefinition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>qType</td>
+                                    <td>
+                                                <code><a href="../interfaces/QuestionTypeDefinition.html" target="_self" >QuestionTypeDefinition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCharFromIndex"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getCharFromIndex
+                        </b>
+                        <a href="#getCharFromIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCharFromIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="647"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:647</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIcon"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getIcon
+                        </b>
+                        <a href="#getIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIcon(questionTypeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="323"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:323</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>questionTypeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionInPartPayload"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getQuestionInPartPayload
+                        </b>
+                        <a href="#getQuestionInPartPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQuestionInPartPayload(part: <a href="../classes/QuestionPartView.html">QuestionPartView</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:334</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>part</td>
+                                    <td>
+                                                <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionPartViewChildren"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getQuestionPartViewChildren
+                        </b>
+                        <a href="#getQuestionPartViewChildren"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQuestionPartViewChildren(partId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="343"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:343</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>partId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>QuestionPartView[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuestionPayload"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getQuestionPayload
+                        </b>
+                        <a href="#getQuestionPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQuestionPayload(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:328</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragEnd"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDragEnd
+                        </b>
+                        <a href="#onDragEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDragEnd(event: <a href="../interfaces/IDragEvent.html">IDragEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="607"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:607</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/IDragEvent.html" target="_self" >IDragEvent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragEnter"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDragEnter
+                        </b>
+                        <a href="#onDragEnter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDragEnter(containerName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="637"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:637</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>containerName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragLeave"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDragLeave
+                        </b>
+                        <a href="#onDragLeave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDragLeave(containerName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="642"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:642</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>containerName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragStart"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDragStart
+                        </b>
+                        <a href="#onDragStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDragStart(event: <a href="../interfaces/IDragEvent.html">IDragEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="633"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:633</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/IDragEvent.html" target="_self" >IDragEvent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDrop"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDrop
+                        </b>
+                        <a href="#onDrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDrop(dropResult: <a href="../interfaces/IDropResult.html">IDropResult</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="651"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:651</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dropResult</td>
+                                    <td>
+                                                <code><a href="../interfaces/IDropResult.html" target="_self" >IDropResult</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDropInPart"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onDropInPart
+                        </b>
+                        <a href="#onDropInPart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDropInPart(partId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, dropResult: <a href="../interfaces/IDropResult.html">IDropResult</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="713"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:713</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>partId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>dropResult</td>
+                                    <td>
+                                                <code><a href="../interfaces/IDropResult.html" target="_self" >IDropResult</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="proceedWithDrop"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            proceedWithDrop
+                        </b>
+                        <a href="#proceedWithDrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>proceedWithDrop(dropResult: <a href="../interfaces/IDropResult.html">IDropResult</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="700"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:700</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dropResult</td>
+                                    <td>
+                                                <code><a href="../interfaces/IDropResult.html" target="_self" >IDropResult</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processConfiguration"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            processConfiguration
+                        </b>
+                        <a href="#processConfiguration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processConfiguration(result: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="351"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:351</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>result</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processHouseholdCheck"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            processHouseholdCheck
+                        </b>
+                        <a href="#processHouseholdCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processHouseholdCheck()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:138</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processHouseholdCheckItems"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            processHouseholdCheckItems
+                        </b>
+                        <a href="#processHouseholdCheckItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processHouseholdCheckItems(items: <a href="../interfaces/Item.html">TreeviewItem[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveConfiguration"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            saveConfiguration
+                        </b>
+                        <a href="#saveConfiguration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveConfiguration()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:364</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldAcceptDrop"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            shouldAcceptDrop
+                        </b>
+                        <a href="#shouldAcceptDrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>shouldAcceptDrop(sourceContainerOptions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, payload: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="768"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:768</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sourceContainerOptions</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>payload</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldAcceptDropPart"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            shouldAcceptDropPart
+                        </b>
+                        <a href="#shouldAcceptDropPart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>shouldAcceptDropPart(sourceContainerOptions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, payload: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="775"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:775</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sourceContainerOptions</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>payload</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateFullStructure"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateFullStructure
+                        </b>
+                        <a href="#updateFullStructure"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateFullStructure(forceUpdate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>forceUpdate</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateQuestionOffset"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            updateQuestionOffset
+                        </b>
+                        <a href="#updateQuestionOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateQuestionOffset()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateQuestionOrder"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateQuestionOrder
+                        </b>
+                        <a href="#updateQuestionOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateQuestionOrder(parentView: <a href="../classes/QuestionPartView.html">QuestionPartView</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="602"
+                            class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:602</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parentView</td>
+                                    <td>
+                                                <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addingNewQuestion"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            addingNewQuestion</b>
+                            <a href="#addingNewQuestion"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="configurationModal"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            configurationModal</b>
+                            <a href="#configurationModal"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ModalDirective</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;configurationModal&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="configurationModalShowing"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            configurationModalShowing</b>
+                            <a href="#configurationModalShowing"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentPage"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            currentPage</b>
+                            <a href="#currentPage"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new QuestionPartView()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dealingWithPart"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dealingWithPart</b>
+                            <a href="#dealingWithPart"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dragDidNotOriginateFromChooser"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            dragDidNotOriginateFromChooser</b>
+                            <a href="#dragDidNotOriginateFromChooser"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dragOverContainer"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            dragOverContainer</b>
+                            <a href="#dragOverContainer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Object()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dragResult"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            dragResult</b>
+                            <a href="#dragResult"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subject&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fullStructure"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            fullStructure</b>
+                            <a href="#fullStructure"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >TreeviewItem[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lastDragEnter"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            lastDragEnter</b>
+                            <a href="#lastDragEnter"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:46</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lastDragLeave"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            lastDragLeave</b>
+                            <a href="#lastDragLeave"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="partsLeftToLoad"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            partsLeftToLoad</b>
+                            <a href="#partsLeftToLoad"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qConfiguration"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            qConfiguration</b>
+                            <a href="#qConfiguration"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../components/QuestionConfigurationComponent.html" target="_self" >QuestionConfigurationComponent</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;qConfiguration&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:70</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qPartQuestions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            qPartQuestions</b>
+                            <a href="#qPartQuestions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Map&lt;number | QuestionPartView&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Map&lt;number, QuestionPartView&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questionBeingEdited"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            questionBeingEdited</b>
+                            <a href="#questionBeingEdited"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/QuestionPartView.html" target="_self" >QuestionPartView</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="startingNumber"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            startingNumber</b>
+                            <a href="#startingNumber"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateStructure"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            updateStructure</b>
+                            <a href="#updateStructure"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/admin-app/app/survey-builder/components/nested-drag-and-drop-list/nested-drag-and-drop-list.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	OnInit,
+	ViewChild,
+	Input,
+	HostListener,
+	ElementRef,
+	AfterViewInit,
+	Output,
+	EventEmitter
+} from &#x27;@angular/core&#x27;;
+import { SurveyBuilderService } from &#x27;../../services/survey-builder.service&#x27;;
+import { Observable, Subject } from &#x27;rxjs&#x27;;
+import { AlertService, DialogType, MessageSeverity } from &#x27;../../../../../shared/services/alert.service&#x27;;
+import { Utilities } from &#x27;../../../../../shared/services/utilities&#x27;;
+import { ModalDirective } from &#x27;ngx-bootstrap&#x27;;
+import { QuestionConfigurationComponent } from &#x27;../question-configuration/question-configuration.component&#x27;;
+import { QuestionTypeDefinition } from &#x27;../../models/question-type-definition&#x27;;
+import { QuestionPartView } from &#x27;../../models/question-part-view.model&#x27;;
+import { QuestionPart } from &#x27;../../models/question-part.model&#x27;;
+import { QuestionPartViewLabel } from &#x27;../../models/question-part-view-label.model&#x27;;
+import { Order } from &#x27;../../models/order.model&#x27;;
+import { TreeviewItem } from &#x27;ngx-treeview&#x27;;
+import { fadeInOut } from &#x27;../../../services/animations&#x27;;
+import { RealTimeNotificationServce } from &#x27;../../../services/real-time-notification.service&#x27;;
+import { IDragEvent, IDropResult } from &#x27;../../../shared/ngx-smooth-dnd/container/container.component&#x27;;
+
+@Component({
+	selector: &#x27;app-nested-drag-and-drop-list&#x27;,
+	templateUrl: &#x27;./nested-drag-and-drop-list.component.html&#x27;,
+	styleUrls: [&#x27;./nested-drag-and-drop-list.component.scss&#x27;],
+	animations: [fadeInOut]
+})
+export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
+	public qPartQuestions: Map&lt;number, QuestionPartView&gt; &#x3D; new Map&lt;number, QuestionPartView&gt;();
+
+	public currentPage: QuestionPartView &#x3D; new QuestionPartView();
+	public configurationModalShowing: boolean &#x3D; false;
+	public addingNewQuestion: boolean &#x3D; true;
+	public dealingWithPart: boolean &#x3D; false;
+	public questionBeingEdited: QuestionPartView;
+	public partsLeftToLoad: number &#x3D; 0;
+
+	private dragResult: Subject&lt;boolean&gt;;
+	private dragOverContainer: Object &#x3D; new Object();
+	private lastDragEnter: string[] &#x3D; [];
+	private lastDragLeave: string[] &#x3D; [];
+	private dragDidNotOriginateFromChooser: boolean &#x3D; false;
+	private updateStructure: boolean &#x3D; true;
+	private fullStructure: TreeviewItem[] &#x3D; [];
+	private startingNumber: number &#x3D; 0;
+
+	@Input()
+	public surveyId: number;
+	@Input()
+	public currentLanguage: string;
+	@Input()
+	public catiEnabled: boolean;
+	@Input()
+	public qTypeDefinitions: Map&lt;string, QuestionTypeDefinition&gt;;
+
+	@Input()
+	public householdAdded: boolean &#x3D; false;
+	@Output()
+	public householdAddedChange: EventEmitter&lt;boolean&gt; &#x3D; new EventEmitter();
+
+	@ViewChild(&#x27;configurationModal&#x27;)
+	public configurationModal: ModalDirective;
+	@ViewChild(&#x27;qConfiguration&#x27;)
+	public qConfiguration: QuestionConfigurationComponent;
+
+	@HostListener(&#x27;touchmove&#x27;, [&#x27;$event&#x27;])
+	public onTouchMove(e: MouseEvent): void {
+		// e.preventDefault();
+	}
+
+	constructor(
+		private alertService: AlertService,
+		private surveyBuilderService: SurveyBuilderService,
+		private elementRef: ElementRef,
+		private notificationService: RealTimeNotificationServce
+	) {
+		this.getQuestionPayload &#x3D; this.getQuestionPayload.bind(this);
+		this.getQuestionInPartPayload &#x3D; this.getQuestionInPartPayload.bind(this);
+	}
+
+	public ngOnInit(): void {
+		const sectionType: QuestionTypeDefinition &#x3D; {
+			typeName: &#x27;Survey Part&#x27;,
+			icon: &#x27;fas fa-archive&#x27;,
+			questionOptions: {},
+			questionConfigurations: {},
+			responseType: &#x27;&#x27;,
+			customBuilderViewName: &#x27;&#x27;,
+			hasCustomBuilderView: false,
+			typeNameLocales: { en: &#x27;Section&#x27;, fr: &#x27;Section&#x27; }
+		};
+		this.qTypeDefinitions.set(&#x27;Survey Part&#x27;, sectionType);
+	}
+
+	public ngAfterViewInit(): void {
+		// this.elementRef.nativeElement.addEventListener(&#x27;touchmove&#x27;, event &#x3D;&gt; event.preventDefault());
+	}
+
+	public updateFullStructure(forceUpdate: boolean &#x3D; false): void {
+		if (this.updateStructure || forceUpdate) {
+			this.surveyBuilderService
+				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, &#x27;en&#x27;)
+				.subscribe(treelist &#x3D;&gt; {
+					this.fullStructure &#x3D; treelist;
+					this.processHouseholdCheck();
+					this.householdAddedChange.emit(this.householdAdded);
+					this.updateStructure &#x3D; false;
+					this.updateQuestionOffset();
+				});
+		} else {
+			this.updateQuestionOffset();
+		}
+	}
+
+	private updateQuestionOffset(): void {
+		this.startingNumber &#x3D; 0;
+		let pageIndex: number &#x3D; 0;
+
+		while (this.fullStructure[pageIndex].text !&#x3D;&#x3D; this.currentPage.label.value) {
+			if (this.fullStructure[pageIndex].children) {
+				this.startingNumber +&#x3D; this.fullStructure[pageIndex].children.length;
+			}
+			pageIndex++;
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public processHouseholdCheck(): void {
+		this.fullStructure.forEach(page &#x3D;&gt; {
+			if (this.householdAdded &#x3D;&#x3D;&#x3D; false) {
+				this.processHouseholdCheckItems(page.children);
+			}
+		});
+	}
+
+	/**
+	 *
+	 *
+	 * @param {TreeviewItem[]} items
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public processHouseholdCheckItems(items: TreeviewItem[]): void {
+		if (items) {
+			items.forEach(item &#x3D;&gt; {
+				if (this.householdAdded &#x3D;&#x3D;&#x3D; false) {
+					if (item.value.split(&#x27;~&#x27;)[1] &#x3D;&#x3D;&#x3D; &#x27;household&#x27;) {
+						this.householdAdded &#x3D; true;
+					} else if (item.children &amp;&amp; item.children.length &gt; 0) {
+						this.processHouseholdCheckItems(item.children);
+					}
+				}
+			});
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public configurationShown(): void {
+		this.qConfiguration.surveyId &#x3D; this.surveyId;
+		this.qConfiguration.questionBeingEdited &#x3D; new QuestionPartView();
+		this.qConfiguration.questionBeingEdited &#x3D; JSON.parse(JSON.stringify(this.questionBeingEdited));
+		this.qConfiguration.questionBeingEdited.questionPartViewChildren &#x3D; this.getQuestionPartViewChildren(
+			this.qConfiguration.questionBeingEdited.id
+		);
+		this.qConfiguration.editing &#x3D; true;
+		this.qConfiguration.newQuestion &#x3D; this.addingNewQuestion;
+		this.qConfiguration.isSaving &#x3D; false;
+		this.qConfiguration.cursorPosition &#x3D; undefined;
+		if (this.questionBeingEdited.questionPart &#x3D;&#x3D;&#x3D; undefined || this.questionBeingEdited.questionPart &#x3D;&#x3D;&#x3D; null) {
+			this.qConfiguration.questionType &#x3D; this.qTypeDefinitions.get(&#x27;Survey Part&#x27;);
+		} else {
+			this.qConfiguration.questionType &#x3D; this.qTypeDefinitions.get(
+				this.questionBeingEdited.questionPart.questionType
+			);
+		}
+		this.configurationModalShowing &#x3D; true;
+		this.surveyBuilderService
+			.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(this.surveyId, &#x27;en&#x27;)
+			.subscribe(treelist &#x3D;&gt; {
+				this.fullStructure &#x3D; treelist;
+				this.qConfiguration.fullStructure &#x3D; this.fullStructure;
+				this.qConfiguration.processConfigurations();
+			});
+	}
+
+	/**
+	 *
+	 *
+	 * @param {ModalDirective} event
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public configurationHidden(event: ModalDirective): void {
+		if (event.dismissReason &#x3D;&#x3D;&#x3D; &#x27;esc&#x27;) {
+			this.processConfiguration(&#x27;cancel&#x27;);
+		}
+		this.qConfiguration.editing &#x3D; false;
+		this.qConfiguration.questionBeingEdited &#x3D; undefined;
+		this.qConfiguration.configurations &#x3D; [];
+		this.qConfiguration.questionType &#x3D; null;
+		this.qConfiguration.conditionalsLoaded &#x3D; false;
+	}
+
+	/**
+	 *
+	 *
+	 * @param {*} event
+	 * @param {*} question
+	 * @memberof NestedDragAndDropListComponent
+	 */
+	public editQuestionConfiguration(event: any, question: any): void {
+		event.stopPropagation();
+		this.questionBeingEdited &#x3D; question;
+		this.dragResult &#x3D; new Subject&lt;boolean&gt;();
+		this.addingNewQuestion &#x3D; false;
+		if (question.questionPart &#x3D;&#x3D;&#x3D; undefined || question.questionPart &#x3D;&#x3D;&#x3D; null) {
+			this.dealingWithPart &#x3D; true;
+		} else {
+			this.dealingWithPart &#x3D; false;
+		}
+		this.configurationModal.show();
+	}
+
+	public addQuestionTypeToList(qType: QuestionTypeDefinition): void {
+		this.dragResult &#x3D; new Subject&lt;boolean&gt;();
+		this.addingNewQuestion &#x3D; true;
+		if (qType.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+			this.dealingWithPart &#x3D; true;
+		} else {
+			this.dealingWithPart &#x3D; false;
+		}
+		this.questionBeingEdited &#x3D; this.generateQuestionViewFromType(qType);
+		this.configurationModal.show();
+		this.dragResult.asObservable().subscribe(proceed &#x3D;&gt; {
+			if (proceed) {
+				this.questionBeingEdited.order &#x3D; this.currentPage.questionPartViewChildren.length;
+				this.addNewQuestionPartView(this.questionBeingEdited, this.currentPage, true);
+			}
+		});
+	}
+
+	public generateQuestionViewFromType(qType: QuestionTypeDefinition): QuestionPartView {
+		let newQPart: QuestionPart;
+		if (qType.typeName !&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+			newQPart &#x3D; new QuestionPart(0, qType.typeName);
+		}
+		let newQPartLabel: QuestionPartViewLabel &#x3D; new QuestionPartViewLabel(0, &#x27;&#x27;, this.currentLanguage);
+		let newQPartView: QuestionPartView &#x3D; new QuestionPartView(0, newQPartLabel, null, 0, [], 0, newQPart);
+		if (this.catiEnabled) {
+			let newCatiQPartLabel: QuestionPartViewLabel &#x3D; new QuestionPartViewLabel(0, &#x27;&#x27;, this.currentLanguage);
+			newQPartView.catiDependent &#x3D; new QuestionPartView(0, newCatiQPartLabel);
+		}
+		return newQPartView;
+	}
+
+	public addNewQuestionPartView(newPartView: QuestionPartView, parentView: QuestionPartView, addToList: boolean): void {
+		this.surveyBuilderService
+			.addStandardQuestionPartView(this.surveyId, parentView.id, this.currentLanguage, newPartView)
+			.subscribe(
+				newQuestion &#x3D;&gt; {
+					this.dragResult.unsubscribe();
+					newPartView.id &#x3D; newQuestion.id;
+					newPartView.parentViewId &#x3D; newQuestion.parentViewId;
+					if (newQuestion.catiDependent) {
+						newPartView.catiDependent.id &#x3D; newQuestion.catiDependent.id;
+						newPartView.catiDependent.parentViewId &#x3D; newQuestion.catiDependent.parentViewId;
+					}
+					if (
+						(newQuestion.questionPart &#x3D;&#x3D;&#x3D; undefined || newQuestion.questionPart &#x3D;&#x3D;&#x3D; null) &amp;&amp;
+						!this.qPartQuestions.has(newQuestion.id)
+					) {
+						this.qPartQuestions.set(newQuestion.id, newQuestion);
+						this.notificationService.indicateSurveyChange(this.surveyId);
+					} else {
+						newPartView.questionPart &#x3D; newQuestion.questionPart;
+						if (newQuestion.questionPart.questionType &#x3D;&#x3D;&#x3D; &#x27;household&#x27;) {
+							this.householdAdded &#x3D; true;
+							this.householdAddedChange.emit(this.householdAdded);
+						}
+						// send advanced configuration
+						this.surveyBuilderService
+							.updateQuestionPartConfigurations(
+								this.surveyId,
+								newQuestion.questionPart.id,
+								this.qConfiguration.configurationValues
+							)
+							.subscribe(result &#x3D;&gt; {
+								this.notificationService.indicateSurveyChange(this.surveyId);
+							});
+					}
+					if (addToList) {
+						if (parentView &#x3D;&#x3D;&#x3D; this.currentPage) {
+							this.currentPage.questionPartViewChildren.push(newQuestion);
+						}
+					}
+					this.updateStructure &#x3D; true;
+					this.configurationModal.hide();
+				},
+				error &#x3D;&gt; {
+					this.alertService.showStickyMessage(
+						&#x27;Update Error&#x27;,
+						&#x60;Unable to add question.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+					this.qConfiguration.isSaving &#x3D; false;
+				}
+			);
+	}
+
+	public getIcon(questionTypeName: string): string {
+		let qType: QuestionTypeDefinition &#x3D; this.qTypeDefinitions.get(questionTypeName);
+		return qType.icon;
+	}
+
+	public getQuestionPayload(index: number): QuestionPartView {
+		// $(&#x27;.smooth-dnd-draggable-wrapper .collapse.details&#x27;).collapse(&#x27;hide&#x27;);
+		// $(&#x27;.collapse:not(.details)&#x27;).collapse(&#x27;show&#x27;);
+		return this.currentPage.questionPartViewChildren[index];
+	}
+
+	public getQuestionInPartPayload(part: QuestionPartView): (index: any) &#x3D;&gt; QuestionPartView {
+		// $(&#x27;.smooth-dnd-draggable-wrapper .collapse.details&#x27;).collapse(&#x27;hide&#x27;);
+		// $(&#x27;.collapse:not(.details)&#x27;).collapse(&#x27;show&#x27;);
+		return index &#x3D;&gt; {
+			let test &#x3D; this.qPartQuestions;
+			return this.qPartQuestions.get(part.id).questionPartViewChildren[index];
+		};
+	}
+
+	public getQuestionPartViewChildren(partId: number): QuestionPartView[] {
+		if (this.qPartQuestions.has(partId)) {
+			return this.qPartQuestions.get(partId).questionPartViewChildren;
+		} else {
+			return [];
+		}
+	}
+
+	public processConfiguration(result: string): void {
+		if (result &#x3D;&#x3D;&#x3D; &#x27;save&#x27;) {
+			Object.assign(this.questionBeingEdited, this.qConfiguration.questionBeingEdited);
+			this.saveConfiguration();
+		} else if (result &#x3D;&#x3D;&#x3D; &#x27;cancel&#x27;) {
+			this.configurationModalShowing &#x3D; false;
+			this.cancelConfiguration();
+		} else if (result &#x3D;&#x3D;&#x3D; &#x27;delete&#x27;) {
+			this.configurationModalShowing &#x3D; false;
+			this.deleteQuestion();
+		}
+	}
+
+	public saveConfiguration(): void {
+		if (this.addingNewQuestion) {
+			this.dragResult.next(true);
+		} else {
+			let cleanedQuestion &#x3D; new QuestionPartView();
+			Object.assign(cleanedQuestion, this.questionBeingEdited);
+			cleanedQuestion.questionPartViewChildren &#x3D; null;
+			if (this.questionBeingEdited.catiDependent) {
+				cleanedQuestion.catiDependent &#x3D; new QuestionPartView();
+				Object.assign(cleanedQuestion.catiDependent, this.questionBeingEdited.catiDependent);
+				cleanedQuestion.catiDependent.questionPartViewChildren &#x3D; null;
+			}
+
+			console.log(cleanedQuestion);
+			this.surveyBuilderService.updateQuestionPartViewData(this.surveyId, cleanedQuestion).subscribe(
+				result &#x3D;&gt; {
+
+
+					if (this.qConfiguration.configurationValues.length &gt; 0) {
+
+
+						this.surveyBuilderService
+							.updateQuestionPartConfigurations(
+								this.surveyId,
+								this.questionBeingEdited.questionPart.id,
+								this.qConfiguration.configurationValues
+							)
+							.subscribe(
+								configResult &#x3D;&gt; {
+									if (this.qConfiguration.conditionalsComponent) {
+										let [
+											qConditionals,
+											qoConditionals
+										] &#x3D; this.qConfiguration.getUpdatedConditionals();
+										this.surveyBuilderService
+											.setQuestionPartConditionals(
+												this.surveyId,
+												this.questionBeingEdited.questionPart.id,
+												qConditionals
+											)
+											.subscribe(
+												condResult &#x3D;&gt; {
+													this.surveyBuilderService
+														.setQuestionPartOptionConditionals(
+															this.surveyId,
+															this.questionBeingEdited.questionPart.id,
+															qoConditionals
+														)
+														.subscribe(
+															oCondResult &#x3D;&gt; {
+																this.alertService.showMessage(
+																	&#x27;Success&#x27;,
+																	&#x60;Question data, configurations and conditionals updated successfully!&#x60;,
+																	MessageSeverity.success
+																);
+																this.configurationModal.hide();
+																this.notificationService.indicateSurveyChange(
+																	this.surveyId
+																);
+															},
+															error &#x3D;&gt; {
+																this.alertService.showStickyMessage(
+																	&#x27;Update Error&#x27;,
+																	&#x60;Unable to update question configurations.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(
+																		error
+																	)}&quot;&#x60;,
+																	MessageSeverity.error,
+																	error
+																);
+																this.qConfiguration.isSaving &#x3D; false;
+																this.notificationService.indicateSurveyChange(
+																	this.surveyId
+																);
+															}
+														);
+												},
+												error &#x3D;&gt; {
+													this.alertService.showStickyMessage(
+														&#x27;Update Error&#x27;,
+														&#x60;Unable to update question configurations.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(
+															error
+														)}&quot;&#x60;,
+														MessageSeverity.error,
+														error
+													);
+													this.qConfiguration.isSaving &#x3D; false;
+													this.notificationService.indicateSurveyChange(this.surveyId);
+												}
+											);
+									} else {
+										this.alertService.showMessage(
+											&#x27;Success&#x27;,
+											&#x60;Question data and configurations updated successfully!&#x60;,
+											MessageSeverity.success
+										);
+										this.configurationModal.hide();
+										this.notificationService.indicateSurveyChange(this.surveyId);
+									}
+								},
+								error &#x3D;&gt; {
+									this.alertService.showStickyMessage(
+										&#x27;Update Error&#x27;,
+										&#x60;Unable to update question configurations.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(
+											error
+										)}&quot;&#x60;,
+										MessageSeverity.error,
+										error
+									);
+									this.qConfiguration.isSaving &#x3D; false;
+									this.notificationService.indicateSurveyChange(this.surveyId);
+								}
+							);
+					} else {
+						if (this.qConfiguration.conditionalsComponent) {
+							let [qConditionals, qoConditionals] &#x3D; this.qConfiguration.getUpdatedConditionals();
+							this.surveyBuilderService
+								.setQuestionPartConditionals(
+									this.surveyId,
+									this.questionBeingEdited.questionPart.id,
+									qConditionals
+								)
+								.subscribe(
+									condResult &#x3D;&gt; {
+										this.surveyBuilderService
+											.setQuestionPartOptionConditionals(
+												this.surveyId,
+												this.questionBeingEdited.questionPart.id,
+												qoConditionals
+											)
+											.subscribe(
+												oCondResult &#x3D;&gt; {
+													this.alertService.showMessage(
+														&#x27;Success&#x27;,
+														&#x60;Question data, configurations and conditionals updated successfully!&#x60;,
+														MessageSeverity.success
+													);
+													this.configurationModal.hide();
+													this.notificationService.indicateSurveyChange(this.surveyId);
+												},
+												error &#x3D;&gt; {
+													this.alertService.showStickyMessage(
+														&#x27;Update Error&#x27;,
+														&#x60;Unable to update question configurations.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(
+															error
+														)}&quot;&#x60;,
+														MessageSeverity.error,
+														error
+													);
+													this.qConfiguration.isSaving &#x3D; false;
+													this.notificationService.indicateSurveyChange(this.surveyId);
+												}
+											);
+									},
+									error &#x3D;&gt; {
+										this.alertService.showStickyMessage(
+											&#x27;Update Error&#x27;,
+											&#x60;Unable to update question configurations.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(
+												error
+											)}&quot;&#x60;,
+											MessageSeverity.error,
+											error
+										);
+										this.qConfiguration.isSaving &#x3D; false;
+										this.notificationService.indicateSurveyChange(this.surveyId);
+									}
+								);
+						} else {
+							this.alertService.showMessage(
+								&#x27;Success&#x27;,
+								&#x60;Question data and configurations updated successfully!&#x60;,
+								MessageSeverity.success
+							);
+							this.configurationModal.hide();
+							this.notificationService.indicateSurveyChange(this.surveyId);
+						}
+					}
+				},
+				error &#x3D;&gt; {
+					this.alertService.showStickyMessage(
+						&#x27;Update Error&#x27;,
+						&#x60;Unable to update question data.\r\nErrors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+					this.qConfiguration.isSaving &#x3D; false;
+				}
+			);
+		}
+	}
+
+	public cancelConfiguration(): void {
+		if (this.addingNewQuestion) {
+			this.dragResult.next(false);
+		}
+		this.configurationModal.hide();
+	}
+
+	public deleteQuestion(): void {
+		this.alertService.showDialog(&#x27;Are you sure you want to delete the question?&#x27;, DialogType.confirm, () &#x3D;&gt;
+			this.continueDelete()
+		);
+		this.configurationModal.hide();
+	}
+
+	public continueDelete(): void {
+		this.surveyBuilderService
+			.deleteQuestionPartView(this.surveyId, this.questionBeingEdited.parentViewId, this.questionBeingEdited.id)
+			.subscribe(result &#x3D;&gt; {
+				let dropResult &#x3D; {
+					removedIndex: this.questionBeingEdited.order,
+					addedIndex: null,
+					payload: this.questionBeingEdited
+				};
+				if (this.currentPage.id &#x3D;&#x3D;&#x3D; this.questionBeingEdited.parentViewId) {
+					this.currentPage.questionPartViewChildren &#x3D; Utilities.applyDrag(
+						this.currentPage.questionPartViewChildren,
+						dropResult
+					);
+					if (
+						this.questionBeingEdited.questionPart &amp;&amp;
+						this.questionBeingEdited.questionPart.questionType &#x3D;&#x3D;&#x3D; &#x27;household&#x27;
+					) {
+						this.householdAdded &#x3D; false;
+						this.householdAddedChange.emit(this.householdAdded);
+					}
+					this.updateQuestionOrder(this.currentPage);
+				} else {
+					let parentView &#x3D; this.qPartQuestions.get(this.questionBeingEdited.parentViewId);
+					parentView.questionPartViewChildren &#x3D; Utilities.applyDrag(
+						parentView.questionPartViewChildren,
+						dropResult
+					);
+					this.updateQuestionOrder(parentView);
+				}
+				this.notificationService.indicateSurveyChange(this.surveyId);
+			});
+	}
+
+	public updateQuestionOrder(parentView: QuestionPartView): void {
+		parentView.questionPartViewChildren.forEach((q, index) &#x3D;&gt; (q.order &#x3D; index));
+		this.updateStructure &#x3D; true;
+	}
+
+	public onDragEnd(event: IDragEvent): void {
+		if (this.lastDragEnter.length !&#x3D;&#x3D; this.lastDragLeave.length) {
+			this.dragResult &#x3D; new Subject&lt;boolean&gt;();
+			if (!this.dragDidNotOriginateFromChooser) {
+				this.addingNewQuestion &#x3D; true;
+				this.questionBeingEdited &#x3D; this.generateQuestionViewFromType(event.payload);
+				if (event.payload.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27;) {
+					this.dealingWithPart &#x3D; true;
+				} else {
+					this.dealingWithPart &#x3D; false;
+				}
+				this.configurationModal.show();
+			} else {
+				this.addingNewQuestion &#x3D; false;
+				this.questionBeingEdited &#x3D; event.payload;
+				setTimeout(() &#x3D;&gt; {
+					this.dragResult.next(true);
+				}, 0);
+			}
+		}
+		this.lastDragEnter &#x3D; [];
+		this.lastDragLeave &#x3D; [];
+		this.dragDidNotOriginateFromChooser &#x3D; false;
+		this.dragOverContainer &#x3D; new Object();
+	}
+
+	public onDragStart(event: IDragEvent): void {
+		this.dragDidNotOriginateFromChooser &#x3D; this.dragDidNotOriginateFromChooser || event.isSource;
+	}
+
+	public onDragEnter(containerName: string): void {
+		this.lastDragEnter.push(containerName);
+		this.dragOverContainer[containerName] &#x3D; true;
+	}
+
+	public onDragLeave(containerName: string): void {
+		this.lastDragLeave.push(containerName);
+		this.dragOverContainer[containerName] &#x3D; false;
+	}
+
+	public getCharFromIndex(index: number): string {
+		return String.fromCharCode(65 + index);
+	}
+
+	public onDrop(dropResult: IDropResult): void {
+		if (this.dragResult) {
+			// create shadow list to give illusion of transfer before decision made
+			let pageQuestionsCache &#x3D; [...this.currentPage.questionPartViewChildren];
+			this.proceedWithDrop(dropResult);
+			this.dragResult.subscribe(proceed &#x3D;&gt; {
+				if (proceed &#x3D;&#x3D;&#x3D; false) {
+					this.currentPage.questionPartViewChildren &#x3D; pageQuestionsCache;
+					this.questionBeingEdited &#x3D; undefined;
+					this.dragResult.unsubscribe();
+				} else if (dropResult.addedIndex !&#x3D;&#x3D; null) {
+					this.updateQuestionOrder(this.currentPage);
+					if (dropResult.removedIndex &#x3D;&#x3D;&#x3D; null &amp;&amp; dropResult.addedIndex !&#x3D;&#x3D; null) {
+						this.questionBeingEdited.order &#x3D; dropResult.addedIndex;
+						this.addNewQuestionPartView(this.questionBeingEdited, this.currentPage, false);
+					} else if (dropResult.addedIndex !&#x3D;&#x3D; null) {
+						this.dragResult.unsubscribe();
+						let questionsOrder: Order[] &#x3D; this.currentPage.questionPartViewChildren.map(
+							q &#x3D;&gt; new Order(q.id, q.order)
+						);
+						this.surveyBuilderService
+							.updateStandardQuestionPartViewOrder(
+								this.surveyId,
+								this.currentPage.id,
+								questionsOrder,
+								this.questionBeingEdited.id
+							)
+							.subscribe(result &#x3D;&gt; {
+								this.notificationService.indicateSurveyChange(this.surveyId);
+							});
+						if (this.catiEnabled) {
+							questionsOrder &#x3D; this.currentPage.questionPartViewChildren.map(
+								q &#x3D;&gt; new Order(q.catiDependent.id, q.order)
+							);
+							this.surveyBuilderService
+								.updateCATIQuestionPartViewOrder(
+									this.surveyId,
+									this.currentPage.catiDependent.id,
+									questionsOrder,
+									this.questionBeingEdited.catiDependent.id
+								)
+								.subscribe();
+						}
+					}
+				}
+			});
+		}
+	}
+
+	public proceedWithDrop(dropResult: IDropResult): void {
+		dropResult.payload &#x3D; this.questionBeingEdited;
+		this.currentPage.questionPartViewChildren &#x3D; Utilities.applyDrag(
+			this.currentPage.questionPartViewChildren,
+			dropResult
+		);
+	}
+
+	/**
+	 *
+	 * @param partId
+	 * @param dropResult
+	 */
+	public onDropInPart(partId: number, dropResult: IDropResult): void {
+		console.log(&#x27;on drop in part&#x27;);
+		if (this.dragResult) {
+			if (partId !&#x3D;&#x3D; dropResult.payload.id) {
+				let questionPart &#x3D; this.qPartQuestions.get(partId);
+				let partQuestionsCache &#x3D; [...questionPart.questionPartViewChildren];
+				dropResult.payload &#x3D; this.questionBeingEdited;
+				questionPart.questionPartViewChildren &#x3D; Utilities.applyDrag(
+					questionPart.questionPartViewChildren,
+					dropResult
+				);
+				this.dragResult.subscribe(proceed &#x3D;&gt; {
+					if (proceed &#x3D;&#x3D;&#x3D; false) {
+						questionPart.questionPartViewChildren &#x3D; partQuestionsCache;
+						this.dragResult.unsubscribe();
+					} else {
+						this.updateQuestionOrder(questionPart);
+						if (dropResult.removedIndex &#x3D;&#x3D;&#x3D; null &amp;&amp; dropResult.addedIndex !&#x3D;&#x3D; null) {
+							this.questionBeingEdited.order &#x3D; dropResult.addedIndex;
+							this.addNewQuestionPartView(this.questionBeingEdited, questionPart, false);
+						} else if (dropResult.addedIndex !&#x3D;&#x3D; null) {
+							this.dragResult.unsubscribe();
+							let questionsOrder: Order[] &#x3D; questionPart.questionPartViewChildren.map(
+								q &#x3D;&gt; new Order(q.id, q.order)
+							);
+							this.surveyBuilderService
+								.updateStandardQuestionPartViewOrder(
+									this.surveyId,
+									partId,
+									questionsOrder,
+									this.questionBeingEdited.id
+								)
+								.subscribe(result &#x3D;&gt; {
+									this.notificationService.indicateSurveyChange(this.surveyId);
+								});
+							if (this.catiEnabled) {
+								questionsOrder &#x3D; questionPart.questionPartViewChildren.map(
+									q &#x3D;&gt; new Order(q.catiDependent.id, q.order)
+								);
+								this.surveyBuilderService
+									.updateCATIQuestionPartViewOrder(
+										this.surveyId,
+										questionPart.catiDependent.id,
+										questionsOrder,
+										this.questionBeingEdited.catiDependent.id
+									)
+									.subscribe();
+							}
+						}
+					}
+				});
+			}
+		}
+	}
+
+	public shouldAcceptDrop(sourceContainerOptions: any, payload: any): boolean {
+		if (sourceContainerOptions.groupName.indexOf(&#x27;optionlist&#x27;) &gt;&#x3D; 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public shouldAcceptDropPart(sourceContainerOptions: any, payload: any): boolean {
+		if (sourceContainerOptions.groupName.indexOf(&#x27;optionlist&#x27;) &gt;&#x3D; 0) {
+			return false;
+		}
+		if (sourceContainerOptions.behaviour &#x3D;&#x3D;&#x3D; &#x27;copy&#x27;) {
+			if (payload.typeName &#x3D;&#x3D;&#x3D; &#x27;Survey Part&#x27; || payload.typeName &#x3D;&#x3D;&#x3D; &#x27;household&#x27;) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			if (payload.questionPart &#x3D;&#x3D;&#x3D; undefined || payload.questionPart &#x3D;&#x3D;&#x3D; null) {
+				return false;
+			} else if (payload.questionPart.questionType &#x3D;&#x3D;&#x3D; &#x27;household&#x27;) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row page-questions&quot; id&#x3D;&quot;page-drag-drop&quot;&gt;
+	&lt;smooth-dnd-container
+		[shouldAcceptDrop]&#x3D;&quot;shouldAcceptDrop&quot;
+		[dragHandleSelector]&#x3D;&quot;&#x27;.question-header&#x27;&quot;
+		id&#x3D;&quot;page-question-container&quot;
+		class&#x3D;&quot;col-md-12&quot;
+		[class.drag-over]&#x3D;&quot;dragOverContainer[&#x27;main list&#x27;]&quot;
+		[class.page-questions-empty]&#x3D;&quot;
+			currentPage.questionPartViewChildren &#x3D;&#x3D; undefined || currentPage.questionPartViewChildren.length &#x3D;&#x3D; 0
+		&quot;
+		[groupName]&#x3D;&quot;&#x27;builder-page&#x27;&quot;
+		[lockAxis]&#x3D;&quot;&#x27;y&#x27;&quot;
+		[getChildPayload]&#x3D;&quot;getQuestionPayload&quot;
+		(drop)&#x3D;&quot;onDrop($event)&quot;
+		(dragStart)&#x3D;&quot;onDragStart($event)&quot;
+		(dragEnd)&#x3D;&quot;onDragEnd($event)&quot;
+		(dragEnter)&#x3D;&quot;onDragEnter(&#x27;main list&#x27;)&quot;
+		(dragLeave)&#x3D;&quot;onDragLeave(&#x27;main list&#x27;)&quot;
+	&gt;
+		&lt;smooth-dnd-draggable *ngFor&#x3D;&quot;let item of currentPage.questionPartViewChildren; index as i&quot;&gt;
+			&lt;div class&#x3D;&quot;question-number badge badge-danger&quot;&gt;
+				{{ item.questionPart ? &#x27;Q&#x27; : &#x27;S&#x27; }}{{ startingNumber + i + 1 }}
+			&lt;/div&gt;
+			&lt;ng-container *ngIf&#x3D;&quot;item.questionPart; else surveyPart&quot;&gt;
+				&lt;div class&#x3D;&quot;question-wrapper&quot;&gt;
+					&lt;button
+						class&#x3D;&quot;btn btn-default page-question question-header&quot;
+						data-toggle&#x3D;&quot;collapse&quot;
+						[attr.data-target]&#x3D;&quot;&#x27;#collapseExample-&#x27; + i&quot;
+						aria-expanded&#x3D;&quot;false&quot;
+						[attr.aria-controls]&#x3D;&quot;&#x27;collapseExample-&#x27; + i&quot;
+					&gt;
+						&lt;div class&#x3D;&quot;icon&quot;&gt;
+							&lt;i class&#x3D;&quot;fas page-question-icon&quot; [ngClass]&#x3D;&quot;getIcon(item.questionPart.questionType)&quot;&gt;&lt;/i&gt;
+						&lt;/div&gt;
+						&lt;div class&#x3D;&quot;config-icon&quot;&gt;
+							&lt;a (click)&#x3D;&quot;editQuestionConfiguration($event, item)&quot;&gt; &lt;i class&#x3D;&quot;fas fa-cog&quot;&gt;&lt;/i&gt; &lt;/a&gt;
+						&lt;/div&gt;
+						&lt;div class&#x3D;&quot;question-move-icon&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+						&lt;div class&#x3D;&quot;color-unset question-text&quot; *ngIf&#x3D;&quot;item.questionPart.name !&#x3D; undefined&quot;&gt;
+							&lt;div class&#x3D;&quot;pull-left&quot;&gt;
+								&lt;span class&#x3D;&quot;badge badge-inverse align-middle&quot;&gt;{{ item.questionPart.name }}&lt;/span
+								&gt;&amp;nbsp;
+							&lt;/div&gt;
+							&lt;div class&#x3D;&quot;pull-left&quot; [innerHTML]&#x3D;&quot;item.label.value | safe: &#x27;html&#x27;&quot;&gt;&lt;/div&gt;
+						&lt;/div&gt;
+					&lt;/button&gt;
+					&lt;div class&#x3D;&quot;collapse details&quot; [attr.id]&#x3D;&quot;&#x27;collapseExample-&#x27; + i&quot; data-parent&#x3D;&quot;#page-drag-drop&quot;&gt;
+						&lt;app-question-details
+							#details
+							*ngIf&#x3D;&quot;item.questionPart.id &gt; 0&quot;
+							[surveyId]&#x3D;&quot;surveyId&quot;
+							[question]&#x3D;&quot;item.questionPart&quot;
+							[language]&#x3D;&quot;currentLanguage&quot;
+							[collapseElementId]&#x3D;&quot;&#x27;collapseExample-&#x27; + i&quot;
+							[qTypeDefinitions]&#x3D;&quot;qTypeDefinitions&quot;
+						&gt;&lt;/app-question-details&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/ng-container&gt;
+			&lt;ng-template #surveyPart&gt;
+				&lt;button
+					class&#x3D;&quot;btn btn-secondary page-part question-header&quot;
+					data-toggle&#x3D;&quot;collapse&quot;
+					[attr.data-target]&#x3D;&quot;&#x27;#collapseExample-&#x27; + i&quot;
+					aria-expanded&#x3D;&quot;false&quot;
+					[attr.aria-controls]&#x3D;&quot;&#x27;collapseExample-&#x27; + i&quot;
+				&gt;
+					&lt;div class&#x3D;&quot;icon&quot;&gt;&lt;i [ngClass]&#x3D;&quot;getIcon(&#x27;Survey Part&#x27;)&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+					&lt;div class&#x3D;&quot;config-icon&quot;&gt;
+						&lt;a (click)&#x3D;&quot;editQuestionConfiguration($event, item)&quot;&gt; &lt;i class&#x3D;&quot;fas fa-cog&quot;&gt;&lt;/i&gt; &lt;/a&gt;
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;question-move-icon&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+					&lt;div class&#x3D;&quot;color-unset question-text&quot; [innerHTML]&#x3D;&quot;item.label.value&quot;&gt;&lt;/div&gt;
+				&lt;/button&gt;
+				&lt;div
+					class&#x3D;&quot;question-part-container collapse show&quot;
+					[class.drag-over]&#x3D;&quot;dragOverContainer[item.id]&quot;
+					[attr.id]&#x3D;&quot;&#x27;collapseExample-&#x27; + i&quot;
+					[class.page-questions-empty]&#x3D;&quot;
+						qPartQuestions.has(item.id) &amp;&amp; qPartQuestions.get(item.id).questionPartViewChildren.length &#x3D;&#x3D; 0
+					&quot;
+				&gt;
+					&lt;smooth-dnd-container
+						[dragHandleSelector]&#x3D;&quot;&#x27;.question-header&#x27;&quot;
+						[shouldAcceptDrop]&#x3D;&quot;shouldAcceptDropPart&quot;
+						[lockAxis]&#x3D;&quot;&#x27;y&#x27;&quot;
+						[groupName]&#x3D;&quot;&#x27;builder-part-&#x27; + item.id&quot;
+						[getChildPayload]&#x3D;&quot;getQuestionInPartPayload(item)&quot;
+						(dragStart)&#x3D;&quot;onDragStart($event)&quot;
+						(drop)&#x3D;&quot;onDropInPart(item.id, $event)&quot;
+						(dragEnter)&#x3D;&quot;onDragEnter(item.id)&quot;
+						(dragLeave)&#x3D;&quot;onDragLeave(item.id)&quot;
+					&gt;
+						&lt;smooth-dnd-draggable
+							*ngFor&#x3D;&quot;let innerItem of getQuestionPartViewChildren(item.id); index as j&quot;
+						&gt;
+							&lt;div class&#x3D;&quot;question-wrapper&quot;&gt;
+								&lt;div class&#x3D;&quot;question-number badge badge-primary&quot;&gt;
+									Q{{ startingNumber + i + 1 }}.{{ j + 1 }}
+								&lt;/div&gt;
+								&lt;button
+									class&#x3D;&quot;btn btn-default page-question question-header&quot;
+									data-toggle&#x3D;&quot;collapse&quot;
+									[attr.data-target]&#x3D;&quot;&#x27;#collapseExample-&#x27; + i + &#x27;-&#x27; + j&quot;
+									aria-expanded&#x3D;&quot;false&quot;
+									[attr.aria-controls]&#x3D;&quot;&#x27;collapseExample-&#x27; + i + &#x27;-&#x27; + j&quot;
+								&gt;
+									&lt;div class&#x3D;&quot;icon&quot;&gt;
+										&lt;i
+											class&#x3D;&quot;page-question-icon&quot;
+											[ngClass]&#x3D;&quot;getIcon(innerItem.questionPart.questionType)&quot;
+										&gt;&lt;/i&gt;
+									&lt;/div&gt;
+									&lt;div class&#x3D;&quot;config-icon&quot;&gt;
+										&lt;a (click)&#x3D;&quot;editQuestionConfiguration($event, innerItem)&quot;&gt;
+											&lt;i class&#x3D;&quot;fas fa-cog&quot;&gt;&lt;/i&gt;
+										&lt;/a&gt;
+									&lt;/div&gt;
+									&lt;div class&#x3D;&quot;question-move-icon&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+									&lt;div
+										class&#x3D;&quot;color-unset question-text&quot;
+										*ngIf&#x3D;&quot;innerItem.questionPart.name !&#x3D; undefined&quot;
+									&gt;
+										&lt;div class&#x3D;&quot;pull-left&quot;&gt;
+											&lt;span class&#x3D;&quot;badge badge-inverse align-middle&quot;&gt;{{
+												innerItem.questionPart.name
+											}}&lt;/span
+											&gt;&amp;nbsp;
+										&lt;/div&gt;
+										&lt;div class&#x3D;&quot;pull-left&quot; [innerHTML]&#x3D;&quot;innerItem.label.value | safe: &#x27;html&#x27;&quot;&gt;&lt;/div&gt;
+									&lt;/div&gt;
+								&lt;/button&gt;
+								&lt;div
+									class&#x3D;&quot;collapse details&quot;
+									[attr.id]&#x3D;&quot;&#x27;collapseExample-&#x27; + i + &#x27;-&#x27; + j&quot;
+									data-parent&#x3D;&quot;#page-drag-drop&quot;
+								&gt;
+									&lt;app-question-details
+										*ngIf&#x3D;&quot;innerItem.questionPart.id &gt; 0&quot;
+										[surveyId]&#x3D;&quot;surveyId&quot;
+										[question]&#x3D;&quot;innerItem.questionPart&quot;
+										[language]&#x3D;&quot;currentLanguage&quot;
+										[qTypeDefinitions]&#x3D;&quot;qTypeDefinitions&quot;
+									&gt;&lt;/app-question-details&gt;
+								&lt;/div&gt;
+							&lt;/div&gt;
+						&lt;/smooth-dnd-draggable&gt;
+					&lt;/smooth-dnd-container&gt;
+					&lt;div
+						class&#x3D;&quot;question-part-container-placeholder&quot;
+						[hidden]&#x3D;&quot;
+							qPartQuestions.has(item.id) &amp;&amp;
+							qPartQuestions.get(item.id).questionPartViewChildren.length &gt; 0
+						&quot;
+					&gt;
+						Drop Questions Here
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/ng-template&gt;
+		&lt;/smooth-dnd-draggable&gt;
+	&lt;/smooth-dnd-container&gt;
+&lt;/div&gt;
+
+&lt;div
+	class&#x3D;&quot;modal fade&quot;
+	bsModal
+	#configurationModal&#x3D;&quot;bs-modal&quot;
+	(onShown)&#x3D;&quot;configurationShown()&quot;
+	(onHide)&#x3D;&quot;configurationHidden($event)&quot;
+	[config]&#x3D;&quot;{ backdrop: &#x27;static&#x27; }&quot;
+	tabindex&#x3D;&quot;-1&quot;
+&gt;
+	&lt;div class&#x3D;&quot;modal-dialog modal-lg&quot;&gt;
+		&lt;div class&#x3D;&quot;modal-content&quot;&gt;
+			&lt;div class&#x3D;&quot;modal-header&quot; #modalHeader&gt;
+				&lt;h4 *ngIf&#x3D;&quot;configurationModalShowing&quot; class&#x3D;&quot;modal-title pull-left&quot;&gt;
+					&lt;i
+						class&#x3D;&quot;config-title-icon&quot;
+						[ngClass]&#x3D;&quot;
+							getIcon(dealingWithPart ? &#x27;Survey Part&#x27; : questionBeingEdited.questionPart.questionType)
+						&quot;
+					&gt;&lt;/i&gt;
+					{{
+						addingNewQuestion
+							? dealingWithPart
+								? &#x27;Add New Section&#x27;
+								: &#x27;Add New Question&#x27;
+							: dealingWithPart
+							? &#x27;Editing Section
+					Configuration&#x27;
+							: &#x27;Editing Question Configuration&#x27;
+					}}
+				&lt;/h4&gt;
+				&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close pull-right&quot; title&#x3D;&quot;Close&quot; (click)&#x3D;&quot;processConfiguration(&#x27;cancel&#x27;)&quot;&gt;
+					&lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+				&lt;/button&gt;
+			&lt;/div&gt;
+			&lt;div class&#x3D;&quot;modal-body config-background&quot;&gt;
+				&lt;app-question-configuration
+					#qConfiguration
+					[language]&#x3D;&quot;currentLanguage&quot;
+					[qTypeDefinitions]&#x3D;&quot;qTypeDefinitions&quot;
+					(configResult)&#x3D;&quot;processConfiguration($event)&quot;
+				&gt;&lt;/app-question-configuration&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./nested-drag-and-drop-list.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/shared/assets/scss/helpers&#x27;;
+
+.page-questions-empty {
+	height: 50px;
+}
+.page-questions {
+	border-radius: 5px;
+	padding: 2px;
+	margin: 3px;
+	border: 1px solid $gray-200;
+}
+
+.question-number {
+	position: absolute;
+	left: 3px;
+	vertical-align: middle !important;
+	text-align: center !important;
+	font-weight: bold !important;
+	font-size: 16px;
+	padding: 10px;
+	margin-top: 7px;
+	margin-left: 2px;
+}
+
+.page-question {
+	padding:10px;
+	margin:2px 0px 2px 0px;
+	min-height: 43px;
+	width:100%;
+
+	.question-text {
+		margin-left: 60px;
+		margin-right: 50px;
+		text-align: left;
+		white-space: nowrap;
+
+		@media (hover: hover) {
+			overflow-x: hidden;
+		}
+		@media (hover: none) {
+			overflow-x: auto;
+		}
+	}
+	.question-text:hover {
+		overflow-x: auto;
+	}
+	.icon {
+		margin-left: 50px;
+		margin-right: 10px;
+		float: left;
+		margin-top:-1px;
+	}
+	.question-move-icon {
+		flex:unset;
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+		cursor: move;
+	}
+	.config-icon {
+		flex: unset;
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+	}
+}
+
+.page-part {
+	padding:10px;
+	margin:2px 0px 0px 0px;
+	min-height: 43px;
+	width:100%;
+
+	.question-text {
+		margin-left: 60px;
+		margin-right: 50px;
+		text-align: left;
+		white-space: nowrap;
+		@media (hover: hover) {
+			overflow-x: hidden;
+		}
+		@media (hover: none) {
+			overflow-x: auto;
+		}
+	}
+	.question-text:hover {
+		overflow-x: auto;
+	}
+	.icon {
+		margin-left: 50px;
+		margin-right: 10px;
+		float: left;
+		margin-top:-1px;
+	}
+
+	.question-move-icon {
+		flex:unset;
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+		cursor: move;
+	}
+	.config-icon {
+		flex:unset;
+		margin-right: 10px;
+		float: right;
+		margin-top:-1px;
+	}
+}
+
+.details {
+	background-color: white;
+}
+
+.question-wrapper {
+	background-color: white;
+}
+
+.question-part-container {
+	margin-left:5px;
+	margin-right:5px;
+	margin-bottom:10px;
+	overflow:hidden;
+	background-color: white;
+	
+	.page-question {
+		.icon {
+			margin-left: 60px !important;
+		}
+	}
+}
+
+.drag-over {
+	background-color: #eaedff !important;
+}
+
+.question-part-container-placeholder {
+	text-align: center;
+	padding-top:7px;
+	font-size:24px;
+	font-weight:bold;
+	opacity: 0.5;
+}
+
+.config-background {
+	background-color: $gray-100;
+}
+
+.config-title-icon {
+	margin-top: -3px;
+	margin-right: 5px;
+}
+
+.page-question-icon {
+	width: 15px;
+}
+
+.color-unset {
+	color: unset;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="row page-questions" id="page-drag-drop">	<smooth-dnd-container		[shouldAcceptDrop]="shouldAcceptDrop"		[dragHandleSelector]="\'.question-header\'"		id="page-question-container"		class="col-md-12"		[class.drag-over]="dragOverContainer[\'main list\']"		[class.page-questions-empty]="			currentPage.questionPartViewChildren == undefined || currentPage.questionPartViewChildren.length == 0		"		[groupName]="\'builder-page\'"		[lockAxis]="\'y\'"		[getChildPayload]="getQuestionPayload"		(drop)="onDrop($event)"		(dragStart)="onDragStart($event)"		(dragEnd)="onDragEnd($event)"		(dragEnter)="onDragEnter(\'main list\')"		(dragLeave)="onDragLeave(\'main list\')"	>		<smooth-dnd-draggable *ngFor="let item of currentPage.questionPartViewChildren; index as i">			<div class="question-number badge badge-danger">				{{ item.questionPart ? \'Q\' : \'S\' }}{{ startingNumber + i + 1 }}			</div>			<ng-container *ngIf="item.questionPart; else surveyPart">				<div class="question-wrapper">					<button						class="btn btn-default page-question question-header"						data-toggle="collapse"						[attr.data-target]="\'#collapseExample-\' + i"						aria-expanded="false"						[attr.aria-controls]="\'collapseExample-\' + i"					>						<div class="icon">							<i class="fas page-question-icon" [ngClass]="getIcon(item.questionPart.questionType)"></i>						</div>						<div class="config-icon">							<a (click)="editQuestionConfiguration($event, item)"> <i class="fas fa-cog"></i> </a>						</div>						<div class="question-move-icon"><i class="fas fa-sort"></i></div>						<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined">							<div class="pull-left">								<span class="badge badge-inverse align-middle">{{ item.questionPart.name }}</span								>&nbsp;							</div>							<div class="pull-left" [innerHTML]="item.label.value | safe: \'html\'"></div>						</div>					</button>					<div class="collapse details" [attr.id]="\'collapseExample-\' + i" data-parent="#page-drag-drop">						<app-question-details							#details							*ngIf="item.questionPart.id > 0"							[surveyId]="surveyId"							[question]="item.questionPart"							[language]="currentLanguage"							[collapseElementId]="\'collapseExample-\' + i"							[qTypeDefinitions]="qTypeDefinitions"						></app-question-details>					</div>				</div>			</ng-container>			<ng-template #surveyPart>				<button					class="btn btn-secondary page-part question-header"					data-toggle="collapse"					[attr.data-target]="\'#collapseExample-\' + i"					aria-expanded="false"					[attr.aria-controls]="\'collapseExample-\' + i"				>					<div class="icon"><i [ngClass]="getIcon(\'Survey Part\')"></i></div>					<div class="config-icon">						<a (click)="editQuestionConfiguration($event, item)"> <i class="fas fa-cog"></i> </a>					</div>					<div class="question-move-icon"><i class="fas fa-sort"></i></div>					<div class="color-unset question-text" [innerHTML]="item.label.value"></div>				</button>				<div					class="question-part-container collapse show"					[class.drag-over]="dragOverContainer[item.id]"					[attr.id]="\'collapseExample-\' + i"					[class.page-questions-empty]="						qPartQuestions.has(item.id) && qPartQuestions.get(item.id).questionPartViewChildren.length == 0					"				>					<smooth-dnd-container						[dragHandleSelector]="\'.question-header\'"						[shouldAcceptDrop]="shouldAcceptDropPart"						[lockAxis]="\'y\'"						[groupName]="\'builder-part-\' + item.id"						[getChildPayload]="getQuestionInPartPayload(item)"						(dragStart)="onDragStart($event)"						(drop)="onDropInPart(item.id, $event)"						(dragEnter)="onDragEnter(item.id)"						(dragLeave)="onDragLeave(item.id)"					>						<smooth-dnd-draggable							*ngFor="let innerItem of getQuestionPartViewChildren(item.id); index as j"						>							<div class="question-wrapper">								<div class="question-number badge badge-primary">									Q{{ startingNumber + i + 1 }}.{{ j + 1 }}								</div>								<button									class="btn btn-default page-question question-header"									data-toggle="collapse"									[attr.data-target]="\'#collapseExample-\' + i + \'-\' + j"									aria-expanded="false"									[attr.aria-controls]="\'collapseExample-\' + i + \'-\' + j"								>									<div class="icon">										<i											class="page-question-icon"											[ngClass]="getIcon(innerItem.questionPart.questionType)"										></i>									</div>									<div class="config-icon">										<a (click)="editQuestionConfiguration($event, innerItem)">											<i class="fas fa-cog"></i>										</a>									</div>									<div class="question-move-icon"><i class="fas fa-sort"></i></div>									<div										class="color-unset question-text"										*ngIf="innerItem.questionPart.name != undefined"									>										<div class="pull-left">											<span class="badge badge-inverse align-middle">{{												innerItem.questionPart.name											}}</span											>&nbsp;										</div>										<div class="pull-left" [innerHTML]="innerItem.label.value | safe: \'html\'"></div>									</div>								</button>								<div									class="collapse details"									[attr.id]="\'collapseExample-\' + i + \'-\' + j"									data-parent="#page-drag-drop"								>									<app-question-details										*ngIf="innerItem.questionPart.id > 0"										[surveyId]="surveyId"										[question]="innerItem.questionPart"										[language]="currentLanguage"										[qTypeDefinitions]="qTypeDefinitions"									></app-question-details>								</div>							</div>						</smooth-dnd-draggable>					</smooth-dnd-container>					<div						class="question-part-container-placeholder"						[hidden]="							qPartQuestions.has(item.id) &&							qPartQuestions.get(item.id).questionPartViewChildren.length > 0						"					>						Drop Questions Here					</div>				</div>			</ng-template>		</smooth-dnd-draggable>	</smooth-dnd-container></div><div	class="modal fade"	bsModal	#configurationModal="bs-modal"	(onShown)="configurationShown()"	(onHide)="configurationHidden($event)"	[config]="{ backdrop: \'static\' }"	tabindex="-1">	<div class="modal-dialog modal-lg">		<div class="modal-content">			<div class="modal-header" #modalHeader>				<h4 *ngIf="configurationModalShowing" class="modal-title pull-left">					<i						class="config-title-icon"						[ngClass]="							getIcon(dealingWithPart ? \'Survey Part\' : questionBeingEdited.questionPart.questionType)						"					></i>					{{						addingNewQuestion							? dealingWithPart								? \'Add New Section\'								: \'Add New Question\'							: dealingWithPart							? \'Editing Section					Configuration\'							: \'Editing Question Configuration\'					}}				</h4>				<button type="button" class="close pull-right" title="Close" (click)="processConfiguration(\'cancel\')">					<span aria-hidden="true">&times;</span>				</button>			</div>			<div class="modal-body config-background">				<app-question-configuration					#qConfiguration					[language]="currentLanguage"					[qTypeDefinitions]="qTypeDefinitions"					(configResult)="processConfiguration($event)"				></app-question-configuration>			</div>		</div>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'AdminToolbarComponent', 'selector': 'traisi-admin-toolbar'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionContainerComponent', 'selector': 'traisi-question-container'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionPlaceholderComponent', 'selector': 'traisi-question-placeholder'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyErrorComponent', 'selector': 'app-survey-error'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveyGroupcodePageComponent', 'selector': 'traisi-survey-groupcode-page'},{'name': 'SurveyHeaderDisplayComponent', 'selector': 'traisi-survey-header-display'},{'name': 'SurveyScreeningPageComponent', 'selector': 'survey-screening-page'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveyShortcodeDisplayPageComponent', 'selector': 'traisi-survey-shortcode-display-page'},{'name': 'SurveyShortcodePageComponent', 'selector': 'traisi-survey-shortcode-page'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SurveyStartPageComponent', 'selector': 'traisi-survey-start-page'},{'name': 'SurveyTermsPageComponent', 'selector': 'app-survey-terms-page'},{'name': 'SurveyThankYouPageComponent', 'selector': 'traisi-survey-thankyou-page'},{'name': 'SurveyViewerComponent', 'selector': 'traisi-survey-viewer'},{'name': 'SurveyViewerContainerComponent', 'selector': 'app-survey-viewer-container'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'LoadingPlaceholderDirective', 'selector': '[traisiLoadingPlaceholder]'},{'name': 'SurveyInternalViewDirective', 'selector': '[traisiSurveyInternalView]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'NestedDragAndDropListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NestedDragAndDropListComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

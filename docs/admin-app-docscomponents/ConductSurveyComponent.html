@@ -1,0 +1,2919 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	    <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../">Admin App</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./modules.html" >
+                            <span class="fa fa-archive"></span>
+                            <span>Modules</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            ></span>
+                        </a>
+                        <ul class="links collapse in"
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="../modules/AccountManagementModule.html" >AccountManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/AppModule.html" >AppModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/AppRoutingModule.html" >AppRoutingModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/DashboardModule.html" >DashboardModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/GroupsManagementModule.html" >GroupsManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/LayoutModule.html" >LayoutModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/LoginModule.html" >LoginModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/NgxSmoothDnDModule.html" >NgxSmoothDnDModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SharedModule.html" >SharedModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveyBuilderModule.html" >SurveyBuilderModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveyExecuteModule.html" >SurveyExecuteModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SurveysManagementModule.html" >SurveysManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/UsersManagementModule.html" >UsersManagementModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/WidgetModule.html" >WidgetModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-cogs"></span>
+                            <span>Components</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-components-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-components-links"
+                            >
+                                <li class="link">
+                                    <a href="../components/AppComponent.html" >AppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatAppComponent.html" >ChatAppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatMessageComponent.html" >ChatMessageComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChatSidebarComponent.html" >ChatSidebarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/CheckboxComponent.html" >CheckboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ConductSurveyComponent.html"  class="active" >ConductSurveyComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ContainerComponent.html" >ContainerComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DashboardComponent.html" >DashboardComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DateInputComponent.html" >DateInputComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DraggableComponent.html" >DraggableComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DropdownListComponent.html" >DropdownListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/DropdownTreeviewSelectComponent.html" >DropdownTreeviewSelectComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ErrorComponent.html" >ErrorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Footer1Component.html" >Footer1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/GroupsManagementComponent.html" >GroupsManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Header1Component.html" >Header1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/Header2Component.html" >Header2Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ItemListComponent.html" >ItemListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LayoutComponent.html" >LayoutComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LocationFieldComponent.html" >LocationFieldComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/LoginComponent.html" >LoginComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/MainSurveyAccess1Component.html" >MainSurveyAccess1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/MultiSelectComponent.html" >MultiSelectComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NestedDragAndDropListComponent.html" >NestedDragAndDropListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NumericTextboxComponent.html" >NumericTextboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/PrivacyConfirmationComponent.html" >PrivacyConfirmationComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionConditionalsComponent.html" >QuestionConditionalsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionConfigurationComponent.html" >QuestionConfigurationComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionDetailsComponent.html" >QuestionDetailsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionTypeChooserComponent.html" >QuestionTypeChooserComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/QuestionViewerComponent.html" >QuestionViewerComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RadioComponent.html" >RadioComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RoleEditorComponent.html" >RoleEditorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/RolesManagementComponent.html" >RolesManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ScreeningQuestionsComponent.html" >ScreeningQuestionsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SearchBoxComponent.html" >SearchBoxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SidebarComponent.html" >SidebarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SliderComponent.html" >SliderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SourceConditionalComponent.html" >SourceConditionalComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SpecialPageBuilderComponent.html" >SpecialPageBuilderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SponsorsComponent.html" >SponsorsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveyBuilderComponent.html" >SurveyBuilderComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveyExecuteComponent.html" >SurveyExecuteComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveysEditorComponent.html" >SurveysEditorComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SurveysManagementComponent.html" >SurveysManagementComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/SwitchComponent.html" >SwitchComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TargetConditionalComponent.html" >TargetConditionalComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextAreaComponent.html" >TextAreaComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextBlock1Component.html" >TextBlock1Component</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TextboxComponent.html" >TextboxComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TimeInputComponent.html" >TimeInputComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UserInfoComponent.html" >UserInfoComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UserPreferencesComponent.html" >UserPreferencesComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/UsersManagementComponent.html" >UsersManagementComponent</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-code"></span>
+                            <span>Directives</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-directives-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-directives-links"
+                            >
+                                <li class="link">
+                                    <a href="../directives/AutofocusDirective.html" >AutofocusDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapDatepickerDirective.html" >BootstrapDatepickerDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapSelectDirective.html" >BootstrapSelectDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapTabDirective.html" >BootstrapTabDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/BootstrapToggleDirective.html" >BootstrapToggleDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/CustomBuilderContainerDirective.html" >CustomBuilderContainerDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/EqualValidator.html" >EqualValidator</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/LastElementDirective.html" >LastElementDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../directives/WidgetDirective.html" >WidgetDirective</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="../classes/ChatService.html" >ChatService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/CodeGenerator.html" >CodeGenerator</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/DownloadNotification.html" >DownloadNotification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/DropdownTreeviewSelectI18n.html" >DropdownTreeviewSelectI18n</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/EmailTemplate.html" >EmailTemplate</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/GroupCode.html" >GroupCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/GroupMember.html" >GroupMember</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Label.html" >Label</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/NewBlock.html" >NewBlock</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/NewBlock.html" >NewBlock</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Notification.html" >Notification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Order.html" >Order</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditional.html" >QuestionConditional</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditionalSourceGroup.html" >QuestionConditionalSourceGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConditionalTargetGroup.html" >QuestionConditionalTargetGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionConfigurationValue.html" >QuestionConfigurationValue</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionConditional.html" >QuestionOptionConditional</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionLabel.html" >QuestionOptionLabel</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionOptionValue.html" >QuestionOptionValue</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPart.html" >QuestionPart</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPartView.html" >QuestionPartView</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/QuestionPartViewLabel.html" >QuestionPartViewLabel</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Role.html" >Role</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ScreeningQuestions.html" >ScreeningQuestions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ShortCode.html" >ShortCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/Survey.html" >Survey</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyNotification.html" >SurveyNotification</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyPermissions.html" >SurveyPermissions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyQuestionOptionStructure.html" >SurveyQuestionOptionStructure</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SurveyViewStructure.html" >SurveyViewStructure</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/TermsAndConditionsPage.html" >TermsAndConditionsPage</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/ThankYouPage.html" >ThankYouPage</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UploadPath.html" >UploadPath</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserEdit.html" >UserEdit</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserGroup.html" >UserGroup</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserGroupAPIKeys.html" >UserGroupAPIKeys</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/UserLogin.html" >UserLogin</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/WelcomePage.html" >WelcomePage</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-injectables-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="../injectables/AccountEndpoint.html" >AccountEndpoint</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AccountService.html" >AccountService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AppConfig.html" >AppConfig</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AppTitleService.html" >AppTitleService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/CanDeactivateGuard.html" >CanDeactivateGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/CustomBuilderService.html" >CustomBuilderService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/NotificationEndpoint.html" >NotificationEndpoint</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/NotificationService.html" >NotificationService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/RealTimeNotificationServce.html" >RealTimeNotificationServce</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyBuilderEndpointService.html" >SurveyBuilderEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyBuilderService.html" >SurveyBuilderService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyEndpointService.html" >SurveyEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyExecuteEndpointService.html" >SurveyExecuteEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyExecuteService.html" >SurveyExecuteService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/SurveyService.html" >SurveyService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/UserGroupEndpointService.html" >UserGroupEndpointService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/UserGroupService.html" >UserGroupService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-interfaces-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="../interfaces/CanComponentDeactivate.html" >CanComponentDeactivate</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ConditionalOptionItem.html" >ConditionalOptionItem</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/EventArg.html" >EventArg</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IContainerOptions.html" >IContainerOptions</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IDragEvent.html" >IDragEvent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IDropResult.html" >IDropResult</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/Item.html" >Item</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionConfigurationDefinition.html" >QuestionConfigurationDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionOptionDefinition.html" >QuestionOptionDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/QuestionTypeDefinition.html" >QuestionTypeDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/RolesChangedEventArg.html" >RolesChangedEventArg</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/UserAccountInfo.html" >UserAccountInfo</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-plus"></span>
+                            <span>Pipes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-pipes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-pipes-links"
+                            >
+                                <li class="link">
+                                    <a href="../pipes/GroupByPipe.html" >GroupByPipe</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../pipes/SafePipe.html" >SafePipe</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../pipes/SearchPipe.html" >SearchPipe</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../">Admin App</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./modules.html" >
+                                   <span class="fa fa-archive"></span>
+                                   <span>Modules</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   ></span>
+                               </a>
+                               <ul class="links collapse in"
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="../modules/AccountManagementModule.html" >AccountManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/AppModule.html" >AppModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/AppRoutingModule.html" >AppRoutingModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/DashboardModule.html" >DashboardModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/GroupsManagementModule.html" >GroupsManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/LayoutModule.html" >LayoutModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/LoginModule.html" >LoginModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/NgxSmoothDnDModule.html" >NgxSmoothDnDModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SharedModule.html" >SharedModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveyBuilderModule.html" >SurveyBuilderModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveyExecuteModule.html" >SurveyExecuteModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SurveysManagementModule.html" >SurveysManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/UsersManagementModule.html" >UsersManagementModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/WidgetModule.html" >WidgetModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-cogs"></span>
+                                   <span>Components</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#components-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="components-links"
+                   >
+                                       <li class="link">
+                                           <a href="../components/AppComponent.html" >AppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatAppComponent.html" >ChatAppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatMessageComponent.html" >ChatMessageComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChatSidebarComponent.html" >ChatSidebarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/CheckboxComponent.html" >CheckboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ConductSurveyComponent.html"  class="active" >ConductSurveyComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ContainerComponent.html" >ContainerComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DashboardComponent.html" >DashboardComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DateInputComponent.html" >DateInputComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DraggableComponent.html" >DraggableComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DropdownListComponent.html" >DropdownListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/DropdownTreeviewSelectComponent.html" >DropdownTreeviewSelectComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ErrorComponent.html" >ErrorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Footer1Component.html" >Footer1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/GroupsManagementComponent.html" >GroupsManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Header1Component.html" >Header1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/Header2Component.html" >Header2Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ItemListComponent.html" >ItemListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LayoutComponent.html" >LayoutComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LocationFieldComponent.html" >LocationFieldComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/LoginComponent.html" >LoginComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/MainSurveyAccess1Component.html" >MainSurveyAccess1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/MultiSelectComponent.html" >MultiSelectComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NestedDragAndDropListComponent.html" >NestedDragAndDropListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NumericTextboxComponent.html" >NumericTextboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/PrivacyConfirmationComponent.html" >PrivacyConfirmationComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionConditionalsComponent.html" >QuestionConditionalsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionConfigurationComponent.html" >QuestionConfigurationComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionDetailsComponent.html" >QuestionDetailsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionTypeChooserComponent.html" >QuestionTypeChooserComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/QuestionViewerComponent.html" >QuestionViewerComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RadioComponent.html" >RadioComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RoleEditorComponent.html" >RoleEditorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/RolesManagementComponent.html" >RolesManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ScreeningQuestionsComponent.html" >ScreeningQuestionsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SearchBoxComponent.html" >SearchBoxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SidebarComponent.html" >SidebarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SliderComponent.html" >SliderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SourceConditionalComponent.html" >SourceConditionalComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SpecialPageBuilderComponent.html" >SpecialPageBuilderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SponsorsComponent.html" >SponsorsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveyBuilderComponent.html" >SurveyBuilderComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveyExecuteComponent.html" >SurveyExecuteComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveysEditorComponent.html" >SurveysEditorComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SurveysManagementComponent.html" >SurveysManagementComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/SwitchComponent.html" >SwitchComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TargetConditionalComponent.html" >TargetConditionalComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextAreaComponent.html" >TextAreaComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextBlock1Component.html" >TextBlock1Component</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TextboxComponent.html" >TextboxComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TimeInputComponent.html" >TimeInputComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UserInfoComponent.html" >UserInfoComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UserPreferencesComponent.html" >UserPreferencesComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/UsersManagementComponent.html" >UsersManagementComponent</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-code"></span>
+                                   <span>Directives</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#directives-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="directives-links"
+                   >
+                                       <li class="link">
+                                           <a href="../directives/AutofocusDirective.html" >AutofocusDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapDatepickerDirective.html" >BootstrapDatepickerDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapSelectDirective.html" >BootstrapSelectDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapTabDirective.html" >BootstrapTabDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/BootstrapToggleDirective.html" >BootstrapToggleDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/CustomBuilderContainerDirective.html" >CustomBuilderContainerDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/EqualValidator.html" >EqualValidator</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/LastElementDirective.html" >LastElementDirective</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../directives/WidgetDirective.html" >WidgetDirective</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../classes/ChatService.html" >ChatService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/CodeGenerator.html" >CodeGenerator</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/DownloadNotification.html" >DownloadNotification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/DropdownTreeviewSelectI18n.html" >DropdownTreeviewSelectI18n</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/EmailTemplate.html" >EmailTemplate</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/GroupCode.html" >GroupCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/GroupMember.html" >GroupMember</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Label.html" >Label</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/NewBlock.html" >NewBlock</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/NewBlock.html" >NewBlock</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Notification.html" >Notification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Order.html" >Order</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditional.html" >QuestionConditional</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditionalSourceGroup.html" >QuestionConditionalSourceGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConditionalTargetGroup.html" >QuestionConditionalTargetGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionConfigurationValue.html" >QuestionConfigurationValue</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionConditional.html" >QuestionOptionConditional</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionLabel.html" >QuestionOptionLabel</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionOptionValue.html" >QuestionOptionValue</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPart.html" >QuestionPart</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPartView.html" >QuestionPartView</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/QuestionPartViewLabel.html" >QuestionPartViewLabel</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Role.html" >Role</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ScreeningQuestions.html" >ScreeningQuestions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ShortCode.html" >ShortCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/Survey.html" >Survey</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyNotification.html" >SurveyNotification</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyPermissions.html" >SurveyPermissions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyQuestionOptionStructure.html" >SurveyQuestionOptionStructure</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SurveyViewStructure.html" >SurveyViewStructure</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/TermsAndConditionsPage.html" >TermsAndConditionsPage</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/ThankYouPage.html" >ThankYouPage</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UploadPath.html" >UploadPath</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserEdit.html" >UserEdit</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserGroup.html" >UserGroup</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserGroupAPIKeys.html" >UserGroupAPIKeys</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/UserLogin.html" >UserLogin</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/WelcomePage.html" >WelcomePage</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#injectables-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="../injectables/AccountEndpoint.html" >AccountEndpoint</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AccountService.html" >AccountService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AppConfig.html" >AppConfig</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AppTitleService.html" >AppTitleService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/CanDeactivateGuard.html" >CanDeactivateGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/CustomBuilderService.html" >CustomBuilderService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/NotificationEndpoint.html" >NotificationEndpoint</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/NotificationService.html" >NotificationService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/RealTimeNotificationServce.html" >RealTimeNotificationServce</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyBuilderEndpointService.html" >SurveyBuilderEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyBuilderService.html" >SurveyBuilderService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyEndpointService.html" >SurveyEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyExecuteEndpointService.html" >SurveyExecuteEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyExecuteService.html" >SurveyExecuteService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/SurveyService.html" >SurveyService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/UserGroupEndpointService.html" >UserGroupEndpointService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/UserGroupService.html" >UserGroupService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#interfaces-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="../interfaces/CanComponentDeactivate.html" >CanComponentDeactivate</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ConditionalOptionItem.html" >ConditionalOptionItem</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/EventArg.html" >EventArg</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IContainerOptions.html" >IContainerOptions</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IDragEvent.html" >IDragEvent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IDropResult.html" >IDropResult</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/Item.html" >Item</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionConfigurationDefinition.html" >QuestionConfigurationDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionOptionDefinition.html" >QuestionOptionDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/QuestionTypeDefinition.html" >QuestionTypeDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/RolesChangedEventArg.html" >RolesChangedEventArg</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/UserAccountInfo.html" >UserAccountInfo</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-plus"></span>
+                                   <span>Pipes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#pipes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="pipes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../pipes/GroupByPipe.html" >GroupByPipe</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../pipes/SafePipe.html" >SafePipe</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../pipes/SearchPipe.html" >SearchPipe</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content component">
+                   <div class="content-data">
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>ConductSurveyComponent</li>
+</ol>
+
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+        </li>
+        <li>
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="infos"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/survey-execute/conduct-survey/conduct-survey.component.ts</code>
+</p>
+
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-test-survey</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>conduct-survey.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>conduct-survey.component.html</code></td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+    <section>
+        <h3 id="constructor">Constructor</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>constructor(surveyService: <a href="../injectables/SurveyService.html" >SurveyService</a>, surveyExecuteService: <a href="../injectables/SurveyExecuteService.html" >SurveyExecuteService</a>, route: <a href="https://angular.io/docs/ts/latest/api/router/index/ActivatedRoute-interface.html" target="_blank" >ActivatedRoute</a>, configurationService: ConfigurationService, alertService: AlertService, authService: AuthService, router: <a href="https://angular.io/docs/ts/latest/api/router/index/Router-class.html" target="_blank" >Router</a>, title: <a href="https://angular.io/docs/ts/latest/api/platform-browser/index/Title-class.html" target="_blank" >Title</a>, titleCasePipe: TitleCasePipe, notificationService: <a href="../injectables/RealTimeNotificationServce.html" >RealTimeNotificationServce</a>)</code>
+                        </td>
+                    </tr>
+    
+                </tbody>
+            </table>
+    </section>
+
+    <section>
+        <h3 id="methods">Methods</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> switchTab</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>switchTab(tab: string)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> setIndivPage</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>setIndivPage(pageInfo: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> setGroupPage</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>setGroupPage(pageInfo: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> loadGroupCodeData</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>loadGroupCodeData(pageNum: number)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> loadIndivCodeData</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>loadIndivCodeData(pageNum: number)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> loadIndivCodeCount</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>loadIndivCodeCount()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> loadGroupCodeCount</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>loadGroupCodeCount()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> generateIndivCodes</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>generateIndivCodes()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> generateGroupCodes</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>generateGroupCodes()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> onUploadError</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>onUploadError(error: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> processDZError</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <span class="modifier-icon method fa fa-play lock">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            <code>processDZError(errors: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>string</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> onUploadSuccessIndiv</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>onUploadSuccessIndiv(event: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> onUploadSuccessGroup</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>onUploadSuccessGroup(event: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> onSendingIndiv</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>onSendingIndiv(data: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> onSendingGroup</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>onSendingGroup(data: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> downloadGroupCodes</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>downloadGroupCodes()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> downloadIndividualCodes</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>downloadIndividualCodes()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> downloadSuccessHelper</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>downloadSuccessHelper(update: <a href="../classes/Notification.html" >DownloadNotification</a>)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> downloadErrorHelper</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>downloadErrorHelper(error: any)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> getFormattedTimeZone</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>getFormattedTimeZone()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </section>
+
+    <section>
+        <h3 id="inputs">Properties</h3>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> baseUrl</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>baseUrl:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> codeGenParams</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>codeGenParams:     <code><a href="../classes/CodeGenerator.html" target="_self" >CodeGenerator</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> codeProperties</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>codeProperties:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>pattern</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> currentGroupPage</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>currentGroupPage:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>0</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> currentIndivPage</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>currentIndivPage:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>0</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> dateTemplate</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>dateTemplate:     <code>TemplateRef&lt;any&gt;</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> downloadIndicator</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>downloadIndicator:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> downloadNotifier</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>downloadNotifier:     <code><a href="../classes/Notification.html" target="_self" >Subject&lt;DownloadNotification&gt;</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Private</span> downloadProgress</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-lock"></span><code>downloadProgress:     <code><a href="../classes/Notification.html" target="_self" >DownloadNotification</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> dropZoneGroup</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>dropZoneGroup:     <code>DropzoneComponent</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> dropZoneIndiv</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <code>dropZoneIndiv:     <code>DropzoneComponent</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> emailBeingViewed</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>emailBeingViewed:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> executeMode</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>executeMode:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> generateType</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>generateType:     <code>string</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>numberCodes</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> generatingIndicator</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>generatingIndicator:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> groupCodeBeingViewed</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>groupCodeBeingViewed:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> groupCodeColumns</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>groupCodeColumns:     <code>any[]</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> groupCodeRows</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>groupCodeRows:     <code><a href="../classes/ShortCode.html" target="_self" >ShortCode[]</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> groupDropZoneconfig</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>groupDropZoneconfig:     <code>DropzoneConfigInterface</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> indivCodeColumns</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>indivCodeColumns:     <code>any[]</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> indivCodeRows</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>indivCodeRows:     <code><a href="../classes/ShortCode.html" target="_self" >ShortCode[]</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> indivDropZoneconfig</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>indivDropZoneconfig:     <code>DropzoneConfigInterface</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> individualCodeBeingViewed</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>individualCodeBeingViewed:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>true</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> loadingIndicator</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>loadingIndicator:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> pageLimit</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>pageLimit:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>20</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> scheduleBeingViewed</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>scheduleBeingViewed:     <code>boolean</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>false</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> survey</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>survey:     <code><a href="../classes/Survey.html" target="_self" >Survey</a></code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> surveyId</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>surveyId:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> totalGroupCodes</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>totalGroupCodes:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>0</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b><span class="modifier">Public</span> totalIndivCodes</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <span class="modifier-icon fa fa-circle"></span><code>totalIndivCodes:     <code>number</code>
+    </bcode>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Default value: </i><code>0</code>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+    </section>
+</div>
+        <div class="tab-pane fade tab-source-code" id="source">
+            <pre><code class="hljs javascript">import { Component, OnInit, ViewEncapsulation, ViewChild, TemplateRef, AfterViewInit } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { Survey } from &#x27;../../models/survey.model&#x27;;
+import { SurveyService } from &#x27;../../services/survey.service&#x27;;
+import { DROPZONE_CONFIG, DropzoneComponent } from &#x27;ngx-dropzone-wrapper&#x27;;
+import { DropzoneConfigInterface } from &#x27;ngx-dropzone-wrapper&#x27;;
+import { ConfigurationService } from &#x27;../../../../shared/services/configuration.service&#x27;;
+import { ShortCode } from &#x27;../../models/short-code.model&#x27;;
+import { CodeGenerator } from &#x27;../../models/code-generator.model&#x27;;
+import { SurveyExecuteService } from &#x27;../../services/survey-execute.service&#x27;;
+import { AlertService, DialogType, MessageSeverity } from &#x27;../../../../shared/services/alert.service&#x27;;
+import { Utilities } from &#x27;../../../../shared/services/utilities&#x27;;
+import { AuthService } from &#x27;../../../../shared/services/auth.service&#x27;;
+import { Title } from &#x27;@angular/platform-browser&#x27;;
+import { TitleCasePipe } from &#x27;@angular/common&#x27;;
+import { RealTimeNotificationServce } from &#x27;../../services/real-time-notification.service&#x27;;
+import { DownloadNotification } from &#x27;../../models/download-notification&#x27;;
+import { Subject } from &#x27;rxjs&#x27;;
+
+@Component({
+	selector: &#x27;app-test-survey&#x27;,
+	templateUrl: &#x27;./conduct-survey.component.html&#x27;,
+	styleUrls: [&#x27;./conduct-survey.component.scss&#x27;],
+	encapsulation: ViewEncapsulation.None
+})
+export class ConductSurveyComponent implements OnInit, AfterViewInit {
+	public surveyId: number;
+	public survey: Survey;
+	public codeGenParams: CodeGenerator;
+	public executeMode: string;
+
+	public codeProperties: string &#x3D; &#x27;pattern&#x27;;
+	public generateType: string &#x3D; &#x27;numberCodes&#x27;;
+	public baseUrl: string &#x3D; &#x27;&#x27;;
+	public loadingIndicator: boolean &#x3D; false;
+	public generatingIndicator: boolean &#x3D; false;
+	public downloadIndicator: boolean &#x3D; false;
+	public pageLimit: number &#x3D; 20;
+
+	public individualCodeBeingViewed: boolean &#x3D; true;
+	public groupCodeBeingViewed: boolean &#x3D; false;
+	public emailBeingViewed: boolean &#x3D; false;
+	public scheduleBeingViewed: boolean &#x3D; false;
+
+	public indivCodeRows: ShortCode[];
+	public indivCodeColumns: any[] &#x3D; [];
+
+	public totalIndivCodes: number &#x3D; 0;
+	public currentIndivPage: number &#x3D; 0;
+
+	public groupCodeRows: ShortCode[];
+	public groupCodeColumns: any[] &#x3D; [];
+	public totalGroupCodes: number &#x3D; 0;
+	public currentGroupPage: number &#x3D; 0;
+
+	private downloadProgress: DownloadNotification &#x3D; null;
+	private downloadNotifier: Subject&lt;DownloadNotification&gt;;
+
+	public indivDropZoneconfig: DropzoneConfigInterface &#x3D; {
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: &#x27;.csv&#x27;,
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	};
+
+	public groupDropZoneconfig: DropzoneConfigInterface &#x3D; {
+		// Change this to your upload POST address:
+		maxFilesize: 50,
+		maxFiles: 1,
+		acceptedFiles: &#x27;.csv&#x27;,
+		autoReset: 2000,
+		errorReset: 2000,
+		cancelReset: 2000,
+		timeout: 3000000
+	};
+
+	@ViewChild(&#x27;indivUpload&#x27;)
+	dropZoneIndiv: DropzoneComponent;
+	@ViewChild(&#x27;groupUpload&#x27;)
+	dropZoneGroup: DropzoneComponent;
+	@ViewChild(&#x27;dateTemplate&#x27;)
+	dateTemplate: TemplateRef&lt;any&gt;;
+
+	constructor(
+		private surveyService: SurveyService,
+		private surveyExecuteService: SurveyExecuteService,
+		private route: ActivatedRoute,
+		private configurationService: ConfigurationService,
+		private alertService: AlertService,
+		private authService: AuthService,
+		private router: Router,
+		private title: Title,
+		private titleCasePipe: TitleCasePipe,
+		private notificationService: RealTimeNotificationServce
+	) {
+		this.survey &#x3D; new Survey();
+		this.codeGenParams &#x3D; new CodeGenerator();
+		this.downloadProgress &#x3D; new DownloadNotification();
+		this.baseUrl &#x3D; configurationService.baseUrl;
+
+		this.indivDropZoneconfig.url &#x3D; this.baseUrl + &#x27;/api/SurveyExecution/uploadIndividual&#x27;;
+		this.indivDropZoneconfig.headers &#x3D; {
+			Authorization: &#x27;Bearer &#x27; + this.authService.accessToken
+		};
+
+		this.groupDropZoneconfig.url &#x3D; this.baseUrl + &#x27;/api/SurveyExecution/uploadGroup&#x27;;
+		this.groupDropZoneconfig.headers &#x3D; {
+			Authorization: &#x27;Bearer &#x27; + this.authService.accessToken
+		};
+		this.route.params.subscribe(params &#x3D;&gt; {
+			this.surveyId &#x3D; params[&#x27;id&#x27;];
+			this.codeGenParams.surveyId &#x3D; this.surveyId;
+			this.codeGenParams.isGroupCode &#x3D; false;
+			this.executeMode &#x3D; params[&#x27;mode&#x27;];
+			if (this.executeMode &#x3D;&#x3D;&#x3D; &#x27;test&#x27;) {
+				this.codeGenParams.isTest &#x3D; true;
+			} else if (this.executeMode &#x3D;&#x3D;&#x3D; &#x27;live&#x27;) {
+				this.codeGenParams.isTest &#x3D; false;
+			} else {
+				this.router.navigate([&#x27;error&#x27;]);
+			}
+		});
+	}
+
+	ngOnInit() {
+		this.indivCodeColumns &#x3D; [
+			{
+				prop: &#x27;index&#x27;,
+				name: &#x27;#&#x27;,
+				width: 50,
+				canAutoResize: false,
+				cellClass: &#x27;remove-padding&#x27;
+			},
+			{
+				prop: &#x27;code&#x27;,
+				name: &#x27;code&#x27;,
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellClass: &#x27;remove-padding&#x27;
+			},
+			{
+				prop: &#x27;createdDate&#x27;,
+				name: &#x27;Creation Date&#x27;,
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellTemplate: this.dateTemplate,
+				cellClass: &#x27;remove-padding&#x27;
+			}
+		];
+
+		this.groupCodeColumns &#x3D; [
+			{
+				prop: &#x27;index&#x27;,
+				name: &#x27;#&#x27;,
+				width: 50,
+				canAutoResize: false,
+				cellClass: &#x27;remove-padding&#x27;
+			},
+			{
+				prop: &#x27;code&#x27;,
+				name: &#x27;code&#x27;,
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellClass: &#x27;remove-padding&#x27;
+			},
+			{
+				prop: &#x27;name&#x27;,
+				name: &#x27;Group Name&#x27;,
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellClass: &#x27;remove-padding&#x27;
+			},
+			{
+				prop: &#x27;createdDate&#x27;,
+				name: &#x27;Creation Date&#x27;,
+				minWidth: 90,
+				flexGrow: 60,
+				sortable: false,
+				cellTemplate: this.dateTemplate,
+				cellClass: &#x27;remove-padding&#x27;
+			}
+		];
+
+		this.survey &#x3D; this.surveyService.getLastSurvey();
+		if (!this.survey || this.survey &#x3D;&#x3D;&#x3D; null || this.survey.id !&#x3D;&#x3D; this.surveyId) {
+			this.survey &#x3D; new Survey();
+			this.surveyService.getSurvey(this.surveyId).subscribe(
+				result &#x3D;&gt; {
+					this.survey &#x3D; result;
+					this.loadIndivCodeData(1);
+					this.loadIndivCodeCount();
+				},
+				error &#x3D;&gt; {
+					this.router.navigate([&#x27;error&#x27;]);
+				}
+			);
+		} else {
+			this.loadIndivCodeData(1);
+			this.loadIndivCodeCount();
+		}
+		this.title.setTitle(&#x60;Execute ${this.titleCasePipe.transform(this.executeMode)} Survey - TRAISI&#x60;);
+	}
+
+	ngAfterViewInit() {
+		this.dropZoneIndiv.DZ_SENDING.subscribe(data &#x3D;&gt; this.onSendingIndiv(data));
+		this.dropZoneGroup.DZ_SENDING.subscribe(data &#x3D;&gt; this.onSendingGroup(data));
+	}
+
+	switchTab(tab: string): void {
+		if (tab &#x3D;&#x3D;&#x3D; &#x27;indivCode&#x27;) {
+			this.individualCodeBeingViewed &#x3D; true;
+			this.groupCodeBeingViewed &#x3D; false;
+			this.emailBeingViewed &#x3D; false;
+			this.scheduleBeingViewed &#x3D; false;
+			this.generateType &#x3D; &#x27;numberCodes&#x27;;
+			this.loadIndivCodeData(1);
+			this.loadIndivCodeCount();
+		} else if (tab &#x3D;&#x3D;&#x3D; &#x27;groupCode&#x27;) {
+			this.individualCodeBeingViewed &#x3D; false;
+			this.groupCodeBeingViewed &#x3D; true;
+			this.emailBeingViewed &#x3D; false;
+			this.scheduleBeingViewed &#x3D; false;
+			this.generateType &#x3D; &#x27;single&#x27;;
+			this.loadGroupCodeData(1);
+			this.loadGroupCodeCount();
+		} else if (tab &#x3D;&#x3D;&#x3D; &#x27;email&#x27;) {
+			this.individualCodeBeingViewed &#x3D; false;
+			this.groupCodeBeingViewed &#x3D; false;
+			this.emailBeingViewed &#x3D; true;
+			this.scheduleBeingViewed &#x3D; false;
+		} else {
+			this.individualCodeBeingViewed &#x3D; false;
+			this.groupCodeBeingViewed &#x3D; false;
+			this.emailBeingViewed &#x3D; false;
+			this.scheduleBeingViewed &#x3D; true;
+		}
+	}
+
+	setIndivPage(pageInfo: any) {
+		this.loadIndivCodeData(pageInfo.offset + 1);
+		this.currentIndivPage &#x3D; pageInfo.offset;
+	}
+
+	setGroupPage(pageInfo: any) {
+		this.loadGroupCodeData(pageInfo.offset + 1);
+		this.currentGroupPage &#x3D; pageInfo.offset;
+	}
+
+	loadGroupCodeData(pageNum: number) {
+		this.alertService.startLoadingMessage(&#x27;Loading codes...&#x27;);
+		this.loadingIndicator &#x3D; true;
+
+		this.surveyExecuteService
+			.listSurveyGroupCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit)
+			.subscribe(
+				results &#x3D;&gt; {
+					this.groupCodeRows &#x3D; results;
+					this.groupCodeRows.forEach((code, index) &#x3D;&gt; {
+						(&lt;any&gt;code).index &#x3D; (pageNum - 1) * this.pageLimit + index + 1;
+					});
+					this.alertService.stopLoadingMessage();
+				},
+				error &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator &#x3D; false;
+
+					this.alertService.showStickyMessage(
+						&#x27;Loading Error&#x27;,
+						&#x60;An error occured whilst loading the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+							error
+						)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+	}
+
+	loadIndivCodeData(pageNum: number) {
+		this.alertService.startLoadingMessage(&#x27;Loading codes...&#x27;);
+		this.loadingIndicator &#x3D; true;
+
+		this.surveyExecuteService
+			.listSurveyShortCodes(this.surveyId, this.executeMode, pageNum, this.pageLimit)
+			.subscribe(
+				results &#x3D;&gt; {
+					this.indivCodeRows &#x3D; results;
+					this.indivCodeRows.forEach((code, index) &#x3D;&gt; {
+						(&lt;any&gt;code).index &#x3D; (pageNum - 1) * this.pageLimit + index + 1;
+					});
+					this.alertService.stopLoadingMessage();
+				},
+				error &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator &#x3D; false;
+
+					this.alertService.showStickyMessage(
+						&#x27;Loading Error&#x27;,
+						&#x60;An error occured whilst loading the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+							error
+						)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+	}
+
+	loadIndivCodeCount() {
+		this.surveyExecuteService.totalSurveyShortCodes(this.surveyId, this.executeMode).subscribe(result &#x3D;&gt; {
+			this.totalIndivCodes &#x3D; result;
+		});
+	}
+
+	loadGroupCodeCount() {
+		this.surveyExecuteService.totalSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(result &#x3D;&gt; {
+			this.totalGroupCodes &#x3D; result;
+		});
+	}
+
+	generateIndivCodes() {
+		this.generatingIndicator &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Generating codes...&#x27;);
+
+		this.codeGenParams.isGroupCode &#x3D; false;
+		this.codeGenParams.usePattern &#x3D; this.codeProperties &#x3D;&#x3D;&#x3D; &#x27;pattern&#x27;;
+
+		if (this.generateType &#x3D;&#x3D;&#x3D; &#x27;numberCodes&#x27;) {
+			this.surveyExecuteService.createSurveyShortCodes(this.codeGenParams).subscribe(
+				results &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Successfully generated codes&#x27;, MessageSeverity.success);
+					this.generatingIndicator &#x3D; false;
+					this.loadIndivCodeData(1);
+					this.currentIndivPage &#x3D; 0;
+					this.loadIndivCodeCount();
+				},
+				error &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator &#x3D; false;
+
+					this.alertService.showStickyMessage(
+						&#x27;Generation Error&#x27;,
+						&#x60;An error occured whilst generating the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+							error
+						)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+		} else {
+			this.alertService.stopLoadingMessage();
+			this.generatingIndicator &#x3D; false;
+
+			this.alertService.showStickyMessage(
+				&#x27;Generation Error&#x27;,
+				&#x60;Importing via CSV is not yet available.&#x60;,
+				MessageSeverity.error
+			);
+		}
+	}
+
+	generateGroupCodes() {
+		this.generatingIndicator &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Generating group codes...&#x27;);
+
+		this.codeGenParams.isGroupCode &#x3D; true;
+		this.codeGenParams.usePattern &#x3D; this.codeProperties &#x3D;&#x3D;&#x3D; &#x27;pattern&#x27;;
+
+		if (this.generateType &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+			this.surveyExecuteService.createSurveyGroupCodes(this.codeGenParams).subscribe(
+				results &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Successfully generated codes&#x27;, MessageSeverity.success);
+					this.generatingIndicator &#x3D; false;
+					this.loadGroupCodeData(1);
+					this.currentGroupPage &#x3D; 0;
+					this.loadGroupCodeCount();
+				},
+				error &#x3D;&gt; {
+					this.alertService.stopLoadingMessage();
+					this.generatingIndicator &#x3D; false;
+
+					this.alertService.showStickyMessage(
+						&#x27;Generation Error&#x27;,
+						&#x60;An error occured whilst generating the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+							error
+						)}&quot;&#x60;,
+						MessageSeverity.error,
+						error
+					);
+				}
+			);
+		} else {
+			this.alertService.stopLoadingMessage();
+			this.generatingIndicator &#x3D; false;
+
+			this.alertService.showStickyMessage(
+				&#x27;Generation Error&#x27;,
+				&#x60;Importing via CSV is not yet available.&#x60;,
+				MessageSeverity.error
+			);
+		}
+	}
+
+	onUploadError(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Generation Error&#x27;,
+			&#x60;An error occured whilst generating the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+				this.processDZError(error[1])
+			)}&quot;&#x60;,
+			MessageSeverity.error
+		);
+	}
+
+	private processDZError(errors: any): string {
+		let errorString: string &#x3D; &#x27;&#x27;;
+		for (const error of errors[&#x27;&#x27;]) {
+			errorString +&#x3D; error + &#x27;\n&#x27;;
+		}
+		return errorString;
+	}
+
+	onUploadSuccessIndiv(event: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Successfully generated codes&#x27;, MessageSeverity.success);
+		this.loadIndivCodeData(1);
+		this.currentIndivPage &#x3D; 0;
+		this.loadIndivCodeCount();
+	}
+
+	onUploadSuccessGroup(event: any) {
+		this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Successfully generated codes&#x27;, MessageSeverity.success);
+		this.loadGroupCodeData(1);
+		this.currentGroupPage &#x3D; 0;
+		this.loadGroupCodeCount();
+	}
+
+	onSendingIndiv(data) {
+		this.alertService.startLoadingMessage(&#x27;Generating codes...&#x27;);
+		this.codeGenParams.isGroupCode &#x3D; false;
+		this.codeGenParams.usePattern &#x3D; this.codeProperties &#x3D;&#x3D;&#x3D; &#x27;pattern&#x27;;
+		data[2].append(&#x27;parameters&#x27;, JSON.stringify(this.codeGenParams));
+	}
+
+	onSendingGroup(data) {
+		this.alertService.startLoadingMessage(&#x27;Generating codes...&#x27;);
+		this.codeGenParams.isGroupCode &#x3D; true;
+		this.codeGenParams.usePattern &#x3D; this.codeProperties &#x3D;&#x3D;&#x3D; &#x27;pattern&#x27;;
+		data[2].append(&#x27;parameters&#x27;, JSON.stringify(this.codeGenParams));
+	}
+
+	downloadGroupCodes() {
+		this.alertService.startLoadingMessage(&#x27;Creating codes file...&#x27;);
+		this.downloadProgress &#x3D; new DownloadNotification(&#x27;&#x27;, 1);
+		this.downloadIndicator &#x3D; true;
+		this.surveyExecuteService.downloadSurveyGroupCodes(this.surveyId, this.executeMode).subscribe(
+			result &#x3D;&gt; {
+				this.downloadProgress.id &#x3D; result;
+				this.downloadProgress.progress &#x3D; 25;
+				this.downloadNotifier &#x3D; this.notificationService.registerChannel&lt;DownloadNotification&gt;(result);
+				this.downloadNotifier.subscribe(
+					update &#x3D;&gt; {
+						this.downloadSuccessHelper(update);
+					},
+					error &#x3D;&gt; {
+						this.downloadErrorHelper(error);
+					}
+				);
+			},
+			error &#x3D;&gt; {
+				this.downloadErrorHelper(error);
+			}
+		);
+	}
+
+	downloadIndividualCodes() {
+		this.alertService.startLoadingMessage(&#x27;Creating codes file...&#x27;);
+		this.downloadProgress &#x3D; new DownloadNotification(&#x27;&#x27;, 1);
+		this.downloadIndicator &#x3D; true;
+		this.surveyExecuteService.downloadSurveyShortCodes(this.surveyId, this.executeMode).subscribe(
+			result &#x3D;&gt; {
+				this.downloadProgress.id &#x3D; result;
+				this.downloadProgress.progress &#x3D; 25;
+				this.downloadNotifier &#x3D; this.notificationService.registerChannel&lt;DownloadNotification&gt;(result);
+				this.downloadNotifier.subscribe(
+					update &#x3D;&gt; {
+						this.downloadSuccessHelper(update);
+					},
+					error &#x3D;&gt; {
+						this.downloadErrorHelper(error);
+						this.notificationService.deRegisterChannel(this.downloadProgress.id);
+					}
+				);
+			},
+			error &#x3D;&gt; {
+				this.downloadErrorHelper(error);
+			}
+		);
+	}
+
+	downloadSuccessHelper(update: DownloadNotification) {
+		this.downloadProgress &#x3D; update;
+		if (update.progress &#x3D;&#x3D;&#x3D; 100) {
+			this.alertService.stopLoadingMessage();
+			this.downloadIndicator &#x3D; false;
+			// download file and unsubscribe
+			window.open(this.downloadProgress.url, &#x27;_self&#x27;);
+			this.downloadNotifier.unsubscribe();
+			this.notificationService.deRegisterChannel(this.downloadProgress.id);
+		}
+	}
+
+	downloadErrorHelper(error: any) {
+		this.downloadIndicator &#x3D; false;
+		this.downloadNotifier.unsubscribe();
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Download Error&#x27;,
+			&#x60;An error occured whilst downloading the codes.\r\nError: &quot;${Utilities.getHttpResponseMessage(
+				this.processDZError(error[1])
+			)}&quot;&#x60;,
+			MessageSeverity.error
+		);
+	}
+
+	getFormattedTimeZone() {
+		return new Date()
+			.toString()
+			.match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+			.split(&#x27; (&#x27;)[0]
+			.replace(/[A-Z]+/, &#x27;&#x27;);
+	}
+}
+</code></pre>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
+
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/highlight.pack.js"></script>
+       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="../js/search/search_index.js"></script>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.initHighlightingOnLoad();
+                hljs.initLineNumbersOnLoad();
+            });
+       </script>
+
+    </body>
+</html>

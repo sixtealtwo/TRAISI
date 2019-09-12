@@ -1,0 +1,552 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Survey Viewer App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Survey Viewer App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Miscellaneous</li>
+  <li>Variables</li>
+</ol>
+
+<section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#Block" title="src/survey-viewer-app/app/components/special-page-builder/special-page-builder.component.ts"><b>Block</b>&nbsp;&nbsp;&nbsp;(src/.../special-page-builder.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#context" title="src/survey-viewer-app/test.ts"><b>context</b>&nbsp;&nbsp;&nbsp;(src/.../test.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/shared/environments/environment.prod.ts"><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.prod.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/shared/environments/environment.ts"><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/survey-viewer-app/environments/environment.prod.ts"><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.prod.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/survey-viewer-app/environments/environment.ts"><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#fadeInOut" title="src/survey-viewer-app/app/components/question-container/question-container.component.ts"><b>fadeInOut</b>&nbsp;&nbsp;&nbsp;(src/.../question-container.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Font" title="src/survey-viewer-app/app/components/special-page-builder/special-page-builder.component.ts"><b>Font</b>&nbsp;&nbsp;&nbsp;(src/.../special-page-builder.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Parchment" title="src/survey-viewer-app/app/components/special-page-builder/special-page-builder.component.ts"><b>Parchment</b>&nbsp;&nbsp;&nbsp;(src/.../special-page-builder.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#require" title="src/survey-viewer-app/test.ts"><b>require</b>&nbsp;&nbsp;&nbsp;(src/.../test.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ROUTES" title="src/survey-viewer-app/app/modules/routing/routes.ts"><b>ROUTES</b>&nbsp;&nbsp;&nbsp;(src/.../routes.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SystemJS" title="src/survey-viewer-app/app/services/question-loader.service.ts"><b>SystemJS</b>&nbsp;&nbsp;&nbsp;(src/.../question-loader.service.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/survey-viewer-app/app/components/special-page-builder/special-page-builder.component.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="Block"></a>
+                        <span class="name">
+                            <b>
+                            Block</b>
+                            <a href="#Block"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Parchment.query(&#x27;block&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="Font"></a>
+                        <span class="name">
+                            <b>
+                            Font</b>
+                            <a href="#Font"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Quill.import(&#x27;formats/font&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="Parchment"></a>
+                        <span class="name">
+                            <b>
+                            Parchment</b>
+                            <a href="#Parchment"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Quill.import(&#x27;parchment&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/test.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="context"></a>
+                        <span class="name">
+                            <b>
+                            context</b>
+                            <a href="#context"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>require.context(&#x27;./&#x27;, true, /\.spec\.ts$/)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="require"></a>
+                        <span class="name">
+                            <b>
+                            require</b>
+                            <a href="#require"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/shared/environments/environment.prod.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="environment"></a>
+                        <span class="name">
+                            <b>
+                            environment</b>
+                            <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+	production: true,
+	baseUrl: null, // Change this to the address of your backend API if different from frontend address
+	loginUrl: &#x27;/login&#x27;
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/shared/environments/environment.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="environment"></a>
+                        <span class="name">
+                            <b>
+                            environment</b>
+                            <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+	production: false,
+	baseUrl: null, // Change this to the address of your backend API if different from frontend address
+	loginUrl: &#x27;/login&#x27;
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/environments/environment.prod.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="environment"></a>
+                        <span class="name">
+                            <b>
+                            environment</b>
+                            <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+  production: true
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/environments/environment.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="environment"></a>
+                        <span class="name">
+                            <b>
+                            environment</b>
+                            <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+  production: false
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/app/components/question-container/question-container.component.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fadeInOut"></a>
+                        <span class="name">
+                            <b>
+                            fadeInOut</b>
+                            <a href="#fadeInOut"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>trigger(&#x27;fadeInOut&#x27;, [
+	transition(&#x27;:enter&#x27;, [style({ opacity: 0 }), animate(&#x27;0.4s ease-in&#x27;, style({ opacity: 1 }))]),
+	transition(&#x27;:leave&#x27;, [animate(&#x27;0.4s 10ms ease-out&#x27;, style({ opacity: 0 }))])
+])</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/app/modules/routing/routes.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ROUTES"></a>
+                        <span class="name">
+                            <b>
+                            ROUTES</b>
+                            <a href="#ROUTES"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ModuleWithProviders&lt;RouterModule&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>RouterModule.forRoot([
+	{
+		path: &#x27;error&#x27;,
+		component: SurveyErrorComponent
+	},
+	{
+		path: &#x27;:surveyName&#x27;,
+		children: [
+			{
+				path: &#x27;&#x27;,
+				redirectTo: &#x27;start&#x27;,
+				pathMatch: &#x27;full&#x27;
+			},
+			{
+				path: &#x27;error&#x27;,
+				component: SurveyErrorComponent,
+				data: { title: &#x27;Survey Not Found&#x27; }
+			},
+			{
+				path: &#x27;start&#x27;,
+				children: [
+					{
+						path: &#x27;&#x27;,
+						component: SurveyShortcodePageComponent,
+						data: { isChild: true, shortcodePage: true }
+					},
+					{
+						path: &#x27;groupcode&#x27;,
+						component: SurveyGroupcodePageComponent,
+						data: { isChild: true }
+					},
+					{
+						path: &#x27;shortcode&#x27;,
+						component: SurveyShortcodeDisplayPageComponent,
+						data: { isChild: true }
+					}
+				],
+				component: SurveyStartPageComponent,
+				data: { title: &#x27;Survey Start&#x27;, isChild: false }
+			},
+			{
+				path: &#x27;terms&#x27;,
+				component: SurveyTermsPageComponent,
+				data: { title: &#x27;Survey Terms and Conditions&#x27; }
+			},
+			{
+				path: &#x27;screening&#x27;,
+				component: SurveyScreeningPageComponent,
+				data: { title: &#x27;Survey Screening Questions&#x27; }
+			},
+			{
+				path: &#x27;thankyou&#x27;,
+				component: SurveyThankYouPageComponent,
+				data: { title: &#x27;Thank You&#x27; }
+			},
+			{
+				path: &#x27;complete&#x27;,
+				component: SurveyThankYouPageComponent,
+				data: { title: &#x27;Survey Complete - Rejected&#x27; }
+			},
+			{
+				path: &#x27;viewer&#x27;,
+				component: SurveyViewerComponent,
+				data: { title: &#x27;Survey Viewer&#x27; },
+				children: [
+					{
+						path: &#x27;:question&#x27;,
+						component: SurveyViewerComponent,
+						data: { title: &#x27;Survey Viewer&#x27; },
+					}
+				]
+			},
+			{
+				path: &#x27;viewer/:questionNumber&#x27;,
+				component: SurveyViewerComponent,
+				data: { title: &#x27;Survey Viewer&#x27; }
+			}
+		]
+	}
+])</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/survey-viewer-app/app/services/question-loader.service.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="SystemJS"></a>
+                        <span class="name">
+                            <b>
+                            SystemJS</b>
+                            <a href="#SystemJS"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

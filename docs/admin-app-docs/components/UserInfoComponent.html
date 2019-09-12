@@ -1,0 +1,4138 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Admin App</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>UserInfoComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/admin-app/app/account-management/user-info/user-info.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>user-info</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./user-info.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./user-info.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#allRoles">allRoles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changesCancelledCallback">changesCancelledCallback</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changesFailedCallback">changesFailedCallback</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changesSavedCallback">changesSavedCallback</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#confirmPassword">confirmPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentPassword">currentPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editingUserName">editingUserName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#email">email</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#form">form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formResetToggle">formResetToggle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupMemberInfo">groupMemberInfo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isChangePassword">isChangePassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isEditingSelf">isEditingSelf</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isEditMode">isEditMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isNewUser">isNewUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isSaving">isSaving</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#newPassword">newPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#roles">roles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#rolesOptions">rolesOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rolesSelector">rolesSelector</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#select2Options">select2Options</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectedRole">selectedRole</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#showValidationErrors">showValidationErrors</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#uniqueId">uniqueId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#user">user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userEdit">userEdit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#userName">userName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#userPassword">userPassword</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cancel">cancel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#changePassword">changePassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#close">close</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deletePasswordFromUser">deletePasswordFromUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#displayUser">displayUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#edit">edit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editUser">editUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getRoleByName">getRoleByName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadCurrentUserData">loadCurrentUserData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#logout">logout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#newUser">newUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onCurrentUserDataLoadFailed">onCurrentUserDataLoadFailed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onCurrentUserDataLoadSuccessful">onCurrentUserDataLoadSuccessful</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshLoggedInUser">refreshLoggedInUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resetForm">resetForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#save">save</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#saveFailedHelper">saveFailedHelper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#saveSuccessHelper">saveSuccessHelper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setRoles">setRoles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showErrorAlert">showErrorAlert</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#testIsRoleUserCountChanged">testIsRoleUserCountChanged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unlockUser">unlockUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateRole">updateRole</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#inGroupMode">inGroupMode</a>
+                            </li>
+                            <li>
+                                <a href="#isGeneralEditor">isGeneralEditor</a>
+                            </li>
+                            <li>
+                                <a href="#isViewOnly">isViewOnly</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#canViewAllRoles">canViewAllRoles</a>
+                                </li>
+                                <li>
+                                    <a href="#canAssignRoles">canAssignRoles</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(alertService: <a href="../injectables/AlertService.html">AlertService</a>, accountService: <a href="../injectables/AccountService.html">AccountService</a>, translationService: <a href="../injectables/AppTranslationService.html">AppTranslationService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, userGroupService: <a href="../injectables/UserGroupService.html">UserGroupService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:70</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>alertService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AlertService.html" target="_self" >AlertService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>accountService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AccountService.html" target="_self" >AccountService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>translationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AppTranslationService.html" target="_self" >AppTranslationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userGroupService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserGroupService.html" target="_self" >UserGroupService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="inGroupMode"></a>
+                        <b>inGroupMode</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:51</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isGeneralEditor"></a>
+                        <b>isGeneralEditor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isViewOnly"></a>
+                        <b>isViewOnly</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            cancel
+                        </b>
+                        <a href="#cancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancel()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="295"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:295</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changePassword"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            changePassword
+                        </b>
+                        <a href="#changePassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changePassword()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="346"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:346</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            close
+                        </b>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="317"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:317</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deletePasswordFromUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deletePasswordFromUser
+                        </b>
+                        <a href="#deletePasswordFromUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deletePasswordFromUser(user: UserEdit | User)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:166</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                            <code>UserEdit | User</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            displayUser
+                        </b>
+                        <a href="#displayUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>displayUser(user: <a href="../classes/User.html">User</a>, allRoles?: <a href="../classes/Role.html">Role[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="428"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:428</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>allRoles</td>
+                                    <td>
+                                                <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="edit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            edit
+                        </b>
+                        <a href="#edit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>edit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            editUser
+                        </b>
+                        <a href="#editUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>editUser(user: <a href="../classes/User.html">User</a>, allRoles: <a href="../classes/Role.html">Role[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>allRoles</td>
+                                    <td>
+                                                <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRoleByName"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getRoleByName
+                        </b>
+                        <a href="#getRoleByName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRoleByName(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadCurrentUserData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            loadCurrentUserData
+                        </b>
+                        <a href="#loadCurrentUserData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadCurrentUserData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            logout
+                        </b>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>logout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="437"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:437</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            newUser
+                        </b>
+                        <a href="#newUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>newUser(allRoles: <a href="../classes/Role.html">Role[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="389"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:389</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>allRoles</td>
+                                    <td>
+                                                <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:99</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:83</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCurrentUserDataLoadFailed"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            onCurrentUserDataLoadFailed
+                        </b>
+                        <a href="#onCurrentUserDataLoadFailed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onCurrentUserDataLoadFailed(error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>error</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCurrentUserDataLoadSuccessful"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            onCurrentUserDataLoadSuccessful
+                        </b>
+                        <a href="#onCurrentUserDataLoadSuccessful"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onCurrentUserDataLoadSuccessful(user: <a href="../classes/User.html">User</a>, roles: <a href="../classes/Role.html">Role[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:123</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>roles</td>
+                                    <td>
+                                                <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshLoggedInUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            refreshLoggedInUser
+                        </b>
+                        <a href="#refreshLoggedInUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshLoggedInUser()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="329"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:329</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetForm"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            resetForm
+                        </b>
+                        <a href="#resetForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resetForm(replace)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="375"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:375</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>replace</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="save"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            save
+                        </b>
+                        <a href="#save"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>save()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:192</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveFailedHelper"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            saveFailedHelper
+                        </b>
+                        <a href="#saveFailedHelper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveFailedHelper(error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="266"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>error</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveSuccessHelper"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            saveSuccessHelper
+                        </b>
+                        <a href="#saveSuccessHelper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveSuccessHelper(user?: <a href="../classes/User.html">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:218</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setRoles"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            setRoles
+                        </b>
+                        <a href="#setRoles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setRoles(user: <a href="../classes/User.html">User</a>, allRoles?: <a href="../classes/Role.html">Role[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="442"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:442</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>allRoles</td>
+                                    <td>
+                                                <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showErrorAlert"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            showErrorAlert
+                        </b>
+                        <a href="#showErrorAlert"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showErrorAlert(caption: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:162</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>caption</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>message</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="testIsRoleUserCountChanged"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            testIsRoleUserCountChanged
+                        </b>
+                        <a href="#testIsRoleUserCountChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>testIsRoleUserCountChanged(currentUser: <a href="../classes/User.html">User</a>, editedUser: <a href="../classes/User.html">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="284"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:284</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>currentUser</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>editedUser</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unlockUser"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            unlockUser
+                        </b>
+                        <a href="#unlockUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>unlockUser()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="350"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:350</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateRole"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateRole
+                        </b>
+                        <a href="#updateRole"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateRole(e: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:135</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allRoles"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            allRoles</b>
+                            <a href="#allRoles"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Role.html" target="_self" >Role[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changesCancelledCallback"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            changesCancelledCallback</b>
+                            <a href="#changesCancelledCallback"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changesFailedCallback"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            changesFailedCallback</b>
+                            <a href="#changesFailedCallback"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changesSavedCallback"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            changesSavedCallback</b>
+                            <a href="#changesSavedCallback"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="confirmPassword"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            confirmPassword</b>
+                            <a href="#confirmPassword"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;confirmPassword&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentPassword"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            currentPassword</b>
+                            <a href="#currentPassword"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;currentPassword&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:62</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editingUserName"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            editingUserName</b>
+                            <a href="#editingUserName"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="email"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            email</b>
+                            <a href="#email"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;email&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:60</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            form</b>
+                            <a href="#form"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;f&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formResetToggle"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            formResetToggle</b>
+                            <a href="#formResetToggle"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="groupMemberInfo"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            groupMemberInfo</b>
+                            <a href="#groupMemberInfo"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/GroupMember.html" target="_self" >GroupMember</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isChangePassword"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isChangePassword</b>
+                            <a href="#isChangePassword"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isEditingSelf"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isEditingSelf</b>
+                            <a href="#isEditingSelf"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isEditMode"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isEditMode</b>
+                            <a href="#isEditMode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isNewUser"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isNewUser</b>
+                            <a href="#isNewUser"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isSaving"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            isSaving</b>
+                            <a href="#isSaving"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="newPassword"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            newPassword</b>
+                            <a href="#newPassword"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;newPassword&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:64</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="roles"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            roles</b>
+                            <a href="#roles"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;roles&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rolesOptions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            rolesOptions</b>
+                            <a href="#rolesOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Array&lt;Select2OptionData&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rolesSelector"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            rolesSelector</b>
+                            <a href="#rolesSelector"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;rolesSelector&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:70</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="select2Options"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            select2Options</b>
+                            <a href="#select2Options"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		theme: &#x27;bootstrap&#x27;
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedRole"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            selectedRole</b>
+                            <a href="#selectedRole"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showValidationErrors"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            showValidationErrors</b>
+                            <a href="#showValidationErrors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="uniqueId"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            uniqueId</b>
+                            <a href="#uniqueId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Utilities.uniqueId()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="user"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            user</b>
+                            <a href="#user"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/User.html" target="_self" >User</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new User()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userEdit"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            userEdit</b>
+                            <a href="#userEdit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/UserEdit.html" target="_self" >UserEdit</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new UserEdit()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userName"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            userName</b>
+                            <a href="#userName"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;userName&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userPassword"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            userPassword</b>
+                            <a href="#userPassword"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;userPassword&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="canViewAllRoles"></a>
+                        <span class="name"><b>canViewAllRoles</b><a href="#canViewAllRoles"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>canViewAllRoles()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="458" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:458</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="canAssignRoles"></a>
+                        <span class="name"><b>canAssignRoles</b><a href="#canAssignRoles"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>canAssignRoles()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="462" class="link-to-prism">src/admin-app/app/account-management/user-info/user-info.component.ts:462</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ViewEncapsulation, OnInit, ViewChild, Input, Output, AfterViewInit, EventEmitter, Directive } from &#x27;@angular/core&#x27;;
+
+import { AlertService, MessageSeverity } from &#x27;../../../../shared/services/alert.service&#x27;;
+import { AccountService } from &#x27;../../services/account.service&#x27;;
+import { Utilities } from &#x27;../../../../shared/services/utilities&#x27;;
+import { User } from &#x27;../../../../shared/models/user.model&#x27;;
+import { UserEdit } from &#x27;../../models/user-edit.model&#x27;;
+import { Role } from &#x27;../../models/role.model&#x27;;
+import { Permission } from &#x27;../../../../shared/models/permission.model&#x27;;
+import { AppTranslationService } from &#x27;../../../../shared/services/app-translation.service&#x27;;
+import { AuthService } from &#x27;../../../../shared/services/auth.service&#x27;;
+import { Select2OptionData } from &#x27;ng2-select2&#x27;;
+import { GroupMember } from &#x27;../../models/group-member.model&#x27;;
+import { UserGroupService } from &#x27;../../services/user-group.service&#x27;;
+
+declare let jQuery: any;
+
+@Component({
+	selector: &#x27;user-info&#x27;,
+	templateUrl: &#x27;./user-info.component.html&#x27;,
+	styleUrls: [&#x27;./user-info.component.scss&#x27;]
+})
+export class UserInfoComponent implements OnInit, AfterViewInit {
+	public isEditMode &#x3D; false;
+	public isNewUser &#x3D; false;
+	public isSaving &#x3D; false;
+	public isChangePassword &#x3D; false;
+	public isEditingSelf &#x3D; false;
+	public showValidationErrors &#x3D; false;
+	public editingUserName: string;
+	public uniqueId: string &#x3D; Utilities.uniqueId();
+	public user: User &#x3D; new User();
+	public userEdit: UserEdit &#x3D; new UserEdit();
+	public allRoles: Role[] &#x3D; [];
+	public rolesOptions: Array&lt;Select2OptionData&gt;;
+	public selectedRole: string;
+	public select2Options: any &#x3D; {
+		theme: &#x27;bootstrap&#x27;
+	};
+	public formResetToggle &#x3D; true;
+	public groupMemberInfo: GroupMember;
+
+	public changesSavedCallback: () &#x3D;&gt; void;
+	public changesFailedCallback: () &#x3D;&gt; void;
+	public changesCancelledCallback: () &#x3D;&gt; void;
+
+	@Input() public isViewOnly: boolean;
+
+	@Input() public isGeneralEditor: boolean &#x3D; false;
+
+	@Input() public inGroupMode: boolean &#x3D; false;
+
+	@ViewChild(&#x27;f&#x27;) private form;
+
+	// ViewChilds Required because ngIf hides template variables from global scope
+	@ViewChild(&#x27;userName&#x27;) private userName;
+
+	@ViewChild(&#x27;userPassword&#x27;) private userPassword;
+
+	@ViewChild(&#x27;email&#x27;) private email;
+
+	@ViewChild(&#x27;currentPassword&#x27;) private currentPassword;
+
+	@ViewChild(&#x27;newPassword&#x27;) private newPassword;
+
+	@ViewChild(&#x27;confirmPassword&#x27;) private confirmPassword;
+
+	@ViewChild(&#x27;roles&#x27;) private roles;
+
+	@ViewChild(&#x27;rolesSelector&#x27;) private rolesSelector;
+
+	constructor(
+		private alertService: AlertService,
+		private accountService: AccountService,
+		private translationService: AppTranslationService,
+		private authService: AuthService,
+		private userGroupService: UserGroupService
+	) {
+		translationService.addLanguages([&#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;pt&#x27;, &#x27;ar&#x27;, &#x27;ko&#x27;]);
+		translationService.setDefaultLanguage(&#x27;en&#x27;);
+	}
+
+	public ngOnInit() {
+		if (!this.isGeneralEditor) {
+			this.loadCurrentUserData();
+		}
+		this.rolesOptions &#x3D; [];
+		this.accountService.getRoles().subscribe(
+			roles &#x3D;&gt; {
+				for (const role of roles) {
+					this.rolesOptions.push({ text: role.description, id: role.name });
+				}
+				this.selectedRole &#x3D; &#x27;user&#x27;;
+			},
+			error &#x3D;&gt; {}
+		);
+	}
+
+	public ngAfterViewInit(): void {
+		jQuery(&#x27;.parsleyjs&#x27;).parsley();
+	}
+
+	private loadCurrentUserData() {
+		this.alertService.startLoadingMessage();
+
+		if (this.canViewAllRoles) {
+			this.accountService
+				.getUserAndRoles()
+				.subscribe(
+					results &#x3D;&gt; this.onCurrentUserDataLoadSuccessful(results[0], results[1]),
+					error &#x3D;&gt; this.onCurrentUserDataLoadFailed(error)
+				);
+		} else {
+			this.accountService
+				.getUser()
+				.subscribe(
+					user &#x3D;&gt; this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x &#x3D;&gt; new Role(x))),
+					error &#x3D;&gt; this.onCurrentUserDataLoadFailed(error)
+				);
+		}
+	}
+
+	private onCurrentUserDataLoadSuccessful(user: User, roles: Role[]) {
+		this.alertService.stopLoadingMessage();
+		this.user &#x3D; user;
+		this.allRoles &#x3D; roles;
+		this.rolesOptions &#x3D; [];
+
+		for (const role of this.allRoles) {
+			this.rolesOptions.push({ text: role.description, id: role.name });
+		}
+		this.selectedRole &#x3D; this.user.roles[0];
+	}
+
+	public updateRole(e: any): void {
+		if (this.isEditingSelf) {
+			this.user.roles &#x3D; [];
+			this.user.roles.push(e.value);
+		} else {
+			this.userEdit.roles &#x3D; [];
+			this.userEdit.roles.push(e.value);
+		}
+	}
+
+	private onCurrentUserDataLoadFailed(error: any) {
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Load Error&#x27;,
+			&#x60;Unable to retrieve user data from the server.
+											Errors: &quot;${Utilities.getHttpResponseMessage(error)}&quot;&#x60;,
+			MessageSeverity.error,
+			error
+		);
+
+		this.logout();
+	}
+
+	private getRoleByName(name: string) {
+		return this.allRoles.find(r &#x3D;&gt; r.name &#x3D;&#x3D;&#x3D; name);
+	}
+
+	private showErrorAlert(caption: string, message: string) {
+		this.alertService.showMessage(caption, message, MessageSeverity.error);
+	}
+
+	public deletePasswordFromUser(user: UserEdit | User) {
+		const userEdit &#x3D; &lt;UserEdit&gt;user;
+
+		delete userEdit.currentPassword;
+		delete userEdit.newPassword;
+		delete userEdit.confirmPassword;
+	}
+
+	private edit() {
+		if (!this.isGeneralEditor) {
+			this.isEditingSelf &#x3D; true;
+			this.userEdit &#x3D; new UserEdit();
+			Object.assign(this.userEdit, this.user);
+		} else {
+			if (!this.userEdit) {
+				this.userEdit &#x3D; new UserEdit();
+			}
+
+			this.isEditingSelf &#x3D; this.accountService.currentUser ? this.userEdit.id &#x3D;&#x3D;&#x3D; this.accountService.currentUser.id : false;
+		}
+		console.log(this.userEdit);
+		this.isEditMode &#x3D; true;
+		this.showValidationErrors &#x3D; true;
+		this.isChangePassword &#x3D; false;
+	}
+
+	private save(): void {
+		this.isSaving &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Saving changes...&#x27;);
+
+		if (this.isNewUser) {
+			this.accountService
+				.newUser(this.userEdit)
+				.subscribe(user &#x3D;&gt; this.saveSuccessHelper(user), error &#x3D;&gt; this.saveFailedHelper(error));
+		} else {
+			this.accountService.updateUser(this.userEdit).subscribe(
+				response &#x3D;&gt; {
+					if (this.inGroupMode) {
+						// update user name in group member (one edited is only in userEdit object)
+						this.groupMemberInfo.userName &#x3D; this.groupMemberInfo.user.userName;
+						this.userGroupService
+							.updateGroupMember(this.groupMemberInfo)
+							.subscribe(mresponse &#x3D;&gt; this.saveSuccessHelper(), error &#x3D;&gt; this.saveFailedHelper(error));
+					} else {
+						this.saveSuccessHelper(null);
+					}
+				},
+				error &#x3D;&gt; this.saveFailedHelper(error)
+			);
+		}
+	}
+
+	private saveSuccessHelper(user?: User) {
+		this.testIsRoleUserCountChanged(this.user, this.userEdit);
+
+		if (user) {
+			Object.assign(this.userEdit, user);
+		}
+
+		this.isSaving &#x3D; false;
+		this.alertService.stopLoadingMessage();
+		this.isChangePassword &#x3D; false;
+		this.showValidationErrors &#x3D; false;
+
+		this.deletePasswordFromUser(this.userEdit);
+		Object.assign(this.user, this.userEdit);
+
+		if (this.isGeneralEditor) {
+			if (this.isNewUser) {
+				this.alertService.showMessage(
+					&#x27;Success&#x27;,
+					&#x60;User \&quot;${this.user.userName}\&quot; was created successfully&#x60;,
+					MessageSeverity.success
+				);
+			} else if (!this.isEditingSelf) {
+				this.alertService.showMessage(
+					&#x27;Success&#x27;,
+					&#x60;Changes to user \&quot;${this.user.userName}\&quot; were saved successfully&#x60;,
+					MessageSeverity.success
+				);
+			}
+		}
+
+		this.userEdit &#x3D; new UserEdit();
+
+		this.groupMemberInfo &#x3D; new GroupMember();
+		this.resetForm();
+
+		if (this.isEditingSelf) {
+			this.alertService.showMessage(&#x27;Success&#x27;, &#x27;Changes to your User Profile was saved successfully&#x27;, MessageSeverity.success);
+			this.refreshLoggedInUser();
+		}
+
+		this.isEditMode &#x3D; false;
+
+		if (this.changesSavedCallback) {
+			this.changesSavedCallback();
+		}
+	}
+
+	private saveFailedHelper(error: any) {
+		this.isSaving &#x3D; false;
+		this.alertService.stopLoadingMessage();
+		this.alertService.showStickyMessage(
+			&#x27;Save Error&#x27;,
+			&#x27;The below errors occured whilst saving your changes:&#x27;,
+			MessageSeverity.error,
+			error
+		);
+		this.alertService.showStickyMessage(error, null, MessageSeverity.error);
+		this.userEdit &#x3D; new UserEdit();
+		this.isNewUser &#x3D; true;
+		this.groupMemberInfo &#x3D; new GroupMember();
+		if (this.changesFailedCallback) {
+			this.changesFailedCallback();
+		}
+	}
+
+	private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
+		const rolesAdded &#x3D; this.isNewUser ? editedUser.roles : editedUser.roles.filter(role &#x3D;&gt; currentUser.roles.indexOf(role) &#x3D;&#x3D;&#x3D; -1);
+		const rolesRemoved &#x3D; this.isNewUser ? [] : currentUser.roles.filter(role &#x3D;&gt; editedUser.roles.indexOf(role) &#x3D;&#x3D;&#x3D; -1);
+
+		const modifiedRoles &#x3D; rolesAdded.concat(rolesRemoved);
+
+		if (modifiedRoles.length) {
+			setTimeout(() &#x3D;&gt; this.accountService.onRolesUserCountChanged(modifiedRoles));
+		}
+	}
+
+	private cancel() {
+		if (this.isGeneralEditor) {
+			this.userEdit &#x3D; this.user &#x3D; new UserEdit();
+		} else {
+			this.userEdit &#x3D; new UserEdit();
+		}
+		this.groupMemberInfo &#x3D; new GroupMember();
+		this.showValidationErrors &#x3D; false;
+		this.resetForm();
+
+		this.alertService.showMessage(&#x27;Cancelled&#x27;, &#x27;Operation cancelled by user&#x27;, MessageSeverity.default);
+		this.alertService.resetStickyMessage();
+
+		if (!this.isGeneralEditor) {
+			this.isEditMode &#x3D; false;
+		}
+
+		if (this.changesCancelledCallback) {
+			this.changesCancelledCallback();
+		}
+	}
+
+	private close() {
+		this.userEdit &#x3D; this.user &#x3D; new UserEdit();
+		this.showValidationErrors &#x3D; false;
+		this.resetForm();
+		this.isEditMode &#x3D; false;
+		this.isNewUser &#x3D; true;
+		this.groupMemberInfo &#x3D; new GroupMember();
+		if (this.changesSavedCallback) {
+			this.changesSavedCallback();
+		}
+	}
+
+	private refreshLoggedInUser() {
+		this.accountService.refreshLoggedInUser().subscribe(
+			user &#x3D;&gt; {
+				this.loadCurrentUserData();
+			},
+			error &#x3D;&gt; {
+				this.alertService.resetStickyMessage();
+				this.alertService.showStickyMessage(
+					&#x27;Refresh failed&#x27;,
+					&#x27;An error occured whilst refreshing logged in user information from the server&#x27;,
+					MessageSeverity.error,
+					error
+				);
+			}
+		);
+	}
+
+	private changePassword() {
+		this.isChangePassword &#x3D; true;
+	}
+
+	private unlockUser() {
+		this.isSaving &#x3D; true;
+		this.alertService.startLoadingMessage(&#x27;Unblocking user...&#x27;);
+
+		this.accountService.unblockUser(this.userEdit.id).subscribe(
+			response &#x3D;&gt; {
+				this.isSaving &#x3D; false;
+				this.userEdit.isLockedOut &#x3D; false;
+				this.alertService.stopLoadingMessage();
+				this.alertService.showMessage(&#x27;Success&#x27;, &#x27;User has been successfully unblocked&#x27;, MessageSeverity.success);
+			},
+			error &#x3D;&gt; {
+				this.isSaving &#x3D; false;
+				this.alertService.stopLoadingMessage();
+				this.alertService.showStickyMessage(
+					&#x27;Unblock Error&#x27;,
+					&#x27;The below errors occured whilst unblocking the user:&#x27;,
+					MessageSeverity.error,
+					error
+				);
+				this.alertService.showStickyMessage(error, null, MessageSeverity.error);
+			}
+		);
+	}
+
+	public resetForm(replace &#x3D; false) {
+		this.isChangePassword &#x3D; false;
+
+		if (!replace) {
+			this.form.reset();
+		} else {
+			this.formResetToggle &#x3D; false;
+
+			setTimeout(() &#x3D;&gt; {
+				this.formResetToggle &#x3D; true;
+			});
+		}
+	}
+
+	public newUser(allRoles: Role[]) {
+		this.isGeneralEditor &#x3D; true;
+		this.isNewUser &#x3D; true;
+
+		this.allRoles &#x3D; [...allRoles];
+		this.editingUserName &#x3D; null;
+		this.user &#x3D; this.userEdit &#x3D; new UserEdit();
+		this.user.roles &#x3D; [];
+		this.user.roles.push(this.selectedRole);
+		this.userEdit.isEnabled &#x3D; true;
+		this.edit();
+
+		return this.userEdit;
+	}
+
+	public editUser(user: User, allRoles: Role[]) {
+		if (user) {
+			this.isGeneralEditor &#x3D; true;
+			this.isNewUser &#x3D; false;
+
+			this.setRoles(user, allRoles);
+			this.editingUserName &#x3D; user.userName;
+			this.user &#x3D; new User();
+			this.userEdit &#x3D; new UserEdit();
+			Object.assign(this.user, user);
+			Object.assign(this.userEdit, user);
+			this.rolesOptions &#x3D; [];
+
+			for (const role of this.allRoles) {
+				this.rolesOptions.push({ text: role.description, id: role.name });
+			}
+			this.selectedRole &#x3D; this.userEdit.roles[0];
+			this.edit();
+
+			return this.userEdit;
+		} else {
+			return this.newUser(allRoles);
+		}
+	}
+	public displayUser(user: User, allRoles?: Role[]) {
+		this.user &#x3D; new User();
+		Object.assign(this.user, user);
+		this.deletePasswordFromUser(this.user);
+		this.setRoles(user, allRoles);
+
+		this.isEditMode &#x3D; false;
+	}
+
+	public logout() {
+		this.authService.logout();
+		this.authService.redirectLogoutUser();
+	}
+
+	private setRoles(user: User, allRoles?: Role[]) {
+		this.allRoles &#x3D; allRoles ? [...allRoles] : [];
+
+		if (user.roles) {
+			for (const ur of user.roles) {
+				if (!this.allRoles.some(r &#x3D;&gt; r.name &#x3D;&#x3D;&#x3D; ur)) {
+					this.allRoles.unshift(new Role(ur));
+				}
+			}
+		}
+
+		if (allRoles &#x3D;&#x3D;&#x3D; null || this.allRoles.length !&#x3D;&#x3D; allRoles.length) {
+			setTimeout(() &#x3D;&gt; this.rolesSelector.refresh());
+		}
+	}
+
+	get canViewAllRoles() {
+		return this.accountService.userHasPermission(Permission.viewRolesPermission);
+	}
+
+	get canAssignRoles() {
+		return this.accountService.userHasPermission(Permission.assignRolesPermission);
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div&gt;
+    &lt;form
+        *ngIf&#x3D;&quot;formResetToggle&quot;
+        [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? NaN : null&quot;
+        class&#x3D;&quot;form-horizontal parsleyjs&quot;
+        name&#x3D;&quot;userInfoForm&quot;
+        #f&#x3D;&quot;ngForm&quot;
+        novalidate
+        (ngSubmit)&#x3D;&quot;f.form.valid ? save() :
+
+        (!userName.valid &amp;&amp; showErrorAlert(&#x27;User name is required&#x27;, &#x27;Please enter a user name (minimum of 2 and maximum of 200 characters)&#x27;));
+
+        (userPassword &amp;&amp; !userPassword.valid &amp;&amp; showErrorAlert(&#x27;Password is required&#x27;, &#x27;Please enter the current password&#x27;));
+
+        (email.errors?.required &amp;&amp; showErrorAlert(&#x27;Email is required&#x27;, &#x27;Please enter an email address (maximum of 200 characters)&#x27;));
+        (email.errors?.pattern &amp;&amp; showErrorAlert(&#x27;Invalid Email&#x27;, &#x27;Please enter a valid email address&#x27;));
+
+        (isChangePassword &amp;&amp; isEditingSelf &amp;&amp; !currentPassword.valid &amp;&amp; showErrorAlert(&#x27;Current password is required&#x27;, &#x27;Please enter the current password&#x27;));
+
+        (isChangePassword &amp;&amp; !newPassword.valid &amp;&amp; showErrorAlert(&#x27;New password is required&#x27;, &#x27;Please enter the new password (minimum of 6 characters)&#x27;));
+
+        (isChangePassword &amp;&amp; confirmPassword.errors?.required &amp;&amp; showErrorAlert(&#x27;Confirmation password is required&#x27;, &#x27;Please enter the confirmation password&#x27;));
+        (isChangePassword &amp;&amp; confirmPassword.errors?.validateEqual &amp;&amp; showErrorAlert(&#x27;Passwword mismatch&#x27;, &#x27;New password and comfirmation password do not match&#x27;));&quot;&gt;
+
+
+        &lt;div class&#x3D;&quot;form-group row&quot;&gt;
+            &lt;label
+                [class.col-md-3]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-2]&#x3D;&quot;!isViewOnly&quot;
+                class&#x3D;&quot;col-form-label text-md-right&quot;
+                for&#x3D;&quot;jobTitle-{{uniqueId}}&quot;&gt;
+                {{&#x27;users.editor.JobTitle&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;!isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;p class&#x3D;&quot;form-control bg-gray-lighter&quot;&gt;{{user.jobTitle}}&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;input
+                    autofocus
+                    type&#x3D;&quot;text&quot;
+                    attr.id&#x3D;&quot;jobTitle-{{uniqueId}}&quot;
+                    name&#x3D;&quot;jobTitle&quot;
+                    placeholder&#x3D;&quot;Enter Job Title&quot;
+                    class&#x3D;&quot;form-control&quot;
+                    [(ngModel)]&#x3D;&quot;userEdit.jobTitle&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class&#x3D;&quot;form-group row has-feedback&quot;&gt;
+            &lt;label
+                [class.col-md-3]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-2]&#x3D;&quot;!isViewOnly&quot;
+                class&#x3D;&quot;col-form-label text-md-right&quot;
+                for&#x3D;&quot;userName-{{uniqueId}}&quot;&gt;
+                {{&#x27;users.editor.UserName&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;!isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;p class&#x3D;&quot;form-control bg-gray-lighter&quot;&gt;{{user.userName}}&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;
+                [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted &amp;&amp; userName.valid, &#x27;has-error&#x27; : f.submitted &amp;&amp; !userName.valid}&quot;&gt;
+                &lt;input
+                    type&#x3D;&quot;text&quot;
+                    attr.id&#x3D;&quot;userName-{{uniqueId}}&quot;
+                    name&#x3D;&quot;userName&quot;
+                    [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? new-password : null&quot;
+                    placeholder&#x3D;&quot;Enter user name&quot;
+                    class&#x3D;&quot;form-control&quot;
+                    [(ngModel)]&#x3D;&quot;userEdit.userName&quot;
+                    #userName&#x3D;&quot;ngModel&quot;
+                    required
+                    minlength&#x3D;&quot;2&quot;
+                    maxlength&#x3D;&quot;200&quot;&gt;
+                &lt;span
+                    *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted&quot;
+                    class&#x3D;&quot;glyphicon form-control-feedback&quot;
+                    [ngClass]&#x3D;&quot;{&#x27;glyphicon-ok &#x27;: userName.valid, &#x27;glyphicon-remove&#x27; : !userName.valid}&quot;&gt;&lt;/span&gt;
+                &lt;span
+                    *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; !userName.valid&quot;
+                    class&#x3D;&quot;errorMessage&quot;&gt;
+                    {{&#x27;users.editor.UserNameRequired&#x27; | translate}}
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div
+            *ngIf&#x3D;&quot;isEditMode &amp;&amp; isEditingSelf &amp;&amp; !isChangePassword &amp;&amp; user.userName !&#x3D; userEdit.userName&quot;
+            class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr class&#x3D;&quot;password-separator-hr&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div
+            *ngIf&#x3D;&quot;isEditMode &amp;&amp; isEditingSelf &amp;&amp; !isChangePassword &amp;&amp; user.userName !&#x3D; userEdit.userName&quot;
+            class&#x3D;&quot;form-group row has-feedback&quot;&gt;
+            &lt;label
+                class&#x3D;&quot;col-form-label text-md-right col-md-2&quot;
+                for&#x3D;&quot;userPassword-{{uniqueId}}&quot;&gt;
+                {{&#x27;users.editor.Password&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                class&#x3D;&quot;col-md-7&quot;
+                [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted &amp;&amp; userPassword.valid, &#x27;has-error&#x27; : f.submitted &amp;&amp; !userPassword.valid}&quot;&gt;
+                &lt;input
+                    type&#x3D;&quot;password&quot;
+                    attr.id&#x3D;&quot;userPassword-{{uniqueId}}&quot;
+                    name&#x3D;&quot;userPassword&quot;
+                    [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? new-password : null&quot;
+                    placeholder&#x3D;&quot;Enter password&quot;
+                    class&#x3D;&quot;form-control&quot;
+                    [(ngModel)]&#x3D;&quot;userEdit.currentPassword&quot;
+                    #userPassword&#x3D;&quot;ngModel&quot;
+                    required&gt;
+                &lt;small class&#x3D;&quot;hint-sm&quot;&gt;
+                    {{&#x27;users.editor.PasswordHint&#x27; | translate}}
+                &lt;/small&gt;
+                &lt;span
+                    *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted&quot;
+                    class&#x3D;&quot;glyphicon form-control-feedback&quot;
+                    [ngClass]&#x3D;&quot;{&#x27;glyphicon-ok &#x27;: userPassword.valid, &#x27;glyphicon-remove&#x27; : !userPassword.valid}&quot;&gt;&lt;/span&gt;
+                &lt;span
+                    *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; !userPassword.valid&quot;
+                    class&#x3D;&quot;errorMessage&quot;&gt;
+                    {{&#x27;users.editor.CurrentPasswordRequired&#x27; | translate}}
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+
+        &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+
+        &lt;div class&#x3D;&quot;form-group has-feedback row&quot;&gt;
+            &lt;label
+                [class.col-md-3]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-2]&#x3D;&quot;!isViewOnly&quot;
+                class&#x3D;&quot;col-form-label text-md-right&quot;
+                for&#x3D;&quot;email-{{uniqueId}}&quot;&gt;
+                {{&#x27;users.editor.Email&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;!isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;p class&#x3D;&quot;form-control bg-gray-lighter&quot;&gt;{{user.email}}&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div
+                [hidden]&#x3D;&quot;!isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;input
+                    type&#x3D;&quot;email&quot;
+                    id&#x3D;&quot;email&quot;
+                    name&#x3D;&quot;email&quot;
+                    class&#x3D;&quot;form-control&quot;
+                    placeholder&#x3D;&quot;Enter email address&quot;
+                    [(ngModel)]&#x3D;&quot;userEdit.email&quot;
+                    #email&#x3D;&quot;ngModel&quot;
+                    data-parsley-trigger&#x3D;&quot;change&quot;
+                    data-parsley-validation-threshold&#x3D;&quot;1&quot;
+                    required&#x3D;&quot;required&quot;
+                    attr.id&#x3D;&quot;email-{{uniqueId}}&quot;&gt;
+                &lt;span class&#x3D;&quot;help-block&quot;&gt;
+                    This one is triggered even when 1 character has been input
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div
+            *ngIf&#x3D;&quot;isEditMode&quot;
+            class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div
+            *ngIf&#x3D;&quot;isEditMode&quot;
+            class&#x3D;&quot;form-group row&quot;&gt;
+            &lt;label
+                [class.col-md-3]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-2]&#x3D;&quot;!isViewOnly&quot;
+                for&#x3D;&quot;newPassword-{{uniqueId}}&quot;
+                class&#x3D;&quot;col-form-label text-md-right&quot;&gt;
+                {{&#x27;users.editor.Password&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;!isChangePassword &amp;&amp; !isNewUser&quot;
+                class&#x3D;&quot;col-md-10&quot;&gt;
+                &lt;button
+                    type&#x3D;&quot;button&quot;
+                    (click)&#x3D;&quot;changePassword()&quot;
+                    class&#x3D;&quot;btn btn-danger&quot;&gt;
+                    {{&#x27;users.editor.ChangePassword&#x27; | translate}}
+                &lt;/button&gt;
+            &lt;/div&gt;
+
+
+            &lt;div
+                *ngIf&#x3D;&quot;isChangePassword || isNewUser&quot;
+                class&#x3D;&quot;col-md-10&quot;&gt;
+                &lt;div class&#x3D;&quot;password-well well well-sm&quot;&gt;
+                    &lt;div
+                        *ngIf&#x3D;&quot;isEditingSelf&quot;
+                        class&#x3D;&quot;form-group has-feedback&quot;&gt;
+                        &lt;label
+                            class&#x3D;&quot;control-label col-md-3&quot;
+                            for&#x3D;&quot;currentPassword-{{uniqueId}}&quot;&gt;
+                            {{&#x27;users.editor.CurrentPassword&#x27; | translate}}
+                        &lt;/label&gt;
+                        &lt;div
+                            class&#x3D;&quot;col-md-9&quot;
+                            [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted &amp;&amp; currentPassword.valid, &#x27;has-error&#x27; : f.submitted &amp;&amp; !currentPassword.valid}&quot;&gt;
+                            &lt;input
+                                type&#x3D;&quot;password&quot;
+                                attr.id&#x3D;&quot;currentPassword-{{uniqueId}}&quot;
+                                name&#x3D;&quot;currentPassword&quot;
+                                [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? new-password : null&quot;
+                                placeholder&#x3D;&quot;Enter current password&quot;
+                                class&#x3D;&quot;form-control&quot;
+                                [(ngModel)]&#x3D;&quot;userEdit.currentPassword&quot;
+                                #currentPassword&#x3D;&quot;ngModel&quot;
+                                required&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted&quot;
+                                class&#x3D;&quot;glyphicon form-control-feedback&quot;
+                                [ngClass]&#x3D;&quot;{&#x27;glyphicon-ok &#x27;: currentPassword.valid, &#x27;glyphicon-remove&#x27; : !currentPassword.valid}&quot;&gt;&lt;/span&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; !currentPassword.valid&quot;
+                                class&#x3D;&quot;errorMessage&quot;&gt;
+                                {{&#x27;users.editor.CurrentPasswordRequired&#x27; | translate}}
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+
+                    &lt;div
+                        *ngIf&#x3D;&quot;!isNewUser&quot;
+                        class&#x3D;&quot;row&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                            &lt;hr class&#x3D;&quot;password-separator-hr&quot;&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+
+                    &lt;div class&#x3D;&quot;form-group has-feedback&quot;&gt;
+                        &lt;label
+                            class&#x3D;&quot;control-label col-md-3&quot;
+                            for&#x3D;&quot;newPassword-{{uniqueId}}&quot;&gt;
+                            {{&#x27;users.editor.NewPassword&#x27; | translate}}
+                        &lt;/label&gt;
+                        &lt;div
+                            class&#x3D;&quot;col-md-9&quot;
+                            [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted &amp;&amp; newPassword.valid, &#x27;has-error&#x27; : f.submitted &amp;&amp; !newPassword.valid}&quot;&gt;
+                            &lt;input
+                                type&#x3D;&quot;password&quot;
+                                attr.id&#x3D;&quot;newPassword-{{uniqueId}}&quot;
+                                name&#x3D;&quot;newPassword&quot;
+                                [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? new-password : null&quot;
+                                placeholder&#x3D;&quot;Enter new password&quot;
+                                class&#x3D;&quot;form-control&quot;
+                                [(ngModel)]&#x3D;&quot;userEdit.newPassword&quot;
+                                #newPassword&#x3D;&quot;ngModel&quot;
+                                required
+                                minlength&#x3D;&quot;6&quot;
+                                validateEqual&#x3D;&quot;confirmPassword&quot;
+                                reverse&#x3D;&quot;true&quot;&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted&quot;
+                                class&#x3D;&quot;glyphicon form-control-feedback&quot;
+                                [ngClass]&#x3D;&quot;{&#x27;glyphicon-ok &#x27;: newPassword.valid, &#x27;glyphicon-remove&#x27; : !newPassword.valid}&quot;&gt;&lt;/span&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; !newPassword.valid&quot;
+                                class&#x3D;&quot;errorMessage&quot;&gt;
+                                {{&#x27;users.editor.NewPasswordRequired&#x27; | translate}}
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+
+                    &lt;div class&#x3D;&quot;row&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                            &lt;hr class&#x3D;&quot;password-separator-hr&quot;&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+
+                    &lt;div class&#x3D;&quot;form-group has-feedback&quot;&gt;
+                        &lt;label
+                            class&#x3D;&quot;control-label col-md-3&quot;
+                            for&#x3D;&quot;confirmPassword-{{uniqueId}}&quot;&gt;
+                            {{&#x27;users.editor.ConfirmPassword&#x27; | translate}}
+                        &lt;/label&gt;
+                        &lt;div
+                            class&#x3D;&quot;col-md-9&quot;
+                            [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted &amp;&amp; confirmPassword.valid, &#x27;has-error&#x27; : f.submitted &amp;&amp; !confirmPassword.valid}&quot;&gt;
+                            &lt;input
+                                type&#x3D;&quot;password&quot;
+                                attr.id&#x3D;&quot;confirmPassword-{{uniqueId}}&quot;
+                                name&#x3D;&quot;confirmPassword&quot;
+                                [attr.autocomplete]&#x3D;&quot;isGeneralEditor ? new-password : null&quot;
+                                placeholder&#x3D;&quot;Confirm new password&quot;
+                                class&#x3D;&quot;form-control&quot;
+                                [(ngModel)]&#x3D;&quot;userEdit.confirmPassword&quot;
+                                #confirmPassword&#x3D;&quot;ngModel&quot;
+                                required
+                                validateEqual&#x3D;&quot;newPassword&quot;&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted&quot;
+                                class&#x3D;&quot;glyphicon form-control-feedback&quot;
+                                [ngClass]&#x3D;&quot;{&#x27;glyphicon-ok &#x27;: confirmPassword.valid, &#x27;glyphicon-remove&#x27; : !confirmPassword.valid}&quot;&gt;&lt;/span&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; confirmPassword.errors?.required&quot;
+                                class&#x3D;&quot;errorMessage&quot;&gt;
+                                {{&#x27;users.editor.ConfirmationPasswordRequired&#x27; | translate}}
+                            &lt;/span&gt;
+                            &lt;span
+                                *ngIf&#x3D;&quot;showValidationErrors &amp;&amp; f.submitted &amp;&amp; confirmPassword.errors?.validateEqual &amp;&amp; !confirmPassword.errors?.required&quot;
+                                class&#x3D;&quot;errorMessage&quot;&gt;
+                                {{&#x27;users.editor.PasswordMismatch&#x27; | translate}}
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;!-- ****************************************************************************************************** --&gt;
+
+
+        &lt;!-- &lt;div *ngIf&#x3D;&quot;!isEditMode || canAssignRoles&quot; class&#x3D;&quot;row&quot;&gt;
+          &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+              &lt;hr [class.separator-hr]&#x3D;&quot;!isEditMode&quot; [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot; /&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div *ngIf&#x3D;&quot;!isEditMode || canAssignRoles&quot; class&#x3D;&quot;form-group has-feedback row&quot;&gt;
+          &lt;label [class.col-md-3]&#x3D;&quot;isViewOnly&quot; [class.col-md-2]&#x3D;&quot;!isViewOnly&quot; class&#x3D;&quot;col-form-label text-md-right&quot; for&#x3D;&quot;roles-user-info&quot;&gt;{{&#x27;users.editor.Roles&#x27; | translate}}&lt;/label&gt;
+          &lt;div *ngIf&#x3D;&quot;!isEditMode&quot; [class.col-md-9]&#x3D;&quot;isViewOnly&quot; [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+              &lt;p class&#x3D;&quot;form-control bg-gray-lighter&quot;&gt;
+                  &lt;span *ngFor&#x3D;&quot;let role of user.roles&quot;&gt;
+                      &lt;span title&#x3D;&#x27;{{getRoleByName(role)?.description}}&#x27; class&#x3D;&quot;badge&quot;&gt;{{role}}&lt;/span&gt;
+                  &lt;/span&gt;
+              &lt;/p&gt;
+          &lt;/div&gt;
+
+          &lt;div *ngIf&#x3D;&quot;isEditMode &amp;&amp; canAssignRoles&quot; [class.col-md-9]&#x3D;&quot;isViewOnly&quot; [class.col-md-10]&#x3D;&quot;!isViewOnly&quot; [ngClass]&#x3D;&quot;{&#x27;has-success&#x27;: f.submitted, &#x27;has-error&#x27; : f.submitted}&quot;&gt;
+            &lt;select2 (valueChanged)&#x3D;&quot;updateRole($event)&quot;
+                [data]&#x3D;&quot;rolesOptions&quot; [value]&#x3D;&quot;selectedRole&quot; [options]&#x3D;&quot;select2Options&quot; [width]&#x3D;&quot;240&quot; [cssImport]&#x3D;true&gt;&lt;/select2&gt;
+          &lt;/div&gt;
+      &lt;/div&gt; --&gt;
+
+
+
+        &lt;!-- ****************************************************************************************************** --&gt;
+
+
+        &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class&#x3D;&quot;form-group row&quot;&gt;
+            &lt;label
+                [class.col-md-3]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-2]&#x3D;&quot;!isViewOnly&quot;
+                class&#x3D;&quot;col-form-label text-md-right&quot;
+                for&#x3D;&quot;fullName-{{uniqueId}}&quot;&gt;
+                {{&#x27;users.editor.FullName&#x27; | translate}}
+            &lt;/label&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;!isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;p class&#x3D;&quot;form-control bg-gray-lighter&quot;&gt;{{user.fullName}}&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div
+                *ngIf&#x3D;&quot;isEditMode&quot;
+                [class.col-md-9]&#x3D;&quot;isViewOnly&quot;
+                [class.col-md-7]&#x3D;&quot;!isViewOnly&quot;&gt;
+                &lt;input
+                    type&#x3D;&quot;text&quot;
+                    attr.id&#x3D;&quot;fullName-{{uniqueId}}&quot;
+                    name&#x3D;&quot;fullName&quot;
+                    placeholder&#x3D;&quot;Enter full name&quot;
+                    class&#x3D;&quot;form-control&quot;
+                    [(ngModel)]&#x3D;&quot;userEdit.fullName&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div
+            *ngIf&#x3D;&quot;!isViewOnly&quot;
+            class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                &lt;hr
+                    [class.last-separator-hr]&#x3D;&quot;!isEditMode&quot;
+                    [class.edit-last-separator-hr]&#x3D;&quot;isEditMode&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div
+            *ngIf&#x3D;&quot;!isViewOnly&quot;
+            class&#x3D;&quot;form-group row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-sm-5&quot;&gt;
+                &lt;div
+                    *ngIf&#x3D;&quot;isGeneralEditor &amp;&amp; isEditMode&quot;
+                    class&#x3D;&quot;pull-left&quot;&gt;
+                    &lt;div class&#x3D;&quot;checkbox user-enabled&quot;&gt;
+                        &lt;label&gt;
+                            &lt;input
+                                type&#x3D;&quot;checkbox&quot;
+                                name&#x3D;&quot;isEnabled&quot;
+                                [(ngModel)]&#x3D;&quot;userEdit.isEnabled&quot;&gt;
+                            {{&#x27;users.editor.Enabled&#x27; | translate}}
+                        &lt;/label&gt;
+                    &lt;/div&gt;
+                    &lt;button
+                        *ngIf&#x3D;&quot;userEdit.isLockedOut&quot;
+                        type&#x3D;&quot;button&quot;
+                        (click)&#x3D;&quot;unlockUser()&quot;
+                        class&#x3D;&quot;btn btn-warning unblock-user&quot;
+                        [disabled]&#x3D;&quot;isSaving&quot;&gt;
+                        &lt;i class&#x3D;&#x27;fas fa-unlock-alt&#x27;&gt;&lt;/i&gt;
+                        {{&#x27;users.editor.Unblock&#x27; | translate}}
+                    &lt;/button&gt;
+                    &lt;div
+                        *ngIf&#x3D;&quot;groupMemberInfo &amp;&amp; inGroupMode &amp;&amp; !isNewUser&quot;
+                        class&#x3D;&quot;checkbox user-enabled&quot;&gt;
+                        &lt;label&gt;
+                            &lt;input
+                                type&#x3D;&quot;checkbox&quot;
+                                name&#x3D;&quot;isGroupAdmin&quot;
+                                [(ngModel)]&#x3D;&quot;groupMemberInfo.groupAdmin&quot;&gt;
+                            {{&#x27;users.editor.GroupAdmin&#x27; | translate}}
+                        &lt;/label&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-sm-7&quot;&gt;
+                &lt;div class&#x3D;&quot;pull-right&quot;&gt;
+                    &lt;button
+                        *ngIf&#x3D;&quot;!isEditMode &amp;&amp; isGeneralEditor&quot;
+                        type&#x3D;&quot;button&quot;
+                        (click)&#x3D;&quot;close()&quot;
+                        class&#x3D;&quot;btn btn-primary action-button&quot;&gt;
+                        &lt;i class&#x3D;&#x27;fas fa-close&#x27;&gt;&lt;/i&gt;
+                        {{&#x27;users.editor.Close&#x27; | translate}}
+                    &lt;/button&gt;
+                    &lt;button
+                        *ngIf&#x3D;&quot;!isEditMode &amp;&amp; !isGeneralEditor&quot;
+                        type&#x3D;&quot;button&quot;
+                        (click)&#x3D;&quot;edit()&quot;
+                        class&#x3D;&quot;btn btn-primary action-button&quot;&gt;
+                        &lt;i class&#x3D;&#x27;fas fa-edit&#x27;&gt;&lt;/i&gt;
+                        {{&#x27;users.editor.Edit&#x27; | translate}}
+                    &lt;/button&gt;
+                    &lt;button
+                        *ngIf&#x3D;&quot;isEditMode&quot;
+                        type&#x3D;&quot;button&quot;
+                        (click)&#x3D;&quot;cancel()&quot;
+                        class&#x3D;&quot;btn btn-danger action-button&quot;
+                        [disabled]&#x3D;&quot;isSaving&quot;&gt;
+                        &lt;i class&#x3D;&#x27;fas fa-times&#x27;&gt;&lt;/i&gt;
+                        {{&#x27;users.editor.Cancel&#x27; | translate}}
+                    &lt;/button&gt;
+                    &lt;button
+                        *ngIf&#x3D;&quot;isEditMode&quot;
+                        type&#x3D;&quot;submit&quot;
+                        class&#x3D;&quot;btn btn-primary action-button&quot;
+                        [disabled]&#x3D;&quot;isSaving&quot;&gt;
+                        &lt;i
+                            *ngIf&#x3D;&quot;!isSaving&quot;
+                            class&#x3D;&#x27;fa fa-save&#x27;&gt;&lt;/i&gt;
+                        &lt;i
+                            *ngIf&#x3D;&quot;isSaving&quot;
+                            class&#x3D;&#x27;fa fa-circle-o-notch fa-spin&#x27;&gt;&lt;/i&gt;
+                        {{isSaving ? (&#x27;users.editor.Saving&#x27; | translate) : (&#x27;users.editor.Save&#x27; | translate)}}
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;clearfix&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./user-info.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/shared/assets/scss/helpers&#x27;;
+
+/***********************************/
+/**            PARSLEY            **/
+/***********************************/
+
+
+input.parsley-error{
+  border-color: theme-color(&#x27;danger&#x27;);
+}
+
+.parsley-errors-list{
+  font-size: $small-font-size;
+  padding-left: 0;
+  margin-bottom: 5px;
+
+  li{
+    list-style: none;
+    color: theme-color(&#x27;danger&#x27;);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div>    <form        *ngIf="formResetToggle"        [attr.autocomplete]="isGeneralEditor ? NaN : null"        class="form-horizontal parsleyjs"        name="userInfoForm"        #f="ngForm"        novalidate        (ngSubmit)="f.form.valid ? save() :        (!userName.valid && showErrorAlert(\'User name is required\', \'Please enter a user name (minimum of 2 and maximum of 200 characters)\'));        (userPassword && !userPassword.valid && showErrorAlert(\'Password is required\', \'Please enter the current password\'));        (email.errors?.required && showErrorAlert(\'Email is required\', \'Please enter an email address (maximum of 200 characters)\'));        (email.errors?.pattern && showErrorAlert(\'Invalid Email\', \'Please enter a valid email address\'));        (isChangePassword && isEditingSelf && !currentPassword.valid && showErrorAlert(\'Current password is required\', \'Please enter the current password\'));        (isChangePassword && !newPassword.valid && showErrorAlert(\'New password is required\', \'Please enter the new password (minimum of 6 characters)\'));        (isChangePassword && confirmPassword.errors?.required && showErrorAlert(\'Confirmation password is required\', \'Please enter the confirmation password\'));        (isChangePassword && confirmPassword.errors?.validateEqual && showErrorAlert(\'Passwword mismatch\', \'New password and comfirmation password do not match\'));">        <div class="form-group row">            <label                [class.col-md-3]="isViewOnly"                [class.col-md-2]="!isViewOnly"                class="col-form-label text-md-right"                for="jobTitle-{{uniqueId}}">                {{\'users.editor.JobTitle\' | translate}}            </label>            <div                *ngIf="!isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <p class="form-control bg-gray-lighter">{{user.jobTitle}}</p>            </div>            <div                *ngIf="isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <input                    autofocus                    type="text"                    attr.id="jobTitle-{{uniqueId}}"                    name="jobTitle"                    placeholder="Enter Job Title"                    class="form-control"                    [(ngModel)]="userEdit.jobTitle">            </div>        </div>        <div class="row">            <div class="col-md-12">                <hr                    [class.separator-hr]="!isEditMode"                    [class.edit-separator-hr]="isEditMode">            </div>        </div>        <div class="form-group row has-feedback">            <label                [class.col-md-3]="isViewOnly"                [class.col-md-2]="!isViewOnly"                class="col-form-label text-md-right"                for="userName-{{uniqueId}}">                {{\'users.editor.UserName\' | translate}}            </label>            <div                *ngIf="!isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <p class="form-control bg-gray-lighter">{{user.userName}}</p>            </div>            <div                *ngIf="isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly"                [ngClass]="{\'has-success\': f.submitted && userName.valid, \'has-error\' : f.submitted && !userName.valid}">                <input                    type="text"                    attr.id="userName-{{uniqueId}}"                    name="userName"                    [attr.autocomplete]="isGeneralEditor ? new-password : null"                    placeholder="Enter user name"                    class="form-control"                    [(ngModel)]="userEdit.userName"                    #userName="ngModel"                    required                    minlength="2"                    maxlength="200">                <span                    *ngIf="showValidationErrors && f.submitted"                    class="glyphicon form-control-feedback"                    [ngClass]="{\'glyphicon-ok \': userName.valid, \'glyphicon-remove\' : !userName.valid}"></span>                <span                    *ngIf="showValidationErrors && f.submitted && !userName.valid"                    class="errorMessage">                    {{\'users.editor.UserNameRequired\' | translate}}                </span>            </div>        </div>        <div            *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName"            class="row">            <div class="col-md-12">                <hr class="password-separator-hr">            </div>        </div>        <div            *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName"            class="form-group row has-feedback">            <label                class="col-form-label text-md-right col-md-2"                for="userPassword-{{uniqueId}}">                {{\'users.editor.Password\' | translate}}            </label>            <div                class="col-md-7"                [ngClass]="{\'has-success\': f.submitted && userPassword.valid, \'has-error\' : f.submitted && !userPassword.valid}">                <input                    type="password"                    attr.id="userPassword-{{uniqueId}}"                    name="userPassword"                    [attr.autocomplete]="isGeneralEditor ? new-password : null"                    placeholder="Enter password"                    class="form-control"                    [(ngModel)]="userEdit.currentPassword"                    #userPassword="ngModel"                    required>                <small class="hint-sm">                    {{\'users.editor.PasswordHint\' | translate}}                </small>                <span                    *ngIf="showValidationErrors && f.submitted"                    class="glyphicon form-control-feedback"                    [ngClass]="{\'glyphicon-ok \': userPassword.valid, \'glyphicon-remove\' : !userPassword.valid}"></span>                <span                    *ngIf="showValidationErrors && f.submitted && !userPassword.valid"                    class="errorMessage">                    {{\'users.editor.CurrentPasswordRequired\' | translate}}                </span>            </div>        </div>        <div class="row">            <div class="col-md-12">                <hr                    [class.separator-hr]="!isEditMode"                    [class.edit-separator-hr]="isEditMode">            </div>        </div>        <div class="form-group has-feedback row">            <label                [class.col-md-3]="isViewOnly"                [class.col-md-2]="!isViewOnly"                class="col-form-label text-md-right"                for="email-{{uniqueId}}">                {{\'users.editor.Email\' | translate}}            </label>            <div                *ngIf="!isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <p class="form-control bg-gray-lighter">{{user.email}}</p>            </div>            <div                [hidden]="!isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <input                    type="email"                    id="email"                    name="email"                    class="form-control"                    placeholder="Enter email address"                    [(ngModel)]="userEdit.email"                    #email="ngModel"                    data-parsley-trigger="change"                    data-parsley-validation-threshold="1"                    required="required"                    attr.id="email-{{uniqueId}}">                <span class="help-block">                    This one is triggered even when 1 character has been input                </span>            </div>        </div>        <div            *ngIf="isEditMode"            class="row">            <div class="col-md-12">                <hr                    [class.separator-hr]="!isEditMode"                    [class.edit-separator-hr]="isEditMode">            </div>        </div>        <div            *ngIf="isEditMode"            class="form-group row">            <label                [class.col-md-3]="isViewOnly"                [class.col-md-2]="!isViewOnly"                for="newPassword-{{uniqueId}}"                class="col-form-label text-md-right">                {{\'users.editor.Password\' | translate}}            </label>            <div                *ngIf="!isChangePassword && !isNewUser"                class="col-md-10">                <button                    type="button"                    (click)="changePassword()"                    class="btn btn-danger">                    {{\'users.editor.ChangePassword\' | translate}}                </button>            </div>            <div                *ngIf="isChangePassword || isNewUser"                class="col-md-10">                <div class="password-well well well-sm">                    <div                        *ngIf="isEditingSelf"                        class="form-group has-feedback">                        <label                            class="control-label col-md-3"                            for="currentPassword-{{uniqueId}}">                            {{\'users.editor.CurrentPassword\' | translate}}                        </label>                        <div                            class="col-md-9"                            [ngClass]="{\'has-success\': f.submitted && currentPassword.valid, \'has-error\' : f.submitted && !currentPassword.valid}">                            <input                                type="password"                                attr.id="currentPassword-{{uniqueId}}"                                name="currentPassword"                                [attr.autocomplete]="isGeneralEditor ? new-password : null"                                placeholder="Enter current password"                                class="form-control"                                [(ngModel)]="userEdit.currentPassword"                                #currentPassword="ngModel"                                required>                            <span                                *ngIf="showValidationErrors && f.submitted"                                class="glyphicon form-control-feedback"                                [ngClass]="{\'glyphicon-ok \': currentPassword.valid, \'glyphicon-remove\' : !currentPassword.valid}"></span>                            <span                                *ngIf="showValidationErrors && f.submitted && !currentPassword.valid"                                class="errorMessage">                                {{\'users.editor.CurrentPasswordRequired\' | translate}}                            </span>                        </div>                    </div>                    <div                        *ngIf="!isNewUser"                        class="row">                        <div class="col-md-12">                            <hr class="password-separator-hr">                        </div>                    </div>                    <div class="form-group has-feedback">                        <label                            class="control-label col-md-3"                            for="newPassword-{{uniqueId}}">                            {{\'users.editor.NewPassword\' | translate}}                        </label>                        <div                            class="col-md-9"                            [ngClass]="{\'has-success\': f.submitted && newPassword.valid, \'has-error\' : f.submitted && !newPassword.valid}">                            <input                                type="password"                                attr.id="newPassword-{{uniqueId}}"                                name="newPassword"                                [attr.autocomplete]="isGeneralEditor ? new-password : null"                                placeholder="Enter new password"                                class="form-control"                                [(ngModel)]="userEdit.newPassword"                                #newPassword="ngModel"                                required                                minlength="6"                                validateEqual="confirmPassword"                                reverse="true">                            <span                                *ngIf="showValidationErrors && f.submitted"                                class="glyphicon form-control-feedback"                                [ngClass]="{\'glyphicon-ok \': newPassword.valid, \'glyphicon-remove\' : !newPassword.valid}"></span>                            <span                                *ngIf="showValidationErrors && f.submitted && !newPassword.valid"                                class="errorMessage">                                {{\'users.editor.NewPasswordRequired\' | translate}}                            </span>                        </div>                    </div>                    <div class="row">                        <div class="col-md-12">                            <hr class="password-separator-hr">                        </div>                    </div>                    <div class="form-group has-feedback">                        <label                            class="control-label col-md-3"                            for="confirmPassword-{{uniqueId}}">                            {{\'users.editor.ConfirmPassword\' | translate}}                        </label>                        <div                            class="col-md-9"                            [ngClass]="{\'has-success\': f.submitted && confirmPassword.valid, \'has-error\' : f.submitted && !confirmPassword.valid}">                            <input                                type="password"                                attr.id="confirmPassword-{{uniqueId}}"                                name="confirmPassword"                                [attr.autocomplete]="isGeneralEditor ? new-password : null"                                placeholder="Confirm new password"                                class="form-control"                                [(ngModel)]="userEdit.confirmPassword"                                #confirmPassword="ngModel"                                required                                validateEqual="newPassword">                            <span                                *ngIf="showValidationErrors && f.submitted"                                class="glyphicon form-control-feedback"                                [ngClass]="{\'glyphicon-ok \': confirmPassword.valid, \'glyphicon-remove\' : !confirmPassword.valid}"></span>                            <span                                *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.required"                                class="errorMessage">                                {{\'users.editor.ConfirmationPasswordRequired\' | translate}}                            </span>                            <span                                *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.validateEqual && !confirmPassword.errors?.required"                                class="errorMessage">                                {{\'users.editor.PasswordMismatch\' | translate}}                            </span>                        </div>                    </div>                </div>            </div>        </div>        <!-- ****************************************************************************************************** -->        <!-- <div *ngIf="!isEditMode || canAssignRoles" class="row">          <div class="col-md-12">              <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />          </div>      </div>      <div *ngIf="!isEditMode || canAssignRoles" class="form-group has-feedback row">          <label [class.col-md-3]="isViewOnly" [class.col-md-2]="!isViewOnly" class="col-form-label text-md-right" for="roles-user-info">{{\'users.editor.Roles\' | translate}}</label>          <div *ngIf="!isEditMode" [class.col-md-9]="isViewOnly" [class.col-md-7]="!isViewOnly">              <p class="form-control bg-gray-lighter">                  <span *ngFor="let role of user.roles">                      <span title=\'{{getRoleByName(role)?.description}}\' class="badge">{{role}}</span>                  </span>              </p>          </div>          <div *ngIf="isEditMode && canAssignRoles" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly" [ngClass]="{\'has-success\': f.submitted, \'has-error\' : f.submitted}">            <select2 (valueChanged)="updateRole($event)"                [data]="rolesOptions" [value]="selectedRole" [options]="select2Options" [width]="240" [cssImport]=true></select2>          </div>      </div> -->        <!-- ****************************************************************************************************** -->        <div class="row">            <div class="col-md-12">                <hr                    [class.separator-hr]="!isEditMode"                    [class.edit-separator-hr]="isEditMode">            </div>        </div>        <div class="form-group row">            <label                [class.col-md-3]="isViewOnly"                [class.col-md-2]="!isViewOnly"                class="col-form-label text-md-right"                for="fullName-{{uniqueId}}">                {{\'users.editor.FullName\' | translate}}            </label>            <div                *ngIf="!isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <p class="form-control bg-gray-lighter">{{user.fullName}}</p>            </div>            <div                *ngIf="isEditMode"                [class.col-md-9]="isViewOnly"                [class.col-md-7]="!isViewOnly">                <input                    type="text"                    attr.id="fullName-{{uniqueId}}"                    name="fullName"                    placeholder="Enter full name"                    class="form-control"                    [(ngModel)]="userEdit.fullName">            </div>        </div>        <div class="row">            <div class="col-md-12">                <hr                    [class.separator-hr]="!isEditMode"                    [class.edit-separator-hr]="isEditMode">            </div>        </div>        <div            *ngIf="!isViewOnly"            class="row">            <div class="col-md-12">                <hr                    [class.last-separator-hr]="!isEditMode"                    [class.edit-last-separator-hr]="isEditMode">            </div>        </div>        <div            *ngIf="!isViewOnly"            class="form-group row">            <div class="col-sm-5">                <div                    *ngIf="isGeneralEditor && isEditMode"                    class="pull-left">                    <div class="checkbox user-enabled">                        <label>                            <input                                type="checkbox"                                name="isEnabled"                                [(ngModel)]="userEdit.isEnabled">                            {{\'users.editor.Enabled\' | translate}}                        </label>                    </div>                    <button                        *ngIf="userEdit.isLockedOut"                        type="button"                        (click)="unlockUser()"                        class="btn btn-warning unblock-user"                        [disabled]="isSaving">                        <i class=\'fas fa-unlock-alt\'></i>                        {{\'users.editor.Unblock\' | translate}}                    </button>                    <div                        *ngIf="groupMemberInfo && inGroupMode && !isNewUser"                        class="checkbox user-enabled">                        <label>                            <input                                type="checkbox"                                name="isGroupAdmin"                                [(ngModel)]="groupMemberInfo.groupAdmin">                            {{\'users.editor.GroupAdmin\' | translate}}                        </label>                    </div>                </div>            </div>            <div class="col-sm-7">                <div class="pull-right">                    <button                        *ngIf="!isEditMode && isGeneralEditor"                        type="button"                        (click)="close()"                        class="btn btn-primary action-button">                        <i class=\'fas fa-close\'></i>                        {{\'users.editor.Close\' | translate}}                    </button>                    <button                        *ngIf="!isEditMode && !isGeneralEditor"                        type="button"                        (click)="edit()"                        class="btn btn-primary action-button">                        <i class=\'fas fa-edit\'></i>                        {{\'users.editor.Edit\' | translate}}                    </button>                    <button                        *ngIf="isEditMode"                        type="button"                        (click)="cancel()"                        class="btn btn-danger action-button"                        [disabled]="isSaving">                        <i class=\'fas fa-times\'></i>                        {{\'users.editor.Cancel\' | translate}}                    </button>                    <button                        *ngIf="isEditMode"                        type="submit"                        class="btn btn-primary action-button"                        [disabled]="isSaving">                        <i                            *ngIf="!isSaving"                            class=\'fa fa-save\'></i>                        <i                            *ngIf="isSaving"                            class=\'fa fa-circle-o-notch fa-spin\'></i>                        {{isSaving ? (\'users.editor.Saving\' | translate) : (\'users.editor.Save\' | translate)}}                    </button>                </div>            </div>        </div>        <div class="clearfix"></div>    </form></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppComponent', 'selector': 'app-root'},{'name': 'ChatAppComponent', 'selector': 'app-chat-app'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatSidebarComponent', 'selector': 'app-chat-sidebar'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'ConductSurveyComponent', 'selector': 'app-test-survey'},{'name': 'ContainerComponent', 'selector': 'smooth-dnd-container'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateInputComponent', 'selector': 'app-date-input'},{'name': 'DraggableComponent', 'selector': 'smooth-dnd-draggable'},{'name': 'DropdownListComponent', 'selector': 'app-dropdown-list'},{'name': 'DropdownTreeviewSelectComponent', 'selector': 'ngx-dropdown-treeview-select'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'Footer1Component', 'selector': 'app-footer1'},{'name': 'GroupsManagementComponent', 'selector': 'app-groups-management'},{'name': 'Header1Component', 'selector': 'app-header1'},{'name': 'Header2Component', 'selector': 'app-header2'},{'name': 'ItemListComponent', 'selector': 'item-list'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LocationFieldComponent', 'selector': 'app-location'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MainSurveyAccess1Component', 'selector': 'app-main-survey-access1'},{'name': 'MultiSelectComponent', 'selector': 'app-multi-select'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NestedDragAndDropListComponent', 'selector': 'app-nested-drag-and-drop-list'},{'name': 'NumericTextboxComponent', 'selector': 'app-numeric-textbox'},{'name': 'PrivacyConfirmationComponent', 'selector': 'app-privacy-confirmation'},{'name': 'QuestionConditionalsComponent', 'selector': 'app-question-conditionals'},{'name': 'QuestionConfigurationComponent', 'selector': 'app-question-configuration'},{'name': 'QuestionDetailsComponent', 'selector': 'app-question-details'},{'name': 'QuestionTypeChooserComponent', 'selector': 'traisi-question-type-chooser'},{'name': 'QuestionViewerComponent', 'selector': 'app-question-viewer'},{'name': 'RadioComponent', 'selector': 'app-radio'},{'name': 'RoleEditorComponent', 'selector': 'role-editor'},{'name': 'RolesManagementComponent', 'selector': 'app-roles-management'},{'name': 'ScreeningQuestionsComponent', 'selector': 'app-screening-questions'},{'name': 'SearchBoxComponent', 'selector': 'search-input'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SliderComponent', 'selector': 'app-slider'},{'name': 'SourceConditionalComponent', 'selector': 'app-conditional'},{'name': 'SpecialPageBuilderComponent', 'selector': 'app-special-page-builder'},{'name': 'SponsorsComponent', 'selector': 'app-sponsors'},{'name': 'SurveyBuilderComponent', 'selector': 'traisi-survey-builder'},{'name': 'SurveyExecuteComponent', 'selector': 'app-survey-execute'},{'name': 'SurveysEditorComponent', 'selector': 'app-surveys-editor'},{'name': 'SurveysManagementComponent', 'selector': 'app-surveys-management'},{'name': 'SwitchComponent', 'selector': 'app-switch'},{'name': 'TargetConditionalComponent', 'selector': 'app-target-conditional'},{'name': 'TextAreaComponent', 'selector': 'app-textarea'},{'name': 'TextBlock1Component', 'selector': 'app-text-block1'},{'name': 'TextboxComponent', 'selector': 'app-textbox'},{'name': 'TimeInputComponent', 'selector': 'app-time-input'},{'name': 'UserInfoComponent', 'selector': 'user-info'},{'name': 'UserPreferencesComponent', 'selector': 'user-preferences'},{'name': 'UsersManagementComponent', 'selector': 'app-users-management'}];
+    var DIRECTIVES = [{'name': 'AutofocusDirective', 'selector': '[autofocus]'},{'name': 'BootstrapDatepickerDirective', 'selector': '[bootstrapDatepicker]'},{'name': 'BootstrapSelectDirective', 'selector': '[bootstrapSelect]'},{'name': 'BootstrapTabDirective', 'selector': '[bootstrapTab]'},{'name': 'BootstrapToggleDirective', 'selector': '[bootstrapToggle]'},{'name': 'CustomBuilderContainerDirective', 'selector': '[customBuilderContainer]'},{'name': 'EqualValidator', 'selector': '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]'},{'name': 'LastElementDirective', 'selector': '[lastElement]'},{'name': 'WidgetDirective', 'selector': '[widget]'}];
+    var ACTUAL_COMPONENT = {'name': 'UserInfoComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserInfoComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
