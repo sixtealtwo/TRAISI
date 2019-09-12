@@ -87,6 +87,9 @@ export class SurveyNavigator {
 		nav.subscribe(state => {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
+
+			console.log('done navigationg');
+			console.log(state);
 		});
 		return nav;
 	}

@@ -107,6 +107,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	@ViewChildren('questions')
 	public questionContainers!: QueryList<QuestionContainerComponent>;
 
+	@ViewChild('questionsContainer', { static: false })
+	public questionsContainerElement: ElementRef;
+
 	public activeQuestion: any;
 
 	public surveyName: string;
@@ -205,10 +208,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					theme.sectionBackgroundColour = pageTheme['householdHeaderColour'];
 					theme.questionViewerColour = pageTheme['questionViewerColour'];
 
-
-					try { 
-					theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
-					} catch   {
+					try {
+						theme.viewerTemplate = JSON.parse(pageTheme['viewerTemplate']);
+					} catch {
 						theme.viewerTemplate = [];
 					}
 
@@ -473,7 +475,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 					for (let s of page.sections) {
 						qs.push(s);
 					}
-					qs = sortBy(qs, (q) => {
+					qs = sortBy(qs, q => {
 						return q['order'];
 					});
 
@@ -566,7 +568,10 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.viewerState.isNavProcessing = false;
 		this.scrollTop = 0;
 		this.surveyBodyContainer.nativeElement.scrollTop = 0;
-		console.log('nav finihed');
+
+		setTimeout(() => {
+			this.questionsContainerElement.nativeElement.scrollTo(0, 0);
+		});
 	};
 
 	/**

@@ -1,3 +1,5 @@
+
+<div id="top-scroll-anchor"></div>
 <div id="question-viewer-wrapper" class="flex-column d-flex" *ngIf="loadedComponents">
 
 	<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs">
@@ -17,7 +19,7 @@
 				</span>
 			</div>
 
-			<div class="questions-container flex-grow-1" style="overflow: scroll">
+			<div class="questions-container flex-grow-1" style="overflow: scroll" #questionsContainer>
 				<div class="question-section d-flex flex-column" [ngClass]="{
 					'd-flex flex-column':
 						!state.isMultiView,
