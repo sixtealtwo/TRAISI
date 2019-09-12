@@ -184,8 +184,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 			(componentRef: ComponentRef<any>) => {
 				let surveyQuestionInstance = <SurveyQuestion<any>>componentRef.instance;
 
-				console.log(componentRef);
-				console.log(this.questionOutlet);
 
 				surveyQuestionInstance.loadConfiguration(this.question.configuration);
 

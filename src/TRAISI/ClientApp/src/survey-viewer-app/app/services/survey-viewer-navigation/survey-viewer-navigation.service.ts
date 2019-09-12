@@ -19,7 +19,6 @@ import { SurveySectionRepeatContainer } from './survey-section-repeat-container'
 	providedIn: 'root'
 })
 export class SurveyViewerNavigationService {
-
 	public navigationCompleted: BehaviorSubject<boolean>;
 
 	public isNavigationPreviousEnabled: boolean = true;
@@ -197,6 +196,8 @@ export class SurveyViewerNavigationService {
 			this._state.viewerState.activeSection = undefined;
 		}
 
+		console.log(this._state);
+
 		this._state.viewerState.activePageIndex = (<SurveyQuestionContainer>(
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.pageIndex;
@@ -243,7 +244,7 @@ export class SurveyViewerNavigationService {
 						activeQuestionContainer.questionInstance !== undefined &&
 						activeQuestionContainer.questionModel.respondentValidationState !== undefined &&
 						activeQuestionContainer.questionModel.respondentValidationState[this._state.viewerState.activeRespondent.id] !==
-						ResponseValidationState.VALID
+							ResponseValidationState.VALID
 					) {
 						allValid = false;
 						break;

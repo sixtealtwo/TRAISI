@@ -9,8 +9,8 @@ import {
 	SurveyRespondent
 } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
-import { Observable, Subject, EMPTY } from 'rxjs';
-import { flatMap, map, share, tap } from 'rxjs/operators';
+import { Observable, Subject, EMPTY, interval } from 'rxjs';
+import { flatMap, map, share, tap, throttle } from 'rxjs/operators';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { SurveyResponseState } from 'app/models/survey-response-states.enum';
@@ -84,7 +84,6 @@ export class SurveyResponderService implements SurveyResponder {
 				toRetrieve.push(id);
 			}
 		}*/
-
 
 		if (toRetrieve.length > 0) {
 			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(toRetrieve, respondentId).pipe(
@@ -253,7 +252,7 @@ export class SurveyResponderService implements SurveyResponder {
 		questionModel: SurveyViewQuestion,
 		repeat: number
 	): void {
-		questionComponent.response.subscribe(
+		questionComponent.response.pipe(throttle(val => interval(500))).subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
 			},
@@ -351,7 +350,6 @@ export class SurveyResponderService implements SurveyResponder {
 		saved: Subject<boolean>
 	): void {
 		if (responseValid) {
-			console.log(data);
 			this._cachedSavedResponses[questionId][respondentId] = data;
 		}
 
