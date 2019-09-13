@@ -75,15 +75,11 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.validationState.emit(ResponseValidationState.VALID);
 		} else {
 		}
-		this._isLoaded = true;
 	};
 
 	public sliderUpdate = (values, handle, unencoded, isTap, positions): void => {
 		// this.sliderValue = values[0];
 
-		if (!this._isLoaded) {
-			return;
-		}
 		let value = parseInt(values[0], 10);
 		this.response.emit({ value: value });
 		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
