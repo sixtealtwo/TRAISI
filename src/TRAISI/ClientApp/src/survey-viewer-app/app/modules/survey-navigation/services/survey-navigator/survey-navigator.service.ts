@@ -269,11 +269,16 @@ export class SurveyNavigator {
 
 			return new Observable(obs => {
 				forkJoin(evals).subscribe((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
-
+					let order = 0;
 					for (let result of results) {
 						if (result.shouldHide) {
+							result.question.isHidden = true;
 							continue;
+						} else {
+							result.question.inSectionIndex = order++;
 						}
+
+						result.question.isHidden = false;
 
 						// copy the old question instance
 						let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, instance => {

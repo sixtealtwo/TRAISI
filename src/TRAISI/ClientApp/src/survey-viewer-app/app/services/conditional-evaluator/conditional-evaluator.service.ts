@@ -26,13 +26,9 @@ export class ConditionalEvaluator {
 	 * @param value
 	 */
 	public evaluateConditional(conditionalType: string, sourceData: any, targetData: any, value: any): boolean {
-		console.log(sourceData);
-		console.log(targetData);
-
 		if (sourceData === undefined) {
 			return false;
 		}
-
 		switch (conditionalType) {
 			case 'contains':
 				return this.evaluateContains(sourceData, value);
@@ -124,7 +120,6 @@ export class ConditionalEvaluator {
 		let conditionals = JSON.parse(conditionalData);
 
 		let isAny: boolean = false;
-
 
 		sourceData.forEach(response => {
 			if (response === undefined) {

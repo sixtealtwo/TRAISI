@@ -467,8 +467,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this._navigationService.navigationCompleted.subscribe(this.navigationCompleted);
 				this._navigationService.initialize();
 
-				let order = 0;
-				let questions = [];
+				let questions: Array<SurveyViewQuestion> = [];
 				for (let page of this.viewerState.surveyPages) {
 					let qs = [];
 					qs = qs.concat(page.questions);
@@ -489,12 +488,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						}
 					}
 				}
-
-				console.log(this.viewerState);
+				for (let i = 0; i < questions.length; i++) {
+					questions[i].navigationOder = i;
+				}
 				this.viewerState.surveyQuestions = questions;
-
 				this.navigator.initialize();
-
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
 			});
@@ -514,13 +512,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			return false;
 		}
 	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 */
-	private onNavigationStateChanged: (state: boolean) => void = (newState: boolean) => {};
 
 	/**
 	 * Evaluates whether a household question is currently active or not
@@ -677,10 +668,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public ngAfterViewInit(): void {
 		this.questionContainers.changes.subscribe(s => {
 			this._activeQuestionContainer = s.first;
-
-			if (s.length > 1) {
-			}
-
 			setTimeout(() => {
 				this.callVisibilityHooks();
 				this.validateNavigation();

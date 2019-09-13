@@ -21,7 +21,7 @@ export interface SurveyViewQuestion {
 	repeatSource?: number;
 	repeatTargets?: number[];
 	repeatChildren?: { [id: string]: Array<SurveyViewQuestion> };
-
+	navigationOder: number;
 	repeatNumber?: number;
 	inSectionIndex?: number;
 
