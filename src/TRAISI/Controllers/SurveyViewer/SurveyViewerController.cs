@@ -90,7 +90,7 @@ namespace TRAISI.Controllers.SurveyViewer
             var survey = await this._viewService.GetSurveyFromCode(code);
 
             if (survey != null) {
-                return new ObjectResult((surveyId: survey.Id, surveyTitle: survey.TitleLabels.Default.Value));
+                return new ObjectResult((surveyId: survey.Id, surveyTitle: survey.TitleLabels.Default.Value, nameof: survey.Name));
             }
             else {
                 return new NotFoundResult();

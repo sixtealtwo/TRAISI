@@ -43,6 +43,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this.surveySession.data.subscribe(data => {
+			console.log(data);
 			this._titleService.setTitle('TRAISI - ' + data.surveyTitle);
 		});
 	}

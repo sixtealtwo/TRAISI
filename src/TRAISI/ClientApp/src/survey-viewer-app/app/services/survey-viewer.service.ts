@@ -302,11 +302,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param language
 	 */
 	public getSurveyViewerRespondentPageQuestions(surveyId: number, page: number, language?: string): Observable<any> {
-		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(
-			surveyId,
-			page,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerRespondentPageQuestionsEndpoint(surveyId, page, language);
 	}
 
 	/**
@@ -320,11 +316,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		viewType?: SurveyViewType,
 		language?: string
 	): Observable<SurveyViewTermsModel> {
-		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(
-			surveyId,
-			viewType,
-			language
-		);
+		return this._surveyViewerEndpointService.getSurveyViewerTermsAndConditionsEndpoint(surveyId, viewType, language);
 	}
 
 	/**
@@ -345,16 +337,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param viewType
 	 * @param language
 	 */
-	public getSurveyViewerThankYou(
-		surveyId: number,
-		viewType?: SurveyViewType,
-		language?: string
-	): Observable<SurveyViewThankYouModel> {
-		return this._surveyViewerEndpointService.getSurveyViewerThankYouEndpoint<SurveyViewThankYouModel>(
-			surveyId,
-			viewType,
-			language
-		);
+	public getSurveyViewerThankYou(surveyId: number, viewType?: SurveyViewType, language?: string): Observable<SurveyViewThankYouModel> {
+		return this._surveyViewerEndpointService.getSurveyViewerThankYouEndpoint<SurveyViewThankYouModel>(surveyId, viewType, language);
 	}
 
 	/**
@@ -364,11 +348,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param shortcode
 	 */
 	public surveyStart(surveyId: number, shortcode: string, queryParams?: Params): Observable<{}> {
-		let result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyEndpoint(
-			surveyId,
-			shortcode,
-			queryParams
-		);
+		let result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyEndpoint(surveyId, shortcode, queryParams);
 		return result;
 	}
 
@@ -382,11 +362,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @memberof SurveyViewerService
 	 */
 	public startSurveyWithGroupcode(surveyId: number, groupcode: string, queryParams?: Params): Observable<any> {
-		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(
-			surveyId,
-			groupcode,
-			queryParams
-		);
+		const result = this._surveyViewerEndpointService.getSurveyViewerStartSurveyWithGroupcodeEndpoint(surveyId, groupcode, queryParams);
 		return result;
 	}
 
@@ -423,11 +399,11 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 			id$.subscribe(
 				value => {
+					console.log(value);
 					this._activeSurveyId = <number>value[Object.keys(value)[0]];
-					this._activeSurveyTitle = <string>value[Object.keys(value)[1]];
+					this._activeSurveyTitle = <string>value[Object.keys(value)[2]];
 					this.activeSurveyId.next(this._activeSurveyId);
 					this.activeSurveyTitle.next(this._activeSurveyTitle);
-
 				},
 				error => {
 					console.log(error);
@@ -454,10 +430,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param surveyId
 	 * @param viewType
 	 */
-	public getSurveyViewPages(
-		surveyId: number,
-		viewType: SurveyViewType = SurveyViewType.RespondentView
-	): Observable<SurveyViewPage[]> {
+	public getSurveyViewPages(surveyId: number, viewType: SurveyViewType = SurveyViewType.RespondentView): Observable<SurveyViewPage[]> {
 		return this._surveyViewerEndpointService.getSurveyViewPagesEndpoint(surveyId, viewType);
 	}
 
@@ -474,12 +447,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		language?: string,
 		query?: string
 	): Observable<SurveyViewQuestionOption[]> {
-		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(
-			surveyId,
-			questionId,
-			language,
-			query
-		);
+		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 
 	public preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<{}> {
