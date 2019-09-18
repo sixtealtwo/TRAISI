@@ -558,11 +558,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigationCompleted = (navStatus: boolean) => {
 		this.viewerState.isNavProcessing = false;
 		this.scrollTop = 0;
-		this.surveyBodyContainer.nativeElement.scrollTop = 0;
-
-		setTimeout(() => {
-			this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-		});
 	};
 
 	/**
@@ -574,7 +569,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.navigator.navigatePrevious().subscribe({
 			next: v => {},
-			complete: () => {}
+			complete: () => {
+				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
+				console.log('navigation completed');
+			}
 		});
 	}
 
@@ -589,7 +588,11 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			next: v => {
 				console.log(v);
 			},
-			complete: () => {}
+			complete: () => {
+				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
+				console.log('navigation completed');
+			}
 		});
 	}
 

@@ -83,7 +83,7 @@ export class SurveyNavigator {
 	 */
 	public navigateNext(): Observable<NavigationState> {
 		let nav = this._incrementNavigation(this.navigationState$.value).pipe(share());
-
+		this.nextEnabled$.next(false);
 		nav.subscribe(state => {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
