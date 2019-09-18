@@ -9,6 +9,12 @@
   flex-direction: row; */
 }
 
+.tile-number {
+	width: auto !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
 .header-row {
 	align-items:center;
 }
@@ -95,7 +101,7 @@
   .question-number-container {
     max-width: 90px;
 	position: relative;
-	top:-10px;
+	// top:-10px;
   }
 
   .question-number-container-section {

@@ -1,195 +1,192 @@
 // @import 'src/shared/assets/scss/helpers';
-@import '../../../assets/scss/application.scss';
+@import "../../../assets/scss/application.scss";
 
 .group-member-names-section {
 }
 
 traisi-survey-header-display {
-	position: relative;
+  position: relative;
 }
 
 #welcome-header-editor {
-	z-index: 1000;
+  z-index: 1000;
 }
 
 .survey-section-header {
-	// color: white;
-	padding: 8px;
-	font-size: 20px;
-	text-align: center;
-	font-weight: bold;
+  // color: white;
+  padding: 8px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
 }
 
-
 .questions-container {
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-	align-content: stretch;
-	justify-content: stretch;
-	justify-items: stretch;
-	// position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	flex-grow: 1;
-
-
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: stretch;
+  justify-content: stretch;
+  justify-items: stretch;
+  // position: absolute;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
 }
 
 .question-section {
-	flex-grow: 1;
-	position: relative;
-	width: 100%;
-	height: 100%;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .question-widget {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
-	display: flex;
-	flex-direction: column;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .group-member-names-section {
-	transform-origin: left;
-	transform: rotate(90deg);
-	white-space: nowrap;
-	display: inline-block;
+  transform-origin: left;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .group-member-names-container {
-	width: 30px;
+  width: 30px;
 }
 
-
-.repeat-header
-{
-	font-size: 14px;
-	color: #777;
+.repeat-header {
+  font-size: 14px;
+  color: #777;
 }
 
 .group-member-name {
-	display: inline;
-	margin-right: 5px;
-	-webkit-transform: none;
-	transform: none;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	padding: 5px 10px;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-	background-color: #dfdfdf;
-	color: #777;
+  display: inline;
+  margin-right: 5px;
+  -webkit-transform: none;
+  transform: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #dfdfdf;
+  color: #777;
 }
 
 .group-member-name.group-member-active {
-	background-color: #01688b;
-	color: white;
+  background-color: #01688b;
+  color: white;
 }
 
 .group-member-name.group-member-complete {
-	background-color: #64bd63;
-	color: white;
+  background-color: #64bd63;
+  color: white;
 }
 
 .survey-viewer-container {
-	// overflow: hidden;
-	/* height: 100%; */
-	display: block;
-	position: absolute;
-	bottom: 0px;
-	top: 0px;
-	right: 0px;
-	left: 0px;
-	max-height: 100%;
+  // overflow: hidden;
+  /* height: 100%; */
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  max-height: 100%;
 }
 
 .survey-body-container {
-	margin: 0;
-	text-align: center;
-	overflow-y: auto;
-	overflow-x: hidden;
-	width: 100%;
+  margin: 0;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .survey-body {
-	text-align: left;
-	display: block;
+  text-align: left;
+  display: block;
 }
 
 .survey-title-container {
-	text-align: center;
-	margin: 10px;
+  text-align: center;
+  margin: 10px;
 }
 
 .survey-footer-container {
-	// background: $light;
+  // background: $light;
 }
 
 .footer-inner {
-	text-align: center;
-	font-size: 14px;
-	margin: 10px;
+  text-align: center;
+  font-size: 14px;
+  margin: 10px;
 }
 
 .traisi-survey-viewer-container {
-	display: flex;
-	flex-direction: column;
-	max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
 }
 
 .navigation-button {
-	display: inline-block;
-	margin: 20px;
-	button {
-		width: 100px;
-	}
+  display: inline-block;
+  margin: 20px;
+  button {
+    width: 100px;
+  }
 }
 
 .survey-navigation-container {
-	display: flex;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
 #question-viewer-wrapper {
-	overflow-y: hidden;
-	overflow-x: hidden;
-	display: flex;
-	flex-direction: column;
-	max-height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
 
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 }
 
 #question-viewer-nav {
-	font-size: 18px;
-	@include media-breakpoint-up(md) {
-		margin-right: 15px;
-	}
+  font-size: 18px;
+  @include media-breakpoint-up(md) {
+    margin-right: 15px;
+  }
 }
 
 .household-tabs {
-	@include media-breakpoint-up(md) {
-		margin-right: 45px !important;
-	}
+  @include media-breakpoint-up(md) {
+    margin-right: 45px !important;
+  }
 }
 
 .survey-nav-button:disabled {
-	cursor: initial;
+  cursor: initial;
 }
 
-@import 'survey-viewer-component.sm.scss';
+@import "survey-viewer-component.sm.scss";

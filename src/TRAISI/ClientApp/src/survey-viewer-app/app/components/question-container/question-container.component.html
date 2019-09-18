@@ -3,7 +3,7 @@
 		<div class="question-header container-fluid">
 			<div class="row flex-nowrap header-row">
 				<div class="question-number-container col">
-					<div class="question-number badge badge-danger mt-3"
+					<div class="tile bg-primary tile-number"
 						[ngClass]="{ 'question-section': question.parentSection !== undefined }">
 						<span *ngIf="question.repeatNumber === undefined && question.parentSection === undefined">
 							Q{{ surveyViewQuestion.viewOrder + 1 }}

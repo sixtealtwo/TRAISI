@@ -86,6 +86,7 @@
 
 #pages-progress-bar {
   position: relative;
+  height: 40px;
   @media only screen and (max-height: 768px) {
     visibility: collapse;
     height: 0px;
@@ -94,7 +95,7 @@
   // margin-bottom: 20px;
 }
 
-.page {
+.page-div {
   // margin-top: -12px;
   border: 2px solid darkblue;
   border-radius: 50%;
@@ -107,12 +108,12 @@
   cursor: pointer;
 }
 
-.page.complete {
+.page-div.complete {
   background-color: $green;
   color: white;
 }
 
-.page.active {
+.page-div.active {
   background-color: $blue;
   color: white;
 }
@@ -128,7 +129,7 @@
   }
 }
 
-.page:hover + .page-progress-label {
+.page-div:hover + .page-progress-label {
   visibility: visible;
 }
 

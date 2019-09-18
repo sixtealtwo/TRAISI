@@ -5,7 +5,7 @@
 
 		<div class="col text-center page-wrapper" [class.white-progress-line]="useWhiteProgressLine"
 			*ngFor="let page of viewerState.surveyPages; index as i">
-			<div class="page d-inline-block" [class.active]="state.activePageIndex == i"
+			<div class="page-div d-inline-block" [class.active]="state.activePageIndex == i"
 				[class.complete]="completedPages[i]" (click)="setPageActive(i)">
 				<i [ngClass]="page.icon"></i>
 			</div>
