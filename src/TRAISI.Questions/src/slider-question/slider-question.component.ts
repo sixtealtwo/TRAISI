@@ -63,7 +63,6 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		if (response !== 'none') {
 			let rangeResponse = <RangeResponseData>response[0];
 
-			console.log(rangeResponse);
 			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(rangeResponse['value']));
 
 			this.sliderElement.nativeElement.noUiSlider.set(rangeResponse['value']);
@@ -83,5 +82,8 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		let value = parseInt(values[0], 10);
 		this.response.emit({ value: value });
 		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
+		setTimeout(() => {
+			this.validationState.emit(ResponseValidationState.VALID);
+		});
 	};
 }
