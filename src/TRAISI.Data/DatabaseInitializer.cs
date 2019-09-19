@@ -52,8 +52,6 @@ namespace DAL
                  await _context.QuestionConfigurations.AddAsync (qc);
              } */
 
-            ApplicationUser smto = null;
-            ApplicationUser tts = null;
 
             if (!await _context.Users.AnyAsync()) {
                 _logger.LogInformation("Generating inbuilt accounts");
