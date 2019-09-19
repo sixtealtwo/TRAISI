@@ -9,10 +9,10 @@
 	<div class="survey-body-container flex-grow-1 d-flex flex-column" id="survey-body-container" #surveyBodyContainer
 		[scrollTop]="scrollTop">
 		<div class="survey-body flex-grow-1 d-flex flex-column" *ngIf="navigator.navigationState$ | async as state">
-			<div class="survey-section-header mx-md-3 h3" *ngIf="state.activeSectionId >= 0"
+			<div class="survey-section-header h5" *ngIf="state.activeSectionId >= 0"
 				[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
 				[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
-				[ngClass]="{ 'mt-3 mt-md-0': viewerState.isSectionActive }"
+				[ngClass]="{ 'visible': viewerState.isSectionActive }"
 				[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml">
 				<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
 					- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
