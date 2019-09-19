@@ -1820,18 +1820,18 @@ span.flatpickr-weekday {
 
 .noUi-handle {
   padding: 0;
-  display: inline-block;
-  background-color: $white;
-  color: $white;
-  border: 4px solid $primary;
-  vertical-align: middle;
-  border-radius: 1.25rem;
-  line-height: 1;
-  user-select: none;
-  white-space: normal;
-  transform-origin: center center;
-  transition: box-shadow 150ms;
-  outline: 0;
+  display: inline-block !important;
+  background-color: $white !important;
+  color: $white !important;
+  border: 4px solid $primary !important;
+  vertical-align: middle !important;
+  border-radius: 1.25rem !important;
+  line-height: 1 !important;
+  user-select: none !important;
+  white-space: normal !important;
+  transform-origin: center center !important;
+  transition: box-shadow 150ms !important;
+  outline: 0  !important;
 
   &:before,
   &:after {
@@ -1846,16 +1846,16 @@ span.flatpickr-weekday {
 }
 
 .noUi-horizontal {
-  height: 4px;
+  height: 4px !important;
 
   .noUi-handle {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.25rem  !important;;
+    height: 1.25rem !important;
     left: -12px;
     top: -8px;
 
     html:not([dir=rtl]) & {
-      right: -(1.25rem/2);
+      right: -(1.25rem/2) ;
     }
   }
 }
@@ -1873,17 +1873,17 @@ span.flatpickr-weekday {
 }
 
 .noUi-target {
-  background-color: $progress-bg;
-  border: 0;
-  box-shadow: none;
+  background-color: $progress-bg !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 .noUi-connect {
-  background-color: $primary;
-  box-shadow: none;
+  background-color: $primary !important;
+  box-shadow: none !important;
 }
 .noUi-handle,
 .noUi-active {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
 .noUi-pips {
@@ -1921,7 +1921,7 @@ span.flatpickr-weekday {
   border-radius: $border-radius;
 }
 .noUi-horizontal .noUi-tooltip {
-  bottom: 200%;
+  bottom: 200% !important;
 }
 .noUi-vertical .noUi-tooltip {
   right: 200%;
@@ -1939,17 +1939,17 @@ span.flatpickr-weekday {
 
 .noUi-target[disabled] {
   .noUi-connect {
-    background-color: $progress-bg;
+    background-color: $progress-bg !important;
   }
   .noUi-handle {
-    border-color: $progress-bg;
-    background-color: $secondary;
+    border-color: $progress-bg !important;
+    background-color: $secondary !important;
   }
 }
 .noUi-origin[disabled] {
   .noUi-handle {
-    border-color: $progress-bg;
-    background-color: $secondary;
+    border-color: $progress-bg !important;
+    background-color: $secondary !important;
   }
 }
 

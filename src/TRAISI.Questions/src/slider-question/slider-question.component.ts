@@ -1,31 +1,17 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
-	OnOptionsLoaded,
-	QuestionOption,
-	ResponseData,
-	RangeResponseData,
-	ResponseValidationState
-} from 'traisi-question-sdk';
+import { Component, Inject, OnInit, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { SurveyQuestion, ResponseTypes, SurveyViewer, ResponseData, RangeResponseData, ResponseValidationState } from 'traisi-question-sdk';
 import templateString from './slider-question.component.html';
-import noUiSlider from 'nouislider';
+import * as noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import { BehaviorSubject } from 'rxjs';
-import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
+
 @Component({
 	selector: 'traisi-slider-question',
 	template: templateString,
+	encapsulation: ViewEncapsulation.None,
 	styles: [require('./slider-question.component.scss').toString()]
 })
-export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
+export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit, AfterViewInit {
 	@ViewChild('slider', { static: true })
 	private sliderElement: ElementRef;
 
@@ -42,10 +28,11 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		this.sliderValue = new BehaviorSubject<string>('');
 	}
 
-	public ngOnInit(): void {
+	public ngAfterViewInit(): void {
 		noUiSlider.create(this.sliderElement.nativeElement, {
 			start: [0],
 			step: parseInt(this.configuration['step'], 10),
+			connect: [true, false],
 			range: {
 				min: [parseInt(this.configuration['min'], 10)],
 				max: [parseInt(this.configuration['max'], 10)]
@@ -56,6 +43,8 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
+
+	public ngOnInit(): void {}
 
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.Decminal>[] | 'none') => void = (
 		response: ResponseData<ResponseTypes.Range>[] | 'none'

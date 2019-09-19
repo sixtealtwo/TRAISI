@@ -17,7 +17,6 @@ import {
 } from 'traisi-question-sdk';
 import templateString from './range-question.component.html';
 import noUiSlider from 'nouislider';
-import 'nouislider/distribute/nouislider.css';
 import { BehaviorSubject } from 'rxjs';
 @Component({
 	selector: 'traisi-range-question',

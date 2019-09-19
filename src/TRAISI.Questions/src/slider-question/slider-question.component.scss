@@ -1,11 +1,14 @@
-
-
 div.slider {
 }
 
 div.slider-value {
-    text-align: left;
-    font-size: 14px;
-    margin: 10px;
-    font-weight: bold;
+  text-align: left;
+  font-size: 14px;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+  width: 0px;
 }
