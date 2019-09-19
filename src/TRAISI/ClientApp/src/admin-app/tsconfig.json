@@ -10,7 +10,7 @@
 		"paths": {
 			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
-
+			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client"],
 			"shared/*": ["../shared/*"]
 		}
 	},

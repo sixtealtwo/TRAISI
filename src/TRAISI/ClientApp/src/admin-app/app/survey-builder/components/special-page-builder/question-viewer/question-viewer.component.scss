@@ -154,12 +154,13 @@
 	}
 	.question-complete {
 		position: absolute;
-		left: 0px;
+		left: -10px;
 		top: 0px;
-		font-size: 24px;
-		color: black;
+		font-size: 18px; 
+		color: white;
 		i {
-			background-color: lightgreen;
+			color:white;
+			background-color: rgb(120, 208, 230);
 			border-radius: 50%;
 		}
 	}
