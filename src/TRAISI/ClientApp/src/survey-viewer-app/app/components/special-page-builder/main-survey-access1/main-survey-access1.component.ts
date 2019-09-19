@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { SurveyViewerService } from '../../../services/survey-viewer.service';
-
+import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -9,8 +9,7 @@ import { SurveyViewerService } from '../../../services/survey-viewer.service';
 	styleUrls: ['./main-survey-access1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class MainSurveyAccess1Component implements OnInit {
-
+export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent {
 	public quillModules: Object = {
 		toolbar: [
 			['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -62,10 +61,7 @@ export class MainSurveyAccess1Component implements OnInit {
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
-	constructor(
-		private surveyViewerService: SurveyViewerService
-	) {
-	}
+	public constructor(private surveyViewerService: SurveyViewerService) {}
 
 	public ngOnInit(): void {
 		try {
@@ -125,4 +121,10 @@ export class MainSurveyAccess1Component implements OnInit {
 	public startSurvey(): void {
 		this.startSurveyPressed.emit(this.accessCode);
 	}
+
+	public setShortcodeInput(shortcode: string): void {
+		this.accessCode = shortcode;
+	}
+
+
 }

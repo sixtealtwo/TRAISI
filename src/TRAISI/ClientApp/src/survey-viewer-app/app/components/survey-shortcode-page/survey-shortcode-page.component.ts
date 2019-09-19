@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyStart } from 'app/models/survey-start.model';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
+import { SpecialPageBuilderComponent } from '../special-page-builder/special-page-builder.component';
 
 @Component({
 	selector: 'traisi-survey-shortcode-page',
@@ -12,6 +13,9 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 	styleUrls: ['./survey-shortcode-page.component.scss']
 })
 export class SurveyShortcodePageComponent implements OnInit {
+	@ViewChild('startContent', { static: false })
+	public startContent: SpecialPageBuilderComponent;
+
 	public finishedLoading: boolean = false;
 	public pageThemeInfo: any = {};
 	public surveyName: string;
@@ -20,14 +24,16 @@ export class SurveyShortcodePageComponent implements OnInit {
 	public survey: SurveyStart;
 	public isError: boolean = false;
 	public startPageComponent: SurveyStartPageComponent;
+
+	private _paramMap: ParamMap;
+
 	/**
-	 *Creates an instance of SurveyShortcodeStartPageComponent.
-	 * @param {SurveyViewerService} _surveyViewerService
-	 * @param {ActivatedRoute} _route
-	 * @param {Router} _router
-	 * @param {TranslateService} _translate
-	 * @param {ElementRef} _elementRef
-	 * @memberof SurveyShortcodeStartPageComponent
+	 *
+	 * @param _surveyViewerService
+	 * @param _route
+	 * @param _router
+	 * @param _translate
+	 * @param _elementRef
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
@@ -35,7 +41,20 @@ export class SurveyShortcodePageComponent implements OnInit {
 		private _router: Router,
 		private _translate: TranslateService,
 		private _elementRef: ElementRef
-	) {}
+	) {
+		this._route.paramMap.subscribe(map => {
+			this._paramMap = map;
+		});
+	}
+
+	/**\
+	 * Sets the shortcode input to the value provided by the URL.
+	 */
+	public setPassedShortcode(): void {
+		if (this._paramMap.has('shortcode')) {
+			this.startContent.setShortcodeInput(this._paramMap.get('shortcode'));
+		}
+	}
 
 	/**
 	 *
@@ -52,7 +71,6 @@ export class SurveyShortcodePageComponent implements OnInit {
 					this._surveyViewerService.pageThemeInfoJson.subscribe(
 						styles => {
 							try {
-
 								this.pageThemeInfo = styles;
 								if (this.pageThemeInfo === null) {
 									this.pageThemeInfo = {};
@@ -64,6 +82,10 @@ export class SurveyShortcodePageComponent implements OnInit {
 							this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
 							this.finishedLoading = true;
 							console.log('finished loading');
+
+							setTimeout(() => {
+								this.setPassedShortcode();
+							});
 						},
 						error => {
 							console.error(error);
