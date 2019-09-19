@@ -1,4 +1,4 @@
-<div class="pages-divider">
+<!-- <div class="pages-divider">
 </div>
 <div id="pages-progress-bar" class="d-none d-md-block" *ngIf="navigator.navigationState$ | async as state">
 	<div class="row">
@@ -19,4 +19,39 @@
 		</div>
 	</div>
 
+</div>
+-->
+
+<div class="steps steps-" role="tablist" *ngIf="navigator.navigationState$ | async as state">
+	<ul>
+
+		<li *ngFor="let page of viewerState.surveyPages; index as i" class="step"
+			[ngClass]="{'active': state.activePage.id == page.id}">
+			<a onclick="event.preventDefault()" class="step-trigger page-step" tabindex="-1" aria-selected="true"><span
+					class="step-indicator step-indicator-icon"><i [ngClass]="page.icon"></i></span><span
+					class="d-none d-sm-inline">{{ page.label }}</span></a>
+		</li>
+
+		<!--
+		<li class="step active" data-target="#test-l-1">
+			<a href="#" class="step-trigger" tabindex="-1" aria-selected="true"><span
+					class="step-indicator step-indicator-icon"><i class="oi oi-account-login"></i></span> <span
+					class="d-none d-sm-inline">Account</span></a>
+		</li>
+		<li class="step" data-target="#test-l-2">
+			<a href="#" class="step-trigger" tabindex="-1" aria-selected="false"><span
+					class="step-indicator step-indicator-icon"><i class="oi oi-person"></i></span> <span
+					class="d-none d-sm-inline">Personal</span></a>
+		</li>
+		<li class="step" data-target="#test-l-3">
+			<a href="#" class="step-trigger" tabindex="-1" aria-selected="false"><span
+					class="step-indicator step-indicator-icon"><i class="oi oi-credit-card"></i></span> <span
+					class="d-none d-sm-inline">Payment</span></a>
+		</li>
+		<li class="step" data-target="#test-l-4">
+			<a href="#" class="step-trigger" tabindex="-1" aria-selected="false"><span
+					class="step-indicator step-indicator-icon"><i class="oi oi-check"></i></span> <span
+					class="d-none d-sm-inline">Confirm</span></a>
+		</li> -->
+	</ul>
 </div>

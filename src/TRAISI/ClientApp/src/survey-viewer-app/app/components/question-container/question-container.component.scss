@@ -10,13 +10,13 @@
 }
 
 .tile-number {
-	width: auto !important;
-	padding-left: 5px;
-	padding-right: 5px;
+  width: auto !important;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .header-row {
-	align-items:center;
+  align-items: center;
 }
 
 .question-widget {
@@ -100,8 +100,8 @@
 
   .question-number-container {
     max-width: 90px;
-	position: relative;
-	// top:-10px;
+    position: relative;
+    // top:-10px;
   }
 
   .question-number-container-section {
@@ -151,8 +151,4 @@
 .question-header-divider {
   height: 5px;
   border-top: 1px solid rgb(200, 200, 200);
-}
-
-.question-section {
-  background-color: #01688b !important;
 }

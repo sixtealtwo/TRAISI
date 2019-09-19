@@ -9,7 +9,7 @@
 	<div class="survey-body-container flex-grow-1 d-flex flex-column" id="survey-body-container" #surveyBodyContainer
 		[scrollTop]="scrollTop">
 		<div class="survey-body flex-grow-1 d-flex flex-column" *ngIf="navigator.navigationState$ | async as state">
-			<div class="survey-section-header mx-md-3" *ngIf="state.activeSectionId >= 0"
+			<div class="survey-section-header mx-md-3 h3" *ngIf="state.activeSectionId >= 0"
 				[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
 				[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
 				[ngClass]="{ 'mt-3 mt-md-0': viewerState.isSectionActive }"
@@ -50,7 +50,7 @@
 				<div class="row justify-content-center">
 					<span class="w-50 mx-auto text-right mt-2 mb-2">
 						<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
-							[disabled]="!(navigator.previousEnabled$ | async)" class="btn  pl-4 pr-4  survey-nav-button"
+							[disabled]="!(navigator.previousEnabled$ | async)" class="btn btn-secondary pl-4 pr-4  survey-nav-button"
 							type="button">
 							<i class="fas fa-arrow-alt-circle-left mr-1"></i>
 							{{ 'Viewer.Previous' | translate }}

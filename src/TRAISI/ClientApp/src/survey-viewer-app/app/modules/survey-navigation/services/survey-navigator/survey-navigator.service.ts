@@ -70,6 +70,8 @@ export class SurveyNavigator {
 	public initialize(): void {
 		this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe();
 		this.nextEnabled$.next(true);
+
+		console.log(this.navigationState$.value);
 	}
 
 	public _getBaseQuestionModels(part: SurveyViewPage | SurveyViewSection): SurveyViewQuestion[] {
