@@ -56,6 +56,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	) {
 		super();
 		this.options = [];
+		this.customResponseOptions = new Set<string>();
 	}
 
 	/**
@@ -64,7 +65,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	public ngOnInit(): void {
 		this.configuration['allowCustomResponse'] = this.configuration['allowCustomResponse'] === 'true' ? true : false;
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
-		this.customResponseOptions = new Set(this.configuration['customResponseOptions'].split(','));
+		const options = this.configuration['customResponseOptions'].split(',');
+		this.customResponseOptions = new Set(options);
 		console.log(this.customResponseOptions);
 	}
 
@@ -83,6 +85,9 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 			}
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
+
+
+		this.isLoaded.next(true);
 	};
 
 	/**
