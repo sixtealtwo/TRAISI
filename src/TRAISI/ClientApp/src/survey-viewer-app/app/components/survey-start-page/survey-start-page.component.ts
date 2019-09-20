@@ -42,7 +42,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public groupcode: string;
 	public isChildPage: boolean = true;
 	public session: SurveyViewerSessionData;
-
+	public hasAccessError: boolean = false;
 	private _queryParams: Params;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef, static: false })
@@ -187,6 +187,7 @@ export class SurveyStartPageComponent implements OnInit {
 		this.shortcode = code;
 		this.isLoading = true;
 		this.isError = false;
+		this.hasAccessError = false;
 		code = code === undefined ? code : code.trim();
 		if (this._surveyViewerService.isLoggedIn.value) {
 			this.shortcode = this._surveyViewerService.currentUser.shortcode;
@@ -206,6 +207,7 @@ export class SurveyStartPageComponent implements OnInit {
 				console.error(error);
 				this.isLoading = false;
 				this.isError = true;
+				this.hasAccessError = true;
 			}
 		);
 	}

@@ -61,6 +61,8 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
+
+
 	public constructor(public surveyViewerService: SurveyViewerService) {}
 
 	public ngOnInit(): void {
@@ -92,7 +94,6 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 		this.pageTextColour = this.getBestPageBodyTextColor();
 		this.borderColour = this.getBestBorderColor();
 
-		console.log(this.surveyViewerService);
 		this.surveyViewerService.isLoggedIn.subscribe(
 			val => {
 				console.log('logged in: ' + val);
