@@ -52,27 +52,32 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		if (response !== 'none') {
 			let rangeResponse = <RangeResponseData>response[0];
 
+			console.log(rangeResponse);
+
 			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(rangeResponse['value']));
 
 			this.sliderElement.nativeElement.noUiSlider.set(rangeResponse['value']);
 
-			setTimeout(() => {
-				this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
-			});
+			this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
+
 			// this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
 			this.validationState.emit(ResponseValidationState.VALID);
 		} else {
 		}
+
+		this.isLoaded.next(true);
 	};
 
 	public sliderUpdate = (values, handle, unencoded, isTap, positions): void => {
 		// this.sliderValue = values[0];
 
-		let value = parseInt(values[0], 10);
-		this.response.emit({ value: value });
-		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
-		setTimeout(() => {
-			this.validationState.emit(ResponseValidationState.VALID);
-		});
+		if (this.isLoaded.value) {
+			let value = parseInt(values[0], 10);
+			this.response.emit({ value: value });
+			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
+			setTimeout(() => {
+				this.validationState.emit(ResponseValidationState.VALID);
+			});
+		}
 	};
 }

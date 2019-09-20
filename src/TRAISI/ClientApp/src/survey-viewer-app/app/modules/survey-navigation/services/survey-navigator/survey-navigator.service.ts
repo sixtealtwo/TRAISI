@@ -71,7 +71,7 @@ export class SurveyNavigator {
 		this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe();
 		this.nextEnabled$.next(true);
 
-		console.log(this.navigationState$.value);
+		this.validationChanged();
 	}
 
 	public _getBaseQuestionModels(part: SurveyViewPage | SurveyViewSection): SurveyViewQuestion[] {

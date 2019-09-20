@@ -1,10 +1,10 @@
 <form #f="ngForm" name="form">
 
 
-  <input [disabled]="!isLoaded" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
+  <input [disabled]="!(isLoaded | async)" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
     name="textInput" #inputElement *ngIf="!configuration.multiline" [maxlength]="configuration.maxLength">
 
-  <textarea [disabled]="!isLoaded" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
+  <textarea [disabled]="!(isLoaded | async)" type="text" [(ngModel)]="textInput" class="form-control form-control-lg" placeholder="Enter response..."
     name="textInput" #inputElement *ngIf="configuration.multiline" rows="5" [maxlength]="configuration.maxLength"></textarea>
 
 </form>

@@ -119,11 +119,11 @@
   }
   .question-complete {
     position: absolute;
-    left: 0px;
-    top: 0px;
-    font-size: 24px;
+    left: -10px;
+    top: 4px;
+    font-size: 16px;
     i {
-      background-color: lightgreen;
+      background-color: rgb(92, 206, 177);
       border-radius: 50%;
     }
 
@@ -132,11 +132,11 @@
 
   .question-incomplete {
     position: absolute;
-    left: 0px;
-    top: 0px;
-    font-size: 24px;
+    left: -10px;
+    top: 4px;
+    font-size: 16px;
     i {
-      background-color: red;
+      background-color: rgb(236, 113, 41);
       border-radius: 50%;
     }
 

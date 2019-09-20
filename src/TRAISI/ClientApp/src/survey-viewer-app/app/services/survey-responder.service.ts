@@ -10,7 +10,7 @@ import {
 } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY, interval } from 'rxjs';
-import { flatMap, map, share, tap, throttle } from 'rxjs/operators';
+import { flatMap, map, share, tap, throttle, debounceTime } from 'rxjs/operators';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { SurveyResponseState } from 'app/models/survey-response-states.enum';
@@ -252,7 +252,7 @@ export class SurveyResponderService implements SurveyResponder {
 		questionModel: SurveyViewQuestion,
 		repeat: number
 	): void {
-		questionComponent.response.pipe(throttle(val => interval(500))).subscribe(
+		questionComponent.response.pipe(debounceTime(200)).subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
 			},
