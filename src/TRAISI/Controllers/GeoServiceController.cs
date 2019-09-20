@@ -74,7 +74,7 @@ namespace TRAISI.Controllers
 		[HttpGet]
 		[Route("routeplanner")]
 		public async Task<IActionResult> RoutePlanner([FromQuery] string arrival, [FromQuery] string departure, [FromQuery] string date,
-		[FromQuery] string mode, [FromQuery] string transitModes, [FromQuery] string accessibiliy = "none")
+		[FromQuery] string mode, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "")
 		{
 
 			string[] depCoords = departure.Split("|");
