@@ -78,7 +78,7 @@ namespace TRAISI {
 			bool isEnvironmentTest = false;
 
 			bool.TryParse (Environment.GetEnvironmentVariable ("TRAISI_STAGING_TEST"), out isEnvironmentTest);
-			if (args.Contains ("--test") || isEnvironmentTest || true) {
+			if (args.Contains ("--test") || isEnvironmentTest) {
 				builder.UseEnvironment ("Development");
 				//.UseKestrel ((options) => {
 				//	options.Listen (IPAddress.Any, 8000);

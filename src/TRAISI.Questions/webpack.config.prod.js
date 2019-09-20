@@ -19,13 +19,13 @@ module.exports = {
 	devtool: false,
 	optimization: {
 		minimizer: [
-			new UglifyJsPlugin({
+			/*new UglifyJsPlugin({
 				parallel: 4,
 				uglifyOptions: {
 					// 	mangle: true
 				}
-			})
-		]
+			}) */
+ 		]
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
