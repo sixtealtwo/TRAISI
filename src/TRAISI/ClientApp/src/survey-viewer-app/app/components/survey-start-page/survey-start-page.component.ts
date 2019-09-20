@@ -82,6 +82,12 @@ export class SurveyStartPageComponent implements OnInit {
 		this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 			this.surveyStartConfig = surveyStartModel;
 
+			this._route.paramMap.subscribe(map => {
+				if (map.has('shortcode')) {
+					const shortcode = map.get('shortcode');
+					this.trySurveyLogin(shortcode);
+				}
+			});
 			this.evaluateSurveyType();
 		});
 
@@ -94,11 +100,6 @@ export class SurveyStartPageComponent implements OnInit {
 				this.outlet.component['startPageComponent'] = this;
 			}
 		}
-
-		this._route.paramMap.subscribe(map => {
-			console.log(map);
-			console.log(this);
-		});
 
 		this._router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
@@ -157,6 +158,15 @@ export class SurveyStartPageComponent implements OnInit {
 		);
 	}
 
+	public trySurveyLogin(shortcode: string): void {
+		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe(
+			(user: User) => {},
+			error => {
+				console.log(' you are not logged in');
+			}
+		);
+	}
+
 	/**
 	 *
 	 *
@@ -178,6 +188,9 @@ export class SurveyStartPageComponent implements OnInit {
 		this.isLoading = true;
 		this.isError = false;
 		code = code === undefined ? code : code.trim();
+		if (this._surveyViewerService.isLoggedIn.value) {
+			this.shortcode = this._surveyViewerService.currentUser.shortcode;
+		}
 		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
 			value => {
 				this.isLoading = false;

@@ -18,9 +18,10 @@ import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { find as _find } from 'lodash';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
+import { tap, share } from 'rxjs/operators';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SurveyViewerService implements SurveyViewer, OnInit {
 	public configurationData: Subject<QuestionConfiguration[]>;
@@ -48,7 +49,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public welcomeModel: ReplaySubject<SurveyStart>;
 
-	public isLoggedIn: ReplaySubject<boolean>;
+	public isLoggedIn: BehaviorSubject<boolean>;
 
 	public screeningQuestionsModel: ReplaySubject<SurveyViewScreening>;
 
@@ -87,7 +88,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.options = new Subject<QuestionOption[]>();
 
 		this.pageThemeInfo = new ReplaySubject<SurveyViewerTheme>(1);
-		this.isLoggedIn = new ReplaySubject<boolean>(1);
+		this.isLoggedIn = new BehaviorSubject<boolean>(false);
 		this.surveyCode = new ReplaySubject<string>(1);
 		this.pageThemeInfoJson = new ReplaySubject<any>(1);
 		this.welcomeModel = new ReplaySubject<SurveyStart>(1);
@@ -372,7 +373,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * @param shortcode
 	 */
 	public surveyLogin(surveyId: number, shortcode: string): Observable<User> {
-		return this._authService.surveyLogin(surveyId, shortcode, '', true);
+		return this._authService
+			.surveyLogin(surveyId, shortcode, '', true)
+			.pipe(
+				tap(user => {
+					this.isLoggedIn.next(true);
+				})
+			)
+			.pipe(share());
 	}
 
 	/**

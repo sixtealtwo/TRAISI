@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
@@ -82,9 +82,7 @@ export class AuthService {
 	 */
 	public redirectLoginUser(): void {
 		const redirect =
-			this.loginRedirectUrl &&
-			this.loginRedirectUrl !== '/' &&
-			this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl
+			this.loginRedirectUrl && this.loginRedirectUrl !== '/' && this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl
 				? this.loginRedirectUrl
 				: this.homeUrl;
 		this.loginRedirectUrl = null;
@@ -168,23 +166,15 @@ export class AuthService {
 	 * @returns {Observable<User>}
 	 * @memberof AuthService
 	 */
-	public surveyLogin(
-		surveyId: number,
-		shortcode: string,
-		groupcode?: string,
-		rememberMe?: boolean,
-	): Observable<User> {
+	public surveyLogin(surveyId: number, shortcode: string, groupcode?: string, rememberMe?: boolean): Observable<User> {
 		if (this.isLoggedIn) {
 			this.logout();
 		}
 
 		return this.endpointFactory
 			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode)
-			.pipe(
-				map(response =>
-					this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)
-				)
-			);
+			.pipe(map(response => this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)))
+			.pipe(share());
 	}
 
 	/**

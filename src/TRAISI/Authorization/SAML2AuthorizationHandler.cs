@@ -9,6 +9,7 @@ using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.ViewModels.Users;
@@ -31,6 +32,12 @@ namespace TRAISI.Authorization.Extensions
 
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IConfiguration _configuration;
+
+        private readonly string DEFAULT_AUTHENTICATION_ATTRIBUTE = "subject-id";
+
+        private string AuthenticationAttribute { get; set; }
+
 
         /// <summary>
         /// 
@@ -39,12 +46,27 @@ namespace TRAISI.Authorization.Extensions
         public SAML2AuthorizationHandler(UserManager<TraisiUser> userManager,
         AuthenticationService authenticationService,
         IAccountManager accountManager,
-        IUnitOfWork unitofWork)
+        IUnitOfWork unitofWork,
+        IConfiguration configuration)
         {
             this._userManager = userManager;
             this._authenticationService = authenticationService;
             this._accountManager = accountManager;
             this._unitOfWork = unitofWork;
+            this._configuration = configuration;
+
+            this.Initialize();
+        }
+
+        private void Initialize()
+        {
+            var authAttribute = _configuration.GetValue<string>("SAML2Authentication:AuthenticationAttribute");
+            if (authAttribute == null) {
+                AuthenticationAttribute = DEFAULT_AUTHENTICATION_ATTRIBUTE;
+            }
+            else {
+                AuthenticationAttribute = authAttribute;
+            }
         }
 
         [HttpGet]
@@ -53,30 +75,36 @@ namespace TRAISI.Authorization.Extensions
         {
 
             var headers = Request.HttpContext.Request.Headers;
-            var user = headers["subject-id"];
-            var survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(surveyCode);
+            var identifiers = headers[this.AuthenticationAttribute];
+            string identifier = "";
 
+            if (identifiers.Count == 0) {
+                return BadRequest("Request attribute not found in request headers");
+            }
+            identifier = identifiers[0];
+            var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(surveyCode);
             if (survey == null) {
                 return new NotFoundResult();
             }
+            Shortcode shortcode = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, identifier);
+            if (shortcode == null) {
 
-            Shortcode shortcode = new Shortcode();
-            shortcode.Code = user.ToString();
-            shortcode.Survey = survey;
-            shortcode.CreatedDate = DateTime.Now;
+                shortcode = new Shortcode()
+                {
+                    Survey = survey,
+                    Code = identifier,
+                    IsTest = false,
+                    CreatedDate = DateTime.UtcNow
+                };
 
-            SurveyUser surveyUser = Mapper.Map<SurveyUser>(new UserViewModel { UserName = Guid.NewGuid().ToString("D") });
-            var result = await _accountManager.CreateSurveyUserAsync(surveyUser, shortcode, null,
-                new (string claimName, string claimValue)[] { ("SurveyId", survey.Id.ToString()), ("Shortcode", shortcode.Code) });
+                await this._unitOfWork.Shortcodes.AddAsync(shortcode);
+                await this._unitOfWork.SaveChangesAsync();
+            }
+            else {
 
-            OpenIdConnectRequest request = new OpenIdConnectRequest();
-            request.AddParameter("username", user.ToString());
-            request.AddParameter("password", user.ToString());
-            request.AddParameter("grant_type", "password");
-            request.AddParameter("scope", new string[] { "openid", "email", "phone", "profile", "offline_access", "roles" });
-            request.AddParameter("resource", Request.Host.Value);
+            }
 
-            return Ok();
+            return Redirect($"/survey/{surveyCode}/start/{shortcode.Code}");
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
