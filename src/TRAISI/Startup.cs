@@ -168,9 +168,8 @@ namespace TRAISI {
 				options.SetIdentityTokenLifetime (TimeSpan.FromHours (4));
 				options.AllowPasswordFlow ();
 				options.AllowRefreshTokenFlow ();
-				if (!_hostingEnvironment.IsProduction ()) { //Uncomment to only disable Https during development
-					options.DisableHttpsRequirement ();
-				}
+				//Uncomment to only disable Https during development
+				options.DisableHttpsRequirement ();
 
 				//disables requiring client_id
 				options.AcceptAnonymousClients ();
@@ -222,7 +221,7 @@ namespace TRAISI {
 
 			// Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
 			if (!_hostingEnvironment.IsDevelopment ()) {
-				services.Configure<MvcOptions> (options => options.Filters.Add (new RequireHttpsAttribute ()));
+				// services.Configure<MvcOptions> (options => options.Filters.Add (new RequireHttpsAttribute ()));
 			}
 
 			//Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
