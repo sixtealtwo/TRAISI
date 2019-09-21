@@ -45,6 +45,15 @@ export class SurveyNavigator {
 	 */
 	public nextEnabled$: BehaviorSubject<boolean>;
 
+	private _surveyCompleted$: Subject<void>;
+
+	/**
+	 * Listen for the end of the survey
+	 */
+	public get surveyCompleted$(): Observable<void> {
+		return this._surveyCompleted$;
+	}
+
 	/**
 	 *Creates an instance of SurveyNavigator.
 	 * @param {SurveyViewerStateService} _surveyState
@@ -64,6 +73,7 @@ export class SurveyNavigator {
 		this.previousEnabled$ = new BehaviorSubject<boolean>(false);
 		this.nextEnabled$ = new BehaviorSubject<boolean>(false);
 		this.navigationStateChanged.next(initialState);
+		this._surveyCompleted$ = new Subject<void>();
 	}
 
 	/** */
@@ -186,12 +196,25 @@ export class SurveyNavigator {
 			].parentSection.questions.length;
 		}
 
-		return this._initState(newState).pipe(
-			expand(state => {
-				// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
-				return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(currentState) : EMPTY;
-			})
-		);
+		if (this._isOutsideSurveyBounds(newState)) {
+			this._surveyCompleted$.complete();
+			return EMPTY;
+		} else {
+			return this._initState(newState).pipe(
+				expand(state => {
+					// return state.activeQuestionInstances.length == 0 ? this._incrementNavigation(newState) : EMPTY;
+					return state.activeQuestionInstances.length === 0 ? this._incrementNavigation(currentState) : EMPTY;
+				})
+			);
+		}
+	}
+
+	/**
+	 *
+	 * @param state
+	 */
+	private _isOutsideSurveyBounds(state: NavigationState): boolean {
+		return state.activeQuestionIndex >= this._state.viewerState.surveyQuestions.length;
 	}
 
 	/**

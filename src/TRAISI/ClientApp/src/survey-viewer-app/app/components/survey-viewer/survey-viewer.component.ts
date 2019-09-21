@@ -465,6 +465,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.activePageIndex = 0;
 
 				this._navigationService.navigationCompleted.subscribe(this.navigationCompleted);
+				this.navigator.surveyCompleted$.subscribe({ complete: this.surveyCompleted });
 				this._navigationService.initialize();
 
 				let questions: Array<SurveyViewQuestion> = [];
@@ -558,6 +559,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigationCompleted = (navStatus: boolean) => {
 		this.viewerState.isNavProcessing = false;
 		this.scrollTop = 0;
+	};
+
+	/**
+	 *
+	 */
+	public surveyCompleted = () => {
+		// console.log('in completed');
+		this._router.navigate([this.session.surveyCode, 'thankyou']);
 	};
 
 	/**
