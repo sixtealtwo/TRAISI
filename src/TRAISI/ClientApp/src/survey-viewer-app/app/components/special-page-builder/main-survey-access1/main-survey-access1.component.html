@@ -30,11 +30,11 @@
 				<div class="col" *ngIf="!(surveyViewerService.isLoggedIn | async)">
 					<input type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}"
 						[(ngModel)]="accessCode" />
-					<div class="invalid-feedback" *ngIf="hasAccessError">
+					<div class="invalid-code text-warning" *ngIf="hasAccessError">
 						<i class="fa fa-exclamation-circle fa-fw"></i>You have entered an invalid access code.</div>
 				</div>
 				<div class="col text-center">
-					<button type="button" class="begin-survey-button btn btn-primary" [disabled]="accessCode == ''"
+					<button type="button" class="begin-survey-button btn btn-primary" [disabled]="accessCode === ''"
 						(click)="startSurvey()"> {{ stripHTML(beginSurveyHTML) }}
 					</button>
 				</div>

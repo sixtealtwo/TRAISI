@@ -20,7 +20,7 @@ import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display
 
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
-import { zip } from 'rxjs';
+import { zip, Observable } from 'rxjs';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -74,6 +74,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public ngOnInit(): void {
+		this._surveyViewerService.startPageComponent = this;
 		this.isAdmin = this._surveyViewerService.isAdminUser();
 		zip(this._route.params, this._route.queryParams).subscribe(([routeParams, queryParams]: [Params, Params]) => {
 			this._queryParams = queryParams;
@@ -183,7 +184,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * Starts the survey - this will authorize the current user with the associated
 	 * short code. This will create a new survey user if one does not exist.
 	 */
-	public startSurvey(code: string): void {
+	public startSurvey(code: string): Observable<void> {
 		this.shortcode = code;
 		this.isLoading = true;
 		this.isError = false;
@@ -192,23 +193,27 @@ export class SurveyStartPageComponent implements OnInit {
 		if (this._surveyViewerService.isLoggedIn.value) {
 			this.shortcode = this._surveyViewerService.currentUser.shortcode;
 		}
-		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
-			value => {
-				this.isLoading = false;
-				if (!this.isAdmin) {
-					this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
+		return new Observable(obs => {
+			this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
+				value => {
+					this.isLoading = false;
+
+					if (!this.isAdmin) {
+						this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
+							this._router.navigate([this.session.surveyCode, 'terms']);
+						});
+					} else {
 						this._router.navigate([this.session.surveyCode, 'terms']);
-					});
-				} else {
-					this._router.navigate([this.session.surveyCode, 'terms']);
+					}
+					obs.complete();
+				},
+				error => {
+					this.isLoading = false;
+					this.isError = true;
+					this.hasAccessError = true;
+					obs.error();
 				}
-			},
-			error => {
-				console.error(error);
-				this.isLoading = false;
-				this.isError = true;
-				this.hasAccessError = true;
-			}
-		);
+			);
+		});
 	}
 }

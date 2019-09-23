@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
@@ -12,7 +12,7 @@ import { SpecialPageBuilderComponent } from '../special-page-builder/special-pag
 	templateUrl: './survey-shortcode-page.component.html',
 	styleUrls: ['./survey-shortcode-page.component.scss']
 })
-export class SurveyShortcodePageComponent implements OnInit {
+export class SurveyShortcodePageComponent implements OnInit, AfterContentInit {
 	@ViewChild('startContent', { static: false })
 	public startContent: SpecialPageBuilderComponent;
 
@@ -47,6 +47,8 @@ export class SurveyShortcodePageComponent implements OnInit {
 		});
 	}
 
+	public ngAfterContentInit(): void {}
+
 	/**\
 	 * Sets the shortcode input to the value provided by the URL.
 	 */
@@ -80,8 +82,9 @@ export class SurveyShortcodePageComponent implements OnInit {
 								console.log(e);
 							}
 							this._elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.pageThemeInfo.pageBackgroundColour;
+							// this.startContent['startPageComponent'] = this.startPageComponent;
+
 							this.finishedLoading = true;
-							console.log('finished loading');
 
 							setTimeout(() => {
 								this.setPassedShortcode();

@@ -10,6 +10,7 @@ import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Utilities } from '../../../../shared/services/utilities';
 import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
+import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -73,6 +74,9 @@ export class SpecialPageBuilderComponent implements OnInit {
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 	@Output() public termsAccepted: EventEmitter<void> = new EventEmitter();
+
+	@Input()
+	public startPageComponent: SurveyStartPageComponent;
 
 	@ViewChild('accessComponent', { static: false })
 	public accessComponent: any;

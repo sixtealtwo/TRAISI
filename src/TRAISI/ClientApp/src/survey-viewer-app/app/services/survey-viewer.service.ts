@@ -19,9 +19,10 @@ import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { find as _find } from 'lodash';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { tap, share } from 'rxjs/operators';
+import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'root'
 })
 export class SurveyViewerService implements SurveyViewer, OnInit {
 	public configurationData: Subject<QuestionConfiguration[]>;
@@ -56,6 +57,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	private _pageThemeInfo: SurveyViewerTheme;
 
 	private _pageThemeInfoJson: any;
+
+	public startPageComponent: SurveyStartPageComponent;
 
 	public get currentUser(): any {
 		return this._authService.currentSurveyUser;

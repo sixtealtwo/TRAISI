@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } fro
 import { Utilities } from '../../../../../shared/services/utilities';
 import { SurveyViewerService } from '../../../services/survey-viewer.service';
 import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
+import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -61,7 +62,10 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
+	@Input()
+	public startPageComponent: SurveyStartPageComponent;
 
+	public hasAccessError: boolean = false;
 
 	public constructor(public surveyViewerService: SurveyViewerService) {}
 
@@ -93,7 +97,7 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 		}
 		this.pageTextColour = this.getBestPageBodyTextColor();
 		this.borderColour = this.getBestBorderColor();
-
+		this.accessCode = '';
 		this.surveyViewerService.isLoggedIn.subscribe(
 			val => {
 				console.log('logged in: ' + val);
@@ -131,7 +135,17 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	}
 
 	public startSurvey(): void {
-		this.startSurveyPressed.emit(this.accessCode);
+		this.hasAccessError = false;
+		this.surveyViewerService.startPageComponent.startSurvey(this.accessCode).subscribe({
+			complete: () => {
+				console.log('complete ');
+			},
+			error: e => {
+				console.log('has error');
+				this.hasAccessError = true;
+			}
+		});
+		// this.startSurveyPressed.emit(this.accessCode);
 	}
 
 	public setShortcodeInput(shortcode: string): void {
