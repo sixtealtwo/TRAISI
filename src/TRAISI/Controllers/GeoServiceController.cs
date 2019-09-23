@@ -90,7 +90,8 @@ namespace TRAISI.Controllers
 			request.AddParameter("ArrivalLongitude", arrCoords[1]);
 			request.AddParameter("TripModes", mode);
 			request.AddParameter("Date", date);
-			if (transitModes.Trim().Length > 0)
+
+			if (!string.IsNullOrEmpty(transitModes) && transitModes.Trim().Length > 0)
 			{
 				request.AddParameter("Modes", transitModes.Trim());
 			}
