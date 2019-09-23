@@ -68,6 +68,7 @@
 		<Folder Include="ClientApp\src\survey-viewer-app\app\modules" />
 		<Folder Include="Logs\" />
 		<Folder Include="Migrations\" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<DistFiles Remove="ClientApp\dist\**" />
@@ -79,6 +80,11 @@
 		<EmbeddedResource Remove="ClientApp\dist\**" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="appsettings.Development.json" CopyToPublishDirectory="Never" />
+		<None Include="staging.sh" CopyToPublishDirectory="Never" />
+
+	</ItemGroup>
 
 	<!-- <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Debug'">
 		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm install" />

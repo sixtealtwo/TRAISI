@@ -5,6 +5,9 @@ import * as noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ *
+ */
 @Component({
 	selector: 'traisi-slider-question',
 	template: templateString,
@@ -17,8 +20,6 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 	public sliderValue: BehaviorSubject<string>;
 
-	private _isLoaded: boolean = false;
-
 	/**
 	 *
 	 * @param surveyViewerService
@@ -28,6 +29,9 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		this.sliderValue = new BehaviorSubject<string>('');
 	}
 
+	/**
+	 *
+	 */
 	public ngAfterViewInit(): void {
 		noUiSlider.create(this.sliderElement.nativeElement, {
 			start: [0],
@@ -51,8 +55,6 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	) => {
 		if (response !== 'none') {
 			let rangeResponse = <RangeResponseData>response[0];
-
-			console.log(rangeResponse);
 
 			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(rangeResponse['value']));
 

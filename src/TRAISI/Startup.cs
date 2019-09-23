@@ -44,6 +44,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenIddict.Abstractions;
 using TRAISI.Helpers.Interfaces;
 using IAuthorizationHandler = Microsoft.AspNetCore.Authorization.IAuthorizationHandler;
+using Microsoft.AspNetCore.HttpOverrides;
 using Newtonsoft.Json.Serialization;
 
 namespace TRAISI {
@@ -410,6 +411,10 @@ namespace TRAISI {
 
 				app.UseExceptionHandler ("/Home/Error");
 			}
+
+			app.UseForwardedHeaders (new ForwardedHeadersOptions {
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+			});
 
 			//Configure Cors
 			app.UseCors ("CorsPolicy");
