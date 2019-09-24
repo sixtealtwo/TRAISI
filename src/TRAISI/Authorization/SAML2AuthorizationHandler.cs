@@ -34,7 +34,7 @@ namespace TRAISI.Authorization.Extensions
 
         private readonly IConfiguration _configuration;
 
-        private readonly string DEFAULT_AUTHENTICATION_ATTRIBUTE = "subject-id";
+        private readonly string DEFAULT_AUTHENTICATION_ATTRIBUTE = "REMOTE_USER";
 
         private string AuthenticationAttribute { get; set; }
 
