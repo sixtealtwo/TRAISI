@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef } from '@angular/core';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
@@ -35,7 +35,8 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 	constructor(
 		private _surveyViewerStateService: SurveyViewerStateService,
 		private _cdRef: ChangeDetectorRef,
-		public navigator: SurveyNavigator
+		public navigator: SurveyNavigator,
+		public elementRef: ElementRef
 	) {}
 
 	public ngOnInit(): void {

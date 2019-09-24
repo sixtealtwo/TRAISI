@@ -42,7 +42,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
-
+import Headroom from 'headroom.js';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;

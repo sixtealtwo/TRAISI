@@ -1,14 +1,14 @@
 .admin-toolbar {
-	display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  margin: 10px;
 }
 
-
 traisi-admin-toolbar {
-	position: fixed;
-    right: 10px;
-	bottom: 0;
-	height: 35px;
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  /* height: 35px; */
 }

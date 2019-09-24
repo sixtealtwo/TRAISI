@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
+import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -62,7 +62,7 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 import { PipesModule } from 'shared/pipes/pipes.module';
 import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
-import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
+
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -144,6 +144,7 @@ import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
 		SurveyViewerSession,
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
+		BsModalRef,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
 	],
 	bootstrap: [SurveyViewerContainerComponent]
