@@ -79,7 +79,7 @@ namespace TRAISI.Authorization.Extensions {
 			var identifiers = headers[this.AuthenticationAttribute];
 			string identifier = "";
 
-			if (identifiers.Count == 0) {
+			if (identifiers.Count == 0 || string.IsNullOrEmpty (identifiers[0].Trim ())) {
 
 				// return BadRequest ("Request attribute not found in request headers");
 				identifier = Guid.NewGuid ().ToString ();
