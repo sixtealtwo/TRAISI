@@ -165,13 +165,21 @@ export class SurveyStartPageComponent implements OnInit {
 		);
 	}
 
+	/**
+	 *
+	 * @param shortcode
+	 */
 	public trySurveyLogin(shortcode: string): void {
-		this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe(
-			(user: User) => {},
-			error => {
-				console.log(' you are not logged in');
-			}
-		);
+		console.log(this.surveyStartConfig);
+
+		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, shortcode, this._queryParams).subscribe(r => {
+			this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe(
+				(user: User) => {},
+				error => {
+					console.log(' you are not logged in');
+				}
+			);
+		});
 	}
 
 	/**
@@ -200,7 +208,9 @@ export class SurveyStartPageComponent implements OnInit {
 			this.shortcode = this._surveyViewerService.currentUser.shortcode;
 		}
 
-		if (this.authMode.modeName === 'TRAISI_AUTHENTICATION') {
+		if (this._surveyViewerService.isLoggedIn.value) {
+			return this.traisiInternalStart();
+		} else if (this.authMode.modeName === 'TRAISI_AUTHENTICATION') {
 			return this.traisiInternalStart();
 		} else if (this.authMode.modeName === 'ExternalAuthentication') {
 			return this.externalStart();
@@ -208,7 +218,6 @@ export class SurveyStartPageComponent implements OnInit {
 	}
 
 	private externalStart(): Observable<void> {
-		console.log('hello');
 		console.log(this.authMode);
 		window.location.href = this.authMode.authenticationUrl;
 		return EMPTY;
