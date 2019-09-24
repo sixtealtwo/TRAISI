@@ -334,7 +334,7 @@ export class SurveyNavigator {
 		// let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
 		let allValid: boolean = true;
 		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
-			if (instance.validationState !== ResponseValidationState.VALID) {
+			if (instance.validationState !== ResponseValidationState.VALID && !instance.model.isOptional) {
 				allValid = false;
 				break;
 			}
