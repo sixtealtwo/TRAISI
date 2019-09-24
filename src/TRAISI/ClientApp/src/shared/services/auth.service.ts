@@ -47,6 +47,13 @@ export class AuthService {
 		this.initializeLoginStatus();
 	}
 
+	public get isSuperAdministrator(): boolean {
+		if (this.currentUser === undefined) {
+			return false;
+		}
+		return this.currentUser.roles.findIndex(ele => ele === 'super administrator', 0) >= 0;
+	}
+
 	/**
 	 *
 	 *

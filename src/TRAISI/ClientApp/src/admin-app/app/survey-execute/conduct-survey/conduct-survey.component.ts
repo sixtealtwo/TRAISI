@@ -85,6 +85,8 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 	@ViewChild('dateTemplate', { static: true })
 	dateTemplate: TemplateRef<any>;
 
+
+
 	constructor(
 		private surveyService: SurveyService,
 		private surveyExecuteService: SurveyExecuteService,
@@ -124,6 +126,8 @@ export class ConductSurveyComponent implements OnInit, AfterViewInit {
 				this.router.navigate(['error']);
 			}
 		});
+
+		console.log(this.authService.currentUser.roles);
 	}
 
 	ngOnInit() {
