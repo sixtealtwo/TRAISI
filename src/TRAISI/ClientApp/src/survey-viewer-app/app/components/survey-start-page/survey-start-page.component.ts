@@ -20,7 +20,7 @@ import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display
 
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
-import { zip, Observable } from 'rxjs';
+import { zip, Observable, EMPTY } from 'rxjs';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -43,6 +43,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public isChildPage: boolean = true;
 	public session: SurveyViewerSessionData;
 	public hasAccessError: boolean = false;
+	public authMode: any;
 	private _queryParams: Params;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef, static: false })
@@ -112,6 +113,11 @@ export class SurveyStartPageComponent implements OnInit {
 
 		this._surveySession.data.subscribe(data => {
 			this.session = data;
+		});
+
+		this._surveyViewerService.getSurveyAuthenticationMode(this._surveyViewerService.activeSurveyCode).subscribe(v => {
+			// console.log(v);
+			this.authMode = v;
 		});
 	}
 
@@ -193,6 +199,22 @@ export class SurveyStartPageComponent implements OnInit {
 		if (this._surveyViewerService.isLoggedIn.value) {
 			this.shortcode = this._surveyViewerService.currentUser.shortcode;
 		}
+
+		if (this.authMode.modeName === 'TRAISI_AUTHENTICATION') {
+			return this.traisiInternalStart();
+		} else if (this.authMode.modeName === 'ExternalAuthentication') {
+			return this.externalStart();
+		}
+	}
+
+	private externalStart(): Observable<void> {
+		console.log('hello');
+		console.log(this.authMode);
+		window.location.href = this.authMode.authenticationUrl;
+		return EMPTY;
+	}
+
+	private traisiInternalStart(): Observable<void> {
 		return new Observable(obs => {
 			this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
 				value => {

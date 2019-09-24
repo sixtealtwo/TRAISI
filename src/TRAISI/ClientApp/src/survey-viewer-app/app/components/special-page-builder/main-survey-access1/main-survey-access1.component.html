@@ -25,16 +25,22 @@
 					<span class="bg-light"><i class="far fa-lock-open-alt logged-in-icon"></i> You are currently logged
 						in. </span>
 				</div>
+
+			</div>
+			<div  style="text-align: center">
+				<span class="bg-light"><i
+						class="far fa-lock-alt logged-in-icon"></i>{{ (surveyViewerService.surveyAuthenticationMode | async).modeName }}</span>
 			</div>
 			<div class="form-group row mt-3 ml-3 ml-xl-0">
-				<div class="col" *ngIf="!(surveyViewerService.isLoggedIn | async)">
+				<div class="col"
+					*ngIf="!(surveyViewerService.isLoggedIn | async) && ((surveyViewerService.surveyAuthenticationMode | async).modeName !== 'ExternalAuthentication')">
 					<input type="text" class="form-control mr-3 ml-3" placeholder="{{ stripHTML(accessCodeHTML) }}"
 						[(ngModel)]="accessCode" />
 					<div class="invalid-code text-warning" *ngIf="hasAccessError">
 						<i class="fa fa-exclamation-circle fa-fw"></i>You have entered an invalid access code.</div>
 				</div>
 				<div class="col text-center">
-					<button type="button" class="begin-survey-button btn btn-primary" [disabled]="accessCode === ''"
+					<button type="button" class="begin-survey-button btn btn-primary"
 						(click)="startSurvey()"> {{ stripHTML(beginSurveyHTML) }}
 					</button>
 				</div>

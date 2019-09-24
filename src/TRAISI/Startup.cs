@@ -334,7 +334,7 @@ namespace TRAISI {
 			services.AddSingleton<IAuthorizationRequirement, SurveyRespondentAuthorizationRequirement> ();
 			services.AddSingleton<IQuestionTypeManager, QuestionTypeManager> ();
 			services.AddSingleton<IExtensionsLoader, ExtensionsLoader> ();
-			services.AddScoped<SurveyAuthorizationService> ();
+			services.AddSingleton<SurveyAuthenticationService> ();
 			services.AddScoped<AuthenticationService> ();
 			services.AddScoped<IRespondentGroupService, RespondentGroupService> ();
 

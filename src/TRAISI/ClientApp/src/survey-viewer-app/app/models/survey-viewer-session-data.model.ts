@@ -15,4 +15,5 @@ export interface SurveyViewerSessionData {
 	primaryRespondent: SurveyRespondent;
 	isLoggedIn: boolean;
 	isUsingGroupcode: boolean;
+	authenticationMode: any;
 }

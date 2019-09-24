@@ -54,6 +54,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public screeningQuestionsModel: ReplaySubject<SurveyViewScreening>;
 
+	public surveyAuthenticationMode: ReplaySubject<any>;
+
 	private _pageThemeInfo: SurveyViewerTheme;
 
 	private _pageThemeInfoJson: any;
@@ -89,7 +91,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.configurationData = new Subject<QuestionConfiguration[]>();
 		this.options = new Subject<QuestionOption[]>();
-
+		this.surveyAuthenticationMode = new ReplaySubject<any>();
 		this.pageThemeInfo = new ReplaySubject<SurveyViewerTheme>(1);
 		this.isLoggedIn = new BehaviorSubject<boolean>(false);
 		this.surveyCode = new ReplaySubject<string>(1);
@@ -132,6 +134,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 				this.termsModel.next(surveyTermsModel);
 			});
 
+			this.getSurveyAuthenticationMode(this.activeSurveyCode).subscribe(r => {
+				this.surveyAuthenticationMode.next(r);
+			});
+
 			this.getSurveyViewerScreeningQuestions(id).subscribe(result => {
 				if (result['screeningQuestionLabels'] !== undefined) {
 					let screeningModel = this.parseScreeningQuestionsModel(result);
@@ -159,6 +165,15 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	public validateSurveyGroupcode(surveyId: number, groupcode: string): Observable<any> {
 		return this._surveyViewerEndpointService.getValidateSurveyGroupcodeUrlEndpoint(surveyId, groupcode);
 	}
+
+	/**
+	 *
+	 * @param surveyCode
+	 */
+	public getSurveyAuthenticationMode(surveyCode: string): Observable<any> {
+		return this._surveyViewerEndpointService.getSurveyAuthenticationModeEndpoint(surveyCode);
+	}
+
 	/**
 	 *
 	 *

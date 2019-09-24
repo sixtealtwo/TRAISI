@@ -3,6 +3,7 @@ import { Utilities } from '../../../../../shared/services/utilities';
 import { SurveyViewerService } from '../../../services/survey-viewer.service';
 import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
 import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -67,7 +68,7 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 
 	public hasAccessError: boolean = false;
 
-	public constructor(public surveyViewerService: SurveyViewerService) {}
+	public constructor(public surveyViewerService: SurveyViewerService, public surveySession: SurveyViewerSession) {}
 
 	public ngOnInit(): void {
 		try {
@@ -107,6 +108,10 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 				console.log('complete');
 			}
 		);
+
+		this.surveySession.data.subscribe(v => {
+			console.log(v);
+		});
 	}
 
 	private getBestPageBodyTextColor(): string {

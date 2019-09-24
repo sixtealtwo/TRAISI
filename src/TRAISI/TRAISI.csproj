@@ -48,6 +48,8 @@
 		<ProjectReference Include="..\TRAISI.Data\TRAISI.Data.csproj" />
 		<ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj" />
 		<ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
+		<ProjectReference Include="..\TRAISI.Models\TRAISI.Models.csproj" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
@@ -59,10 +61,7 @@
 		<None Remove="ClientApp\dist\**" />
 		<Content Remove="ClientApp\dist\**" />
 	</ItemGroup>
-	<ItemGroup>
-		<!--<EmbeddedResource Remove="..\TRAISI.UI\questions\**" />
-        <None Remove="..\TRAISI.UI\questions\**" /> -->
-	</ItemGroup>
+
 	<ItemGroup>
 		<Folder Include="ClientApp\src\survey-viewer-app\app\directives" />
 		<Folder Include="ClientApp\src\survey-viewer-app\app\modules" />

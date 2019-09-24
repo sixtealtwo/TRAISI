@@ -42,14 +42,14 @@ export class SurveyViewerSession {
 	 * @memberof SurveyViewerSession
 	 */
 	public initialize(): void {
-
 		this.data = new ReplaySubject<SurveyViewerSessionData>(1);
 		let $ = zip(
 			this._surveyViewerService.activeSurveyId,
 			this._surveyViewerService.surveyCode,
 			this._surveyViewerService.isLoggedIn,
-			this._surveyViewerService.activeSurveyTitle
-		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle]: [number, string, boolean, string]) => {
+			this._surveyViewerService.activeSurveyTitle,
+			this._surveyViewerService.surveyAuthenticationMode
+		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [number, string, boolean, string, any]) => {
 			this._data = {
 				shortcode: null,
 				groupcode: null,
@@ -58,8 +58,10 @@ export class SurveyViewerSession {
 				surveyTitle: surveyTitle,
 				primaryRespondent: null,
 				isLoggedIn: isLoggedIn,
-				isUsingGroupcode: false
+				isUsingGroupcode: false,
+				authenticationMode: authMode
 			};
+			console.log('session loaded');
 			if (isLoggedIn) {
 				this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
 				this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
@@ -67,7 +69,7 @@ export class SurveyViewerSession {
 				this._data.shortcode = null;
 				this._data.groupcode = null;
 			}
-
+			this._data.authenticationMode = authMode;
 			this._data.isUsingGroupcode = this._data.groupcode !== null;
 			this.data.next(this._data);
 
