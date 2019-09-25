@@ -18,6 +18,7 @@ import { SurveyUser } from 'shared/models/survey-user.model';
 import { SurveyResponderService } from 'app/services/survey-responder.service';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Route } from '@angular/compiler/src/core';
 
 @Component({
 	encapsulation: ViewEncapsulation.None,
@@ -39,7 +40,8 @@ export class AdminToolbarComponent implements OnInit {
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		private _viewerState: SurveyViewerStateService,
-		private modalService: BsModalService
+		private modalService: BsModalService,
+		private _route: ActivatedRoute
 	) {}
 
 	/**
@@ -55,10 +57,16 @@ export class AdminToolbarComponent implements OnInit {
 	 * on init
 	 */
 	public ngOnInit(): void {
+		this._route.data.subscribe(data => {
+			console.log(data);
+		});
+
 		this._surveyViewerService.activeSurveyId.subscribe(surveyId => {
 			this.surveyId = surveyId;
 			this.currentUser = this._surveyViewerService.currentUser;
 		});
+
+		console.log(this._route);
 	}
 
 	/**

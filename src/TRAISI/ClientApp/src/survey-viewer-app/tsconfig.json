@@ -1,13 +1,8 @@
 {
 	"compilerOptions": {
-		"lib": [
-			"es2017",
-			"dom",
-			"esnext"
-		],
-		"rootDirs": [
-			"../shared/services"
-		],
+		"allowSyntheticDefaultImports": true,
+		"lib": ["es2017", "dom", "esnext"],
+		"rootDirs": ["../shared/services"],
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"declaration": false,
@@ -16,27 +11,13 @@
 		"baseUrl": ".",
 		"target": "es6",
 		"module": "es6",
-		"types": [
-			"node"
-		],
+		"types": ["node"],
 		"paths": {
-			"traisi-sdk/*": [
-				"../../../../TRAISI.SDK/Client/src/*"
-			],
-			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Client/src/"
-			],
-			"shared/*": [
-				"../shared/*"
-			]
+			"traisi-sdk/*": ["../../../../TRAISI.SDK/Client/src/*"],
+			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/src/"],
+			"shared/*": ["../shared/*"]
 		}
 	},
-	"include": [
-		"**/*.ts"
-	],
-	"exclude": [
-		"src/test.ts",
-		"../admin-app/**/*",
-		"**/*.spec.ts"
-	]
+	"include": ["**/*.ts"],
+	"exclude": ["src/test.ts", "../admin-app/**/*", "**/*.spec.ts"]
 }

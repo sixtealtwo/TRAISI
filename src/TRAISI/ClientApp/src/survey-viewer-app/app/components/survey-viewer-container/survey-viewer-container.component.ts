@@ -34,7 +34,12 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 * @param _titleService
 	 * @param _router
 	 */
-	constructor(public surveySession: SurveyViewerSession, private _titleService: Title, private _router: Router) {
+	constructor(
+		public surveySession: SurveyViewerSession,
+		private _titleService: Title,
+		private _router: Router,
+		public surveyViewer: SurveyViewerService
+	) {
 		this.hasGeneratedShortcode = false;
 	}
 
@@ -43,7 +48,6 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this.surveySession.data.subscribe(data => {
-			console.log(data);
 			this._titleService.setTitle('TRAISI - ' + data.surveyTitle);
 		});
 	}

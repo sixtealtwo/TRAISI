@@ -22,8 +22,8 @@
 </div>
 -->
 
-<div class="steps steps-" role="tablist" *ngIf="navigator.navigationState$ | async as state">
-	<ul>
+<div class="steps steps-" role="tablist" #pages>
+	<ul *ngIf="navigator.navigationState$ | async as state">
 
 		<li *ngFor="let page of viewerState.surveyPages; index as i" class="step"
 			[ngClass]="{'active': state.activePage.id == page.id}">

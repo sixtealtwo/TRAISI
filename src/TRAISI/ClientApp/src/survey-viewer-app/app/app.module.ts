@@ -62,6 +62,7 @@ import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-
 import { PipesModule } from 'shared/pipes/pipes.module';
 import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
+import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -137,7 +138,8 @@ import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2
 		ConfigurationService,
 		QuestionLoaderService,
 		ConditionalEvaluator,
-		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
+		SurveyResponderService,
+		{ provide: 'SurveyResponderService', useExisting: SurveyResponderService },
 		SurveyViewerStateService,
 		FormControlDirective,
 		FormGroupDirective,
@@ -145,7 +147,9 @@ import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
 		BsModalRef,
-		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
+		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
+		SurveyDataResolver
+		// SurveyDataResolver
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })

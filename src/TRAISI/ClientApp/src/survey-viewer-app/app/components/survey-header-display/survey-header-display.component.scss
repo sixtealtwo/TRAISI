@@ -88,6 +88,14 @@
   cursor: pointer;
 }
 
+.steps ul {
+  display: inline-flex !important;
+}
+
+.steps {
+  padding-bottom: 10px;
+}
+
 #pages-progress-bar {
   position: relative;
   height: 40px;

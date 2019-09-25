@@ -11,6 +11,7 @@ import { SurveyScreeningPageComponent } from 'app/components/survey-screening-pa
 import { SurveyShortcodeDisplayPageComponent } from 'app/components/survey-shortcode-display-page/survey-shortcode-display-page.component';
 import { SurveyGroupcodePageComponent } from 'app/components/survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodePageComponent } from 'app/components/survey-shortcode-page/survey-shortcode-page.component';
+import { SurveyDataResolver } from 'app/resolvers/survey-data.resolver';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 	{
@@ -114,6 +115,9 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				component: SurveyViewerComponent,
 				data: { title: 'Survey Viewer' }
 			}
-		]
+		],
+		resolve: {
+			surveyData: SurveyDataResolver
+		}
 	}
 ]);

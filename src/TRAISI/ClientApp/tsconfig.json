@@ -1,7 +1,8 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-    "downlevelIteration": true,
+	"downlevelIteration": true,
+	"allowSyntheticDefaultImports": true,
     "importHelpers": true,
 		"module": "esnext",
 		"outDir": "./dist/out-tsc",

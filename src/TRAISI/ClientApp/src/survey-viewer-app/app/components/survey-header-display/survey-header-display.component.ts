@@ -1,16 +1,18 @@
-import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { SurveyViewPage } from '../../models/survey-view-page.model';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
+
+import SimpleBar from 'simplebar';
+import { stat } from 'fs';
 
 @Component({
 	selector: 'traisi-survey-header-display',
 	templateUrl: './survey-header-display.component.html',
 	styleUrls: ['./survey-header-display.component.scss']
 })
-export class SurveyHeaderDisplayComponent implements OnInit {
-
+export class SurveyHeaderDisplayComponent implements OnInit, AfterViewInit {
 	public completedPages: boolean[] = [];
 	public surveyComplete: boolean = false;
 
@@ -20,11 +22,12 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 		return this._surveyViewerStateService.viewerState;
 	}
 
-
-
 	@Input() public useWhiteProgressLine: boolean;
 
 	@Input() public pageTextColour: string;
+
+	@ViewChild('pages', { static: true })
+	public pagesElement: ElementRef;
 
 	/**
 	 * Creates an instance of survey header display component.
@@ -39,11 +42,9 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 		public elementRef: ElementRef
 	) {}
 
-	public ngOnInit(): void {
+	public ngOnInit(): void {}
 
-	}
-
-		/**
+	/**
 	 * Updates active page index
 	 * @param activePageIndex
 	 */
@@ -52,10 +53,11 @@ export class SurveyHeaderDisplayComponent implements OnInit {
 		this._cdRef.markForCheck();
 	}
 
-	public setPageActive(index: number): void {
+	public setPageActive(index: number): void {}
 
+	public ngAfterViewInit(): void {
+		console.log(SimpleBar);
 
+		const simpleBar = new SimpleBar(this.pagesElement.nativeElement);
 	}
-
-
 }

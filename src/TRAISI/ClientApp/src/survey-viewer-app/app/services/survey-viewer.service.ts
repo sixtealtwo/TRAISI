@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { SurveyViewerEndpointService } from './survey-viewer-endpoint.service';
-import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, ReplaySubject, pipe } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
@@ -18,7 +18,8 @@ import { AuthService } from 'shared/services/auth.service';
 import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
 import { find as _find } from 'lodash';
 import { SurveyViewerStateService } from './survey-viewer-state.service';
-import { tap, share } from 'rxjs/operators';
+import { tap, share, concat, map } from 'rxjs/operators';
+import { zip } from 'rxjs';
 import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
 
 @Injectable({
@@ -62,6 +63,24 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 	public startPageComponent: SurveyStartPageComponent;
 
+	private _isLoaded$: BehaviorSubject<boolean>;
+
+	public startModel: SurveyStart;
+
+	public surveyTerms: SurveyViewTermsModel;
+
+	public authenticationMode: any;
+
+	public screeningQuestions: SurveyViewScreening;
+
+	private _surveyData: SurveyData;
+
+	public surveyData: ReplaySubject<SurveyData>;
+
+	public get isLoaded(): Observable<boolean> {
+		return this._isLoaded$;
+	}
+
 	public get currentUser(): any {
 		return this._authService.currentSurveyUser;
 	}
@@ -99,7 +118,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.welcomeModel = new ReplaySubject<SurveyStart>(1);
 		this.termsModel = new ReplaySubject<SurveyViewTermsModel>(1);
 		this.screeningQuestionsModel = new ReplaySubject<SurveyViewScreening>(1);
-
+		this._isLoaded$ = new BehaviorSubject<boolean>(false);
+		this.surveyData = new ReplaySubject<SurveyData>();
 		let sub = this.router.events.subscribe((value: any) => {
 			if (value instanceof ActivationStart) {
 				let route: ActivationStart = <ActivationStart>value;
@@ -112,6 +132,8 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					sub.unsubscribe();
 				}
 				this.isLoggedIn.next(this._authService.isLoggedIn);
+
+				this.initialize(this.activeSurveyCode);
 			}
 		});
 		this.navigationActiveState = new Subject<boolean>();
@@ -125,7 +147,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		this.pageThemeInfo.next(this._pageThemeInfo);
 
 		this.activeSurveyId.subscribe(id => {
-			this.restoreThemeInfo(id);
+			// this.restoreThemeInfo(id);
 
 			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
 				this.welcomeModel.next(surveyStartModel);
@@ -149,6 +171,62 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					});
 				}
 			});
+		});
+	}
+
+	public initialize(surveyCode: string): void {
+		this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(surveyCode).subscribe(value => {
+			this._activeSurveyId = <number>value[Object.keys(value)[0]];
+			this._activeSurveyTitle = <string>value[Object.keys(value)[2]];
+			this.activeSurveyId.next(this._activeSurveyId);
+
+			zip(
+				this.getWelcomeView(this.activeSurveyCode),
+				this.getSurveyViewerTermsAndConditions(this._activeSurveyId),
+				this.getSurveyAuthenticationMode(this.activeSurveyCode),
+				this.getSurveyViewerScreeningQuestions(this._activeSurveyId),
+				this.getSurveyStyles(this._activeSurveyId)
+			).subscribe(
+				([surveyStartModel, surveyTermsModel, authMode, screeningQuestions, styles]: [
+					SurveyStart,
+					SurveyViewTermsModel,
+					any,
+					any,
+					any
+				]) => {
+					this._surveyData = {
+						surveyCode: surveyCode,
+						surveyId: this._activeSurveyId,
+						surveyTitle: this._activeSurveyTitle
+					};
+
+					this.startModel = surveyStartModel;
+					this.surveyTerms = surveyTermsModel;
+					this.authenticationMode = authMode;
+					this.screeningQuestions = screeningQuestions;
+					if (screeningQuestions['screeningQuestionLabels'] !== undefined) {
+						let screeningModel = this.parseScreeningQuestionsModel(screeningQuestions);
+						this.screeningQuestionsModel.next(screeningModel);
+					} else {
+						this.screeningQuestionsModel.next({
+							questionsList: [],
+							rejectionLink: screeningQuestions.survey.rejectionLink
+						});
+					}
+					this.restoreThemeInfo(styles);
+					this.surveyData.next(this._surveyData);
+					this._isLoaded$.next(true);
+				}
+			);
+
+			/*
+		let $ = zip(
+			this.getWelcomeView(this.activeSurveyCode),
+			this.getSurveyViewerTermsAndConditions(id),
+			this._surveyViewerService.isLoggedIn,
+			this._surveyViewerService.activeSurveyTitle,
+			this._surveyViewerService.surveyAuthenticationMode
+		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [number, string, boolean, string, any]) => {}); */
 		});
 	}
 
@@ -244,22 +322,20 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * Restores theme info
 	 * @param surveyId
 	 */
-	private restoreThemeInfo(surveyId: number): void {
-		this.getSurveyStyles(surveyId).subscribe(styles => {
-			try {
-				this._pageThemeInfoJson = styles;
-				if (this._pageThemeInfoJson === null) {
-					this._pageThemeInfoJson.viewerTemplate = '';
-				}
-
-				this.pageThemeInfoJson.next(this._pageThemeInfoJson);
-
-				this.loadPageThemeInfo(this._pageThemeInfoJson);
-			} catch (e) {
-				console.error(e);
+	private restoreThemeInfo(styles: any): void {
+		try {
+			this._pageThemeInfoJson = styles;
+			if (this._pageThemeInfoJson === null) {
+				this._pageThemeInfoJson.viewerTemplate = '';
 			}
-			// this.finishedLoading = true;
-		});
+
+			this.pageThemeInfoJson.next(this._pageThemeInfoJson);
+
+			this.loadPageThemeInfo(this._pageThemeInfoJson);
+		} catch (e) {
+			console.error(e);
+		}
+		// this.finishedLoading = true;
 	}
 
 	/**
