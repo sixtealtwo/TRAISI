@@ -28,7 +28,7 @@
 					<ng-container
 						*ngFor="let question of state.activeQuestionInstances; trackBy: trackById; let i = index">
 
-						<traisi-question-container class="flex-grow-1 d-flex flex-column" [surveyViewer]="ref"
+						<traisi-question-container class="d-flex flex-column card card-fluid" [surveyViewer]="ref"
 							[activeQuestionIndex]="i" [questionInstance]="question"
 							[respondent]="viewerState.activeRespondent" [question]="question.model"
 							[attr.data-questionid]="question.model.questionId"

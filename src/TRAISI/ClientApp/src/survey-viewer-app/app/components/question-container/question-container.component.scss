@@ -78,6 +78,10 @@
   flex-grow: 1;
 }
 
+section.display-full {
+  position: absolute;
+}
+
 .question-header {
   position: relative;
 
@@ -108,6 +112,10 @@
   .question-number-container-section {
     max-width: 80px;
     position: relative;
+  }
+
+  .question-widget {
+    flex-grow: 0;
   }
 
   .question-number {

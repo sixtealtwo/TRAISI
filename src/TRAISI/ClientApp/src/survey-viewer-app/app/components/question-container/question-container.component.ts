@@ -14,7 +14,9 @@ import {
 	ViewEncapsulation,
 	AfterViewChecked,
 	AfterViewInit,
-	AfterContentInit
+	AfterContentInit,
+	ElementRef,
+	Renderer
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -139,7 +141,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		private _viewerStateService: SurveyViewerStateService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
-		private _navigator: SurveyNavigator
+		private _navigator: SurveyNavigator,
+		private _elementRef: ElementRef,
+		private renderer: Renderer
 	) {}
 
 	/**
@@ -187,6 +191,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
+				if (this.displayClass !== '') {
+					this.renderer.setElementClass(this._elementRef.nativeElement, this.displayClass, true);
+				}
 				this._responseSaved = new Subject<boolean>();
 
 				this._responderService.registerQuestion(

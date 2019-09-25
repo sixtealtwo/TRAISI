@@ -9,6 +9,13 @@ traisi-survey-header-display {
   z-index: 1000;
 }
 
+.display-full {
+  flex-grow: 1;
+  position: relative;
+}
+
+
+
 .survey-section-header {
   // color: white;
   padding: 8px;
@@ -27,7 +34,7 @@ traisi-survey-header-display {
   justify-items: stretch;
   // position: absolute;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   left: 0;
   right: 0;
   bottom: 0;
@@ -118,6 +125,7 @@ traisi-survey-header-display {
 .survey-body {
   text-align: left;
   display: block;
+  background-color: #f6f7f9;
 }
 
 .survey-title-container {
