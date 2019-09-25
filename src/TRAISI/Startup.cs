@@ -394,7 +394,8 @@ namespace TRAISI {
 			IQuestionTypeManager questionTypeManager) {
 			// loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			// loggerFactory.AddDebug(LogLevel.Debug);
-			// loggerFactory.AddFile(Configuration.GetSection("Logging"));
+
+			loggerFactory.AddFile (Configuration.GetSection ("Logging"));
 
 			Utilities.ConfigureLogger (loggerFactory);
 			EmailTemplates.Initialize (env, Configuration);
