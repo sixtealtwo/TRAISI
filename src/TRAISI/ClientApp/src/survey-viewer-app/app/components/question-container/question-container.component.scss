@@ -101,6 +101,7 @@
   .question-number-container {
     max-width: 90px;
     position: relative;
+    flex-grow: 0;
     // top:-10px;
   }
 
@@ -145,6 +146,7 @@
   .question-header-text {
     max-width: calc(100% - 70px);
     font-weight: 400;
+    flex-grow: 1;
   }
 }
 
