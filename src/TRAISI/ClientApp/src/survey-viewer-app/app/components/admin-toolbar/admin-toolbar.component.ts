@@ -48,8 +48,7 @@ export class AdminToolbarComponent implements OnInit {
 	 */
 	public openModal(template: TemplateRef<any>): void {
 		// this.modalRef = this.modalService.show(template);
-		console.log(template);
-		this.modalService.show(template);
+		this.modalRef = this.modalService.show(template);
 	}
 
 	/**

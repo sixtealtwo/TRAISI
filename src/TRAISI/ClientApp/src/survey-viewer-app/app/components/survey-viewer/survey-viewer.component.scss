@@ -1,9 +1,6 @@
 // @import 'src/shared/assets/scss/helpers';
 @import "../../../assets/scss/application.scss";
 
-.group-member-names-section {
-}
-
 traisi-survey-header-display {
   position: relative;
 }
@@ -182,6 +179,12 @@ traisi-survey-header-display {
     button {
       width: 140px;
     }
+  }
+}
+
+@media #{$md-down} {
+  #question-viewer-nav {
+    margin-bottom: 5px;
   }
 }
 
