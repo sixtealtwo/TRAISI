@@ -115,10 +115,7 @@ export class SurveyStartPageComponent implements OnInit {
 			this.session = data;
 		});
 
-		this._surveyViewerService.getSurveyAuthenticationMode(this._surveyViewerService.activeSurveyCode).subscribe(v => {
-			// console.log(v);
-			this.authMode = v;
-		});
+		this.authMode = this._surveyViewerService.authenticationMode;
 	}
 
 	/**
