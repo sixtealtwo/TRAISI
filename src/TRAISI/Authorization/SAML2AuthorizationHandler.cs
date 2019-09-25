@@ -71,6 +71,11 @@ namespace TRAISI.Authorization.Extensions {
 			return new OkObjectResult (headers);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyCode"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route ("login/{surveyCode}")]
 		public async Task<IActionResult> Login (string surveyCode) {
@@ -83,6 +88,8 @@ namespace TRAISI.Authorization.Extensions {
 
 				// return BadRequest ("Request attribute not found in request headers");
 				identifier = Guid.NewGuid ().ToString ();
+			} else {
+				identifier = identifiers[0];
 			}
 
 			var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync (surveyCode);
