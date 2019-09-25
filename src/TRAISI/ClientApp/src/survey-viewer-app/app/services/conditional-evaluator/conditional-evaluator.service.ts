@@ -185,19 +185,22 @@ export class ConditionalEvaluator {
 					sourceIds.push(sourceQuestion.questionId);
 				}
 
-				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe(v => {
-					let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
-						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+				console.log('calling cahced');
+				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe({
+					complete: () => {
+						let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
+							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
-						if (response === undefined || response.length === 0) {
-							return true;
-						}
-						let evalResult = this.evaluateConditional(evalConditional.conditionalType, response, '', evalConditional.value);
-						return evalResult;
-					});
+							if (response === undefined || response.length === 0) {
+								return true;
+							}
+							let evalResult = this.evaluateConditional(evalConditional.conditionalType, response, '', evalConditional.value);
+							return evalResult;
+						});
 
-					observer.next({ shouldHide: evalTrue, question: question });
-					observer.complete();
+						observer.next({ shouldHide: evalTrue, question: question });
+						observer.complete();
+					}
 				});
 
 				/*forkJoin(conditionalEvals).subscribe(values => {

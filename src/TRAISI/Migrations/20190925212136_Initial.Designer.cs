@@ -11,15 +11,15 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190823111316_SurveyExtensions")]
-    partial class SurveyExtensions
+    [Migration("20190925212136_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -1519,7 +1519,8 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.ApplicationUser", "AccessUser")
                         .WithMany()
-                        .HasForeignKey("AccessUserId");
+                        .HasForeignKey("AccessUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Models.Surveys.PrimaryRespondent")
                         .WithMany("SurveyAccessRecords")
@@ -1673,11 +1674,13 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
                         .WithMany()
-                        .HasForeignKey("PrimaryRespondentId");
+                        .HasForeignKey("PrimaryRespondentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Models.Surveys.Shortcode", "Shortcode")
                         .WithMany()
-                        .HasForeignKey("ShortcodeId");
+                        .HasForeignKey("ShortcodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.PrimaryRespondent", b =>

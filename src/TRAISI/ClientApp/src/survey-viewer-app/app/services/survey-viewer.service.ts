@@ -146,7 +146,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 
 		this.pageThemeInfo.next(this._pageThemeInfo);
 
-		this.activeSurveyId.subscribe(id => {
+		/*this.activeSurveyId.subscribe(id => {
 			// this.restoreThemeInfo(id);
 
 			this.getWelcomeView(this.activeSurveyCode).subscribe((surveyStartModel: SurveyStart) => {
@@ -171,7 +171,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					});
 				}
 			});
-		});
+		});*/
 	}
 
 	public initialize(surveyCode: string): void {
@@ -215,6 +215,10 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					}
 					this.restoreThemeInfo(styles);
 					this.surveyData.next(this._surveyData);
+					this.termsModel.next(surveyTermsModel);
+					this.surveyAuthenticationMode.next(authMode);
+					this.activeSurveyTitle.next(surveyStartModel.titleText);
+					this.welcomeModel.next(surveyStartModel);
 					this._isLoaded$.next(true);
 				}
 			);

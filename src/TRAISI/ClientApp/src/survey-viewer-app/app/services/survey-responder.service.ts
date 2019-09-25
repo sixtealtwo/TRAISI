@@ -121,6 +121,7 @@ export class SurveyResponderService implements SurveyResponder {
 			questionIds.push(this._questionNameToIdMap[questionName]);
 		}
 
+		console.log(' in here list ');
 		return this.readyCachedSavedResponses(
 			questionIds,
 			respondent.id
@@ -181,14 +182,22 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public readyCachedSavedResponses(questionIds: number[], respondentId: number): Observable<any> {
+		let queryIds = [];
 		questionIds.forEach(id => {
 			if (this._cachedSavedResponses[id] === undefined) {
 				this._cachedSavedResponses[id] = {};
+				queryIds.push(id);
 			}
 		});
 
-		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
+		if (queryIds.length === 0) {
+			return EMPTY;
+		}
+		console.log(queryIds);
+		return this.listResponsesForQuestions(queryIds, respondentId).pipe(
 			map(responses => {
+				console.log(questionIds);
+				console.log(responses);
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -204,6 +213,7 @@ export class SurveyResponderService implements SurveyResponder {
 						}
 					}
 				}
+				console.log(this._cachedSavedResponses);
 			})
 		);
 	}

@@ -28,9 +28,7 @@ export class SurveyViewerStateService {
 	 * @param _conditionalEvaluator
 	 * @param _responderService
 	 */
-	public constructor(
-		@Inject('SurveyResponderService') private _responderService: SurveyResponderService
-	) {
+	public constructor(@Inject('SurveyResponderService') private _responderService: SurveyResponderService) {
 		this.viewerState = {
 			surveyPages: [],
 			activeQuestion: undefined,
@@ -84,7 +82,7 @@ export class SurveyViewerStateService {
 	 * @param groupMember
 	 * @param state
 	 */
-	public setGroupQuestionValidationState(memberIndex: number, state: ResponseValidationState): void { }
+	public setGroupQuestionValidationState(memberIndex: number, state: ResponseValidationState): void {}
 
 	/**
 	 * Sets active question
@@ -308,9 +306,8 @@ export class SurveyViewerStateService {
 						sourceQuestionIds.push(targetConditional.sourceQuestionId);
 					});
 
-
+					console.log('in here ');
 					conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
-
 				});
 
 				forkJoin(conditionalEvals).subscribe(values => {

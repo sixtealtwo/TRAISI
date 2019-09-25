@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
 using DAL;
@@ -13,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.ViewModels.Users;
-
 namespace TRAISI.Authorization.Extensions {
 	[SurveyAuthorizationHandler (Name = "SAML2")]
 	[Route ("api/[controller]")]
@@ -91,6 +93,7 @@ namespace TRAISI.Authorization.Extensions {
 			} else {
 				identifier = identifiers[0];
 			}
+			identifier = HashIdentifier (identifier);
 
 			var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync (surveyCode);
 			if (survey == null) {
@@ -112,7 +115,18 @@ namespace TRAISI.Authorization.Extensions {
 
 			}
 
-			return Redirect ($"/survey/{surveyCode}/start/{shortcode.Code}");
+			return Redirect ($"/survey/{surveyCode}/start/{HttpUtility.UrlEncode (shortcode.Code)}");
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <returns></returns>
+		private static string HashIdentifier (string identifier) {
+			HashAlgorithm algorithm = SHA256.Create ();
+			var bytes = algorithm.ComputeHash (Encoding.UTF8.GetBytes (identifier));
+			return BitConverter.ToString (bytes).Replace ("-", string.Empty);
 		}
 
 		[ApiExplorerSettings (IgnoreApi = true)]
