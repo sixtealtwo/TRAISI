@@ -68,7 +68,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 		if (this.configuration['customResponseOptions'] !== undefined) {
 			const options = this.configuration['customResponseOptions'].split(',');
 			this.customResponseOptions = new Set(options);
-			console.log(this.customResponseOptions);
+
 		}
 	}
 

@@ -174,7 +174,7 @@ export class ConditionalEvaluator {
 		question: SurveyViewQuestion,
 		respondentId: number
 	): Observable<{ shouldHide: boolean; question: SurveyViewQuestion }> {
-		return Observable.create(observer => {
+		return new Observable(observer => {
 			if (question.targetConditionals.length === 0) {
 				observer.next({ shouldHide: false, question: question });
 				observer.complete();

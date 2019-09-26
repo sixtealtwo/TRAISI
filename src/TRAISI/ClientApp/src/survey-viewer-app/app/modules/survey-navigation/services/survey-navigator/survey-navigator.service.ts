@@ -186,7 +186,12 @@ export class SurveyNavigator {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 
 		// get active question
-		if (newState.activeQuestionInstances.length === 1 && !newState.activeQuestionInstances[0].component.navigateInternalNext()) {
+		if (
+			newState.activeQuestionInstances[0] !== undefined &&
+			newState.activeQuestionInstances[0].component !== null &&
+			newState.activeQuestionInstances.length === 1 &&
+			!newState.activeQuestionInstances[0].component.navigateInternalNext()
+		) {
 			// ignore
 		} else if (!this._isMultiViewActive(currentState)) {
 			newState.activeQuestionIndex += 1;
@@ -224,13 +229,17 @@ export class SurveyNavigator {
 	private _decrementNavigation(currentState: NavigationState): Observable<NavigationState> {
 		const newState: NavigationState = Object.assign({}, this.navigationState$.value);
 
-		if (newState.activeQuestionInstances.length === 1 && newState.activeQuestionInstances[0].component.canNavigateInternalPrevious()) {
+		if (
+			newState.activeQuestionInstances[0] !== undefined &&
+			newState.activeQuestionInstances[0].component !== null &&
+			newState.activeQuestionInstances[0].component.canNavigateInternalPrevious()
+		) {
 			newState.activeQuestionInstances[0].component.navigateInternalPrevious();
 		} else {
 			newState.activeQuestionIndex -= 1;
 		}
 
-		return this._initState(newState).pipe(
+		return this._initState(newState, false).pipe(
 			expand(state => {
 				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
 			})
@@ -241,9 +250,9 @@ export class SurveyNavigator {
 	 *
 	 * @param navigationState
 	 */
-	private _initState(navigationState: NavigationState): Observable<NavigationState> {
+	private _initState(navigationState: NavigationState, evaluateConditions: boolean = true): Observable<NavigationState> {
 		return new Observable((obs: Observer<NavigationState>) => {
-			this._initQuestionInstancesForState(navigationState)
+			this._initQuestionInstancesForState(navigationState, evaluateConditions)
 				.pipe(share())
 				.subscribe(questionInstances => {
 					navigationState.activeQuestionInstances = questionInstances;
@@ -272,8 +281,12 @@ export class SurveyNavigator {
 	/**
 	 *
 	 * @param navigationState
+	 * @param evaluateConditions
 	 */
-	private _initQuestionInstancesForState(navigationState: NavigationState): Observable<QuestionInstance[]> {
+	private _initQuestionInstancesForState(
+		navigationState: NavigationState,
+		evaluateConditions: boolean = true
+	): Observable<QuestionInstance[]> {
 		let activeQuestion = this._state.viewerState.surveyQuestions[navigationState.activeQuestionIndex];
 		let questions: SurveyViewQuestion[] = [];
 		if (activeQuestion.parentPage !== undefined) {
@@ -287,11 +300,11 @@ export class SurveyNavigator {
 		} else {
 			let questionInstances = [];
 			let evals = [];
+
 			for (let question of questions) {
 				// determine if target conditionals are resolved
 				evals.push(this._conditionalEvaluator.shouldHide(question, this._state.viewerState.activeRespondent.id));
 			}
-
 			return new Observable(obs => {
 				forkJoin(evals).subscribe((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
 					let order = 0;
