@@ -44,13 +44,7 @@ namespace DAL
 
         public async Task SeedAsync()
         {
-            await _context.Database.MigrateAsync().ConfigureAwait(false);
-
-            /* if (!await _context.QuestionConfigurations.AnyAsync ()) {
-                 QuestionConfiguration qc = new QuestionConfiguration ();
-                 qc.Value = "{\"some\": \"value\"}";
-                 await _context.QuestionConfigurations.AddAsync (qc);
-             } */
+            // await _context.Database.MigrateAsync().ConfigureAwait(false);
 
 
             if (!await _context.Users.AnyAsync()) {
