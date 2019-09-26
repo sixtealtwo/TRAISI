@@ -93,6 +93,7 @@ namespace DAL {
 			builder.Entity<SurveyAccessRecord> ().HasOne (r => r.AccessUser).WithMany ().OnDelete (DeleteBehavior.Cascade);
 
 			builder.Entity<SurveyUser> ().HasOne (r => r.PrimaryRespondent).WithMany ().OnDelete (DeleteBehavior.Cascade);
+
 			builder.Entity<ApplicationUser> ().HasDiscriminator<int> ("UserType")
 				.HasValue<TraisiUser> (0)
 				.HasValue<SurveyUser> (1);
@@ -200,12 +201,13 @@ namespace DAL {
 
 			builder.Entity<PrimaryRespondent> ().HasOne (p => p.Survey).WithMany ().OnDelete (DeleteBehavior.SetNull);
 
+			builder.Entity<PrimaryRespondent> ().HasMany (o => o.SurveyAccessRecords).WithOne (o => o.Respondent).OnDelete (DeleteBehavior.Cascade);
+
 			builder.Entity<SurveyRespondentGroup> ().ToTable ("SurveyRespondentGroups")
 				.HasMany (s => s.GroupMembers).WithOne (s => s.SurveyRespondentGroup).OnDelete (DeleteBehavior.Cascade);
 
 			builder.Entity<SurveyAccessRecord> ().ToTable ("SurveyAccessRecords");
 
-			builder.Entity<PrimaryRespondent> ().HasMany (o => o.SurveyAccessRecords);
 			builder.Entity<SurveyResponse> ().HasOne (o => o.SurveyAccessRecord);
 			//builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 

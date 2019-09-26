@@ -63,6 +63,7 @@ import { PipesModule } from 'shared/pipes/pipes.module';
 import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
 import { SurveyDataResolver } from './resolvers/survey-data.resolver';
+import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -148,7 +149,8 @@ import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 		SurveyResponderEndpointService,
 		BsModalRef,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
-		SurveyDataResolver
+		SurveyDataResolver,
+		SurveyTextTransformer
 		// SurveyDataResolver
 	],
 	bootstrap: [SurveyViewerContainerComponent]

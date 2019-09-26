@@ -39,11 +39,11 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { skip, share, distinct } from 'rxjs/operators';
 import { QuestionInstance } from 'app/models/question-instance.model';
+import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -143,7 +143,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		public viewContainerRef: ViewContainerRef,
 		private _navigator: SurveyNavigator,
 		private _elementRef: ElementRef,
-		private renderer: Renderer
+		private renderer: Renderer,
+		private _textTransformer: SurveyTextTransformer
 	) {}
 
 	/**
@@ -298,6 +299,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
+
+		processedLabel = this._textTransformer.transformText(processedLabel);
 
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);
