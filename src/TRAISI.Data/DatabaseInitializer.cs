@@ -44,9 +44,9 @@ namespace DAL
 
         public async Task SeedAsync()
         {
-            // await _context.Database.MigrateAsync().ConfigureAwait(false);
+            await _context.Database.MigrateAsync().ConfigureAwait(false);
 
-
+            // await _context.Database.EnsureCreatedAsync();
             if (!await _context.Users.AnyAsync()) {
                 _logger.LogInformation("Generating inbuilt accounts");
 
