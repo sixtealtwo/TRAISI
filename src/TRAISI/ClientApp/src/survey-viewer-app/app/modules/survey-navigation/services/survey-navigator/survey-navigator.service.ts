@@ -6,7 +6,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { findIndex, every } from 'lodash';
-import { expand, share, tap } from 'rxjs/operators';
+import { expand, share, tap, flatMap, map } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { ResponseValidationState } from 'traisi-question-sdk';
@@ -306,39 +306,49 @@ export class SurveyNavigator {
 				evals.push(this._conditionalEvaluator.shouldHide(question, this._state.viewerState.activeRespondent.id));
 			}
 			return new Observable(obs => {
-				forkJoin(evals).subscribe((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
-					let order = 0;
-					for (let result of results) {
-						if (result.shouldHide) {
-							result.question.isHidden = true;
-							continue;
-						} else {
-							result.question.inSectionIndex = order++;
-						}
+				forkJoin(evals)
+					.pipe(
+						map((results: Array<{ shouldHide: boolean; question: SurveyViewQuestion }>) => {
+							let order = 0;
+							for (let result of results) {
+								if (result.shouldHide) {
+									result.question.isHidden = true;
+									continue;
+								} else {
+									result.question.inSectionIndex = order++;
+								}
 
-						result.question.isHidden = false;
+								result.question.isHidden = false;
 
-						// copy the old question instance
-						let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, instance => {
-							return instance.id === '' + result.question.id;
-						});
+								// copy the old question instance
+								let prevIdx = findIndex(this.navigationState$.value.activeQuestionInstances, instance => {
+									return instance.id === '' + result.question.id;
+								});
 
-						if (prevIdx >= 0) {
-							questionInstances.push(this.navigationState$.value.activeQuestionInstances[prevIdx]);
-						} else {
-							let questionInstance: QuestionInstance = {
-								id: '' + result.question.id,
-								index: navigationState.activeQuestionIndex,
-								model: result.question,
-								component: null,
-								validationState: ResponseValidationState.PRISTINE
-							};
-							questionInstances.push(questionInstance);
-						}
-					}
-					obs.next(questionInstances);
-					obs.complete();
-				});
+								if (prevIdx >= 0) {
+									questionInstances.push(this.navigationState$.value.activeQuestionInstances[prevIdx]);
+								} else {
+									let questionInstance: QuestionInstance = {
+										id: '' + result.question.id,
+										index: navigationState.activeQuestionIndex,
+										model: result.question,
+										component: null,
+										validationState: ResponseValidationState.PRISTINE
+									};
+									questionInstances.push(questionInstance);
+								}
+							}
+							return questionInstances;
+						}),
+						map(value => {
+							return value;
+						})
+					)
+					.subscribe(v => {
+						console.log(v);
+						obs.next(v);
+						obs.complete();
+					});
 			});
 		}
 	}
