@@ -191,6 +191,7 @@ export interface TimelineResponseData extends ResponseData<ResponseTypes.Timelin
 	timeA: Date;
 	timeB: Date;
 	name: string;
+	order: number;
 	purpose: string;
 }
 

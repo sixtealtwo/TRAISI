@@ -6,7 +6,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { findIndex, every } from 'lodash';
-import { expand, share, tap, flatMap, map } from 'rxjs/operators';
+import { expand, share, tap, flatMap, map, count, takeWhile } from 'rxjs/operators';
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { ResponseValidationState } from 'traisi-question-sdk';
@@ -242,7 +242,8 @@ export class SurveyNavigator {
 		return this._initState(newState, false).pipe(
 			expand(state => {
 				return state.activeQuestionInstances.length === 0 ? this._decrementNavigation(currentState) : EMPTY;
-			})
+			}),
+			takeWhile(v => 1 === 1)
 		);
 	}
 
