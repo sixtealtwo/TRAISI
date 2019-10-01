@@ -101,8 +101,15 @@
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 		<!--	<Exec WorkingDirectory="$(SpaRoot)" Command="npm link traisi-question-sdk" /> -->
 	</Target>
+	<Target Name="DeleteDist" BeforeTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
+
+		<RemoveDir Directories="$(SpaRoot)dist" />
+	</Target>
+
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+
+
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" />
