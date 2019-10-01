@@ -166,9 +166,9 @@ namespace TRAISI {
 				options.UseMvc ();
 
 				options.EnableTokenEndpoint ("/connect/token");
-				options.SetAccessTokenLifetime (TimeSpan.FromMinutes (5));
-				options.SetRefreshTokenLifetime (TimeSpan.FromMinutes (5));
-				options.SetIdentityTokenLifetime (TimeSpan.FromMinutes (5));
+				options.SetAccessTokenLifetime (TimeSpan.FromHours (5));
+				options.SetRefreshTokenLifetime (TimeSpan.FromHours (5));
+				options.SetIdentityTokenLifetime (TimeSpan.FromHours (5));
 				options.AllowPasswordFlow ();
 				options.AllowRefreshTokenFlow ();
 				//Uncomment to only disable Https during development
