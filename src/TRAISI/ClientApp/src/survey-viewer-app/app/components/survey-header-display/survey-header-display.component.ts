@@ -56,8 +56,6 @@ export class SurveyHeaderDisplayComponent implements OnInit, AfterViewInit {
 	public setPageActive(index: number): void {}
 
 	public ngAfterViewInit(): void {
-		console.log(SimpleBar);
-
-		const simpleBar = new SimpleBar(this.pagesElement.nativeElement);
+ 		const simpleBar = new SimpleBar(this.pagesElement.nativeElement);
 	}
 }

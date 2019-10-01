@@ -9,7 +9,7 @@
 		"moduleResolution": "node",
 		"outDir": "../out-tsc/app",
 		"baseUrl": ".",
-		"target": "es5",
+		"target": "es2015",
 		"module": "es6",
 		"types": ["node"],
 		"paths": {
@@ -19,6 +19,7 @@
 			"core-js/es6/": ["../../node_modules/core-js/es6/"]
 		}
 	},
+	"files": ["polyfills.ts"],
 	"include": ["**/*.ts"],
 	"exclude": ["src/test.ts", "../admin-app/**/*", "**/*.spec.ts"]
 }

@@ -52,6 +52,7 @@
 							"node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
 						],
 						"scripts": [
+							"node_modules/promise-polyfill/dist/polyfill.js",
 							"src/shared/systemjs/system.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/parsleyjs/dist/parsley.min.js",
@@ -139,6 +140,7 @@
 							"node_modules/ngx-toastr/toastr.css"
 						],
 						"scripts": [
+							"node_modules/promise-polyfill/dist/polyfill.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/parsleyjs/dist/parsley.min.js",
 							"node_modules/bootstrap/dist/js/bootstrap.min.js",
