@@ -28,6 +28,9 @@
 import 'core-js/es/reflect';
 import 'core-js/es/promise';
 
+// import '../shared/systemjs/system.src.js';
+
+
 /** IE10 and IE11 requires the following to support `@angular/animation`. ALL Firefox browsers require the following to support `@angular/animation`. **/
 
 import 'web-animations-js';
