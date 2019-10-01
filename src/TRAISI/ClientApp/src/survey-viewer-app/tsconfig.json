@@ -9,13 +9,14 @@
 		"moduleResolution": "node",
 		"outDir": "../out-tsc/app",
 		"baseUrl": ".",
-		"target": "es6",
+		"target": "es5",
 		"module": "es6",
 		"types": ["node"],
 		"paths": {
 			"traisi-sdk/*": ["../../../../TRAISI.SDK/Client/src/*"],
 			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/src/"],
-			"shared/*": ["../shared/*"]
+			"shared/*": ["../shared/*"],
+			"core-js/es6/": ["../../node_modules/core-js/es6/"]
 		}
 	},
 	"include": ["**/*.ts"],
