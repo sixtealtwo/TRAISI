@@ -146,6 +146,7 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 				console.log('complete ');
 			},
 			error: e => {
+				console.log(e);
 				console.log('has error');
 				this.hasAccessError = true;
 			}

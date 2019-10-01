@@ -13,6 +13,7 @@ using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 using TRAISI.Authorization.Enums;
@@ -116,7 +117,7 @@ namespace TRAISI.Services {
 		/// <param name="user"></param>
 		/// <returns></returns>
 		public async Task < (bool loginSuccess, SurveyUser user) > SurveyGroupcodeLogin (Survey survey,
-			string code, ClaimsPrincipal user, string userAgent, JObject queryParams) {
+			string code, ClaimsPrincipal user, string userAgent, JObject queryParams, IHttpContextAccessor accessor) {
 			var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey (survey, code);
 			if (groupcode == null) {
 				return (false, null);
@@ -129,7 +130,7 @@ namespace TRAISI.Services {
 			shortcodeRes.Groupcode = groupcode;
 			var createUserRes = await this.CreateSurveyUser (survey, shortcodeRes, user);
 			// createUserRes.respondent
-			var loginResult = await SurveyLogin (survey, shortcodeRes.Code, user, userAgent, queryParams);
+			var loginResult = await SurveyLogin (survey, shortcodeRes.Code, user, userAgent, queryParams, accessor);
 			return loginResult;
 		}
 
@@ -164,7 +165,7 @@ namespace TRAISI.Services {
 		/// <param name="surveyId"></param>
 		/// <param name="shortcode"></param>
 		/// <returns></returns>
-		public async Task < (bool loginSuccess, SurveyUser user) > SurveyLogin (Survey survey, string shortcode, ClaimsPrincipal currentUser, string userAgent, JObject queryParams) {
+		public async Task < (bool loginSuccess, SurveyUser user) > SurveyLogin (Survey survey, string shortcode, ClaimsPrincipal currentUser, string userAgent, JObject queryParams, IHttpContextAccessor accessor) {
 
 			if (currentUser.Identity.IsAuthenticated) {
 				if (currentUser.IsInRole (TraisiRoles.SuperAdministrator)) {
@@ -186,6 +187,7 @@ namespace TRAISI.Services {
 										AccessDateTime = DateTime.Now,
 											UserAgent = userAgent,
 											AccessUser = user,
+											RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
 											QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None)
 									}
 								}),
@@ -198,6 +200,7 @@ namespace TRAISI.Services {
 						respondent.SurveyAccessRecords.Add (new SurveyAccessRecord () {
 							AccessDateTime = DateTime.Now,
 								UserAgent = userAgent,
+								RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
 								QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
 								AccessUser = user
 						});

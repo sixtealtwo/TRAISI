@@ -45,6 +45,8 @@ using OpenIddict.Abstractions;
 using TRAISI.Helpers.Interfaces;
 using IAuthorizationHandler = Microsoft.AspNetCore.Authorization.IAuthorizationHandler;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 
 namespace TRAISI {
@@ -164,9 +166,9 @@ namespace TRAISI {
 				options.UseMvc ();
 
 				options.EnableTokenEndpoint ("/connect/token");
-				options.SetAccessTokenLifetime (TimeSpan.FromHours (4));
-				options.SetRefreshTokenLifetime (TimeSpan.FromHours (5));
-				options.SetIdentityTokenLifetime (TimeSpan.FromHours (4));
+				options.SetAccessTokenLifetime (TimeSpan.FromMinutes (5));
+				options.SetRefreshTokenLifetime (TimeSpan.FromMinutes (5));
+				options.SetIdentityTokenLifetime (TimeSpan.FromMinutes (5));
 				options.AllowPasswordFlow ();
 				options.AllowRefreshTokenFlow ();
 				//Uncomment to only disable Https during development
@@ -216,6 +218,9 @@ namespace TRAISI {
 				});
 				//  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 			});
+
+			services.AddHttpContextAccessor ();
+			services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor> ();
 
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles (configuration => { configuration.RootPath = "ClientApp/dist"; });

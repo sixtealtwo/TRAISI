@@ -12,6 +12,7 @@ using DAL.Models;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,8 @@ namespace TRAISI.Controllers.SurveyViewer {
 
 		private readonly IConfiguration _configuration;
 
+		private readonly IHttpContextAccessor _contextAccessor;
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -62,7 +65,8 @@ namespace TRAISI.Controllers.SurveyViewer {
 			ISurveyBuilderService builderService,
 			IQuestionTypeManager manager,
 			UserManager<ApplicationUser> userManager,
-			IConfiguration configuration
+			IConfiguration configuration,
+			IHttpContextAccessor accessor
 		) {
 			this._unitOfWork = unitOfWork;
 			this._viewService = viewService;
@@ -71,6 +75,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 			this._manager = manager;
 			this._userManager = userManager;
 			this._configuration = configuration;
+			this._contextAccessor = accessor;
 		}
 
 		/// <summary>
@@ -197,7 +202,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 			if (survey == null) {
 				return new NotFoundResult ();
 			}
-			(bool success, ApplicationUser user) = await this._viewService.SurveyLogin (survey, shortcode.Trim (), User, userAgent, queryParams);
+			(bool success, ApplicationUser user) = await this._viewService.SurveyLogin (survey, shortcode.Trim (), User, userAgent, queryParams, this._contextAccessor);
 
 			if (!success) {
 				return new BadRequestResult ();
@@ -219,7 +224,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		public async Task<IActionResult> StartSurveyWithGroupcode (int surveyId,
 			string groupcode, [FromHeader (Name = "User-Agent")] string userAgent, [FromBody] JObject queryParams) {
 			var survey = await this._unitOfWork.Surveys.GetAsync (surveyId);
-			(bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin (survey, groupcode, User, userAgent, queryParams);
+			(bool success, SurveyUser user) = await this._viewService.SurveyGroupcodeLogin (survey, groupcode, User, userAgent, queryParams, this._contextAccessor);
 
 			if (!success) {
 				return new BadRequestObjectResult (new SurveyViewerShortcodeViewModel () {
@@ -366,8 +371,6 @@ namespace TRAISI.Controllers.SurveyViewer {
 
 			return new ObjectResult (result);
 		}
-
-
 
 	}
 }

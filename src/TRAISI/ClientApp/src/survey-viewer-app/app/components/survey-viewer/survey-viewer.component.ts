@@ -148,7 +148,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (this.currentUser === undefined) {
 			return false;
 		} else {
-			return this.currentUser.roles.includes('super administrator');
+			return this.currentUser !== undefined && this.currentUser.roles.includes('super administrator');
 		}
 	}
 

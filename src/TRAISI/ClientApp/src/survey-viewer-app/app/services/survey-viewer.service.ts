@@ -174,6 +174,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		});*/
 	}
 
+	public logout(): void {
+		this._authService.logout();
+		this.router.navigate([this.activeSurveyCode, 'start']);
+		// navigate to survey start
+	}
+
 	public initialize(surveyCode: string): void {
 		this._surveyViewerEndpointService.getSurveyIdFromCodeEndpoint(surveyCode).subscribe(value => {
 			this._activeSurveyId = <number>value[Object.keys(value)[0]];
@@ -493,7 +499,12 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	 * Restores the state of the service if the user is currently logged in.
 	 */
 	private restoreStatus(): void {
-		if (this._authService.isLoggedIn && this._authService.currentUser.roles.includes('respondent')) {
+		if (
+			this._authService.currentUser &&
+			this._authService.currentUser.roles &&
+			this._authService.isLoggedIn &&
+			this._authService.currentUser.roles.includes('respondent')
+		) {
 			this._activeSurveyId = +this._authService.currentSurveyUser.surveyId;
 
 			this.activeSurveyId.next(this._activeSurveyId);
@@ -512,7 +523,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 					this.activeSurveyTitle.next(this._activeSurveyTitle);
 				},
 				error => {
-					console.log(error);
+					// console.log(error);
 					this.router.navigate(['/', this.activeSurveyCode, 'error']);
 				}
 			);

@@ -21,6 +21,7 @@ import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 import { zip, Observable, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -235,11 +236,14 @@ export class SurveyStartPageComponent implements OnInit {
 					}
 					obs.complete();
 				},
-				error => {
+				(error: HttpErrorResponse) => {
 					this.isLoading = false;
 					this.isError = true;
 					this.hasAccessError = true;
-					obs.error();
+					if (this._surveyViewerService.isLoggedIn.value) {
+						this._surveyViewerService.logout();
+					}
+					obs.error(error);
 				}
 			);
 		});

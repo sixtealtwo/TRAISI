@@ -15,6 +15,8 @@ namespace DAL.Models.Surveys {
 		public DateTime AccessDateTime { get; set; }
 		public string UserAgent { get; set; }
 
+		public string RemoteIpAddress { get; set; }
+
 		public PrimaryRespondent Respondent { get; set; }
 		public ApplicationUser AccessUser { get; set; }
 
