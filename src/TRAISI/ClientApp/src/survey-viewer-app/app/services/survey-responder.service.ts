@@ -193,11 +193,10 @@ export class SurveyResponderService implements SurveyResponder {
 		if (queryIds.length === 0) {
 			return EMPTY;
 		}
-		console.log(queryIds);
+
 		return this.listResponsesForQuestions(queryIds, respondentId).pipe(
 			map(responses => {
-				console.log(questionIds);
-				console.log(responses);
+
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -213,7 +212,6 @@ export class SurveyResponderService implements SurveyResponder {
 						}
 					}
 				}
-				console.log(this._cachedSavedResponses);
 			})
 		);
 	}
