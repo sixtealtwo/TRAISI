@@ -99,6 +99,7 @@ export class SurveyNavigator {
 		nav.subscribe(state => {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
+			this._checkValidation();
 		});
 		return nav;
 	}
@@ -119,6 +120,7 @@ export class SurveyNavigator {
 			if (state.activeQuestionIndex === 0) {
 				this.previousEnabled$.next(false);
 			}
+			this._checkValidation();
 		});
 		return prev;
 	}
