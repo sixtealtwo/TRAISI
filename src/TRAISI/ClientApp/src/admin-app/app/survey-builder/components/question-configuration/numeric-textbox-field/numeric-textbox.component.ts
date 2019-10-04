@@ -14,22 +14,22 @@ export class NumericTextboxComponent implements OnInit {
 
 	constructor() {}
 
-	ngOnInit() {
+	public ngOnInit() {
 		if (this.numericValue === undefined) {
 			this.setDefaultValue();
 		}
 	}
 
-	setDefaultValue() {
+	public setDefaultValue() {
 		this.numericValue = +this.questionConfiguration.defaultValue;
 	}
 
-	getValue(){
-		return JSON.stringify(this.numericValue);
+	public getValue() {
+
+		return this.numericValue;
 	}
 
-	processPriorValue(last: string) {
-		this.numericValue = JSON.parse(last);
+	public processPriorValue(last: number) {
+		this.numericValue = last;
 	}
 }
-

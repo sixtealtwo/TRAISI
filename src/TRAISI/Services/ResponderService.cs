@@ -69,7 +69,9 @@ namespace TRAISI.Services {
 
 			if (type.ResponseValidator != null) {
 				var responseDataUnwrapped = this.UnwrapResponseData (type.ResponseType, responseData);
-				type.ResponseValidator.ValidateResponse (responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration> ().ToHashSet ());
+				if (!type.ResponseValidator.ValidateResponse (responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration> ().ToHashSet ())) {
+					return false;
+				}
 			}
 
 			var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync (question.Id,

@@ -240,9 +240,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public saveConfiguration(): void {
 		this.configurationValues = [];
 		this.childrenComponents.forEach(compRef => {
-			this.configurationValues.push(
-				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
-			);
+			let config = new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue());
+			console.log(config);
+			this.configurationValues.push(config);
 		});
 		this.isSaving = true;
 		this.configResult.emit('save');
