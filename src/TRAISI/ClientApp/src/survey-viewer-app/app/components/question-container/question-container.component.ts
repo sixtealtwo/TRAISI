@@ -16,7 +16,7 @@ import {
 	AfterViewInit,
 	AfterContentInit,
 	ElementRef,
-	Renderer
+	Renderer2
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -95,6 +95,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	@Input()
 	public questionNameMap: { [name: string]: number };
 
+	@Input()
+	public questionSectionElement: ElementRef;
+
 	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
 	public questionOutlet: ViewContainerRef;
 
@@ -143,7 +146,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		public viewContainerRef: ViewContainerRef,
 		private _navigator: SurveyNavigator,
 		private _elementRef: ElementRef,
-		private renderer: Renderer,
+		private renderer: Renderer2,
 		private _textTransformer: SurveyTextTransformer
 	) {}
 
@@ -167,6 +170,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	public ngAfterViewInit(): void {
 		// this.ngOnInit2();
 	}
+
 	/**
 	 *
 	 */
@@ -193,8 +197,12 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
 				if (this.displayClass !== '') {
-					this.renderer.setElementClass(this._elementRef.nativeElement, this.displayClass, true);
+					this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
+				} else {
+					// remove all of the classes
+					this.renderer.setAttribute(this.questionSectionElement.nativeElement, 'class', 'question-section');
 				}
+
 				this._responseSaved = new Subject<boolean>();
 
 				this._responderService.registerQuestion(
@@ -227,6 +235,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 						this.autoAdvance();
 					}, result);
 				});
+
+				console.log();
 
 				this._navigator.navigationState$.getValue().activeQuestionInstances[
 					this.activeQuestionIndex

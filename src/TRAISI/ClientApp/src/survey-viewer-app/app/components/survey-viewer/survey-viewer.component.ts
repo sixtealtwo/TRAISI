@@ -110,6 +110,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	@ViewChild('questionsContainer', { static: false })
 	public questionsContainerElement: ElementRef;
 
+	@ViewChild('questionSection', { static: false })
+	public questionSectionElement: ElementRef;
+
 	public activeQuestion: any;
 
 	public surveyName: string;
@@ -581,7 +584,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 			complete: () => {
 				this.surveyBodyContainer.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				console.log('navigation completed');
+				// console.log('navigation completed');
 			}
 		});
 	}
@@ -595,20 +598,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.navigator.navigateNext().subscribe({
 			next: v => {
-				console.log(v);
+				// console.log(v);
 			},
 			complete: () => {
 				this.surveyBodyContainer.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				console.log('navigation completed');
+				// console.log('navigation completed');
 			}
 		});
 	}
-
-	private surveyQuestionsChanged: () => void = () => {
-		// update the validation based on new survey questions and active question
-		// this.validateNavigation();
-	};
 
 	/**
 	 * Shows group member

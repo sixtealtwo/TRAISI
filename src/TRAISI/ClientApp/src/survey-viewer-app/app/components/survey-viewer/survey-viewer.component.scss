@@ -9,12 +9,22 @@ traisi-survey-header-display {
   z-index: 1000;
 }
 
-.display-full {
-  flex-grow: 1;
+.question-section.display-full {
   position: relative;
+  display: flex;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  traisi-question-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 }
-
-
 
 .survey-section-header {
   // color: white;

@@ -19,11 +19,7 @@
 			</div>
 
 			<div class="questions-container flex-grow-1" #questionsContainer>
-				<div class="question-section" [ngClass]="{
-					'd-flex flex-column':
-						!state.isMultiView,
-					'multi-display':
-					state.isMultiView}">
+				<div class="question-section" #questionSection>
 
 					<ng-container
 						*ngFor="let question of state.activeQuestionInstances; trackBy: trackById; let i = index">
@@ -35,7 +31,7 @@
 							[attr.data-question-name]="question.model.name" [attr.data-multiview]="state.isMultiView"
 							[surveyViewQuestion]="question.model" [surveyId]="surveyId" [repeatNumber]="0"
 							[sectionRepeatNumber]="0" [questionTypeMap]="questionTypeMap"
-							[questionNameMap]="questionNameMap" #questions>
+							[questionSectionElement]="questionSectionElement" [questionNameMap]="questionNameMap" #questions>
 						</traisi-question-container>
 
 					</ng-container>

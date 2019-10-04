@@ -17,6 +17,10 @@
 
 .header-row {
   align-items: center;
+
+  @media #{$sm-down} {
+    align-items: start;
+  }
 }
 
 .question-widget {

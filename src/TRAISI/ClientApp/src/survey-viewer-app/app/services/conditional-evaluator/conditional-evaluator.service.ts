@@ -185,7 +185,6 @@ export class ConditionalEvaluator {
 					sourceIds.push(sourceQuestion.questionId);
 				}
 
-				console.log('calling cahced');
 				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe({
 					complete: () => {
 						let evalTrue: boolean = question.targetConditionals.some(evalConditional => {

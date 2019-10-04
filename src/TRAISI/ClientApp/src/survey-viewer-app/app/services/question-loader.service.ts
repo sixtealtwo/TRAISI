@@ -32,6 +32,11 @@ import * as tooltip from 'ngx-bootstrap/tooltip';
 import * as timePicker from 'ngx-bootstrap/timepicker';
 import * as rxjs from 'rxjs';
 import * as rxjsOperators from 'rxjs/operators';
+import * as rxjsSubject from 'rxjs/Subject';
+import * as rxjsReplaySubject from 'rxjs/ReplaySubject';
+import * as rxjsDebounceTime from 'rxjs/operators/debounceTime';
+import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
+import * as rxjsObservable from 'rxjs/Observable';
 import * as traisiSdkModule from 'traisi-question-sdk';
 import { find } from 'lodash';
 
@@ -94,6 +99,11 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
 		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
+		SystemJS.registry.set('rxjs/Subject', SystemJS.newModule(rxjsSubject));
+		SystemJS.registry.set('rxjs/BehaviorSubject', SystemJS.newModule(rxjsBehaviourSubject));
+		SystemJS.registry.set('rxjs/Observable', SystemJS.newModule(rxjsObservable));
+		SystemJS.registry.set('rxjs/ReplaySubject', SystemJS.newModule(rxjsReplaySubject));
+		SystemJS.registry.set('rxjs/operators/debounceTime', SystemJS.newModule(rxjsDebounceTime));
 	}
 
 	/**
