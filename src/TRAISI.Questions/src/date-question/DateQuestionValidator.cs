@@ -19,7 +19,7 @@ namespace TRAISI.SDK.Questions
         /// <param name="data"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public override bool ValidateResponse<IDateTimeResponse>(List<IDateTimeResponse> data, ICollection<IQuestionConfiguration> configuration)
+        public override bool ValidateResponse(List<IResponseType> data, ICollection<IQuestionConfiguration> configuration)
         {
             return true;
         }

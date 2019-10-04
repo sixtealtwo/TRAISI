@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.SDK.Questions {
 	[SurveyQuestion (QuestionResponseType.Integer, CodeBundleName = "traisi-questions-general.module.js",
