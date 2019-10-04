@@ -582,7 +582,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.navigator.navigatePrevious().subscribe({
 			next: v => {},
 			complete: () => {
-				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
 				// console.log('navigation completed');
 			}
@@ -601,7 +601,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				// console.log(v);
 			},
 			complete: () => {
-				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
 				// console.log('navigation completed');
 			}
