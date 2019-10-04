@@ -45,8 +45,6 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ConditionalEvaluator } from './services/conditional-evaluator/conditional-evaluator.service';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyGroupcodePageComponent } from './components/survey-groupcode-page/survey-groupcode-page.component';
@@ -56,7 +54,6 @@ import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortco
 import { SurveyViewerSession } from './services/survey-viewer-session.service';
 import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-endpoint.service';
 import { httpInterceptorProviders } from './http-interceptors';
-import { SurveyNavigator } from './modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
 import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-viewer-authorization.module';
 import { PipesModule } from 'shared/pipes/pipes.module';
