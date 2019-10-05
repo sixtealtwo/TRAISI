@@ -29,7 +29,6 @@ import 'core-js/es/reflect';
 // import 'core-js/es/promise';
 import 'core-js/es/array';
 
-import 'core-js/es/symbol';
 // import '../shared/systemjs/system.src.js';
 // import 'core-js/features/symbol';
 

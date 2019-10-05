@@ -1,5 +1,4 @@
 const path = require('path');
-const WebpackSystemRegister = require('webpack-system-register');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
