@@ -1,6 +1,6 @@
 const path = require('path');
 const WebpackSystemRegister = require('webpack-system-register');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
 	entry: {
@@ -18,14 +18,8 @@ module.exports = {
 	mode: 'production',
 	devtool: false,
 	optimization: {
-		minimizer: [
-			/*new UglifyJsPlugin({
-				parallel: 4,
-				uglifyOptions: {
-					// 	mangle: true
-				}
-			}) */
-		]
+		minimize: true,
+		minimizer: [new TerserPlugin()]
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],

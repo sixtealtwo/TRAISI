@@ -26,7 +26,7 @@
 	<ul *ngIf="navigator.navigationState$ | async as state">
 
 		 <li *ngFor="let page of viewerState.surveyPages; index as i" class="step"
-			[ngClass]="{'active': state.activePage.id == page.id}">
+			[ngClass]="{'active': state.activePage !== undefined && state.activePage.id == page.id}">
 			<a onclick="event.preventDefault()" class="step-trigger page-step" tabindex="-1" aria-selected="true"><span
 					class="step-indicator step-indicator-icon"><i [ngClass]="page.icon"></i></span><span
 					class="d-none d-sm-inline">{{ page.label }}</span></a>
