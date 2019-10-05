@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
@@ -61,6 +61,7 @@ import { SurveyInternalViewDirective } from './directives/survey-internal-view/s
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
 import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
+import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -147,7 +148,14 @@ import { SurveyTextTransformer } from './services/survey-text-transform/survey-t
 		BsModalRef,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
 		SurveyDataResolver,
-		SurveyTextTransformer
+		SurveyTextTransformer,
+
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true
+		}
+
 		// SurveyDataResolver
 	],
 	bootstrap: [SurveyViewerContainerComponent]

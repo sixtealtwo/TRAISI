@@ -17,7 +17,7 @@ namespace TRAISI.Authorization {
 		const string HEADER_KEY_RESPONDENT_ID = "Respondent-Id";
 		const string HEADER_KEY_SURVEY_ID = "Survey-Id";
 		const string CLAIM_KEY_SHORTCODE = "Shortcode";
-
+		const string CLAIM_KEY_SURVEY_ID = "SurveyId";
 		private IUnitOfWork _unitOfWork;
 		/// <summary>
 		/// 
@@ -66,11 +66,8 @@ namespace TRAISI.Authorization {
 			// get survey id claim
 			// match with headers
 			var resource = context.Resource;
-			var userSurveyId = user.Claims.FirstOrDefault (claim => claim.Type == "SurveyId");
+			var userSurveyId = user.Claims.FirstOrDefault (claim => claim.Type == CLAIM_KEY_SURVEY_ID);
 			var userShortcode = user.Claims.FirstOrDefault (claim => claim.Type == CLAIM_KEY_SHORTCODE);
-			var headerRespondentId =
-				(context.Resource as AuthorizationFilterContext).HttpContext.Request.Headers.
-			FirstOrDefault (s => s.Key == HEADER_KEY_RESPONDENT_ID);
 
 			var headerSurveyId =
 				(context.Resource as AuthorizationFilterContext).HttpContext.Request.Headers.
@@ -79,8 +76,14 @@ namespace TRAISI.Authorization {
 			var routeData =
 				(context.Resource as AuthorizationFilterContext).RouteData;
 
-			var endpointRespondentId = routeData.Values.FirstOrDefault (k => k.Key == "respondentId");
-			context.Succeed (requirement);
+			var headerShortcode = (context.Resource as AuthorizationFilterContext).HttpContext.Request.Headers.
+			FirstOrDefault (s => s.Key == CLAIM_KEY_SHORTCODE);
+
+			if (headerSurveyId.Value == userSurveyId.Value && headerShortcode.Value == userShortcode.Value) {
+				context.Succeed (requirement);
+			} else {
+				context.Fail ();
+			}
 			return Task.CompletedTask;
 		}
 	}

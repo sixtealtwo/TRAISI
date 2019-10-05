@@ -85,7 +85,7 @@ export class SurveyViewerEndpointFactory {
 		let requestBody = params.toString();
 
 		return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
-			catchError((error) => {
+			catchError(error => {
 				return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
 			})
 		);
@@ -125,14 +125,12 @@ export class SurveyViewerEndpointFactory {
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
-				// Shortcode: this.authService.currentSurveyUser.shortcode,
+				Shortcode: this.authService.currentSurveyUser !== null ? this.authService.currentSurveyUser.shortcode : '',
 				'Respondent-Id': respondentId === null ? this.authService.currentSurveyUser.id : String(respondentId)
 			});
 
-
 			return { headers: headers, responseType: rType };
 		} else {
-
 		}
 	}
 
@@ -151,13 +149,13 @@ export class SurveyViewerEndpointFactory {
 			this.isRefreshingLogin = true;
 
 			return this.authService.refreshLogin().pipe(
-				mergeMap((data) => {
+				mergeMap(data => {
 					this.isRefreshingLogin = false;
 					this.resumeTasks(true);
 
 					return continuation();
 				}),
-				catchError((refreshLoginError) => {
+				catchError(refreshLoginError => {
 					this.isRefreshingLogin = false;
 					this.resumeTasks(false);
 
@@ -195,7 +193,7 @@ export class SurveyViewerEndpointFactory {
 		}
 
 		return this.taskPauser.pipe(
-			switchMap((continueOp) => {
+			switchMap(continueOp => {
 				return continueOp ? continuation() : observableThrowError('session expired');
 			})
 		);

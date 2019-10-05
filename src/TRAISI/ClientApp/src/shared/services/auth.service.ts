@@ -261,8 +261,7 @@ export class AuthService {
 	 * @memberof AuthService
 	 */
 	private processLoginResponse(response: LoginResponse, rememberMe: boolean): User {
-		console.log('response: ');
-		console.log(response);
+
 		const accessToken = response.access_token;
 
 		if (accessToken == null) {
