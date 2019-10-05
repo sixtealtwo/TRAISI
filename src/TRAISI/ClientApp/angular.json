@@ -208,6 +208,7 @@
 						"tsConfig": "src/survey-viewer-app/tsconfig.app.json",
 						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"],
 						"styles": [
+							"src/survey-viewer-app/styles.scss",
 							"src/shared/assets/scss/application.scss",
 							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
@@ -220,6 +221,7 @@
 						"scripts": [
 							"node_modules/promise-polyfill/dist/polyfill.js",
 							"src/shared/systemjs/system.js",
+							"src/shared/lib/modernizr.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/popper.js/dist/umd/popper.min.js",
 							"node_modules/bootstrap/dist/js/bootstrap.min.js",

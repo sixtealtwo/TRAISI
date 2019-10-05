@@ -236,8 +236,7 @@ namespace TRAISI {
 			services.AddCors (options => options.AddPolicy ("CorsPolicy",
 				builder => {
 					builder.AllowAnyMethod ().AllowAnyHeader ()
-						.AllowAnyOrigin ()
-						.AllowCredentials ();
+						.AllowAnyOrigin ();
 				}));
 
 			services.AddSwaggerGen (c => {

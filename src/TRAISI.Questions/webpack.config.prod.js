@@ -25,7 +25,7 @@ module.exports = {
 					// 	mangle: true
 				}
 			}) */
- 		]
+		]
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
@@ -78,7 +78,7 @@ module.exports = {
 					{
 						loader: 'sass-loader',
 						options: {
-							sourceMap: false,
+							sourceMap: true,
 
 							sassOptions: {
 								data: '@import "_styles";',

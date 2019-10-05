@@ -125,7 +125,10 @@ export class SurveyViewerEndpointFactory {
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
 				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
-				Shortcode: this.authService.currentSurveyUser !== null ? this.authService.currentSurveyUser.shortcode : '',
+				Shortcode:
+					this.authService.currentSurveyUser !== null && this.authService.currentSurveyUser.shortcode !== undefined
+						? this.authService.currentSurveyUser.shortcode
+						: 'NONE',
 				'Respondent-Id': respondentId === null ? this.authService.currentSurveyUser.id : String(respondentId)
 			});
 

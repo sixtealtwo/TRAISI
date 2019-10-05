@@ -62,6 +62,7 @@ import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2
 import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
@@ -123,7 +124,8 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
-		SurveyViewerAuthorizationModule
+		SurveyViewerAuthorizationModule,
+		ToastrModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,
