@@ -104,6 +104,9 @@
 	<Target Name="DeleteDist" BeforeTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
 
 		<RemoveDir Directories="$(SpaRoot)dist" />
+		<RemoveDir Directories="$(OutDir)/publish" />
+		<Message Importance="high" Text="Cleaning $(OutDir)/publish" />
+
 	</Target>
 
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
