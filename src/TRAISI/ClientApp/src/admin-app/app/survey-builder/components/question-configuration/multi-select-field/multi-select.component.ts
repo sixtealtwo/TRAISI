@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
 import { Select2OptionData } from 'ng2-select2';
-import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
 
 @Component({
 	selector: 'app-multi-select',
@@ -63,7 +62,7 @@ export class MultiSelectComponent implements OnInit {
 		setTimeout(() => {
 			(<any>$(this.selectElement.nativeElement)).selectpicker('val', this.selected);
 			(<any>$(this.selectElement.nativeElement)).selectpicker('refresh');
-			console.log((<any>$(this.selectElement.nativeElement)).selectpicker().val());
+			// console.log((<any>$(this.selectElement.nativeElement)).selectpicker().val());
 		});
 	}
 

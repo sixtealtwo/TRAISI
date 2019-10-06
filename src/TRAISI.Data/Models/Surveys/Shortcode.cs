@@ -16,6 +16,8 @@ namespace DAL.Models.Surveys {
 		public string Code { get; set; }
 		public Boolean IsTest { get; set; }
 		public DateTime CreatedDate { get; set; }
+
+		public Boolean SurveyCompleted { get; set; }
 	}
 
 }

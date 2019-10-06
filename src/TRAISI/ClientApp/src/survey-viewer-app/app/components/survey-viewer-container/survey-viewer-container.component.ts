@@ -59,7 +59,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 				titleClass: 'mobile-toast-title',
 				progressBar: true,
 				closeButton: true,
-				tapToDismiss: false
+				tapToDismiss: false,
 			});
 		}
 	}
