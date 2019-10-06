@@ -135,7 +135,7 @@ traisi-survey-header-display {
 .survey-body {
   text-align: left;
   display: block;
-  background-color: #f6f7f9;
+  background-color: #f3f1f1;
 }
 
 .survey-title-container {
@@ -190,6 +190,7 @@ traisi-survey-header-display {
 
 #question-viewer-nav {
   font-size: 18px;
+  background: white;
 
   @include media-breakpoint-up(md) {
     padding: 10px;

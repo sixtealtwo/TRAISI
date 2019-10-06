@@ -10,7 +10,7 @@ import { stat } from 'fs';
 @Component({
 	selector: 'traisi-survey-header-display',
 	templateUrl: './survey-header-display.component.html',
-	styleUrls: ['./survey-header-display.component.scss']
+	styleUrls: ['./survey-header-display.component.scss', './survey-header-display.component.md.scss']
 })
 export class SurveyHeaderDisplayComponent implements OnInit, AfterViewInit {
 	public completedPages: boolean[] = [];
@@ -56,6 +56,6 @@ export class SurveyHeaderDisplayComponent implements OnInit, AfterViewInit {
 	public setPageActive(index: number): void {}
 
 	public ngAfterViewInit(): void {
- 		const simpleBar = new SimpleBar(this.pagesElement.nativeElement);
+		const simpleBar = new SimpleBar(this.pagesElement.nativeElement);
 	}
 }

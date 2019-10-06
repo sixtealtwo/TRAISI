@@ -51,7 +51,7 @@ interface SpecialPageDataInput {
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
-	styleUrls: ['./survey-viewer.component.scss'],
+	styleUrls: ['./survey-viewer.component.scss', './survey-viewer.component.md.scss'],
 	animations: [
 		trigger('visibleHidden', [
 			/*transition('hidden => visible', [
