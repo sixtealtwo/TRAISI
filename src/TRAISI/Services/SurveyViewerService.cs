@@ -188,7 +188,8 @@ namespace TRAISI.Services {
 											UserAgent = userAgent,
 											AccessUser = user,
 											RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
-											QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None)
+											QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
+											RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
 									}
 								}),
 								SurveyRespondentGroup = new SurveyRespondentGroup ()
@@ -202,7 +203,8 @@ namespace TRAISI.Services {
 								UserAgent = userAgent,
 								RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
 								QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
-								AccessUser = user
+								AccessUser = user,
+								RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
 						});
 					}
 					return (true, null);
@@ -217,7 +219,8 @@ namespace TRAISI.Services {
 					AccessDateTime = DateTime.Now,
 						UserAgent = userAgent,
 						AccessUser = existingUser,
-						QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None)
+						QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
+						RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
 				});
 
 				await this._unitOfWork.SaveChangesAsync ();
@@ -236,7 +239,8 @@ namespace TRAISI.Services {
 				AccessDateTime = DateTime.Now,
 					UserAgent = userAgent,
 					AccessUser = res.Item3,
-					QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None)
+					QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
+					RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
 			});
 			await this._unitOfWork.SaveChangesAsync ();
 			return res.Item1 ? (true, res.Item3) : (false, null);
