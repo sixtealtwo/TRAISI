@@ -63,7 +63,6 @@ import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
-
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -125,7 +124,7 @@ import { ToastrModule } from 'ngx-toastr';
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
-		ToastrModule.forRoot()
+		ToastrModule.forRoot(),
 	],
 	providers: [
 		LocalStoreManager,

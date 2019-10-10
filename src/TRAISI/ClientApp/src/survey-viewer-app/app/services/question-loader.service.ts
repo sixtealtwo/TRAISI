@@ -37,6 +37,7 @@ import * as rxjs from 'rxjs';
 import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
 import * as rxjsObservable from 'rxjs/Observable';
 import * as traisiSdkModule from 'traisi-question-sdk';
+import * as ngBootstrap from '@ng-bootstrap/ng-bootstrap';
 import { share, map, expand } from 'rxjs/operators';
 import { find } from 'lodash';
 
@@ -105,6 +106,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('rxjs/ReplaySubject', SystemJS.newModule(rxjsReplaySubject));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
 		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
+		SystemJS.registry.set('@ng-bootstrap', SystemJS.newModule(ngBootstrap));
 	}
 
 	/**
