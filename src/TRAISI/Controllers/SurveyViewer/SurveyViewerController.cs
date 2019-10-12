@@ -372,5 +372,23 @@ namespace TRAISI.Controllers.SurveyViewer {
 			return new ObjectResult (result);
 		}
 
+		[Route ("{surveyId:int}/complete")]
+		[HttpPut]
+		[Authorize (Policy = Policies.RespondToSurveyPolicy)]
+		public async Task<IActionResult> SurveyComplete (int surveyId, [FromHeader (Name = "Shortcode")] string shortcode) {
+
+			var survey = await this._unitOfWork.Surveys.GetAsync (surveyId);
+			if (survey != null) {
+				var shortcodeObj = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync (survey, shortcode);
+				shortcodeObj.SurveyCompleted = true;
+				await this._unitOfWork.SaveChangesAsync ();
+				return new OkResult ();
+
+			} else {
+				return new NotFoundResult ();
+			}
+
+		}
+
 	}
 }
