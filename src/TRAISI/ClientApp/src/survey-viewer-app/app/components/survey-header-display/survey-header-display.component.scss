@@ -1,6 +1,10 @@
 //@import "src/shared/assets/scss/helpers";
 @import "../../../../shared/assets/scss/traisi-import.scss";
 
+:host {
+  background: #f3f1f1;
+}
+
 .header-display-container {
   text-align: center;
   margin: 30px;
@@ -71,7 +75,6 @@
     font-size: 18px;
   }
 }
-
 
 .page-step {
   cursor: pointer;

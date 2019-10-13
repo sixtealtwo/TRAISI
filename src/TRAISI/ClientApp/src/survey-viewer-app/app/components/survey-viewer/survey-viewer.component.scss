@@ -203,7 +203,7 @@ traisi-survey-header-display {
 
 @media #{$md-down} {
   #question-viewer-nav {
-    margin-bottom: 5px;
+    padding-bottom: 5px;
   }
 }
 
@@ -216,7 +216,5 @@ traisi-survey-header-display {
 .survey-nav-button:disabled {
   cursor: initial;
 }
-
-
 
 @import "survey-viewer-component.sm.scss";
