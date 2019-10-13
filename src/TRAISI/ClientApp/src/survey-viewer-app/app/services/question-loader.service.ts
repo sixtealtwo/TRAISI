@@ -37,6 +37,7 @@ import * as rxjs from 'rxjs';
 import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
 import * as rxjsObservable from 'rxjs/Observable';
 import * as traisiSdkModule from 'traisi-question-sdk';
+import * as angularPopper from 'angular-popper';
 import { share, map, expand } from 'rxjs/operators';
 import { find } from 'lodash';
 
@@ -104,6 +105,7 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('rxjs/Observable', SystemJS.newModule(rxjsObservable));
 		SystemJS.registry.set('rxjs/ReplaySubject', SystemJS.newModule(rxjsReplaySubject));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
+		SystemJS.registry.set('angular-popper', SystemJS.newModule(angularPopper));
 		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
 	}
 

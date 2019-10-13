@@ -44,6 +44,7 @@
     "@turf/helpers": "^6.1.4",
     "@types/simplebar": "^2.4.2",
     "amazing-time-picker": "^1.8.0",
+    "angular-popper": "^2.0.1",
     "angular2-draggable": "^2.3.0",
     "angular2-text-mask": "9.0.0",
     "animate.css": "3.7.2",
