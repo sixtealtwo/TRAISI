@@ -124,7 +124,7 @@ import { ToastrModule } from 'ngx-toastr';
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
-		ToastrModule.forRoot(),
+		ToastrModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,

@@ -44,6 +44,10 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl;
 	}
 
+	private get getSurveyCompleteUrl(): string {
+		return this.configurations.baseUrl + this.surveyViewerUrl + '/complete';
+	}
+
 	private get getDefaultSurveyViewUrl(): string {
 		return this.configurations.baseUrl + '' + this._surveyViewerUrl + '/view';
 	}
@@ -68,6 +72,21 @@ export class SurveyViewerEndpointService extends SurveyViewerEndpointFactory {
 		return this.configurations.baseUrl + this._surveyViewerUrl + '/styles';
 	}
 
+	/**
+	 *
+	 * @param surveyId
+	 */
+	public getSurveyCompleteEndpoint<T>(surveyId: number): Observable<T> {
+		let endpointUrl = `${this.getSurveyCompleteUrl}/${surveyId}`;
+
+		let headers = this.getSurveyViewerRequestHeaders();
+
+		return this.http.put<T>(endpointUrl, headers).pipe(
+			catchError(error => {
+				return this.handleError(error, () => this.getSurveyCompleteEndpoint(surveyId));
+			})
+		);
+	}
 
 	/**
 	 *

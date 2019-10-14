@@ -372,7 +372,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 			return new ObjectResult (result);
 		}
 
-		[Route ("{surveyId:int}/complete")]
+		[Route ("complete/{surveyId:int}")]
 		[HttpPut]
 		[Authorize (Policy = Policies.RespondToSurveyPolicy)]
 		public async Task<IActionResult> SurveyComplete (int surveyId, [FromHeader (Name = "Shortcode")] string shortcode) {

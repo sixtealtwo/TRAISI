@@ -472,6 +472,14 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 	}
 
 	/**
+	 *
+	 * @param surveyId
+	 */
+	public setSurveyComplete(surveyId: number): Observable<any> {
+		return this._surveyViewerEndpointService.getSurveyCompleteEndpoint(surveyId);
+	}
+
+	/**
 	 * Authenticates the current user using the specified shortcode
 	 * @param surveyId
 	 * @param shortcode
