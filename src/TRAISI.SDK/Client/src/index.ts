@@ -30,9 +30,9 @@ export { SurveyRespondent } from './survey-respondent';
 
 export { SurveyModule } from './survey-module';
 
-export { SurveyQuestionInternalViewDirective } from './survey-question-internal-view.directive';
+// export { SurveyQuestionInternalViewDirective } from './survey-question-internal-view.directive';
 
-export { SurveyQuestionViewDirective } from './survey-question-view.directive';
+// export { SurveyQuestionViewDirective } from './survey-question-view.directive';
 
 export { WidgetProvider } from './widget-provider';
 
@@ -47,3 +47,7 @@ export {
 	SURVEY_ID,
 	SURVEY_BUILDER
 } from './traisi-survey-builder.service';
+
+export { TraisiSdkModule } from './traisi-sdk.module';
+
+export { PopupComponent } from './components/popup/popup.component';

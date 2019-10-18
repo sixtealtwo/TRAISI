@@ -3,8 +3,10 @@ import { EventEmitter, Output, Inject, ChangeDetectorRef, Component, Directive }
 import { QuestionConfiguration } from './question-configuration';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
+/*
 @Directive({
 	selector: '[traisiQuestionInternalView]',
 	exportAs: 'traisiSurveyQuestionInternalView'
 })
 export class SurveyQuestionInternalViewDirective { }
+*/
