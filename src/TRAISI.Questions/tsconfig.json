@@ -22,7 +22,7 @@
 		],
 		"paths": {
 			"traisi-question-sdk": [
-				"../../TRAISI.SDK/Client/"
+				"../../TRAISI.SDK/Client/dist"
 			]
 		}
 	},
