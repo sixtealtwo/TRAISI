@@ -372,6 +372,12 @@ namespace TRAISI.Controllers.SurveyViewer {
 			return new ObjectResult (result);
 		}
 
+		/// <summary>
+		/// Sets the surey to complete for the current user (shortcode).
+		/// </summary>
+		/// <param name="surveyId"></param>
+		/// <param name="(Name"></param>
+		/// <returns></returns>
 		[Route ("complete/{surveyId:int}")]
 		[HttpPut]
 		[Authorize (Policy = Policies.RespondToSurveyPolicy)]

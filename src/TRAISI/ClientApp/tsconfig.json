@@ -20,7 +20,7 @@
 			//"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
 			//"traisi-sdk/*": ["../../TRAISI.SDK/Client/*"],
 			//"questions/*": ["../../Questions/*"],
-			"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
+			//"traisi-question-sdk": ["../../TRAISI.SDK/Client/dist"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]
 		}

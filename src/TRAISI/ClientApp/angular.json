@@ -231,6 +231,9 @@
 						}
 					},
 					"configurations": {
+						"es5": {
+							"tsConfig": "src/survey-viewer-app/tsconfig.app.es5.json"
+						},
 						"production": {
 							"fileReplacements": [
 								{
@@ -266,6 +269,9 @@
 					"configurations": {
 						"production": {
 							"browserTarget": "survey-viewer-app:build:production"
+						},
+						"es5": {
+							"browserTarget": "survey-viewer-app:build:es5"
 						}
 					}
 				},

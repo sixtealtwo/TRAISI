@@ -428,7 +428,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<any> {
 		// get all question IDs
 		return Observable.of();
 	}

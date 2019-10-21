@@ -25,7 +25,7 @@ import { SurveyStartPageComponent } from 'app/components/survey-start-page/surve
 @Injectable({
 	providedIn: 'root'
 })
-export class SurveyViewerService implements SurveyViewer, OnInit {
+export class SurveyViewerService implements  OnInit {
 	public configurationData: Subject<QuestionConfiguration[]>;
 	public options: Subject<QuestionOption[]>;
 
@@ -575,7 +575,7 @@ export class SurveyViewerService implements SurveyViewer, OnInit {
 		return this._surveyViewerEndpointService.getSurveyViewQuestionOptionsEndpoint(surveyId, questionId, language, query);
 	}
 
-	public preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<{}> {
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent, currentQuestionId: number): Observable<any> {
 		// this._surveyState.viewerState.surveyQuestions;
 		return Observable.of();
 	}

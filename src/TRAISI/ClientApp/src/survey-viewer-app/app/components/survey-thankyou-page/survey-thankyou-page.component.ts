@@ -67,4 +67,6 @@ export class SurveyThankYouPageComponent implements OnInit {
 				this.finishedLoading = true;
 			});
 	}
+
+
 }

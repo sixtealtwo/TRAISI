@@ -469,7 +469,7 @@ namespace TRAISI {
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds (599);
 
 					if (env.IsDevelopment () || env.IsStaging ()) {
-						spa.UseAngularCliServer ("start survey-viewer-app --watch --live-reload");
+						spa.UseAngularCliServer ("start2");
 					}
 				});
 			});
