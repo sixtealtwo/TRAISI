@@ -74,6 +74,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 */
 	public loadConfiguration(configuration: QuestionConfiguration): void {
 		this.configuration = configuration;
+		this.isLoaded = new BehaviorSubject<boolean>(false);
 	}
 
 	/**

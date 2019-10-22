@@ -90,14 +90,21 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.m?js$/,
+
+				include: [
+					path.resolve(__dirname, "node_modules/ngx-mapbox-gl")
+				],
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env']
+					}
+				}
 			}
-			/*{
-        test: /\.js$/,
-        include: [path.resolve(__dirname, 'node_modules/ngx-bootstrap')],
-        use: {
-          loader: 'babel-loader'
-        }
-      } */
+
 		]
 	},
 
