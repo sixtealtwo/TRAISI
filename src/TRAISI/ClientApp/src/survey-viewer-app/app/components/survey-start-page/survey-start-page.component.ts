@@ -20,7 +20,8 @@ import { SurveyShortcodeDisplayPageComponent } from '../survey-shortcode-display
 
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
-import { zip } from 'rxjs';
+import { zip, Observable, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'traisi-survey-start-page',
@@ -42,7 +43,8 @@ export class SurveyStartPageComponent implements OnInit {
 	public groupcode: string;
 	public isChildPage: boolean = true;
 	public session: SurveyViewerSessionData;
-
+	public hasAccessError: boolean = false;
+	public authMode: any;
 	private _queryParams: Params;
 
 	@ViewChild('codeComponent', { read: ViewContainerRef, static: false })
@@ -65,8 +67,6 @@ export class SurveyStartPageComponent implements OnInit {
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		private _route: ActivatedRoute,
 		private _router: Router,
-		private _elementRef: ElementRef,
-		private _componentFactoryResolver: ComponentFactoryResolver,
 		private _surveySession: SurveyViewerSession
 	) {}
 
@@ -76,6 +76,7 @@ export class SurveyStartPageComponent implements OnInit {
 	 * @memberof SurveyStartPageComponent
 	 */
 	public ngOnInit(): void {
+		this._surveyViewerService.startPageComponent = this;
 		this.isAdmin = this._surveyViewerService.isAdminUser();
 		zip(this._route.params, this._route.queryParams).subscribe(([routeParams, queryParams]: [Params, Params]) => {
 			this._queryParams = queryParams;
@@ -84,6 +85,12 @@ export class SurveyStartPageComponent implements OnInit {
 		this._surveyViewerService.welcomeModel.subscribe((surveyStartModel: SurveyStart) => {
 			this.surveyStartConfig = surveyStartModel;
 
+			this._route.paramMap.subscribe(map => {
+				if (map.has('shortcode')) {
+					const shortcode = map.get('shortcode');
+					this.trySurveyLogin(shortcode);
+				}
+			});
 			this.evaluateSurveyType();
 		});
 
@@ -97,7 +104,7 @@ export class SurveyStartPageComponent implements OnInit {
 			}
 		}
 
-		this._router.events.subscribe((event) => {
+		this._router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				if (this.outlet.isActivated) {
 					this.outlet.component['startPageComponent'] = this;
@@ -105,9 +112,11 @@ export class SurveyStartPageComponent implements OnInit {
 			}
 		});
 
-		this._surveySession.data.subscribe((data) => {
+		this._surveySession.data.subscribe(data => {
 			this.session = data;
 		});
+
+		this.authMode = this._surveyViewerService.authenticationMode;
 	}
 
 	/**
@@ -121,7 +130,7 @@ export class SurveyStartPageComponent implements OnInit {
 			if (this._route.snapshot.children.length === 0) {
 				this._router.navigate(['groupcode'], { relativeTo: this._route });
 			} else if (this._route.snapshot.children.length === 1) {
-				this._route.children[0].data.subscribe((data) => {
+				this._route.children[0].data.subscribe(data => {
 					if (data.shortcodePage) {
 						this._router.navigate(['groupcode'], { relativeTo: this._route });
 					}
@@ -136,7 +145,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public groupcodeStartSurvey(groupcode: string): void {
 		const groupcodeMod: string = groupcode.trim();
 		this._surveyViewerService.startSurveyWithGroupcode(this.surveyStartConfig.id, groupcodeMod, this._queryParams).subscribe(
-			(result) => {
+			result => {
 				if (result.success) {
 					// this.loadShortcodeDisplayComponent(result.shortcode);
 					this._surveySession.setGroupcode(groupcode);
@@ -148,10 +157,27 @@ export class SurveyStartPageComponent implements OnInit {
 					});
 				}
 			},
-			(error) => {
+			error => {
 				console.log(error);
 			}
 		);
+	}
+
+	/**
+	 *
+	 * @param shortcode
+	 */
+	public trySurveyLogin(shortcode: string): void {
+		console.log(this.surveyStartConfig);
+
+		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, shortcode, this._queryParams).subscribe(r => {
+			this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, shortcode).subscribe(
+				(user: User) => {},
+				error => {
+					console.log(' you are not logged in');
+				}
+			);
+		});
 	}
 
 	/**
@@ -170,27 +196,56 @@ export class SurveyStartPageComponent implements OnInit {
 	 * Starts the survey - this will authorize the current user with the associated
 	 * short code. This will create a new survey user if one does not exist.
 	 */
-	public startSurvey(code: string): void {
+	public startSurvey(code: string): Observable<void> {
 		this.shortcode = code;
 		this.isLoading = true;
 		this.isError = false;
+		this.hasAccessError = false;
 		code = code === undefined ? code : code.trim();
-		this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
-			(value) => {
-				this.isLoading = false;
-				if (!this.isAdmin) {
-					this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
+		if (this._surveyViewerService.isLoggedIn.value) {
+			this.shortcode = this._surveyViewerService.currentUser.shortcode;
+		}
+
+		if (this._surveyViewerService.isLoggedIn.value) {
+			return this.traisiInternalStart();
+		} else if (this.authMode.modeName === 'TRAISI_AUTHENTICATION') {
+			return this.traisiInternalStart();
+		} else if (this.authMode.modeName === 'ExternalAuthentication') {
+			return this.externalStart();
+		}
+	}
+
+	private externalStart(): Observable<void> {
+		console.log(this.authMode);
+		window.location.href = this.authMode.authenticationUrl;
+		return EMPTY;
+	}
+
+	private traisiInternalStart(): Observable<void> {
+		return new Observable(obs => {
+			this._surveyViewerService.surveyStart(this.surveyStartConfig.id, this.shortcode, this._queryParams).subscribe(
+				value => {
+					this.isLoading = false;
+
+					if (!this.isAdmin) {
+						this._surveyViewerService.surveyLogin(this.surveyStartConfig.id, this.shortcode).subscribe((user: User) => {
+							this._router.navigate([this.session.surveyCode, 'terms']);
+						});
+					} else {
 						this._router.navigate([this.session.surveyCode, 'terms']);
-					});
-				} else {
-					this._router.navigate([this.session.surveyCode, 'terms']);
+					}
+					obs.complete();
+				},
+				(error: HttpErrorResponse) => {
+					this.isLoading = false;
+					this.isError = true;
+					this.hasAccessError = true;
+					if (this._surveyViewerService.isLoggedIn.value) {
+						this._surveyViewerService.logout();
+					}
+					obs.error(error);
 				}
-			},
-			(error) => {
-				console.error(error);
-				this.isLoading = false;
-				this.isError = true;
-			}
-		);
+			);
+		});
 	}
 }

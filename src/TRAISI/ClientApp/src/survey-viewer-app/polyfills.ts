@@ -18,15 +18,30 @@
  * BROWSER POLYFILLS
  */
 
+// import 'core-js/stable/promise';
+
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
+
+// import 'classlist.js';
+
+import 'core-js/es/reflect';
+// import 'core-js/es/promise';
+import 'core-js/es/array';
+
+// import '../shared/systemjs/system.src.js';
+// import 'core-js/features/symbol';
+
+/** IE10 and IE11 requires the following to support `@angular/animation`. ALL Firefox browsers require the following to support `@angular/animation`. **/
+
+import 'web-animations-js';
 
 /**
  * Web Animations `@angular/platform-browser/animations`
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  */
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+import 'web-animations-js'; // Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -55,9 +70,14 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
-
+import 'zone.js/dist/zone'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// import 'promise-polyfill/src/polyfill';
+
+if (!Element.prototype.matches) {
+	Element.prototype.matches = Element.prototype['msMatchesSelector'];
+}

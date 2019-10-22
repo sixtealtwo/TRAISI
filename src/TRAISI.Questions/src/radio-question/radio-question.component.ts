@@ -40,6 +40,8 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 
 	public customResponseValue: string;
 
+	public customResponseOptions: Set<string>;
+
 	@ViewChildren('input', {})
 	public inputElements: QueryList<ElementRef>;
 
@@ -54,15 +56,20 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	) {
 		super();
 		this.options = [];
+		this.customResponseOptions = new Set<string>();
 	}
 
 	/**
 	 *
 	 */
 	public ngOnInit(): void {
-
 		this.configuration['allowCustomResponse'] = this.configuration['allowCustomResponse'] === 'true' ? true : false;
 		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
+		if (this.configuration['customResponseOptions'] !== undefined) {
+			const options = this.configuration['customResponseOptions'].split(',');
+			this.customResponseOptions = new Set(options);
+
+		}
 	}
 
 	/**
@@ -75,13 +82,18 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 			let optionResponse = <OptionSelectResponseData>response[0];
 
 			this.selectedOption = optionResponse.code;
-			if (optionResponse.code === 'custom-response') {
+			if (this.customResponseOptions.has(optionResponse.code)) {
 				this.customResponseValue = optionResponse.value;
 			}
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
+
+		this.isLoaded.next(true);
 	};
 
+	/**
+	 *
+	 */
 	public ngAfterViewInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
@@ -90,13 +102,25 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * Determines whether model changed on
 	 */
 	public onModelChanged(option: OptionSelectResponseData): void {
-		option.value = option.code;
-		this.response.emit([option]);
+		if (this.customResponseOptions.has(option.code)) {
+			this.onCustomModelChanged();
+		} else {
+			option.value = option.code;
+			this.response.emit([option]);
+		}
 	}
 
+	/**
+	 *
+	 */
 	public onCustomModelChanged(): void {
 		let response = { code: this.selectedOption, value: this.customResponseValue };
-		this.response.emit([response]);
+
+		if (this.customResponseValue && this.customResponseValue.trim().length > 0) {
+			this.response.emit([response]);
+		} else {
+			this.validationState.emit(ResponseValidationState.INVALID);
+		}
 	}
 
 	/**

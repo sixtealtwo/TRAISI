@@ -42,7 +42,7 @@ import { Header1Component } from '../special-page-builder/header1/header1.compon
 import { SurveyHeaderDisplayComponent } from '../survey-header-display/survey-header-display.component';
 import { Header2Component } from '../special-page-builder/header2/header2.component';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
-
+import Headroom from 'headroom.js';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -51,7 +51,7 @@ interface SpecialPageDataInput {
 @Component({
 	selector: 'traisi-survey-viewer',
 	templateUrl: './survey-viewer.component.html',
-	styleUrls: ['./survey-viewer.component.scss'],
+	styleUrls: ['./survey-viewer.component.scss', './survey-viewer.component.md.scss'],
 	animations: [
 		trigger('visibleHidden', [
 			/*transition('hidden => visible', [
@@ -110,6 +110,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	@ViewChild('questionsContainer', { static: false })
 	public questionsContainerElement: ElementRef;
 
+	@ViewChild('questionSection', { static: false })
+	public questionSectionElement: ElementRef;
+
 	public activeQuestion: any;
 
 	public surveyName: string;
@@ -148,7 +151,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		if (this.currentUser === undefined) {
 			return false;
 		} else {
-			return this.currentUser.roles.includes('super administrator');
+			return this.currentUser !== undefined && this.currentUser.roles.includes('super administrator');
 		}
 	}
 
@@ -465,6 +468,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.viewerState.activePageIndex = 0;
 
 				this._navigationService.navigationCompleted.subscribe(this.navigationCompleted);
+				this.navigator.surveyCompleted$.subscribe({ complete: this.surveyCompleted });
 				this._navigationService.initialize();
 
 				let questions: Array<SurveyViewQuestion> = [];
@@ -561,6 +565,14 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	};
 
 	/**
+	 *
+	 */
+	public surveyCompleted = () => {
+		// console.log('in completed');
+		this._router.navigate([this.session.surveyCode, 'thankyou']);
+	};
+
+	/**
 	 * Navigates previous
 	 */
 	public navigatePrevious(): void {
@@ -570,9 +582,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		this.navigator.navigatePrevious().subscribe({
 			next: v => {},
 			complete: () => {
-				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				console.log('navigation completed');
+				// console.log('navigation completed');
 			}
 		});
 	}
@@ -586,20 +598,15 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 
 		this.navigator.navigateNext().subscribe({
 			next: v => {
-				console.log(v);
+				// console.log(v);
 			},
 			complete: () => {
-				this.surveyBodyContainer.nativeElement.scrollTop = 0;
+				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				console.log('navigation completed');
+				// console.log('navigation completed');
 			}
 		});
 	}
-
-	private surveyQuestionsChanged: () => void = () => {
-		// update the validation based on new survey questions and active question
-		// this.validateNavigation();
-	};
 
 	/**
 	 * Shows group member

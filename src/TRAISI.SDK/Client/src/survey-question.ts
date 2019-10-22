@@ -7,7 +7,7 @@ import { QuestionOption } from './question-option';
 /**
  * Base abstract class for Survey Questions available to TRAISI
  */
-export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]>{
+export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> {
 	/**
 	 * Output binding - question components embedded in other question types can subscribe
 	 * to the questions response event to receive the generated "data" of that question type
@@ -49,11 +49,13 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]>{
 	 */
 	public savedResponse: ReplaySubject<ResponseData<T> | 'none'>;
 
+	public isLoaded: BehaviorSubject<boolean>;
+
 	public data: Array<any>;
 
 	public pageIndex?: number;
 
-	public displayClass: string = 'view-compact';
+	public displayClass: string = '';
 
 	public isMultiPage: boolean = false;
 
@@ -87,6 +89,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]>{
 		this.questionId = -1;
 		this.surveyId = -1;
 		this.configuration = <QuestionConfiguration>{};
+		this.isLoaded = new BehaviorSubject<boolean>(false);
 		this.isValid = false;
 		this.respondent = {
 			relationship: '',
@@ -139,10 +142,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]>{
 	 */
 	public traisiOnLoaded(): void {}
 
-	public traisiOnUnloaded(): void {
-
-	}
-
+	public traisiOnUnloaded(): void {}
 }
 
 /**
@@ -191,6 +191,7 @@ export interface TimelineResponseData extends ResponseData<ResponseTypes.Timelin
 	timeA: Date;
 	timeB: Date;
 	name: string;
+	order: number;
 	purpose: string;
 }
 

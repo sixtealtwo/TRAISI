@@ -1,14 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Utilities } from 'shared/services/utilities';
 
-
 @Component({
-  selector: 'app-privacy-confirmation',
-  templateUrl: './privacy-confirmation.component.html',
-  styleUrls: ['./privacy-confirmation.component.scss']
+	selector: 'app-privacy-confirmation',
+	templateUrl: './privacy-confirmation.component.html',
+	styleUrls: ['./privacy-confirmation.component.scss']
 })
 export class PrivacyConfirmationComponent implements OnInit {
-
 	public quillMinimalModules: Object = {
 		toolbar: []
 	};
@@ -45,11 +43,11 @@ export class PrivacyConfirmationComponent implements OnInit {
 	@Input()
 	public pageHTML: string;
 	@Input() public pageThemeInfo: any;
-	@Output()	public termsAccepted: EventEmitter<void> = new EventEmitter();
+	@Output() public termsAccepted: EventEmitter<void> = new EventEmitter();
 
-  constructor() { }
+	constructor() {}
 
-  public ngOnInit(): void {
+	public ngOnInit(): void {
 		try {
 			let pageData = JSON.parse(this.pageHTML);
 			this.pageHTMLJson = pageData;
@@ -70,5 +68,4 @@ export class PrivacyConfirmationComponent implements OnInit {
 	public acceptTerms(): void {
 		this.termsAccepted.emit();
 	}
-
 }

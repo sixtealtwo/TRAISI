@@ -12,11 +12,10 @@ import {
 } from '@angular/router';
 import { SurveyErrorComponent } from '../survey-error/survey-error.component';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
-
+import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
-import { SurveyUser } from 'shared/models/survey-user.model';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
-
+declare var Modernizr;
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'app-survey-viewer-container',
@@ -29,12 +28,18 @@ export class SurveyViewerContainerComponent implements OnInit {
 	public hasGeneratedShortcode: boolean;
 
 	/**
-	 * Creates an instance of survey viewer container component.
-	 * @param _surveyViewerService
+	 *
+	 * @param surveySession
 	 * @param _titleService
-	 * @param _router
+	 * @param _toastr
+	 * @param surveyViewer
 	 */
-	constructor(public surveySession: SurveyViewerSession, private _titleService: Title, private _router: Router) {
+	constructor(
+		public surveySession: SurveyViewerSession,
+		private _titleService: Title,
+		private _toastr: ToastrService,
+		public surveyViewer: SurveyViewerService
+	) {
 		this.hasGeneratedShortcode = false;
 	}
 
@@ -43,8 +48,19 @@ export class SurveyViewerContainerComponent implements OnInit {
 	 */
 	public ngOnInit(): void {
 		this.surveySession.data.subscribe(data => {
-			console.log(data);
 			this._titleService.setTitle('TRAISI - ' + data.surveyTitle);
 		});
+		if (Modernizr.mq('(max-width: 381px)')) {
+			this._toastr.info('A desktop view may provide a better experience for answering some questions', 'Mobile Dislay', {
+				positionClass: 'toast-top-full-width',
+				timeOut: 5000,
+				toastClass: 'ngx-toastr mobile-toast',
+				messageClass: 'mobile-toast-message',
+				titleClass: 'mobile-toast-title',
+				progressBar: true,
+				closeButton: true,
+				tapToDismiss: false,
+			});
+		}
 	}
 }

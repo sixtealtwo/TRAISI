@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"lib": ["es2017", "dom","esnext"],
 		"paths": {
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client"],
+			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
 			// "smooth-dnd": ["../../local_node_modules/smooth-dnd/"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
 

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ResponseTypes } from '.';
+import { ResponseTypes } from './public_api';
 
 export interface SurveyResponder {
 	id: number;

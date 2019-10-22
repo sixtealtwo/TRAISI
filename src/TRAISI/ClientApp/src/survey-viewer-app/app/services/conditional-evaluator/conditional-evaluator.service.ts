@@ -174,7 +174,7 @@ export class ConditionalEvaluator {
 		question: SurveyViewQuestion,
 		respondentId: number
 	): Observable<{ shouldHide: boolean; question: SurveyViewQuestion }> {
-		return Observable.create(observer => {
+		return new Observable(observer => {
 			if (question.targetConditionals.length === 0) {
 				observer.next({ shouldHide: false, question: question });
 				observer.complete();
@@ -185,19 +185,21 @@ export class ConditionalEvaluator {
 					sourceIds.push(sourceQuestion.questionId);
 				}
 
-				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe(v => {
-					let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
-						let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+				this._responderService.readyCachedSavedResponses(sourceIds, respondentId).subscribe({
+					complete: () => {
+						let evalTrue: boolean = question.targetConditionals.some(evalConditional => {
+							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
-						if (response === undefined || response.length === 0) {
-							return true;
-						}
-						let evalResult = this.evaluateConditional(evalConditional.conditionalType, response, '', evalConditional.value);
-						return evalResult;
-					});
+							if (response === undefined || response.length === 0) {
+								return true;
+							}
+							let evalResult = this.evaluateConditional(evalConditional.conditionalType, response, '', evalConditional.value);
+							return evalResult;
+						});
 
-					observer.next({ shouldHide: evalTrue, question: question });
-					observer.complete();
+						observer.next({ shouldHide: evalTrue, question: question });
+						observer.complete();
+					}
 				});
 
 				/*forkJoin(conditionalEvals).subscribe(values => {

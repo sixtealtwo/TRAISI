@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { SurveyViewerService } from '../../../services/survey-viewer.service';
-
+import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
+import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
+import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 
 @Component({
 	selector: 'app-main-survey-access1',
@@ -9,8 +11,7 @@ import { SurveyViewerService } from '../../../services/survey-viewer.service';
 	styleUrls: ['./main-survey-access1.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class MainSurveyAccess1Component implements OnInit {
-
+export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent {
 	public quillModules: Object = {
 		toolbar: [
 			['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -62,10 +63,12 @@ export class MainSurveyAccess1Component implements OnInit {
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
-	constructor(
-		private surveyViewerService: SurveyViewerService
-	) {
-	}
+	@Input()
+	public startPageComponent: SurveyStartPageComponent;
+
+	public hasAccessError: boolean = false;
+
+	public constructor(public surveyViewerService: SurveyViewerService, public surveySession: SurveyViewerSession) {}
 
 	public ngOnInit(): void {
 		try {
@@ -95,6 +98,20 @@ export class MainSurveyAccess1Component implements OnInit {
 		}
 		this.pageTextColour = this.getBestPageBodyTextColor();
 		this.borderColour = this.getBestBorderColor();
+		this.accessCode = '';
+		this.surveyViewerService.isLoggedIn.subscribe(
+			val => {
+				console.log('logged in: ' + val);
+			},
+			error => {},
+			() => {
+				console.log('complete');
+			}
+		);
+
+		this.surveySession.data.subscribe(v => {
+			console.log(v);
+		});
 	}
 
 	private getBestPageBodyTextColor(): string {
@@ -123,6 +140,21 @@ export class MainSurveyAccess1Component implements OnInit {
 	}
 
 	public startSurvey(): void {
-		this.startSurveyPressed.emit(this.accessCode);
+		this.hasAccessError = false;
+		this.surveyViewerService.startPageComponent.startSurvey(this.accessCode).subscribe({
+			complete: () => {
+				console.log('complete ');
+			},
+			error: e => {
+				console.log(e);
+				console.log('has error');
+				this.hasAccessError = true;
+			}
+		});
+		// this.startSurveyPressed.emit(this.accessCode);
+	}
+
+	public setShortcodeInput(shortcode: string): void {
+		this.accessCode = shortcode;
 	}
 }

@@ -38,7 +38,7 @@ namespace TRAISI.SDK.Attributes
         /// <value></value>
         public string SharedResource { get; set; }
 
-        public string DefaultValue { get; set; }
+        public object DefaultValue { get; set; }
         public QuestionConfigurationAttribute(ConfigurationValueType valueType)
         {
             this._valueType = valueType;

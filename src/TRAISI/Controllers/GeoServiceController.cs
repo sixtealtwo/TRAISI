@@ -74,7 +74,7 @@ namespace TRAISI.Controllers
 		[HttpGet]
 		[Route("routeplanner")]
 		public async Task<IActionResult> RoutePlanner([FromQuery] string arrival, [FromQuery] string departure, [FromQuery] string date,
-		[FromQuery] string mode, [FromQuery] string transitModes, [FromQuery] string accessibiliy = "none")
+		[FromQuery] string mode, [FromQuery] string transitModes = "", [FromQuery] string accessibiliy = "")
 		{
 
 			string[] depCoords = departure.Split("|");
@@ -90,7 +90,8 @@ namespace TRAISI.Controllers
 			request.AddParameter("ArrivalLongitude", arrCoords[1]);
 			request.AddParameter("TripModes", mode);
 			request.AddParameter("Date", date);
-			if (transitModes.Trim().Length > 0)
+
+			if (!string.IsNullOrEmpty(transitModes) && transitModes.Trim().Length > 0)
 			{
 				request.AddParameter("Modes", transitModes.Trim());
 			}

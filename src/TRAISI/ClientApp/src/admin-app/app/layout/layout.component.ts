@@ -39,15 +39,15 @@ export class LayoutComponent implements OnInit {
 	public onBuilder: boolean = false;
 
 	/**
-	 * 
-	 * @param config 
-	 * @param el 
-	 * @param router 
-	 * @param renderer 
-	 * @param ngZone 
-	 * @param authService 
-	 * @param _accountService 
-	 * @param _activatedRoute 
+	 *
+	 * @param config
+	 * @param el
+	 * @param router
+	 * @param renderer
+	 * @param ngZone
+	 * @param authService
+	 * @param _accountService
+	 * @param _activatedRoute
 	 */
 	constructor(
 		config: AppConfig,
@@ -242,6 +242,7 @@ export class LayoutComponent implements OnInit {
 			this._navigationInterceptor(event);
 			this.collapseNavIfSmallScreen();
 			window.scrollTo(0, 0);
+			// window.scrollTop = 0;
 		});
 
 		if ('ontouchstart' in window) {

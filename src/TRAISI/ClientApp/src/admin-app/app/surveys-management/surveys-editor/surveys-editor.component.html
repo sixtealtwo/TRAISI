@@ -139,13 +139,13 @@
 
 
 			<div class="">
-				<div class="col-md-3" *ngIf="!isNewSurvey && canDeleteSurvey">
-					<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()"
-						[disabled]="isSaving">
-						<i class="fas fa-times"></i>
-						Delete
-					</button>
-				</div>
+
+				<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" (click)="delete()"
+					[disabled]="isSaving" *ngIf="!isNewSurvey && canDeleteSurvey">
+					<i class="fas fa-times"></i>
+					Delete
+				</button>
+
 
 				<button type="button" class="btn btn-secondary action-button" data-dismiss="modal" (click)="cancel()"
 					[disabled]="isSaving">

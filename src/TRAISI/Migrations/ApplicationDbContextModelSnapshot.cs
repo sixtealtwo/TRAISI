@@ -17,7 +17,7 @@ namespace TRAISI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -593,6 +593,8 @@ namespace TRAISI.Migrations
 
                     b.Property<bool>("IsTest");
 
+                    b.Property<bool>("SurveyCompleted");
+
                     b.Property<int?>("SurveyId");
 
                     b.HasKey("Id");
@@ -692,10 +694,14 @@ namespace TRAISI.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int?>("PrimaryRespondentId");
-
                     b.Property<string>("QueryParams")
                         .HasColumnType("jsonb");
+
+                    b.Property<string>("RemoteIpAddress");
+
+                    b.Property<string>("RequestUrl");
+
+                    b.Property<int?>("RespondentId");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);
@@ -708,7 +714,7 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("AccessUserId");
 
-                    b.HasIndex("PrimaryRespondentId");
+                    b.HasIndex("RespondentId");
 
                     b.ToTable("SurveyAccessRecords");
                 });
@@ -1320,6 +1326,8 @@ namespace TRAISI.Migrations
                     b.Property<string>("Name")
                         .HasColumnName("TimelineResponse_Name");
 
+                    b.Property<int?>("Order");
+
                     b.Property<string>("Purpose");
 
                     b.Property<DateTime>("TimeA");
@@ -1517,11 +1525,13 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.ApplicationUser", "AccessUser")
                         .WithMany()
-                        .HasForeignKey("AccessUserId");
+                        .HasForeignKey("AccessUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Models.Surveys.PrimaryRespondent")
+                    b.HasOne("DAL.Models.Surveys.PrimaryRespondent", "Respondent")
                         .WithMany("SurveyAccessRecords")
-                        .HasForeignKey("PrimaryRespondentId");
+                        .HasForeignKey("RespondentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyPermission", b =>
@@ -1671,11 +1681,13 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("DAL.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
                         .WithMany()
-                        .HasForeignKey("PrimaryRespondentId");
+                        .HasForeignKey("PrimaryRespondentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Models.Surveys.Shortcode", "Shortcode")
                         .WithMany()
-                        .HasForeignKey("ShortcodeId");
+                        .HasForeignKey("ShortcodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.PrimaryRespondent", b =>

@@ -196,7 +196,8 @@ namespace TRAISI.Services
                 QuestionConfiguration qc = new QuestionConfiguration()
                 {
                     Name = name,
-                    Value = value.ToString()
+                    Value = value.ToString(),
+					ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
                 };
                 questionPart.QuestionConfigurations.Add(qc);
                 return qc;

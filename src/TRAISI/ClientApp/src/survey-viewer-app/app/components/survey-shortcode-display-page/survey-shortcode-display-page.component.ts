@@ -1,14 +1,10 @@
 import { Component, Input, OnInit, ChangeDetectorRef, Inject, ElementRef } from '@angular/core';
-import { SurveyViewPage } from '../../models/survey-view-page.model';
-import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
-import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyStart } from 'app/models/survey-start.model';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 import { SurveyViewGroupcodePage } from 'app/models/survey-view-groupcode-page.model';
-import { FormGroup, FormControl } from '@angular/forms';
 import { find as _find } from 'lodash';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';

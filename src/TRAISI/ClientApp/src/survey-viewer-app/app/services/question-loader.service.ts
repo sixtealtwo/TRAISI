@@ -14,7 +14,7 @@ import {
 	Type
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
-import { Observable, of, Operator, Subscriber, Observer, ReplaySubject } from 'rxjs';
+import { Observable, of, Operator, Subscriber, Observer, ReplaySubject, from, EMPTY } from 'rxjs';
 import * as AngularCore from '@angular/core';
 import * as AngularCommon from '@angular/common';
 import * as AngularHttp from '@angular/common/http';
@@ -30,9 +30,15 @@ import * as datepicker from 'ngx-bootstrap/datepicker';
 import * as BrowserModule from '@angular/platform-browser';
 import * as tooltip from 'ngx-bootstrap/tooltip';
 import * as timePicker from 'ngx-bootstrap/timepicker';
-import * as rxjs from 'rxjs';
+import * as rxjsSubject from 'rxjs/Subject';
+import * as rxjsReplaySubject from 'rxjs/ReplaySubject';
 import * as rxjsOperators from 'rxjs/operators';
+import * as rxjs from 'rxjs';
+import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
+import * as rxjsObservable from 'rxjs/Observable';
 import * as traisiSdkModule from 'traisi-question-sdk';
+import * as angularPopper from 'angular-popper';
+import { share, map, expand } from 'rxjs/operators';
 import { find } from 'lodash';
 
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
@@ -53,6 +59,7 @@ export class QuestionLoaderService {
 	public get componentFactories(): {
 		[type: string]: ComponentFactoryBoundToModule<any>;
 	} {
+		of();
 		return this._componentFactories;
 	}
 
@@ -92,7 +99,13 @@ export class QuestionLoaderService {
 		SystemJS.registry.set('ngx-bootstrap/tooltip', SystemJS.newModule(tooltip));
 		SystemJS.registry.set('ngx-bootstrap/timepicker', SystemJS.newModule(timePicker));
 		SystemJS.registry.set('traisi-question-sdk', SystemJS.newModule(traisiSdkModule));
+		SystemJS.registry.set('rxjs/Subject', SystemJS.newModule(rxjsSubject));
+		SystemJS.registry.set('rxjs/BehaviorSubject', SystemJS.newModule(rxjsBehaviourSubject));
+		SystemJS.registry.set('rxjs/internal/BehaviorSubject', SystemJS.newModule(rxjsBehaviourSubject));
+		SystemJS.registry.set('rxjs/Observable', SystemJS.newModule(rxjsObservable));
+		SystemJS.registry.set('rxjs/ReplaySubject', SystemJS.newModule(rxjsReplaySubject));
 		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
+		SystemJS.registry.set('angular-popper', SystemJS.newModule(angularPopper));
 		SystemJS.registry.set('rxjs/operators', SystemJS.newModule(rxjsOperators));
 	}
 
@@ -114,12 +127,12 @@ export class QuestionLoaderService {
 		// reuse the preloaded component factory
 
 		if (questionType in this._componentFactories) {
-			return rxjs.of(this._componentFactories[questionType]);
+			return of(this._componentFactories[questionType]);
 		}
 		// if the module has already loaded.. but the question does not exist yet
 		else if (questionType in this._moduleRefs) {
-			return rxjs.of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
-				rxjsOperators.map((componentFactory: ComponentFactoryBoundToModule<any>) => {
+			return of(this.createComponentFactory(this._moduleRefs[questionType], questionType)).pipe(
+				map((componentFactory: ComponentFactoryBoundToModule<any>) => {
 					if (!(questionType in this._componentFactories)) {
 						this._componentFactories[questionType] = componentFactory;
 					}
@@ -127,24 +140,24 @@ export class QuestionLoaderService {
 				})
 			);
 		} else {
-			return rxjs.from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))).pipe(
-				rxjsOperators.map((module: any) => {
+			return from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))).pipe(
+				map((module: any) => {
 					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
 					this._moduleRefs[<string>questionType] = moduleRef;
 					return moduleRef;
 				}),
-				rxjsOperators.map((moduleRef: any) => {
+				map((moduleRef: any) => {
 					const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
 						this.createComponentFactory(moduleRef, questionType)
 					);
 					return componentFactory;
 				}),
-				rxjsOperators.expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
+				expand((componentFactory: ComponentFactoryBoundToModule<any>) => {
 					if (!(questionType in this._componentFactories)) {
 						this._componentFactories[questionType] = componentFactory;
 					} else {
-						return rxjs.EMPTY;
+						return EMPTY;
 					}
 
 					let hasDependency: boolean = false;
@@ -155,9 +168,9 @@ export class QuestionLoaderService {
 							return this.getQuestionComponentFactory(provider.name);
 						}
 					}
-					return rxjs.of(componentFactory);
+					return of(componentFactory);
 				}),
-				rxjsOperators.share()
+				share()
 			);
 		}
 	}

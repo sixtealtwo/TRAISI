@@ -9,15 +9,17 @@ using DAL.Models.Interfaces;
 using DAL.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 
-namespace DAL.Models
-{
-    public class SurveyUser : ApplicationUser
-    {
-        public Shortcode Shortcode { get; set; }
+namespace DAL.Models {
+	public class SurveyUser : ApplicationUser {
+		public Shortcode Shortcode { get; set; }
 
-        public PrimaryRespondent PrimaryRespondent { get; set; }
+		public PrimaryRespondent PrimaryRespondent { get; set; }
 
+		
 
+		public SurveyUser () {
+		
+		}
 
-    }
+	}
 }

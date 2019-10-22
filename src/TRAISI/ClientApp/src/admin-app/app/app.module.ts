@@ -38,7 +38,6 @@ import { TitleCasePipe } from '@angular/common';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { TreeviewModule } from 'ngx-treeview';
 import { ContextMenuModule } from 'ngx-contextmenu';
-import { BUILDER_SERVICE } from 'traisi-question-sdk';
 import { SurveyBuilderService } from './survey-builder/services/survey-builder.service';
 
 import 'pace-progressbar';

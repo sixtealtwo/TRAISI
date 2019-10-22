@@ -49,7 +49,6 @@ export class SurveyViewerNavigationService {
 	 */
 	public navigateNext(): void {
 		// if true, then the survey can navigate to the next container
-		console.log('in navigate next');
 		this.notifyUnloaded();
 		this._state.viewerState.isPreviousActionNext = true;
 		this._state.viewerState.isNextEnabled = false;
@@ -200,9 +199,6 @@ export class SurveyViewerNavigationService {
 		} else {
 			this._state.viewerState.activeSection = undefined;
 		}
-
-		console.log(this._state);
-
 		this._state.viewerState.activePageIndex = (<SurveyQuestionContainer>(
 			this._state.viewerState.activeQuestionContainer
 		)).questionModel.pageIndex;

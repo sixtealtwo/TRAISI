@@ -1,8 +1,5 @@
 // @import 'src/shared/assets/scss/helpers';
-@import "../../../assets/scss/application.scss";
-
-.group-member-names-section {
-}
+@import "../../../../shared/assets/scss/traisi-import.scss";
 
 traisi-survey-header-display {
   position: relative;
@@ -10,6 +7,23 @@ traisi-survey-header-display {
 
 #welcome-header-editor {
   z-index: 1000;
+}
+
+.question-section.display-full {
+  position: relative;
+  display: flex;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  traisi-question-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 }
 
 .survey-section-header {
@@ -21,6 +35,7 @@ traisi-survey-header-display {
 }
 
 .questions-container {
+  padding-top: 4px;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -29,7 +44,7 @@ traisi-survey-header-display {
   justify-items: stretch;
   // position: absolute;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   left: 0;
   right: 0;
   bottom: 0;
@@ -120,6 +135,7 @@ traisi-survey-header-display {
 .survey-body {
   text-align: left;
   display: block;
+  background-color: #f3f1f1;
 }
 
 .survey-title-container {
@@ -174,8 +190,20 @@ traisi-survey-header-display {
 
 #question-viewer-nav {
   font-size: 18px;
+  background: white;
+
   @include media-breakpoint-up(md) {
-    margin-right: 15px;
+    padding: 10px;
+    // margin-right: 15px;
+    button {
+      width: 140px;
+    }
+  }
+}
+
+@media #{$md-down} {
+  #question-viewer-nav {
+    padding-bottom: 5px;
   }
 }
 

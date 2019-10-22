@@ -2,13 +2,13 @@
 
 namespace TRAISI.Migrations
 {
-    public partial class AddIsDefaultHiddenPropery : Migration
+    public partial class AddSurveyCompletedField : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsDefaultHidden",
-                table: "QuestionPartViews",
+                name: "SurveyCompleted",
+                table: "Shortcodes",
                 nullable: false,
                 defaultValue: false);
         }
@@ -16,8 +16,8 @@ namespace TRAISI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsDefaultHidden",
-                table: "QuestionPartViews");
+                name: "SurveyCompleted",
+                table: "Shortcodes");
         }
     }
 }

@@ -240,9 +240,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public saveConfiguration(): void {
 		this.configurationValues = [];
 		this.childrenComponents.forEach(compRef => {
-			this.configurationValues.push(
-				new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue())
-			);
+			let config = new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue());
+			console.log(config);
+			this.configurationValues.push(config);
 		});
 		this.isSaving = true;
 		this.configResult.emit('save');
@@ -320,6 +320,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public updateCursorOnType() {
+		if (this.questionQuillEditor === undefined) {
+			return;
+		}
 		let selection = this.questionQuillEditor.getSelection();
 		if (selection) {
 			this.cursorPosition = this.questionQuillEditor.getSelection().index;
@@ -426,7 +429,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		if (this.questionType.typeName === 'Survey Part' || this.questionType.responseType === 'None') {
 			return false;
 		} else if (this.questionType.responseType === 'OptionSelect' || this.questionType.responseType === 'OptionList') {
-
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
 				return true;
 			} else {
@@ -448,9 +450,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		let questionHitThisPage: boolean = false;
 		let questionBreak = '';
 		if (this.questionType.typeName === 'Survey Part' && this.questionBeingEdited.questionPartViewChildren.length > 0) {
-			questionBreak = `question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${
-				this.questionBeingEdited.questionPartViewChildren[0].questionPart.id
-			}`;
+			questionBreak = `question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
 		} else if (this.questionType.typeName !== 'Survey Part') {
 			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}

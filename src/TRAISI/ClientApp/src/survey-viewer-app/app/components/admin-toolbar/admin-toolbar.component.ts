@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewEncapsulation, Inject, TemplateRef } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import {
@@ -17,6 +17,8 @@ import { Title } from '@angular/platform-browser';
 import { SurveyUser } from 'shared/models/survey-user.model';
 import { SurveyResponderService } from 'app/services/survey-responder.service';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Route } from '@angular/compiler/src/core';
 
 @Component({
 	encapsulation: ViewEncapsulation.None,
@@ -29,7 +31,7 @@ export class AdminToolbarComponent implements OnInit {
 	public surveyId: number;
 
 	public currentUser: SurveyUser;
-
+	public modalRef: BsModalRef;
 	/**
 	 * Creates an instance of admin toolbar component.
 	 * @param surveyViewerService
@@ -37,20 +39,34 @@ export class AdminToolbarComponent implements OnInit {
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
-		private _viewerState: SurveyViewerStateService
+		private _viewerState: SurveyViewerStateService,
+		private modalService: BsModalService,
+		private _route: ActivatedRoute
 	) {}
+
+	/**
+	 *
+	 * @param template
+	 */
+	public openModal(template: TemplateRef<any>): void {
+		// this.modalRef = this.modalService.show(template);
+		this.modalRef = this.modalService.show(template);
+	}
 
 	/**
 	 * on init
 	 */
 	public ngOnInit(): void {
-		this._surveyViewerService.activeSurveyId.subscribe((surveyId) => {
-			this.surveyId = surveyId;
-
-			this.currentUser = this._surveyViewerService.currentUser;
-
-
+		this._route.data.subscribe(data => {
+			console.log(data);
 		});
+
+		this._surveyViewerService.activeSurveyId.subscribe(surveyId => {
+			this.surveyId = surveyId;
+			this.currentUser = this._surveyViewerService.currentUser;
+		});
+
+		console.log(this._route);
 	}
 
 	/**
@@ -58,7 +74,7 @@ export class AdminToolbarComponent implements OnInit {
 	 */
 	public deleteAllResponses(): void {
 		this._responderService.deleteAllResponses(this.surveyId, this._viewerState.viewerState.primaryRespondent).subscribe(
-			(result) => {
+			result => {
 				console.log(result);
 				location.reload();
 			},

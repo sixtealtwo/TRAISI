@@ -11,6 +11,7 @@ import { SurveyScreeningPageComponent } from 'app/components/survey-screening-pa
 import { SurveyShortcodeDisplayPageComponent } from 'app/components/survey-shortcode-display-page/survey-shortcode-display-page.component';
 import { SurveyGroupcodePageComponent } from 'app/components/survey-groupcode-page/survey-groupcode-page.component';
 import { SurveyShortcodePageComponent } from 'app/components/survey-shortcode-page/survey-shortcode-page.component';
+import { SurveyDataResolver } from 'app/resolvers/survey-data.resolver';
 
 export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 	{
@@ -31,13 +32,14 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				data: { title: 'Survey Not Found' }
 			},
 			{
-				path: 'start',
+				path: 'start/:shortcode',
 				children: [
 					{
 						path: '',
 						component: SurveyShortcodePageComponent,
 						data: { isChild: true, shortcodePage: true }
 					},
+
 					{
 						path: 'groupcode',
 						component: SurveyGroupcodePageComponent,
@@ -52,6 +54,30 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				component: SurveyStartPageComponent,
 				data: { title: 'Survey Start', isChild: false }
 			},
+			{
+				path: 'start',
+				children: [
+					{
+						path: '',
+						component: SurveyShortcodePageComponent,
+						data: { isChild: true, shortcodePage: true }
+					},
+
+					{
+						path: 'groupcode',
+						component: SurveyGroupcodePageComponent,
+						data: { isChild: true }
+					},
+					{
+						path: 'shortcode',
+						component: SurveyShortcodeDisplayPageComponent,
+						data: { isChild: true }
+					}
+				],
+				component: SurveyStartPageComponent,
+				data: { title: 'Survey Start', isChild: false }
+			},
+
 			{
 				path: 'terms',
 				component: SurveyTermsPageComponent,
@@ -80,7 +106,7 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 					{
 						path: ':question',
 						component: SurveyViewerComponent,
-						data: { title: 'Survey Viewer' },
+						data: { title: 'Survey Viewer' }
 					}
 				]
 			},
@@ -89,6 +115,9 @@ export const ROUTES: ModuleWithProviders<RouterModule> = RouterModule.forRoot([
 				component: SurveyViewerComponent,
 				data: { title: 'Survey Viewer' }
 			}
-		]
+		],
+		resolve: {
+			surveyData: SurveyDataResolver
+		}
 	}
 ]);

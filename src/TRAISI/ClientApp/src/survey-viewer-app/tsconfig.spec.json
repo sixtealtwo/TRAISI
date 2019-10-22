@@ -2,41 +2,19 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "../out-tsc/spec",
-		"rootDirs": [
-		],
+		"rootDirs": [],
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"baseUrl": "./",
 		"moduleResolution": "node",
-		"types": [
-			"jasmine",
-			"node"
-		],
-		"lib": [
-			"es2017",
-			"dom",
-			"esnext"
-		],
+		"types": ["jasmine", "node"],
+		"lib": ["es2015", "dom", "esnext"],
 		"paths": {
-			"traisi-sdk/*": [
-				"../../../../TRAISI.SDK/Client/src/*"
-			],
-			"traisi-question-sdk": [
-				"../../../../TRAISI.SDK/Client/src/"
-			],
-			"shared/*": [
-				"../shared/*"
-			]
+			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			"shared/*": ["../shared/*"],
+			"core-js/es6/": ["../../node_modules/core-js/es6/"]
 		}
 	},
-	"files": [
-		"test.ts",
-		"polyfills.ts",
-		"app/app.component.spec.ts"
-	],
-	"include": [
-		"**/*",
-		"**/*.spec.ts",
-		"**/*.d.ts"
-	]
+	"files": ["test.ts", "polyfills.ts", "app/app.component.spec.ts"],
+	"include": ["**/*", "**/*.spec.ts", "**/*.d.ts"]
 }

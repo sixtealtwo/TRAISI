@@ -14,7 +14,9 @@ import {
 	ViewEncapsulation,
 	AfterViewChecked,
 	AfterViewInit,
-	AfterContentInit
+	AfterContentInit,
+	ElementRef,
+	Renderer2
 } from '@angular/core';
 import { QuestionLoaderService } from '../../services/question-loader.service';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
@@ -37,11 +39,11 @@ import { SurveyViewGroupMember } from '../../models/survey-view-group-member.mod
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { Utilities } from 'shared/services/utilities';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { SurveyViewerNavigationService } from '../../services/survey-viewer-navigation/survey-viewer-navigation.service';
 import { SurveyViewerState } from '../../models/survey-viewer-state.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { skip, share, distinct } from 'rxjs/operators';
 import { QuestionInstance } from 'app/models/question-instance.model';
+import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -93,6 +95,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	@Input()
 	public questionNameMap: { [name: string]: number };
 
+	@Input()
+	public questionSectionElement: ElementRef;
+
 	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
 	public questionOutlet: ViewContainerRef;
 
@@ -139,7 +144,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 		private _viewerStateService: SurveyViewerStateService,
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
-		private _navigator: SurveyNavigator
+		private _navigator: SurveyNavigator,
+		private _elementRef: ElementRef,
+		private renderer: Renderer2,
+		private _textTransformer: SurveyTextTransformer
 	) {}
 
 	/**
@@ -162,6 +170,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	public ngAfterViewInit(): void {
 		// this.ngOnInit2();
 	}
+
 	/**
 	 *
 	 */
@@ -187,6 +196,13 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 				(<SurveyQuestion<any>>componentRef.instance).configuration = Object.assign({}, this.question.configuration);
 
 				this.displayClass = (<SurveyQuestion<any>>componentRef.instance).displayClass;
+				if (this.displayClass !== '') {
+					this.renderer.addClass(this.questionSectionElement.nativeElement, this.displayClass);
+				} else {
+					// remove all of the classes
+					this.renderer.setAttribute(this.questionSectionElement.nativeElement, 'class', 'question-section');
+				}
+
 				this._responseSaved = new Subject<boolean>();
 
 				this._responderService.registerQuestion(
@@ -219,6 +235,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 						this.autoAdvance();
 					}, result);
 				});
+
+				console.log();
 
 				this._navigator.navigationState$.getValue().activeQuestionInstances[
 					this.activeQuestionIndex
@@ -291,6 +309,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
+
+		processedLabel = this._textTransformer.transformText(processedLabel);
 
 		if (tags && tags.length > 0) {
 			let questionIdsForResponse = tags.map(tag => this.questionNameMap[tag]);

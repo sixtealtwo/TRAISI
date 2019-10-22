@@ -6,35 +6,19 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"target": "es6",
-		"strict": false,
-		"module": "esnext",
+		"target": "es5",
+		"module":"amd",
 		"outDir": "dist",
-		"lib": [
-			"es2016",
-			"dom"
-		],
+		"lib": ["es2016", "dom"],
 		"baseUrl": "src",
 		"plugins": [
 			{
 				"name": "typescript-tslint-plugin"
 			}
 		],
-		"paths": {
-			"traisi-question-sdk": [
-				"../../TRAISI.SDK/Client/"
-			]
-		}
+		"paths": {}
 	},
-	"exclude": [
-		"dist/**/*",
-		"node_modules/**",
-		"node_modules/",
-		"node_modules/**/*"
-	],
+	"exclude": ["dist/**/*", "node_modules/**", "node_modules/", "node_modules/**/*"],
 	"angularCompilerOptions": {
-		"skipTemplateCodegen": true,
-		"strictMetadataEmit": true,
-		"debug": true
 	}
 }

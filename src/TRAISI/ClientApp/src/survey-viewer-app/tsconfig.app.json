@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
 		"downlevelIteration": true,
 		"lib": ["es2017", "dom", "esnext"],
 		"rootDirs": ["../shared/services"],
@@ -12,9 +13,11 @@
 		"baseUrl": ".",
 		"types": ["node"],
 		"paths": {
-			"@angular/*": ["../../node_modules/@angular/*"],
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/"],
-			"shared/*": ["../shared/*"]
+			// "@angular/*": ["../../node_modules/@angular/*"],
+			//"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			"shared/*": ["../shared/*"],
+
+			"core-js/es6/": ["../../node_modules/core-js/es6/"]
 		}
 	},
 	"angularCompilerOptions": {
@@ -24,5 +27,5 @@
 	},
 	"files": ["polyfills.ts"],
 	"include": ["../shared/**/*.ts", "./**/*.ts"],
-	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts"]
+	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts",]
 }

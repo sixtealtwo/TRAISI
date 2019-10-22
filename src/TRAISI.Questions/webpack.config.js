@@ -137,12 +137,5 @@ module.exports = {
                 }
             }
 		})  */
-		new AngularCompilerPlugin({
-			tsConfigPath: './tsconfig.json',
-			entryModule: './src/stated-preference/traisi-sp-question.module#TraisiQuestions',
-			compilerOptions: {
-				emitDecoratorMetadata: true
-			}
-		})
 	]
 };

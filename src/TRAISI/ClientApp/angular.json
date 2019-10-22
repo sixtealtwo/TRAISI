@@ -52,6 +52,7 @@
 							"node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
 						],
 						"scripts": [
+							"node_modules/promise-polyfill/dist/polyfill.js",
 							"src/shared/systemjs/system.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/parsleyjs/dist/parsley.min.js",
@@ -139,6 +140,7 @@
 							"node_modules/ngx-toastr/toastr.css"
 						],
 						"scripts": [
+							"node_modules/promise-polyfill/dist/polyfill.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/parsleyjs/dist/parsley.min.js",
 							"node_modules/bootstrap/dist/js/bootstrap.min.js",
@@ -205,27 +207,33 @@
 						"tsConfig": "src/survey-viewer-app/tsconfig.app.json",
 						"assets": ["src/survey-viewer-app/favicon.ico", "src/survey-viewer-app/assets"],
 						"styles": [
+							"src/survey-viewer-app/styles.scss",
 							"src/shared/assets/scss/application.scss",
 							"node_modules/animate.css/animate.min.css",
 							"node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
 							"node_modules/quill/dist/quill.core.css",
 							"node_modules/quill/dist/quill.snow.css",
-							"node_modules/quill/dist/quill.bubble.css"
-							// "src/survey-viewer-app/assets/scss/application.scss"
+							"node_modules/quill/dist/quill.bubble.css",
+							"node_modules/simplebar/dist/simplebar.css"
 						],
 						"scripts": [
+							"node_modules/promise-polyfill/dist/polyfill.js",
 							"src/shared/systemjs/system.js",
+							"src/shared/lib/modernizr.js",
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/popper.js/dist/umd/popper.min.js",
 							"node_modules/bootstrap/dist/js/bootstrap.min.js",
-							"node_modules/select2/dist/js/select2.min.js"
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"
 						],
 						"stylePreprocessorOptions": {
 							"includePaths": [".", "./node_modules"]
 						}
 					},
 					"configurations": {
+						"es5": {
+							"tsConfig": "src/survey-viewer-app/tsconfig.app.es5.json"
+						},
 						"production": {
 							"fileReplacements": [
 								{
@@ -261,6 +269,9 @@
 					"configurations": {
 						"production": {
 							"browserTarget": "survey-viewer-app:build:production"
+						},
+						"es5": {
+							"browserTarget": "survey-viewer-app:build:es5"
 						}
 					}
 				},

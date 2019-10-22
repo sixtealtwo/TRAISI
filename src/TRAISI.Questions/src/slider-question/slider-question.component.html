@@ -1,7 +1,7 @@
 <div class="range-question">
 
-	<p>
-		<span class="badge badge-info" id="slider-value">{{sliderValue | async}}</span>
+	<p *ngIf="(isLoaded | async)">
+		<span class="badge badge-info slider-badge" id="slider-value">{{sliderValue | async}}</span>
 	</p>
 	<div class="nouislider-wrapper">
 		<div #slider class="noUiSlider">

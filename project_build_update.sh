@@ -18,7 +18,7 @@ echo "Update TRAISI.SDK"
 cd ${DIR}/src/TRAISI.SDK
 dotnet build -c cli
 
-cd ${DIR}/src/TRAISI.SDK/Module
+cd ${DIR}/src/TRAISI.SDK/Client
 update_npm
 
 echo "Update TRAISI.Questions"
@@ -27,6 +27,15 @@ if test -f "package.json"; then
     npm install
     npm run staging
 fi
+
+echo "Update TRAISI-Tripdiary"
+cd ${DIR}/../TRAISI-TripDiary
+dotnet restore
+dotnet clean
+cd ${DIR}/../TRAISI-TripDiary/src
+update_npm
+cd ${DIR}/../TRAISI-TripDiary
+dotnet build
 
 echo "Update TRAISI/ClientApp"
 cd ${DIR}/src/TRAISI/ClientApp

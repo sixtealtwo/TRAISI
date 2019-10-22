@@ -189,6 +189,27 @@ namespace TRAISI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ExtensionConfigurations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SurveyId = table.Column<int>(nullable: true),
+                    ExtensionName = table.Column<string>(nullable: false),
+                    Configuration = table.Column<string>(type: "jsonb", nullable: false, defaultValue: "{}")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExtensionConfigurations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExtensionConfigurations_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Groupcodes",
                 columns: table => new
                 {
@@ -486,6 +507,7 @@ namespace TRAISI.Migrations
                     IsOptional = table.Column<bool>(nullable: false),
                     IsHousehold = table.Column<bool>(nullable: false),
                     IsMultiView = table.Column<bool>(nullable: false),
+                    IsDefaultHidden = table.Column<bool>(nullable: false),
                     RepeatSourceId = table.Column<int>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
                     CATIDependentId = table.Column<int>(nullable: true)
@@ -947,13 +969,13 @@ namespace TRAISI.Migrations
                         column: x => x.PrimaryRespondentId,
                         principalTable: "SurveyRespondents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Shortcodes_ShortcodeId",
                         column: x => x.ShortcodeId,
                         principalTable: "Shortcodes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1094,6 +1116,11 @@ namespace TRAISI.Migrations
                 name: "IX_EmailTemplates_GroupId",
                 table: "EmailTemplates",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExtensionConfigurations_SurveyId",
+                table: "ExtensionConfigurations",
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Groupcodes_SurveyId",
@@ -1413,7 +1440,7 @@ namespace TRAISI.Migrations
                 column: "AccessUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_SurveyAccessRecords_SurveyRespondents_PrimaryRespondentId",
@@ -1474,6 +1501,9 @@ namespace TRAISI.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmailTemplates");
+
+            migrationBuilder.DropTable(
+                name: "ExtensionConfigurations");
 
             migrationBuilder.DropTable(
                 name: "GroupMembers");

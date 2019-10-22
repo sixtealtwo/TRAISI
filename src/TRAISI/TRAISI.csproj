@@ -48,6 +48,8 @@
 		<ProjectReference Include="..\TRAISI.Data\TRAISI.Data.csproj" />
 		<ProjectReference Include="..\TRAISI.Questions\TRAISI.Questions.csproj" />
 		<ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
+		<ProjectReference Include="..\TRAISI.Models\TRAISI.Models.csproj" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
@@ -59,15 +61,13 @@
 		<None Remove="ClientApp\dist\**" />
 		<Content Remove="ClientApp\dist\**" />
 	</ItemGroup>
-	<ItemGroup>
-		<!--<EmbeddedResource Remove="..\TRAISI.UI\questions\**" />
-        <None Remove="..\TRAISI.UI\questions\**" /> -->
-	</ItemGroup>
+
 	<ItemGroup>
 		<Folder Include="ClientApp\src\survey-viewer-app\app\directives" />
 		<Folder Include="ClientApp\src\survey-viewer-app\app\modules" />
 		<Folder Include="Logs\" />
 		<Folder Include="Migrations\" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<DistFiles Remove="ClientApp\dist\**" />
@@ -79,6 +79,13 @@
 		<EmbeddedResource Remove="ClientApp\dist\**" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="appsettings.Development.json" CopyToPublishDirectory="Never" />
+		<None Include="staging.sh" CopyToPublishDirectory="Never" />
+		<None Include="development" CopyToPublishDirectory="Never"/>
+		<None Include="appsettings.Development.json" CopyToPublishDirectory="Never"/>
+
+	</ItemGroup>
 
 	<!-- <Target Name="PreBuild" BeforeTargets="Compile" Condition="'$(Configuration)' == 'Debug'">
 		<Exec WorkingDirectory="..\TRAISI.SDK\Module" Command="npm install" />
@@ -96,8 +103,18 @@
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 		<!--	<Exec WorkingDirectory="$(SpaRoot)" Command="npm link traisi-question-sdk" /> -->
 	</Target>
+	<Target Name="DeleteDist" BeforeTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
+
+		<RemoveDir Directories="$(SpaRoot)dist" />
+		<RemoveDir Directories="$(OutDir)/publish" />
+		<Message Importance="high" Text="Cleaning $(OutDir)/publish" />
+
+	</Target>
+
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+
+
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- survey-viewer-app --prod --aot=false --build-optimizer=false" />

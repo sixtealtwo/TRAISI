@@ -10,7 +10,7 @@ import {
 } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY, interval } from 'rxjs';
-import { flatMap, map, share, tap, throttle } from 'rxjs/operators';
+import { flatMap, map, share, tap, throttle, debounceTime } from 'rxjs/operators';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { SurveyResponseState } from 'app/models/survey-response-states.enum';
@@ -121,6 +121,7 @@ export class SurveyResponderService implements SurveyResponder {
 			questionIds.push(this._questionNameToIdMap[questionName]);
 		}
 
+		console.log(' in here list ');
 		return this.readyCachedSavedResponses(
 			questionIds,
 			respondent.id
@@ -181,14 +182,21 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	public readyCachedSavedResponses(questionIds: number[], respondentId: number): Observable<any> {
+		let queryIds = [];
 		questionIds.forEach(id => {
 			if (this._cachedSavedResponses[id] === undefined) {
 				this._cachedSavedResponses[id] = {};
+				queryIds.push(id);
 			}
 		});
 
-		return this.listResponsesForQuestions(questionIds, respondentId).pipe(
+		if (queryIds.length === 0) {
+			return EMPTY;
+		}
+
+		return this.listResponsesForQuestions(queryIds, respondentId).pipe(
 			map(responses => {
+
 				for (let i = 0; i < responses.length; i++) {
 					if (i < questionIds.length) {
 						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
@@ -252,7 +260,7 @@ export class SurveyResponderService implements SurveyResponder {
 		questionModel: SurveyViewQuestion,
 		repeat: number
 	): void {
-		questionComponent.response.pipe(throttle(val => interval(500))).subscribe(
+		questionComponent.response.pipe(debounceTime(200)).subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
 				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
 			},
@@ -420,7 +428,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<{}> {
+	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<any> {
 		// get all question IDs
 		return Observable.of();
 	}

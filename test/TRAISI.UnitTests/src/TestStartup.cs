@@ -31,7 +31,7 @@ namespace TRAISI.Testing
             //app.UseSpaStaticFiles();
             app.UseAuthentication();
 
-            context.Database.EnsureCreated();
+            // context.Database.EnsureCreated();
 
             app.UseMvc(routes =>
             {

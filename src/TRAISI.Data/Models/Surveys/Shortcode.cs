@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 using DAL.Core;
 using DAL.Models.Surveys;
 
-namespace DAL.Models.Surveys
-{
-	public class Shortcode
-	{
+namespace DAL.Models.Surveys {
+	public class Shortcode {
 		public int Id { get; set; }
 		public Survey Survey { get; set; }
 		//	public PrimaryRespondent Respondent { get; set; }
@@ -18,7 +16,8 @@ namespace DAL.Models.Surveys
 		public string Code { get; set; }
 		public Boolean IsTest { get; set; }
 		public DateTime CreatedDate { get; set; }
-	}
 
+		public Boolean SurveyCompleted { get; set; }
+	}
 
 }

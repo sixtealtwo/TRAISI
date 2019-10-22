@@ -1,7 +1,8 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-    "downlevelIteration": true,
+	"downlevelIteration": true,
+	"allowSyntheticDefaultImports": true,
     "importHelpers": true,
 		"module": "esnext",
 		"outDir": "./dist/out-tsc",
@@ -19,11 +20,11 @@
 			//"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
 			//"traisi-sdk/*": ["../../TRAISI.SDK/Client/*"],
 			//"questions/*": ["../../Questions/*"],
-			"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
+			//"traisi-question-sdk": ["../../TRAISI.SDK/Client/dist"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]
 		}
 	},
 	"include": ["./src/shared/**/*.ts"],
-	"exclude": ["node_modules"]
+	// "exclude": ["node_modules"]
 }

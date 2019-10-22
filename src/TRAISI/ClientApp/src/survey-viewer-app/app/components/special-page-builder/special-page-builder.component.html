@@ -3,7 +3,7 @@
 		<ndc-dynamic *ngIf="headerComponent" [ndcDynamicComponent]="headerComponent" [ndcDynamicInputs]="headerInputs"></ndc-dynamic>
 	</div>
 	<div *ngIf="pageType == 'welcome'" id="special-page-surveyAccess">
-		<ndc-dynamic *ngIf="surveyAccessComponent" [ndcDynamicComponent]="surveyAccessComponent" [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs"></ndc-dynamic>
+		<ndc-dynamic *ngIf="surveyAccessComponent" [ndcDynamicComponent]="surveyAccessComponent" [ndcDynamicInputs]="surveyAccessInputs" [ndcDynamicOutputs]="surveyAccessOutputs" #accessComponent></ndc-dynamic>
 	</div>
 	<!--<app-question-viewer [pageThemeInfo]="pageThemeInfo" [allPages]="allPages" *ngIf="pageType == 'questionViewer'"></app-question-viewer>-->
 	<div *ngIf="pageType != 'questionViewer'" id="special-page-content">

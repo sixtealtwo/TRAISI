@@ -1,15 +1,15 @@
 using System;
 
-namespace TRAISI.SDK.Library.ResponseTypes
-{
-    public interface ITimelineResponse : IResponseType
-    {
-        string Purpose { get; set; }
+namespace TRAISI.SDK.Library.ResponseTypes {
+	public interface ITimelineResponse : IResponseType {
+		string Purpose { get; set; }
 
-        string Name { get; set; }
+		string Name { get; set; }
 
-        DateTime TimeA { get; set; }
+		DateTime TimeA { get; set; }
 
-        DateTime TimeB { get; set; }
-    }
+		DateTime TimeB { get; set; }
+
+		int? Order { get; set; }
+	}
 }

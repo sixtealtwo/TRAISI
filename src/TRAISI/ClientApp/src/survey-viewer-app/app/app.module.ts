@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { SurveyViewerEndpointFactory } from './services/survey-viewer-endpoint-factory.service';
@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ModalModule, ModalBackdropComponent } from 'ngx-bootstrap/modal';
+import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -45,8 +45,6 @@ import { PrivacyConfirmationComponent } from './components/special-page-builder/
 import { SurveyViewerStateService } from './services/survey-viewer-state.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ConditionalEvaluator } from './services/conditional-evaluator/conditional-evaluator.service';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { SurveyThankYouPageComponent } from './components/survey-thankyou-page/survey-thankyou-page.component';
 import { SurveyGroupcodePageComponent } from './components/survey-groupcode-page/survey-groupcode-page.component';
@@ -56,13 +54,15 @@ import { SurveyShortcodeDisplayPageComponent } from './components/survey-shortco
 import { SurveyViewerSession } from './services/survey-viewer-session.service';
 import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-endpoint.service';
 import { httpInterceptorProviders } from './http-interceptors';
-import { SurveyNavigator } from './modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
 import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-viewer-authorization.module';
 import { PipesModule } from 'shared/pipes/pipes.module';
 import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
-import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
+import { SurveyDataResolver } from './resolvers/survey-data.resolver';
+import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
+import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -123,27 +123,41 @@ import { SafeHtmlPipe } from 'shared/pipes/safe-html.pipe';
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
-		SurveyViewerAuthorizationModule
+		SurveyViewerAuthorizationModule,
+		ToastrModule.forRoot()
 	],
 	providers: [
 		LocalStoreManager,
 		SurveyViewerEndpointFactory,
 		QuestionLoaderEndpointService,
 		AppTranslationService,
-		{ provide: 'SurveyViewerService', useClass: SurveyViewerService },
+		SurveyViewerService,
+		{ provide: 'SurveyViewerService', useExisting: SurveyViewerService },
 		{ provide: 'SurveyViewerApiEndpointService', useClass: SurveyViewerApiEndpointService },
 		SurveyViewerEndpointService,
 		ConfigurationService,
 		QuestionLoaderService,
 		ConditionalEvaluator,
-		{ provide: 'SurveyResponderService', useClass: SurveyResponderService },
+		SurveyResponderService,
+		{ provide: 'SurveyResponderService', useExisting: SurveyResponderService },
 		SurveyViewerStateService,
 		FormControlDirective,
 		FormGroupDirective,
 		SurveyViewerSession,
 		httpInterceptorProviders,
 		SurveyResponderEndpointService,
-		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService }
+		BsModalRef,
+		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
+		SurveyDataResolver,
+		SurveyTextTransformer,
+
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true
+		}
+
+		// SurveyDataResolver
 	],
 	bootstrap: [SurveyViewerContainerComponent]
 })

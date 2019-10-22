@@ -1,2 +1,3 @@
-<app-special-page-builder #welcomeEditor *ngIf="finishedLoading" [pageType]="'welcome'"
+<app-special-page-builder #startContent *ngIf="finishedLoading" [pageType]="'welcome'"
+   [startPageComponent]="startPageComponent"
 		 [pageThemeInfo]="pageThemeInfo" [pageHTML]="survey.welcomeText" (startSurveyPressed)="startPageComponent.startSurvey($event)"></app-special-page-builder>

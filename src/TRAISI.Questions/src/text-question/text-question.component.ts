@@ -23,8 +23,6 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
 	public textInput: string;
 
-	public isLoaded: boolean;
-
 	@ViewChild('inputElement', { static: true })
 	private textInputElement: HTMLInputElement;
 
@@ -41,7 +39,6 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 		super();
 
 		this.textInput = undefined;
-		this.isLoaded = false;
 	}
 
 	/**
@@ -92,7 +89,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 					this.response.emit(data);
 				}
 			});
-		this.isLoaded = true;
+		this.isLoaded.next(true);
 	};
 
 	/**

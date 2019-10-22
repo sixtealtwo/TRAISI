@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ComponentRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ComponentRef, ViewChild } from '@angular/core';
 import { Header1Component } from './header1/header1.component';
 import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-access1.component';
 import { TextBlock1Component } from './text-block1/text-block1.component';
@@ -9,6 +9,8 @@ import { Footer1Component } from './footer1/footer1.component';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Utilities } from '../../../../shared/services/utilities';
+import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
+import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -28,7 +30,6 @@ let Font = Quill.import('formats/font');
 Font.whitelist = ['montserrat', 'sofia', 'roboto'];
 Quill.register(Font, true);
 
-
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -47,7 +48,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public headerHTML: string;
 	public headerInputs: SpecialPageDataInput;
 
-	public surveyAccessComponent: any;
+	public surveyAccessComponent: SurveyAccessComponent;
 	public surveyAccessHTML: string;
 	public surveyAccessInputs: SpecialPageDataInput;
 	public surveyAccessOutputs: any;
@@ -74,8 +75,13 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 	@Output() public termsAccepted: EventEmitter<void> = new EventEmitter();
 
-	constructor() {
-	}
+	@Input()
+	public startPageComponent: SurveyStartPageComponent;
+
+	@ViewChild('accessComponent', { static: false })
+	public accessComponent: any;
+
+	constructor() {}
 
 	public ngOnInit(): void {
 		// deserailize page data
@@ -195,4 +201,13 @@ export class SpecialPageBuilderComponent implements OnInit {
 		);
 	}
 
+	/**
+	 *
+	 * @param shortcode
+	 */
+	public setShortcodeInput(shortcode: string): void {
+		if (this.accessComponent.componentRef !== undefined) {
+			this.accessComponent.componentRef.instance.setShortcodeInput(shortcode);
+		}
+	}
 }

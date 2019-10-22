@@ -92,13 +92,6 @@ module.exports = {
 					}
 				]
 			}
-			/*{
-        test: /\.js$/,
-        include: [path.resolve(__dirname, 'node_modules/ngx-bootstrap')],
-        use: {
-          loader: 'babel-loader'
-        }
-      } */
 		]
 	},
 	/*externals: [
@@ -120,7 +113,6 @@ module.exports = {
 		/^bootstrap/,
 		/^bootswatch/,
 		/^rxjs/,
-		/^traisi-question-sdk/
 	],
 	plugins: [
 		new CopyWebpackPlugin([{ from: 'dist/', to: '../../TRAISI/development', toType: 'dir' }], { debug: 'warning' })

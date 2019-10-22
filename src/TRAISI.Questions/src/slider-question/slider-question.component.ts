@@ -5,6 +5,9 @@ import * as noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ *
+ */
 @Component({
 	selector: 'traisi-slider-question',
 	template: templateString,
@@ -17,8 +20,6 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 	public sliderValue: BehaviorSubject<string>;
 
-	private _isLoaded: boolean = false;
-
 	/**
 	 *
 	 * @param surveyViewerService
@@ -28,6 +29,9 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 		this.sliderValue = new BehaviorSubject<string>('');
 	}
 
+	/**
+	 *
+	 */
 	public ngAfterViewInit(): void {
 		noUiSlider.create(this.sliderElement.nativeElement, {
 			start: [0],
@@ -56,23 +60,26 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 			this.sliderElement.nativeElement.noUiSlider.set(rangeResponse['value']);
 
-			setTimeout(() => {
-				this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
-			});
+			this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
+
 			// this.sliderElement.nativeElement.noUiSlider.on('update', this.sliderUpdate);
 			this.validationState.emit(ResponseValidationState.VALID);
 		} else {
 		}
+
+		this.isLoaded.next(true);
 	};
 
 	public sliderUpdate = (values, handle, unencoded, isTap, positions): void => {
 		// this.sliderValue = values[0];
 
-		let value = parseInt(values[0], 10);
-		this.response.emit({ value: value });
-		this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
-		setTimeout(() => {
-			this.validationState.emit(ResponseValidationState.VALID);
-		});
+		if (this.isLoaded.value) {
+			let value = parseInt(values[0], 10);
+			this.response.emit({ value: value });
+			this.sliderValue.next(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'CAD' }).format(value));
+			setTimeout(() => {
+				this.validationState.emit(ResponseValidationState.VALID);
+			});
+		}
 	};
 }
