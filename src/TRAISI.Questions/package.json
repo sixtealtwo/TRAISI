@@ -13,9 +13,6 @@
 	},
 	"author": "University of Toronto",
 	"license": "ISC",
-	"browserslist": [
-		"last 2 versions"
-	],
 	"dependencies": {
 		"@angular/animations": "^9.0.0-next.4",
 		"@angular/cdk": "^8.1.4",
@@ -92,7 +89,8 @@
 		"uglifyjs-webpack-plugin": "^2.2.0",
 		"webpack": "^4.39.3",
 		"webpack-cli": "^3.3.7",
-		"webpack-system-register": "^1.6.0"
+		"webpack-system-register": "^1.6.0",
+		"webpackbar": "^4.0.0"
 	},
 	"_moduleAliases": {
 		"traisi-question-sdk": "../TRAISI.SDK/Client/dist"

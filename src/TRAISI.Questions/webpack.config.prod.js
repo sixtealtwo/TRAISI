@@ -1,6 +1,7 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const WebpackBar = require('webpackbar');
 module.exports = {
 	entry: {
 		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
@@ -128,19 +129,7 @@ module.exports = {
 		/^traisi-question-sdk/
 	],
 	plugins: [
-		/* new WebpackSystemRegister({
-             systemjsDeps: [
-                 /^ngx-bootstrap/, // any import that starts with react
-             ],
-             registerName: 'test-module', // optional name that SystemJS will know this bundle as.
-         }), */
-		/*
-        new UglifyJsPlugin({
-            uglifyOptions:{
-                output: {
-                    comments: false,
-                }
-            }
-        })  */
+		new WebpackBar()
+		
 	]
 };

@@ -3,6 +3,7 @@ const WebpackSystemRegister = require('webpack-system-register');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { AngularCompilerPlugin } = require('@ngtools/webpack');
+const WebpackBar = require('webpackbar');
 module.exports = {
 	entry: {
 		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
@@ -127,27 +128,8 @@ module.exports = {
 		/^traisi-question-sdk/
 	],
 	plugins: [
+		new WebpackBar(),
 		new CopyWebpackPlugin([{ from: 'dist/', to: '../../TRAISI/development', toType: 'dir' }], { debug: 'warning' })
-		/* new WebpackSystemRegister({
-             systemjsDeps: [
-                 /^ngx-bootstrap/, // any import that starts with react
-             ],
-             registerName: 'test-module', // optional name that SystemJS will know this bundle as.
-         }), */
-		/*
-        new UglifyJsPlugin({
-            uglifyOptions:{
-                output: {
-                    comments: false,
-                }
-            }
-		})  */
-		/*new AngularCompilerPlugin({
-			tsConfigPath: './tsconfig.json',
-			entryModule: './src/traisi-questions.module#TraisiStatedPreferenceQuestionModule',
-			compilerOptions: {
-				emitDecoratorMetadata: true
-			}
-		})*/
+
 	]
 };

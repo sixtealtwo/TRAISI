@@ -2,6 +2,7 @@ const path = require('path');
 const WebpackSystemRegister = require('webpack-system-register');
 const { AngularCompilerPlugin } = require('@ngtools/webpack');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const WebpackBar = require('webpackbar');
 module.exports = {
 	entry: {
 		general: path.join(process.cwd(), './src/traisi-questions.module.ts'),
@@ -126,6 +127,7 @@ module.exports = {
 		/^traisi-question-sdk/
 	],
 	plugins: [
+		new WebpackBar()
 		/* new WebpackSystemRegister({
              systemjsDeps: [
                  /^ngx-bootstrap/, // any import that starts with react
