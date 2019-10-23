@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { MapQuestionComponent } from './map-question.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl/esm5/lib/ngx-mapbox-gl.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MapEndpointService } from '../services/mapservice.service';
+
+console.log('before');
 export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 	accessToken:
 		// tslint:disable-next-line:max-line-length
 		'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
 	// Can also be set per map (accessToken input of mgl-map)
 });
+console.log('after');
 @NgModule({
 	declarations: [MapQuestionComponent],
 	entryComponents: [MapQuestionComponent],
@@ -30,3 +33,6 @@ export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 	imports: [CommonModule, ngxMapWithConfig, HttpClientModule]
 })
 export default class TraisiQuestions {}
+
+
+console.log('got here after ');

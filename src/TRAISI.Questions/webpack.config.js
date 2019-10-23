@@ -93,10 +93,7 @@ module.exports = {
 			},
 			{
 				test: /\.m?js$/,
-
-				include: [
-					path.resolve(__dirname, "node_modules/ngx-mapbox-gl")
-				],
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl')],
 				use: {
 					loader: 'babel-loader',
 					options: {
@@ -104,7 +101,6 @@ module.exports = {
 					}
 				}
 			}
-
 		]
 	},
 

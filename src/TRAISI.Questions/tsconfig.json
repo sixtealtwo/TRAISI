@@ -9,7 +9,6 @@
 		"target": "es5",
 		"module":"amd",
 		"outDir": "dist",
-		"lib": ["es2016", "dom"],
 		"baseUrl": "src",
 		"plugins": [
 			{

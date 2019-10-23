@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start2": "ng serve survey-viewer-app --watch --live-reload ",
+	"start2": "ng serve survey-viewer-app --watch --live-reload ",
+	"start-es5": "ng serve survey-viewer-app --configuration es5 --watch --live-reload ",
     "build": "ng build",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",

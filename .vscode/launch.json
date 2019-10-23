@@ -10,7 +10,7 @@
 			"request": "launch",
 			"preLaunchTask": "build",
 			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.2/TRAISI.dll",
-			"args": ["--config","appsettings.local.json"],
+			"args": ["--config", "appsettings.local.json"],
 			"cwd": "${workspaceFolder}/src/TRAISI",
 			"stopAtEntry": false,
 			"internalConsoleOptions": "openOnSessionStart",
@@ -65,6 +65,39 @@
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
 				"ASPNETCORE_URLS": "http://0.0.0.0:8000/"
+			},
+			"sourceFileMap": {
+				"/Views": "/src/TRAISI/Views"
+			}
+		},
+		{
+			"name": ".NET Core Launch TRAISI LOCAL (es5 viewer)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.2/TRAISI.dll",
+			"args": ["--config", "appsettings.local.json", "--survey-start-script", "start-es5"],
+			"cwd": "${workspaceFolder}/src/TRAISI",
+			"stopAtEntry": false,
+			"internalConsoleOptions": "openOnSessionStart",
+			"launchBrowser": {
+				"enabled": true,
+				"args": "http://localhost:5000",
+				"windows": {
+					"command": "cmd.exe",
+					"args": "/C start http://localhost:5000/admin"
+				},
+				"osx": {
+					"command": "open"
+				},
+				"linux": {
+					"command": "xdg-open"
+				}
+			},
+
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"ASPNETCORE_URLS": "http://0.0.0.0:5000/"
 			},
 			"sourceFileMap": {
 				"/Views": "/src/TRAISI/Views"

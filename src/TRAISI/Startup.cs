@@ -53,6 +53,8 @@ namespace TRAISI {
 	public class Startup {
 		private readonly IHostingEnvironment _hostingEnvironment;
 
+		private readonly string DEFAULT_SURVEY_VIEWER_SPA_START_SCRIPT = "start2";
+
 		/// <summary>
 		/// </summary>
 		/// <param name="configuration"></param>
@@ -469,7 +471,8 @@ namespace TRAISI {
 					spa.Options.StartupTimeout = TimeSpan.FromSeconds (599);
 
 					if (env.IsDevelopment () || env.IsStaging ()) {
-						spa.UseAngularCliServer ("start2");
+						var angularConf = Configuration["survey-start-script"] == null ? DEFAULT_SURVEY_VIEWER_SPA_START_SCRIPT : Configuration["survey-start-script"];
+						spa.UseAngularCliServer (angularConf);
 					}
 				});
 			});

@@ -13,6 +13,9 @@
 	},
 	"author": "University of Toronto",
 	"license": "ISC",
+	"browserslist": [
+		"last 2 versions"
+	],
 	"dependencies": {
 		"@angular/animations": "^9.0.0-next.4",
 		"@angular/cdk": "^8.1.4",

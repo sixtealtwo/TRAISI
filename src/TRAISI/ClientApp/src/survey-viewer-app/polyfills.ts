@@ -28,13 +28,13 @@
 import 'core-js/es/reflect';
 // import 'core-js/es/promise';
 import 'core-js/es/array';
-
+import 'core-js/es/object';
+import 'core-js/es/symbol';
 // import '../shared/systemjs/system.src.js';
 // import 'core-js/features/symbol';
 
 /** IE10 and IE11 requires the following to support `@angular/animation`. ALL Firefox browsers require the following to support `@angular/animation`. **/
 
-import 'web-animations-js';
 
 /**
  * Web Animations `@angular/platform-browser/animations`
@@ -66,6 +66,9 @@ import 'web-animations-js'; // Run `npm install --save web-animations-js`.
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
+
+ (window as any).__Zone_enable_cross_context_check = true;
+
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.

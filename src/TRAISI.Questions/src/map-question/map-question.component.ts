@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { LngLatLike, MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
-import { MapComponent } from 'ngx-mapbox-gl';
+import { MapComponent } from 'ngx-mapbox-gl/esm5/lib/map/map.component';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 import { ReplaySubject } from 'rxjs';
 import {
@@ -103,7 +103,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
 		super();
-
+		console.log('got here');
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 
 		// this.displayClass = 'view-full';

@@ -54,8 +54,8 @@ module.exports = {
 				use: [
 					'style-loader', // creates style nodes from JS strings
 					'css-loader' // translates CSS into CommonJS
-				],
-				include: [/node_modules/]
+				]
+				// include: [/node_modules/]
 			},
 			{
 				test: /\.scss$/,
@@ -91,6 +91,16 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.m?js$/,
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl')],
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env']
+					}
+				}
 			}
 		]
 	},
@@ -108,11 +118,13 @@ module.exports = {
 		/^@angular\/upgrade/,
 		/^@angular\/forms/,
 		/^@angular\/platform-browser/,
+		/^@angular/,
 		/^ngx-bootstrap/,
 		/^@fortawesome/,
 		/^bootstrap/,
 		/^bootswatch/,
 		/^rxjs/,
+		/^traisi-question-sdk/
 	],
 	plugins: [
 		new CopyWebpackPlugin([{ from: 'dist/', to: '../../TRAISI/development', toType: 'dir' }], { debug: 'warning' })
