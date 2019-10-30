@@ -103,7 +103,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
 		super();
-		console.log('got here');
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 
 		// this.displayClass = 'view-full';

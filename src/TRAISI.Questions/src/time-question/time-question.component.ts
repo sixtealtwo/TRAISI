@@ -8,6 +8,7 @@ import {
 	TimeResponseData,
 	ResponseValidationState
 } from 'traisi-question-sdk';
+
 import { Time } from '@angular/common';
 import templateString from './time-question.component.html';
 
