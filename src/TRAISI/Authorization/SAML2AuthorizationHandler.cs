@@ -16,124 +16,140 @@ using Microsoft.Extensions.Configuration;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Interfaces;
 using TRAISI.ViewModels.Users;
-namespace TRAISI.Authorization.Extensions {
-	[SurveyAuthorizationHandler (Name = "SAML2")]
-	[Route ("api/[controller]")]
-	public class SAML2AuthorizationHandler : Controller, ITraisiIAuthorizationHandler {
+namespace TRAISI.Authorization.Extensions
+{
+    [SurveyAuthorizationHandler(Name = "SAML2")]
+    [Route("api/[controller]")]
+    public class SAML2AuthorizationHandler : Controller, ITraisiIAuthorizationHandler
+    {
 
-		[ExtensionConfigurationAttribute (Name = "Sign On URL", Description = "URL of sign on location")]
-		public string SignOnURL { get; set; }
+        [ExtensionConfigurationAttribute(Name = "Sign On URL", Description = "URL of sign on location")]
+        public string SignOnURL { get; set; }
 
-		private readonly UserManager<TraisiUser> _userManager;
+        private readonly UserManager<TraisiUser> _userManager;
 
-		private readonly AuthenticationService _authenticationService;
+        private readonly AuthenticationService _authenticationService;
 
-		private readonly IAccountManager _accountManager;
+        private readonly IAccountManager _accountManager;
 
-		private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-		private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
-		private readonly string DEFAULT_AUTHENTICATION_ATTRIBUTE = "REMOTE_USER";
+        private readonly string DEFAULT_AUTHENTICATION_ATTRIBUTE = "REMOTE_USER";
 
-		private string AuthenticationAttribute { get; set; }
+        private string AuthenticationAttribute { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userManager"></param>
-		public SAML2AuthorizationHandler (UserManager<TraisiUser> userManager,
-			AuthenticationService authenticationService,
-			IAccountManager accountManager,
-			IUnitOfWork unitofWork,
-			IConfiguration configuration) {
-			this._userManager = userManager;
-			this._authenticationService = authenticationService;
-			this._accountManager = accountManager;
-			this._unitOfWork = unitofWork;
-			this._configuration = configuration;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        public SAML2AuthorizationHandler(UserManager<TraisiUser> userManager,
+            AuthenticationService authenticationService,
+            IAccountManager accountManager,
+            IUnitOfWork unitofWork,
+            IConfiguration configuration)
+        {
+            this._userManager = userManager;
+            this._authenticationService = authenticationService;
+            this._accountManager = accountManager;
+            this._unitOfWork = unitofWork;
+            this._configuration = configuration;
 
-			this.Initialize ();
+            this.Initialize();
+        }
+
+        private void Initialize()
+        {
+            var authAttribute = _configuration.GetValue<string>("SAML2Authentication:AuthenticationAttribute");
+            if (authAttribute == null) {
+                AuthenticationAttribute = DEFAULT_AUTHENTICATION_ATTRIBUTE;
+            }
+            else {
+                AuthenticationAttribute = authAttribute;
+            }
+        }
+
+		private bool IsSurveyAnonymous(string surveyCode) {
+			// var authAttribute = _configuration.GetValue<string>("SAML2Authentication:AuthenticationAttribute");
+			return false;
 		}
 
-		private void Initialize () {
-			var authAttribute = _configuration.GetValue<string> ("SAML2Authentication:AuthenticationAttribute");
-			if (authAttribute == null) {
-				AuthenticationAttribute = DEFAULT_AUTHENTICATION_ATTRIBUTE;
-			} else {
-				AuthenticationAttribute = authAttribute;
-			}
-		}
+        [HttpGet]
+        [Route("session/{surveyCode}")]
+        public ActionResult Session(string surveyCode)
+        {
+            var headers = Request.HttpContext.Request.Headers;
+            return new OkObjectResult(headers);
+        }
 
-		[HttpGet]
-		[Route ("session/{surveyCode}")]
-		public ActionResult Session (string surveyCode) {
-			var headers = Request.HttpContext.Request.Headers;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("login/{surveyCode}")]
+        public async Task<IActionResult> Login(string surveyCode)
+        {
 
-			return new OkObjectResult (headers);
-		}
+            var headers = Request.HttpContext.Request.Headers;
+            var identifiers = headers[this.AuthenticationAttribute];
+            string identifier = "";
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyCode"></param>
-		/// <returns></returns>
-		[HttpGet]
-		[Route ("login/{surveyCode}")]
-		public async Task<IActionResult> Login (string surveyCode) {
+            if (identifiers.Count == 0 || string.IsNullOrEmpty(identifiers[0].Trim())) {
 
-			var headers = Request.HttpContext.Request.Headers;
-			var identifiers = headers[this.AuthenticationAttribute];
-			string identifier = "";
+                // return BadRequest ("Request attribute not found in request headers");
+                identifier = Guid.NewGuid().ToString();
+            }
+            else {
+                identifier = identifiers[0];
+            }
+            identifier = HashIdentifier(identifier);
 
-			if (identifiers.Count == 0 || string.IsNullOrEmpty (identifiers[0].Trim ())) {
+            var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(surveyCode);
+            if (survey == null) {
+                return new NotFoundResult();
+            }
+            Shortcode shortcode = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, identifier);
+            if (shortcode == null) {
 
-				// return BadRequest ("Request attribute not found in request headers");
-				identifier = Guid.NewGuid ().ToString ();
-			} else {
-				identifier = identifiers[0];
-			}
-			identifier = HashIdentifier (identifier);
+                shortcode = new Shortcode()
+                {
+                    Survey = survey,
+                    Code = identifier,
+                    IsTest = false,
+                    CreatedDate = DateTime.UtcNow
+                };
 
-			var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync (surveyCode);
-			if (survey == null) {
-				return new NotFoundResult ();
-			}
-			Shortcode shortcode = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync (survey, identifier);
-			if (shortcode == null) {
+                await this._unitOfWork.Shortcodes.AddAsync(shortcode);
+                await this._unitOfWork.SaveChangesAsync();
+            }
+            else {
 
-				shortcode = new Shortcode () {
-					Survey = survey,
-						Code = identifier,
-						IsTest = false,
-						CreatedDate = DateTime.UtcNow
-				};
+            }
 
-				await this._unitOfWork.Shortcodes.AddAsync (shortcode);
-				await this._unitOfWork.SaveChangesAsync ();
-			} else {
+            return Redirect($"/survey/{surveyCode}/start/{HttpUtility.UrlEncode(shortcode.Code)}");
+        }
 
-			}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        private static string HashIdentifier(string identifier)
+        {
+            HashAlgorithm algorithm = SHA256.Create();
+            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(identifier));
+            return BitConverter.ToString(bytes).Replace("-", string.Empty);
+        }
 
-			return Redirect ($"/survey/{surveyCode}/start/{HttpUtility.UrlEncode (shortcode.Code)}");
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="identifier"></param>
-		/// <returns></returns>
-		private static string HashIdentifier (string identifier) {
-			HashAlgorithm algorithm = SHA256.Create ();
-			var bytes = algorithm.ComputeHash (Encoding.UTF8.GetBytes (identifier));
-			return BitConverter.ToString (bytes).Replace ("-", string.Empty);
-		}
-
-		[ApiExplorerSettings (IgnoreApi = true)]
-		[NonAction]
-		public bool ShouldAuthorize (HttpContext s) {
-			throw new NotImplementedException ();
-		}
-	}
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [NonAction]
+        public bool ShouldAuthorize(HttpContext s)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 }
