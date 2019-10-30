@@ -59,6 +59,9 @@ namespace TRAISI.Authorization.Extensions
             this.Initialize();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void Initialize()
         {
             var authAttribute = _configuration.GetValue<string>("SAML2Authentication:AuthenticationAttribute");
@@ -70,11 +73,28 @@ namespace TRAISI.Authorization.Extensions
             }
         }
 
-		private bool IsSurveyAnonymous(string surveyCode) {
-			// var authAttribute = _configuration.GetValue<string>("SAML2Authentication:AuthenticationAttribute");
-			return false;
-		}
-
+        /// <summary>
+        /// Pulls confiugration to test if this survey is anonymous.
+        /// </summary>
+        /// <param name="surveyCode"></param>
+        /// <returns></returns>
+        private bool IsSurveyAnonymous(string surveyCode)
+        {
+            var modes = _configuration.GetSection("SurveyAuthenticationModes");
+            foreach (var mode in modes.GetChildren()) {
+                if (mode.GetValue<string>("SurveyCode") == surveyCode) {
+                    if (mode.GetValue<bool>("AllowAnonymous")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="surveyCode"></param>
+		/// <returns></returns>
         [HttpGet]
         [Route("session/{surveyCode}")]
         public ActionResult Session(string surveyCode)
@@ -84,7 +104,39 @@ namespace TRAISI.Authorization.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Will login anonymously if the configuration allows this survey code to be anonymous.
+        /// </summary>
+        /// <param name="surveyCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("login/anonymous/{surveyCode}")]
+        public async Task<IActionResult> AnonymousLogin(string surveyCode)
+        {
+            if (!IsSurveyAnonymous(surveyCode)) {
+                return Unauthorized();
+            }
+            var identifier = HashIdentifier(Guid.NewGuid().ToString());
+            var survey = await this._unitOfWork.Surveys.GetSurveyByCodeAsync(surveyCode);
+            if (survey == null) {
+                return new NotFoundResult();
+            }
+            Shortcode shortcode = new Shortcode()
+            {
+                Survey = survey,
+                Code = identifier,
+                IsTest = false,
+                CreatedDate = DateTime.UtcNow
+            };
+
+            await this._unitOfWork.Shortcodes.AddAsync(shortcode);
+            await this._unitOfWork.SaveChangesAsync();
+            return Redirect($"/survey/{surveyCode}/start/{HttpUtility.UrlEncode(shortcode.Code)}");
+        }
+
+
+
+        /// <summary>
+        /// Performs a login action.
         /// </summary>
         /// <param name="surveyCode"></param>
         /// <returns></returns>
@@ -97,9 +149,8 @@ namespace TRAISI.Authorization.Extensions
             var identifiers = headers[this.AuthenticationAttribute];
             string identifier = "";
 
-            if (identifiers.Count == 0 || string.IsNullOrEmpty(identifiers[0].Trim())) {
+            if (identifiers.Count == 0 || string.IsNullOrEmpty(identifiers[0].Trim()) || IsSurveyAnonymous(surveyCode)) {
 
-                // return BadRequest ("Request attribute not found in request headers");
                 identifier = Guid.NewGuid().ToString();
             }
             else {
@@ -125,9 +176,6 @@ namespace TRAISI.Authorization.Extensions
                 await this._unitOfWork.Shortcodes.AddAsync(shortcode);
                 await this._unitOfWork.SaveChangesAsync();
             }
-            else {
-
-            }
 
             return Redirect($"/survey/{surveyCode}/start/{HttpUtility.UrlEncode(shortcode.Code)}");
         }
@@ -144,6 +192,11 @@ namespace TRAISI.Authorization.Extensions
             return BitConverter.ToString(bytes).Replace("-", string.Empty);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         [ApiExplorerSettings(IgnoreApi = true)]
         [NonAction]
         public bool ShouldAuthorize(HttpContext s)
