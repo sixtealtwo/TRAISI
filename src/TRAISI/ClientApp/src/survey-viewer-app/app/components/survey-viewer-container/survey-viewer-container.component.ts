@@ -50,7 +50,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 		this.surveySession.data.subscribe(data => {
 			this._titleService.setTitle('TRAISI - ' + data.surveyTitle);
 		});
-		if (Modernizr.mq('(max-width: 381px)')) {
+		if (Modernizr.mq('(max-width: 768px)')) {
 			this._toastr.info('A desktop view may provide a better experience for answering some questions', 'Mobile Dislay', {
 				positionClass: 'toast-top-full-width',
 				timeOut: 5000,
