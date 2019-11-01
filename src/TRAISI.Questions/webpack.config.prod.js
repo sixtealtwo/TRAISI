@@ -19,7 +19,6 @@ module.exports = {
 	devtool: false,
 	optimization: {
 		minimize: true,
-		minimizer: [new TerserPlugin()]
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
