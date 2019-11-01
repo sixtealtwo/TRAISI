@@ -1,15 +1,5 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { SurveyViewerService } from '../../services/survey-viewer.service';
-import { QuestionLoaderService } from '../../services/question-loader.service';
-import {
-	ActivatedRoute,
-	ActivatedRouteSnapshot,
-	ActivationEnd,
-	NavigationEnd,
-	Router,
-	RouterEvent,
-	RouterStateSnapshot
-} from '@angular/router';
 import { SurveyErrorComponent } from '../survey-error/survey-error.component';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
 import { ToastrService } from 'ngx-toastr';
