@@ -25,11 +25,15 @@
 
 // import 'classlist.js';
 
-import 'core-js/es/reflect';
+import 'core-js/features/reflect';
 // import 'core-js/es/promise';
-import 'core-js/es/array';
-import 'core-js/es/object';
-import 'core-js/es/symbol';
+import 'core-js/features/array';
+import 'core-js/features/object';
+import 'core-js/features/symbol';
+import 'core-js/features/symbol/iterator';
+import 'core-js/features/symbol/key-for';
+import 'core-js/features/symbol/has-instance';
+import 'core-js/features/symbol/for';
 // import '../shared/systemjs/system.src.js';
 // import 'core-js/features/symbol';
 
