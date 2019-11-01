@@ -1,0 +1,3 @@
+[submodule "src/TRAISI.TripDiary"]
+	path = src/TRAISI.TripDiary
+	url = https://github.com/BrendanReilly/TRAISI.TripDiary.git
