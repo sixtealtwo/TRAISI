@@ -8,9 +8,8 @@
 		"types": ["node"],
 		"experimentalDecorators": true,
 		"paths": {
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client"],
 			"shared/*": ["../shared/*"]
 		}
 	},

@@ -29,29 +29,14 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.ts$/,
-				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'), /node_modules/],
+				test: /\.tsx?$/,
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'),path.resolve(__dirname,'node_modules')],
 				use: {
 					loader: 'babel-loader',
 					options: {
-						plugins: [
-							"@babel/plugin-proposal-class-properties"
-						]
 					}
 				}
 			},
-			/*{
-				test: /\.ts$/,
-				exclude: [/node_modules/],
-				use: {
-					use: 'babel-loader',
-					options: {
-						plugins: [
-							"@babel/plugin-proposal-class-properties"
-						]
-					}
-				}
-			}, */
 			{
 				test: /\.tsx?$/,
 				use: 'babel-loader'

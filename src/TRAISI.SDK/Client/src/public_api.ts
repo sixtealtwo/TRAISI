@@ -1,4 +1,3 @@
-export { TraisiSdkModule } from './module/traisi-sdk.module';
 import { QUESTION_ID } from './traisi-survey-builder.service';
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
@@ -47,7 +46,7 @@ export {
 
 // export { PopupComponent } from './components/popper/popup.component';
 
-export * from './module/public_api';
+export {PopperContentComponent, SurveyQuestionInternalViewDirective, SurveyQuestionViewDirective, TraisiSdkModule} from './module/public_api';
 
 
 

@@ -45,7 +45,7 @@ export class SurveyViewerContainerComponent implements OnInit {
 				positionClass: 'toast-top-full-width',
 				timeOut: 5000,
 				toastClass: 'ngx-toastr mobile-toast',
-				messageClass: 'mobile-toast-message',
+				messageClass: 'mobile-toast-message', 
 				titleClass: 'mobile-toast-title',
 				progressBar: true,
 				closeButton: true,

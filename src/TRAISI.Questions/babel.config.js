@@ -7,7 +7,7 @@ module.exports = function (api) {
 			{
 				exclude: ['node_modules/mapbox-gl/*'],
 				targets: {
-					node: true
+					browsers: [ "> 1%","last 2 versions", "IE 11", "not dead"]
 				}
 			}
 		]

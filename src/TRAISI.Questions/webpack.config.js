@@ -27,13 +27,13 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.ts$/,
-				loaders: ['angular2-template-loader?keepUrl=true', 'angular-router-loader'],
-				exclude: [/node_modules/]
-			},
-			{
 				test: /\.tsx?$/,
-				use: 'ts-loader'
+				exclude: [path.resolve(__dirname, 'node_modules/mapbox-gl'),path.resolve(__dirname,'node_modules')],
+				use: {
+					loader: 'babel-loader',
+					options: {
+					}
+				}
 			},
 			{
 				test: /\.html?$/,
