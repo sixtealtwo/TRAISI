@@ -38,10 +38,6 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.tsx?$/,
-				use: 'babel-loader'
-			},
-			{
 				test: /\.html?$/,
 				use: 'raw-loader'
 			},

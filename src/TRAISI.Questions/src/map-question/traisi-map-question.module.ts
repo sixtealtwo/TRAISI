@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MapEndpointService } from '../services/mapservice.service';
 
-
 export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 	accessToken:
 		// tslint:disable-next-line:max-line-length
@@ -33,4 +32,3 @@ export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 	imports: [CommonModule, ngxMapWithConfig, HttpClientModule]
 })
 export default class TraisiQuestions {}
-
