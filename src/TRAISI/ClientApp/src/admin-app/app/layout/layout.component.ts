@@ -241,7 +241,9 @@ export class LayoutComponent implements OnInit {
 		this.router.events.subscribe(event => {
 			this._navigationInterceptor(event);
 			this.collapseNavIfSmallScreen();
+			if(window.scrollTo !== undefined) {
 			window.scrollTo(0, 0);
+			}
 			// window.scrollTop = 0;
 		});
 
