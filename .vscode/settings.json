@@ -16,5 +16,16 @@
 	"prettier.tslintIntegration": true,
 	"angular-template-formatter.closeTagSameLine": true,
 	"tslint.configFile": "tslint.json",
-	"git.ignoreLimitWarning": true
+	"git.ignoreLimitWarning": true,
+	"sqltools.connections": [
+		{
+			"database": "traisi",
+			"dialect": "PostgreSQL",
+			"name": "traisi",
+			"password": "traisi",
+			"port": 5432,
+			"server": "localhost",
+			"username": "traisi"
+		}
+	]
 }

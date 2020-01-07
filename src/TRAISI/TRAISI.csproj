@@ -83,7 +83,7 @@
 		<None Include="appsettings.Development.json" CopyToPublishDirectory="Never" />
 		<None Include="staging.sh" CopyToPublishDirectory="Never" />
 		<None Include="development" CopyToPublishDirectory="Never"/>
-		<None Include="appsettings.Development.json" CopyToPublishDirectory="Never"/>
+		<None Include="appsettings.local.json" CopyToPublishDirectory="Never"/>
 
 	</ItemGroup>
 
