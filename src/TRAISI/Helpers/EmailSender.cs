@@ -35,7 +35,8 @@ namespace TRAISI.Helpers
         public void SendEmail(MailgunEmail emailSettings)
         {
             var restReq = this.SetupMailgunRequest(emailSettings);
-            JobHelper.SetSerializerSettings(new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            //JobHelper.SetSerializerSettings(new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            var globalConfiguration = GlobalConfiguration.Configuration.UseSerializerSettings(new JsonSerializerSettings () { ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
             string jobID = BackgroundJob.Enqueue(() => this.SendViaMailgun(restReq));
         }
 

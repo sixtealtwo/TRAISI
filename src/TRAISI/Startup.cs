@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.Validation;
 using AspNet.Security.OpenIdConnect.Primitives;
@@ -18,7 +17,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +25,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Swashbuckle.AspNetCore.Swagger;
 using TRAISI.Authorization;
 using TRAISI.Helpers;
 using TRAISI.SDK.Interfaces;
@@ -35,12 +32,6 @@ using TRAISI.Services;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels;
 using AppPermissions = DAL.Core.ApplicationPermissions;
-using System.Reflection;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions;
-using Microsoft.EntityFrameworkCore.Sqlite;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenIddict.Abstractions;
 using TRAISI.Helpers.Interfaces;
 using IAuthorizationHandler = Microsoft.AspNetCore.Authorization.IAuthorizationHandler;
@@ -48,10 +39,13 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
-namespace TRAISI {
-	public class Startup {
-		private readonly IHostingEnvironment _hostingEnvironment;
+namespace TRAISI
+{
+    public class Startup {
+		private readonly IWebHostEnvironment _hostingEnvironment;
 
 		private readonly string DEFAULT_SURVEY_VIEWER_SPA_START_SCRIPT = "start2";
 
@@ -59,7 +53,7 @@ namespace TRAISI {
 		/// </summary>
 		/// <param name="configuration"></param>
 		/// <param name="env"></param>
-		public Startup (IConfiguration configuration, IHostingEnvironment env) {
+		public Startup (IConfiguration configuration, IWebHostEnvironment env) {
 			Configuration = configuration;
 			_hostingEnvironment = env;
 		}
@@ -88,7 +82,6 @@ namespace TRAISI {
 							b => b.MigrationsAssembly ("TRAISI"));
 					}
 				}
-
 				options.UseOpenIddict ();
 			});
 
@@ -211,7 +204,7 @@ namespace TRAISI {
 			});
 
 			// Add framework services.
-			services.AddMvc ().AddJsonOptions (opts => {
+			services.AddMvc (option => option.EnableEndpointRouting = false).AddNewtonsoftJson (opts => {
 				opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 				opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
 				opts.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
@@ -242,14 +235,35 @@ namespace TRAISI {
 				}));
 
 			services.AddSwaggerGen (c => {
-				c.SwaggerDoc ("v1", new Info { Title = "TRAISI API", Version = "v1" });
+				c.SwaggerDoc ("v1", new OpenApiInfo { Title = "TRAISI API", Version = "v1" });
 
-				c.AddSecurityDefinition ("oauth2", new OAuth2Scheme {
-					Type = "oauth2",
-						Flow = "password",
-						TokenUrl = "/connect/token"
-				});
-				c.AddSecurityRequirement (new Dictionary<string, IEnumerable<string>> { { "oauth2", new string[] { } }
+				c.AddSecurityDefinition ("oauth2", new OpenApiSecurityScheme {
+					Type = SecuritySchemeType.OAuth2,
+						Flows = new OpenApiOAuthFlows
+						{
+							AuthorizationCode = new OpenApiOAuthFlow
+                       		{
+                           		AuthorizationUrl = new Uri("/auth-server/connect/authorize", UriKind.Relative),
+                           		TokenUrl = new Uri("/auth-server/connect/token", UriKind.Relative),
+								// TokenUrl = "/connect/token"
+								Scopes = new Dictionary<string, string>
+                            	{
+                               		{ "readAccess", "Access read operations" },
+                               		{ "writeAccess", "Access write operations" }
+                           		}
+							}
+						}
+					});
+								
+				c.AddSecurityRequirement (new OpenApiSecurityRequirement {
+					{
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                        },
+                        new[] { "readAccess", "writeAccess" }
+                    }
+				
 				});
 			});
 
@@ -396,7 +410,7 @@ namespace TRAISI {
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure (IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+		public void Configure (IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory,
 			IQuestionTypeManager questionTypeManager) {
 			// loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			// loggerFactory.AddDebug(LogLevel.Debug);
@@ -428,8 +442,15 @@ namespace TRAISI {
 
 			app.UseWebSockets ();
 			app.UseAuthentication ();
+			app.UseRouting();
+			app.UseAuthorization();
+			app.UseEndpoints(endpoints => {
+				endpoints.MapControllers();
 
-			app.UseSignalR (routes => { routes.MapHub<NotifyHub> ("/notify"); });
+			});
+
+			//app.UseSignalR (routes => { routes.MapHub<NotifyHub> ("/notify"); });
+			app.UseEndpoints (routes => { routes.MapHub<NotifyHub> ("/notify"); });
 
 			app.UseStaticFiles ();
 			app.UseSpaStaticFiles ();

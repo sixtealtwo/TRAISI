@@ -18,10 +18,10 @@ namespace TRAISI.Controllers
     [Route("api/[controller]")]
     public class UploadController : Controller
     {
-        private IHostingEnvironment _hostingEnvironment;
+        private IWebHostEnvironment _hostingEnvironment;
         private IFileDownloader _fileHelper;
 
-        public UploadController(IHostingEnvironment hostingEnvironment, IFileDownloader fileHelper)
+        public UploadController(IWebHostEnvironment hostingEnvironment, IFileDownloader fileHelper)
         {
             _hostingEnvironment = hostingEnvironment;
             _fileHelper = fileHelper;

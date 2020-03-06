@@ -4,13 +4,13 @@
 		<DotNetCliToolReference Include="DotNetTraisi" Version="1.0.1" />
 	</ItemGroup> -->
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>netstandard2.1</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<LangVersion>7.1</LangVersion>
+		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<LangVersion>7.1</LangVersion>
+		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />

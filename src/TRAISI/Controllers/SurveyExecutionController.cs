@@ -30,7 +30,7 @@ namespace TRAISI.Controllers {
 		private readonly ICodeGeneration _codeGeneration;
 		private readonly IFileDownloader _fileDownloader;
 
-		public SurveyExecutionController (IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment,
+		public SurveyExecutionController (IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment,
 			IAuthorizationService authorizationService, IAccountManager accountManager,
 			ICodeGeneration codeGenerationService, IFileDownloader fileDownloaderService) {
 			this._unitOfWork = unitOfWork;

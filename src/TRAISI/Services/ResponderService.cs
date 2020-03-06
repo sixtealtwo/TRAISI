@@ -365,7 +365,7 @@ namespace TRAISI.Services {
 		/// <returns></returns>
 		public async Task<List<SurveyResponse>> ListResponses (int surveyId, string questionId) {
 
-			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync ();
+			var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
 
 			return new List<SurveyResponse> ();
 

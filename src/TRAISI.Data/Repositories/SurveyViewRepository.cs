@@ -26,26 +26,23 @@ namespace DAL.Repositories {
 				.Where (sv => sv.Survey.Id == surveyId).ToListAsync ();
 		}
 
-		/// <summary>
-		/// Creates a new Survey View associated with the passed survey.
-		/// </summary>
-		/// <param name="survey"></param>
-		/// <returns></returns>
-		public Task<EntityEntry<SurveyView>> CreateSurveyView(Survey survey)
-		{
-			SurveyView view = new SurveyView(){
-				Survey=survey
-			};
-			return  _context.AddAsync<SurveyView>(view);
-		}
+        /// <summary>
+        /// Creates a new Survey View associated with the passed survey.
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <returns></returns>
+        public async Task<EntityEntry<SurveyView>> CreateSurveyView(Survey survey) => await _context.AddAsync(new SurveyView()
+        {
+            Survey = survey
+        }).ConfigureAwait(false);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="viewName"></param>
-		/// <returns></returns>
-		public async Task<SurveyView> GetSurveyViewWithPagesStructureAsync (int surveyId, string viewName) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
+        public async Task<SurveyView> GetSurveyViewWithPagesStructureAsync (int surveyId, string viewName) {
 			var allviews = _appContext.SurveyViews.ToList();
 			var surveyView = await _appContext.SurveyViews
 					.Where(sv => sv.ViewName == viewName && sv.Survey.Id == surveyId)

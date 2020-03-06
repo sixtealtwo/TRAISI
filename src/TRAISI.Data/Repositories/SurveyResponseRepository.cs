@@ -2,49 +2,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DAL.Models;
-using DAL.Models.ResponseTypes;
 using DAL.Models.Surveys;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.EntityFrameworkCore.Internal;
 
-namespace DAL.Repositories {
-	public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository {
+namespace DAL.Repositories
+{
+    public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository {
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;
 
 		public SurveyResponseRepository (DbContext context) : base (context) { }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="questionId"></param>
-		/// <param name="shortcode"></param>
-		/// <returns></returns>
-		public async Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync (int respondentId, string shortcode) {
-			return await this._entities.Where (s => s.Respondent.Id == respondentId).ToListAsync ();
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync(int respondentId, string shortcode) => await this._entities.Where(s => s.Respondent.Id == respondentId).ToListAsync();
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="user"></param>
-		/// <param name="questionName"></param>
-		/// <returns></returns>
-		public async Task<SurveyResponse> GetQuestionResponeByQuestionName (SurveyRespondent user, string questionName) {
-			return await this._entities.Where (u => u.Respondent == user)
-				.Include (r => ((SurveyUser) r.SurveyAccessRecord.AccessUser).PrimaryRespondent.SurveyAccessRecords)
-				.Include (s => s.ResponseValues).ThenInclude (s => s.SurveyResponse)
-				.Where (q => q.QuestionPart.Name.ToLower () == questionName.ToLower ())
-				.Where (r => r.SurveyAccessRecord == ((SurveyUser) r.SurveyAccessRecord.AccessUser).PrimaryRespondent.SurveyAccessRecords.OrderByDescending (o => o.AccessDateTime))
-				.FirstOrDefaultAsync ();
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="questionName"></param>
+        /// <returns></returns>
+        public async Task<SurveyResponse> GetQuestionResponeByQuestionName(SurveyRespondent user, string questionName) => await this._entities.Where(u => u.Respondent == user)
+                .Include(r => ((SurveyUser)r.SurveyAccessRecord.AccessUser).PrimaryRespondent.SurveyAccessRecords)
+                .Include(s => s.ResponseValues).ThenInclude(s => s.SurveyResponse)
+                .Where(q => q.QuestionPart.Name.ToLower() == questionName.ToLower())
+                .Where(r => r.SurveyAccessRecord == ((SurveyUser)r.SurveyAccessRecord.AccessUser).PrimaryRespondent.SurveyAccessRecords.OrderByDescending(o => o.AccessDateTime))
+                .FirstOrDefaultAsync();
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="user"></param>
-		/// <returns></returns>
-		public async Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync (int surveyId,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyResponse>> ListMostRecentQuestionResponsesForRespondentAsync (int surveyId,
 			SurveyRespondent user) {
 			var result = await this._entities
 				.Where (r => r.QuestionPart.SurveyId == surveyId && r.Respondent == user)
@@ -119,8 +117,8 @@ namespace DAL.Repositories {
 			SurveyRespondent user, int repeat) {
 			var result = await this._entities.Where (s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
 				.Include (v => v.ResponseValues)
-				.Include (v => v.SurveyAccessRecord)
-				.ToAsyncEnumerable ().OrderByDescending (s => s.UpdatedDate).FirstOrDefault ();
+				.Include (v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).FirstOrDefaultAsync();
+				// .ToAsyncEnumerable ().OrderByDescending (s => s.UpdatedDate).FirstOrDefault ();
 
 			return result;
 		}
@@ -134,8 +132,9 @@ namespace DAL.Repositories {
 		public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync (List<int> questionIds, SurveyRespondent user) {
 
 			var result = await this._entities.Where (s => s.Respondent == user && questionIds.Contains (s.QuestionPart.Id))
-				.Include (v => v.ResponseValues).Include (v => v.QuestionPart)
-				.ToAsyncEnumerable ().OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToList ();
+				.Include (v => v.ResponseValues)
+				.Include (v => v.QuestionPart).OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
+				//.ToAsyncEnumerable ().OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToList ();
 
 			result.ForEach (r => r.QuestionPart = null);
 			return result;
@@ -150,8 +149,8 @@ namespace DAL.Repositories {
 		public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsByNameAsync (List<string> questionNames, SurveyRespondent user) {
 
 			var result = await this._entities.Where (s => s.Respondent == user && questionNames.Contains (s.QuestionPart.Name))
-				.Include (v => v.ResponseValues).Include (v => v.QuestionPart)
-				.ToAsyncEnumerable ().OrderBy (s => questionNames.IndexOf (s.QuestionPart.Name)).ThenByDescending (s => s.UpdatedDate).ToList ();
+				.Include (v => v.ResponseValues).Include (v => v.QuestionPart).OrderBy (s => questionNames.IndexOf (s.QuestionPart.Name)).ThenByDescending (s => s.UpdatedDate).ToListAsync();
+				//.ToAsyncEnumerable ().OrderBy (s => questionNames.IndexOf (s.QuestionPart.Name)).ThenByDescending (s => s.UpdatedDate).ToList ();
 
 			result.ForEach (r => r.QuestionPart = null);
 			return result;

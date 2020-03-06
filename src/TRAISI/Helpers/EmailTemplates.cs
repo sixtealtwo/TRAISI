@@ -10,12 +10,12 @@ namespace TRAISI.Helpers
 {
     public static class EmailTemplates
     {
-        static IHostingEnvironment _hostingEnvironment;
+        static IWebHostEnvironment _hostingEnvironment;
         static IConfiguration _configuration;
         static private Dictionary<string, string> _templates;
 
 
-        public static void Initialize(IHostingEnvironment hostingEnvironment, IConfiguration configuration)
+        public static void Initialize(IWebHostEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _hostingEnvironment = hostingEnvironment;
             _configuration = configuration;

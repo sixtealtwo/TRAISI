@@ -36,11 +36,11 @@ namespace TRAISI.Helpers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHubContext<NotifyHub, INotifyHub> _notifyHub;
         private readonly Random _randomGen;
-        private IHostingEnvironment _hostingEnvironment;
+        private IWebHostEnvironment _hostingEnvironment;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public FileDownloaderService(IUnitOfWork unitOfWork, IHubContext<NotifyHub, INotifyHub> notifyHub,
-            IHostingEnvironment hostingEnvironment, IServiceScopeFactory serviceScopeFactory)
+            IWebHostEnvironment hostingEnvironment, IServiceScopeFactory serviceScopeFactory)
         {
             this._unitOfWork = unitOfWork;
             this._notifyHub = notifyHub;

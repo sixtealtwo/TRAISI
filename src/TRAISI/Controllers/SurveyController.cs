@@ -30,7 +30,7 @@ namespace TRAISI.Controllers
         private readonly IAccountManager _accountManager;
         private readonly IFileDownloader _fileDownloader;
 
-        public SurveyController(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager)
+        public SurveyController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
