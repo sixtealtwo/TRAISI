@@ -9,7 +9,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp2.2/TRAISI.dll",
+			"program": "${workspaceFolder}/src/TRAISI/bin/Debug/netcoreapp3.1/TRAISI.dll",
 			"args": ["--config", "appsettings.local.json"],
 			"cwd": "${workspaceFolder}/src/TRAISI",
 			"stopAtEntry": false,
