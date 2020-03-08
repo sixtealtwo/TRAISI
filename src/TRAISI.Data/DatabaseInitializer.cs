@@ -72,8 +72,9 @@ namespace DAL
                 foreach (var section in adminAccounts) {
                     var username = section.GetValue<string>("Username");
                     var password = section.GetValue<string>("Password");
+                    var email = section.GetValue<string>("Email") ?? "admin@traisi.dmg.utoronto.ca";
                     await CreateUserAsync(username, password, "Inbuilt Administrator",
-                    "admin2@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
+                    email, "+1 (123) 000-0000", new string[] { adminRoleName });
                 }
 
 
