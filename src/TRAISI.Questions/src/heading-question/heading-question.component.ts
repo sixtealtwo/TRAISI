@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
 	SurveyQuestion,
-	ResponseTypes
+	ResponseTypes,
+	ResponseValidationState
 } from 'traisi-question-sdk';
 import templateString from './heading-question.component.html';
 @Component({
@@ -11,18 +12,15 @@ import templateString from './heading-question.component.html';
 })
 export class HeadingQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit {
 
-
-	public T: ResponseTypes.None;
-
-
 	public constructor() {
 		super();
-
-
 	}
 
 	public ngOnInit(): void {
-		console.log('init');
+	}
+
+	public traisiOnInit(): void {
+		this.validationState.emit(ResponseValidationState.VALID);
 	}
 
 }

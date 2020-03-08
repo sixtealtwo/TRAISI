@@ -71,7 +71,7 @@ namespace DAL.Repositories {
 		/// <returns></returns>
 		public async Task<Survey> GetSurveyByCodeFullAsync (string code) {
 			var res = await _appContext.Surveys
-				.Where (s => String.Equals (s.Code, code, StringComparison.CurrentCultureIgnoreCase))
+				.Where (s => s.Code == code)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.WelcomePageLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.TermsAndConditionsLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.ThankYouPageLabels)

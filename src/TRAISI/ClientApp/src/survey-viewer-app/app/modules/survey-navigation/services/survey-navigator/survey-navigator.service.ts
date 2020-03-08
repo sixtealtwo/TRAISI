@@ -181,6 +181,19 @@ export class SurveyNavigator {
 	}
 
 	/**
+	 * Determines if the state contains an active section.
+	 * @param state The state to check
+	 */
+	private _isSectionActive(state: NavigationState): boolean  {
+		if(state.activeQuestionInstances[0].model.parentSection !== undefined) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
 	 * Increments the current navigation state
 	 * @param currentState
 	 */
@@ -195,7 +208,8 @@ export class SurveyNavigator {
 			!newState.activeQuestionInstances[0].component.navigateInternalNext()
 		) {
 			// ignore
-		} else if (!this._isMultiViewActive(currentState)) {
+		} else if (!this._isMultiViewActive(currentState) && !this._isSectionActive(currentState)) {
+
 			newState.activeQuestionIndex += 1;
 		} else {
 			newState.activeQuestionIndex += this._state.viewerState.surveyQuestions[
