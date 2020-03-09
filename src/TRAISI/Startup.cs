@@ -41,6 +41,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace TRAISI
 {
@@ -439,7 +440,7 @@ namespace TRAISI
 
 			//Configure Cors
 			app.UseCors ("CorsPolicy");
-
+			app.UseSerilogRequestLogging();
 			app.UseWebSockets ();
 			app.UseAuthentication ();
 			app.UseRouting();

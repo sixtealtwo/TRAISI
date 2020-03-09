@@ -25,6 +25,8 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 using TRAISI.Helpers;
 
 namespace TRAISI {
@@ -33,21 +35,43 @@ namespace TRAISI {
 		/// 
 		/// </summary>
 		/// <param name="args"></param>
-		public static void Main (string[] args) {
-			var host = BuildWebHost (args);
-			using (var scope = host.Services.CreateScope ()) {
-				var services = scope.ServiceProvider;
+		public static int Main (string[] args) {
+			var logger = BuildLogger ();
+			try {
+				var host = BuildWebHost (args);
+				using (var scope = host.Services.CreateScope ()) {
+					var services = scope.ServiceProvider;
 
-				try {
-					var databaseInitializer = services.GetRequiredService<IDatabaseInitializer> ();
-					databaseInitializer.SeedAsync ().Wait ();
-				} catch (Exception ex) {
-					var logger = services.GetRequiredService<ILogger<Program>> ();
-					logger.LogCritical (LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
+					try {
+						var databaseInitializer = services.GetRequiredService<IDatabaseInitializer> ();
+						databaseInitializer.SeedAsync ().Wait ();
+					} catch (Exception ex) {
+						logger.Fatal (ex, LoggingEvents.INIT_DATABASE.Name);
+						return 1;
+					}
 				}
-			}
 
-			host.Run ();
+				host.Run ();
+				return 0;
+			} catch (Exception ex) {
+				logger.Fatal(ex,"A fatal error occured, TRAISI is shutting down.");
+				Log.CloseAndFlush();
+				return 1;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		private static Serilog.ILogger BuildLogger () {
+			Log.Logger = new LoggerConfiguration ()
+				.MinimumLevel.Information ()
+				.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+				.Enrich.FromLogContext ()
+				.WriteTo.Console ()
+				.CreateLogger ();
+			return Log.Logger;
 		}
 
 		/// <summary>
@@ -56,7 +80,9 @@ namespace TRAISI {
 		/// <param name="args"></param>
 		/// <returns></returns>
 		public static IWebHost BuildWebHost (string[] args) {
+
 			var builder = WebHost.CreateDefaultBuilder (args)
+				.UseSerilog ()
 				.UseStartup<Startup> ()
 				.ConfigureAppConfiguration ((hostingContext, config) => {
 					if (args.Contains ("--config")) {
