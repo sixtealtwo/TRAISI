@@ -5,7 +5,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { Select2Module } from 'ng2-select2';
+import { NgSelect2Module  } from 'ng-select2';
 
 import { ROUTES } from './account-management.routes';
 
@@ -15,7 +15,7 @@ export const translateForChild = TranslateModule.forChild({
 
 // @dynamic
 @NgModule({
-	imports: [CommonModule, FormsModule, Select2Module, ROUTES, translateForChild],
+	imports: [CommonModule, FormsModule, NgSelect2Module, ROUTES, translateForChild],
 	declarations: [UserPreferencesComponent, UserInfoComponent],
 	exports: [UserInfoComponent]
 })

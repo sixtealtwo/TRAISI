@@ -77,7 +77,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('locationModal', { static: true })
 	locationModal: ModalDirective;
-	@ViewChild('mapbox', { static: false })
+	@ViewChild('mapbox')
 	mapGL: MapComponent;
 	@ViewChildren('sConditionals')
 	conditionalFields: QueryList<SourceConditionalComponent>;

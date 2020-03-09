@@ -12,15 +12,12 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"target": "es2015",
-		"types": ["node", "jasmine"],
+		"types": ["node", "jasmine","jquery"],
 		"typeRoots": ["node_modules/@types"],
 		"lib": ["es2017", "dom","esnext"],
-		"baseUrl": "src",
+		"baseUrl": "./src",
 		"paths": {
-			//"traisi-question-sdk": ["../../TRAISI.SDK/Client"],
-			//"traisi-sdk/*": ["../../TRAISI.SDK/Client/*"],
-			//"questions/*": ["../../Questions/*"],
-			//"traisi-question-sdk": ["../../TRAISI.SDK/Client/dist"],
+			"traisi-question-sdk": ["../../../TRAISI.SDK/Client/dist/"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]
 		}

@@ -10,10 +10,10 @@ import { SafePipe } from './safe.pipe';
 
 export class PipesModule {
 
-  static forRoot() {
-	 return {
-		 ngModule: PipesModule,
-		 providers: [],
-	 };
-  }
+  static forRoot(): ModuleWithProviders<PipesModule> {
+    return {
+        ngModule: PipesModule,
+        providers: [],
+    };
+}
 }

@@ -8,7 +8,7 @@ import { AppTranslationService } from '../../../../shared/services/app-translati
 import { BootstrapSelectDirective } from '../../directives/bootstrap-select.directive';
 import { AccountService } from '../../services/account.service';
 import { Utilities } from '../../../../shared/services/utilities';
-import { Select2OptionData } from 'ng2-select2';
+import { Select2OptionData } from 'ng-select2';
 
 import { User } from '../../../../shared/models/user.model';
 import { Role } from '../../models/role.model';

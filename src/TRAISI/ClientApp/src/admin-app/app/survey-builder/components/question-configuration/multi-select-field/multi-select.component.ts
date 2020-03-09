@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
-import { Select2OptionData } from 'ng2-select2';
+import { Select2OptionData } from 'ng-select2';
 
 @Component({
 	selector: 'app-multi-select',

@@ -11,7 +11,7 @@ import { EndpointFactory } from 'shared/services/endpoint-factory.service';
 	exports: [RouterModule]
 })
 export class AppRoutingModule {
-	public static forRoot(): ModuleWithProviders {
+	public static forRoot(): ModuleWithProviders<AppRoutingModule> {
 		return {
 			ngModule: AppRoutingModule,
 			providers: [AuthService, EndpointFactory]

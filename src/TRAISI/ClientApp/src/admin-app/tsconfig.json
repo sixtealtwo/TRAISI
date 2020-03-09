@@ -5,10 +5,10 @@
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
 		"module": "esNext",
-		"types": ["node"],
+		"types": ["node","jquery"],
 		"experimentalDecorators": true,
 		"paths": {
-			
+			"traisi-question-sdk": ["../../TRAISI.SDK/Client/src/"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["../shared/*"]
 		}

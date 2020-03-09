@@ -7,7 +7,7 @@ import { BootstrapSelectDirective } from '../../directives/bootstrap-select.dire
 import { AccountService } from '../../services/account.service';
 import { Utilities } from '../../../../shared/services/utilities';
 import { Permission } from '../../../../shared/models/permission.model';
-import { Select2OptionData } from 'ng2-select2';
+import { Select2OptionData } from 'ng-select2';
 
 @Component({
 	selector: 'user-preferences',
@@ -32,18 +32,7 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
 
 	constructor(private alertService: AlertService, private translationService: AppTranslationService,
 		private accountService: AccountService, public configurations: ConfigurationService, injector: Injector) {
-		//
-		// This is a hack on angular style loader to prevent ng2-select2 from adding its styles.
-		// They are hard-coded into the component, so there are no other way to get rid of them
-		//
-		/*this.domSharedStylesHost = injector.get(ɵDomSharedStylesHost);
-		this.domSharedStylesHost.__onStylesAdded__ = this.domSharedStylesHost.onStylesAdded;
-		this.domSharedStylesHost.onStylesAdded = (additions) => {
-		  const style = additions[0];
-		  if (!style || !style.trim().startsWith('.select2-container')) {
-			this.domSharedStylesHost.__onStylesAdded__(additions);
-		  }
-		};*/
+
 	}
 
 	ngOnInit() {

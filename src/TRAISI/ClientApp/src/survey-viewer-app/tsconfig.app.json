@@ -26,6 +26,6 @@
 		"fullTemplateTypeCheck": true
 	},
 	"files": ["polyfills.ts"],
-	"include": ["../shared/**/*.ts", "./**/*.ts"],
+	"include": ["../shared/**/*.d.ts", "./**/*.ts"],
 	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts",]
 }

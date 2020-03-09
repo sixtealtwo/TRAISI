@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { Select2Module } from 'ng2-select2';
+import { NgSelect2Module } from 'ng-select2';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AccountManagementModule } from '../account-management/account-management.module';
@@ -28,7 +28,7 @@ export const bsDropdownForRoot = BsDropdownModule.forRoot();
 		CommonModule,
 		bsForRoot,
 		FormsModule,
-		Select2Module,
+		NgSelect2Module,
 		SharedModule,
 		FileUploadModule,
 		ROUTES,

@@ -47,7 +47,7 @@ export class SurveyStartPageComponent implements OnInit {
 	public authMode: any;
 	private _queryParams: Params;
 
-	@ViewChild('codeComponent', { read: ViewContainerRef, static: false })
+	@ViewChild('codeComponent', { read: ViewContainerRef })
 	public codeComponent: ViewContainerRef;
 
 	@ViewChild('outlet', { read: RouterOutlet, static: true })

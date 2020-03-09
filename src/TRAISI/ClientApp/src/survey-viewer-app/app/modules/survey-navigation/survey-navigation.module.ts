@@ -8,7 +8,7 @@ import { SurveyNavigator } from './services/survey-navigator/survey-navigator.se
 	exports: []
 })
 export class SurveyNavigationModule {
-	public static forRoot(): ModuleWithProviders {
+	public static forRoot(): ModuleWithProviders<SurveyNavigationModule> {
 		return {
 		  ngModule: SurveyNavigationModule,
 		  providers: [ SurveyNavigator ]

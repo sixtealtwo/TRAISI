@@ -78,7 +78,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	@Input()
 	public startPageComponent: SurveyStartPageComponent;
 
-	@ViewChild('accessComponent', { static: false })
+	@ViewChild('accessComponent')
 	public accessComponent: any;
 
 	constructor() {}
