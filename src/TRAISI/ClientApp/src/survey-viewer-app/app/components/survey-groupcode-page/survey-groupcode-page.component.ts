@@ -24,7 +24,7 @@ export class SurveyGroupcodePageComponent implements OnInit {
 	public groupcodeFormGroup: FormGroup;
 	private _surveyId: number;
 
-	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef, static: false })
+	@ViewChild('shortcodeDisplayComponent', { read: ViewContainerRef })
 	public shortcodeDisplayComponent: ViewContainerRef;
 
 	/**

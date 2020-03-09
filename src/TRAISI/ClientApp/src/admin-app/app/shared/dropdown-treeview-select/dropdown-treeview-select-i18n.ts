@@ -1,5 +1,7 @@
 import { TreeviewItem, TreeviewSelection, TreeviewI18nDefault } from 'ngx-treeview';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class DropdownTreeviewSelectI18n extends TreeviewI18nDefault {
 	private internalSelectedItem: TreeviewItem;
 

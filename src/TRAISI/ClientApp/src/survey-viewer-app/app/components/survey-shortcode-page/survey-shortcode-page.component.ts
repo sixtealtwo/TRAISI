@@ -13,7 +13,7 @@ import { SpecialPageBuilderComponent } from '../special-page-builder/special-pag
 	styleUrls: ['./survey-shortcode-page.component.scss']
 })
 export class SurveyShortcodePageComponent implements OnInit, AfterContentInit {
-	@ViewChild('startContent', { static: false })
+	@ViewChild('startContent')
 	public startContent: SpecialPageBuilderComponent;
 
 	public finishedLoading: boolean = false;

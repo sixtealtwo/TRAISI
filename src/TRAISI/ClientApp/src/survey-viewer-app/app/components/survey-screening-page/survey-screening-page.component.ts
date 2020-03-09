@@ -28,7 +28,7 @@ export class SurveyScreeningPageComponent implements OnInit {
 
 	public isFinishedLoading: boolean = false;
 
-	@ViewChild('screeningForm', { static: false })
+	@ViewChild('screeningForm')
 	public formGroup: NgForm;
 
 	public screeningFormGroup: FormGroup;

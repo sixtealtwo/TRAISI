@@ -4,11 +4,12 @@
 		"lib": ["es2017", "dom", "esnext"],
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
-		"types": ["node"],
+		"types": ["node","jquery"],
 		"experimentalDecorators": true,
 		"paths": {
 			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
 			// "@angular/*": ["../../node_modules/@angular/*"],
+			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"]
 			// "shared/*": ["../shared/*"],
 			//"core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
@@ -18,9 +19,10 @@
 	"angularCompilerOptions": {
 		"skipTemplateCodegen": true,
 		"strictMetadataEmit": false,
-		"fullTemplateTypeCheck": true
+		"fullTemplateTypeCheck": false,
+		"strictTemplates": false
 	},
-	"include": ["../shared/**/*.ts", "**/*.ts"],
+	"include": ["../shared/**/*.d.ts", "**/*.ts"],
 	"files": ["polyfills.ts"],
 	"exclude": ["test.ts", "**/*.spec.ts", "**/node_modules/**"]
 }

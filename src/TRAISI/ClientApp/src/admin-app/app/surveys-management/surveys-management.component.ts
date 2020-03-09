@@ -6,7 +6,7 @@ import { AppTranslationService } from '../../../shared/services/app-translation.
 import { BootstrapSelectDirective } from '../directives/bootstrap-select.directive';
 import { AccountService } from '../services/account.service';
 
-import { Select2OptionData } from 'ng2-select2';
+import { Select2OptionData } from 'ng-select2';
 
 import { ItemListComponent } from '../shared/item-list/item-list.component';
 
@@ -65,13 +65,13 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	private downloadNotifier: Subject<DownloadNotification>;
 	public downloadIndicator: boolean = false;
 
-	@ViewChild('soloTable', { static: false })
+	@ViewChild('soloTable')
 	public table: any;
 
-	@ViewChild('sharedTable', { static: false })
+	@ViewChild('sharedTable')
 	public sTable: any;
 
-	@ViewChild('groupTable', { static: false })
+	@ViewChild('groupTable')
 	public gTable: any;
 
 	@ViewChild('editorModal', { static: true })

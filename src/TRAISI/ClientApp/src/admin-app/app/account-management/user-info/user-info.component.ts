@@ -9,7 +9,7 @@ import { Role } from '../../models/role.model';
 import { Permission } from '../../../../shared/models/permission.model';
 import { AppTranslationService } from '../../../../shared/services/app-translation.service';
 import { AuthService } from '../../../../shared/services/auth.service';
-import { Select2OptionData } from 'ng2-select2';
+import { Select2OptionData } from 'ng-select2';
 import { GroupMember } from '../../models/group-member.model';
 import { UserGroupService } from '../../services/user-group.service';
 
@@ -50,24 +50,24 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 	@Input() public inGroupMode: boolean = false;
 
-	@ViewChild('f', { static: false }) private form;
+	@ViewChild('f') private form;
 
 	// ViewChilds Required because ngIf hides template variables from global scope
-	@ViewChild('userName', { static: false }) private userName;
+	@ViewChild('userName') private userName;
 
-	@ViewChild('userPassword', { static: false }) private userPassword;
+	@ViewChild('userPassword') private userPassword;
 
-	@ViewChild('email', { static: false }) private email;
+	@ViewChild('email') private email;
 
-	@ViewChild('currentPassword', { static: false }) private currentPassword;
+	@ViewChild('currentPassword') private currentPassword;
 
-	@ViewChild('newPassword', { static: false }) private newPassword;
+	@ViewChild('newPassword') private newPassword;
 
-	@ViewChild('confirmPassword', { static: false }) private confirmPassword;
+	@ViewChild('confirmPassword') private confirmPassword;
 
-	@ViewChild('roles', { static: false }) private roles;
+	@ViewChild('roles') private roles;
 
-	@ViewChild('rolesSelector', { static: false }) private rolesSelector;
+	@ViewChild('rolesSelector') private rolesSelector;
 
 	constructor(
 		private alertService: AlertService,

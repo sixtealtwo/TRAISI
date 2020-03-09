@@ -103,7 +103,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private dragResult: Subject<boolean>;
 	private surveyUpdate: Subject<SurveyNotification>;
 
-	@ViewChild('surveyPageDragAndDrop', { static: false })
+	@ViewChild('surveyPageDragAndDrop')
 	public surveyPage: NestedDragAndDropListComponent;
 	@ViewChild('questionChooser', { static: true })
 	public questionChooser: QuestionTypeChooserComponent;
@@ -111,15 +111,15 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	public createPageModal: ModalDirective;
 	@ViewChild('editPageModal', { static: true })
 	public editPageModal: ModalDirective;
-	@ViewChild('welcomeEditor', { static: false })
+	@ViewChild('welcomeEditor')
 	public welcomeEditor: SpecialPageBuilderComponent;
-	@ViewChild('privacyPolicyEditor', { static: false })
+	@ViewChild('privacyPolicyEditor')
 	public privacyPolicyEditor: SpecialPageBuilderComponent;
-	@ViewChild('questionViewerEditor', { static: false })
+	@ViewChild('questionViewerEditor')
 	public questionViewerEditor: SpecialPageBuilderComponent;
-	@ViewChild('thankYouEditor', { static: false })
+	@ViewChild('thankYouEditor')
 	public thankYouEditor: SpecialPageBuilderComponent;
-	@ViewChild('screeningEditor', { static: false })
+	@ViewChild('screeningEditor')
 	public screeningEditor: SpecialPageBuilderComponent;
 
 	constructor(

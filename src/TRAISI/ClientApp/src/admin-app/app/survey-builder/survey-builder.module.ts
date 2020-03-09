@@ -18,7 +18,7 @@ import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
 import { NgxSelectModule } from 'ngx-select-ex';
-import { Select2Module } from 'ng2-select2';
+import { NgSelect2Module } from 'ng-select2';
 import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { CheckboxComponent } from './components/question-configuration/checkbox-field/checkbox.component';
@@ -104,7 +104,7 @@ export const translateForChild = TranslateModule.forChild({
 		bsDatepicker,
 		NgxSelectModule,
 		NgxBootstrapSliderModule,
-		Select2Module,
+		NgSelect2Module,
 		TreeviewModule,
 		DropzoneModule,
 		ColorPickerModule,
