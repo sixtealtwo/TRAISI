@@ -13,7 +13,8 @@ import { SurveyBuilderService } from './services/survey-builder.service';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, ModalModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { TooltipModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
@@ -96,7 +97,7 @@ export const translateForChild = TranslateModule.forChild({
 		CommonModule,
 		WidgetModule,
 		SharedModule,
-		ModalModule,
+		ModalModule.forRoot(),
 		FormsModule,
 		NgxSmoothDnDModule,
 		TooltipModule,

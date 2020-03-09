@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
+            "aot": false,
             "outputPath": "dist/admin",
             "index": "src/admin-app/index.html",
             "main": "src/admin-app/main.ts",
@@ -93,7 +93,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": false,
@@ -115,6 +115,7 @@
               "namedChunks": true,
               "vendorChunk": true,
               "commonChunk": true,
+              "aot": false,
               "verbose": true
             }
           }
@@ -124,6 +125,8 @@
           "options": {
             "browserTarget": "admin-app:build:serve",
             "port": 3000,
+            "aot": false,
+            
             "disableHostCheck": true
           },
           "configurations": {
