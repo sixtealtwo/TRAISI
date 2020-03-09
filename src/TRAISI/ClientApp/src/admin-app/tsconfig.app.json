@@ -10,8 +10,6 @@
 			// "@angular/*": ["../../node_modules/@angular/*"],
 			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"]
-			//"core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
-			//"core-js/es6/*": ["node_modules/core-js/es/*"]
 		}
 	},
 	"angularCompilerOptions": {
