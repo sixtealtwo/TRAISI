@@ -14,7 +14,7 @@ export class Footer1Component implements OnInit {
 
 	public footerTextColour: string;
 	public traisiLogoUrl: string;
-	private pageHTMLJson: any;
+	public pageHTMLJson: any;
 
 	@Input()
 	public pageThemeInfo: any;

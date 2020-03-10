@@ -253,11 +253,11 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 						if (componentRef.instance.__proto__.hasOwnProperty('onOptionsLoaded')) {
 							(<OnOptionsLoaded>componentRef.instance).onOptionsLoaded(options);
 						}
-						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).questionOptions).next(options);
+						(<ReplaySubject<any>><unknown>(<SurveyQuestion<any>>componentRef.instance).questionOptions).next(options);
 						if (componentRef.instance.__proto__.hasOwnProperty('onSurveyQuestionInit')) {
 							(<OnSurveyQuestionInit>componentRef.instance).onSurveyQuestionInit(this.question.configuration);
 						}
-						(<ReplaySubject<any>>(<SurveyQuestion<any>>componentRef.instance).configurations).next(this.question.configuration);
+						(<ReplaySubject<any>><unknown>(<SurveyQuestion<any>>componentRef.instance).configurations).next(this.question.configuration);
 					});
 				this._viewerStateService.viewerState.isNextEnabled = false;
 				if (this.question.isOptional) {

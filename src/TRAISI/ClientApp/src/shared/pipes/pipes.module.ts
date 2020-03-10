@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { SafePipe } from './safe.pipe';
 

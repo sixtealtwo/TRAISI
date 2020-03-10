@@ -38,7 +38,7 @@ export class PrivacyConfirmationComponent implements OnInit {
 
 	public acceptTermsHTML: string;
 
-	private pageHTMLJson: any;
+	public pageHTMLJson: any;
 
 	@Input()
 	public pageHTML: string;

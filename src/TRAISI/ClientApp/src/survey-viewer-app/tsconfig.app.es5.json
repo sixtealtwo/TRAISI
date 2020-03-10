@@ -1,9 +1,10 @@
 {
- "extends": "./tsconfig.app.json",
- "compilerOptions": {
-     "target": "es5"
-  },
-  "include": [
-    "src/survey-viewer-app/**/*.d.ts"
-  ]
+	"extends": "./tsconfig.app.json",
+	"compilerOptions": {
+		"target": "es5",
+		"paths": {
+			// "rxjs/*": ["../node_modules/rxjs/*"]
+		}
+	},
+	"include": ["src/survey-viewer-app/**/*.d.ts"]
 }

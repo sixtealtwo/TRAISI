@@ -122,7 +122,6 @@
     "quill-blot-formatter": "^1.0.5",
     "rickshaw": "1.6.6",
     "rxjs": "6.5.4",
-    "rxjs-compat": "^6.5.4",
     "select2": "^4.0.13",
     "select2-bootstrap-theme": "0.1.0-beta.10",
     "shufflejs": "5.2.3",
@@ -158,12 +157,13 @@
     "@ngtools/webpack": "^8.3.25",
     "@types/echarts": "^4.4.3",
     "@types/hammerjs": "2.0.36",
-    "@types/jasmine": "^3.5.8",
+    "@types/jasmine": "^3.4.6",
     "@types/jasminewd2": "^2.0.8",
     "@types/jquery": "^3.3.33",
     "@types/mapbox-gl": "^1.8.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "jasmine": "^3.5.0",
     "jasmine-core": "~3.4.0",
     "karma": "^4.4.1",
     "karma-chrome-launcher": "~3.1.0",
@@ -174,6 +174,7 @@
     "link-module-alias": "^1.2.0",
     "node-sass": "^4.13.1",
     "protractor": "^5.4.3",
+    "traisi-question-sdk": "file:../../TRAISI.SDK/Client/dist",
     "ts-node": "~8.5.4",
     "tslint": "~5.19.0",
     "typescript": "^3.7.5",
@@ -188,8 +189,5 @@
   },
   "resolutions": {
     "uglifyjs-webpack-plugin": "file:src/build/uglifyJS"
-  },
-  "_moduleAliases": {
-    "traisi-question-sdk": "../../TRAISI.SDK/Client/dist"
   }
 }

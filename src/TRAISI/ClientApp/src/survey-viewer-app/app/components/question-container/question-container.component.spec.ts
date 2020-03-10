@@ -1,6 +1,6 @@
 
-
-import { } from 'jasmine';
+/*
+// import { } from 'jasmine';
 
 describe('QuestionContainerComponent', () => {
 
@@ -22,6 +22,6 @@ describe('QuestionContainerComponent', () => {
 			expect(value).toEqual(null);
 		});
 
-	}); */
+	}); 
 
-});
+});*/

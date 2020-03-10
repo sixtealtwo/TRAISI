@@ -63,12 +63,15 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
+	
 	@Input()
 	public startPageComponent: SurveyStartPageComponent;
 
 	public hasAccessError: boolean = false;
 
-	public constructor(public surveyViewerService: SurveyViewerService, public surveySession: SurveyViewerSession) {}
+	public constructor(public surveyViewerService: SurveyViewerService, public surveySession: SurveyViewerSession) {
+		console.log('in here ');
+	}
 
 	public ngOnInit(): void {
 		try {

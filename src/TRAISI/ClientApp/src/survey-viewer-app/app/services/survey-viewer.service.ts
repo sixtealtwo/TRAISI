@@ -6,7 +6,7 @@ import { SurveyStart } from '../models/survey-start.model';
 import { SurveyViewType } from '../models/survey-view-type.enum';
 import { SurveyViewTermsModel } from '../models/survey-view-terms.model';
 import { QuestionConfiguration, QuestionOption, SurveyViewer, SurveyRespondent } from 'traisi-question-sdk';
-import { User } from 'shared/models/user.model';
+// import { User } from 'shared/models/user.model';
 import { SurveyViewPage } from '../models/survey-view-page.model';
 import { SurveyViewQuestionOption } from '../models/survey-view-question-option.model';
 import { ActivatedRoute, Router, RouterEvent, ActivationStart, Params } from '@angular/router';
@@ -21,7 +21,8 @@ import { SurveyViewerStateService } from './survey-viewer-state.service';
 import { tap, share, concat, map } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { SurveyStartPageComponent } from 'app/components/survey-start-page/survey-start-page.component';
-
+import { User } from '../../../shared/models/user.model';
+import { SurveyData } from '../models/survey-data.model';
 @Injectable({
 	providedIn: 'root'
 })

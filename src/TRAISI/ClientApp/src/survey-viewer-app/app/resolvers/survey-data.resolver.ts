@@ -3,6 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable } from 'rxjs';
 import { SurveyViewerService } from 'app/services/survey-viewer.service';
 import { take, tap } from 'rxjs/operators';
+import { SurveyData } from 'app/models/survey-data.model';
 
 @Injectable()
 export class SurveyDataResolver implements Resolve<SurveyData> {

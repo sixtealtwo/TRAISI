@@ -63,7 +63,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public termsFooterHTML: string;
 
 	public dragOverContainer: Object = new Object();
-	private bestSectionTextColour: any[] = [];
+	public bestSectionTextColour: any[] = [];
 
 	@Input()
 	public pageType: string;

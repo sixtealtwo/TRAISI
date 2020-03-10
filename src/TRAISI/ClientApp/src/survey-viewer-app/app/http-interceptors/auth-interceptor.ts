@@ -3,7 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 
 import { Observable } from 'rxjs';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
-import { AuthService } from 'shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.model';
 
 /** Pass untouched request through to the next request handler. */

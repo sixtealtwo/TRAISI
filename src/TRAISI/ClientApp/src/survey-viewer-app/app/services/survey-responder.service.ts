@@ -398,7 +398,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 * @param respondent
 	 */
-	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<any> {
 		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
 	}
 
@@ -406,7 +406,7 @@ export class SurveyResponderService implements SurveyResponder {
 	 *
 	 * @param respondent
 	 */
-	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
+	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<any> {
 		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
 	}
 

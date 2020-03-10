@@ -56,13 +56,13 @@ import { SurveyViewerApiEndpointService } from './services/survey-viewer-api-end
 import { httpInterceptorProviders } from './http-interceptors';
 import { SurveyNavigationModule } from './modules/survey-navigation/survey-navigation.module';
 import { SurveyViewerAuthorizationModule } from './modules/authorization/survey-viewer-authorization.module';
-import { PipesModule } from 'shared/pipes/pipes.module';
 import { SurveyInternalViewDirective } from './directives/survey-internal-view/survey-internal-view.directive';
 import { Saml2AuthorizationComponent } from './modules/authorization/saml2/saml2-authorization.component';
 import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import {PipesModule} from '../../shared/pipes/pipes.module';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
