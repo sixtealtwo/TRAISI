@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 
+
 describe('AppComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({

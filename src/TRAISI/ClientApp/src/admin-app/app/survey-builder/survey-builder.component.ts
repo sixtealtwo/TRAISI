@@ -13,7 +13,7 @@ import { TermsAndConditionsPage } from './models/terms-and-conditions-page.model
 import { ThankYouPage } from './models/thank-you-page.model';
 import { Utilities } from '../../../shared/services/utilities';
 import { Subject } from 'rxjs';
-import { ModalDirective } from 'ngx-bootstrap';
+import {ModalDirective } from 'ngx-bootstrap/modal';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
 import { QuestionPartViewLabel } from './models/question-part-view-label.model';
 import { Order } from './models/order.model';

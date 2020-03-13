@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		// "typeRoots": ["../../node_modules/@types"],
 		"allowSyntheticDefaultImports": true,
 		"lib": ["es2017", "dom", "esnext"],
 		"rootDirs": ["../shared/services"],
@@ -8,18 +9,18 @@
 		"declaration": false,
 		"moduleResolution": "node",
 		"outDir": "../out-tsc/app",
-		"baseUrl": ".",
+		"baseUrl": "./",
 		"target": "es2015",
 		"module": "es6",
 		"types": ["node"],
 		"paths": {
-			//"traisi-sdk/*": ["../../../../TRAISI.SDK/Client/src/*"],
-			//"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			"app/*": ["app/*"],
 			"shared/*": ["../shared/*"],
-			"core-js/es6/": ["../../node_modules/core-js/es6/"]
+			// "rxjs/*": ["../../node_modules/rxjs/*"],
+			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"]
 		}
 	},
 	"files": ["polyfills.ts"],
-	"include": ["**/*.ts"],
+	"include": ["./**/*.ts", "../shared/*.ts"],
 	"exclude": ["src/test.ts", "../admin-app/**/*", "**/*.spec.ts"]
 }

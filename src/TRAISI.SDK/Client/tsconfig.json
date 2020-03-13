@@ -8,7 +8,10 @@
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-		"lib": ["es5", "es2015", "dom", "scripthost"]
+		"lib": ["es5", "es2015", "dom", "scripthost"],
+		"paths": {
+			"rxjs/*": ["./node_modules/rxjs*"]
+		}
 	},
 	"include": ["src/**/*"],
 	"angularCompilerOptions": {

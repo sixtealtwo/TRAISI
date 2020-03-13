@@ -1,9 +1,9 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-	"downlevelIteration": true,
-	"allowSyntheticDefaultImports": true,
-    "importHelpers": true,
+		"downlevelIteration": true,
+		"allowSyntheticDefaultImports": true,
+		"importHelpers": true,
 		"module": "esnext",
 		"outDir": "./dist/out-tsc",
 		"sourceMap": true,
@@ -12,16 +12,16 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"target": "es2015",
-		"types": ["node", "jasmine","jquery"],
-		"typeRoots": ["node_modules/@types"],
-		"lib": ["es2017", "dom","esnext"],
+		"types": ["node",  "jquery"],
+		"lib": ["es2017", "dom", "esnext"],
 		"baseUrl": "./src",
 		"paths": {
-			"traisi-question-sdk": ["../../../TRAISI.SDK/Client/dist/"],
+			// "rxjs/*": ["../node_modules/rxjs/*"],
+			// "traisi-question-sdk": ["../../../TRAISI.SDK/Client/dist/"],
 			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]
 		}
 	},
-	"include": ["./src/shared/**/*.ts"],
+	"include": ["./src/shared/**/*.ts"]
 	// "exclude": ["node_modules"]
 }

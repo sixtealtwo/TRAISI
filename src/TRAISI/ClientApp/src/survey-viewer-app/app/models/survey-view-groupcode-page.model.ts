@@ -1,5 +1,5 @@
 export interface SurveyViewGroupcodePage {
-	header1?: string;
-	footer1?: string;
-	header2?: string;
+	header1?: any;
+	footer1?: any;
+	header2?: any;
 }

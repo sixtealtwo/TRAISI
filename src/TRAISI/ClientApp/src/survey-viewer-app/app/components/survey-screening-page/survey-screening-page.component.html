@@ -2,7 +2,7 @@
 
 	<app-header1 *ngIf="screeningQuestions.header1" [pageThemeInfo]="pageThemeInfo" [pageObject]="screeningQuestions.header1"></app-header1>
 	<app-header2 *ngIf="screeningQuestions.header2" [pageThemeInfo]="pageThemeInfo" [pageObject]="screeningQuestions.header2"></app-header2>
-	<div class="header" [innerHtml]="test"></div>
+	<div class="header" [innerHtml]=""></div>
 
 	<div class="screening-questions-section">
 		<form #screeningForm="ngForm" (ngSubmit)="onSubmitScreeningQuestions()" [formGroup]="screeningFormGroup">
