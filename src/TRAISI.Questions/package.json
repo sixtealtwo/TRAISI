@@ -7,22 +7,20 @@
 		"build": "webpack --config=webpack.config.js",
 		"prod": "webpack --config=webpack.config.prod.js -p --optimize-minimize --aot",
 		"watch": "webpack --config=webpack.config.dev.js --watch --progress",
-		"staging": "webpack --config=webpack.config.dev.js --progress",
-		"postinstall": "link-module-alias",
-		"link-modules": "link-module-alias"
+		"staging": "webpack --config=webpack.config.dev.js --progress"
 	},
 	"author": "University of Toronto",
 	"license": "ISC",
 	"dependencies": {
-		"@angular/animations": "^9.0.0-next.4",
-		"@angular/cdk": "^8.1.4",
-		"@angular/common": "^9.0.0-next.4",
-		"@angular/compiler": "^9.0.0-next.4",
-		"@angular/core": "^9.0.0-next.4",
-		"@angular/forms": "^9.0.0-next.4",
-		"@angular/platform-browser": "^9.0.0-next.4",
-		"@angular/platform-browser-dynamic": "^9.0.0-next.4",
-		"@angular/router": "^9.0.0-next.4",
+		"@angular/animations": "^9.0.5",
+		"@angular/cdk": "^9.0.5",
+		"@angular/common": "^9.0.5",
+		"@angular/compiler": "^9.0.5",
+		"@angular/core": "^9.0.5",
+		"@angular/forms": "^9.0.5",
+		"@angular/platform-browser": "^9.0.5",
+		"@angular/platform-browser-dynamic": "^9.0.5",
+		"@angular/router": "^9.0.5",
 		"@fortawesome/angular-fontawesome": "^0.5.0",
 		"@fortawesome/fontawesome-svg-core": "^1.2.22",
 		"@fortawesome/free-solid-svg-icons": "^5.10.2",
@@ -37,15 +35,13 @@
 		"dot": "^1.1.2",
 		"dot-ts": "^2.0.13",
 		"environments": "^1.2.2",
-		"install": "^0.13.0",
-		"jquery": "^3.4.1",
 		"jsoneditor": "^6.4.1",
 		"mapbox-gl": "^1.4.1",
+		"ng-select2": "^1.2.2",
 		"ng2-datetime": "^1.4.0",
-		"ng2-select2": "^1.0.0-beta.16",
 		"ngx-mapbox-gl": "^3.3.1",
 		"nouislider": "^14.0.2",
-		"npm": "^6.11.2",
+		"npm": "^6.14.2",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "6.5.2",
 		"select2": "^4.0.10",
@@ -53,7 +49,7 @@
 		"webpack-visualizer-plugin": "^0.1.11"
 	},
 	"devDependencies": {
-		"@angular-devkit/build-angular": "^0.803.2",
+		"@angular-devkit/build-angular": "^0.900.6",
 		"@angular/compiler-cli": "^9.0.0-next.4",
 		"@angular/language-service": "^9.0.0-next.4",
 		"@babel/core": "^7.6.4",
@@ -73,7 +69,7 @@
 		"babel-loader": "^8.0.6",
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"babel-preset-env": "^1.7.0",
-		"copy-webpack-plugin": "^5.0.4",
+		"copy-webpack-plugin": "^5.1.1",
 		"css-loader": "^3.2.0",
 		"file-loader": "^4.2.0",
 		"html-loader": "^0.5.5",
@@ -88,6 +84,7 @@
 		"svg-url-loader": "^3.0.1",
 		"terser-webpack-plugin": "^2.1.2",
 		"to-string-loader": "^1.1.5",
+		"traisi-question-sdk": "file:../TRAISI.SDK/Client/dist",
 		"ts-loader": "^6.0.4",
 		"tsconfig-paths-webpack-plugin": "^3.2.0",
 		"tslint": "~5.19.0",
@@ -98,7 +95,7 @@
 		"webpack-system-register": "^1.6.0",
 		"webpackbar": "^4.0.0"
 	},
-	"_moduleAliases": {
-		"traisi-question-sdk": "../TRAISI.SDK/Client/dist/"
+	"peerDependencies": {
+		"jquery": "^3.4.1"
 	}
 }
