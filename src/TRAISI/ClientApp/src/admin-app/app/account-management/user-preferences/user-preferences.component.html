@@ -20,8 +20,8 @@
   <div class="form-group row">
       <label for="language" class="col-sm-4 col-form-label text-md-right">{{'preferences.Language' | translate}} </label>
       <div class="col-sm-4">
-            <select2 (valueChanged)="updateLanguage($event)"
-            [data]="languages" [value]="language" [options]="select2Options" [width]="200" [cssImport]=true></select2>
+            <ng-select2 (valueChanged)="updateLanguage($event)"
+            [data]="languages" [value]="language" [options]="select2Options" [width]="200"></ng-select2>
       </div>
       <div class="col-sm-4">
           <p class="text-muted fs-mini">{{'preferences.LanguageHint' | translate}}</p>

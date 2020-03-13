@@ -32,7 +32,7 @@
               </div>
               <div [hidden]="soloUserSelected.length == 0">
                 <button class="btn btn-secondary mb-xs" role="button" (click)="addUsersToGroup()">Add to Group</button>
-                <select2 [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200" [cssImport]=true></select2>
+                <select2 [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200"></select2>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
     <button class="btn btn-secondary mb-xs" role="button">Disable Selected</button>-->
                 <button class="btn btn-secondary mb-xs" role="button" (click)="removeUsersFromGroup()">Remove from Group</button>
                 <button  *ngIf="groupNameOptions.length > 0" class="btn btn-secondary mb-xs" role="button" (click)="addGroupUsersToGroup()">Add to Group</button>
-                <select2 *ngIf="groupNameOptions.length > 0"  [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200" [cssImport]=true></select2>
+                <ng-select2 *ngIf="groupNameOptions.length > 0"  [data]="groupNameOptions" [value]="selectedGroup" (valueChanged)="updateGroupSelect($event)" [options]="select2Options" [width]="200" ></ng-select2>
 
               </div>
             </div>
