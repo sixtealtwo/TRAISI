@@ -17,5 +17,11 @@ namespace DAL.Models.Questions {
             Conditionals = new List<QuestionConditionalOperator>();
         }
 
+        /// <summary>
+        /// The target of the group of conditionals
+        /// </summary>
+        /// <value></value>
+        public QuestionPart TargetQuestion { get; set; }
+
     }
 }
