@@ -53,6 +53,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		HouseholdQuestionComponent,
 		SliderQuestionComponent
 	],
+	id: "traisi-questions",
 	providers: [
 		{
 			provide: 'widgets',

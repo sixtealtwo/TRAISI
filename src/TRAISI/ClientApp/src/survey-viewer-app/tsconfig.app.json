@@ -23,7 +23,8 @@
 	"angularCompilerOptions": {
 		"skipTemplateCodegen": true,
 		"strictMetadataEmit": false,
-		"fullTemplateTypeCheck": true
+		"fullTemplateTypeCheck": true,
+		"enableIvy": false
 	},
 	"files": ["polyfills.ts"],
 	"include": ["../shared/**/*.ts", "./**/*.ts"],

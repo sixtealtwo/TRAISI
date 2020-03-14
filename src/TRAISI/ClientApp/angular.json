@@ -228,7 +228,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
+            "aot": false,
             "deployUrl": "/survey/",
             "baseHref": "/survey/",
             "progress": false,

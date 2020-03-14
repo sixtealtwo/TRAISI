@@ -142,6 +142,7 @@ export class QuestionLoaderService {
 		} else {
 			return from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))).pipe(
 				map((module: any) => {
+					console.log(module);
 					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
 					this._moduleRefs[<string>questionType] = moduleRef;

@@ -2,11 +2,11 @@
 // ==================================================
 
 @each $color, $value in $colors {
-  @include text-emphasis-variant(".text-#{$color}", $value);
+  //@include text-emphasis-variant(".text-#{$color}", $value);
 }
 
-@include text-emphasis-variant(".text-white", #e6e8ed);
-@include text-emphasis-variant(".text-black", #363642);
+//@include text-emphasis-variant(".text-white", #e6e8ed);
+//@include text-emphasis-variant(".text-black", #363642);
 
 .text-muted-light {
   color: rgba($white, .6) !important;
@@ -33,11 +33,11 @@ a.text-muted-dark {
 // ==================================================
 
 @each $color, $value in $colors {
-  @include bg-variant(".bg-#{$color}", $value);
+//  @include bg-variant(".bg-#{$color}", $value);
 }
 
-@include bg-variant(".bg-black", $black);
-@include bg-variant(".bg-muted", $gray-200);
+//@include bg-variant(".bg-black", $black);
+//@include bg-variant(".bg-muted", $gray-200);
 
 
 // Socials colors
@@ -45,13 +45,13 @@ a.text-muted-dark {
 
 @each $color, $value in $socials {
   // background color
-  @include bg-variant(".bg-#{$color}", $value);
+  //@include bg-variant(".bg-#{$color}", $value);
   .bg-#{$color} {
     color: color-yiq($value) !important;
   }
 
   // text colors
-  @include text-emphasis-variant(".text-#{$color}", $value);
+ // @include text-emphasis-variant(".text-#{$color}", $value);
 }
 
 

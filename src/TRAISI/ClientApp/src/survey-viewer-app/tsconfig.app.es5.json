@@ -6,5 +6,8 @@
 			// "rxjs/*": ["../node_modules/rxjs/*"]
 		}
 	},
-	"include": ["src/survey-viewer-app/**/*.d.ts"]
+	"include": ["src/survey-viewer-app/**/*.d.ts"],
+	"angularCompilerOptions": {
+		"enableIvy": false
+	  }
 }
