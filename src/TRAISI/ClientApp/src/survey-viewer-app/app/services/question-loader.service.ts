@@ -164,10 +164,12 @@ export class QuestionLoaderService {
 					let hasDependency: boolean = false;
 					for (let key of Object.keys(componentFactory['ngModule']._providers)) {
 						let provider = componentFactory['ngModule']._providers[key];
+						/*
+						TODO
 						if (provider.hasOwnProperty('dependency')) {
 							hasDependency = true;
 							return this.getQuestionComponentFactory(provider.name);
-						}
+						} */
 					}
 					return of(componentFactory);
 				}),
