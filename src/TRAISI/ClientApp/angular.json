@@ -41,7 +41,7 @@
               "node_modules/animate.css/animate.min.css",
               "node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
               "node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
-              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "src/shared/assets/scss/alertify.core.css",
               "node_modules/dropzone/dist/min/dropzone.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -127,7 +127,7 @@
             "port": 3000,
             "aot": false,
             
-            "disableHostCheck": true
+            "disableHostCheck": false
           },
           "configurations": {
             "production": {
@@ -321,7 +321,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "survey-viewer-app:build:serve",
-            "disableHostCheck": true
+            "disableHostCheck": false
           },
           "configurations": {
             "production": {

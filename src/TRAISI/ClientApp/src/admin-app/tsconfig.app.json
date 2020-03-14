@@ -17,7 +17,6 @@
 		"strictMetadataEmit": false,
 		"fullTemplateTypeCheck": false,
 		"strictTemplates": false,
-		"aot": false,
 		"enableIvy": false
 		// "enableIvy": true
 	},

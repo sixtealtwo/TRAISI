@@ -142,7 +142,6 @@ export class QuestionLoaderService {
 		} else {
 			return from(SystemJS.import(this._questionLoaderEndpointService.getClientCodeEndpointUrl(questionType))).pipe(
 				map((module: any) => {
-					console.log(module);
 					const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(module.default);
 					const moduleRef: any = moduleFactory.ngModuleFactory.create(this.injector);
 					this._moduleRefs[<string>questionType] = moduleRef;
@@ -160,11 +159,11 @@ export class QuestionLoaderService {
 					} else {
 						return EMPTY;
 					}
-
+					console.log(componentFactory);
 					let hasDependency: boolean = false;
 					for (let key of Object.keys(componentFactory['ngModule']._providers)) {
 						let provider = componentFactory['ngModule']._providers[key];
-						if (provider.hasOwnProperty('dependency')) {
+						if (provider !== undefined && provider.hasOwnProperty('dependency')) {
 							hasDependency = true;
 							return this.getQuestionComponentFactory(provider.name);
 						}
@@ -182,11 +181,18 @@ export class QuestionLoaderService {
 	 * @param questionType
 	 */
 	private createComponentFactory(moduleRef: NgModuleRef<any>, questionType: string): ComponentFactoryBoundToModule<any> {
+		console.log(moduleRef);
 		const widgets = moduleRef.injector.get<Array<any>>(<any>'widgets', []);
+
+		let cat = moduleRef.injector.get('test');
+		console.log(cat.component);
 		const resolver = moduleRef.componentFactoryResolver;
 		let widget = find(widgets[0], item => {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
+
+		const cf = resolver.resolveComponentFactory(cat.component);
+		console.log(cf);
 
 		const componentFactory: ComponentFactoryBoundToModule<any> = <ComponentFactoryBoundToModule<any>>(
 			resolver.resolveComponentFactory(widget.component)

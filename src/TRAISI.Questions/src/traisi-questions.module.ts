@@ -39,6 +39,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		HouseholdQuestionComponent,
 		SliderQuestionComponent
 	],
+	bootstrap: [TextQuestionComponent],
 	entryComponents: [
 		TextQuestionComponent,
 		RadioQuestionComponent,
@@ -53,8 +54,25 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		HouseholdQuestionComponent,
 		SliderQuestionComponent
 	],
-	id: "traisi-questions",
 	providers: [
+		{
+			provide: 'test',
+			useValue: {
+				component: TextQuestionComponent
+			}
+		},
+		{
+			provide: 'traisi-text-question',
+			useValue: {
+				component: TextQuestionComponent
+			}
+		},
+		{
+			provide: 'traisi-radio-question',
+			useValue: {
+				component: RadioQuestionComponent
+			}
+		},
 		{
 			provide: 'widgets',
 			multi: true,
@@ -127,17 +145,14 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 			]
 		}
 	],
+	id: 'traisi-questions',
 	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule]
 })
 export default class TraisiQuestions {
-	public components: Array<{ name: string; id: string; component: any }>;
-
-	public constructor() {
-		this.components = [];
-		this.components.push({
-			name: 'traisi-time-question',
-			id: 'time',
-			component: TimeQuestionComponent
-		});
+	static forRoot(): ModuleWithProviders<TraisiQuestions> {
+		return {
+			ngModule: TraisiQuestions,
+			providers: [TextQuestionComponent]
+		};
 	}
 }

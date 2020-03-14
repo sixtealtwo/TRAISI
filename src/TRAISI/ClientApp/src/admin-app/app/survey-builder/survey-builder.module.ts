@@ -13,7 +13,8 @@ import { SurveyBuilderService } from './services/survey-builder.service';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { TooltipModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
@@ -65,6 +66,8 @@ export const SURVEY_BUILDER = new InjectionToken("builder.service");
 export const bsDatepicker = BsDatepickerModule.forRoot();
 export const pagination = PaginationModule.forRoot();
 export const buttons = ButtonsModule.forRoot();
+export const modalModule = ModalModule.forRoot();
+export const quillModule = QuillModule.forRoot();
 export const dynamicWithComponents = DynamicModule.withComponents([
 	Header1Component,
 	Header2Component,
@@ -97,11 +100,11 @@ export const translateForChild = TranslateModule.forChild({
 		CommonModule,
 		WidgetModule,
 		SharedModule,
-		ModalModule.forRoot(),
+		modalModule,
 		FormsModule,
 		NgxSmoothDnDModule,
 		TooltipModule,
-		QuillModule.forRoot(),
+		quillModule,
 		bsDatepicker,
 		NgxSelectModule,
 		NgxBootstrapSliderModule,
@@ -161,7 +164,12 @@ export const translateForChild = TranslateModule.forChild({
 		CustomBuilderService,
 		{ provide: SURVEY_BUILDER, useClass: SurveyBuilderService }
 	],
+	exports: [
+		MainSurveyAccess1Component
+	],
 	entryComponents: [
+		MainSurveyAccess1Component,
+		TextBlock1Component,
 		CheckboxComponent,
 		DateInputComponent,
 		DropdownListComponent,
