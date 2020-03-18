@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild, ElementRef, ViewEncapsulation, Af
 import { SurveyQuestion, ResponseTypes, SurveyViewer, ResponseData, RangeResponseData, ResponseValidationState } from 'traisi-question-sdk';
 import templateString from './slider-question.component.html';
 import * as noUiSlider from 'nouislider';
+// import { noUiSlider } from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,6 +19,7 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	@ViewChild('slider', { static: true })
 	private sliderElement: ElementRef;
 
+	
 	public sliderValue: BehaviorSubject<string>;
 
 	/**
@@ -25,6 +27,7 @@ export class SliderQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 * @param surveyViewerService
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+		
 		super();
 		this.sliderValue = new BehaviorSubject<string>('');
 	}
