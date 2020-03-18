@@ -6,21 +6,19 @@ import { SharedModule } from '../shared/shared.module';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { NgxTreeSelectModule } from 'ngx-tree-select';
-
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { QuillModule } from 'ngx-quill';
 import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 import { QuestionTypeChooserComponent } from './components/question-type-chooser/question-type-chooser.component';
-import { TooltipModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { TooltipModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { WidgetModule } from '../layout/widget/widget.module';
 import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { NgSelect2Module } from 'ng-select2';
-import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { CheckboxComponent } from './components/question-configuration/checkbox-field/checkbox.component';
 import { DateInputComponent } from './components/question-configuration/date-input-field/date-input.component';
@@ -65,6 +63,8 @@ export const SURVEY_BUILDER = new InjectionToken("builder.service");
 export const bsDatepicker = BsDatepickerModule.forRoot();
 export const pagination = PaginationModule.forRoot();
 export const buttons = ButtonsModule.forRoot();
+export const modalModule = ModalModule.forRoot();
+export const quillModule = QuillModule.forRoot();
 export const dynamicWithComponents = DynamicModule.withComponents([
 	Header1Component,
 	Header2Component,
@@ -72,17 +72,6 @@ export const dynamicWithComponents = DynamicModule.withComponents([
 	TextBlock1Component,
 	Footer1Component
 ]);
-
-export const ngxTreeSelect = NgxTreeSelectModule.forRoot({
-	allowFilter: false,
-	filterPlaceholder: 'Type your filter here...',
-	maxVisibleItemCount: 5,
-	idField: 'value',
-	textField: 'text',
-	childrenField: 'children',
-	allowParentSelection: true,
-	expandMode: 'None'
-});
 
 export const ngxMapbox = NgxMapboxGLModule.withConfig({
 	accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
@@ -97,14 +86,13 @@ export const translateForChild = TranslateModule.forChild({
 		CommonModule,
 		WidgetModule,
 		SharedModule,
-		ModalModule.forRoot(),
+		modalModule,
 		FormsModule,
 		NgxSmoothDnDModule,
 		TooltipModule,
-		QuillModule.forRoot(),
+		quillModule,
 		bsDatepicker,
 		NgxSelectModule,
-		NgxBootstrapSliderModule,
 		NgSelect2Module,
 		TreeviewModule,
 		DropzoneModule,
@@ -117,7 +105,6 @@ export const translateForChild = TranslateModule.forChild({
 		buttons,
 		dynamicWithComponents,
 		AmazingTimePickerModule,
-		ngxTreeSelect,
 		ngxMapbox,
 		ROUTES,
 		translateForChild
@@ -161,7 +148,12 @@ export const translateForChild = TranslateModule.forChild({
 		CustomBuilderService,
 		{ provide: SURVEY_BUILDER, useClass: SurveyBuilderService }
 	],
+	exports: [
+		MainSurveyAccess1Component
+	],
 	entryComponents: [
+		MainSurveyAccess1Component,
+		TextBlock1Component,
 		CheckboxComponent,
 		DateInputComponent,
 		DropdownListComponent,

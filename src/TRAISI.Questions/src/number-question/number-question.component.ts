@@ -13,8 +13,7 @@ import {
 import { NumberQuestionConfiguration } from './number-question.configuration';
 import templateString from './number-question.component.html';
 import { debounceTime } from 'rxjs/operators';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
-
+import { createNumberMask } from 'text-mask-addons';
 @Component({
 	selector: 'traisi-number-question',
 	template: templateString,
@@ -29,7 +28,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 	public numberMask: any;
 
-	@ViewChild('f', {static: true})
+	@ViewChild('f', { static: true })
 	public inputForm: NgForm;
 
 	/**

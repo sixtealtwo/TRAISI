@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
@@ -12,16 +11,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
 import { ButtonsModule } from 'ngx-bootstrap';
-
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppTranslationService, TranslateLanguageLoader } from '../../shared/services/app-translation.service';
-
 import { LocalStoreManager } from '../../shared/services/local-store-manager.service';
 import { EndpointFactory } from '../../shared/services/endpoint-factory.service';
-
 import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';
 import { AutofocusDirective } from './directives/autofocus.directive';
@@ -29,7 +23,6 @@ import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
 import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
 import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
-
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { ErrorComponent } from './error/error.component';

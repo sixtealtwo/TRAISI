@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';

@@ -39,7 +39,8 @@ interface SpecialPageDataInput {
 	selector: 'app-special-page-builder',
 	templateUrl: './special-page-builder.component.html',
 	styleUrls: ['./special-page-builder.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
+	entryComponents: [MainSurveyAccess1Component, TextBlock1Component]
 })
 export class SpecialPageBuilderComponent implements OnInit {
 	public loadedComponents: boolean = false;
