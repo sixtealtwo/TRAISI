@@ -6,8 +6,6 @@ import { SharedModule } from '../shared/shared.module';
 import { NestedDragAndDropListComponent } from './components/nested-drag-and-drop-list/nested-drag-and-drop-list.component';
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { NgxTreeSelectModule } from 'ngx-tree-select';
-
 import { SurveyBuilderEndpointService } from './services/survey-builder-endpoint.service';
 import { SurveyBuilderService } from './services/survey-builder.service';
 import { QuillModule } from 'ngx-quill';
@@ -21,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { QuestionConfigurationComponent } from './components/question-configuration/question-configuration.component';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { NgSelect2Module } from 'ng-select2';
-import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { CheckboxComponent } from './components/question-configuration/checkbox-field/checkbox.component';
 import { DateInputComponent } from './components/question-configuration/date-input-field/date-input.component';
@@ -76,17 +73,6 @@ export const dynamicWithComponents = DynamicModule.withComponents([
 	Footer1Component
 ]);
 
-export const ngxTreeSelect = NgxTreeSelectModule.forRoot({
-	allowFilter: false,
-	filterPlaceholder: 'Type your filter here...',
-	maxVisibleItemCount: 5,
-	idField: 'value',
-	textField: 'text',
-	childrenField: 'children',
-	allowParentSelection: true,
-	expandMode: 'None'
-});
-
 export const ngxMapbox = NgxMapboxGLModule.withConfig({
 	accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
 });
@@ -107,7 +93,6 @@ export const translateForChild = TranslateModule.forChild({
 		quillModule,
 		bsDatepicker,
 		NgxSelectModule,
-		NgxBootstrapSliderModule,
 		NgSelect2Module,
 		TreeviewModule,
 		DropzoneModule,
@@ -120,7 +105,6 @@ export const translateForChild = TranslateModule.forChild({
 		buttons,
 		dynamicWithComponents,
 		AmazingTimePickerModule,
-		ngxTreeSelect,
 		ngxMapbox,
 		ROUTES,
 		translateForChild
