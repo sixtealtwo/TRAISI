@@ -40,8 +40,10 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Serilog;
+using NSwag;
+using System.Linq;
+using NSwag.Generation.Processors.Security;
 
 namespace TRAISI
 {
@@ -235,6 +237,22 @@ namespace TRAISI
 						.AllowAnyOrigin ();
 				}));
 
+			services.AddOpenApiDocument(document =>
+            {
+                document.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
+
+                document.OperationProcessors.Add(
+                    new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            });
+
+
+			/*
 			services.AddSwaggerGen (c => {
 				c.SwaggerDoc ("v1", new OpenApiInfo { Title = "TRAISI API", Version = "v1" });
 
@@ -266,7 +284,7 @@ namespace TRAISI
                     }
 				
 				});
-			});
+			}); */
 
 			services.AddAuthorization (options => {
 				options.AddPolicy (Policies.AccessAdminPolicy,
@@ -408,6 +426,8 @@ namespace TRAISI
 						.AddFilter ("NToastNotify", LogLevel.Warning);
 
 				});
+
+	
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -461,8 +481,8 @@ namespace TRAISI
 
 			app.UseRequestLocalization ();
 
-			app.UseSwagger ();
-			app.UseSwaggerUI (c => { c.SwaggerEndpoint ("/swagger/v1/swagger.json", "TRAISI API V1"); });
+			app.UseOpenApi();
+            app.UseSwaggerUi3();
 
 			app.UseMvc (routes => {
 				routes.MapRoute (

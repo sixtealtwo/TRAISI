@@ -989,7 +989,8 @@ namespace TRAISI.Controllers
         /// <param name="questionPartViewId"></param>
         /// <param name="conditional"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("{surveyId}/conditionals/{questionPartId}")]
+		[ProducesDefaultResponseType]
         public async Task<IActionResult> AddConditionalOperator(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperator conditional)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
@@ -999,7 +1000,8 @@ namespace TRAISI.Controllers
             return new OkObjectResult(conditional.Id);
         }
 
-        [HttpDelete]
+        [HttpDelete("{surveyId}/conditionals/{questionPartId}")]
+		[ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteConditionalOperator(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperator conditional)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);

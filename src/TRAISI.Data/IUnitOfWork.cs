@@ -34,8 +34,6 @@ namespace DAL
         ISurveyRespondentRepository SurveyRespondents { get; }
         ISurveyRespondentGroupRepository SurveyRespondentGroups { get; }
         ISurveyUserRepository SurveyUsers { get; }
-        IQuestionConditionalGroupRepository QuestionConditionalGroups { get; set; }
-
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

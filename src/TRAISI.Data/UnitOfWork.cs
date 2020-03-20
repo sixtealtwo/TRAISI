@@ -43,8 +43,6 @@ namespace DAL
 
         IRepository<TitlePageLabel> _titlePageLabelsRepository;
 
-        Repository<QuestionConditionalGroup> _questionCondtionalGroupRepository;
-
         /// <summary>
         /// 
         /// </summary>
@@ -360,20 +358,6 @@ namespace DAL
                 }
 
                 return _titlePageLabelsRepository;
-            }
-        }
-
-        public Repository<QuestionConditionalGroup> QuestionConditionalGroups
-        {
-            get
-            {
-
-                if (_questionCondtionalGroupRepository == null)
-                {
-                    _questionCondtionalGroupRepository = new Repository<QuestionConditionalGroup>(_context);
-                }
-
-                return _questionCondtionalGroupRepository;
             }
         }
 
