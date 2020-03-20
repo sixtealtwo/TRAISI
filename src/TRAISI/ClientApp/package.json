@@ -49,6 +49,8 @@
     "angular2-text-mask": "9.0.0",
     "animate.css": "3.7.2",
     "bootstrap": "^4.4.1",
+    "bootstrap-select": "^1.13.12",
+    "bootstrap-slider": "^10.6.2",
     "bootswatch": "^4.4.1",
     "braces": "^3.0.2",
     "chart.js": "^2.9.3",
@@ -62,6 +64,7 @@
     "fstream": "^1.0.12",
     "fullcalendar": "3.10.1",
     "glyphicons-halflings": "1.9.1",
+    "hammerjs": "^2.0.8",
     "jasny-bootstrap": "4.0.0",
     "jquery": "^3.4.1",
     "jquery-flot": "0.8.3",
@@ -113,6 +116,7 @@
     "tslib": "^1.11.1",
     "turf-point": "^2.0.1",
     "web-animations-js": "^2.3.2",
+    "widgster": "^1.0.0",
     "zone.js": "~0.10.2"
   },
   "napa": {
