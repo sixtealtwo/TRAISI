@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -86,7 +85,7 @@ namespace TRAISI {
 				.UseStartup<Startup> ()
 				.ConfigureAppConfiguration ((hostingContext, config) => {
 					if (args.Contains ("--config")) {
-						int index = args.IndexOf ("--config");
+						int index = Array.IndexOf (args,"--config");
 						if (index + 1 <= args.Length - 1 && File.Exists (args[index + 1])) {
 
 							Console.WriteLine ("Loading config file: " + args[index + 1]);

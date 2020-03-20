@@ -166,7 +166,7 @@ export class QuestionLoaderService {
 						if (provider !== undefined && provider.hasOwnProperty('dependency')) {
 							hasDependency = true;
 							return this.getQuestionComponentFactory(provider.name);
-						}
+						} 
 					}
 					return of(componentFactory);
 				}),
