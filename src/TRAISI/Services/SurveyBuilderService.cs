@@ -84,7 +84,8 @@ namespace TRAISI.Services
                 targetView.WelcomePageLabels = new LabelCollection<WelcomePageLabel>();
                 targetView.TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>();
                 targetView.ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>();
-            } else if (targetView.WelcomePageLabels[language] != null)
+            }
+            else if (targetView.WelcomePageLabels[language] != null)
             {
                 structureAndLanguageExists = true;
             }
@@ -113,7 +114,8 @@ namespace TRAISI.Services
                             }
                         }
                     }
-                } else
+                }
+                else
                 {
                     foreach (var page in sourceView.QuestionPartViews)
                     {
@@ -197,7 +199,7 @@ namespace TRAISI.Services
                 {
                     Name = name,
                     Value = value.ToString(),
-					ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
+                    ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
                 };
                 questionPart.QuestionConfigurations.Add(qc);
                 return qc;
@@ -424,12 +426,14 @@ namespace TRAISI.Services
                     throw new ArgumentException("Question Type does not exist.");
                 }
                 return errorList;
-            } catch (ValidationException exception)
+            }
+            catch (ValidationException exception)
             {
                 if (exception.Message.StartsWith("Header"))
                 {
                     throw new ArgumentException("Error in CSV file.  Must contain 'Code' and 'Label' header row");
-                } else
+                }
+                else
                 {
                     throw new Exception("Error during import");
                 }
@@ -866,6 +870,25 @@ namespace TRAISI.Services
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="question"></param>
+        /// <param name="conditionalOperator"></param>
+        public void AddConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator)
+        {
+            question.Conditionals.Add(conditionalOperator);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="conditionalOperator"></param>
+        public void RemoveConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator) {
+            question.Conditionals.Remove(conditionalOperator);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="view"></param>
         /// <param name="part"></param>
         /// <param name="definition"></param>
@@ -988,12 +1011,12 @@ namespace TRAISI.Services
             this._unitOfWork.QuestionOptionConditionals.UpdateRange(updateTarget);
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="surveyViewName"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyViewName"></param>
+        /// <returns></returns>
         public List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName)
         {
             return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();

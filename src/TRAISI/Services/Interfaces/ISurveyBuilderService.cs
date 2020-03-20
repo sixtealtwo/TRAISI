@@ -78,5 +78,9 @@ namespace TRAISI.Services.Interfaces
 
         void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals);
         List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName);
+
+        void AddConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator);
+
+        void RemoveConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator);
     }
 }

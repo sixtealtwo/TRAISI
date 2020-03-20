@@ -32,6 +32,9 @@ namespace DAL.Models.Questions
 
         public QuestionPartView ParentView { get; set; }
 
+        /// List of conditionals existing on this
+        public List<QuestionConditionalOperator> Conditionals { get; set; }
+
         [JsonIgnore]
         public int? ParentViewId { get; set; }
 
@@ -55,9 +58,9 @@ namespace DAL.Models.Questions
         public bool IsOptional { get; set; }
         public bool IsHousehold { get; set; }
 
-		public bool IsMultiView { get; set; }
+        public bool IsMultiView { get; set; }
 
-        public bool IsDefaultHidden { get; set;}
+        public bool IsDefaultHidden { get; set; }
 
         public QuestionPart RepeatSource { get; set; }
 
@@ -72,6 +75,7 @@ namespace DAL.Models.Questions
         {
             this.Labels = new LabelCollection<QuestionPartViewLabel>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
+            this.Conditionals = new List<QuestionConditionalOperator>();
         }
     }
 }

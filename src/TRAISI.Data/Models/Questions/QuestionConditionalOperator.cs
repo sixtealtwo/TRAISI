@@ -21,6 +21,8 @@ namespace DAL.Models.Questions {
 
         public QuestionConditional Rhs { get; set; }
 
+        public QuestionPartView TargetQuestion {get;set;}
+
     }
 
     /// <summary>
