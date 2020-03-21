@@ -1,15 +1,17 @@
 <div class="conditionals-wrapper">
-	<h4 class="text-center">Question as Source</h4>
+	<!-- <h4 class="text-center">Question as Source</h4> -->
 	<div class="row d-md-none d-none d-lg-flex conditional-header" *ngIf="sourceConditionals.length > 0">
+
+		<div class="col-lg-3">
+			Source Question
+		</div>
 		<div class="col-lg-3">
 			Condition
 		</div>
 		<div class="col-lg-4">
 			Value(s)
 		</div>
-		<div class="col-lg-5">
-			Hide Target(s)
-		</div>
+		<div class="col-md-2"></div>
 	</div>
 	<div class="row" *ngFor="let conditional of sourceConditionals; let i = index">
 		<div class="col-md-12">
@@ -17,7 +19,8 @@
 				<i class="fas fa-times"></i>
 			</button>
 			<div class="conditional-row">
-				<app-conditional #sConditionals [optionList]="thisQuestion[0].children"  [questionOptions]="questionOptions" [sourceGroup]="conditional" [questionPartId]="questionBeingEdited.questionPart.id"
+				<app-conditional [sourceQuestionList]="sourceQuestionList" #sConditionals [optionList]="thisQuestion[0].children"  [questionOptions]="questionOptions" [sourceGroup]="conditional" 
+				[questionPartId]="questionBeingEdited.questionPart.id" [qTypeDefinitions]="qTypeDefinitions"
 				 [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)"></app-conditional>
 				<div class="row">
 					<div class="col-md-12">

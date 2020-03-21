@@ -4,17 +4,14 @@
   "documentGenerator": {
     "webApiToOpenApi": {
       "controllerNames": [
-        "TRAISI.Controllers.SurveyBuilderController",
-        "TRAISI.Controllers.SurveyViewer.SurveyViewerController",
-        "TRAISI.Controllers.SurveyViewer.ResponderController",
-        "TRAISI.Controllers.SurveyViewer.SurveyAuthenticationController"
+        "TRAISI.Controllers.SurveyBuilderController"
       ],
       "isAspNetCore": true,
       "resolveJsonOptions": false,
       "defaultUrlTemplate": "api/{controller}/{id?}",
       "addMissingPathParameters": false,
       "includedVersions": null,
-      "defaultPropertyNameHandling": "Default",
+      "defaultPropertyNameHandling": "CamelCase",
       "defaultReferenceTypeNullHandling": "Null",
       "defaultDictionaryValueReferenceTypeNullHandling": "NotNull",
       "defaultResponseReferenceTypeNullHandling": "NotNull",
@@ -91,7 +88,7 @@
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": true,
       "generateCloneMethod": false,
-      "typeStyle": "Class",
+      "typeStyle": "Interface",
       "enumStyle": "Enum",
       "useLeafType": false,
       "classTypes": [],
@@ -115,7 +112,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": null
+      "output": "ClientApp/src/admin-app/app/survey-builder/services/survey-builder-client.service.ts"
     }
   }
 }

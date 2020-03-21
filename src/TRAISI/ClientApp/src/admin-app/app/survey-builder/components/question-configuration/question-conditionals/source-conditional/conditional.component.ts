@@ -7,7 +7,7 @@ import {
 	EventEmitter,
 	Output,
 	ChangeDetectorRef
-} from '@angular/core';
+} from "@angular/core";
 import {
 	TreeviewItem,
 	DownlineTreeviewItem,
@@ -17,12 +17,17 @@ import {
 	TreeviewSelection,
 	TreeviewI18nDefault,
 	TreeviewConfig
-} from 'ngx-treeview';
-import { QuestionConditionalSourceGroup } from '../../../../models/question-conditional-source-group.model';
-import { QuestionConditional } from '../../../../models/question-conditional.model';
-import { QuestionOptionConditional } from '../../../../models/question-option-conditional.model';
-import { BsDaterangepickerConfig } from 'ngx-bootstrap';
-import { QuestionOptionValue } from '../../../../models/question-option-value.model';
+} from "ngx-treeview";
+import { QuestionConditionalSourceGroup } from "../../../../models/question-conditional-source-group.model";
+import { QuestionConditional } from "../../../../models/question-conditional.model";
+import { QuestionOptionConditional } from "../../../../models/question-option-conditional.model";
+import { BsDaterangepickerConfig } from "ngx-bootstrap";
+import { QuestionOptionValue } from "../../../../models/question-option-value.model";
+import {
+	SBQuestionPartViewModel,
+	SBPageStructureViewModel
+} from "app/survey-builder/services/survey-builder-client.service";
+import { QuestionTypeDefinition } from "app/survey-builder/models/question-type-definition";
 
 interface ConditionalOptionItem {
 	name: string;
@@ -30,10 +35,15 @@ interface ConditionalOptionItem {
 }
 
 @Component({
-	selector: 'app-conditional',
-	templateUrl: './conditional.component.html',
-	styleUrls: ['./conditional.component.scss'],
-	providers: [{ provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser }]
+	selector: "app-conditional",
+	templateUrl: "./conditional.component.html",
+	styleUrls: ["./conditional.component.scss"],
+	providers: [
+		{
+			provide: TreeviewEventParser,
+			useClass: OrderDownlineTreeviewEventParser
+		}
+	]
 })
 export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public dropDownListItems: Array<string> = [];
@@ -59,8 +69,8 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public bsConfig: Partial<BsDaterangepickerConfig> = Object.assign(
 		{},
 		{
-			containerClass: 'theme-default',
-			dateInputFormat: 'YYYY-MM-DD'
+			containerClass: "theme-default",
+			dateInputFormat: "YYYY-MM-DD"
 		}
 	);
 
@@ -71,6 +81,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	private checkedWithParents: DownlineTreeviewItem[] = [];
 
 	public dateRange: Date[] = [];
+
+	@Input()
+	public sourceQuestionList: SBPageStructureViewModel[] = [];
 
 	@Input()
 	public responseType: string;
@@ -88,31 +101,43 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public optionList: TreeviewItem[];
 
 	@Input()
-	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
-
-	@Output()
-	public setBoundsSelected: EventEmitter<QuestionConditionalSourceGroup> = new EventEmitter<
-		QuestionConditionalSourceGroup
+	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<
+		string,
+		QuestionOptionValue[]
 	>();
 
-	@ViewChild('optionTargets', { static: true })
+	@Input()
+	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<
+		string,
+		QuestionTypeDefinition
+	>();
+
+	@Output()
+	public setBoundsSelected: EventEmitter<
+		QuestionConditionalSourceGroup
+	> = new EventEmitter<QuestionConditionalSourceGroup>();
+
+	@ViewChild("optionTargets", { static: true })
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];
-	constructor(private changeDetectRef: ChangeDetectorRef) { }
+	constructor(private changeDetectRef: ChangeDetectorRef) {}
 
 	public ngOnInit(): void {
 		this.setConditionsForQuestionType();
-		if (this.sourceGroup.condition === '') {
+		if (this.sourceGroup.condition === "") {
 			this.sourceGroup.condition = this.dropDownListItems[0];
 		}
-		if (this.responseType === 'OptionList' || this.responseType === 'OptionSelect') {
-			console.log('in ngOnInit of conditional');
-			this.optionList.forEach((element) => {
-				console.log(element);
-				let valueSplit: string[] = element.value.split('~'); // [0] - 'option', [1] - option group name, [2] - option id
+		if (
+			this.responseType === "OptionList" ||
+			this.responseType === "OptionSelect"
+		) {
+			this.optionList.forEach(element => {
+				let valueSplit: string[] = element.value.split("~"); // [0] - 'option', [1] - option group name, [2] - option id
 				console.log(this.questionOptions);
-				let codeFromId = this.questionOptions.get(valueSplit[1]).filter((o) => o.id === +valueSplit[2])[0].code;
+				let codeFromId = this.questionOptions
+					.get(valueSplit[1])
+					.filter(o => o.id === +valueSplit[2])[0].code;
 				let valueCheck = `"name":"${valueSplit[1]}","code":"${codeFromId}"`;
 				let copiedItem = new TreeviewItem({
 					value: element.value,
@@ -121,15 +146,28 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 				});
 				this.copiedOptionList.push(copiedItem);
 			});
-		} else if (this.responseType === 'DateTime') {
+		} else if (this.responseType === "DateTime") {
 			this.dateRange = JSON.parse(this.sourceGroup.value);
 		}
 	}
 
-	public ngAfterViewInit(): void {
-		this.optionTargetsTreeDropdown.i18n = new TreeviewI18nDefault();
-		this.optionTargetsTreeDropdown.i18n.getText = (e) => this.targetsDropdown(e);
+	/**
+	 * When the source question drop down is changed
+	 * @param event
+	 */
+	public onChange(event: SBPageStructureViewModel): void {
+		var type = event.type?.split("~")[1];
+		this.responseType = this.qTypeDefinitions.get(type)?.responseType;
+		this.setConditionsForQuestionType();
 		this.changeDetectRef.detectChanges();
+	}
+
+	public ngAfterViewInit(): void {
+		/*this.optionTargetsTreeDropdown.i18n = new TreeviewI18nDefault();
+		this.optionTargetsTreeDropdown.i18n.getText = e =>
+			this.targetsDropdown(e); */
+		this.changeDetectRef.detectChanges();
+		this.setConditionsForQuestionType();
 	}
 
 	public showBoundsModal(): void {
@@ -139,18 +177,22 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	private targetsDropdown(e: TreeviewSelection): string {
 		if (e.checkedItems.length > 0) {
 			return this.getPrunedCheckedTargets()
-				.map((i) => this.getQuestionOptionLabel(i))
-				.join(', '); // `${e.checkedItems.length} targets`;
+				.map(i => this.getQuestionOptionLabel(i))
+				.join(", "); // `${e.checkedItems.length} targets`;
 		} else {
-			return 'Select hide targets';
+			return "Select hide targets";
 		}
 	}
 
 	private getPrunedCheckedTargets(): TreeviewItem[] {
 		let pruned: TreeviewItem[] = [];
 
-		this.checkedWithParents.forEach((item) => {
-			if (item.parent && item.parent.item.checked && !item.parent.item.value.startsWith('part')) {
+		this.checkedWithParents.forEach(item => {
+			if (
+				item.parent &&
+				item.parent.item.checked &&
+				!item.parent.item.value.startsWith("part")
+			) {
 				if (!pruned.includes(item.parent.item)) {
 					pruned.push(item.parent.item);
 				}
@@ -163,73 +205,90 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	private getQuestionOptionLabel(item: TreeviewItem): string {
 		let itemType = this.getItemType(item.value);
-		if (itemType === 'question') {
+		if (itemType === "question") {
 			return `Q:${item.text}`;
-		} else if (itemType === 'option') {
+		} else if (itemType === "option") {
 			return `O:${item.text}`;
 		}
 	}
 
 	private setConditionsForQuestionType(): void {
-
-		if (this.responseType === 'String') {
-			this.dropDownListItems = ['Contains', 'Does Not Contain'];
-		} else if (this.responseType === 'Boolean') {
-			this.dropDownListItems = ['Is Equal To'];
-		} else if (this.responseType === 'Integer') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To', 'Greater Than', 'Less Than'];
-		} else if (this.responseType === 'Decimal') {
-			this.dropDownListItems = ['Is Equal To', 'Is Not Equal To', 'Greater Than', 'Less Than'];
-		} else if (this.responseType === 'Location') {
-			this.dropDownListItems = ['In Bounds', 'Out Of Bounds'];
-		} else if (this.responseType === 'Json') {
-			this.dropDownListItems = ['Contains', 'Does Not Contain'];
-		} else if (this.responseType === 'OptionSelect') {
-			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
-		} else if (this.responseType === 'OptionList') {
-			this.dropDownListItems = ['Is Any Of', 'Is All Of'];
-		} else if (this.responseType === 'DateTime') {
-			this.dropDownListItems = ['In Range', 'Outside Range'];
+		if (this.responseType === "String") {
+			this.dropDownListItems = ["Contains", "Does Not Contain"];
+		} else if (this.responseType === "Boolean") {
+			this.dropDownListItems = ["Is Equal To"];
+		} else if (this.responseType === "Integer") {
+			this.dropDownListItems = [
+				"Is Equal To",
+				"Is Not Equal To",
+				"Greater Than",
+				"Less Than"
+			];
+		} else if (this.responseType === "Decimal") {
+			this.dropDownListItems = [
+				"Is Equal To",
+				"Is Not Equal To",
+				"Greater Than",
+				"Less Than"
+			];
+		} else if (this.responseType === "Location") {
+			this.dropDownListItems = ["In Bounds", "Out Of Bounds"];
+		} else if (this.responseType === "Json") {
+			this.dropDownListItems = ["Contains", "Does Not Contain"];
+		} else if (this.responseType === "OptionSelect") {
+			this.dropDownListItems = ["Is Any Of", "Is All Of"];
+		} else if (this.responseType === "OptionList") {
+			this.dropDownListItems = ["Is Any Of", "Is All Of"];
+		} else if (this.responseType === "DateTime") {
+			this.dropDownListItems = ["In Range", "Outside Range"];
 		}
 	}
 
 	public conditionValueChanged(e: string): void {
-		this.sourceGroup.condition = this.dropDownListItems.filter((dd) => dd === e)[0];
+		this.sourceGroup.condition = this.dropDownListItems.filter(
+			dd => dd === e
+		)[0];
 		// update condition value in conditionals lists
-		this.sourceQuestionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionConditionalsList.forEach(conditional => {
 			conditional.condition = this.sourceGroup.condition;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
 			conditional.condition = this.sourceGroup.condition;
 		});
 	}
 
 	public updateConditionalsValues(): void {
-		this.sourceQuestionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionConditionalsList.forEach(conditional => {
 			conditional.value = this.sourceGroup.value;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
 			conditional.value = this.sourceGroup.value;
 		});
 	}
 
-	public onSelectedChangeTargets(downlineItems: DownlineTreeviewItem[]): void {
+	public onSelectedChangeTargets(
+		downlineItems: DownlineTreeviewItem[]
+	): void {
 		this.checkedWithParents = downlineItems;
-		let priorSourceQuestionConditionals = this.sourceQuestionConditionalsList;
-		let priorSourceQuestionOptionConditionals = this.sourceQuestionOptionConditionalsList;
+		let priorSourceQuestionConditionals = this
+			.sourceQuestionConditionalsList;
+		let priorSourceQuestionOptionConditionals = this
+			.sourceQuestionOptionConditionalsList;
 		this.sourceQuestionConditionalsList = [];
 		this.sourceQuestionOptionConditionalsList = [];
 
-		downlineItems.forEach((selectedTarget) => {
+		downlineItems.forEach(selectedTarget => {
 			// if option, add only if parent question is unchecked
-			if ((<string>selectedTarget.item.value).startsWith('option')) {
+			if ((<string>selectedTarget.item.value).startsWith("option")) {
 				if (!selectedTarget.parent.item.checked) {
-					let id = +selectedTarget.item.value.split('~')[2];
+					let id = +selectedTarget.item.value.split("~")[2];
 					let existing: QuestionOptionConditional = priorSourceQuestionOptionConditionals.filter(
-						(o) => o.targetOptionId === id
+						o => o.targetOptionId === id
 					)[0];
 					if (existing) {
-						this.sourceQuestionOptionConditionalsList.push(existing);
+						this.sourceQuestionOptionConditionalsList.push(
+							existing
+						);
 					} else {
 						let newOptionConditional: QuestionOptionConditional = new QuestionOptionConditional(
 							0,
@@ -238,20 +297,24 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 							this.sourceGroup.condition,
 							this.sourceGroup.value
 						);
-						this.sourceQuestionOptionConditionalsList.push(newOptionConditional);
+						this.sourceQuestionOptionConditionalsList.push(
+							newOptionConditional
+						);
 					}
 				} else {
-					let idSplit = selectedTarget.parent.item.value.split('~');
+					let idSplit = selectedTarget.parent.item.value.split("~");
 					let id = +idSplit[2];
 					let existingPrevious: QuestionConditional = priorSourceQuestionConditionals.filter(
-						(o) => o.targetQuestionId === id
+						o => o.targetQuestionId === id
 					)[0];
 					let existingAlready: QuestionConditional = this.sourceQuestionConditionalsList.filter(
-						(o) => o.targetQuestionId === id
+						o => o.targetQuestionId === id
 					)[0];
 					if (existingAlready === undefined) {
 						if (existingPrevious) {
-							this.sourceQuestionConditionalsList.push(existingPrevious);
+							this.sourceQuestionConditionalsList.push(
+								existingPrevious
+							);
 						} else {
 							let newConditional: QuestionConditional = new QuestionConditional(
 								0,
@@ -260,16 +323,20 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 								this.sourceGroup.condition,
 								this.sourceGroup.value
 							);
-							this.sourceQuestionConditionalsList.push(newConditional);
+							this.sourceQuestionConditionalsList.push(
+								newConditional
+							);
 						}
 					}
 				}
-			} else if ((<string>selectedTarget.item.value).startsWith('question')) {
+			} else if (
+				(<string>selectedTarget.item.value).startsWith("question")
+			) {
 				// if question, always add, after searching for existing
-				let idSplit = selectedTarget.item.value.split('~');
+				let idSplit = selectedTarget.item.value.split("~");
 				let id = +idSplit[2];
 				let existing: QuestionConditional = priorSourceQuestionConditionals.filter(
-					(o) => o.targetQuestionId === id
+					o => o.targetQuestionId === id
 				)[0];
 				if (existing) {
 					this.sourceQuestionConditionalsList.push(existing);
@@ -287,13 +354,17 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	public onSelectedChangeOptions(downlineItems: DownlineTreeviewItem[]): void {
+	public onSelectedChangeOptions(
+		downlineItems: DownlineTreeviewItem[]
+	): void {
 		// split value into json structure and stringify
 		let valueStructure: Object = {};
 		this.sourceGroup.value = JSON.stringify(
-			downlineItems.map((i) => {
-				let split: string[] = i.item.value.split('~'); // [0] - 'option', [1] - option group name, [2] - option id
-				let codeFromId = this.questionOptions.get(split[1]).filter((o) => o.id === +split[2])[0].code;
+			downlineItems.map(i => {
+				let split: string[] = i.item.value.split("~"); // [0] - 'option', [1] - option group name, [2] - option id
+				let codeFromId = this.questionOptions
+					.get(split[1])
+					.filter(o => o.id === +split[2])[0].code;
 				let conditionalOptionSelect: ConditionalOptionItem = {
 					name: split[1],
 					code: codeFromId
@@ -301,10 +372,10 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 				return conditionalOptionSelect;
 			})
 		);
-		this.sourceQuestionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionConditionalsList.forEach(conditional => {
 			conditional.value = this.sourceGroup.value;
 		});
-		this.sourceQuestionOptionConditionalsList.forEach((conditional) => {
+		this.sourceQuestionOptionConditionalsList.forEach(conditional => {
 			conditional.value = this.sourceGroup.value;
 		});
 	}
@@ -312,17 +383,17 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	// property conversions based on type
 
 	public getItemType(value: string): string {
-		return value.split('~')[0];
+		return value.split("~")[0];
 	}
 
 	get booleanValue(): boolean {
-		return this.sourceGroup.value === 'true';
+		return this.sourceGroup.value === "true";
 	}
 	set booleanValue(value: boolean) {
 		if (value === true) {
-			this.sourceGroup.value = 'true';
+			this.sourceGroup.value = "true";
 		} else {
-			this.sourceGroup.value = 'false';
+			this.sourceGroup.value = "false";
 		}
 	}
 

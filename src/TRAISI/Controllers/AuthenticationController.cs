@@ -10,12 +10,8 @@ using AspNet.Security.OpenIdConnect.Server;
 using OpenIddict.Core;
 using AspNet.Security.OpenIdConnect.Primitives;
 using DAL.Models;
-using DAL.Core;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using OpenIddict.Abstractions;
 using DAL.Core.Interfaces;
-using TRAISI.Authorization;
 using AuthenticationService = TRAISI.Authorization.AuthenticationService;
 
 

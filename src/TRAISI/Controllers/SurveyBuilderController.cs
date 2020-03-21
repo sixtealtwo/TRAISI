@@ -129,7 +129,7 @@ namespace TRAISI.Controllers
 
         [HttpGet("{surveyId}/PageStructure/{surveyViewName}/{language}")]
         [Produces(typeof(SBSurveyViewViewModel))]
-        public async Task<IActionResult> GetSurveyViewPageStructure(int surveyId, string surveyViewName, string language)
+        public async Task<IActionResult> GetSurveyViewPageStructure(int surveyId, string surveyViewName = "Standard", string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
@@ -990,7 +990,7 @@ namespace TRAISI.Controllers
         /// <param name="conditional"></param>
         /// <returns></returns>
         [HttpPost("{surveyId}/conditionals/{questionPartId}")]
-		[ProducesDefaultResponseType]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> AddConditionalOperator(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperator conditional)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
@@ -1001,7 +1001,7 @@ namespace TRAISI.Controllers
         }
 
         [HttpDelete("{surveyId}/conditionals/{questionPartId}")]
-		[ProducesDefaultResponseType]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteConditionalOperator(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperator conditional)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);

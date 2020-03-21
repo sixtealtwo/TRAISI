@@ -26,7 +26,7 @@
             "baseHref": "/admin/",
             "preserveSymlinks": true,
             "deployUrl": "/admin/",
-            "showCircularDependencies": false,
+            "showCircularDependencies": true,
             "polyfills": "src/admin-app/polyfills.ts",
             "assets": [
               "src/admin-app/assets",
@@ -35,6 +35,7 @@
                 "input": "node_modules/ngx-monaco-editor/assets/monaco",
                 "output": "./assets/monaco/"
               }
+
             ],
             "styles": [
               "src/shared/assets/scss/application.scss",
@@ -52,6 +53,7 @@
               "node_modules/select2/dist/css/select2.min.css",
               "node_modules/angular2-draggable/css/resizable.min.css",
               "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
             ],
             "scripts": [
