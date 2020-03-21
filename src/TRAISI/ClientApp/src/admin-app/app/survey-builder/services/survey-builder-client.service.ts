@@ -2338,6 +2338,214 @@ export class SurveyBuilderClient {
     }
 }
 
+@Injectable({
+    providedIn: 'root'
+})
+export class QuestionClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    customBuilderClientCode(questionType: string | null): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Question/client-code/builder/{questionType}";
+        if (questionType === undefined || questionType === null)
+            throw new Error("The parameter 'questionType' must be defined.");
+        url_ = url_.replace("{questionType}", encodeURIComponent("" + questionType)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCustomBuilderClientCode(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCustomBuilderClientCode(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCustomBuilderClientCode(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    clientCode(questionType: string | null): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Question/client-code/{questionType}";
+        if (questionType === undefined || questionType === null)
+            throw new Error("The parameter 'questionType' must be defined.");
+        url_ = url_.replace("{questionType}", encodeURIComponent("" + questionType)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processClientCode(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processClientCode(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processClientCode(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    clientBuilderCode(questionType: string | null): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Question/client-builder-code/{questionType}";
+        if (questionType === undefined || questionType === null)
+            throw new Error("The parameter 'questionType' must be defined.");
+        url_ = url_.replace("{questionType}", encodeURIComponent("" + questionType)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processClientBuilderCode(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processClientBuilderCode(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processClientBuilderCode(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    questionTypes(): Observable<QuestionTypeDefinition[]> {
+        let url_ = this.baseUrl + "/api/Question/question-types";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processQuestionTypes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processQuestionTypes(<any>response_);
+                } catch (e) {
+                    return <Observable<QuestionTypeDefinition[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QuestionTypeDefinition[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processQuestionTypes(response: HttpResponseBase): Observable<QuestionTypeDefinition[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <QuestionTypeDefinition[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<QuestionTypeDefinition[]>(<any>null);
+    }
+}
+
 export interface SBQuestionTypeDefinitionViewModel {
     typeName?: string | undefined;
     questionOptions?: { [key: string]: QuestionOptionDefinitionViewModel; } | undefined;
@@ -2810,6 +3018,161 @@ export interface LabelCollectionOfTitlePageLabel extends Anonymous9 {
 
 export interface TitlePageLabel extends Label {
     survey?: Survey | undefined;
+}
+
+export interface QuestionTypeDefinition {
+    typeName?: string | undefined;
+    location?: DirectoryInfo | undefined;
+    questionOptions?: { [key: string]: QuestionOptionDefinition; } | undefined;
+    questionConfigurations?: { [key: string]: QuestionConfigurationDefinition; } | undefined;
+    resourceData?: { [key: string]: string; } | undefined;
+    responseType?: QuestionResponseType;
+    customBuilderCodeBundleName?: string | undefined;
+    codeBundleName?: string | undefined;
+    typeNameLocales?: { [key: string]: string; } | undefined;
+    questionPartSlots?: QuestionPartSlotDefinition[] | undefined;
+    type?: ISurveyQuestion | undefined;
+    internalNavigationViewCount?: number;
+    questionResources?: { [key: string]: QuestionResource; } | undefined;
+    icon?: string | undefined;
+    customBuilderViewName?: string | undefined;
+    hasCustomBuilderView?: boolean;
+    responseValidator?: ResponseValidator | undefined;
+    nestedQuestionDefinitions?: { [key: string]: NestedQuestionDefinition; } | undefined;
+}
+
+export interface MarshalByRefObject {
+}
+
+export interface FileSystemInfo extends MarshalByRefObject {
+    fullName?: string | undefined;
+    extension?: string | undefined;
+    name?: string | undefined;
+    exists?: boolean;
+    creationTime?: Date;
+    creationTimeUtc?: Date;
+    lastAccessTime?: Date;
+    lastAccessTimeUtc?: Date;
+    lastWriteTime?: Date;
+    lastWriteTimeUtc?: Date;
+    attributes?: FileAttributes;
+}
+
+export interface DirectoryInfo extends FileSystemInfo {
+    parent?: DirectoryInfo | undefined;
+    root?: DirectoryInfo | undefined;
+}
+
+export enum FileAttributes {
+    ReadOnly = 1,
+    Hidden = 2,
+    System = 4,
+    Directory = 16,
+    Archive = 32,
+    Device = 64,
+    Normal = 128,
+    Temporary = 256,
+    SparseFile = 512,
+    ReparsePoint = 1024,
+    Compressed = 2048,
+    Offline = 4096,
+    NotContentIndexed = 8192,
+    Encrypted = 16384,
+    IntegrityStream = 32768,
+    NoScrubData = 131072,
+}
+
+export interface QuestionOptionDefinition {
+    name?: string | undefined;
+    description?: string | undefined;
+    valueType?: QuestionOptionValueType;
+    typeId?: any | undefined;
+    defaultValue?: string | undefined;
+    isMultipleAllowed?: boolean;
+}
+
+export enum QuestionOptionValueType {
+    String = 0,
+    Integer = 1,
+    Decimal = 2,
+    Boolean = 3,
+    Tuple = 4,
+    Time = 5,
+    Date = 6,
+    KeyValuePair = 7,
+    Custom = 8,
+}
+
+export interface QuestionConfigurationDefinition {
+    name?: string | undefined;
+    description?: string | undefined;
+    valueType?: ConfigurationValueType;
+    builderType?: QuestionBuilderType;
+    typeId?: any | undefined;
+    defaultValue?: any | undefined;
+    sharedResource?: string | undefined;
+    resourceData?: string | undefined;
+    isTranslatable?: boolean;
+}
+
+export enum QuestionBuilderType {
+    Checkbox = 0,
+    Radio = 1,
+    Slider = 2,
+    Text = 3,
+    NumericText = 4,
+    MultiSelect = 5,
+    Switch = 6,
+    Date = 7,
+    Location = 8,
+    SingleSelect = 9,
+    Time = 10,
+    Colour = 11,
+}
+
+export enum QuestionResponseType {
+    String = 0,
+    Boolean = 1,
+    Integer = 2,
+    Decimal = 3,
+    Location = 4,
+    Json = 5,
+    OptionSelect = 6,
+    DateTime = 7,
+    Time = 8,
+    Path = 9,
+    Timeline = 10,
+    None = 11,
+}
+
+export interface QuestionPartSlotDefinition {
+    name?: string | undefined;
+    description?: string | undefined;
+    slotOrder?: number;
+}
+
+export interface ISurveyQuestion {
+    typeName?: string | undefined;
+    icon?: string | undefined;
+    iconType?: QuestionIconType;
+}
+
+export enum QuestionIconType {
+    URL = 0,
+    FONT = 1,
+}
+
+export interface QuestionResource {
+    resourceName?: string | undefined;
+    data?: string | undefined;
+    fieldName?: string | undefined;
+}
+
+export interface ResponseValidator {
+}
+
+export interface NestedQuestionDefinition {
+    name?: string | undefined;
 }
 
 export interface FileResponse {
