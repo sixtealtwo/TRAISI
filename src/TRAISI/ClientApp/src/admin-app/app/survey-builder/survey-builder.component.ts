@@ -38,6 +38,7 @@ import { RealTimeNotificationServce } from "../services/real-time-notification.s
 import { SurveyNotification } from "../models/survey-notification";
 import { ScreeningQuestions } from "./models/screening-questions.model";
 import { FormGroup, FormControl } from "@angular/forms";
+import { SurveyBuilderEditorData } from './services/survey-builder-editor-data.service';
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -60,6 +61,7 @@ Quill.register(Font, true);
 	templateUrl: "./survey-builder.component.html",
 	styleUrls: ["./survey-builder.component.scss"],
 	encapsulation: ViewEncapsulation.None,
+	providers: [SurveyBuilderEditorData],
 	animations: [fadeInOut]
 })
 export class SurveyBuilderComponent implements OnInit, OnDestroy {

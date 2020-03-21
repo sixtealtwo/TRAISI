@@ -126,7 +126,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			)
 			.subscribe({
 				next: model => {
-					console.log(model); 
+					console.log(model);
 					this._questionStructure = model;
 				},
 				error: error => {
@@ -737,7 +737,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					if (
 						this.questionBeingEdited.questionPart &&
 						this.questionBeingEdited.questionPart.questionType ===
-							"household"
+						"household"
 					) {
 						this.householdAdded = false;
 						this.householdAddedChange.emit(this.householdAdded);

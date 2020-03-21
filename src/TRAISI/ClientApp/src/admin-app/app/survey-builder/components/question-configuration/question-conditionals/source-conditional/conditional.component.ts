@@ -82,6 +82,8 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	public dateRange: Date[] = [];
 
+	public sourceQuestion: SBPageStructureViewModel;
+
 	@Input()
 	public sourceQuestionList: SBPageStructureViewModel[] = [];
 
