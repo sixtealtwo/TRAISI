@@ -23,6 +23,9 @@ namespace DAL.Models.Questions {
 
         public QuestionPartView TargetQuestion {get;set;}
 
+        [ForeignKey("TargetQuestion")]
+        public int TargetQuestionId {get;set;}
+
     }
 
     /// <summary>

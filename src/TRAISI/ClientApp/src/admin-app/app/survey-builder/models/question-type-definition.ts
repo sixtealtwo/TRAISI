@@ -1,7 +1,8 @@
 import { QuestionIconType } from './question-icon-type.enum';
 import { QuestionOptionDefinition } from './question-option-definition.model';
 import { QuestionConfigurationDefinition } from './question-configuration-definition.model';
-import { ResponseValidator, DirectoryInfo, QuestionResponseType, QuestionPartSlotDefinition, ISurveyQuestion, QuestionResource, NestedQuestionDefinition } from '../services/survey-builder-client.service';
+import { ResponseValidator, DirectoryInfo,  QuestionPartSlotDefinition, ISurveyQuestion, QuestionResource, NestedQuestionDefinition } from '../services/survey-builder-client.service';
+import { QuestionResponseType } from './question-response-type.enum';
 
 export interface QuestionTypeDefinition {
     typeName?: string | undefined;

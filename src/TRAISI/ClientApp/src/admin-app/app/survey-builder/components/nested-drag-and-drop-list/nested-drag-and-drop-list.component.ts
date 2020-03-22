@@ -36,7 +36,7 @@ import {
 	DraggableComponent,
 	DropResult
 } from "ngx-smooth-dnd";
-import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
 @Component({
 	selector: "app-nested-drag-and-drop-list",
 	templateUrl: "./nested-drag-and-drop-list.component.html",
@@ -143,6 +143,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					"en"
 				)
 				.subscribe(treelist => {
+					this._editorData.surveyStructure = treelist;
 					this.fullStructure = treelist;
 					this.processHouseholdCheck();
 					this.householdAddedChange.emit(this.householdAdded);
@@ -244,7 +245,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 				this.fullStructure = treelist;
 				this.qConfiguration.fullStructure = this.fullStructure;
 				this.qConfiguration.questionStructure = this._questionStructure;
-				this.qConfiguration.processConfigurations();
+				this.qConfiguration.processConfigurations(); 
 			});
 	}
 
@@ -737,7 +738,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 					if (
 						this.questionBeingEdited.questionPart &&
 						this.questionBeingEdited.questionPart.questionType ===
-						"household"
+							"household"
 					) {
 						this.householdAdded = false;
 						this.householdAddedChange.emit(this.householdAdded);

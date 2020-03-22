@@ -45,9 +45,9 @@ import { DropdownTreeviewSelectComponent } from "../../../shared/dropdown-treevi
 import { DropdownTreeviewSelectI18n } from "../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n";
 import { QuestionOptionValue } from "../../models/question-option-value.model";
 import { Router } from "@angular/router";
-import { SBPageStructureViewModel} from "app/survey-builder/services/survey-builder-client.service";
-import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
-import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { SBPageStructureViewModel } from "app/survey-builder/services/survey-builder-client.service";
+import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
+import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -141,7 +141,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private questionQuillEditor: any;
 	private catiQuestionQuillEditor: any;
 
-	private sourceQuestionList: Array<SBPageStructureViewModel> = [];
+	protected sourceQuestionList: Array<SBPageStructureViewModel> = [];
 
 	@ViewChildren("dynamic", { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
@@ -288,7 +288,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		QuestionOptionConditional[]
 	] {
 		let conditionals = this.conditionalsComponent.getUpdatedConditionals();
-		return [[], []]; 
+		return [[], []];
 	}
 
 	public cancel() {
@@ -516,7 +516,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		) {
 			return false;
 		} else if (
-			this.questionType.responseType === QuestionResponseType.OptionSelect ||
+			this.questionType.responseType ===
+				QuestionResponseType.OptionSelect ||
 			this.questionType.responseType === QuestionResponseType.OptionList
 		) {
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
@@ -598,8 +599,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			this.sourceQuestionList.push(view);
 		}
 
-		for (let childView of view.children) {
-			this.processSourceConditionalsPage(childView);
+		if (view.children !== null) {
+			for (let childView of view.children) {
+				this.processSourceConditionalsPage(childView);
+			}
 		}
 	}
 	private processQuestionPageIntoTree(

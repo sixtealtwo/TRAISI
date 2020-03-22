@@ -9,4 +9,5 @@ export interface QuestionConditionalOperator {
     lhs?: QuestionConditional | undefined;
     rhs?: QuestionConditional | undefined;
     targetQuestion?: QuestionPartView | undefined;
+    targetQuestionId?: number;
 }

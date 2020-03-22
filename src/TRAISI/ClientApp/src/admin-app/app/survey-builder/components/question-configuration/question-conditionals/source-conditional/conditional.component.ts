@@ -28,7 +28,8 @@ import {
 	SBPageStructureViewModel
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionTypeDefinition } from "app/survey-builder/models/question-type-definition";
-import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
+import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
 
 interface ConditionalOptionItem {
 	name: string;
@@ -89,7 +90,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public sourceQuestionList: SBPageStructureViewModel[] = [];
 
 	@Input()
-	public responseType: string;
+	public responseType: QuestionResponseType;
 
 	@Input()
 	public questionType: string;
@@ -118,7 +119,11 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];
-	constructor(private changeDetectRef: ChangeDetectorRef, private _editor: SurveyBuilderEditorData) {}
+	public questionResponseTypes = QuestionResponseType;
+	constructor(
+		private changeDetectRef: ChangeDetectorRef,
+		private _editor: SurveyBuilderEditorData
+	) {}
 
 	public ngOnInit(): void {
 		this.setConditionsForQuestionType();
@@ -126,12 +131,11 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.sourceGroup.condition = this.dropDownListItems[0];
 		}
 		if (
-			this.responseType === "OptionList" ||
-			this.responseType === "OptionSelect"
+			this.responseType === QuestionResponseType.OptionList ||
+			this.responseType === QuestionResponseType.OptionSelect
 		) {
 			this.optionList.forEach(element => {
 				let valueSplit: string[] = element.value.split("~"); // [0] - 'option', [1] - option group name, [2] - option id
-				console.log(this.questionOptions);
 				let codeFromId = this.questionOptions
 					.get(valueSplit[1])
 					.filter(o => o.id === +valueSplit[2])[0].code;
@@ -143,9 +147,10 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 				});
 				this.copiedOptionList.push(copiedItem);
 			});
-		} else if (this.responseType === "DateTime") {
+		} else if (this.responseType === QuestionResponseType.DateTime) {
 			this.dateRange = JSON.parse(this.sourceGroup.value);
 		}
+		console.log(this);
 	}
 
 	/**
@@ -154,9 +159,16 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	 */
 	public onChange(event: SBPageStructureViewModel): void {
 		var type = event.type?.split("~")[1];
-		this.responseType = this.qTypeDefinitions.get(type)?.responseType;
+		this.responseType = this._editor.questionTypeMap.get(
+			type
+		)?.responseType;
+		this.sourceQuestion = event;
 		this.setConditionsForQuestionType();
 		this.changeDetectRef.detectChanges();
+	}
+
+	public optionConditionalValueChanged(event): void {
+		console.log(event);
 	}
 
 	public ngAfterViewInit(): void {
@@ -210,33 +222,34 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	private setConditionsForQuestionType(): void {
-		if (this.responseType === "String") {
+		if (this.responseType === QuestionResponseType.String) {
 			this.dropDownListItems = ["Contains", "Does Not Contain"];
-		} else if (this.responseType === "Boolean") {
+		} else if (this.responseType === QuestionResponseType.Boolean) {
 			this.dropDownListItems = ["Is Equal To"];
-		} else if (this.responseType === "Integer") {
+		} else if (
+			this.responseType === QuestionResponseType.Integer ||
+			this.responseType === QuestionResponseType.Decimal
+		) {
 			this.dropDownListItems = [
 				"Is Equal To",
 				"Is Not Equal To",
 				"Greater Than",
 				"Less Than"
 			];
-		} else if (this.responseType === "Decimal") {
-			this.dropDownListItems = [
-				"Is Equal To",
-				"Is Not Equal To",
-				"Greater Than",
-				"Less Than"
-			];
-		} else if (this.responseType === "Location") {
+		} else if (this.responseType === QuestionResponseType.Location) {
 			this.dropDownListItems = ["In Bounds", "Out Of Bounds"];
-		} else if (this.responseType === "Json") {
+		} else if (this.responseType === QuestionResponseType.Json) {
 			this.dropDownListItems = ["Contains", "Does Not Contain"];
-		} else if (this.responseType === "OptionSelect") {
+		} else if (
+			this.responseType === QuestionResponseType.OptionSelect ||
+			this.responseType === QuestionResponseType.OptionList
+		) {
 			this.dropDownListItems = ["Is Any Of", "Is All Of"];
-		} else if (this.responseType === "OptionList") {
-			this.dropDownListItems = ["Is Any Of", "Is All Of"];
-		} else if (this.responseType === "DateTime") {
+
+			// this.copiedOptionList = this.sourceQuestion.children;
+			console.log(this.sourceQuestion);
+			console.log(this.copiedOptionList);
+		} else if (this.responseType === QuestionResponseType.DateTime) {
 			this.dropDownListItems = ["In Range", "Outside Range"];
 		}
 	}

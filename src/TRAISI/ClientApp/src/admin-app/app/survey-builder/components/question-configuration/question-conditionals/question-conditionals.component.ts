@@ -30,11 +30,12 @@ import { TargetConditionalComponent } from "./target-conditional/target-conditio
 import { QuestionOptionValue } from "../../../models/question-option-value.model";
 import {
 	SBQuestionPartViewModel,
-	SBPageStructureViewModel,
+	SBPageStructureViewModel
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionConditionalOperator } from "app/survey-builder/models/question-conditional-operator.model";
-import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
-import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
+import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
+import { QuestionCondtionalOperatorType } from "app/survey-builder/models/question-conditional-operator-type.enum";
 
 @Component({
 	selector: "app-question-conditionals",
@@ -75,6 +76,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 */
 	public conditionals: QuestionConditionalOperator[] = [];
 
+	public conditionalCount: number = 0;
+
 	private currentLocationConditional:
 		| QuestionConditionalSourceGroup
 		| QuestionConditionalTargetGroup;
@@ -107,7 +110,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	@Input()
 	public targetQuestionOptionConditionals: QuestionOptionConditional[] = [];
 
-
 	@ViewChild("locationModal", { static: true })
 	locationModal: ModalDirective;
 	@ViewChild("mapbox")
@@ -117,9 +119,21 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	@ViewChildren("tConditionals")
 	tConditionalFields: QueryList<TargetConditionalComponent>;
 
-	constructor(private changeDetectRef: ChangeDetectorRef, private _editor:SurveyBuilderEditorData) {}
+	public questionTypes = QuestionResponseType;
 
-	public ngOnInit(): void {}
+	constructor(
+		private changeDetectRef: ChangeDetectorRef,
+		private _editor: SurveyBuilderEditorData
+	) {}
+
+	public ngOnInit(): void {
+		console.log(this.questionType);
+	}
+
+	public operators = [
+		QuestionCondtionalOperatorType.AND,
+		QuestionCondtionalOperatorType.OR
+	];
 
 	ngAfterViewInit() {
 		if (this.questionType.responseType === QuestionResponseType.Location) {
@@ -151,14 +165,17 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		for (let conditional of this.conditionalFields) {
 			let operator: QuestionConditionalOperator = {
 				lhs: {
+					sourceQuestionId: Number(conditional.sourceQuestion.id),
 					condition: conditional.sourceGroup.condition,
 					value: conditional.sourceGroup.value
-				}
+				},
+				operatorType: QuestionCondtionalOperatorType.AND
+
 				// rhs only exists with more than one conditional
 			};
 			operators.push(operator);
 		}
-		console.log(operators);
+		console.log(this.conditionals);
 		return operators;
 	}
 
@@ -245,11 +262,15 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 					valid = false;
 				}
 			}
-		} else if (this.questionType.responseType === QuestionResponseType.Json) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Json
+		) {
 			if (value === null) {
 				valid = false;
 			}
-		} else if (this.questionType.responseType === QuestionResponseType.OptionSelect) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.OptionSelect
+		) {
 			if (value === "") {
 				valid = false;
 			}
@@ -357,7 +378,23 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	public getConditionalIndex(index: number) {
+		return Math.trunc(index/2);
+	}
+
+	public addConditional() {}
+
 	public addSourceConditional() {
+		if (this.conditionalCount % 2 == 0) {
+			this.conditionals.push({
+				operatorType: QuestionCondtionalOperatorType.AND,
+				lhs: {},
+				rhs: {},
+				targetQuestionId: 0
+			});
+		}
+		this.conditionalCount++;
+		console.log(this.conditionals); 
 		let newSourceGroup: QuestionConditionalSourceGroup = new QuestionConditionalSourceGroup(
 			this.sourceConditionals.length,
 			"",
@@ -400,23 +437,37 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		let responseValue: string;
 		if (this.questionType.responseType === QuestionResponseType.String) {
 			responseValue = "";
-		} else if (this.questionType.responseType === QuestionResponseType.Boolean) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Boolean
+		) {
 			responseValue = "false";
-		} else if (this.questionType.responseType === QuestionResponseType.Integer) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Integer
+		) {
 			responseValue = "0";
-		} else if (this.questionType.responseType === QuestionResponseType.Decimal) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Decimal
+		) {
 			responseValue = "0.0";
-		} else if (this.questionType.responseType === QuestionResponseType.Location) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Location
+		) {
 			responseValue = null;
-		} else if (this.questionType.responseType === QuestionResponseType.Json) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.Json
+		) {
 			responseValue = null;
-		} else if (this.questionType.responseType === QuestionResponseType.OptionSelect) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.OptionSelect
+		) {
 			responseValue = this.thisQuestion[0].children[0].value;
-		} 
-		else if (this.questionType.responseType === QuestionResponseType.OptionList) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.OptionList
+		) {
 			responseValue = "";
-		} 
-		else if (this.questionType.responseType === QuestionResponseType.DateTime) {
+		} else if (
+			this.questionType.responseType === QuestionResponseType.DateTime
+		) {
 			let startDate = new Date();
 			let endDate = new Date();
 			endDate.setDate(startDate.getDate() + 1);

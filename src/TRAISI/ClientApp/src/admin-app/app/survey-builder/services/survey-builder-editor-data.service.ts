@@ -3,6 +3,13 @@ import { Observable, EMPTY, forkJoin, Observer } from "rxjs";
 import { SurveyBuilderClient } from "./survey-builder-client.service";
 import { QuestionClient } from "./survey-builder-client.service";
 import { QuestionTypeDefinition } from "../models/question-type-definition";
+import { TreeviewItem } from 'ngx-treeview';
+/**
+ *
+ *
+ * @export
+ * @class SurveyBuilderEditorData
+ */
 @Injectable()
 export class SurveyBuilderEditorData {
 	public surveyId: number;
@@ -13,6 +20,8 @@ export class SurveyBuilderEditorData {
 		string,
 		QuestionTypeDefinition
 	>();
+
+	public surveyStructure: Array<TreeviewItem> = [];
 
 	/**
 	 * Initializes required config data and related information for the survey builder
@@ -43,8 +52,17 @@ export class SurveyBuilderEditorData {
 		});
 	}
 
+	/**
+	 *Creates an instance of SurveyBuilderEditorData.
+	 * @param {SurveyBuilderClient} _client
+	 * @param {QuestionClient} _questionClient
+	 */
 	public constructor(
 		private _client: SurveyBuilderClient,
 		private _questionClient: QuestionClient
 	) {}
+
+	public getQuestionOptions(questionId: number): any {
+		// 
+	}
 }

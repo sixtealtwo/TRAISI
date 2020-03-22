@@ -15,6 +15,7 @@ import { QuestionTypeDefinition } from '../../models/question-type-definition';
 import { AppConfig } from '../../../app.config';
 import { ConfigurationService } from '../../../../../shared/services/configuration.service';
 import { ContainerComponent } from 'ngx-smooth-dnd';
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
 
 @Component({
 	selector: 'traisi-question-type-chooser',
@@ -113,7 +114,7 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 				icon: 'fas fa-archive',
 				questionOptions: {},
 				questionConfigurations: {},
-				responseType: '',
+				responseType: QuestionResponseType.None,
 				customBuilderViewName: '',
 				hasCustomBuilderView: false,
 				typeNameLocales: { en: 'Section', fr: 'Section' }

@@ -4,7 +4,6 @@
 			[items]="sourceQuestionList"
 			bindLabel="label"
 			autofocus
-			bindValue="id"
 			[(ngModel)]="sourceQuestion"
 			(change)="onChange($event)"
 		>
@@ -16,14 +15,17 @@
 			[allowClear]="false"
 			[items]="dropDownListItems"
 			(select)="conditionValueChanged($event)"
-			placeholder="Select Condition">
+			placeholder="Select Condition"
+		>
 			<ng-template ngx-select-option-not-found>
 				Nothing found
 			</ng-template>
 		</ngx-select>
 	</div>
 	<div class="col-lg-4 conditional-row">
-		<ng-container *ngIf="responseType == 'String'; else rElseIf1">
+		<ng-container
+			*ngIf="responseType == questionResponseTypes.String; else rElseIf1"
+		>
 			<input
 				type="text"
 				[(ngModel)]="sourceGroup.value"
@@ -33,7 +35,12 @@
 			/>
 		</ng-container>
 		<ng-template #rElseIf1>
-			<ng-container *ngIf="responseType == 'Boolean'; else rElseIf2">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Boolean;
+					else rElseIf2
+				"
+			>
 				<div class="display-inline-block checkbox-ios">
 					<label
 						class="form-check-label"
@@ -53,7 +60,12 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf2>
-			<ng-container *ngIf="responseType == 'Integer'; else rElseIf3">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Integer;
+					else rElseIf3
+				"
+			>
 				<input
 					type="number"
 					[(ngModel)]="numberValue"
@@ -64,7 +76,12 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf3>
-			<ng-container *ngIf="responseType == 'Decimal'; else rElseIf4">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Decimal;
+					else rElseIf4
+				"
+			>
 				<input
 					type="number"
 					[(ngModel)]="numberValue"
@@ -75,7 +92,12 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf4>
-			<ng-container *ngIf="responseType == 'Location'; else rElseIf5">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Location;
+					else rElseIf5
+				"
+			>
 				<button
 					type="button"
 					class="bounds-button btn btn-danger"
@@ -87,7 +109,12 @@
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf5>
-			<ng-container *ngIf="responseType == 'Json'; else rElseIf6">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Json;
+					else rElseIf6
+				"
+			>
 				<input
 					type="text"
 					[(ngModel)]="sourceGroup.value"
@@ -100,22 +127,48 @@
 		<ng-template #rElseIf6>
 			<ng-container
 				*ngIf="
-					responseType === 'OptionList' ||
-						responseType === 'OptionSelect';
+					responseType === questionResponseTypes.OptionList ||
+						responseType === questionResponseTypes.OptionSelect;
 					else rElseIf7
 				"
 			>
-				<ngx-dropdown-treeview
+				<ng-select
+					[items]="copiedOptionList"
+					bindLabel="label"
+					bindValue="id"
+					[multiple]="true"
+					[selectableGroup]="true"
+					[selectableGroupAsModel]="false"
+					[closeOnSelect]="false"
+					(change)="optionConditionalValueChanged($event)"
+				>
+					<ng-template
+						ng-optgroup-tmp
+						let-item="item"
+						let-item$="item$"
+						let-index="index"
+					>
+						<input
+							id="item-{{ index }}"
+							type="checkbox"
+							[ngModel]="item$.selected"
+						/>
+						{{ item.label }}
+					</ng-template>
+				</ng-select>
+				<!--<ngx-dropdown-treeview
 					[items]="copiedOptionList"
 					[itemTemplate]="itemTemplate"
 					[config]="treedropdownConfig"
 					(selectedChange)="onSelectedChangeOptions($event)"
 				>
-				</ngx-dropdown-treeview>
+				</ngx-dropdown-treeview> -->
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf7>
-			<ng-container *ngIf="responseType == 'DateTime'">
+			<ng-container
+				*ngIf="responseType == questionResponseTypes.DateTime"
+			>
 				<input
 					type="text"
 					placeholder="Date Range"
