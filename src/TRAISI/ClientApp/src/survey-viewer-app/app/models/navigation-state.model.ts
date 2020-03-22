@@ -1,6 +1,7 @@
 import { QuestionInstance } from "./question-instance.model";
 import { SurveyViewPage } from "./survey-view-page.model";
 import { SurveyViewSection } from "./survey-view-section.model";
+import { SurveyViewGroupMember } from './survey-view-group-member.model';
 
 export interface NavigationState {
 	activePage?: SurveyViewPage;
@@ -10,7 +11,8 @@ export interface NavigationState {
 	activeSectionIndex?: number;
 	activeQuestionInstances: Array<QuestionInstance>;
 	activeQuestionIndex: number;
-	activeRespondentId: number;
+	activeRespondent?: SurveyViewGroupMember;
+	activeRespondentIndex?: number;
 	isMultiView?: boolean;
 	isLoaded: boolean;
 	isNextEnabled: boolean;

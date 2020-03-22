@@ -47,6 +47,8 @@ export class SurveyNavigator {
 
 	private _surveyCompleted$: Subject<void>;
 
+	private _previousState: NavigationState;
+
 	/**
 	 * Listen for the end of the survey
 	 */
@@ -80,7 +82,6 @@ export class SurveyNavigator {
 	public initialize(): void {
 		this.navigateToPage(this._state.viewerState.surveyPages[0].id).subscribe();
 		this.nextEnabled$.next(true);
-
 		this.validationChanged();
 	}
 
@@ -91,9 +92,10 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 *
+	 * Navigate to the next viewable portion of the survey
 	 */
 	public navigateNext(): Observable<NavigationState> {
+		this._previousState = this.navigationState$.value;
 		let nav = this._incrementNavigation(this.navigationState$.value).pipe(share());
 		this.nextEnabled$.next(false);
 		nav.subscribe(state => {
@@ -108,6 +110,7 @@ export class SurveyNavigator {
 	 * Navigate to the previous question or section.
 	 */
 	public navigatePrevious(): Observable<NavigationState> {
+		this._previousState = this.navigationState$.value;
 		let prev = this._decrementNavigation(this.navigationState$.value).pipe(share());
 		prev.subscribe(state => {
 			if (state.activeQuestionInstances.length > 0) {
@@ -150,6 +153,8 @@ export class SurveyNavigator {
 				activeSectionIndex: -1,
 				activeSectionId: -1,
 				activeQuestionIndex: 0,
+				activeRespondent: this._state.viewerState.primaryRespondent,
+				activeRespondentIndex: 0,
 				activeQuestionInstances: [],
 				isLoaded: true,
 				isNextEnabled: true,
