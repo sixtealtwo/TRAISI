@@ -1,0 +1,15 @@
+export enum QuestionResponseType {
+    String = 0,
+    Boolean = 1,
+    Integer = 2,
+    Decimal = 3,
+    Location = 4,
+    Json = 5,
+    OptionSelect = 6,
+    OptionList = 7,
+    DateTime = 8,
+    Time = 9,
+    Path = 10,
+    Timeline = 11,
+    None = 12,
+}

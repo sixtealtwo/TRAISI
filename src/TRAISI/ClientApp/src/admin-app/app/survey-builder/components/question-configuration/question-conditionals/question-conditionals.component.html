@@ -20,7 +20,7 @@
 			</button>
 			<div class="conditional-row">
 				<app-conditional [sourceQuestionList]="sourceQuestionList" #sConditionals [optionList]="thisQuestion[0].children"  [questionOptions]="questionOptions" [sourceGroup]="conditional" 
-				[questionPartId]="questionBeingEdited.questionPart.id" [qTypeDefinitions]="qTypeDefinitions"
+				[questionPartId]="questionBeingEdited.questionPart.id" 
 				 [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)"></app-conditional>
 				<div class="row">
 					<div class="col-md-12">
@@ -39,48 +39,6 @@
 		</div>
 	</div>
 </div>
-
-<!--<div class="conditionals-wrapper">
-	<h4 class="text-center">Question as Target</h4>
-	<div class="row d-md-none d-none d-lg-flex conditional-header" *ngIf="targetConditionals.length > 0">
-		<div class="col-lg">
-			Source
-		</div>
-		<div class="col-lg">
-			Condition
-		</div>
-		<div class="col-lg">
-			Value(s)
-		</div>
-		<div class="col-lg" *ngIf="questionType.responseType == 'OptionList' || questionType.responseType == 'OptionSelect'">
-			Hide Target(s)
-		</div>
-	</div>
-	<div class="row" *ngFor="let conditional of targetConditionals; let i = index">
-		<div class="col-md-12">
-			<button type="button" class="conditional-delete-button pull-right btn btn-danger" (click)="deleteTargetConditional(conditional.index)">
-				<i class="fas fa-times"></i>
-			</button>
-			<div class="conditional-row">
-					<app-target-conditional #tConditionals [optionList]="thisQuestion[0].children" [sourceGroup]="conditional" [questionPartId]="questionBeingEdited.questionPart.id"
-					 [questionType]="questionType.typeName" [responseType]="questionType.responseType" (setBoundsSelected)="showLocationBoundsModal($event)"></app-target-conditional>
-					<div class="row">
-						<div class="col-md-12">
-							<hr class="edit-separator-hr" />
-						</div>
-					</div>
-				</div>
-		</div>
-	</div>
-	<br/>
-	<div class="row justify-content-center">
-		<div>
-			<button type="button" class="btn btn-primary" (click)="addTargetConditional()">
-				<i class="fas fa-plus-circle"></i> Add Conditional
-			</button>
-		</div>
-	</div>
-</div>-->
 
 
 <div class="modal fade" bsModal #locationModal="bs-modal" (onShown)="locationBoundsShown()" [config]="{backdrop: 'static'}"
@@ -102,21 +60,3 @@
 	</div>
 </div>
 
-
-<!--
-Before: <ngx-dropdown-treeview-select
-[items]="questionsBefore"
-[config]="treedropdownSingleConfig"
-(selectedChange)="onSelectedChange($event)">
-</ngx-dropdown-treeview-select>
-After: <ngx-dropdown-treeview
-[items]="questionOptionsAfter"
-[config]="treedropdownConfig"
-(selectedChange)="onSelectedChange($event)">
-</ngx-dropdown-treeview>
-This: <ngx-dropdown-treeview
-[items]="thisQuestion"
-[config]="treedropdownConfig"
-(selectedChange)="onSelectedChange($event)">
-</ngx-dropdown-treeview>
--->

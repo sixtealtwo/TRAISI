@@ -36,6 +36,7 @@ import {
 	DraggableComponent,
 	DropResult
 } from "ngx-smooth-dnd";
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 @Component({
 	selector: "app-nested-drag-and-drop-list",
 	templateUrl: "./nested-drag-and-drop-list.component.html",
@@ -70,8 +71,6 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	public currentLanguage: string;
 	@Input()
 	public catiEnabled: boolean;
-	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition>;
 
 	@Input()
 	public householdAdded: boolean = false;
@@ -93,7 +92,8 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 		private alertService: AlertService,
 		private surveyBuilderService: SurveyBuilderService,
 		private elementRef: ElementRef,
-		private notificationService: RealTimeNotificationServce
+		private notificationService: RealTimeNotificationServce,
+		private _editorData: SurveyBuilderEditorData
 	) {
 		this.getQuestionPayload = this.getQuestionPayload.bind(this);
 		this.getQuestionInPartPayload = this.getQuestionInPartPayload.bind(
@@ -107,12 +107,12 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			icon: "fas fa-archive",
 			questionOptions: {},
 			questionConfigurations: {},
-			responseType: "",
+			responseType: null,
 			customBuilderViewName: "",
 			hasCustomBuilderView: false,
 			typeNameLocales: { en: "Section", fr: "Section" }
 		};
-		this.qTypeDefinitions.set("Survey Part", sectionType);
+		this._editorData.questionTypeMap.set("Survey Part", sectionType);
 	}
 
 	public ngAfterViewInit(): void {
@@ -225,11 +225,11 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 			this.questionBeingEdited.questionPart === undefined ||
 			this.questionBeingEdited.questionPart === null
 		) {
-			this.qConfiguration.questionType = this.qTypeDefinitions.get(
+			this.qConfiguration.questionType = this._editorData.questionTypeMap.get(
 				"Survey Part"
 			);
 		} else {
-			this.qConfiguration.questionType = this.qTypeDefinitions.get(
+			this.qConfiguration.questionType = this._editorData.questionTypeMap.get(
 				this.questionBeingEdited.questionPart.questionType
 			);
 		}
@@ -425,7 +425,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 	}
 
 	public getIcon(questionTypeName: string): string {
-		let qType: QuestionTypeDefinition = this.qTypeDefinitions.get(
+		let qType: QuestionTypeDefinition = this._editorData.questionTypeMap.get(
 			questionTypeName
 		);
 		return qType.icon;

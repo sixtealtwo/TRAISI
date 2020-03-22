@@ -30,9 +30,11 @@ import { TargetConditionalComponent } from "./target-conditional/target-conditio
 import { QuestionOptionValue } from "../../../models/question-option-value.model";
 import {
 	SBQuestionPartViewModel,
-	SBPageStructureViewModel
+	SBPageStructureViewModel,
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionConditionalOperator } from "app/survey-builder/models/question-conditional-operator.model";
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 
 @Component({
 	selector: "app-question-conditionals",
@@ -67,6 +69,12 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	public sourceConditionals: QuestionConditionalSourceGroup[] = [];
 	public targetConditionals: QuestionConditionalTargetGroup[] = [];
 
+	/**
+	 * List of conditional operators, each operator has a Lhs and Rhs, a single conditional
+	 * will be an operator with a Lhs only.
+	 */
+	public conditionals: QuestionConditionalOperator[] = [];
+
 	private currentLocationConditional:
 		| QuestionConditionalSourceGroup
 		| QuestionConditionalTargetGroup;
@@ -99,11 +107,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	@Input()
 	public targetQuestionOptionConditionals: QuestionOptionConditional[] = [];
 
-	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<
-		string,
-		QuestionTypeDefinition
-	>();
 
 	@ViewChild("locationModal", { static: true })
 	locationModal: ModalDirective;
@@ -114,12 +117,12 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	@ViewChildren("tConditionals")
 	tConditionalFields: QueryList<TargetConditionalComponent>;
 
-	constructor(private changeDetectRef: ChangeDetectorRef) {}
+	constructor(private changeDetectRef: ChangeDetectorRef, private _editor:SurveyBuilderEditorData) {}
 
 	public ngOnInit(): void {}
 
 	ngAfterViewInit() {
-		if (this.questionType.responseType === "Location") {
+		if (this.questionType.responseType === QuestionResponseType.Location) {
 			this.mapGL.load.subscribe((map: mapboxgl.MapboxOptions) => {
 				map.zoom = 9;
 				map.center = [-79.3, 43.7];
@@ -144,8 +147,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 * Retrieves the configuration conditionals
 	 */
 	public getUpdatedConditionals(): QuestionConditionalOperator[] {
-		console.log("in get conditionals");
-		console.log(this);
 		let operators: Array<QuestionConditionalOperator> = [];
 		for (let conditional of this.conditionalFields) {
 			let operator: QuestionConditionalOperator = {
@@ -236,7 +237,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 
 	private validConditionValue(value: string): boolean {
 		let valid: boolean = true;
-		if (this.questionType.responseType === "Location") {
+		if (this.questionType.responseType === QuestionResponseType.Location) {
 			if (value === null) {
 				valid = false;
 			} else {
@@ -244,11 +245,11 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 					valid = false;
 				}
 			}
-		} else if (this.questionType.responseType === "Json") {
+		} else if (this.questionType.responseType === QuestionResponseType.Json) {
 			if (value === null) {
 				valid = false;
 			}
-		} else if (this.questionType.responseType === "OptionList") {
+		} else if (this.questionType.responseType === QuestionResponseType.OptionSelect) {
 			if (value === "") {
 				valid = false;
 			}
@@ -397,23 +398,25 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 
 	private getDefaultValue(): string {
 		let responseValue: string;
-		if (this.questionType.responseType === "String") {
+		if (this.questionType.responseType === QuestionResponseType.String) {
 			responseValue = "";
-		} else if (this.questionType.responseType === "Boolean") {
+		} else if (this.questionType.responseType === QuestionResponseType.Boolean) {
 			responseValue = "false";
-		} else if (this.questionType.responseType === "Integer") {
+		} else if (this.questionType.responseType === QuestionResponseType.Integer) {
 			responseValue = "0";
-		} else if (this.questionType.responseType === "Decimal") {
+		} else if (this.questionType.responseType === QuestionResponseType.Decimal) {
 			responseValue = "0.0";
-		} else if (this.questionType.responseType === "Location") {
+		} else if (this.questionType.responseType === QuestionResponseType.Location) {
 			responseValue = null;
-		} else if (this.questionType.responseType === "Json") {
+		} else if (this.questionType.responseType === QuestionResponseType.Json) {
 			responseValue = null;
-		} else if (this.questionType.responseType === "OptionSelect") {
+		} else if (this.questionType.responseType === QuestionResponseType.OptionSelect) {
 			responseValue = this.thisQuestion[0].children[0].value;
-		} else if (this.questionType.responseType === "OptionList") {
+		} 
+		else if (this.questionType.responseType === QuestionResponseType.OptionList) {
 			responseValue = "";
-		} else if (this.questionType.responseType === "DateTime") {
+		} 
+		else if (this.questionType.responseType === QuestionResponseType.DateTime) {
 			let startDate = new Date();
 			let endDate = new Date();
 			endDate.setDate(startDate.getDate() + 1);

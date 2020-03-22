@@ -53,7 +53,6 @@
 							[question]="item.questionPart"
 							[language]="currentLanguage"
 							[collapseElementId]="'collapseExample-' + i"
-							[qTypeDefinitions]="qTypeDefinitions"
 						></app-question-details>
 					</div>
 				</div>
@@ -141,7 +140,6 @@
 										[surveyId]="surveyId"
 										[question]="innerItem.questionPart"
 										[language]="currentLanguage"
-										[qTypeDefinitions]="qTypeDefinitions"
 									></app-question-details>
 								</div>
 							</div>
@@ -200,7 +198,6 @@
 				<app-question-configuration
 					#qConfiguration
 					[language]="currentLanguage"
-					[qTypeDefinitions]="qTypeDefinitions"
 					(configResult)="processConfiguration($event)"
 				></app-question-configuration>
 			</div>

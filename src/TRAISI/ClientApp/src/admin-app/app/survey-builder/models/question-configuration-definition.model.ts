@@ -8,3 +8,11 @@ export interface QuestionConfigurationDefinition {
 	builderType: string;
 	resourceData: string;
 }
+export interface QuestionConfigurationDefinitionViewModel {
+    name?: string | undefined;
+    description?: string | undefined;
+    valueType?: string | undefined;
+    builderType?: string | undefined;
+    defaultValue?: string | undefined;
+    resourceData?: string | undefined;
+}

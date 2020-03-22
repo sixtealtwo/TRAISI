@@ -28,6 +28,7 @@ import {
 	SBPageStructureViewModel
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionTypeDefinition } from "app/survey-builder/models/question-type-definition";
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 
 interface ConditionalOptionItem {
 	name: string;
@@ -108,12 +109,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		QuestionOptionValue[]
 	>();
 
-	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<
-		string,
-		QuestionTypeDefinition
-	>();
-
 	@Output()
 	public setBoundsSelected: EventEmitter<
 		QuestionConditionalSourceGroup
@@ -123,7 +118,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public optionTargetsTreeDropdown: DropdownTreeviewComponent;
 
 	public optionSelectValues: any[] = [];
-	constructor(private changeDetectRef: ChangeDetectorRef) {}
+	constructor(private changeDetectRef: ChangeDetectorRef, private _editor: SurveyBuilderEditorData) {}
 
 	public ngOnInit(): void {
 		this.setConditionsForQuestionType();

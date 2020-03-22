@@ -45,7 +45,9 @@ import { DropdownTreeviewSelectComponent } from "../../../shared/dropdown-treevi
 import { DropdownTreeviewSelectI18n } from "../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n";
 import { QuestionOptionValue } from "../../models/question-option-value.model";
 import { Router } from "@angular/router";
-import { SBPageStructureViewModel } from "app/survey-builder/services/survey-builder-client.service";
+import { SBPageStructureViewModel} from "app/survey-builder/services/survey-builder-client.service";
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -119,12 +121,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	};
 
 	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<
-		string,
-		QuestionTypeDefinition
-	>();
-
-	@Input()
 	public language: string;
 
 	@Output()
@@ -154,7 +150,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private builderService: SurveyBuilderService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private cDRef: ChangeDetectorRef,
-		private _router: Router
+		private _router: Router,
+		private _editorData: SurveyBuilderEditorData
 	) {}
 
 	public ngOnInit(): void {}
@@ -424,7 +421,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.questionOptions = new Map<string, QuestionOptionValue[]>();
 
 		if (this.questionBeingEdited.questionPart) {
-			let qOptions = this.qTypeDefinitions.get(
+			let qOptions = this._editorData.questionTypeMap.get(
 				this.questionBeingEdited.questionPart.questionType
 			).questionOptions;
 			Object.keys(qOptions).forEach(q => {
@@ -481,19 +478,19 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	private getQuestionResponseType(typeValue: string): string {
+	private getQuestionResponseType(typeValue: string): QuestionResponseType {
 		let questionType = typeValue.split("~")[1];
-		return this.qTypeDefinitions.get(questionType).responseType;
+		return this._editorData.questionTypeMap.get(questionType).responseType;
 	}
 
 	private getQuestionType(typeValue: string): string {
 		let questionType = typeValue.split("~")[1];
-		return this.qTypeDefinitions.get(questionType).typeName;
+		return this._editorData.questionTypeMap.get(questionType).typeName;
 	}
 
 	private allowAsRepeatSource(typeValue: string): boolean {
 		let responseType = this.getQuestionResponseType(typeValue);
-		if (responseType === "Integer") {
+		if (responseType === QuestionResponseType.Integer) {
 			return true;
 		} else {
 			return false;
@@ -515,12 +512,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public allowConditionals(): boolean {
 		if (
 			this.questionType.typeName === "Survey Part" ||
-			this.questionType.responseType === "None"
+			this.questionType.responseType === QuestionResponseType.None
 		) {
 			return false;
 		} else if (
-			this.questionType.responseType === "OptionSelect" ||
-			this.questionType.responseType === "OptionList"
+			this.questionType.responseType === QuestionResponseType.OptionSelect ||
+			this.questionType.responseType === QuestionResponseType.OptionList
 		) {
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
 				return true;
@@ -588,10 +585,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		for (let page of this.questionStructure) {
 			this.processSourceConditionalsPage(page);
 		}
-
-		console.log(this.questionStructure);
-		console.log(this.sourceQuestionList);
-		console.log(this);
 	}
 
 	/**

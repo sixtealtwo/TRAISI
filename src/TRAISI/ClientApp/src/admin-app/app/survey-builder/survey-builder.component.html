@@ -188,7 +188,7 @@
 		<div role="tabpanel" class="tab-pane" id="pages" aria-labelledby="pages-tab" aria-expanded="true">
 			<!-- Page question list edtor area-->
 			<app-nested-drag-and-drop-list *ngIf="loadedSpecialPages && currentPage == 'surveyPage'"
-				[(householdAdded)]="householdAdded" [qTypeDefinitions]="qTypeDefinitions" [surveyId]="surveyId"
+				[(householdAdded)]="householdAdded" [surveyId]="surveyId"
 				[currentLanguage]="currentLanguage" [catiEnabled]="catiExists" #surveyPageDragAndDrop>
 			</app-nested-drag-and-drop-list>
 			<br />
@@ -377,7 +377,7 @@
 	<!-- .sidebar-section -->
 	<traisi-question-type-chooser #questionChooser [householdAdded]="householdAdded"
 		[disabled]="currentPage != 'surveyPage'" (addQuestionType)="addQuestionTypeToList($event)"
-		(loadedQuestionTypes)="mapQuestionTypeDefinitions()"></traisi-question-type-chooser>
+		></traisi-question-type-chooser>
 	<button type="button" class="close mt-n1 d-none d-xl-none d-sm-block" onclick="Looper.toggleSidebar()"
 		aria-label="Close">
 		<span aria-hidden="true">×</span>

@@ -1,4 +1,4 @@
 export enum QuestionCondtionalOperatorType {
-    AND = 0,
-    OR = 1,
+	AND = 0,
+	OR = 1
 }

@@ -38,7 +38,8 @@ import { RealTimeNotificationServce } from "../services/real-time-notification.s
 import { SurveyNotification } from "../models/survey-notification";
 import { ScreeningQuestions } from "./models/screening-questions.model";
 import { FormGroup, FormControl } from "@angular/forms";
-import { SurveyBuilderEditorData } from './services/survey-builder-editor-data.service';
+import { SurveyBuilderEditorData } from "./services/survey-builder-editor-data.service";
+import { SurveyBuilderClient } from "./services/survey-builder-client.service";
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -145,7 +146,8 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 		private route: ActivatedRoute,
 		private alertService: AlertService,
 		private cdRef: ChangeDetectorRef,
-		private notificationService: RealTimeNotificationServce
+		private notificationService: RealTimeNotificationServce,
+		private _editorData: SurveyBuilderEditorData
 	) {
 		this.route.params.subscribe(params => {
 			this.surveyId = params["id"];
@@ -159,16 +161,20 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		this.loadPageStructure();
-		this.surveyUpdate = this.notificationService.registerChannel(
-			`survey-${this.surveyId}`
-		);
-		this.surveyUpdate.subscribe(value => {
-			this.loadPageStructure();
-			console.log(this);
+		this._editorData.initialize(this.surveyId).subscribe({
+			complete: () => {
+				this.loadPageStructure();
+				this.surveyUpdate = this.notificationService.registerChannel(
+					`survey-${this.surveyId}`
+				);
+				this.surveyUpdate.subscribe(value => {
+					this.loadPageStructure();
+					console.log(this);
+				});
+				this.switchPage("welcome");
+				this.iconFormGroup = new FormGroup({ iconCss: this.iconCss });
+			}
 		});
-		this.switchPage("welcome");
-		this.iconFormGroup = new FormGroup({ iconCss: this.iconCss });
 	}
 
 	public ngOnDestroy(): void {
