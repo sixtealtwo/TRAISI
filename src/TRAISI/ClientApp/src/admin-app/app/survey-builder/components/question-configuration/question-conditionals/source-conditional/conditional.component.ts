@@ -249,6 +249,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			// this.copiedOptionList = this.sourceQuestion.children;
 			console.log(this.sourceQuestion);
 			console.log(this.copiedOptionList);
+			this.copiedOptionList = this.sourceQuestion.children ?? [];
 		} else if (this.responseType === QuestionResponseType.DateTime) {
 			this.dropDownListItems = ["In Range", "Outside Range"];
 		}
