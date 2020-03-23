@@ -306,10 +306,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy, AfterViewI
 	 */
 	private processPipedQuestionLabel(rawLabel: string): void {
 		let processedLabel = Utilities.replacePlaceholder(rawLabel, this.retrieveHouseholdTag(), this.respondent.name);
-
+		processedLabel = Utilities.replacePlaceholder(processedLabel, 'respondentName', this.respondent.name);
 		// get tag list
 		let tags = Utilities.extractPlaceholders(processedLabel);
-
 		processedLabel = this._textTransformer.transformText(processedLabel);
 
 		if (tags && tags.length > 0) {

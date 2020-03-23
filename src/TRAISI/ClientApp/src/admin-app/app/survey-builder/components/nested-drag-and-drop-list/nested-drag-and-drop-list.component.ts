@@ -126,7 +126,6 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 			)
 			.subscribe({
 				next: model => {
-					console.log(model);
 					this._questionStructure = model;
 				},
 				error: error => {
@@ -149,6 +148,9 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 					this.householdAddedChange.emit(this.householdAdded);
 					this.updateStructure = false;
 					this.updateQuestionOffset();
+					console.log(this);
+					this._editorData.currentPage = this.currentPage;
+					console.log(this._editorData);
 				});
 		} else {
 			this.updateQuestionOffset();
@@ -396,6 +398,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 								this.qConfiguration.configurationValues
 							)
 							.subscribe(result => {
+								
 								this.notificationService.indicateSurveyChange(
 									this.surveyId
 								);

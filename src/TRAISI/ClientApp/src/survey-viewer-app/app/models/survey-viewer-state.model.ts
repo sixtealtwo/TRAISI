@@ -68,6 +68,8 @@ export interface SurveyViewerState {
 	// map question ids to the viewer question object
 	questionMap: { [id: number]: SurveyViewQuestion };
 
+	questionViewMap: { [id: number]: SurveyViewQuestion };
+
 	sectionMap: { [id: number]: SurveyViewSection };
 
 	viewContainers: Array<SurveyPageContainer>;

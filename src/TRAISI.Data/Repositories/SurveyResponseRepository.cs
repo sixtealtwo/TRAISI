@@ -131,9 +131,11 @@ namespace DAL.Repositories
 		/// <returns></returns>
 		public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync (List<int> questionIds, SurveyRespondent user) {
 
-			var result = await this._entities.Where (s => s.Respondent == user && questionIds.Contains (s.QuestionPart.Id))
+			var result = await this._entities.Where (s => s.Respondent == user && questionIds.AsEnumerable().Contains (s.QuestionPart.Id))
 				.Include (v => v.ResponseValues)
-				.Include (v => v.QuestionPart).OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
+				//.Include (v => v.QuestionPart).OrderBy (s => questionIds.AsEnumerable().IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
+				.Include (v => v.QuestionPart)
+				.OrderBy (s => s.QuestionPart.Id).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
 				//.ToAsyncEnumerable ().OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToList ();
 
 			result.ForEach (r => r.QuestionPart = null);

@@ -121,6 +121,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.model = '' + decimalResponse.value;
 			this._numberModel = Number(this.model.replace(/[^0-9\.]+/g, ''));
 			this.validationState.emit(ResponseValidationState.VALID);
+			console.log(this);
 		}
 
 		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {

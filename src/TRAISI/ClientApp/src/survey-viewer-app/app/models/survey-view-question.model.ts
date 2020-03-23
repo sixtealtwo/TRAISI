@@ -3,6 +3,7 @@ import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { SurveyViewConditional } from './survey-view-conditional.model';
 import { ResponseValidationState } from 'traisi-question-sdk';
+import { QuestionConditionalOperator } from './question-conditional-operator.model';
 export interface SurveyViewQuestion {
 	configuration: object | Array<any> | any;
 	id: number;
@@ -32,6 +33,5 @@ export interface SurveyViewQuestion {
 	viewId: Symbol;
 	parentMember?: SurveyViewGroupMember;
 	validationState: ResponseValidationState;
-	sourceConditionals?: Array<SurveyViewConditional>;
-	targetConditionals?: Array<SurveyViewConditional>;
+	conditionals: Array<QuestionConditionalOperator>;
 }

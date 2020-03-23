@@ -240,6 +240,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				share()
 			)
 			.subscribe((pages: SurveyViewPage[]) => {
+				console.log(pages);
 				pages.forEach(page => {
 					this.headerDisplay.completedPages.push(false);
 				});
@@ -343,6 +344,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						}
 
 						this.viewerState.questionMap[question.questionId] = question;
+						this.viewerState.questionViewMap[question.id]=question;
 
 						if (question.isRepeat) {
 							this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
@@ -383,6 +385,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							question.parentSection = section;
 							question.inSectionIndex = inSectionIndex;
 							this.viewerState.questionMap[question.questionId] = question;
+							this.viewerState.questionViewMap[question.id]=question;
 							question.viewId = Symbol();
 							this.questionTypeMap[question.questionId] = question.questionType;
 							this.questionNameMap[question.name] = question.questionId;
@@ -529,9 +532,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		);
 	}
 
-	public trackById(question, question2) {
-		// console.log(question,question2);
-		return question2.id;
+	public trackById(index,item) {
+		let val = item.id+'_'+this.navigator?.navigationState$.value.activeRespondentIndex;
+		return val;
 	}
 
 	public updateNavigation(): void {

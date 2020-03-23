@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using DAL.Models.Questions;
 
 namespace TRAISI.ViewModels.SurveyViewer
 {
@@ -31,10 +32,8 @@ namespace TRAISI.ViewModels.SurveyViewer
 
 		public bool IsMultiView { get; set; }
 
-		public List<SurveyViewConditionalViewModel> SourceConditionals { get; set; }
-
-		public List<SurveyViewConditionalViewModel> TargetConditionals { get; set; }
-
 		public ConcurrentDictionary<string, object> Configuration { get; set; }
+
+		public List<QuestionConditionalOperator> Conditionals {get;set;}
 	}
 }

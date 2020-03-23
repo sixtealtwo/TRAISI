@@ -144,7 +144,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private questionQuillEditor: any;
 	private catiQuestionQuillEditor: any;
 
-	protected sourceQuestionList: Array<SBPageStructureViewModel> = [];
+	protected sourceQuestionList: Array<QuestionPartView> = [];
 
 	@ViewChildren("dynamic", { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
@@ -215,6 +215,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					this.questionBeingEdited.questionPart.id
 				)
 				.subscribe(configurationValues => {
+					console.log(configurationValues);
 					for (
 						let i = 0;
 						i < this.configTargets.toArray().length;
@@ -586,7 +587,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			}
 		});
 
-		for (let page of this.questionStructure) {
+		console.log(this._editorData.surveyStructure);
+		for (let page of this._editorData.currentPage.questionPartViewChildren) {
 			this.processSourceConditionalsPage(page);
 		}
 	}
@@ -595,15 +597,15 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 * Processes the survey questions and creates a candidate list of source conditionals
 	 */
 	private processSourceConditionalsPage(
-		view: SBPageStructureViewModel
+		view: QuestionPartView
 	): void {
 		// loop through the question structure and add to a list of possible questions
-		if (view.type !== "part") {
+		//if (view.type !== "part") {
 			this.sourceQuestionList.push(view);
-		}
+		//}
 
-		if (view.children !== null) {
-			for (let childView of view.children) {
+		if (view.questionPartViewChildren !== null) {
+			for (let childView of view.questionPartViewChildren) {
 				this.processSourceConditionalsPage(childView);
 			}
 		}

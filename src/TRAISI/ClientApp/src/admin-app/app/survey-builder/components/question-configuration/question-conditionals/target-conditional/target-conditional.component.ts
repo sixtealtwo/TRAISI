@@ -209,65 +209,66 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	public onSelectedChangeTargets(downlineItems: DownlineTreeviewItem[]): void {
-		this.checkedWithParents = downlineItems;
-		let priorTargetQuestionConditionals = this.targetQuestionConditionalsList;
-		let priorTargetQuestionOptionConditionals = this.targetQuestionOptionConditionalsList;
-		this.targetQuestionConditionalsList = [];
-		this.targetQuestionOptionConditionalsList = [];
 
-		let selectedSourceId: number;
+		// this.checkedWithParents = downlineItems;
+		// let priorTargetQuestionConditionals = this.targetQuestionConditionalsList;
+		// let priorTargetQuestionOptionConditionals = this.targetQuestionOptionConditionalsList;
+		// this.targetQuestionConditionalsList = [];
+		// this.targetQuestionOptionConditionalsList = [];
 
-		if (this.selectedSourceQuestion) {
-			selectedSourceId = +this.selectedSourceQuestion.split('~')[1];
-		} else {
-			selectedSourceId = -1;
-		}
+		// let selectedSourceId: number;
 
-		downlineItems.forEach((selectedTarget) => {
-			// if option, add only if parent question is unchecked
-			if (!selectedTarget.parent.item.checked) {
-				let id = +selectedTarget.item.value.split('~')[1];
+		// if (this.selectedSourceQuestion) {
+		// 	selectedSourceId = +this.selectedSourceQuestion.split('~')[1];
+		// } else {
+		// 	selectedSourceId = -1;
+		// }
 
-				let existing: QuestionOptionConditional = priorTargetQuestionOptionConditionals.filter(
-					(o) => o.targetOptionId === id
-				)[0];
-				if (existing) {
-					this.targetQuestionOptionConditionalsList.push(existing);
-				} else {
-					let newOptionConditional: QuestionOptionConditional = new QuestionOptionConditional(
-						0,
-						id,
-						selectedSourceId,
-						this.targetGroup.condition,
-						this.targetGroup.value
-					);
-					this.targetQuestionOptionConditionalsList.push(newOptionConditional);
-				}
-			} else {
-				let idSplit = selectedTarget.parent.item.value.split('~a');
-				let id = +idSplit[1];
-				let existingPrevious: QuestionConditional = priorTargetQuestionConditionals.filter(
-					(o) => o.targetQuestionId === id
-				)[0];
-				let existingAlready: QuestionConditional = this.targetQuestionConditionalsList.filter(
-					(o) => o.targetQuestionId === id
-				)[0];
-				if (existingAlready === undefined) {
-					if (existingPrevious) {
-						this.targetQuestionConditionalsList.push(existingPrevious);
-					} else {
-						let newConditional: QuestionConditional = new QuestionConditional(
-							0,
-							id,
-							selectedSourceId,
-							this.targetGroup.condition,
-							this.targetGroup.value
-						);
-						this.targetQuestionConditionalsList.push(newConditional);
-					}
-				}
-			}
-		});
+		// downlineItems.forEach((selectedTarget) => {
+		// 	// if option, add only if parent question is unchecked
+		// 	if (!selectedTarget.parent.item.checked) {
+		// 		let id = +selectedTarget.item.value.split('~')[1];
+
+		// 		let existing: QuestionOptionConditional = priorTargetQuestionOptionConditionals.filter(
+		// 			(o) => o.targetOptionId === id
+		// 		)[0];
+		// 		if (existing) {
+		// 			this.targetQuestionOptionConditionalsList.push(existing);
+		// 		} else {
+		// 			let newOptionConditional: QuestionOptionConditional = new QuestionOptionConditional(
+		// 				0,
+		// 				id,
+		// 				selectedSourceId,
+		// 				this.targetGroup.condition,
+		// 				this.targetGroup.value
+		// 			);
+		// 			this.targetQuestionOptionConditionalsList.push(newOptionConditional);
+		// 		}
+		// 	} else {
+		// 		let idSplit = selectedTarget.parent.item.value.split('~a');
+		// 		let id = +idSplit[1];
+		// 		let existingPrevious: QuestionConditional = priorTargetQuestionConditionals.filter(
+		// 			(o) => o.targetQuestionId === id
+		// 		)[0];
+		// 		let existingAlready: QuestionConditional = this.targetQuestionConditionalsList.filter(
+		// 			(o) => o.targetQuestionId === id
+		// 		)[0];
+		// 		if (existingAlready === undefined) {
+		// 			if (existingPrevious) {
+		// 				this.targetQuestionConditionalsList.push(existingPrevious);
+		// 			} else {
+		// 				let newConditional: QuestionConditional = new QuestionConditional(
+		// 					0,
+		// 					id,
+		// 					selectedSourceId,
+		// 					this.targetGroup.condition,
+		// 					this.targetGroup.value
+		// 				);
+		// 				this.targetQuestionConditionalsList.push(newConditional);
+		// 			}
+		// 		}
+		// 	}
+		// });
 	}
 
 	public onSelectedChangeOptions(downlineItems: DownlineTreeviewItem[]): void {

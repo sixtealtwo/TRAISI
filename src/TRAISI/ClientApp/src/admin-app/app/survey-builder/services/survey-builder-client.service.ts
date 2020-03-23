@@ -2892,6 +2892,7 @@ export interface SurveyView {
 }
 
 export interface QuestionPartView {
+    id?: number,
     labels?: LabelCollectionOfQuestionPartViewLabel | undefined;
     questionPart?: QuestionPart | undefined;
     parentView?: QuestionPartView | undefined;

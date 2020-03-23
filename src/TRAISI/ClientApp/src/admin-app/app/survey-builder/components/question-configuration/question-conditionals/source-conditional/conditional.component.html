@@ -2,7 +2,7 @@
 	<div class="col-lg-5 conditional-row">
 		<ng-select
 			[items]="sourceQuestionList"
-			bindLabel="label"
+			bindLabel="questionPart.name"
 			autofocus
 			[(ngModel)]="sourceQuestion"
 			(change)="onChange($event)"

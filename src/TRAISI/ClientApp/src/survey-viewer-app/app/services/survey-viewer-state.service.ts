@@ -60,6 +60,7 @@ export class SurveyViewerStateService {
 			isPreviousActionNext: true,
 			activeSectionRepeatContainer: undefined,
 			questionMap: {},
+			questionViewMap: {},
 			activeQuestionContainers: [],
 			questionNavIndex: 0,
 			sectionMap: {}
@@ -142,6 +143,7 @@ export class SurveyViewerStateService {
 			return of();
 		}
 		return Observable.create(observer => {
+			console.log('in here ');
 			this._responderService.readyCachedSavedResponses([activeQuestion.questionId], respondentId).subscribe(result => {
 				for (let repeatTarget of activeQuestion.repeatTargets) {
 					const response: any = this._responderService.getCachedSavedResponse(activeQuestion.questionId, respondentId)[0].value;
@@ -287,57 +289,58 @@ export class SurveyViewerStateService {
 	 * @param updatedQuestionId
 	 */
 	public evaluateConditionals(updatedQuestionId: number, respondentId: number): Observable<{}> {
-		return Observable.create(observer => {
-			if (
-				this.viewerState.questionMap[updatedQuestionId] === undefined ||
-				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
-			) {
-				setTimeout(() => {
-					observer.complete();
-				});
-			} else {
-				let conditionalEvals = [];
-				this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
-					let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
+		return EMPTY;
+		// return Observable.create(observer => {
+		// 	if (
+		// 		this.viewerState.questionMap[updatedQuestionId] === undefined ||
+		// 		this.viewerState.questionMap[updatedQuestionId].sourceConditionals.length === 0
+		// 	) {
+		// 		setTimeout(() => {
+		// 			observer.complete();
+		// 		});
+		// 	} else {
+		// 		let conditionalEvals = [];
+		// 		this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+		// 			let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
-					let sourceQuestionIds: number[] = [];
+		// 			let sourceQuestionIds: number[] = [];
 
-					targetQuestion.targetConditionals.forEach(targetConditional => {
-						sourceQuestionIds.push(targetConditional.sourceQuestionId);
-					});
+		// 			targetQuestion.targetConditionals.forEach(targetConditional => {
+		// 				sourceQuestionIds.push(targetConditional.sourceQuestionId);
+		// 			});
 
-					console.log('in here ');
-					conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
-				});
+		// 			console.log('in here ');
+		// 			conditionalEvals.push(this._responderService.readyCachedSavedResponses(sourceQuestionIds, respondentId));
+		// 		});
 
-				forkJoin(conditionalEvals).subscribe(values => {
-					this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
-						let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
+		// 		forkJoin(conditionalEvals).subscribe(values => {
+		// 			this.viewerState.questionMap[updatedQuestionId].sourceConditionals.forEach(conditional => {
+		// 				let targetQuestion = this.viewerState.questionMap[conditional.targetQuestionId];
 
-						let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
-							let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
+		// 				let evalTrue: boolean = targetQuestion.targetConditionals.some(evalConditional => {
+		// 					let response = this._responderService.getCachedSavedResponse(evalConditional.sourceQuestionId, respondentId);
 
-							if (response === undefined || response.length === 0) {
-								return;
-							}
-							/*let evalResult = this._conditionalEvaluator.evaluateConditional(
-								evalConditional.conditionalType,
-								response,
-								'',
-								evalConditional.value
-							); */
-							return false;
-						});
+		// 					if (response === undefined || response.length === 0) {
+		// 						return;
+		// 					}
+		// 					/*let evalResult = this._conditionalEvaluator.evaluateConditional(
+		// 						evalConditional.conditionalType,
+		// 						response,
+		// 						'',
+		// 						evalConditional.value
+		// 					); */
+		// 					return false;
+		// 				});
 
-						if (targetQuestion.isRespondentHidden === undefined) {
-							targetQuestion.isRespondentHidden = {};
-						}
-						targetQuestion.isRespondentHidden[respondentId] = evalTrue;
-						targetQuestion.isHidden = evalTrue;
-					});
-					observer.complete();
-				});
-			}
-		});
+		// 				if (targetQuestion.isRespondentHidden === undefined) {
+		// 					targetQuestion.isRespondentHidden = {};
+		// 				}
+		// 				targetQuestion.isRespondentHidden[respondentId] = evalTrue;
+		// 				targetQuestion.isHidden = evalTrue;
+		// 			});
+		// 			observer.complete();
+		// 		});
+		// 	}
+		// });
 	}
 }

@@ -4,6 +4,7 @@ import { SurveyBuilderClient } from "./survey-builder-client.service";
 import { QuestionClient } from "./survey-builder-client.service";
 import { QuestionTypeDefinition } from "../models/question-type-definition";
 import { TreeviewItem } from 'ngx-treeview';
+import { QuestionPartView } from '../models/question-part-view.model';
 /**
  *
  *
@@ -22,6 +23,8 @@ export class SurveyBuilderEditorData {
 	>();
 
 	public surveyStructure: Array<TreeviewItem> = [];
+
+	public currentPage: QuestionPartView;
 
 	/**
 	 * Initializes required config data and related information for the survey builder

@@ -101,6 +101,7 @@ namespace TRAISI.ViewModels {
 
 			CreateMap<QuestionPartView, SurveyViewSectionViewModel> ()
 				.ForMember (m => m.Questions, map => map.MapFrom (v => v.QuestionPartViewChildren))
+				.ForMember(m => m.Conditionals, map => map.MapFrom(f => f.Conditionals))
 				.ForMember (m => m.RepeatSource, map => {
 					map.MapFrom (f => f.RepeatSource.Id);
 					map.Condition (f => f.RepeatSource != null);
@@ -122,14 +123,6 @@ namespace TRAISI.ViewModels {
 				.ForMember (m => m.Label, map => map.Ignore ())
 				.ForMember (m => m.Name, map => map.MapFrom (v => v.QuestionPart.Name))
 				.ForMember (m => m.IsHousehold, map => map.MapFrom (f => f.IsHousehold))
-				.ForMember (m => m.SourceConditionals, map => {
-					map.MapFrom (f => f.QuestionPart.QuestionConditionalsSource);
-					map.Condition (f => f.QuestionPart != null);
-				})
-				.ForMember (m => m.TargetConditionals, map => {
-					map.MapFrom (f => f.QuestionPart.QuestionConditionalsTarget);
-					map.Condition (f => f.QuestionPart != null);
-				})
 				.ForMember (m => m.RepeatSource, map => {
 					map.MapFrom (f => f.RepeatSource.Id);
 					map.Condition (f => f.RepeatSource != null);

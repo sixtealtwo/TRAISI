@@ -25,7 +25,8 @@ import { BsDaterangepickerConfig } from "ngx-bootstrap";
 import { QuestionOptionValue } from "../../../../models/question-option-value.model";
 import {
 	SBQuestionPartViewModel,
-	SBPageStructureViewModel
+	SBPageStructureViewModel,
+	QuestionPartView
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionTypeDefinition } from "app/survey-builder/models/question-type-definition";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
@@ -84,10 +85,10 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	public dateRange: Date[] = [];
 
-	public sourceQuestion: SBPageStructureViewModel;
+	public sourceQuestion: QuestionPartView;
 
 	@Input()
-	public sourceQuestionList: SBPageStructureViewModel[] = [];
+	public sourceQuestionList: QuestionPartView[] = [];
 
 	@Input()
 	public responseType: QuestionResponseType;
@@ -126,6 +127,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	) {}
 
 	public ngOnInit(): void {
+		console.log(this.sourceQuestionList);
 		/* get the reference to the question */
 		let sourceQuestion = this.sourceQuestionList.find(
 			s => Number(s.id) === this.sourceGroup.sourceQuestionId
@@ -162,11 +164,12 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	 * When the source question drop down is changed
 	 * @param event
 	 */
-	public onChange(event: SBPageStructureViewModel): void {
+	public onChange(event: QuestionPartView): void {
 
 		this.sourceQuestion = event;
 		this.setConditionsForQuestionType();
 		this.changeDetectRef.detectChanges();
+		console.log(event);
 		this.sourceGroup.sourceQuestionId = Number(event.id);
 	}
 
@@ -228,7 +231,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		if(this.sourceQuestion === null) {
 			return;
 		}
-		var type = this.sourceQuestion?.type?.split("~")[1];
+		var type = this.sourceQuestion?.questionPart?.questionType;
 		this.responseType = this._editor.questionTypeMap.get(
 			type
 		)?.responseType;
@@ -255,7 +258,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.responseType === QuestionResponseType.OptionList
 		) {
 			this.dropDownListItems = ["Is Any Of", "Is All Of"];
-			this.copiedOptionList = this.sourceQuestion.children ?? [];
+			this.copiedOptionList = this.sourceQuestion.questionPartViewChildren ?? [];
 		} else if (this.responseType === QuestionResponseType.DateTime) {
 			this.dropDownListItems = ["In Range", "Outside Range"];
 		}
