@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { SurveyBuilderComponent } from "./survey-builder.component";
 import { ROUTES } from "./survey-builder.routes";
 import { SharedModule } from "../shared/shared.module";
-import { NestedDragAndDropListComponent } from "./components/nested-drag-and-drop-list/nested-drag-and-drop-list.component";
+import { QuestionPageDisplayComponent } from "./components/nested-drag-and-drop-list/nested-drag-and-drop-list.component";
 import { TranslateLanguageLoader } from "../../../shared/services/app-translation.service";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { SurveyBuilderEndpointService } from "./services/survey-builder-endpoint.service";
@@ -115,7 +115,7 @@ export const translateForChild = TranslateModule.forChild({
 	declarations: [
 		SurveyBuilderComponent,
 		QuestionTypeChooserComponent,
-		NestedDragAndDropListComponent,
+		QuestionPageDisplayComponent,
 		QuestionConfigurationComponent,
 		CheckboxComponent,
 		DateInputComponent,

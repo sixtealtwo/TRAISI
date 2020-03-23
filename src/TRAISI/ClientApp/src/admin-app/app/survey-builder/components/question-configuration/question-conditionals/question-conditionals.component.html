@@ -22,7 +22,7 @@
 			let i = index;
 			last as isLast;
 			odd as isOdd;
-			even as isEven;
+			even as isEven
 		"
 	>
 		<div class="col-md-12">
@@ -34,32 +34,18 @@
 				<i class="fas fa-times"></i>
 			</button>
 			<div class="conditional-row">
-				<div *ngIf="isEven">
-					<app-conditional
-						[sourceQuestionList]="sourceQuestionList"
-						#sConditionals
-						[optionList]="thisQuestion[0].children"
-						[questionOptions]="questionOptions"
-						[sourceGroup]="conditionals[getConditionalIndex(i)].lhs"
-						[questionPartId]="questionBeingEdited.questionPart.id"
-						[questionType]="questionType.typeName"
-						[responseType]="questionType.responseType"
-						(setBoundsSelected)="showLocationBoundsModal($event)"
-					></app-conditional>
-				</div>
-				<div *ngIf="isOdd">
-					<app-conditional
-						[sourceQuestionList]="sourceQuestionList"
-						#sConditionals
-						[optionList]="thisQuestion[0].children"
-						[questionOptions]="questionOptions"
-						[sourceGroup]="conditionals[getConditionalIndex(i)].rhs"
-						[questionPartId]="questionBeingEdited.questionPart.id"
-						[questionType]="questionType.typeName"
-						[responseType]="questionType.responseType"
-						(setBoundsSelected)="showLocationBoundsModal($event)"
-					></app-conditional>
-				</div>
+				<app-conditional
+					[sourceQuestionList]="sourceQuestionList"
+					#sConditionals
+					[optionList]="thisQuestion[0].children"
+					[questionOptions]="questionOptions"
+					[sourceGroup]="getConditionalModel(i)"
+					[questionPartId]="questionBeingEdited.questionPart.id"
+					[questionType]="questionType.typeName"
+					[responseType]="questionType.responseType"
+					(setBoundsSelected)="showLocationBoundsModal($event)"
+				></app-conditional>
+
 				<div class="row">
 					<div class="col-md-12">
 						<hr class="edit-separator-hr" />

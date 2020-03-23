@@ -328,7 +328,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	}
 
 	public loadPriorTargetConditionals() {
-		console.log(this);
 		let targetConditionalsMap: Map<string, string[]> = new Map<
 			string,
 			string[]
@@ -378,8 +377,20 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	public getConditionalIndex(index: number) {
-		return Math.trunc(index/2);
+	/**
+	 * Returns the appropriate model for the display index of the conditionals
+	 * @param index the index in the display
+	 */
+	public getConditionalModel(index: number) {
+		if(index == 0) {
+			return this.conditionals[0].lhs
+		}
+		else if(index == 1) {
+			return this.conditionals[0].rhs;
+		}
+		else {
+			return this.conditionals[Math.trunc(index/2)].rhs
+		}
 	}
 
 	public addConditional() {}
@@ -390,7 +401,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				operatorType: QuestionCondtionalOperatorType.AND,
 				lhs: {},
 				rhs: {},
-				targetQuestionId: 0
+				targetQuestionId: this.questionBeingEdited.id,
+				order:this.conditionalCount
 			});
 		}
 		this.conditionalCount++;

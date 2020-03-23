@@ -43,7 +43,7 @@ import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-buil
 	styleUrls: ["./nested-drag-and-drop-list.component.scss"],
 	animations: [fadeInOut]
 })
-export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
+export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 	public qPartQuestions: Map<number, QuestionPartView> = new Map<
 		number,
 		QuestionPartView
@@ -490,8 +490,7 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 				);
 				cleanedQuestion.catiDependent.questionPartViewChildren = null;
 			}
-
-			console.log(cleanedQuestion);
+			cleanedQuestion.conditionals = this.qConfiguration.getUpdatedConditionals();
 			this.surveyBuilderService
 				.updateQuestionPartViewData(this.surveyId, cleanedQuestion)
 				.subscribe(
@@ -507,88 +506,91 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 								)
 								.subscribe(
 									configResult => {
-										if (
-											this.qConfiguration
-												.conditionalsComponent
-										) {
-											let [
-												qConditionals,
-												qoConditionals
-											] = this.qConfiguration.getUpdatedConditionals();
-											this.surveyBuilderService
-												.setQuestionPartConditionals(
-													this.surveyId,
-													this.questionBeingEdited
-														.questionPart.id,
-													qConditionals
-												)
-												.subscribe(
-													condResult => {
-														this.surveyBuilderService
-															.setQuestionPartOptionConditionals(
-																this.surveyId,
-																this
-																	.questionBeingEdited
-																	.questionPart
-																	.id,
-																qoConditionals
-															)
-															.subscribe(
-																oCondResult => {
-																	this.alertService.showMessage(
-																		"Success",
-																		`Question data, configurations and conditionals updated successfully!`,
-																		MessageSeverity.success
-																	);
-																	this.configurationModal.hide();
-																	this.notificationService.indicateSurveyChange(
-																		this
-																			.surveyId
-																	);
-																},
-																error => {
-																	this.alertService.showStickyMessage(
-																		"Update Error",
-																		`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
-																			error
-																		)}"`,
-																		MessageSeverity.error,
-																		error
-																	);
-																	this.qConfiguration.isSaving = false;
-																	this.notificationService.indicateSurveyChange(
-																		this
-																			.surveyId
-																	);
-																}
-															);
-													},
-													error => {
-														this.alertService.showStickyMessage(
-															"Update Error",
-															`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
-																error
-															)}"`,
-															MessageSeverity.error,
-															error
-														);
-														this.qConfiguration.isSaving = false;
-														this.notificationService.indicateSurveyChange(
-															this.surveyId
-														);
-													}
-												);
-										} else {
-											this.alertService.showMessage(
-												"Success",
-												`Question data and configurations updated successfully!`,
-												MessageSeverity.success
-											);
-											this.configurationModal.hide();
-											this.notificationService.indicateSurveyChange(
-												this.surveyId
-											);
-										}
+										
+										// if (
+										// 	this.qConfiguration
+										// 		.conditionalsComponent
+										// ) {
+										// 	let [
+										// 		qConditionals,
+										// 		qoConditionals
+										// 	] = this.qConfiguration.getUpdatedConditionals();
+											
+											
+										// 	this.surveyBuilderService
+										// 		.setQuestionPartConditionals(
+										// 			this.surveyId,
+										// 			this.questionBeingEdited
+										// 				.questionPart.id,
+										// 			qConditionals
+										// 		)
+										// 		.subscribe(
+										// 			condResult => {
+										// 				this.surveyBuilderService
+										// 					.setQuestionPartOptionConditionals(
+										// 						this.surveyId,
+										// 						this
+										// 							.questionBeingEdited
+										// 							.questionPart
+										// 							.id,
+										// 						qoConditionals
+										// 					)
+										// 					.subscribe(
+										// 						oCondResult => {
+										// 							this.alertService.showMessage(
+										// 								"Success",
+										// 								`Question data, configurations and conditionals updated successfully!`,
+										// 								MessageSeverity.success
+										// 							);
+										// 							this.configurationModal.hide();
+										// 							this.notificationService.indicateSurveyChange(
+										// 								this
+										// 									.surveyId
+										// 							);
+										// 						},
+										// 						error => {
+										// 							this.alertService.showStickyMessage(
+										// 								"Update Error",
+										// 								`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+										// 									error
+										// 								)}"`,
+										// 								MessageSeverity.error,
+										// 								error
+										// 							);
+										// 							this.qConfiguration.isSaving = false;
+										// 							this.notificationService.indicateSurveyChange(
+										// 								this
+										// 									.surveyId
+										// 							);
+										// 						}
+										// 					);
+										// 			},
+										// 			error => {
+										// 				this.alertService.showStickyMessage(
+										// 					"Update Error",
+										// 					`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+										// 						error
+										// 					)}"`,
+										// 					MessageSeverity.error,
+										// 					error
+										// 				);
+										// 				this.qConfiguration.isSaving = false;
+										// 				this.notificationService.indicateSurveyChange(
+										// 					this.surveyId
+										// 				);
+										// 			}
+										// 		); */
+										// } else {
+										// 	this.alertService.showMessage(
+										// 		"Success",
+										// 		`Question data and configurations updated successfully!`,
+										// 		MessageSeverity.success
+										// 	);
+										// 	this.configurationModal.hide();
+										// 	this.notificationService.indicateSurveyChange(
+										// 		this.surveyId
+										// 	);
+										// } */
 									},
 									error => {
 										this.alertService.showStickyMessage(
@@ -606,81 +608,81 @@ export class NestedDragAndDropListComponent implements OnInit, AfterViewInit {
 									}
 								);
 						} else {
-							if (this.qConfiguration.conditionalsComponent) {
-								let [
-									qConditionals,
-									qoConditionals
-								] = this.qConfiguration.getUpdatedConditionals();
-								this.surveyBuilderService
-									.setQuestionPartConditionals(
-										this.surveyId,
-										this.questionBeingEdited.questionPart
-											.id,
-										qConditionals
-									)
-									.subscribe(
-										condResult => {
-											this.surveyBuilderService
-												.setQuestionPartOptionConditionals(
-													this.surveyId,
-													this.questionBeingEdited
-														.questionPart.id,
-													qoConditionals
-												)
-												.subscribe(
-													oCondResult => {
-														this.alertService.showMessage(
-															"Success",
-															`Question data, configurations and conditionals updated successfully!`,
-															MessageSeverity.success
-														);
-														this.configurationModal.hide();
-														this.notificationService.indicateSurveyChange(
-															this.surveyId
-														);
-													},
-													error => {
-														this.alertService.showStickyMessage(
-															"Update Error",
-															`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
-																error
-															)}"`,
-															MessageSeverity.error,
-															error
-														);
-														this.qConfiguration.isSaving = false;
-														this.notificationService.indicateSurveyChange(
-															this.surveyId
-														);
-													}
-												);
-										},
-										error => {
-											this.alertService.showStickyMessage(
-												"Update Error",
-												`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
-													error
-												)}"`,
-												MessageSeverity.error,
-												error
-											);
-											this.qConfiguration.isSaving = false;
-											this.notificationService.indicateSurveyChange(
-												this.surveyId
-											);
-										}
-									);
-							} else {
-								this.alertService.showMessage(
-									"Success",
-									`Question data and configurations updated successfully!`,
-									MessageSeverity.success
-								);
-								this.configurationModal.hide();
-								this.notificationService.indicateSurveyChange(
-									this.surveyId
-								);
-							}
+							// if (this.qConfiguration.conditionalsComponent) {
+							// 	let [
+							// 		qConditionals,
+							// 		qoConditionals
+							// 	] = this.qConfiguration.getUpdatedConditionals();
+							// 	this.surveyBuilderService
+							// 		.setQuestionPartConditionals(
+							// 			this.surveyId,
+							// 			this.questionBeingEdited.questionPart
+							// 				.id,
+							// 			qConditionals
+							// 		)
+							// 		.subscribe(
+							// 			condResult => {
+							// 				this.surveyBuilderService
+							// 					.setQuestionPartOptionConditionals(
+							// 						this.surveyId,
+							// 						this.questionBeingEdited
+							// 							.questionPart.id,
+							// 						qoConditionals
+							// 					)
+							// 					.subscribe(
+							// 						oCondResult => {
+							// 							this.alertService.showMessage(
+							// 								"Success",
+							// 								`Question data, configurations and conditionals updated successfully!`,
+							// 								MessageSeverity.success
+							// 							);
+							// 							this.configurationModal.hide();
+							// 							this.notificationService.indicateSurveyChange(
+							// 								this.surveyId
+							// 							);
+							// 						},
+							// 						error => {
+							// 							this.alertService.showStickyMessage(
+							// 								"Update Error",
+							// 								`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+							// 									error
+							// 								)}"`,
+							// 								MessageSeverity.error,
+							// 								error
+							// 							);
+							// 							this.qConfiguration.isSaving = false;
+							// 							this.notificationService.indicateSurveyChange(
+							// 								this.surveyId
+							// 							);
+							// 						}
+							// 					);
+							// 			},
+							// 			error => {
+							// 				this.alertService.showStickyMessage(
+							// 					"Update Error",
+							// 					`Unable to update question configurations.\r\nErrors: "${Utilities.getHttpResponseMessage(
+							// 						error
+							// 					)}"`,
+							// 					MessageSeverity.error,
+							// 					error
+							// 				);
+							// 				this.qConfiguration.isSaving = false;
+							// 				this.notificationService.indicateSurveyChange(
+							// 					this.surveyId
+							// 				);
+							// 			}
+							// 		);
+							// } else {
+							// 	this.alertService.showMessage(
+							// 		"Success",
+							// 		`Question data and configurations updated successfully!`,
+							// 		MessageSeverity.success
+							// 	);
+							// 	this.configurationModal.hide();
+							// 	this.notificationService.indicateSurveyChange(
+							// 		this.surveyId
+							// 	);
+							// }
 						}
 					},
 					error => {

@@ -17,7 +17,7 @@ import {
 	DialogType,
 	MessageSeverity
 } from "../../../shared/services/alert.service";
-import { NestedDragAndDropListComponent } from "./components/nested-drag-and-drop-list/nested-drag-and-drop-list.component";
+import { QuestionPageDisplayComponent } from "./components/nested-drag-and-drop-list/nested-drag-and-drop-list.component";
 import { QuestionPartView } from "./models/question-part-view.model";
 import { WelcomePage } from "./models/welcome-page.model";
 import { TermsAndConditionsPage } from "./models/terms-and-conditions-page.model";
@@ -120,7 +120,7 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 	private surveyUpdate: Subject<SurveyNotification>;
 
 	@ViewChild("surveyPageDragAndDrop")
-	public surveyPage: NestedDragAndDropListComponent;
+	public surveyPage: QuestionPageDisplayComponent;
 	@ViewChild("questionChooser", { static: true })
 	public questionChooser: QuestionTypeChooserComponent;
 	@ViewChild("createPageModal", { static: true })

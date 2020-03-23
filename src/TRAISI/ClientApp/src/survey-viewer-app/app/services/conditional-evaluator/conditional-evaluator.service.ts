@@ -170,6 +170,11 @@ export class ConditionalEvaluator {
 		}
 	}
 
+	/**
+	 * 
+	 * @param question 
+	 * @param respondentId 
+	 */
 	public shouldHide(
 		question: SurveyViewQuestion,
 		respondentId: number

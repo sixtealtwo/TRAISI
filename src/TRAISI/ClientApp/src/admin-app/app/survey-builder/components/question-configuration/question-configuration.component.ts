@@ -48,6 +48,7 @@ import { Router } from "@angular/router";
 import { SBPageStructureViewModel } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
+import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -283,12 +284,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.configResult.emit("save");
 	}
 
-	public getUpdatedConditionals(): [
-		QuestionConditional[],
-		QuestionOptionConditional[]
-	] {
-		let conditionals = this.conditionalsComponent.getUpdatedConditionals();
-		return [[], []];
+	public getUpdatedConditionals(): QuestionConditionalOperator[] {
+		return this.conditionalsComponent.getUpdatedConditionals();
 	}
 
 	public cancel() {
