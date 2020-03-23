@@ -18,6 +18,7 @@ import { SurveyQuestionOptionStructure } from "../models/survey-question-option-
 import { TreeviewItem, TreeItem } from "ngx-treeview";
 import { ScreeningQuestions } from "../models/screening-questions.model";
 import { SurveyBuilderClient } from "./survey-builder-client.service";
+import { QuestionConditionalOperator } from '../models/question-conditional-operator.model';
 
 @Injectable()
 export class SurveyBuilderService {
@@ -381,7 +382,7 @@ export class SurveyBuilderService {
 	public getQuestionPartConditionals(
 		surveyId: number,
 		questionPartId: number
-	): Observable<QuestionConditional[]> {
+	): Observable<QuestionConditionalOperator[]> {
 		return this.surveyBuilderEndpointService.getQuestionPartConditionalsEndpoint<
 			QuestionConditional[]
 		>(surveyId, questionPartId);

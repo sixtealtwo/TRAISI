@@ -10,17 +10,13 @@
 		</ng-select>
 	</div>
 	<div class="col-lg-3 conditional-row">
-		<ngx-select
-			[defaultValue]="sourceGroup.condition"
-			[allowClear]="false"
+		<ng-select
 			[items]="dropDownListItems"
+			[(ngModel)]="sourceGroup.condition"
 			(select)="conditionValueChanged($event)"
 			placeholder="Select Condition"
 		>
-			<ng-template ngx-select-option-not-found>
-				Nothing found
-			</ng-template>
-		</ngx-select>
+		</ng-select>
 	</div>
 	<div class="col-lg-4 conditional-row">
 		<ng-container

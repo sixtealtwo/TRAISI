@@ -21,7 +21,7 @@ namespace DAL.Repositories
         
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-        public void DeleteSourceConditionals(int questionPartId, List<int> retainedConditionals)
+        /*public void DeleteSourceConditionals(int questionPartId, List<int> retainedConditionals)
         {
             _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => c.SourceQuestionId == questionPartId && !retainedConditionals.Contains(c.Id)));
         }
@@ -30,20 +30,20 @@ namespace DAL.Repositories
             _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => c.TargetQuestionId == questionPartId && !retainedConditionals.Contains(c.Id)));
         }
 
-        public async Task<IEnumerable<QuestionConditional>> GetQuestionConditionalsAsync(int questionPartId)
+        /*public async Task<IEnumerable<QuestionConditional>> GetQuestionConditionalsAsync(int questionPartId)
         {
             return await _appContext.QuestionConditionals
                 .Where(q => q.SourceQuestionId == questionPartId || q.TargetQuestionId == questionPartId)
                 .ToListAsync();
-        }
+        }*/
 
-        public void ValidateSourceConditionals(int questionPartId, List<int> viableQuestionTargets)
+        /*public void ValidateSourceConditionals(int questionPartId, List<int> viableQuestionTargets)
         {
             _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => c.SourceQuestionId == questionPartId && !viableQuestionTargets.Contains(c.TargetQuestionId)));
         }
         public void ValidateTargetConditionals(int questionPartId, List<int> viableQuestionSources)
         {
             _appContext.QuestionConditionals.RemoveRange(_appContext.QuestionConditionals.Where(c => !viableQuestionSources.Contains(c.SourceQuestionId) && c.TargetQuestionId == questionPartId));
-        }
+        }*/
     }
 }

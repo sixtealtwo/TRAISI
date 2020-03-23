@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -10,9 +11,10 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200323041616_RemoveColumns")]
+    partial class RemoveColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,9 +325,6 @@ namespace TRAISI.Migrations
                     b.Property<int?>("QuestionPartId1")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SourceQuestionId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
@@ -334,8 +333,6 @@ namespace TRAISI.Migrations
                     b.HasIndex("QuestionPartId");
 
                     b.HasIndex("QuestionPartId1");
-
-                    b.HasIndex("SourceQuestionId");
 
                     b.ToTable("QuestionConditionals");
                 });
@@ -1791,12 +1788,6 @@ namespace TRAISI.Migrations
                     b.HasOne("DAL.Models.Questions.QuestionPart", null)
                         .WithMany("QuestionConditionalsTarget")
                         .HasForeignKey("QuestionPartId1");
-
-                    b.HasOne("DAL.Models.Questions.QuestionPartView", "SourceQuestion")
-                        .WithMany()
-                        .HasForeignKey("SourceQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalGroup", b =>

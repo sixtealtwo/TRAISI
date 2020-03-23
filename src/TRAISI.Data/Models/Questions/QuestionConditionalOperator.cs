@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using DAL.Core;
 
 namespace DAL.Models.Questions {
@@ -32,7 +33,9 @@ namespace DAL.Models.Questions {
     /// Conditional operator type
     /// </summary>
     public enum QuestionCondtionalOperatorType {
+        [EnumMember(Value = "AND")]
         AND,
+        [EnumMember(Value = "OR")]
         OR
     }
 }

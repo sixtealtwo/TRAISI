@@ -806,9 +806,9 @@ namespace TRAISI.Services
             });
 
             // call repository functions to remove conditionals that don't belong for the specific question
-            this._unitOfWork.QuestionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
+            // this._unitOfWork.QuestionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
             this._unitOfWork.QuestionOptionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
-            this._unitOfWork.QuestionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
+            //this._unitOfWork.QuestionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
             this._unitOfWork.QuestionOptionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
         }
 
@@ -872,19 +872,12 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="question"></param>
         /// <param name="conditionalOperator"></param>
-        public void AddConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator)
+        public void UpdateQuestionConditionals(QuestionPartView question, QuestionConditionalOperator[] conditionalOperators)
         {
-            question.Conditionals.Add(conditionalOperator);
+            question.Conditionals.Clear();
+            question.Conditionals.AddRange(conditionalOperators);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="question"></param>
-        /// <param name="conditionalOperator"></param>
-        public void RemoveConditionalOperator(QuestionPartView question, QuestionConditionalOperator conditionalOperator) {
-            question.Conditionals.Remove(conditionalOperator);
-        }
 
         /// <summary>
         /// 
@@ -929,7 +922,7 @@ namespace TRAISI.Services
 
         public void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals)
         {
-            List<QuestionConditional> newSource = new List<QuestionConditional>();
+            /*List<QuestionConditional> newSource = new List<QuestionConditional>();
             List<QuestionConditional> updateSource = new List<QuestionConditional>();
             List<QuestionConditional> newTarget = new List<QuestionConditional>();
             List<QuestionConditional> updateTarget = new List<QuestionConditional>();
@@ -966,7 +959,7 @@ namespace TRAISI.Services
             this._unitOfWork.QuestionConditionals.AddRange(newSource);
             this._unitOfWork.QuestionConditionals.AddRange(newTarget);
             this._unitOfWork.QuestionConditionals.UpdateRange(updateSource);
-            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget);
+            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget); */
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)

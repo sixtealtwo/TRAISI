@@ -48,7 +48,7 @@ import { Router } from "@angular/router";
 import { SBPageStructureViewModel } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
-import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
+import { QuestionConditionalOperator } from "app/survey-builder/models/question-conditional-operator.model";
 
 // override p with div tag
 const Parchment = Quill.import("parchment");
@@ -78,6 +78,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public configurationValues: QuestionConfigurationValue[] = [];
 
 	public sourceQuestionConditionals: QuestionConditional[] = [];
+
+	public conditionalOperators: QuestionConditionalOperator[] = [];
 
 	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
 	public questionStructure: SBPageStructureViewModel[] = [];
@@ -451,27 +453,31 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.builderService
 			.getQuestionPartConditionals(
 				this.surveyId,
-				this.questionBeingEdited.questionPart.id
+				this.questionBeingEdited.id
 			)
 			.subscribe(conditionals => {
-				this.builderService
-					.getQuestionPartOptionConditionals(
-						this.surveyId,
-						this.questionBeingEdited.questionPart.id
-					)
-					.subscribe(oConditionals => {
-						this.sourceQuestionConditionals = conditionals.filter(
-							c =>
-								c.sourceQuestionId ===
-								this.questionBeingEdited.questionPart.id
-						);
-						this.sourceQuestionOptionConditionals = oConditionals.filter(
-							c =>
-								c.sourceQuestionId ===
-								this.questionBeingEdited.questionPart.id
-						);
-						this.conditionalsLoaded = true;
-					});
+				console.log(conditionals);
+				this.conditionalOperators = conditionals;
+				this.conditionalsLoaded = true;
+				// this.builderService
+				// 	.getQuestionPartOptionConditionals(
+				// 		this.surveyId,
+				// 		this.questionBeingEdited.questionPart.id
+				// 	)
+				// 	.subscribe(oConditionals => {
+
+				// 		this.sourceQuestionConditionals = conditionals.filter(
+				// 			c =>
+				// 				c.sourceQuestionId ===
+				// 				this.questionBeingEdited.questionPart.id
+				// 		);
+				// 		this.sourceQuestionOptionConditionals = oConditionals.filter(
+				// 			c =>
+				// 				c.sourceQuestionId ===
+				// 				this.questionBeingEdited.questionPart.id
+				// 		);
+				// 		this.conditionalsLoaded = true;
+				// 	});
 			});
 	}
 

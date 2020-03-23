@@ -166,8 +166,8 @@ namespace DAL
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne(q => q.QuestionPartParent).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<QuestionOption>().HasIndex(o => new { o.Code, o.QuestionPartParentId }).IsUnique(true);
@@ -225,6 +225,8 @@ namespace DAL
             builder.Entity<QuestionConditionalOperator>().ToTable("QuestionCondtionalOperators")
                 .HasOne(s => s.Lhs);
             builder.Entity<QuestionConditionalOperator>().HasOne(s => s.Rhs);
+
+            builder.Entity<QuestionConditional>().HasOne(s => s.SourceQuestion);
 
         }
 

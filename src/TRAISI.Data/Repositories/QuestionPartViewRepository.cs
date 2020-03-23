@@ -24,6 +24,8 @@ namespace DAL.Repositories
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
                     .Include(qp => qp.RepeatSource)
+                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Lhs)
+                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Rhs)
                     .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)

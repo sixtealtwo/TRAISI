@@ -18,7 +18,7 @@
 	<div
 		class="row"
 		*ngFor="
-			let conditional of sourceConditionals;
+			let conditional of [].constructor(conditionalCount);
 			let i = index;
 			last as isLast;
 			odd as isOdd;
@@ -29,7 +29,7 @@
 			<button
 				type="button"
 				class="conditional-delete-button pull-right btn btn-danger"
-				(click)="deleteSourceConditional(conditional.index)"
+				(click)="deleteSourceConditional(i)"
 			>
 				<i class="fas fa-times"></i>
 			</button>
@@ -46,15 +46,15 @@
 					(setBoundsSelected)="showLocationBoundsModal($event)"
 				></app-conditional>
 
-				<div class="row">
+				<!--<div class="row">
 					<div class="col-md-12">
 						<hr class="edit-separator-hr" />
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="conditional-operator" *ngIf="!isLast">
 				<ng-select
-					[items]="operators"
+					[items]="operatorTypes"
 					#operators
 					[(ngModel)]="conditionals[i].operatorType"
 				></ng-select>

@@ -245,7 +245,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				this.fullStructure = treelist;
 				this.qConfiguration.fullStructure = this.fullStructure;
 				this.qConfiguration.questionStructure = this._questionStructure;
-				this.qConfiguration.processConfigurations(); 
+				this.qConfiguration.processConfigurations();
 			});
 	}
 
@@ -495,6 +495,25 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				.updateQuestionPartViewData(this.surveyId, cleanedQuestion)
 				.subscribe(
 					result => {
+						this._client
+							.updateQuestionConditionals(
+								this.surveyId,
+								this.questionBeingEdited.id,
+								this.qConfiguration.getUpdatedConditionals()
+							)
+							.subscribe({
+								complete: () => {
+									this.alertService.showMessage(
+										"Success",
+										`Question data and configurations updated successfully!`,
+										MessageSeverity.success
+									);
+									this.configurationModal.hide();
+								},
+								error: error =>
+									console.error("conditionals not saved")
+							});
+
 						if (
 							this.qConfiguration.configurationValues.length > 0
 						) {
@@ -506,7 +525,6 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 								)
 								.subscribe(
 									configResult => {
-										
 										// if (
 										// 	this.qConfiguration
 										// 		.conditionalsComponent
@@ -515,8 +533,6 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 										// 		qConditionals,
 										// 		qoConditionals
 										// 	] = this.qConfiguration.getUpdatedConditionals();
-											
-											
 										// 	this.surveyBuilderService
 										// 		.setQuestionPartConditionals(
 										// 			this.surveyId,

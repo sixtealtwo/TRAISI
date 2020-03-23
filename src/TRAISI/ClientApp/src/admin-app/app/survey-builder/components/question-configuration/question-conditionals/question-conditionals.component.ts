@@ -74,6 +74,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 * List of conditional operators, each operator has a Lhs and Rhs, a single conditional
 	 * will be an operator with a Lhs only.
 	 */
+
+	@Input()
 	public conditionals: QuestionConditionalOperator[] = [];
 
 	public conditionalCount: number = 0;
@@ -127,10 +129,14 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	) {}
 
 	public ngOnInit(): void {
-		console.log(this.questionType);
+		this.conditionalCount = this.conditionals.length;
+		if (this.conditionals.length > 0 && this.conditionals[0].rhs !== null) {
+			this.conditionalCount++;
+		}
+		console.log(this.conditionalCount);
 	}
 
-	public operators = [
+	public operatorTypes = [
 		QuestionCondtionalOperatorType.AND,
 		QuestionCondtionalOperatorType.OR
 	];
@@ -161,22 +167,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 * Retrieves the configuration conditionals
 	 */
 	public getUpdatedConditionals(): QuestionConditionalOperator[] {
-		let operators: Array<QuestionConditionalOperator> = [];
-		for (let conditional of this.conditionalFields) {
-			let operator: QuestionConditionalOperator = {
-				lhs: {
-					sourceQuestionId: Number(conditional.sourceQuestion.id),
-					condition: conditional.sourceGroup.condition,
-					value: conditional.sourceGroup.value
-				},
-				operatorType: QuestionCondtionalOperatorType.AND
-
-				// rhs only exists with more than one conditional
-			};
-			operators.push(operator);
-		}
-		console.log(this.conditionals);
-		return operators;
+		return this.conditionals;
 	}
 
 	public getUpdatedConditionals2(): [
@@ -382,31 +373,46 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 * @param index the index in the display
 	 */
 	public getConditionalModel(index: number) {
-		if(index == 0) {
-			return this.conditionals[0].lhs
-		}
-		else if(index == 1) {
+		if (index == 0) {
+			if (this.conditionals[0].lhs === undefined) {
+				this.conditionals[0].lhs = {};
+			}
+			return this.conditionals[0].lhs;
+		} else if (index == 1) {
+			if (this.conditionals[0].rhs === undefined) {
+				this.conditionals[0].rhs = {};
+			}
 			return this.conditionals[0].rhs;
-		}
-		else {
-			return this.conditionals[Math.trunc(index/2)].rhs
+		} else {
+			if (this.conditionals[Math.trunc(index / 2)].rhs === undefined) {
+				this.conditionals[Math.trunc(index / 2)].rhs = {};
+			}
+			return this.conditionals[Math.trunc(index / 2)].rhs;
 		}
 	}
 
 	public addConditional() {}
 
+	public onOperatorChange(
+		i:number,
+		event: QuestionCondtionalOperatorType
+	): void {
+		this.conditionals[i].operatorType = event;
+	}
+
 	public addSourceConditional() {
+		console.log(this.questionBeingEdited);
 		if (this.conditionalCount % 2 == 0) {
 			this.conditionals.push({
 				operatorType: QuestionCondtionalOperatorType.AND,
-				lhs: {},
-				rhs: {},
 				targetQuestionId: this.questionBeingEdited.id,
-				order:this.conditionalCount
+				order: this.conditionalCount,
+				lhs: this.conditionalCount == 0 ? {} : undefined
 			});
 		}
+
 		this.conditionalCount++;
-		console.log(this.conditionals); 
+		console.log(this.conditionals);
 		let newSourceGroup: QuestionConditionalSourceGroup = new QuestionConditionalSourceGroup(
 			this.sourceConditionals.length,
 			"",

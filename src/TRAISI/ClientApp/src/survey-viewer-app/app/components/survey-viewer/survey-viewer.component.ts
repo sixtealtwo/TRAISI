@@ -499,6 +499,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				this.navigator.initialize();
 				this.viewerState.isLoaded = true;
 				this.viewerState.isQuestionLoaded = true;
+				console.log(this);
 			});
 	}
 
