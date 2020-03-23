@@ -21,7 +21,7 @@ import { QuestionTypeDefinition } from "../../../models/question-type-definition
 import { QuestionPartView } from "../../../models/question-part-view.model";
 import { ModalDirective } from "ngx-bootstrap";
 import { MapComponent } from "ngx-mapbox-gl";
-import * as MapboxDraw from "@mapbox/mapbox-gl-draw";
+import * as MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
 import { Control } from "mapbox-gl";
 import { SourceConditionalComponent } from "./source-conditional/conditional.component";
 import { QuestionConditional } from "../../../models/question-conditional.model";

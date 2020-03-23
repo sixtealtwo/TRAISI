@@ -93,7 +93,7 @@
     "ngx-dropzone-wrapper": "^8.0.0",
     "ngx-echarts": "^4.2.2",
     "ngx-icon-picker": "0.0.11",
-    "ngx-mapbox-gl": "^4.5.0",
+    "ngx-mapbox-gl": "^4.4.2",
     "ngx-monaco-editor": "^8.1.1",
     "ngx-quill": "^8.0.0",
     "ngx-select-ex": "^3.7.6",
@@ -164,6 +164,11 @@
     "tslint": "~5.19.0",
     "typescript": "^3.7.5",
     "webpack-bundle-analyzer": "^3.6.0"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   },
   "overrides": {
     "rickshaw": {

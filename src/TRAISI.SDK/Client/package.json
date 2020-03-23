@@ -19,7 +19,7 @@
 		"@angular/core": "^9.0.6",
 		"@angular/forms": "^9.0.6",
 		"ng-packagr": "^9.0.3",
-		"typescript": "^3.7.6"
+		"typescript": "^3.7.5"
 	},
 	"dependencies": {},
 	"peerDependencies": {
