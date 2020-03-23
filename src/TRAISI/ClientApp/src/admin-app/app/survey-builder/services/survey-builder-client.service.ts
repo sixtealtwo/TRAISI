@@ -14,6 +14,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 import { QuestionTypeDefinition } from '../models/question-type-definition';
 import { QuestionConditionalOperator } from '../models/question-conditional-operator.model';
 import { QuestionOptionValueType } from '../models/question-option-value-type.enum';
+import { QuestionBuilderType } from '../models/question-builder-type.enum';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -204,6 +205,7 @@ export class QuestionClient {
     }
 
     protected processQuestionTypes(response: HttpResponseBase): Observable<QuestionTypeDefinition[]> {
+        
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -214,6 +216,7 @@ export class QuestionClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             result200 = _responseText === "" ? null : <QuestionTypeDefinition[]>JSON.parse(_responseText, this.jsonParseReviver);
+
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2567,20 +2570,6 @@ export enum ConfigurationValueType {
     KeyValuePair = 10,
 }
 
-export enum QuestionBuilderType {
-    Checkbox = 0,
-    Radio = 1,
-    Slider = 2,
-    Text = 3,
-    NumericText = 4,
-    MultiSelect = 5,
-    Switch = 6,
-    Date = 7,
-    Location = 8,
-    SingleSelect = 9,
-    Time = 10,
-    Colour = 11,
-}
 
 export interface QuestionPartSlotDefinition {
     name?: string | undefined;

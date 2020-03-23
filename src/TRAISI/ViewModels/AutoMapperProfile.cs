@@ -252,9 +252,10 @@ namespace TRAISI.ViewModels
 								.ForMember(q => q.ResourceData, map => map.ResolveUsing(s =>
 								{
 
-									return ((s.SharedResource == null)
+									var result = ((s.SharedResource == null)
 									? ((s.ResourceData == null) ? (null) : (System.Text.Encoding.UTF8.GetString(s.ResourceData)))
 									: System.Text.Encoding.UTF8.GetString(QuestionTypeManager.SharedQuestionResources[s.SharedResource].Data));
+									return result;
 								}))
 				.ReverseMap();
 

@@ -5,6 +5,7 @@ import { QuestionClient } from "./survey-builder-client.service";
 import { QuestionTypeDefinition } from "../models/question-type-definition";
 import { TreeviewItem } from 'ngx-treeview';
 import { QuestionPartView } from '../models/question-part-view.model';
+import { SurveyBuilderService } from './survey-builder.service';
 /**
  *
  *
@@ -34,8 +35,9 @@ export class SurveyBuilderEditorData {
 	public initialize(surveyId: number): Observable<void> {
 		this.surveyId = surveyId;
 		return Observable.create((obs: Observer<void>) => {
-			forkJoin(this._questionClient.questionTypes()).subscribe({
+			forkJoin(this._builderService.getQuestionTypes()).subscribe({
 				next: result => {
+					console.log(result);
 					this.questionTypeDefinitions = result[0];
 					this.mapQuestionTypeDefinitions();
 				},
@@ -62,7 +64,8 @@ export class SurveyBuilderEditorData {
 	 */
 	public constructor(
 		private _client: SurveyBuilderClient,
-		private _questionClient: QuestionClient
+		private _questionClient: QuestionClient,
+		private _builderService: SurveyBuilderService
 	) {}
 
 	public getQuestionOptions(questionId: number): any {

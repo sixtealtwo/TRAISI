@@ -236,6 +236,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				this.questionBeingEdited.questionPart.questionType
 			);
 		}
+		console.log(this.qConfiguration);
 		this.configurationModalShowing = true;
 
 		this.surveyBuilderService

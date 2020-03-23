@@ -215,15 +215,16 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					this.questionBeingEdited.questionPart.id
 				)
 				.subscribe(configurationValues => {
-					console.log(configurationValues);
 					for (
 						let i = 0;
 						i < this.configTargets.toArray().length;
 						i++
 					) {
 						let conf = this.configurations[i];
-						let component = paramComponents[conf.builderType];
-
+						let component = paramComponents.find(
+							c => c.id === conf.builderType
+						)?.component;
+							
 						if (component) {
 							let target = this.configTargets.toArray()[i];
 							target.clear();
@@ -249,21 +250,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	public parameterComponents() {
-		let widgetComponents = {
-			Checkbox: CheckboxComponent,
-			Date: DateInputComponent,
-			SingleSelect: DropdownListComponent,
-			MultiSelect: MultiSelectComponent,
-			Text: TextboxComponent,
-			TextArea: TextAreaComponent,
-			NumericText: NumericTextboxComponent,
-			Slider: SliderComponent,
-			Switch: SwitchComponent,
-			Time: TimeInputComponent,
-			Location: LocationFieldComponent,
-			Radio: RadioComponent
-		};
+	public parameterComponents(): Array<any> {
+		let widgetComponents = [
+			{id: 'Checkbox', component: CheckboxComponent},
+			{id: 'DateInput', component: DateInputComponent},
+			{id: 'SingleSelect', component: DropdownListComponent},
+			{id: 'MultiSelect', component: MultiSelectComponent},
+			{id: 'Textbox', component: TextboxComponent},
+			{id: 'TextAreaa', component: TextAreaComponent},
+			{id: 'NumericText', component: NumericTextboxComponent},
+			{id: 'Slider', component: SliderComponent},
+			{id: 'Switch', component: SwitchComponent},
+			{id: 'TimeInput', component: TimeInputComponent},
+			{id: 'LocationField', component: LocationFieldComponent},
+			{id: 'Radio', component: RadioComponent}
+		];
 
 		return widgetComponents;
 	}
@@ -395,13 +396,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public processConfigurations() {
-
 		this.configurations = Object.values(
 			this.questionType.questionConfigurations
 		);
 
-		console.log('in process configurations');
-		console.log(this.configurations);
 		this.processQuestionTree();
 		if (this.questionType.typeName !== "Survey Part") {
 			this.loadPastConditionals();
@@ -460,7 +458,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				this.questionBeingEdited.id
 			)
 			.subscribe(conditionals => {
-				console.log(conditionals);
 				this.conditionalOperators = conditionals;
 				this.conditionalsLoaded = true;
 				// this.builderService
@@ -591,7 +588,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		});
 
 		console.log(this._editorData.surveyStructure);
-		for (let page of this._editorData.currentPage.questionPartViewChildren) {
+		for (let page of this._editorData.currentPage
+			.questionPartViewChildren) {
 			this.processSourceConditionalsPage(page);
 		}
 	}
@@ -599,12 +597,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	/**
 	 * Processes the survey questions and creates a candidate list of source conditionals
 	 */
-	private processSourceConditionalsPage(
-		view: QuestionPartView
-	): void {
+	private processSourceConditionalsPage(view: QuestionPartView): void {
 		// loop through the question structure and add to a list of possible questions
 		//if (view.type !== "part") {
-			this.sourceQuestionList.push(view);
+		this.sourceQuestionList.push(view);
 		//}
 
 		if (view.questionPartViewChildren !== null) {

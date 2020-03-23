@@ -513,8 +513,8 @@ namespace TRAISI
 
             });
 
-            //app.UseSignalR (routes => { routes.MapHub<NotifyHub> ("/notify"); });
-            app.UseEndpoints(routes => { routes.MapHub<NotifyHub>("/notify"); });
+            app.UseSignalR (routes => { routes.MapHub<NotifyHub> ("/notify"); });
+            // app.UseEndpoints(routes => { routes.MapHub<NotifyHub>("/notify"); });
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

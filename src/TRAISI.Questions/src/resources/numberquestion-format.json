@@ -1,3 +1,1 @@
-{
-	"options": ["Integer", "Decimal", "Currency"]
-}
+{"options": ["Integer", "Decimal", "Currency"]}

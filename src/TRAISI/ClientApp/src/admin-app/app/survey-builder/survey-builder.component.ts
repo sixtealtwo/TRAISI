@@ -542,7 +542,6 @@ export class SurveyBuilderComponent implements OnInit, OnDestroy {
 								this.surveyPage.partsLeftToLoad--;
 							});*/
 					}
-					console.log(this.surveyPage);
 				});
 				this.loadedIndividualPage = true;
 			});

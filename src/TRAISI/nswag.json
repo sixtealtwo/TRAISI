@@ -100,7 +100,8 @@
         "QuestionTypeDefinition",
         "QuestionOptionValueType",
         "QuestionResponseType",
-        "QuestionConditionalOperator"
+        "QuestionConditionalOperator",
+        "QuestionBuilderType"
       ],
       "excludedParameterNames": [],
       "handleReferences": false,
