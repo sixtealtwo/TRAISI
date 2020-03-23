@@ -2763,6 +2763,7 @@ export interface QuestionConditional {
 }
 
 export interface QuestionPart {
+    id?: number,
     questionType?: string | undefined;
     name?: string | undefined;
     questionPartChildren?: QuestionPart[] | undefined;

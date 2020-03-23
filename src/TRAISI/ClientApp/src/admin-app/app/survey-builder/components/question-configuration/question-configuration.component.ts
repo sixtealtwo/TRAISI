@@ -395,10 +395,13 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public processConfigurations() {
+
 		this.configurations = Object.values(
 			this.questionType.questionConfigurations
 		);
 
+		console.log('in process configurations');
+		console.log(this.configurations);
 		this.processQuestionTree();
 		if (this.questionType.typeName !== "Survey Part") {
 			this.loadPastConditionals();

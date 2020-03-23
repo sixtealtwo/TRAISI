@@ -128,29 +128,34 @@
 					else rElseIf7
 				"
 			>
-				<ng-select
-					[items]="copiedOptionList"
-					bindLabel="label"
+			<!--
+				bindLabel="item.optionLabel.value"
 					bindValue="id"
+			-->					<!--<ng-template
+						ng-optgroup-tmp
+						let-item="item"
+						let-item$="item$"
+						let-index="index"
+					>
+						"test"
+						<input
+							id="item-{{ index }}"
+							type="checkbox"
+							[ngModel]="item$.selected"
+						/>
+						{{ item }}
+						{{ item.optionLabel.value }}
+					</ng-template>  -->
+				<ng-select
+					[items]="questionOptionsList"
+					bindLabel="optionLabel.value"
 					[multiple]="true"
 					[selectableGroup]="true"
 					[selectableGroupAsModel]="false"
 					[closeOnSelect]="false"
 					(change)="optionConditionalValueChanged($event)"
 				>
-					<ng-template
-						ng-optgroup-tmp
-						let-item="item"
-						let-item$="item$"
-						let-index="index"
-					>
-						<input
-							id="item-{{ index }}"
-							type="checkbox"
-							[ngModel]="item$.selected"
-						/>
-						{{ item.label }}
-					</ng-template>
+
 				</ng-select>
 				<!--<ngx-dropdown-treeview
 					[items]="copiedOptionList"

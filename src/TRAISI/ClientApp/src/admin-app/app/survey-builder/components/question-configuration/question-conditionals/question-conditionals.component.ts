@@ -133,7 +133,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		if (this.conditionals.length > 0 && this.conditionals[0].rhs !== null) {
 			this.conditionalCount++;
 		}
-		console.log(this.conditionalCount);
+		console.log(this);
 	}
 
 	public operatorTypes = [
