@@ -434,9 +434,26 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	}
 
 	public deleteSourceConditional(i: number) {
-		this.sourceConditionals = this.sourceConditionals.filter(
-			s => s.index !== i
-		);
+		// delete the conditional and rearrange the data
+		if(i == 0 && this.conditionals.length == 1) {
+			
+			this.conditionals = [];
+		}
+		else if(i == 0 && this.conditionals.length > 1) {
+			this.conditionals[0].lhs = this.conditionals[0].rhs;
+			for(let ix = i; i < this.conditionals.length-1; i++) {
+				this.conditionals[ix].rhs = this.conditionals[ix+1].rhs;
+			}
+			this.conditionals = this.conditionals.splice(-1,1)
+
+		}
+		else if(i > 1) {
+			this.conditionals = this.conditionals.splice(i,1);
+		}
+		//this.sourceConditionals = this.sourceConditionals.filter(
+		//	s => s.index !== i
+		//);
+		this.conditionalCount --;
 	}
 
 	public deleteTargetConditional(i: number) {
