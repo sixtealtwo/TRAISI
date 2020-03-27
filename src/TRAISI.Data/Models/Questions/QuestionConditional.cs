@@ -12,13 +12,6 @@ namespace DAL.Models.Questions
     {
         [JsonIgnore]
         public int Id { get; set; }
-
-        /*public QuestionPart TargetQuestion { get; set; }
-
-        [JsonIgnore]
-        [ForeignKey("TargetQuestion")]
-        public int TargetQuestionId { get; set; }
-        */
         public QuestionPartView SourceQuestion { get; set; }
 
         [ForeignKey("SourceQuestion")]

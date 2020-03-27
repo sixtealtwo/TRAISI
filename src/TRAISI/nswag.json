@@ -101,7 +101,10 @@
         "QuestionOptionValueType",
         "QuestionResponseType",
         "QuestionConditionalOperator",
-        "QuestionBuilderType"
+        "QuestionBuilderType",
+        "QuestionConditionalOperatorViewModel",
+        "QuestionConditionalViewModel",
+        "QuestionConditionalType"
       ],
       "excludedParameterNames": [],
       "handleReferences": false,

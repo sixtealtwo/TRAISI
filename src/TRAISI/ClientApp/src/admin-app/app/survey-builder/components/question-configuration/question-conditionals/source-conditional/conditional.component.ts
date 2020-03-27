@@ -26,12 +26,13 @@ import { QuestionOptionValue } from "../../../../models/question-option-value.mo
 import {
 	SBQuestionPartViewModel,
 	SBPageStructureViewModel,
-	QuestionPartView,
 	SurveyBuilderClient
 } from "app/survey-builder/services/survey-builder-client.service";
 import { QuestionTypeDefinition } from "app/survey-builder/models/question-type-definition";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
 import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
+import { QuestionConditionalType } from 'app/survey-builder/models/question-conditional-type.enum';
+import { QuestionPartView } from 'app/survey-builder/models/question-part-view.model';
 
 interface ConditionalOptionItem {
 	name: string;
@@ -138,8 +139,8 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		);
 		this.sourceQuestion = sourceQuestion;
 		this.setConditionsForQuestionType();
-		if (this.sourceGroup.condition === "") {
-			this.sourceGroup.condition = this.dropDownListItems[0];
+		if (this.sourceGroup.condition === null) {
+			this.sourceGroup.condition = QuestionConditionalType[this.dropDownListItems[0]];
 		}
 		if (
 			this.responseType === QuestionResponseType.OptionList ||
@@ -178,6 +179,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		this.setConditionsForQuestionType();
 		this.sourceGroup.sourceQuestionId = Number(event.id);
 		this.changeDetectRef.detectChanges();
+		console.log(this.sourceGroup);
 	}
 
 	public optionConditionalValueChanged(event): void {
@@ -196,34 +198,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		this.setBoundsSelected.emit(this.sourceGroup);
 	}
 
-	private targetsDropdown(e: TreeviewSelection): string {
-		if (e.checkedItems.length > 0) {
-			return this.getPrunedCheckedTargets()
-				.map(i => this.getQuestionOptionLabel(i))
-				.join(", "); // `${e.checkedItems.length} targets`;
-		} else {
-			return "Select hide targets";
-		}
-	}
-
-	private getPrunedCheckedTargets(): TreeviewItem[] {
-		let pruned: TreeviewItem[] = [];
-
-		this.checkedWithParents.forEach(item => {
-			if (
-				item.parent &&
-				item.parent.item.checked &&
-				!item.parent.item.value.startsWith("part")
-			) {
-				if (!pruned.includes(item.parent.item)) {
-					pruned.push(item.parent.item);
-				}
-			} else {
-				pruned.push(item.item);
-			}
-		});
-		return pruned;
-	}
 
 	private getQuestionOptionLabel(item: TreeviewItem): string {
 		let itemType = this.getItemType(item.value);
@@ -236,14 +210,20 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	private setConditionsForQuestionType(): void {
 		if(this.sourceQuestion === null) {
-			console.log('null');
 			return;
 		}
 		var type = this.sourceQuestion?.questionPart?.questionType;
+
+
 		this.responseType = this._editor.questionTypeMap.get(
 			type
 		)?.responseType;
+
+		console.log(this.responseType);
+		console.log(this.questionResponseTypes.String);
+		console.log(this.responseType=== QuestionResponseType.String);
 		if (this.responseType === QuestionResponseType.String) {
+			console.log('in here ');
 			this.dropDownListItems = ["Contains", "Does Not Contain"];
 		} else if (this.responseType === QuestionResponseType.Boolean) {
 			this.dropDownListItems = ["Is Equal To"];
@@ -280,9 +260,9 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	public conditionValueChanged(e: string): void {
-		this.sourceGroup.condition = this.dropDownListItems.filter(
+		this.sourceGroup.condition = QuestionConditionalType[this.dropDownListItems.filter(
 			dd => dd === e
-		)[0];
+		)[0]];
 		// update condition value in conditionals lists
 		this.sourceQuestionConditionalsList.forEach(conditional => {
 			conditional.condition = this.sourceGroup.condition;

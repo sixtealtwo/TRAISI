@@ -63,7 +63,6 @@ export class QuestionTypeChooserComponent implements OnInit, AfterViewInit {
 		this.surveyBuilderService.getQuestionTypes().subscribe((value: QuestionTypeDefinition[]) => {
 			this.questionTypeDefinitions = value;
 			this.loadedQuestionTypes.emit();
-			console.log(value);
 		});
 
 		jQuery(window).on('sn:resize', this.initSidebarScroll.bind(this));

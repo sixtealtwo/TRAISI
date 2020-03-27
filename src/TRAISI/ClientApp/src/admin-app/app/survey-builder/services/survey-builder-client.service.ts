@@ -205,7 +205,6 @@ export class QuestionClient {
     }
 
     protected processQuestionTypes(response: HttpResponseBase): Observable<QuestionTypeDefinition[]> {
-        
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -216,7 +215,6 @@ export class QuestionClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             result200 = _responseText === "" ? null : <QuestionTypeDefinition[]>JSON.parse(_responseText, this.jsonParseReviver);
-
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -843,14 +841,14 @@ export class SurveyBuilderClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    getQuestionPartConditionals(surveyId: number, questionPartId: number): Observable<QuestionConditionalViewModel[]> {
-        let url_ = this.baseUrl + "/api/SurveyBuilder/{surveyId}/QuestionConditionals/{questionPartId}";
+    getQuestionPartViewConditionals(surveyId: number, questionPartViewId: number): Observable<QuestionConditionalOperator[]> {
+        let url_ = this.baseUrl + "/api/SurveyBuilder/{surveyId}/QuestionConditionals/{questionPartViewId}";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
         url_ = url_.replace("{surveyId}", encodeURIComponent("" + surveyId)); 
-        if (questionPartId === undefined || questionPartId === null)
-            throw new Error("The parameter 'questionPartId' must be defined.");
-        url_ = url_.replace("{questionPartId}", encodeURIComponent("" + questionPartId)); 
+        if (questionPartViewId === undefined || questionPartViewId === null)
+            throw new Error("The parameter 'questionPartViewId' must be defined.");
+        url_ = url_.replace("{questionPartViewId}", encodeURIComponent("" + questionPartViewId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -862,20 +860,20 @@ export class SurveyBuilderClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetQuestionPartConditionals(response_);
+            return this.processGetQuestionPartViewConditionals(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetQuestionPartConditionals(<any>response_);
+                    return this.processGetQuestionPartViewConditionals(<any>response_);
                 } catch (e) {
-                    return <Observable<QuestionConditionalViewModel[]>><any>_observableThrow(e);
+                    return <Observable<QuestionConditionalOperator[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<QuestionConditionalViewModel[]>><any>_observableThrow(response_);
+                return <Observable<QuestionConditionalOperator[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetQuestionPartConditionals(response: HttpResponseBase): Observable<QuestionConditionalViewModel[]> {
+    protected processGetQuestionPartViewConditionals(response: HttpResponseBase): Observable<QuestionConditionalOperator[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -885,7 +883,7 @@ export class SurveyBuilderClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <QuestionConditionalViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <QuestionConditionalOperator[]>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -893,10 +891,10 @@ export class SurveyBuilderClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<QuestionConditionalViewModel[]>(<any>null);
+        return _observableOf<QuestionConditionalOperator[]>(<any>null);
     }
 
-    setQuestionPartConditionals(surveyId: number, questionPartId: number, conditionals: QuestionConditionalViewModel[] | null): Observable<FileResponse> {
+    setQuestionPartConditionals(surveyId: number, questionPartId: number, conditionals: QuestionConditionalOperator[] | null): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/SurveyBuilder/{surveyId}/QuestionConditionals/{questionPartId}";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
@@ -2570,7 +2568,6 @@ export enum ConfigurationValueType {
     KeyValuePair = 10,
 }
 
-
 export interface QuestionPartSlotDefinition {
     name?: string | undefined;
     description?: string | undefined;
@@ -2703,13 +2700,7 @@ export interface QuestionConfigurationValueViewModel {
     value?: any | undefined;
 }
 
-export interface QuestionConditionalViewModel {
-    id?: number;
-    targetQuestionId?: number;
-    sourceQuestionId?: number;
-    condition?: string | undefined;
-    value?: string | undefined;
-}
+
 
 export interface QuestionOptionConditionalViewModel {
     id?: number;
@@ -2737,321 +2728,6 @@ export interface QuestionOptionValueViewModel {
 export interface QuestionOptionLabelViewModel extends LabelViewModel {
     id?: number;
     questionOptionId?: number;
-}
-
-export enum QuestionCondtionalOperatorType {
-    AND = 0,
-    OR = 1,
-}
-
-export interface QuestionConditional {
-    targetQuestion?: QuestionPart | undefined;
-    sourceQuestion?: QuestionPart | undefined;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-}
-
-export interface QuestionPart {
-    id?: number,
-    questionType?: string | undefined;
-    name?: string | undefined;
-    questionPartChildren?: QuestionPart[] | undefined;
-    questionConfigurations?: QuestionConfiguration[] | undefined;
-    questionOptions?: QuestionOption[] | undefined;
-    questionConditionalsSource?: QuestionConditional[] | undefined;
-    questionConditionalsTarget?: QuestionConditional[] | undefined;
-    questionOptionConditionalsSource?: QuestionOptionConditional[] | undefined;
-    isGroupQuestion?: boolean;
-    survey?: Survey | undefined;
-}
-
-export interface QuestionConfiguration {
-    name?: string | undefined;
-    value?: string | undefined;
-    isResourceOnly?: boolean;
-    valueType?: ConfigurationValueType;
-    questionConfigurationLabels?: LabelCollectionOfQuestionConfigurationLabel | undefined;
-    isSourceInputRequired?: boolean;
-}
-
-export interface Anonymous {
-    Item?: QuestionConfigurationLabel | undefined;
-    Default?: QuestionConfigurationLabel | undefined;
-}
-
-export interface LabelCollectionOfQuestionConfigurationLabel extends Anonymous {
-}
-
-export interface AuditableEntity {
-    createdBy?: string | undefined;
-    updatedBy?: string | undefined;
-    updatedDate?: Date;
-    createdDate?: Date;
-}
-
-export interface Label extends AuditableEntity {
-    value?: string | undefined;
-    language?: string | undefined;
-}
-
-export interface QuestionConfigurationLabel extends Label {
-    questionOptionId?: number;
-    questionOption?: QuestionOption | undefined;
-}
-
-export interface QuestionOption {
-    name?: string | undefined;
-    code?: string | undefined;
-    questionOptionLabels?: LabelCollectionOfQuestionOptionLabel | undefined;
-    order?: number;
-    questionOptionConditionalsTarget?: QuestionOptionConditional[] | undefined;
-    questionPartParent?: QuestionPart | undefined;
-}
-
-export interface Anonymous2 {
-    Item?: QuestionOptionLabel | undefined;
-    Default?: QuestionOptionLabel | undefined;
-}
-
-export interface LabelCollectionOfQuestionOptionLabel extends Anonymous2 {
-}
-
-export interface QuestionOptionLabel extends Label {
-    questionOption?: QuestionOption | undefined;
-}
-
-export interface QuestionOptionConditional {
-    targetOption?: QuestionOption | undefined;
-    sourceQuestion?: QuestionPart | undefined;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-}
-
-export enum QuestionConditionalType {
-    IsEqualTo = 0,
-    IsNotEqualTo = 1,
-    GreaterThan = 2,
-    LessThan = 3,
-    InBounds = 4,
-    OutOfBounds = 5,
-    InRange = 6,
-    OutsideRange = 7,
-    IsAnyOf = 8,
-    IsAllOf = 9,
-    Contains = 10,
-    DoesNotContain = 11,
-}
-
-export interface Survey extends AuditableEntity {
-    code?: string | undefined;
-    name?: string | undefined;
-    owner?: string | undefined;
-    group?: string | undefined;
-    startAt?: Date;
-    endAt?: Date;
-    isActive?: boolean;
-    isOpen?: boolean;
-    successLink?: string | undefined;
-    rejectionLink?: string | undefined;
-    defaultLanguage?: string | undefined;
-    styleTemplate?: string | undefined;
-    surveyViews?: SurveyViewCollectionOfSurveyView | undefined;
-    surveyPermissions?: SurveyPermission[] | undefined;
-    groupCodes?: Groupcode[] | undefined;
-    shortcodes?: Shortcode[] | undefined;
-    extensionConfigurations?: ExtensionConfiguration[] | undefined;
-    titleLabels?: LabelCollectionOfTitlePageLabel | undefined;
-    hasGroupCodes?: boolean;
-}
-
-export interface Anonymous3 {
-    Item?: SurveyView | undefined;
-}
-
-export interface SurveyViewCollectionOfSurveyView extends Anonymous3 {
-}
-
-export interface SurveyView {
-    survey?: Survey | undefined;
-    questionPartViews?: QuestionPartView[] | undefined;
-    welcomePageLabels?: LabelCollectionOfWelcomePageLabel | undefined;
-    termsAndConditionsLabels?: LabelCollectionOfTermsAndConditionsPageLabel | undefined;
-    thankYouPageLabels?: LabelCollectionOfThankYouPageLabel | undefined;
-    screeningQuestionLabels?: LabelCollectionOfScreeningQuestionsPageLabel | undefined;
-    viewName?: string | undefined;
-}
-
-export interface QuestionPartView {
-    id?: number,
-    labels?: LabelCollectionOfQuestionPartViewLabel | undefined;
-    questionPart?: QuestionPart | undefined;
-    parentView?: QuestionPartView | undefined;
-    conditionals?: QuestionConditionalOperator[] | undefined;
-    surveyView?: SurveyView | undefined;
-    questionPartViewChildren?: QuestionPartView[] | undefined;
-    order?: number;
-    isOptional?: boolean;
-    isHousehold?: boolean;
-    isMultiView?: boolean;
-    isDefaultHidden?: boolean;
-    repeatSource?: QuestionPart | undefined;
-    icon?: string | undefined;
-    catiDependent?: QuestionPartView | undefined;
-}
-
-export interface Anonymous4 {
-    Item?: QuestionPartViewLabel | undefined;
-    Default?: QuestionPartViewLabel | undefined;
-}
-
-export interface LabelCollectionOfQuestionPartViewLabel extends Anonymous4 {
-}
-
-export interface QuestionPartViewLabel extends Label {
-    questionPartView?: QuestionPartView | undefined;
-}
-
-export interface Anonymous5 {
-    Item?: WelcomePageLabel | undefined;
-    Default?: WelcomePageLabel | undefined;
-}
-
-export interface LabelCollectionOfWelcomePageLabel extends Anonymous5 {
-}
-
-export interface WelcomePageLabel extends Label {
-    surveyView?: SurveyView | undefined;
-}
-
-export interface Anonymous6 {
-    Item?: TermsAndConditionsPageLabel | undefined;
-    Default?: TermsAndConditionsPageLabel | undefined;
-}
-
-export interface LabelCollectionOfTermsAndConditionsPageLabel extends Anonymous6 {
-}
-
-export interface TermsAndConditionsPageLabel extends Label {
-    surveyView?: SurveyView | undefined;
-}
-
-export interface Anonymous7 {
-    Item?: ThankYouPageLabel | undefined;
-    Default?: ThankYouPageLabel | undefined;
-}
-
-export interface LabelCollectionOfThankYouPageLabel extends Anonymous7 {
-}
-
-export interface ThankYouPageLabel extends Label {
-    surveyView?: SurveyView | undefined;
-}
-
-export interface Anonymous8 {
-    Item?: ScreeningQuestionsPageLabel | undefined;
-    Default?: ScreeningQuestionsPageLabel | undefined;
-}
-
-export interface LabelCollectionOfScreeningQuestionsPageLabel extends Anonymous8 {
-}
-
-export interface ScreeningQuestionsPageLabel extends Label {
-    surveyView?: SurveyView | undefined;
-}
-
-export interface SurveyPermission {
-    id?: number;
-    userId?: string | undefined;
-    user?: ApplicationUser | undefined;
-    surveyId?: number;
-    survey?: Survey | undefined;
-    permissionCode?: string | undefined;
-    permissions?: string[] | undefined;
-}
-
-export interface IdentityUserOfString {
-    id?: string | undefined;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: Date | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-}
-
-export interface IdentityUser extends IdentityUserOfString {
-}
-
-export interface ApplicationUser extends IdentityUser {
-    friendlyName?: string | undefined;
-    jobTitle?: string | undefined;
-    fullName?: string | undefined;
-    configuration?: string | undefined;
-    isEnabled?: boolean;
-    isLockedOut?: boolean;
-    createdBy?: string | undefined;
-    updatedBy?: string | undefined;
-    createdDate?: Date;
-    updatedDate?: Date;
-    roles?: IdentityUserRoleOfString[] | undefined;
-    claims?: IdentityUserClaimOfString[] | undefined;
-}
-
-export interface IdentityUserRoleOfString {
-    userId?: string | undefined;
-    roleId?: string | undefined;
-}
-
-export interface IdentityUserClaimOfString {
-    id?: number;
-    userId?: string | undefined;
-    claimType?: string | undefined;
-    claimValue?: string | undefined;
-}
-
-export interface Groupcode {
-    id?: number;
-    survey?: Survey | undefined;
-    name?: string | undefined;
-    code?: string | undefined;
-    createdDate?: Date;
-    isTest?: boolean;
-}
-
-export interface Shortcode {
-    id?: number;
-    survey?: Survey | undefined;
-    groupcode?: Groupcode | undefined;
-    code?: string | undefined;
-    isTest?: boolean;
-    createdDate?: Date;
-    surveyCompleted?: boolean;
-}
-
-export interface ExtensionConfiguration {
-    survey?: Survey | undefined;
-    extensionName: string;
-    configuration: string;
-}
-
-export interface Anonymous9 {
-    Item?: TitlePageLabel | undefined;
-    Default?: TitlePageLabel | undefined;
-}
-
-export interface LabelCollectionOfTitlePageLabel extends Anonymous9 {
-}
-
-export interface TitlePageLabel extends Label {
-    survey?: Survey | undefined;
 }
 
 export interface FileResponse {

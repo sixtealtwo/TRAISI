@@ -387,7 +387,7 @@ namespace TRAISI.Controllers
         }
 
         [HttpGet("{surveyId}/QuestionConditionals/{questionPartViewId}")]
-        [Produces(typeof(IEnumerable<QuestionConditionalOperator>))]
+        [Produces(typeof(IEnumerable<QuestionConditionalOperatorViewModel>))]
         public async Task<IActionResult> GetQuestionPartViewConditionals(int surveyId, int questionPartViewId)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
@@ -395,7 +395,7 @@ namespace TRAISI.Controllers
             {
                 var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
 
-                return new OkObjectResult(question.Conditionals);
+                return new OkObjectResult(Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals));
             }
             else
             {
@@ -404,7 +404,7 @@ namespace TRAISI.Controllers
         }
 
         [HttpPut("{surveyId}/QuestionConditionals/{questionPartId}")]
-        public async Task<IActionResult> SetQuestionPartConditionals(int surveyId, int questionPartId, [FromBody] List<QuestionConditionalViewModel> conditionals)
+        public async Task<IActionResult> SetQuestionPartConditionals(int surveyId, int questionPartId, [FromBody] List<QuestionConditionalOperatorViewModel> conditionals)
         {
             if (ModelState.IsValid)
             {
@@ -997,11 +997,11 @@ namespace TRAISI.Controllers
         /// <returns></returns>
         [HttpPost("{surveyId}/conditionals/{questionPartViewId}")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateQuestionConditionals(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperator[] conditionals)
+        public async Task<IActionResult> UpdateQuestionConditionals(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperatorViewModel[] conditionals)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             var question = await this._unitOfWork.QuestionPartViews.GetAsync(questionPartViewId);
-            _surveyBuilderService.UpdateQuestionConditionals(question, conditionals);
+            _surveyBuilderService.UpdateQuestionConditionals(question, Mapper.Map<QuestionConditionalOperator[]>(conditionals));
             await this._unitOfWork.SaveChangesAsync();
             return new OkResult();
         }

@@ -36,6 +36,7 @@ import { QuestionConditionalOperator } from "app/survey-builder/models/question-
 import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
 import { QuestionCondtionalOperatorType } from "app/survey-builder/models/question-conditional-operator-type.enum";
+import { QuestionConditionalType } from 'app/survey-builder/models/question-conditional-type.enum';
 
 @Component({
 	selector: "app-question-conditionals",
@@ -194,8 +195,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 					let existing: QuestionConditional = updatedQConditionals.filter(
 						c =>
 							c.condition === conditionWithoutSpaces &&
-							c.value === qConditional.value &&
-							c.targetQuestionId === qConditional.targetQuestionId
+							c.value === qConditional.value 
+							//&& c.targetQuestionId === qConditional.targetQuestionId
 					)[0];
 					if (!existing) {
 						if (qi < qmax) {
@@ -203,7 +204,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 								qi++
 							].id;
 						}
-						qConditional.condition = conditionWithoutSpaces;
+						qConditional.condition = conditionWithoutSpaces as QuestionConditionalType;
 						updatedQConditionals.push(qConditional);
 					}
 				}
@@ -287,7 +288,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				sourceConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = sourceConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`question~${conditional.targetQuestionId}`);
+			// conditionalIds.push(`question~${conditional.targetQuestionId}`);
 		});
 		this.sourceQuestionOptionConditionals.forEach(conditional => {
 			// put spaces in condition between capitals
@@ -336,7 +337,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 				targetConditionalsMap.set(conditionalKey, []);
 			}
 			let conditionalIds = targetConditionalsMap.get(conditionalKey);
-			conditionalIds.push(`question|${conditional.targetQuestionId}`);
+			// conditionalIds.push(`question|${conditional.targetQuestionId}`);
 		});
 		this.targetQuestionOptionConditionals.forEach(conditional => {
 			// put spaces in condition between capitals
