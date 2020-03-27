@@ -5,7 +5,7 @@ export enum QuestionResponseType {
     Decimal = "Decimal",
     Location = "Location",
     Json = "Json",
-    OptionSelect = "PptionSelect",
+    OptionSelect = "OptionSelect",
     OptionList = "OptionList",
     DateTime = "DateTime",
     Time = "Time",
