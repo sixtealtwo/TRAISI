@@ -71,6 +71,8 @@ namespace DAL.Repositories
                .ToList();
         }
 
+
+
         public QuestionPart GetQuestionPartWithConditionals(int id)
         {
             return  _appContext.QuestionParts

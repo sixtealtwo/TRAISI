@@ -132,7 +132,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	) {}
 
 	public ngOnInit(): void {
-		console.log(this.sourceQuestionList);
 		/* get the reference to the question */
 		let sourceQuestion = this.sourceQuestionList.find(
 			s => Number(s.id) === this.sourceGroup.sourceQuestionId
@@ -163,6 +162,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.dateRange = JSON.parse(this.sourceGroup.value);
 		}
 		this.changeDetectRef.detectChanges();
+		console.log(this.sourceGroup);
 	}
 
 	/**
@@ -170,7 +170,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	 * @param event
 	 */
 	public onChange(event: QuestionPartView): void {
-		console.log(event);
 		this._client.getQuestionPartOptions(this._editor.surveyId,event.questionPart?.id,'en').subscribe(options => {
 			this.questionOptionsList = options;
 			console.log(options);
@@ -179,7 +178,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		this.setConditionsForQuestionType();
 		this.sourceGroup.sourceQuestionId = Number(event.id);
 		this.changeDetectRef.detectChanges();
-		console.log(this.sourceGroup);
 	}
 
 	public optionConditionalValueChanged(event): void {
@@ -218,12 +216,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		this.responseType = this._editor.questionTypeMap.get(
 			type
 		)?.responseType;
-
-		console.log(this.responseType);
-		console.log(this.questionResponseTypes.String);
-		console.log(this.responseType=== QuestionResponseType.String);
 		if (this.responseType === QuestionResponseType.String) {
-			console.log('in here ');
 			this.dropDownListItems = ["Contains", "Does Not Contain"];
 		} else if (this.responseType === QuestionResponseType.Boolean) {
 			this.dropDownListItems = ["Is Equal To"];

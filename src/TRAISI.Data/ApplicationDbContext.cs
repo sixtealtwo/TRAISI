@@ -37,7 +37,6 @@ namespace DAL
         public DbSet<Groupcode> Groupcodes { get; set; }
         public DbSet<QuestionPart> QuestionParts { get; set; }
 
-        public DbSet<QuestionConditionalGroup> QuestionConditionalGroups { get; set; }
 
         public DbSet<QuestionConditionalOperator> QuestionConditionalOperators { get; set; }
 
@@ -220,13 +219,11 @@ namespace DAL
             builder.Entity<SurveyResponse>().HasOne(o => o.SurveyAccessRecord);
             //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
 
-            builder.Entity<QuestionConditionalGroup>().ToTable("QuestionCondtionalGroups");
-
             builder.Entity<QuestionConditionalOperator>().ToTable("QuestionCondtionalOperators")
-                .HasOne(s => s.Lhs);
-            builder.Entity<QuestionConditionalOperator>().HasOne(s => s.Rhs);
+                .HasOne(s => s.Lhs).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionConditionalOperator>().HasOne(s => s.Rhs).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<QuestionConditional>().HasOne(s => s.SourceQuestion);
+            builder.Entity<QuestionConditional>().HasOne(s => s.SourceQuestion).WithMany();
 
         }
 

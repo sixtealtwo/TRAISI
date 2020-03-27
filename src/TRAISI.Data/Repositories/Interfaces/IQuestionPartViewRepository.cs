@@ -13,5 +13,7 @@ namespace DAL.Repositories.Interfaces {
         QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId);
 
         List<QuestionPartView> GetQuestionPartViewsWithParent(int questionPartViewParentId);
+
+		Task<QuestionPartView> GetQuestionPartViewWithConditionals(int id);
 	}
 }

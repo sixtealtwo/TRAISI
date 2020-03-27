@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -10,9 +11,10 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327071303_AddOptionalForeignKey")]
+    partial class AddOptionalForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,9 +337,27 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("QuestionPartId1");
 
-                    b.HasIndex("SourceQuestionId");
+                    b.HasIndex("SourceQuestionId")
+                        .IsUnique();
 
                     b.ToTable("QuestionConditionals");
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("TargetQuestionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TargetQuestionId");
+
+                    b.ToTable("QuestionCondtionalGroups");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalOperator", b =>
@@ -347,7 +367,7 @@ namespace TRAISI.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("LhsId")
+                    b.Property<int>("LhsId")
                         .HasColumnType("integer");
 
                     b.Property<int>("OperatorType")
@@ -356,7 +376,10 @@ namespace TRAISI.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("RhsId")
+                    b.Property<int?>("QuestionConditionalGroupId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RhsId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TargetQuestionId")
@@ -364,9 +387,13 @@ namespace TRAISI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LhsId");
+                    b.HasIndex("LhsId")
+                        .IsUnique();
 
-                    b.HasIndex("RhsId");
+                    b.HasIndex("QuestionConditionalGroupId");
+
+                    b.HasIndex("RhsId")
+                        .IsUnique();
 
                     b.HasIndex("TargetQuestionId");
 
@@ -1771,22 +1798,33 @@ namespace TRAISI.Migrations
                         .HasForeignKey("QuestionPartId1");
 
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "SourceQuestion")
-                        .WithMany()
-                        .HasForeignKey("SourceQuestionId")
+                        .WithOne()
+                        .HasForeignKey("DAL.Models.Questions.QuestionConditional", "SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalGroup", b =>
+                {
+                    b.HasOne("DAL.Models.Questions.QuestionPartView", "TargetQuestion")
+                        .WithMany()
+                        .HasForeignKey("TargetQuestionId");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalOperator", b =>
                 {
                     b.HasOne("DAL.Models.Questions.QuestionConditional", "Lhs")
-                        .WithMany()
-                        .HasForeignKey("LhsId")
+                        .WithOne()
+                        .HasForeignKey("DAL.Models.Questions.QuestionConditionalOperator", "LhsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("DAL.Models.Questions.QuestionConditionalGroup", null)
+                        .WithMany("Conditionals")
+                        .HasForeignKey("QuestionConditionalGroupId");
+
                     b.HasOne("DAL.Models.Questions.QuestionConditional", "Rhs")
-                        .WithMany()
-                        .HasForeignKey("RhsId")
+                        .WithOne()
+                        .HasForeignKey("DAL.Models.Questions.QuestionConditionalOperator", "RhsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "TargetQuestion")

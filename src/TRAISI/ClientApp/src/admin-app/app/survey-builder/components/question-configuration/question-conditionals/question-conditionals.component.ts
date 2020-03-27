@@ -21,7 +21,7 @@ import { QuestionTypeDefinition } from "../../../models/question-type-definition
 import { QuestionPartView } from "../../../models/question-part-view.model";
 import { ModalDirective } from "ngx-bootstrap";
 import { MapComponent } from "ngx-mapbox-gl";
-import * as MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
+import * as MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 import { Control } from "mapbox-gl";
 import { SourceConditionalComponent } from "./source-conditional/conditional.component";
 import { QuestionConditional } from "../../../models/question-conditional.model";
@@ -36,7 +36,7 @@ import { QuestionConditionalOperator } from "app/survey-builder/models/question-
 import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
 import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
 import { QuestionCondtionalOperatorType } from "app/survey-builder/models/question-conditional-operator-type.enum";
-import { QuestionConditionalType } from 'app/survey-builder/models/question-conditional-type.enum';
+import { QuestionConditionalType } from "app/survey-builder/models/question-conditional-type.enum";
 
 @Component({
 	selector: "app-question-conditionals",
@@ -130,6 +130,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	) {}
 
 	public ngOnInit(): void {
+		console.log(this.conditionals);
 		this.conditionalCount = this.conditionals.length;
 		if (this.conditionals.length > 0 && this.conditionals[0].rhs !== null) {
 			this.conditionalCount++;
@@ -195,8 +196,8 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 					let existing: QuestionConditional = updatedQConditionals.filter(
 						c =>
 							c.condition === conditionWithoutSpaces &&
-							c.value === qConditional.value 
-							//&& c.targetQuestionId === qConditional.targetQuestionId
+							c.value === qConditional.value
+						//&& c.targetQuestionId === qConditional.targetQuestionId
 					)[0];
 					if (!existing) {
 						if (qi < qmax) {
@@ -374,36 +375,37 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	 * @param index the index in the display
 	 */
 	public getConditionalModel(index: number) {
-		if (index == 0) {
-			if (this.conditionals[0].lhs === undefined) {
+		if (index === 0) {
+			if (!this.conditionals[0].lhs) {
 				this.conditionals[0].lhs = {};
 			}
 			return this.conditionals[0].lhs;
-		} else if (index == 1) {
-			if (this.conditionals[0].rhs === undefined) {
+		} else if (index === 1)   {
+			if (!this.conditionals[0].rhs) {
 				this.conditionals[0].rhs = {};
 			}
 			return this.conditionals[0].rhs;
 		} else {
-			if (this.conditionals[Math.trunc(index / 2)].rhs === undefined) {
-				this.conditionals[Math.trunc(index / 2)].rhs = {};
+			const index2 = index-1;
+			if (!this.conditionals[index2].rhs) {
+				this.conditionals[index2].rhs = {};
 			}
-			return this.conditionals[Math.trunc(index / 2)].rhs;
+			return this.conditionals[index2].rhs;
 		}
 	}
 
 	public addConditional() {}
 
 	public onOperatorChange(
-		i:number,
+		i: number,
 		event: QuestionCondtionalOperatorType
 	): void {
 		this.conditionals[i].operatorType = event;
 	}
 
 	public addSourceConditional() {
-		console.log(this.questionBeingEdited);
-		if (this.conditionalCount % 2 == 0) {
+		console.log(this.conditionals);
+		if (this.conditionalCount % 2 == 0 || this.conditionalCount >= 3) {
 			this.conditionals.push({
 				operatorType: QuestionCondtionalOperatorType.AND,
 				targetQuestionId: this.questionBeingEdited.id,
@@ -436,25 +438,28 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 
 	public deleteSourceConditional(i: number) {
 		// delete the conditional and rearrange the data
-		if(i == 0 && this.conditionals.length == 1) {
-			
+		if (i == 0 && this.conditionalCount == 1) {
 			this.conditionals = [];
 		}
-		else if(i == 0 && this.conditionals.length > 1) {
+		else if(i == 0 && this.conditionalCount > 1) {
 			this.conditionals[0].lhs = this.conditionals[0].rhs;
-			for(let ix = i; i < this.conditionals.length-1; i++) {
-				this.conditionals[ix].rhs = this.conditionals[ix+1].rhs;
+			if(this.conditionalCount > 2) {
+				this.conditionals[0].rhs = this.conditionals[1].rhs;
+				this.conditionals.splice(1,1);
 			}
-			this.conditionals = this.conditionals.splice(-1,1)
+			else {
+				this.conditionals[0].rhs = undefined;
+			}
+		} 
+		else if (i == 1 && this.conditionalCount == 2) {
+			this.conditionals[0].rhs = null;
+		}
+		else {
+			// remove the conditional from the list
+			this.conditionals.splice(i-1,1);
 
 		}
-		else if(i > 1) {
-			this.conditionals = this.conditionals.splice(i,1);
-		}
-		//this.sourceConditionals = this.sourceConditionals.filter(
-		//	s => s.index !== i
-		//);
-		this.conditionalCount --;
+		this.conditionalCount--;
 	}
 
 	public deleteTargetConditional(i: number) {

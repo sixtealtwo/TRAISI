@@ -6,6 +6,8 @@ import { QuestionTypeDefinition } from "../models/question-type-definition";
 import { TreeviewItem } from 'ngx-treeview';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { SurveyBuilderService } from './survey-builder.service';
+import { SurveyViewStructure } from '../models/survey-view-structure.model';
+import { tap } from 'rxjs/operators';
 /**
  *
  *
@@ -23,7 +25,7 @@ export class SurveyBuilderEditorData {
 		QuestionTypeDefinition
 	>();
 
-	public surveyStructure: Array<TreeviewItem> = [];
+	public surveyStructure: SurveyViewStructure;
 
 	public currentPage: QuestionPartView;
 
@@ -46,6 +48,19 @@ export class SurveyBuilderEditorData {
 				}
 			});
 		});
+	}
+
+	/**
+	 * 
+	 * @param viewName 
+	 * @param language 
+	 */
+	public updateSurveyStructure(viewName:string = 'Standard', language:string = 'en'): Observable<SurveyViewStructure> {
+		return this._client.getSurveyViewPageStructure(this.surveyId,viewName,language).pipe(
+			tap(value => {
+				this.surveyStructure = value;
+			})
+		);
 	}
 
 	/**

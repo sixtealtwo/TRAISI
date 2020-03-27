@@ -154,9 +154,17 @@ namespace TRAISI.ViewModels
 						svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
 					});
 
-			CreateMap<QuestionConditionalOperatorViewModel,QuestionConditionalOperator>().ReverseMap();
+			CreateMap<QuestionConditionalOperatorViewModel,QuestionConditionalOperator>().AfterMap((s,svm,opt) => {
+
+			});
+
+			CreateMap<QuestionConditionalOperator,QuestionConditionalOperatorViewModel>().AfterMap((s,svm,opt) => {
+				svm.Lhs = s.Lhs ==  null ? null : svm.Lhs;
+				svm.Rhs = s.Rhs == null ? null : svm.Rhs;
+			});
 
 			CreateMap<QuestionConditional, QuestionConditionalViewModel>();
+			CreateMap<QuestionConditionalViewModel,QuestionConditional >().ForMember(m => m.SourceQuestion, m => m.Ignore());
 				// .ReverseMap().ForMember(c => c.SourceQuestion, map => map.Ignore()).ForMember(c => c.TargetQuestion, map => map.Ignore());
 			CreateMap<QuestionOptionConditional, QuestionOptionConditionalViewModel>().ReverseMap();
 

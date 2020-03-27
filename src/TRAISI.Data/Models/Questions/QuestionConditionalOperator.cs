@@ -27,6 +27,12 @@ namespace DAL.Models.Questions {
         [ForeignKey("TargetQuestion")]
         public int TargetQuestionId {get;set;}
 
+        [ForeignKey("Lhs")]
+        public int? LhsId {get;set;}
+
+        [ForeignKey("Rhs")]
+        public int? RhsId {get;set;}
+
     }
 
     /// <summary>

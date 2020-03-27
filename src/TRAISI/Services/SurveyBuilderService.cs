@@ -874,8 +874,48 @@ namespace TRAISI.Services
         /// <param name="conditionalOperator"></param>
         public void UpdateQuestionConditionals(QuestionPartView question, QuestionConditionalOperator[] conditionalOperators)
         {
-            question.Conditionals.Clear();
-            question.Conditionals.AddRange(conditionalOperators);
+            var toRemove = new List<int>();
+            var toAdd = new List<QuestionConditionalOperator>();
+            foreach (var op in conditionalOperators)
+            {
+                if (!question.Conditionals.Any(p => p.Id == op.Id))
+                {
+                    toRemove.Add(op.Id);
+                }
+
+            }
+            question.Conditionals.RemoveAll(p => toRemove.Contains(p.Id));
+            question.Conditionals.RemoveAll(p => !conditionalOperators.Any(p2 => p.Id == p2.Id));
+
+            foreach (var op in conditionalOperators)
+            {
+                if (!question.Conditionals.Any(p => p.Id == op.Id) || op.Id == 0)
+                {
+                    question.Conditionals.Add(op);
+                }
+            }
+
+            // update the values
+            foreach (var op in question.Conditionals)
+            {
+                var updated = conditionalOperators.First(p => p.Id == op.Id);
+                op.OperatorType = updated.OperatorType;
+                op.Order = updated.Order;
+                if (op.Rhs != null)
+                {
+                    op.Rhs.SourceQuestionId = updated.Rhs.SourceQuestionId;
+                    op.Rhs.Value = updated.Rhs.Value;
+                    op.Rhs.Condition = updated.Rhs.Condition;
+                }
+                if (op.Lhs != null)
+                {
+                    op.Lhs.SourceQuestionId = updated.Lhs.SourceQuestionId;
+                    op.Lhs.Value = updated.Lhs.Value;
+                    op.Lhs.Condition = updated.Lhs.Condition;
+                }
+            }
+
+            return;
         }
 
 

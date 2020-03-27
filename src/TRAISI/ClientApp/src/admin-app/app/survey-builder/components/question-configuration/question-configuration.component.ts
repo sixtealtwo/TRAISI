@@ -93,7 +93,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public fullStructure: TreeviewItem[] = [];
 	public questionOptionsAfter: TreeviewItem[] = [];
-	public questionsBefore: TreeviewItem[] = [];
+	public questionsBefore: QuestionPartView[] = [];
 	public repeatSourcesBefore: TreeviewItem[] = [];
 	public thisQuestion: TreeviewItem[] = [];
 	public householdExistsBefore: boolean = false;
@@ -224,7 +224,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 						let component = paramComponents.find(
 							c => c.id === conf.builderType
 						)?.component;
-							
+
 						if (component) {
 							let target = this.configTargets.toArray()[i];
 							target.clear();
@@ -252,18 +252,18 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public parameterComponents(): Array<any> {
 		let widgetComponents = [
-			{id: 'Checkbox', component: CheckboxComponent},
-			{id: 'DateInput', component: DateInputComponent},
-			{id: 'SingleSelect', component: DropdownListComponent},
-			{id: 'MultiSelect', component: MultiSelectComponent},
-			{id: 'Textbox', component: TextboxComponent},
-			{id: 'TextAreaa', component: TextAreaComponent},
-			{id: 'NumericText', component: NumericTextboxComponent},
-			{id: 'Slider', component: SliderComponent},
-			{id: 'Switch', component: SwitchComponent},
-			{id: 'TimeInput', component: TimeInputComponent},
-			{id: 'LocationField', component: LocationFieldComponent},
-			{id: 'Radio', component: RadioComponent}
+			{ id: "Checkbox", component: CheckboxComponent },
+			{ id: "DateInput", component: DateInputComponent },
+			{ id: "SingleSelect", component: DropdownListComponent },
+			{ id: "MultiSelect", component: MultiSelectComponent },
+			{ id: "Textbox", component: TextboxComponent },
+			{ id: "TextAreaa", component: TextAreaComponent },
+			{ id: "NumericText", component: NumericTextboxComponent },
+			{ id: "Slider", component: SliderComponent },
+			{ id: "Switch", component: SwitchComponent },
+			{ id: "TimeInput", component: TimeInputComponent },
+			{ id: "LocationField", component: LocationFieldComponent },
+			{ id: "Radio", component: RadioComponent }
 		];
 
 		return widgetComponents;
@@ -583,29 +583,31 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			if (questionHitThisPage && page.children.length > 0) {
 				this.questionOptionsAfter.push(new TreeviewItem(page));
 			} else if (page.children.length > 0) {
-				this.questionsBefore.push(new TreeviewItem(page));
+				// this.questionsBefore.push(new TreeviewItem(page));
 			}
 		});
 
 		console.log(this._editorData.surveyStructure);
-		for (let page of this._editorData.currentPage
-			.questionPartViewChildren) {
-			this.processSourceConditionalsPage(page);
+		for (let page of this._editorData.surveyStructure.pages) {
+			this.processSourceConditionalsPage(page,0);
 		}
 	}
 
 	/**
 	 * Processes the survey questions and creates a candidate list of source conditionals
 	 */
-	private processSourceConditionalsPage(view: QuestionPartView): void {
+	private processSourceConditionalsPage(view: QuestionPartView,depth:number): void {
 		// loop through the question structure and add to a list of possible questions
-		//if (view.type !== "part") {
-		this.sourceQuestionList.push(view);
-		//}
-
-		if (view.questionPartViewChildren !== null) {
+		if (this.questionBeingEdited.id === view.id) {
+			return;
+		}
+		if(depth > 0)
+		{
+			this.sourceQuestionList.push(view);
+		}
+		if ((view).questionPartViewChildren !== null) {
 			for (let childView of view.questionPartViewChildren) {
-				this.processSourceConditionalsPage(childView);
+				this.processSourceConditionalsPage(childView,depth+1);
 			}
 		}
 	}
@@ -623,7 +625,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 				this.repeatSourcesBefore = repeatSources;
 				if (page.children.length > 0) {
-					this.questionsBefore.push(new TreeviewItem(page));
+					//this.questionsBefore.push(new TreeviewItem(page));
 					page = {
 						value: treeElement.value,
 						text: treeElement.text,
@@ -636,7 +638,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (element.value === sectionBreak) {
 					this.repeatSourcesBefore = repeatSources;
 					if (page.children.length > 0) {
-						this.questionsBefore.push(new TreeviewItem(page));
+						//this.questionsBefore.push(new TreeviewItem(page));
 						page = {
 							value: treeElement.value,
 							text: treeElement.text,
@@ -724,7 +726,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					if (part.children.length > 0) {
 						page.children.push(part);
 					}
-					this.questionsBefore.push(new TreeviewItem(page));
+					//this.questionsBefore.push(new TreeviewItem(page));
 					page = {
 						value: page.value,
 						text: page.text,

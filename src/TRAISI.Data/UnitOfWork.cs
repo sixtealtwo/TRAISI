@@ -33,6 +33,7 @@ namespace DAL
         ISurveyResponseRepository _surveyResponses;
         IQuestionOptionRepository _questionOptions;
         IQuestionConditionalRepository _questionConditionals;
+
         IQuestionOptionConditionalRepository _questionOptionConditionals;
 
         ISurveyRespondentGroupRepository _suveyRespondentGroupRepository;
@@ -42,6 +43,8 @@ namespace DAL
         ISurveyUserRepository _surveyUserRepository;
 
         IRepository<TitlePageLabel> _titlePageLabelsRepository;
+
+        public ApplicationDbContext DbContext => _context;
 
         /// <summary>
         /// 

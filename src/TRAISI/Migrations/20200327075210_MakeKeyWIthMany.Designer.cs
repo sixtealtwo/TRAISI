@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -10,9 +11,10 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327075210_MakeKeyWIthMany")]
+    partial class MakeKeyWIthMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,9 +337,27 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("QuestionPartId1");
 
-                    b.HasIndex("SourceQuestionId");
+                    b.HasIndex("SourceQuestionId")
+                        .IsUnique();
 
                     b.ToTable("QuestionConditionals");
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("TargetQuestionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TargetQuestionId");
+
+                    b.ToTable("QuestionCondtionalGroups");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalOperator", b =>
@@ -356,6 +376,9 @@ namespace TRAISI.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("QuestionConditionalGroupId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("RhsId")
                         .HasColumnType("integer");
 
@@ -365,6 +388,8 @@ namespace TRAISI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LhsId");
+
+                    b.HasIndex("QuestionConditionalGroupId");
 
                     b.HasIndex("RhsId");
 
@@ -1771,10 +1796,17 @@ namespace TRAISI.Migrations
                         .HasForeignKey("QuestionPartId1");
 
                     b.HasOne("DAL.Models.Questions.QuestionPartView", "SourceQuestion")
-                        .WithMany()
-                        .HasForeignKey("SourceQuestionId")
+                        .WithOne()
+                        .HasForeignKey("DAL.Models.Questions.QuestionConditional", "SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalGroup", b =>
+                {
+                    b.HasOne("DAL.Models.Questions.QuestionPartView", "TargetQuestion")
+                        .WithMany()
+                        .HasForeignKey("TargetQuestionId");
                 });
 
             modelBuilder.Entity("DAL.Models.Questions.QuestionConditionalOperator", b =>
@@ -1783,6 +1815,10 @@ namespace TRAISI.Migrations
                         .WithMany()
                         .HasForeignKey("LhsId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Models.Questions.QuestionConditionalGroup", null)
+                        .WithMany("Conditionals")
+                        .HasForeignKey("QuestionConditionalGroupId");
 
                     b.HasOne("DAL.Models.Questions.QuestionConditional", "Rhs")
                         .WithMany()

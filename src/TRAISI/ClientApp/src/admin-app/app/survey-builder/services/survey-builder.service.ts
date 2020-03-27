@@ -183,21 +183,14 @@ export class SurveyBuilderService {
 	public getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
 		surveyId: number,
 		language: string
-	): Observable<TreeviewItem[]> {
+	): Observable<SurveyQuestionOptionStructure[]> {
 		return this.surveyBuilderEndpointService
 			.getStandardViewPagesStructureWithQuestionsOptionsEndpoint<
 				SurveyQuestionOptionStructure[]
-			>(surveyId, language)
-			.pipe(
-				map(items => {
-					return this.convertSurveyQuestionsStructureToTreeItems(
-						items
-					);
-				})
-			);
+			>(surveyId, language);
 	}
 
-	private convertSurveyQuestionsStructureToTreeItems(
+	public convertSurveyQuestionsStructureToTreeItems(
 		items: SurveyQuestionOptionStructure[]
 	): TreeviewItem[] {
 		if (items !== null) {
@@ -384,7 +377,7 @@ export class SurveyBuilderService {
 		questionPartId: number
 	): Observable<QuestionConditionalOperator[]> {
 		return this.surveyBuilderEndpointService.getQuestionPartConditionalsEndpoint<
-			QuestionConditional[]
+		QuestionConditionalOperator[]
 		>(surveyId, questionPartId);
 	}
 

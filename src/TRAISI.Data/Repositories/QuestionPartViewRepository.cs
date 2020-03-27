@@ -43,6 +43,15 @@ namespace DAL.Repositories
             return questionPartView;
         }
 
+        public Task<QuestionPartView> GetQuestionPartViewWithConditionals(int id)
+        {
+            return _appContext.QuestionPartViews
+               .Where(q => q.Id == id)
+               .Include(q => q.Conditionals).ThenInclude(q => q.Rhs)
+               .Include(q => q.Conditionals).ThenInclude(q => q.Lhs)
+               .FirstOrDefaultAsync();
+        }
+
         public QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId)
         {
             var questionPartView = _appContext.QuestionPartViews

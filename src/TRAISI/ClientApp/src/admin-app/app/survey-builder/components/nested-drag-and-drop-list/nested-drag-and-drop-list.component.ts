@@ -10,7 +10,7 @@ import {
 	EventEmitter
 } from "@angular/core";
 import { SurveyBuilderService } from "../../services/survey-builder.service";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, forkJoin } from "rxjs";
 import {
 	AlertService,
 	DialogType,
@@ -136,14 +136,17 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 
 	public updateFullStructure(forceUpdate: boolean = false): void {
 		if (this.updateStructure || forceUpdate) {
+
+			forkJoin(
 			this.surveyBuilderService
 				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
 					this.surveyId,
 					"en"
-				)
-				.subscribe(treelist => {
-					this._editorData.surveyStructure = treelist;
-					this.fullStructure = treelist;
+				),
+				this._editorData.updateSurveyStructure())
+				.subscribe(([treelist,structure]) => {
+					this.fullStructure = this.surveyBuilderService.convertSurveyQuestionsStructureToTreeItems(treelist);
+					this._editorData.surveyStructure = <any>structure;
 					this.processHouseholdCheck();
 					this.householdAddedChange.emit(this.householdAdded);
 					this.updateStructure = false;
@@ -245,7 +248,7 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 				"en"
 			)
 			.subscribe(treelist => {
-				this.fullStructure = treelist;
+				this.fullStructure = this.surveyBuilderService.convertSurveyQuestionsStructureToTreeItems(treelist);
 				this.qConfiguration.fullStructure = this.fullStructure;
 				this.qConfiguration.questionStructure = this._questionStructure;
 				this.qConfiguration.processConfigurations();

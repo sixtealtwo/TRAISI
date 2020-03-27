@@ -394,8 +394,8 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-
-                return new OkObjectResult(Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals));
+                var conditals = Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
+                return new OkObjectResult(conditals);
             }
             else
             {
@@ -1000,7 +1000,7 @@ namespace TRAISI.Controllers
         public async Task<IActionResult> UpdateQuestionConditionals(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperatorViewModel[] conditionals)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
-            var question = await this._unitOfWork.QuestionPartViews.GetAsync(questionPartViewId);
+            var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithConditionals(questionPartViewId);
             _surveyBuilderService.UpdateQuestionConditionals(question, Mapper.Map<QuestionConditionalOperator[]>(conditionals));
             await this._unitOfWork.SaveChangesAsync();
             return new OkResult();

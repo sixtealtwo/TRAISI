@@ -192,7 +192,7 @@ export class TargetConditionalComponent implements OnInit, AfterViewInit {
 		this.targetGroup.condition = this.dropDownListItems.filter((dd) => dd === e)[0];
 		// update condition value in conditionals lists
 		this.targetQuestionConditionalsList.forEach((conditional) => {
-			conditional.condition = this.targetGroup.condition;
+			// conditional.condition = this.targetGroup.condition;
 		});
 		this.targetQuestionOptionConditionalsList.forEach((conditional) => {
 			conditional.condition = this.targetGroup.condition;
