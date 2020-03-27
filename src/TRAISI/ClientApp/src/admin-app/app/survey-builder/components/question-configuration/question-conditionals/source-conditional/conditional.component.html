@@ -146,14 +146,17 @@
 						{{ item }}
 						{{ item.optionLabel.value }}
 					</ng-template>  -->
+					<!--(change)="optionConditionalValueChanged($event)"-->
 				<ng-select
 					[items]="questionOptionsList"
 					bindLabel="optionLabel.value"
 					[multiple]="true"
+					[ngModel]="optionModel"
 					[selectableGroup]="true"
 					[selectableGroupAsModel]="false"
 					[closeOnSelect]="false"
 					(change)="optionConditionalValueChanged($event)"
+					
 				>
 
 				</ng-select>

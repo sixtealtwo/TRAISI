@@ -125,6 +125,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 
 	public optionSelectValues: any[] = [];
 	public questionResponseTypes = QuestionResponseType;
+	public optionModel: any;
 	constructor(
 		private changeDetectRef: ChangeDetectorRef,
 		private _editor: SurveyBuilderEditorData,
@@ -145,7 +146,11 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 			this.responseType === QuestionResponseType.OptionList ||
 			this.responseType === QuestionResponseType.OptionSelect
 		) {
-			this.optionList.forEach(element => {
+			this.optionModel = JSON.parse(this.sourceGroup.value);
+			this._client.getQuestionPartOptions(this._editor.surveyId,sourceQuestion.questionPart?.id,'en').subscribe(options => {
+				this.questionOptionsList = options;
+			});
+			/*this.optionList.forEach(element => {
 				let valueSplit: string[] = element.value.split("~"); // [0] - 'option', [1] - option group name, [2] - option id
 				let codeFromId = this.questionOptions
 					.get(valueSplit[1])
@@ -157,7 +162,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 					checked: this.sourceGroup.value.includes(valueCheck)
 				});
 				this.copiedOptionList.push(copiedItem);
-			});
+			});*/
 		} else if (this.responseType === QuestionResponseType.DateTime) {
 			this.dateRange = JSON.parse(this.sourceGroup.value);
 		}
@@ -172,7 +177,6 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	public onChange(event: QuestionPartView): void {
 		this._client.getQuestionPartOptions(this._editor.surveyId,event.questionPart?.id,'en').subscribe(options => {
 			this.questionOptionsList = options;
-			console.log(options);
 		});
 		this.sourceQuestion = event;
 		this.setConditionsForQuestionType();
@@ -181,7 +185,8 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 	}
 
 	public optionConditionalValueChanged(event): void {
-		console.log(event);
+		this.optionModel = event;
+		this.sourceGroup.value = JSON.stringify(event);
 	}
 
 	public ngAfterViewInit(): void {
