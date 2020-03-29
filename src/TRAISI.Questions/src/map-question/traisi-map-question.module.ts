@@ -6,10 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MapEndpointService } from '../services/mapservice.service';
 
 export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
-	accessToken:
-		// tslint:disable-next-line:max-line-length
-		'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2oyOTlwdjNjMDB5cTMzcXFsdmRyM3NnNCJ9.NXgWTnWfvGRnNgkWdd5wKg'
-	// Can also be set per map (accessToken input of mgl-map)
+	accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2s4Y3IwN3U3MG1obzNsczJjMGhoZWc4MiJ9.OCDfSypjueUF_gKejRr6Og'
 });
 
 @NgModule({
