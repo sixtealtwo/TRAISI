@@ -452,16 +452,19 @@ export class SurveyNavigator {
 						}>
 					) => {
 						let order = 0;
+						console.log(results);
 						for (let result of results) {
+							result.question.isHidden = result.shouldHide;
 							if (result.shouldHide) {
-								result.question.isHidden = true;
+								
 								continue;
 							} else {
 								result.question.inSectionIndex = order++;
 							}
 
-							result.question.isHidden = false;
+							// result.question.isHidden = false;
 
+							// console.log(result);
 							// copy the old question instance
 							let prevIdx = findIndex(
 								this.navigationState$.value

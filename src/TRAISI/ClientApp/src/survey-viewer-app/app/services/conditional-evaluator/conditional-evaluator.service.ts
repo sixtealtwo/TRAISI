@@ -197,6 +197,7 @@ export class ConditionalEvaluator {
 		conditionals: Array<QuestionConditionalOperator>,
 		respondentId: number
 	): boolean {
+		console.log(conditionals);
 		let valueStack = new Stack<any>();
 		let operatorStack = new Stack<QuestionCondtionalOperatorType>();
 		for (let conditional of conditionals) {
@@ -241,10 +242,10 @@ export class ConditionalEvaluator {
 				valueStack.push(evalResult);
 			}
 		}
+		
 		// final evaluation, the result is the remaining stack value
 		this.evaluateValue(valueStack, operatorStack);
 		let result = valueStack.pop();
-		console.log(result);
 		return result;
 	}
 
@@ -252,6 +253,9 @@ export class ConditionalEvaluator {
 		valueStack: Stack<any>,
 		operatorStack: Stack<QuestionCondtionalOperatorType>
 	) {
+		if(valueStack.length === 1) {
+			return ;
+		}
 		let operator = operatorStack.pop();
 		let lhs = valueStack.pop();
 		let rhs = valueStack.pop();
@@ -322,7 +326,6 @@ export class ConditionalEvaluator {
 							// 		return evalResult;
 							// 	}
 							// );
-
 							observer.next({
 								shouldHide: !evalTrue,
 								question: question

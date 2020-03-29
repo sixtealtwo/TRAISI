@@ -129,7 +129,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@Output()
 	public configResult = new EventEmitter<string>();
 
-	@ViewChild("conditionals")
+	@ViewChild("conditionals", { static: false })
 	public conditionalsComponent: QuestionConditionalsComponent;
 
 	@ViewChild("pipeTreeSelect")
@@ -289,7 +289,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public getUpdatedConditionals(): QuestionConditionalOperator[] {
-		return this.conditionalsComponent.getUpdatedConditionals();
+		if (this.conditionalsComponent) {
+			return this.conditionalsComponent.getUpdatedConditionals();
+		}
+		else {
+			return [];
+		}
 	}
 
 	public cancel() {
@@ -589,25 +594,27 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 		console.log(this._editorData.surveyStructure);
 		for (let page of this._editorData.surveyStructure.pages) {
-			this.processSourceConditionalsPage(page,0);
+			this.processSourceConditionalsPage(page, 0);
 		}
 	}
 
 	/**
 	 * Processes the survey questions and creates a candidate list of source conditionals
 	 */
-	private processSourceConditionalsPage(view: QuestionPartView,depth:number): void {
+	private processSourceConditionalsPage(
+		view: QuestionPartView,
+		depth: number
+	): void {
 		// loop through the question structure and add to a list of possible questions
 		if (this.questionBeingEdited.id === view.id) {
 			return;
 		}
-		if(depth > 0)
-		{
+		if (depth > 0) {
 			this.sourceQuestionList.push(view);
 		}
-		if ((view).questionPartViewChildren !== null) {
+		if (view.questionPartViewChildren !== null) {
 			for (let childView of view.questionPartViewChildren) {
-				this.processSourceConditionalsPage(childView,depth+1);
+				this.processSourceConditionalsPage(childView, depth + 1);
 			}
 		}
 	}
