@@ -139,6 +139,30 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public ngOnInit(): void {
 		this.accessToken = this.serverConfiguration['AccessToken'];
+	}
+
+	/**
+	 * Called when response data is ready
+	 */
+	private onSavedResponseData: (response: Array<LocationResponseData> | 'none') => void = (
+		response: Array<LocationResponseData> | 'none'
+	) => {
+		if (response !== 'none') {
+			let locationResponse = response[0];
+			let coords = new LngLat(locationResponse.longitude, locationResponse.latitude);
+			this.updateAddressInput(locationResponse.address);
+			this.setMarkerLocation(coords);
+			this.flyToPosition([coords.lng, coords.lat]);
+			console.log(response);
+			this.surveyViewerService.updateNavigationState(true);
+			this.validationState.emit(ResponseValidationState.VALID);
+		}
+	};
+
+	/**
+	 * after view init
+	 */
+	public ngAfterViewInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 		this.surveyViewerService.updateNavigationState(false);
 
@@ -168,29 +192,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 
 		this._marker = new mapboxgl.Marker();
 	}
-
-	/**
-	 * Called when response data is ready
-	 */
-	private onSavedResponseData: (response: Array<LocationResponseData> | 'none') => void = (
-		response: Array<LocationResponseData> | 'none'
-	) => {
-		if (response !== 'none') {
-			let locationResponse = response[0];
-			let coords = new LngLat(locationResponse.longitude, locationResponse.latitude);
-			this.updateAddressInput(locationResponse.address);
-			this.setMarkerLocation(coords);
-			this.flyToPosition([coords.lng, coords.lat]);
-			console.log(response);
-			this.surveyViewerService.updateNavigationState(true);
-			this.validationState.emit(ResponseValidationState.VALID);
-		}
-	};
-
-	/**
-	 * after view init
-	 */
-	public ngAfterViewInit(): void {}
 
 	public setMarkerLocation(lngLat: LngLat): void {
 		this._marker.setLngLat(lngLat);
