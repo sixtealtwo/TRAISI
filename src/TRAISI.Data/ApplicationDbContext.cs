@@ -107,6 +107,8 @@ namespace DAL
 
             builder.Entity<SurveyUser>().HasOne(r => r.PrimaryRespondent);
 
+            builder.Entity<SurveyUser>().Property( e => e.Id).ValueGeneratedOnAdd();
+
             builder.Entity<ExtensionConfiguration>().ToTable($"{nameof(this.ExtensionConfigurations)}");
 
             builder.Entity<Survey>().HasMany(s => s.ExtensionConfigurations).WithOne(s => s.Survey);
