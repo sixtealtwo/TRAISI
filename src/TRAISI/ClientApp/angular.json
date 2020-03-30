@@ -129,7 +129,7 @@
             "port": 3000,
             "aot": false,
             
-            "disableHostCheck": false
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {
@@ -306,12 +306,14 @@
               "buildOptimizer": true
             },
             "serve": {
+              
               "budgets": [
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
               ],
+              
               "extractCss": true,
               "namedChunks": true,
               "vendorChunk": true,
@@ -324,7 +326,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "survey-viewer-app:build:serve",
-            "disableHostCheck": false
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {
