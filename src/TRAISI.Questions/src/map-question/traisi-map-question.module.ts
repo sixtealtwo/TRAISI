@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { MapQuestionComponent } from './map-question.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl/esm5/lib/ngx-mapbox-gl.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,4 +28,11 @@ export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 	],
 	imports: [CommonModule, ngxMapWithConfig, HttpClientModule]
 })
-export default class TraisiQuestions {}
+export default class TraisiMapQuestion {
+	static forRoot(): ModuleWithProviders<TraisiMapQuestion> {
+		return {
+			ngModule: TraisiMapQuestion,
+			providers: []
+		};
+	}
+}
