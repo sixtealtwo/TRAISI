@@ -12,8 +12,8 @@ import {
 	ElementRef,
 	InjectionToken,
 	Type
-} from "@angular/core";
-import { QuestionLoaderEndpointService } from "./question-loader-endpoint.service";
+} from '@angular/core';
+import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import {
 	Observable,
 	of,
@@ -22,43 +22,45 @@ import {
 	Observer,
 	ReplaySubject,
 	from,
-	EMPTY
-} from "rxjs";
-import * as AngularCore from "@angular/core";
-import * as AngularCommon from "@angular/common";
-import * as AngularHttp from "@angular/common/http";
-import * as AngularForms from "@angular/forms";
-import * as Upgrade from "@angular/upgrade/static";
-import * as popover from "ngx-bootstrap/popover";
-import * as alert from "ngx-bootstrap/alert";
-import * as buttons from "ngx-bootstrap/buttons";
-import * as modal from "ngx-bootstrap/modal";
-import * as dropdown from "ngx-bootstrap/dropdown";
-import * as carousel from "ngx-bootstrap/carousel";
-import * as datepicker from "ngx-bootstrap/datepicker";
-import * as BrowserModule from "@angular/platform-browser";
-import * as tooltip from "ngx-bootstrap/tooltip";
-import * as timePicker from "ngx-bootstrap/timepicker";
-import * as rxjsSubject from "rxjs/Subject";
-import * as rxjsReplaySubject from "rxjs/ReplaySubject";
-import * as rxjsOperators from "rxjs/operators";
-import * as rxjs from "rxjs";
-import * as rxjsBehaviourSubject from "rxjs/BehaviorSubject";
-import * as rxjsObservable from "rxjs/Observable";
-import * as traisiSdkModule from "traisi-question-sdk";
-import * as angularPopper from "angular-popper";
-import { share, map, expand } from "rxjs/operators";
-import { find } from "lodash";
+	EMPTY,
+	forkJoin
+} from 'rxjs';
+import * as AngularCore from '@angular/core';
+import * as AngularCommon from '@angular/common';
+import * as AngularHttp from '@angular/common/http';
+import * as AngularForms from '@angular/forms';
+import * as Upgrade from '@angular/upgrade/static';
+import * as popover from 'ngx-bootstrap/popover';
+import * as alert from 'ngx-bootstrap/alert';
+import * as buttons from 'ngx-bootstrap/buttons';
+import * as modal from 'ngx-bootstrap/modal';
+import * as dropdown from 'ngx-bootstrap/dropdown';
+import * as carousel from 'ngx-bootstrap/carousel';
+import * as datepicker from 'ngx-bootstrap/datepicker';
+import * as BrowserModule from '@angular/platform-browser';
+import * as tooltip from 'ngx-bootstrap/tooltip';
+import * as timePicker from 'ngx-bootstrap/timepicker';
+import * as rxjsSubject from 'rxjs/Subject';
+import * as rxjsReplaySubject from 'rxjs/ReplaySubject';
+import * as rxjsOperators from 'rxjs/operators';
+import * as rxjs from 'rxjs';
+import * as rxjsBehaviourSubject from 'rxjs/BehaviorSubject';
+import * as rxjsObservable from 'rxjs/Observable';
+import * as traisiSdkModule from 'traisi-question-sdk';
+import * as angularPopper from 'angular-popper';
+import { share, map, expand } from 'rxjs/operators';
+import { find } from 'lodash';
 
-import { SurveyViewQuestion as ISurveyQuestion } from "../models/survey-view-question.model";
-import { UpgradeModule } from "@angular/upgrade/static";
+import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
+import { UpgradeModule } from '@angular/upgrade/static';
+import { SurveyQuestion } from 'traisi-question-sdk';
 
 type ComponentFactoryBoundToModule<T> = any;
 
 declare const SystemJS;
 
 @Injectable({
-	providedIn: "root"
+	providedIn: 'root'
 })
 export class QuestionLoaderService {
 	private _componentFactories: {
@@ -73,6 +75,8 @@ export class QuestionLoaderService {
 	}
 
 	private _moduleRefs: { [type: string]: NgModuleRef<any> } = {};
+
+	private _configurations: { [type: string]: any } = {};
 
 	private _loadedModules: Set<any> = new Set<any>();
 
@@ -92,90 +96,94 @@ export class QuestionLoaderService {
 		this.init();
 	}
 
+	public getQuestionServerConfiguration(question: ISurveyQuestion): any {
+		return this._configurations[question.questionType];
+	}
+
 	private init(): void {
-		SystemJS.registry.set("@angular/core", SystemJS.newModule(AngularCore));
+		SystemJS.registry.set('@angular/core', SystemJS.newModule(AngularCore));
 		SystemJS.registry.set(
-			"@angular/common",
+			'@angular/common',
 			SystemJS.newModule(AngularCommon)
 		);
 		SystemJS.registry.set(
-			"@angular/common/http",
+			'@angular/common/http',
 			SystemJS.newModule(AngularHttp)
 		);
 		SystemJS.registry.set(
-			"@angular/forms",
+			'@angular/forms',
 			SystemJS.newModule(AngularForms)
 		);
 		SystemJS.registry.set(
-			"@angular/platform-browser",
+			'@angular/platform-browser',
 			SystemJS.newModule(BrowserModule)
 		);
 		SystemJS.registry.set(
-			"@angular/upgrade/static",
+			'@angular/upgrade/static',
 			SystemJS.newModule(Upgrade)
 		);
 		SystemJS.registry.set(
-			"@angular/upgrade",
+			'@angular/upgrade',
 			SystemJS.newModule(UpgradeModule)
 		);
 		SystemJS.registry.set(
-			"ngx-bootstrap/popover",
+			'ngx-bootstrap/popover',
 			SystemJS.newModule(popover)
 		);
-		SystemJS.registry.set("ngx-bootstrap/alert", SystemJS.newModule(alert));
+		SystemJS.registry.set('ngx-bootstrap/alert', SystemJS.newModule(alert));
 		SystemJS.registry.set(
-			"ngx-bootstrap/datepicker",
+			'ngx-bootstrap/datepicker',
 			SystemJS.newModule(datepicker)
 		);
 		SystemJS.registry.set(
-			"ngx-bootstrap/buttons",
+			'ngx-bootstrap/buttons',
 			SystemJS.newModule(buttons)
 		);
-		SystemJS.registry.set("ngx-bootstrap/modal", SystemJS.newModule(modal));
+		SystemJS.registry.set('ngx-bootstrap/modal', SystemJS.newModule(modal));
 		SystemJS.registry.set(
-			"ngx-bootstrap/dropdown",
+			'ngx-bootstrap/dropdown',
 			SystemJS.newModule(dropdown)
 		);
 		SystemJS.registry.set(
-			"ngx-bootstrap/carousel",
+			'ngx-bootstrap/carousel',
 			SystemJS.newModule(carousel)
 		);
 		SystemJS.registry.set(
-			"ngx-bootstrap/tooltip",
+			'ngx-bootstrap/tooltip',
 			SystemJS.newModule(tooltip)
 		);
 		SystemJS.registry.set(
-			"ngx-bootstrap/timepicker",
+			'ngx-bootstrap/timepicker',
 			SystemJS.newModule(timePicker)
 		);
 		SystemJS.registry.set(
-			"traisi-question-sdk",
+			'traisi-question-sdk',
 			SystemJS.newModule(traisiSdkModule)
 		);
-		SystemJS.registry.set("rxjs/Subject", SystemJS.newModule(rxjsSubject));
+		SystemJS.registry.set('rxjs/Subject', SystemJS.newModule(rxjsSubject));
 		SystemJS.registry.set(
-			"rxjs/BehaviorSubject",
+			'rxjs/BehaviorSubject',
 			SystemJS.newModule(rxjsBehaviourSubject)
 		);
 		SystemJS.registry.set(
-			"rxjs/internal/BehaviorSubject",
+			'rxjs/internal/BehaviorSubject',
 			SystemJS.newModule(rxjsBehaviourSubject)
 		);
 		SystemJS.registry.set(
-			"rxjs/Observable",
+			'rxjs/Observable',
 			SystemJS.newModule(rxjsObservable)
 		);
 		SystemJS.registry.set(
-			"rxjs/ReplaySubject",
+			'rxjs/ReplaySubject',
 			SystemJS.newModule(rxjsReplaySubject)
 		);
-		SystemJS.registry.set("rxjs", SystemJS.newModule(rxjs));
+		SystemJS.registry.set('rxjs', SystemJS.newModule(rxjs));
 		SystemJS.registry.set(
-			"angular-popper",
+			'angular-popper',
 			SystemJS.newModule(angularPopper)
 		);
 		SystemJS.registry.set(
-			"rxjs/operators",
+			'rxjs/operators',
 			SystemJS.newModule(rxjsOperators)
 		);
 	}
@@ -257,13 +265,13 @@ export class QuestionLoaderService {
 						}
 						let hasDependency: boolean = false;
 						for (let key of Object.keys(
-							componentFactory["ngModule"]._providers
+							componentFactory['ngModule']._providers
 						)) {
 							let provider =
-								componentFactory["ngModule"]._providers[key];
+								componentFactory['ngModule']._providers[key];
 							if (
 								provider !== undefined &&
-								provider.hasOwnProperty("dependency")
+								provider.hasOwnProperty('dependency')
 							) {
 								hasDependency = true;
 								return this.getQuestionComponentFactory(
@@ -288,7 +296,7 @@ export class QuestionLoaderService {
 		moduleRef: NgModuleRef<any>,
 		questionType: string
 	): ComponentFactoryBoundToModule<any> {
-		const widgets = moduleRef.injector.get<Array<any>>(<any>"widgets", []);
+		const widgets = moduleRef.injector.get<Array<any>>(<any>'widgets', []);
 
 		// let cat = moduleRef.injector.get('test');
 		const resolver = moduleRef.componentFactoryResolver;
@@ -318,9 +326,16 @@ export class QuestionLoaderService {
 		question: ISurveyQuestion,
 		viewContainerRef: ViewContainerRef
 	): Observable<ComponentRef<any>> {
-		return Observable.create(o => {
-			this.getQuestionComponentFactory(question.questionType).subscribe({
-				next: componentFactory => {},
+		return new Observable(o => {
+			forkJoin([
+				this.getQuestionComponentFactory(question.questionType),
+				this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(
+					question.questionType
+				)
+			]).subscribe({
+				next: ([componentFactory, configuration]) => {
+					this._configurations[question.questionType] = configuration;
+				},
 				complete: () => {
 					let componentRef = viewContainerRef.createComponent(
 						this._componentFactories[question.questionType],
@@ -336,7 +351,7 @@ export class QuestionLoaderService {
 
 	/**
 	 * Retrieves the server configuration (file) for the associated question type.
-	 * @param question 
+	 * @param question
 	 */
 	public getQuestionConfiguration(
 		question: ISurveyQuestion

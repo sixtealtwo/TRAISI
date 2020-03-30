@@ -196,14 +196,12 @@ export class QuestionContainerComponent
 
 		// this.container.questionInstance = this;
 
-		forkJoin([
+
 			this.questionLoaderService.loadQuestionComponent(
 				this.question,
 				this.questionOutlet
-			),
-			this.questionLoaderService.getQuestionConfiguration(this.question)
-		]).subscribe(
-			([componentRef, questionConfiguration]) => {
+			).subscribe(
+			(componentRef) => {
 				let surveyQuestionInstance: SurveyQuestion<any> = <
 					SurveyQuestion<any>
 				>componentRef.instance;
@@ -212,8 +210,8 @@ export class QuestionContainerComponent
 					this.question.configuration
 				);
 
-				console.log(questionConfiguration);
-				surveyQuestionInstance.serverConfiguration = questionConfiguration;
+				surveyQuestionInstance.serverConfiguration = this.questionLoaderService.getQuestionServerConfiguration(this.question);
+
 
 				// call traisiOnInit to notify of initialization finishing
 				surveyQuestionInstance.questionId = this.question.questionId;
@@ -297,6 +295,7 @@ export class QuestionContainerComponent
 				surveyQuestionInstance.traisiOnInit(
 					this._viewerStateService.viewerState.isPreviousActionNext
 				);
+				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
 				this.surveyViewerService
 					.getQuestionOptions(
 						this.surveyId,
