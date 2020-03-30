@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace TRAISI.Controllers
 {
@@ -14,14 +15,16 @@ namespace TRAISI.Controllers
     public class QuestionController : Controller
     {
         private IQuestionTypeManager _questionTypeManager;
+        private IConfiguration _configuration;
 
         /// <summary>
         /// Inject the QuestionTypeManager service
         /// </summary>
         /// <param name="questionTypeManager"></param>
-        public QuestionController(IQuestionTypeManager questionTypeManager)
+        public QuestionController(IQuestionTypeManager questionTypeManager, IConfiguration configuration)
         {
             this._questionTypeManager = questionTypeManager;
+            this._configuration = configuration;
         }
 
         private async Task<FileContentResult> LoadCodeBundleFile(QuestionTypeDefinition definition, string bundleName)
@@ -144,6 +147,12 @@ namespace TRAISI.Controllers
         {
             var questionTypes = this._questionTypeManager.QuestionTypeDefinitions;
             return questionTypes.Values;
+        }
+
+        [HttpGet("configuration")]
+        public IActionResult GetQuestionConfiguration(string questionType) {
+            return new OkObjectResult(this._configuration.GetSection($"QuestionConfigurations:{questionType}"));
+
         }
     }
 }
