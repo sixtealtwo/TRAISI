@@ -107,7 +107,9 @@ namespace DAL.Repositories
 			foreach (var r in result) {
 				responses.Add (r);
 			}
-			return responses;
+			// TO DO FIX THIS RETURN
+			return new List<SurveyResponse>();
+			//return responses;
 		}
 
 		/// <summary>
