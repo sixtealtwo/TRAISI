@@ -1,18 +1,18 @@
-import { Injectable, Inject } from "@angular/core";
-import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
-import { every as _every, some as _some } from "lodash";
-import { point } from "@turf/helpers";
-import { SurveyResponderService } from "../survey-responder.service";
-import { SurveyViewQuestion } from "app/models/survey-view-question.model";
-import { Observable } from "rxjs";
-import { SurveyViewerStateService } from "../survey-viewer-state.service";
-import { Stack } from "stack-typescript";
-import { QuestionConditionalOperator } from "app/models/question-conditional-operator.model";
-import { QuestionCondtionalOperatorType } from "app/models/question-conditional-operator-type.enum";
-import { QuestionConditionalType } from "app/models/question-conditional-type.enum";
+import { Injectable, Inject } from '@angular/core';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import { every as _every, some as _some } from 'lodash';
+import { point } from '@turf/helpers';
+import { SurveyResponderService } from '../survey-responder.service';
+import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
+import { Observable } from 'rxjs';
+import { SurveyViewerStateService } from '../survey-viewer-state.service';
+import { Stack } from 'stack-typescript';
+import { QuestionConditionalOperator } from 'app/models/question-conditional-operator.model';
+import { QuestionCondtionalOperatorType } from 'app/models/question-conditional-operator-type.enum';
+import { QuestionConditionalType } from 'app/models/question-conditional-type.enum';
 
 @Injectable({
-	providedIn: "root"
+	providedIn: 'root'
 })
 export class ConditionalEvaluator {
 	/**
@@ -197,7 +197,6 @@ export class ConditionalEvaluator {
 		conditionals: Array<QuestionConditionalOperator>,
 		respondentId: number
 	): boolean {
-		console.log(conditionals);
 		let valueStack = new Stack<any>();
 		let operatorStack = new Stack<QuestionCondtionalOperatorType>();
 		for (let conditional of conditionals) {
@@ -212,13 +211,12 @@ export class ConditionalEvaluator {
 				let evalResult = this.evaluateConditional(
 					conditional.lhs.condition,
 					response,
-					"",
+					'',
 					conditional.lhs.value
 				);
-				console.log(evalResult);
 				valueStack.push(evalResult);
 			}
-			if (operatorStack.length == 0) {
+			if (operatorStack.length === 0) {
 				operatorStack.push(conditional.operatorType);
 			} else {
 				this.evaluateValue(valueStack, operatorStack);
@@ -235,14 +233,13 @@ export class ConditionalEvaluator {
 				let evalResult = this.evaluateConditional(
 					conditional.lhs.condition,
 					response,
-					"",
+					'',
 					conditional.lhs.value
 				);
-				console.log(evalResult);
 				valueStack.push(evalResult);
 			}
 		}
-		
+
 		// final evaluation, the result is the remaining stack value
 		this.evaluateValue(valueStack, operatorStack);
 		let result = valueStack.pop();
@@ -252,14 +249,14 @@ export class ConditionalEvaluator {
 	private evaluateValue(
 		valueStack: Stack<any>,
 		operatorStack: Stack<QuestionCondtionalOperatorType>
-	) {
-		if(valueStack.length === 1) {
+	): void {
+		if (valueStack.length === 1) {
 			return ;
 		}
 		let operator = operatorStack.pop();
 		let lhs = valueStack.pop();
 		let rhs = valueStack.pop();
-		if (operator == QuestionCondtionalOperatorType.AND) {
+		if (operator === QuestionCondtionalOperatorType.AND) {
 			valueStack.push(lhs & rhs);
 		} else {
 			valueStack.push(lhs | rhs);
@@ -298,12 +295,11 @@ export class ConditionalEvaluator {
 					.readyCachedSavedResponses(sourceIds, respondentId)
 					.subscribe({
 						complete: () => {
-							console.log('in complete');
 							let evalTrue: boolean = this.evaluateConditionalList(
 								question.conditionals,
 								respondentId
 							);
-							
+
 							// let evalTrue: boolean = question.targetConditionals.some(
 							// 	evalConditional => {
 							// 		let response = this._responderService.getCachedSavedResponse(

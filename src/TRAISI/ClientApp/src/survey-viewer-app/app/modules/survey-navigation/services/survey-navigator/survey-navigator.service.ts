@@ -1,5 +1,5 @@
-import { Injectable, Inject } from "@angular/core";
-import { SurveyViewerStateService } from "../../../../services/survey-viewer-state.service";
+import { Injectable, Inject } from '@angular/core';
+import { SurveyViewerStateService } from '../../../../services/survey-viewer-state.service';
 import {
 	Subject,
 	Observable,
@@ -7,12 +7,12 @@ import {
 	BehaviorSubject,
 	EMPTY,
 	forkJoin
-} from "rxjs";
-import { NavigationState } from "../../../../models/navigation-state.model";
-import { QuestionInstance } from "app/models/question-instance.model";
-import { SurveyViewPage } from "app/models/survey-view-page.model";
-import { SurveyViewQuestion } from "app/models/survey-view-question.model";
-import { findIndex, every } from "lodash";
+} from 'rxjs';
+import { NavigationState } from '../../../../models/navigation-state.model';
+import { QuestionInstance } from 'app/models/question-instance.model';
+import { SurveyViewPage } from 'app/models/survey-view-page.model';
+import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
+import { findIndex, every } from 'lodash';
 import {
 	expand,
 	share,
@@ -21,11 +21,11 @@ import {
 	map,
 	count,
 	takeWhile
-} from "rxjs/operators";
-import { SurveyViewSection } from "app/models/survey-view-section.model";
-import { ConditionalEvaluator } from "app/services/conditional-evaluator/conditional-evaluator.service";
-import { ResponseValidationState } from "traisi-question-sdk";
-import { SurveyResponderService } from "app/services/survey-responder.service";
+} from 'rxjs/operators';
+import { SurveyViewSection } from 'app/models/survey-view-section.model';
+import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
+import { ResponseValidationState } from 'traisi-question-sdk';
+import { SurveyResponderService } from 'app/services/survey-responder.service';
 
 /**
  *
@@ -34,7 +34,7 @@ import { SurveyResponderService } from "app/services/survey-responder.service";
  * @class SurveyNavigator
  */
 @Injectable({
-	providedIn: "root"
+	providedIn: 'root'
 })
 export class SurveyNavigator {
 	/**
@@ -80,7 +80,7 @@ export class SurveyNavigator {
 	public constructor(
 		private _state: SurveyViewerStateService,
 		private _conditionalEvaluator: ConditionalEvaluator,
-		@Inject("SurveyResponderService")
+		@Inject('SurveyResponderService')
 		private _surveyResponderService: SurveyResponderService
 	) {
 		this.navigationStateChanged = new Subject<NavigationState>();
@@ -123,7 +123,6 @@ export class SurveyNavigator {
 	 */
 	public navigateNext(): Observable<NavigationState> {
 		this._previousState = this.navigationState$.value;
-		console.log(this);
 		let nav = this._incrementNavigation(this.navigationState$.value).pipe(
 			share()
 		);
@@ -132,7 +131,6 @@ export class SurveyNavigator {
 			this.previousEnabled$.next(true);
 			this.navigationState$.next(state);
 			this._checkValidation();
-			console.log(state);
 		});
 		return nav;
 	}
@@ -270,10 +268,12 @@ export class SurveyNavigator {
 			!this._isSectionActive(currentState)
 		) {
 			newState.activeQuestionIndex += 1;
+			newState.activeRespondentIndex = 0;
 		} else {
 			newState.activeQuestionIndex += this._state.viewerState.surveyQuestions[
 				currentState.activeQuestionIndex
 			].parentSection.questions.length;
+			newState.activeRespondentIndex = 0;
 		}
 
 		if (this._isOutsideSurveyBounds(newState)) {
@@ -412,7 +412,6 @@ export class SurveyNavigator {
 			);
 		}
 
-		//if(navigationState.activeSection?.isHousehold) {
 		this._surveyResponderService
 			.getSurveyGroupMembers(navigationState.activeRespondent)
 			.subscribe(members => {
@@ -423,8 +422,8 @@ export class SurveyNavigator {
 					}
 				}
 			});
-		//}
 
+		this._state.viewerState.activeRespondent = this._state.viewerState.groupMembers[navigationState.activeRespondentIndex];
 		if (
 			navigationState.activeQuestionIndex >=
 			this._state.viewerState.surveyQuestions.length
@@ -452,7 +451,6 @@ export class SurveyNavigator {
 						}>
 					) => {
 						let order = 0;
-						console.log(results);
 						for (let result of results) {
 							result.question.isHidden = result.shouldHide;
 							if (result.shouldHide) {
@@ -461,17 +459,12 @@ export class SurveyNavigator {
 							} else {
 								result.question.inSectionIndex = order++;
 							}
-
-							// result.question.isHidden = false;
-
-							// console.log(result);
-							// copy the old question instance
 							let prevIdx = findIndex(
 								this.navigationState$.value
 									.activeQuestionInstances,
 								instance => {
 									return (
-										instance.id === "" + result.question.id
+										instance.id === '' + result.question.id
 									);
 								}
 							);
@@ -483,7 +476,7 @@ export class SurveyNavigator {
 								);
 							} else {
 								let questionInstance: QuestionInstance = {
-									id: "" + result.question.id,
+									id: '' + result.question.id,
 									index: navigationState.activeQuestionIndex,
 									model: result.question,
 									component: null,
