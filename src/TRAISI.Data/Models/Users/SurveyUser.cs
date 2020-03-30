@@ -15,8 +15,6 @@ namespace DAL.Models {
 
 		public PrimaryRespondent PrimaryRespondent { get; set; }
 
-		
-
 		public SurveyUser () {
 		
 		}

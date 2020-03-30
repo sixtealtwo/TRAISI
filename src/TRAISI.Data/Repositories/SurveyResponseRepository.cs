@@ -62,12 +62,12 @@ namespace DAL.Repositories
 
 			var r3 = ((PrimaryRespondent) user).SurveyAccessRecords;
 
-			var records = this._appContext.SurveyAccessRecords.Where (r => r.AccessUser == ((PrimaryRespondent) user).User).ToListAsync ();
+			// var records = this._appContext.SurveyAccessRecords.Where (r => r.AccessUser == ((PrimaryRespondent) user).User).ToListAsync ();
 
 			var responses = new List<SurveyResponse> ();
 			IQueryable<SurveyResponse> query = this._appContext.SurveyResponses.Where (r => r.QuestionPart.Survey.Id == surveyId)
 				.Distinct ()
-				.Where (r => user.SurveyRespondentGroup.GroupMembers.Contains (r.Respondent))
+				.Where (r => user.SurveyRespondentGroup.GroupMembers.AsEnumerable().Contains (r.Respondent))
 				.Include (r => r.ResponseValues)
 				.Include (r => r.Respondent)
 				.Include (r => ((SurveyUser) r.SurveyAccessRecord.AccessUser).PrimaryRespondent.SurveyAccessRecords)
@@ -77,7 +77,10 @@ namespace DAL.Repositories
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 3));
 			} else if (type == "timeline") {
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 7));
-			} else if (type == "string") {
+			
+			} 
+			
+			/*else if (type == "string") {
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 1));
 			} else if (type == "decimal") {
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 2));
@@ -91,11 +94,11 @@ namespace DAL.Repositories
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 8));
 			} else if (type == "option-select") {
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 8));
-			}
+			}*/ 
 
-			query = query.GroupBy (r => r.QuestionPart).Select (
-				r => r.OrderByDescending (p => p.UpdatedDate).First ()
-			).Include (r => r.ResponseValues).Include (r => r.Respondent);
+			//query = query.GroupBy (r => r.QuestionPart).Select (
+			//	r => r.OrderByDescending (p => p.UpdatedDate).First ()
+			// ).Include (r => r.ResponseValues).Include (r => r.Respondent);
 
 			query = query.OrderByDescending (r => r.UpdatedDate);
 
@@ -104,7 +107,9 @@ namespace DAL.Repositories
 			foreach (var r in result) {
 				responses.Add (r);
 			}
-			return responses;
+			// TO DO FIX THIS RETURN
+			return new List<SurveyResponse>();
+			//return responses;
 		}
 
 		/// <summary>
