@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TRAISI.SDK.Enums;
 
 namespace TRAISI.SDK {
@@ -19,5 +20,7 @@ namespace TRAISI.SDK {
 		public byte[] ResourceData { get; set; }
 
 		public bool IsTranslatable { get; set; }
+
+		public Dictionary<string,string> Configuration {get;set;}
 	}
 }
