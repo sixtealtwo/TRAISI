@@ -17,10 +17,10 @@ import {
 	AfterContentInit,
 	ElementRef,
 	Renderer2
-} from "@angular/core";
-import { QuestionLoaderService } from "../../services/question-loader.service";
-import { SurveyViewerService } from "../../services/survey-viewer.service";
-import { SurveyViewQuestionOption } from "../../models/survey-view-question-option.model";
+} from '@angular/core';
+import { QuestionLoaderService } from '../../services/question-loader.service';
+import { SurveyViewerService } from '../../services/survey-viewer.service';
+import { SurveyViewQuestionOption } from '../../models/survey-view-question-option.model';
 import {
 	OnOptionsLoaded,
 	OnSurveyQuestionInit,
@@ -29,45 +29,45 @@ import {
 	ResponseValidationState,
 	ResponseTypes,
 	ResponseData
-} from "traisi-question-sdk";
-import { SurveyResponderService } from "../../services/survey-responder.service";
+} from 'traisi-question-sdk';
+import { SurveyResponderService } from '../../services/survey-responder.service';
 import {
 	SurveyViewQuestion as ISurveyQuestion,
 	SurveyViewQuestion
-} from "../../models/survey-view-question.model";
-import { ReplaySubject } from "rxjs/ReplaySubject";
-import { BehaviorSubject, Subject, forkJoin } from "rxjs";
-import { SurveyViewerComponent } from "../survey-viewer/survey-viewer.component";
-import { SurveyViewGroupMember } from "../../models/survey-view-group-member.model";
-import { SurveyViewerStateService } from "../../services/survey-viewer-state.service";
-import { Utilities } from "shared/services/utilities";
+} from '../../models/survey-view-question.model';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { BehaviorSubject, Subject, forkJoin } from 'rxjs';
+import { SurveyViewerComponent } from '../survey-viewer/survey-viewer.component';
+import { SurveyViewGroupMember } from '../../models/survey-view-group-member.model';
+import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
+import { Utilities } from 'shared/services/utilities';
 import {
 	animate,
 	state,
 	style,
 	transition,
 	trigger
-} from "@angular/animations";
-import { SurveyViewerState } from "../../models/survey-viewer-state.model";
-import { SurveyNavigator } from "app/modules/survey-navigation/services/survey-navigator/survey-navigator.service";
-import { skip, share, distinct } from "rxjs/operators";
-import { QuestionInstance } from "app/models/question-instance.model";
-import { SurveyTextTransformer } from "app/services/survey-text-transform/survey-text-transformer.service";
+} from '@angular/animations';
+import { SurveyViewerState } from '../../models/survey-viewer-state.model';
+import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
+import { skip, share, distinct } from 'rxjs/operators';
+import { QuestionInstance } from 'app/models/question-instance.model';
+import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 
-export { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
-export const fadeInOut = trigger("fadeInOut", [
-	transition(":enter", [
+export const fadeInOut = trigger('fadeInOut', [
+	transition(':enter', [
 		style({ opacity: 0 }),
-		animate("0.4s ease-in", style({ opacity: 1 }))
+		animate('0.4s ease-in', style({ opacity: 1 }))
 	]),
-	transition(":leave", [animate("0.4s 10ms ease-out", style({ opacity: 0 }))])
+	transition(':leave', [animate('0.4s 10ms ease-out', style({ opacity: 0 }))])
 ]);
 
 @Component({
-	selector: "traisi-question-container",
-	templateUrl: "./question-container.component.html",
-	styleUrls: ["./question-container.component.scss"],
+	selector: 'traisi-question-container',
+	templateUrl: './question-container.component.html',
+	styleUrls: ['./question-container.component.scss'],
 	animations: [fadeInOut]
 })
 export class QuestionContainerComponent
@@ -108,7 +108,7 @@ export class QuestionContainerComponent
 	@Input()
 	public questionSectionElement: ElementRef;
 
-	@ViewChild("questionTemplate", { read: ViewContainerRef, static: true })
+	@ViewChild('questionTemplate', { read: ViewContainerRef, static: true })
 	public questionOutlet: ViewContainerRef;
 
 	private _responseSaved: Subject<boolean>;
@@ -123,7 +123,7 @@ export class QuestionContainerComponent
 
 	public responseValidationState: ResponseValidationState;
 
-	public displayClass: string = "view-compact";
+	public displayClass: string = 'view-compact';
 
 	get surveyQuestionInstance(): SurveyQuestion<any> {
 		return this._questionInstance;
@@ -149,12 +149,12 @@ export class QuestionContainerComponent
 	 * @param _navigation
 	 */
 	constructor(
-		@Inject("QuestionLoaderService")
+		@Inject('QuestionLoaderService')
 		private questionLoaderService: QuestionLoaderService,
-		@Inject("SurveyViewerService")
+		@Inject('SurveyViewerService')
 		private surveyViewerService: SurveyViewerService,
 		private _viewerStateService: SurveyViewerStateService,
-		@Inject("SurveyResponderService")
+		@Inject('SurveyResponderService')
 		private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigator: SurveyNavigator,
@@ -196,13 +196,13 @@ export class QuestionContainerComponent
 
 		// this.container.questionInstance = this;
 
-		forkJoin(
+		forkJoin([
 			this.questionLoaderService.loadQuestionComponent(
 				this.question,
 				this.questionOutlet
 			),
 			this.questionLoaderService.getQuestionConfiguration(this.question)
-		).subscribe(
+		]).subscribe(
 			([componentRef, questionConfiguration]) => {
 				let surveyQuestionInstance: SurveyQuestion<any> = <
 					SurveyQuestion<any>
@@ -230,7 +230,7 @@ export class QuestionContainerComponent
 				this.displayClass = (<SurveyQuestion<any>>(
 					componentRef.instance
 				)).displayClass;
-				if (this.displayClass !== "") {
+				if (this.displayClass !== '') {
 					this.renderer.addClass(
 						this.questionSectionElement.nativeElement,
 						this.displayClass
@@ -239,8 +239,8 @@ export class QuestionContainerComponent
 					// remove all of the classes
 					this.renderer.setAttribute(
 						this.questionSectionElement.nativeElement,
-						"class",
-						"question-section"
+						'class',
+						'question-section'
 					);
 				}
 
@@ -272,7 +272,7 @@ export class QuestionContainerComponent
 					.subscribe(response => {
 						surveyQuestionInstance.savedResponse.next(
 							response === undefined || response === null
-								? "none"
+								? 'none'
 								: response.responseValues
 						);
 
@@ -301,7 +301,7 @@ export class QuestionContainerComponent
 					.getQuestionOptions(
 						this.surveyId,
 						this.question.questionId,
-						"en",
+						'en',
 						null
 					)
 					.subscribe((options: SurveyViewQuestionOption[]) => {
@@ -310,7 +310,7 @@ export class QuestionContainerComponent
 						this._questionInstance = componentRef.instance;
 						if (
 							componentRef.instance.__proto__.hasOwnProperty(
-								"onOptionsLoaded"
+								'onOptionsLoaded'
 							)
 						) {
 							(<OnOptionsLoaded>(
@@ -325,7 +325,7 @@ export class QuestionContainerComponent
 						)).next(options);
 						if (
 							componentRef.instance.__proto__.hasOwnProperty(
-								"onSurveyQuestionInit"
+								'onSurveyQuestionInit'
 							)
 						) {
 							(<OnSurveyQuestionInit>(
@@ -370,7 +370,7 @@ export class QuestionContainerComponent
 	 */
 	private retrieveHouseholdTag(): string {
 		let questionId: number = +Object.keys(this.questionTypeMap).find(
-			key => this.questionTypeMap[key] === "household"
+			key => this.questionTypeMap[key] === 'household'
 		);
 		return Object.keys(this.questionNameMap).find(
 			key => this.questionNameMap[key] === questionId
@@ -404,7 +404,7 @@ export class QuestionContainerComponent
 		);
 		processedLabel = Utilities.replacePlaceholder(
 			processedLabel,
-			"respondentName",
+			'respondentName',
 			this.respondent.name
 		);
 		// get tag list

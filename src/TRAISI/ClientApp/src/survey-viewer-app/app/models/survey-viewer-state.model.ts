@@ -3,11 +3,6 @@ import { SurveyViewPage } from './survey-view-page.model';
 import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 import { ResponseValidationState } from 'traisi-question-sdk';
-import { SurveyContainer } from '../services/survey-viewer-navigation/survey-container';
-import { SurveySectionContainer } from '../services/survey-viewer-navigation/survey-section-container';
-import { SurveyQuestionContainer } from '../services/survey-viewer-navigation/survey-question-container';
-import { SurveySectionRepeatContainer } from 'app/services/survey-viewer-navigation/survey-section-repeat-container';
-import { SurveyPageContainer } from '../services/survey-viewer-navigation/survey-page-container';
 import { QuestionContainerComponent } from 'app/components/question-container/question-container.component';
 
 export interface SurveyViewerState {
@@ -58,8 +53,6 @@ export interface SurveyViewerState {
 	// the list of active group questions
 	activeGroupQuestions: Array<SurveyViewQuestion>;
 
-	activeQuestionContainers: Array<SurveyQuestionContainer>;
-
 	// loaded flag
 	isLoaded: boolean;
 
@@ -72,15 +65,7 @@ export interface SurveyViewerState {
 
 	sectionMap: { [id: number]: SurveyViewSection };
 
-	viewContainers: Array<SurveyPageContainer>;
-
-	activeViewContainer: SurveyContainer;
-
 	activeViewContainerIndex: number;
-
-	activeQuestionContainer: SurveyContainer;
-
-	activeSectionRepeatContainer: SurveySectionRepeatContainer;
 
 	isPreviousEnabled: boolean;
 

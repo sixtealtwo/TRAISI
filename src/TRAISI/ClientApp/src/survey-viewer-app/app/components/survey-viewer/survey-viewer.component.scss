@@ -5,6 +5,13 @@ traisi-survey-header-display {
   position: relative;
 }
 
+@media #{$xl-only} {
+  .question-section {
+    margin:auto;
+    max-width: 1000px;
+  }
+}
+
 #welcome-header-editor {
   z-index: 1000;
 }

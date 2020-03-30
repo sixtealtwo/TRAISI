@@ -44,7 +44,7 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	 * to the global server configuration, typically private configuration values.
 	 * @type {{ [id: string] : any; }}
 	 */
-	public serverConfiguration: { [id: string] : any; };
+	public serverConfiguration: { [id: string]: any };
 
 	/**
 	 * The validity state of the question

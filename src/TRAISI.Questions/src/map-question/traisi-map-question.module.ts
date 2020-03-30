@@ -1,12 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { MapQuestionComponent } from './map-question.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl/esm5/lib/ngx-mapbox-gl.module';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MapEndpointService } from '../services/mapservice.service';
 
-export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
-});
+// export const ngxMapWithConfig = NgxMapboxGLModule
 
 @NgModule({
 	declarations: [MapQuestionComponent],
@@ -25,7 +24,7 @@ export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
 		},
 		MapEndpointService
 	],
-	imports: [CommonModule, ngxMapWithConfig, HttpClientModule]
+	imports: [CommonModule, NgxMapboxGLModule, HttpClientModule]
 })
 export default class TraisiMapQuestion {
 	static forRoot(): ModuleWithProviders<TraisiMapQuestion> {
