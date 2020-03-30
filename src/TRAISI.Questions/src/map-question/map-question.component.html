@@ -4,7 +4,7 @@
         <span #addressOverlayText></span>
     </div>
     <mgl-map #mapbox [style]="'https://api.maptiler.com/maps/streets/style.json?key=D4omR7iuvmlUf6666Pw1'"
-        (click)="mapClick($event)">
+        (click)="mapClick($event)" [accessToken]="serverConfiguration.AccessToken">
 
         <mgl-control mglGeolocate #geoLocator position="top-left" [positionOptions]="{
 		enableHighAccuracy: true

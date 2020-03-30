@@ -17,7 +17,7 @@
 			"app/*": ["app/*"],
 			"shared/*": ["../shared/*"],
 			// "rxjs/*": ["../../node_modules/rxjs/*"],
-			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"]
+			 "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"]
 		}
 	},
 	"files": ["polyfills.ts"],

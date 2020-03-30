@@ -255,7 +255,6 @@ export class QuestionLoaderService {
 						} else {
 							return EMPTY;
 						}
-						console.log(componentFactory);
 						let hasDependency: boolean = false;
 						for (let key of Object.keys(
 							componentFactory["ngModule"]._providers
@@ -333,5 +332,17 @@ export class QuestionLoaderService {
 				}
 			});
 		});
+	}
+
+	/**
+	 * Retrieves the server configuration (file) for the associated question type.
+	 * @param question 
+	 */
+	public getQuestionConfiguration(
+		question: ISurveyQuestion
+	): Observable<any> {
+		return this._questionLoaderEndpointService.getQuestionConfigurationEndpoint(
+			question.questionType
+		);
 	}
 }

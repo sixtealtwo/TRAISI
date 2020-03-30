@@ -1,23 +1,28 @@
-import { EndpointFactory } from '../../../shared/services/endpoint-factory.service';
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from '../../../shared/services/configuration.service';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { Observable } from 'rxjs';
-import { SurveyViewerEndpointFactory } from './survey-viewer-endpoint-factory.service';
+import { EndpointFactory } from "../../../shared/services/endpoint-factory.service";
+import { Injectable, Injector } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { ConfigurationService } from "../../../shared/services/configuration.service";
+import { catchError } from "rxjs/internal/operators/catchError";
+import { Observable } from "rxjs";
+import { SurveyViewerEndpointFactory } from "./survey-viewer-endpoint-factory.service";
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: "root"
 })
 export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
-	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
+	private readonly _surveyViewQuestionsUrl: string = "/api/Question";
 
 	get questionTypesUrl(): string {
-		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/question-types';
+		return (
+			this.configurations.baseUrl +
+			"" +
+			this._surveyViewQuestionsUrl +
+			"/question-types"
+		);
 	}
 
 	get getClientCodeUrl(): string {
-		return this._surveyViewQuestionsUrl + '/client-code';
+		return this._surveyViewQuestionsUrl + "/client-code";
 	}
 
 	/**
@@ -29,7 +34,9 @@ export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getQuestionTypesEndpoint());
+				return this.handleError(error, () =>
+					this.getQuestionTypesEndpoint()
+				);
 			})
 		);
 	}
@@ -52,7 +59,23 @@ export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getClientCodeEndpoint(questionType));
+				return this.handleError(error, () =>
+					this.getClientCodeEndpoint(questionType)
+				);
+			})
+		);
+	}
+
+	public getQuestionConfigurationEndpoint<T>(
+		questionType: string
+	): Observable<T> {
+		let endpointUrl = `${this._surveyViewQuestionsUrl}/configurations/${questionType}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getClientCodeEndpoint(questionType)
+				);
 			})
 		);
 	}

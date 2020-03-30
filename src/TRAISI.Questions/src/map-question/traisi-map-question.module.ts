@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { MapEndpointService } from '../services/mapservice.service';
 
 export const ngxMapWithConfig = NgxMapboxGLModule.withConfig({
-	accessToken: 'pk.eyJ1IjoiYnJlbmRhbmJlbnRpbmciLCJhIjoiY2s4Y3IwN3U3MG1obzNsczJjMGhoZWc4MiJ9.OCDfSypjueUF_gKejRr6Og'
 });
 
 @NgModule({

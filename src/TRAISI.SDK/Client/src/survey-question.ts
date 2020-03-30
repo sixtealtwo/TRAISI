@@ -40,6 +40,13 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	public configuration: QuestionConfiguration;
 
 	/**
+	 * The server configuration for this quesiton. This isn't specific to a survey, but related
+	 * to the global server configuration, typically private configuration values.
+	 * @type {{ [id: string] : any; }}
+	 */
+	public serverConfiguration: { [id: string] : any; };
+
+	/**
 	 * The validity state of the question
 	 */
 	public isValid: boolean;
