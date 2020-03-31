@@ -1,4 +1,3 @@
-/// <reference path="../../../../node_modules/@types/jasmine/index.d.ts" />
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -24,4 +23,4 @@ describe('UserPreferencesComponent', () => {
 	it('should create', () => {
 		expect(component).toBeTruthy();
 	});
-});
+}); 

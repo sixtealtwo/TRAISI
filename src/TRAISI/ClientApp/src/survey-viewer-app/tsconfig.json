@@ -12,13 +12,14 @@
 		"baseUrl": "./",
 		"target": "es2015",
 		"module": "es6",
-		"types": ["node"],
+		"types": [ "node", "jquery","jasmine"],
 		"paths": {
 			"app/*": ["app/*"],
 			"shared/*": ["../shared/*"],
 			// "rxjs/*": ["../../node_modules/rxjs/*"],
 			 "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"]
-		}
+		},
+		"resolveJsonModule": true
 	},
 	"files": ["polyfills.ts"],
 	"include": ["./**/*.ts", "../shared/*.ts"],

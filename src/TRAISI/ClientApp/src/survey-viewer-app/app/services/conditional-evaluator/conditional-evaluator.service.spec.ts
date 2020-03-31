@@ -18,6 +18,6 @@ describe("ConditionalEvaluator", () => {
 			let conditional: QuestionConditionalOperator = {
 				lhs: {}
 			};
-			conditionalEvaluator.evaluateConditionalList([conditional]);
+			conditionalEvaluator.evaluateConditionalList([conditional],0);
 		};
 });

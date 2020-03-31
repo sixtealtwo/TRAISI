@@ -12,7 +12,7 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"target": "es2015",
-		"types": ["node",  "jquery"],
+		// "types": ["node",  "jquery"],
 		"lib": ["es2017", "dom", "esnext"],
 		"baseUrl": "./src",
 		"paths": {

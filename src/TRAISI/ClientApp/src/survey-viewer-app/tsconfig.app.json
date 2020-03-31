@@ -12,7 +12,6 @@
 		"module": "esnext",
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
-		"types": ["node"],
 		"paths": {
 			"app/*": ["app/*"],
 			// "rxjs/*": ["../../node_modules/rxjs/*"],

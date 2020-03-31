@@ -91,7 +91,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	@ViewChild('mapMarker', { static: true })
 	public mapMarker: ElementRef;
 
-	@ViewChild('mapContainer', { static: true })
+	@ViewChild('mapContainer', { static: false })
 	public mapContainer: ElementRef;
 
 	private _mapinstance: mapboxgl.Map;
@@ -191,6 +191,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		});
 
 		this._marker = new mapboxgl.Marker();
+		console.log(this._map);
 	}
 
 	public setMarkerLocation(lngLat: LngLat): void {
@@ -238,8 +239,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: string): void {
-		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
-		element.value = address;
+		// let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+		// element.value = address;
 	}
 
 	/**

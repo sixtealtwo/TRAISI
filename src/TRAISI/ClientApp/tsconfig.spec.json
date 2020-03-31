@@ -8,7 +8,6 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"target": "es5",
-		"types": ["node","jasmine","jquery"],
 		"lib": ["es2017", "dom","esnext"],
 		"baseUrl": ".",
 		"paths": {
