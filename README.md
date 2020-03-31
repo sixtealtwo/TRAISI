@@ -23,9 +23,9 @@ Survey Response:
 
 ## Dependencies
 
-* Dotnet core 2.*
+* Dotnet core 3.1
 * PostgreSQL Server
-* NodeJs 10 LTS
+* NodeJs 12 LTS
 * Angular CLI
 * Git Bash (on windows)
 
@@ -47,6 +47,15 @@ JetBrains Rider
     a. `ASPNETCORE_ENVIRONMENT=Development`
 6. cd to src/TRAISI
 7. Dotnet run
+
+## TRAISI.TripDiary
+
+If the TRAISI.TripDiary project is used (travel diary and travel mode questions), the git submodule must be initialized first.
+
+```
+git submodule update --init --recursive
+```
+
 
 ## Project Structure
 

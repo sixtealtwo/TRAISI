@@ -80,6 +80,8 @@ namespace DAL.Repositories
 			
 			} 
 			
+			query = query.OrderByDescending(r => r.SurveyAccessRecord.AccessDateTime);
+
 			/*else if (type == "string") {
 				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 1));
 			} else if (type == "decimal") {
@@ -100,7 +102,7 @@ namespace DAL.Repositories
 			//	r => r.OrderByDescending (p => p.UpdatedDate).First ()
 			// ).Include (r => r.ResponseValues).Include (r => r.Respondent);
 
-			query = query.OrderByDescending (r => r.UpdatedDate);
+			// query = query.OrderByDescending (r => r.UpdatedDate);
 
 			var result = await query.ToListAsync ();
 
