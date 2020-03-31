@@ -27,5 +27,5 @@
 	},
 	"files": ["polyfills.ts"],
 	"include": ["../shared/**/*.ts", "./**/*.ts"],
-	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts",]
+	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts","tests/**/*.ts"]
 }

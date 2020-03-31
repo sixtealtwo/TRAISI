@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -10,9 +11,10 @@ using NpgsqlTypes;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200331160042_RemoveOptionName")]
+    partial class RemoveOptionName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1036,12 +1038,7 @@ namespace TRAISI.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("GroupPrimaryRespondentId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("GroupPrimaryRespondentId");
 
                     b.ToTable("SurveyRespondentGroups");
                 });
@@ -1981,13 +1978,6 @@ namespace TRAISI.Migrations
                         .WithMany("GroupMembers")
                         .HasForeignKey("SurveyRespondentGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.Surveys.SurveyRespondentGroup", b =>
-                {
-                    b.HasOne("DAL.Models.Surveys.PrimaryRespondent", "GroupPrimaryRespondent")
-                        .WithMany()
-                        .HasForeignKey("GroupPrimaryRespondentId");
                 });
 
             modelBuilder.Entity("DAL.Models.Surveys.SurveyResponse", b =>

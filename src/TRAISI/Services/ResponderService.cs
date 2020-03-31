@@ -84,10 +84,7 @@ namespace TRAISI.Services
             var surveyResponse = await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(question.Id,
                 (SurveyRespondent)respondent, repeat);
 
-            if (surveyResponse == null)
-			//|| TODO
-              //  (
-                    //surveyResponse.SurveyAccessRecord.AccessDateTime < ((PrimaryRespondent)respondent).SurveyAccessRecords.First().AccessDateTime))
+            if (surveyResponse == null || surveyResponse.SurveyAccessRecord.AccessDateTime < respondent.SurveyRespondentGroup.GroupPrimaryRespondent.SurveyAccessRecords.Max(t => t.AccessDateTime))
             {
 
                 if (respondent is PrimaryRespondent primaryRespondent)
@@ -96,13 +93,14 @@ namespace TRAISI.Services
                     {
                         QuestionPart = question,
                         Respondent = respondent,
-                        SurveyAccessRecord = primaryRespondent.SurveyAccessRecords.First(),
+                        SurveyAccessRecord = primaryRespondent.SurveyAccessRecords.Where(s => s.AccessDateTime == primaryRespondent.SurveyAccessRecords.Max(s2 => s2.AccessDateTime)).FirstOrDefault(),
                         Repeat = repeat
 
                     };
                 }
-				else if(respondent is SubRespondent subRespondent){
-					surveyResponse = new SurveyResponse()
+                else if (respondent is SubRespondent subRespondent)
+                {
+                    surveyResponse = new SurveyResponse()
                     {
                         QuestionPart = question,
                         Respondent = respondent,
@@ -110,7 +108,7 @@ namespace TRAISI.Services
                         Repeat = repeat
 
                     };
-				}
+                }
                 this._unitOfWork.SurveyResponses.Add(surveyResponse);
             }
 
@@ -329,7 +327,6 @@ namespace TRAISI.Services
                 response.ResponseValues.Add(new OptionSelectResponse()
                 {
                     Value = val.Value,
-                    Name = val.Name,
                     Code = val.Code
                 });
             }

@@ -8,6 +8,8 @@ namespace DAL.Models.Surveys
 
         public List<SurveyRespondent> GroupMembers { get; set; }
 
+        public PrimaryRespondent GroupPrimaryRespondent { get; set; }
+
         public SurveyRespondentGroup()
         {
             //this.GroupMembers = new HashSet<SurveyRespondent>();

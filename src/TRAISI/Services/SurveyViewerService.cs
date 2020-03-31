@@ -196,6 +196,8 @@ namespace TRAISI.Services {
 
 						};
 						_unitOfWork.SurveyRespondents.Add (respondent);
+						await _unitOfWork.SaveChangesAsync();
+						respondent.SurveyRespondentGroup.GroupPrimaryRespondent = respondent;
 
 					} else {
 						respondent.SurveyAccessRecords.Add (new SurveyAccessRecord () {

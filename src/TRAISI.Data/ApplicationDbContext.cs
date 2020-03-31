@@ -107,7 +107,7 @@ namespace DAL
 
             builder.Entity<SurveyUser>().HasOne(r => r.PrimaryRespondent);
 
-            builder.Entity<SurveyUser>().Property( e => e.Id).ValueGeneratedOnAdd();
+            builder.Entity<SurveyUser>().Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Entity<ExtensionConfiguration>().ToTable($"{nameof(this.ExtensionConfigurations)}");
 
@@ -215,6 +215,8 @@ namespace DAL
 
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
                 .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<SurveyRespondentGroup>().HasOne(g => g.GroupPrimaryRespondent);
 
             builder.Entity<SurveyAccessRecord>().ToTable("SurveyAccessRecords");
 
