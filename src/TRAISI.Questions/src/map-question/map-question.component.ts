@@ -141,6 +141,8 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.accessToken = this.serverConfiguration['AccessToken'];
 	}
 
+	public traisiOnInit(): void {}
+
 	/**
 	 * Called when response data is ready
 	 */
@@ -195,10 +197,12 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	public setMarkerLocation(lngLat: LngLat): void {
-		this._marker.setLngLat(lngLat);
-		if (!this._isMarkerAdded) {
-			this._marker.addTo(this._map);
-			this._isMarkerAdded = true;
+		if (this._marker) {
+			this._marker.setLngLat(lngLat);
+			if (!this._isMarkerAdded) {
+				this._marker.addTo(this._map);
+				this._isMarkerAdded = true;
+			}
 		}
 	}
 
@@ -239,7 +243,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param {string} address
 	 */
 	private updateAddressInput(address: string): void {
-		// let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+		let element: HTMLInputElement = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+		if (element) {
+			element.value = address;
+		}
 		// element.value = address;
 	}
 
