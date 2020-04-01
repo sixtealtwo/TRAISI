@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Models.Groups;
-using DAL.Models.Interfaces;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Groups;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 
-namespace DAL.Models
+namespace TRAISI.Data.Models
 {
     public class TraisiUser : ApplicationUser
     {

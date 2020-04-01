@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     public interface IQuestionOption
     {

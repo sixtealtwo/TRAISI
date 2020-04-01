@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
     public class SurveyRespondentRepository : Repository<SurveyRespondent>, ISurveyRespondentRepository
     {

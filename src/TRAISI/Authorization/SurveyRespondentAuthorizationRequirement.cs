@@ -1,11 +1,11 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DAL.Core;
+using TRAISI.Data.Core;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Filters;
-using DAL;
+using TRAISI.Data;
 
 namespace TRAISI.Authorization
 {

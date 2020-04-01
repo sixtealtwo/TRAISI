@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DAL.Models.Extensions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     public interface IQuestionPartView
     {

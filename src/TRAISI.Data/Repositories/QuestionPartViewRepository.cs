@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
     /// <summary>
     /// 

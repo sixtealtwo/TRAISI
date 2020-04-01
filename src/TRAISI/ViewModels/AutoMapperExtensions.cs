@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
-using DAL.Models.Interfaces;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.ViewModels.Extensions
 {

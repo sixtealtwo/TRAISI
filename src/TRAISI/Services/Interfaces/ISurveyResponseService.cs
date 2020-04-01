@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Questions;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
 
 namespace TRAISI.Services.Interfaces
 {
-    public interface IResponderService
+    public interface ISurveyResponseService
     {
         /// <summary>
         /// 

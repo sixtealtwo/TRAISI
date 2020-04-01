@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 using TRAISI.ViewModels.Questions;
 
 namespace TRAISI.ViewModels.SurveyViewer

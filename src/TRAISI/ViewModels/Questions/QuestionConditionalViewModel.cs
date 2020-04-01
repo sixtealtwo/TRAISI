@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Core;
+using TRAISI.Data.Core;
 using FluentValidation;
 
 namespace TRAISI.ViewModels.Questions

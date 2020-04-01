@@ -6,9 +6,9 @@ namespace TRAISI.SDK.Library.ResponseTypes {
 
 		string Name { get; set; }
 
-		DateTime TimeA { get; set; }
+		DateTimeOffset TimeA { get; set; }
 
-		DateTime TimeB { get; set; }
+		DateTimeOffset TimeB { get; set; }
 
 		int? Order { get; set; }
 	}

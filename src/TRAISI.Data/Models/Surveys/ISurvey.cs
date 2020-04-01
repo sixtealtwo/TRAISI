@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.Extensions;
+using TRAISI.Data.Models.Extensions;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public interface ISurvey
     {

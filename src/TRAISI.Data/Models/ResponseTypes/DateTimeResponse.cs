@@ -1,15 +1,15 @@
 using System;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes
+namespace TRAISI.Data.Models.ResponseTypes
 {
     /// <summary>
     /// 
     /// </summary>
     public class DateTimeResponse : ResponseValue, IDateTimeResponse
     {
-       public DateTime Value {get;set;}
+       public DateTimeOffset Value {get;set;}
 
     }
 }

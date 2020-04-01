@@ -2,9 +2,9 @@ using System;
 using TRAISI.Services;
 using Xunit;
 using Moq;
-using DAL.Models.Surveys;
-using DAL;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models.Questions;
 using TRAISI.Helpers;
 
 namespace TRAISI.UnitTests.Services

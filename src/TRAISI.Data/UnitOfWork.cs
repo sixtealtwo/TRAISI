@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
-using DAL.Repositories;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories;
+using TRAISI.Data.Repositories.Interfaces;
 
-namespace DAL
+namespace TRAISI.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

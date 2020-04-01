@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
-using DAL.Core;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Core;
 using TRAISI.SDK;
 using Microsoft.AspNetCore.Http;
 

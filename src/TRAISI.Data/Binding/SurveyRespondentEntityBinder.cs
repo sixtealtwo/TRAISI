@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
 	/// <summary>
 	/// Model binder for SurveyRespondent entities.

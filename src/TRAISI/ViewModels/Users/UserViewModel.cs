@@ -1,4 +1,4 @@
-﻿using DAL.Models;
+﻿using TRAISI.Data.Models;
 using FluentValidation;
 using TRAISI.Helpers;
 using Microsoft.AspNetCore.Identity;

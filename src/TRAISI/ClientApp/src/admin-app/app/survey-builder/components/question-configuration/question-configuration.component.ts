@@ -12,56 +12,56 @@ import {
 	ViewChild,
 	ViewEncapsulation,
 	Input
-} from "@angular/core";
-import { QuestionTypeDefinition } from "../../models/question-type-definition";
-import { QuestionPartView } from "../../models/question-part-view.model";
-import { AuthService } from "../../../../../shared/services/auth.service";
-import { ConfigurationService } from "../../../../../shared/services/configuration.service";
-import { CheckboxComponent } from "./checkbox-field/checkbox.component";
-import { QuestionConfigurationDefinition } from "../../models/question-configuration-definition.model";
-import { DateInputComponent } from "./date-input-field/date-input.component";
-import { DropdownListComponent } from "./dropdown-list-field/dropdown-list.component";
-import { MultiSelectComponent } from "./multi-select-field/multi-select.component";
-import { TextboxComponent } from "./textbox-field/textbox.component";
-import { TextAreaComponent } from "./textarea-field/textarea.component";
-import { NumericTextboxComponent } from "./numeric-textbox-field/numeric-textbox.component";
-import { SliderComponent } from "./slider-field/slider.component";
-import { SwitchComponent } from "./switch-field/switch.component";
-import { TimeInputComponent } from "./time-input-field/time-input.component";
-import { LocationFieldComponent } from "./location-field/location.component";
-import { RadioComponent } from "./radio-field/radio.component";
-import { SurveyBuilderService } from "../../services/survey-builder.service";
-import { QuestionConfigurationValue } from "../../models/question-configuration-value.model";
+} from '@angular/core';
+import { QuestionTypeDefinition } from '../../models/question-type-definition';
+import { QuestionPartView } from '../../models/question-part-view.model';
+import { AuthService } from '../../../../../shared/services/auth.service';
+import { ConfigurationService } from '../../../../../shared/services/configuration.service';
+import { CheckboxComponent } from './checkbox-field/checkbox.component';
+import { QuestionConfigurationDefinition } from '../../models/question-configuration-definition.model';
+import { DateInputComponent } from './date-input-field/date-input.component';
+import { DropdownListComponent } from './dropdown-list-field/dropdown-list.component';
+import { MultiSelectComponent } from './multi-select-field/multi-select.component';
+import { TextboxComponent } from './textbox-field/textbox.component';
+import { TextAreaComponent } from './textarea-field/textarea.component';
+import { NumericTextboxComponent } from './numeric-textbox-field/numeric-textbox.component';
+import { SliderComponent } from './slider-field/slider.component';
+import { SwitchComponent } from './switch-field/switch.component';
+import { TimeInputComponent } from './time-input-field/time-input.component';
+import { LocationFieldComponent } from './location-field/location.component';
+import { RadioComponent } from './radio-field/radio.component';
+import { SurveyBuilderService } from '../../services/survey-builder.service';
+import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
 import {
 	TreeviewItem,
 	TreeviewI18nDefault,
 	TreeviewSelection
-} from "ngx-treeview";
-import { QuestionConditional } from "../../models/question-conditional.model";
-import { QuestionOptionConditional } from "../../models/question-option-conditional.model";
-import { QuestionConditionalsComponent } from "./question-conditionals/question-conditionals.component";
-import Quill from "quill";
-import { DropdownTreeviewSelectComponent } from "../../../shared/dropdown-treeview-select/dropdown-treeview-select.component";
-import { DropdownTreeviewSelectI18n } from "../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n";
-import { QuestionOptionValue } from "../../models/question-option-value.model";
-import { Router } from "@angular/router";
-import { SBPageStructureViewModel } from "app/survey-builder/services/survey-builder-client.service";
-import { QuestionResponseType } from "app/survey-builder/models/question-response-type.enum";
-import { SurveyBuilderEditorData } from "app/survey-builder/services/survey-builder-editor-data.service";
-import { QuestionConditionalOperator } from "app/survey-builder/models/question-conditional-operator.model";
+} from 'ngx-treeview';
+import { QuestionConditional } from '../../models/question-conditional.model';
+import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
+import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
+import Quill from 'quill';
+import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select.component';
+import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
+import { QuestionOptionValue } from '../../models/question-option-value.model';
+import { Router } from '@angular/router';
+import { SBPageStructureViewModel } from 'app/survey-builder/services/survey-builder-client.service';
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
 
 // override p with div tag
-const Parchment = Quill.import("parchment");
-let Block = Parchment.query("block");
+const Parchment = Quill.import('parchment');
+let Block = Parchment.query('block');
 
 class NewBlock extends Block {}
-NewBlock["tagName"] = "DIV";
+NewBlock['tagName'] = 'DIV';
 Quill.register(NewBlock, true);
 
 @Component({
-	selector: "app-question-configuration",
-	templateUrl: "./question-configuration.component.html",
-	styleUrls: ["./question-configuration.component.scss"],
+	selector: 'app-question-configuration',
+	templateUrl: './question-configuration.component.html',
+	styleUrls: ['./question-configuration.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
@@ -114,12 +114,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public quillQuestionTextModules = {
 		toolbar: [
-			["bold", "italic", "underline"], // toggled buttons
-			[{ script: "sub" }, { script: "super" }], // superscript/subscript
+			['bold', 'italic', 'underline'], // toggled buttons
+			[{ script: 'sub' }, { script: 'super' }], // superscript/subscript
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 			[{ color: [] }], // dropdown with defaults from theme
 			[{ align: [] }],
-			["clean"] // remove formatting button
+			['clean'] // remove formatting button
 		]
 	};
 
@@ -129,16 +129,16 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	@Output()
 	public configResult = new EventEmitter<string>();
 
-	@ViewChild("conditionals", { static: false })
+	@ViewChild('conditionals', { static: false })
 	public conditionalsComponent: QuestionConditionalsComponent;
 
-	@ViewChild("pipeTreeSelect")
+	@ViewChild('pipeTreeSelect')
 	public pipeTreeSelect: DropdownTreeviewSelectComponent;
 
-	@ViewChild("catiPipeTreeSelect")
+	@ViewChild('catiPipeTreeSelect')
 	public catiPipeTreeSelect: DropdownTreeviewSelectComponent;
 
-	@ViewChild("repeatTreeSelect")
+	@ViewChild('repeatTreeSelect')
 	public repeatTreeSelect: DropdownTreeviewSelectComponent;
 
 	private questionQuillEditor: any;
@@ -146,7 +146,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	protected sourceQuestionList: Array<QuestionPartView> = [];
 
-	@ViewChildren("dynamic", { read: ViewContainerRef })
+	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
 
 	constructor(
@@ -168,7 +168,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			.selectedItem;
 		return selected !== undefined && selected !== null
 			? selected.text
-			: "Pipe Question";
+			: 'Pipe Question';
 	}
 
 	public catiPipeDropdown(e: TreeviewSelection): string {
@@ -177,7 +177,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		)).selectedItem;
 		return selected !== undefined && selected !== null
 			? selected.text
-			: "Pipe Question";
+			: 'Pipe Question';
 	}
 
 	public repeatDropdown(e: TreeviewSelection): string {
@@ -185,7 +185,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			.selectedItem;
 		return selected !== undefined && selected !== null
 			? selected.text
-			: "Select Question";
+			: 'Select Question';
 	}
 
 	public ngAfterViewInit() {
@@ -252,18 +252,18 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public parameterComponents(): Array<any> {
 		let widgetComponents = [
-			{ id: "Checkbox", component: CheckboxComponent },
-			{ id: "DateInput", component: DateInputComponent },
-			{ id: "SingleSelect", component: DropdownListComponent },
-			{ id: "MultiSelect", component: MultiSelectComponent },
-			{ id: "Textbox", component: TextboxComponent },
-			{ id: "TextAreaa", component: TextAreaComponent },
-			{ id: "NumericText", component: NumericTextboxComponent },
-			{ id: "Slider", component: SliderComponent },
-			{ id: "Switch", component: SwitchComponent },
-			{ id: "TimeInput", component: TimeInputComponent },
-			{ id: "LocationField", component: LocationFieldComponent },
-			{ id: "Radio", component: RadioComponent }
+			{ id: 'Checkbox', component: CheckboxComponent },
+			{ id: 'DateInput', component: DateInputComponent },
+			{ id: 'SingleSelect', component: DropdownListComponent },
+			{ id: 'MultiSelect', component: MultiSelectComponent },
+			{ id: 'Textbox', component: TextboxComponent },
+			{ id: 'TextAreaa', component: TextAreaComponent },
+			{ id: 'NumericText', component: NumericTextboxComponent },
+			{ id: 'Slider', component: SliderComponent },
+			{ id: 'Switch', component: SwitchComponent },
+			{ id: 'TimeInput', component: TimeInputComponent },
+			{ id: 'LocationField', component: LocationFieldComponent },
+			{ id: 'Radio', component: RadioComponent }
 		];
 
 		return widgetComponents;
@@ -271,7 +271,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public advancedConfig() {
 		setTimeout(() => {
-			window.dispatchEvent(new Event("resize"));
+			window.dispatchEvent(new Event('resize'));
 		}, 0);
 	}
 
@@ -285,24 +285,23 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			this.configurationValues.push(config);
 		});
 		this.isSaving = true;
-		this.configResult.emit("save");
+		this.configResult.emit('save');
 	}
 
 	public getUpdatedConditionals(): QuestionConditionalOperator[] {
 		if (this.conditionalsComponent) {
 			return this.conditionalsComponent.getUpdatedConditionals();
-		}
-		else {
+		} else {
 			return [];
 		}
 	}
 
 	public cancel() {
-		this.configResult.emit("cancel");
+		this.configResult.emit('cancel');
 	}
 
 	public delete() {
-		this.configResult.emit("delete");
+		this.configResult.emit('delete');
 	}
 
 	public pipeQuestion() {
@@ -406,8 +405,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		);
 
 		this.processQuestionTree();
-		if (this.questionType.typeName !== "Survey Part") {
-			this.loadPastConditionals();
+		if (this.questionType.typeName !== 'Survey Part') {
+			if (!this.newQuestion) {
+				this.loadPastConditionals();
+			}
 		}
 		// this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
 		setTimeout(() => {
@@ -442,7 +443,6 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				)
 				.subscribe(
 					options => {
-						console.log(options);
 						if (options !== null) {
 							options.forEach(option => {
 								this.questionOptions
@@ -457,6 +457,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	private loadPastConditionals() {
+		console.log(this.questionBeingEdited.id);
 		this.builderService
 			.getQuestionPartConditionals(
 				this.surveyId,
@@ -488,12 +489,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	private getQuestionResponseType(typeValue: string): QuestionResponseType {
-		let questionType = typeValue.split("~")[1];
+		let questionType = typeValue.split('~')[1];
 		return this._editorData.questionTypeMap.get(questionType).responseType;
 	}
 
 	private getQuestionType(typeValue: string): string {
-		let questionType = typeValue.split("~")[1];
+		let questionType = typeValue.split('~')[1];
 		return this._editorData.questionTypeMap.get(questionType).typeName;
 	}
 
@@ -508,7 +509,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	private isHouseholdSource(typeValue: string): boolean {
 		let questionType = this.getQuestionType(typeValue);
-		if (questionType === "household") {
+		if (questionType === 'household') {
 			return true;
 		} else {
 			return false;
@@ -520,7 +521,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 */
 	public allowConditionals(): boolean {
 		if (
-			this.questionType.typeName === "Survey Part" ||
+			this.questionType.typeName === 'Survey Part' ||
 			this.questionType.responseType === QuestionResponseType.None
 		) {
 			return false;
@@ -549,13 +550,13 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.sourceQuestionList = [];
 		this.thisQuestion = [];
 		let questionHitThisPage: boolean = false;
-		let questionBreak = "";
+		let questionBreak = '';
 		if (
-			this.questionType.typeName === "Survey Part" &&
+			this.questionType.typeName === 'Survey Part' &&
 			this.questionBeingEdited.questionPartViewChildren.length > 0
 		) {
 			questionBreak = `question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
-		} else if (this.questionType.typeName !== "Survey Part") {
+		} else if (this.questionType.typeName !== 'Survey Part') {
 			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}
 
@@ -568,8 +569,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			};
 
 			if (treeElement.children) {
-				let sectionName = "";
-				if (this.questionType.typeName === "Survey Part") {
+				let sectionName = '';
+				if (this.questionType.typeName === 'Survey Part') {
 					sectionName = `part~${this.questionBeingEdited.id}`;
 				}
 				let {
@@ -658,7 +659,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 				if (!questionHit && element.children) {
 					if (
-						(<string>element.children[0].value).startsWith("option")
+						(<string>element.children[0].value).startsWith('option')
 					) {
 						this.clearOptionsFromElement(element);
 					}
@@ -689,21 +690,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 				if (
 					!(
-						(<string>element.value).startsWith("part") &&
+						(<string>element.value).startsWith('part') &&
 						elementCopy.children.length === 0
 					)
 				) {
 					page.children.push(new TreeviewItem(elementCopy));
 				}
 				if (
-					!(<string>element.value).startsWith("part") &&
+					!(<string>element.value).startsWith('part') &&
 					!questionHit &&
 					this.allowAsRepeatSource(element.value)
 				) {
 					repeatSources.push(new TreeviewItem(elementCopy));
 				}
 				if (
-					!(<string>element.value).startsWith("part") &&
+					!(<string>element.value).startsWith('part') &&
 					!questionHit &&
 					this.isHouseholdSource(element.value)
 				) {
@@ -751,7 +752,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			} else {
 				if (!questionHit && element.children) {
 					if (
-						(<string>element.children[0].value).startsWith("option")
+						(<string>element.children[0].value).startsWith('option')
 					) {
 						this.clearOptionsFromElement(element);
 					}
@@ -771,7 +772,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	private clearOptionsFromElement(element: TreeviewItem) {
 		if (element.children && element.children.length > 0) {
-			if ((<string>element.children[0].value).startsWith("option")) {
+			if ((<string>element.children[0].value).startsWith('option')) {
 				element.children = undefined;
 			} else {
 				element.children.forEach(child => {

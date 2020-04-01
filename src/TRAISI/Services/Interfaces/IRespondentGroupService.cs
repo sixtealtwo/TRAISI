@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Services.Interfaces

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public class SurveyRespondentGroup : ISurveyRespondentGroup
     {

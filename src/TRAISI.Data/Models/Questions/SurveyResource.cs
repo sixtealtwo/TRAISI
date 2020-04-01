@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using TRAISI.SDK.Interfaces;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
 	/// <summary>
 	/// Configuration Data for question parts

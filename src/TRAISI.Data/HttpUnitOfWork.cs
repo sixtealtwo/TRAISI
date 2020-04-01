@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AspNet.Security.OpenIdConnect.Primitives;
 
-namespace DAL
+namespace TRAISI.Data
 {
 	public class HttpUnitOfWork : UnitOfWork
 	{

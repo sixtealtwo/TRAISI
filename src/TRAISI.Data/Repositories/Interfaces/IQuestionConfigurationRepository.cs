@@ -1,7 +1,7 @@
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Repositories.Interfaces {
+namespace TRAISI.Data.Repositories.Interfaces {
     public interface IQuestionConfigurationRepository : IRepository<QuestionConfiguration> {
 
     }

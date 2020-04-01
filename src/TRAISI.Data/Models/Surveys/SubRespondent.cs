@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     /// <summary>
     /// Sub Respondent type, associated with another primary respondent

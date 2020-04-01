@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using DAL.Models.Extensions;
-using DAL.Models.Interfaces;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Questions;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public class SurveyView : ISurveyView, IEntity
     {

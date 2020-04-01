@@ -1,12 +1,12 @@
-﻿using DAL.Models;
-using DAL.Models.Surveys;
+﻿using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Core.Interfaces
+namespace TRAISI.Data.Core.Interfaces
 {
 	public interface IAccountManager
 	{

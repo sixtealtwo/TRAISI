@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Models;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
-using DAL.Repositories;
+using TRAISI.Data;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 	[ApiController]
 	[Route ("api/[controller]/")]
 	public class ResponderController : ControllerBase {
-		private IResponderService _respondentService;
+		private ISurveyResponseService _respondentService;
 
 		private IRespondentGroupService _respondentGroupService;
 
@@ -38,7 +38,7 @@ namespace TRAISI.Controllers.SurveyViewer {
 		/// <param name="respondentGroupService"></param>
 		/// <param name="unitOfWork"></param>
 		/// <param name="userManager"></param>
-		public ResponderController (IResponderService respondentService,
+		public ResponderController (ISurveyResponseService respondentService,
 			IRespondentGroupService respondentGroupService,
 			IUnitOfWork unitOfWork,
 			UserManager<ApplicationUser> userManager) {

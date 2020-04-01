@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Models.Groups
+namespace TRAISI.Data.Models.Groups
 {
     public class EmailTemplate: AuditableEntity
     {

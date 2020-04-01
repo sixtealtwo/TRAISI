@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Core;
+using TRAISI.Data.Core;
 
-namespace DAL.Models.Extensions {
+namespace TRAISI.Data.Models.Extensions {
 	public class SurveyViewCollection<T>  : List<T> {
 
 

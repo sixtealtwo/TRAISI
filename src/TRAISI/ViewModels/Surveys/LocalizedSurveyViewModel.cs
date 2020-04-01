@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using DAL.Models;
-using DAL.Models.Extensions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Surveys;
 
 namespace TRAISI.ViewModels.Surveys {
 	/// <summary>

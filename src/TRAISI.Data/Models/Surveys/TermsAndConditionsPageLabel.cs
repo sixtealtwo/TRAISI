@@ -1,7 +1,7 @@
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public class TermsAndConditionsPageLabel: Label
     {

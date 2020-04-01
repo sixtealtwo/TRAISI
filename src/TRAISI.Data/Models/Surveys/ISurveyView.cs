@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DAL.Models.Extensions;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Questions;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public interface ISurveyView
     {

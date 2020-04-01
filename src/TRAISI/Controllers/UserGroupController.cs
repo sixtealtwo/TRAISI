@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DAL;
+using TRAISI.Data;
 using TRAISI.ViewModels;
 using TRAISI.ViewModels.Users;
 using AutoMapper;
-using DAL.Core.Interfaces;
-using DAL.Models;
-using DAL.Models.Groups;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Groups;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using TRAISI.Helpers;
@@ -418,7 +418,7 @@ namespace TRAISI.Controllers
 
 			if (await IsGroupAdmin(group.Name))
 			{
-				//IEnumerable<DAL.Models.Groups.EmailTemplates> emailTemplates;
+				//IEnumerable<TRAISI.Data.Models.Groups.EmailTemplates> emailTemplates;
 				var emailTemplates = await this._unitOfWork.EmailTemplates.GetGroupEmailTemplatesAsync(id);
 				return Ok(Mapper.Map<IEnumerable<EmailTemplateViewModel>>(emailTemplates));
 			}

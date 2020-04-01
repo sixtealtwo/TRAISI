@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Models.Surveys;
+using TRAISI.Data.Core;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Models.Surveys {
+namespace TRAISI.Data.Models.Surveys {
 	public class Shortcode {
 		public int Id { get; set; }
 		public Survey Survey { get; set; }

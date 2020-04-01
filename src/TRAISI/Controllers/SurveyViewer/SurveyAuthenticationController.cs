@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Traisi.SurveyViewer.Authentication;
+using Traisi.Surveys.Authentication;
 using TRAISI.Authorization;
 
 namespace TRAISI.Controllers.SurveyViewer {

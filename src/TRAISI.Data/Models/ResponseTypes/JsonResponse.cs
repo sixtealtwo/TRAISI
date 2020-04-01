@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes
+namespace TRAISI.Data.Models.ResponseTypes
 {
 	public class JsonResponse : ResponseValue, IJsonResponse
 	{

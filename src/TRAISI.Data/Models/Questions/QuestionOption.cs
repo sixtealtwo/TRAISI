@@ -1,11 +1,11 @@
-using DAL.Models.Extensions;
-using DAL.Models.Interfaces;
-using DAL.Core;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Core;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     public class QuestionOption : IQuestionOption, IEntity
     {

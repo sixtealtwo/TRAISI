@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
-using DAL;
+using TRAISI.Data;
 
 namespace TRAISI.Helpers
 {

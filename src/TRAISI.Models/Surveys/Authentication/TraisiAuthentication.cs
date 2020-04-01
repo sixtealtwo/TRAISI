@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace Traisi.SurveyViewer.Authentication {
+namespace Traisi.Surveys.Authentication {
 
 	public class TraisiAuthentication : ISurveyAuthenticationMode {
 		public readonly static string TRAISI_AUTHENTICATION = "TRAISI_AUTHENTICATION";

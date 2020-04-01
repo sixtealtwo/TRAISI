@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using DAL.Core;
+using TRAISI.Data.Core;
 
-namespace DAL.Models.Questions {
+namespace TRAISI.Data.Models.Questions {
 
     /// <summary>
     /// A conditional operator that joins a chain of conditionals.

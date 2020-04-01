@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace DAL.Repositories.Interfaces
+namespace TRAISI.Data.Repositories.Interfaces
 {
     public interface IApplicationDbContext
     {

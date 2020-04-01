@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
     public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository {
 		private ApplicationDbContext _appContext => (ApplicationDbContext) _context;

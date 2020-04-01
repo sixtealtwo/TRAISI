@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes
+namespace TRAISI.Data.Models.ResponseTypes
 {
     public class StringResponse : ResponseValue, IStringResponse
     {

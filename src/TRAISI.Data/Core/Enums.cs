@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DAL.Core
+namespace TRAISI.Data.Core
 {
     public enum Gender
     {

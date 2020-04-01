@@ -1,5 +1,5 @@
-using DAL.Models;
-using DAL.Models.Questions;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 
-namespace DAL.Repositories.Interfaces {
+namespace TRAISI.Data.Repositories.Interfaces {
 	public interface IQuestionPartRepository : IRepository<QuestionPart> {
 
         Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id);

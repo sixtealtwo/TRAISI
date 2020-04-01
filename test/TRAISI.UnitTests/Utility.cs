@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using DAL;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;

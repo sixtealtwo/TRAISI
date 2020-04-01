@@ -1,4 +1,4 @@
-﻿using DAL.Core;
+﻿using TRAISI.Data.Core;
 using Microsoft.AspNetCore.Authorization;
 using TRAISI.Helpers;
 using System.Collections.Generic;

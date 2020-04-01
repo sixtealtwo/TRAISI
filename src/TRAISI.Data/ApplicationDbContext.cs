@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Groups;
-using DAL.Models.Interfaces;
-using DAL.Models.Questions;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Groups;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL
+namespace TRAISI.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -50,9 +50,7 @@ namespace DAL
 
         public DbSet<QuestionOptionConditional> QuestionOptionConditionals { get; set; }
 
-        public DbSet<ResponseValue> ResponseValues { get; set; }
-
-        public DbSet<LocationResponse> LocationResponseValues { get; set; }
+        public DbSet<ResponseValue> SurveyResponseValues { get; set; }
 
         public DbSet<LocationResponse> OptionSelectResponses { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
@@ -90,6 +88,7 @@ namespace DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.HasPostgresExtension("postgis");
 
             builder.Entity<ApplicationUser>().HasMany(u => u.Claims).WithOne().HasForeignKey(c => c.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<ApplicationUser>().HasMany(u => u.Roles).WithOne().HasForeignKey(r => r.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
@@ -149,8 +148,6 @@ namespace DAL
 
             builder.Entity<Groupcode>().ToTable($"{nameof(this.Groupcodes)}");
 
-            builder.Entity<ResponseValue>().ToTable($"{nameof(this.ResponseValues)}");
-
             builder.Entity<QuestionOptionLabel>().ToTable($"{nameof(this.QuestionOptionLabels)}");
 
             builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}");
@@ -167,14 +164,9 @@ namespace DAL
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne(q => q.QuestionPartParent).OnDelete(DeleteBehavior.Cascade);
-            //builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
-            //builder.Entity<QuestionPart>().HasMany(q => q.QuestionConditionalsTarget).WithOne(q => q.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
-
             builder.Entity<QuestionOption>().HasIndex(o => new { o.Code, o.QuestionPartParentId }).IsUnique(true);
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
-            //builder.Entity<QuestionPart>().HasIndex(qp => qp.Name).IsUnique();
-
             builder.Entity<QuestionPartView>().HasMany(s => s.Labels).WithOne(l => l.QuestionPartView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
@@ -189,17 +181,15 @@ namespace DAL
 
             builder.Entity<QuestionOptionConditional>().ToTable($"{nameof(this.QuestionOptionConditionals)}");
 
-            builder.Entity<ResponseValue>().ToTable("ResponseValues").HasDiscriminator<int>("ResponseType")
-                .HasValue<StringResponse>(1)
-                .HasValue<DecimalResponse>(2)
-                .HasValue<LocationResponse>(3)
-                .HasValue<IntegerResponse>(4)
-                .HasValue<OptionListResponse>(5)
-                .HasValue<JsonResponse>(6)
-                .HasValue<TimelineResponse>(7)
-                .HasValue<DateTimeResponse>(8)
-                .HasValue<OptionSelectResponse>(9)
-                .HasValue<PathResponse>(10);
+            builder.Entity<ResponseValue>().ToTable($"{nameof(this.SurveyResponseValues)}").HasDiscriminator<int>("ResponseType")
+                .HasValue<StringResponse>((int)ResponseTypes.StringResponse)
+                .HasValue<LocationResponse>((int)ResponseTypes.LocationResponse)
+                .HasValue<OptionListResponse>((int)ResponseTypes.OptionListResponse)
+                .HasValue<JsonResponse>((int)ResponseTypes.JsonResponse)
+                .HasValue<TimelineResponse>((int)ResponseTypes.TimelineResponse)
+                .HasValue<DateTimeResponse>((int)ResponseTypes.DateTimeResponse)
+                .HasValue<OptionSelectResponse>((int)ResponseTypes.OptionSelectResponse)
+                .HasValue<NumberResponse>((int)ResponseTypes.NumberResponse);
 
             builder.Entity<SurveyResponse>().HasMany(s => s.ResponseValues).WithOne(v => v.SurveyResponse).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyResponse>().ToTable("SurveyResponses").HasOne(p => p.QuestionPart).WithMany().OnDelete(DeleteBehavior.Cascade);
@@ -221,7 +211,7 @@ namespace DAL
             builder.Entity<SurveyAccessRecord>().ToTable("SurveyAccessRecords");
 
             builder.Entity<SurveyResponse>().HasOne(o => o.SurveyAccessRecord);
-            //builder.Entity<SurveyRespondent>().HasOne(r => r.SurveyRespondentGroup).WithMany(r2 => r2.GroupMembers);
+
 
             builder.Entity<QuestionConditionalOperator>().ToTable("QuestionCondtionalOperators")
                 .HasOne(s => s.Lhs).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Cascade);

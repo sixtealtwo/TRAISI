@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DAL;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using DAL.Models.Extensions;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Core;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -394,6 +394,9 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
+                if(question == null) {
+                    return new NotFoundResult();
+                }
                 var conditals = Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
                 return new OkObjectResult(conditals);
             }

@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Models;
-using DAL.Models.Questions;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.Extensions.Logging;
+using NetTopologySuite.Geometries;
 using Newtonsoft.Json.Linq;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
@@ -19,12 +20,12 @@ namespace TRAISI.Services
     /// Service for handling business logic related to respondents and the updating and querying
     /// of survey responses.
     /// </summary>
-    public class ResponderService : IResponderService
+    public class SurveyResponseService : ISurveyResponseService
     {
         private IUnitOfWork _unitOfWork;
         private IQuestionTypeManager _questionTypeManager;
         private ILoggerFactory _loggerFactory;
-        private ILogger<ResponderService> _logger;
+        private ILogger<SurveyResponseService> _logger;
         public static readonly string LOCATION_RESPONSE = "location";
         public static readonly string TIMELINE_RESPONSE = "location";
 
@@ -34,14 +35,14 @@ namespace TRAISI.Services
         /// <param name="_unitOfWork"></param>
         /// <param name="manager"></param>
         /// <param name="loggerFactory"></param>
-        public ResponderService(IUnitOfWork _unitOfWork,
+        public SurveyResponseService(IUnitOfWork _unitOfWork,
             IQuestionTypeManager manager,
             ILoggerFactory loggerFactory)
         {
             this._unitOfWork = _unitOfWork;
             this._questionTypeManager = manager;
             _loggerFactory = loggerFactory;
-            _logger = loggerFactory.CreateLogger<ResponderService>();
+            _logger = loggerFactory.CreateLogger<SurveyResponseService>();
 
         }
 
@@ -112,8 +113,6 @@ namespace TRAISI.Services
                 this._unitOfWork.SurveyResponses.Add(surveyResponse);
             }
 
-            // surveyResponse.Repeat = repeat;
-
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:
@@ -143,7 +142,6 @@ namespace TRAISI.Services
                     SaveTimelineResponse(surveyResponse, responseData);
                     break;
                 case QuestionResponseType.OptionSelect:
-                    //
                     SaveOptionSelectResponse(survey, question, responseData, surveyResponse);
                     break;
             }
@@ -393,16 +391,12 @@ namespace TRAISI.Services
         {
             if (response.ResponseValues.Count == 0)
             {
-                //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new LocationResponse());
             }
-            var value = responseData.ToObject<LocationResponse>();
-            (response.ResponseValues[0] as LocationResponse).Latitude = value.Latitude;
-            (response.ResponseValues[0] as LocationResponse).Longitude = value.Longitude;
-            (response.ResponseValues[0] as LocationResponse).Address = value.Address;
-
-            //LocationResponse locationResponseValue = responseData.ToObject<LocationResponse>();
-
+            Point point = new Point(new Coordinate(responseData.GetValue("latitude").Value<double>(),
+            responseData.GetValue("longitude").Value<double>()));
+            (response.ResponseValues[0] as LocationResponse).Location = point;
+            (response.ResponseValues[0] as LocationResponse).Address = responseData.GetValue("latitude").Value<string>();
             return;
 
         }
@@ -417,11 +411,8 @@ namespace TRAISI.Services
         /// <returns></returns>
         public async Task<List<SurveyResponse>> ListResponses(int surveyId, string questionId)
         {
-
             var responses = await this._unitOfWork.SurveyResponses.GetAllAsync();
-
             return new List<SurveyResponse>();
-
         }
 
         /// <summary>
@@ -453,8 +444,6 @@ namespace TRAISI.Services
         public async Task<SurveyResponse> GetRespondentMostRecentResponseForQuestion(int surveyId, int questionId, int respondentId, int repeat,
             ApplicationUser user)
         {
-
-            //var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
             var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             var response =
                 await this._unitOfWork.SurveyResponses.GetMostRecentResponseForQuestionByRespondentAsync(questionId,

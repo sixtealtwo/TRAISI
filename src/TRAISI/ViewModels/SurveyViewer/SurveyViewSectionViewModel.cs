@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.ViewModels.SurveyViewer
 {

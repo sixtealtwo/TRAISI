@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using DAL.Models.Surveys;
-using DAL.Models.Interfaces;
-using DAL.Models.Extensions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Extensions;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     /// <summary>
     /// QuestionPartView model - container of QuestionParts 

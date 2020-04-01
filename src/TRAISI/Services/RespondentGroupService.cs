@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels.SurveyViewer;
 using System.Linq;

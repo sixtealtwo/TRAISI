@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Models;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Core;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories {
+namespace TRAISI.Data.Repositories {
 	public class SurveyRepository : Repository<Survey>, ISurveyRepository {
 		public SurveyRepository (ApplicationDbContext context) : base (context) { }
 
