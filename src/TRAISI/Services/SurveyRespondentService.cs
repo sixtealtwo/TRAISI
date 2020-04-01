@@ -25,17 +25,20 @@ namespace TRAISI.Services
         /// <param name="user"></param>
         /// <param name="survey"></param>
         /// <returns></returns>
-        public PrimaryRespondent CreatePrimaryRespondentForUser(ApplicationUser user, Survey survey)
+        public async Task<PrimaryRespondent> CreatePrimaryRespondentForUser(ApplicationUser user, Survey survey)
         {
             var respondent = new PrimaryRespondent()
             {
-                User = user,
                 Survey = survey,
+                User = user,
                 SurveyAccessRecords = new List<SurveyAccessRecord>(),
                 SurveyRespondentGroup = new SurveyRespondentGroup()
 
             };
-
+            await this._unitOfWork.SurveyRespondents.AddAsync(respondent);
+            await this._unitOfWork.SaveChangesAsync();
+            respondent.SurveyRespondentGroup.GroupPrimaryRespondent = respondent;
+            await this._unitOfWork.SaveChangesAsync();
             return respondent;
         }
     }

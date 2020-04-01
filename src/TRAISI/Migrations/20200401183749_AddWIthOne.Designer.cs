@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using TRAISI.Data;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200401183749_AddWIthOne")]
+    partial class AddWIthOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1311,7 +1313,7 @@ namespace TRAISI.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("GroupPrimaryRespondentId")
+                    b.Property<int>("GroupPrimaryRespondentId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -2019,7 +2021,9 @@ namespace TRAISI.Migrations
                 {
                     b.HasOne("TRAISI.Data.Models.Surveys.PrimaryRespondent", "GroupPrimaryRespondent")
                         .WithOne()
-                        .HasForeignKey("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", "GroupPrimaryRespondentId");
+                        .HasForeignKey("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", "GroupPrimaryRespondentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyResponse", b =>
@@ -2107,7 +2111,8 @@ namespace TRAISI.Migrations
 
                     b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
                         .WithMany()
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("TRAISI.Data.Models.ApplicationUser", "User")
                         .WithMany()

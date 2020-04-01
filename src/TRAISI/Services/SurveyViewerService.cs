@@ -174,8 +174,7 @@ namespace TRAISI.Services
             result.Item3.Shortcode = shortcode;
 
             // create the associated primary respondent 
-            var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(appUser);
-
+            var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
             return (result.Item1, result.Item2, appUser, respondent);
         }
 
@@ -212,29 +211,31 @@ namespace TRAISI.Services
         public async Task<bool> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
             var accessParameters = await GetSurveyAccessParameters(_contextAccessor);
-			var primaryRespondent = await GetPrimaryRespondent(survey, shortcode, currentUser);
-			if(primaryRespondent == null) {
-				// no primary respondent exists
-				return false;
-			}
-			else {
-				// add a new survey access record for the primary respondent
-				primaryRespondent.SurveyAccessRecords.Add(CreateSurveyAccessRecord(primaryRespondent, accessParameters));
-			}
-			await this._unitOfWork.SaveChangesAsync();
-			return true;
+            var primaryRespondent = await GetPrimaryRespondent(survey, shortcode, currentUser);
+            if (primaryRespondent == null)
+            {
+                // no primary respondent exists
+                return false;
+            }
+            else
+            {
+                // add a new survey access record for the primary respondent
+                primaryRespondent.SurveyAccessRecords.Add(CreateSurveyAccessRecord(primaryRespondent, accessParameters));
+            }
+            await this._unitOfWork.SaveChangesAsync();
+            return true;
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="survey"></param>
-		/// <param name="shortcode"></param>
-		/// <param name="currentUser"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="shortcode"></param>
+        /// <param name="currentUser"></param>
+        /// <returns></returns>
         private async Task<PrimaryRespondent> GetPrimaryRespondent(Survey survey, string shortcode, ClaimsPrincipal currentUser)
         {
-			PrimaryRespondent primaryRespondent = null;
+            PrimaryRespondent primaryRespondent = null;
             if (currentUser.Identity.IsAuthenticated)
             {
                 if (currentUser.IsInRole(TraisiRoles.SuperAdministrator))
@@ -244,9 +245,7 @@ namespace TRAISI.Services
 
                     if (primaryRespondent == null)
                     {
-                        primaryRespondent = _respondentService.CreatePrimaryRespondentForUser(user, survey);
-                        await this._unitOfWork.SaveChangesAsync();
-                        primaryRespondent.SurveyRespondentGroup.GroupPrimaryRespondent = primaryRespondent;
+                        primaryRespondent = await _respondentService.CreatePrimaryRespondentForUser(user, survey);
                     }
                 }
             }
@@ -260,15 +259,16 @@ namespace TRAISI.Services
                     {
                         return null;
                     }
-					var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
-					primaryRespondent = res.respondent;
-					
+                    var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
+                    primaryRespondent = res.respondent;
+
                 }
-				else {
-					primaryRespondent = existingUser.PrimaryRespondent;
-				}
+                else
+                {
+                    primaryRespondent = existingUser.PrimaryRespondent;
+                }
             }
-			return primaryRespondent;
+            return primaryRespondent;
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace TRAISI.Services
         /// <returns></returns>
         private SurveyAccessRecord CreateSurveyAccessRecord(PrimaryRespondent respondent, SurveyAccessParameters parameters)
         {
-            return new SurveyAccessRecord()
+            var record = new SurveyAccessRecord()
             {
                 AccessDateTime = DateTime.Now,
                 UserAgent = parameters.UserAgent,
@@ -288,6 +288,8 @@ namespace TRAISI.Services
                 AccessUser = respondent.User,
                 RequestUrl = parameters.RequestUrl
             };
+            record.Respondent = respondent;
+            return record;
         }
 
         /// <summary>

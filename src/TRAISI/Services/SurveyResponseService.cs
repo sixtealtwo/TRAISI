@@ -393,10 +393,10 @@ namespace TRAISI.Services
             {
                 response.ResponseValues.Add(new LocationResponse());
             }
-            Point point = new Point(new Coordinate(responseData.GetValue("latitude").Value<double>(),
-            responseData.GetValue("longitude").Value<double>()));
+            Point point = new Point(new Coordinate(responseData.GetValue("longitude").Value<double>(),
+            responseData.GetValue("latitude").Value<double>()));
             (response.ResponseValues[0] as LocationResponse).Location = point;
-            (response.ResponseValues[0] as LocationResponse).Address = responseData.GetValue("latitude").Value<string>();
+            (response.ResponseValues[0] as LocationResponse).Address = responseData.GetValue("address").Value<string>();
             return;
 
         }

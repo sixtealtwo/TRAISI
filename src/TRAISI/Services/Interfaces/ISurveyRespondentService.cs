@@ -11,6 +11,6 @@ namespace TRAISI.Services.Interfaces
 {
     public interface ISurveyRespondentService 
     {
-        public PrimaryRespondent CreatePrimaryRespondentForUser(ApplicationUser user, Survey survey);
+        public Task<PrimaryRespondent> CreatePrimaryRespondentForUser(ApplicationUser user, Survey survey);
     }
 }

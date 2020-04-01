@@ -8,11 +8,8 @@ namespace TRAISI.Data.Models.Surveys {
 	public class PrimaryRespondent : SurveyRespondent {
 
 		public Shortcode Shortcode { get; set; }
-
 		public Groupcode Groupcode { get; set; }
-
 		public ApplicationUser User { get; set; }
-
 		public List<SurveyAccessRecord> SurveyAccessRecords { get; set; }
 		public Survey Survey { get; set; }
 

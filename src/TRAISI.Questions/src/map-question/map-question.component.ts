@@ -151,11 +151,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	) => {
 		if (response !== 'none') {
 			let locationResponse = response[0];
-			let coords = new LngLat(locationResponse.longitude, locationResponse.latitude);
+			let coords = new LngLat(locationResponse['location'].x, locationResponse['location'].y);
 			this.updateAddressInput(locationResponse.address);
 			this.setMarkerLocation(coords);
 			this.flyToPosition([coords.lng, coords.lat]);
-			console.log(response);
 			this.surveyViewerService.updateNavigationState(true);
 			this.validationState.emit(ResponseValidationState.VALID);
 		}
@@ -193,7 +192,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		});
 
 		this._marker = new mapboxgl.Marker();
-		console.log(this._map);
 	}
 
 	public setMarkerLocation(lngLat: LngLat): void {

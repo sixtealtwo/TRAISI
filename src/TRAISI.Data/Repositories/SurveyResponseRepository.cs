@@ -124,6 +124,7 @@ namespace TRAISI.Data.Repositories
 			SurveyRespondent user, int repeat) {
 			var result = await this._entities.Where (s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
 				.Include (v => v.ResponseValues)
+				.Include (v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
 				.Include (v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).FirstOrDefaultAsync();
 				// .ToAsyncEnumerable ().OrderByDescending (s => s.UpdatedDate).FirstOrDefault ();
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TRAISI.Data.Models.Surveys
 {
@@ -9,6 +10,9 @@ namespace TRAISI.Data.Models.Surveys
         public List<SurveyRespondent> GroupMembers { get; set; }
 
         public PrimaryRespondent GroupPrimaryRespondent { get; set; }
+
+        [ForeignKey("GroupPrimaryRespondent")]
+        public int? GroupPrimaryRespondentId {get;set;}
 
         public SurveyRespondentGroup()
         {

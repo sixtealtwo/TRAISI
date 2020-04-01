@@ -121,7 +121,7 @@ namespace TRAISI.UnitTests
             ReturnsAsync((int i) => moqSurveys.Find(s => s.Id == i));
 
             mock.Setup(m => m.CountAsync()).ReturnsAsync(moqSurveys.Count);
-            mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
+            // mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
             mock.Setup(m => m.Update(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Find(p => p.Id == s.Id));
 
             return mock.Object;

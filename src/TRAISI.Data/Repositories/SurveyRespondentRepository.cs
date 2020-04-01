@@ -93,7 +93,6 @@ namespace TRAISI.Data.Repositories
                 surveyUser.PrimaryRespondent = respondent;
 
             }
-
             this._entities.Add(respondent);
             await this._appContext.SaveChangesAsync();
 

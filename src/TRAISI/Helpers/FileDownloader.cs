@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using TRAISI.Data;
 using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.SignalR;
@@ -15,17 +11,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using CsvHelper;
 using CsvHelper.Configuration;
-using DAL;
-using DAL.Models.Surveys;
 using Hangfire;
-using Hangfire.Common;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace TRAISI.Helpers {
+namespace TRAISI.Helpers
+{
     public interface IFileDownloader {
         string GenerateFileCode ();
         Task<string> ExportSurvey (string code, string userName, Survey survey);

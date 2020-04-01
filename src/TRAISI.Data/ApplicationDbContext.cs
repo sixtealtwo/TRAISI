@@ -199,14 +199,14 @@ namespace TRAISI.Data
                 .HasValue<PrimaryRespondent>(0)
                 .HasValue<SubRespondent>(1);
 
-            builder.Entity<PrimaryRespondent>().HasOne(p => p.Survey).WithMany().OnDelete(DeleteBehavior.SetNull);
+            // builder.Entity<PrimaryRespondent>().HasOne(p => p.Survey).WithMany().OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<PrimaryRespondent>().HasMany(o => o.SurveyAccessRecords).WithOne(o => o.Respondent).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
                 .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<SurveyRespondentGroup>().HasOne(g => g.GroupPrimaryRespondent);
+            builder.Entity<SurveyRespondentGroup>().HasOne(g => g.GroupPrimaryRespondent).WithOne();
 
             builder.Entity<SurveyAccessRecord>().ToTable("SurveyAccessRecords");
 
