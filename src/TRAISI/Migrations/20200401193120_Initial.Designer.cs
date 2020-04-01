@@ -11,8 +11,8 @@ using TRAISI.Data;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200401190931_GroupPrimaryNullable")]
-    partial class GroupPrimaryNullable
+    [Migration("20200401193120_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
