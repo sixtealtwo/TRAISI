@@ -425,6 +425,10 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 	}
 
 	public exportSurvey(): void {
+
+		// return this.http.get('http://localhost:8080/employees/download', { responseType: ResponseContentType.Blob });
+		window.open(`/api/Survey/${this.sharedSurvey.id}/export`);
+		/*
 		this.downloadProgress = new DownloadNotification('', 1);
 		this.downloadIndicator = true;
 		this.surveyService.exportSurvey(this.sharedSurvey.id).subscribe(
@@ -445,7 +449,7 @@ export class SurveysManagementComponent implements OnInit, AfterViewInit {
 			error => {
 				this.downloadErrorHelper(error);
 			}
-		);
+		);*/
 	}
 
 	private downloadSuccessHelper(update: DownloadNotification): void {
