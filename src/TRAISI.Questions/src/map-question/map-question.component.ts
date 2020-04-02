@@ -11,7 +11,8 @@ import {
 	ResponseTypes,
 	ResponseValidationState,
 	SurveyQuestion,
-	SurveyViewer
+	SurveyViewer,
+	QuestionConfigurationService
 } from 'traisi-question-sdk';
 import { GeoLocation } from '../models/geo-location.model';
 import { MapEndpointService } from '../services/mapservice.service';
@@ -116,9 +117,11 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	constructor(
 		private mapEndpointService: MapEndpointService,
 		private cdRef: ChangeDetectorRef,
+		private _questionConfigurationService: QuestionConfigurationService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
 		super();
+		console.log(this);
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 	}
 
@@ -138,7 +141,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * on init
 	 */
 	public ngOnInit(): void {
-		this.accessToken = this.serverConfiguration['AccessToken'];
+		this.accessToken = this._questionConfigurationService.getQuestionServerConfiguration('location')['AccessToken'];
 	}
 
 	public traisiOnInit(): void {}

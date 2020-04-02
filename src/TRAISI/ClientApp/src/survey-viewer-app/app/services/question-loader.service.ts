@@ -11,7 +11,8 @@ import {
 	ComponentRef,
 	ElementRef,
 	InjectionToken,
-	Type
+	Type,
+	Inject
 } from '@angular/core';
 import { QuestionLoaderEndpointService } from './question-loader-endpoint.service';
 import {
@@ -53,7 +54,8 @@ import { find } from 'lodash';
 
 import { SurveyViewQuestion as ISurveyQuestion } from '../models/survey-view-question.model';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { SurveyQuestion } from 'traisi-question-sdk';
+import { SurveyQuestion, QuestionConfiguration } from 'traisi-question-sdk';
+import { QuestionConfigurationService } from './question-configuration.service';
 
 type ComponentFactoryBoundToModule<T> = any;
 
@@ -76,8 +78,6 @@ export class QuestionLoaderService {
 
 	private _moduleRefs: { [type: string]: NgModuleRef<any> } = {};
 
-	private _configurations: { [type: string]: any } = {};
-
 	private _loadedModules: Set<any> = new Set<any>();
 
 	/**
@@ -89,15 +89,13 @@ export class QuestionLoaderService {
 	 */
 	constructor(
 		private _questionLoaderEndpointService: QuestionLoaderEndpointService,
+		@Inject('CONFIG_SERVICE')
+		private _questionConfigurationService: QuestionConfigurationService,
 		private compiler: Compiler,
 		private injector: Injector
 	) {
 		SystemJS.config({ transpiler: false });
 		this.init();
-	}
-
-	public getQuestionServerConfiguration(question: ISurveyQuestion): any {
-		return this._configurations[question.questionType];
 	}
 
 	private init(): void {
@@ -304,9 +302,6 @@ export class QuestionLoaderService {
 			return item.id.toLowerCase() === questionType.toLowerCase();
 		});
 
-		//const cf = resolver.resolveComponentFactory(cat.component);
-		// console.log(cf);
-
 		const componentFactory: ComponentFactoryBoundToModule<any> = <
 			ComponentFactoryBoundToModule<any>
 		>resolver.resolveComponentFactory(widget.component);
@@ -334,7 +329,10 @@ export class QuestionLoaderService {
 				)
 			]).subscribe({
 				next: ([componentFactory, configuration]) => {
-					this._configurations[question.questionType] = configuration;
+					this._questionConfigurationService.setQuestionServerConfiguration(
+						question,
+						configuration
+					);
 				},
 				complete: () => {
 					let componentRef = viewContainerRef.createComponent(

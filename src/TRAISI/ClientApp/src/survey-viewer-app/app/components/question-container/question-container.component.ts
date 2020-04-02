@@ -210,7 +210,7 @@ export class QuestionContainerComponent
 					this.question.configuration
 				);
 
-				surveyQuestionInstance.serverConfiguration = this.questionLoaderService.getQuestionServerConfiguration(this.question);
+				// surveyQuestionInstance.serverConfiguration = this.questionLoaderService.getQuestionServerConfiguration(this.question);
 
 
 				// call traisiOnInit to notify of initialization finishing
