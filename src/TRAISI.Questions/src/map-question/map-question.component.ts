@@ -3,7 +3,7 @@ import { LngLatLike, MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, timer } from 'rxjs';
 import {
 	LocationResponseData,
 	OnVisibilityChanged,
@@ -194,6 +194,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		});
 
 		this._marker = new mapboxgl.Marker();
+
+		setTimeout(() => {
+			this._map.resize();
+		});
 	}
 
 	public setMarkerLocation(lngLat: LngLat): void {
@@ -324,8 +328,9 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	public onQuestionShown(): void {
 		if (this._map) {
-			console.log('resizing map');
-			this._map.resize();
+			timer(5000).subscribe(val => {
+				// this._map.resize();
+			});
 		}
 	}
 
@@ -343,7 +348,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 		this.accessToken = mapConfig.AccessToken;
 		let purpose = JSON.parse(mapConfig.purpose);
 		this.purpose = purpose.id;
-		console.log(this);
 	}
 
 	public resetInput(): void {
