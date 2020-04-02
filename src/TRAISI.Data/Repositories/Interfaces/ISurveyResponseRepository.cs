@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TRAISI.Data.Models;
 using TRAISI.Data.Models.ResponseTypes;
 using TRAISI.Data.Models.Surveys;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.Data.Repositories.Interfaces
 {
@@ -41,7 +42,7 @@ namespace TRAISI.Data.Repositories.Interfaces
         /// <param name="user"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, string type);
+        Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, QuestionResponseType responseType);
 
         /// <summary>
         /// 

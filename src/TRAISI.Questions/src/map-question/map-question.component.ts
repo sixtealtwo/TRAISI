@@ -323,9 +323,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether question shown on
 	 */
 	public onQuestionShown(): void {
-		this.mapInstance.subscribe(instance => {
-			// instance.resize();
-		});
+		if (this._map) {
+			console.log('resizing map');
+			this._map.resize();
+		}
 	}
 
 	/**
@@ -346,7 +347,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	}
 
 	public resetInput(): void {
-		console.log('in reset input ');
 		this._isMarkerAdded = false;
 		this._marker.remove();
 	}

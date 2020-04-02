@@ -25,6 +25,7 @@ using System.Globalization;
 using Newtonsoft.Json.Serialization;
 using TRAISI.SDK.Enums;
 using NetTopologySuite.Geometries;
+using TRAISI.SDK.Library.ResponseTypes;
 
 namespace TRAISI.ViewModels
 {
@@ -34,74 +35,99 @@ namespace TRAISI.ViewModels
         {
             CreateMap<SurveyResponse, SurveyResponseViewModel>()
                .ForMember(s => s.ResponseValues, r => r.ResolveUsing<ResponseValueResolver>())
-                .AfterMap((s, svm, opt) =>
-                {
-                    if (s.QuestionPart != null && s.QuestionPart.QuestionConfigurations.Count > 0)
-                    {
-                        svm.Configuration = new ConcurrentDictionary<string, object>();
-                        s.QuestionPart.QuestionConfigurations.AsParallel().ForAll(a =>
-                        {
-                            switch (a.ValueType)
-                            {
-                                case ConfigurationValueType.Integer:
-                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
-                                    int.Parse(a.Value);
-                                    break;
-                                case ConfigurationValueType.Decimal:
-                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
-                                    double.Parse(a.Value);
-                                    break;
-                                default:
-                                    svm.Configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] = a.Value;
-                                    break;
-                            }
+               .ForMember(s => s.Configuration, r => r.ResolveUsing<SurveyResponseConfigurationValueResolver>());
 
-                        });
-
-
-                    }
-
-                });
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
             CreateMap<SurveyRespondent, SurveyRespondentViewModel>();
             CreateMap<SubRespondent, SurveyRespondentViewModel>();
             CreateMap<SurveyRespondentViewModel, SubRespondent>()
                 .ForMember(m => m.SurveyRespondentGroup, c => c.Ignore());
             CreateMap<PrimaryRespondent, SurveyRespondentViewModel>();
-
             CreateMap<SurveyResponse, LocationResponseViewModel>().ForMember(
-                m => m.ResponseValues, r => r.ResolveUsing<LocationValueResolver>()
-            );
-            
-        
-            /*CreateMap<LocationResponse, LocationResponseViewModel>().ForMember(
-                m => m.Latitude, r => r.MapFrom(m => m.Location.Y)
-            ).ForMember(
-                m => m.Longitude, r => r.MapFrom(m => m.Location.X)
-            ); */
-            CreateMap<TimelineResponse, TimelineResponseViewModel>();
+                m => m.ResponseValues, r => r.ResolveUsing<LocationResponseValueResolver>()
+            ).ForMember(s => s.Configuration, r => r.ResolveUsing<SurveyResponseConfigurationValueResolver>());
 
+            CreateMap<SurveyResponse, TimelineResponseViewModel>().ForMember(
+                m => m.ResponseValues, r => r.ResolveUsing<TimelineResponseValueResolver>()
+            ).ForMember(s => s.Configuration, r => r.ResolveUsing<SurveyResponseConfigurationValueResolver>());
         }
     }
 
-    public class LocationValueResolver : IValueResolver<SurveyResponse, LocationResponseViewModel, List<Dictionary<string, object>>>
+    public class TimelineResponseValueResolver : IValueResolver<SurveyResponse, TimelineResponseViewModel, List<TimelineResponseValueViewModel>>
     {
-        public static CamelCasePropertyNamesContractResolver NamesContractResolver;
-        static LocationValueResolver()
+        public List<TimelineResponseValueViewModel> Resolve(SurveyResponse source, TimelineResponseViewModel destination, List<TimelineResponseValueViewModel> destMember, ResolutionContext context)
         {
-            NamesContractResolver = new CamelCasePropertyNamesContractResolver();
-        }
-        public List<Dictionary<string, object>> Resolve(SurveyResponse source, LocationResponseViewModel destination, List<Dictionary<string, object>> destMember, ResolutionContext context)
-        {
-            List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
+            List<TimelineResponseValueViewModel> responseValues = new List<TimelineResponseValueViewModel>();
             foreach (var response in source.ResponseValues)
             {
-                Dictionary<string,object> values = new Dictionary<string, object>();
+                var locationResponse = response as TimelineResponse;
+
+                responseValues.Add(new TimelineResponseValueViewModel()
+                {
+                    Address = locationResponse.Address,
+                    Latitude = locationResponse.Location != null ? locationResponse.Location.Y : 0,
+                    Longitude = locationResponse.Location != null ? locationResponse.Location.X : 0,
+                    Name = locationResponse.Name,
+                    Order = locationResponse.Order.GetValueOrDefault(),
+                    Purpose = locationResponse.Purpose
+
+                });
+            }
+            return responseValues;
+        }
+    }
+
+    public class SurveyResponseConfigurationValueResolver : IValueResolver<SurveyResponse, SurveyResponseViewModel, ConcurrentDictionary<string, object>>
+    {
+        public ConcurrentDictionary<string, object> Resolve(SurveyResponse source, SurveyResponseViewModel destination, ConcurrentDictionary<string, object> destMember, ResolutionContext context)
+        {
+            var configuration = new ConcurrentDictionary<string, object>();
+            if (source.QuestionPart?.QuestionConfigurations?.Count > 0)
+            {
+                source.QuestionPart.QuestionConfigurations.AsParallel().ForAll(a =>
+                {
+                    switch (a.ValueType)
+                    {
+                        case ConfigurationValueType.Integer:
+                            configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                            int.Parse(a.Value);
+                            break;
+                        case ConfigurationValueType.Decimal:
+                            configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] =
+                            double.Parse(a.Value);
+                            break;
+                        case ConfigurationValueType.Custom:
+                            configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] = a.Value;
+                            break;
+                        default:
+                            configuration[ResponseValueResolver.NamesContractResolver.GetResolvedPropertyName(a.Name).Replace(" ", "")] = a.Value;
+                            break;
+                    }
+
+                });
+
+
+            }
+            return configuration;
+        }
+    }
+
+    public class LocationResponseValueResolver : IValueResolver<SurveyResponse, LocationResponseViewModel, List<LocationResponseValueViewModel>>
+    {
+        public List<LocationResponseValueViewModel> Resolve(SurveyResponse source, LocationResponseViewModel destination, List<LocationResponseValueViewModel> destMember, ResolutionContext context)
+        {
+            List<LocationResponseValueViewModel> responseValues = new List<LocationResponseValueViewModel>();
+            foreach (var response in source.ResponseValues)
+            {
                 var locationResponse = response as LocationResponse;
-                values[NamesContractResolver.GetResolvedPropertyName("Address")] = locationResponse.Address;
-                values[NamesContractResolver.GetResolvedPropertyName("Longitude")] = locationResponse.Location.X;
-                values[NamesContractResolver.GetResolvedPropertyName("Latitude")] = locationResponse.Location.Y;
-                responseValues.Add(values);
+
+                responseValues.Add(new LocationResponseValueViewModel()
+                {
+                    Address = locationResponse.Address,
+                    Latitude = locationResponse.Location.Y,
+                    Longitude = locationResponse.Location.X
+
+                });
             }
             return responseValues;
         }

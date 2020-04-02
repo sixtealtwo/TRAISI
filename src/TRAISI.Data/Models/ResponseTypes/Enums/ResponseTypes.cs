@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using TRAISI.Data.Models.Questions;
 using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
@@ -6,7 +7,6 @@ namespace TRAISI.Data.Models.ResponseTypes
 {
     public enum ResponseTypes
     {
-
         StringResponse = 1,
         NumberResponse = 2,
         LocationResponse = 3,

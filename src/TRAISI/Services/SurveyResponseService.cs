@@ -14,6 +14,8 @@ using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
 using TRAISI.SDK.Library.ResponseTypes;
 using TRAISI.Services.Interfaces;
+using TRAISI.ViewModels.SurveyViewer;
+
 namespace TRAISI.Services
 {
     /// <summary>
@@ -354,19 +356,21 @@ namespace TRAISI.Services
         /// <returns></returns>
         internal void SaveTimelineResponse(SurveyResponse response, JObject responseData)
         {
-            List<TimelineResponse> values = responseData["values"].ToObject<List<TimelineResponse>>();
-            foreach(var c in responseData["values"].Children()){
-                Point point = new Point(new Coordinate(c["longitude"].Value<double>(),c["latitude"].Value<double>()));
-                Console.WriteLine(c);
-            }
-            for (int i = 0; i < values.Count; i++)
+            List<TimelineResponseValueViewModel> responseValues = responseData["values"].ToObject<List<TimelineResponseValueViewModel>>();
+            List<TimelineResponse> values = new List<TimelineResponse>();
+            foreach (var responseValue in responseValues)
             {
-                //var responseObject = responseList[i].First;
-                //var lat = responseObject.Value<double>("latitude");
-                //var lng = responseObject.Value<double>("longitude");
 
-                //Point point = new Point(new Coordinate(lng, lat));
-                //values[i].Location = point;
+                values.Add(new TimelineResponse()
+                {
+                    Address = responseValue.Address,
+                    Name = responseValue.Name,
+                    Purpose = responseValue.Purpose,
+                    Order = responseValue.Order,
+                    TimeA = responseValue.TimeA,
+                    TimeB = responseValue.TimeB,
+                    Location = new Point(responseValue.Longitude, responseValue.Latitude)
+                });
             }
             response.ResponseValues.Clear();
             response.ResponseValues.AddRange(values);
@@ -427,16 +431,14 @@ namespace TRAISI.Services
         /// <param name="type"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, string type, ApplicationUser user)
+        public async Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, QuestionResponseType responseType, ApplicationUser user)
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetPrimaryRespondentForUserAsync(user);
-
             if (respondent == null)
             {
                 await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
             }
-
-            var result = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForRespondentByTypeAsync(surveyId, respondent, type);
+            var result = await this._unitOfWork.SurveyResponses.ListSurveyResponsesForRespondentByTypeAsync(surveyId, respondent, responseType);
             return result;
 
         }

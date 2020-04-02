@@ -253,6 +253,7 @@ export enum ResponseTypes {
 	List = 'List',
 	Boolean = 'boolean',
 	OptionSelect = 'option-select',
+	Number = 'number',
 	None = 'none'
 }
 

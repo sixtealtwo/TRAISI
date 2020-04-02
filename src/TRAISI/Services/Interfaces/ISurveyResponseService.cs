@@ -5,6 +5,7 @@ using TRAISI.Data.Models.Questions;
 using TRAISI.Data.Models.ResponseTypes;
 using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
+using TRAISI.SDK.Enums;
 
 namespace TRAISI.Services.Interfaces
 {
@@ -46,7 +47,7 @@ namespace TRAISI.Services.Interfaces
         /// <param name="surveyId"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, string type, ApplicationUser user);
+        Task<List<SurveyResponse>> ListResponsesOfType(int surveyId, QuestionResponseType responseType, ApplicationUser user);
 
 
         /// <summary>
