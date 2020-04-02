@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Globalization;
 using Newtonsoft.Json.Serialization;
 using TRAISI.SDK.Enums;
+using NetTopologySuite.Geometries;
 
 namespace TRAISI.ViewModels
 {
@@ -61,18 +62,48 @@ namespace TRAISI.ViewModels
                     }
 
                 });
-
-
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
-
             CreateMap<SurveyRespondent, SurveyRespondentViewModel>();
-
             CreateMap<SubRespondent, SurveyRespondentViewModel>();
             CreateMap<SurveyRespondentViewModel, SubRespondent>()
                 .ForMember(m => m.SurveyRespondentGroup, c => c.Ignore());
-
             CreateMap<PrimaryRespondent, SurveyRespondentViewModel>();
 
+            CreateMap<SurveyResponse, LocationResponseViewModel>().ForMember(
+                m => m.ResponseValues, r => r.ResolveUsing<LocationValueResolver>()
+            );
+            
+        
+            /*CreateMap<LocationResponse, LocationResponseViewModel>().ForMember(
+                m => m.Latitude, r => r.MapFrom(m => m.Location.Y)
+            ).ForMember(
+                m => m.Longitude, r => r.MapFrom(m => m.Location.X)
+            ); */
+            CreateMap<TimelineResponse, TimelineResponseViewModel>();
+
+        }
+    }
+
+    public class LocationValueResolver : IValueResolver<SurveyResponse, LocationResponseViewModel, List<Dictionary<string, object>>>
+    {
+        public static CamelCasePropertyNamesContractResolver NamesContractResolver;
+        static LocationValueResolver()
+        {
+            NamesContractResolver = new CamelCasePropertyNamesContractResolver();
+        }
+        public List<Dictionary<string, object>> Resolve(SurveyResponse source, LocationResponseViewModel destination, List<Dictionary<string, object>> destMember, ResolutionContext context)
+        {
+            List<Dictionary<string, object>> responseValues = new List<Dictionary<string, object>>();
+            foreach (var response in source.ResponseValues)
+            {
+                Dictionary<string,object> values = new Dictionary<string, object>();
+                var locationResponse = response as LocationResponse;
+                values[NamesContractResolver.GetResolvedPropertyName("Address")] = locationResponse.Address;
+                values[NamesContractResolver.GetResolvedPropertyName("Longitude")] = locationResponse.Location.X;
+                values[NamesContractResolver.GetResolvedPropertyName("Latitude")] = locationResponse.Location.Y;
+                responseValues.Add(values);
+            }
+            return responseValues;
         }
     }
 

@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 import { ResponseTypes } from './public_api';
-export interface SurveyResponder {
+export abstract class SurveyResponder {
 	id: number;
 
-	addSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
-	getSurveyGroupMembers(respondent: SurveyRespondent): Observable<any>;
-	removeSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
-	updateSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
-	listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any>;
-	listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any>;
-	getResponseValue(questionName: string, respondent: SurveyRespondent): any;
+	abstract addSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
+	abstract getSurveyGroupMembers(respondent: SurveyRespondent): Observable<any>;
+	abstract removeSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
+	abstract updateSurveyGroupMember(respondent: SurveyRespondent): Observable<any>;
+	abstract listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any>;
+	abstract listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any>;
+	abstract getResponseValue(questionName: string, respondent: SurveyRespondent): any;
 }
 
 export interface SurveyRespondent {

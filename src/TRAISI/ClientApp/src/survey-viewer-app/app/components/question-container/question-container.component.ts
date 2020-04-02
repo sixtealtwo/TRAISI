@@ -28,7 +28,8 @@ import {
 	SurveyQuestion,
 	ResponseValidationState,
 	ResponseTypes,
-	ResponseData
+	ResponseData,
+	QuestionConfigurationService
 } from 'traisi-question-sdk';
 import { SurveyResponderService } from '../../services/survey-responder.service';
 import {
@@ -160,6 +161,7 @@ export class QuestionContainerComponent
 		private _navigator: SurveyNavigator,
 		private _elementRef: ElementRef,
 		private renderer: Renderer2,
+		private _questionConfigurationService: QuestionConfigurationService,
 		private _textTransformer: SurveyTextTransformer
 	) {}
 
@@ -196,158 +198,156 @@ export class QuestionContainerComponent
 
 		// this.container.questionInstance = this;
 
+		this.questionLoaderService
+			.loadQuestionComponent(this.question, this.questionOutlet)
+			.subscribe(
+				componentRef => {
+					let surveyQuestionInstance: SurveyQuestion<any> = <
+						SurveyQuestion<any>
+					>componentRef.instance;
 
-			this.questionLoaderService.loadQuestionComponent(
-				this.question,
-				this.questionOutlet
-			).subscribe(
-			(componentRef) => {
-				let surveyQuestionInstance: SurveyQuestion<any> = <
-					SurveyQuestion<any>
-				>componentRef.instance;
+					console.log('in load component');
+					let config = {
+						...this._questionConfigurationService.getQuestionServerConfiguration(
+							this.question.questionType
+						),
+						...this.question.configuration
+					};
+					surveyQuestionInstance.loadConfiguration(config);
+					surveyQuestionInstance.questionId = this.question.questionId;
+					surveyQuestionInstance.surveyId = this.surveyId;
 
-				surveyQuestionInstance.loadConfiguration(
-					this.question.configuration
-				);
-
-				// surveyQuestionInstance.serverConfiguration = this.questionLoaderService.getQuestionServerConfiguration(this.question);
-
-
-				// call traisiOnInit to notify of initialization finishing
-				surveyQuestionInstance.questionId = this.question.questionId;
-
-				surveyQuestionInstance.surveyId = this.surveyId;
-
-				(<SurveyQuestion<any>>(
-					componentRef.instance
-				)).configuration = Object.assign(
-					{},
-					this.question.configuration
-				);
-
-				this.displayClass = (<SurveyQuestion<any>>(
-					componentRef.instance
-				)).displayClass;
-				if (this.displayClass !== '') {
-					this.renderer.addClass(
-						this.questionSectionElement.nativeElement,
-						this.displayClass
+					(<SurveyQuestion<any>>(
+						componentRef.instance
+					)).configuration = Object.assign(
+						{},
+						this.question.configuration
 					);
-				} else {
-					// remove all of the classes
-					this.renderer.setAttribute(
-						this.questionSectionElement.nativeElement,
-						'class',
-						'question-section'
-					);
-				}
 
-				this._responseSaved = new Subject<boolean>();
+					this.displayClass = (<SurveyQuestion<any>>(
+						componentRef.instance
+					)).displayClass;
+					if (this.displayClass !== '') {
+						this.renderer.addClass(
+							this.questionSectionElement.nativeElement,
+							this.displayClass
+						);
+					} else {
+						// remove all of the classes
+						this.renderer.setAttribute(
+							this.questionSectionElement.nativeElement,
+							'class',
+							'question-section'
+						);
+					}
 
-				this._responderService.registerQuestion(
-					componentRef.instance,
-					this.surveyId,
-					this.question.questionId,
-					this.respondent.id,
-					this._responseSaved,
-					this.surveyViewQuestion,
-					this.calcUniqueRepeatNumber()
-				);
+					this._responseSaved = new Subject<boolean>();
 
-				// this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
-
-				this._responseSaved
-					.pipe(share())
-					.subscribe(this.onResponseSaved);
-
-				this._responderService
-					.getSavedResponse(
+					this._responderService.registerQuestion(
+						componentRef.instance,
 						this.surveyId,
 						this.question.questionId,
 						this.respondent.id,
+						this._responseSaved,
+						this.surveyViewQuestion,
 						this.calcUniqueRepeatNumber()
-					)
-					.subscribe(response => {
-						surveyQuestionInstance.savedResponse.next(
-							response === undefined || response === null
-								? 'none'
-								: response.responseValues
-						);
+					);
 
-						surveyQuestionInstance.traisiOnLoaded();
-					});
+					// this._viewerStateService.viewerState.activeQuestionContainers.push(this.container);
 
-				surveyQuestionInstance.validationState.subscribe(
-					this.onResponseValidationStateChanged
-				);
-				surveyQuestionInstance.autoAdvance.subscribe(
-					(result: number) => {
-						setTimeout(() => {
-							this.autoAdvance();
-						}, result);
-					}
-				);
-				this._navigator.navigationState$.getValue().activeQuestionInstances[
-					this.activeQuestionIndex
-				].component = surveyQuestionInstance;
+					this._responseSaved
+						.pipe(share())
+						.subscribe(this.onResponseSaved);
 
-				surveyQuestionInstance.respondent = this.respondent;
-				surveyQuestionInstance.traisiOnInit(
-					this._viewerStateService.viewerState.isPreviousActionNext
-				);
-				// surveyQuestionInstance.serverConfiguration = questionConfiguration;
-				this.surveyViewerService
-					.getQuestionOptions(
-						this.surveyId,
-						this.question.questionId,
-						'en',
-						null
-					)
-					.subscribe((options: SurveyViewQuestionOption[]) => {
-						this.isLoaded = true;
-
-						this._questionInstance = componentRef.instance;
-						if (
-							componentRef.instance.__proto__.hasOwnProperty(
-								'onOptionsLoaded'
-							)
-						) {
-							(<OnOptionsLoaded>(
-								componentRef.instance
-							)).onOptionsLoaded(options);
-						}
-						(<ReplaySubject<any>>(
-							(<unknown>(
-								(<SurveyQuestion<any>>componentRef.instance)
-									.questionOptions
-							))
-						)).next(options);
-						if (
-							componentRef.instance.__proto__.hasOwnProperty(
-								'onSurveyQuestionInit'
-							)
-						) {
-							(<OnSurveyQuestionInit>(
-								componentRef.instance
-							)).onSurveyQuestionInit(
-								this.question.configuration
+					this._responderService
+						.getSavedResponse(
+							this.surveyId,
+							this.question.questionId,
+							this.respondent.id,
+							this.calcUniqueRepeatNumber()
+						)
+						.subscribe(response => {
+							surveyQuestionInstance.savedResponse.next(
+								response === undefined || response === null
+									? 'none'
+									: response.responseValues
 							);
+
+							surveyQuestionInstance.traisiOnLoaded();
+						});
+
+					surveyQuestionInstance.validationState.subscribe(
+						this.onResponseValidationStateChanged
+					);
+					surveyQuestionInstance.autoAdvance.subscribe(
+						(result: number) => {
+							setTimeout(() => {
+								this.autoAdvance();
+							}, result);
 						}
-						(<ReplaySubject<any>>(
-							(<unknown>(
-								(<SurveyQuestion<any>>componentRef.instance)
-									.configurations
-							))
-						)).next(this.question.configuration);
-					});
-				this._viewerStateService.viewerState.isNextEnabled = false;
-				if (this.question.isOptional) {
-					this._viewerStateService.viewerState.isNextEnabled = true;
-				}
-			},
-			error => {},
-			() => {}
-		);
+					);
+					this._navigator.navigationState$.getValue().activeQuestionInstances[
+						this.activeQuestionIndex
+					].component = surveyQuestionInstance;
+
+					surveyQuestionInstance.respondent = this.respondent;
+					surveyQuestionInstance.traisiOnInit(
+						this._viewerStateService.viewerState
+							.isPreviousActionNext
+					);
+					// surveyQuestionInstance.serverConfiguration = questionConfiguration;
+					this.surveyViewerService
+						.getQuestionOptions(
+							this.surveyId,
+							this.question.questionId,
+							'en',
+							null
+						)
+						.subscribe((options: SurveyViewQuestionOption[]) => {
+							this.isLoaded = true;
+
+							this._questionInstance = componentRef.instance;
+							if (
+								componentRef.instance.__proto__.hasOwnProperty(
+									'onOptionsLoaded'
+								)
+							) {
+								(<OnOptionsLoaded>(
+									componentRef.instance
+								)).onOptionsLoaded(options);
+							}
+							(<ReplaySubject<any>>(
+								(<unknown>(
+									(<SurveyQuestion<any>>componentRef.instance)
+										.questionOptions
+								))
+							)).next(options);
+							if (
+								componentRef.instance.__proto__.hasOwnProperty(
+									'onSurveyQuestionInit'
+								)
+							) {
+								(<OnSurveyQuestionInit>(
+									componentRef.instance
+								)).onSurveyQuestionInit(
+									this.question.configuration
+								);
+							}
+							(<ReplaySubject<any>>(
+								(<unknown>(
+									(<SurveyQuestion<any>>componentRef.instance)
+										.configurations
+								))
+							)).next(this.question.configuration);
+						});
+					this._viewerStateService.viewerState.isNextEnabled = false;
+					if (this.question.isOptional) {
+						this._viewerStateService.viewerState.isNextEnabled = true;
+					}
+				},
+				error => {},
+				() => {}
+			);
 	}
 
 	/**

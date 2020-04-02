@@ -7,6 +7,7 @@ using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Internal;
+using TRAISI.Data.Models.ResponseTypes;
 
 namespace TRAISI.Data.Repositories
 {
@@ -74,9 +75,9 @@ namespace TRAISI.Data.Repositories
 				.Include (r => r.QuestionPart).ThenInclude (q => q.QuestionConfigurations);
 
 			if (type == "location") {
-				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 3));
+				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == (int)ResponseTypes.LocationResponse));
 			} else if (type == "timeline") {
-				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == 7));
+				query = query.Where (r => r.ResponseValues.Any (r2 => EF.Property<int> (r2, "ResponseType") == (int)ResponseTypes.TimelineResponse));
 			
 			} 
 			
@@ -110,8 +111,8 @@ namespace TRAISI.Data.Repositories
 				responses.Add (r);
 			}
 			// TO DO FIX THIS RETURN
-			return new List<SurveyResponse>();
-			//return responses;
+			// return new List<SurveyResponse>();
+			return responses;
 		}
 
 		/// <summary>

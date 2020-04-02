@@ -256,7 +256,7 @@ export enum ResponseTypes {
 	None = 'none'
 }
 
-export interface GroupMember {
+export class GroupMember {
 	id: number;
 	name: string;
 	relationship: string;

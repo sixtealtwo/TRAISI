@@ -118,11 +118,9 @@ namespace TRAISI.Services
                 case QuestionResponseType.String:
                     SaveStringResponse(survey, question, responseData, surveyResponse);
                     break;
-
                 case QuestionResponseType.Decimal:
                     SaveDecimalResponse(survey, question, responseData, surveyResponse);
                     break;
-
                 case QuestionResponseType.Integer:
                     SaveIntegerResponse(survey, question, responseData, surveyResponse);
                     break;
@@ -299,9 +297,7 @@ namespace TRAISI.Services
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new DateTimeResponse());
             }
-
             (response.ResponseValues[0] as DateTimeResponse).Value = responseData.GetValue("value").ToObject<DateTime>();
-
             return;
         }
 
@@ -315,11 +311,8 @@ namespace TRAISI.Services
         /// <param name="response"></param>
         internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
         {
-
             response.ResponseValues.Clear();
-
             var values = responseData["values"].ToObject<List<OptionSelectResponse>>();
-
             foreach (var val in values)
             {
                 response.ResponseValues.Add(new OptionSelectResponse()
@@ -328,7 +321,6 @@ namespace TRAISI.Services
                     Code = val.Code
                 });
             }
-
             return;
 
         }
@@ -363,6 +355,19 @@ namespace TRAISI.Services
         internal void SaveTimelineResponse(SurveyResponse response, JObject responseData)
         {
             List<TimelineResponse> values = responseData["values"].ToObject<List<TimelineResponse>>();
+            foreach(var c in responseData["values"].Children()){
+                Point point = new Point(new Coordinate(c["longitude"].Value<double>(),c["latitude"].Value<double>()));
+                Console.WriteLine(c);
+            }
+            for (int i = 0; i < values.Count; i++)
+            {
+                //var responseObject = responseList[i].First;
+                //var lat = responseObject.Value<double>("latitude");
+                //var lng = responseObject.Value<double>("longitude");
+
+                //Point point = new Point(new Coordinate(lng, lat));
+                //values[i].Location = point;
+            }
             response.ResponseValues.Clear();
             response.ResponseValues.AddRange(values);
             return;

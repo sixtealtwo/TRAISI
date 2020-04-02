@@ -117,11 +117,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	constructor(
 		private mapEndpointService: MapEndpointService,
 		private cdRef: ChangeDetectorRef,
-		private _questionConfigurationService: QuestionConfigurationService,
+		private _configurationService: QuestionConfigurationService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
 		super();
-		console.log(this);
 		this.mapInstance = new ReplaySubject<mapboxgl.Map>(1);
 	}
 
@@ -141,7 +140,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * on init
 	 */
 	public ngOnInit(): void {
-		this.accessToken = this._questionConfigurationService.getQuestionServerConfiguration('location')['AccessToken'];
+		this.accessToken = this._configurationService.getQuestionServerConfiguration('location')['AccessToken'];
 	}
 
 	public traisiOnInit(): void {}
@@ -154,7 +153,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	) => {
 		if (response !== 'none') {
 			let locationResponse = response[0];
-			let coords = new LngLat(locationResponse['location'].x, locationResponse['location'].y);
+			let coords = new LngLat(locationResponse['longitude'], locationResponse['latitude']);
 			this.updateAddressInput(locationResponse.address);
 			this.setMarkerLocation(coords);
 			this.flyToPosition([coords.lng, coords.lat]);
@@ -339,14 +338,17 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * @param mapConfig
 	 */
 	public loadConfiguration(mapConfig: any): void {
+		console.log(mapConfig);
+		this.accessToken = mapConfig.AccessToken;
 		let purpose = JSON.parse(mapConfig.purpose);
-
 		this.purpose = purpose.id;
+		console.log(this);
 	}
 
 	public resetInput(): void {
-		this.mapGeocoder.control._inputEl.value = '';
-		this.locationSearch = '';
+		console.log('in reset input ');
+		this._isMarkerAdded = false;
+		this._marker.remove();
 	}
 
 	public clearLocation(): void {
