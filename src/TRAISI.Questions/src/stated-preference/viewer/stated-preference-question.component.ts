@@ -130,7 +130,8 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 	 * @memberof StatedPreferenceQuestionComponent
 	 */
 	private transformToDisplayableData(config: StatedPreferenceConfig): Observable<any> {
-		let columnArray = [];
+		return null;
+		/*let columnArray = [];
 		let spDataArray: Array<any> = [];
 		columnArray.push('row');
 		columnArray = columnArray.concat(config.headers);
@@ -200,7 +201,7 @@ export class StatedPreferenceQuestionComponent extends SurveyQuestion<ResponseTy
 					o.next(spDataArray);
 					o.complete();
 				});
-		});
+		});*/
 	}
 
 	/**

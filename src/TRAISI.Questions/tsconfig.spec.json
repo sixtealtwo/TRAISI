@@ -1,0 +1,42 @@
+{
+	"compileOnSave": false,
+	"include": [
+	  "src",
+	  "test"
+	],
+	"exclude": [
+	  "dist",
+	  "node_modules"
+	],
+	"compilerOptions": {
+	
+	  "outDir": "./dist",
+	  "sourceMap": true,
+	  "declaration": true,
+	  "noImplicitAny": false,
+	  "noImplicitThis": false,
+	  "pretty": true,
+	  "strictNullChecks": false,
+	  "noImplicitReturns": false,
+	  "noUnusedParameters": false,
+	  "moduleResolution": "node",
+	  "emitDecoratorMetadata": true,
+	  "experimentalDecorators": true,
+	  "module": "commonjs",
+	  "types": [
+		"@types/jasmine",
+		"@types/node"
+	  ],
+	  "target": "ES2016",
+	  "lib": [
+		"es2017",
+		"dom",
+		"es2015.generator",
+		"es2015.iterable",
+		"es2015.promise",
+		"es2015.symbol",
+		"es2015.symbol.wellknown",
+		"esnext.asynciterable"
+	  ]
+	}
+  }

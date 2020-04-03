@@ -49,8 +49,8 @@ export class DateQuestionComponent extends SurveyQuestion<ResponseTypes.Date>
 		super();
 
 		this.configuration = {
-			minDate: undefined,
-			maxDate: undefined
+			minDate: new Date(),
+			maxDate: new Date()
 		};
 	}
 

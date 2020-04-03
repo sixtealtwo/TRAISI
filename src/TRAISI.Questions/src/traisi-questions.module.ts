@@ -14,13 +14,13 @@ import { TimeQuestionComponent } from './time-question/time-question.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { HouseholdQuestionComponent } from 'household-question/household-question.component';
+import { HouseholdQuestionComponent } from './household-question/household-question.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
+import { NumberQuestionValidatorDirective } from './number-question/number-question-validator.directive';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { SliderQuestionComponent } from 'slider-question/slider-question.component';
+import { SliderQuestionComponent } from './slider-question/slider-question.component';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
