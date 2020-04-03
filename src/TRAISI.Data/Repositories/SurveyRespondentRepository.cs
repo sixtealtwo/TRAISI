@@ -72,6 +72,7 @@ namespace TRAISI.Data.Repositories
             return await this._appContext.SurveyRespondents.Where(r => r.Id == respondentId)
             .Include(s => s.SurveyRespondentGroup)
             .ThenInclude(s => s.GroupMembers)
+            .ThenInclude(s => ((SubRespondent)s).PrimaryRespondent).ThenInclude(s => s.SurveyAccessRecords)
             .FirstOrDefaultAsync();
         }
 

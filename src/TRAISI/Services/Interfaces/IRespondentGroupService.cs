@@ -30,7 +30,7 @@ namespace TRAISI.Services.Interfaces
 		/// </summary>
 		/// <param name="group"></param>
 		/// <param name="respondent"></param>
-		void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent);
+		Task RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent);
 
 		/// <summary>
 		/// 

@@ -89,7 +89,6 @@ namespace TRAISI.Services
 
             if (surveyResponse == null || surveyResponse.SurveyAccessRecord.AccessDateTime < respondent.SurveyRespondentGroup.GroupPrimaryRespondent.SurveyAccessRecords.Max(t => t.AccessDateTime))
             {
-
                 if (respondent is PrimaryRespondent primaryRespondent)
                 {
                     surveyResponse = new SurveyResponse()
@@ -103,11 +102,12 @@ namespace TRAISI.Services
                 }
                 else if (respondent is SubRespondent subRespondent)
                 {
+                    primaryRespondent = subRespondent.SurveyRespondentGroup.GroupPrimaryRespondent;
                     surveyResponse = new SurveyResponse()
                     {
                         QuestionPart = question,
                         Respondent = respondent,
-                        // SurveyAccessRecord = subRespondent.SurveyAccessRecords.First(),
+                        SurveyAccessRecord = primaryRespondent.SurveyAccessRecords.Where(r => r.AccessDateTime == primaryRespondent.SurveyAccessRecords.Max(s => s.AccessDateTime)).FirstOrDefault(),
                         Repeat = repeat
 
                     };

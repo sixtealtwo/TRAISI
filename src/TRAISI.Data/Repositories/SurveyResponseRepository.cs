@@ -24,7 +24,7 @@ namespace TRAISI.Data.Repositories
         /// <param name="questionId"></param>
         /// <param name="shortcode"></param>
         /// <returns></returns>
-        public async Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync(int respondentId, string shortcode) => await this._entities.Where(s => s.Respondent.Id == respondentId).ToListAsync();
+        public async Task<List<SurveyResponse>> ListQuestionResponsesForRespondentAsync(int respondentId, string shortcode) => await this._appContext.SurveyResponses.Where(s => s.Respondent.Id == respondentId).ToListAsync();
 
         /// <summary>
         /// 
@@ -114,7 +114,7 @@ namespace TRAISI.Data.Repositories
 
             var result = await query.ToListAsync();
 
-            var filtered = result.Where(r => r.SurveyAccessRecord.AccessDateTime == result.Max( r => r.SurveyAccessRecord.AccessDateTime)).ToList();
+            var filtered = result.Where(r => r.SurveyAccessRecord.AccessDateTime == result.Max(r => r.SurveyAccessRecord.AccessDateTime)).ToList();
 
             // foreach (var r in result)
             // {
@@ -134,13 +134,29 @@ namespace TRAISI.Data.Repositories
         public async Task<SurveyResponse> GetMostRecentResponseForQuestionByRespondentAsync(int questionId,
             SurveyRespondent user, int repeat)
         {
-            var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
-                .Include(v => v.ResponseValues)
-                .Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
-                .Include(v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).FirstOrDefaultAsync();
-            // .ToAsyncEnumerable ().OrderByDescending (s => s.UpdatedDate).FirstOrDefault ();
+            if (user is SubRespondent subRespondent)
+            {
+                var result  = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
+                    .Include(v => v.ResponseValues)
+                    .Include(v => v.Respondent).ThenInclude(v => ((SubRespondent)v).PrimaryRespondent).ThenInclude(s => s.SurveyAccessRecords)
+                    .Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
+                    .Include(v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).FirstOrDefaultAsync();
+                return result;
+            }
+            else if (user is PrimaryRespondent primaryRespondent)
+            {
+                return await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
+                   .Include(v => v.ResponseValues)
+                   .Include(v => v.Respondent).ThenInclude(v => ((PrimaryRespondent)v).SurveyAccessRecords)
+                   .Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
+                   .Include(v => v.SurveyAccessRecord).OrderByDescending(s => s.UpdatedDate).FirstOrDefaultAsync();
 
-            return result;
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         /// <summary>
@@ -151,7 +167,6 @@ namespace TRAISI.Data.Repositories
         /// <returns></returns>
         public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent user)
         {
-
             var result = await this._entities.Where(s => s.Respondent == user && questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
                 .Include(v => v.ResponseValues)
                 //.Include (v => v.QuestionPart).OrderBy (s => questionIds.AsEnumerable().IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
@@ -202,10 +217,16 @@ namespace TRAISI.Data.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Deletes all responses for a user -- as well as any responses for household members.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteAllResponsesForUser(SurveyRespondent user, int surveyId)
         {
             this._entities.RemoveRange(_entities.Where(x => x.Respondent == user && x.QuestionPart.Survey.Id == surveyId));
-
+            // this._entities.RemoveRange(_entities.Where(x => user.SurveyRespondentGroup.GroupMembers.Any(r => r == user)));
             await this._appContext.SaveChangesAsync();
 
             return true;

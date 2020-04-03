@@ -202,6 +202,7 @@ namespace TRAISI.Data
             // builder.Entity<PrimaryRespondent>().HasOne(p => p.Survey).WithMany().OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<PrimaryRespondent>().HasMany(o => o.SurveyAccessRecords).WithOne(o => o.Respondent).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SubRespondent>().HasOne(o => o.PrimaryRespondent).WithMany();
 
             builder.Entity<SurveyRespondentGroup>().ToTable("SurveyRespondentGroups")
                 .HasMany(s => s.GroupMembers).WithOne(s => s.SurveyRespondentGroup).OnDelete(DeleteBehavior.Cascade);

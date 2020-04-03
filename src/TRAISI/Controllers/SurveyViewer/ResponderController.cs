@@ -145,6 +145,7 @@ namespace TRAISI.Controllers.SurveyViewer
                         mapped = AutoMapper.Mapper.Map<LocationResponseViewModel>(response);
                         break;
                     default:
+                        mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
                         break;
                 }
             }
@@ -200,13 +201,11 @@ namespace TRAISI.Controllers.SurveyViewer
         [Route("respondents/groups")]
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
-
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.AddRespondent(group, model);
             await this._unitOfWork.SaveChangesAsync();
-
             return new ObjectResult(model.Id);
         }
 
@@ -249,7 +248,7 @@ namespace TRAISI.Controllers.SurveyViewer
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            this._respondentGroupService.RemoveRespondent(group, respondent);
+            await this._respondentGroupService.RemoveRespondent(group, respondent);
 
             await this._unitOfWork.SaveChangesAsync();
 

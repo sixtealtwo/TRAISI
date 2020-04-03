@@ -7,7 +7,7 @@ namespace TRAISI.Data.Models.Surveys
     /// </summary>
     public class SubRespondent : SurveyRespondent
     {
-
+        public PrimaryRespondent PrimaryRespondent { get; set; }
         public SubRespondent()
         {
 
