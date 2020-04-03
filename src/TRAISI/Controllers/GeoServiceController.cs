@@ -7,6 +7,7 @@ using Geocoding;
 using Geocoding.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
@@ -24,14 +25,15 @@ namespace TRAISI.Controllers
 	public class GeoServiceController : Controller
 	{
 		private readonly IGeoServiceProvider _geoService;
-
 		private readonly RestClient _triplinx;
+		private readonly IConfiguration _configuration;
+		private readonly string TRIPLINX_API_KEY;
 
-		public GeoServiceController(IGeoServiceProvider geoService)
+		public GeoServiceController(IGeoServiceProvider geoService, IConfiguration configuration)
 		{
 			this._geoService = geoService;
-
 			this._triplinx = new RestClient("https://api.triplinx.cityway.ca/api/journeyplanner/opt");
+			this._configuration = configuration;
 
 		}
 
@@ -93,10 +95,10 @@ namespace TRAISI.Controllers
 
 			if (!string.IsNullOrEmpty(transitModes) && transitModes.Trim().Length > 0)
 			{
-				request.AddParameter("Modes", transitModes.Trim());
+				// request.AddParameter("Modes", transitModes.Trim());
 			}
 
-			request.AddParameter("Accessibility", accessibiliy);
+			// request.AddParameter("Accessibility", accessibiliy);
 			request.AddParameter("DateType", "DEPARTURE");
 			request.AddParameter("Algorithm", "FASTEST");
 
