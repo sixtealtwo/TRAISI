@@ -114,13 +114,15 @@ namespace TRAISI.Data.Repositories
 
             var result = await query.ToListAsync();
 
-            foreach (var r in result)
-            {
-                responses.Add(r);
-            }
+            var filtered = result.Where(r => r.SurveyAccessRecord.AccessDateTime == result.Max( r => r.SurveyAccessRecord.AccessDateTime)).ToList();
+
+            // foreach (var r in result)
+            // {
+            //    responses.Add(r);
+            // }
             // TO DO FIX THIS RETURN
             // return new List<SurveyResponse>();
-            return responses;
+            return filtered;
         }
 
         /// <summary>

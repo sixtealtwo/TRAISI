@@ -53,6 +53,9 @@ namespace TRAISI.ViewModels
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TimelineResponseValueResolver : IValueResolver<SurveyResponse, TimelineResponseViewModel, List<TimelineResponseValueViewModel>>
     {
         public List<TimelineResponseValueViewModel> Resolve(SurveyResponse source, TimelineResponseViewModel destination, List<TimelineResponseValueViewModel> destMember, ResolutionContext context)
@@ -69,7 +72,9 @@ namespace TRAISI.ViewModels
                     Longitude = locationResponse.Location != null ? locationResponse.Location.X : 0,
                     Name = locationResponse.Name,
                     Order = locationResponse.Order.GetValueOrDefault(),
-                    Purpose = locationResponse.Purpose
+                    Purpose = locationResponse.Purpose,
+                    TimeA = locationResponse.TimeA,
+                    TimeB = locationResponse.TimeB
 
                 });
             }
@@ -77,6 +82,9 @@ namespace TRAISI.ViewModels
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class SurveyResponseConfigurationValueResolver : IValueResolver<SurveyResponse, SurveyResponseViewModel, ConcurrentDictionary<string, object>>
     {
         public ConcurrentDictionary<string, object> Resolve(SurveyResponse source, SurveyResponseViewModel destination, ConcurrentDictionary<string, object> destMember, ResolutionContext context)
@@ -112,6 +120,9 @@ namespace TRAISI.ViewModels
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class LocationResponseValueResolver : IValueResolver<SurveyResponse, LocationResponseViewModel, List<LocationResponseValueViewModel>>
     {
         public List<LocationResponseValueViewModel> Resolve(SurveyResponse source, LocationResponseViewModel destination, List<LocationResponseValueViewModel> destMember, ResolutionContext context)
