@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using TRAISI.Data.Core;
 
 namespace TRAISI.Data.Models.Questions {
@@ -8,6 +9,8 @@ namespace TRAISI.Data.Models.Questions {
     /// A conditional operator that joins a chain of conditionals.
     /// </summary>
     public class QuestionConditionalOperator {
+
+         [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>
@@ -22,6 +25,7 @@ namespace TRAISI.Data.Models.Questions {
 
         public QuestionConditional Rhs { get; set; }
 
+        [JsonIgnore]
         public QuestionPartView TargetQuestion {get;set;}
 
         [ForeignKey("TargetQuestion")]

@@ -12,6 +12,7 @@ namespace TRAISI.Data.Models.Questions
     {
         [JsonIgnore]
         public int Id { get; set; }
+
         public QuestionPartView SourceQuestion { get; set; }
 
         [ForeignKey("SourceQuestion")]
