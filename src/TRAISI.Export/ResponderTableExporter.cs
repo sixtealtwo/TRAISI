@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
-using DAL.Models.Surveys;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data;
 
 namespace TRAISI.Export
 {

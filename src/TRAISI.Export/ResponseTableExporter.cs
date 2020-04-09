@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
-using DAL.Models.Questions;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
@@ -13,6 +9,10 @@ using TRAISI.SDK.Enums;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Data;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.Export
 {
@@ -112,7 +112,7 @@ namespace TRAISI.Export
                     t.Purpose,
                     t.TimeA,
                     t.TimeB,
-                    Location = new {t.Address, t.Latitude, t.Longitude}
+                    Location = new {t.Address, t.Location}
                 });
             var locationJson = JsonSerializer.Serialize(locations);
             return locationJson;

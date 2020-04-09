@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Models.Questions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
@@ -10,6 +8,8 @@ using TRAISI.Helpers;
 using System.Web;
 using HtmlAgilityPack;
 using System.Data;
+using TRAISI.Data;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.Export
 {
