@@ -1,4 +1,4 @@
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public interface IExtensionConfiguration
     {

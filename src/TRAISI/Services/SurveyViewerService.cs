@@ -1,21 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DAL;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using DAL.Models;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Core;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
+using Traisi.Models.Surveys;
 using TRAISI.Authorization.Enums;
 using TRAISI.Helpers;
 using TRAISI.Services.Interfaces;
@@ -25,320 +27,378 @@ using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.ViewModels.SurveyViewer.Enums;
 using TRAISI.ViewModels.Users;
 
-namespace TRAISI.Services {
-	public class SurveyViewerService : ISurveyViewerService {
-		private IUnitOfWork _unitOfWork;
+namespace TRAISI.Services
+{
+    public class SurveyViewerService : ISurveyViewerService
+    {
+        private IUnitOfWork _unitOfWork;
+        private IAuthorizationService _authorizationService;
+        private IAccountManager _accountManager;
+        private ICodeGeneration _codeGeneration;
+        private UserManager<TraisiUser> _userManager;
+        private ISurveyRespondentService _respondentService;
+        private IHttpContextAccessor _contextAccessor;
 
-		private IAuthorizationService _authorizationService;
-		private IAccountManager _accountManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="authorizationService"></param>
+        /// <param name="accountManager"></param>
+        /// <param name="codeGenerationService"></param>
+        /// <param name="userManager"></param>
+        /// <param name="respondentService"></param>
+        public SurveyViewerService(IUnitOfWork unitOfWork,
+            IAuthorizationService authorizationService,
+            IAccountManager accountManager,
+            ICodeGeneration codeGenerationService,
+            UserManager<TraisiUser> userManager,
+            ISurveyRespondentService respondentService,
+            IHttpContextAccessor contextAccessor)
+        {
+            this._unitOfWork = unitOfWork;
+            this._accountManager = accountManager;
+            this._authorizationService = authorizationService;
+            this._codeGeneration = codeGenerationService;
+            this._userManager = userManager;
+            this._respondentService = respondentService;
+            this._contextAccessor = contextAccessor;
+        }
 
-		private ICodeGeneration _codeGeneration;
+        /// <summary>
+        /// Returns the Terms and Conditions text for the specified survey id of the chosen language
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        public async Task<SurveyViewTermsAndConditionsViewModel> GetSurveyTermsAndConditionsText(int surveyId,
+            string language = null,
+            SurveyViewType viewType = SurveyViewType.RespondentView)
+        {
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
 
-		private UserManager<TraisiUser> _userManager;
+            if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0)
+            {
+                var s2 = (survey.SurveyViews as List<SurveyView>);
+                return (survey.SurveyViews as List<SurveyView>)[0]
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+            }
+            else
+            {
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="unitOfWork"></param>
-		/// <param name="authorizationService"></param>
-		/// <param name="accountManager"></param>
-		/// <param name="codeGenerationService"></param>
-		/// <param name="userManager"></param>
-		public SurveyViewerService (IUnitOfWork unitOfWork,
-			IAuthorizationService authorizationService,
-			IAccountManager accountManager,
-			ICodeGeneration codeGenerationService,
-			UserManager<TraisiUser> userManager) {
-			this._unitOfWork = unitOfWork;
-			this._accountManager = accountManager;
-			this._authorizationService = authorizationService;
-			this._codeGeneration = codeGenerationService;
-			this._userManager = userManager;
-		}
+                return (survey.SurveyViews as List<SurveyView>)[0]
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
 
-		/// <summary>
-		/// Returns the Terms and Conditions text for the specified survey id of the chosen language
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <returns></returns>
-		public async Task<SurveyViewTermsAndConditionsViewModel> GetSurveyTermsAndConditionsText (int surveyId,
-			string language = null,
-			SurveyViewType viewType = SurveyViewType.RespondentView) {
-			Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync (surveyId, viewType);
+            }
+        }
 
-			if (viewType == SurveyViewType.RespondentView && survey.SurveyViews.Count > 0) {
-				var s2 = (survey.SurveyViews as List<SurveyView>);
-				return (survey.SurveyViews as List<SurveyView>) [0]
-					.ToLocalizedModel<SurveyViewTermsAndConditionsViewModel> (language);
-			} else {
+        /// <summary>
+        /// Returns ths Thank You text for the specified survey id of the chosen language
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="language"></param>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public async Task<SurveyViewThankYouViewModel> GetSurveyThankYouText(int surveyId, string language = null, SurveyViewType viewType = SurveyViewType.CatiView)
+        {
+            string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
+            var surveyThankYou = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, viewName, language);
+            return Mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
+        }
 
-				return (survey.SurveyViews as List<SurveyView>) [0]
-					.ToLocalizedModel<SurveyViewTermsAndConditionsViewModel> (language);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        public async Task<List<QuestionOption>> GetQuestionOptions(int questionId)
+        {
+            var questionOptions = await this._unitOfWork.QuestionOptions.GetQuestionOptionsFullAsync(questionId);
+            return (List<QuestionOption>)questionOptions;
+        }
 
-			}
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        private async Task<SurveyUser> GetSurveyUser(Survey survey, string shortcode)
+        {
+            return await this._accountManager.GetSurveyUserByShortcodeAsync(survey, shortcode);
+        }
 
-		/// <summary>
-		/// Returns ths Thank You text for the specified survey id of the chosen language
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="language"></param>
-		/// <param name="viewType"></param>
-		/// <returns></returns>
-		public async Task<SurveyViewThankYouViewModel> GetSurveyThankYouText (int surveyId, string language = null, SurveyViewType viewType = SurveyViewType.CatiView) {
-			string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
-			var surveyThankYou = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync (surveyId, viewName, language);
-			return Mapper.Map<SurveyViewThankYouViewModel> (surveyThankYou);
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginSuccess"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> SurveyGroupcodeLogin(Survey survey,
+            string code, ClaimsPrincipal user, string userAgent, JObject queryParams, IHttpContextAccessor accessor)
+        {
+            var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey(survey, code);
+            if (groupcode == null)
+            {
+                return false;
+            }
+            var parameters = new CodeGeneration()
+            {
+                CodeLength = 10,
+                UsePattern = false
+            };
+            var shortcodeRes = await this._codeGeneration.GenerateShortCode(parameters, survey);
+            shortcodeRes.Groupcode = groupcode;
+            var createUserRes = await this.CreateSurveyUser(survey, shortcodeRes, user);
+            var loginResult = await SurveyLogin(survey, shortcodeRes.Code, user);
+            return loginResult;
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="questionId"></param>
-		/// <returns></returns>
-		public async Task<List<QuestionOption>> GetQuestionOptions (int questionId) {
-			var questionOptions = await this._unitOfWork.QuestionOptions.GetQuestionOptionsFullAsync (questionId);
-			return (List<QuestionOption>) questionOptions;
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="shortcode"></param>
+        /// <param name="currentUser"></param>
+        /// <returns></returns>
+        private async Task<(bool succcess, string[], SurveyUser, PrimaryRespondent respondent)>
+            CreateSurveyUser(Survey survey, Shortcode shortcode, ClaimsPrincipal currentUser)
+        {
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shortcode"></param>
-		/// <returns></returns>
-		private async Task<SurveyUser> GetSurveyUser (Survey survey, string shortcode) {
-			return await this._accountManager.GetSurveyUserByShortcodeAsync (survey, shortcode);
-		}
+            var user = new UserViewModel { UserName = Guid.NewGuid().ToString("D") };
+            SurveyUser appUser = Mapper.Map<SurveyUser>(user);
+            var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode, null,
+                new (string claimName, string claimValue)[] {
+                        ("SurveyId", survey.Id.ToString ()), ("Shortcode", shortcode.Code)
+                });
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="loginSuccess"></param>
-		/// <param name="user"></param>
-		/// <returns></returns>
-		public async Task < (bool loginSuccess, SurveyUser user) > SurveyGroupcodeLogin (Survey survey,
-			string code, ClaimsPrincipal user, string userAgent, JObject queryParams, IHttpContextAccessor accessor) {
-			var groupcode = await this._unitOfWork.GroupCodes.GetGroupcodeForSurvey (survey, code);
-			if (groupcode == null) {
-				return (false, null);
-			}
-			var parameters = new CodeGeneration () {
-				CodeLength = 10,
-					UsePattern = false
-			};
-			var shortcodeRes = await this._codeGeneration.GenerateShortCode (parameters, survey);
-			shortcodeRes.Groupcode = groupcode;
-			var createUserRes = await this.CreateSurveyUser (survey, shortcodeRes, user);
-			// createUserRes.respondent
-			var loginResult = await SurveyLogin (survey, shortcodeRes.Code, user, userAgent, queryParams, accessor);
-			return loginResult;
-		}
+            result.Item3.Shortcode = shortcode;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="survey"></param>
-		/// <param name="shortcode"></param>
-		/// <param name="currentUser"></param>
-		/// <returns></returns>
-		private async Task < (bool, string[], SurveyUser, PrimaryRespondent respondent) >
-			CreateSurveyUser (Survey survey, Shortcode shortcode, ClaimsPrincipal currentUser) {
+            // create the associated primary respondent 
+            var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
+            return (result.Item1, result.Item2, appUser, respondent);
+        }
 
-				var user = new UserViewModel { UserName = Guid.NewGuid ().ToString ("D") };
-				SurveyUser appUser = Mapper.Map<SurveyUser> (user);
-				var result = await _accountManager.CreateSurveyUserAsync (appUser, shortcode, null,
-					new (string claimName, string claimValue) [] {
-						("SurveyId", survey.Id.ToString ()), ("Shortcode", shortcode.Code)
-					});
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="accessor"></param>
+        /// <returns></returns>
+        public async Task<SurveyAccessParameters> GetSurveyAccessParameters(IHttpContextAccessor accessor)
+        {
+            // read the body
+            string queryParams = default;
+            using (StreamReader reader = new StreamReader(accessor.HttpContext.Request.Body, Encoding.UTF8))
+            {
+                queryParams = await reader.ReadToEndAsync();
+            }
+            return new SurveyAccessParameters()
+            {
+                QueryParams = queryParams,
+                RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value,
+                UserAgent = accessor.HttpContext.Request.Headers["User-Agent"]
 
-				result.Item3.Shortcode = shortcode;
+            };
+        }
 
-				// create the associated primary respondent 
-				var respondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc (appUser);
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public async Task<bool> SurveyLogin(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        {
+            var accessParameters = await GetSurveyAccessParameters(_contextAccessor);
+            var primaryRespondent = await GetPrimaryRespondent(survey, shortcode, currentUser);
+            if (primaryRespondent == null)
+            {
+                // no primary respondent exists
+                return false;
+            }
+            else
+            {
+                // add a new survey access record for the primary respondent
+                primaryRespondent.SurveyAccessRecords.Add(CreateSurveyAccessRecord(primaryRespondent, accessParameters));
+            }
+            await this._unitOfWork.SaveChangesAsync();
+            return true;
+        }
 
-				return (result.Item1, result.Item2, appUser, respondent);
-			}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="shortcode"></param>
+        /// <param name="currentUser"></param>
+        /// <returns></returns>
+        private async Task<PrimaryRespondent> GetPrimaryRespondent(Survey survey, string shortcode, ClaimsPrincipal currentUser)
+        {
+            PrimaryRespondent primaryRespondent = null;
+            if (currentUser.Identity.IsAuthenticated)
+            {
+                if (currentUser.IsInRole(TraisiRoles.SuperAdministrator))
+                {
+                    var user = await _userManager.FindByNameAsync(currentUser.Identity.Name);
+                    primaryRespondent = await _unitOfWork.SurveyRespondents.GetPrimaryRespondentForSurveyAndTraisiUserAsync(user, survey);
 
-		/// <inheritdoc />
-		/// <summary>
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="shortcode"></param>
-		/// <returns></returns>
-		public async Task < (bool loginSuccess, SurveyUser user) > SurveyLogin (Survey survey, string shortcode, ClaimsPrincipal currentUser, string userAgent, JObject queryParams, IHttpContextAccessor accessor) {
+                    if (primaryRespondent == null)
+                    {
+                        primaryRespondent = await _respondentService.CreatePrimaryRespondentForUser(user, survey);
+                    }
+                }
+            }
+            else
+            {
+                var existingUser = await this.GetSurveyUser(survey, shortcode);
+                if (existingUser == null)
+                {
+                    var shortcodeRef = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync(survey, shortcode);
+                    if (shortcodeRef == null)
+                    {
+                        return null;
+                    }
+                    var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
+                    primaryRespondent = res.respondent;
 
-			if (currentUser.Identity.IsAuthenticated) {
-				if (currentUser.IsInRole (TraisiRoles.SuperAdministrator)) {
+                }
+                else
+                {
+                    primaryRespondent = existingUser.PrimaryRespondent;
+                }
+            }
+            return primaryRespondent;
+        }
 
-					var user = await _userManager.FindByNameAsync (currentUser.Identity.Name);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="respondent"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private SurveyAccessRecord CreateSurveyAccessRecord(PrimaryRespondent respondent, SurveyAccessParameters parameters)
+        {
+            var record = new SurveyAccessRecord()
+            {
+                AccessDateTime = DateTime.Now,
+                UserAgent = parameters.UserAgent,
+                RemoteIpAddress = parameters.RemoteIpAddress,
+                QueryParams = parameters.QueryParams,
+                AccessUser = respondent.User,
+                RequestUrl = parameters.RequestUrl
+            };
+            record.Respondent = respondent;
+            return record;
+        }
 
-					if (user == null) {
-						return (false, null);
-					}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        public async Task<SurveyView> GetDefaultSurveyView(int surveyId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, SurveyViewType.RespondentView);
 
-					var respondent = await _unitOfWork.SurveyRespondents.GetPrimaryRespondentForSurveyAndTraisiUserAsync (user, survey);
+            return (survey.SurveyViews as List<SurveyView>)[0];
+        }
 
-					if (respondent == null) {
-						respondent = new PrimaryRespondent () {
-							User = user,
-								Survey = survey,
-								SurveyAccessRecords = new List<SurveyAccessRecord> (new SurveyAccessRecord[] {
-									new SurveyAccessRecord () {
-										AccessDateTime = DateTime.Now,
-											UserAgent = userAgent,
-											AccessUser = user,
-											RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
-											QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
-											RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
-									}
-								}),
-								SurveyRespondentGroup = new SurveyRespondentGroup ()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <returns></returns>
+        public SurveyView GetDefaultSurveyView(Survey survey)
+        {
+            return survey.SurveyViews.GetEnumerator().Current;
+        }
 
-						};
-						_unitOfWork.SurveyRespondents.Add (respondent);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public async Task<Survey> GetSurveyFromCode(string code)
+        {
+            return await this._unitOfWork.Surveys.GetSurveyByCodeAsync(code);
+        }
 
-					} else {
-						respondent.SurveyAccessRecords.Add (new SurveyAccessRecord () {
-							AccessDateTime = DateTime.Now,
-								UserAgent = userAgent,
-								RemoteIpAddress = accessor.HttpContext.Connection.RemoteIpAddress.ToString (),
-								QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
-								AccessUser = user,
-								RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
-						});
-					}
-					return (true, null);
-				}
-			}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<SurveyStartViewModel> GetSurveyWelcomeView(string name)
+        {
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(name);
 
-			//see if a user exists
-			var existingUser = await this.GetSurveyUser (survey, shortcode);
-			if (existingUser != null) {
-				// ((PrimaryRespondent)existingUser.PrimaryRespondent).SurveyAccessRecords.Add(new SurveyAccessRecord());
-				existingUser.PrimaryRespondent.SurveyAccessRecords.Add (new SurveyAccessRecord () {
-					AccessDateTime = DateTime.Now,
-						UserAgent = userAgent,
-						AccessUser = existingUser,
-						QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
-						RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
-				});
+            return survey.ToLocalizedModel<SurveyStartViewModel>("en");
+            //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
+        }
 
-				await this._unitOfWork.SaveChangesAsync ();
-				return (true, existingUser);
-			}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="shortcode"></param>
+        /// <returns></returns>
+        public bool AuthorizeSurveyUser(Survey survey, string shortcode)
+        {
+            throw new System.NotImplementedException();
+        }
 
-			// find the shortcode
-			var shortcodeRef = await this._unitOfWork.Shortcodes.GetShortcodeForSurveyAsync (survey, shortcode);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="viewType"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        public async Task<QuestionPartView> GetSurveyViewPageQuestions(int surveyId, SurveyViewType viewType,
+            int pageNumber)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            if (survey != null)
+            {
+                return ((List<SurveyView>)survey.SurveyViews)[0].QuestionPartViews
+                    .FirstOrDefault(v => v.Order == pageNumber);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-			if (shortcodeRef == null) {
-				return (false, null);
-			}
-			var res = await CreateSurveyUser (survey, shortcodeRef, currentUser);
-
-			res.respondent.SurveyAccessRecords.Add (new SurveyAccessRecord () {
-				AccessDateTime = DateTime.Now,
-					UserAgent = userAgent,
-					AccessUser = res.Item3,
-					QueryParams = queryParams.ToString (Newtonsoft.Json.Formatting.None),
-					RequestUrl = accessor.HttpContext.Request.Host.Value + accessor.HttpContext.Request.Path.Value
-			});
-			await this._unitOfWork.SaveChangesAsync ();
-			return res.Item1 ? (true, res.Item3) : (false, null);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <returns></returns>
-		public async Task<SurveyView> GetDefaultSurveyView (int surveyId) {
-			var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync (surveyId, SurveyViewType.RespondentView);
-
-			return (survey.SurveyViews as List<SurveyView>) [0];
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="survey"></param>
-		/// <returns></returns>
-		public SurveyView GetDefaultSurveyView (Survey survey) {
-			return survey.SurveyViews.GetEnumerator ().Current;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="code"></param>
-		/// <returns></returns>
-		public async Task<Survey> GetSurveyFromCode (string code) {
-			return await this._unitOfWork.Surveys.GetSurveyByCodeAsync (code);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public async Task<SurveyStartViewModel> GetSurveyWelcomeView (string name) {
-			Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync (name);
-
-			return survey.ToLocalizedModel<SurveyStartViewModel> ("en");
-			//return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="survey"></param>
-		/// <param name="shortcode"></param>
-		/// <returns></returns>
-		public bool AuthorizeSurveyUser (Survey survey, string shortcode) {
-			throw new System.NotImplementedException ();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="viewType"></param>
-		/// <param name="pageNumber"></param>
-		/// <returns></returns>
-		public async Task<QuestionPartView> GetSurveyViewPageQuestions (int surveyId, SurveyViewType viewType,
-			int pageNumber) {
-			var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync (surveyId, viewType);
-			if (survey != null) {
-				return ((List<SurveyView>) survey.SurveyViews) [0].QuestionPartViews
-					.FirstOrDefault (v => v.Order == pageNumber);
-			} else {
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// /// <param name="viewType"></param>
-		/// <param name="pageNumber"></param>
-		/// <returns></returns>
-		public async Task<List<QuestionPartView>> GetSurveyViewPages (int surveyId, SurveyViewType viewType) {
-			var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync (surveyId, viewType);
-			if (survey != null) {
-				List<QuestionPartView> pages = survey.SurveyViews[0].QuestionPartViews.OrderBy (p => p.Order).ToList ();
-				// order everything
-				pages.ForEach (page => {
-					page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy (mq => mq.Order).ToList ();
-					((List<QuestionPartView>) page.QuestionPartViewChildren).ForEach (child => {
-						if (child.QuestionPartViewChildren != null && child.QuestionPartViewChildren.Count > 1) {
-							child.QuestionPartViewChildren = child.QuestionPartViewChildren.OrderBy (mq => mq.Order).ToList ();
-						}
-					});
-				});
-				return pages;
-			} else {
-				return null;
-			}
-		}
-	}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// /// <param name="viewType"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        public async Task<List<QuestionPartView>> GetSurveyViewPages(int surveyId, SurveyViewType viewType)
+        {
+            var survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);
+            if (survey != null)
+            {
+                List<QuestionPartView> pages = survey.SurveyViews[0].QuestionPartViews.OrderBy(p => p.Order).ToList();
+                pages.ForEach(page =>
+                {
+                    page.QuestionPartViewChildren = page.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
+                    ((List<QuestionPartView>)page.QuestionPartViewChildren).ForEach(child =>
+                    {
+                        if (child.QuestionPartViewChildren != null && child.QuestionPartViewChildren.Count > 1)
+                        {
+                            child.QuestionPartViewChildren = child.QuestionPartViewChildren.OrderBy(mq => mq.Order).ToList();
+                        }
+                    });
+                });
+                return pages;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 }

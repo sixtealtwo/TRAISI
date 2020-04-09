@@ -28,6 +28,8 @@ export {
 
 export { SurveyRespondent } from './survey-respondent';
 
+export { QuestionConfigurationService } from './question-configuration.service';
+
 export { SurveyModule } from './survey-module';
 
 export { WidgetProvider } from './widget-provider';

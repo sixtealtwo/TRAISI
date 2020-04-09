@@ -1,11 +1,10 @@
-import { Observable, Subject,throwError  } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
-
 
 @Injectable()
 export class EndpointFactory {
@@ -42,8 +41,13 @@ export class EndpointFactory {
 	 * @param userName
 	 * @param password
 	 */
-	public getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
-		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+	public getLoginEndpoint<T>(
+		userName: string,
+		password: string
+	): Observable<T> {
+		let header = new HttpHeaders({
+			'Content-Type': 'application/x-www-form-urlencoded'
+		});
 
 		let params = new HttpParams()
 			.append('username', userName)
@@ -54,7 +58,9 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
+		return this.http.post<T>(this.loginUrl, requestBody, {
+			headers: header
+		});
 	}
 
 	/**
@@ -66,8 +72,13 @@ export class EndpointFactory {
 	 * @returns {Observable<T>}
 	 * @memberof EndpointFactory
 	 */
-	public getSurveyLoginEndpoint<T>(surveyId: number, shortcode: string): Observable<T> {
-		let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+	public getSurveyLoginEndpoint<T>(
+		surveyId: number,
+		shortcode: string
+	): Observable<T> {
+		let header = new HttpHeaders({
+			'Content-Type': 'application/x-www-form-urlencoded'
+		});
 
 		let params = new HttpParams()
 			.append('username', shortcode)
@@ -81,7 +92,9 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
+		return this.http.post<T>(this.loginUrl, requestBody, {
+			headers: header
+		});
 	}
 
 	public getRefreshLoginEndpoint<T>(): Observable<T> {
@@ -97,11 +110,15 @@ export class EndpointFactory {
 
 		let requestBody = params.toString();
 
-		return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe(
-			catchError(error => {
-				return this.handleError(error, () => this.getRefreshLoginEndpoint<T>());
-			})
-		);
+		return this.http
+			.post<T>(this.loginUrl, requestBody, { headers: header })
+			.pipe(
+				catchError(error => {
+					return this.handleError(error, () =>
+						this.getRefreshLoginEndpoint<T>()
+					);
+				})
+			);
 	}
 
 	/**
@@ -110,14 +127,22 @@ export class EndpointFactory {
 	 */
 	protected getRequestHeaders(
 		rType: any = 'json'
-	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
+	): {
+		headers: HttpHeaders | { [header: string]: string | string[] };
+		responseType: any;
+	} {
+		if (
+			this.authService.currentUser != null &&
+			this.authService.currentUser.roles.includes('respondent')
+		) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
-				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
+				'Survey-Id': String(
+					this.authService.currentSurveyUser.surveyId
+				),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
@@ -141,14 +166,22 @@ export class EndpointFactory {
 	 */
 	protected getSurveyViewerRequestHeaders(
 		rType: any = 'json'
-	): { headers: HttpHeaders | { [header: string]: string | string[] }; responseType: any } {
-		if (this.authService.currentUser != null && this.authService.currentUser.roles.includes('respondent')) {
+	): {
+		headers: HttpHeaders | { [header: string]: string | string[] };
+		responseType: any;
+	} {
+		if (
+			this.authService.currentUser != null &&
+			this.authService.currentUser.roles.includes('respondent')
+		) {
 			let headers = new HttpHeaders({
 				Authorization: 'Bearer ' + this.authService.accessToken,
 				'Content-Type': 'application/json',
 				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
 				'App-Version': ConfigurationService.appVersion,
-				'Survey-Id': String(this.authService.currentSurveyUser.surveyId),
+				'Survey-Id': String(
+					this.authService.currentSurveyUser.surveyId
+				),
 				Shortcode: this.authService.currentSurveyUser.shortcode,
 				'Respondent-Id': this.authService.currentSurveyUser.id
 			});
@@ -162,7 +195,10 @@ export class EndpointFactory {
 	 * @param error
 	 * @param continuation
 	 */
-	protected handleError(error: any, continuation: () => Observable<any>): Observable<any> {
+	protected handleError(
+		error: any,
+		continuation: () => Observable<any>
+	): Observable<any> {
 		if (error.status === 401 && this.lastCall !== error.url) {
 			this.lastCall = error.url;
 			if (this.isRefreshingLogin) {
@@ -185,10 +221,12 @@ export class EndpointFactory {
 					if (
 						refreshLoginError.status === 401 ||
 						(refreshLoginError.url &&
-							refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))
+							refreshLoginError.url
+								.toLowerCase()
+								.includes(this.loginUrl.toLowerCase()))
 					) {
 						this.authService.reLogin();
-						 return throwError('session expired');
+						return throwError('session expired');
 					} else {
 						return throwError(refreshLoginError || 'server error');
 					}
@@ -196,10 +234,13 @@ export class EndpointFactory {
 			);
 		}
 
-		if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
+		if (
+			error.url &&
+			error.url.toLowerCase().includes(this.loginUrl.toLowerCase())
+		) {
 			this.authService.reLogin();
 
-			 return throwError(
+			return throwError(
 				error.error && error.error.error_description
 					? `session expired (${error.error.error_description})`
 					: 'session expired'
@@ -220,7 +261,9 @@ export class EndpointFactory {
 
 		return this.taskPauser.pipe(
 			switchMap(continueOp => {
-				return continueOp ? continuation() :  throwError('session expired');
+				return continueOp
+					? continuation()
+					: throwError('session expired');
 			})
 		);
 	}

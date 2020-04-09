@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data.Core;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Repositories.Interfaces {
+namespace TRAISI.Data.Repositories.Interfaces {
 	public interface ISurveyRepository : IRepository<Survey> {
 		void LoadSurveyFromJson (Stream data);
 

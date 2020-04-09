@@ -12,7 +12,6 @@
 		"module": "esnext",
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
-		"types": ["node"],
 		"paths": {
 			"app/*": ["app/*"],
 			// "rxjs/*": ["../../node_modules/rxjs/*"],
@@ -23,9 +22,10 @@
 	"angularCompilerOptions": {
 		"skipTemplateCodegen": true,
 		"strictMetadataEmit": false,
-		"fullTemplateTypeCheck": true
+		"fullTemplateTypeCheck": true,
+		"enableIvy": false
 	},
 	"files": ["polyfills.ts"],
 	"include": ["../shared/**/*.ts", "./**/*.ts"],
-	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts",]
+	"exclude": ["src/test.ts", "../admin-app/**/*.ts", "../admin-app/**/*.spec.ts", "**/*.spec.ts","tests/**/*.ts"]
 }

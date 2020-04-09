@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
     /// <summary>
     /// 
@@ -24,6 +24,8 @@ namespace DAL.Repositories
                     .Include(qp => qp.QuestionPart)
                     .Include(qp => qp.Labels)
                     .Include(qp => qp.RepeatSource)
+                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Lhs)
+                    .Include(qp => qp.Conditionals).ThenInclude(d => d.Rhs)
                     .Include(qpv => qpv.CATIDependent).ThenInclude(d => d.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.Labels)
                     .Include(qp => qp.QuestionPartViewChildren).ThenInclude(qpv => qpv.QuestionPart)
@@ -39,6 +41,15 @@ namespace DAL.Repositories
                 questionPartView.QuestionPartViewChildren = questionPartView.QuestionPartViewChildren.OrderBy(qp => qp.Order).ToList();
             }
             return questionPartView;
+        }
+
+        public Task<QuestionPartView> GetQuestionPartViewWithConditionals(int id)
+        {
+            return _appContext.QuestionPartViews
+               .Where(q => q.Id == id)
+               .Include(q => q.Conditionals).ThenInclude(q => q.Rhs)
+               .Include(q => q.Conditionals).ThenInclude(q => q.Lhs)
+               .FirstOrDefaultAsync();
         }
 
         public QuestionPartView GetQuestionPartViewWithStructure(int questionPartViewId)

@@ -1,4 +1,5 @@
 using System;
+using NetTopologySuite.Geometries;
 
 namespace TRAISI.SDK.Library.ResponseTypes {
 	public interface ITimelineResponse : IResponseType {
@@ -6,9 +7,11 @@ namespace TRAISI.SDK.Library.ResponseTypes {
 
 		string Name { get; set; }
 
-		DateTime TimeA { get; set; }
+		Point Location {get;set;}
 
-		DateTime TimeB { get; set; }
+		DateTimeOffset TimeA { get; set; }
+
+		DateTimeOffset TimeB { get; set; }
 
 		int? Order { get; set; }
 	}

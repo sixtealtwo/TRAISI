@@ -13,7 +13,8 @@
 		"experimentalDecorators": true,
 		"baseUrl": "./",
 		"module": "es2015",
-		"types": ["jasmine", "node", "mocha"]
+		"typeRoots": ["../../node_modules/jasmine/ts3.1"],
+		"types": [ "node", "jquery"],
 	},
 	"files": ["test.ts", "polyfills.ts"],
 	"include": ["**/*.spec.ts", "**/*.d.ts", "../shared/**/*.ts", "**/*.ts"]

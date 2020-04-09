@@ -1,4 +1,4 @@
-using DAL.Core;
+using TRAISI.Data.Core;
 
 namespace TRAISI.ViewModels.SurveyViewer
 {

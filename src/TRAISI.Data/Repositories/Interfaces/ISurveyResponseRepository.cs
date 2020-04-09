@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.SDK.Enums;
 
-namespace DAL.Repositories.Interfaces
+namespace TRAISI.Data.Repositories.Interfaces
 {
     public interface ISurveyResponseRepository : IRepository<SurveyResponse>
     {
@@ -41,7 +42,7 @@ namespace DAL.Repositories.Interfaces
         /// <param name="user"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, string type);
+        Task<List<SurveyResponse>> ListSurveyResponsesForRespondentByTypeAsync(int surveyId, SurveyRespondent user, QuestionResponseType responseType);
 
         /// <summary>
         /// 

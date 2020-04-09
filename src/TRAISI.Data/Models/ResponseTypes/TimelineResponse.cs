@@ -1,8 +1,8 @@
 using System;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes {
+namespace TRAISI.Data.Models.ResponseTypes {
 	/// <summary>
 	/// 
 	/// </summary>
@@ -12,9 +12,9 @@ namespace DAL.Models.ResponseTypes {
 
 		public string Name { get; set; }
 
-		public DateTime TimeA { get; set; }
+		public DateTimeOffset TimeA { get; set; }
 
-		public DateTime TimeB { get; set; }
+		public DateTimeOffset TimeB { get; set; }
 
 		public int? Order { get; set; }
 	}

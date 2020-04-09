@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.Extensions;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Extensions;
+using TRAISI.Data.Models.Questions;
 using TRAISI.SDK.Enums;
 using Newtonsoft.Json;
 using TRAISI.SDK.Interfaces;
 using System.Collections;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
 	/// <summary>
 	/// Configuration Data for question parts

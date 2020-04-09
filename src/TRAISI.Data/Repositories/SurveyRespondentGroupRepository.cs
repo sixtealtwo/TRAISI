@@ -1,8 +1,8 @@
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
     public class SurveyRespondentGroupRepository : Repository<SurveyRespondentGroup>, ISurveyRespondentGroupRepository
     {

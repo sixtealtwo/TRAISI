@@ -9,13 +9,9 @@ using Microsoft.AspNetCore.Authentication;
 using AspNet.Security.OpenIdConnect.Server;
 using OpenIddict.Core;
 using AspNet.Security.OpenIdConnect.Primitives;
-using DAL.Models;
-using DAL.Core;
+using TRAISI.Data.Models;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using OpenIddict.Abstractions;
-using DAL.Core.Interfaces;
-using TRAISI.Authorization;
+using TRAISI.Data.Core.Interfaces;
 using AuthenticationService = TRAISI.Authorization.AuthenticationService;
 
 

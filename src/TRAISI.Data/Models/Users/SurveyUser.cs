@@ -4,18 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Models.Groups;
-using DAL.Models.Interfaces;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Groups;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 
-namespace DAL.Models {
+namespace TRAISI.Data.Models {
 	public class SurveyUser : ApplicationUser {
 		public Shortcode Shortcode { get; set; }
 
 		public PrimaryRespondent PrimaryRespondent { get; set; }
-
-		
 
 		public SurveyUser () {
 		

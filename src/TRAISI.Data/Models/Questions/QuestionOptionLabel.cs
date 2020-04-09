@@ -1,7 +1,7 @@
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions {
+namespace TRAISI.Data.Models.Questions {
 	public class QuestionOptionLabel : Label {
         [JsonIgnore]
         public int Id { get; set; }

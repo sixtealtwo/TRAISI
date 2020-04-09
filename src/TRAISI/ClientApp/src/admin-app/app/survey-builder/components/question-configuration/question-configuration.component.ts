@@ -32,7 +32,11 @@ import { LocationFieldComponent } from './location-field/location.component';
 import { RadioComponent } from './radio-field/radio.component';
 import { SurveyBuilderService } from '../../services/survey-builder.service';
 import { QuestionConfigurationValue } from '../../models/question-configuration-value.model';
-import { TreeviewItem, TreeviewI18nDefault, TreeviewSelection } from 'ngx-treeview';
+import {
+	TreeviewItem,
+	TreeviewI18nDefault,
+	TreeviewSelection
+} from 'ngx-treeview';
 import { QuestionConditional } from '../../models/question-conditional.model';
 import { QuestionOptionConditional } from '../../models/question-option-conditional.model';
 import { QuestionConditionalsComponent } from './question-conditionals/question-conditionals.component';
@@ -41,6 +45,10 @@ import { DropdownTreeviewSelectComponent } from '../../../shared/dropdown-treevi
 import { DropdownTreeviewSelectI18n } from '../../../shared/dropdown-treeview-select/dropdown-treeview-select-i18n';
 import { QuestionOptionValue } from '../../models/question-option-value.model';
 import { Router } from '@angular/router';
+import { SBPageStructureViewModel } from 'app/survey-builder/services/survey-builder-client.service';
+import { QuestionResponseType } from 'app/survey-builder/models/question-response-type.enum';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
+import { QuestionConditionalOperator } from 'app/survey-builder/models/question-conditional-operator.model';
 
 // override p with div tag
 const Parchment = Quill.import('parchment');
@@ -71,15 +79,21 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	public sourceQuestionConditionals: QuestionConditional[] = [];
 
-	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
+	public conditionalOperators: QuestionConditionalOperator[] = [];
 
-	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<string, QuestionOptionValue[]>();
+	public sourceQuestionOptionConditionals: QuestionOptionConditional[] = [];
+	public questionStructure: SBPageStructureViewModel[] = [];
+
+	public questionOptions: Map<string, QuestionOptionValue[]> = new Map<
+		string,
+		QuestionOptionValue[]
+	>();
 
 	public childrenComponents = [];
 
 	public fullStructure: TreeviewItem[] = [];
 	public questionOptionsAfter: TreeviewItem[] = [];
-	public questionsBefore: TreeviewItem[] = [];
+	public questionsBefore: QuestionPartView[] = [];
 	public repeatSourcesBefore: TreeviewItem[] = [];
 	public thisQuestion: TreeviewItem[] = [];
 	public householdExistsBefore: boolean = false;
@@ -110,15 +124,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	};
 
 	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
-
-	@Input()
 	public language: string;
 
 	@Output()
 	public configResult = new EventEmitter<string>();
 
-	@ViewChild('conditionals')
+	@ViewChild('conditionals', { static: false })
 	public conditionalsComponent: QuestionConditionalsComponent;
 
 	@ViewChild('pipeTreeSelect')
@@ -133,6 +144,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	private questionQuillEditor: any;
 	private catiQuestionQuillEditor: any;
 
+	protected sourceQuestionList: Array<QuestionPartView> = [];
+
 	@ViewChildren('dynamic', { read: ViewContainerRef })
 	public configTargets: QueryList<ViewContainerRef>;
 
@@ -140,7 +153,8 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		private builderService: SurveyBuilderService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private cDRef: ChangeDetectorRef,
-		private _router: Router
+		private _router: Router,
+		private _editorData: SurveyBuilderEditorData
 	) {}
 
 	public ngOnInit(): void {}
@@ -150,18 +164,28 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public pipeDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
-		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
+		let selected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n)
+			.selectedItem;
+		return selected !== undefined && selected !== null
+			? selected.text
+			: 'Pipe Question';
 	}
 
 	public catiPipeDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
-		return selected !== undefined && selected !== null ? selected.text : 'Pipe Question';
+		let selected = (<DropdownTreeviewSelectI18n>(
+			this.catiPipeTreeSelect.i18n
+		)).selectedItem;
+		return selected !== undefined && selected !== null
+			? selected.text
+			: 'Pipe Question';
 	}
 
 	public repeatDropdown(e: TreeviewSelection): string {
-		let selected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n).selectedItem;
-		return selected !== undefined && selected !== null ? selected.text : 'Select Question';
+		let selected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n)
+			.selectedItem;
+		return selected !== undefined && selected !== null
+			? selected.text
+			: 'Select Question';
 	}
 
 	public ngAfterViewInit() {
@@ -186,47 +210,61 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.childrenComponents = [];
 		if (this.configurations.length > 0) {
 			this.builderService
-				.getQuestionPartConfigurations(this.surveyId, this.questionBeingEdited.questionPart.id)
+				.getQuestionPartConfigurations(
+					this.surveyId,
+					this.questionBeingEdited.questionPart.id
+				)
 				.subscribe(configurationValues => {
-					for (let i = 0; i < this.configTargets.toArray().length; i++) {
+					for (
+						let i = 0;
+						i < this.configTargets.toArray().length;
+						i++
+					) {
 						let conf = this.configurations[i];
-						let component = paramComponents[conf.builderType];
+						let component = paramComponents.find(
+							c => c.id === conf.builderType
+						)?.component;
 
 						if (component) {
 							let target = this.configTargets.toArray()[i];
 							target.clear();
-							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(component);
+							let paramComponent = this.componentFactoryResolver.resolveComponentFactory(
+								component
+							);
 
-							let cmpRef: any = target.createComponent(paramComponent);
+							let cmpRef: any = target.createComponent(
+								paramComponent
+							);
 
 							cmpRef.instance.id = i;
 							cmpRef.instance.questionConfiguration = conf;
 							if (configurationValues.has(conf.name)) {
-								cmpRef.instance.processPriorValue(configurationValues.get(conf.name));
+								cmpRef.instance.processPriorValue(
+									configurationValues.get(conf.name)
+								);
 							}
 							this.childrenComponents.push(cmpRef);
 						}
 					}
 				});
 		}
-		// this.cDRef.detectChanges();
 	}
 
-	public parameterComponents() {
-		let widgetComponents = {
-			Checkbox: CheckboxComponent,
-			Date: DateInputComponent,
-			SingleSelect: DropdownListComponent,
-			MultiSelect: MultiSelectComponent,
-			Text: TextboxComponent,
-			TextArea: TextAreaComponent,
-			NumericText: NumericTextboxComponent,
-			Slider: SliderComponent,
-			Switch: SwitchComponent,
-			Time: TimeInputComponent,
-			Location: LocationFieldComponent,
-			Radio: RadioComponent
-		};
+	public parameterComponents(): Array<any> {
+		let widgetComponents = [
+			{ id: 'Checkbox', component: CheckboxComponent },
+			{ id: 'DateInput', component: DateInputComponent },
+			{ id: 'SingleSelect', component: DropdownListComponent },
+			{ id: 'MultiSelect', component: MultiSelectComponent },
+			{ id: 'Textbox', component: TextboxComponent },
+			{ id: 'TextAreaa', component: TextAreaComponent },
+			{ id: 'NumericText', component: NumericTextboxComponent },
+			{ id: 'Slider', component: SliderComponent },
+			{ id: 'Switch', component: SwitchComponent },
+			{ id: 'TimeInput', component: TimeInputComponent },
+			{ id: 'LocationField', component: LocationFieldComponent },
+			{ id: 'Radio', component: RadioComponent }
+		];
 
 		return widgetComponents;
 	}
@@ -240,16 +278,22 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	public saveConfiguration(): void {
 		this.configurationValues = [];
 		this.childrenComponents.forEach(compRef => {
-			let config = new QuestionConfigurationValue(compRef.instance.questionConfiguration.name, compRef.instance.getValue());
-			console.log(config);
+			let config = new QuestionConfigurationValue(
+				compRef.instance.questionConfiguration.name,
+				compRef.instance.getValue()
+			);
 			this.configurationValues.push(config);
 		});
 		this.isSaving = true;
 		this.configResult.emit('save');
 	}
 
-	public getUpdatedConditionals(): [QuestionConditional[], QuestionOptionConditional[]] {
-		return this.conditionalsComponent.getUpdatedConditionals();
+	public getUpdatedConditionals(): QuestionConditionalOperator[] {
+		if (this.conditionalsComponent) {
+			return this.conditionalsComponent.getUpdatedConditionals();
+		} else {
+			return [];
+		}
 	}
 
 	public cancel() {
@@ -261,33 +305,49 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public pipeQuestion() {
-		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem;
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>(
+			this.pipeTreeSelect.i18n
+		)).selectedItem;
 		if (pipeQSelected) {
 			let currentCursorPosition = this.cursorPosition;
 			if (currentCursorPosition === undefined) {
-				currentCursorPosition = this.questionQuillEditor.getLength() - 1;
+				currentCursorPosition =
+					this.questionQuillEditor.getLength() - 1;
 			}
-			this.questionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+			this.questionQuillEditor.insertText(
+				currentCursorPosition,
+				`{{ ${pipeQSelected.text} }}`
+			);
 			this.cursorPosition += pipeQSelected.text.length + 6;
 			this.questionQuillEditor.setSelection(this.cursorPosition);
 			this.questionQuillEditor.focus();
-			(<DropdownTreeviewSelectI18n>this.pipeTreeSelect.i18n).selectedItem = undefined;
+			(<DropdownTreeviewSelectI18n>(
+				this.pipeTreeSelect.i18n
+			)).selectedItem = undefined;
 			this.pipeTreeSelect.value = undefined;
 		}
 	}
 
 	public pipeCatiQuestion() {
-		let pipeQSelected = (<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem;
+		let pipeQSelected = (<DropdownTreeviewSelectI18n>(
+			this.catiPipeTreeSelect.i18n
+		)).selectedItem;
 		if (pipeQSelected) {
 			let currentCursorPosition = this.catiCursorPosition;
 			if (currentCursorPosition === undefined) {
-				currentCursorPosition = this.catiQuestionQuillEditor.getLength() - 1;
+				currentCursorPosition =
+					this.catiQuestionQuillEditor.getLength() - 1;
 			}
-			this.catiQuestionQuillEditor.insertText(currentCursorPosition, `{{ ${pipeQSelected.text} }}`);
+			this.catiQuestionQuillEditor.insertText(
+				currentCursorPosition,
+				`{{ ${pipeQSelected.text} }}`
+			);
 			this.catiCursorPosition += pipeQSelected.text.length + 6;
 			this.catiQuestionQuillEditor.setSelection(this.catiCursorPosition);
 			this.catiQuestionQuillEditor.focus();
-			(<DropdownTreeviewSelectI18n>this.catiPipeTreeSelect.i18n).selectedItem = undefined;
+			(<DropdownTreeviewSelectI18n>(
+				this.catiPipeTreeSelect.i18n
+			)).selectedItem = undefined;
 			this.catiPipeTreeSelect.value = undefined;
 		}
 	}
@@ -296,9 +356,12 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		if (!enabled) {
 			this.questionBeingEdited.repeatSourceQuestionName = null;
 		} else {
-			let repeatQSelected = (<DropdownTreeviewSelectI18n>this.repeatTreeSelect.i18n).selectedItem;
+			let repeatQSelected = (<DropdownTreeviewSelectI18n>(
+				this.repeatTreeSelect.i18n
+			)).selectedItem;
 			if (repeatQSelected) {
-				this.questionBeingEdited.repeatSourceQuestionName = repeatQSelected.value;
+				this.questionBeingEdited.repeatSourceQuestionName =
+					repeatQSelected.value;
 			} else {
 				this.questionBeingEdited.repeatSourceQuestionName = null;
 			}
@@ -337,76 +400,107 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	}
 
 	public processConfigurations() {
-		this.configurations = Object.values(this.questionType.questionConfigurations);
+		this.configurations = Object.values(
+			this.questionType.questionConfigurations
+		);
 
 		this.processQuestionTree();
 		if (this.questionType.typeName !== 'Survey Part') {
-			this.loadPastConditionals();
+			if (!this.newQuestion) {
+				this.loadPastConditionals();
+			}
 		}
-		this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
+		// this.repeatTreeSelect.value = this.questionBeingEdited.repeatSourceQuestionName;
 		setTimeout(() => {
 			if (this.pipeTreeSelect) {
 				this.pipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
 			}
 			if (this.catiPipeTreeSelect) {
-				this.catiPipeTreeSelect.i18n.getText = e => this.pipeDropdown(e);
+				this.catiPipeTreeSelect.i18n.getText = e =>
+					this.pipeDropdown(e);
 			}
 			if (this.repeatTreeSelect) {
-				this.repeatTreeSelect.i18n.getText = e => this.repeatDropdown(e);
+				this.repeatTreeSelect.i18n.getText = e =>
+					this.repeatDropdown(e);
 			}
 		}, 0);
 
 		this.questionOptions = new Map<string, QuestionOptionValue[]>();
 
 		if (this.questionBeingEdited.questionPart) {
-			let qOptions = this.qTypeDefinitions.get(this.questionBeingEdited.questionPart.questionType).questionOptions;
+			let qOptions = this._editorData.questionTypeMap.get(
+				this.questionBeingEdited.questionPart.questionType
+			).questionOptions;
 			Object.keys(qOptions).forEach(q => {
 				this.questionOptions.set(q, []);
 			});
 
-			this.builderService.getQuestionPartOptions(this.surveyId, this.questionBeingEdited.questionPart.id, this.language).subscribe(
-				options => {
-					console.log(options);
-					if (options !== null) {
-						options.forEach(option => {
-							this.questionOptions.get(option.name).push(option);
-						});
-					}
-				},
-				error => {}
-			);
+			this.builderService
+				.getQuestionPartOptions(
+					this.surveyId,
+					this.questionBeingEdited.questionPart.id,
+					this.language
+				)
+				.subscribe(
+					options => {
+						if (options !== null) {
+							options.forEach(option => {
+								this.questionOptions
+									.get(option.name)
+									.push(option);
+							});
+						}
+					},
+					error => {}
+				);
 		}
 	}
 
 	private loadPastConditionals() {
-		this.builderService.getQuestionPartConditionals(this.surveyId, this.questionBeingEdited.questionPart.id).subscribe(conditionals => {
-			this.builderService
-				.getQuestionPartOptionConditionals(this.surveyId, this.questionBeingEdited.questionPart.id)
-				.subscribe(oConditionals => {
-					this.sourceQuestionConditionals = conditionals.filter(
-						c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
-					);
-					this.sourceQuestionOptionConditionals = oConditionals.filter(
-						c => c.sourceQuestionId === this.questionBeingEdited.questionPart.id
-					);
-					this.conditionalsLoaded = true;
-				});
-		});
+		console.log(this.questionBeingEdited.id);
+		this.builderService
+			.getQuestionPartConditionals(
+				this.surveyId,
+				this.questionBeingEdited.id
+			)
+			.subscribe(conditionals => {
+				this.conditionalOperators = conditionals;
+				this.conditionalsLoaded = true;
+				// this.builderService
+				// 	.getQuestionPartOptionConditionals(
+				// 		this.surveyId,
+				// 		this.questionBeingEdited.questionPart.id
+				// 	)
+				// 	.subscribe(oConditionals => {
+
+				// 		this.sourceQuestionConditionals = conditionals.filter(
+				// 			c =>
+				// 				c.sourceQuestionId ===
+				// 				this.questionBeingEdited.questionPart.id
+				// 		);
+				// 		this.sourceQuestionOptionConditionals = oConditionals.filter(
+				// 			c =>
+				// 				c.sourceQuestionId ===
+				// 				this.questionBeingEdited.questionPart.id
+				// 		);
+				// 		this.conditionalsLoaded = true;
+				// 	});
+			});
 	}
 
-	private getQuestionResponseType(typeValue: string): string {
+	private getQuestionResponseType(typeValue: string): QuestionResponseType {
 		let questionType = typeValue.split('~')[1];
-		return this.qTypeDefinitions.get(questionType).responseType;
+		return this._editorData.questionTypeMap.get(questionType).responseType;
 	}
 
 	private getQuestionType(typeValue: string): string {
 		let questionType = typeValue.split('~')[1];
-		return this.qTypeDefinitions.get(questionType).typeName;
+		return this._editorData.questionTypeMap.get(questionType).typeName;
 	}
 
 	private allowAsRepeatSource(typeValue: string): boolean {
 		let responseType = this.getQuestionResponseType(typeValue);
-		if (responseType === 'Integer') {
+		if (responseType === QuestionResponseType.Integer) {
 			return true;
 		} else {
 			return false;
@@ -426,9 +520,16 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 	 *
 	 */
 	public allowConditionals(): boolean {
-		if (this.questionType.typeName === 'Survey Part' || this.questionType.responseType === 'None') {
+		if (
+			this.questionType.typeName === 'Survey Part' ||
+			this.questionType.responseType === QuestionResponseType.None
+		) {
 			return false;
-		} else if (this.questionType.responseType === 'OptionSelect' || this.questionType.responseType === 'OptionList') {
+		} else if (
+			this.questionType.responseType ===
+				QuestionResponseType.OptionSelect ||
+			this.questionType.responseType === QuestionResponseType.OptionList
+		) {
 			if (this.thisQuestion[0] && this.thisQuestion[0].children) {
 				return true;
 			} else {
@@ -446,16 +547,18 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 		this.questionOptionsAfter = [];
 		this.repeatSourcesBefore = [];
 		this.householdExistsBefore = false;
+		this.sourceQuestionList = [];
 		this.thisQuestion = [];
 		let questionHitThisPage: boolean = false;
 		let questionBreak = '';
-		if (this.questionType.typeName === 'Survey Part' && this.questionBeingEdited.questionPartViewChildren.length > 0) {
+		if (
+			this.questionType.typeName === 'Survey Part' &&
+			this.questionBeingEdited.questionPartViewChildren.length > 0
+		) {
 			questionBreak = `question~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.questionType}~${this.questionBeingEdited.questionPartViewChildren[0].questionPart.id}`;
 		} else if (this.questionType.typeName !== 'Survey Part') {
 			questionBreak = `question~${this.questionType.typeName}~${this.questionBeingEdited.questionPart.id}`;
 		}
-
-		// if (questionBreak !== '') {
 
 		this.fullStructure.forEach(treeElement => {
 			let page = {
@@ -470,7 +573,10 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (this.questionType.typeName === 'Survey Part') {
 					sectionName = `part~${this.questionBeingEdited.id}`;
 				}
-				let { pageReturn, questionHitReturn } = this.processQuestionPageIntoTree(
+				let {
+					pageReturn,
+					questionHitReturn
+				} = this.processQuestionPageIntoTree(
 					page,
 					treeElement,
 					questionHitThisPage,
@@ -483,12 +589,36 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 			if (questionHitThisPage && page.children.length > 0) {
 				this.questionOptionsAfter.push(new TreeviewItem(page));
 			} else if (page.children.length > 0) {
-				this.questionsBefore.push(new TreeviewItem(page));
+				// this.questionsBefore.push(new TreeviewItem(page));
 			}
 		});
-		// }
+
+		console.log(this._editorData.surveyStructure);
+		for (let page of this._editorData.surveyStructure.pages) {
+			this.processSourceConditionalsPage(page, 0);
+		}
 	}
 
+	/**
+	 * Processes the survey questions and creates a candidate list of source conditionals
+	 */
+	private processSourceConditionalsPage(
+		view: QuestionPartView,
+		depth: number
+	): void {
+		// loop through the question structure and add to a list of possible questions
+		if (this.questionBeingEdited.id === view.id) {
+			return;
+		}
+		if (depth > 0) {
+			this.sourceQuestionList.push(view);
+		}
+		if (view.questionPartViewChildren !== null) {
+			for (let childView of view.questionPartViewChildren) {
+				this.processSourceConditionalsPage(childView, depth + 1);
+			}
+		}
+	}
 	private processQuestionPageIntoTree(
 		page: any,
 		treeElement: TreeviewItem,
@@ -503,7 +633,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 				this.repeatSourcesBefore = repeatSources;
 				if (page.children.length > 0) {
-					this.questionsBefore.push(new TreeviewItem(page));
+					//this.questionsBefore.push(new TreeviewItem(page));
 					page = {
 						value: treeElement.value,
 						text: treeElement.text,
@@ -516,7 +646,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				if (element.value === sectionBreak) {
 					this.repeatSourcesBefore = repeatSources;
 					if (page.children.length > 0) {
-						this.questionsBefore.push(new TreeviewItem(page));
+						//this.questionsBefore.push(new TreeviewItem(page));
 						page = {
 							value: treeElement.value,
 							text: treeElement.text,
@@ -528,7 +658,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 
 				if (!questionHit && element.children) {
-					if ((<string>element.children[0].value).startsWith('option')) {
+					if (
+						(<string>element.children[0].value).startsWith('option')
+					) {
 						this.clearOptionsFromElement(element);
 					}
 				}
@@ -540,7 +672,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					children: []
 				};
 				if (element.children) {
-					let { pageReturn, partReturn, questionHitReturn } = this.processQuestionPartIntoTree(
+					let {
+						pageReturn,
+						partReturn,
+						questionHitReturn
+					} = this.processQuestionPartIntoTree(
 						page,
 						element,
 						elementCopy,
@@ -552,13 +688,26 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					elementCopy = partReturn;
 					questionHit = questionHitReturn;
 				}
-				if (!((<string>element.value).startsWith('part') && elementCopy.children.length === 0)) {
+				if (
+					!(
+						(<string>element.value).startsWith('part') &&
+						elementCopy.children.length === 0
+					)
+				) {
 					page.children.push(new TreeviewItem(elementCopy));
 				}
-				if (!(<string>element.value).startsWith('part') && !questionHit && this.allowAsRepeatSource(element.value)) {
+				if (
+					!(<string>element.value).startsWith('part') &&
+					!questionHit &&
+					this.allowAsRepeatSource(element.value)
+				) {
 					repeatSources.push(new TreeviewItem(elementCopy));
 				}
-				if (!(<string>element.value).startsWith('part') && !questionHit && this.isHouseholdSource(element.value)) {
+				if (
+					!(<string>element.value).startsWith('part') &&
+					!questionHit &&
+					this.isHouseholdSource(element.value)
+				) {
 					this.householdExistsBefore = true;
 				}
 			}
@@ -585,7 +734,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 					if (part.children.length > 0) {
 						page.children.push(part);
 					}
-					this.questionsBefore.push(new TreeviewItem(page));
+					//this.questionsBefore.push(new TreeviewItem(page));
 					page = {
 						value: page.value,
 						text: page.text,
@@ -602,7 +751,9 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				questionHit = true;
 			} else {
 				if (!questionHit && element.children) {
-					if ((<string>element.children[0].value).startsWith('option')) {
+					if (
+						(<string>element.children[0].value).startsWith('option')
+					) {
 						this.clearOptionsFromElement(element);
 					}
 				}
@@ -612,7 +763,11 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 				}
 			}
 		}
-		return { pageReturn: page, partReturn: part, questionHitReturn: questionHit };
+		return {
+			pageReturn: page,
+			partReturn: part,
+			questionHitReturn: questionHit
+		};
 	}
 
 	private clearOptionsFromElement(element: TreeviewItem) {

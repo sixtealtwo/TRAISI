@@ -26,7 +26,7 @@
             "baseHref": "/admin/",
             "preserveSymlinks": true,
             "deployUrl": "/admin/",
-            "showCircularDependencies": false,
+            "showCircularDependencies": true,
             "polyfills": "src/admin-app/polyfills.ts",
             "assets": [
               "src/admin-app/assets",
@@ -35,13 +35,14 @@
                 "input": "node_modules/ngx-monaco-editor/assets/monaco",
                 "output": "./assets/monaco/"
               }
+
             ],
             "styles": [
               "src/shared/assets/scss/application.scss",
               "node_modules/animate.css/animate.min.css",
               "node_modules/bootstrap-select/dist/css/bootstrap-select.min.css",
               "node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
-              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "src/shared/assets/scss/alertify.core.css",
               "node_modules/dropzone/dist/min/dropzone.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -52,6 +53,7 @@
               "node_modules/select2/dist/css/select2.min.css",
               "node_modules/angular2-draggable/css/resizable.min.css",
               "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/pace-progressbar/themes/blue/pace-theme-minimal.css"
             ],
             "scripts": [
@@ -228,7 +230,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
+            "aot": false,
             "deployUrl": "/survey/",
             "baseHref": "/survey/",
             "progress": false,
@@ -265,6 +267,7 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 ".",
+                "..",
                 "./node_modules"
               ]
             }
@@ -303,12 +306,14 @@
               "buildOptimizer": true
             },
             "serve": {
+              
               "budgets": [
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
               ],
+              
               "extractCss": true,
               "namedChunks": true,
               "vendorChunk": true,

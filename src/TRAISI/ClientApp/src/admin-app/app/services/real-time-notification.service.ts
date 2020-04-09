@@ -49,11 +49,13 @@ export class RealTimeNotificationServce {
 
 	public surveyStatus(surveyId: number, working: boolean): void {
 		this.connectionmade.subscribe(connected => {
-			this.hubConnection.invoke('surveyStatus', surveyId, working).catch(err => console.error(err));
+			// TO DO: DISABLED
+			//this.hubConnection.invoke('surveyStatus', surveyId, working).catch(err => console.error(err));
 		});
 	}
 
 	public indicateSurveyChange(surveyId: number): void {
-		this.hubConnection.invoke('indicateSurveyChange', surveyId);
+		// TO DO: DISABLED
+		// this.hubConnection.invoke('indicateSurveyChange', surveyId);
 	}
 }

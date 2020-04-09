@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.ResponseTypes;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.ResponseTypes;
+using TRAISI.Data.Models.Surveys;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
 
     /// <summary>

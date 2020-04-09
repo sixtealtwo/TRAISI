@@ -39,6 +39,7 @@ import {
 import { Injector, ViewContainerRef } from '@angular/core';
 import { Survey } from '../../../models/survey.model';
 import { BUILDER_SERVICE, SURVEY_BUILDER, QUESTION_ID } from 'traisi-question-sdk';
+import { SurveyBuilderEditorData } from 'app/survey-builder/services/survey-builder-editor-data.service';
 
 @Component({
 	selector: 'app-question-details',
@@ -105,8 +106,6 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	public question: QuestionPart;
 	@Input()
 	public language: string;
-	@Input()
-	public qTypeDefinitions: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	@Input()
 	public collapseElementId: string;
@@ -137,7 +136,8 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		private cdRef: ChangeDetectorRef,
 		private customBuilder: CustomBuilderService,
 		private elementRef: ElementRef,
-		private _injector: Injector
+		private _injector: Injector,
+		private _editorData: SurveyBuilderEditorData
 	) {
 		this.baseUrl = configurationService.baseUrl;
 		this.getOptionPayload = this.getOptionPayload.bind(this);
@@ -154,7 +154,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	 * @memberof QuestionDetailsComponent
 	 */
 	public ngOnInit(): void {
-		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
+		let qOptions = this._editorData.questionTypeMap.get(this.question.questionType).questionOptions;
 		Object.keys(qOptions).forEach((q) => {
 			this.questionOptionDefinitions.push(qOptions[q]);
 			this.searchValue.push('');
@@ -203,7 +203,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 	 * @memberof QuestionDetailsComponent
 	 */
 	private initCustomBuilderView(): void {
-		let hasCustomBuilderView = (this.isCustomBuilderView = this.qTypeDefinitions.get(
+		let hasCustomBuilderView = (this.isCustomBuilderView = this._editorData.questionTypeMap.get(
 			this.question.questionType
 		).hasCustomBuilderView);
 
@@ -211,8 +211,8 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 			return;
 		} else {
 			let result = this.customBuilder.loadCustomClientBuilderView(
-				this.qTypeDefinitions.get(this.question.questionType).typeName,
-				this.qTypeDefinitions.get(this.question.questionType).customBuilderViewName
+				this._editorData.questionTypeMap.get(this.question.questionType).typeName,
+				this._editorData.questionTypeMap.get(this.question.questionType).customBuilderViewName
 			);
 
 			result.subscribe((componentFactory: ComponentFactory<any>) => {
@@ -256,7 +256,7 @@ export class QuestionDetailsComponent implements OnInit, AfterViewInit {
 		this.itemsCache.clear();
 		this.savedItems.clear();
 
-		let qOptions = this.qTypeDefinitions.get(this.question.questionType).questionOptions;
+		let qOptions = this._editorData.questionTypeMap.get(this.question.questionType).questionOptions;
 		Object.keys(qOptions).forEach((q) => {
 			this.items.set(q, []);
 			this.itemsCache.set(q, []);

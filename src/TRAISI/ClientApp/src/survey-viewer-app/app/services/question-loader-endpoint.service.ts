@@ -13,7 +13,12 @@ export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 	private readonly _surveyViewQuestionsUrl: string = '/api/Question';
 
 	get questionTypesUrl(): string {
-		return this.configurations.baseUrl + '' + this._surveyViewQuestionsUrl + '/question-types';
+		return (
+			this.configurations.baseUrl +
+			'' +
+			this._surveyViewQuestionsUrl +
+			'/question-types'
+		);
 	}
 
 	get getClientCodeUrl(): string {
@@ -29,7 +34,9 @@ export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getQuestionTypesEndpoint());
+				return this.handleError(error, () =>
+					this.getQuestionTypesEndpoint()
+				);
 			})
 		);
 	}
@@ -52,7 +59,23 @@ export class QuestionLoaderEndpointService extends SurveyViewerEndpointFactory {
 
 		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
 			catchError(error => {
-				return this.handleError(error, () => this.getClientCodeEndpoint(questionType));
+				return this.handleError(error, () =>
+					this.getClientCodeEndpoint(questionType)
+				);
+			})
+		);
+	}
+
+	public getQuestionConfigurationEndpoint<T>(
+		questionType: string
+	): Observable<T> {
+		let endpointUrl = `${this._surveyViewQuestionsUrl}/configurations/${questionType}`;
+
+		return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
+			catchError(error => {
+				return this.handleError(error, () =>
+					this.getClientCodeEndpoint(questionType)
+				);
 			})
 		);
 	}

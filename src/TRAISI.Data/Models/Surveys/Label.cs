@@ -1,7 +1,7 @@
 ﻿using System;
-using DAL.Models.Interfaces;
+using TRAISI.Data.Models.Interfaces;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     /// <summary>
     /// Label items, store most alterable and dynamic text fields.

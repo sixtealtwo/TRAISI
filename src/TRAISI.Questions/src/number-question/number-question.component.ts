@@ -13,8 +13,7 @@ import {
 import { NumberQuestionConfiguration } from './number-question.configuration';
 import templateString from './number-question.component.html';
 import { debounceTime } from 'rxjs/operators';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
-
+import { createNumberMask } from 'text-mask-addons';
 @Component({
 	selector: 'traisi-number-question',
 	template: templateString,
@@ -29,7 +28,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 
 	public numberMask: any;
 
-	@ViewChild('f', {static: true})
+	@ViewChild('f', { static: true })
 	public inputForm: NgForm;
 
 	/**
@@ -122,6 +121,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 			this.model = '' + decimalResponse.value;
 			this._numberModel = Number(this.model.replace(/[^0-9\.]+/g, ''));
 			this.validationState.emit(ResponseValidationState.VALID);
+			console.log(this);
 		}
 
 		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {

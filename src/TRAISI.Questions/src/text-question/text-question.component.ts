@@ -37,8 +37,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	 */
 	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		super();
-
-		this.textInput = undefined;
+		this.textInput = null;
 	}
 
 	/**

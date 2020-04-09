@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using DAL.Models;
-using DAL.Models.Groups;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Groups;
+using TRAISI.Data.Repositories.Interfaces;
 
-namespace DAL.Repositories
+namespace TRAISI.Data.Repositories
 {
 	public class UserGroupRepository : Repository<UserGroup>, IUserGroupRepository
 	{

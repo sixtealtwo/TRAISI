@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionConfigurationDefinition } from '../../../models/question-configuration-definition.model';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
 	selector: 'app-date-input',

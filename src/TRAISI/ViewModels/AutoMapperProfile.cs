@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DAL.Core;
-using DAL.Models;
-using DAL.Models.Groups;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Core;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Groups;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 using TRAISI.ViewModels.SurveyBuilder;
 using TRAISI.ViewModels.SurveyViewer;
@@ -154,8 +154,18 @@ namespace TRAISI.ViewModels
 						svm.OptionLabel = Mapper.Map<QuestionOptionLabelViewModel>(s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
 					});
 
-			CreateMap<QuestionConditional, QuestionConditionalViewModel>()
-				.ReverseMap().ForMember(c => c.SourceQuestion, map => map.Ignore()).ForMember(c => c.TargetQuestion, map => map.Ignore());
+			CreateMap<QuestionConditionalOperatorViewModel,QuestionConditionalOperator>().AfterMap((s,svm,opt) => {
+
+			});
+
+			CreateMap<QuestionConditionalOperator,QuestionConditionalOperatorViewModel>().AfterMap((s,svm,opt) => {
+				svm.Lhs = s.Lhs ==  null ? null : svm.Lhs;
+				svm.Rhs = s.Rhs == null ? null : svm.Rhs;
+			});
+
+			CreateMap<QuestionConditional, QuestionConditionalViewModel>();
+			CreateMap<QuestionConditionalViewModel,QuestionConditional >().ForMember(m => m.SourceQuestion, m => m.Ignore());
+				// .ReverseMap().ForMember(c => c.SourceQuestion, map => map.Ignore()).ForMember(c => c.TargetQuestion, map => map.Ignore());
 			CreateMap<QuestionOptionConditional, QuestionOptionConditionalViewModel>().ReverseMap();
 
 			CreateMap<SBSurveyViewViewModel, SurveyView>()
@@ -207,6 +217,7 @@ namespace TRAISI.ViewModels
 						s.ScreeningQuestionLabels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
 				});
 
+
 			CreateMap<SBOrderViewModel, QuestionPartView>()
 				.ForMember(o => o.Labels, map => map.Ignore())
 				.ForMember(o => o.ParentView, map => map.Ignore())
@@ -252,9 +263,10 @@ namespace TRAISI.ViewModels
 								.ForMember(q => q.ResourceData, map => map.ResolveUsing(s =>
 								{
 
-									return ((s.SharedResource == null)
+									var result = ((s.SharedResource == null)
 									? ((s.ResourceData == null) ? (null) : (System.Text.Encoding.UTF8.GetString(s.ResourceData)))
 									: System.Text.Encoding.UTF8.GetString(QuestionTypeManager.SharedQuestionResources[s.SharedResource].Data));
+									return result;
 								}))
 				.ReverseMap();
 

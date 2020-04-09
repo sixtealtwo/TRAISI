@@ -2,9 +2,10 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Core;
+using TRAISI.Data;
+using TRAISI.Data.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TRAISI.Authorization {
@@ -19,12 +20,15 @@ namespace TRAISI.Authorization {
 		const string CLAIM_KEY_SHORTCODE = "Shortcode";
 		const string CLAIM_KEY_SURVEY_ID = "SurveyId";
 		private IUnitOfWork _unitOfWork;
+
+		private IHttpContextAccessor _contextAccessor;
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="unitOfWork"></param>
-		public SurveyRespondentAuthorizationHandler (IUnitOfWork unitOfWork) {
+		public SurveyRespondentAuthorizationHandler (IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) {
 			this._unitOfWork = unitOfWork;
+			this._contextAccessor = httpContextAccessor;
 		}
 
 		/// <summary>
@@ -69,14 +73,10 @@ namespace TRAISI.Authorization {
 			var userSurveyId = user.Claims.FirstOrDefault (claim => claim.Type == CLAIM_KEY_SURVEY_ID);
 			var userShortcode = user.Claims.FirstOrDefault (claim => claim.Type == CLAIM_KEY_SHORTCODE);
 
-			var headerSurveyId =
-				(context.Resource as AuthorizationFilterContext).HttpContext.Request.Headers.
+			var headerSurveyId = this._contextAccessor.HttpContext.Request.Headers.
 			FirstOrDefault (s => s.Key == HEADER_KEY_SURVEY_ID);
 
-			var routeData =
-				(context.Resource as AuthorizationFilterContext).RouteData;
-
-			var headerShortcode = (context.Resource as AuthorizationFilterContext).HttpContext.Request.Headers.
+			var headerShortcode = this._contextAccessor.HttpContext.Request.Headers.
 			FirstOrDefault (s => s.Key == CLAIM_KEY_SHORTCODE);
 
 			if (headerSurveyId.Value == userSurveyId.Value && headerShortcode.Value == userShortcode.Value) {

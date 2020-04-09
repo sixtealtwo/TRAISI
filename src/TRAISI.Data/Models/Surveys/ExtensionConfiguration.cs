@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.Interfaces;
+using TRAISI.Data.Models.Interfaces;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public class ExtensionConfiguration : IExtensionConfiguration, IEntity
     {

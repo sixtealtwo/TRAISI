@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using DAL;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -121,7 +121,7 @@ namespace TRAISI.UnitTests
             ReturnsAsync((int i) => moqSurveys.Find(s => s.Id == i));
 
             mock.Setup(m => m.CountAsync()).ReturnsAsync(moqSurveys.Count);
-            mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
+            // mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
             mock.Setup(m => m.Update(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Find(p => p.Id == s.Id));
 
             return mock.Object;

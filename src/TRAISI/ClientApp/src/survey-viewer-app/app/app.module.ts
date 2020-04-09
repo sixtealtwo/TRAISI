@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -63,6 +63,8 @@ import { SurveyTextTransformer } from './services/survey-text-transform/survey-t
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import {PipesModule} from '../../shared/pipes/pipes.module';
+import { QuestionConfigurationService } from './services/question-configuration.service';
+import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -148,6 +150,8 @@ import {PipesModule} from '../../shared/pipes/pipes.module';
 		SurveyResponderEndpointService,
 		BsModalRef,
 		{ provide: 'QuestionLoaderService', useClass: QuestionLoaderService },
+		{ provide: 'CONFIG_SERVICE', useExisting: QuestionConfigurationService },
+		{ provide: Config, useExisting: QuestionConfigurationService },
 		SurveyDataResolver,
 		SurveyTextTransformer,
 

@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Models;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data.Core;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories {
+namespace TRAISI.Data.Repositories {
 	public class SurveyRepository : Repository<Survey>, ISurveyRepository {
 		public SurveyRepository (ApplicationDbContext context) : base (context) { }
 
@@ -129,6 +129,8 @@ namespace DAL.Repositories {
 				.Include (s => s.SurveyViews).ThenInclude (v => v.ScreeningQuestionLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.Labels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Labels)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (q3 => q3.Lhs)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (q3 => q3.Rhs)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConfigurations).ThenInclude (qc => qc.QuestionConfigurationLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptions).ThenInclude (qo => qo.QuestionOptionLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptions).ThenInclude (qo => qo.QuestionOptionConditionalsTarget)
@@ -136,6 +138,8 @@ namespace DAL.Repositories {
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConditionalsTarget)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptionConditionalsSource)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Labels)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (q3 => q3.Lhs)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (q3 => q3.Rhs)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConfigurations).ThenInclude (qc => qc.QuestionConfigurationLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptions).ThenInclude (qo => qo.QuestionOptionLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptions).ThenInclude (qo => qo.QuestionOptionConditionalsTarget)
@@ -182,8 +186,10 @@ namespace DAL.Repositories {
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConfigurations).ThenInclude (qc => qc.QuestionConfigurationLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptions).ThenInclude (qo => qo.QuestionOptionLabels)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Labels)
-				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConditionalsSource)
-				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConditionalsTarget)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (qp => qp.Rhs)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (qp => qp.Lhs)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (qp => qp.Rhs)
+				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.Conditionals).ThenInclude (qp => qp.Lhs)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionOptionConditionalsSource)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConditionalsSource)
 				.Include (s => s.SurveyViews).ThenInclude (v => v.QuestionPartViews).ThenInclude (q => q.QuestionPartViewChildren).ThenInclude (q2 => q2.QuestionPart).ThenInclude (qp => qp.QuestionConditionalsTarget)

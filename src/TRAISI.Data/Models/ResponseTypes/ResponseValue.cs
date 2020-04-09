@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes
+namespace TRAISI.Data.Models.ResponseTypes
 {
     public abstract class ResponseValue: IResponseType
     {

@@ -40,6 +40,13 @@ export abstract class SurveyQuestion<T extends ResponseTypes | ResponseTypes[]> 
 	public configuration: QuestionConfiguration;
 
 	/**
+	 * The server configuration for this quesiton. This isn't specific to a survey, but related
+	 * to the global server configuration, typically private configuration values.
+	 * @type {{ [id: string] : any; }}
+	 */
+	public serverConfiguration: { [id: string]: any };
+
+	/**
 	 * The validity state of the question
 	 */
 	public isValid: boolean;
@@ -246,10 +253,11 @@ export enum ResponseTypes {
 	List = 'List',
 	Boolean = 'boolean',
 	OptionSelect = 'option-select',
+	Number = 'number',
 	None = 'none'
 }
 
-export interface GroupMember {
+export class GroupMember {
 	id: number;
 	name: string;
 	relationship: string;

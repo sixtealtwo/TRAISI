@@ -1,14 +1,14 @@
 using System;
-using DAL.Models.Interfaces;
+using TRAISI.Data.Models.Interfaces;
 
-namespace DAL.Models.Surveys
+namespace TRAISI.Data.Models.Surveys
 {
     public interface ISurveyAccessRecord
     {
         int Id { get; set; }
         string QueryParams { get; set; }
 
-        DateTime AccessDateTime { get; set; }
+        DateTimeOffset AccessDateTime { get; set; }
         string UserAgent { get; set; }
 
         ApplicationUser AccessUser { get; set; }

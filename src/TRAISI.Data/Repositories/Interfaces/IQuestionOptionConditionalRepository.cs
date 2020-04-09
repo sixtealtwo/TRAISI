@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 
-namespace DAL.Repositories.Interfaces
+namespace TRAISI.Data.Repositories.Interfaces
 {
     public interface IQuestionOptionConditionalRepository  : IRepository<QuestionOptionConditional> {
         void DeleteSourceConditionals(int questionPartId, List<int> retainedConditionals);

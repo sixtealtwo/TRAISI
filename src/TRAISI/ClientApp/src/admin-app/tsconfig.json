@@ -5,6 +5,7 @@
 		"outDir": "../out-tsc/app",
 		"baseUrl": "./",
 		"module": "esNext",
+		"resolveJsonModule": true,
 		"types": ["node","jquery"],
 		"experimentalDecorators": true,
 		"paths": {

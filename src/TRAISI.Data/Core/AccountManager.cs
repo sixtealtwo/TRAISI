@@ -1,6 +1,6 @@
-﻿using DAL;
-using DAL.Core.Interfaces;
-using DAL.Models;
+﻿using TRAISI.Data;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,10 +11,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Core
+namespace TRAISI.Data.Core
 {
     public class AccountManager : IAccountManager
     {
@@ -163,6 +162,14 @@ namespace DAL.Core
                 .ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roles"></param>
+        /// <param name="password"></param>
+        /// <param name="createPrimaryRespondent"></param>
+        /// <returns></returns>
         public async Task<Tuple<bool, string[]>> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password)
         {
             var result = await _userManager.CreateAsync(user, password);
@@ -172,18 +179,22 @@ namespace DAL.Core
 
             user = await _userManager.FindByNameAsync(user.UserName);
 
-            try {
+            try
+            {
                 result = await this._userManager.AddToRolesAsync(user, roles.Distinct());
             }
-            catch {
+            catch
+            {
                 await DeleteUserAsync(user);
                 throw;
             }
 
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 await DeleteUserAsync(user);
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
             }
+
 
             return Tuple.Create(true, new string[] { });
         }
@@ -204,26 +215,31 @@ namespace DAL.Core
             user.IsEnabled = true;
             var result = await _surveyUserManager.CreateAsync(user, shortcodeRef.Code);
 
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray(), (SurveyUser)null);
             }
 
 
             user = await _surveyUserManager.FindByNameAsync(user.UserName);
 
-            try {
+            try
+            {
                 result = await this._surveyUserManager.AddToRolesAsync(user, new string[] { "respondent" });
-                foreach (var claim in claims) {
+                foreach (var claim in claims)
+                {
                     await this._surveyUserManager.AddClaimAsync(user, new Claim(claim.claimName, claim.claimValue));
                 }
 
             }
-            catch {
+            catch
+            {
                 await DeleteUserAsync(user);
                 throw;
             }
 
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 await DeleteUserAsync(user);
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray(), (SurveyUser)null);
             }
@@ -246,19 +262,22 @@ namespace DAL.Core
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
 
 
-            if (roles != null) {
+            if (roles != null)
+            {
                 var userRoles = await _userManager.GetRolesAsync(user);
 
                 var rolesToRemove = userRoles.Except(roles).ToArray();
                 var rolesToAdd = roles.Except(userRoles).Distinct().ToArray();
 
-                if (rolesToRemove.Any()) {
+                if (rolesToRemove.Any())
+                {
                     result = await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
                     if (!result.Succeeded)
                         return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
                 }
 
-                if (rolesToAdd.Any()) {
+                if (rolesToAdd.Any())
+                {
                     result = await _userManager.AddToRolesAsync(user, rolesToAdd);
                     if (!result.Succeeded)
                         return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
@@ -291,7 +310,8 @@ namespace DAL.Core
 
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
         {
-            if (!await _userManager.CheckPasswordAsync(user, password)) {
+            if (!await _userManager.CheckPasswordAsync(user, password))
+            {
                 if (!_userManager.SupportsUserLockout)
                     await _userManager.AccessFailedAsync(user);
 
@@ -390,10 +410,12 @@ namespace DAL.Core
 
             role = await _roleManager.FindByNameAsync(role.Name);
 
-            foreach (string claim in claims.Distinct()) {
+            foreach (string claim in claims.Distinct())
+            {
                 result = await this._roleManager.AddClaimAsync(role, new Claim(CustomClaimTypes.Permission, ApplicationPermissions.GetPermissionByValue(claim)));
 
-                if (!result.Succeeded) {
+                if (!result.Succeeded)
+                {
                     await DeleteRoleAsync(role);
                     return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
                 }
@@ -404,7 +426,8 @@ namespace DAL.Core
 
         public async Task<Tuple<bool, string[]>> UpdateRoleAsync(ApplicationRole role, IEnumerable<string> claims)
         {
-            if (claims != null) {
+            if (claims != null)
+            {
                 string[] invalidClaims = claims.Where(c => ApplicationPermissions.GetPermissionByValue(c) == null).ToArray();
                 if (invalidClaims.Any())
                     return Tuple.Create(false, new[] { "The following claim types are invalid: " + string.Join(", ", invalidClaims) });
@@ -416,23 +439,28 @@ namespace DAL.Core
                 return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
 
 
-            if (claims != null) {
+            if (claims != null)
+            {
                 var roleClaims = (await _roleManager.GetClaimsAsync(role)).Where(c => c.Type == CustomClaimTypes.Permission);
                 var roleClaimValues = roleClaims.Select(c => c.Value).ToArray();
 
                 var claimsToRemove = roleClaimValues.Except(claims).ToArray();
                 var claimsToAdd = claims.Except(roleClaimValues).Distinct().ToArray();
 
-                if (claimsToRemove.Any()) {
-                    foreach (string claim in claimsToRemove) {
+                if (claimsToRemove.Any())
+                {
+                    foreach (string claim in claimsToRemove)
+                    {
                         result = await _roleManager.RemoveClaimAsync(role, roleClaims.Where(c => c.Value == claim).FirstOrDefault());
                         if (!result.Succeeded)
                             return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());
                     }
                 }
 
-                if (claimsToAdd.Any()) {
-                    foreach (string claim in claimsToAdd) {
+                if (claimsToAdd.Any())
+                {
+                    foreach (string claim in claimsToAdd)
+                    {
                         result = await _roleManager.AddClaimAsync(role, new Claim(CustomClaimTypes.Permission, ApplicationPermissions.GetPermissionByValue(claim)));
                         if (!result.Succeeded)
                             return Tuple.Create(false, result.Errors.Select(e => e.Description).ToArray());

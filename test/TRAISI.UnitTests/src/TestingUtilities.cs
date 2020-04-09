@@ -1,15 +1,15 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Core.Interfaces;
-using DAL.Models.Surveys;
-using DAL.Repositories.Interfaces;
+using TRAISI.Data;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Collections.Generic;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 using TRAISI.Helpers;
 using Microsoft.AspNetCore.SignalR;
 

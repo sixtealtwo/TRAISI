@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.ViewModels.SurveyViewer;
 
 namespace TRAISI.Services.Interfaces
@@ -30,7 +30,7 @@ namespace TRAISI.Services.Interfaces
 		/// </summary>
 		/// <param name="group"></param>
 		/// <param name="respondent"></param>
-		void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent);
+		Task RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent);
 
 		/// <summary>
 		/// 

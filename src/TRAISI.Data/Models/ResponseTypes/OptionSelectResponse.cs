@@ -1,14 +1,12 @@
-using System;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.SDK.Library.ResponseTypes;
-namespace DAL.Models.ResponseTypes
+namespace TRAISI.Data.Models.ResponseTypes
 {
     public class OptionSelectResponse : ResponseValue, IOptionSelectResponse
     {
 
         public string Value { get; set; }
-        public string Name { get; set; }
         public string Code { get; set; }
 
     }

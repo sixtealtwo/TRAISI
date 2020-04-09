@@ -1,62 +1,189 @@
 <div class="row">
+	<div class="col-lg-5 conditional-row">
+		<ng-select
+			[items]="sourceQuestionList"
+			bindLabel="questionPart.name"
+			autofocus
+			[(ngModel)]="sourceQuestion"
+			(change)="onChange($event)"
+		>
+		</ng-select>
+	</div>
 	<div class="col-lg-3 conditional-row">
-		<ngx-select [defaultValue]="sourceGroup.condition" [allowClear]="false" [items]="dropDownListItems" (select)="conditionValueChanged($event)"
-		 placeholder="Select Condition">
-			<ng-template ngx-select-option-not-found>
-				Nothing found
-			</ng-template>
-		</ngx-select>
+		<ng-select
+			[items]="dropDownListItems"
+			[(ngModel)]="sourceGroup.condition"
+			(select)="conditionValueChanged($event)"
+			placeholder="Select Condition"
+		>
+		</ng-select>
 	</div>
 	<div class="col-lg-4 conditional-row">
-		<ng-container *ngIf="responseType == 'String'; else rElseIf1">
-			<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="Enter value"
+		<ng-container
+			*ngIf="responseType == questionResponseTypes.String; else rElseIf1"
+		>
+			<input
+				type="text"
+				[(ngModel)]="sourceGroup.value"
+				class="form-control"
+				id="{{ 'conditionalValue-' + sourceGroup.id }}"
+				placeholder="Enter value"
 			/>
 		</ng-container>
 		<ng-template #rElseIf1>
-			<ng-container *ngIf="responseType == 'Boolean'; else rElseIf2">
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Boolean;
+					else rElseIf2
+				"
+			>
 				<div class="display-inline-block checkbox-ios">
-					<label class="form-check-label" for="{{ 'conditionalValue-' + sourceGroup.id }}" class="switch">
-						<input [(ngModel)]="booleanValue" class="form-check-input" type="checkbox" class="ios" checked id="{{ 'conditionalValue-' + sourceGroup.id }}"><i></i>
+					<label
+						class="form-check-label"
+						for="{{ 'conditionalValue-' + sourceGroup.id }}"
+						class="switch"
+					>
+						<input
+							[(ngModel)]="booleanValue"
+							class="form-check-input"
+							type="checkbox"
+							class="ios"
+							checked
+							id="{{ 'conditionalValue-' + sourceGroup.id }}"
+						/><i></i>
 					</label>
 				</div>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf2>
-			<ng-container *ngIf="responseType == 'Integer'; else rElseIf3">
-				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="0"
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Integer;
+					else rElseIf3
+				"
+			>
+				<input
+					type="number"
+					[(ngModel)]="numberValue"
+					class="form-control"
+					id="{{ 'conditionalValue-' + sourceGroup.id }}"
+					placeholder="0"
 				/>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf3>
-			<ng-container *ngIf="responseType == 'Decimal'; else rElseIf4">
-				<input type="number" [(ngModel)]="numberValue" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="0"
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Decimal;
+					else rElseIf4
+				"
+			>
+				<input
+					type="number"
+					[(ngModel)]="numberValue"
+					class="form-control"
+					id="{{ 'conditionalValue-' + sourceGroup.id }}"
+					placeholder="0"
 				/>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf4>
-			<ng-container *ngIf="responseType == 'Location'; else rElseIf5">
-				<button type="button" class="bounds-button btn btn-danger" data-dismiss="modal" (click)="showBoundsModal()">
-						<i class='fas fa-eye'></i>Set Bounds
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Location;
+					else rElseIf5
+				"
+			>
+				<button
+					type="button"
+					class="bounds-button btn btn-danger"
+					data-dismiss="modal"
+					(click)="showBoundsModal()"
+				>
+					<i class="fas fa-eye"></i>Set Bounds
 				</button>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf5>
-			<ng-container *ngIf="responseType == 'Json'; else rElseIf6">
-				<input type="text" [(ngModel)]="sourceGroup.value" class="form-control" id="{{ 'conditionalValue-' + sourceGroup.id }}" placeholder="Enter value"
+			<ng-container
+				*ngIf="
+					responseType == questionResponseTypes.Json;
+					else rElseIf6
+				"
+			>
+				<input
+					type="text"
+					[(ngModel)]="sourceGroup.value"
+					class="form-control"
+					id="{{ 'conditionalValue-' + sourceGroup.id }}"
+					placeholder="Enter value"
 				/>
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf6>
+			<ng-container
+				*ngIf="
+					responseType === questionResponseTypes.OptionList ||
+						responseType === questionResponseTypes.OptionSelect;
+					else rElseIf7
+				"
+			>
+			<!--
+				bindLabel="item.optionLabel.value"
+					bindValue="id"
+			-->					<!--<ng-template
+						ng-optgroup-tmp
+						let-item="item"
+						let-item$="item$"
+						let-index="index"
+					>
+						"test"
+						<input
+							id="item-{{ index }}"
+							type="checkbox"
+							[ngModel]="item$.selected"
+						/>
+						{{ item }}
+						{{ item.optionLabel.value }}
+					</ng-template>  -->
+					<!--(change)="optionConditionalValueChanged($event)"-->
+				<ng-select
+					[items]="questionOptionsList"
+					bindLabel="optionLabel.value"
+					[multiple]="true"
+					[ngModel]="optionModel"
+					[selectableGroup]="true"
+					[selectableGroupAsModel]="false"
+					[closeOnSelect]="false"
+					(change)="optionConditionalValueChanged($event)"
+					
+				>
 
-			<ng-container *ngIf="responseType === 'OptionList' || responseType === 'OptionSelect'; else rElseIf7">
-				<ngx-dropdown-treeview [items]="copiedOptionList" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeOptions($event)">
-				</ngx-dropdown-treeview>
+				</ng-select>
+				<!--<ngx-dropdown-treeview
+					[items]="copiedOptionList"
+					[itemTemplate]="itemTemplate"
+					[config]="treedropdownConfig"
+					(selectedChange)="onSelectedChangeOptions($event)"
+				>
+				</ngx-dropdown-treeview> -->
 			</ng-container>
 		</ng-template>
 		<ng-template #rElseIf7>
-			<ng-container *ngIf="responseType == 'DateTime'">
-					<input type="text" placeholder="Date Range" class="form-control" bsDaterangepicker id="{{ 'conditionalValue-' + sourceGroup.id }}"
-					#dpStart="bsDaterangepicker" [bsConfig]="bsConfig" [(ngModel)]="dateRange" (bsValueChange)="onDateChange($event)">
+			<ng-container
+				*ngIf="responseType == questionResponseTypes.DateTime"
+			>
+				<input
+					type="text"
+					placeholder="Date Range"
+					class="form-control"
+					bsDaterangepicker
+					id="{{ 'conditionalValue-' + sourceGroup.id }}"
+					#dpStart="bsDaterangepicker"
+					[bsConfig]="bsConfig"
+					[(ngModel)]="dateRange"
+					(bsValueChange)="onDateChange($event)"
+				/>
 			</ng-container>
 		</ng-template>
 		<!--<ng-template #rElseIf8>
@@ -66,24 +193,56 @@
 			</ng-container>
 		</ng-template>-->
 	</div>
-	<div class="col-lg-5 conditional-row">
+	<!-- <div class="col-lg-5 conditional-row">
 		<ngx-dropdown-treeview #optionTargets [items]="sourceGroup.targets" [itemTemplate]="itemTemplate" [config]="treedropdownConfig" (selectedChange)="onSelectedChangeTargets($event)">
 		</ngx-dropdown-treeview>
-	</div>
+	</div> -->
 </div>
-<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+<ng-template
+	#itemTemplate
+	let-item="item"
+	let-onCollapseExpand="onCollapseExpand"
+	let-onCheckedChange="onCheckedChange"
+>
 	<div class="form-inline row-item">
-		<i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
-			[class.fa-caret-down]="!item.collapsed"></i>
+		<i
+			*ngIf="item.children"
+			(click)="onCollapseExpand()"
+			aria-hidden="true"
+			class="fa"
+			[class.fa-caret-right]="item.collapsed"
+			[class.fa-caret-down]="!item.collapsed"
+		></i>
 		<div class="form-check abc-checkbox abc-checkbox-primary">
-			<input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
-				[indeterminate]="item.indeterminate" />
-			<label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">
-				<span *ngIf="getItemType(item.value) == 'question'" class="badge badge-primary">Q</span>
-				<span *ngIf="getItemType(item.value) == 'option'" class="badge badge-secondary">O</span>
-				<span *ngIf="getItemType(item.value) == 'part'" class="badge badge-danger">P</span> {{ item.text }}
+			<input
+				type="checkbox"
+				class="form-check-input"
+				[(ngModel)]="item.checked"
+				(ngModelChange)="onCheckedChange()"
+				[disabled]="item.disabled"
+				[indeterminate]="item.indeterminate"
+			/>
+			<label
+				class="form-check-label"
+				(click)="item.checked = !item.checked; onCheckedChange()"
+			>
+				<span
+					*ngIf="getItemType(item.value) == 'question'"
+					class="badge badge-primary"
+					>Q</span
+				>
+				<span
+					*ngIf="getItemType(item.value) == 'option'"
+					class="badge badge-secondary"
+					>O</span
+				>
+				<span
+					*ngIf="getItemType(item.value) == 'part'"
+					class="badge badge-danger"
+					>P</span
+				>
+				{{ item.text }}
 			</label>
 		</div>
 	</div>
 </ng-template>
-

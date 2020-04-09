@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DAL.Repositories.Interfaces {
+namespace TRAISI.Data.Repositories.Interfaces {
     public interface ISurveyPermissionsRepository : IRepository<SurveyPermission>
     {
         Task<SurveyPermission> GetPermissionsForSurveyAsync(string userName, int surveyID);

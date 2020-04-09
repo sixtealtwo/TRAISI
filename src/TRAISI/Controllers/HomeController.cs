@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using DAL.Core.Interfaces;
-using DAL.Models;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

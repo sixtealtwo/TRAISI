@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using DAL;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models.Surveys;
 
 namespace TRAISI.Helpers
 {

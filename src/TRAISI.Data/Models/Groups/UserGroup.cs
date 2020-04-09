@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using DAL.Core;
+using TRAISI.Data.Core;
 
-namespace DAL.Models.Groups
+namespace TRAISI.Data.Models.Groups
 {
     public class UserGroup : AuditableEntity
     {

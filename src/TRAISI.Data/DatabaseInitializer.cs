@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using DAL.Models;
-using DAL.Models.Surveys;
-using DAL.Models.Groups;
+using TRAISI.Data.Core;
+using TRAISI.Data.Core.Interfaces;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Models.Groups;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Questions;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace DAL
+namespace TRAISI.Data
 {
     public interface IDatabaseInitializer
     {
@@ -28,10 +28,7 @@ namespace DAL
         private readonly ApplicationDbContext _context;
         private readonly IAccountManager _accountManager;
         private readonly ILogger _logger;
-
         private readonly IConfiguration _configuration;
-
-
 
         public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger,
         IConfiguration configuration)
@@ -47,7 +44,8 @@ namespace DAL
             await _context.Database.MigrateAsync().ConfigureAwait(false);
 
             // await _context.Database.EnsureCreatedAsync();
-            if (!await _context.Users.AnyAsync()) {
+            if (!await _context.Users.AnyAsync())
+            {
                 _logger.LogInformation("Generating inbuilt accounts");
 
                 const string adminRoleName = "super administrator";
@@ -63,31 +61,28 @@ namespace DAL
                 var adminAccounts = _configuration.GetSection("AdminAccounts").GetChildren();
 
                 _logger.LogInformation("Creating admin accounts.");
-                if (adminAccounts.Count() == 0) {
-                    _logger.LogWarning("No admin accounts exist.");
+                if (adminAccounts.Count() == 0)
+                {
+                    _logger.LogError("No admin accounts exist.");
+                    throw new Exception("Please create at least one admin account before the database is initialized. Use a local configuration file to provide the account information.");
                     // throw new Exception("No admin accounts in configuration.");
 
                 }
 
-                foreach (var section in adminAccounts) {
+                foreach (var section in adminAccounts)
+                {
                     var username = section.GetValue<string>("Username");
                     var password = section.GetValue<string>("Password");
                     var email = section.GetValue<string>("Email") ?? "admin@traisi.dmg.utoronto.ca";
-                    await CreateUserAsync(username, password, "Inbuilt Administrator",
+                    await CreateUserAsync(username, password, "Administrator",
                     email, "+1 (123) 000-0000", new string[] { adminRoleName });
                 }
-
-
-                //await CreateUserAsync("admin2", "tempP@ss456", "Inbuilt Administrator", "admin2@traisi.dmg.utoronto.ca", "+1 (123) 000-0000", new string[] { adminRoleName });
-                //await CreateUserAsync("user", "tempP@ss789", "Inbuilt Standard User", "user@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
-                //await CreateUserAsync("respondent", "@ss789", "Respondent User", "respondent@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { respondentRoleName });
-                //smto = await CreateUserAsync("smto", "tempP@ss789", "Inbuilt Standard User", "smto@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
-                //tts = await CreateUserAsync("tts", "tempP@ss789", "Inbuilt Standard User", "tts@traisi.dmg.utoronto.ca", "+1 (123) 000-0001", new string[] { userRoleName });
 
                 _logger.LogInformation("Inbuilt account generation completed");
             }
 
-            if (!await _context.UserGroups.AnyAsync()) {
+            if (!await _context.UserGroups.AnyAsync())
+            {
                 _logger.LogInformation("Seeding initial data");
 
                 UserGroup TTS = new UserGroup()
@@ -96,25 +91,7 @@ namespace DAL
                     Members = new List<GroupMember>(),
                     ApiKeySettings = new ApiKeys() { MailgunApiKey = "TTSMail", GoogleMapsApiKey = "TTSGoogle", MapBoxApiKey = "TTSMapbox" }
                 };
-
-                UserGroup SMTO = new UserGroup()
-                {
-                    Name = "StudentMove",
-                    Members = new List<GroupMember>(),
-                    ApiKeySettings = new ApiKeys() { MailgunApiKey = "SMTOMail", GoogleMapsApiKey = "SMTOGoogle", MapBoxApiKey = "SMTOMapbox" }
-                };
-
                 _context.UserGroups.Add(TTS);
-                _context.UserGroups.Add(SMTO);
-
-                /*Survey TTSSurvey;
-                using (StreamReader r = new StreamReader("structure.json"))
-                {
-                    var jsonFile = r.ReadToEnd();
-                    TTSSurvey = JsonConvert.DeserializeObject<Survey>(jsonFile, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects});
-                }
-
-               _context.Surveys.Add(TTSSurvey);*/
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Seeding initial data completed");
@@ -123,7 +100,8 @@ namespace DAL
 
         private async Task EnsureRoleAsync(string roleName, string description, int level, string[] claims)
         {
-            if ((await _accountManager.GetRoleByNameAsync(roleName)) == null) {
+            if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
+            {
                 ApplicationRole applicationRole = new ApplicationRole(roleName, description, level);
 
                 var result = await this._accountManager.CreateRoleAsync(applicationRole, claims);

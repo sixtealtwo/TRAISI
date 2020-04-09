@@ -14,24 +14,19 @@
 	"author": "University of Toronto",
 	"license": "ISC",
 	"devDependencies": {
-		"@angular/compiler": "^9.0.5",
-		"@angular/compiler-cli": "^9.0.5",
-		"@angular/core": "^9.0.5",
-		"@angular/forms": "^9.0.5",
-		"@ngtools/webpack": "^9.0.5",
-		"css-loader": "^3.4.2",
+		"@angular/compiler": "^9.0.6",
+		"@angular/compiler-cli": "^9.0.6",
+		"@angular/core": "^9.0.6",
+		"@angular/forms": "^9.0.6",
 		"ng-packagr": "^9.0.3",
-		"raw-loader": "^4.0.0",
-		"ts-node": "^8.6.2",
-		"tsconfig-paths": "^3.9.0",
 		"typescript": "^3.7.5"
 	},
 	"dependencies": {},
 	"peerDependencies": {
-		"@angular/common": "^9.0.5",
-		"@angular/compiler": "^9.0.5",
-		"@angular/core": "^9.0.5",
-		"@angular/forms": "^9.0.5",
+		"@angular/common": "^9.0.6",
+		"@angular/compiler": "^9.0.6",
+		"@angular/core": "^9.0.6",
+		"@angular/forms": "^9.0.6",
 		"rxjs": "^6.5.4"
 	},
 	"ngPackage": {

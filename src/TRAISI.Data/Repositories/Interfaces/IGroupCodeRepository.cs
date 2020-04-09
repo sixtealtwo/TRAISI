@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Repositories.Interfaces
+namespace TRAISI.Data.Repositories.Interfaces
 {
     public interface IGroupcodeRepository : IRepository<Groupcode>
     {

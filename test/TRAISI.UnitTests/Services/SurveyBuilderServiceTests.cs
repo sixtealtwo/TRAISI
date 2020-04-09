@@ -2,9 +2,9 @@ using System;
 using TRAISI.Services;
 using Xunit;
 using Moq;
-using DAL.Models.Surveys;
-using DAL;
-using DAL.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.UnitTests.Services
 {
@@ -81,7 +81,7 @@ namespace TRAISI.UnitTests.Services
 
             var questionPart = new QuestionPart();
 
-            this._surveyBuilderService.AddQuestionPart(view,new DAL.Models.Questions.QuestionPart(), null);
+            this._surveyBuilderService.AddQuestionPart(view,new TRAISI.Data.Models.Questions.QuestionPart(), null);
 
             this._surveyBuilderService.SetQuestionConfiguration(questionPart,"cat","dog");
 

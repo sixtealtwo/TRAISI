@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using DAL.Models.Surveys;
-using DAL.Models.Interfaces;
-using DAL.Models.Extensions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Models.Interfaces;
+using TRAISI.Data.Models.Extensions;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     /// <summary>
     /// QuestionPartView model - container of QuestionParts 
@@ -32,6 +32,9 @@ namespace DAL.Models.Questions
 
         public QuestionPartView ParentView { get; set; }
 
+        /// List of conditionals existing on this
+        public List<QuestionConditionalOperator> Conditionals { get; set; }
+
         [JsonIgnore]
         public int? ParentViewId { get; set; }
 
@@ -55,9 +58,9 @@ namespace DAL.Models.Questions
         public bool IsOptional { get; set; }
         public bool IsHousehold { get; set; }
 
-		public bool IsMultiView { get; set; }
+        public bool IsMultiView { get; set; }
 
-        public bool IsDefaultHidden { get; set;}
+        public bool IsDefaultHidden { get; set; }
 
         public QuestionPart RepeatSource { get; set; }
 
@@ -72,6 +75,7 @@ namespace DAL.Models.Questions
         {
             this.Labels = new LabelCollection<QuestionPartViewLabel>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
+            this.Conditionals = new List<QuestionConditionalOperator>();
         }
     }
 }

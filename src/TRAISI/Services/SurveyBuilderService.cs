@@ -1,7 +1,7 @@
-using DAL;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
-using DAL.Models.Extensions;
+using TRAISI.Data;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Models.Surveys;
+using TRAISI.Data.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using TRAISI.Helpers;
 using TRAISI.SDK;
 using TRAISI.SDK.Interfaces;
 using TRAISI.Services.Interfaces;
-using DAL.Core;
+using TRAISI.Data.Core;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.IO;
@@ -84,7 +84,8 @@ namespace TRAISI.Services
                 targetView.WelcomePageLabels = new LabelCollection<WelcomePageLabel>();
                 targetView.TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>();
                 targetView.ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>();
-            } else if (targetView.WelcomePageLabels[language] != null)
+            }
+            else if (targetView.WelcomePageLabels[language] != null)
             {
                 structureAndLanguageExists = true;
             }
@@ -113,7 +114,8 @@ namespace TRAISI.Services
                             }
                         }
                     }
-                } else
+                }
+                else
                 {
                     foreach (var page in sourceView.QuestionPartViews)
                     {
@@ -197,7 +199,7 @@ namespace TRAISI.Services
                 {
                     Name = name,
                     Value = value.ToString(),
-					ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
+                    ValueType = this._questions.QuestionTypeDefinitions[questionPart.QuestionType].QuestionConfigurations[name].ValueType
                 };
                 questionPart.QuestionConfigurations.Add(qc);
                 return qc;
@@ -424,12 +426,14 @@ namespace TRAISI.Services
                     throw new ArgumentException("Question Type does not exist.");
                 }
                 return errorList;
-            } catch (ValidationException exception)
+            }
+            catch (ValidationException exception)
             {
                 if (exception.Message.StartsWith("Header"))
                 {
                     throw new ArgumentException("Error in CSV file.  Must contain 'Code' and 'Label' header row");
-                } else
+                }
+                else
                 {
                     throw new Exception("Error during import");
                 }
@@ -802,9 +806,9 @@ namespace TRAISI.Services
             });
 
             // call repository functions to remove conditionals that don't belong for the specific question
-            this._unitOfWork.QuestionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
+            // this._unitOfWork.QuestionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
             this._unitOfWork.QuestionOptionConditionals.ValidateSourceConditionals(questionPartId, questionPartIdsAfter);
-            this._unitOfWork.QuestionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
+            //this._unitOfWork.QuestionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
             this._unitOfWork.QuestionOptionConditionals.ValidateTargetConditionals(questionPartId, questionPartIdsBefore);
         }
 
@@ -866,6 +870,58 @@ namespace TRAISI.Services
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="question"></param>
+        /// <param name="conditionalOperator"></param>
+        public void UpdateQuestionConditionals(QuestionPartView question, QuestionConditionalOperator[] conditionalOperators)
+        {
+            var toRemove = new List<int>();
+            var toAdd = new List<QuestionConditionalOperator>();
+            foreach (var op in conditionalOperators)
+            {
+                if (!question.Conditionals.Any(p => p.Id == op.Id))
+                {
+                    toRemove.Add(op.Id);
+                }
+
+            }
+            question.Conditionals.RemoveAll(p => toRemove.Contains(p.Id));
+            question.Conditionals.RemoveAll(p => !conditionalOperators.Any(p2 => p.Id == p2.Id));
+
+            foreach (var op in conditionalOperators)
+            {
+                if (!question.Conditionals.Any(p => p.Id == op.Id) || op.Id == 0)
+                {
+                    question.Conditionals.Add(op);
+                }
+            }
+
+            // update the values
+            foreach (var op in question.Conditionals)
+            {
+                var updated = conditionalOperators.First(p => p.Id == op.Id);
+                op.OperatorType = updated.OperatorType;
+                op.Order = updated.Order;
+                if (op.Rhs != null)
+                {
+                    op.Rhs.SourceQuestionId = updated.Rhs.SourceQuestionId;
+                    op.Rhs.Value = updated.Rhs.Value;
+                    op.Rhs.Condition = updated.Rhs.Condition;
+                }
+                if (op.Lhs != null)
+                {
+                    op.Lhs.SourceQuestionId = updated.Lhs.SourceQuestionId;
+                    op.Lhs.Value = updated.Lhs.Value;
+                    op.Lhs.Condition = updated.Lhs.Condition;
+                }
+            }
+
+            return;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="view"></param>
         /// <param name="part"></param>
         /// <param name="definition"></param>
@@ -906,7 +962,7 @@ namespace TRAISI.Services
 
         public void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals)
         {
-            List<QuestionConditional> newSource = new List<QuestionConditional>();
+            /*List<QuestionConditional> newSource = new List<QuestionConditional>();
             List<QuestionConditional> updateSource = new List<QuestionConditional>();
             List<QuestionConditional> newTarget = new List<QuestionConditional>();
             List<QuestionConditional> updateTarget = new List<QuestionConditional>();
@@ -943,7 +999,7 @@ namespace TRAISI.Services
             this._unitOfWork.QuestionConditionals.AddRange(newSource);
             this._unitOfWork.QuestionConditionals.AddRange(newTarget);
             this._unitOfWork.QuestionConditionals.UpdateRange(updateSource);
-            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget);
+            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget); */
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)
@@ -988,12 +1044,12 @@ namespace TRAISI.Services
             this._unitOfWork.QuestionOptionConditionals.UpdateRange(updateTarget);
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="surveyId"></param>
-		/// <param name="surveyViewName"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyViewName"></param>
+        /// <returns></returns>
         public List<QuestionPartView> GetPageStructureWithOptions(int surveyId, string surveyViewName)
         {
             return this._unitOfWork.SurveyViews.GetSurveyViewQuestionAndOptionStructure(surveyId, surveyViewName).QuestionPartViews.OrderBy(q => q.Order).ToList();

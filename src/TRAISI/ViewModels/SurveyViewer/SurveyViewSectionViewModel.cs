@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TRAISI.Data.Models.Questions;
 
 namespace TRAISI.ViewModels.SurveyViewer
 {
@@ -20,5 +21,7 @@ namespace TRAISI.ViewModels.SurveyViewer
         public bool IsRepeat { get; set; }
 
 		public bool IsMultiView {get;set;}
+
+        public List<QuestionConditionalOperator> Conditionals {get;set;}
     }
 }

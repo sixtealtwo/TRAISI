@@ -14,13 +14,13 @@ import { TimeQuestionComponent } from './time-question/time-question.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { HouseholdQuestionComponent } from 'household-question/household-question.component';
+import { HouseholdQuestionComponent } from './household-question/household-question.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NumberQuestionValidatorDirective } from 'number-question/number-question-validator.directive';
+import { NumberQuestionValidatorDirective } from './number-question/number-question-validator.directive';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { SliderQuestionComponent } from 'slider-question/slider-question.component';
+import { SliderQuestionComponent } from './slider-question/slider-question.component';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
@@ -39,6 +39,7 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		HouseholdQuestionComponent,
 		SliderQuestionComponent
 	],
+	bootstrap: [TextQuestionComponent],
 	entryComponents: [
 		TextQuestionComponent,
 		RadioQuestionComponent,
@@ -54,6 +55,24 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		SliderQuestionComponent
 	],
 	providers: [
+		{
+			provide: 'test',
+			useValue: {
+				component: TextQuestionComponent
+			}
+		},
+		{
+			provide: 'traisi-text-question',
+			useValue: {
+				component: TextQuestionComponent
+			}
+		},
+		{
+			provide: 'traisi-radio-question',
+			useValue: {
+				component: RadioQuestionComponent
+			}
+		},
 		{
 			provide: 'widgets',
 			multi: true,
@@ -126,17 +145,14 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 			]
 		}
 	],
+	id: 'traisi-questions',
 	imports: [CommonModule, FormsModule, HttpClientModule, forRoot, tooltipForRoot, TextMaskModule, NgSelectModule, TimepickerModule]
 })
 export default class TraisiQuestions {
-	public components: Array<{ name: string; id: string; component: any }>;
-
-	public constructor() {
-		this.components = [];
-		this.components.push({
-			name: 'traisi-time-question',
-			id: 'time',
-			component: TimeQuestionComponent
-		});
+	static forRoot(): ModuleWithProviders<TraisiQuestions> {
+		return {
+			ngModule: TraisiQuestions,
+			providers: [TextQuestionComponent]
+		};
 	}
 }

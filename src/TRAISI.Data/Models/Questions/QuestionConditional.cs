@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using DAL.Models.Questions;
-using DAL.Core;
+using TRAISI.Data.Models.Questions;
+using TRAISI.Data.Core;
 using Newtonsoft.Json;
 
-namespace DAL.Models.Questions
+namespace TRAISI.Data.Models.Questions
 {
     /// <summary>
     /// Conditional data for a question
@@ -13,15 +13,8 @@ namespace DAL.Models.Questions
         [JsonIgnore]
         public int Id { get; set; }
 
-        public QuestionPart TargetQuestion { get; set; }
+        public QuestionPartView SourceQuestion { get; set; }
 
-        [JsonIgnore]
-        [ForeignKey("TargetQuestion")]
-        public int TargetQuestionId { get; set; }
-
-        public QuestionPart SourceQuestion { get; set; }
-
-        [JsonIgnore]
         [ForeignKey("SourceQuestion")]
         public int SourceQuestionId { get; set; }
         public QuestionConditionalType Condition { get; set; }

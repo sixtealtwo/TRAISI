@@ -1,4 +1,4 @@
-namespace DAL.Models.Interfaces
+namespace TRAISI.Data.Models.Interfaces
 {
     /// <summary>
     /// Blank entity

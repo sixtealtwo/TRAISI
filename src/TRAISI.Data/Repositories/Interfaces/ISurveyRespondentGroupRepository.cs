@@ -1,6 +1,6 @@
-using DAL.Models.Surveys;
+using TRAISI.Data.Models.Surveys;
 
-namespace DAL.Repositories.Interfaces
+namespace TRAISI.Data.Repositories.Interfaces
 {
     public interface ISurveyRespondentGroupRepository : IRepository<SurveyRespondentGroup>
     {

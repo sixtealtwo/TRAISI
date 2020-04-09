@@ -1,5 +1,6 @@
 import { QuestionPartViewLabel } from './question-part-view-label.model';
 import { QuestionPart } from './question-part.model';
+import { QuestionConditionalOperator } from './question-conditional-operator.model';
 
 export class QuestionPartView {
 	constructor(
@@ -14,6 +15,7 @@ export class QuestionPartView {
 		public isHousehold?: boolean,
 		public repeatSourceQuestionName?: string,
 		public catiDependent?: QuestionPartView,
-		public isMultiView?: boolean
+		public isMultiView?: boolean,
+		public conditionals?: QuestionConditionalOperator[]
 	) {}
 }

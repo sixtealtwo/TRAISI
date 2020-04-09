@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DAL;
-using DAL.Models;
-using DAL.Models.Surveys;
+using TRAISI.Data;
+using TRAISI.Data.Models;
+using TRAISI.Data.Models.Surveys;
 using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels.SurveyViewer;
 using System.Linq;
@@ -26,8 +26,8 @@ namespace TRAISI.Services
         public void AddRespondent(SurveyRespondentGroup group, SubRespondent respondent)
         {
             respondent.SurveyRespondentGroup = group;
+            respondent.PrimaryRespondent = group.GroupPrimaryRespondent;
             group.GroupMembers.Add(respondent);
-
         }
 
         /// <summary>
@@ -36,15 +36,11 @@ namespace TRAISI.Services
         /// <param name="group"></param>
         /// <param name="respondent"></param>
         /// <returns></returns>
-        public async void RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent)
-
+        public async Task RemoveRespondent(SurveyRespondentGroup group, SurveyRespondent respondent)
         {
             var responses = await this._unitOfWork.SurveyResponses.ListQuestionResponsesForRespondentAsync(respondent.Id, "");
-
             this._unitOfWork.SurveyResponses.RemoveRange(responses);
-
             group.GroupMembers.Remove(respondent);
-
         }
 
         /// <summary>
@@ -89,9 +85,7 @@ namespace TRAISI.Services
         /// <param name="respondents"></param>
         public void AddRespondentGroupMembers(SurveyRespondentGroup group, List<SubRespondent> respondents)
         {
-
             group.GroupMembers.Clear();
-
             group.GroupMembers.AddRange(respondents);
 
 

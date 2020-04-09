@@ -7,6 +7,7 @@ import { Utilities } from '../../../shared/services/utilities';
 import { UserLogin } from '../models/user-login.model';
 import { Permission } from '../../../shared/models/permission.model';
 import { Router } from '@angular/router';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
 	selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private alertService: AlertService,
 		private authService: AuthService,
 		private configurations: ConfigurationService,
-		private router: Router
+		private router: Router,
 	) {}
 
 	ngOnInit() {
