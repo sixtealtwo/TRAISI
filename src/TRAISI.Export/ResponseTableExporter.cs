@@ -12,6 +12,7 @@ using TRAISI.Helpers;
 using TRAISI.SDK.Enums;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace TRAISI.Export
 {
@@ -41,11 +42,11 @@ namespace TRAISI.Export
 
         public List<SurveyResponse> ResponseList(List<QuestionPartView> questionPartViews)
         {
-            return _context.SurveyResponses
+            return _context.SurveyResponses.AsQueryable()
                 .Where(r => questionPartViews.Select(v => v.QuestionPart).Contains(r.QuestionPart))
-                .OrderBy(r => r.UpdatedDate)
                 .Include(r => r.ResponseValues)
                 .Include(r => r.Respondent)
+                .OrderBy(r => r.UpdatedDate)
                 .ToList();
         }
 
@@ -96,11 +97,7 @@ namespace TRAISI.Export
 */
         }
 
-        private string ReadPathResponse(SurveyResponse surveyResponse)
-        {
-            throw new NotImplementedException();
-            return null;
-        }
+        private string ReadPathResponse(SurveyResponse surveyResponse) => throw new NotImplementedException();//return null;
 
         private string ReadTimelineResponse(ISurveyResponse surveyResponse)
         {
@@ -164,7 +161,7 @@ namespace TRAISI.Export
             // Response Time
             var responseTimes = surveyResponses.Select(r => new object[] {r.UpdatedDate}).ToList();
             worksheet.Cells[2, 5].LoadFromArrays(responseTimes);
-            worksheet.Cells[2, 5, 1 + numberOfResponses, 5].Style.Numberformat.Format = "yyyy-mm-dd h:mm";
+            //worksheet.Cells[2, 5, 1 + numberOfResponses, 5].Style.Numberformat.Format = "yyyy-mm-dd h:mm";
 
             // Response Value
             responseValuesTask.Wait();

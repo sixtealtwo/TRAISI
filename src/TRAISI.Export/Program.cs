@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Models.Questions;
-using DAL.Models.Surveys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
 using TRAISI.Helpers;
+using System.Data;
 
 namespace TRAISI.Export
 {
     class Program
     {
-        private static void Main(string[] args)
+       
+        public static void Main(string[] args)
         {
             // connect to the database
             var contextFactory = new DesignTimeDbContextFactory();
@@ -26,14 +25,16 @@ namespace TRAISI.Export
             var responderTableExporter = new ResponderTableExporter(context);
 
             // Read survey name
-            var survey = context.Surveys
-                .Where(s => string.Equals(s.Code, "SMTO", StringComparison.CurrentCultureIgnoreCase))
-                .Include(s => s.SurveyViews).ThenInclude(v => v.QuestionPartViews)
-                .First();
+            var survey = context.Surveys  
+            .AsQueryable()
+            .Where(s => string.Equals(s.Code, "smto"))
+            .Include(s => s.SurveyViews) 
+            .ThenInclude(v => v.QuestionPartViews)
+            .FirstOrDefault();
 
-            var view = survey.SurveyViews.FirstOrDefault();
-            
+            //var view = context.SurveyViews.FirstOrDefault();
             Console.WriteLine("Gathering Questions");
+            var view = survey.SurveyViews.FirstOrDefault();
             if (view == null) return;
             var questionPartViews = view.QuestionPartViews.OrderBy(p => p.Order).ToList();
             var questionPartViewTasks =
@@ -51,15 +52,15 @@ namespace TRAISI.Export
 
 
             //test excel creation
-            var fi = new FileInfo(@"..\..\test.xlsx");
+            var fi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\test.xlsx");
             using (var eXp = new ExcelPackage(fi))
             {
-                // initalize a sheet in the workbood
+                // initalize a sheet in the workbook
                 var workbook = eXp.Workbook;
                 Console.WriteLine("Writing question sheet");
                 var questionsSheet = workbook.Worksheets.Add("Questions");
                 questionExporter.BuildQuestionTable(questionPartViews, questionsSheet);
-                Console.WriteLine("Wrting Response Sheet");
+                Console.WriteLine("Writing Response Sheet");
                 var responseSheet = workbook.Worksheets.Add("Responses");
                 responseTableExporter.ResponseListToWorksheet(responses, responseSheet);
                 Console.WriteLine("Writing Response Pivot Sheet");

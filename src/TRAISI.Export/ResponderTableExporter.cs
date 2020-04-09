@@ -3,7 +3,7 @@ using System.Linq;
 using DAL;
 using DAL.Models.Surveys;
 using Microsoft.EntityFrameworkCore;
-using TRAISI.Helpers;
+using System.Data;
 
 namespace TRAISI.Export
 {
@@ -25,7 +25,7 @@ namespace TRAISI.Export
 
         public List<SurveyRespondent> GetSurveyRespondents(Survey survey)
         {
-            var primaryRespondents = _context.PrimaryRespondents
+            var primaryRespondents = _context.PrimaryRespondents.AsQueryable()
                 .Where(sr => sr.Survey == survey)
                 .OrderBy(sr => sr.Shortcode)
                 .Include(sr => sr.SurveyRespondentGroup)

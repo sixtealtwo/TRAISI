@@ -11,5 +11,9 @@ namespace DAL.Models.ResponseTypes
     {
        public DateTime Value {get;set;}
 
+        public object ExportValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

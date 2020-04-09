@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
@@ -9,6 +10,11 @@ namespace DAL.Models.ResponseTypes
 	{
 		[Column(TypeName = "jsonb")]
 		public string Value { get; set; }
-	}
+
+        public object ExportValue()
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 }

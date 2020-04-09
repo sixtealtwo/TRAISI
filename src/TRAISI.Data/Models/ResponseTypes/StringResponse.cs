@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using DAL.Models.Questions;
 using DAL.Models.Surveys;
@@ -9,9 +10,9 @@ namespace DAL.Models.ResponseTypes
 
         public string Value { get; set; }
 
-
-
-
-
+        public object ExportValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

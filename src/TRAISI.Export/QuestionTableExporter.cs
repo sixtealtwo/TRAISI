@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using OfficeOpenXml;
 using TRAISI.Helpers;
 using System.Web;
 using HtmlAgilityPack;
+using System.Data;
 
 namespace TRAISI.Export
 {
@@ -52,7 +52,7 @@ namespace TRAISI.Export
                 return new List<QuestionPartView>() {questionPartView};
             }
             
-            var questionPartViewChildren = await _context.QuestionPartViews
+            var questionPartViewChildren = await _context.QuestionPartViews.AsQueryable()
                 .Where(qp => qp.ParentView == questionPartView)
                 .Include(qpv => qpv.QuestionPart)
                 .Include(qpv => qpv.QuestionPart.QuestionOptions)
