@@ -7,28 +7,30 @@ using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
 using TRAISI.Helpers;
 using System.Data;
+using System.Collections.Generic;
+using DAL.Models.Questions;
 
 namespace TRAISI.Export
 {
     class Program
     {
-       
+
         public static void Main(string[] args)
         {
             // connect to the database
             var contextFactory = new DesignTimeDbContextFactory();
             var context = contextFactory.CreateDbContext(args);
             var questionTypeManager = new QuestionTypeManager(null, new NullLoggerFactory());
-            questionTypeManager.LoadQuestionExtensions();
+            questionTypeManager.LoadQuestionExtensions("../TRAISI/extensions");
             var questionExporter = new QuestionTableExporter(context, questionTypeManager);
             var responseTableExporter = new ResponseTableExporter(context, questionTypeManager);
             var responderTableExporter = new ResponderTableExporter(context);
 
             // Read survey name
-            var survey = context.Surveys  
+            var survey = context.Surveys
             .AsQueryable()
             .Where(s => string.Equals(s.Code, "smto"))
-            .Include(s => s.SurveyViews) 
+            .Include(s => s.SurveyViews)
             .ThenInclude(v => v.QuestionPartViews)
             .FirstOrDefault();
 
@@ -36,14 +38,37 @@ namespace TRAISI.Export
             Console.WriteLine("Gathering Questions");
             var view = survey.SurveyViews.FirstOrDefault();
             if (view == null) return;
-            var questionPartViews = view.QuestionPartViews.OrderBy(p => p.Order).ToList();
+
+            /* var questionPartViews = view.QuestionPartViews.OrderBy(p => p.Order).ToList();
             var questionPartViewTasks =
                 questionPartViews.Select(questionExporter.QuestionPartsList).ToList();
             Task.WhenAll(questionPartViewTasks).Wait();
             questionPartViews = questionPartViewTasks
                 .SelectMany(nl => nl.Result)
-                .ToList();
-            
+                .ToList(); */
+
+            List<QuestionPartView> questionPartViews = new List<QuestionPartView>();
+            foreach (var page in view.QuestionPartViews)
+            {
+                context.Entry(page).Collection(c => c.QuestionPartViewChildren).Load();
+                foreach (var q in page.QuestionPartViewChildren)
+                {
+                    context.Entry(q).Collection(c => c.Labels).Load();
+                    context.Entry(q).Reference(r => r.QuestionPart).Load();
+                    context.Entry(q).Collection(c => c.QuestionPartViewChildren).Load();
+                    foreach (var q2 in q.QuestionPartViewChildren)
+                    {
+                        context.Entry(q2).Collection(c => c.Labels).Load();
+                        context.Entry(q2).Reference(r => r.QuestionPart).Load();
+                        context.Entry(q2).Collection(c => c.QuestionPartViewChildren).Load();
+                        questionPartViews.Add(q2);
+                    }
+
+                }
+                continue;
+            }
+
+
             Console.WriteLine("Getting Responses");
             var responses = responseTableExporter.ResponseList(questionPartViews);
             Console.WriteLine("Finding Respondents");
@@ -53,6 +78,10 @@ namespace TRAISI.Export
 
             //test excel creation
             var fi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\test.xlsx");
+            if (fi.Exists)
+            {
+                fi.Delete();
+            }
             using (var eXp = new ExcelPackage(fi))
             {
                 // initalize a sheet in the workbook
@@ -61,11 +90,11 @@ namespace TRAISI.Export
                 var questionsSheet = workbook.Worksheets.Add("Questions");
                 questionExporter.BuildQuestionTable(questionPartViews, questionsSheet);
                 Console.WriteLine("Writing Response Sheet");
-                var responseSheet = workbook.Worksheets.Add("Responses");
-                responseTableExporter.ResponseListToWorksheet(responses, responseSheet);
-                Console.WriteLine("Writing Response Pivot Sheet");
-                var responsePivotSheet = workbook.Worksheets.Add("Response Pivot");
-                responseTableExporter.ResponsesPivot(questionParts, responses, respondents, responsePivotSheet);
+                //var responseSheet = workbook.Worksheets.Add("Responses");
+                //responseTableExporter.ResponseListToWorksheet(responses, responseSheet);
+                //Console.WriteLine("Writing Response Pivot Sheet");
+                //var responsePivotSheet = workbook.Worksheets.Add("Response Pivot");
+                //responseTableExporter.ResponsesPivot(questionParts, responses, respondents, responsePivotSheet);
                 eXp.Save();
             }
         }

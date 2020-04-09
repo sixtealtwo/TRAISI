@@ -13,6 +13,17 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build-export",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/TRAISI.Export/TRAISI.Export.csproj",
+                "/property:GenerateFullPaths=true"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build-cli",
             "command": "dotnet",
             "type": "process",

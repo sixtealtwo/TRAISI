@@ -31,8 +31,9 @@ namespace TRAISI.Testing
             // Add framework services.
             services.AddMvc().AddJsonOptions(opts =>
             {
-                opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+                // opts
+                // opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                // opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                 //  opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 

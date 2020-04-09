@@ -51,10 +51,10 @@ namespace TRAISI.Helpers
 
         /// <summary>
         /// </summary>
-        public void LoadQuestionExtensions()
+        public void LoadQuestionExtensions(string loadFrom = "extensions")
         {
-            var extensionList = LoadExtensionAssemblies();
-            LoadQuestionTypeDefinitions(extensionList);
+            var extensionList = LoadExtensionAssemblies(loadFrom);
+            LoadQuestionTypeDefinitions(extensionList,loadFrom);
         }
 
         ///
@@ -339,21 +339,21 @@ namespace TRAISI.Helpers
         /// <summary>
         ///    Load all extension (dll) included in the configured extensions directory.
         /// </summary>
-        private List<Assembly> LoadExtensionAssemblies()
+        private List<Assembly> LoadExtensionAssemblies(string loadFrom = "extensions")
         {
             var extensionAssemblies = new List<Assembly>();
             _logger.LogInformation("Loading TRAISI extensions");
-            if (!Directory.Exists("extensions")) {
+            if (!Directory.Exists(loadFrom)) {
                 _logger.LogWarning("Extensions folder does not exist.");
                 return extensionAssemblies;
             }
 
             //assume from configuration at the moment
-            var s = from d in Directory.EnumerateFiles("extensions")
+            var s = from d in Directory.EnumerateFiles(loadFrom)
                     where d.EndsWith(".dll")
                     select d;
 
-            var extensions = Directory.EnumerateFiles("extensions").Where(file => file.EndsWith("dll")).ToList();
+            var extensions = Directory.EnumerateFiles(loadFrom).Where(file => file.EndsWith("dll")).ToList();
             extensions.ForEach(file =>
             {
                 try {

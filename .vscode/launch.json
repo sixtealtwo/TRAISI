@@ -5,6 +5,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": ".NET Core Launch (console) EXPORT",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-export",
+			"program": "${workspaceFolder}/src/TRAISI.Export/bin/Debug/netcoreapp3.1/TRAISI.Export.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/src/TRAISI.Export",
+			"stopAtEntry": false,
+			"console": "internalConsole"
+		},
+		{
 			"name": ".NET Core Launch TRAISI LOCAL (web)",
 			"type": "coreclr",
 			"request": "launch",

@@ -36,7 +36,7 @@ namespace TRAISI.Export
             else
             {
                 _questionTypeManager = new QuestionTypeManager(null, new NullLoggerFactory());
-                _questionTypeManager.LoadQuestionExtensions();
+                _questionTypeManager.LoadQuestionExtensions("../TRAISI/extensions");
             }
         }
 
@@ -63,23 +63,27 @@ namespace TRAISI.Export
             switch (questionTypeDefinition.ResponseType)
             {
                 case QuestionResponseType.String:
-                    return ((StringResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((StringResponse) surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Decimal:
-                    return ((DecimalResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((DecimalResponse) surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Integer:
-                    return ((IntegerResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((IntegerResponse) surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.DateTime:
-                    return ((DateTimeResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((DateTimeResponse) surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Path:
                     return ReadPathResponse(surveyResponse);
                 case QuestionResponseType.Json:
-                    return ((JsonResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    // TO DO
+                    return "";
+                    //return ((JsonResponse) surveyResponse.ResponseValues.First()).ExportValue();
                 case QuestionResponseType.Location:
-                    return ((LocationResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    // TO DO
+                    return ((LocationResponse) surveyResponse.ResponseValues.First()).Address;
+                    // return ((LocationResponse) surveyResponse.ResponseValues.First()).ExportValue();
                 case QuestionResponseType.Timeline:
                     return ReadTimelineResponse(surveyResponse);
                 case QuestionResponseType.OptionSelect:
-                    return ((OptionSelectResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((OptionSelectResponse) surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Boolean:
                     // this type is currently not implemented in in ResponseTypes
                     throw new NotImplementedException("Tried to export boolean type");

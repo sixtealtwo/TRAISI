@@ -33,7 +33,7 @@ namespace TRAISI.Export
             else
             {
                 _questionTypeManager = new QuestionTypeManager(null, new NullLoggerFactory());
-                _questionTypeManager.LoadQuestionExtensions();
+                _questionTypeManager.LoadQuestionExtensions("../TRAISI/extensions");
             }
         }
 

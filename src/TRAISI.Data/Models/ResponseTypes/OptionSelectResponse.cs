@@ -11,9 +11,5 @@ namespace DAL.Models.ResponseTypes
         public string Name { get; set; }
         public string Code { get; set; }
 
-        public object ExportValue()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

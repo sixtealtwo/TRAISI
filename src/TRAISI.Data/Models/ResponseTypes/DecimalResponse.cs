@@ -8,9 +8,5 @@ namespace DAL.Models.ResponseTypes
     {
         public double Value { get; set; }
 
-        public object ExportValue()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
