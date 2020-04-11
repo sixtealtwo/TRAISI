@@ -43,7 +43,7 @@ namespace TRAISI.Data.Repositories
         {
 
             return await this._appContext.SurveyUsers.Where(u => u.Shortcode.Code == shortcode &&
-            u.Shortcode.Survey.Id == surveyId).FirstOrDefaultAsync();
+            u.Shortcode.Survey.Id == surveyId).Include(u => u.PrimaryRespondent).ThenInclude(r => r.SurveyAccessRecords).FirstOrDefaultAsync();
         }
     }
 

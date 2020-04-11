@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	Input,
+	ViewEncapsulation,
+	Output,
+	EventEmitter,
+} from '@angular/core';
 import { Utilities } from '../../../../../shared/services/utilities';
 import { SurveyViewerService } from '../../../services/survey-viewer.service';
 import { SurveyAccessComponent } from 'app/models/survey-access-component.interface';
@@ -9,9 +16,10 @@ import { SurveyViewerSession } from 'app/services/survey-viewer-session.service'
 	selector: 'app-main-survey-access1',
 	templateUrl: './main-survey-access1.component.html',
 	styleUrls: ['./main-survey-access1.component.scss'],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
 })
-export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent {
+export class MainSurveyAccess1Component
+	implements OnInit, SurveyAccessComponent {
 	public quillModules: Object = {
 		toolbar: [
 			['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -31,8 +39,8 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 
 			['clean'], // remove formatting button
 
-			['link'] // link and image, video
-		]
+			['link'], // link and image, video
+		],
 	};
 
 	public accessCode: string;
@@ -45,7 +53,7 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	public borderColour: string;
 
 	public quillMinimalModules: Object = {
-		toolbar: []
+		toolbar: [],
 	};
 
 	public isAdmin: boolean;
@@ -63,13 +71,15 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 	@Output()
 	public startSurveyPressed: EventEmitter<string> = new EventEmitter();
 
-	
 	@Input()
 	public startPageComponent: SurveyStartPageComponent;
 
 	public hasAccessError: boolean = false;
 
-	public constructor(public surveyViewerService: SurveyViewerService, public surveySession: SurveyViewerSession) {
+	public constructor(
+		public surveyViewerService: SurveyViewerService,
+		public surveySession: SurveyViewerSession
+	) {
 		console.log('in here ');
 	}
 
@@ -103,23 +113,25 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 		this.borderColour = this.getBestBorderColor();
 		this.accessCode = '';
 		this.surveyViewerService.isLoggedIn.subscribe(
-			val => {
+			(val) => {
 				console.log('logged in: ' + val);
 			},
-			error => {},
+			(error) => {},
 			() => {
 				console.log('complete');
 			}
 		);
 
-		this.surveySession.data.subscribe(v => {
+		this.surveySession.data.subscribe((v) => {
 			console.log(v);
 		});
 	}
 
 	private getBestPageBodyTextColor(): string {
 		if (this.pageThemeInfo.pageBackgroundColour) {
-			return Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+			return Utilities.whiteOrBlackText(
+				this.pageThemeInfo.pageBackgroundColour
+			);
 		} else {
 			return 'rgb(0,0,0)';
 		}
@@ -127,7 +139,9 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 
 	public getBestBorderColor(): string {
 		if (this.pageThemeInfo.pageBackgroundColour) {
-			let borderColor = Utilities.whiteOrBlackText(this.pageThemeInfo.pageBackgroundColour);
+			let borderColor = Utilities.whiteOrBlackText(
+				this.pageThemeInfo.pageBackgroundColour
+			);
 			if (borderColor === 'rgb(255,255,255)') {
 				return 'rgb(200,200,200)';
 			} else {
@@ -144,16 +158,19 @@ export class MainSurveyAccess1Component implements OnInit, SurveyAccessComponent
 
 	public startSurvey(): void {
 		this.hasAccessError = false;
-		this.surveyViewerService.startPageComponent.startSurvey(this.accessCode).subscribe({
-			complete: () => {
-				console.log('complete ');
-			},
-			error: e => {
-				console.log(e);
-				console.log('has error');
-				this.hasAccessError = true;
-			}
-		});
+		console.log(this.accessCode);
+		this.surveyViewerService.startPageComponent
+			.startSurvey(this.accessCode)
+			.subscribe({
+				complete: () => {
+					console.log('complete ');
+				},
+				error: (e) => {
+					console.log(e);
+					console.log('has error');
+					this.hasAccessError = true;
+				},
+			});
 		// this.startSurveyPressed.emit(this.accessCode);
 	}
 

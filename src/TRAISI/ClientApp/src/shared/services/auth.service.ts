@@ -178,6 +178,7 @@ export class AuthService {
 			this.logout();
 		}
 
+		console.log('here');
 		return this.endpointFactory
 			.getSurveyLoginEndpoint<LoginResponse>(surveyId, shortcode)
 			.pipe(map(response => this.processSurveyUserLoginResponse(response, rememberMe, surveyId, shortcode, groupcode)))

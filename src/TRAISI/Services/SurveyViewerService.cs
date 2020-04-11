@@ -260,6 +260,7 @@ namespace TRAISI.Services
                     }
                     var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
                     primaryRespondent = res.respondent;
+                    existingUser.PrimaryRespondent = primaryRespondent;
 
                 }
                 else
