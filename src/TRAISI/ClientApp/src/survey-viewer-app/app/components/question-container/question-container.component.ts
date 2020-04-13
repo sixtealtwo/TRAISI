@@ -205,8 +205,6 @@ export class QuestionContainerComponent
 					let surveyQuestionInstance: SurveyQuestion<any> = <
 						SurveyQuestion<any>
 					>componentRef.instance;
-
-					console.log('in load component');
 					let config = {
 						...this._questionConfigurationService.getQuestionServerConfiguration(
 							this.question.questionType
@@ -486,9 +484,6 @@ export class QuestionContainerComponent
 
 		this._navigator.validationChanged();
 
-		// just call the update after everything else waiting to be processed
-
-		// this.surveyViewer.validateNavigation();
 	};
 
 	/**

@@ -432,7 +432,6 @@ export class SurveyNavigator {
 		} else {
 			let questionInstances = [];
 			let evals = [];
-
 			for (let question of questions) {
 				// determine if target conditionals are resolved
 				evals.push(
@@ -454,7 +453,6 @@ export class SurveyNavigator {
 						for (let result of results) {
 							result.question.isHidden = result.shouldHide;
 							if (result.shouldHide) {
-								
 								continue;
 							} else {
 								result.question.inSectionIndex = order++;
