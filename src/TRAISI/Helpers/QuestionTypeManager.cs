@@ -249,7 +249,7 @@ namespace TRAISI.Helpers
                                 ResourceData = data,
                                 SharedResource = configAttribute.SharedResource,
                                 IsTranslatable = configAttribute.IsTranslatable,
-                                Configuration = _configuration.GetSection($"QuestionConfigurations:{questionType.FullName}").Get<Dictionary<string, string>>()
+                                Configuration = _configuration != null ? _configuration.GetSection($"QuestionConfigurations:{questionType.FullName}").Get<Dictionary<string, string>>() : new Dictionary<string, string>()
                                 
                             };
                             configuration.Add(configAttribute.Name, definition);

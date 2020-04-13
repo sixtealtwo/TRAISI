@@ -29,7 +29,7 @@ namespace TRAISI.Export
             // Read survey name
             var survey = context.Surveys
             .AsQueryable()
-            .Where(s => string.Equals(s.Code, "smto"))
+            .Where(s => string.Equals(s.Code, args[0]))
             .Include(s => s.SurveyViews)
             .ThenInclude(v => v.QuestionPartViews)
             .FirstOrDefault();
