@@ -9,6 +9,6 @@ namespace TRAISI.SDK.Interfaces
     {
         Dictionary<string,QuestionTypeDefinition> QuestionTypeDefinitions { get; }
 
-        void LoadQuestionExtensions(string loadFrom = ".");
+        void LoadQuestionExtensions(string loadFrom = "extensions");
     }
 }

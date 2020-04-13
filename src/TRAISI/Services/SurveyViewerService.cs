@@ -159,7 +159,7 @@ namespace TRAISI.Services
         /// <param name="shortcode"></param>
         /// <param name="currentUser"></param>
         /// <returns></returns>
-        private async Task<(bool succcess, string[], SurveyUser, PrimaryRespondent respondent)>
+        private async Task<(bool succcess, string[], SurveyUser user, PrimaryRespondent respondent)>
             CreateSurveyUser(Survey survey, Shortcode shortcode, ClaimsPrincipal currentUser)
         {
 
@@ -174,7 +174,9 @@ namespace TRAISI.Services
 
             // create the associated primary respondent 
             var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
-            return (result.Item1, result.Item2, appUser, respondent);
+            result.Item3.PrimaryRespondent = respondent;
+            return (result.Item1, result.Item2, result.Item3, respondent);
+            
         }
 
         /// <summary>
@@ -260,8 +262,6 @@ namespace TRAISI.Services
                     }
                     var res = await CreateSurveyUser(survey, shortcodeRef, currentUser);
                     primaryRespondent = res.respondent;
-                    existingUser.PrimaryRespondent = primaryRespondent;
-
                 }
                 else
                 {

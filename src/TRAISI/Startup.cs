@@ -487,7 +487,7 @@ namespace TRAISI
             Utilities.ConfigureLogger(loggerFactory);
             EmailTemplates.Initialize(env, Configuration);
 
-            questionTypeManager.LoadQuestionExtensions();
+            questionTypeManager.LoadQuestionExtensions("extensions");
 
             if (env.IsDevelopment())
             {
