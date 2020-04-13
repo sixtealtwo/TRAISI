@@ -241,9 +241,6 @@ export class SurveyResponderService implements SurveyResponder {
 					queryIds,
 					respondentId
 				).subscribe((responses) => {
-					console.log(' got responses');
-					console.log(responses);
-					console.log(queryIds);
 					for (let i = 0; i < responses.length; i++) {
 						if (i < questionIds.length) {
 							this._cachedSavedResponses[questionIds[i]][
