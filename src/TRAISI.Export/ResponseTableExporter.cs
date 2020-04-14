@@ -63,27 +63,23 @@ namespace TRAISI.Export
             switch (questionTypeDefinition.ResponseType)
             {
                 case QuestionResponseType.String:
-                    return ((StringResponse) surveyResponse.ResponseValues.First()).Value;
+                    return ((StringResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Decimal:
-                    return ((DecimalResponse) surveyResponse.ResponseValues.First()).Value;
+                    return ((DecimalResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Integer:
-                    return ((IntegerResponse) surveyResponse.ResponseValues.First()).Value;
+                    return ((IntegerResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.DateTime:
-                    return ((DateTimeResponse) surveyResponse.ResponseValues.First()).Value;
+                    return ((DateTimeResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Path:
                     return ReadPathResponse(surveyResponse);
                 case QuestionResponseType.Json:
-                    // TO DO
-                    return "";
-                    //return ((JsonResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ReadJsonResponse(surveyResponse);
                 case QuestionResponseType.Location:
-                    // TO DO
-                    return ((LocationResponse) surveyResponse.ResponseValues.First()).Address;
-                    // return ((LocationResponse) surveyResponse.ResponseValues.First()).ExportValue();
+                    return ((LocationResponse)surveyResponse.ResponseValues.First()).Address;
                 case QuestionResponseType.Timeline:
                     return ReadTimelineResponse(surveyResponse);
                 case QuestionResponseType.OptionSelect:
-                    return ((OptionSelectResponse) surveyResponse.ResponseValues.First()).Value;
+                    return ((OptionSelectResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Boolean:
                     // this type is currently not implemented in in ResponseTypes
                     throw new NotImplementedException("Tried to export boolean type");
@@ -95,10 +91,17 @@ namespace TRAISI.Export
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
 
-/*
-            return "";
-*/
+        private string ReadJsonResponse(SurveyResponse response)
+        {
+            var responseValues = response.ResponseValues.Cast<JsonResponse>().Select(
+                t => new
+                {
+                    t.Value
+                });
+            return JsonSerializer.Serialize(responseValues);
+            
         }
 
         private string ReadPathResponse(SurveyResponse surveyResponse) => throw new NotImplementedException();//return null;
@@ -112,7 +115,7 @@ namespace TRAISI.Export
                     t.Purpose,
                     t.TimeA,
                     t.TimeB,
-                    Location = new {t.Address, t.Location}
+                    Location = new { t.Address, t.Location.X, t.Location.Y }
                 });
             var locationJson = JsonSerializer.Serialize(locations);
             return locationJson;
@@ -148,11 +151,11 @@ namespace TRAISI.Export
             var numberOfResponses = surveyResponses.Count;
 
             // Respondent ID
-            var respondentIDs = surveyResponses.Select(r => new object[] {r.Respondent.Id}).ToList();
+            var respondentIDs = surveyResponses.Select(r => new object[] { r.Respondent.Id }).ToList();
             worksheet.Cells[2, 1].LoadFromArrays(respondentIDs);
 
             // Question Name
-            var questionNames = surveyResponses.Select(r => new object[] {r.QuestionPart.Name}).ToList();
+            var questionNames = surveyResponses.Select(r => new object[] { r.QuestionPart.Name }).ToList();
             worksheet.Cells[2, 2].LoadFromArrays(questionNames);
 
             // Response Type
@@ -163,7 +166,7 @@ namespace TRAISI.Export
             worksheet.Cells[2, 3].LoadFromArrays(responseTypes);
 
             // Response Time
-            var responseTimes = surveyResponses.Select(r => new object[] {r.UpdatedDate}).ToList();
+            var responseTimes = surveyResponses.Select(r => new object[] { r.UpdatedDate }).ToList();
             worksheet.Cells[2, 5].LoadFromArrays(responseTimes);
             //worksheet.Cells[2, 5, 1 + numberOfResponses, 5].Style.Numberformat.Format = "yyyy-mm-dd h:mm";
 
@@ -179,11 +182,11 @@ namespace TRAISI.Export
                 }
                 return r;
             }).ToList();
-            worksheet.Cells[2, 4].LoadFromArrays(responseValues.Select(r => new object[] {r}).ToList());
+            worksheet.Cells[2, 4].LoadFromArrays(responseValues.Select(r => new object[] { r }).ToList());
         }
 
         public void ResponsesPivot(
-            List<QuestionPart> questionParts, 
+            List<QuestionPart> questionParts,
             List<SurveyResponse> surveyResponses,
             List<SurveyRespondent> surveyRespondents,
             ExcelWorksheet worksheet)
@@ -216,7 +219,7 @@ namespace TRAISI.Export
                 foreach (var response in responses)
                 {
                     worksheet.Cells[respondentRowNum[respondent],
-                                    questionColumnDict[response.QuestionPart]].Value 
+                                    questionColumnDict[response.QuestionPart]].Value
                         = ReadSingleResponse(response);
                 }
             }
