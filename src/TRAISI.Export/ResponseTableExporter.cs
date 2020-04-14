@@ -164,7 +164,7 @@ namespace TRAISI.Export
 
             // Response Time
             var responseTimes = surveyResponses.Select(r => new object[] {r.UpdatedDate}).ToList();
-            worksheet.Cells[2, 5].LoadFromArrays(responseTimes);
+            worksheet.Cells[2, 5].LoadFromArrays(responseTimes).Style.Numberformat.Format = "yyyy-mm-dd h:mm:ss";
             //worksheet.Cells[2, 5, 1 + numberOfResponses, 5].Style.Numberformat.Format = "yyyy-mm-dd h:mm";
 
             // Response Value
