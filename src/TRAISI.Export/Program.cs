@@ -92,9 +92,9 @@ namespace TRAISI.Export
                 Console.WriteLine("Writing Response Sheet");
                 var responseSheet = workbook.Worksheets.Add("Responses");
                 responseTableExporter.ResponseListToWorksheet(responses, responseSheet);
-                Console.WriteLine("Writing Response Pivot Sheet");
-                var responsePivotSheet = workbook.Worksheets.Add("Response Pivot");
-                responseTableExporter.ResponsesPivot(questionParts, responses, respondents, responsePivotSheet);
+                //Console.WriteLine("Writing Response Pivot Sheet");
+                //var responsePivotSheet = workbook.Worksheets.Add("Response Pivot");
+                //responseTableExporter.ResponsesPivot(questionParts, responses, respondents, responsePivotSheet);
                 eXp.Save();
             }
         }
