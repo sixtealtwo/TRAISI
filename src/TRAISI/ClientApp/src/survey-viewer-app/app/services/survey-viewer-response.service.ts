@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { SurveyRespondent, SurveyQuestion } from 'traisi-question-sdk';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
+import { SurveyResponseClient } from './survey-viewer-api-client.service';
+import { SurveyViewerSession } from './survey-viewer-session.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class SurveyResponseService {
+export class SurveyViewerResponseService {
 	private _responses: Record<number, Record<number, Array<any>>> = {};
 
-	public constructor() {}
+	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -17,23 +19,15 @@ export class SurveyResponseService {
 	 * @param question
 	 * @param respondent
 	 */
-	public getResponse(
-		question: SurveyViewQuestion,
-		respondent: SurveyRespondent
-	): any {
+	public getResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): any {
 		let response = this._responses[respondent.id]?.[question.id];
 		if (!response) {
-			throw Error(
-				'Asking to retrieve a response that does not exist yet.'
-			);
+			throw Error('Asking to retrieve a response that does not exist yet.');
 		}
 		return response;
 	}
 
-	public hasResponse(
-		question: SurveyViewQuestion,
-		respondent: SurveyRespondent
-	): boolean {
+	public hasResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
 		if (this._responses[respondent.id]?.[question.id]) {
 			return true;
 		}
@@ -46,11 +40,7 @@ export class SurveyResponseService {
 	 * @param respondent
 	 * @param response
 	 */
-	public storeResponse(
-		question: SurveyViewQuestion,
-		respondent: SurveyRespondent,
-		response: any
-	): void {
+	public storeResponse(question: SurveyViewQuestion, respondent: SurveyRespondent, response: any): void {
 		if (!this._responses[respondent.id]) {
 			this._responses[respondent.id] = {};
 		}
@@ -62,10 +52,7 @@ export class SurveyResponseService {
 	 * @param questionIds A list of question IDs to load responses for.
 	 * @param respondent  The respondent to load respones for
 	 */
-	public loadResponses(
-		questions: Array<SurveyViewQuestion>,
-		respondent: SurveyRespondent
-	): Observable<void> {
+	public loadResponses(questions: Array<SurveyViewQuestion>, respondent: SurveyRespondent): Observable<void> {
 		let queryIds = [];
 		for (let question of questions) {
 			if (!this.hasResponse(question, respondent)) {
@@ -77,10 +64,13 @@ export class SurveyResponseService {
 			return EMPTY;
 		}
 		return new Observable((obs) => {
-			this.listResponsesForQuestions(
-				queryIds,
-				respondentId
-			).subscribe((responses) => {
-		
+			this._responseClient
+				.listSurveyResponsesForQuestions(this._session.surveyId, queryIds, respondent.id)
+				.subscribe({
+					complete: () => {
+						obs.complete();
+					},
+				});
+		});
 	}
 }

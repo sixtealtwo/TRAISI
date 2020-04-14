@@ -4,18 +4,29 @@ import { ReplaySubject, Observable, zip, forkJoin } from 'rxjs';
 import { SurveyViewerService } from './survey-viewer.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SurveyViewerSession {
 	public data: ReplaySubject<SurveyViewerSessionData>;
 
 	private _data: SurveyViewerSessionData;
 
+	public get surveyId(): number {
+		return this._data.surveyId;
+	}
+
+	public get surveyCode(): string {
+		return this._data.surveyCode;
+	}
+
 	/**
 	 *Creates an instance of SurveyViewerSession.
 	 * @memberof SurveyViewerSession
 	 */
-	public constructor(@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService) {
+	public constructor(
+		@Inject('SurveyViewerService')
+		private _surveyViewerService: SurveyViewerService
+	) {
 		this.initialize();
 	}
 
@@ -49,31 +60,39 @@ export class SurveyViewerSession {
 			this._surveyViewerService.isLoggedIn,
 			this._surveyViewerService.activeSurveyTitle,
 			this._surveyViewerService.surveyAuthenticationMode
-		).subscribe(([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [number, string, boolean, string, any]) => {
-			this._data = {
-				shortcode: null,
-				groupcode: null,
-				surveyId: surveyId,
-				surveyCode: surveyCode,
-				surveyTitle: surveyTitle,
-				primaryRespondent: null,
-				isLoggedIn: isLoggedIn,
-				isUsingGroupcode: false,
-				authenticationMode: authMode
-			};
-			console.log('session loaded');
-			if (isLoggedIn) {
-				this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
-				this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
-			} else {
-				this._data.shortcode = null;
-				this._data.groupcode = null;
-			}
-			this._data.authenticationMode = authMode;
-			this._data.isUsingGroupcode = this._data.groupcode !== null;
-			this.data.next(this._data);
+		).subscribe(
+			([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [
+				number,
+				string,
+				boolean,
+				string,
+				any
+			]) => {
+				this._data = {
+					shortcode: null,
+					groupcode: null,
+					surveyId: surveyId,
+					surveyCode: surveyCode,
+					surveyTitle: surveyTitle,
+					primaryRespondent: null,
+					isLoggedIn: isLoggedIn,
+					isUsingGroupcode: false,
+					authenticationMode: authMode,
+				};
+				console.log('session loaded');
+				if (isLoggedIn) {
+					this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
+					this._data.groupcode = this._surveyViewerService.currentUser.groupcode;
+				} else {
+					this._data.shortcode = null;
+					this._data.groupcode = null;
+				}
+				this._data.authenticationMode = authMode;
+				this._data.isUsingGroupcode = this._data.groupcode !== null;
+				this.data.next(this._data);
 
-			$.unsubscribe();
-		});
+				$.unsubscribe();
+			}
+		);
 	}
 }
