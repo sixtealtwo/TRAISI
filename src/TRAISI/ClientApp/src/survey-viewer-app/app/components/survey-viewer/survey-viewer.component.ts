@@ -629,16 +629,13 @@ export class SurveyViewerComponent
 	 */
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
-		// this._navigationService.navigateNext();
-
 		this.navigator.navigateNext().subscribe({
 			next: v => {
-				// console.log(v);
 			},
 			complete: () => {
+				console.log('in complete');
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
-				// console.log('navigation completed');
 			}
 		});
 	}

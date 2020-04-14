@@ -6,25 +6,36 @@ import {
 	ResponseTypes,
 	ResponseData,
 	ResponseValue,
-	SurveyRespondent
+	SurveyRespondent,
 } from 'traisi-question-sdk';
 import { SurveyResponderEndpointService } from './survey-responder-endpoint.service';
 import { Observable, Subject, EMPTY, interval } from 'rxjs';
-import { flatMap, map, share, tap, throttle, debounceTime } from 'rxjs/operators';
+import {
+	flatMap,
+	map,
+	share,
+	tap,
+	throttle,
+	debounceTime,
+} from 'rxjs/operators';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
 import { SurveyViewerState } from 'app/models/survey-viewer-state.model';
 import { SurveyResponseState } from 'app/models/survey-response-states.enum';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SurveyResponderService implements SurveyResponder {
 	/**
 	 * A dictionary of saved responses, cache purposes
 	 */
-	private _cachedSavedResponses: { [questionId: number]: { [respondentId: number]: any } };
+	private _cachedSavedResponses: {
+		[questionId: number]: { [respondentId: number]: any };
+	};
 
-	private _cachedByNameSavedResponses: { [questionName: string]: { [respondentId: number]: any } };
+	private _cachedByNameSavedResponses: {
+		[questionName: string]: { [respondentId: number]: any };
+	};
 
 	private _questionIdToNameMap: { [key: number]: string } = {};
 
@@ -39,7 +50,9 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param _surveyResponseEndpointService
 	 * @param _surveyViewerService
 	 */
-	constructor(private _surveyResponseEndpointService: SurveyResponderEndpointService) {
+	constructor(
+		private _surveyResponseEndpointService: SurveyResponderEndpointService
+	) {
 		this._cachedSavedResponses = {};
 		this._cachedByNameSavedResponses = {};
 	}
@@ -60,7 +73,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param questionId
 	 * @param respondentId
 	 */
-	public getCachedSavedResponse(questionId: number, respondentId: number): any | SurveyResponseState {
+	public getCachedSavedResponse(
+		questionId: number,
+		respondentId: number
+	): any | SurveyResponseState {
 		if (questionId in this._cachedSavedResponses) {
 			return this._cachedSavedResponses[questionId][respondentId];
 		} else {
@@ -73,7 +89,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param questionIds
 	 * @param respondentId
 	 */
-	public listResponsesForQuestions(questionIds: number[], respondentId: number): Observable<any> {
+	public listResponsesForQuestions(
+		questionIds: number[],
+		respondentId: number
+	): Observable<any> {
 		let responses = [];
 		let toRetrieve = questionIds;
 
@@ -86,11 +105,16 @@ export class SurveyResponderService implements SurveyResponder {
 		}*/
 
 		if (toRetrieve.length > 0) {
-			return this._surveyResponseEndpointService.getListResponsesForQuestionsUrlEndpoint(toRetrieve, respondentId).pipe(
-				map(responseList => {
-					return responses.concat(responseList);
-				})
-			);
+			return this._surveyResponseEndpointService
+				.getListResponsesForQuestionsUrlEndpoint(
+					toRetrieve,
+					respondentId
+				)
+				.pipe(
+					map((responseList) => {
+						return responses.concat(responseList);
+					})
+				);
 		} else {
 			return Observable.of(responses);
 		}
@@ -102,7 +126,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {*}
 	 * @memberof SurveyResponderService
 	 */
-	public getResponseValue(questionName: string, respondent: SurveyRespondent): any | SurveyResponseState {
+	public getResponseValue(
+		questionName: string,
+		respondent: SurveyRespondent
+	): any | SurveyResponseState {
 		let questionId = this._questionNameToIdMap[questionName];
 		return this.getCachedSavedResponse(questionId, respondent.id);
 	}
@@ -113,7 +140,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<Array<any>>}
 	 * @memberof SurveyResponderService
 	 */
-	public listResponsesForQuestionsByName(questionNames: Array<string>, respondent: SurveyRespondent): Observable<any> {
+	public listResponsesForQuestionsByName(
+		questionNames: Array<string>,
+		respondent: SurveyRespondent
+	): Observable<any> {
 		// convert questionNames into questionIds
 
 		let questionIds = [];
@@ -159,8 +189,14 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondent
 	 * @returns all responses
 	 */
-	public deleteAllResponses(surveyId: number, respondent: SurveyRespondent): Observable<any> {
-		return this._surveyResponseEndpointService.getDeleteAllResponsesEndpoint(surveyId, respondent);
+	public deleteAllResponses(
+		surveyId: number,
+		respondent: SurveyRespondent
+	): Observable<any> {
+		return this._surveyResponseEndpointService.getDeleteAllResponsesEndpoint(
+			surveyId,
+			respondent
+		);
 	}
 
 	/**
@@ -171,7 +207,10 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<any>}
 	 * @memberof SurveyResponderService
 	 */
-	public loadSurveyResponses(questionIds: Array<string>, respondent: SurveyRespondent): Observable<any> {
+	public loadSurveyResponses(
+		questionIds: Array<string>,
+		respondent: SurveyRespondent
+	): Observable<any> {
 		return null;
 	}
 
@@ -180,37 +219,57 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param questionIds
 	 * @param respondentId
 	 */
-	public readyCachedSavedResponses(questionIds: number[], respondentId: number): Observable<any> {
+	public readyCachedSavedResponses(
+		questionIds: number[],
+		respondentId: number
+	): Observable<any> {
 		let queryIds = [];
-		for(let id of questionIds) {
-			if (this._cachedSavedResponses[id] === undefined) {
+		for (let id of questionIds) {
+			if (
+				this._cachedSavedResponses[id] === undefined ||
+				(this._cachedSavedResponses[id] &&
+					!this._cachedSavedResponses[id][respondentId])
+			) {
 				this._cachedSavedResponses[id] = {};
 				queryIds.push(id);
 			}
 		}
-
-		queryIds = questionIds;
-
-		return this.listResponsesForQuestions(queryIds, respondentId).pipe(
-			tap(responses => {
-
-				for (let i = 0; i < responses.length; i++) {
-					if (i < questionIds.length) {
-						this._cachedSavedResponses[questionIds[i]][respondentId] = [];
-						if (responses[i] === undefined) {
-							continue;
-						}
-						if (!(responses[i].responseValues instanceof Array)) {
-							this._cachedSavedResponses[questionIds[i]][respondentId].push(responses[i].responseValues);
-						} else {
-							responses[i].responseValues.forEach(responseValue => {
-								this._cachedSavedResponses[questionIds[i]][respondentId].push(responseValue);
-							});
+		// queryIds = questionIds;
+		if (queryIds.length > 0) {
+			return new Observable((obs) => {
+				this.listResponsesForQuestions(
+					queryIds,
+					respondentId
+				).subscribe((responses) => {
+					for (let i = 0; i < responses.length; i++) {
+						if (i < questionIds.length) {
+							this._cachedSavedResponses[questionIds[i]][
+								respondentId
+							] = [];
+							if (responses[i] === undefined) {
+								continue;
+							}
+							if (
+								!(responses[i].responseValues instanceof Array)
+							) {
+								this._cachedSavedResponses[questionIds[i]][
+									respondentId
+								].push(responses[i].responseValues);
+							} else {
+								for (let value of responses[i].responseValues) {
+									this._cachedSavedResponses[questionIds[i]][
+										respondentId
+									].push(value);
+								}
+							}
 						}
 					}
-				}
-			})
-		);
+					obs.complete();
+				});
+			});
+		} else {
+			return EMPTY;
+		}
 	}
 
 	/**
@@ -235,7 +294,13 @@ export class SurveyResponderService implements SurveyResponder {
 			this._cachedSavedResponses[questionId] = {};
 		}
 
-		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(surveyId, questionId, respondentId, data, repeat);
+		return this._surveyResponseEndpointService.getSaveResponseUrlEndpoint(
+			surveyId,
+			questionId,
+			respondentId,
+			data,
+			repeat
+		);
 	}
 
 	/**
@@ -249,7 +314,9 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param repeat
 	 */
 	public registerQuestion(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]>,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>,
 		surveyId: number,
 		questionId: number,
 		respondentId: number,
@@ -259,10 +326,23 @@ export class SurveyResponderService implements SurveyResponder {
 	): void {
 		questionComponent.response.pipe(debounceTime(200)).subscribe(
 			(value: ResponseData<ResponseTypes | ResponseTypes[]>) => {
-				this.handleResponse(questionComponent, value, surveyId, questionId, respondentId, saved, questionModel, repeat);
+				this.handleResponse(
+					questionComponent,
+					value,
+					surveyId,
+					questionId,
+					respondentId,
+					saved,
+					questionModel,
+					repeat
+				);
 			},
-			error => {
-				console.log('An error occurred subscribing to ' + questionComponent + ' responses');
+			(error) => {
+				console.log(
+					'An error occurred subscribing to ' +
+						questionComponent +
+						' responses'
+				);
 			}
 		);
 	}
@@ -272,18 +352,29 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param surveyId
 	 * @param questionId
 	 */
-	public getSavedResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<ResponseValue<any>> {
+	public getSavedResponse(
+		surveyId: number,
+		questionId: number,
+		respondentId: number,
+		repeat: number
+	): Observable<ResponseValue<any>> {
 		// this.listResponsesForQuestions([questionId, questionId], respondentId).subscribe(val => {});
 
 		return this._surveyResponseEndpointService
-			.getSavedResponseUrlEndpoint<ResponseValue<any>>(surveyId, questionId, respondentId, repeat)
+			.getSavedResponseUrlEndpoint<ResponseValue<any>>(
+				surveyId,
+				questionId,
+				respondentId,
+				repeat
+			)
 			.pipe(
-				tap(response => {
+				tap((response) => {
 					if (this._cachedSavedResponses[questionId] === undefined) {
 						this._cachedSavedResponses[questionId] = {};
 					}
 					if (response !== undefined && response !== null) {
-						this._cachedSavedResponses[questionId][respondentId] = response.responseValues;
+						this._cachedSavedResponses[questionId][respondentId] =
+							response.responseValues;
 					}
 				})
 			);
@@ -298,7 +389,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param respondentId
 	 */
 	private handleResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		response: ResponseData<ResponseTypes | ResponseTypes[]>,
 		surveyId: number,
 		questionId: number,
@@ -308,29 +403,71 @@ export class SurveyResponderService implements SurveyResponder {
 		repeat: number
 	): void {
 		if (response instanceof Array) {
-			this.saveResponse({ values: response }, surveyId, questionId, respondentId, questionModel, repeat).subscribe(
+			this.saveResponse(
+				{ values: response },
+				surveyId,
+				questionId,
+				respondentId,
+				questionModel,
+				repeat
+			).subscribe(
 				(responseValid: boolean) => {
-					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
+					this.onSavedResponse(
+						questionComponent,
+						questionId,
+						respondentId,
+						response,
+						responseValid,
+						saved
+					);
 				},
-				error => {
+				(error) => {
 					console.log(error);
 				}
 			);
 		} else if (typeof response === 'number') {
-			this.saveResponse({ value: response }, surveyId, questionId, respondentId, questionModel, repeat).subscribe(
+			this.saveResponse(
+				{ value: response },
+				surveyId,
+				questionId,
+				respondentId,
+				questionModel,
+				repeat
+			).subscribe(
 				(responseValid: boolean) => {
-					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
+					this.onSavedResponse(
+						questionComponent,
+						questionId,
+						respondentId,
+						response,
+						responseValid,
+						saved
+					);
 				},
-				error => {
+				(error) => {
 					console.log(error);
 				}
 			);
 		} else {
-			this.saveResponse(response, surveyId, questionId, respondentId, questionModel, repeat).subscribe(
+			this.saveResponse(
+				response,
+				surveyId,
+				questionId,
+				respondentId,
+				questionModel,
+				repeat
+			).subscribe(
 				(responseValid: boolean) => {
-					this.onSavedResponse(questionComponent, questionId, respondentId, response, responseValid, saved);
+					this.onSavedResponse(
+						questionComponent,
+						questionId,
+						respondentId,
+						response,
+						responseValid,
+						saved
+					);
 				},
-				error => {
+				(error) => {
 					console.log(error);
 				}
 			);
@@ -347,7 +484,11 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @param saved
 	 */
 	private onSavedResponse(
-		questionComponent: SurveyQuestion<ResponseTypes> | SurveyQuestion<ResponseTypes[]> | SurveyQuestion<any> | OnSaveResponseStatus,
+		questionComponent:
+			| SurveyQuestion<ResponseTypes>
+			| SurveyQuestion<ResponseTypes[]>
+			| SurveyQuestion<any>
+			| OnSaveResponseStatus,
 		questionId: number,
 		respondentId: number,
 		data: any,
@@ -360,13 +501,21 @@ export class SurveyResponderService implements SurveyResponder {
 
 		saved.next(responseValid);
 
-		if (Object.getPrototypeOf(questionComponent).hasOwnProperty('onResponseSaved')) {
-			(<OnSaveResponseStatus>questionComponent).onResponseSaved(responseValid);
+		if (
+			Object.getPrototypeOf(questionComponent).hasOwnProperty(
+				'onResponseSaved'
+			)
+		) {
+			(<OnSaveResponseStatus>questionComponent).onResponseSaved(
+				responseValid
+			);
 		}
 	}
 
 	public getSurveyPrimaryRespondent(surveyId: number): Observable<any> {
-		return this._surveyResponseEndpointService.getSurveyPrimaryRespondentUrlEndpoint(surveyId);
+		return this._surveyResponseEndpointService.getSurveyPrimaryRespondentUrlEndpoint(
+			surveyId
+		);
 	}
 
 	/**
@@ -377,7 +526,9 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @memberof SurveyResponderService
 	 */
 	public addSurveyGroupMember(respondent: SurveyRespondent): Observable<{}> {
-		return this._surveyResponseEndpointService.getAddSurveyGroupMemberUrlEndpoint(respondent);
+		return this._surveyResponseEndpointService.getAddSurveyGroupMemberUrlEndpoint(
+			respondent
+		);
 	}
 
 	/**
@@ -387,24 +538,36 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	public getSurveyGroupMembers(respondent: SurveyRespondent): Observable<any> {
-		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint(respondent);
+	public getSurveyGroupMembers(
+		respondent: SurveyRespondent
+	): Observable<any> {
+		return this._surveyResponseEndpointService.getSurveyGroupMembersUrlEndpoint(
+			respondent
+		);
 	}
 
 	/**
 	 *
 	 * @param respondent
 	 */
-	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<any> {
-		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(respondent);
+	public removeSurveyGroupMember(
+		respondent: SurveyRespondent
+	): Observable<any> {
+		return this._surveyResponseEndpointService.getRemoveSurveyGroupMemberUrlEndpoint(
+			respondent
+		);
 	}
 
 	/**
 	 *
 	 * @param respondent
 	 */
-	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<any> {
-		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(respondent);
+	public updateSurveyGroupMember(
+		respondent: SurveyRespondent
+	): Observable<any> {
+		return this._surveyResponseEndpointService.getUpdateSurveyGroupMemberUrlEndpoint(
+			respondent
+		);
 	}
 
 	/**
@@ -415,8 +578,14 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<any>}
 	 * @memberof SurveyResponderService
 	 */
-	public listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any> {
-		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(surveyId, type);
+	public listSurveyResponsesOfType(
+		surveyId: number,
+		type: ResponseTypes
+	): Observable<any> {
+		return this._surveyResponseEndpointService.getListSurveyResponsesOfType(
+			surveyId,
+			type
+		);
 	}
 
 	/**
@@ -425,7 +594,9 @@ export class SurveyResponderService implements SurveyResponder {
 	 * @returns {Observable<{}>}
 	 * @memberof SurveyResponderService
 	 */
-	public preparePreviousSurveyResponses(respondent: SurveyRespondent): Observable<any> {
+	public preparePreviousSurveyResponses(
+		respondent: SurveyRespondent
+	): Observable<any> {
 		// get all question IDs
 		return Observable.of();
 	}

@@ -215,6 +215,7 @@ export class ConditionalEvaluator {
 					conditional.lhs.value
 				);
 				valueStack.push(evalResult);
+				console.log(response);
 			}
 			if (operatorStack.length === 0) {
 				operatorStack.push(conditional.operatorType);
@@ -230,6 +231,7 @@ export class ConditionalEvaluator {
 					questionId,
 					respondentId
 				);
+				console.log(response);
 				let evalResult = this.evaluateConditional(
 					conditional.lhs.condition,
 					response,
@@ -291,37 +293,17 @@ export class ConditionalEvaluator {
 					}
 				}
 
+				console.log('in should hide ');
 				this._responderService
 					.readyCachedSavedResponses(sourceIds, respondentId)
 					.subscribe({
 						complete: () => {
+							console.log(' cached saved responses ready ');
 							let evalTrue: boolean = this.evaluateConditionalList(
 								question.conditionals,
 								respondentId
 							);
-
-							// let evalTrue: boolean = question.targetConditionals.some(
-							// 	evalConditional => {
-							// 		let response = this._responderService.getCachedSavedResponse(
-							// 			evalConditional.sourceQuestionId,
-							// 			respondentId
-							// 		);
-
-							// 		if (
-							// 			response === undefined ||
-							// 			response.length === 0
-							// 		) {
-							// 			return true;
-							// 		}
-							// 		let evalResult = this.evaluateConditional(
-							// 			evalConditional.conditionalType,
-							// 			response,
-							// 			"",
-							// 			evalConditional.value
-							// 		);
-							// 		return evalResult;
-							// 	}
-							// );
+							console.log(evalTrue);
 							observer.next({
 								shouldHide: !evalTrue,
 								question: question
