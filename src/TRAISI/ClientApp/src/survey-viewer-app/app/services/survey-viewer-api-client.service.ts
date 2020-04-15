@@ -79,8 +79,7 @@ export class SurveyResponseClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = _responseText === "" ? null : <boolean>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -91,7 +90,7 @@ export class SurveyResponseClient {
         return _observableOf<boolean>(<any>null);
     }
 
-    savedResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<SurveyResponseViewModel> {
+    getResponse(surveyId: number, questionId: number, respondentId: number, repeat: number): Observable<SurveyResponseViewModel> {
         let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
@@ -116,11 +115,11 @@ export class SurveyResponseClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSavedResponse(response_);
+            return this.processGetResponse(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processSavedResponse(<any>response_);
+                    return this.processGetResponse(<any>response_);
                 } catch (e) {
                     return <Observable<SurveyResponseViewModel>><any>_observableThrow(e);
                 }
@@ -129,7 +128,7 @@ export class SurveyResponseClient {
         }));
     }
 
-    protected processSavedResponse(response: HttpResponseBase): Observable<SurveyResponseViewModel> {
+    protected processGetResponse(response: HttpResponseBase): Observable<SurveyResponseViewModel> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -139,8 +138,7 @@ export class SurveyResponseClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = SurveyResponseViewModel.fromJS(resultData200);
+            result200 = _responseText === "" ? null : <SurveyResponseViewModel>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -193,12 +191,7 @@ export class SurveyResponseClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(SurveyResponseViewModel.fromJS(item));
-            }
+            result200 = _responseText === "" ? null : <SurveyResponseViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -209,7 +202,7 @@ export class SurveyResponseClient {
         return _observableOf<SurveyResponseViewModel[]>(<any>null);
     }
 
-    listSurveyResponsesForQuestions(surveyId: number | undefined, questionIds: number[] | null | undefined, respondentId: number): Observable<FileResponse> {
+    listSurveyResponsesForQuestions(surveyId: number | undefined, questionIds: number[] | null | undefined, respondentId: number): Observable<SurveyResponseViewModel[]> {
         let url_ = this.baseUrl + "/api/SurveyResponse/questions/respondents/{respondentId}/responses?";
         if (respondentId === undefined || respondentId === null)
             throw new Error("The parameter 'respondentId' must be defined.");
@@ -223,7 +216,7 @@ export class SurveyResponseClient {
             responseType: "blob",			
             headers: new HttpHeaders({
                 "surveyId": surveyId !== undefined && surveyId !== null ? "" + surveyId : "", 
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -234,31 +227,32 @@ export class SurveyResponseClient {
                 try {
                     return this.processListSurveyResponsesForQuestions(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<SurveyResponseViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<SurveyResponseViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processListSurveyResponsesForQuestions(response: HttpResponseBase): Observable<FileResponse> {
+    protected processListSurveyResponsesForQuestions(response: HttpResponseBase): Observable<SurveyResponseViewModel[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SurveyResponseViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<SurveyResponseViewModel[]>(<any>null);
     }
 
     listSurveyResponsesForQuestionsByName(surveyId: number | undefined, questionNames: string[] | null | undefined, respondentId: number): Observable<FileResponse> {
@@ -313,21 +307,20 @@ export class SurveyResponseClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    deleteAllResponses(surveyId: number, respondent: SurveyRespondent | null): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/respondents/{respondent}";
+    deleteAllResponses(surveyId: number, respondentId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/respondents/{respondentId}";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
         url_ = url_.replace("{surveyId}", encodeURIComponent("" + surveyId)); 
-        if (respondent === undefined || respondent === null)
-            throw new Error("The parameter 'respondent' must be defined.");
-        url_ = url_.replace("{respondent}", encodeURIComponent("" + respondent)); 
+        if (respondentId === undefined || respondentId === null)
+            throw new Error("The parameter 'respondentId' must be defined.");
+        url_ = url_.replace("{respondentId}", encodeURIComponent("" + respondentId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
             })
         };
 
@@ -338,31 +331,30 @@ export class SurveyResponseClient {
                 try {
                     return this.processDeleteAllResponses(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processDeleteAllResponses(response: HttpResponseBase): Observable<FileResponse> {
+    protected processDeleteAllResponses(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -418,8 +410,7 @@ export class SurveyRespondentClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -430,7 +421,7 @@ export class SurveyRespondentClient {
         return _observableOf<number>(<any>null);
     }
 
-    addSurveyGroupMember(respondent: SurveyRespondentViewModel | null): Observable<FileResponse> {
+    addSurveyGroupMember(respondent: SurveyRespondentViewModel | null): Observable<number> {
         let url_ = this.baseUrl + "/api/SurveyRespondent/respondents/groups";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -442,7 +433,7 @@ export class SurveyRespondentClient {
             responseType: "blob",			
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -453,34 +444,35 @@ export class SurveyRespondentClient {
                 try {
                     return this.processAddSurveyGroupMember(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processAddSurveyGroupMember(response: HttpResponseBase): Observable<FileResponse> {
+    protected processAddSurveyGroupMember(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 201) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result201: any = null;
+            result201 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result201);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
-    updateSurveyGroupMember(respondent: SurveyRespondentViewModel | null): Observable<FileResponse> {
+    updateSurveyGroupMember(respondent: SurveyRespondentViewModel | null): Observable<void> {
         let url_ = this.baseUrl + "/api/SurveyRespondent/respondents/groups";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -492,7 +484,6 @@ export class SurveyRespondentClient {
             responseType: "blob",			
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
-                "Accept": "application/octet-stream"
             })
         };
 
@@ -503,34 +494,33 @@ export class SurveyRespondentClient {
                 try {
                     return this.processUpdateSurveyGroupMember(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUpdateSurveyGroupMember(response: HttpResponseBase): Observable<FileResponse> {
+    protected processUpdateSurveyGroupMember(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
-    removeSurveyGroupMember(respondentId: number): Observable<FileResponse> {
+    removeSurveyGroupMember(respondentId: number): Observable<void> {
         let url_ = this.baseUrl + "/api/SurveyRespondent/groups/respondents/{respondentId}/groups";
         if (respondentId === undefined || respondentId === null)
             throw new Error("The parameter 'respondentId' must be defined.");
@@ -541,7 +531,6 @@ export class SurveyRespondentClient {
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
             })
         };
 
@@ -552,34 +541,33 @@ export class SurveyRespondentClient {
                 try {
                     return this.processRemoveSurveyGroupMember(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processRemoveSurveyGroupMember(response: HttpResponseBase): Observable<FileResponse> {
+    protected processRemoveSurveyGroupMember(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
-    listSurveyGroupMembers(respondent: number): Observable<FileResponse> {
+    listSurveyGroupMembers(respondent: number): Observable<SurveyRespondentViewModel[]> {
         let url_ = this.baseUrl + "/api/SurveyRespondent/groups/respondents?";
         if (respondent === undefined || respondent === null)
             throw new Error("The parameter 'respondent' must be defined and cannot be null.");
@@ -591,7 +579,7 @@ export class SurveyRespondentClient {
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -602,140 +590,46 @@ export class SurveyRespondentClient {
                 try {
                     return this.processListSurveyGroupMembers(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<SurveyRespondentViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<SurveyRespondentViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processListSurveyGroupMembers(response: HttpResponseBase): Observable<FileResponse> {
+    protected processListSurveyGroupMembers(response: HttpResponseBase): Observable<SurveyRespondentViewModel[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SurveyRespondentViewModel[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<SurveyRespondentViewModel[]>(<any>null);
     }
 }
 
-export class SurveyResponseViewModel implements ISurveyResponseViewModel {
-    responseValues?: { [key: string]: any; }[] | undefined;
-    configuration?: { [key: string]: any; } | undefined;
-    respondent?: SurveyRespondentViewModel | undefined;
-
-    constructor(data?: ISurveyResponseViewModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["ResponseValues"])) {
-                this.responseValues = [] as any;
-                for (let item of _data["ResponseValues"])
-                    this.responseValues!.push(item);
-            }
-            if (_data["Configuration"]) {
-                this.configuration = {} as any;
-                for (let key in _data["Configuration"]) {
-                    if (_data["Configuration"].hasOwnProperty(key))
-                        this.configuration![key] = _data["Configuration"][key];
-                }
-            }
-            this.respondent = _data["Respondent"] ? SurveyRespondentViewModel.fromJS(_data["Respondent"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SurveyResponseViewModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyResponseViewModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.responseValues)) {
-            data["ResponseValues"] = [];
-            for (let item of this.responseValues)
-                data["ResponseValues"].push(item);
-        }
-        if (this.configuration) {
-            data["Configuration"] = {};
-            for (let key in this.configuration) {
-                if (this.configuration.hasOwnProperty(key))
-                    data["Configuration"][key] = this.configuration[key];
-            }
-        }
-        data["Respondent"] = this.respondent ? this.respondent.toJSON() : <any>undefined;
-        return data; 
-    }
+export interface SurveyResponseViewModel {
+    questionId: number;
+    responseValues: { [key: string]: any; }[] | undefined;
+    configuration: { [key: string]: any; } | undefined;
+    respondent: SurveyRespondentViewModel | undefined;
 }
 
-export interface ISurveyResponseViewModel {
-    responseValues?: { [key: string]: any; }[] | undefined;
-    configuration?: { [key: string]: any; } | undefined;
-    respondent?: SurveyRespondentViewModel | undefined;
-}
-
-export class SurveyRespondentViewModel implements ISurveyRespondentViewModel {
-    id?: number;
-    name?: string | undefined;
-    relationship?: string | undefined;
-
-    constructor(data?: ISurveyRespondentViewModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.relationship = _data["Relationship"];
-        }
-    }
-
-    static fromJS(data: any): SurveyRespondentViewModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyRespondentViewModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["Relationship"] = this.relationship;
-        return data; 
-    }
-}
-
-export interface ISurveyRespondentViewModel {
-    id?: number;
-    name?: string | undefined;
-    relationship?: string | undefined;
+export interface SurveyRespondentViewModel {
+    id: number;
+    name: string | undefined;
+    relationship: string | undefined;
 }
 
 export enum QuestionResponseType {
@@ -752,2428 +646,6 @@ export enum QuestionResponseType {
     Path = 10,
     Timeline = 11,
     None = 12,
-}
-
-export abstract class SurveyRespondent implements ISurveyRespondent {
-    id?: number;
-    name?: string | undefined;
-    relationship?: string | undefined;
-    surveyRespondentGroup?: SurveyRespondentGroup | undefined;
-
-    constructor(data?: ISurveyRespondent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.relationship = _data["Relationship"];
-            this.surveyRespondentGroup = _data["SurveyRespondentGroup"] ? SurveyRespondentGroup.fromJS(_data["SurveyRespondentGroup"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SurveyRespondent {
-        data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'SurveyRespondent' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["Relationship"] = this.relationship;
-        data["SurveyRespondentGroup"] = this.surveyRespondentGroup ? this.surveyRespondentGroup.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface ISurveyRespondent {
-    id?: number;
-    name?: string | undefined;
-    relationship?: string | undefined;
-    surveyRespondentGroup?: SurveyRespondentGroup | undefined;
-}
-
-export class SurveyRespondentGroup implements ISurveyRespondentGroup {
-    id?: number;
-    groupMembers?: SurveyRespondent[] | undefined;
-    groupPrimaryRespondent?: PrimaryRespondent | undefined;
-    groupPrimaryRespondentId?: number | undefined;
-
-    constructor(data?: ISurveyRespondentGroup) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            if (Array.isArray(_data["GroupMembers"])) {
-                this.groupMembers = [] as any;
-                for (let item of _data["GroupMembers"])
-                    this.groupMembers!.push(SurveyRespondent.fromJS(item));
-            }
-            this.groupPrimaryRespondent = _data["GroupPrimaryRespondent"] ? PrimaryRespondent.fromJS(_data["GroupPrimaryRespondent"]) : <any>undefined;
-            this.groupPrimaryRespondentId = _data["GroupPrimaryRespondentId"];
-        }
-    }
-
-    static fromJS(data: any): SurveyRespondentGroup {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyRespondentGroup();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        if (Array.isArray(this.groupMembers)) {
-            data["GroupMembers"] = [];
-            for (let item of this.groupMembers)
-                data["GroupMembers"].push(item.toJSON());
-        }
-        data["GroupPrimaryRespondent"] = this.groupPrimaryRespondent ? this.groupPrimaryRespondent.toJSON() : <any>undefined;
-        data["GroupPrimaryRespondentId"] = this.groupPrimaryRespondentId;
-        return data; 
-    }
-}
-
-export interface ISurveyRespondentGroup {
-    id?: number;
-    groupMembers?: SurveyRespondent[] | undefined;
-    groupPrimaryRespondent?: PrimaryRespondent | undefined;
-    groupPrimaryRespondentId?: number | undefined;
-}
-
-export class PrimaryRespondent extends SurveyRespondent implements IPrimaryRespondent {
-    shortcode?: Shortcode | undefined;
-    groupcode?: Groupcode | undefined;
-    user?: ApplicationUser | undefined;
-    surveyAccessRecords?: SurveyAccessRecord[] | undefined;
-    survey?: Survey | undefined;
-
-    constructor(data?: IPrimaryRespondent) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.shortcode = _data["Shortcode"] ? Shortcode.fromJS(_data["Shortcode"]) : <any>undefined;
-            this.groupcode = _data["Groupcode"] ? Groupcode.fromJS(_data["Groupcode"]) : <any>undefined;
-            this.user = _data["User"] ? ApplicationUser.fromJS(_data["User"]) : <any>undefined;
-            if (Array.isArray(_data["SurveyAccessRecords"])) {
-                this.surveyAccessRecords = [] as any;
-                for (let item of _data["SurveyAccessRecords"])
-                    this.surveyAccessRecords!.push(SurveyAccessRecord.fromJS(item));
-            }
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): PrimaryRespondent {
-        data = typeof data === 'object' ? data : {};
-        let result = new PrimaryRespondent();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Shortcode"] = this.shortcode ? this.shortcode.toJSON() : <any>undefined;
-        data["Groupcode"] = this.groupcode ? this.groupcode.toJSON() : <any>undefined;
-        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
-        if (Array.isArray(this.surveyAccessRecords)) {
-            data["SurveyAccessRecords"] = [];
-            for (let item of this.surveyAccessRecords)
-                data["SurveyAccessRecords"].push(item.toJSON());
-        }
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IPrimaryRespondent extends ISurveyRespondent {
-    shortcode?: Shortcode | undefined;
-    groupcode?: Groupcode | undefined;
-    user?: ApplicationUser | undefined;
-    surveyAccessRecords?: SurveyAccessRecord[] | undefined;
-    survey?: Survey | undefined;
-}
-
-export class Shortcode implements IShortcode {
-    id?: number;
-    survey?: Survey | undefined;
-    groupcode?: Groupcode | undefined;
-    code?: string | undefined;
-    isTest?: boolean;
-    createdDate?: Date;
-    surveyCompleted?: boolean;
-
-    constructor(data?: IShortcode) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-            this.groupcode = _data["Groupcode"] ? Groupcode.fromJS(_data["Groupcode"]) : <any>undefined;
-            this.code = _data["Code"];
-            this.isTest = _data["IsTest"];
-            this.createdDate = _data["CreatedDate"] ? new Date(_data["CreatedDate"].toString()) : <any>undefined;
-            this.surveyCompleted = _data["SurveyCompleted"];
-        }
-    }
-
-    static fromJS(data: any): Shortcode {
-        data = typeof data === 'object' ? data : {};
-        let result = new Shortcode();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        data["Groupcode"] = this.groupcode ? this.groupcode.toJSON() : <any>undefined;
-        data["Code"] = this.code;
-        data["IsTest"] = this.isTest;
-        data["CreatedDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
-        data["SurveyCompleted"] = this.surveyCompleted;
-        return data; 
-    }
-}
-
-export interface IShortcode {
-    id?: number;
-    survey?: Survey | undefined;
-    groupcode?: Groupcode | undefined;
-    code?: string | undefined;
-    isTest?: boolean;
-    createdDate?: Date;
-    surveyCompleted?: boolean;
-}
-
-export class AuditableEntity implements IAuditableEntity {
-
-    constructor(data?: IAuditableEntity) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): AuditableEntity {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuditableEntity();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IAuditableEntity {
-}
-
-export class Survey extends AuditableEntity implements ISurvey {
-    code?: string | undefined;
-    name?: string | undefined;
-    owner?: string | undefined;
-    group?: string | undefined;
-    startAt?: Date;
-    endAt?: Date;
-    isActive?: boolean;
-    isOpen?: boolean;
-    successLink?: string | undefined;
-    rejectionLink?: string | undefined;
-    defaultLanguage?: string | undefined;
-    styleTemplate?: string | undefined;
-    surveyViews?: SurveyViewCollectionOfSurveyView | undefined;
-    surveyPermissions?: SurveyPermission[] | undefined;
-    groupCodes?: Groupcode[] | undefined;
-    shortcodes?: Shortcode[] | undefined;
-    extensionConfigurations?: ExtensionConfiguration[] | undefined;
-    titleLabels?: LabelCollectionOfTitlePageLabel | undefined;
-    hasGroupCodes?: boolean;
-
-    constructor(data?: ISurvey) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.code = _data["Code"];
-            this.name = _data["Name"];
-            this.owner = _data["Owner"];
-            this.group = _data["Group"];
-            this.startAt = _data["StartAt"] ? new Date(_data["StartAt"].toString()) : <any>undefined;
-            this.endAt = _data["EndAt"] ? new Date(_data["EndAt"].toString()) : <any>undefined;
-            this.isActive = _data["IsActive"];
-            this.isOpen = _data["IsOpen"];
-            this.successLink = _data["SuccessLink"];
-            this.rejectionLink = _data["RejectionLink"];
-            this.defaultLanguage = _data["DefaultLanguage"];
-            this.styleTemplate = _data["StyleTemplate"];
-            this.surveyViews = _data["SurveyViews"] ? SurveyViewCollectionOfSurveyView.fromJS(_data["SurveyViews"]) : <any>undefined;
-            if (Array.isArray(_data["SurveyPermissions"])) {
-                this.surveyPermissions = [] as any;
-                for (let item of _data["SurveyPermissions"])
-                    this.surveyPermissions!.push(SurveyPermission.fromJS(item));
-            }
-            if (Array.isArray(_data["GroupCodes"])) {
-                this.groupCodes = [] as any;
-                for (let item of _data["GroupCodes"])
-                    this.groupCodes!.push(Groupcode.fromJS(item));
-            }
-            if (Array.isArray(_data["Shortcodes"])) {
-                this.shortcodes = [] as any;
-                for (let item of _data["Shortcodes"])
-                    this.shortcodes!.push(Shortcode.fromJS(item));
-            }
-            if (Array.isArray(_data["ExtensionConfigurations"])) {
-                this.extensionConfigurations = [] as any;
-                for (let item of _data["ExtensionConfigurations"])
-                    this.extensionConfigurations!.push(ExtensionConfiguration.fromJS(item));
-            }
-            this.titleLabels = _data["TitleLabels"] ? LabelCollectionOfTitlePageLabel.fromJS(_data["TitleLabels"]) : <any>undefined;
-            this.hasGroupCodes = _data["HasGroupCodes"];
-        }
-    }
-
-    static fromJS(data: any): Survey {
-        data = typeof data === 'object' ? data : {};
-        let result = new Survey();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Code"] = this.code;
-        data["Name"] = this.name;
-        data["Owner"] = this.owner;
-        data["Group"] = this.group;
-        data["StartAt"] = this.startAt ? this.startAt.toISOString() : <any>undefined;
-        data["EndAt"] = this.endAt ? this.endAt.toISOString() : <any>undefined;
-        data["IsActive"] = this.isActive;
-        data["IsOpen"] = this.isOpen;
-        data["SuccessLink"] = this.successLink;
-        data["RejectionLink"] = this.rejectionLink;
-        data["DefaultLanguage"] = this.defaultLanguage;
-        data["StyleTemplate"] = this.styleTemplate;
-        data["SurveyViews"] = this.surveyViews ? this.surveyViews.toJSON() : <any>undefined;
-        if (Array.isArray(this.surveyPermissions)) {
-            data["SurveyPermissions"] = [];
-            for (let item of this.surveyPermissions)
-                data["SurveyPermissions"].push(item.toJSON());
-        }
-        if (Array.isArray(this.groupCodes)) {
-            data["GroupCodes"] = [];
-            for (let item of this.groupCodes)
-                data["GroupCodes"].push(item.toJSON());
-        }
-        if (Array.isArray(this.shortcodes)) {
-            data["Shortcodes"] = [];
-            for (let item of this.shortcodes)
-                data["Shortcodes"].push(item.toJSON());
-        }
-        if (Array.isArray(this.extensionConfigurations)) {
-            data["ExtensionConfigurations"] = [];
-            for (let item of this.extensionConfigurations)
-                data["ExtensionConfigurations"].push(item.toJSON());
-        }
-        data["TitleLabels"] = this.titleLabels ? this.titleLabels.toJSON() : <any>undefined;
-        data["HasGroupCodes"] = this.hasGroupCodes;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISurvey extends IAuditableEntity {
-    code?: string | undefined;
-    name?: string | undefined;
-    owner?: string | undefined;
-    group?: string | undefined;
-    startAt?: Date;
-    endAt?: Date;
-    isActive?: boolean;
-    isOpen?: boolean;
-    successLink?: string | undefined;
-    rejectionLink?: string | undefined;
-    defaultLanguage?: string | undefined;
-    styleTemplate?: string | undefined;
-    surveyViews?: SurveyViewCollectionOfSurveyView | undefined;
-    surveyPermissions?: SurveyPermission[] | undefined;
-    groupCodes?: Groupcode[] | undefined;
-    shortcodes?: Shortcode[] | undefined;
-    extensionConfigurations?: ExtensionConfiguration[] | undefined;
-    titleLabels?: LabelCollectionOfTitlePageLabel | undefined;
-    hasGroupCodes?: boolean;
-}
-
-export class Anonymous implements IAnonymous {
-    item?: SurveyView | undefined;
-
-    constructor(data?: IAnonymous) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? SurveyView.fromJS(_data["Item"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous {
-    item?: SurveyView | undefined;
-}
-
-export class SurveyViewCollectionOfSurveyView extends Anonymous implements ISurveyViewCollectionOfSurveyView {
-
-    constructor(data?: ISurveyViewCollectionOfSurveyView) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): SurveyViewCollectionOfSurveyView {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyViewCollectionOfSurveyView();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISurveyViewCollectionOfSurveyView extends IAnonymous {
-}
-
-export class SurveyView implements ISurveyView {
-    survey?: Survey | undefined;
-    questionPartViews?: QuestionPartView[] | undefined;
-    welcomePageLabels?: LabelCollectionOfWelcomePageLabel | undefined;
-    termsAndConditionsLabels?: LabelCollectionOfTermsAndConditionsPageLabel | undefined;
-    thankYouPageLabels?: LabelCollectionOfThankYouPageLabel | undefined;
-    screeningQuestionLabels?: LabelCollectionOfScreeningQuestionsPageLabel | undefined;
-    viewName?: string | undefined;
-
-    constructor(data?: ISurveyView) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-            if (Array.isArray(_data["QuestionPartViews"])) {
-                this.questionPartViews = [] as any;
-                for (let item of _data["QuestionPartViews"])
-                    this.questionPartViews!.push(QuestionPartView.fromJS(item));
-            }
-            this.welcomePageLabels = _data["WelcomePageLabels"] ? LabelCollectionOfWelcomePageLabel.fromJS(_data["WelcomePageLabels"]) : <any>undefined;
-            this.termsAndConditionsLabels = _data["TermsAndConditionsLabels"] ? LabelCollectionOfTermsAndConditionsPageLabel.fromJS(_data["TermsAndConditionsLabels"]) : <any>undefined;
-            this.thankYouPageLabels = _data["ThankYouPageLabels"] ? LabelCollectionOfThankYouPageLabel.fromJS(_data["ThankYouPageLabels"]) : <any>undefined;
-            this.screeningQuestionLabels = _data["ScreeningQuestionLabels"] ? LabelCollectionOfScreeningQuestionsPageLabel.fromJS(_data["ScreeningQuestionLabels"]) : <any>undefined;
-            this.viewName = _data["ViewName"];
-        }
-    }
-
-    static fromJS(data: any): SurveyView {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyView();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        if (Array.isArray(this.questionPartViews)) {
-            data["QuestionPartViews"] = [];
-            for (let item of this.questionPartViews)
-                data["QuestionPartViews"].push(item.toJSON());
-        }
-        data["WelcomePageLabels"] = this.welcomePageLabels ? this.welcomePageLabels.toJSON() : <any>undefined;
-        data["TermsAndConditionsLabels"] = this.termsAndConditionsLabels ? this.termsAndConditionsLabels.toJSON() : <any>undefined;
-        data["ThankYouPageLabels"] = this.thankYouPageLabels ? this.thankYouPageLabels.toJSON() : <any>undefined;
-        data["ScreeningQuestionLabels"] = this.screeningQuestionLabels ? this.screeningQuestionLabels.toJSON() : <any>undefined;
-        data["ViewName"] = this.viewName;
-        return data; 
-    }
-}
-
-export interface ISurveyView {
-    survey?: Survey | undefined;
-    questionPartViews?: QuestionPartView[] | undefined;
-    welcomePageLabels?: LabelCollectionOfWelcomePageLabel | undefined;
-    termsAndConditionsLabels?: LabelCollectionOfTermsAndConditionsPageLabel | undefined;
-    thankYouPageLabels?: LabelCollectionOfThankYouPageLabel | undefined;
-    screeningQuestionLabels?: LabelCollectionOfScreeningQuestionsPageLabel | undefined;
-    viewName?: string | undefined;
-}
-
-export class QuestionPartView implements IQuestionPartView {
-    labels?: LabelCollectionOfQuestionPartViewLabel | undefined;
-    questionPart?: QuestionPart | undefined;
-    parentView?: QuestionPartView | undefined;
-    conditionals?: QuestionConditionalOperator[] | undefined;
-    surveyView?: SurveyView | undefined;
-    questionPartViewChildren?: QuestionPartView[] | undefined;
-    order?: number;
-    isOptional?: boolean;
-    isHousehold?: boolean;
-    isMultiView?: boolean;
-    isDefaultHidden?: boolean;
-    repeatSource?: QuestionPart | undefined;
-    icon?: string | undefined;
-    cATIDependent?: QuestionPartView | undefined;
-
-    constructor(data?: IQuestionPartView) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.labels = _data["Labels"] ? LabelCollectionOfQuestionPartViewLabel.fromJS(_data["Labels"]) : <any>undefined;
-            this.questionPart = _data["QuestionPart"] ? QuestionPart.fromJS(_data["QuestionPart"]) : <any>undefined;
-            this.parentView = _data["ParentView"] ? QuestionPartView.fromJS(_data["ParentView"]) : <any>undefined;
-            if (Array.isArray(_data["Conditionals"])) {
-                this.conditionals = [] as any;
-                for (let item of _data["Conditionals"])
-                    this.conditionals!.push(QuestionConditionalOperator.fromJS(item));
-            }
-            this.surveyView = _data["SurveyView"] ? SurveyView.fromJS(_data["SurveyView"]) : <any>undefined;
-            if (Array.isArray(_data["QuestionPartViewChildren"])) {
-                this.questionPartViewChildren = [] as any;
-                for (let item of _data["QuestionPartViewChildren"])
-                    this.questionPartViewChildren!.push(QuestionPartView.fromJS(item));
-            }
-            this.order = _data["Order"];
-            this.isOptional = _data["IsOptional"];
-            this.isHousehold = _data["IsHousehold"];
-            this.isMultiView = _data["IsMultiView"];
-            this.isDefaultHidden = _data["IsDefaultHidden"];
-            this.repeatSource = _data["RepeatSource"] ? QuestionPart.fromJS(_data["RepeatSource"]) : <any>undefined;
-            this.icon = _data["Icon"];
-            this.cATIDependent = _data["CATIDependent"] ? QuestionPartView.fromJS(_data["CATIDependent"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionPartView {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionPartView();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Labels"] = this.labels ? this.labels.toJSON() : <any>undefined;
-        data["QuestionPart"] = this.questionPart ? this.questionPart.toJSON() : <any>undefined;
-        data["ParentView"] = this.parentView ? this.parentView.toJSON() : <any>undefined;
-        if (Array.isArray(this.conditionals)) {
-            data["Conditionals"] = [];
-            for (let item of this.conditionals)
-                data["Conditionals"].push(item.toJSON());
-        }
-        data["SurveyView"] = this.surveyView ? this.surveyView.toJSON() : <any>undefined;
-        if (Array.isArray(this.questionPartViewChildren)) {
-            data["QuestionPartViewChildren"] = [];
-            for (let item of this.questionPartViewChildren)
-                data["QuestionPartViewChildren"].push(item.toJSON());
-        }
-        data["Order"] = this.order;
-        data["IsOptional"] = this.isOptional;
-        data["IsHousehold"] = this.isHousehold;
-        data["IsMultiView"] = this.isMultiView;
-        data["IsDefaultHidden"] = this.isDefaultHidden;
-        data["RepeatSource"] = this.repeatSource ? this.repeatSource.toJSON() : <any>undefined;
-        data["Icon"] = this.icon;
-        data["CATIDependent"] = this.cATIDependent ? this.cATIDependent.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IQuestionPartView {
-    labels?: LabelCollectionOfQuestionPartViewLabel | undefined;
-    questionPart?: QuestionPart | undefined;
-    parentView?: QuestionPartView | undefined;
-    conditionals?: QuestionConditionalOperator[] | undefined;
-    surveyView?: SurveyView | undefined;
-    questionPartViewChildren?: QuestionPartView[] | undefined;
-    order?: number;
-    isOptional?: boolean;
-    isHousehold?: boolean;
-    isMultiView?: boolean;
-    isDefaultHidden?: boolean;
-    repeatSource?: QuestionPart | undefined;
-    icon?: string | undefined;
-    cATIDependent?: QuestionPartView | undefined;
-}
-
-export class Anonymous2 implements IAnonymous2 {
-    item?: QuestionPartViewLabel | undefined;
-    default?: QuestionPartViewLabel | undefined;
-
-    constructor(data?: IAnonymous2) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? QuestionPartViewLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? QuestionPartViewLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous2 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous2();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous2 {
-    item?: QuestionPartViewLabel | undefined;
-    default?: QuestionPartViewLabel | undefined;
-}
-
-export class LabelCollectionOfQuestionPartViewLabel extends Anonymous2 implements ILabelCollectionOfQuestionPartViewLabel {
-
-    constructor(data?: ILabelCollectionOfQuestionPartViewLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfQuestionPartViewLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfQuestionPartViewLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfQuestionPartViewLabel extends IAnonymous2 {
-}
-
-export class Label extends AuditableEntity implements ILabel {
-    value?: string | undefined;
-    language?: string | undefined;
-
-    constructor(data?: ILabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.value = _data["Value"];
-            this.language = _data["Language"];
-        }
-    }
-
-    static fromJS(data: any): Label {
-        data = typeof data === 'object' ? data : {};
-        let result = new Label();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Value"] = this.value;
-        data["Language"] = this.language;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabel extends IAuditableEntity {
-    value?: string | undefined;
-    language?: string | undefined;
-}
-
-export class QuestionPartViewLabel extends Label implements IQuestionPartViewLabel {
-    questionPartView?: QuestionPartView | undefined;
-
-    constructor(data?: IQuestionPartViewLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.questionPartView = _data["QuestionPartView"] ? QuestionPartView.fromJS(_data["QuestionPartView"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionPartViewLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionPartViewLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["QuestionPartView"] = this.questionPartView ? this.questionPartView.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IQuestionPartViewLabel extends ILabel {
-    questionPartView?: QuestionPartView | undefined;
-}
-
-export class QuestionPart implements IQuestionPart {
-    questionType?: string | undefined;
-    name?: string | undefined;
-    questionPartChildren?: QuestionPart[] | undefined;
-    questionConfigurations?: QuestionConfiguration[] | undefined;
-    questionOptions?: QuestionOption[] | undefined;
-    questionConditionalsSource?: QuestionConditional[] | undefined;
-    questionConditionalsTarget?: QuestionConditional[] | undefined;
-    questionOptionConditionalsSource?: QuestionOptionConditional[] | undefined;
-    isGroupQuestion?: boolean;
-    survey?: Survey | undefined;
-
-    constructor(data?: IQuestionPart) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.questionType = _data["QuestionType"];
-            this.name = _data["Name"];
-            if (Array.isArray(_data["QuestionPartChildren"])) {
-                this.questionPartChildren = [] as any;
-                for (let item of _data["QuestionPartChildren"])
-                    this.questionPartChildren!.push(QuestionPart.fromJS(item));
-            }
-            if (Array.isArray(_data["QuestionConfigurations"])) {
-                this.questionConfigurations = [] as any;
-                for (let item of _data["QuestionConfigurations"])
-                    this.questionConfigurations!.push(QuestionConfiguration.fromJS(item));
-            }
-            if (Array.isArray(_data["QuestionOptions"])) {
-                this.questionOptions = [] as any;
-                for (let item of _data["QuestionOptions"])
-                    this.questionOptions!.push(QuestionOption.fromJS(item));
-            }
-            if (Array.isArray(_data["QuestionConditionalsSource"])) {
-                this.questionConditionalsSource = [] as any;
-                for (let item of _data["QuestionConditionalsSource"])
-                    this.questionConditionalsSource!.push(QuestionConditional.fromJS(item));
-            }
-            if (Array.isArray(_data["QuestionConditionalsTarget"])) {
-                this.questionConditionalsTarget = [] as any;
-                for (let item of _data["QuestionConditionalsTarget"])
-                    this.questionConditionalsTarget!.push(QuestionConditional.fromJS(item));
-            }
-            if (Array.isArray(_data["QuestionOptionConditionalsSource"])) {
-                this.questionOptionConditionalsSource = [] as any;
-                for (let item of _data["QuestionOptionConditionalsSource"])
-                    this.questionOptionConditionalsSource!.push(QuestionOptionConditional.fromJS(item));
-            }
-            this.isGroupQuestion = _data["IsGroupQuestion"];
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionPart {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionPart();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["QuestionType"] = this.questionType;
-        data["Name"] = this.name;
-        if (Array.isArray(this.questionPartChildren)) {
-            data["QuestionPartChildren"] = [];
-            for (let item of this.questionPartChildren)
-                data["QuestionPartChildren"].push(item.toJSON());
-        }
-        if (Array.isArray(this.questionConfigurations)) {
-            data["QuestionConfigurations"] = [];
-            for (let item of this.questionConfigurations)
-                data["QuestionConfigurations"].push(item.toJSON());
-        }
-        if (Array.isArray(this.questionOptions)) {
-            data["QuestionOptions"] = [];
-            for (let item of this.questionOptions)
-                data["QuestionOptions"].push(item.toJSON());
-        }
-        if (Array.isArray(this.questionConditionalsSource)) {
-            data["QuestionConditionalsSource"] = [];
-            for (let item of this.questionConditionalsSource)
-                data["QuestionConditionalsSource"].push(item.toJSON());
-        }
-        if (Array.isArray(this.questionConditionalsTarget)) {
-            data["QuestionConditionalsTarget"] = [];
-            for (let item of this.questionConditionalsTarget)
-                data["QuestionConditionalsTarget"].push(item.toJSON());
-        }
-        if (Array.isArray(this.questionOptionConditionalsSource)) {
-            data["QuestionOptionConditionalsSource"] = [];
-            for (let item of this.questionOptionConditionalsSource)
-                data["QuestionOptionConditionalsSource"].push(item.toJSON());
-        }
-        data["IsGroupQuestion"] = this.isGroupQuestion;
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IQuestionPart {
-    questionType?: string | undefined;
-    name?: string | undefined;
-    questionPartChildren?: QuestionPart[] | undefined;
-    questionConfigurations?: QuestionConfiguration[] | undefined;
-    questionOptions?: QuestionOption[] | undefined;
-    questionConditionalsSource?: QuestionConditional[] | undefined;
-    questionConditionalsTarget?: QuestionConditional[] | undefined;
-    questionOptionConditionalsSource?: QuestionOptionConditional[] | undefined;
-    isGroupQuestion?: boolean;
-    survey?: Survey | undefined;
-}
-
-export class QuestionConfiguration implements IQuestionConfiguration {
-    name?: string | undefined;
-    value?: string | undefined;
-    isResourceOnly?: boolean;
-    valueType?: ConfigurationValueType;
-    questionConfigurationLabels?: LabelCollectionOfQuestionConfigurationLabel | undefined;
-    isSourceInputRequired?: boolean;
-
-    constructor(data?: IQuestionConfiguration) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["Name"];
-            this.value = _data["Value"];
-            this.isResourceOnly = _data["IsResourceOnly"];
-            this.valueType = _data["ValueType"];
-            this.questionConfigurationLabels = _data["QuestionConfigurationLabels"] ? LabelCollectionOfQuestionConfigurationLabel.fromJS(_data["QuestionConfigurationLabels"]) : <any>undefined;
-            this.isSourceInputRequired = _data["IsSourceInputRequired"];
-        }
-    }
-
-    static fromJS(data: any): QuestionConfiguration {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionConfiguration();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Name"] = this.name;
-        data["Value"] = this.value;
-        data["IsResourceOnly"] = this.isResourceOnly;
-        data["ValueType"] = this.valueType;
-        data["QuestionConfigurationLabels"] = this.questionConfigurationLabels ? this.questionConfigurationLabels.toJSON() : <any>undefined;
-        data["IsSourceInputRequired"] = this.isSourceInputRequired;
-        return data; 
-    }
-}
-
-export interface IQuestionConfiguration {
-    name?: string | undefined;
-    value?: string | undefined;
-    isResourceOnly?: boolean;
-    valueType?: ConfigurationValueType;
-    questionConfigurationLabels?: LabelCollectionOfQuestionConfigurationLabel | undefined;
-    isSourceInputRequired?: boolean;
-}
-
-export enum ConfigurationValueType {
-    String = 0,
-    Integer = 1,
-    Decimal = 2,
-    Boolean = 3,
-    Tuple = 4,
-    Time = 5,
-    Date = 6,
-    Custom = 7,
-    Label = 8,
-    Question = 9,
-    KeyValuePair = 10,
-}
-
-export class Anonymous3 implements IAnonymous3 {
-    item?: QuestionConfigurationLabel | undefined;
-    default?: QuestionConfigurationLabel | undefined;
-
-    constructor(data?: IAnonymous3) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? QuestionConfigurationLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? QuestionConfigurationLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous3 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous3();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous3 {
-    item?: QuestionConfigurationLabel | undefined;
-    default?: QuestionConfigurationLabel | undefined;
-}
-
-export class LabelCollectionOfQuestionConfigurationLabel extends Anonymous3 implements ILabelCollectionOfQuestionConfigurationLabel {
-
-    constructor(data?: ILabelCollectionOfQuestionConfigurationLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfQuestionConfigurationLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfQuestionConfigurationLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfQuestionConfigurationLabel extends IAnonymous3 {
-}
-
-export class QuestionConfigurationLabel extends Label implements IQuestionConfigurationLabel {
-    questionOptionId?: number;
-    questionOption?: QuestionOption | undefined;
-
-    constructor(data?: IQuestionConfigurationLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.questionOptionId = _data["QuestionOptionId"];
-            this.questionOption = _data["QuestionOption"] ? QuestionOption.fromJS(_data["QuestionOption"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionConfigurationLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionConfigurationLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["QuestionOptionId"] = this.questionOptionId;
-        data["QuestionOption"] = this.questionOption ? this.questionOption.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IQuestionConfigurationLabel extends ILabel {
-    questionOptionId?: number;
-    questionOption?: QuestionOption | undefined;
-}
-
-export class QuestionOption implements IQuestionOption {
-    name?: string | undefined;
-    code?: string | undefined;
-    questionOptionLabels?: LabelCollectionOfQuestionOptionLabel | undefined;
-    order?: number;
-    questionOptionConditionalsTarget?: QuestionOptionConditional[] | undefined;
-    questionPartParent?: QuestionPart | undefined;
-
-    constructor(data?: IQuestionOption) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["Name"];
-            this.code = _data["Code"];
-            this.questionOptionLabels = _data["QuestionOptionLabels"] ? LabelCollectionOfQuestionOptionLabel.fromJS(_data["QuestionOptionLabels"]) : <any>undefined;
-            this.order = _data["Order"];
-            if (Array.isArray(_data["QuestionOptionConditionalsTarget"])) {
-                this.questionOptionConditionalsTarget = [] as any;
-                for (let item of _data["QuestionOptionConditionalsTarget"])
-                    this.questionOptionConditionalsTarget!.push(QuestionOptionConditional.fromJS(item));
-            }
-            this.questionPartParent = _data["QuestionPartParent"] ? QuestionPart.fromJS(_data["QuestionPartParent"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionOption {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionOption();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Name"] = this.name;
-        data["Code"] = this.code;
-        data["QuestionOptionLabels"] = this.questionOptionLabels ? this.questionOptionLabels.toJSON() : <any>undefined;
-        data["Order"] = this.order;
-        if (Array.isArray(this.questionOptionConditionalsTarget)) {
-            data["QuestionOptionConditionalsTarget"] = [];
-            for (let item of this.questionOptionConditionalsTarget)
-                data["QuestionOptionConditionalsTarget"].push(item.toJSON());
-        }
-        data["QuestionPartParent"] = this.questionPartParent ? this.questionPartParent.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IQuestionOption {
-    name?: string | undefined;
-    code?: string | undefined;
-    questionOptionLabels?: LabelCollectionOfQuestionOptionLabel | undefined;
-    order?: number;
-    questionOptionConditionalsTarget?: QuestionOptionConditional[] | undefined;
-    questionPartParent?: QuestionPart | undefined;
-}
-
-export class Anonymous4 implements IAnonymous4 {
-    item?: QuestionOptionLabel | undefined;
-    default?: QuestionOptionLabel | undefined;
-
-    constructor(data?: IAnonymous4) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? QuestionOptionLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? QuestionOptionLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous4 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous4();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous4 {
-    item?: QuestionOptionLabel | undefined;
-    default?: QuestionOptionLabel | undefined;
-}
-
-export class LabelCollectionOfQuestionOptionLabel extends Anonymous4 implements ILabelCollectionOfQuestionOptionLabel {
-
-    constructor(data?: ILabelCollectionOfQuestionOptionLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfQuestionOptionLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfQuestionOptionLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfQuestionOptionLabel extends IAnonymous4 {
-}
-
-export class QuestionOptionLabel extends Label implements IQuestionOptionLabel {
-    questionOption?: QuestionOption | undefined;
-
-    constructor(data?: IQuestionOptionLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.questionOption = _data["QuestionOption"] ? QuestionOption.fromJS(_data["QuestionOption"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): QuestionOptionLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionOptionLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["QuestionOption"] = this.questionOption ? this.questionOption.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IQuestionOptionLabel extends ILabel {
-    questionOption?: QuestionOption | undefined;
-}
-
-export class QuestionOptionConditional implements IQuestionOptionConditional {
-    targetOption?: QuestionOption | undefined;
-    sourceQuestion?: QuestionPart | undefined;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-
-    constructor(data?: IQuestionOptionConditional) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.targetOption = _data["TargetOption"] ? QuestionOption.fromJS(_data["TargetOption"]) : <any>undefined;
-            this.sourceQuestion = _data["SourceQuestion"] ? QuestionPart.fromJS(_data["SourceQuestion"]) : <any>undefined;
-            this.condition = _data["Condition"];
-            this.value = _data["Value"];
-        }
-    }
-
-    static fromJS(data: any): QuestionOptionConditional {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionOptionConditional();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["TargetOption"] = this.targetOption ? this.targetOption.toJSON() : <any>undefined;
-        data["SourceQuestion"] = this.sourceQuestion ? this.sourceQuestion.toJSON() : <any>undefined;
-        data["Condition"] = this.condition;
-        data["Value"] = this.value;
-        return data; 
-    }
-}
-
-export interface IQuestionOptionConditional {
-    targetOption?: QuestionOption | undefined;
-    sourceQuestion?: QuestionPart | undefined;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-}
-
-export enum QuestionConditionalType {
-    IsEqualTo = 0,
-    IsNotEqualTo = 1,
-    GreaterThan = 2,
-    LessThan = 3,
-    InBounds = 4,
-    OutOfBounds = 5,
-    InRange = 6,
-    OutsideRange = 7,
-    IsAnyOf = 8,
-    IsAllOf = 9,
-    Contains = 10,
-    DoesNotContain = 11,
-}
-
-export class QuestionConditional implements IQuestionConditional {
-    sourceQuestion?: QuestionPartView | undefined;
-    sourceQuestionId?: number;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-
-    constructor(data?: IQuestionConditional) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.sourceQuestion = _data["SourceQuestion"] ? QuestionPartView.fromJS(_data["SourceQuestion"]) : <any>undefined;
-            this.sourceQuestionId = _data["SourceQuestionId"];
-            this.condition = _data["Condition"];
-            this.value = _data["Value"];
-        }
-    }
-
-    static fromJS(data: any): QuestionConditional {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionConditional();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["SourceQuestion"] = this.sourceQuestion ? this.sourceQuestion.toJSON() : <any>undefined;
-        data["SourceQuestionId"] = this.sourceQuestionId;
-        data["Condition"] = this.condition;
-        data["Value"] = this.value;
-        return data; 
-    }
-}
-
-export interface IQuestionConditional {
-    sourceQuestion?: QuestionPartView | undefined;
-    sourceQuestionId?: number;
-    condition?: QuestionConditionalType;
-    value?: string | undefined;
-}
-
-export class QuestionConditionalOperator implements IQuestionConditionalOperator {
-    order?: number;
-    operatorType?: QuestionCondtionalOperatorType;
-    lhs?: QuestionConditional | undefined;
-    rhs?: QuestionConditional | undefined;
-    targetQuestionId?: number;
-    lhsId?: number | undefined;
-    rhsId?: number | undefined;
-
-    constructor(data?: IQuestionConditionalOperator) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.order = _data["Order"];
-            this.operatorType = _data["OperatorType"];
-            this.lhs = _data["Lhs"] ? QuestionConditional.fromJS(_data["Lhs"]) : <any>undefined;
-            this.rhs = _data["Rhs"] ? QuestionConditional.fromJS(_data["Rhs"]) : <any>undefined;
-            this.targetQuestionId = _data["TargetQuestionId"];
-            this.lhsId = _data["LhsId"];
-            this.rhsId = _data["RhsId"];
-        }
-    }
-
-    static fromJS(data: any): QuestionConditionalOperator {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionConditionalOperator();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Order"] = this.order;
-        data["OperatorType"] = this.operatorType;
-        data["Lhs"] = this.lhs ? this.lhs.toJSON() : <any>undefined;
-        data["Rhs"] = this.rhs ? this.rhs.toJSON() : <any>undefined;
-        data["TargetQuestionId"] = this.targetQuestionId;
-        data["LhsId"] = this.lhsId;
-        data["RhsId"] = this.rhsId;
-        return data; 
-    }
-}
-
-export interface IQuestionConditionalOperator {
-    order?: number;
-    operatorType?: QuestionCondtionalOperatorType;
-    lhs?: QuestionConditional | undefined;
-    rhs?: QuestionConditional | undefined;
-    targetQuestionId?: number;
-    lhsId?: number | undefined;
-    rhsId?: number | undefined;
-}
-
-export enum QuestionCondtionalOperatorType {
-    AND = 0,
-    OR = 1,
-}
-
-export class Anonymous5 implements IAnonymous5 {
-    item?: WelcomePageLabel | undefined;
-    default?: WelcomePageLabel | undefined;
-
-    constructor(data?: IAnonymous5) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? WelcomePageLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? WelcomePageLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous5 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous5();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous5 {
-    item?: WelcomePageLabel | undefined;
-    default?: WelcomePageLabel | undefined;
-}
-
-export class LabelCollectionOfWelcomePageLabel extends Anonymous5 implements ILabelCollectionOfWelcomePageLabel {
-
-    constructor(data?: ILabelCollectionOfWelcomePageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfWelcomePageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfWelcomePageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfWelcomePageLabel extends IAnonymous5 {
-}
-
-export class WelcomePageLabel extends Label implements IWelcomePageLabel {
-    surveyView?: SurveyView | undefined;
-
-    constructor(data?: IWelcomePageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.surveyView = _data["SurveyView"] ? SurveyView.fromJS(_data["SurveyView"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): WelcomePageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new WelcomePageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["SurveyView"] = this.surveyView ? this.surveyView.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IWelcomePageLabel extends ILabel {
-    surveyView?: SurveyView | undefined;
-}
-
-export class Anonymous6 implements IAnonymous6 {
-    item?: TermsAndConditionsPageLabel | undefined;
-    default?: TermsAndConditionsPageLabel | undefined;
-
-    constructor(data?: IAnonymous6) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? TermsAndConditionsPageLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? TermsAndConditionsPageLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous6 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous6();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous6 {
-    item?: TermsAndConditionsPageLabel | undefined;
-    default?: TermsAndConditionsPageLabel | undefined;
-}
-
-export class LabelCollectionOfTermsAndConditionsPageLabel extends Anonymous6 implements ILabelCollectionOfTermsAndConditionsPageLabel {
-
-    constructor(data?: ILabelCollectionOfTermsAndConditionsPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfTermsAndConditionsPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfTermsAndConditionsPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfTermsAndConditionsPageLabel extends IAnonymous6 {
-}
-
-export class TermsAndConditionsPageLabel extends Label implements ITermsAndConditionsPageLabel {
-    surveyView?: SurveyView | undefined;
-
-    constructor(data?: ITermsAndConditionsPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.surveyView = _data["SurveyView"] ? SurveyView.fromJS(_data["SurveyView"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): TermsAndConditionsPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new TermsAndConditionsPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["SurveyView"] = this.surveyView ? this.surveyView.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ITermsAndConditionsPageLabel extends ILabel {
-    surveyView?: SurveyView | undefined;
-}
-
-export class Anonymous7 implements IAnonymous7 {
-    item?: ThankYouPageLabel | undefined;
-    default?: ThankYouPageLabel | undefined;
-
-    constructor(data?: IAnonymous7) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? ThankYouPageLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? ThankYouPageLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous7 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous7();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous7 {
-    item?: ThankYouPageLabel | undefined;
-    default?: ThankYouPageLabel | undefined;
-}
-
-export class LabelCollectionOfThankYouPageLabel extends Anonymous7 implements ILabelCollectionOfThankYouPageLabel {
-
-    constructor(data?: ILabelCollectionOfThankYouPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfThankYouPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfThankYouPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfThankYouPageLabel extends IAnonymous7 {
-}
-
-export class ThankYouPageLabel extends Label implements IThankYouPageLabel {
-    surveyView?: SurveyView | undefined;
-
-    constructor(data?: IThankYouPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.surveyView = _data["SurveyView"] ? SurveyView.fromJS(_data["SurveyView"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ThankYouPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new ThankYouPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["SurveyView"] = this.surveyView ? this.surveyView.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IThankYouPageLabel extends ILabel {
-    surveyView?: SurveyView | undefined;
-}
-
-export class Anonymous8 implements IAnonymous8 {
-    item?: ScreeningQuestionsPageLabel | undefined;
-    default?: ScreeningQuestionsPageLabel | undefined;
-
-    constructor(data?: IAnonymous8) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? ScreeningQuestionsPageLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? ScreeningQuestionsPageLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous8 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous8();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous8 {
-    item?: ScreeningQuestionsPageLabel | undefined;
-    default?: ScreeningQuestionsPageLabel | undefined;
-}
-
-export class LabelCollectionOfScreeningQuestionsPageLabel extends Anonymous8 implements ILabelCollectionOfScreeningQuestionsPageLabel {
-
-    constructor(data?: ILabelCollectionOfScreeningQuestionsPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfScreeningQuestionsPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfScreeningQuestionsPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfScreeningQuestionsPageLabel extends IAnonymous8 {
-}
-
-export class ScreeningQuestionsPageLabel extends Label implements IScreeningQuestionsPageLabel {
-    surveyView?: SurveyView | undefined;
-
-    constructor(data?: IScreeningQuestionsPageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.surveyView = _data["SurveyView"] ? SurveyView.fromJS(_data["SurveyView"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ScreeningQuestionsPageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new ScreeningQuestionsPageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["SurveyView"] = this.surveyView ? this.surveyView.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IScreeningQuestionsPageLabel extends ILabel {
-    surveyView?: SurveyView | undefined;
-}
-
-export class SurveyPermission implements ISurveyPermission {
-    id?: number;
-    userId?: string | undefined;
-    user?: ApplicationUser | undefined;
-    surveyId?: number;
-    survey?: Survey | undefined;
-    permissionCode?: string | undefined;
-    permissions?: string[] | undefined;
-
-    constructor(data?: ISurveyPermission) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.userId = _data["UserId"];
-            this.user = _data["User"] ? ApplicationUser.fromJS(_data["User"]) : <any>undefined;
-            this.surveyId = _data["SurveyId"];
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-            this.permissionCode = _data["PermissionCode"];
-            if (Array.isArray(_data["Permissions"])) {
-                this.permissions = [] as any;
-                for (let item of _data["Permissions"])
-                    this.permissions!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SurveyPermission {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyPermission();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["UserId"] = this.userId;
-        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["SurveyId"] = this.surveyId;
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        data["PermissionCode"] = this.permissionCode;
-        if (Array.isArray(this.permissions)) {
-            data["Permissions"] = [];
-            for (let item of this.permissions)
-                data["Permissions"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface ISurveyPermission {
-    id?: number;
-    userId?: string | undefined;
-    user?: ApplicationUser | undefined;
-    surveyId?: number;
-    survey?: Survey | undefined;
-    permissionCode?: string | undefined;
-    permissions?: string[] | undefined;
-}
-
-export class IdentityUserOfString implements IIdentityUserOfString {
-    id?: string | undefined;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: Date | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-
-    constructor(data?: IIdentityUserOfString) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.userName = _data["UserName"];
-            this.normalizedUserName = _data["NormalizedUserName"];
-            this.email = _data["Email"];
-            this.normalizedEmail = _data["NormalizedEmail"];
-            this.emailConfirmed = _data["EmailConfirmed"];
-            this.passwordHash = _data["PasswordHash"];
-            this.securityStamp = _data["SecurityStamp"];
-            this.concurrencyStamp = _data["ConcurrencyStamp"];
-            this.phoneNumber = _data["PhoneNumber"];
-            this.phoneNumberConfirmed = _data["PhoneNumberConfirmed"];
-            this.twoFactorEnabled = _data["TwoFactorEnabled"];
-            this.lockoutEnd = _data["LockoutEnd"] ? new Date(_data["LockoutEnd"].toString()) : <any>undefined;
-            this.lockoutEnabled = _data["LockoutEnabled"];
-            this.accessFailedCount = _data["AccessFailedCount"];
-        }
-    }
-
-    static fromJS(data: any): IdentityUserOfString {
-        data = typeof data === 'object' ? data : {};
-        let result = new IdentityUserOfString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["UserName"] = this.userName;
-        data["NormalizedUserName"] = this.normalizedUserName;
-        data["Email"] = this.email;
-        data["NormalizedEmail"] = this.normalizedEmail;
-        data["EmailConfirmed"] = this.emailConfirmed;
-        data["PasswordHash"] = this.passwordHash;
-        data["SecurityStamp"] = this.securityStamp;
-        data["ConcurrencyStamp"] = this.concurrencyStamp;
-        data["PhoneNumber"] = this.phoneNumber;
-        data["PhoneNumberConfirmed"] = this.phoneNumberConfirmed;
-        data["TwoFactorEnabled"] = this.twoFactorEnabled;
-        data["LockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
-        data["LockoutEnabled"] = this.lockoutEnabled;
-        data["AccessFailedCount"] = this.accessFailedCount;
-        return data; 
-    }
-}
-
-export interface IIdentityUserOfString {
-    id?: string | undefined;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: Date | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-}
-
-export class IdentityUser extends IdentityUserOfString implements IIdentityUser {
-
-    constructor(data?: IIdentityUser) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): IdentityUser {
-        data = typeof data === 'object' ? data : {};
-        let result = new IdentityUser();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IIdentityUser extends IIdentityUserOfString {
-}
-
-export abstract class ApplicationUser extends IdentityUser implements IApplicationUser {
-    friendlyName?: string | undefined;
-    jobTitle?: string | undefined;
-    fullName?: string | undefined;
-    configuration?: string | undefined;
-    isEnabled?: boolean;
-    isLockedOut?: boolean;
-    createdBy?: string | undefined;
-    updatedBy?: string | undefined;
-    createdDate?: Date;
-    updatedDate?: Date;
-    roles?: IdentityUserRoleOfString[] | undefined;
-    claims?: IdentityUserClaimOfString[] | undefined;
-
-    constructor(data?: IApplicationUser) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.friendlyName = _data["FriendlyName"];
-            this.jobTitle = _data["JobTitle"];
-            this.fullName = _data["FullName"];
-            this.configuration = _data["Configuration"];
-            this.isEnabled = _data["IsEnabled"];
-            this.isLockedOut = _data["IsLockedOut"];
-            this.createdBy = _data["CreatedBy"];
-            this.updatedBy = _data["UpdatedBy"];
-            this.createdDate = _data["CreatedDate"] ? new Date(_data["CreatedDate"].toString()) : <any>undefined;
-            this.updatedDate = _data["UpdatedDate"] ? new Date(_data["UpdatedDate"].toString()) : <any>undefined;
-            if (Array.isArray(_data["Roles"])) {
-                this.roles = [] as any;
-                for (let item of _data["Roles"])
-                    this.roles!.push(IdentityUserRoleOfString.fromJS(item));
-            }
-            if (Array.isArray(_data["Claims"])) {
-                this.claims = [] as any;
-                for (let item of _data["Claims"])
-                    this.claims!.push(IdentityUserClaimOfString.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ApplicationUser {
-        data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'ApplicationUser' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["FriendlyName"] = this.friendlyName;
-        data["JobTitle"] = this.jobTitle;
-        data["FullName"] = this.fullName;
-        data["Configuration"] = this.configuration;
-        data["IsEnabled"] = this.isEnabled;
-        data["IsLockedOut"] = this.isLockedOut;
-        data["CreatedBy"] = this.createdBy;
-        data["UpdatedBy"] = this.updatedBy;
-        data["CreatedDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
-        data["UpdatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
-        if (Array.isArray(this.roles)) {
-            data["Roles"] = [];
-            for (let item of this.roles)
-                data["Roles"].push(item.toJSON());
-        }
-        if (Array.isArray(this.claims)) {
-            data["Claims"] = [];
-            for (let item of this.claims)
-                data["Claims"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IApplicationUser extends IIdentityUser {
-    friendlyName?: string | undefined;
-    jobTitle?: string | undefined;
-    fullName?: string | undefined;
-    configuration?: string | undefined;
-    isEnabled?: boolean;
-    isLockedOut?: boolean;
-    createdBy?: string | undefined;
-    updatedBy?: string | undefined;
-    createdDate?: Date;
-    updatedDate?: Date;
-    roles?: IdentityUserRoleOfString[] | undefined;
-    claims?: IdentityUserClaimOfString[] | undefined;
-}
-
-export class IdentityUserRoleOfString implements IIdentityUserRoleOfString {
-    userId?: string | undefined;
-    roleId?: string | undefined;
-
-    constructor(data?: IIdentityUserRoleOfString) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.userId = _data["UserId"];
-            this.roleId = _data["RoleId"];
-        }
-    }
-
-    static fromJS(data: any): IdentityUserRoleOfString {
-        data = typeof data === 'object' ? data : {};
-        let result = new IdentityUserRoleOfString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["UserId"] = this.userId;
-        data["RoleId"] = this.roleId;
-        return data; 
-    }
-}
-
-export interface IIdentityUserRoleOfString {
-    userId?: string | undefined;
-    roleId?: string | undefined;
-}
-
-export class IdentityUserClaimOfString implements IIdentityUserClaimOfString {
-    id?: number;
-    userId?: string | undefined;
-    claimType?: string | undefined;
-    claimValue?: string | undefined;
-
-    constructor(data?: IIdentityUserClaimOfString) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.userId = _data["UserId"];
-            this.claimType = _data["ClaimType"];
-            this.claimValue = _data["ClaimValue"];
-        }
-    }
-
-    static fromJS(data: any): IdentityUserClaimOfString {
-        data = typeof data === 'object' ? data : {};
-        let result = new IdentityUserClaimOfString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["UserId"] = this.userId;
-        data["ClaimType"] = this.claimType;
-        data["ClaimValue"] = this.claimValue;
-        return data; 
-    }
-}
-
-export interface IIdentityUserClaimOfString {
-    id?: number;
-    userId?: string | undefined;
-    claimType?: string | undefined;
-    claimValue?: string | undefined;
-}
-
-export class Groupcode implements IGroupcode {
-    id?: number;
-    survey?: Survey | undefined;
-    name?: string | undefined;
-    code?: string | undefined;
-    createdDate?: Date;
-    isTest?: boolean;
-
-    constructor(data?: IGroupcode) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-            this.name = _data["Name"];
-            this.code = _data["Code"];
-            this.createdDate = _data["CreatedDate"] ? new Date(_data["CreatedDate"].toString()) : <any>undefined;
-            this.isTest = _data["IsTest"];
-        }
-    }
-
-    static fromJS(data: any): Groupcode {
-        data = typeof data === 'object' ? data : {};
-        let result = new Groupcode();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        data["Name"] = this.name;
-        data["Code"] = this.code;
-        data["CreatedDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
-        data["IsTest"] = this.isTest;
-        return data; 
-    }
-}
-
-export interface IGroupcode {
-    id?: number;
-    survey?: Survey | undefined;
-    name?: string | undefined;
-    code?: string | undefined;
-    createdDate?: Date;
-    isTest?: boolean;
-}
-
-export class ExtensionConfiguration implements IExtensionConfiguration {
-    survey?: Survey | undefined;
-    extensionName!: string;
-    configuration!: string;
-
-    constructor(data?: IExtensionConfiguration) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-            this.extensionName = _data["ExtensionName"];
-            this.configuration = _data["Configuration"];
-        }
-    }
-
-    static fromJS(data: any): ExtensionConfiguration {
-        data = typeof data === 'object' ? data : {};
-        let result = new ExtensionConfiguration();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        data["ExtensionName"] = this.extensionName;
-        data["Configuration"] = this.configuration;
-        return data; 
-    }
-}
-
-export interface IExtensionConfiguration {
-    survey?: Survey | undefined;
-    extensionName: string;
-    configuration: string;
-}
-
-export class Anonymous9 implements IAnonymous9 {
-    item?: TitlePageLabel | undefined;
-    default?: TitlePageLabel | undefined;
-
-    constructor(data?: IAnonymous9) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.item = _data["Item"] ? TitlePageLabel.fromJS(_data["Item"]) : <any>undefined;
-            this.default = _data["Default"] ? TitlePageLabel.fromJS(_data["Default"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Anonymous9 {
-        data = typeof data === 'object' ? data : {};
-        let result = new Anonymous9();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Item"] = this.item ? this.item.toJSON() : <any>undefined;
-        data["Default"] = this.default ? this.default.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAnonymous9 {
-    item?: TitlePageLabel | undefined;
-    default?: TitlePageLabel | undefined;
-}
-
-export class LabelCollectionOfTitlePageLabel extends Anonymous9 implements ILabelCollectionOfTitlePageLabel {
-
-    constructor(data?: ILabelCollectionOfTitlePageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): LabelCollectionOfTitlePageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new LabelCollectionOfTitlePageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ILabelCollectionOfTitlePageLabel extends IAnonymous9 {
-}
-
-export class TitlePageLabel extends Label implements ITitlePageLabel {
-    survey?: Survey | undefined;
-
-    constructor(data?: ITitlePageLabel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.survey = _data["Survey"] ? Survey.fromJS(_data["Survey"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): TitlePageLabel {
-        data = typeof data === 'object' ? data : {};
-        let result = new TitlePageLabel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Survey"] = this.survey ? this.survey.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ITitlePageLabel extends ILabel {
-    survey?: Survey | undefined;
-}
-
-export class SurveyAccessRecord implements ISurveyAccessRecord {
-    id?: number;
-    queryParams?: string | undefined;
-    accessDateTime?: Date;
-    userAgent?: string | undefined;
-    remoteIpAddress?: string | undefined;
-    requestUrl?: string | undefined;
-    respondent?: PrimaryRespondent | undefined;
-    accessUser?: ApplicationUser | undefined;
-
-    constructor(data?: ISurveyAccessRecord) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.queryParams = _data["QueryParams"];
-            this.accessDateTime = _data["AccessDateTime"] ? new Date(_data["AccessDateTime"].toString()) : <any>undefined;
-            this.userAgent = _data["UserAgent"];
-            this.remoteIpAddress = _data["RemoteIpAddress"];
-            this.requestUrl = _data["RequestUrl"];
-            this.respondent = _data["Respondent"] ? PrimaryRespondent.fromJS(_data["Respondent"]) : <any>undefined;
-            this.accessUser = _data["AccessUser"] ? ApplicationUser.fromJS(_data["AccessUser"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SurveyAccessRecord {
-        data = typeof data === 'object' ? data : {};
-        let result = new SurveyAccessRecord();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["QueryParams"] = this.queryParams;
-        data["AccessDateTime"] = this.accessDateTime ? this.accessDateTime.toISOString() : <any>undefined;
-        data["UserAgent"] = this.userAgent;
-        data["RemoteIpAddress"] = this.remoteIpAddress;
-        data["RequestUrl"] = this.requestUrl;
-        data["Respondent"] = this.respondent ? this.respondent.toJSON() : <any>undefined;
-        data["AccessUser"] = this.accessUser ? this.accessUser.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface ISurveyAccessRecord {
-    id?: number;
-    queryParams?: string | undefined;
-    accessDateTime?: Date;
-    userAgent?: string | undefined;
-    remoteIpAddress?: string | undefined;
-    requestUrl?: string | undefined;
-    respondent?: PrimaryRespondent | undefined;
-    accessUser?: ApplicationUser | undefined;
 }
 
 export interface FileResponse {

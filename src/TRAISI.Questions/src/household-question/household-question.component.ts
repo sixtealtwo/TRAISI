@@ -2,9 +2,9 @@ import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck, After
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	SurveyRespondent,
-	ResponseValidationState
+	ResponseValidationState,
+	SurveyRespondentService
 } from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 import templateString from './household-question.component.html';
@@ -20,7 +20,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	public respondents: Array<SurveyRespondentEdit>;
 
 	public primaryRespondent;
-	SurveyRespondentEdit;
+	public SurveyRespondentEdit;
 
 	public relationships: Array<string> = ['Spouse/Partner', 'Child', 'Parent', 'Grandparent', 'Grandchild', 'Roommate', 'Other'];
 
@@ -28,7 +28,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	 *
 	 * @param _surveyResponderService
 	 */
-	constructor(@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder, private _cdRef: ChangeDetectorRef) {
+	constructor(@Inject('SurveyRespondentService') private _respondentService: SurveyRespondentService, private _cdRef: ChangeDetectorRef) {
 		super();
 
 		this.respondents = [];
@@ -52,7 +52,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	}
 
 	public ngOnInit(): void {
-		this._surveyResponderService.getSurveyGroupMembers(this._surveyResponderService['primaryRespondent'].id).subscribe((value) => {
+		this._respondentService.getSurveyGroupMembers(this._respondentService['primaryRespondent'].id).subscribe((value) => {
 			const arr = <Array<SurveyRespondent>>value;
 
 			if (arr.length >= 1) {
@@ -90,7 +90,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	/** */
 	public saveRespondent(respondentEdit: SurveyRespondentEdit): void {
 		if (respondentEdit.respondent.id === undefined) {
-			this._surveyResponderService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
+			this._respondentService.addSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
 					respondentEdit.respondent.id = <number>value;
 					respondentEdit.isSaved = true;
@@ -101,7 +101,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				}
 			);
 		} else {
-			this._surveyResponderService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
+			this._respondentService.updateSurveyGroupMember(respondentEdit.respondent).subscribe(
 				(value) => {
 					respondentEdit.isSaved = true;
 					this.validationState.emit(ResponseValidationState.VALID);
@@ -122,7 +122,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 		this.respondents.splice(index, 1);
 
 		if (respondent.respondent.id !== undefined) {
-			this._surveyResponderService.removeSurveyGroupMember(respondent.respondent).subscribe((value) => {});
+			this._respondentService.removeSurveyGroupMember(respondent.respondent).subscribe((value) => {});
 		}
 	}
 
@@ -152,7 +152,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 	 */
 	public primaryBlur(): void {
 		if (this.primaryRespondent.respondent.name !== '') {
-			this._surveyResponderService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
+			this._respondentService.updateSurveyGroupMember(this.primaryRespondent.respondent).subscribe(
 				(value) => {
 					this.primaryRespondent.isSaved = true;
 					// this.validationState.emit(ResponseValidationState.VALID);

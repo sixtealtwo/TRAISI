@@ -35,7 +35,8 @@ namespace TRAISI.ViewModels
         {
             CreateMap<SurveyResponse, SurveyResponseViewModel>()
                .ForMember(s => s.ResponseValues, r => r.ResolveUsing<ResponseValueResolver>())
-               .ForMember(s => s.Configuration, r => r.ResolveUsing<SurveyResponseConfigurationValueResolver>());
+               .ForMember(s => s.Configuration, r => r.ResolveUsing<SurveyResponseConfigurationValueResolver>())
+               .ForMember(s => s.QuestionId, r => r.MapFrom(r2 => r2.QuestionPart.Id));
 
             CreateMap<SurveyRespondentGroup, SurveyRespondentGroupViewModel>();
             CreateMap<SurveyRespondent, SurveyRespondentViewModel>();

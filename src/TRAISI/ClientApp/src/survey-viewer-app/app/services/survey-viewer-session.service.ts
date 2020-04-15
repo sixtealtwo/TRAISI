@@ -12,11 +12,17 @@ export class SurveyViewerSession {
 	private _data: SurveyViewerSessionData;
 
 	public get surveyId(): number {
-		return this._data.surveyId;
+		if (!this._data) {
+			throw new Error('Attempt to access survey ID before it is initialized.');
+		}
+		return this._data?.surveyId;
 	}
 
 	public get surveyCode(): string {
-		return this._data.surveyCode;
+		if (!this._data) {
+			throw new Error('Attempt to access survey code before it is initialized.');
+		}
+		return this._data?.surveyCode;
 	}
 
 	/**
@@ -61,13 +67,7 @@ export class SurveyViewerSession {
 			this._surveyViewerService.activeSurveyTitle,
 			this._surveyViewerService.surveyAuthenticationMode
 		).subscribe(
-			([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [
-				number,
-				string,
-				boolean,
-				string,
-				any
-			]) => {
+			([surveyId, surveyCode, isLoggedIn, surveyTitle, authMode]: [number, string, boolean, string, any]) => {
 				this._data = {
 					shortcode: null,
 					groupcode: null,

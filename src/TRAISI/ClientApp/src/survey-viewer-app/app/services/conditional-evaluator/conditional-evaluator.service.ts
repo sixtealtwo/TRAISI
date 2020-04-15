@@ -10,9 +10,17 @@ import { Stack } from 'stack-typescript';
 import { QuestionConditionalOperator } from 'app/models/question-conditional-operator.model';
 import { QuestionCondtionalOperatorType } from 'app/models/question-conditional-operator-type.enum';
 import { QuestionConditionalType } from 'app/models/question-conditional-type.enum';
+import { SurveyViewerResponseService } from '../survey-viewer-response.service';
+import {
+	SurveyRespondent,
+	ResponseData,
+	ResponseTypes,
+	NumberResponseData,
+	StringResponseData,
+} from 'traisi-question-sdk';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class ConditionalEvaluator {
 	/**
@@ -22,6 +30,7 @@ export class ConditionalEvaluator {
 	 */
 	constructor(
 		private _responderService: SurveyResponderService,
+		private _responseService: SurveyViewerResponseService,
 		private _state: SurveyViewerStateService
 	) {}
 
@@ -34,8 +43,7 @@ export class ConditionalEvaluator {
 	 */
 	public evaluateConditional(
 		conditionalType: QuestionConditionalType,
-		sourceData: any,
-		targetData: any,
+		sourceData: Array<ResponseData<ResponseTypes>>,
 		value: any
 	): boolean {
 		if (sourceData === undefined) {
@@ -43,17 +51,17 @@ export class ConditionalEvaluator {
 		}
 		switch (conditionalType) {
 			case QuestionConditionalType.Contains:
-				return this.evaluateContains(sourceData, value);
+				return this.evaluateContains(sourceData as StringResponseData[], value);
 			case QuestionConditionalType.DoesNotContain:
-				return !this.evaluateContains(sourceData, value);
+				return !this.evaluateContains(sourceData as StringResponseData[], value);
 			case QuestionConditionalType.IsNotEqualTo:
-				return this.evaluateEquals(sourceData, value);
+				return this.evaluateEquals(sourceData as NumberResponseData[], value);
 			case QuestionConditionalType.LessThan:
-				return this.evaluatLessThan(sourceData, value);
+				return this.evaluatLessThan(sourceData as NumberResponseData[], value);
 			case QuestionConditionalType.GreaterThan:
-				return this.evaluatGreaterThan(sourceData, value);
+				return this.evaluatGreaterThan(sourceData as NumberResponseData[], value);
 			case QuestionConditionalType.IsNotEqualTo:
-				return !this.evaluateEquals(sourceData, value);
+				return !this.evaluateEquals(sourceData as NumberResponseData[], value);
 			case QuestionConditionalType.IsAnyOf:
 				return this.evaluateIsAnyOf(sourceData, value);
 			case QuestionConditionalType.IsAnyOf:
@@ -75,8 +83,7 @@ export class ConditionalEvaluator {
 	 * @param sourceData
 	 * @param value
 	 */
-	private evaluateContains(sourceData: any[], value: string): boolean {
-		console.log(sourceData);
+	private evaluateContains(sourceData: StringResponseData[], value: string): boolean {
 		return sourceData[0].value.indexOf(value) >= 0;
 	}
 
@@ -86,19 +93,19 @@ export class ConditionalEvaluator {
 	 * @param value
 	 * @returns true if equals
 	 */
-	private evaluateEquals(sourceData: any[], value: any): boolean {
+	private evaluateEquals(sourceData: Array<NumberResponseData>, value: any): boolean {
 		const val: boolean = sourceData[0].value === parseInt(value, 10);
 
 		return val;
 	}
 
-	private evaluatLessThan(sourceData: any[], value: any): boolean {
+	private evaluatLessThan(sourceData: Array<NumberResponseData>, value: any): boolean {
 		const val: boolean = sourceData[0].value < parseInt(value, 10);
 
 		return val;
 	}
 
-	private evaluatGreaterThan(sourceData: any[], value: any): boolean {
+	private evaluatGreaterThan(sourceData: Array<NumberResponseData>, value: any): boolean {
 		const val: boolean = sourceData[0].value > parseInt(value, 10);
 
 		return val;
@@ -129,19 +136,15 @@ export class ConditionalEvaluator {
 	 * @param value
 	 * @returns true if is any of
 	 */
-	private evaluateIsAnyOf(
-		sourceData: any[],
-		conditionalData: string
-	): boolean {
+	private evaluateIsAnyOf(sourceData: any[], conditionalData: string): boolean {
 		let conditionals = JSON.parse(conditionalData);
-
 		let isAny: boolean = false;
 
-		sourceData.forEach(response => {
+		sourceData.forEach((response) => {
 			if (response === undefined) {
 				return false;
 			}
-			conditionals.forEach(conditional => {
+			conditionals.forEach((conditional) => {
 				if (response.code === conditional.code) {
 					isAny = true;
 				}
@@ -156,14 +159,11 @@ export class ConditionalEvaluator {
 	 * @param value
 	 * @returns true if is all of
 	 */
-	private evaluateIsAllOf(
-		sourceData: any[],
-		conditionalData: string
-	): boolean {
+	private evaluateIsAllOf(sourceData: any[], conditionalData: string): boolean {
 		let conditionals = JSON.parse(conditionalData);
 
-		return _every(conditionals, x => {
-			return _some(sourceData, y => {
+		return _every(conditionals, (x) => {
+			return _some(sourceData, (y) => {
 				return x.code === y.code;
 			});
 		});
@@ -195,26 +195,18 @@ export class ConditionalEvaluator {
 	 */
 	public evaluateConditionalList(
 		conditionals: Array<QuestionConditionalOperator>,
-		respondentId: number
+		respondent: SurveyRespondent
 	): boolean {
 		let valueStack = new Stack<any>();
 		let operatorStack = new Stack<QuestionCondtionalOperatorType>();
 		for (let conditional of conditionals) {
 			if (conditional.lhs !== null) {
-				let questionId = this._state.viewerState.questionViewMap[
-					conditional.lhs.sourceQuestionId
-				].questionId;
-				let response = this._responderService.getCachedSavedResponse(
-					questionId,
-					respondentId
-				);
-				let evalResult = this.evaluateConditional(
-					conditional.lhs.condition,
-					response,
-					'',
-					conditional.lhs.value
-				);
-				valueStack.push(evalResult);
+				// let questionId = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId].questionId;
+				// let response = this._responderService.getCachedSavedResponse(questionId, respondentId);
+				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
+				let response = this._responseService.getResponse(question, respondent);
+				// let evalResult = this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value);
+				valueStack.push(this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value));
 				console.log(response);
 			}
 			if (operatorStack.length === 0) {
@@ -224,93 +216,79 @@ export class ConditionalEvaluator {
 				operatorStack.push(conditional.operatorType);
 			}
 			if (conditional.rhs !== null) {
-				let questionId = this._state.viewerState.questionViewMap[
-					conditional.rhs.sourceQuestionId
-				].questionId;
-				let response = this._responderService.getCachedSavedResponse(
-					questionId,
-					respondentId
-				);
-				console.log(response);
-				let evalResult = this.evaluateConditional(
-					conditional.lhs.condition,
-					response,
-					'',
-					conditional.lhs.value
-				);
-				valueStack.push(evalResult);
+				// let questionId = this._state.viewerState.questionViewMap[conditional.rhs.sourceQuestionId].questionId;
+				// let response = this._responderService.getCachedSavedResponse(questionId, respondentId);
+				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
+				let response = this._responseService.getResponse(question, respondent);
+				// console.log(response);
+				// let evalResult = this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value);
+				valueStack.push(this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value));
 			}
 		}
-
 		// final evaluation, the result is the remaining stack value
 		this.evaluateValue(valueStack, operatorStack);
 		let result = valueStack.pop();
 		return result;
 	}
 
-	private evaluateValue(
-		valueStack: Stack<any>,
-		operatorStack: Stack<QuestionCondtionalOperatorType>
-	): void {
+	/**
+	 * Evaluates the next expression stored on the stack.
+	 * @private
+	 * @param {Stack<any>} valueStack
+	 * @param {Stack<QuestionCondtionalOperatorType>} operatorStack
+	 * @returns {void}
+	 */
+	private evaluateValue(valueStack: Stack<any>, operatorStack: Stack<QuestionCondtionalOperatorType>): void {
 		if (valueStack.length === 1) {
-			return ;
+			return;
 		}
 		let operator = operatorStack.pop();
 		let lhs = valueStack.pop();
 		let rhs = valueStack.pop();
 		if (operator === QuestionCondtionalOperatorType.AND) {
-			valueStack.push(lhs & rhs);
+			valueStack.push(lhs && rhs);
 		} else {
-			valueStack.push(lhs | rhs);
+			valueStack.push(lhs || rhs);
 		}
 	}
 
 	/**
-	 *
+	 * Determines if a question should be visible for the associated respondent. A question is hidden
+	 * when specific survey conditionals are met.
 	 * @param question
 	 * @param respondentId
 	 */
 	public shouldHide(
 		question: SurveyViewQuestion,
-		respondentId: number
+		respondent: SurveyRespondent
 	): Observable<{ shouldHide: boolean; question: SurveyViewQuestion }> {
-		return new Observable(observer => {
+		return new Observable((observer) => {
 			if (question.conditionals.length === 0) {
 				observer.next({ shouldHide: false, question: question });
 				observer.complete();
 			} else {
-				let sourceIds = [];
+				let sourceQuestions = [];
 				for (let source of question.conditionals) {
 					if (source.lhs !== null) {
-						let sourceQuestion = this._state.viewerState
-							.questionViewMap[source.lhs.sourceQuestionId];
-						sourceIds.push(sourceQuestion.questionId);
+						let sourceQuestion = this._state.viewerState.questionViewMap[source.lhs.sourceQuestionId];
+						sourceQuestions.push(sourceQuestion);
 					}
 					if (source.rhs !== null) {
-						let sourceQuestion = this._state.viewerState
-							.questionViewMap[source.rhs.sourceQuestionId];
-						sourceIds.push(sourceQuestion.questionId);
+						let sourceQuestion = this._state.viewerState.questionViewMap[source.rhs.sourceQuestionId];
+						sourceQuestions.push(sourceQuestion);
 					}
 				}
 
-				console.log('in should hide ');
-				this._responderService
-					.readyCachedSavedResponses(sourceIds, respondentId)
-					.subscribe({
-						complete: () => {
-							console.log(' cached saved responses ready ');
-							let evalTrue: boolean = this.evaluateConditionalList(
-								question.conditionals,
-								respondentId
-							);
-							console.log(evalTrue);
-							observer.next({
-								shouldHide: !evalTrue,
-								question: question
-							});
-							observer.complete();
-						}
-					});
+				this._responseService.loadSavedResponses(sourceQuestions, respondent).subscribe({
+					complete: () => {
+						let evalTrue: boolean = this.evaluateConditionalList(question.conditionals, respondent);
+						observer.next({
+							shouldHide: !evalTrue,
+							question: question,
+						});
+						observer.complete();
+					},
+				});
 			}
 		});
 	}

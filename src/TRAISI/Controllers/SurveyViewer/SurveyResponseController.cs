@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -67,7 +68,7 @@ namespace TRAISI.Controllers.SurveyViewer
         [HttpGet]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "SavedResponse")]
-        public async Task<ActionResult<SurveyResponseViewModel>> SavedResponse(int surveyId, int questionId, int respondentId, int repeat)
+        public async Task<ActionResult<SurveyResponseViewModel>> GetResponse(int surveyId, int questionId, int respondentId, int repeat)
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
@@ -146,6 +147,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="respondentId"></param>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(typeof(List<SurveyResponseViewModel>), StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("questions/respondents/{respondentId:" + AuthorizationFields.RESPONDENT + "}/responses", Name = "List_Responses_For_Specified_Questions")]
         public async Task<IActionResult> ListSurveyResponsesForQuestions([FromHeader] int surveyId, [FromQuery] int[] questionIds,
@@ -154,11 +156,10 @@ namespace TRAISI.Controllers.SurveyViewer
             var respondent = await this._unitOfWork.SurveyRespondents.GetAsync(respondentId);
             if (respondent == null)
             {
-                return new NotFoundObjectResult(new List<SurveyResponse>());
+                return new NotFoundObjectResult(new List<SurveyResponseViewModel>());
             }
-            var result = await this._resonseService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent);
-
-            return new OkObjectResult(result);
+            var responses = await this._resonseService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent);
+            return new OkObjectResult(AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses));
         }
 
         [HttpGet]
@@ -184,14 +185,13 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="respondentId"></param>
         /// <returns></returns>
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("surveys/{surveyId}/respondents/{respondent:" + AuthorizationFields.RESPONDENT + "}", Name = "Delete_All_Responses_For_Survey")]
-        public async Task<IActionResult> DeleteAllResponses(int surveyId, [ModelBinder(typeof(SurveyRespondentEntityBinder))] SurveyRespondent respondent)
+        [Route("surveys/{surveyId}/respondents/{respondentId}", Name = "Delete_All_Responses_For_Survey")]
+        public async Task<IActionResult> DeleteAllResponses(int surveyId, int respondentId)
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-
-            await this._resonseService.RemoveAllResponses(surveyId, respondent?.Id ?? -1, user);
-
+            await this._resonseService.RemoveAllResponses(surveyId, respondentId, user);
             return new OkResult();
         }
 

@@ -7,7 +7,7 @@ namespace TRAISI.ViewModels.SurveyViewer
 {
     public class SurveyResponseViewModel
     {
-
+        public int QuestionId { get; set; }
         public List<Dictionary<string, object>> ResponseValues { get; set; }
 
         public ConcurrentDictionary<string, object> Configuration { get; set; }

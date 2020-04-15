@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
+import { ModalModule, ModalBackdropComponent, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { QuillModule } from 'ngx-quill';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpecialPageBuilderComponent } from './components/special-page-builder/special-page-builder.component';
@@ -62,9 +62,11 @@ import { SurveyDataResolver } from './resolvers/survey-data.resolver';
 import { SurveyTextTransformer } from './services/survey-text-transform/survey-text-transformer.service';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
-import {PipesModule} from '../../shared/pipes/pipes.module';
+import { PipesModule } from '../../shared/pipes/pipes.module';
 import { QuestionConfigurationService } from './services/question-configuration.service';
 import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
+import { SurveyViewerResponseService } from './services/survey-viewer-response.service';
+import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -92,7 +94,7 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 		// SurveyQuestionViewDirective,
 		SurveyGroupcodePageComponent,
 		SurveyShortcodePageComponent,
-		Footer1Component
+		Footer1Component,
 	],
 	imports: [
 		BrowserModule,
@@ -106,8 +108,8 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
-				useClass: SurveyViewerTranslateLanguageLoader
-			}
+				useClass: SurveyViewerTranslateLanguageLoader,
+			},
 		}),
 		ReactiveFormsModule,
 		AppRoutingModule.forRoot(),
@@ -115,18 +117,12 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 		AlertModule.forRoot(),
 		PopoverModule.forRoot(),
 		QuillModule.forRoot(),
-		DynamicModule.withComponents([
-			Header1Component,
-			Header2Component,
-			MainSurveyAccess1Component,
-			TextBlock1Component,
-			Footer1Component
-		]),
+		DynamicModule,
 		TooltipModule.forRoot(),
 		TimepickerModule.forRoot(),
 		SurveyNavigationModule.forRoot(),
 		SurveyViewerAuthorizationModule,
-		ToastrModule.forRoot()
+		ToastrModule.forRoot(),
 	],
 	providers: [
 		LocalStoreManager,
@@ -141,7 +137,10 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 		QuestionLoaderService,
 		ConditionalEvaluator,
 		SurveyResponderService,
-		{ provide: 'SurveyResponderService', useExisting: SurveyResponderService },
+		SurveyViewerRespondentService,
+		SurveyViewerResponseService,
+		{ provide: 'SurveyResponseService', useExisting: SurveyViewerResponseService},
+		{ provide: 'SurveyRespondentService', useExisting: SurveyViewerRespondentService },
 		SurveyViewerStateService,
 		FormControlDirective,
 		FormGroupDirective,
@@ -158,11 +157,13 @@ import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,
-			multi: true
-		}
+			multi: true,
+		},
+		SurveyViewerResponseService,
+		SurveyViewerResponseService,
 
 		// SurveyDataResolver
 	],
-	bootstrap: [SurveyViewerContainerComponent]
+	bootstrap: [SurveyViewerContainerComponent],
 })
 export class AppModule {}

@@ -15,6 +15,7 @@ using TRAISI.Services.Interfaces;
 using TRAISI.ViewModels.SurveyViewer;
 using TRAISI.SDK.Enums;
 using System.Collections;
+using Microsoft.AspNetCore.Http;
 
 namespace TRAISI.Controllers.SurveyViewer
 {
@@ -96,6 +97,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="respondent"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
@@ -114,6 +116,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="respondent"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("respondents/groups")]
         public async Task<IActionResult> UpdateSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
@@ -133,6 +136,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="respondentId"></param>
         /// <returns></returns>
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("groups/respondents/{respondentId:" + AuthorizationFields.RESPONDENT + "}/groups", Name = "Remove_Respondent_From_Survey_Group")]
         public async Task<IActionResult> RemoveSurveyGroupMember(
@@ -160,6 +164,7 @@ namespace TRAISI.Controllers.SurveyViewer
         /// <param name="AuthorizationFields.RESPONDENT"></param>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(typeof(List<SurveyRespondentViewModel>), StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("groups/respondents/{respondentId}", Name = "List_Survey_Group_Members")]
         public async Task<IActionResult> ListSurveyGroupMembers(int respondent)
@@ -170,6 +175,6 @@ namespace TRAISI.Controllers.SurveyViewer
             return new OkObjectResult(members);
         }
 
-        
+
     }
 }

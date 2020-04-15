@@ -1,7 +1,8 @@
 import { QUESTION_ID } from './traisi-survey-builder.service';
 export { QuestionConfiguration } from './question-configuration';
 export { SurveyViewer } from './survey-viewer';
-export { SurveyResponder } from './survey-respondent';
+export { SurveyResponseService } from './survey-response.service';
+export { SurveyRespondentService } from './survey-respondent.service';
 export { QuestionOption } from './question-option';
 export { OnVisibilityChanged, OnOptionsLoaded, OnSurveyQuestionInit, OnSaveResponseStatus } from './survey_lifecycle_hooks';
 export { ResponseValidationState } from './question-response-state';
@@ -15,6 +16,7 @@ export {
 	DecimalResponseData,
 	IntegerResponseData,
 	ListResponseData,
+	NumberResponseData,
 	LocationResponseData,
 	RangeResponseData,
 	ResponseData,
@@ -23,10 +25,10 @@ export {
 	TimeResponseData,
 	ResponseValue,
 	OptionSelectResponseData,
-	GroupMember
+	GroupMember,
 } from './survey-question';
 
-export { SurveyRespondent } from './survey-respondent';
+export { SurveyRespondent } from './survey-respondent.model';
 
 export { QuestionConfigurationService } from './question-configuration.service';
 
@@ -43,13 +45,14 @@ export {
 	BUILDER_SERVICE,
 	QUESTION_ID,
 	SURVEY_ID,
-	SURVEY_BUILDER
+	SURVEY_BUILDER,
 } from './traisi-survey-builder.service';
 
 // export { PopupComponent } from './components/popper/popup.component';
 
-export {PopperContentComponent, SurveyQuestionInternalViewDirective, SurveyQuestionViewDirective, TraisiSdkModule} from './module/public_api';
-
-
-
-
+export {
+	PopperContentComponent,
+	SurveyQuestionInternalViewDirective,
+	SurveyQuestionViewDirective,
+	TraisiSdkModule,
+} from './module/public_api';

@@ -3,23 +3,23 @@ import { NgForm } from '@angular/forms';
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
 	SurveyViewer,
 	ResponseData,
 	DecimalResponseData,
-	ResponseValidationState
+	ResponseValidationState,
 } from 'traisi-question-sdk';
 import { NumberQuestionConfiguration } from './number-question.configuration';
 import templateString from './number-question.component.html';
+import styles from './number-question.component.scss';
 import { debounceTime } from 'rxjs/operators';
 import { createNumberMask } from 'text-mask-addons';
+
 @Component({
 	selector: 'traisi-number-question',
-	template: templateString,
-	styles: [require('./number-question.component.scss').toString()]
+	template: '' + templateString,
+	styles: ['' + styles],
 })
-export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decminal> implements OnInit {
+export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Number> implements OnInit {
 	public configuration: NumberQuestionConfiguration;
 
 	public model: string;
@@ -35,7 +35,7 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	 *
 	 * @param surveyViewerService
 	 */
-	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
+	constructor() {
 		super();
 	}
 
@@ -88,21 +88,21 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 				this.numberMask = createNumberMask({
 					prefix: '',
 					suffix: '',
-					allowDecimal: false
+					allowDecimal: false,
 				});
 				break;
 			case 'Currency':
 				this.numberMask = createNumberMask({
 					prefix: '$ ',
 					suffix: '',
-					allowDecimal: true
+					allowDecimal: true,
 				});
 				break;
 			case 'Decimal':
 				this.numberMask = createNumberMask({
 					prefix: '',
 					suffix: '',
-					allowDecimal: true
+					allowDecimal: true,
 				});
 				break;
 		}
@@ -113,18 +113,17 @@ export class NumberQuestionComponent extends SurveyQuestion<ResponseTypes.Decmin
 	/**
 	 * Determines whether saved response data on
 	 */
-	private onSavedResponseData: (response: ResponseData<ResponseTypes.Decminal>[] | 'none') => void = (
-		response: ResponseData<ResponseTypes.Decminal>[] | 'none'
+	private onSavedResponseData: (response: ResponseData<ResponseTypes.Number>[] | 'none') => void = (
+		response: ResponseData<ResponseTypes.Number>[] | 'none'
 	) => {
 		if (response !== 'none') {
 			let decimalResponse = <DecimalResponseData>response[0];
 			this.model = '' + decimalResponse.value;
 			this._numberModel = Number(this.model.replace(/[^0-9\.]+/g, ''));
 			this.validationState.emit(ResponseValidationState.VALID);
-			console.log(this);
 		}
 
-		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
+		this.inputForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
 			if (this.model !== undefined) {
 				let number = Number(this.model.replace(/[^0-9\.]+/g, ''));
 

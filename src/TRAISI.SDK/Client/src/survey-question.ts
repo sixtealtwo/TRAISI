@@ -174,6 +174,11 @@ export interface DecimalResponseData extends ResponseData<ResponseTypes.Decminal
 	value: number;
 }
 
+export interface NumberResponseData extends ResponseData<ResponseTypes.Number> {
+	value: number;
+}
+
+
 export interface IntegerResponseData extends ResponseData<ResponseTypes.Integer> {
 	value: number;
 }

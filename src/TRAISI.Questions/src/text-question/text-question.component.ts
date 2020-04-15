@@ -9,15 +9,16 @@ import {
 	ResponseValidationState,
 	StringResponseData,
 	SurveyQuestion,
-	SurveyViewer
+	SurveyViewer,
 } from 'traisi-question-sdk';
 import templateString from './text-question.component.html';
+import styleString from './text-question.component.scss';
 import { TextQuestionConfiguration } from './text-question.configuration';
 
 @Component({
 	selector: 'traisi-text-question',
-	template: templateString,
-	styles: [require('./text-question.component.scss')]
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
 export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 	implements OnInit, OnVisibilityChanged, OnSaveResponseStatus {
@@ -69,25 +70,20 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 			}
 		}
 
-		this.inputForm.valueChanges
-			.pipe(
-				debounceTime(1000),
-				skip(1)
-			)
-			.subscribe(value => {
-				if (this.textInput === undefined) {
-					return;
-				}
-				if (!this.isInputValid(value.textInput)) {
-					this.validationState.emit(ResponseValidationState.INVALID);
-				} else {
-					let data: StringResponseData = {
-						value: this.textInput
-					};
+		this.inputForm.valueChanges.pipe(debounceTime(1000), skip(1)).subscribe((value) => {
+			if (this.textInput === undefined) {
+				return;
+			}
+			if (!this.isInputValid(value.textInput)) {
+				this.validationState.emit(ResponseValidationState.INVALID);
+			} else {
+				let data: StringResponseData = {
+					value: this.textInput,
+				};
 
-					this.response.emit(data);
-				}
-			});
+				this.response.emit(data);
+			}
+		});
 		this.isLoaded.next(true);
 	};
 
