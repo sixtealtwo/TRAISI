@@ -51,16 +51,24 @@ namespace TRAISI.Export
             foreach (var page in view.QuestionPartViews)
             {
                 context.Entry(page).Collection(c => c.QuestionPartViewChildren).Load();
+                context.Entry(page).Reference(r => r.QuestionPart).Load();
                 foreach (var q in page.QuestionPartViewChildren)
                 {
                     context.Entry(q).Collection(c => c.Labels).Load();
                     context.Entry(q).Reference(r => r.QuestionPart).Load();
                     context.Entry(q).Collection(c => c.QuestionPartViewChildren).Load();
+                    if(q.QuestionPart != null) {
+                        questionPartViews.Add(q);
+                    }
                     foreach (var q2 in q.QuestionPartViewChildren)
                     {
                         context.Entry(q2).Collection(c => c.Labels).Load();
                         context.Entry(q2).Reference(r => r.QuestionPart).Load();
+                        context.Entry(q2.QuestionPart).Collection(c => c.QuestionOptions).Load();
                         context.Entry(q2).Collection(c => c.QuestionPartViewChildren).Load();
+                        foreach(var option in q2.QuestionPart.QuestionOptions) {
+                            context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
+                        }
                         questionPartViews.Add(q2);
                     }
 

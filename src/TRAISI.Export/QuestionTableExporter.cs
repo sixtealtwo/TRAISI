@@ -76,14 +76,21 @@ namespace TRAISI.Export
         public void BuildQuestionTable(IList<QuestionPartView> questionPartViews, ExcelWorksheet worksheet)
         {
             // inject header
-            worksheet.Cells[Row: 1, Col: 1].Value = "Question Name";
+            /* worksheet.Cells[Row: 1, Col: 1].Value = "Question Name";
             worksheet.Cells[Row: 1, Col: 2].Value = "Question Text";
             worksheet.Cells[Row: 1, Col: 3].Value = "Type";
             worksheet.Cells[Row: 1, Col: 4].Value = "Option Code / Name";
             worksheet.Cells[Row: 1, Col: 5].Value = "Option Text / Value";
-            worksheet.Cells[FromRow: 1, FromCol: 1, ToRow: 1, ToCol: 5].Style.Font.Bold = true;
-
-
+            worksheet.Cells[FromRow: 1, FromCol: 1, ToRow: 1, ToCol: 5].Style.Font.Bold = true; */
+            
+             // inject header
+            var headerRow = new List<string[]>()
+            {
+                new string[] { "Question Name", "Question Text", "Type", "Option Code / Name", "Option Text / Value" }
+            };         
+            worksheet.Cells["A1:E1"].LoadFromArrays(headerRow);
+            worksheet.Cells["A1:E1"].Style.Font.Bold = true;
+           
             // Loop over each question
             var currentRow = 2;
             foreach (var questionPartView in questionPartViews)
