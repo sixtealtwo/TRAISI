@@ -15,7 +15,7 @@ namespace TRAISI.Export
     class Program
     {
 
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             // connect to the database
             var contextFactory = new DesignTimeDbContextFactory();
@@ -26,6 +26,12 @@ namespace TRAISI.Export
             var responseTableExporter = new ResponseTableExporter(context, questionTypeManager);
             var responderTableExporter = new ResponderTableExporter(context);
 
+            if (args.Length < 1)
+            {
+                Console.Error.WriteLine("Please specify the survey code as an input argument.");
+                return 1;
+            }
+
             // Read survey name
             var survey = context.Surveys
             .AsQueryable()
@@ -34,10 +40,20 @@ namespace TRAISI.Export
             .ThenInclude(v => v.QuestionPartViews)
             .FirstOrDefault();
 
+            if (survey == null)
+            {
+                Console.Error.WriteLine($"Survey with code {args[0]} does not exist. Exiting.");
+                return 1;
+            }
+
             //var view = context.SurveyViews.FirstOrDefault();
             Console.WriteLine("Gathering Questions");
             var view = survey.SurveyViews.FirstOrDefault();
-            if (view == null) return;
+            if (view == null)
+            {
+                Console.Error.WriteLine($"Survey has no views or data. Exiting.");
+                return 1;
+            }
 
             /* var questionPartViews = view.QuestionPartViews.OrderBy(p => p.Order).ToList();
             var questionPartViewTasks =
@@ -113,6 +129,9 @@ namespace TRAISI.Export
                 responseTableExporter.ResponsesPivot(questionParts, responses, respondents, responsePivotSheet);
                 eXp.Save();
             }
+            return 0;
         }
+
+
     }
 }
