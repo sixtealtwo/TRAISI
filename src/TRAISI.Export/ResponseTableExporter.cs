@@ -75,7 +75,8 @@ namespace TRAISI.Export
                 case QuestionResponseType.Json:
                     return ReadJsonResponse(surveyResponse);
                 case QuestionResponseType.Location:
-                    return ((LocationResponse)surveyResponse.ResponseValues.First()).Address;
+                    return ReadLocationResponse(surveyResponse);
+                    //return ((LocationResponse)surveyResponse.ResponseValues.First()).Address;
                 case QuestionResponseType.Timeline:
                     return ReadTimelineResponse(surveyResponse);
                 case QuestionResponseType.OptionSelect:
@@ -121,6 +122,18 @@ namespace TRAISI.Export
             return locationJson;
         }
 
+        private string ReadLocationResponse(ISurveyResponse surveyResponse)
+        {
+            var locations = surveyResponse.ResponseValues.Cast<LocationResponse>()
+                .Select(t => new
+                {
+                    Location = new { t.Address, t.Location.X, t.Location.Y }
+                });
+            var locationJson = JsonSerializer.Serialize(locations);
+            return locationJson;
+        }
+
+
         private void PathResponseTable(SurveyResponse surveyResponse, ExcelWorksheet worksheet)
         {
             throw new NotImplementedException();
@@ -152,7 +165,7 @@ namespace TRAISI.Export
             // inject header
             var headerRow = new List<string[]>()
             {
-                new string[] { "Household ID", "Respondent ID", "Question Name", "Response Type", "Response Value", "Response Time" }
+                new string[] { "Respondent ID","Household ID", "Person ID",  "Question Name", "Response Type", "Response Value", "Response Time" }
             };
             worksheet.Cells["A1:F1"].LoadFromArrays(headerRow);
             worksheet.Cells["A1:F1"].Style.Font.Bold = true;
@@ -161,26 +174,30 @@ namespace TRAISI.Export
 
             // Household ID           
             var householdIds = surveyResponses.Select(r => new object[] { r.Respondent.SurveyRespondentGroup.Id }).ToList();
-            worksheet.Cells[2, 1].LoadFromArrays(householdIds);
+            worksheet.Cells[2, 2].LoadFromArrays(householdIds);
+
+            var personIds = surveyResponses.Select(r => new object[] { })
+           // var personIds = .Cast<object>().AsEnumerable();
+            worksheet.Cells[2,3].LoadFromArrays(personIds);
 
             // Respondent ID    
             var respondentIDs = surveyResponses.Select(r => new object[] { r.Respondent.Id }).ToList();
-            worksheet.Cells[2, 2].LoadFromArrays(respondentIDs);
+            worksheet.Cells[2, 1].LoadFromArrays(respondentIDs);
 
             // Question Name
             var questionNames = surveyResponses.Select(r => new object[] { r.QuestionPart.Name }).ToList();
-            worksheet.Cells[2, 3].LoadFromArrays(questionNames);
+            worksheet.Cells[2, 4].LoadFromArrays(questionNames);
 
             // Response Type
             var responseTypes = surveyResponses.Select(r => new object[]
             {
                 _questionTypeManager.QuestionTypeDefinitions[r.QuestionPart.QuestionType].ResponseType
             }).ToList();
-            worksheet.Cells[2, 4].LoadFromArrays(responseTypes);
+            worksheet.Cells[2, 5].LoadFromArrays(responseTypes);
 
             // Response Time
             var responseTimes = surveyResponses.Select(r => new object[] { r.UpdatedDate }).ToList();
-            worksheet.Cells[2, 6].LoadFromArrays(responseTimes);
+            worksheet.Cells[2, 7].LoadFromArrays(responseTimes);
             //worksheet.Cells[2, 5, 1 + numberOfResponses, 5].Style.Numberformat.Format = "yyyy-mm-dd h:mm";
 
             // Response Value
@@ -195,7 +212,7 @@ namespace TRAISI.Export
                 }
                 return r;
             }).ToList();
-            worksheet.Cells[2, 5].LoadFromArrays(responseValues.Select(r => new object[] { r }).ToList());
+            worksheet.Cells[2, 6].LoadFromArrays(responseValues.Select(r => new object[] { r }).ToList());
         }
 
         public void ResponsesPivot(
@@ -237,5 +254,10 @@ namespace TRAISI.Export
                 }
             }
         }
+/*         private static int personId = 1;
+        static int generatePersonId()
+        {
+            return personId++;
+        } */
     }
 }
