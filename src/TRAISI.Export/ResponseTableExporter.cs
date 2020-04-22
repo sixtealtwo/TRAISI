@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;  
+using System.Drawing; 
 using TRAISI.Helpers;
 using TRAISI.SDK.Enums;
 using System.Text.Json;
@@ -20,6 +22,7 @@ namespace TRAISI.Export
     {
         private readonly ApplicationDbContext _context;
         private readonly QuestionTypeManager _questionTypeManager;
+        String locationPart="";
 
         /// <summary>
         /// Initializer for helper object
@@ -45,7 +48,10 @@ namespace TRAISI.Export
             return _context.SurveyResponses.AsQueryable()
                 .Where(r => questionPartViews.Select(v => v.QuestionPart).Contains(r.QuestionPart))
                 .Include(r => r.ResponseValues)
-                .Include(r => r.Respondent).ThenInclude(r => r.SurveyRespondentGroup).ThenInclude(r => r.GroupMembers)
+                .Include(r => r.QuestionPart)
+                .Include(r => r.Respondent)
+                .ThenInclude(r => r.SurveyRespondentGroup)
+                .ThenInclude(r => r.GroupMembers)
                 .OrderBy(r => r.UpdatedDate)
                 .ToList();
         }
@@ -73,9 +79,18 @@ namespace TRAISI.Export
                 case QuestionResponseType.Path:
                     return ReadPathResponse(surveyResponse);
                 case QuestionResponseType.Json:
-                    return ReadJsonResponse(surveyResponse);
+                    return ReadJsonResponse(surveyResponse);                
                 case QuestionResponseType.Location:
-                    return ReadLocationResponse(surveyResponse);
+                {
+                    String retValue = "";
+                    if (locationPart == "")
+                        retValue = ReadLocationResponse(surveyResponse);
+                    else
+                        retValue = ReadSplitLocation(surveyResponse, locationPart);
+
+                    locationPart="";
+                    return retValue;
+                }   
                 //return ((LocationResponse)surveyResponse.ResponseValues.First()).Address;
                 case QuestionResponseType.Timeline:
                     return ReadTimelineResponse(surveyResponse);
@@ -131,8 +146,34 @@ namespace TRAISI.Export
                 });
             var locationJson = JsonSerializer.Serialize(locations);
             return locationJson;
-        }
+        } 
+        private string ReadSplitLocation(ISurveyResponse surveyResponse, String locationPart)
+        { 
+            string value = string.Empty;
+            switch (locationPart)
+            {
+                case "_address": 
+                    string addressWithPostalCode = (((LocationResponse)surveyResponse.ResponseValues.First()).Address).ToString();                                                   
+                    value = addressWithPostalCode.Substring(0, addressWithPostalCode.Length-6);
+                    value = value.TrimEnd(new char[]{',', ' '});
+                    return value; 
+                
+                case "_postalCode":     
+                    string addressWithPostalCode1 = (((LocationResponse)surveyResponse.ResponseValues.First()).Address).ToString();                               
+                    value = addressWithPostalCode1.Substring(addressWithPostalCode1.Length - 6);
+                    return value;
+                
+                case "_yLatitude":  
+                    value = (((LocationResponse)surveyResponse.ResponseValues.First()).Location.Y).ToString();               
+                    return value;
 
+                case "_xLongitude":   
+                    value = (((LocationResponse)surveyResponse.ResponseValues.First()).Location.X).ToString();                                  
+                    return value;
+            }
+            
+            return value;
+        } 
 
         private void PathResponseTable(SurveyResponse surveyResponse, ExcelWorksheet worksheet)
         {
@@ -143,7 +184,7 @@ namespace TRAISI.Export
         {
         }
 
-        public void ResponseListToWorksheet(List<SurveyResponse> surveyResponses, ExcelWorksheet worksheet)
+        public void ResponseListToWorksheet(List<SurveyResponse> surveyResponses, ExcelWorksheet worksheet, Boolean isHouseHold)
         {
             var responseValuesTask = Task.Run(() =>
                 surveyResponses
@@ -152,8 +193,6 @@ namespace TRAISI.Export
                     .Select(ReadSingleResponse)
                     .ToList()
                 );
-            // Place headers
-            // inject header
             /*  worksheet.Cells[Row: 1, Col: 1].Value = "Respondent ID";
              worksheet.Cells[Row: 1, Col: 2].Value = "Question Name";
              worksheet.Cells[Row: 1, Col: 3].Value = "Response Type";
@@ -165,7 +204,7 @@ namespace TRAISI.Export
             // inject header
             var headerRow = new List<string[]>()
             {
-                new string[] { "Respondent ID","Household ID", "Person ID",  "Question Name", "Response Type", "Response Value", "Response Time" }
+                new string[] { "Respondent ID","Household ID", "Person ID", "Question Name", "Response Type", "Response Value", "Response Time" }
             };
             worksheet.Cells["A1:G1"].LoadFromArrays(headerRow);
             worksheet.Cells["A1:G1"].Style.Font.Bold = true;
@@ -177,13 +216,16 @@ namespace TRAISI.Export
             worksheet.Cells[2, 1].LoadFromArrays(respondentIDs);
 
             // Household ID           
-            var householdIds = surveyResponses.Select(r => new object[] { r.Respondent.SurveyRespondentGroup.Id }).ToList();
+            var householdIds = surveyResponses.Select(r => new object[] { r.Respondent.SurveyRespondentGroup.Id}).ToList();
             worksheet.Cells[2, 2].LoadFromArrays(householdIds);
 
-            // In House Person ID
-            var personIds = surveyResponses.Select(r => new object[] { r.Respondent.SurveyRespondentGroup.GroupMembers.IndexOf(r.Respondent) + 1 }).ToList();
-            worksheet.Cells[2, 3].LoadFromArrays(personIds);
-
+            //In House Person ID for only Personal Questions and Empty for Household Questions.
+            if(!isHouseHold)
+            {
+                var personIds = surveyResponses.Select(r => new object[] { r.Respondent.SurveyRespondentGroup.GroupMembers.IndexOf(r.Respondent) + 1}).ToList();
+                worksheet.Cells[2, 3].LoadFromArrays(personIds);
+            }
+          
             // Question Name
             var questionNames = surveyResponses.Select(r => new object[] { r.QuestionPart.Name }).ToList();
             worksheet.Cells[2, 4].LoadFromArrays(questionNames);
@@ -215,7 +257,7 @@ namespace TRAISI.Export
             worksheet.Cells[2, 6].LoadFromArrays(responseValues.Select(r => new object[] { r }).ToList());
         }
 
-        public void ResponsesPivot(
+        public void ResponsesPivot_Personal(
             List<QuestionPart> questionParts,
             List<SurveyResponse> surveyResponses,
             List<SurveyRespondent> surveyRespondents,
@@ -225,11 +267,139 @@ namespace TRAISI.Export
             // build dictionary of questions and column numbers
             var questionColumnDict = new Dictionary<QuestionPart, int>();
             // place questions on headers and add to dictionary
-            var columnNum = 2;
+            var columnNum = 4;
+
+            // Adding Household ID and Person ID column name
+            worksheet.Cells[1,2].Value = "Household ID";
+            worksheet.Cells[1,3].Value = "Person ID";
+
             foreach (var questionPart in questionParts)
             {
                 questionColumnDict.Add(questionPart, columnNum);
-                worksheet.Cells[1, columnNum].Value = questionPart.Name;
+                
+                if(!questionPart.Name.Contains("location"))
+                {                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name;
+                }
+                else
+                {           
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Address";
+                    columnNum += 1;
+                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Postal Code";
+                    columnNum += 1;
+                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Latitude";
+                    columnNum += 1;  
+
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Longitude";                  
+                }
+                columnNum += 1;
+            }
+
+            // Collecting all relevant respondents
+            var Respondents_valid = surveyRespondents.Where(x =>surveyResponses.Any(y => y.Respondent==x)).ToList();
+            var subRespondents = Respondents_valid.SelectMany(pr => pr.SurveyRespondentGroup.GroupMembers).ToList();
+            
+            // Assign row number for each respondent
+            var respondentRowNum = new Dictionary<SurveyRespondent, int>();
+            var rowNum = 2;
+
+            foreach (var respondent in subRespondents)
+            {
+                respondentRowNum.Add(respondent, rowNum);
+                rowNum += 1;
+            }
+
+            // Place response into rows via map  
+
+            foreach (var respondent in subRespondents)
+            {
+                //var responses= surveyResponses.Where(r => r.Respondent == respondent);
+                var responses= surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent)).ToList();
+                
+                if(responses.Count()>0)
+                {
+                    // Household ID          
+                    worksheet.Cells[respondentRowNum[respondent], 2].Value = (responses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y ==respondent))
+                                                                                    .Select(r => r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
+                    //Person ID
+                    worksheet.Cells[respondentRowNum[respondent], 3].Value = (responses.Where(r => r.Respondent == respondent)
+                                                                                    .Select(r => r.Respondent.SurveyRespondentGroup.GroupMembers.IndexOf(respondent) + 1)).First().ToString();
+                }
+
+                foreach (var response in responses)
+                {
+                    if(!response.QuestionPart.Name.Contains("location"))
+                    {
+                    worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]].Value
+                        = ReadSingleResponse(response);
+                    }
+                    else
+                    {
+                        locationPart = "_address";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]].Value
+                        = ReadSingleResponse(response);
+                        
+                        locationPart = "_postalCode";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+1].Value
+                        = ReadSingleResponse(response);
+                        
+                        locationPart = "_yLatitude";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+2].Value
+                        = ReadSingleResponse(response);
+
+                        locationPart = "_xLongitude";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+3].Value
+                        = ReadSingleResponse(response);
+
+                    }
+                }
+            }
+        }
+
+        public void ResponsesPivot_HouseHold(
+            List<QuestionPart> questionParts,
+            List<SurveyResponse> surveyResponses,
+            List<SurveyRespondent> surveyRespondents,
+            ExcelWorksheet worksheet)
+        {
+            // process questions
+            // build dictionary of questions and column numbers
+            var questionColumnDict = new Dictionary<QuestionPart, int>();
+            // place questions on headers and add to dictionary
+            var columnNum = 3;
+
+            // Adding Household ID column name
+            worksheet.Cells[1,2].Value = "Household ID";
+
+            foreach (var questionPart in questionParts)
+            {
+                questionColumnDict.Add(questionPart, columnNum);
+                
+                if(!questionPart.Name.Contains("location"))
+                {                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name;
+                }
+                else
+                {           
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Address";
+                    columnNum += 1;
+                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Postal Code";
+                    columnNum += 1;
+                    
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Latitude";
+                    columnNum += 1;  
+
+                    worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Longitude";                     
+                }
+                
                 columnNum += 1;
             }
 
@@ -246,18 +416,46 @@ namespace TRAISI.Export
             foreach (var respondent in surveyRespondents)
             {
                 var responses = surveyResponses.Where(r => r.Respondent == respondent);
+                if(responses.Count()>0)
+                {
+                    // Household ID          
+                    worksheet.Cells[respondentRowNum[respondent], 2].Value = (surveyResponses.Where(r => r.Respondent == respondent)
+                                                                                    .Select(r =>r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
+                }
+
                 foreach (var response in responses)
                 {
+                    if(!response.QuestionPart.Name.Contains("location"))
+                    {
                     worksheet.Cells[respondentRowNum[respondent],
                                     questionColumnDict[response.QuestionPart]].Value
                         = ReadSingleResponse(response);
+                    }
+                    else
+                    {
+                        locationPart = "_address";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]].Value
+                        = ReadSingleResponse(response);
+                        
+                        locationPart = "_postalCode";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+1].Value
+                        = ReadSingleResponse(response);
+                        
+                        locationPart = "_yLatitude";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+2].Value
+                        = ReadSingleResponse(response);
+
+                        locationPart = "_xLongitude";
+                        worksheet.Cells[respondentRowNum[respondent],
+                                    questionColumnDict[response.QuestionPart]+3].Value
+                        = ReadSingleResponse(response);
+
+                    }
                 }
             }
         }
-        /*         private static int personId = 1;
-                static int generatePersonId()
-                {
-                    return personId++;
-                } */
     }
 }
