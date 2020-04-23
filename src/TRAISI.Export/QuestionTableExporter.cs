@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
+using OfficeOpenXml.Style; 
 using TRAISI.Helpers;
 using System.Web;
 using HtmlAgilityPack;
@@ -75,7 +76,6 @@ namespace TRAISI.Export
         /// <param name="worksheet"></param>
         public void BuildQuestionTable(IList<QuestionPartView> questionPartViews, ExcelWorksheet worksheet)
         {
-            // inject header
             /* worksheet.Cells[Row: 1, Col: 1].Value = "Question Name";
             worksheet.Cells[Row: 1, Col: 2].Value = "Question Text";
             worksheet.Cells[Row: 1, Col: 3].Value = "Type";
@@ -83,7 +83,7 @@ namespace TRAISI.Export
             worksheet.Cells[Row: 1, Col: 5].Value = "Option Text / Value";
             worksheet.Cells[FromRow: 1, FromCol: 1, ToRow: 1, ToCol: 5].Style.Font.Bold = true; */
             
-             // inject header
+            // inject header
             var headerRow = new List<string[]>()
             {
                 new string[] { "Question Name", "Question Text", "Type", "Option Code / Name", "Option Text / Value" }
@@ -105,6 +105,7 @@ namespace TRAISI.Export
                 IEnumerable<string> optionCodes = new List<string>();
                 IEnumerable<string> optionLabels = new List<string>();
                 int bottomRow;
+                
                 if (numOptions > 0)
                 {
                     optionCodes = orderedOptions.Select(o => o.Code);
@@ -125,12 +126,12 @@ namespace TRAISI.Export
                     bottomRow = currentRow;
                 }
 
-
                 // Question Name
                 worksheet.Cells[currentRow, 1].Value = questionPart.Name;
                 if (numOptions > 0)
                 {
                     worksheet.Cells[currentRow, 1, bottomRow, 1].Merge = true;
+                    worksheet.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 }
 
                 // Question Text
@@ -139,6 +140,7 @@ namespace TRAISI.Export
                 if (numOptions > 0)
                 {
                     worksheet.Cells[currentRow, 2, bottomRow, 2].Merge = true;
+                    worksheet.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 }
 
                 // Question Type
@@ -146,6 +148,7 @@ namespace TRAISI.Export
                 if (numOptions > 0)
                 {
                     worksheet.Cells[currentRow, 3, bottomRow, 3].Merge = true;
+                    worksheet.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 }
 
                 // Loop over options
@@ -165,15 +168,12 @@ namespace TRAISI.Export
                             {
                                 worksheet.Cells[currentRow, 4].Value = codes.Current;
                             }
-
                             // Option Text
                             worksheet.Cells[currentRow, 5].Value = labels.Current;
-
                             currentRow++;
                         }
                     }
                 }
-
                 currentRow = bottomRow + 1;
             }
         }
