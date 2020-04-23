@@ -269,7 +269,8 @@ namespace TRAISI.Export
             // place questions on headers and add to dictionary
             var columnNum = 4;
 
-            // Adding Household ID and Person ID column name
+            // Adding Respondent ID, Household ID and Person ID column name
+            worksheet.Cells[1,1].Value = "Respondent ID";
             worksheet.Cells[1,2].Value = "Household ID";
             worksheet.Cells[1,3].Value = "Person ID";
 
@@ -320,6 +321,11 @@ namespace TRAISI.Export
                 
                 if(responses.Count()>0)
                 {
+                   
+                   // Respondent ID (Unique)                
+                    worksheet.Cells[respondentRowNum[respondent], 1].Value = (responses.Where(r => r.Respondent == respondent)
+                                                                                    .Select(r => r.Respondent.Id)).First().ToString();
+
                     // Household ID          
                     worksheet.Cells[respondentRowNum[respondent], 2].Value = (responses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y ==respondent))
                                                                                     .Select(r => r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
@@ -375,7 +381,8 @@ namespace TRAISI.Export
             // place questions on headers and add to dictionary
             var columnNum = 3;
 
-            // Adding Household ID column name
+            // Adding Respondent ID and Household ID column name
+            worksheet.Cells[1,1].Value = "Respondent ID";
             worksheet.Cells[1,2].Value = "Household ID";
 
             foreach (var questionPart in questionParts)
@@ -418,9 +425,14 @@ namespace TRAISI.Export
                 var responses = surveyResponses.Where(r => r.Respondent == respondent);
                 if(responses.Count()>0)
                 {
+                    
+                    // Respondent ID (Unique)                
+                    worksheet.Cells[respondentRowNum[respondent], 1].Value = (surveyResponses.Where(r => r.Respondent == respondent)
+                                                                                    .Select(r => r.Respondent.Id)).First().ToString();
+                    
                     // Household ID          
                     worksheet.Cells[respondentRowNum[respondent], 2].Value = (surveyResponses.Where(r => r.Respondent == respondent)
-                                                                                    .Select(r =>r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
+                                                                                    .Select(r => r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
                 }
 
                 foreach (var response in responses)
