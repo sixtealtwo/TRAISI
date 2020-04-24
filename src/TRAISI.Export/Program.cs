@@ -27,8 +27,6 @@ namespace TRAISI.Export
             var questionExporter = new QuestionTableExporter(context, questionTypeManager);
             var responseTableExporter = new ResponseTableExporter(context, questionTypeManager);
             var responderTableExporter = new ResponderTableExporter(context);
-            var personalIDs = new List<int> {1,13,14,15,17,18,21,22,23,24,26,27,28,29,30,31,32,33,34};
-            var houseHoldIDs = new List<int> {25,16,12,9,8,11,10,6,3,5,4,7,19,2,20};
 
             if (args.Length < 1)
             {
@@ -58,14 +56,10 @@ namespace TRAISI.Export
                 return 1;
             }
 
-            /* var questionPartViews = view.QuestionPartViews.OrderBy(p => p.Order).ToList();
-            var questionPartViewTasks =
-                questionPartViews.Select(questionExporter.QuestionPartsList).ToList();
-            Task.WhenAll(questionPartViewTasks).Wait();
-            questionPartViews = questionPartViewTasks
-                .SelectMany(nl => nl.Result)
-                .ToList(); */
 
+
+            List<QuestionPartView> householdQuestions = new List<QuestionPartView>();
+            List<QuestionPartView> personQuestions = new List<QuestionPartView>();
             List<QuestionPartView> questionPartViews = new List<QuestionPartView>();
            
             foreach (var page in view.QuestionPartViews)
@@ -77,7 +71,7 @@ namespace TRAISI.Export
                     context.Entry(q).Collection(c => c.Labels).Load();
                     context.Entry(q).Reference(r => r.QuestionPart).Load();
                     context.Entry(q).Collection(c => c.QuestionPartViewChildren).Load();
-
+                    bool isHousehold = false;
                     if (q.QuestionPart != null)
                     {
                         context.Entry(q.QuestionPart).Collection(c => c.QuestionOptions).Load();
@@ -86,6 +80,12 @@ namespace TRAISI.Export
                             context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
                         }
                         questionPartViews.Add(q);
+                        personQuestions.Add(q);
+                        
+                    }
+                    else if(q.IsHousehold)
+                    {
+                        isHousehold = true;
                     }
 
                     foreach (var q2 in q.QuestionPartViewChildren)
@@ -99,6 +99,12 @@ namespace TRAISI.Export
                             context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
                         }
                         questionPartViews.Add(q2);
+                        if(!isHousehold) {
+                            householdQuestions.Add(q2);
+                        }
+                        else {
+                            personQuestions.Add(q2);
+                        }
                     }
                 }
                 continue;
@@ -111,14 +117,14 @@ namespace TRAISI.Export
             var questionParts = questionPartViews.Select(qpv => qpv.QuestionPart).ToList();    
 
             // Separating Personal and Household questions    
-            var questionPartViews_personal=questionPartViews.Where(qpv =>personalIDs.Contains(qpv.QuestionPart.Id)).ToList();
-            var questionPartViews_houseHold=questionPartViews.Where(qpv =>houseHoldIDs.Contains(qpv.QuestionPart.Id)).ToList();
+            var questionPartViews_personal=personQuestions.ToList();
+            var questionPartViews_houseHold=householdQuestions.ToList();
 
-            var responses_personal=responses.Where(res =>personalIDs.Contains(res.QuestionPart.Id)).ToList();
-            var responses_houseHold=responses.Where(res =>houseHoldIDs.Contains(res.QuestionPart.Id)).ToList();
-
-            var questionParts_personal=questionParts.Where(qp => personalIDs.Contains(qp.Id)).ToList();
-            var questionParts_houseHold=questionParts.Where(qp => houseHoldIDs.Contains(qp.Id)).ToList();
+            var responses_personal=responses.Where(res => questionPartViews_personal.Select(x=> x.QuestionPart).Contains(res.QuestionPart)).ToList();
+            var responses_houseHold=responses.Where(res => questionPartViews_houseHold.Select(x=> x.QuestionPart).Contains(res.QuestionPart)).ToList();
+            
+            var questionParts_personal=questionPartViews_personal.Select(x=> x.QuestionPart).ToList();
+            var questionParts_houseHold=questionPartViews_houseHold.Select(x=> x.QuestionPart).ToList();
            
             // Household Questions Excel file
             var hfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\HouseholdQuestions.xlsx");
