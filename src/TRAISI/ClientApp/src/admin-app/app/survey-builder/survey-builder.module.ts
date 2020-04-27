@@ -110,7 +110,8 @@ export const translateForChild = TranslateModule.forChild({
 		AmazingTimePickerModule,
 		ngxMapbox,
 		ROUTES,
-		translateForChild
+		translateForChild,
+		QueryBuilderModule
 	],
 	declarations: [
 		SurveyBuilderComponent,

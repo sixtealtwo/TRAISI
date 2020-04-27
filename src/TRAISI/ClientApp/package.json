@@ -48,6 +48,7 @@
     "angular-auth-oidc-client": "^10.0.15",
     "angular-popper": "^2.0.1",
     "angular2-draggable": "^2.3.0",
+    "angular2-query-builder": "^0.6.2",
     "angular2-text-mask": "9.0.0",
     "animate.css": "3.7.2",
     "bootstrap": "^4.4.1",
