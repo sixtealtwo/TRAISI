@@ -20,6 +20,8 @@ namespace TRAISI.Data.Models.Surveys {
         public SurveyLogic SubSurveyLogic {get;set;}
 
         public List<SurveyLogicExpression> Expressions {get;set;}
+
+        public List<SurveyLogicLabel> ValidationMessages {get;set;}
     }
 
     public class SurveyLogicExpression {

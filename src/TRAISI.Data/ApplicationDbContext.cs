@@ -225,8 +225,10 @@ namespace TRAISI.Data
             builder.Entity<SurveyLogic>().ToTable(nameof(SurveyLogic));
 
             builder.Entity<SurveyLogicExpression>().ToTable("SurveyLogicExpressions");
-
+            builder.Entity<SurveyLogicLabel>().ToTable("SurveyLogicLabels");
             builder.Entity<SurveyLogic>().HasMany(x => x.Expressions).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyLogic>().HasMany(x => x.ValidationMessages).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Survey>().HasMany(x => x.SurveyLogic).WithOne().OnDelete(DeleteBehavior.Cascade);
 
         }
 
