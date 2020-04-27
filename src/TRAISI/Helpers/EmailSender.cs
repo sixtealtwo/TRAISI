@@ -92,7 +92,7 @@ namespace TRAISI.Helpers
                 Authenticator = new HttpBasicAuthenticator("api", this._config.APIKey)
             };
             
-            var result = await client.ExecuteTaskAsync(request);
+            var result = await client.ExecuteAsync(request);
             return (result.IsSuccessful, result.ErrorMessage);
         }
         public (bool, string) SendViaMailgun(RestRequest request)

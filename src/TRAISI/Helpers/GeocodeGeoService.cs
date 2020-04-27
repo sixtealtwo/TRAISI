@@ -41,7 +41,7 @@ namespace TRAISI.Helpers
             request.AddParameter("json", 1);
             request.AddParameter("auth", this._apiKey);
 
-            var response = await this._geocodeClient.ExecuteTaskAsync(request);
+            var response = await this._geocodeClient.ExecuteAsync(request);
 
             return null;
         }
@@ -71,7 +71,7 @@ namespace TRAISI.Helpers
             request.AddParameter("json", 1);
             request.AddParameter("reverse", 1);
             request.AddParameter("auth", this._apiKey);
-            var response = await this._geocodeClient.ExecuteTaskAsync(request);
+            var response = await this._geocodeClient.ExecuteAsync(request);
 
             var content = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
 

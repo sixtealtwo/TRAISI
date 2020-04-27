@@ -16,6 +16,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace TRAISI.Services
 {
@@ -353,9 +354,9 @@ namespace TRAISI.Services
                         IEnumerable<QuestionOptionData> optionData;
                         using (var fileStream = new StreamReader(file.OpenReadStream()))
                         {
-                            var reader = new CsvReader(fileStream);
+                            var reader = new CsvReader(fileStream,CultureInfo.InvariantCulture);
                             reader.Configuration.RegisterClassMap<QuestionOptionMap>();
-                            reader.Configuration.PrepareHeaderForMatch = header => Regex.Replace(header, @"\s", string.Empty);
+                            reader.Configuration.PrepareHeaderForMatch = (string header, int index) => Regex.Replace(header, @"\s", string.Empty);
                             optionData = reader.GetRecords<QuestionOptionData>().ToList();
                         }
 
@@ -983,7 +984,7 @@ namespace TRAISI.Services
 
             conditionals.ForEach(conditional =>
             {
-                if (conditional.SourceQuestionId == question.Id)
+                if (conditional.SourceQuestionId == question.Id) 
                 {
                     if (conditional.Id == 0)
                     {

@@ -14,6 +14,7 @@ using CsvHelper.Configuration;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace TRAISI.Helpers
 {
@@ -94,8 +95,8 @@ namespace TRAISI.Helpers
                 await this._notifyHub.Clients.Group (userName).DownloadUpdate (progress);
 
                 // Write shortcodes to csv
-                using (var sw = new StreamWriter (fileName)) {
-                    var writer = new CsvWriter (sw);
+                using (TextWriter sw = new StreamWriter (fileName)) {
+                    var writer = new CsvWriter (sw, CultureInfo.InvariantCulture);
                     writer.Configuration.RegisterClassMap<QuestionOptionMap> ();
                     var codeList = codesWithErrors.Select (r => new QuestionOptionData () { Code = r.Item1, Label = r.Item2, Reason = r.Item3 });
                     writer.WriteRecords (codeList);
@@ -176,8 +177,8 @@ namespace TRAISI.Helpers
                     await this._notifyHub.Clients.Group (userName).DownloadUpdate (progress);
 
                     // Write shortcodes to csv
-                    using (var sw = new StreamWriter (fileName)) {
-                        var writer = new CsvWriter (sw);
+                    using (TextWriter sw = new StreamWriter( fileName)) {
+                        var writer = new CsvWriter (sw,CultureInfo.InvariantCulture);
                         writer.Configuration.RegisterClassMap<ShortCodeMap> ();
 
                         writer.WriteRecords (shortcodes);
@@ -217,7 +218,7 @@ namespace TRAISI.Helpers
 
                     // Write shortcodes to csv
                     using (var sw = new StreamWriter (fileName)) {
-                        var writer = new CsvWriter (sw);
+                        var writer = new CsvWriter(sw,CultureInfo.InvariantCulture);
                         writer.Configuration.RegisterClassMap<GroupCodeMap> ();
 
                         writer.WriteRecords (groupcodes);
