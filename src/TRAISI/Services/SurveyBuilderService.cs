@@ -962,44 +962,16 @@ namespace TRAISI.Services
 
         public void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals)
         {
-            /*List<QuestionConditional> newSource = new List<QuestionConditional>();
-            List<QuestionConditional> updateSource = new List<QuestionConditional>();
-            List<QuestionConditional> newTarget = new List<QuestionConditional>();
-            List<QuestionConditional> updateTarget = new List<QuestionConditional>();
 
-            conditionals.ForEach(conditional =>
-            {
-                if (conditional.SourceQuestionId == question.Id)
-                {
-                    if (conditional.Id == 0)
-                    {
-                        newSource.Add(conditional);
-                    }
-                    else
-                    {
-                        updateSource.Add(conditional);
-                    }
-                }
-                else if (conditional.TargetQuestionId == question.Id)
-                {
-                    if (conditional.Id == 0)
-                    {
-                        newTarget.Add(conditional);
-                    }
-                    else
-                    {
-                        updateTarget.Add(conditional);
-                    }
-                }
-            });
+        }
 
-            this._unitOfWork.QuestionConditionals.DeleteSourceConditionals(question.Id, updateSource.Select(c => c.Id).ToList());
-            this._unitOfWork.QuestionConditionals.DeleteTargetConditionals(question.Id, updateTarget.Select(c => c.Id).ToList());
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="logics"></param>
+        public void SetSurveyLogic(Survey survey, List<SurveyLogic> logics){
 
-            this._unitOfWork.QuestionConditionals.AddRange(newSource);
-            this._unitOfWork.QuestionConditionals.AddRange(newTarget);
-            this._unitOfWork.QuestionConditionals.UpdateRange(updateSource);
-            this._unitOfWork.QuestionConditionals.UpdateRange(updateTarget); */
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)
