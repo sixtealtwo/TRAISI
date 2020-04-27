@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from "@angular/core";
+import { NgModule, InjectionToken, ANALYZE_FOR_ENTRY_COMPONENTS } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SurveyBuilderComponent } from "./survey-builder.component";
 import { ROUTES } from "./survey-builder.routes";
@@ -37,7 +37,6 @@ import { QuestionDetailsComponent } from "./components/question-details/question
 import { TreeviewModule } from "ngx-treeview";
 import { QuestionConditionalsComponent } from "./components/question-configuration/question-conditionals/question-conditionals.component";
 import { SourceConditionalComponent } from "./components/question-configuration/question-conditionals/source-conditional/conditional.component";
-import { TargetConditionalComponent } from "./components/question-configuration/question-conditionals/target-conditional/target-conditional.component";
 import { SpecialPageBuilderComponent } from "./components/special-page-builder/special-page-builder.component";
 import { Header1Component } from "./components/special-page-builder/header1/header1.component";
 import { MainSurveyAccess1Component } from "./components/special-page-builder/main-survey-access1/main-survey-access1.component";
@@ -60,6 +59,8 @@ import { ScreeningQuestionsComponent } from "./components/special-page-builder/s
 import { BUILDER_SERVICE, TraisiSurveyBuilder } from "traisi-question-sdk";
 import { NgxBootstrapSliderModule } from "ngx-bootstrap-slider";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { QueryBuilderModule } from 'angular2-query-builder';
+import { SurveyLogicControlComponent } from './survey-logic-control/survey-logic-control.component';
 export const SURVEY_BUILDER = new InjectionToken("builder.service");
 export const bsDatepicker = BsDatepickerModule.forRoot();
 export const pagination = PaginationModule.forRoot();
@@ -133,7 +134,6 @@ export const translateForChild = TranslateModule.forChild({
 		QuestionDetailsComponent,
 		QuestionConditionalsComponent,
 		SourceConditionalComponent,
-		TargetConditionalComponent,
 		SpecialPageBuilderComponent,
 		Header1Component,
 		MainSurveyAccess1Component,
@@ -144,7 +144,8 @@ export const translateForChild = TranslateModule.forChild({
 		QuestionViewerComponent,
 		CustomBuilderContainerDirective,
 		PrivacyConfirmationComponent,
-		ScreeningQuestionsComponent
+		ScreeningQuestionsComponent,
+		SurveyLogicControlComponent
 	],
 	providers: [
 		SurveyBuilderEndpointService,
@@ -167,7 +168,9 @@ export const translateForChild = TranslateModule.forChild({
 		SwitchComponent,
 		TimeInputComponent,
 		LocationFieldComponent,
-		RadioComponent
+		RadioComponent,
+		Header1Component,
+		Header2Component,Footer1Component
 	]
 })
 export class SurveyBuilderModule {}

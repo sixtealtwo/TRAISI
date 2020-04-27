@@ -15,7 +15,7 @@ export class RealTimeNotificationServce {
 
 	constructor(private authService: AuthService) {
 
-		Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+		/*Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 		this.connectionmade = new ReplaySubject<boolean>();
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl('/notify', { accessTokenFactory: () => this.authService.accessToken, logger: LogLevel.None })
@@ -34,24 +34,24 @@ export class RealTimeNotificationServce {
 			if (subject) {
 				subject.next(surveyInfo);
 			}
-		});
+		});*/
 	}
 
 	public registerChannel<T>(channelId: string): ReplaySubject<T> {
 		let notifier: ReplaySubject<T> = new ReplaySubject<T>();
-		this.channels.set(channelId, notifier);
+		//this.channels.set(channelId, notifier);
 		return notifier;
 	}
 
 	public deRegisterChannel(channelId: string): void {
-		this.channels.delete(channelId);
+		//this.channels.delete(channelId);
 	}
 
 	public surveyStatus(surveyId: number, working: boolean): void {
-		this.connectionmade.subscribe(connected => {
+		//this.connectionmade.subscribe(connected => {
 			// TO DO: DISABLED
 			//this.hubConnection.invoke('surveyStatus', surveyId, working).catch(err => console.error(err));
-		});
+		//});
 	}
 
 	public indicateSurveyChange(surveyId: number): void {

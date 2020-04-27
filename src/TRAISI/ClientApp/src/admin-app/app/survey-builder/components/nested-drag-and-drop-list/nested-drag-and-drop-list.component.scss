@@ -6,8 +6,8 @@
 .page-questions {
 	border-radius: 5px;
 	padding: 2px;
-	margin: 3px;
-	border: 1px solid $gray-200;
+	margin: 10px;
+	// border: 1px solid $gray-200;
 }
 
 .question-number {
@@ -27,18 +27,26 @@
 	margin:2px 0px 2px 0px;
 	min-height: 65px;
 	width:100%;
+	height: auto;
 
 	.question-text {
 		margin-left: 60px;
 		margin-right: 50px;
 		text-align: left;
-		white-space: nowrap;
+		//white-space: nowrap;
 
 		@media (hover: hover) {
 			overflow-x: hidden;
 		}
 		@media (hover: none) {
 			overflow-x: auto;
+		}
+
+		.name-text {
+			padding: 5px;
+		}
+		.label-text {
+			padding: 5px;
 		}
 	}
 	.question-text:hover {

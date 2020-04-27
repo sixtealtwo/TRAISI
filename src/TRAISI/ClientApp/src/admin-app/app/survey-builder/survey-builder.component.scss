@@ -12,6 +12,35 @@
   }
 }
 
+button.new-page {
+	margin-right: 5px;
+}
+
+i.fas {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+ng-select.ng-select-single.page-select {
+	font-size: 18px;
+	height: 60px;
+	padding: 10px;
+	
+	.ng-select-container {
+		height: 50px;
+	}
+
+	ng-dropdown-panel {
+		margin-top: -50px;
+		border-top-color: #e6e6e6;
+	}
+	
+}
+
+.page-label {
+	font-size: 18px;
+}
+
 #pagesList
 {
 	max-width: none !important;

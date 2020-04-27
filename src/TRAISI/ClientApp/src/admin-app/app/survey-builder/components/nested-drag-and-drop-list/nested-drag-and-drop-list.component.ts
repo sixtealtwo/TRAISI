@@ -136,7 +136,6 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 
 	public updateFullStructure(forceUpdate: boolean = false): void {
 		if (this.updateStructure || forceUpdate) {
-
 			forkJoin(
 			this.surveyBuilderService
 				.getStandardViewPagesStructureAsTreeItemsWithQuestionsOptions(
@@ -151,9 +150,8 @@ export class QuestionPageDisplayComponent implements OnInit, AfterViewInit {
 					this.householdAddedChange.emit(this.householdAdded);
 					this.updateStructure = false;
 					this.updateQuestionOffset();
-					console.log(this);
+
 					this._editorData.currentPage = this.currentPage;
-					console.log(this._editorData);
 				});
 		} else {
 			this.updateQuestionOffset();

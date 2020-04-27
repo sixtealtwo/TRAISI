@@ -17,13 +17,13 @@
 								(keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, key, i)"
 								(keydown.ArrowRight)="onArrowRight($event, key)"
 								(keydown.ArrowUp)="onArrowUp($event, key, 0)"
-								(keydown.ArrowDown)="onArrowDown($event, key, 0, i)" id="code"
+								(keydown.ArrowDown)="onArrowDown($event, key, 0, i)" id="{{question.id}}-{{item.code}}"
 								[(ngModel)]="item.code" />
 							<input #value type="text" class="form-control optionValue option-input"
 								(keyup.enter)="optionChanged(item) ? saveOption(item) : onEnter($event, item, value, i)"
 								(keydown.ArrowLeft)="onArrowLeft($event, value)"
 								(keydown.ArrowUp)="onArrowUp($event, value, 1)"
-								(keydown.ArrowDown)="onArrowDown($event, value, 1, i)" id="label"
+								(keydown.ArrowDown)="onArrowDown($event, value, 1, i)" id="{{question.id}}-{{item.code}}-label"
 								[(ngModel)]="item.optionLabel.value" />
 							<div class="input-group-append">
 								<button type="button" class="btn" (click)="saveOption(item)"
@@ -50,10 +50,10 @@
 				<div class="input-group col-md-12">
 					<input #newOptionKey type="text" (keydown.ArrowRight)="onArrowRight($event, newOptionKey)"
 						(keyup.enter)="pendingOptionValid(i) ? savePendingOption(i, 0) : null"
-						class="form-control optionKey" id="code" [(ngModel)]="pendingOptions[i].code" />
+						class="form-control optionKey" [id]="pendingOptions[i].code" [(ngModel)]="pendingOptions[i].code" />
 					<input #newOptionValue type="text" (keydown.ArrowLeft)="onArrowLeft($event, newOptionValue)"
 						(keyup.enter)="pendingOptionValid(i) ? savePendingOption(i, 1) : null"
-						class="form-control optionValue" id="label" [(ngModel)]="pendingOptions[i].optionLabel.value" />
+						class="form-control optionValue" id="{{pendingOptions[i].code}}-label" [(ngModel)]="pendingOptions[i].optionLabel.value" />
 					<div class="input-group-append">
 						<button type="button" class="btn" (click)="savePendingOption(i)"
 							[class.btn-success]="pendingOptionValid(i)" [disabled]="!pendingOptionValid(i)">

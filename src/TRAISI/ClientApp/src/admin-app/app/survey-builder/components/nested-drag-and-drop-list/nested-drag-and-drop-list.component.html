@@ -121,13 +121,13 @@
 										class="color-unset question-text"
 										*ngIf="innerItem.questionPart.name != undefined"
 									>
-										<div class="pull-left">
+										<div class="name-text">
 											<span class="badge badge-inverse align-middle">{{
 												innerItem.questionPart.name
 											}}</span
 											>&nbsp;
 										</div>
-										<div class="pull-left" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
+										<div class="label-text" [innerHTML]="innerItem.label.value | safe: 'html'"></div>
 									</div>
 								</button>
 								<div

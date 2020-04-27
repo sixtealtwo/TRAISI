@@ -26,7 +26,6 @@ import { Control } from "mapbox-gl";
 import { SourceConditionalComponent } from "./source-conditional/conditional.component";
 import { QuestionConditional } from "../../../models/question-conditional.model";
 import { QuestionOptionConditional } from "../../../models/question-option-conditional.model";
-import { TargetConditionalComponent } from "./target-conditional/target-conditional.component";
 import { QuestionOptionValue } from "../../../models/question-option-value.model";
 import {
 	SBQuestionPartViewModel,
@@ -119,8 +118,6 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	mapGL: MapComponent;
 	@ViewChildren("sConditionals")
 	conditionalFields: QueryList<SourceConditionalComponent>;
-	@ViewChildren("tConditionals")
-	tConditionalFields: QueryList<TargetConditionalComponent>;
 
 	public questionTypes = QuestionResponseType;
 
@@ -404,7 +401,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 	}
 
 	public addSourceConditional() {
-		console.log(this.conditionals);
+
 		if (this.conditionalCount % 2 == 0 || this.conditionalCount >= 3) {
 			this.conditionals.push({
 				operatorType: QuestionCondtionalOperatorType.AND,
@@ -415,7 +412,7 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		}
 
 		this.conditionalCount++;
-		console.log(this.conditionals);
+
 		let newSourceGroup: QuestionConditionalSourceGroup = new QuestionConditionalSourceGroup(
 			this.sourceConditionals.length,
 			"",

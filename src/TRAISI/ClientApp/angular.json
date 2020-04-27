@@ -69,8 +69,6 @@
               "node_modules/bootstrap-slider/dist/bootstrap-slider.min.js",
               "src/admin-app/assets/scripts/alertify.js",
               "node_modules/select2/dist/js/select2.min.js",
-              "node_modules/echarts/dist/echarts-en.min.js",
-              "node_modules/echarts-gl/dist/echarts-gl.min.js",
               "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js",
               "src/shared/assets/javascript/theme.js",
               "node_modules/select2/dist/js/select2.min.js"

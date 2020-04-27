@@ -394,7 +394,8 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-                if(question == null) {
+                if (question == null)
+                {
                     return new NotFoundResult();
                 }
                 var conditals = Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
@@ -1023,6 +1024,43 @@ namespace TRAISI.Controllers
             var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync(this.User.Identity.Name, surveyId);
             bool hasModifySurveyPermissions = surveyPermissions.Permissions.Contains(SurveyPermissions.ModifySurvey.Value);
             return hasModifySurveyPermissions;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyLogic"></param>
+        /// <returns></returns>
+        [HttpPut("surveys/{surveyId}/survey-logic")]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogic surveyLogic)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            return new OkResult();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <returns></returns>
+        [HttpGet("surveys/{surveyId}/survey-logic")]
+        [Produces(typeof(SurveyLogic))]
+        public async Task<IActionResult> GetSurveyLogic(int surveyId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey != null)
+            {
+                return new OkObjectResult(survey.SurveyLogic);
+            }
+            else
+            {
+                return new NotFoundResult();
+            }
         }
 
         private void AddErrors(IEnumerable<string> errors)

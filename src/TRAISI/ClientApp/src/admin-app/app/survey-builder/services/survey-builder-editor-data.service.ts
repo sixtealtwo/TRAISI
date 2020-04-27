@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { Observable, EMPTY, forkJoin, Observer } from "rxjs";
-import { SurveyBuilderClient } from "./survey-builder-client.service";
-import { QuestionClient } from "./survey-builder-client.service";
-import { QuestionTypeDefinition } from "../models/question-type-definition";
+import { Injectable } from '@angular/core';
+import { Observable, EMPTY, forkJoin, Observer, Subject } from 'rxjs';
+import { SurveyBuilderClient, QuestionOptionValueViewModel } from './survey-builder-client.service';
+import { QuestionClient } from './survey-builder-client.service';
+import { QuestionTypeDefinition } from '../models/question-type-definition';
 import { TreeviewItem } from 'ngx-treeview';
 import { QuestionPartView } from '../models/question-part-view.model';
 import { SurveyBuilderService } from './survey-builder.service';
@@ -20,14 +20,15 @@ export class SurveyBuilderEditorData {
 
 	public questionTypeDefinitions: QuestionTypeDefinition[];
 
-	public questionTypeMap: Map<string, QuestionTypeDefinition> = new Map<
-		string,
-		QuestionTypeDefinition
-	>();
+	public questionTypeMap: Map<string, QuestionTypeDefinition> = new Map<string, QuestionTypeDefinition>();
 
 	public surveyStructure: SurveyViewStructure;
 
 	public currentPage: QuestionPartView;
+
+	public questionList: Array<QuestionPartView>;
+
+	public questionListChanged: Subject<Array<QuestionPartView>> = new Subject<Array<QuestionPartView>>();
 
 	/**
 	 * Initializes required config data and related information for the survey builder
@@ -36,38 +37,64 @@ export class SurveyBuilderEditorData {
 	 */
 	public initialize(surveyId: number): Observable<void> {
 		this.surveyId = surveyId;
+
 		return Observable.create((obs: Observer<void>) => {
 			forkJoin(this._builderService.getQuestionTypes()).subscribe({
-				next: result => {
-					console.log(result);
+				next: (result) => {
 					this.questionTypeDefinitions = result[0];
 					this.mapQuestionTypeDefinitions();
 				},
 				complete: () => {
 					obs.complete();
-				}
+				},
 			});
 		});
 	}
 
 	/**
-	 * 
-	 * @param viewName 
-	 * @param language 
+	 *
+	 * @param viewName
+	 * @param language
 	 */
-	public updateSurveyStructure(viewName:string = 'Standard', language:string = 'en'): Observable<SurveyViewStructure> {
-		return this._client.getSurveyViewPageStructure(this.surveyId,viewName,language).pipe(
-			tap(value => {
+	public updateSurveyStructure(
+		viewName: string = 'Standard',
+		language: string = 'en'
+	): Observable<SurveyViewStructure> {
+		return this._client.getSurveyViewPageStructure(this.surveyId, viewName, language).pipe(
+			tap((value) => {
 				this.surveyStructure = value;
+				this.updateQuestionList();
 			})
 		);
+	}
+
+	/**
+	 *	Updates the question list by flattening the survey structure.
+	 */
+	public updateQuestionList(): void {
+		this.questionList = [];
+		for (let page of this.surveyStructure.pages) {
+			for (let question of page.questionPartViewChildren) {
+				if (question.questionPart) {
+					// this is a question and not a section, add it to list
+					this.questionList.push(question);
+				}
+				for (let subQuestion of question.questionPartViewChildren) {
+					if (subQuestion.questionPart) {
+						this.questionList.push(subQuestion);
+					}
+				}
+			}
+		}
+
+		this.questionListChanged.next(this.questionList);
 	}
 
 	/**
 	 *
 	 */
 	private mapQuestionTypeDefinitions(): void {
-		this.questionTypeDefinitions.forEach(q => {
+		this.questionTypeDefinitions.forEach((q) => {
 			this.questionTypeMap.set(q.typeName, q);
 		});
 	}
@@ -83,7 +110,14 @@ export class SurveyBuilderEditorData {
 		private _builderService: SurveyBuilderService
 	) {}
 
-	public getQuestionOptions(questionId: number): any {
-		// 
+	/**
+	 * @param {QuestionPartView} question
+	 * @returns {Observable<QuestionOptionValueViewModel[]>}
+	 */
+	public getQuestionOptions(question: QuestionPartView): Observable<QuestionOptionValueViewModel[]> {
+		return this._client
+			.getQuestionPartOptions(this.surveyId, question.questionPart?.id, 'en')
+			.pipe(tap((options) => {
+			}));
 	}
 }

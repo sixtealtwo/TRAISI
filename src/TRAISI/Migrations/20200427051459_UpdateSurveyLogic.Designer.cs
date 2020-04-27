@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using TRAISI.Data;
 namespace TRAISI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200427051459_UpdateSurveyLogic")]
+    partial class UpdateSurveyLogic
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1197,9 +1199,6 @@ namespace TRAISI.Migrations
                     b.Property<string>("SuccessLink")
                         .HasColumnType("text");
 
-                    b.Property<int?>("SurveyLogicId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
@@ -1208,8 +1207,6 @@ namespace TRAISI.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SurveyLogicId");
 
                     b.ToTable("Surveys");
                 });
@@ -2033,13 +2030,6 @@ namespace TRAISI.Migrations
                         .WithMany("Shortcodes")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Survey", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyLogic", "SurveyLogic")
-                        .WithMany()
-                        .HasForeignKey("SurveyLogicId");
                 });
 
             modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyAccessRecord", b =>
