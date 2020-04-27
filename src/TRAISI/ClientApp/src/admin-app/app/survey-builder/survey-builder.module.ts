@@ -61,6 +61,7 @@ import { NgxBootstrapSliderModule } from "ngx-bootstrap-slider";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { SurveyLogicControlComponent } from './survey-logic-control/survey-logic-control.component';
+import { SurveyLogicQueryBuilderComponent } from './survey-logic-control/survey-logic-query-builder.component';
 export const SURVEY_BUILDER = new InjectionToken("builder.service");
 export const bsDatepicker = BsDatepickerModule.forRoot();
 export const pagination = PaginationModule.forRoot();
@@ -145,7 +146,8 @@ export const translateForChild = TranslateModule.forChild({
 		CustomBuilderContainerDirective,
 		PrivacyConfirmationComponent,
 		ScreeningQuestionsComponent,
-		SurveyLogicControlComponent
+		SurveyLogicControlComponent,
+		SurveyLogicQueryBuilderComponent
 	],
 	providers: [
 		SurveyBuilderEndpointService,

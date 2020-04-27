@@ -1,5 +1,5 @@
 <div>
-	<query-builder [(ngModel)]="model" [config]="config" [classNames]="classNames" #queryBuilder>
+	<traisi-survey-logic-query-builder [rootLevel]="true" [(ngModel)]="model" [config]="config" [classNames]="classNames" #queryBuilder>
 		<ng-container *queryInput="let rule; type: 'option'">
 			<ng-select
 				[items]="options$ | async"
@@ -9,6 +9,6 @@
 				bindValue="id"
 				[(ngModel)]="selectedPersonId"
 			></ng-select>
-		</ng-container>
-	</query-builder>
+        </ng-container>
+	</traisi-survey-logic-query-builder>
 </div>
