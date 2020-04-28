@@ -8,12 +8,9 @@ namespace TRAISI.Data.Models.Surveys
     /// </summary>
     public class SurveyLogicLabel : ILabel
     {
-
         public int Id {get;set;}
         public string Value { get; set; }
-
         public string Language { get; set; }
-
 
     }
 }

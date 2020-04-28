@@ -11,6 +11,7 @@ using TRAISI.SDK;
 using TRAISI.SDK.Attributes;
 using TRAISI.SDK.Enums;
 using TRAISI.SDK.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TRAISI.UnitTests
 {
@@ -23,12 +24,13 @@ namespace TRAISI.UnitTests
         /// <returns></returns>
         public static IUnitOfWork CreateUnitOfWork()
         {
-            var mock = new Mock<UnitOfWork>(CreateSurveyRepository());
-            //mock.SetupProperty( p => p.Surveys, CreateSurveyRepository());
-
-            return mock.Object;
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TraisiTestDb")
+                .Options;
+            var unitOfWork = new UnitOfWork(new ApplicationDbContext(options));
+            return unitOfWork;
         }
-        
+
         public static IConfiguration CreateConfiguration()
         {
             var mock = new Mock<IConfiguration>();
@@ -39,44 +41,38 @@ namespace TRAISI.UnitTests
         /// Creates a Moq QuestionTypeManager
         /// </summary>
         /// <returns></returns>
-        public static QuestionTypeManager CreateQuestionTypeManager()
+        public static IQuestionTypeManager CreateQuestionTypeManager()
         {
-
-            var mock = new Mock<QuestionTypeManager>(null,CreateLoggerFactory());
+            var mock = new Mock<IQuestionTypeManager>();
 
             Dictionary<string, QuestionTypeDefinition> definitions = new Dictionary<string, QuestionTypeDefinition>();
 
-
-
             var mockSurveyQuestion = new Mock<ISurveyQuestion>();
-            mockSurveyQuestion.SetupProperty(p => p.TypeName,"TestQuestionType1");
-            mockSurveyQuestion.SetupProperty(p => p.Icon, "IconType1");
-            
-            TypeDescriptor.AddAttributes(mockSurveyQuestion.Object, new QuestionConfigurationAttribute(ConfigurationValueType.Integer){
-                Description = "Description",
+            mockSurveyQuestion.SetupGet(p => p.TypeName).Returns("TestQuestionType1");
+            mockSurveyQuestion.SetupGet(p => p.Icon).Returns("IconType1");
 
+            TypeDescriptor.AddAttributes(mockSurveyQuestion.Object, new QuestionConfigurationAttribute(ConfigurationValueType.Integer)
+            {
+                Description = "Description",
             });
             var questionAttribute = new SurveyQuestionAttribute(QuestionResponseType.Integer)
             {
                 CustomBuilderView = null,
-
             };
+            QuestionTypeDefinition definition = new QuestionTypeDefinition(mockSurveyQuestion.Object, questionAttribute);
 
-            QuestionTypeDefinition definition = new QuestionTypeDefinition(mockSurveyQuestion.Object,questionAttribute);
+            // add the definitions
+            definitions.Add(definition.TypeName,definition);
 
             definitions[definition.TypeName] = definition;
-
-
-
-            mock.SetupProperty(p => p.QuestionTypeDefinitions,definitions);
-
+            mock.SetupGet(p => p.QuestionTypeDefinitions).Returns(definitions);
             return mock.Object;
         }
 
         public static ILoggerFactory CreateLoggerFactory()
         {
             return new LoggerFactory();
-            
+
         }
 
         /// <summary>
@@ -121,7 +117,6 @@ namespace TRAISI.UnitTests
             ReturnsAsync((int i) => moqSurveys.Find(s => s.Id == i));
 
             mock.Setup(m => m.CountAsync()).ReturnsAsync(moqSurveys.Count);
-            // mock.Setup(m => m.Remove(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Remove(s));
             mock.Setup(m => m.Update(It.IsAny<Survey>())).Callback<Survey>((s) => moqSurveys.Find(p => p.Id == s.Id));
 
             return mock.Object;

@@ -354,7 +354,7 @@ namespace TRAISI.Services
                         IEnumerable<QuestionOptionData> optionData;
                         using (var fileStream = new StreamReader(file.OpenReadStream()))
                         {
-                            var reader = new CsvReader(fileStream,CultureInfo.InvariantCulture);
+                            var reader = new CsvReader(fileStream, CultureInfo.InvariantCulture);
                             reader.Configuration.RegisterClassMap<QuestionOptionMap>();
                             reader.Configuration.PrepareHeaderForMatch = (string header, int index) => Regex.Replace(header, @"\s", string.Empty);
                             optionData = reader.GetRecords<QuestionOptionData>().ToList();
@@ -970,8 +970,49 @@ namespace TRAISI.Services
         /// 
         /// </summary>
         /// <param name="survey"></param>
-        /// <param name="logics"></param>
-        public void SetSurveyLogic(Survey survey, List<SurveyLogic> logics){
+        /// <param name="logic"></param>
+        public void RemoveSurveyLogic(Survey survey, SurveyLogic logic)
+        {
+            survey.SurveyLogic.Remove(survey.SurveyLogic.Find(x => x.Id == logic.Id));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="logic"></param>
+        public void AddSurveyLogic(Survey survey, SurveyLogic logic)
+        {
+            if (!survey.SurveyLogic.Select(x => x.Id).Contains(logic.Id))
+            {
+                Console.WriteLine("Added");
+                survey.SurveyLogic.Add(logic);
+            }else {
+                Console.WriteLine("NOt Added");
+            }
+            
+        }
+
+        public void UpdateSurveyLogic(Survey survey, SurveyLogic logic)
+        {
+            SurveyLogic source = survey.SurveyLogic.Where(s => s.Id == logic.Id).First();
+            source.Condition = logic.Condition;
+            source.ValidationMessages = logic.ValidationMessages;
+
+            // remove any language labels that are missing
+            source.ValidationMessages.RemoveAll(x => logic.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language));
+
+            // add any new language labels
+            source.ValidationMessages.AddRange(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
+            {
+                return new SurveyLogicLabel();
+            }));
+
+            // copy values
+            foreach (var label in source.ValidationMessages)
+            {
+                label.Value = logic.ValidationMessages.Find(x => x.Language == label.Language).Value;
+            }
 
         }
 
@@ -984,7 +1025,7 @@ namespace TRAISI.Services
 
             conditionals.ForEach(conditional =>
             {
-                if (conditional.SourceQuestionId == question.Id) 
+                if (conditional.SourceQuestionId == question.Id)
                 {
                     if (conditional.Id == 0)
                     {

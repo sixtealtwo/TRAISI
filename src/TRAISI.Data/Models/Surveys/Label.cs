@@ -13,6 +13,5 @@ namespace TRAISI.Data.Models.Surveys
 
         public string Language { get; set; }
 
-
     }
 }

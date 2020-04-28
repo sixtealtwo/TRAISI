@@ -35,7 +35,6 @@ namespace TRAISI.Helpers
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<QuestionTypeManager>();
             _fileAssemblyMap = new Dictionary<string, Assembly>();
-
             QuestionTypeDefinitions = new Dictionary<string, QuestionTypeDefinition>();
 
         }

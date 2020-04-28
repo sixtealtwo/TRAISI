@@ -81,7 +81,11 @@ namespace TRAISI.Services.Interfaces
 
         void UpdateQuestionConditionals(QuestionPartView question, QuestionConditionalOperator[] conditionalOperators);
 
-        void SetSurveyLogic(Survey survey, List<SurveyLogic> logics);
+        public void RemoveSurveyLogic(Survey survey, SurveyLogic logic);
+
+        public void AddSurveyLogic(Survey survey, SurveyLogic logic);
+
+        public void UpdateSurveyLogic(Survey survey, SurveyLogic logic);
 
     }
 }

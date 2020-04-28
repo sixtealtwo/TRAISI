@@ -34,7 +34,7 @@ namespace TRAISI.Data.Models.Surveys
 
         public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
 
-        public ICollection<SurveyLogic> SurveyLogic { get; set; }
+        public List<SurveyLogic> SurveyLogic { get; set; }
 
         [NotMapped]
         public bool HasGroupCodes { get; set; }
@@ -43,6 +43,7 @@ namespace TRAISI.Data.Models.Surveys
         {
             SurveyViews = new SurveyViewCollection<SurveyView>();
             ExtensionConfigurations = new List<ExtensionConfiguration>();
+            SurveyLogic = new List<SurveyLogic>();
         }
 
         /// <summary>

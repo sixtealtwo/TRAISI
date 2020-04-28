@@ -6,13 +6,14 @@ using TRAISI.Data.Models.Surveys;
 using TRAISI.Data;
 using TRAISI.Data.Models.Questions;
 using TRAISI.Helpers;
+using TRAISI.SDK.Interfaces;
 
 namespace TRAISI.UnitTests.Services
 {
     public class QuestionTypeManagerTests
     {
 
-        private QuestionTypeManager _questions;
+        private IQuestionTypeManager _questions;
         public QuestionTypeManagerTests()
         {
             this._questions = Utility.CreateQuestionTypeManager();

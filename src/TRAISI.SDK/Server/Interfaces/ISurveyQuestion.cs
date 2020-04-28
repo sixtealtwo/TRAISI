@@ -4,9 +4,9 @@ namespace TRAISI.SDK.Interfaces
 {
 	public interface ISurveyQuestion
 	{
-		string TypeName { get; }
+		string  TypeName { get;  }
 
-		string Icon { get; }
+		string Icon { get;  }
 
 		QuestionIconType IconType { get; }
 
