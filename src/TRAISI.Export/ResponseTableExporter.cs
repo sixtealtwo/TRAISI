@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Data;
 using System.Runtime;
+using System.Text.RegularExpressions;
 using TRAISI.Data.Models.Surveys;
 using TRAISI.Data;
 using TRAISI.Data.Models.ResponseTypes;
@@ -93,8 +94,8 @@ namespace TRAISI.Export
                         return retValue;
                     }
                 //return ((LocationResponse)surveyResponse.ResponseValues.First()).Address;
-                case QuestionResponseType.Timeline:                
-                    return ReadTimelineResponse(surveyResponse);                   
+                case QuestionResponseType.Timeline:
+                    return ReadTimelineResponse(surveyResponse);
                 case QuestionResponseType.OptionSelect:
                     return ((OptionSelectResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Boolean:
@@ -147,9 +148,9 @@ namespace TRAISI.Export
                     t.Purpose,
                     t.TimeA,
                     t.TimeB,
-                    t.Address, 
-                    t.Location.X, 
-                    t.Location.Y                   
+                    t.Address,
+                    t.Location.X,
+                    t.Location.Y
                 });
             return locations;
         }
@@ -218,20 +219,20 @@ namespace TRAISI.Export
             // inject header
             var headerRow = new List<string[]>()
             {
-                new string[] { "Respondent ID", "Household ID", "Person ID", "Location Number", "Location Identifier", "Name", "Purpose", "Departure Time", "Arrival Time", "Address", "Postal Code", "Y-Latitude", "X-Longitude"}
+                new string[] { "Respondent ID", "Household ID", "Person ID", "Location Number", "Location Identifier", "Name", "Purpose", "Dep Date", "Dep Day", "Dep Time", "Arr Date", "Arr Day", "Arr Time", "Address", "Postal Code", "Y-Latitude", "X-Longitude"}
             };
-            worksheet.Cells["A1:N1"].LoadFromArrays(headerRow);
-            worksheet.Cells["A1:N1"].Style.Font.Bold = true;
+            worksheet.Cells["A1:Q1"].LoadFromArrays(headerRow);
+            worksheet.Cells["A1:Q1"].Style.Font.Bold = true;
 
             // Collecting all relevant respondents
             var Respondents_valid = surveyRespondents.Where(x => surveyResponses.Any(y => y.Respondent == x)).ToList();
             var subRespondents = Respondents_valid.SelectMany(pr => pr.SurveyRespondentGroup.GroupMembers).ToList();
 
-            int locNumber = 0;            
-            int rowNumber = 1; 
+            int locNumber = 0;
+            int rowNumber = 1;
 
             Dictionary<Tuple<double, double>, int> Location_Identification = new Dictionary<Tuple<double, double>, int>();
-            
+
             foreach (var respondent in subRespondents)
             {
                 var responses = surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent)).ToList();
@@ -241,7 +242,7 @@ namespace TRAISI.Export
                 {
                     continue;
                 }
-               
+
                 var response_timeline = surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent))
                                               .Where(r => r.Respondent == respondent)
                                               .Where(y => y.QuestionPart.Name == "Timeline");
@@ -249,63 +250,91 @@ namespace TRAISI.Export
                 if (response_timeline.Count() == 0)
                     continue;
 
-                var responseValues_timeline = ReadTimelineResponseList(response_timeline.First());  
+                var responseValues_timeline = ReadTimelineResponseList(response_timeline.First());
                 foreach (var response in responseValues_timeline)
-                {                    
+                {
                     rowNumber++;
                     locNumber++;
 
-                    if(!Location_Identification.ContainsKey(new Tuple<double, double>(response.X, response.Y)))
+                    if (!Location_Identification.ContainsKey(new Tuple<double, double>(response.X, response.Y)))
                     {
-                        Location_Identification.Add(new Tuple<double,double>(response.X, response.Y), Location_Identification.Count() + 1);
+                        Location_Identification.Add(new Tuple<double, double>(response.X, response.Y), Location_Identification.Count() + 1);
                     }
-                    
+
                     // Respondent ID (Unique)                
                     worksheet.Cells[rowNumber, 1].Value = (responses.Where(r => r.Respondent == respondent)
                                                             .Select(r => r.Respondent.Id)).First().ToString();
-                    
+
                     // Household ID          
                     worksheet.Cells[rowNumber, 2].Value = (responses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent))
                                                             .Select(r => r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
-                    
+
                     //Person ID
                     worksheet.Cells[rowNumber, 3].Value = (responses.Where(r => r.Respondent == respondent)
                                                             .Select(r => r.Respondent.SurveyRespondentGroup.GroupMembers.IndexOf(respondent) + 1)).First().ToString();
-                    
+
                     //Location Number
                     worksheet.Cells[rowNumber, 4].Value = locNumber.ToString();
 
                     //Location Identifier
                     worksheet.Cells[rowNumber, 5].Value = Convert.ToString(Location_Identification[new Tuple<double, double>(response.X, response.Y)]);
-                    
+
                     //Name
                     worksheet.Cells[rowNumber, 6].Value = response.Name;
 
                     //Purpose
                     worksheet.Cells[rowNumber, 7].Value = response.Purpose;
 
-                    //Departure Time
-                    worksheet.Cells[rowNumber, 8].Value = response.TimeA.ToString();
+                    //Departure columns 
+                    string timeA = response.TimeA.ToString();                    
+                    if (Regex.IsMatch(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
+                    {
+                        //Departure Date
+                        Match dA = Regex.Match(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
+                        Match tA = Regex.Match(timeA, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
+                        worksheet.Cells[rowNumber, 8].Value = Convert.ToString(dA.Value);
 
-                    //Arrival Time
-                    worksheet.Cells[rowNumber, 9].Value = response.TimeB.ToString();
+                        //Departure Day
+                        DateTime dtA = DateTime.Parse(dA.Value);
+                        worksheet.Cells[rowNumber, 9].Value = Convert.ToString(dtA.DayOfWeek);
+
+                        //Departure Time
+                        worksheet.Cells[rowNumber, 10].Value = Convert.ToString(tA.Value);
+                    }
+
+                    //Arrival columns 
+                    string timeB = response.TimeB.ToString();
+                    if (Regex.IsMatch(timeB, @"((20|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
+                    {
+                        //Arrival Date
+                        Match dB = Regex.Match(timeB, @"((20|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase);
+                        Match tB = Regex.Match(timeB, @"(1[0-2]|0?[1-9]):(?:[012345]\d):(?:[012345]\d) ([AaPp][Mm])", RegexOptions.IgnoreCase);
+                        worksheet.Cells[rowNumber, 11].Value = Convert.ToString(dB.Value);
+
+                        //Arrival Day
+                        DateTime dtB = DateTime.Parse(dB.Value);
+                        worksheet.Cells[rowNumber, 12].Value = Convert.ToString(dtB.DayOfWeek);
+
+                        //Arrival Time
+                        worksheet.Cells[rowNumber, 13].Value = Convert.ToString(tB.Value);
+                    }
 
                     //Address
-                    string value=string.Empty;
+                    string value = string.Empty;
                     string addressWithPostalCode = response.Address.ToString();
                     value = addressWithPostalCode.Substring(0, addressWithPostalCode.Length - 6);
                     value = value.TrimEnd(new char[] { ',', ' ' });
-                    worksheet.Cells[rowNumber, 10].Value =value;
+                    worksheet.Cells[rowNumber, 14].Value = value;
 
                     //Postalcode
                     value = addressWithPostalCode.Substring(addressWithPostalCode.Length - 6);
-                    worksheet.Cells[rowNumber, 11].Value = value;
+                    worksheet.Cells[rowNumber, 15].Value = value;
 
                     //Y Latitude
-                    worksheet.Cells[rowNumber, 12].Value = response.Y.ToString();
+                    worksheet.Cells[rowNumber, 16].Value = response.Y.ToString();
 
                     //X Longitude
-                    worksheet.Cells[rowNumber, 13].Value = response.X.ToString();
+                    worksheet.Cells[rowNumber, 17].Value = response.X.ToString();
                 }
             }
         }
