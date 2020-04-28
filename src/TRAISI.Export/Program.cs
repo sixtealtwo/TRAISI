@@ -56,11 +56,9 @@ namespace TRAISI.Export
                 return 1;
             }
 
-
-
             List<QuestionPartView> householdQuestions = new List<QuestionPartView>();
             List<QuestionPartView> personQuestions = new List<QuestionPartView>();
-            List<QuestionPartView> questionPartViews = new List<QuestionPartView>();
+            List<QuestionPartView> questionPartViews = new List<QuestionPartView>();            
            
             foreach (var page in view.QuestionPartViews)
             {
@@ -80,8 +78,7 @@ namespace TRAISI.Export
                             context.Entry(option).Collection(option => option.QuestionOptionLabels).Load();
                         }
                         questionPartViews.Add(q);
-                        personQuestions.Add(q);
-                        
+                        personQuestions.Add(q);                        
                     }
                     else if(q.IsHousehold)
                     {
@@ -117,15 +114,20 @@ namespace TRAISI.Export
             var questionParts = questionPartViews.Select(qpv => qpv.QuestionPart).ToList();    
 
             // Separating Personal and Household questions    
-            var questionPartViews_personal=personQuestions.ToList();
-            var questionPartViews_houseHold=householdQuestions.ToList();
+            var questionPartViews_personal = personQuestions.ToList();
+            var questionPartViews_houseHold = householdQuestions.ToList();
 
-            var responses_personal=responses.Where(res => questionPartViews_personal.Select(x=> x.QuestionPart).Contains(res.QuestionPart)).ToList();
-            var responses_houseHold=responses.Where(res => questionPartViews_houseHold.Select(x=> x.QuestionPart).Contains(res.QuestionPart)).ToList();
+            var responses_personal = responses.Where(res => questionPartViews_personal.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
+            var responses_houseHold = responses.Where(res => questionPartViews_houseHold.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
             
-            var questionParts_personal=questionPartViews_personal.Select(x=> x.QuestionPart).ToList();
-            var questionParts_houseHold=questionPartViews_houseHold.Select(x=> x.QuestionPart).ToList();
+            var questionParts_personal = questionPartViews_personal.Select(x => x.QuestionPart).ToList();
+            var questionParts_houseHold = questionPartViews_houseHold.Select(x => x.QuestionPart).ToList();
            
+            // Timeline responses
+            //var questionPartViews_timeline=personQuestions.Where(r =>r.QuestionPart.QuestionType == "trip-diary-timeline");
+            //var questionParts_timeline = questionPartViews_timeline.Select(x => x.QuestionPart).ToList();
+            //var responses_timeline = responses.Where(res => questionPartViews_timeline.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
+
             // Household Questions Excel file
             var hfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\HouseholdQuestions.xlsx");
             if (hfi.Exists)
@@ -164,11 +166,28 @@ namespace TRAISI.Export
                 Console.WriteLine("Writing Personal Response sheet");
                 var pResponseSheet = workbook.Worksheets.Add("Personal Responses");
                 responseTableExporter.ResponseListToWorksheet(responses_personal, pResponseSheet, false);
-                Console.WriteLine("Writing Personal Responses Pivot sheet");
+                Console.WriteLine("Writing Personal Response Pivot sheet");
                 var pResponsePivotSheet = workbook.Worksheets.Add("Personal Responses Pivot");
                 responseTableExporter.ResponsesPivot_Personal(questionParts_personal, responses_personal, respondents, pResponsePivotSheet);
                 eXp.Save();
             }
+
+            // Travel Diary Timeline Excel file
+            var tfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\TravelDiaryTimeline.xlsx");
+            if (tfi.Exists)
+            {
+                tfi.Delete();
+            }
+            using (var eXp = new ExcelPackage(tfi))
+            {
+                // initalize a sheet in the workbook
+                var workbook = eXp.Workbook;
+                Console.WriteLine("Writing Timeline Response sheet");
+                var tdTimelineSheet = workbook.Worksheets.Add("TVLDiary Timeline Responses");
+                responseTableExporter.ResponsesPivot_Timeline(questionParts_personal, responses_personal, respondents, tdTimelineSheet);
+                eXp.Save();
+            }
+
             return 0;
         }
 
