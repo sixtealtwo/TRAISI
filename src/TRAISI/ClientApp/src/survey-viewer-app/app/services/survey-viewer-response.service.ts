@@ -15,7 +15,6 @@ import { tap } from 'rxjs/operators';
 })
 export class SurveyViewerResponseService {
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
-
 	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
 
 	/**
@@ -24,7 +23,10 @@ export class SurveyViewerResponseService {
 	 * @param question
 	 * @param respondent
 	 */
-	public getStoredResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): Array<ResponseData<ResponseTypes>> {
+	public getStoredResponse(
+		question: SurveyViewQuestion,
+		respondent: SurveyRespondent
+	): Array<ResponseData<ResponseTypes>> {
 		if (!this.hasStoredResponse(question, respondent)) {
 			throw Error('Asking to retrieve a response that does not exist yet.');
 		}

@@ -8,7 +8,7 @@ import {
 	NavigationEnd,
 	Router,
 	RouterEvent,
-	RouterStateSnapshot
+	RouterStateSnapshot,
 } from '@angular/router';
 import { SurveyErrorComponent } from '../survey-error/survey-error.component';
 import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page.component';
@@ -19,13 +19,14 @@ import { SurveyResponderService } from 'app/services/survey-responder.service';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Route } from '@angular/compiler/src/core';
+import { SurveyResponseClient } from 'app/services/survey-viewer-api-client.service';
 
 @Component({
 	encapsulation: ViewEncapsulation.None,
 	selector: 'traisi-admin-toolbar',
 	templateUrl: './admin-toolbar.component.html',
 	styleUrls: ['./admin-toolbar.component.scss'],
-	entryComponents: [SurveyErrorComponent, SurveyStartPageComponent]
+	entryComponents: [SurveyErrorComponent, SurveyStartPageComponent],
 })
 export class AdminToolbarComponent implements OnInit {
 	public surveyId: number;
@@ -41,7 +42,8 @@ export class AdminToolbarComponent implements OnInit {
 		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		private _viewerState: SurveyViewerStateService,
 		private modalService: BsModalService,
-		private _route: ActivatedRoute
+		private _route: ActivatedRoute,
+		private _responseClient: SurveyResponseClient
 	) {}
 
 	/**
@@ -57,30 +59,31 @@ export class AdminToolbarComponent implements OnInit {
 	 * on init
 	 */
 	public ngOnInit(): void {
-		this._route.data.subscribe(data => {
+		this._route.data.subscribe((data) => {
 			console.log(data);
 		});
 
-		this._surveyViewerService.activeSurveyId.subscribe(surveyId => {
+		this._surveyViewerService.activeSurveyId.subscribe((surveyId) => {
 			this.surveyId = surveyId;
 			this.currentUser = this._surveyViewerService.currentUser;
 		});
 
-		console.log(this._route);
 	}
 
 	/**
 	 * Deletes all responses
 	 */
 	public deleteAllResponses(): void {
-		this._responderService.deleteAllResponses(this.surveyId, this._viewerState.viewerState.primaryRespondent).subscribe(
-			result => {
-				console.log(result);
-				location.reload();
-			},
-			(error: any) => {
-				console.log(error);
-			}
-		);
+		this._responseClient
+			.deleteAllResponses(this.surveyId, this._viewerState.viewerState.primaryRespondent.id)
+			.subscribe(
+				(result) => {
+					console.log(result);
+					location.reload();
+				},
+				(error: any) => {
+					console.log(error);
+				}
+			);
 	}
 }
