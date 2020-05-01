@@ -60,10 +60,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	}
 
 	public addLogic(): void {
-		let logic = { condition: 'and', rules: [], message: null, id: null };
+		let logic = { condition: 'and', rules: [], message: '', id: 0 };
 		this.queryModels.push(logic);
 		this._builder.addSurveyLogic(this._editor.surveyId, logic).subscribe((v) => {
-			console.log(v);
+			logic.id = v;
 		});
 		console.log(this.queryModels);
 	}
@@ -73,8 +73,9 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 * @param i
 	 */
 	public deleteLogic(i: number): void {
-		this.queryModels.splice(i, 1);
-		this._builder.deleteSurveyLogic(this._editor.surveyId, i).subscribe((v) => {});
+		this._builder.deleteSurveyLogic(this._editor.surveyId, this.queryModels[i].id).subscribe((v) => {
+			this.queryModels.splice(i, 1);
+		});
 	}
 
 	public ngOnInit(): void {
@@ -115,12 +116,11 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 					.getQuestionOptions(questionList.find((q) => q.questionPart.id === Number(questionId)))
 					.pipe(
 						distinctUntilChanged(),
-						tap((v) => {
-						})
+						tap((v) => {})
 					)
 			)
 		);
-	} 
+	}
 
 	/**
 	 *
@@ -139,7 +139,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 				responseType == QuestionResponseType.OptionSelect ||
 				responseType == QuestionResponseType.OptionList
 			) {
-				this.initQuestionOptionsQuery(questionList,String(question.questionPart.id));
+				this.initQuestionOptionsQuery(questionList, String(question.questionPart.id));
 				this.config.fields[question.questionPart.id] = {
 					name: question.questionPart.name,
 					type: 'option',

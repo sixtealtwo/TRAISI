@@ -1051,10 +1051,12 @@ namespace TRAISI.Controllers
         /// <param name="surveyLogicViewModel"></param>
         /// <returns></returns>
         [HttpPost("surveys/{surveyId}/survey-logic")]
+        [Consumes("application/json")]
         [ProducesDefaultResponseType]
+        [Produces(typeof(int))]
         public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
             {
                 return new NotFoundResult();
@@ -1074,7 +1076,7 @@ namespace TRAISI.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteSurveyLogic(int surveyId, int surveyLogicId)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
             {
                 return new NotFoundResult();

@@ -2593,14 +2593,14 @@ export class SurveyBuilderClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    addSurveyLogic(surveyId: number, surveyLogic: SurveyLogicViewModel | null): Observable<FileResponse> {
+    addSurveyLogic(surveyId: number, surveyLogicViewModel: SurveyLogicViewModel | null): Observable<number> {
         let url_ = this.baseUrl + "/api/SurveyBuilder/surveys/{surveyId}/survey-logic";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
         url_ = url_.replace("{surveyId}", encodeURIComponent("" + surveyId));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(surveyLogic);
+        const content_ = JSON.stringify(surveyLogicViewModel);
 
         let options_ : any = {
             body: content_,
@@ -2608,7 +2608,7 @@ export class SurveyBuilderClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -2619,31 +2619,32 @@ export class SurveyBuilderClient {
                 try {
                     return this.processAddSurveyLogic(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processAddSurveyLogic(response: HttpResponseBase): Observable<FileResponse> {
+    protected processAddSurveyLogic(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
     deleteSurveyLogic(surveyId: number, surveyLogicId: number): Observable<FileResponse> {
@@ -3011,9 +3012,9 @@ export interface QuestionOptionLabelViewModel extends LabelViewModel {
 export interface SurveyLogicViewModel {
     id?: number;
     message?: string | undefined;
+    condition?: string | undefined;
     rules?: SurveyLogicViewModel[] | undefined;
     field?: string | undefined;
-    fieldId?: number;
     operator?: SurveyLogicOperator;
     value?: string | undefined;
 }

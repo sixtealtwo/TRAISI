@@ -16,11 +16,11 @@ namespace TRAISI.ViewModels.SurveyBuilder
 
         public string Message { get; set; }
 
+        public string Condition {get;set;}
+
         public List<SurveyLogicViewModel> Rules { get; set; }
 
         public string Field { get; set; }
-
-        public int FieldId { get; set; }
 
         public SurveyLogicOperator Operator { get; set; }
 

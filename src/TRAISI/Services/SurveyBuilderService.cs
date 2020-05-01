@@ -987,10 +987,8 @@ namespace TRAISI.Services
         {
             if (!survey.SurveyLogic.Select(x => x.Id).Contains(logic.Id))
             {
-                Console.WriteLine("Added");
                 survey.SurveyLogic.Add(logic);
             }else {
-                Console.WriteLine("NOt Added");
             }
             await this._unitOfWork.SaveChangesAsync();
         }

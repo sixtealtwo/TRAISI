@@ -276,6 +276,8 @@ namespace TRAISI.ViewModels
 			CreateSurveyViewerAutoMapperProfiles();
 
 			CreateSurveyResponderAutoMapperProfiles();
+
+			CreateSurveyBuilderAutoMapperProfiles();
 		}
 	}
 }

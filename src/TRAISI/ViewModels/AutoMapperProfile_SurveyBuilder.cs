@@ -31,8 +31,9 @@ namespace TRAISI.ViewModels
 
         private void CreateSurveyBuilderAutoMapperProfiles()
         {
-            CreateMap<SurveyLogicViewModel, SurveyLogic> ();
-                //.ForMember( s => s.Expressions, opts =>opts.MapFrom( o => o.Rules));
+            CreateMap<SurveyLogicViewModel, SurveyLogic>()
+                .ForMember(s => s.QuestionId, opts => opts.MapFrom(o => int.Parse(o.Field)))
+                .ForMember( s => s.Question,  opts => opts.Ignore());
         }
     }
 }
