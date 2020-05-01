@@ -70,7 +70,7 @@ namespace TRAISI.Services
         public void RemoveSurveyView(Survey survey, int id)
         {
             survey.SurveyViews.Remove(survey.SurveyViews.Single(s => s.Id == id));
-            
+
         }
 
         public void DuplicateSurveyViewStructure(SurveyView sourceView, SurveyView targetView, string language)
@@ -983,12 +983,14 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="logic"></param>
-        public  async Task AddSurveyLogic(Survey survey, SurveyLogic logic)
+        public async Task AddSurveyLogic(Survey survey, SurveyLogic logic)
         {
             if (!survey.SurveyLogic.Select(x => x.Id).Contains(logic.Id))
             {
                 survey.SurveyLogic.Add(logic);
-            }else {
+            }
+            else
+            {
             }
             await this._unitOfWork.SaveChangesAsync();
         }
@@ -1005,7 +1007,12 @@ namespace TRAISI.Services
             // add any new language labels
             source.ValidationMessages.AddRange(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
             {
-                return new SurveyLogicLabel();
+                return new SurveyLogicLabel()
+                {
+                    Value = x.Value,
+                    Language = x.Language
+
+                };
             }));
 
             // copy values

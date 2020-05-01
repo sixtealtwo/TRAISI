@@ -3,10 +3,10 @@ import { QueryBuilderConfig, QueryBuilderClassNames, QueryBuilderComponent, Rule
 import { classNames } from './query-config';
 import { SurveyBuilderEditorData } from '../services/survey-builder-editor-data.service';
 import { QuestionPartView } from '../models/question-part-view.model';
-import { Observable, concat, of, Subject } from 'rxjs';
+import { Observable, concat, of, Subject, forkJoin, zip, combineLatest } from 'rxjs';
 import { QuestionOptionValueViewModel, SurveyBuilderClient } from '../services/survey-builder-client.service';
 import { QuestionResponseType } from '../models/question-response-type.enum';
-import { tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { tap, distinctUntilChanged, debounceTime, skip, first, concatMap } from 'rxjs/operators';
 @Component({
 	selector: 'traisi-survey-logic-control',
 	templateUrl: './survey-logic-control.component.html',
@@ -34,6 +34,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		string,
 		Observable<QuestionOptionValueViewModel[]>
 	>();
+
+	public isLoaded$: Subject<boolean> = new Subject<boolean>();
 
 	/**
 	 *Creates an instance of SurveyLogicControlComponent.
@@ -65,11 +67,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this._builder.addSurveyLogic(this._editor.surveyId, logic).subscribe((v) => {
 			logic.id = v;
 		});
-		console.log(this.queryModels);
 	}
 
 	/**
-	 *
+	 * Deletes the logic set from the survey
 	 * @param i
 	 */
 	public deleteLogic(i: number): void {
@@ -82,14 +83,26 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		// load survey state
 		this._editor.questionListChanged.subscribe((questionList) => {
 			this.buildConfig(questionList);
+			this.isLoaded$.next(true);
+		});
+
+		combineLatest(this.isLoaded$, this._builder.getSurveyLogic(this._editor.surveyId)).subscribe((result) => {
+			console.log(result[1]);
 		});
 
 		// only send an update to the server every 500 ms of a model change
-		this.modelChanged$.pipe(debounceTime(500)).subscribe((model) => {
-			this._builder.updateSurveyLogic(this._editor.surveyId, model).subscribe((v) => {
-				console.log(model);
+		this.modelChanged$
+			.pipe(
+				skip(1),
+				debounceTime(500),
+				tap((v) => {
+					console.log('sending model');
+					console.log(v);
+				})
+			)
+			.subscribe((model) => {
+				this._builder.updateSurveyLogic(this._editor.surveyId, model).subscribe((v) => {});
 			});
-		});
 	}
 	ngOnDestroy(): void {}
 

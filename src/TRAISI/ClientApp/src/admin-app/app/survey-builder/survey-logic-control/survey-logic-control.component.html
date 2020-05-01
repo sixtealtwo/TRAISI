@@ -13,7 +13,6 @@
 					<ng-select
 						[items]="optionsMap.get(rule.field) | async"
 						bindLabel="optionLabel.value"
-						autofocus
 						[searchable]="false"
 						class="option-select"
 						placeholder="Select ..."
@@ -34,7 +33,7 @@
 							class="form-control"
 							id="{{ i }}-message"
 							placeholder="Enter validation message"
-							(ngModelChange)="onModelChange($event, i)"
+							(ngModelChange)="onValidationMessageModelChange($event, i)"
 							[ngModel]="queryModels[i].message"
 						/>
 					</div>

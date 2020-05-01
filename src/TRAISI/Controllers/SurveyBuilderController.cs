@@ -1033,14 +1033,17 @@ namespace TRAISI.Controllers
         /// <param name="surveyLogic"></param>
         /// <returns></returns>
         [HttpPut("surveys/{surveyId}/survey-logic")]
+        [Consumes("application/json")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogic)
+        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
             {
                 return new NotFoundResult();
             }
+            var surveyLogic = AutoMapper.Mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
             return new OkResult();
         }
 
@@ -1062,12 +1065,12 @@ namespace TRAISI.Controllers
                 return new NotFoundResult();
             }
             var surveyLogic = AutoMapper.Mapper.Map<SurveyLogic>(surveyLogicViewModel);
-            await this._surveyBuilderService.AddSurveyLogic(survey,surveyLogic );
+            await this._surveyBuilderService.AddSurveyLogic(survey, surveyLogic);
             return new OkObjectResult(surveyLogic.Id);
         }
 
         /// <summary>
-        /// Deletes a survey logic
+        /// Deletes a survey logic from the survey
         /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="surveyLogicId"></param>
@@ -1087,7 +1090,7 @@ namespace TRAISI.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Retrives the list of survey logic for a particular survey
         /// </summary>
         /// <param name="surveyId"></param>
         /// <returns></returns>
@@ -1095,10 +1098,11 @@ namespace TRAISI.Controllers
         [Produces(typeof(List<SurveyLogicViewModel>))]
         public async Task<IActionResult> GetSurveyLogic(int surveyId)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey != null)
             {
-                return new OkObjectResult(survey.SurveyLogic);
+                var mappedResult = AutoMapper.Mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic);
+                return new OkObjectResult(mappedResult);
             }
             else
             {

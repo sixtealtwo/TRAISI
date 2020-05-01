@@ -6,7 +6,7 @@ namespace TRAISI.Data.Models.Surveys
     /// <summary>
     /// Label items, store most alterable and dynamic text fields.
     /// </summary>
-    public class Label : AuditableEntity, ILabel
+    public class Label :  ILabel
     {
 
         public string Value { get; set; }

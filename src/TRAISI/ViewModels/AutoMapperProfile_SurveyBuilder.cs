@@ -33,7 +33,34 @@ namespace TRAISI.ViewModels
         {
             CreateMap<SurveyLogicViewModel, SurveyLogic>()
                 .ForMember(s => s.QuestionId, opts => opts.MapFrom(o => int.Parse(o.Field)))
-                .ForMember( s => s.Question,  opts => opts.Ignore());
+                .ForMember(s => s.Question, opts => opts.Ignore())
+                .ForMember(s => s.ValidationMessages, opts => opts.MapFrom(o => o.Message));
+
+            CreateMap<string, SurveyLogicLabel>().ConvertUsing<StringToLabelConverter<SurveyLogicLabel>>();
+
+             CreateMap<SurveyLogic, SurveyLogicViewModel>()
+                .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
+                .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
+                .ForMember(s => s.Message, opts => opts.Ignore())
+                .ForMember(s => s.Rules, opts => opts.UseValue(new List<SurveyLogicViewModel>()))
+                .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value));
+        }
+
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class StringToLabelConverter<TLabel> : ITypeConverter<string, TLabel> where TLabel : Label, new()
+    {
+        public TLabel Convert(string source, TLabel destination, ResolutionContext context)
+        {
+            return new TLabel()
+            {
+                Language = "en",
+                Value = source
+            };
         }
     }
 }
