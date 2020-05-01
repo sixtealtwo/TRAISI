@@ -123,11 +123,6 @@ namespace TRAISI.Export
             var questionParts_personal = questionPartViews_personal.Select(x => x.QuestionPart).ToList();
             var questionParts_houseHold = questionPartViews_houseHold.Select(x => x.QuestionPart).ToList();
            
-            // Timeline responses
-            //var questionPartViews_timeline=personQuestions.Where(r =>r.QuestionPart.QuestionType == "trip-diary-timeline");
-            //var questionParts_timeline = questionPartViews_timeline.Select(x => x.QuestionPart).ToList();
-            //var responses_timeline = responses.Where(res => questionPartViews_timeline.Select(x => x.QuestionPart).Contains(res.QuestionPart)).ToList();
-
             // Household Questions Excel file
             var hfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\HouseholdQuestions.xlsx");
             if (hfi.Exists)
@@ -172,8 +167,8 @@ namespace TRAISI.Export
                 eXp.Save();
             }
 
-            // Travel Diary Timeline Excel file
-            var tfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\TravelDiaryTimeline.xlsx");
+            // Travel Diary Excel file
+            var tfi = new FileInfo(@"..\..\src\TRAISI.Export\surveyexportfiles\TravelDiary.xlsx");
             if (tfi.Exists)
             {
                 tfi.Delete();
@@ -182,9 +177,9 @@ namespace TRAISI.Export
             {
                 // initalize a sheet in the workbook
                 var workbook = eXp.Workbook;
-                Console.WriteLine("Writing Timeline Response sheet");
-                var tdTimelineSheet = workbook.Worksheets.Add("TVLDiary Timeline Responses");
-                responseTableExporter.ResponsesPivot_Timeline(questionParts_personal, responses_personal, respondents, tdTimelineSheet);
+                Console.WriteLine("Writing Travel Diary Response sheet");
+                var travelDiarySheet = workbook.Worksheets.Add("Travel Diary Responses");
+                responseTableExporter.ResponsesPivot_TravelDiary(questionParts_personal, responses_personal, respondents, travelDiarySheet);
                 eXp.Save();
             }
 

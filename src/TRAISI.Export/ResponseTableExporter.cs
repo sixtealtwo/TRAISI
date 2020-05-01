@@ -17,6 +17,7 @@ using TRAISI.Data.Models.Surveys;
 using TRAISI.Data;
 using TRAISI.Data.Models.ResponseTypes;
 using TRAISI.Data.Models.Questions;
+using Newtonsoft.Json.Linq;
 
 namespace TRAISI.Export
 {
@@ -122,6 +123,24 @@ namespace TRAISI.Export
 
         }
 
+        private List<Tuple<string, string>> ReadJsonResponse_Mode(SurveyResponse response)
+        {
+            List<Tuple<string, string>> modeDetails = new List<Tuple<string, string>>();
+            var responseValues = response.ResponseValues.Cast<JsonResponse>().Select(
+                t => new
+                {
+                    t.Value
+                });
+            foreach (var modeData in responseValues)
+            {
+                JObject responseJson = JObject.Parse(modeData.Value);
+                string modeName = (string)responseJson.SelectToken("_tripLegs[0]._mode.modeName");
+                string modeCat = (string)responseJson.SelectToken("_tripLegs[0]._mode.modeCategory");
+                modeDetails.Add(new Tuple<string, string>(modeName, modeCat));
+            }
+            return modeDetails;
+        }
+
         private string ReadPathResponse(SurveyResponse surveyResponse) => throw new NotImplementedException();//return null;
 
         private string ReadTimelineResponse(ISurveyResponse surveyResponse)
@@ -202,7 +221,7 @@ namespace TRAISI.Export
         {
         }
 
-        public void ResponsesPivot_Timeline(
+        public void ResponsesPivot_TravelDiary(
             List<QuestionPart> questionParts,
             List<SurveyResponse> surveyResponses,
             List<SurveyRespondent> surveyRespondents,
@@ -219,10 +238,10 @@ namespace TRAISI.Export
             // inject header
             var headerRow = new List<string[]>()
             {
-                new string[] { "Respondent ID", "Household ID", "Person ID", "Location Number", "Location Identifier", "Name", "Purpose", "Dep Date", "Dep Day", "Dep Time", "Arr Date", "Arr Day", "Arr Time", "Address", "Postal Code", "Y-Latitude", "X-Longitude"}
+                new string[] { "Respondent ID", "Household ID", "Person ID", "Location Number", "Location Identifier", "Name", "Purpose", "Dep Date", "Dep Day", "Dep Time", "Arr Date", "Arr Day", "Arr Time", "Address", "Postal Code", "Y-Latitude", "X-Longitude", "Mode Category", "Mode Name" }
             };
-            worksheet.Cells["A1:Q1"].LoadFromArrays(headerRow);
-            worksheet.Cells["A1:Q1"].Style.Font.Bold = true;
+            worksheet.Cells["A1:S1"].LoadFromArrays(headerRow);
+            worksheet.Cells["A1:S1"].Style.Font.Bold = true;
 
             // Collecting all relevant respondents
             var Respondents_valid = surveyRespondents.Where(x => surveyResponses.Any(y => y.Respondent == x)).ToList();
@@ -243,12 +262,21 @@ namespace TRAISI.Export
                     continue;
                 }
 
+                //Timeline
                 var response_timeline = surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent))
                                               .Where(r => r.Respondent == respondent)
                                               .Where(y => y.QuestionPart.Name == "Timeline");
+               
+                //Travel modes
+                var response_Json = surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent))
+                .Where(r => r.Respondent == respondent)
+                .Where(y => y.QuestionPart.Name == "Travel modes");
 
                 if (response_timeline.Count() == 0)
                     continue;
+
+                //Reading Mode Details 
+                List<Tuple<string, string>> modeDetails = ReadJsonResponse_Mode(response_Json.First());
 
                 var responseValues_timeline = ReadTimelineResponseList(response_timeline.First());
                 foreach (var response in responseValues_timeline)
@@ -286,7 +314,7 @@ namespace TRAISI.Export
                     worksheet.Cells[rowNumber, 7].Value = response.Purpose;
 
                     //Departure columns 
-                    string timeA = response.TimeA.ToString();                    
+                    string timeA = response.TimeA.ToString();
                     if (Regex.IsMatch(timeA, @"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", RegexOptions.IgnoreCase))
                     {
                         //Departure Date
@@ -300,6 +328,7 @@ namespace TRAISI.Export
 
                         //Departure Time
                         worksheet.Cells[rowNumber, 10].Value = Convert.ToString(tA.Value);
+
                     }
 
                     //Arrival columns 
@@ -335,6 +364,17 @@ namespace TRAISI.Export
 
                     //X Longitude
                     worksheet.Cells[rowNumber, 17].Value = response.X.ToString();
+
+                    //Mode Details
+                    if (modeDetails.Count >= locNumber)
+                    {
+                        //Mode Category
+                        worksheet.Cells[rowNumber, 18].Value = modeDetails[locNumber - 1].Item2;
+
+                        //Mode Name
+                        worksheet.Cells[rowNumber, 19].Value = modeDetails[locNumber - 1].Item1;
+                    }
+
                 }
             }
         }
@@ -431,6 +471,10 @@ namespace TRAISI.Export
 
             foreach (var questionPart in questionParts)
             {
+                //Removed columns for Travel modes and Timeline.
+                if(questionPart.Name == "Travel modes" || questionPart.Name == "Timeline")
+                continue;
+
                 questionColumnDict.Add(questionPart, columnNum);
 
                 if (!questionPart.Name.Contains("location"))
@@ -470,7 +514,6 @@ namespace TRAISI.Export
             // Place response into rows via map  
             foreach (var respondent in subRespondents)
             {
-                //var responses= surveyResponses.Where(r => r.Respondent == respondent);
                 var responses = surveyResponses.Where(r => r.Respondent.SurveyRespondentGroup.GroupMembers.Any(y => y == respondent)).ToList();
 
                 if (responses.Count() > 0)
@@ -488,6 +531,10 @@ namespace TRAISI.Export
 
                 foreach (var response in responses)
                 {
+                    //Removed columns for Travel modes and Timeline
+                    if(response.QuestionPart.Name == "Travel modes" || response.QuestionPart.Name == "Timeline")
+                    continue;
+
                     if (!response.QuestionPart.Name.Contains("location"))
                     {
                         worksheet.Cells[respondentRowNum[respondent],
@@ -557,7 +604,6 @@ namespace TRAISI.Export
 
                     worksheet.Cells[1, columnNum].Value = questionPart.Name + ": Longitude";
                 }
-
                 columnNum += 1;
             }
 
@@ -569,18 +615,16 @@ namespace TRAISI.Export
                 respondentRowNum.Add(respondent, rowNum);
                 rowNum += 1;
             }
-            // place response into rows via map
 
+            // place response into rows via map
             foreach (var respondent in surveyRespondents)
             {
                 var responses = surveyResponses.Where(r => r.Respondent == respondent);
                 if (responses.Count() > 0)
                 {
-
                     // Respondent ID (Unique)                
                     worksheet.Cells[respondentRowNum[respondent], 1].Value = (surveyResponses.Where(r => r.Respondent == respondent)
                                                                                     .Select(r => r.Respondent.Id)).First().ToString();
-
                     // Household ID          
                     worksheet.Cells[respondentRowNum[respondent], 2].Value = (surveyResponses.Where(r => r.Respondent == respondent)
                                                                                     .Select(r => r.Respondent.SurveyRespondentGroup.Id)).First().ToString();
@@ -615,7 +659,6 @@ namespace TRAISI.Export
                         worksheet.Cells[respondentRowNum[respondent],
                                     questionColumnDict[response.QuestionPart] + 3].Value
                         = ReadSingleResponse(response);
-
                     }
                 }
             }
