@@ -76,13 +76,20 @@
 								>
 									Add to Group
 								</button>
-								<select2
+								<ng-select
+								[items]="groupNameOptions"
+								(change)="updateGroupSelect($event)"
+								bindValue="selectedGroup"
+								>
+
+								</ng-select>
+								<!--<select2
 									[data]="groupNameOptions"
 									[value]="selectedGroup"
 									(valueChanged)="updateGroupSelect($event)"
 									[options]="select2Options"
 									[width]="200"
-								></select2>
+								></select2> -->
 							</div>
 						</div>
 					</div>
@@ -145,14 +152,21 @@
 								>
 									Add to Group
 								</button>
-								<ng-select2
+
+								<ng-select>
+									*ngIf="groupNameOptions.length > 0"
+									[items]="groupNameOptions"
+									(change)="updateGroupSelect($event)"
+									bindValue="selectedGroup"
+								</ng-select>
+								<!-- <ng-select2
 									*ngIf="groupNameOptions.length > 0"
 									[data]="groupNameOptions"
 									[value]="selectedGroup"
 									(valueChanged)="updateGroupSelect($event)"
 									[options]="select2Options"
 									[width]="200"
-								></ng-select2>
+								></ng-select2> -->
 							</div>
 						</div>
 						<div

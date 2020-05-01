@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { TranslateLanguageLoader } from '../../../shared/services/app-translation.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { NgSelect2Module } from 'ng-select2';
-
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AccountManagementModule } from '../account-management/account-management.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -19,7 +17,7 @@ import { RoleEditorComponent } from './roles-management/role-editor.component';
 import { SharedModule } from '../shared/shared.module';
 import { GroupByPipe } from '../pipes/group-by.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 export const translateModuleForChild = TranslateModule.forChild({
 	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }
 });
@@ -28,14 +26,14 @@ export const translateModuleForChild = TranslateModule.forChild({
 	imports: [
 		CommonModule,
 		FormsModule,
-		NgSelect2Module,
 		SharedModule,
 		ROUTES,
 		translateModuleForChild,
 		ModalModule,
 		AccountManagementModule,
 		NgxDatatableModule,
-		TooltipModule
+		TooltipModule,
+		NgSelectModule
 	],
 	declarations: [UsersManagementComponent, RolesManagementComponent, RoleEditorComponent, GroupByPipe]
 })
