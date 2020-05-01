@@ -39,8 +39,8 @@
 						<div class="question-move-icon"><i class="fas fa-sort"></i></div>
 						<div class="color-unset question-text" *ngIf="item.questionPart.name != undefined">
 							<div class="pull-left">
-								<span class="badge badge-inverse align-middle">{{ item.questionPart.name }}</span
-								>&nbsp;
+								<span class="badge badge-inverse align-middle question-text-page">{{ item.questionPart.name }}</span
+								>
 							</div>
 							<div class="pull-left" [innerHTML]="item.label.value | safe: 'html'"></div>
 						</div>
@@ -70,10 +70,10 @@
 						<a (click)="editQuestionConfiguration($event, item)"> <i class="fas fa-cog"></i> </a>
 					</div>
 					<div class="question-move-icon"><i class="fas fa-sort"></i></div>
-					<div class="color-unset question-text" [innerHTML]="item.label.value"></div>
+					<div class="color-unset question-text section-name-text" [innerHTML]="item.label.value"></div>
 				</button>
 				<div
-					class="question-part-container collapse show"
+					class="question-part-container collapse show section-container"
 					[class.drag-over]="dragOverContainer[item.id]"
 					[attr.id]="'collapseExample-' + i"
 					[class.page-questions-empty]="

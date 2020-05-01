@@ -12,14 +12,14 @@
 
 .question-number {
 	position: absolute;
-	left: 3px;
+	// left: 3px;
 	vertical-align: middle !important;
 	text-align: center !important;
 	font-weight: bold !important;
 	font-size: 16px;
 	padding: 10px;
 	margin-top: 7px;
-	margin-left: 2px;
+	margin-left: 5px;
 }
 
 .page-question {
@@ -29,10 +29,15 @@
 	width:100%;
 	height: auto;
 
+	.question-text-page {
+		font-size: 1.15em;
+	}
+
 	.question-text {
 		margin-left: 60px;
 		margin-right: 50px;
 		text-align: left;
+		
 		//white-space: nowrap;
 
 		@media (hover: hover) {
@@ -43,7 +48,11 @@
 		}
 
 		.name-text {
+			font-size: 1.15em;
 			padding: 5px;
+			.badge {
+				font-size: 100%;
+			}
 		}
 		.label-text {
 			padding: 5px;
@@ -78,6 +87,10 @@
 	margin:2px 0px 0px 0px;
 	min-height: 43px;
 	width:100%;
+
+	.section-name-text {
+		font-size: 1.25em;
+	}
 
 	.question-text {
 		margin-left: 60px;
@@ -121,7 +134,24 @@
 }
 
 .question-wrapper {
+	border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+    border: solid 1px #DDD;
+
 	background-color: white;
+}
+
+.question-wrapper:hover {
+	background-color: #e2e5ef;
+}
+
+.question-part-container.section-container {
+	border-width: 0px 1px 1px 1px;
+    background-color: #f8fbff;
+    border-color: #dee2ea;
+    border-style: dashed;
+    border-radius: 00px 0px 10px 10px;
 }
 
 .question-part-container {
