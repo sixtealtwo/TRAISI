@@ -25,6 +25,13 @@ ng-select.ng-select-single.page-select {
 	font-size: 18px;
 	height: 60px;
 	padding: 10px;
+
+	.page-label i {
+		text-align: center;
+		width: 25px;
+		margin-left: 5px;
+		margin-right: 5px;
+	}
 	
 	.ng-select-container {
 		height: 50px;
@@ -39,6 +46,10 @@ ng-select.ng-select-single.page-select {
 
 .page-label {
 	font-size: 18px;
+
+	i {
+		margin-right: 10px;
+	}
 }
 
 #pagesList
@@ -117,7 +128,10 @@ li.pagetab > a{
 }
 
 .icon-picker-button {
-	width: 40px;
+	width: auto;
+	i {
+		width: 50px;
+	}
 }
 
 .save-button-container {

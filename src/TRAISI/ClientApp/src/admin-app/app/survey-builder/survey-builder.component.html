@@ -17,7 +17,6 @@
 			</button>
 		</div>
 		<div class="col-md-3"></div>
-
 	</div>
 	<div role="navigation" id="builderSidebar" class="sidebar order-correct"></div>
 	<div class="card card-fluid">
@@ -323,9 +322,10 @@
 								(change)="onPageChange($event)"
 							>
 								<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-									<div class="page-label">
-										{{ item.label.value }}
-									</div>
+									<div class="page-label"><i [ngClass]="item.icon"></i>{{ item.label.value }}</div>
+								</ng-template>
+								<ng-template ng-label-tmp let-item="item">
+									<div class="page-label"><i [ngClass]="item.icon"></i>{{ item.label.value }}</div>
 								</ng-template>
 							</ng-select>
 						</div>
@@ -433,16 +433,20 @@
 						(ngSubmit)="createPage(newPageTitle, newPageIcon)"
 					>
 						<div class="form-group row">
-							<label for="normal-field" class="col-md-4 col-form-label text-md-right">Page Title</label>
-							<div class="col-md-7">
-								<input
-									type="text"
-									id="normal-field"
-									class="form-control"
-									placeholder="Page Title"
-									[(ngModel)]="newPageTitle"
-									name="pageTitle"
-								/>
+							<div class="col-auto">
+								<label for="normal-field">Page Title</label>
+								<div class="input-group mb-2">
+									<div class="input-group-text">
+										<input
+											type="text"
+											id="normal-field"
+											class="form-control"
+											placeholder="Page Title"
+											[(ngModel)]="newPageTitle"
+											name="pageTitle"
+										/>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -451,8 +455,36 @@
 							</div>
 						</div>
 						<div class="form-group row" class="select-page-icon">
-							<label for="normal-field" class="col-md-4 col-form-label text-md-right">Icon</label>
-							<div class="col-md-5">
+							<div class="col-auto">
+								<label for="pageIcon">Page Icon</label>
+
+								<button
+									type="button"
+									class="btn btn-primary icon-picker-button"
+									[iconPicker]="newPageIcon"
+									(iconPickerSelect)="newPageIcon = $event"
+									name="pageIcon"
+									[ipIconPack]="['fa5']"
+									[ipPosition]="'bottom'"
+									[ipPlaceHolder]="'Select Icon'"
+									[ipFallbackIcon]="'fa fa-info'"
+								>
+									<i [ngClass]="newPageIcon"></i>
+								</button>
+								<!--
+									<input
+										autocomplete="off"
+										name="pageIcon"
+										id="pageIconInput"
+										[value]="newPageIcon"
+										[ipPosition]="'bottom'"
+										class="form-control"
+										[ipIconPack]="['fa5']"
+										[iconPicker]="newPageIcon"
+										(iconPickerSelect)="newPageIcon = $event"
+									/> -->
+							</div>
+							<!--<div class="col-md-5">
 								<span class="input-group-addon"><i [ngClass]="iconCss.value"></i></span>
 								<input
 									type="text"
@@ -466,8 +498,8 @@
 									[ipPlaceHolder]="'Select Icon'"
 									[ipFallbackIcon]="'fa fa-info'"
 								/>
-								<!-- <i [ngClass]="newPageIcon"></i>-->
-							</div>
+								<i [ngClass]="newPageIcon"></i>
+							</div> -->
 						</div>
 						<div class="row">
 							<div class="col-md-12">
@@ -539,6 +571,7 @@
 								[iconPicker]="currentSurveyPageEdit.icon"
 								(iconPickerSelect)="currentSurveyPageEdit.icon = $event"
 								name="pageIcon"
+								[ipIconPack]="['fa5']"
 								[ipPosition]="'bottom'"
 								[ipPlaceHolder]="'Select Icon'"
 								[ipFallbackIcon]="'fa fa-info'"

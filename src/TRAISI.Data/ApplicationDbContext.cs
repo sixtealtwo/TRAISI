@@ -259,6 +259,7 @@ namespace TRAISI.Data
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
+            var modifiedEntries2 = ChangeTracker.Entries();
             foreach (var entry in modifiedEntries)
             {
                 var entity = (IAuditableEntity)entry.Entity;
