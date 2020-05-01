@@ -460,7 +460,7 @@
 
 								<button
 									type="button"
-									class="btn btn-primary icon-picker-button"
+									class="btn btn-secondary icon-picker-button"
 									[iconPicker]="newPageIcon"
 									(iconPickerSelect)="newPageIcon = $event"
 									name="pageIcon"
@@ -567,7 +567,7 @@
 						<div class="col-md-5">
 							<button
 								type="button"
-								class="btn btn-primary icon-picker-button"
+								class="btn btn-secondary icon-picker-button"
 								[iconPicker]="currentSurveyPageEdit.icon"
 								(iconPickerSelect)="currentSurveyPageEdit.icon = $event"
 								name="pageIcon"
@@ -585,29 +585,31 @@
 							<hr class="edit-last-separator-hr" />
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-12">
-							<div class="pull-left">
-								<button type="button" class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
-									Delete Page
-								</button>
-							</div>
-							<div class="pull-right">
-								<button type="submit" class="btn btn-primary action-button" title="Save Page Changes">
-									Save Changes
-								</button>
-								<button
-									type="button"
-									class="btn btn-danger"
-									(click)="editPageModal.hide()"
-									title="Cancel"
-								>
-									Cancel
-								</button>
-							</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<button type="button" class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
+								Delete Page
+							</button>
+						</div>
+						<div class="col">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								(click)="editPageModal.hide()"
+								title="Cancel"
+							>
+								Cancel
+							</button>
+							<button type="submit" class="btn btn-primary action-button" title="Save Page Changes">
+								Save Changes
+							</button>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>
