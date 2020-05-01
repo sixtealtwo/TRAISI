@@ -21,6 +21,11 @@ i.fas {
 	margin-right: 5px;
 }
 
+.tab-pane.active .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
 .modal-footer button {
 	margin-left: 5px;
 	margin-right: 5px;
@@ -28,9 +33,9 @@ i.fas {
 
 ng-select.ng-select-single.page-select {
 	font-size: 18px;
-	height: 60px;
-	padding: 10px;
-
+	height: 52px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 	.page-label i {
 		text-align: center;
 		width: 25px;
