@@ -520,7 +520,6 @@ namespace TRAISI
                 endpoints.MapControllers();
 
             });
-
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

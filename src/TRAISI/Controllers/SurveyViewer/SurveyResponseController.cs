@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Traisi.Models.ViewModels;
 using TRAISI.Authorization;
 using TRAISI.Data;
 using TRAISI.Data.Models;
@@ -176,6 +177,15 @@ namespace TRAISI.Controllers.SurveyViewer
             var result = await this._resonseService.ListSurveyResponsesForQuestionsByNameAsync(new List<string>(questionNames), respondent);
 
             return new OkObjectResult(result);
+        }
+
+        [HttpGet]
+        [Produces(typeof(SurveyCompletionStatus))]
+        [Authorize(Policy = Policies.RespondToSurveyPolicy)]
+        [Route("completion-status/primary-respondents/{respondentId}")]
+        public async Task<IActionResult> GetSurveyCompletionStatus(int surveyId, int respondentId) {
+
+            return new OkResult();
         }
 
         /// <summary>
