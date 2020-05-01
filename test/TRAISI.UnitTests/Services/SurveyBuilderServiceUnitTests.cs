@@ -65,8 +65,8 @@ namespace TRAISI.UnitTests.Services
                        Value="ValidationMessage1"}
                 },
                 Condition = SurveyLogicCondition.And,
-                Expressions = new List<SurveyLogicExpression> {
-                    new SurveyLogicExpression() {
+                Expressions = new List<SurveyLogic> {
+                    new SurveyLogic() {
                         Id = 1,
                         Operator = SurveyLogicOperator.Equals,
                         Value = "TestValue1"
@@ -89,8 +89,8 @@ namespace TRAISI.UnitTests.Services
                        Value="ValidationMessage1"}
                 },
                 Condition = SurveyLogicCondition.And,
-                Expressions = new List<SurveyLogicExpression> {
-                    new SurveyLogicExpression() {
+                Expressions = new List<SurveyLogic> {
+                    new SurveyLogic() {
                         Id = 1,
                         Operator = SurveyLogicOperator.Equals,
                         Value = "TestValue1"
@@ -105,8 +105,8 @@ namespace TRAISI.UnitTests.Services
                        Value="ValidationMessage1"}
                 },
                 Condition = SurveyLogicCondition.And,
-                Expressions = new List<SurveyLogicExpression> {
-                    new SurveyLogicExpression() {
+                Expressions = new List<SurveyLogic> {
+                    new SurveyLogic() {
                         Id = 2,
                         Operator = SurveyLogicOperator.Equals,
                         Value = "TestValue1"

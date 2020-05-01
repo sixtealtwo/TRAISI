@@ -102,8 +102,6 @@
         "QuestionResponseType",
         "QuestionConditionalOperator",
         "QuestionBuilderType",
-        "QuestionConditionalOperatorViewModel",
-        "QuestionConditionalViewModel",
         "QuestionConditionalType"
       ],
       "excludedParameterNames": [],

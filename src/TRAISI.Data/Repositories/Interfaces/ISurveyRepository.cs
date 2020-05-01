@@ -42,6 +42,8 @@ namespace TRAISI.Data.Repositories.Interfaces {
 		Task<bool> ExistsSurveyWithGroupcodeAsync (int surveyId, string groupcode);
 
 		Task<Survey> GetSurveyWithGroupcodeAsync (int surveyId, string groupcode);
+		
+		Task<Survey> GetSurveyWithSurveyLogic(int id);
 
 		bool QuestionNameIsUnique (int surveyId, string name, string oldName);
 

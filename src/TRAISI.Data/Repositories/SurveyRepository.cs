@@ -368,5 +368,22 @@ namespace TRAISI.Data.Repositories {
 			}
 			return qpartnames.Distinct ().ToList ();
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<Survey> GetSurveyWithSurveyLogic(int id) {
+			var survey = await _appContext.Surveys
+				.Where (s => s.Id == id)
+				.Include(s => s.SurveyLogic).ThenInclude(s => s.Expressions).ThenInclude(s => s.Expressions)
+				.Include(s => s.SurveyLogic).ThenInclude(s => s.ValidationMessages)
+				.Include(s => s.SurveyLogic).ThenInclude(s => s.Expressions).ThenInclude( s => s.ValidationMessages)
+				.Include(s => s.SurveyLogic).ThenInclude(s => s.Expressions).ThenInclude( s => s.Expressions)
+				.SingleOrDefaultAsync ();
+
+			return survey;
+		}
 	}
 }

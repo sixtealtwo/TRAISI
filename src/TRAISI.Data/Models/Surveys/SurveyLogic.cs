@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -16,27 +17,15 @@ namespace TRAISI.Data.Models.Surveys
 
         [JsonIgnore]
         public int Id { get; set; }
-
-        public SurveyLogicCondition Condition { get; set; }
-
-        public SurveyLogic SubSurveyLogic { get; set; }
-
-        public List<SurveyLogicExpression> Expressions { get; set; }
-
+        public SurveyLogicCondition? Condition { get; set; }
+        public List<SurveyLogic> Expressions { get; set; }
         public List<SurveyLogicLabel> ValidationMessages { get; set; }
-    }
-
-    public class SurveyLogicExpression
-    {
-
-        [JsonIgnore]
-        public int Id { get; set; }
         public string Value { get; set; }
         public QuestionPartView Question { get; set; }
 
         [ForeignKey("Question")]
-        public int QuestionId { get; set; }
-        public SurveyLogicOperator Operator { get; set; }
+        public int? QuestionId { get; set; }
+        public SurveyLogicOperator? Operator { get; set; }
     }
 
     public enum SurveyLogicOperator

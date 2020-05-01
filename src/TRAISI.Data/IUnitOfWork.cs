@@ -35,6 +35,8 @@ namespace TRAISI.Data
         ISurveyRespondentGroupRepository SurveyRespondentGroups { get; }
         ISurveyUserRepository SurveyUsers { get; }
 
+        IRepository<SurveyLogic> SurveyLogic {get;}
+
         ApplicationDbContext DbContext {get;}
 
         int SaveChanges();

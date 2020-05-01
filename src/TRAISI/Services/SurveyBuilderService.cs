@@ -70,6 +70,7 @@ namespace TRAISI.Services
         public void RemoveSurveyView(Survey survey, int id)
         {
             survey.SurveyViews.Remove(survey.SurveyViews.Single(s => s.Id == id));
+            
         }
 
         public void DuplicateSurveyViewStructure(SurveyView sourceView, SurveyView targetView, string language)
@@ -967,13 +968,14 @@ namespace TRAISI.Services
         }
 
         /// <summary>
-        /// 
+        /// Removes a survey logic instance from the associated survey.
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="logic"></param>
-        public void RemoveSurveyLogic(Survey survey, SurveyLogic logic)
+        public async Task RemoveSurveyLogic(Survey survey, SurveyLogic logic)
         {
             survey.SurveyLogic.Remove(survey.SurveyLogic.Find(x => x.Id == logic.Id));
+            await this._unitOfWork.SaveChangesAsync();
         }
 
         /// <summary>
@@ -981,7 +983,7 @@ namespace TRAISI.Services
         /// </summary>
         /// <param name="survey"></param>
         /// <param name="logic"></param>
-        public void AddSurveyLogic(Survey survey, SurveyLogic logic)
+        public  async Task AddSurveyLogic(Survey survey, SurveyLogic logic)
         {
             if (!survey.SurveyLogic.Select(x => x.Id).Contains(logic.Id))
             {
@@ -990,10 +992,10 @@ namespace TRAISI.Services
             }else {
                 Console.WriteLine("NOt Added");
             }
-            
+            await this._unitOfWork.SaveChangesAsync();
         }
 
-        public void UpdateSurveyLogic(Survey survey, SurveyLogic logic)
+        public async Task UpdateSurveyLogic(Survey survey, SurveyLogic logic)
         {
             SurveyLogic source = survey.SurveyLogic.Where(s => s.Id == logic.Id).First();
             source.Condition = logic.Condition;
@@ -1013,7 +1015,7 @@ namespace TRAISI.Services
             {
                 label.Value = logic.ValidationMessages.Find(x => x.Language == label.Language).Value;
             }
-
+            await this._unitOfWork.SaveChangesAsync();
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)

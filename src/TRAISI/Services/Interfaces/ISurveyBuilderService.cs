@@ -72,8 +72,6 @@ namespace TRAISI.Services.Interfaces
 
         void ValidateConditionals(SurveyView structure, int questionPartViewMovedId);
 
-        // void ValidateHouseholdFlag(SurveyView structure, int questionPartViewModedId);
-
         void SetQuestionConditionals(QuestionPart question, List<QuestionConditional> conditionals);
 
         void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals);
@@ -81,11 +79,11 @@ namespace TRAISI.Services.Interfaces
 
         void UpdateQuestionConditionals(QuestionPartView question, QuestionConditionalOperator[] conditionalOperators);
 
-        public void RemoveSurveyLogic(Survey survey, SurveyLogic logic);
+        public Task RemoveSurveyLogic(Survey survey, SurveyLogic logic);
 
-        public void AddSurveyLogic(Survey survey, SurveyLogic logic);
+        public Task AddSurveyLogic(Survey survey, SurveyLogic logic);
 
-        public void UpdateSurveyLogic(Survey survey, SurveyLogic logic);
+        public Task UpdateSurveyLogic(Survey survey, SurveyLogic logic);
 
     }
 }

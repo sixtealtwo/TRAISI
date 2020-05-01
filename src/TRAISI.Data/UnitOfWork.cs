@@ -44,6 +44,8 @@ namespace TRAISI.Data
 
         IRepository<TitlePageLabel> _titlePageLabelsRepository;
 
+        IRepository<SurveyLogic> _surveyLogicRepository;
+
         public ApplicationDbContext DbContext => _context;
 
         /// <summary>
@@ -363,6 +365,17 @@ namespace TRAISI.Data
                 return _titlePageLabelsRepository;
             }
         }
+
+        public IRepository<SurveyLogic> SurveyLogic { get
+            {
+
+                if (_surveyLogicRepository == null)
+                {
+                    _surveyLogicRepository = new Repository<SurveyLogic>(_context);
+                }
+
+                return _surveyLogicRepository;
+            } }
 
         public int SaveChanges()
         {

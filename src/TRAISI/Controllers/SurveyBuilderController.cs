@@ -1034,7 +1034,7 @@ namespace TRAISI.Controllers
         /// <returns></returns>
         [HttpPut("surveys/{surveyId}/survey-logic")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogic surveyLogic)
+        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogic)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey == null)
@@ -1043,13 +1043,54 @@ namespace TRAISI.Controllers
             }
             return new OkResult();
         }
+
+        /// <summary>
+        /// Adds a new survey logic group to the survey and returns the ID of the new object.
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyLogicViewModel"></param>
+        /// <returns></returns>
+        [HttpPost("surveys/{surveyId}/survey-logic")]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var surveyLogic = AutoMapper.Mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            await this._surveyBuilderService.AddSurveyLogic(survey,surveyLogic );
+            return new OkObjectResult(surveyLogic.Id);
+        }
+
+        /// <summary>
+        /// Deletes a survey logic
+        /// </summary>
+        /// <param name="surveyId"></param>
+        /// <param name="surveyLogicId"></param>
+        /// <returns></returns>
+        [HttpDelete("surveys/{surveyId}/survey-logic")]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> DeleteSurveyLogic(int surveyId, int surveyLogicId)
+        {
+            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            if (survey == null)
+            {
+                return new NotFoundResult();
+            }
+            var surveyLogic = this._unitOfWork.SurveyLogic.Get(surveyLogicId);
+            await this._surveyBuilderService.RemoveSurveyLogic(survey, surveyLogic);
+            return new OkResult();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="surveyId"></param>
         /// <returns></returns>
         [HttpGet("surveys/{surveyId}/survey-logic")]
-        [Produces(typeof(SurveyLogic))]
+        [Produces(typeof(List<SurveyLogicViewModel>))]
         public async Task<IActionResult> GetSurveyLogic(int surveyId)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
