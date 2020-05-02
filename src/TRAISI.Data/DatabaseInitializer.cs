@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Models.Groups;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Models.Groups;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Questions;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace TRAISI.Data
+namespace Traisi.Data
 {
     public interface IDatabaseInitializer
     {

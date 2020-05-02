@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TRAISI.Helpers.Interfaces
+namespace Traisi.Helpers.Interfaces
 {
     public interface IGeoServiceProvider
     {

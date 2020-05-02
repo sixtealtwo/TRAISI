@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using TRAISI.Data.Core;
+using Traisi.Data.Core;
 
-namespace TRAISI.Data.Models.Questions {
+namespace Traisi.Data.Models.Questions {
 
     /// <summary>
     /// A conditional operator that joins a chain of conditionals.

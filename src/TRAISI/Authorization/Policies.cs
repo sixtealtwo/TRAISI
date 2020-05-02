@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Authorization {
+namespace Traisi.Authorization {
 	public class Policies {
 		///<summary>Policy to allow access of the admin interface.</summary>
 		public const string AccessAdminPolicy = "Access Admin Interface";

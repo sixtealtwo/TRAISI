@@ -1,0 +1,21 @@
+<span class="admin-toolbar">
+
+
+	<button class="btn btn-light" (click)="openModal(template)"><i class="far fa-user-circle"></i></button>
+</span>
+
+<ng-template #template>
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">Survey Session</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<span class="form-inline my-2 my-lg-0 pr-3">
+			User: {{ currentUser.userName }}
+
+		</span>
+		<a href="#" (click)="deleteAllResponses()">Delete Responses <span class="sr-only">(current)</span></a>
+	</div>
+</ng-template>

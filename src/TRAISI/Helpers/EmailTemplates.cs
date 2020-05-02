@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public static class EmailTemplates
     {

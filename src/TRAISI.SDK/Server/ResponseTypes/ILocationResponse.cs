@@ -1,6 +1,6 @@
 using NetTopologySuite.Geometries;
 
-namespace TRAISI.SDK.Library.ResponseTypes
+namespace Traisi.Sdk.Library.ResponseTypes
 {
     public interface ILocationResponse : IResponseType
     {

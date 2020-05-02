@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public static class MediaTypeNames
     {

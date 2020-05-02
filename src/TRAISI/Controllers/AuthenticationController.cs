@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.Authentication;
 using AspNet.Security.OpenIdConnect.Server;
 using OpenIddict.Core;
 using AspNet.Security.OpenIdConnect.Primitives;
-using TRAISI.Data.Models;
 using Microsoft.Extensions.Options;
-using TRAISI.Data.Core.Interfaces;
-using AuthenticationService = TRAISI.Authorization.AuthenticationService;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using AuthenticationService = Traisi.Authorization.AuthenticationService;
 
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
     public class AuthenticationController : Controller
     {
@@ -26,7 +26,7 @@ namespace TRAISI.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private readonly AuthenticationService _authenticationService;
+        private readonly Authorization.AuthenticationService _authenticationService;
 
         private readonly IAccountManager _accountManager;
 
@@ -43,7 +43,7 @@ namespace TRAISI.Controllers
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IAccountManager accountManager,
-            AuthenticationService authenticationService)
+            Authorization.AuthenticationService authenticationService)
         {
             _identityOptions = identityOptions;
             _signInManager = signInManager;

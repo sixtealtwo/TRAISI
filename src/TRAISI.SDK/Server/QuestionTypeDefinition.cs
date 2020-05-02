@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
-using TRAISI.SDK.Library.ResponseTypes;
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
+using Traisi.Sdk.Library.ResponseTypes;
 
-namespace TRAISI.SDK {
+namespace Traisi.Sdk {
 	/// <summary>
 	/// Contains the definition for a specific question type - path location and other meta info.
 	/// </summary>

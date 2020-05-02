@@ -6,18 +6,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Traisi.Authorization;
 using Traisi.Models.ViewModels;
-using TRAISI.Authorization;
-using TRAISI.Data;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories;
-using TRAISI.SDK.Enums;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels.SurveyViewer;
+using Traisi.Data;
+using Traisi.Data.Models;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories;
+using Traisi.Sdk.Enums;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels.SurveyViewer;
+using AutoMapper;
 
-namespace TRAISI.Controllers.SurveyViewer
+namespace Traisi.Controllers.SurveyViewer
 {
 
     [ApiController]
@@ -27,11 +28,15 @@ namespace TRAISI.Controllers.SurveyViewer
         private UserManager<ApplicationUser> _userManager;
         private IUnitOfWork _unitOfWork;
         private ISurveyResponseService _resonseService;
-        public SurveyResponseController(IUnitOfWork unitOfWork, ISurveyResponseService responseService, UserManager<ApplicationUser> userManager)
+        private readonly IMapper _mapper;
+        public SurveyResponseController(IUnitOfWork unitOfWork, ISurveyResponseService responseService, 
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _resonseService = responseService;
             _userManager = userManager;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -87,19 +92,19 @@ namespace TRAISI.Controllers.SurveyViewer
                 switch (response.ResponseValues[0])
                 {
                     case TimelineResponse _:
-                        mapped = AutoMapper.Mapper.Map<TimelineResponseViewModel>(response);
+                        mapped = _mapper.Map<TimelineResponseViewModel>(response);
                         break;
                     case LocationResponse _:
-                        mapped = AutoMapper.Mapper.Map<LocationResponseViewModel>(response);
+                        mapped = _mapper.Map<LocationResponseViewModel>(response);
                         break;
                     default:
-                        mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
+                        mapped = _mapper.Map<SurveyResponseViewModel>(response);
                         break;
                 }
             }
             else
             {
-                mapped = AutoMapper.Mapper.Map<SurveyResponseViewModel>(response);
+                mapped = _mapper.Map<SurveyResponseViewModel>(response);
             }
             return new ObjectResult(mapped);
         }
@@ -126,13 +131,13 @@ namespace TRAISI.Controllers.SurveyViewer
             switch (responseType)
             {
                 case QuestionResponseType.Location:
-                    responseViewModel = AutoMapper.Mapper.Map<List<LocationResponseViewModel>>(responses);
+                    responseViewModel = _mapper.Map<List<LocationResponseViewModel>>(responses);
                     break;
                 case QuestionResponseType.Timeline:
-                    responseViewModel = AutoMapper.Mapper.Map<List<TimelineResponseViewModel>>(responses);
+                    responseViewModel = _mapper.Map<List<TimelineResponseViewModel>>(responses);
                     break;
                 default:
-                    responseViewModel = AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses);
+                    responseViewModel = _mapper.Map<List<SurveyResponseViewModel>>(responses);
                     break;
 
             }
@@ -160,7 +165,7 @@ namespace TRAISI.Controllers.SurveyViewer
                 return new NotFoundObjectResult(new List<SurveyResponseViewModel>());
             }
             var responses = await this._resonseService.ListSurveyResponsesForQuestionsAsync(new List<int>(questionIds), respondent);
-            return new OkObjectResult(AutoMapper.Mapper.Map<List<SurveyResponseViewModel>>(responses));
+            return new OkObjectResult(_mapper.Map<List<SurveyResponseViewModel>>(responses));
         }
 
         [HttpGet]

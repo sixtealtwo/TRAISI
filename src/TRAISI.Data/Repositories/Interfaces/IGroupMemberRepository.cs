@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Groups;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Groups;
 
-namespace TRAISI.Data.Repositories.Interfaces
+namespace Traisi.Data.Repositories.Interfaces
 {
 	public interface IGroupMemberRepository : IRepository<GroupMember>
 	{

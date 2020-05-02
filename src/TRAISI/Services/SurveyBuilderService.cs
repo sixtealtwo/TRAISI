@@ -1,24 +1,24 @@
-using TRAISI.Data;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Models.Extensions;
+using Traisi.Data;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using TRAISI.Helpers;
-using TRAISI.SDK;
-using TRAISI.SDK.Interfaces;
-using TRAISI.Services.Interfaces;
-using TRAISI.Data.Core;
+using Traisi.Helpers;
+using Traisi.Data.Core;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using Traisi.Sdk;
+using Traisi.Sdk.Interfaces;
+using Traisi.Services.Interfaces;
 
-namespace TRAISI.Services
+namespace Traisi.Services
 {
 
     /// <summary>
@@ -83,9 +83,9 @@ namespace TRAISI.Services
             if (targetView.WelcomePageLabels == null)
             {
                 structureExists = false;
-                targetView.WelcomePageLabels = new LabelCollection<WelcomePageLabel>();
-                targetView.TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>();
-                targetView.ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>();
+                targetView.WelcomePageLabels = new LabelCollection<Label>();
+                targetView.TermsAndConditionsLabels = new LabelCollection<Label>();
+                targetView.ThankYouPageLabels = new LabelCollection<Label>();
             }
             else if (targetView.WelcomePageLabels[language] != null)
             {
@@ -94,9 +94,9 @@ namespace TRAISI.Services
 
             if (!structureAndLanguageExists)
             {
-                targetView.WelcomePageLabels[language] = new WelcomePageLabel { Value = null };
-                targetView.TermsAndConditionsLabels[language] = new TermsAndConditionsPageLabel { Value = null };
-                targetView.ThankYouPageLabels[language] = new ThankYouPageLabel { Value = null };
+                targetView.WelcomePageLabels[language] = new Label { Value = null };
+                targetView.TermsAndConditionsLabels[language] = new Label { Value = null };
+                targetView.ThankYouPageLabels[language] = new Label { Value = null };
 
                 // if structure exists, just create new labels under the language
 
@@ -105,14 +105,14 @@ namespace TRAISI.Services
                     foreach (var sourcePage in sourceView.QuestionPartViews)
                     {
                         var page = sourcePage.CATIDependent;
-                        page.Labels[language] = new QuestionPartViewLabel { Value = sourcePage.Labels[language].Value };
+                        page.Labels[language] = new Label { Value = sourcePage.Labels[language].Value };
                         foreach (var question in page.QuestionPartViewChildren)
                         {
-                            question.Labels[language] = new QuestionPartViewLabel { Value = null };
+                            question.Labels[language] = new Label { Value = null };
 
                             foreach (var subQuestion in question.QuestionPartViewChildren)
                             {
-                                subQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                                subQuestion.Labels[language] = new Label { Value = null };
                             }
                         }
                     }
@@ -128,7 +128,7 @@ namespace TRAISI.Services
                         };
                         page.CATIDependent = targetPage;
                         targetView.QuestionPartViews.Add(targetPage);
-                        targetPage.Labels[language] = new QuestionPartViewLabel { Value = page.Labels[language].Value };
+                        targetPage.Labels[language] = new Label { Value = page.Labels[language].Value };
                         foreach (var question in page.QuestionPartViewChildren)
                         {
                             QuestionPartView targetQuestion = new QuestionPartView
@@ -141,7 +141,7 @@ namespace TRAISI.Services
                             };
                             question.CATIDependent = targetQuestion;
                             targetPage.QuestionPartViewChildren.Add(targetQuestion);
-                            targetQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                            targetQuestion.Labels[language] = new Label { Value = null };
                             foreach (var subQuestion in question.QuestionPartViewChildren)
                             {
                                 QuestionPartView targetSubQuestion = new QuestionPartView
@@ -153,7 +153,7 @@ namespace TRAISI.Services
                                 };
                                 subQuestion.CATIDependent = targetSubQuestion;
                                 targetQuestion.QuestionPartViewChildren.Add(targetSubQuestion);
-                                targetSubQuestion.Labels[language] = new QuestionPartViewLabel { Value = null };
+                                targetSubQuestion.Labels[language] = new Label { Value = null };
                             }
                         }
                     }
@@ -219,11 +219,11 @@ namespace TRAISI.Services
         /// <param name="language"></param>
         public void SetQuestionPartViewLabel(QuestionPartView qpv, string text, string language = null)
         {
-            qpv.Labels[language] = new QuestionPartViewLabel()
+            qpv.Labels[language] = new Label()
             {
                 Language = language ?? "en",
                 Value = text,
-                QuestionPartView = qpv
+                // QuestionPartView = qpv
             };
 
 
@@ -300,11 +300,11 @@ namespace TRAISI.Services
                 var optionLabel = option.QuestionOptionLabels.FirstOrDefault(v => v.Language == language);
                 if (optionLabel == null)
                 {
-                    option.QuestionOptionLabels.Add(new QuestionOptionLabel()
+                    option.QuestionOptionLabels.Add(new Label()
                     {
                         Language = language,
                         Value = value,
-                        QuestionOption = option
+                        // QuestionOption = option
                     });
                 }
                 else
@@ -393,9 +393,9 @@ namespace TRAISI.Services
                                     Name = name,
                                     Code = option.Code,
                                     Order = startOptionOrderIndex++,
-                                    QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
+                                    QuestionOptionLabels = new LabelCollection<Label>()
                                 {
-                                    new QuestionOptionLabel()
+                                    new Label()
                                     {
                                         Language = language ?? "en",
                                         Value = option.Label
@@ -491,9 +491,9 @@ namespace TRAISI.Services
                         Name = name,
                         Code = code,
                         Order = part.QuestionOptions.Count(o => o.Name == name),
-                        QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>()
+                        QuestionOptionLabels = new LabelCollection<Label>()
                             {
-                                new QuestionOptionLabel()
+                                new Label()
                                 {
                                     Language = language ?? "en",
                                     Value = value
@@ -1002,10 +1002,10 @@ namespace TRAISI.Services
             source.ValidationMessages = logic.ValidationMessages;
 
             // remove any language labels that are missing
-            source.ValidationMessages.RemoveAll(x => logic.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language));
+            source.ValidationMessages.RemoveWhere(x => logic.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language));
 
             // add any new language labels
-            source.ValidationMessages.AddRange(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
+            source.ValidationMessages.UnionWith(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
             {
                 return new SurveyLogicLabel()
                 {
@@ -1018,7 +1018,7 @@ namespace TRAISI.Services
             // copy values
             foreach (var label in source.ValidationMessages)
             {
-                label.Value = logic.ValidationMessages.Find(x => x.Language == label.Language).Value;
+                label.Value = logic.ValidationMessages[label.Language].Value;
             }
             await this._unitOfWork.SaveChangesAsync();
         }

@@ -1,19 +1,19 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Collections.Generic;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Helpers;
+using Traisi.Data.Models.Questions;
 using Microsoft.AspNetCore.SignalR;
+using Traisi.Helpers;
 
-namespace TRAISI.Testing
+namespace Traisi.Testing
 {
     public class TestingUtilities
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TRAISI.Data.Models.Interfaces
+namespace Traisi.Data.Models.Interfaces
 {
     public interface IAuditableEntity
     {

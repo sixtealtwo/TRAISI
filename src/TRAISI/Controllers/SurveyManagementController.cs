@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace Traisi.Models.ViewModels
+namespace Traisi.Models.ViewModels 
 {
 
     public class SurveyCompletionStatus

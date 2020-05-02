@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TRAISI.SDK
+namespace Traisi.Sdk
 {
     public class QuestionEndpoint
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
-using TRAISI.SDK.Library.ResponseTypes;
+using Traisi.Sdk.Library.ResponseTypes;
 using System.Linq;
-namespace TRAISI.Data.Models.ResponseTypes
+namespace Traisi.Data.Models.ResponseTypes
 {
     public class OptionListResponse : ResponseValue, IOptionListResponse
     {

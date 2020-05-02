@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Models.Extensions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Models.Extensions;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
     /// <summary>
     /// QuestionPartView model - container of QuestionParts 
@@ -22,7 +23,7 @@ namespace TRAISI.Data.Models.Questions
         /// Collection of Label objects for this view.
         /// </summary>
         /// <value></value>
-        public LabelCollection<QuestionPartViewLabel> Labels { get; set; }
+        public LabelCollection<Label> Labels { get; set; }
 
         /// <summary>
         /// The associated QuestionPart for this QuestionPartView
@@ -45,6 +46,7 @@ namespace TRAISI.Data.Models.Questions
         public SurveyView SurveyView { get; set; }
 
         [JsonIgnore]
+        [ForeignKey("SurveyView")]
         public int? SurveyViewId { get; set; }
 
         public ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
@@ -73,7 +75,7 @@ namespace TRAISI.Data.Models.Questions
         /// </summary>
         public QuestionPartView()
         {
-            this.Labels = new LabelCollection<QuestionPartViewLabel>();
+            this.Labels = new LabelCollection<Label>();
             this.QuestionPartViewChildren = new List<QuestionPartView>();
             this.Conditionals = new List<QuestionConditionalOperator>();
         }

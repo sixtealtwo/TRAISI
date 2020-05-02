@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 
-namespace TRAISI.Data
+namespace Traisi.Data
 {
     public interface IUnitOfWork
     {
@@ -34,6 +34,8 @@ namespace TRAISI.Data
         ISurveyRespondentRepository SurveyRespondents { get; }
         ISurveyRespondentGroupRepository SurveyRespondentGroups { get; }
         ISurveyUserRepository SurveyUsers { get; }
+
+        IRepository<Label> Labels {get;}
 
         IRepository<SurveyLogic> SurveyLogic {get;}
 

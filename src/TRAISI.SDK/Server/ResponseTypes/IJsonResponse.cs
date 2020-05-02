@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace TRAISI.SDK.Library.ResponseTypes
+namespace Traisi.Sdk.Library.ResponseTypes
 {
     public interface IJsonResponse : IResponseType
     {

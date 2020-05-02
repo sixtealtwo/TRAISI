@@ -1,0 +1,254 @@
+<div id="question-viewer-wrapper">
+	<div id="pages-progress-bar" class="d-none d-md-block">
+		<div class="row">
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()" *ngFor="let page of allPages; index as i"><div
+				 class="page d-inline-block" [class.active]="currentPage == i" [class.complete]="completedPages[i]"><i [ngClass]="page.icon"></i></div>
+				 <div class="page-progress-label" [class.visible]="currentPage == i" [style.color]="getBestPageBodyTextColor()">{{ page.label.value }}</div>
+			</div>
+			<div class="col text-center page-wrapper" [class.white-progress-line]="whiteProgressLine()"><div class="page d-inline-block"><i class="fas fa-check"></i></div></div>
+		</div>
+		<div id="survey-progress-indicator" [style.left.%]="surveyProgressPercent"></div>
+	</div>
+
+	<div id="question-viewer-household-tabs" class="d-none d-md-block float-right">
+		<div class="member-tab member-tab-complete">Complete</div>
+		<div class="member-tab member-tab-active">Active</div>
+		<div class="member-tab member-tab-pending">Pending</div>
+	</div>
+	<div id="question-viewer-container" [style.background-color]="pageThemeInfo.questionViewerColour" class="ml-md-3 p-1 p-md-3 mr-md-5 mr-md-3">
+			<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+			[cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="questionViewerBackgroundColourChange($event)"
+			[(colorPicker)]="pageThemeInfo.questionViewerColour">
+			 <img src="assets/img/colour-picker.png" height="15px" />
+		 </button>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q1</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+		<section>
+			<div class="position-relative">
+				<div class="household-member-header sticky-top" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
+					Section Title: Member
+					<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+					 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
+					 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
+						<img src="assets/img/colour-picker.png" height="15px" />
+					</button>
+				</div>
+				<div class="question-container">
+					<div class="question-header container-fluid">
+						<div class="row flex-nowrap">
+							<div class="question-number-container-section col-12">
+								<div class="question-number badge badge-primary mt-3">Q2.1</div>
+								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+							</div>
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+						</div>
+					</div>
+					<div class="question-header-divider"></div>
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+						Question Body Rendered Here
+					</div>
+				</div>
+				<div class="question-container">
+					<div class="question-header container-fluid">
+						<div class="row flex-nowrap">
+							<div class="question-number-container-section col-12">
+								<div class="question-number badge badge-primary mt-3">Q2.2</div>
+								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+							</div>
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+						</div>
+					</div>
+					<div class="question-header-divider"></div>
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+						Question Body Rendered Here
+					</div>
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question-header container-fluid">
+					<div class="row flex-nowrap">
+						<div class="question-number-container-section col-12">
+							<div class="question-number badge badge-primary mt-3">Q2.3</div>
+							<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+						</div>
+						<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+							aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+					</div>
+				</div>
+				<div class="question-header-divider"></div>
+				<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+					Question Body Rendered Here
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="position-relative">
+				<div class="household-member-header sticky-top" [style.color]="getBestHouseholdHeaderTextColor()" [style.background-color]="pageThemeInfo.householdHeaderColour">
+					Section Title: Member
+					<button *ngIf="!previewMode.value" type="button" class="btn btn-inverse household-header-background-color-picker" [cpPosition]="'left'"
+					 [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'rgba'" (colorPickerChange)="householdHeaderBackgroundColourChange($event)"
+					 [(colorPicker)]="pageThemeInfo.householdHeaderColour">
+						<img src="assets/img/colour-picker.png" height="15px" />
+					</button>
+				</div>
+				<div class="question-container">
+					<div class="question-header container-fluid">
+						<div class="row flex-nowrap">
+							<div class="question-number-container-section col-12">
+								<div class="question-number badge badge-primary mt-3">Q3.1</div>
+								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+							</div>
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+						</div>
+					</div>
+					<div class="question-header-divider"></div>
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+						Question Body Rendered Here
+					</div>
+				</div>
+				<div class="question-container">
+					<div class="question-header container-fluid">
+						<div class="row flex-nowrap">
+							<div class="question-number-container-section col-12">
+								<div class="question-number badge badge-primary mt-3">Q3.2</div>
+								<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+							</div>
+							<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+								aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+						</div>
+					</div>
+					<div class="question-header-divider"></div>
+					<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+						Question Body Rendered Here
+					</div>
+				</div>
+
+			</div>
+			<div class="question-container">
+				<div class="question-header container-fluid">
+					<div class="row flex-nowrap">
+						<div class="question-number-container-section col-12">
+							<div class="question-number badge badge-primary mt-3">Q3.3</div>
+							<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+						</div>
+						<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+							aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+					</div>
+				</div>
+				<div class="question-header-divider"></div>
+				<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+					Question Body Rendered Here
+				</div>
+			</div>
+		</section>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q4</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q5</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q6</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q7</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+		<div class="question-container">
+			<div class="question-header container-fluid">
+				<div class="row flex-nowrap">
+					<div class="question-number-container col-12">
+						<div class="question-number badge badge-danger mt-3">Q8</div>
+						<div class="question-complete"><i class="fas fa-check-circle"></i></div>
+					</div>
+					<div class="question-header-text col-12 mt-3" [style.color]="getBestQuestionBodyTextColor()">Lorem ipsum dolor sit amet,
+						aliquid vocibus vis eu. At malorum nusquam omittam pri. Ne mea etiam soluta gloriatur, at vim vitae utinam eloquentiam.</div>
+				</div>
+			</div>
+			<div class="question-header-divider"></div>
+			<div class="question-body" [style.color]="getBestQuestionBodyTextColor()">
+				Question Body Rendered Here
+			</div>
+		</div>
+	</div>
+	<div id="question-viewer-nav" class="pl-md-3 pr-md-5">
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<button [ngClass]="useDarkButtons() ? 'btn-inverse' : 'btn-default'" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
+					<i class="fas text-danger fa-arrow-alt-circle-left mr-1"></i> Previous
+				</button>
+				<button [ngClass]="useDarkButtons() ? 'btn-inverse' : 'btn-default'" class="btn w-50 pl-4 pr-4 pt-md-3 pb-md-3" type="button">
+					Next <i class="fas text-success fa-arrow-alt-circle-right ml-1"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Core;
-using TRAISI.SDK;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Core;
 using Microsoft.AspNetCore.Http;
+using Traisi.Sdk;
 
-namespace TRAISI.Services.Interfaces
+namespace Traisi.Services.Interfaces
 {
     public interface ISurveyBuilderService
     {

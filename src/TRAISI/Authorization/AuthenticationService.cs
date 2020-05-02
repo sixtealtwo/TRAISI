@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
 
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     public class AuthenticationService
     {

@@ -1,4 +1,4 @@
-namespace TRAISI.UnitTests.Services
+namespace Traisi.UnitTests.Services
 {
     public class RespondentGroupServiceTests
     {

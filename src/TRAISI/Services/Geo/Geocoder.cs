@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Helpers.Interfaces;
+using Traisi.Helpers.Interfaces;
 
-namespace TRAISI.Services.Geo
+namespace Traisi.Services.Geo
 {
     /// <summary>
     /// GeoServiceProvider for Geocoder.ca

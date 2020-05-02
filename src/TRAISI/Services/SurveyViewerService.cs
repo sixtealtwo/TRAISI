@@ -7,27 +7,27 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
+using Traisi.Authorization.Enums;
 using Traisi.Models.Surveys;
-using TRAISI.Authorization.Enums;
-using TRAISI.Helpers;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.Extensions;
-using TRAISI.ViewModels.SurveyViewer;
-using TRAISI.ViewModels.SurveyViewer.Enums;
-using TRAISI.ViewModels.Users;
+using Traisi.Helpers;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels;
+using Traisi.ViewModels.Extensions;
+using Traisi.ViewModels.SurveyViewer;
+using Traisi.ViewModels.Users;
+using Traisi.Models.ViewModels;
 
-namespace TRAISI.Services
+namespace Traisi.Services
 {
     public class SurveyViewerService : ISurveyViewerService
     {
@@ -38,7 +38,7 @@ namespace TRAISI.Services
         private UserManager<TraisiUser> _userManager;
         private ISurveyRespondentService _respondentService;
         private IHttpContextAccessor _contextAccessor;
-
+        private readonly IMapper _mapper;
         /// <summary>
         /// 
         /// </summary>
@@ -54,6 +54,7 @@ namespace TRAISI.Services
             ICodeGeneration codeGenerationService,
             UserManager<TraisiUser> userManager,
             ISurveyRespondentService respondentService,
+            IMapper mapper,
             IHttpContextAccessor contextAccessor)
         {
             this._unitOfWork = unitOfWork;
@@ -63,6 +64,7 @@ namespace TRAISI.Services
             this._userManager = userManager;
             this._respondentService = respondentService;
             this._contextAccessor = contextAccessor;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -80,13 +82,13 @@ namespace TRAISI.Services
             {
                 var s2 = (survey.SurveyViews as List<SurveyView>);
                 return (survey.SurveyViews as List<SurveyView>)[0]
-                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper,language);
             }
             else
             {
 
                 return (survey.SurveyViews as List<SurveyView>)[0]
-                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(language);
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper,language);
 
             }
         }
@@ -102,7 +104,7 @@ namespace TRAISI.Services
         {
             string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
             var surveyThankYou = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, viewName, language);
-            return Mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
+            return _mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
         }
 
         /// <summary>
@@ -164,7 +166,7 @@ namespace TRAISI.Services
         {
 
             var user = new UserViewModel { UserName = Guid.NewGuid().ToString("D") };
-            SurveyUser appUser = Mapper.Map<SurveyUser>(user);
+            SurveyUser appUser = _mapper.Map<SurveyUser>(user);
             var result = await _accountManager.CreateSurveyUserAsync(appUser, shortcode, null,
                 new (string claimName, string claimValue)[] {
                         ("SurveyId", survey.Id.ToString ()), ("Shortcode", shortcode.Code)
@@ -333,8 +335,8 @@ namespace TRAISI.Services
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(name);
 
-            return survey.ToLocalizedModel<SurveyStartViewModel>("en");
-            //return AutoMapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
+            return survey.ToLocalizedModel<SurveyStartViewModel>(_mapper,"en");
+            //return Auto_mapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
 
         /// <summary>

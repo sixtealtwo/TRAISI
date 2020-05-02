@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels.SurveyViewer;
+using Traisi.Data;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
 using System.Linq;
-namespace TRAISI.Services
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels.SurveyViewer;
+
+namespace Traisi.Services
 {
     public class RespondentGroupService : IRespondentGroupService
     {

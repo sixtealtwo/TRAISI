@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Core;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Core;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Data.Models.Surveys {
+namespace Traisi.Data.Models.Surveys {
     public class Groupcode
 		{
 				public int Id { get; set; }

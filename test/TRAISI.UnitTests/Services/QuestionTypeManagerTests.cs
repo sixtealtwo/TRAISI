@@ -1,14 +1,14 @@
 using System;
-using TRAISI.Services;
+using Traisi.Services;
 using Xunit;
 using Moq;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Helpers;
-using TRAISI.SDK.Interfaces;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Models.Questions;
+using Traisi.Helpers;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.UnitTests.Services
+namespace Traisi.UnitTests.Services
 {
     public class QuestionTypeManagerTests
     {

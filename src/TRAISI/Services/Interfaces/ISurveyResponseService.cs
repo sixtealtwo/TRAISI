@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 
-namespace TRAISI.Services.Interfaces
+namespace Traisi.Services.Interfaces
 {
     public interface ISurveyResponseService
     {

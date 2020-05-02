@@ -1,0 +1,90 @@
+@import 'src/shared/assets/scss/helpers';
+
+.quill-page-editor {
+	.ql-tooltip {
+		z-index: 1 !important;
+	}
+	.ql-container {
+		height: auto;
+	}
+	height: auto !important;
+	padding: 0px !important;
+	background-color: unset;
+}
+
+#special-page-header {
+	z-index: 1000;
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+		-moz-user-select: none; /* Firefox */
+		 -ms-user-select: none; /* Internet Explorer/Edge */
+				 user-select: none; /* Non-prefixed version, currently
+															 supported by Chrome and Opera */
+}
+
+.special-page-editor {
+	height: 100%;
+	.smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
+		overflow: visible !important;
+	}
+}
+
+.empty-container {
+	.smooth-dnd-container {
+		min-height: 50px;
+		background-color: $gray-300;
+		border-radius: 10px;
+		margin: 10px 0 10px 0;
+		padding: 0 0 0 0;
+		overflow: hidden;
+	}
+}
+
+.delete-component-button {
+	position: absolute;
+	top: 15px;
+	right: -25px;
+	z-index: 10;
+	transform: scale(0.8);
+}
+
+.delete-content-component-button {
+	position: absolute;
+	right: -25px;
+	z-index: 10;
+	transform: scale(0.8);
+}
+
+.move-component-button {
+	position: absolute;
+	right: 5px;
+	z-index: 10;
+	transform: scale(0.8);
+	cursor: move !important;
+}
+
+.drag-over {
+	.smooth-dnd-container {
+		background-color: rgba(234, 237, 255, 0.3) !important;
+	}
+}
+
+.ql-previewmode {
+	.ql-editor.ql-blank::before {
+		display: none !important;
+	}
+}
+
+.page-background-color-picker {
+	position: absolute;
+	right: 15px;
+	z-index: 50;
+	transform: scale(0.7);
+}
+
+.section-background-color-picker {
+	position: absolute;
+	right: 32px;
+	z-index: 50;
+	transform: scale(0.8);
+}

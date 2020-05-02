@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using TRAISI.Data.Models.Extensions;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Models.Questions;
 using Newtonsoft.Json;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public class SurveyView : ISurveyView, IEntity
     {
@@ -17,11 +17,11 @@ namespace TRAISI.Data.Models.Surveys
         public int SurveyId { get; set; }
 
         public ICollection<QuestionPartView> QuestionPartViews { get; set; }
-        public LabelCollection<WelcomePageLabel> WelcomePageLabels { get; set; }
-        public LabelCollection<TermsAndConditionsPageLabel> TermsAndConditionsLabels { get; set; }
-        public LabelCollection<ThankYouPageLabel> ThankYouPageLabels { get; set; }
+        public LabelCollection<Label> WelcomePageLabels { get; set; }
+        public LabelCollection<Label> TermsAndConditionsLabels { get; set; }
+        public LabelCollection<Label> ThankYouPageLabels { get; set; }
 
-        public LabelCollection<ScreeningQuestionsPageLabel> ScreeningQuestionLabels { get; set; }
+        public LabelCollection<Label> ScreeningQuestionLabels { get; set; }
 
         public string ViewName { get; set; }
 

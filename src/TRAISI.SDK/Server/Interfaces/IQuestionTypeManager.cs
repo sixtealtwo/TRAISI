@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TRAISI.SDK.Interfaces
+namespace Traisi.Sdk.Interfaces
 {
     /// <summary>
     /// Interface definition for the injectable QuestionTypeManager service.

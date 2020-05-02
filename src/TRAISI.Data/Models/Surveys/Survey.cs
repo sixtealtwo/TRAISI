@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Models.Extensions;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Models.Questions;
 using Newtonsoft.Json;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public class Survey : AuditableEntity, ISurvey, IEntity
     {
@@ -32,7 +32,7 @@ namespace TRAISI.Data.Models.Surveys
 
         public ICollection<ExtensionConfiguration> ExtensionConfigurations { get; set; }
 
-        public LabelCollection<TitlePageLabel> TitleLabels { get; set; }
+        public LabelCollection<Label> TitleLabels { get; set; }
 
         public List<SurveyLogic> SurveyLogic { get; set; }
 
@@ -52,12 +52,11 @@ namespace TRAISI.Data.Models.Surveys
         public void PopulateDefaults()
         {
             DefaultLanguage = "en";
-            TitleLabels = new LabelCollection<TitlePageLabel>
+            TitleLabels = new LabelCollection<Label>
             {
-                [DefaultLanguage] = new TitlePageLabel
+                [DefaultLanguage] = new Label
                 {
-                    Value = "Default Survey Title",
-                    Survey = this
+                    Value = "Default Survey Title"
                 }
             };
 
@@ -68,35 +67,35 @@ namespace TRAISI.Data.Models.Surveys
                 {
                     ViewName = "Standard",
                     Survey = this,
-                    WelcomePageLabels = new LabelCollection<WelcomePageLabel>
+                    WelcomePageLabels = new LabelCollection<Label>
                     {
                         [DefaultLanguage] =
-                            new WelcomePageLabel
+                            new Label
                             {
                                 Value = null
                             }
                     },
-                    ThankYouPageLabels = new LabelCollection<ThankYouPageLabel>
+                    ThankYouPageLabels = new LabelCollection<Label>
                     {
                         [DefaultLanguage] =
-                            new ThankYouPageLabel
+                            new Label
                             {
                                 Value = null
                             }
                     },
-                    TermsAndConditionsLabels = new LabelCollection<TermsAndConditionsPageLabel>
+                    TermsAndConditionsLabels = new LabelCollection<Label>
                     {
                         [DefaultLanguage] =
-                            new TermsAndConditionsPageLabel
+                            new Label
                             {
                                 // language is set on the object with the helper
                                 Value = null
                             }
                     },
-                    ScreeningQuestionLabels = new LabelCollection<ScreeningQuestionsPageLabel>
+                    ScreeningQuestionLabels = new LabelCollection<Label>
                     {
                         [DefaultLanguage] =
-                            new ScreeningQuestionsPageLabel
+                            new Label
                             {
                                 Value = null
                             }

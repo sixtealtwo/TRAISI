@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Surveys;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
 using Newtonsoft.Json.Linq;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
-using TRAISI.SDK.Library.ResponseTypes;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels.SurveyViewer;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
+using Traisi.Sdk.Library.ResponseTypes;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels.SurveyViewer;
 
-namespace TRAISI.Services
+namespace Traisi.Services
 {
     /// <summary>
     /// Service for handling business logic related to respondents and the updating and querying

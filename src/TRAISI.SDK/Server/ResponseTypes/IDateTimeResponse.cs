@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Library.ResponseTypes
+namespace Traisi.Sdk.Library.ResponseTypes
 {
     public interface IDateTimeResponse : IResponseType
     {

@@ -1,8 +1,8 @@
 using System;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class)]
     public class QuestionPartSlotAttribute: Attribute

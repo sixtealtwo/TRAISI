@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     /// <summary>
     /// Authorization filter for access restricted to users of the respondent type. 

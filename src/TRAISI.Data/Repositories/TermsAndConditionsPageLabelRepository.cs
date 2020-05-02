@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Repositories
 {
     public class TermsAndConditionsPageLabelRepository : Repository<TermsAndConditionsPageLabel>, ITermsAndConditionsPageLabelRepository
     {
@@ -20,18 +20,22 @@ namespace TRAISI.Data.Repositories
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-				public async Task<TermsAndConditionsPageLabel> GetTermsAndConditionsPageLabelAsync(int surveyId, string surveyViewName, string language = null)
+        public async Task<Label> GetTermsAndConditionsPageLabelAsync(int surveyId, string surveyViewName, string language = null)
         {
-					if (language != null) {
-            return await _appContext.TermsAndConditionsPageLabels
-									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == language)
-									.SingleOrDefaultAsync();
-					}
-					else {
-						return await _appContext.TermsAndConditionsPageLabels
-									.Where(w => w.SurveyView.Survey.Id == surveyId && w.SurveyView.ViewName == surveyViewName && w.Language == w.SurveyView.Survey.DefaultLanguage)
-									.SingleOrDefaultAsync();
-					}
+            if (language != null)
+            {
+                return await _appContext.SurveyViews.Where(s => s.Survey.Id == surveyId && s.ViewName == surveyViewName
+                ).Include(s => s.TermsAndConditionsLabels)
+                .Include(s => s.Survey)
+                .Select(x => x.TermsAndConditionsLabels[language]).SingleOrDefaultAsync();
+            }
+            else
+            {
+				return await _appContext.SurveyViews.Where(s => s.Survey.Id == surveyId && s.ViewName == surveyViewName
+				).Include(s => s.TermsAndConditionsLabels)
+				.Include(s => s.Survey)
+				.Select(x => x.TermsAndConditionsLabels[x.Survey.DefaultLanguage]).SingleOrDefaultAsync();
+            }
         }
 
     }

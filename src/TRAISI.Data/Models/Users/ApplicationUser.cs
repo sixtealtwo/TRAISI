@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Groups;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Groups;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Identity;
 
-namespace TRAISI.Data.Models
+namespace Traisi.Data.Models
 {
     public abstract class ApplicationUser : IdentityUser, IAuditableEntity
     {

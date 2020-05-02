@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Repositories
 {
     public class SurveyRespondentRepository : Repository<SurveyRespondent>, ISurveyRespondentRepository
     {

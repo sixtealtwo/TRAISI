@@ -1,10 +1,10 @@
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
 using NetTopologySuite.Geometries;
-using TRAISI.SDK.Library.ResponseTypes;
+using Traisi.Sdk.Library.ResponseTypes;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TRAISI.Data.Models.ResponseTypes
+namespace Traisi.Data.Models.ResponseTypes
 {
     public class LocationResponse : ResponseValue, ILocationResponse
     {

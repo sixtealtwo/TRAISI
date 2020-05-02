@@ -1,0 +1,144 @@
+<div class="aside-content">
+	<header class="aside-header">
+		<!-- toggle menu -->
+		<button class="hamburger hamburger-squeeze active" type="button" data-toggle="aside" aria-label="Menu"><span
+				class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+		<!-- .btn-account -->
+		<button class="btn-account d-flex d-md-none" type="button" data-toggle="collapse"
+			data-target="#dropdown-aside"><span class="user-avatar user-avatar-lg"><img src="assets/img/avatar.png"
+					alt=""></span> <span class="account-icon"><span class="fa fa-caret-down fa-lg"></span></span> <span
+				class="account-summary"><span class="account-name">{{userName}}</span></span></button>
+		<!-- /.btn-account -->
+		<!-- .dropdown-aside -->
+		<div id="dropdown-aside" class="dropdown-aside d-md-none collapse">
+			<!-- dropdown-items -->
+			<div class="pb-3">
+				<a class="dropdown-item" [routerLink]="['/app/account/info']"><span
+						class="dropdown-icon oi oi-person"></span>
+					Profile</a> <a class="dropdown-item" (click)="logout()"><span
+						class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+			</div><!-- /dropdown-items -->
+		</div><!-- /.dropdown-aside -->
+		<!-- .top-bar-brand -->
+		<div class="top-bar-brand bg-primary">
+			<a href="/">
+				<img src="assets/img/logo_dark.png" height="32px" alt="" />
+			</a>
+		</div>
+	</header>
+	<section class="aside-menu perfect-scrollbar">
+		<!-- .stacked-menu -->
+		<nav id="stacked-menu" class="stacked-menu">
+			<!-- .menu -->
+			<ul class="menu">
+				<li class="menu-item">
+					<a [routerLink]="['dashboard']" class="menu-link" routerLinkActive="has-active">
+						<span class="menu-icon fas fa-home"></span>
+						<span class="menu-text">{{ 'sidebar.Dashboard' | translate }}</span>
+					</a>
+				</li>
+				<li class="menu-item">
+					<a [routerLink]="['surveys']" class="menu-link" routerLinkActive="has-active">
+						<span class="menu-icon fas fa-cubes"></span>
+						<span class="menu-text">{{ 'sidebar.ManageSurveys' | translate }}</span>
+					</a>
+				</li>
+
+				<li class="menu-item" *ngIf="isGroupAdmin && !canManageUsers">
+					<a [routerLink]="['groups']" class="menu-link" routerLinkActive="has-active">
+						<span class="menu-icon fa-sliders-h"></span>
+						<span class="menu-text">{{ 'sidebar.ManageGroups' | translate }}</span>
+					</a>
+				</li>
+
+				<li class="menu-item" *ngIf="canManageUsers || isGroupAdmin">
+					<a [routerLink]="['users']" class="menu-link" routerLinkActive="has-active">
+						<span class="menu-icon fas fa-users"></span>
+						<span class="menu-text">{{ 'sidebar.ManageUsers' | translate }}</span>
+					</a>
+				</li>
+
+				<li class="menu-item" *ngIf="canViewRoles">
+					<a [routerLink]="['users/roles']" class="menu-link" routerLinkActive="has-active">
+						<span class="menu-icon fab fa-gg-circle"></span>
+						<span class="menu-text">{{ 'sidebar.ManageRoles' | translate }}</span>
+					</a>
+				</li>
+
+				<!-- /.menu-item -->
+			</ul>
+			<!-- /.menu -->
+		</nav>
+		<!-- /.stacked-menu -->
+	</section>
+</div>
+
+<!-- <div class="js-sidebar-content d-md-none">
+	<header class="logo d-none d-md-block">
+		<a [routerLink]=" [''] ">
+			<img src="{{ config.logo }} " height="59">
+		</a>
+	</header>
+	<div class="sidebar-status d-md-none dropdown" placement="bottom left">
+		<a [routerLink]=" ['account/info'] " class="dropdown-toggle">
+			<span class="thumb-sm avatar float-right">
+				<img class="rounded-circle" src="assets/img/avatar.png" alt="...">
+			</span>
+
+			&nbsp;
+			<strong>{{ userName }}</strong>&nbsp;
+		</a>
+	</div>
+
+	<ul class="sidebar-nav">
+		<li>
+			<a [routerLink]=" ['dashboard'] ">
+				<span class="icon">
+					<i class="fas fa-tachometer-alt"></i>
+				</span>
+				{{ 'sidebar.Dashboard' | translate }}
+			</a>
+		</li>
+		<li>
+			<a [routerLink]=" ['surveys'] ">
+				<span class="icon">
+					<i class="fas fa-cubes"></i>
+				</span>
+				{{ 'sidebar.ManageSurveys' | translate }}
+			</a>
+		</li>
+		<li *ngIf="isGroupAdmin && !canManageUsers">
+			<a [routerLink]=" ['groups'] ">
+				<span class="icon">
+					<i class="fas fa-sliders-h"></i>
+				</span>
+				{{ 'sidebar.ManageGroups' | translate }}
+			</a>
+		</li>
+		<li *ngIf="canManageUsers || isGroupAdmin">
+			<a [routerLink]=" ['users'] ">
+				<span class="icon">
+					<i class="fas fa-users"></i>
+				</span>
+				{{ 'sidebar.ManageUsers' | translate }}
+			</a>
+		</li>
+		<li *ngIf="canViewRoles">
+			<a [routerLink]=" ['users/roles'] ">
+				<span class="icon">
+					<i class="fab fa-gg-circle"></i>
+				</span>
+				{{ 'sidebar.ManageRoles' | translate }}
+			</a>
+		</li>
+		<li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
+			<a (click)="logout()">
+				<span class="icon">
+					<i class="fas fa-sign-out-alt"></i>
+				</span>
+				{{ 'sidebar.Logout' | translate }}
+			</a>
+		</li>
+	</ul>
+
+</div> -->

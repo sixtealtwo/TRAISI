@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TRAISI.Data;
+using Traisi.Data;
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Core;
+using Traisi.Data.Core;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public class SurveyPermission
     {

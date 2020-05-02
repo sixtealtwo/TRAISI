@@ -7,10 +7,12 @@ using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;  
 using System.Drawing; 
-using TRAISI.Helpers;
 using System.Data;
 using System.Collections.Generic;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Questions;
+using Traisi;
+using Traisi.Helpers;
+using Traisi.Sdk.Services;
 
 namespace TRAISI.Export
 {

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
-using TRAISI.Data;
+using Traisi.Data;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public interface INotifyHub: IClientProxy
     {

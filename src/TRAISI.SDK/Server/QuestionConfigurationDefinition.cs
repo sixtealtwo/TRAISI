@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 
-namespace TRAISI.SDK {
+namespace Traisi.Sdk {
 	public class QuestionConfigurationDefinition {
 		public string Name { get; set; }
 

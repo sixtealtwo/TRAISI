@@ -47,7 +47,7 @@
 		<Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
 	</Target>
 	<ItemGroup>
-		<ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
+		<ProjectReference Include="..\TRAISI.SDK\Traisi.Sdk.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />

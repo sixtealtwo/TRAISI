@@ -5,28 +5,27 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using AutoMapper;
 using CryptoHelper;
-using TRAISI.Data;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
-using TRAISI.Authorization;
-using TRAISI.Helpers;
-using TRAISI.SDK.Interfaces;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.Extensions;
-using TRAISI.ViewModels.SurveyViewer;
-using TRAISI.ViewModels.SurveyViewer.Enums;
+using Traisi.Authorization;
+using Traisi.Helpers;
+using Traisi.Sdk.Interfaces;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels;
+using Traisi.ViewModels.Extensions;
+using Traisi.ViewModels.SurveyViewer;
 
-namespace TRAISI.Controllers.SurveyViewer
+namespace Traisi.Controllers.SurveyViewer
 {
     public class TestAttribute : Attribute
     {
@@ -51,6 +50,7 @@ namespace TRAISI.Controllers.SurveyViewer
         private readonly IConfiguration _configuration;
 
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// 
@@ -69,7 +69,8 @@ namespace TRAISI.Controllers.SurveyViewer
             IQuestionTypeManager manager,
             UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
-            IHttpContextAccessor accessor
+            IHttpContextAccessor accessor,
+            IMapper mapper
         )
         {
             this._unitOfWork = unitOfWork;
@@ -80,6 +81,7 @@ namespace TRAISI.Controllers.SurveyViewer
             this._userManager = userManager;
             this._configuration = configuration;
             this._contextAccessor = accessor;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             List<QuestionPartView> pages = await this._viewService.GetSurveyViewPages(surveyId, viewType);
 
-            var localizedModel = pages.ToLocalizedModel<List<SurveyViewPageViewModel>, QuestionPartView>(language);
+            var localizedModel = pages.ToLocalizedModel<List<SurveyViewPageViewModel>, QuestionPartView>(_mapper,language);
             return new ObjectResult(localizedModel);
         }
 
@@ -171,7 +173,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             var questionOptions = await this._viewService.GetQuestionOptions(questionId);
 
-            var localizedModel = questionOptions.ToLocalizedModel<List<QuestionOptionViewModel>, QuestionOption>(language);
+            var localizedModel = questionOptions.ToLocalizedModel<List<QuestionOptionViewModel>, QuestionOption>(_mapper,language);
 
             return new ObjectResult(localizedModel);
         }
@@ -189,7 +191,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> GetDefaultSurveyView(int surveyId, string language = "en")
         {
             var view = await this._viewService.GetDefaultSurveyView(surveyId);
-            return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel>(language));
+            return new ObjectResult(view.ToLocalizedModel<SurveyViewerViewModel>(_mapper,language));
         }
 
         [HttpGet("styles/{surveyId}")]
@@ -347,7 +349,7 @@ namespace TRAISI.Controllers.SurveyViewer
                 return new NotFoundResult();
             }
 
-            return new ObjectResult(result.ToLocalizedModel<SurveyViewPageViewModel>("en"));
+            return new ObjectResult(result.ToLocalizedModel<SurveyViewPageViewModel>(_mapper,"en"));
         }
 
         /// <summary>

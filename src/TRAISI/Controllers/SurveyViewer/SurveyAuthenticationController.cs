@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Traisi.Authorization;
 using Traisi.Surveys.Authentication;
-using TRAISI.Authorization;
 
-namespace TRAISI.Controllers.SurveyViewer {
+namespace Traisi.Controllers.SurveyViewer {
 
 	[ApiController]
 	[Route ("api/[controller]/")]

@@ -18,7 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using TRAISI.Data;
+using Traisi.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,9 +26,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using TRAISI.Helpers;
+using Traisi.Helpers;
 
-namespace TRAISI {
+namespace Traisi {
 	public class Program {
 		/// <summary>
 		/// 

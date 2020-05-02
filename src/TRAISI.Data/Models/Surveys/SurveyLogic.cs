@@ -4,22 +4,22 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Models.Questions;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     /// <summary>
     /// Label items, store most alterable and dynamic text fields.
     /// </summary>
     public class SurveyLogic
     {
-
         [JsonIgnore]
         public int Id { get; set; }
         public SurveyLogicCondition? Condition { get; set; }
         public List<SurveyLogic> Expressions { get; set; }
-        public List<SurveyLogicLabel> ValidationMessages { get; set; }
+        public LabelCollection<Label> ValidationMessages { get; set; }
         public string Value { get; set; }
         public QuestionPartView Question { get; set; }
 
@@ -40,9 +40,9 @@ namespace TRAISI.Data.Models.Surveys
 
     public enum SurveyLogicCondition
     {
-        [EnumMember(Value = "And")]
+        [EnumMember(Value = "and")]
         And,
-        [EnumMember(Value = "Or")]
+        [EnumMember(Value = "or")]
         Or
     }
 }

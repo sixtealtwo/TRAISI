@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Questions;
 
-namespace TRAISI.Data.Repositories.Interfaces
+namespace Traisi.Data.Repositories.Interfaces
 {
     public interface IQuestionConditionalRepository  : IRepository<QuestionConditional> {
         /*void DeleteSourceConditionals(int questionPartId, List<int> retainedConditionals);

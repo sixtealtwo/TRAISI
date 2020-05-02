@@ -1,15 +1,15 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using TRAISI.SDK;
-using TRAISI.SDK.Interfaces;
-using TRAISI.Data;
+using Traisi.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Traisi.Sdk;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
     [Route("api/[controller]")]
     public class QuestionController : Controller

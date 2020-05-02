@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using TRAISI.Data;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using TRAISI.Helpers;
-using TRAISI.SDK;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
+using Traisi.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Traisi.Sdk;
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.UnitTests
+namespace Traisi.UnitTests
 {
     public class Utility
     {

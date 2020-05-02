@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using TRAISI.SDK;
-using TRAISI.SDK.Interfaces;
-using TRAISI.SDK.Library.ResponseTypes;
+using Traisi.Sdk;
+using Traisi.Sdk.Interfaces;
+using Traisi.Sdk.Library.ResponseTypes;
 
-namespace TRAISI.SDK.Questions
+namespace Traisi.Sdk.Questions
 {
     public class DateQuestionValidator : ResponseValidator
     {

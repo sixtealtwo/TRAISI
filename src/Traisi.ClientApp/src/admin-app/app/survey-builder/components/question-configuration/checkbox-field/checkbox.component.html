@@ -1,0 +1,17 @@
+<div class="custom-control custom-control-inline custom-checkbox">
+	<label for="{{ 'checkbox-' + id }}" class="col-md-3 col-form-label text-md-right">{{ questionConfiguration.name}}</label>
+	<div class="col-md-9">
+		<ng-container *ngFor="let option of options; let idx = index">
+			<div class="form-check abc-checkbox abc-checkbox-primary">
+				<input type="checkbox" id="{{option.label}}" class="custom-control-input" [checked]="option.status" (change)="onChange($event, option)"/>
+				<label class="custom-control-label" for="{{option.label}}">{{ option.label }}</label>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<!--
+
+	<input type="checkbox" class="custom-control-input" id="ckb1"> <label class="custom-control-label" for="ckb1">Basic
+		checkbox</label>
+</div>-->

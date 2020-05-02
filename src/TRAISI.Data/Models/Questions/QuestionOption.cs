@@ -1,11 +1,12 @@
-using TRAISI.Data.Models.Extensions;
-using TRAISI.Data.Models.Interfaces;
-using TRAISI.Data.Core;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Interfaces;
+using Traisi.Data.Core;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
     public class QuestionOption : IQuestionOption, IEntity
     {
@@ -16,7 +17,7 @@ namespace TRAISI.Data.Models.Questions
 
 		public string Code { get; set; }
 
-        public LabelCollection<QuestionOptionLabel> QuestionOptionLabels { get; set; }
+        public LabelCollection<Label> QuestionOptionLabels { get; set; }
 
         public int Order { get; set; }
 
@@ -30,7 +31,7 @@ namespace TRAISI.Data.Models.Questions
 
         public QuestionOption()
         {
-            QuestionOptionLabels = new LabelCollection<QuestionOptionLabel>();
+            QuestionOptionLabels = new LabelCollection<Label>();
         }
 
     }

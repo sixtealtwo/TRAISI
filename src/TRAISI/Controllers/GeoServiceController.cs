@@ -12,13 +12,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using RestSharp;
-using TRAISI.Helpers;
-using TRAISI.Helpers.Interfaces;
-using TRAISI.SDK.GeoServices;
-using TRAISI.ViewModels;
+using Traisi.Helpers;
+using Traisi.Helpers.Interfaces;
+using Traisi.Sdk.GeoServices;
+using Traisi.ViewModels;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
 	// [Authorize]
 	[Route("api/[controller]")]

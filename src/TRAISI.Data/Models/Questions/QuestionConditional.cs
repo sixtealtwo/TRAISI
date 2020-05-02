@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Core;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Core;
 using Newtonsoft.Json;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
     /// <summary>
     /// Conditional data for a question

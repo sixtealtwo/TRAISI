@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace TRAISI.Data.Repositories.Interfaces
+namespace Traisi.Data.Repositories.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

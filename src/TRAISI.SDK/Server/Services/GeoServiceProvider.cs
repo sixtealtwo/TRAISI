@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace TRAISI.SDK.Library.Services
+namespace Traisi.Sdk.Library.Services
 {
     public abstract class GeoServiceProvider
     {

@@ -4,8 +4,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Globalization;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public interface IFileDownloader {
         string GenerateFileCode ();

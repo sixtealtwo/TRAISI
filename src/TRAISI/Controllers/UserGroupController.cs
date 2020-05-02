@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TRAISI.Data;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.Users;
+using Traisi.Data;
 using AutoMapper;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Groups;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Groups;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using TRAISI.Helpers;
-using Microsoft.Extensions.Options;
-using TRAISI.Authorization;
-using Hangfire;
 using Microsoft.AspNetCore.Identity;
-using TRAISI.Authorization.Enums;
+using Traisi.Authorization.Enums;
+using Traisi.ViewModels;
+using Traisi.ViewModels.Users;
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
 	[Authorize(Authorization.Policies.AccessAdminPolicy)]
 	[Route("api/[controller]")]
@@ -33,6 +28,7 @@ namespace TRAISI.Controllers
 		private readonly UserManager<TraisiUser> _userManager;
 
 		private readonly RoleManager<ApplicationRole> _roleManager;
+		private readonly IMapper _mapper;
 
 		/// <summary>
 		/// 
@@ -44,13 +40,15 @@ namespace TRAISI.Controllers
 		/// <param name="roleManager"></param>
 		public UserGroupController(IUnitOfWork unitOfWork, IAuthorizationService authorizationService, IAccountManager accountManager,
 		UserManager<TraisiUser> userManager,
-		RoleManager<ApplicationRole> roleManager)
+		RoleManager<ApplicationRole> roleManager,
+		IMapper mapper)
 		{
 			this._unitOfWork = unitOfWork;
 			this._authorizationService = authorizationService;
 			this._accountManager = accountManager;
 			this._userManager = userManager;
 			this._roleManager = roleManager;
+			this._mapper = mapper;
 		}
 
 		/// <summary>
@@ -65,14 +63,14 @@ namespace TRAISI.Controllers
 			var viewAllUsersPolicy = await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ViewAllUsersPolicy);
 			if (viewAllUsersPolicy.Succeeded)
 			{
-				return Ok(Mapper.Map<UserGroupViewModel>(group));
+				return Ok(_mapper.Map<UserGroupViewModel>(group));
 			}
 			else
 			{
 				var memberOfGroup = await this._unitOfWork.GroupMembers.IsMemberOfGroupAsync(this.User.Identity.Name, group.Name);
 				if (memberOfGroup)
 				{
-					return Ok(Mapper.Map<UserGroupViewModel>(group));
+					return Ok(_mapper.Map<UserGroupViewModel>(group));
 				}
 				else
 				{
@@ -98,7 +96,7 @@ namespace TRAISI.Controllers
 			{
 				groups = await this._unitOfWork.UserGroups.GetAllGroupsWhereMemberAsync(this.User.Identity.Name);
 			}
-			return Ok(Mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
+			return Ok(_mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
 		}
 
 		/// <summary>
@@ -118,7 +116,7 @@ namespace TRAISI.Controllers
 			{
 				groups = await this._unitOfWork.UserGroups.GetAllGroupsForAdminAsync(this.User.Identity.Name);
 			}
-			return Ok(Mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
+			return Ok(_mapper.Map<IEnumerable<UserGroupViewModel>>(groups));
 		}
 
 		/// <summary>
@@ -156,7 +154,7 @@ namespace TRAISI.Controllers
 					return BadRequest($"{nameof(group)} cannot be null");
 				}
 
-				UserGroup appUserGroup = Mapper.Map<UserGroup>(group);
+				UserGroup appUserGroup = _mapper.Map<UserGroup>(group);
 				appUserGroup.ApiKeySettings = new ApiKeys();
 				await this._unitOfWork.UserGroups.AddAsync(appUserGroup);
 				await this._unitOfWork.SaveChangesAsync();
@@ -175,7 +173,7 @@ namespace TRAISI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserGroup appUserGroup = Mapper.Map<UserGroup>(group);
+				UserGroup appUserGroup = _mapper.Map<UserGroup>(group);
 
 				this._unitOfWork.UserGroups.Update(appUserGroup);
 				await this._unitOfWork.SaveChangesAsync();
@@ -236,7 +234,7 @@ namespace TRAISI.Controllers
 
 				foreach (var member in groupMembers)
 				{
-					var groupMemberVM = Mapper.Map<GroupMemberViewModel>(member.Item1);
+					var groupMemberVM = _mapper.Map<GroupMemberViewModel>(member.Item1);
 					groupMemberVM.User.Roles = member.Item2;
 					groupMembersVM.Add(groupMemberVM);
 				}
@@ -263,7 +261,7 @@ namespace TRAISI.Controllers
 				var isSuperAdmin = (await _authorizationService.AuthorizeAsync(this.User, Authorization.Policies.ManageAllGroupsPolicy)).Succeeded;
 				if (isGroupAdmin || isSuperAdmin)
 				{
-					GroupMember newGMember = Mapper.Map<GroupMember>(newMember);
+					GroupMember newGMember = _mapper.Map<GroupMember>(newMember);
 					var result = this._unitOfWork.UserGroups.AddUserAsync(newGMember);
 					if (result.Item1)
 					{
@@ -292,7 +290,7 @@ namespace TRAISI.Controllers
 		[Authorize(Authorization.Policies.ManageAllUsersPolicy)]
 		public async Task<IActionResult> UpdateGroupMember([FromBody] GroupMemberViewModel member)
 		{
-			GroupMember gMember = Mapper.Map<GroupMember>(member);
+			GroupMember gMember = _mapper.Map<GroupMember>(member);
 			var user = await this._accountManager.GetUserByIdAsync(member.User.Id);
 			this._unitOfWork.GroupMembers.Update(gMember);
 
@@ -418,9 +416,9 @@ namespace TRAISI.Controllers
 
 			if (await IsGroupAdmin(group.Name))
 			{
-				//IEnumerable<TRAISI.Data.Models.Groups.EmailTemplates> emailTemplates;
+				//IEnumerable<Traisi.Data.Models.Groups.EmailTemplates> emailTemplates;
 				var emailTemplates = await this._unitOfWork.EmailTemplates.GetGroupEmailTemplatesAsync(id);
-				return Ok(Mapper.Map<IEnumerable<EmailTemplateViewModel>>(emailTemplates));
+				return Ok(_mapper.Map<IEnumerable<EmailTemplateViewModel>>(emailTemplates));
 			}
 			else
 			{
@@ -440,7 +438,7 @@ namespace TRAISI.Controllers
 
 			if (await IsGroupAdmin(group.Name))
 			{
-				EmailTemplate updatedEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
+				EmailTemplate updatedEmailTemplate = _mapper.Map<EmailTemplate>(emailTemplate);
 				updatedEmailTemplate.Group = group;
 				this._unitOfWork.EmailTemplates.Update(updatedEmailTemplate);
 				await this._unitOfWork.SaveChangesAsync();
@@ -467,7 +465,7 @@ namespace TRAISI.Controllers
 
 				if (await IsGroupAdmin(group.Name))
 				{
-					EmailTemplate newEmailTemplate = Mapper.Map<EmailTemplate>(emailTemplate);
+					EmailTemplate newEmailTemplate = _mapper.Map<EmailTemplate>(emailTemplate);
 					newEmailTemplate.Group = group;
 					this._unitOfWork.EmailTemplates.Add(newEmailTemplate);
 					await this._unitOfWork.SaveChangesAsync();
@@ -518,7 +516,7 @@ namespace TRAISI.Controllers
 
 			if (await IsSuperAdmin() || await IsGroupAdmin(group.Name))
 			{
-				return Ok(Mapper.Map<ApiKeysViewModel>(apiKeys));
+				return Ok(_mapper.Map<ApiKeysViewModel>(apiKeys));
 			}
 			else
 			{
@@ -537,7 +535,7 @@ namespace TRAISI.Controllers
 			var group = await this._unitOfWork.UserGroups.GetAsync(apiKeys.GroupId);
 			if (await IsSuperAdmin() || await IsGroupAdmin(group.Name))
 			{
-				ApiKeys gApiKeys = Mapper.Map<ApiKeys>(apiKeys);
+				ApiKeys gApiKeys = _mapper.Map<ApiKeys>(apiKeys);
 				gApiKeys.Group = group;
 				this._unitOfWork.ApiKeys.Update(gApiKeys);
 				await this._unitOfWork.SaveChangesAsync();

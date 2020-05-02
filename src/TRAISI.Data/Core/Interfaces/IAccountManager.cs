@@ -1,12 +1,12 @@
-﻿using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
+﻿using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Data.Core.Interfaces
+namespace Traisi.Data.Core.Interfaces
 {
 	public interface IAccountManager
 	{

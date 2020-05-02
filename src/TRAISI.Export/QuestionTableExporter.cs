@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OfficeOpenXml;
 using OfficeOpenXml.Style; 
-using TRAISI.Helpers;
 using System.Web;
 using HtmlAgilityPack;
 using System.Data;
-using TRAISI.Data;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models.Questions;
+using Traisi.Helpers;
+using Traisi.Data;
+using Traisi.Sdk.Services;
 
 namespace TRAISI.Export
 {

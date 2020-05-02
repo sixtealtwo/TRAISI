@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Groups;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Groups;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace TRAISI.Data.Repositories {
+namespace Traisi.Data.Repositories {
 	public class GroupMemberRepository : Repository<GroupMember>, IGroupMemberRepository {
 		public GroupMemberRepository (ApplicationDbContext context) : base (context) { }
 

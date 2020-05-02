@@ -1,4 +1,4 @@
-namespace TRAISI.Data.Models.Interfaces
+namespace Traisi.Data.Models.Interfaces
 {
     /// <summary>
     /// Blank entity

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories;
+using Traisi.Data.Repositories.Interfaces;
 
-namespace TRAISI.Data
+namespace Traisi.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -45,6 +45,8 @@ namespace TRAISI.Data
         IRepository<TitlePageLabel> _titlePageLabelsRepository;
 
         IRepository<SurveyLogic> _surveyLogicRepository;
+
+        IRepository<Label> _labelRepository;
 
         public ApplicationDbContext DbContext => _context;
 
@@ -366,7 +368,9 @@ namespace TRAISI.Data
             }
         }
 
-        public IRepository<SurveyLogic> SurveyLogic { get
+        public IRepository<SurveyLogic> SurveyLogic
+        {
+            get
             {
 
                 if (_surveyLogicRepository == null)
@@ -375,7 +379,22 @@ namespace TRAISI.Data
                 }
 
                 return _surveyLogicRepository;
-            } }
+            }
+        }
+
+        public IRepository<Label> Labels
+        {
+            get
+            {
+
+                if (_surveyLogicRepository == null)
+                {
+                    _labelRepository = new Repository<Label>(_context);
+                }
+
+                return _labelRepository;
+            }
+        }
 
         public int SaveChanges()
         {

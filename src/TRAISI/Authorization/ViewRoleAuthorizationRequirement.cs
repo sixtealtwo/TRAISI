@@ -1,10 +1,10 @@
-﻿using TRAISI.Data.Core;
+﻿using Traisi.Data.Core;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     public class ViewRoleAuthorizationRequirement : IAuthorizationRequirement
     {

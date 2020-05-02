@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace TRAISI.SDK.Interfaces
+namespace Traisi.Sdk.Interfaces
 {
     public interface ITraisiIAuthorizationHandler
     {

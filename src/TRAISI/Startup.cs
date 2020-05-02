@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using AspNet.Security.OAuth.Validation;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
+using Traisi.Data;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.PostgreSql;
@@ -25,15 +25,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using TRAISI.Authorization;
-using TRAISI.Helpers;
-using TRAISI.SDK.Interfaces;
-using TRAISI.Services;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels;
-using AppPermissions = TRAISI.Data.Core.ApplicationPermissions;
+using Traisi.ViewModels;
+using AppPermissions = Traisi.Data.Core.ApplicationPermissions;
 using OpenIddict.Abstractions;
-using TRAISI.Helpers.Interfaces;
 using IAuthorizationHandler = Microsoft.AspNetCore.Authorization.IAuthorizationHandler;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -44,8 +38,18 @@ using Newtonsoft.Json.Serialization;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Serilog;
+using System.Reflection;
+using Traisi.Authorization;
+using Traisi.Controllers.Constraints;
+using Traisi.Helpers;
+using Traisi.Helpers.Interfaces;
+using Traisi.Models.Mapping;
+using Traisi.Sdk.Interfaces;
+using Traisi.Services;
+using Traisi.Services.Interfaces;
+using Traisi.Sdk.Services;
 
-namespace TRAISI
+namespace Traisi
 {
     public class Startup
     {
@@ -89,7 +93,7 @@ namespace TRAISI
                         options.UseNpgsql(dbString,
                             b =>
                             {
-                                b.MigrationsAssembly("TRAISI");
+                                b.MigrationsAssembly("Traisi");
                                 b.UseNetTopologySuite();
                             });
                     }
@@ -98,7 +102,7 @@ namespace TRAISI
                         options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"],
                             b =>
                             {
-                                b.MigrationsAssembly("TRAISI");
+                                b.MigrationsAssembly("Traisi");
                                 b.UseNetTopologySuite();
                             }
                             );
@@ -211,7 +215,7 @@ namespace TRAISI
             });
             services.AddRouting(options =>
             {
-                options.ConstraintMap.Add(AuthorizationFields.RESPONDENT, typeof(TRAISI.Controllers.Constraints.RespondentConstraint));
+                options.ConstraintMap.Add(AuthorizationFields.RESPONDENT, typeof(RespondentConstraint));
             });
 
             services.AddAuthentication(options =>
@@ -361,7 +365,10 @@ namespace TRAISI
                    policy => policy.Requirements.Add(new SurveyRespondentAuthorizationRequirement()));
             });
 
-            Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
+            // use profiles in the assembly where the SurveyBuilder Profile is Located
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(SurveyBuilderProfile)));
+            
+            // Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
 
             // Configurations
             services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
@@ -495,14 +502,8 @@ namespace TRAISI
             }
             else
             {
-                // Enforce https during production
-                // var rewriteOptions = new RewriteOptions ()
-                //	.AddRedirectToHttps ();
-                // app.UseRewriter (rewriteOptions);
-
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -522,12 +523,9 @@ namespace TRAISI
             });
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
             app.UseHangfireServer();
             app.UseHangfireDashboard();
-
             app.UseRequestLocalization();
-
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
@@ -545,7 +543,7 @@ namespace TRAISI
                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
                     // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                    spa.Options.SourcePath = "ClientApp/";
+                    spa.Options.SourcePath = "../Traisi.ClientApp/";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
                     spa.Options.DefaultPage = "/admin/index.html";
 
@@ -560,7 +558,7 @@ namespace TRAISI
                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
                     // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                    spa.Options.SourcePath = "ClientApp/";
+                    spa.Options.SourcePath = "../Traisi.ClientApp/";
                     spa.Options.DefaultPage = "/survey/index.html";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 

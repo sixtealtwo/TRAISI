@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Traisi.Models.Surveys.Validation;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Services.Interfaces;
+using Traisi.Data.Models.Surveys;
+using Traisi.Services.Interfaces;
 
-namespace TRAISI.Services
+namespace Traisi.Services
 {
     /// <summary>
     /// 

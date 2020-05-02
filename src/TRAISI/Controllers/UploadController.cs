@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Net.Http.Headers;
-using TRAISI.Helpers;
-using TRAISI.ViewModels;
+using Traisi.Helpers;
+using Traisi.Models.ViewModels;
+using Traisi.ViewModels;
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
     [Produces("application/json")]
     [Authorize(Authorization.Policies.AccessAdminPolicy)]

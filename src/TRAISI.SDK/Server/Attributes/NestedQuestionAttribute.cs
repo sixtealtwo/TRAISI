@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
 	[AttributeUsage(AttributeTargets.Field)]
 	public class NestedQuestionAttribute : Attribute

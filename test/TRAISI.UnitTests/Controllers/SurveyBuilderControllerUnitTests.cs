@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Xunit;
 
-namespace TRAISI.UnitTests.Controllers
+namespace Traisi.UnitTests.Controllers
 {
     public class SurveyBuilderControllerUnitTests
     {

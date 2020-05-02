@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TRAISI.Data.Core;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Core;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.SurveyViewer;
-using TRAISI.ViewModels.SurveyViewer.Enums;
+using Traisi.ViewModels;
+using Traisi.ViewModels.SurveyViewer;
+using Traisi.Models.ViewModels;
 
-namespace TRAISI.Services.Interfaces
+namespace Traisi.Services.Interfaces
 {
     public interface ISurveyViewerService
     {

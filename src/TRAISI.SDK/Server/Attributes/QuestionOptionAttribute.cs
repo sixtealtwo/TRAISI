@@ -1,7 +1,7 @@
 using System;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
     /// <summary>
     /// Question Options represent front-end parameters on the builder, that are translatable

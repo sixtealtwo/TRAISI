@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TRAISI.Data.Models.Surveys {
+namespace Traisi.Data.Models.Surveys {
 	/// <summary>
 	/// Primary Respondent type for surveys.
 	/// </summary>

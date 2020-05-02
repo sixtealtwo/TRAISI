@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class SurveyAuthorizationHandlerAttribute : Attribute

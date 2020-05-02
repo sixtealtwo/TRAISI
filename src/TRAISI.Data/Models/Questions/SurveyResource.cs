@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
-using TRAISI.SDK.Interfaces;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
 	/// <summary>
 	/// Configuration Data for question parts

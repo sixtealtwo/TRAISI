@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using TRAISI.Data.Core;
+using Traisi.Data.Core;
 
-namespace TRAISI.Data.Models.Groups
+namespace Traisi.Data.Models.Groups
 {
     public class ApiKeys : AuditableEntity
     {

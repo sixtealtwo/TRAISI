@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace TRAISI.IntegrationTests
+namespace Traisi.IntegrationTests
 {
     public class UnitTest1
     {

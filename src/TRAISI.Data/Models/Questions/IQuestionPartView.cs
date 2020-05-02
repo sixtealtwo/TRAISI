@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using TRAISI.Data.Models.Extensions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
     public interface IQuestionPartView
     {
         int Id { get; set; }
 
-        LabelCollection<QuestionPartViewLabel> Labels { get; set; }
+        LabelCollection<Label> Labels { get; set; }
 
         ICollection<QuestionPartView> QuestionPartViewChildren { get; set; }
 

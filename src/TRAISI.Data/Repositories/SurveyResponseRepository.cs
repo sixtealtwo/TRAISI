@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Internal;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.SDK.Enums;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Sdk.Enums;
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Repositories
 {
     public class SurveyResponseRepository : Repository<SurveyResponse>, ISurveyResponseRepository
     {

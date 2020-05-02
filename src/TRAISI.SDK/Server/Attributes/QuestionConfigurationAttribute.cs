@@ -1,7 +1,7 @@
 using System;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class QuestionConfigurationAttribute : Attribute

@@ -1,0 +1,16 @@
+.shortcode-display-container
+{
+	max-width: 500px;
+	margin: auto;
+	text-align: center;
+
+	.shortcode-display, .info {
+		margin-top: 30px;
+		font-weight: bold;
+		font-size: 30px;
+	}
+
+	.start-survey {
+		margin-top: 25px;
+	}
+}

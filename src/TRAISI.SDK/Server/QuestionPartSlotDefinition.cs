@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Interfaces;
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Interfaces;
 using System.Collections.Generic;
 
-namespace TRAISI.SDK
+namespace Traisi.Sdk
 {
     /// <summary>
     /// Contains the definition for a specific question type - path location and other meta info.

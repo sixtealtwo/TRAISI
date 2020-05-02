@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Enums
+namespace Traisi.Sdk.Enums
 {
     /// <summary>
     /// Enum specifying the type of data that this question type will save in the survey

@@ -1,0 +1,47 @@
+//@import 'src/shared/assets/scss/helpers';
+@import "../../../../shared/assets/scss/traisi-import.scss";
+
+.traisi-error-logo
+{
+	text-align:center;
+}
+
+p {
+	text-align: center;
+	font-size: 24px;
+}
+
+.error-header {
+	text-align: center;
+	margin: 20px;
+	font-size: 30px;
+}
+
+.survey-name {
+	font-weight: bold;
+}
+
+@media #{$sm-down} {
+	.traisi-error-logo
+	{
+		text-align:center;
+		img
+		{
+			max-width: 90%;
+		}
+	}
+	p {
+		text-align: center;
+		font-size: 14px;
+	}
+	.error-header {
+		text-align: center;
+		margin: 20px;
+		font-size: 20px;;
+		.error-header h1
+		{
+			font-size: 2.1rem;
+		}
+	}
+
+}

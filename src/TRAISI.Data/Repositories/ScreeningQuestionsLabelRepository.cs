@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Repositories
 {
     public class ScreeningQuestionsLabelRepository : Repository<ScreeningQuestionsPageLabel>, IScreeningQuestionsLabelRepository
     {

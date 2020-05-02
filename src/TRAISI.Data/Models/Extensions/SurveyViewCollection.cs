@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using TRAISI.Data.Core;
+using Traisi.Data.Core;
 
-namespace TRAISI.Data.Models.Extensions {
+namespace Traisi.Data.Models.Extensions {
 	public class SurveyViewCollection<T>  : List<T> {
 
 

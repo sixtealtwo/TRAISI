@@ -1,4 +1,4 @@
-namespace TRAISI.SDK.Questions {
+namespace Traisi.Sdk.Questions {
 	public class TextQuestionConfiguration {
 
 		public const string MAX_LENGTH = "Max Length";

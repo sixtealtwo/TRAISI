@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.ResponseTypes;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public interface ISurveyResponse
     {

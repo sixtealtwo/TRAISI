@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
-using TRAISI.SDK.Library.ResponseTypes;
-namespace TRAISI.SDK.Questions {
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
+using Traisi.Sdk.Library.ResponseTypes;
+
+namespace Traisi.Sdk.Questions {
 
 	public class TextQuestionValidator : ResponseValidator {
 

@@ -1,4 +1,4 @@
-namespace TRAISI.SDK.Library.ResponseTypes
+namespace Traisi.Sdk.Library.ResponseTypes
 {
     public interface IDecimalResponse : IResponseType
     {

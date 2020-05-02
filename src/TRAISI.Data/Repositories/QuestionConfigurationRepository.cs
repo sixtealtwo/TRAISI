@@ -1,8 +1,8 @@
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories.Interfaces;
 
-namespace TRAISI.Data.Repositories {
+namespace Traisi.Data.Repositories {
     public class QuestionConfigurationRepository : Repository<QuestionConfiguration>, IQuestionConfigurationRepository {
 
         /// <summary>

@@ -1,6 +1,6 @@
 
 
-namespace TRAISI.SDK.GeoServices
+namespace Traisi.Sdk.GeoServices
 {
 
     public interface IGeocodeResult

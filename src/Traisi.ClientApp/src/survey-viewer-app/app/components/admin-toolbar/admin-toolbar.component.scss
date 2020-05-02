@@ -1,0 +1,22 @@
+@import "../../../../shared/assets/scss/traisi-import.scss";
+
+.admin-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  margin: 10px;
+}
+
+traisi-admin-toolbar {
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  /* height: 35px; */
+}
+
+@media #{$sm-down} {
+  .admin-toolbar {
+    margin: 5px;
+  }
+}

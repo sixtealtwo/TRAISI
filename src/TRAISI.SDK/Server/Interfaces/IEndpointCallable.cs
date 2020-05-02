@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TRAISI.SDK.Interfaces
+namespace Traisi.Sdk.Interfaces
 {
     public interface IEndpointCallable
     {

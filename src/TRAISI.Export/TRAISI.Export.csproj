@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TRAISI.Data\TRAISI.Data.csproj" />
-      <ProjectReference Include="..\TRAISI.SDK\TRAISI.SDK.csproj" />
-      <ProjectReference Include="..\TRAISI\TRAISI.csproj" />
+      <ProjectReference Include="..\TRAISI.Data\Traisi.Data.csproj" />
+      <ProjectReference Include="..\TRAISI.SDK\Traisi.Sdk.csproj" />
+      <ProjectReference Include="..\TRAISI\Traisi.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,7 +26,7 @@
       <PackageReference Include="System.Linq.Async" Version="4.1.1" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
       <PackageReference Include="CsvHelper" Version="15.0.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3"  PrivateAssets="All" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" PrivateAssets="All" />
       <PackageReference Include="Npgsql" Version="4.1.3" />
 		  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
     </ItemGroup>

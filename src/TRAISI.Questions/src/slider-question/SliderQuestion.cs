@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
 
 
-namespace TRAISI.SDK.Questions
+namespace Traisi.Sdk.Questions
 {
     [SurveyQuestion(QuestionResponseType.Decimal, CodeBundleName = "traisi-questions-general.module.js",
     ResponseValidator = typeof(NumberQuestionValidator))]

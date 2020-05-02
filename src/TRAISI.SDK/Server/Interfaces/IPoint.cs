@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using TRAISI.SDK.Enums;
-namespace TRAISI.SDK.Interfaces
+using Traisi.Sdk.Enums;
+namespace Traisi.Sdk.Interfaces
 {
     public interface IPoint
     {

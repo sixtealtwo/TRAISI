@@ -1,10 +1,8 @@
-
-
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Binding
 {
 	/// <summary>
 	/// Model binder for SurveyRespondent entities.

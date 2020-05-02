@@ -2,13 +2,14 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Core;
+using Traisi.Data;
+using Traisi.Data.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Traisi.Authorization.Enums;
 
-namespace TRAISI.Authorization {
+namespace Traisi.Authorization {
 	/// <summary>
 	/// 
 	/// </summary>
@@ -47,7 +48,7 @@ namespace TRAISI.Authorization {
 				return Task.CompletedTask;
 			} else if (user.IsInRole ("respondent")) {
 				return ProcessSurveyUser (context, requirement);
-			} else if (context.User.IsInRole (TRAISI.Authorization.Enums.TraisiRoles.SuperAdministrator)) {
+			} else if (context.User.IsInRole (TraisiRoles.SuperAdministrator)) {
 				context.Succeed (requirement);
 				return Task.CompletedTask;
 			} else if (context.User.HasClaim (CustomClaimTypes.SurveyProxyRespondent, "") ||

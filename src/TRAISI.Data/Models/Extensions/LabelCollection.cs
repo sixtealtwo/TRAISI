@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Data.Models.Extensions
+namespace Traisi.Data.Models.Extensions
 {
     /// <summary>
     /// Utility class for containing label collections.

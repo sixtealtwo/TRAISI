@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Groups;
-using TRAISI.Data.Repositories.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Groups;
+using Traisi.Data.Repositories.Interfaces;
 
-namespace TRAISI.Data.Repositories
+namespace Traisi.Data.Repositories
 {
 	public class ApiKeysRepository : Repository<ApiKeys>, IApiKeysRepository
 	{

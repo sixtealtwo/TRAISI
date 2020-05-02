@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Data.Repositories;
+using Traisi.Data;
+using Traisi.Data.Models;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Surveys;
+using Traisi.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using TRAISI.Authorization;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels.SurveyViewer;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 using System.Collections;
 using Microsoft.AspNetCore.Http;
+using Traisi.Authorization;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels.SurveyViewer;
+using AutoMapper;
 
-namespace TRAISI.Controllers.SurveyViewer
+namespace Traisi.Controllers.SurveyViewer
 {
     /// <summary>
     /// 
@@ -36,6 +37,8 @@ namespace TRAISI.Controllers.SurveyViewer
 
         private IUnitOfWork _unitOfWork;
 
+        private readonly IMapper _mapper;
+
         /// <summary>
         /// 
         /// </summary>
@@ -46,12 +49,14 @@ namespace TRAISI.Controllers.SurveyViewer
         public SurveyRespondentController(ISurveyResponseService respondentService,
             IRespondentGroupService respondentGroupService,
             IUnitOfWork unitOfWork,
+            IMapper mapper,
             UserManager<ApplicationUser> userManager)
         {
             this._respondentService = respondentService;
             this._userManager = userManager;
             this._respondentGroupService = respondentGroupService;
             this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
 
@@ -77,12 +82,12 @@ namespace TRAISI.Controllers.SurveyViewer
                     var newRespondent = await this._unitOfWork.SurveyRespondents.CreatePrimaryResponentForUserAsnyc(user);
                     newRespondent.Survey = survey;
                     this._unitOfWork.SaveChanges();
-                    return new ObjectResult(AutoMapper.Mapper.Map<SurveyRespondentViewModel>(newRespondent));
+                    return new ObjectResult(_mapper.Map<SurveyRespondentViewModel>(newRespondent));
 
                 }
                 else
                 {
-                    return new ObjectResult(AutoMapper.Mapper.Map<SurveyRespondentViewModel>(respondent));
+                    return new ObjectResult(_mapper.Map<SurveyRespondentViewModel>(respondent));
                 }
             }
 
@@ -103,7 +108,7 @@ namespace TRAISI.Controllers.SurveyViewer
         public async Task<IActionResult> AddSurveyGroupMember([FromBody] SurveyRespondentViewModel respondent)
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-            var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
+            var model = _mapper.Map<SubRespondent>(respondent);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             this._respondentGroupService.AddRespondent(group, model);
             await this._unitOfWork.SaveChangesAsync();
@@ -123,7 +128,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
 
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-            //var model = AutoMapper.Mapper.Map<SubRespondent>(respondent);
+            //var model = _mapper.Map<SubRespondent>(respondent);
             //var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
             var result = await this._respondentGroupService.UpdateRespondent(respondent, user);
             await this._unitOfWork.SaveChangesAsync();
@@ -171,7 +176,7 @@ namespace TRAISI.Controllers.SurveyViewer
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);
-            var members = AutoMapper.Mapper.Map<List<SurveyRespondentViewModel>>(group.GroupMembers);
+            var members = _mapper.Map<List<SurveyRespondentViewModel>>(group.GroupMembers);
             return new OkObjectResult(members);
         }
 

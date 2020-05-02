@@ -1,5 +1,5 @@
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Questions;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 
-namespace TRAISI.Data.Repositories.Interfaces {
+namespace Traisi.Data.Repositories.Interfaces {
 	public interface IQuestionPartRepository : IRepository<QuestionPart> {
 
         Task<QuestionPart> GetQuestionPartWithConfigurationsAsync(int id);

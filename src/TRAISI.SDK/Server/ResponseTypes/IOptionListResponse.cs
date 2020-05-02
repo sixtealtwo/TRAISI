@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TRAISI.SDK.Library.ResponseTypes
+namespace Traisi.Sdk.Library.ResponseTypes
 {
     public interface IOptionListResponse : IResponseType
     {

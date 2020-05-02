@@ -1,5 +1,5 @@
 
-namespace TRAISI.Authorization.Enums
+namespace Traisi.Authorization.Enums
 {
     public static class TraisiRoles
     {

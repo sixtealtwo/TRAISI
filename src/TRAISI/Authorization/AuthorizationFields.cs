@@ -1,5 +1,5 @@
 
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     public static class AuthorizationFields
     {

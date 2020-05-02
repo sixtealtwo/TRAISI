@@ -1,6 +1,6 @@
 
 
-namespace TRAISI.SDK.Interfaces
+namespace Traisi.Sdk.Interfaces
 {
 	/// <summary>
 	/// Stores a single configuration value that belongs to a question configuration

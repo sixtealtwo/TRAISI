@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models.Extensions;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models.Extensions;
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -18,16 +18,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TRAISI.Helpers;
-using TRAISI.SDK;
-using TRAISI.SDK.Interfaces;
-using TRAISI.Services.Interfaces;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.Extensions;
-using TRAISI.ViewModels.Questions;
-using TRAISI.ViewModels.SurveyBuilder;
+using Traisi.Helpers;
+using Traisi.Sdk;
+using Traisi.Sdk.Interfaces;
+using Traisi.Services.Interfaces;
+using Traisi.ViewModels;
+using Traisi.ViewModels.Extensions;
+using Traisi.ViewModels.Questions;
+using Traisi.ViewModels.SurveyBuilder;
+using Traisi.Models.ViewModels;
 
-namespace TRAISI.Controllers
+namespace Traisi.Controllers
 {
     [Authorize(Authorization.Policies.AccessAdminPolicy)]
     [Route("api/[controller]")]
@@ -41,13 +42,17 @@ namespace TRAISI.Controllers
         private readonly IFileDownloader _fileDownloader;
         private readonly IOptions<RequestLocalizationOptions> _localizationOptions;
 
+        private readonly IMapper _mapper;
+
         /// <summary>
         /// Constructor the controller.
         /// </summary>
         /// <param name="unitOfWork">Unit of work service.</param>
         /// <param name="questionTypeManager">Question type manager service.</param>
         public SurveyBuilderController(IUnitOfWork unitOfWork, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager,
-            IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService, IOptions<RequestLocalizationOptions> localizationOptions)
+            IQuestionTypeManager questionTypeManager, ISurveyBuilderService surveyBuilderService,
+             IOptions<RequestLocalizationOptions> localizationOptions,
+             IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
@@ -56,13 +61,17 @@ namespace TRAISI.Controllers
             this._surveyBuilderService = surveyBuilderService;
             this._fileDownloader = fileDownloaderService;
             this._localizationOptions = localizationOptions;
+            this._mapper = mapper;
         }
 
         [HttpGet("question-types")]
         [Produces(typeof(List<SBQuestionTypeDefinitionViewModel>))]
         public IActionResult QuestionTypes()
         {
-            var questionTypes = Mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions.Values);
+            var questionTypes = _mapper.Map<List<SBQuestionTypeDefinitionViewModel>>(this._questionTypeManager.QuestionTypeDefinitions.Values, opts =>
+            {
+                opts.Items["QuestionTypeManager"] = this._questionTypeManager;
+            });
             return Ok(questionTypes);
         }
 
@@ -90,7 +99,7 @@ namespace TRAISI.Controllers
                     this._surveyBuilderService.DuplicateSurveyViewStructure(standardSurveyStructure, catiView, language);
                     // save to database
                     await this._unitOfWork.SaveChangesAsync();
-                    return Ok(standardSurveyStructure.ToLocalizedModel<SBSurveyViewViewModel>(language));
+                    return Ok(standardSurveyStructure.ToLocalizedModel<SBSurveyViewViewModel>(_mapper, language));
                 }
                 else
                 {
@@ -135,7 +144,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
-                return Ok(surveyPageStructure.ToLocalizedModel<SBSurveyViewViewModel>(language));
+                return Ok(surveyPageStructure.ToLocalizedModel<SBSurveyViewViewModel>(_mapper, language));
             }
             else
             {
@@ -149,8 +158,9 @@ namespace TRAISI.Controllers
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
+
                 var surveyPageStructure = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
-                List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(pageOrder);
+                List<QuestionPartView> newOrder = _mapper.Map<List<QuestionPartView>>(pageOrder);
                 this._surveyBuilderService.ReOrderPages(surveyPageStructure, newOrder);
                 await this._unitOfWork.SaveChangesAsync();
                 var structure = this._unitOfWork.SurveyViews.GetSurveyViewQuestionStructure(surveyId, surveyViewName);
@@ -197,9 +207,9 @@ namespace TRAISI.Controllers
                     bool fixConditionals = false;
                     if (question == null)
                     {
-                        question = Mapper.Map<QuestionPartView>(questionInfo);
-                        question.Labels = new LabelCollection<QuestionPartViewLabel>() {
-                            new QuestionPartViewLabel () {
+                        question = _mapper.Map<QuestionPartView>(questionInfo);
+                        question.Labels = new LabelCollection<Label>() {
+                            new Label () {
                                 Language = initialLanguage,
                                     Value = questionInfo.Label.Value
                             }
@@ -232,8 +242,8 @@ namespace TRAISI.Controllers
                         question.CATIDependent.ParentView = parentPartView.CATIDependent;
                         question.CATIDependent.QuestionPart = question.QuestionPart;
                         question.CATIDependent.RepeatSource = question.RepeatSource;
-                        question.CATIDependent.Labels = new LabelCollection<QuestionPartViewLabel>() {
-                            new QuestionPartViewLabel () {
+                        question.CATIDependent.Labels = new LabelCollection<Label>() {
+                            new Label () {
                                 Language = initialLanguage,
                                     Value = questionInfo.CATIDependent.Label.Value
                             }
@@ -257,7 +267,7 @@ namespace TRAISI.Controllers
                         }
                         await this._unitOfWork.SaveChangesAsync();
                     }
-                    return Ok(question.ToLocalizedModel<SBQuestionPartViewViewModel>(initialLanguage));
+                    return Ok(question.ToLocalizedModel<SBQuestionPartViewViewModel>(_mapper, initialLanguage));
                 }
                 else
                 {
@@ -337,7 +347,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-                return Ok(questionPartViewStructure.ToLocalizedModel<SBQuestionPartViewViewModel>(language));
+                return Ok(questionPartViewStructure.ToLocalizedModel<SBQuestionPartViewViewModel>(_mapper, language));
             }
             else
             {
@@ -354,7 +364,7 @@ namespace TRAISI.Controllers
             {
                 var questionConfigurations = await this._unitOfWork.QuestionParts.GetQuestionPartConfigurationsAsync(questionPartId);
 
-                return Ok(Mapper.Map<List<QuestionConfigurationValueViewModel>>(questionConfigurations));
+                return Ok(_mapper.Map<List<QuestionConfigurationValueViewModel>>(questionConfigurations));
             }
             else
             {
@@ -398,7 +408,7 @@ namespace TRAISI.Controllers
                 {
                     return new NotFoundResult();
                 }
-                var conditals = Mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
+                var conditals = _mapper.Map<List<QuestionConditionalOperatorViewModel>>(question.Conditionals);
                 return new OkObjectResult(conditals);
             }
             else
@@ -418,7 +428,7 @@ namespace TRAISI.Controllers
                     try
                     {
                         var questionPart = await this._unitOfWork.QuestionParts.GetAsync(questionPartId);
-                        List<QuestionConditional> newConditionals = Mapper.Map<List<QuestionConditional>>(conditionals);
+                        List<QuestionConditional> newConditionals = _mapper.Map<List<QuestionConditional>>(conditionals);
                         this._surveyBuilderService.SetQuestionConditionals(questionPart, newConditionals);
                         await this._unitOfWork.SaveChangesAsync();
                         return new OkResult();
@@ -445,7 +455,7 @@ namespace TRAISI.Controllers
             {
                 var questionOptionConditionals = await this._unitOfWork.QuestionOptionConditionals.GetQuestionOptionConditionalsAsync(questionPartId);
 
-                return Ok(Mapper.Map<List<QuestionOptionConditionalViewModel>>(questionOptionConditionals));
+                return Ok(_mapper.Map<List<QuestionOptionConditionalViewModel>>(questionOptionConditionals));
             }
             else
             {
@@ -464,7 +474,7 @@ namespace TRAISI.Controllers
                     try
                     {
                         var questionPart = await this._unitOfWork.QuestionParts.GetAsync(questionPartId);
-                        List<QuestionOptionConditional> newConditionals = Mapper.Map<List<QuestionOptionConditional>>(conditionals);
+                        List<QuestionOptionConditional> newConditionals = _mapper.Map<List<QuestionOptionConditional>>(conditionals);
                         this._surveyBuilderService.SetQuestionOptionConditionals(questionPart, newConditionals);
                         await this._unitOfWork.SaveChangesAsync();
                         return new OkResult();
@@ -490,7 +500,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var pages = this._surveyBuilderService.GetPageStructureWithOptions(surveyId, surveyViewName);
-                return Ok(pages.Select(p => p.ToLocalizedModel<SBPageStructureViewModel>(language)));
+                return Ok(pages.Select(p => p.ToLocalizedModel<SBPageStructureViewModel>(_mapper, language)));
             }
             else
             {
@@ -509,7 +519,7 @@ namespace TRAISI.Controllers
 
                 List<QuestionOptionValueViewModel> questionOptionVMs = new List<QuestionOptionValueViewModel>();
 
-                return Ok(questionOptions?.Select(q => q.ToLocalizedModel<QuestionOptionValueViewModel>(language)));
+                return Ok(questionOptions?.Select(q => q.ToLocalizedModel<QuestionOptionValueViewModel>(_mapper, language)));
             }
             else
             {
@@ -531,7 +541,7 @@ namespace TRAISI.Controllers
                         var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
                         var option = this._surveyBuilderService.SetQuestionOptionLabel(questionPart, newOption.Id, newOption.Code, newOption.Name, newOption.OptionLabel.Value, newOption.OptionLabel.Language);
                         await this._unitOfWork.SaveChangesAsync();
-                        return Ok(option.ToLocalizedModel<QuestionOptionValueViewModel>(newOption.OptionLabel.Language));
+                        return Ok(option.ToLocalizedModel<QuestionOptionValueViewModel>(_mapper, newOption.OptionLabel.Language));
                     }
                     catch (Exception ex)
                     {
@@ -617,7 +627,7 @@ namespace TRAISI.Controllers
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     var questionPart = await this._unitOfWork.QuestionParts.GetQuestionPartWithOptionsAsync(questionPartId);
-                    List<QuestionOption> newOrder = Mapper.Map<List<QuestionOption>>(updatedOrder);
+                    List<QuestionOption> newOrder = _mapper.Map<List<QuestionOption>>(updatedOrder);
                     this._surveyBuilderService.ReOrderOptions(questionPart, newOrder);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
@@ -648,7 +658,7 @@ namespace TRAISI.Controllers
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     var questionPartViewStructure = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithStructureAsync(questionPartViewId);
-                    List<QuestionPartView> newOrder = Mapper.Map<List<QuestionPartView>>(questionOrder);
+                    List<QuestionPartView> newOrder = _mapper.Map<List<QuestionPartView>>(questionOrder);
                     this._surveyBuilderService.ReOrderQuestions(questionPartViewStructure, newOrder);
                     this._unitOfWork.SaveChanges();
                     var findpartview = questionPartViewStructure.QuestionPartViewChildren.FirstOrDefault(c => c.Id == questionPartViewMovedId);
@@ -746,7 +756,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var welcomePageLabel = await this._unitOfWork.WelcomePageLabels.GetWelcomePageLabelAsync(surveyId, surveyViewName, language);
-                return Ok(Mapper.Map<WelcomePageLabelViewModel>(welcomePageLabel));
+                return Ok(_mapper.Map<WelcomePageLabelViewModel>(welcomePageLabel));
             }
             else
             {
@@ -762,7 +772,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var thankYouPageLabel = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, surveyViewName, language);
-                return Ok(Mapper.Map<ThankYouPageLabelViewModel>(thankYouPageLabel));
+                return Ok(_mapper.Map<ThankYouPageLabelViewModel>(thankYouPageLabel));
             }
             else
             {
@@ -778,7 +788,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var termsAndConditionsPageLabel = await this._unitOfWork.TermsAndConditionsPageLabels.GetTermsAndConditionsPageLabelAsync(surveyId, surveyViewName, language);
-                return Ok(Mapper.Map<TermsAndConditionsPageLabelViewModel>(termsAndConditionsPageLabel));
+                return Ok(_mapper.Map<TermsAndConditionsPageLabelViewModel>(termsAndConditionsPageLabel));
             }
             else
             {
@@ -794,7 +804,7 @@ namespace TRAISI.Controllers
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
                 var screeningQuestionsLabel = await this._unitOfWork.ScreeningQuestionsLabels.GetScreeningQuestionsLabelAsync(surveyId, surveyViewName, language);
-                return Ok(Mapper.Map<ScreeningQuestionsLabelViewModel>(screeningQuestionsLabel));
+                return Ok(_mapper.Map<ScreeningQuestionsLabelViewModel>(screeningQuestionsLabel));
             }
             else
             {
@@ -810,7 +820,7 @@ namespace TRAISI.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    WelcomePageLabel welcomePageUpdated = Mapper.Map<WelcomePageLabel>(welcomePageLabel);
+                    WelcomePageLabel welcomePageUpdated = _mapper.Map<WelcomePageLabel>(welcomePageLabel);
                     welcomePageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(welcomePageUpdated.SurveyViewId);
                     this._unitOfWork.WelcomePageLabels.Update(welcomePageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
@@ -832,7 +842,7 @@ namespace TRAISI.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    ThankYouPageLabel thankYouPageUpdated = Mapper.Map<ThankYouPageLabel>(thankYouPageLabel);
+                    ThankYouPageLabel thankYouPageUpdated = _mapper.Map<ThankYouPageLabel>(thankYouPageLabel);
                     thankYouPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(thankYouPageUpdated.SurveyViewId);
                     this._unitOfWork.ThankYouPageLabels.Update(thankYouPageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
@@ -866,7 +876,7 @@ namespace TRAISI.Controllers
                         return BadRequest();
                     }
                     survey.TitleLabels[language].Value = title;
-                    this._unitOfWork.TitlePageLabels.Update(survey.TitleLabels[language]);
+                    this._unitOfWork.Labels.Update(survey.TitleLabels[language]);
                     //this._unitOfWork.TermsAndConditionsPageLabels.Update(termsAndConditionsPageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
@@ -887,7 +897,7 @@ namespace TRAISI.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    TermsAndConditionsPageLabel termsAndConditionsPageUpdated = Mapper.Map<TermsAndConditionsPageLabel>(termsAndConditionsPageLabel);
+                    TermsAndConditionsPageLabel termsAndConditionsPageUpdated = _mapper.Map<TermsAndConditionsPageLabel>(termsAndConditionsPageLabel);
                     termsAndConditionsPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(termsAndConditionsPageUpdated.SurveyViewId);
                     this._unitOfWork.TermsAndConditionsPageLabels.Update(termsAndConditionsPageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
@@ -909,7 +919,7 @@ namespace TRAISI.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    ScreeningQuestionsPageLabel screeningQuestionsUpdated = Mapper.Map<ScreeningQuestionsPageLabel>(screeningQuestionsLabel);
+                    ScreeningQuestionsPageLabel screeningQuestionsUpdated = _mapper.Map<ScreeningQuestionsPageLabel>(screeningQuestionsLabel);
                     screeningQuestionsUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(screeningQuestionsUpdated.SurveyViewId);
                     this._unitOfWork.ScreeningQuestionsLabels.Update(screeningQuestionsUpdated);
                     await this._unitOfWork.SaveChangesAsync();
@@ -933,9 +943,9 @@ namespace TRAISI.Controllers
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
                     var surveyView = await this._unitOfWork.SurveyViews.GetSurveyViewWithPagesStructureAsync(surveyId, surveyViewName);
-                    QuestionPartView newPage = Mapper.Map<QuestionPartView>(pageInfo);
-                    newPage.Labels = new LabelCollection<QuestionPartViewLabel>() {
-                        new QuestionPartViewLabel () {
+                    QuestionPartView newPage = _mapper.Map<QuestionPartView>(pageInfo);
+                    newPage.Labels = new LabelCollection<Label>() {
+                        new Label () {
                             Language = initialLanguage,
                                 Value = pageInfo.Label.Value
                         }
@@ -951,8 +961,8 @@ namespace TRAISI.Controllers
                             {
                                 Icon = newPage.Icon,
                                 Order = newPage.Order,
-                                Labels = new LabelCollection<QuestionPartViewLabel>() {
-                                        new QuestionPartViewLabel () {
+                                Labels = new LabelCollection<Label>() {
+                                        new Label () {
                                             Language = initialLanguage,
                                                 Value = pageInfo.Label.Value
                                         }
@@ -1005,7 +1015,7 @@ namespace TRAISI.Controllers
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithConditionals(questionPartViewId);
-            _surveyBuilderService.UpdateQuestionConditionals(question, Mapper.Map<QuestionConditionalOperator[]>(conditionals));
+            _surveyBuilderService.UpdateQuestionConditionals(question, _mapper.Map<QuestionConditionalOperator[]>(conditionals));
             await this._unitOfWork.SaveChangesAsync();
             return new OkResult();
         }
@@ -1042,7 +1052,7 @@ namespace TRAISI.Controllers
             {
                 return new NotFoundResult();
             }
-            var surveyLogic = AutoMapper.Mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel);
             await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
             return new OkResult();
         }
@@ -1064,7 +1074,7 @@ namespace TRAISI.Controllers
             {
                 return new NotFoundResult();
             }
-            var surveyLogic = AutoMapper.Mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel);
             await this._surveyBuilderService.AddSurveyLogic(survey, surveyLogic);
             return new OkObjectResult(surveyLogic.Id);
         }
@@ -1101,7 +1111,7 @@ namespace TRAISI.Controllers
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey != null)
             {
-                var mappedResult = AutoMapper.Mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic);
+                var mappedResult = _mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic);
                 return new OkObjectResult(mappedResult);
             }
             else

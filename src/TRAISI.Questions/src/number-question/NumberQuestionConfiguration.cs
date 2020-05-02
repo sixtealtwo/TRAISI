@@ -1,4 +1,4 @@
-namespace TRAISI.SDK.Questions {
+namespace Traisi.Sdk.Questions {
 	public class NumberQuestionConfiguration {
 
 		public const string MIN_VALUE = "Min";

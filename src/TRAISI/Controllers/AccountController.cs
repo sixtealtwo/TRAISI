@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Groups;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
-using TRAISI.Authorization;
-using TRAISI.Helpers;
-using TRAISI.ViewModels;
-using TRAISI.ViewModels.Users;
+using Traisi.Authorization;
+using Traisi.Data;
+using Traisi.Data.Core;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Groups;
+using Traisi.Helpers;
+using Traisi.ViewModels;
+using Traisi.ViewModels.Users;
 
-namespace TRAISI.Controllers {
+namespace Traisi.Controllers {
 	[Authorize (Authorization.Policies.AccessAdminPolicy)]
 	[Route ("api/[controller]")]
 	public class AccountController : Controller {
@@ -37,10 +37,13 @@ namespace TRAISI.Controllers {
 
 		private readonly IStringLocalizer<AccountController> _localizer;
 
+        private readonly IMapper _mapper;
+
 		public AccountController (IAccountManager accountManager,
 			IAuthorizationService authorizationService,
 			UserManager<TraisiUser> userManager,
-			IUnitOfWork unitOfWork, IMailgunMailer emailer, IConfiguration configuration, IStringLocalizer<AccountController> localizer) {
+			IUnitOfWork unitOfWork, IMailgunMailer emailer, IConfiguration configuration, IStringLocalizer<AccountController> localizer,
+            IMapper mapper) {
 			_accountManager = accountManager;
 			_authorizationService = authorizationService;
 			_unitOfWork = unitOfWork;
@@ -48,8 +51,9 @@ namespace TRAISI.Controllers {
 			_configuration = configuration;
 			_localizer = localizer;
 			_userManager = userManager;
+            _mapper = mapper;
 
-		}
+        }
 
 		[HttpGet ("users/me")]
 		[Produces (typeof (UserViewModel))]
@@ -102,7 +106,7 @@ namespace TRAISI.Controllers {
 			List<UserViewModel> usersVM = new List<UserViewModel> ();
 
 			foreach (var item in usersAndRoles) {
-				var userVM = Mapper.Map<UserViewModel> (item.Item1);
+				var userVM = _mapper.Map<UserViewModel> (item.Item1);
 				userVM.Roles = item.Item2;
 
 				usersVM.Add (userVM);
@@ -128,7 +132,7 @@ namespace TRAISI.Controllers {
 			List<UserViewModel> usersVM = new List<UserViewModel> ();
 
 			foreach (var item in usersAndRoles) {
-				var userVM = Mapper.Map<UserViewModel> (item.Item1);
+				var userVM = _mapper.Map<UserViewModel> (item.Item1);
 				userVM.Roles = item.Item2;
 
 				usersVM.Add (userVM);
@@ -181,7 +185,7 @@ namespace TRAISI.Controllers {
 				}
 
 				if (isValid) {
-					Mapper.Map<UserViewModel, ApplicationUser> (user, appUser);
+					_mapper.Map<UserViewModel, ApplicationUser> (user, appUser);
 
 					var result = await _accountManager.UpdateUserAsync (appUser, user.Roles);
 					if (result.Item1) {
@@ -222,11 +226,11 @@ namespace TRAISI.Controllers {
 				if (appUser == null)
 					return NotFound (id);
 
-				UserPatchViewModel userPVM = Mapper.Map<UserPatchViewModel> (appUser);
+				UserPatchViewModel userPVM = _mapper.Map<UserPatchViewModel> (appUser);
 				patch.ApplyTo (userPVM, ModelState);
 
 				if (ModelState.IsValid) {
-					Mapper.Map<UserPatchViewModel, ApplicationUser> (userPVM, appUser);
+					_mapper.Map<UserPatchViewModel, ApplicationUser> (userPVM, appUser);
 
 					var result = await _accountManager.UpdateUserAsync (appUser);
 					if (result.Item1)
@@ -258,7 +262,7 @@ namespace TRAISI.Controllers {
 					// force user type to be 'user' to avoid any other type being set through here
 					user.Roles = new string[] { "user" };
 
-					TraisiUser appUser = Mapper.Map<TraisiUser> (user);
+					TraisiUser appUser = _mapper.Map<TraisiUser> (user);
 
 					var result = await _accountManager.CreateUserAsync (appUser, user.Roles, user.NewPassword);
 					if (result.Item1) {
@@ -394,7 +398,7 @@ namespace TRAISI.Controllers {
 		[Produces (typeof (List<RoleViewModel>))]
 		public async Task<IActionResult> GetRoles (int page, int pageSize) {
 			var roles = await _accountManager.GetRolesLoadRelatedAsync (page, pageSize);
-			return Ok (Mapper.Map<List<RoleViewModel>> (roles));
+			return Ok (_mapper.Map<List<RoleViewModel>> (roles));
 		}
 
 		[HttpPut ("roles/{id}")]
@@ -416,7 +420,7 @@ namespace TRAISI.Controllers {
 					string[] saError = new string[] { "Cannot modify super administrator privileges" };
 					AddErrors (saError);
 				} else {
-					Mapper.Map<RoleViewModel, ApplicationRole> (role, appRole);
+					_mapper.Map<RoleViewModel, ApplicationRole> (role, appRole);
 
 					var result = await _accountManager.UpdateRoleAsync (appRole, role.Permissions?.Select (p => p.Value).ToArray ());
 					if (result.Item1)
@@ -437,7 +441,7 @@ namespace TRAISI.Controllers {
 				if (role == null)
 					return BadRequest ($"{nameof(role)} cannot be null");
 
-				ApplicationRole appRole = Mapper.Map<ApplicationRole> (role);
+				ApplicationRole appRole = _mapper.Map<ApplicationRole> (role);
 
 				var result = await _accountManager.CreateRoleAsync (appRole, role.Permissions?.Select (p => p.Value).ToArray ());
 				if (result.Item1) {
@@ -491,7 +495,7 @@ namespace TRAISI.Controllers {
 		[Produces (typeof (List<PermissionViewModel>))]
 		[Authorize (Authorization.Policies.ViewAllRolesPolicy)]
 		public IActionResult GetAllPermissions () {
-			return Ok (Mapper.Map<List<PermissionViewModel>> (ApplicationPermissions.AllPermissions));
+			return Ok (_mapper.Map<List<PermissionViewModel>> (ApplicationPermissions.AllPermissions));
 		}
 
 		private async Task<UserViewModel> GetUserViewModelHelper (string userId) {
@@ -499,7 +503,7 @@ namespace TRAISI.Controllers {
 			if (userAndRoles == null)
 				return null;
 
-			var userVM = Mapper.Map<UserViewModel> (userAndRoles.Item1);
+			var userVM = _mapper.Map<UserViewModel> (userAndRoles.Item1);
 			userVM.Roles = userAndRoles.Item2;
 
 			return userVM;
@@ -508,7 +512,7 @@ namespace TRAISI.Controllers {
 		private async Task<RoleViewModel> GetRoleViewModelHelper (string roleName) {
 			var role = await _accountManager.GetRoleLoadRelatedAsync (roleName);
 			if (role != null)
-				return Mapper.Map<RoleViewModel> (role);
+				return _mapper.Map<RoleViewModel> (role);
 
 			return null;
 		}

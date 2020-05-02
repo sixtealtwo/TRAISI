@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Data.Models.Surveys;
 using Newtonsoft.Json;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
 
     /// <summary>

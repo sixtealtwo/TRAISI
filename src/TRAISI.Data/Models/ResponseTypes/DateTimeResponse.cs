@@ -1,8 +1,8 @@
 using System;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.SDK.Library.ResponseTypes;
-namespace TRAISI.Data.Models.ResponseTypes
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.Surveys;
+using Traisi.Sdk.Library.ResponseTypes;
+namespace Traisi.Data.Models.ResponseTypes
 {
     /// <summary>
     /// 

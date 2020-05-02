@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using TRAISI.Data.Models.Interfaces;
+using Traisi.Data.Models.Interfaces;
 
-namespace TRAISI.Data.Models.Surveys {
+namespace Traisi.Data.Models.Surveys {
 	/// <summary>
 	/// Label items, store most alterable and dynamic text fields.
 	/// </summary>

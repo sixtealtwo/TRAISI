@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Data.Core
+namespace Traisi.Data.Core
 {
     public static class CustomClaimTypes
     {

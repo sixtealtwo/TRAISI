@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using TRAISI.Data.Models.Questions;
-using TRAISI.Data.Models.ResponseTypes;
-using TRAISI.SDK.Library.ResponseTypes;
-namespace TRAISI.Data.Models.Surveys
+using Traisi.Data.Models.Questions;
+using Traisi.Data.Models.ResponseTypes;
+using Traisi.Sdk.Library.ResponseTypes;
+namespace Traisi.Data.Models.Surveys
 {
     public class SurveyResponse : AuditableEntity, ISurveyResponse, IResponseType
     {

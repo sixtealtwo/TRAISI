@@ -1,11 +1,11 @@
-﻿using TRAISI.Data.Models.Interfaces;
+﻿using Traisi.Data.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TRAISI.Data.Models
+namespace Traisi.Data.Models
 {
 	public class ApplicationRole : IdentityRole, IAuditableEntity
 	{

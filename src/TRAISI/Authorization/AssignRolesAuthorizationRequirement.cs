@@ -1,11 +1,11 @@
-﻿using TRAISI.Data.Core;
+﻿using Traisi.Data.Core;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     public class AssignRolesAuthorizationRequirement : IAuthorizationRequirement
     {

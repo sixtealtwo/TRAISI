@@ -15,7 +15,7 @@ using Hangfire.Common;
 using Newtonsoft.Json;
 
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public interface IMailgunMailer
     {

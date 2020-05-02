@@ -1,0 +1,40 @@
+.response-option-container {
+	margin: 5px 0px 5px 0px;
+	i {
+		font-size: 10px;
+		padding: 0px;
+	}
+
+	.optionKey {
+		float: left !important;
+		width: 80px !important;
+		flex: unset;
+		height:unset;
+	}
+
+	.optionValue {
+		margin-left:0px;
+		margin-right:0px;
+		height:unset;
+	}
+}
+
+.details-wrapper {
+	padding-bottom:10px;
+}
+
+.disable-clicks { 
+	pointer-events: none;
+}
+
+.option-drop  {
+	width: 400px;
+	height: 70px !important;
+	.dz-message {
+		overflow: hidden !important;
+	}
+}
+
+.option-input  {
+	border-right: solid 1px #5d4e4e26 !important;
+}

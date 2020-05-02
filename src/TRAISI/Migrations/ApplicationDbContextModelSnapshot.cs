@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TRAISI.Data;
+using Traisi.Data;
 
-namespace TRAISI.Migrations
+namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -309,7 +309,7 @@ namespace TRAISI.Migrations
                     b.ToTable("OpenIddictTokens");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ApplicationRole", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -353,7 +353,7 @@ namespace TRAISI.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,7 +447,7 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator<int>("UserType");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.ApiKeys", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.ApiKeys", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -488,7 +488,7 @@ namespace TRAISI.Migrations
                     b.ToTable("ApiKeys");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.EmailTemplate", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.EmailTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -525,7 +525,7 @@ namespace TRAISI.Migrations
                     b.ToTable("EmailTemplates");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.GroupMember", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.GroupMember", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -564,7 +564,7 @@ namespace TRAISI.Migrations
                     b.ToTable("GroupMembers");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.UserGroup", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.UserGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -597,7 +597,7 @@ namespace TRAISI.Migrations
                     b.ToTable("UserGroups");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConditional", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConditional", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -630,7 +630,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionConditionals");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConditionalOperator", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConditionalOperator", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -663,7 +663,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionCondtionalOperators");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConfiguration", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -695,35 +695,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionConfigurations");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConfigurationLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("QuestionConfigurationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("QuestionOptionId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionConfigurationId");
-
-                    b.HasIndex("QuestionOptionId");
-
-                    b.ToTable("QuestionConfigurationLabel");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOption", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionOption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -752,7 +724,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOptionConditional", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionOptionConditional", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -780,30 +752,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionOptionConditionals");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOptionLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int>("QuestionOptionId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionOptionId");
-
-                    b.ToTable("QuestionOptionLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPart", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionPart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -834,7 +783,7 @@ namespace TRAISI.Migrations
                     b.ToTable("QuestionParts");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPartView", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionPartView", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -874,6 +823,9 @@ namespace TRAISI.Migrations
                     b.Property<int?>("SurveyViewId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("SurveyViewId2")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CATIDependentId");
@@ -886,33 +838,12 @@ namespace TRAISI.Migrations
 
                     b.HasIndex("SurveyViewId");
 
+                    b.HasIndex("SurveyViewId2");
+
                     b.ToTable("QuestionPartViews");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPartViewLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int>("QuestionPartViewId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionPartViewId");
-
-                    b.ToTable("QuestionPartViewLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.ResponseValue", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.ResponseValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -939,7 +870,7 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator<int>("ResponseType");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ExtensionConfiguration", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ExtensionConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -966,7 +897,7 @@ namespace TRAISI.Migrations
                     b.ToTable("ExtensionConfigurations");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Groupcode", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Groupcode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -995,17 +926,42 @@ namespace TRAISI.Migrations
                     b.ToTable("Groupcodes");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ScreeningQuestionsPageLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Label", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Language")
                         .HasColumnType("text");
 
-                    b.Property<int>("SurveyViewId")
+                    b.Property<int?>("QuestionOptionId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("QuestionPartViewId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyLogicId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyViewId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyViewId2")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyViewId3")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SurveyViewId4")
                         .HasColumnType("integer");
 
                     b.Property<string>("Value")
@@ -1013,12 +969,28 @@ namespace TRAISI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SurveyViewId");
+                    b.HasIndex("QuestionOptionId1");
 
-                    b.ToTable("ScreeningQuestionsLabels");
+                    b.HasIndex("QuestionPartViewId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.HasIndex("SurveyLogicId");
+
+                    b.HasIndex("SurveyViewId1");
+
+                    b.HasIndex("SurveyViewId2");
+
+                    b.HasIndex("SurveyViewId3");
+
+                    b.HasIndex("SurveyViewId4");
+
+                    b.ToTable("Labels");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Label");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Shortcode", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Shortcode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1052,7 +1024,7 @@ namespace TRAISI.Migrations
                     b.ToTable("Shortcodes");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SiteSurveyTemplate", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SiteSurveyTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1087,7 +1059,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SiteSurveyTemplates");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Survey", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Survey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1153,7 +1125,7 @@ namespace TRAISI.Migrations
                     b.ToTable("Surveys");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyAccessRecord", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyAccessRecord", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1190,7 +1162,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyAccessRecords");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyLogic", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyLogic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1226,30 +1198,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyLogic");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyLogicLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("SurveyLogicId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyLogicId");
-
-                    b.ToTable("SurveyLogicLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyPermission", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyPermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1279,7 +1228,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyPermissions");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyRespondent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1307,7 +1256,7 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator<int>("RespondentType");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyRespondentGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1325,7 +1274,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyRespondentGroups");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyResponse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1369,7 +1318,7 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyResponses");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyView", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyView", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1391,101 +1340,9 @@ namespace TRAISI.Migrations
                     b.ToTable("SurveyViews");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.TermsAndConditionsPageLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.SurveyUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SurveyViewId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyViewId");
-
-                    b.ToTable("TermsAndConditionsPageLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ThankYouPageLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SurveyViewId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyViewId");
-
-                    b.ToTable("ThankYouPageLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.TitlePageLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("SurveyId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyId");
-
-                    b.ToTable("TitlePageLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.WelcomePageLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Language")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SurveyViewId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyViewId");
-
-                    b.ToTable("WelcomePageLabels");
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.SurveyUser", b =>
-                {
-                    b.HasBaseType("TRAISI.Data.Models.ApplicationUser");
+                    b.HasBaseType("Traisi.Data.Models.ApplicationUser");
 
                     b.Property<int?>("PrimaryRespondentId")
                         .HasColumnType("integer");
@@ -1500,16 +1357,16 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.TraisiUser", b =>
+            modelBuilder.Entity("Traisi.Data.Models.TraisiUser", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ApplicationUser");
+                    b.HasBaseType("Traisi.Data.Models.ApplicationUser");
 
                     b.HasDiscriminator().HasValue(0);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.DateTimeResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.DateTimeResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<DateTimeOffset>("Value")
                         .HasColumnType("timestamp with time zone");
@@ -1517,9 +1374,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(7);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.JsonResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.JsonResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Value")
                         .HasColumnName("JsonResponse_Value")
@@ -1528,9 +1385,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(5);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.LocationResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.LocationResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Address")
                         .HasColumnType("text");
@@ -1541,9 +1398,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(3);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.NumberResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.NumberResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<double>("Value")
                         .HasColumnName("NumberResponse_Value")
@@ -1552,16 +1409,16 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.OptionListResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.OptionListResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.HasDiscriminator().HasValue(4);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.OptionSelectResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.OptionSelectResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Code")
                         .HasColumnType("text");
@@ -1573,9 +1430,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(8);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.StringResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.StringResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.ResponseValue");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
 
                     b.Property<string>("Value")
                         .HasColumnName("StringResponse_Value")
@@ -1584,9 +1441,89 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.PrimaryRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConfigurationLabel", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.Surveys.SurveyRespondent");
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int?>("QuestionConfigurationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("QuestionOptionId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("QuestionConfigurationId");
+
+                    b.HasIndex("QuestionOptionId");
+
+                    b.HasDiscriminator().HasValue("QuestionConfigurationLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ScreeningQuestionsPageLabel", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int>("SurveyViewId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("SurveyViewId");
+
+                    b.HasDiscriminator().HasValue("ScreeningQuestionsPageLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.TermsAndConditionsPageLabel", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int>("SurveyViewId")
+                        .HasColumnName("TermsAndConditionsPageLabel_SurveyViewId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("SurveyViewId");
+
+                    b.HasDiscriminator().HasValue("TermsAndConditionsPageLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ThankYouPageLabel", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int>("SurveyViewId")
+                        .HasColumnName("ThankYouPageLabel_SurveyViewId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("SurveyViewId");
+
+                    b.HasDiscriminator().HasValue("ThankYouPageLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.TitlePageLabel", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int?>("SurveyId1")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("SurveyId1");
+
+                    b.HasDiscriminator().HasValue("TitlePageLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.WelcomePageLabel", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.Label");
+
+                    b.Property<int>("SurveyViewId")
+                        .HasColumnName("WelcomePageLabel_SurveyViewId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("SurveyViewId");
+
+                    b.HasDiscriminator().HasValue("WelcomePageLabel");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.PrimaryRespondent", b =>
+                {
+                    b.HasBaseType("Traisi.Data.Models.Surveys.SurveyRespondent");
 
                     b.Property<int?>("GroupcodeId")
                         .HasColumnType("integer");
@@ -1611,9 +1548,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(0);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SubRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SubRespondent", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.Surveys.SurveyRespondent");
+                    b.HasBaseType("Traisi.Data.Models.Surveys.SurveyRespondent");
 
                     b.Property<int?>("PrimaryRespondentId")
                         .HasColumnType("integer");
@@ -1623,9 +1560,9 @@ namespace TRAISI.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.TimelineResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.TimelineResponse", b =>
                 {
-                    b.HasBaseType("TRAISI.Data.Models.ResponseTypes.LocationResponse");
+                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.LocationResponse");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -1647,7 +1584,7 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationRole", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationRole", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1656,7 +1593,7 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1665,7 +1602,7 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1674,13 +1611,13 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationRole", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationRole", null)
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1689,7 +1626,7 @@ namespace TRAISI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", null)
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1714,386 +1651,405 @@ namespace TRAISI.Migrations
                         .HasForeignKey("AuthorizationId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.ApiKeys", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.ApiKeys", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Groups.UserGroup", "Group")
+                    b.HasOne("Traisi.Data.Models.Groups.UserGroup", "Group")
                         .WithOne("ApiKeySettings")
-                        .HasForeignKey("TRAISI.Data.Models.Groups.ApiKeys", "GroupId")
+                        .HasForeignKey("Traisi.Data.Models.Groups.ApiKeys", "GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.EmailTemplate", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.EmailTemplate", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Groups.UserGroup", "Group")
+                    b.HasOne("Traisi.Data.Models.Groups.UserGroup", "Group")
                         .WithMany("EmailTemplates")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Groups.GroupMember", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Groups.GroupMember", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.TraisiUser", null)
+                    b.HasOne("Traisi.Data.Models.TraisiUser", null)
                         .WithMany("Groups")
                         .HasForeignKey("TraisiUserId");
 
-                    b.HasOne("TRAISI.Data.Models.Groups.UserGroup", "UserGroup")
+                    b.HasOne("Traisi.Data.Models.Groups.UserGroup", "UserGroup")
                         .WithMany("Members")
                         .HasForeignKey("UserGroupId");
 
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", "User")
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConditional", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConditional", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", null)
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
                         .WithMany("QuestionConditionalsSource")
                         .HasForeignKey("QuestionPartId");
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", null)
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
                         .WithMany("QuestionConditionalsTarget")
                         .HasForeignKey("QuestionPartId1");
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "SourceQuestion")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "SourceQuestion")
                         .WithMany()
                         .HasForeignKey("SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConditionalOperator", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConditionalOperator", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionConditional", "Lhs")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionConditional", "Lhs")
                         .WithMany()
                         .HasForeignKey("LhsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionConditional", "Rhs")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionConditional", "Rhs")
                         .WithMany()
                         .HasForeignKey("RhsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "TargetQuestion")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "TargetQuestion")
                         .WithMany("Conditionals")
                         .HasForeignKey("TargetQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConfiguration", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConfiguration", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", null)
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
                         .WithMany("QuestionConfigurations")
                         .HasForeignKey("QuestionPartId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionConfigurationLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionOption", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionConfiguration", null)
-                        .WithMany("QuestionConfigurationLabels")
-                        .HasForeignKey("QuestionConfigurationId");
-
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionOption", "QuestionOption")
-                        .WithMany()
-                        .HasForeignKey("QuestionOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOption", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", "QuestionPartParent")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "QuestionPartParent")
                         .WithMany("QuestionOptions")
                         .HasForeignKey("QuestionPartParentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOptionConditional", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionOptionConditional", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", "SourceQuestion")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "SourceQuestion")
                         .WithMany("QuestionOptionConditionalsSource")
                         .HasForeignKey("SourceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionOption", "TargetOption")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionOption", "TargetOption")
                         .WithMany("QuestionOptionConditionalsTarget")
                         .HasForeignKey("TargetOptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionOptionLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionPart", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionOption", "QuestionOption")
-                        .WithMany("QuestionOptionLabels")
-                        .HasForeignKey("QuestionOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPart", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", null)
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", null)
                         .WithMany("QuestionPartChildren")
                         .HasForeignKey("QuestionPartId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany()
                         .HasForeignKey("SurveyId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPartView", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionPartView", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "CATIDependent")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "CATIDependent")
                         .WithMany()
                         .HasForeignKey("CATIDependentId");
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "ParentView")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "ParentView")
                         .WithMany("QuestionPartViewChildren")
                         .HasForeignKey("ParentViewId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", "QuestionPart")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
                         .HasForeignKey("QuestionPartId");
 
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", "RepeatSource")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "RepeatSource")
                         .WithMany()
                         .HasForeignKey("RepeatSourceId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyView", "SurveyView")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
+                        .WithMany()
+                        .HasForeignKey("SurveyViewId");
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("QuestionPartViews")
-                        .HasForeignKey("SurveyViewId")
+                        .HasForeignKey("SurveyViewId2")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Questions.QuestionPartViewLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.ResponseValue", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "QuestionPartView")
-                        .WithMany("Labels")
-                        .HasForeignKey("QuestionPartViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.ResponseTypes.ResponseValue", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.ResponseTypes.OptionListResponse", null)
+                    b.HasOne("Traisi.Data.Models.ResponseTypes.OptionListResponse", null)
                         .WithMany("OptionResponseValues")
                         .HasForeignKey("OptionListResponseId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyResponse", "SurveyResponse")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyResponse", "SurveyResponse")
                         .WithMany("ResponseValues")
                         .HasForeignKey("SurveyResponseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ExtensionConfiguration", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ExtensionConfiguration", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany("ExtensionConfigurations")
                         .HasForeignKey("SurveyId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Groupcode", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Groupcode", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany("GroupCodes")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ScreeningQuestionsPageLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Label", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyView", "SurveyView")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionOption", null)
+                        .WithMany("QuestionOptionLabels")
+                        .HasForeignKey("QuestionOptionId1")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", null)
+                        .WithMany("Labels")
+                        .HasForeignKey("QuestionPartViewId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", null)
+                        .WithMany("TitleLabels")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", null)
+                        .WithMany("ValidationMessages")
+                        .HasForeignKey("SurveyLogicId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("ScreeningQuestionLabels")
-                        .HasForeignKey("SurveyViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SurveyViewId1");
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
+                        .WithMany("TermsAndConditionsLabels")
+                        .HasForeignKey("SurveyViewId2")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
+                        .WithMany("ThankYouPageLabels")
+                        .HasForeignKey("SurveyViewId3")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
+                        .WithMany("WelcomePageLabels")
+                        .HasForeignKey("SurveyViewId4")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.Shortcode", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.Shortcode", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Groupcode", "Groupcode")
+                    b.HasOne("Traisi.Data.Models.Surveys.Groupcode", "Groupcode")
                         .WithMany()
                         .HasForeignKey("GroupcodeId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany("Shortcodes")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyAccessRecord", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyAccessRecord", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", "AccessUser")
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", "AccessUser")
                         .WithMany()
                         .HasForeignKey("AccessUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.PrimaryRespondent", "Respondent")
+                    b.HasOne("Traisi.Data.Models.Surveys.PrimaryRespondent", "Respondent")
                         .WithMany("SurveyAccessRecords")
                         .HasForeignKey("RespondentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyLogic", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyLogic", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPartView", "Question")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", null)
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", null)
                         .WithMany("SurveyLogic")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyLogic", null)
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", null)
                         .WithMany("Expressions")
                         .HasForeignKey("SurveyLogicId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyLogicLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyPermission", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyLogic", null)
-                        .WithMany("ValidationMessages")
-                        .HasForeignKey("SurveyLogicId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyPermission", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany("SurveyPermissions")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TRAISI.Data.Models.TraisiUser", null)
+                    b.HasOne("Traisi.Data.Models.TraisiUser", null)
                         .WithMany("SurveyPermissions")
                         .HasForeignKey("TraisiUserId");
 
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", "User")
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyRespondent", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", "SurveyRespondentGroup")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyRespondentGroup", "SurveyRespondentGroup")
                         .WithMany("GroupMembers")
                         .HasForeignKey("SurveyRespondentGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyRespondentGroup", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.PrimaryRespondent", "GroupPrimaryRespondent")
+                    b.HasOne("Traisi.Data.Models.Surveys.PrimaryRespondent", "GroupPrimaryRespondent")
                         .WithOne()
-                        .HasForeignKey("TRAISI.Data.Models.Surveys.SurveyRespondentGroup", "GroupPrimaryRespondentId");
+                        .HasForeignKey("Traisi.Data.Models.Surveys.SurveyRespondentGroup", "GroupPrimaryRespondentId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyResponse", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyResponse", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Questions.QuestionPart", "QuestionPart")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "QuestionPart")
                         .WithMany()
                         .HasForeignKey("QuestionPartId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyRespondent", "Respondent")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyRespondent", "Respondent")
                         .WithMany()
                         .HasForeignKey("RespondentId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyAccessRecord", "SurveyAccessRecord")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyAccessRecord", "SurveyAccessRecord")
                         .WithMany()
                         .HasForeignKey("SurveyAccessRecordId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SurveyView", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyView", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany("SurveyViews")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.TermsAndConditionsPageLabel", b =>
+            modelBuilder.Entity("Traisi.Data.Models.SurveyUser", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyView", "SurveyView")
-                        .WithMany("TermsAndConditionsLabels")
-                        .HasForeignKey("SurveyViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.ThankYouPageLabel", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyView", "SurveyView")
-                        .WithMany("ThankYouPageLabels")
-                        .HasForeignKey("SurveyViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.TitlePageLabel", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
-                        .WithMany("TitleLabels")
-                        .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.WelcomePageLabel", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.SurveyView", "SurveyView")
-                        .WithMany("WelcomePageLabels")
-                        .HasForeignKey("SurveyViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TRAISI.Data.Models.SurveyUser", b =>
-                {
-                    b.HasOne("TRAISI.Data.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
+                    b.HasOne("Traisi.Data.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
                         .WithMany()
                         .HasForeignKey("PrimaryRespondentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Shortcode", "Shortcode")
+                    b.HasOne("Traisi.Data.Models.Surveys.Shortcode", "Shortcode")
                         .WithMany()
                         .HasForeignKey("ShortcodeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.PrimaryRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Questions.QuestionConfigurationLabel", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.Groupcode", "Groupcode")
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionConfiguration", null)
+                        .WithMany("QuestionConfigurationLabels")
+                        .HasForeignKey("QuestionConfigurationId");
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionOption", "QuestionOption")
+                        .WithMany()
+                        .HasForeignKey("QuestionOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ScreeningQuestionsPageLabel", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
+                        .WithMany()
+                        .HasForeignKey("SurveyViewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.TermsAndConditionsPageLabel", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
+                        .WithMany()
+                        .HasForeignKey("SurveyViewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.ThankYouPageLabel", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
+                        .WithMany()
+                        .HasForeignKey("SurveyViewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.TitlePageLabel", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
+                        .WithMany()
+                        .HasForeignKey("SurveyId1");
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.WelcomePageLabel", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
+                        .WithMany()
+                        .HasForeignKey("SurveyViewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.PrimaryRespondent", b =>
+                {
+                    b.HasOne("Traisi.Data.Models.Surveys.Groupcode", "Groupcode")
                         .WithMany()
                         .HasForeignKey("GroupcodeId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Shortcode", "Shortcode")
+                    b.HasOne("Traisi.Data.Models.Surveys.Shortcode", "Shortcode")
                         .WithMany()
                         .HasForeignKey("ShortcodeId");
 
-                    b.HasOne("TRAISI.Data.Models.Surveys.Survey", "Survey")
+                    b.HasOne("Traisi.Data.Models.Surveys.Survey", "Survey")
                         .WithMany()
                         .HasForeignKey("SurveyId");
 
-                    b.HasOne("TRAISI.Data.Models.ApplicationUser", "User")
+                    b.HasOne("Traisi.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("TRAISI.Data.Models.Surveys.SubRespondent", b =>
+            modelBuilder.Entity("Traisi.Data.Models.Surveys.SubRespondent", b =>
                 {
-                    b.HasOne("TRAISI.Data.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
+                    b.HasOne("Traisi.Data.Models.Surveys.PrimaryRespondent", "PrimaryRespondent")
                         .WithMany()
                         .HasForeignKey("PrimaryRespondentId");
                 });

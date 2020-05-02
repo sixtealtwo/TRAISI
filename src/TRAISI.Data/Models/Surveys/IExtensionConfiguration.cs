@@ -1,4 +1,4 @@
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public interface IExtensionConfiguration
     {

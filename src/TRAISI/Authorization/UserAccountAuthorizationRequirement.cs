@@ -1,12 +1,12 @@
-﻿using TRAISI.Data.Core;
+﻿using Traisi.Data.Core;
 using Microsoft.AspNetCore.Authorization;
-using TRAISI.Helpers;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Traisi.Helpers;
 
-namespace TRAISI.Authorization
+namespace Traisi.Authorization
 {
     public class UserAccountAuthorizationRequirement : IAuthorizationRequirement
     {

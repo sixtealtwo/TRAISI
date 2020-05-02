@@ -1,6 +1,6 @@
-using TRAISI.Data.Models.Interfaces;
+using Traisi.Data.Models.Interfaces;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
     public interface ILabel
     {

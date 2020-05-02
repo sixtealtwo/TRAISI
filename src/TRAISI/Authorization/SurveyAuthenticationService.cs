@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Traisi.Surveys.Authentication;
 
-namespace TRAISI.Authorization {
+namespace Traisi.Authorization {
 	public class SurveyAuthenticationService {
 
 		private readonly IConfiguration _configuration;

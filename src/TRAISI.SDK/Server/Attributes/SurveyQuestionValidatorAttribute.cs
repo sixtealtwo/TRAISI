@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TRAISI.SDK.Enums;
+using Traisi.Sdk.Enums;
 using System.Linq;
-namespace TRAISI.SDK.Attributes
+namespace Traisi.Sdk.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class SurveyQuestionValidatorAttribute : Attribute

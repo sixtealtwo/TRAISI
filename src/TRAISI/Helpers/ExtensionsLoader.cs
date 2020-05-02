@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
-using TRAISI.Helpers.Interfaces;
-using TRAISI.SDK.Interfaces;
+using Traisi.Helpers.Interfaces;
+using Traisi.Sdk.Interfaces;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
 
     public class ExtensionsLoader : IExtensionsLoader

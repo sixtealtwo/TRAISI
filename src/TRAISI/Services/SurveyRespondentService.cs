@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TRAISI.Data;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
-using TRAISI.Services.Interfaces;
-namespace TRAISI.Services
+using Traisi.Data;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
+using Traisi.Services.Interfaces;
+
+namespace Traisi.Services
 {
     /// <summary>
     /// Service for handling business logic related to respondents and the updating and querying

@@ -5,25 +5,25 @@ using System.Threading.Tasks;
 using System.Web;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
+using Traisi.Data.Models.Surveys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Interfaces;
-using TRAISI.ViewModels.Users;
-namespace TRAISI.Authorization.Extensions
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Interfaces;
+using Traisi.ViewModels.Users;
+namespace Traisi.Authorization.Extensions
 {
     [SurveyAuthorizationHandler(Name = "SAML2")]
     [Route("api/[controller]")]
     public class SAML2AuthorizationHandler : Controller, ITraisiIAuthorizationHandler
     {
 
-        [ExtensionConfigurationAttribute(Name = "Sign On URL", Description = "URL of sign on location")]
+        [ExtensionConfiguration(Name = "Sign On URL", Description = "URL of sign on location")]
         public string SignOnURL { get; set; }
 
         private readonly UserManager<TraisiUser> _userManager;

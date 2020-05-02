@@ -1,5 +1,5 @@
 
-namespace TRAISI.SDK.GeoServices
+namespace Traisi.Sdk.GeoServices
 {
 
     public class GeocodeResult : IGeocodeResult

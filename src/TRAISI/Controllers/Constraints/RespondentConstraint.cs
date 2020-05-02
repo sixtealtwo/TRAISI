@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace TRAISI.Controllers.Constraints
+namespace Traisi.Controllers.Constraints
 {
 	public class RespondentConstraint : IRouteConstraint
 	{

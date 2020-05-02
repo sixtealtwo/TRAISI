@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace TRAISI.Data.Core
+namespace Traisi.Data.Core
 {
     public enum Gender
     {

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TRAISI.SDK.Attributes;
-using TRAISI.SDK.Enums;
-using TRAISI.SDK.Interfaces;
-using TRAISI.SDK.Library.ResponseTypes;
+using Traisi.Sdk.Attributes;
+using Traisi.Sdk.Enums;
+using Traisi.Sdk.Interfaces;
+using Traisi.Sdk.Library.ResponseTypes;
 
-namespace TRAISI.SDK {
+namespace Traisi.Sdk {
 	public abstract class ResponseValidator {
 		public abstract bool ValidateResponse (List<IResponseType> data, ICollection<IQuestionConfiguration> configuration);
 	}

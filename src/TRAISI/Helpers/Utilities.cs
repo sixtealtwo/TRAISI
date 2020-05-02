@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public static class Utilities
     {

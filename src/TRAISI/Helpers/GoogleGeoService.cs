@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using RestSharp;
-using TRAISI.Helpers.Interfaces;
+using Traisi.Helpers.Interfaces;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
 
 	public class GoogleGeoService : IGeoServiceProvider

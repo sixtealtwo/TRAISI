@@ -1,6 +1,6 @@
 using System;
 
-namespace TRAISI.SDK.Enums
+namespace Traisi.Sdk.Enums
 {
 
 	/// <summary>

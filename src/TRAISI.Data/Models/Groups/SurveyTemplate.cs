@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TRAISI.Data.Models.Groups
+namespace Traisi.Data.Models.Groups
 {
     public class SurveyTemplate: AuditableEntity
     {

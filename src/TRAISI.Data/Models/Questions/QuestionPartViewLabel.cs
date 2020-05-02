@@ -1,7 +1,7 @@
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Surveys;
 using Newtonsoft.Json;
 
-namespace TRAISI.Data.Models.Questions
+namespace Traisi.Data.Models.Questions
 {
     public class QuestionPartViewLabel: Label
     {

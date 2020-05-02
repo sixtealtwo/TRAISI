@@ -1,6 +1,6 @@
-﻿using TRAISI.Data;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models;
+﻿using Traisi.Data;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,9 +11,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Data.Core
+namespace Traisi.Data.Core
 {
     public class AccountManager : IAccountManager
     {

@@ -1,0 +1,23 @@
+.conditional-delete-button {
+	width: 45px;
+	float:right;
+}
+
+.conditional-row {
+	width: calc(100% - 50px) !important;
+}
+
+.conditional-header {
+	width: calc(100% - 20px) !important;
+}
+
+mgl-map {
+	height: 100%;
+	width: 100%;
+}
+
+.map-container {
+	width:100%;
+	height:450px;
+	margin-bottom:30px;
+}

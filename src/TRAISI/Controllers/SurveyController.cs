@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using TRAISI.Data;
-using TRAISI.Data.Core.Interfaces;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Core.Interfaces;
+using Traisi.Data.Models.Surveys;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -15,10 +15,10 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using TRAISI.Helpers;
-using TRAISI.ViewModels;
+using Traisi.Helpers;
+using Traisi.ViewModels;
 
-namespace TRAISI.Controllers {
+namespace Traisi.Controllers {
     [Authorize (Authorization.Policies.AccessAdminPolicy)]
     [Route ("api/[controller]")]
     public class SurveyController : Controller {
@@ -28,11 +28,17 @@ namespace TRAISI.Controllers {
         private readonly IAccountManager _accountManager;
         private readonly IFileDownloader _fileDownloader;
 
-        public SurveyController (IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, IFileDownloader fileDownloaderService, IAuthorizationService authorizationService, IAccountManager accountManager) {
+        private readonly IMapper _mapper;
+
+        public SurveyController (IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, 
+        IFileDownloader fileDownloaderService, IAuthorizationService authorizationService,
+         IAccountManager accountManager,
+         IMapper mapper) {
             this._unitOfWork = unitOfWork;
             this._authorizationService = authorizationService;
             this._accountManager = accountManager;
             this._fileDownloader = fileDownloaderService;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -43,11 +49,11 @@ namespace TRAISI.Controllers {
         public async Task<IActionResult> GetSurvey (int id) {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithPermissionsAsync (id);
             if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin () || await IsGroupAdmin (survey.Group)) {
-                return Ok (Mapper.Map<SurveyViewModel> (survey));
+                return Ok (_mapper.Map<SurveyViewModel> (survey));
             } else {
                 var surveyPermissions = await this._unitOfWork.Surveys.GetSurveyWithUserPermissionsAsync (id, this.User.Identity.Name);
                 if (surveyPermissions.SurveyPermissions.Any ()) {
-                    return Ok (Mapper.Map<SurveyViewModel> (surveyPermissions));
+                    return Ok (_mapper.Map<SurveyViewModel> (surveyPermissions));
                 } else {
                     return BadRequest ("User does not have permissions to access survey.");
                 }
@@ -61,7 +67,7 @@ namespace TRAISI.Controllers {
         [Produces (typeof (List<SurveyViewModel>))]
         public async Task<IActionResult> GetSurveys () {
             var surveys = await this._unitOfWork.Surveys.GetAllUserSurveysAsync (this.User.Identity.Name);
-            return Ok (Mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
+            return Ok (_mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
         }
 
         /// <summary>
@@ -77,7 +83,7 @@ namespace TRAISI.Controllers {
                 //Check if user is in the group or superadmin
                 if (await IsSuperAdmin () || await MemberOfGroup (id)) {
                     var surveys = await this._unitOfWork.Surveys.GetAllGroupSurveysAsync (group.Name, this.User.Identity.Name);
-                    return Ok (Mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
+                    return Ok (_mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
                 } else {
                     return BadRequest ("User does not have access to group.");
                 }
@@ -92,7 +98,7 @@ namespace TRAISI.Controllers {
         [Produces (typeof (List<SurveyViewModel>))]
         public async Task<IActionResult> GetSharedSurveys () {
             var surveys = await this._unitOfWork.Surveys.GetSharedSurveysAsync (this.User.Identity.Name);
-            return Ok (Mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
+            return Ok (_mapper.Map<IEnumerable<SurveyViewModel>> (surveys));
         }
 
         /// <summary>
@@ -110,7 +116,7 @@ namespace TRAISI.Controllers {
                         return BadRequest ("Survey code already in use.");
                     }
                     // Check if survey has a valid group
-                    Survey appSurvey = Mapper.Map<Survey> (survey);
+                    Survey appSurvey = _mapper.Map<Survey> (survey);
                     var group = await this._unitOfWork.UserGroups.GetGroupByNameAsync (appSurvey.Group);
 
                     if (group == null) {
@@ -139,7 +145,7 @@ namespace TRAISI.Controllers {
         public async Task<IActionResult> UpdateSurvey ([FromBody] SurveyViewModel survey) {
             //check group of input survey and ensure that user has access before updating survey
             if (ModelState.IsValid) {
-                Survey appSurvey = Mapper.Map<Survey> (survey);
+                Survey appSurvey = _mapper.Map<Survey> (survey);
                 Survey originalSurvey = this._unitOfWork.Surveys.Get (appSurvey.Id);
 
                 if (await IsSuperAdmin () || originalSurvey.Owner == this.User.Identity.Name || await IsGroupAdmin (appSurvey.Group)) {
@@ -291,10 +297,10 @@ namespace TRAISI.Controllers {
             var surveyPermissions = await this._unitOfWork.SurveyPermissions.GetPermissionsForSurveyAsync (userName, id);
             //Restrict to super admins, group admins, owners, and users with survey.share permissions
             if (survey.Owner == this.User.Identity.Name || await IsSuperAdmin () || await IsGroupAdmin (survey.Group)) {
-                return Ok (Mapper.Map<SurveyPermissionViewModel> (surveyPermissions));
+                return Ok (_mapper.Map<SurveyPermissionViewModel> (surveyPermissions));
             } else {
                 if (surveyPermissions.Permissions.Contains ("survey.share")) {
-                    return Ok (Mapper.Map<SurveyPermissionViewModel> (surveyPermissions));
+                    return Ok (_mapper.Map<SurveyPermissionViewModel> (surveyPermissions));
                 } else {
                     return BadRequest ("Insufficient privileges.");
                 }
@@ -310,7 +316,7 @@ namespace TRAISI.Controllers {
         public async Task<IActionResult> UpdateUserSurveyPermissions ([FromBody] SurveyPermissionViewModel surveyPermissions) {
             if (ModelState.IsValid) {
                 var survey = await this._unitOfWork.Surveys.GetAsync (surveyPermissions.SurveyId);
-                var surveyPermissionsModel = Mapper.Map<SurveyPermission> (surveyPermissions);
+                var surveyPermissionsModel = _mapper.Map<SurveyPermission> (surveyPermissions);
                 // Restrict to group admins, owners, and users with survey.share permissions.
                 if (survey.Owner == this.User.Identity.Name || await IsGroupAdmin (survey.Group)) {
                     this._unitOfWork.SurveyPermissions.Update (surveyPermissionsModel);

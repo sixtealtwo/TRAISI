@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AutoMapper;
-using TRAISI.Data;
+using Traisi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace TRAISI
+namespace Traisi
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            Mapper.Reset();
+            // Mapper.Reset();
             IConfigurationRoot configuration;
             var cb = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -43,7 +43,7 @@ namespace TRAISI
             {
                 builder.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"], b =>
                 {
-                    b.MigrationsAssembly("TRAISI");
+                    b.MigrationsAssembly("Traisi");
                     b.UseNetTopologySuite();
                 }
                 );

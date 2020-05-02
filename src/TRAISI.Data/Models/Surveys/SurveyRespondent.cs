@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using TRAISI.Data.Repositories;
+using Traisi.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TRAISI.Data.Models.Surveys
+namespace Traisi.Data.Models.Surveys
 {
 
 

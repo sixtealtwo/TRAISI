@@ -1,4 +1,4 @@
-namespace TRAISI.Helpers.Interfaces
+namespace Traisi.Helpers.Interfaces
 {
     public interface IExtensionsLoader
     {

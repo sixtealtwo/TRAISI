@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using TRAISI.Data;
-using TRAISI.Data.Models.Surveys;
+using Traisi.Data;
+using Traisi.Data.Models.Surveys;
 
-namespace TRAISI.Helpers
+namespace Traisi.Helpers
 {
     public interface ICodeGeneration
     {

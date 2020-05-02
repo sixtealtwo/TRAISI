@@ -1,0 +1,21 @@
+{
+	"extends": "../../tsconfig.spec.json",
+	"compilerOptions": {
+		"lib": ["es2017", "dom","esnext"],
+		"paths": {
+			// "traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			// "smooth-dnd": ["../../local_node_modules/smooth-dnd/"],
+			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
+
+			"shared/*": ["../shared/*"]
+		},
+		"outDir": "../out-tsc/spec",
+		"experimentalDecorators": true,
+		"baseUrl": "./",
+		"module": "es2015",
+		"typeRoots": ["../../node_modules/jasmine/ts3.1"],
+		"types": [ "node", "jquery"],
+	},
+	"files": ["test.ts", "polyfills.ts"],
+	"include": ["**/*.spec.ts", "**/*.d.ts", "../shared/**/*.ts", "**/*.ts"]
+}
