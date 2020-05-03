@@ -1,6 +1,0 @@
-<div class="form-group form-group-adjust row">
-	<label  for="{{ 'slider-' + id }}" class="col-md-3 col-form-label text-md-right">{{ questionConfiguration.name}}</label>
-	<div class="col-md-5">
-		<mv-slider [(value)]="sliderValue" [min]="min" [max]="max" [tooltip]="always" (change)="change($event)" (slideStart)="startSlide($event)" [class.showtool]="sliding" (slideStop)="stopSlide($event)"></mv-slider>
-	</div>
-</div>

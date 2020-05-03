@@ -30,6 +30,8 @@ export class SurveyBuilderEditorData {
 
 	public questionListChanged: Subject<Array<QuestionPartView>> = new Subject<Array<QuestionPartView>>();
 
+	public activeLanguage: string = "en";
+
 	/**
 	 * Initializes required config data and related information for the survey builder
 	 * editing session.

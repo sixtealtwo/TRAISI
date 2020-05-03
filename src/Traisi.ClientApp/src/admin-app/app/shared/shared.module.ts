@@ -4,7 +4,7 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TooltipModule } from 'ngx-bootstrap';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SafePipe } from '../pipes/safe.pipe';
 import { TreeviewModule } from 'ngx-treeview';
 import { DropdownTreeviewSelectComponent } from './dropdown-treeview-select/dropdown-treeview-select.component';

@@ -19,7 +19,7 @@ import { QuestionConditionalSourceGroup } from "../../../models/question-conditi
 import { QuestionConditionalTargetGroup } from "../../../models/question-conditional-target-group.model";
 import { QuestionTypeDefinition } from "../../../models/question-type-definition";
 import { QuestionPartView } from "../../../models/question-part-view.model";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { MapComponent } from "ngx-mapbox-gl";
 import * as MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 import { Control } from "mapbox-gl";

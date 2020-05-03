@@ -15,14 +15,14 @@ namespace Traisi.Models.Mapping
             .ForMember(s => s.QuestionId, opts => opts.MapFrom(o => int.Parse(o.Field)))
             .ForMember(s => s.Question, opts => opts.Ignore())
             .ForMember(s => s.ValidationMessages, opts => opts.MapFrom<LabelValueResolver, string>(x => x.Message))
-
             .ForMember(s => s.Id, opts => opts.MapFrom(o => o.Id));
 
             CreateMap<SurveyLogic, SurveyLogicViewModel>()
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
-            .ForMember(s => s.Message, opts => opts.Ignore())
-            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value));
+            .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
+            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
+            .ForMember(s => s.Rules, opts => opts.MapFrom( o => o.Expressions));
         }
 
 

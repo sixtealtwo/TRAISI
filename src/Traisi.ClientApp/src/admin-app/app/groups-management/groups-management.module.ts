@@ -8,7 +8,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { GroupsManagementComponent } from './groups-management.component';
 import { ROUTES } from './groups-management.routes';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 

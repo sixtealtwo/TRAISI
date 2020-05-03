@@ -5,7 +5,7 @@ namespace Traisi.Models.ViewModels
 {
     public class SurveyLogicViewModel
     {
-        public int Id { get; set; } = 0;
+        public int? Id { get; set; } = 0;
 
         public string Message { get; set; }
 

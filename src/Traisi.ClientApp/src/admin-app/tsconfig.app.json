@@ -9,7 +9,7 @@
 		"experimentalDecorators": true,
 		"paths": {
 			// "@angular/*": ["../../node_modules/@angular/*"],
-			"traisi-question-sdk": ["../../../../TRAISI.SDK/Client/dist"],
+			"traisi-question-sdk": ["../../../TRAISI.SDK/Client/dist"],
 			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"]
 		}
 	},

@@ -26,11 +26,16 @@ namespace Traisi.Data.Models.Surveys
         [ForeignKey("Question")]
         public int? QuestionId { get; set; }
         public SurveyLogicOperator? Operator { get; set; }
+
+        public SurveyLogic() {
+            ValidationMessages = new LabelCollection<Label>();
+            Expressions = new List<SurveyLogic>();
+        }
     }
 
     public enum SurveyLogicOperator
     {
-        [EnumMember(Value = "Equals")]
+        [EnumMember(Value = "=")]
         Equals,
         [EnumMember(Value = "NotEquals")]
         NotEquals,

@@ -995,31 +995,20 @@ namespace Traisi.Services
             await this._unitOfWork.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="survey"></param>
+        /// <param name="logic"></param>
+        /// <returns></returns>
         public async Task UpdateSurveyLogic(Survey survey, SurveyLogic logic)
         {
-            SurveyLogic source = survey.SurveyLogic.Where(s => s.Id == logic.Id).First();
+            var source = survey.SurveyLogic.FirstOrDefault(x => x.Id == logic.Id);
+
             source.Condition = logic.Condition;
-            source.ValidationMessages = logic.ValidationMessages;
-
-            // remove any language labels that are missing
-            source.ValidationMessages.RemoveWhere(x => logic.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language));
-
-            // add any new language labels
-            source.ValidationMessages.UnionWith(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
-            {
-                return new Label()
-                {
-                    Value = x.Value,
-                    Language = x.Language
-
-                };
-            }));
-
-            // copy values
-            foreach (var label in source.ValidationMessages)
-            {
-                label.Value = logic.ValidationMessages[label.Language].Value;
-            }
+            source.Operator = logic.Operator;
+            source.ValidationMessages[logic.ValidationMessages.First().Language].Value =
+                logic.ValidationMessages.First().Value;
             await this._unitOfWork.SaveChangesAsync();
         }
 

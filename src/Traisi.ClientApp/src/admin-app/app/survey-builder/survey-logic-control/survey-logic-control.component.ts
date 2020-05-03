@@ -64,7 +64,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	public addLogic(): void {
 		let logic = { condition: 'and', rules: [], message: '', id: 0 };
 		this.queryModels.push(logic);
-		this._builder.addSurveyLogic(this._editor.surveyId, logic).subscribe((v) => {
+		this._builder.addSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, logic).subscribe((v) => {
 			logic.id = v;
 		});
 
@@ -88,7 +88,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 			this.isLoaded$.next(true);
 		});
 
-		combineLatest(this.isLoaded$, this._builder.getSurveyLogic(this._editor.surveyId)).subscribe((result) => {
+		combineLatest(
+			this.isLoaded$,
+			this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage)
+		).subscribe((result) => {
 			console.log(result[1]);
 			this.queryModels = <Array<RuleSet & { message: string; id: number }>>result[1];
 		});
@@ -104,7 +107,9 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 				})
 			)
 			.subscribe((model) => {
-				this._builder.updateSurveyLogic(this._editor.surveyId, model).subscribe((v) => {});
+				this._builder
+					.updateSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, model)
+					.subscribe((v) => {});
 			});
 	}
 	ngOnDestroy(): void {}

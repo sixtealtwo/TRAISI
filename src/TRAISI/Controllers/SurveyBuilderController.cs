@@ -753,7 +753,7 @@ namespace Traisi.Controllers
         [Produces(typeof(WelcomePageLabelViewModel))]
         public async Task<IActionResult> GetWelcomePageLabel(int surveyId, string surveyViewName, string language)
         {
-            SurveyViewType viewType = surveyViewName.Equals("Standard",StringComparison.OrdinalIgnoreCase) ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            SurveyViewType viewType = surveyViewName.Equals("Standard", StringComparison.OrdinalIgnoreCase) ? SurveyViewType.RespondentView : SurveyViewType.CatiView;
             var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
@@ -770,7 +770,7 @@ namespace Traisi.Controllers
         [Produces(typeof(ThankYouPageLabelViewModel))]
         public async Task<IActionResult> GetThankYouPageLabel(int surveyId, string surveyViewName, string language)
         {
-            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView : SurveyViewType.CatiView;
             var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
@@ -787,7 +787,7 @@ namespace Traisi.Controllers
         [Produces(typeof(TermsAndConditionsPageLabelViewModel))]
         public async Task<IActionResult> GetTermsAndConditionsPageLabel(int surveyId, string surveyViewName, string language)
         {
-            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView : SurveyViewType.CatiView;
             var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
@@ -804,7 +804,7 @@ namespace Traisi.Controllers
         [Produces(typeof(ScreeningQuestionsLabelViewModel))]
         public async Task<IActionResult> GetScreeningQuestionsLabel(int surveyId, string surveyViewName, string language)
         {
-            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView : SurveyViewType.CatiView;
             var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
@@ -1050,14 +1050,17 @@ namespace Traisi.Controllers
         [HttpPut("surveys/{surveyId}/survey-logic")]
         [Consumes("application/json")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel)
+        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel, [FromQuery]string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
             {
                 return new NotFoundResult();
             }
-            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
             await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
             return new OkResult();
         }
@@ -1066,20 +1069,24 @@ namespace Traisi.Controllers
         /// Adds a new survey logic group to the survey and returns the ID of the new object.
         /// </summary>
         /// <param name="surveyId"></param>
+        /// <param name="language"></param>
         /// <param name="surveyLogicViewModel"></param>
         /// <returns></returns>
         [HttpPost("surveys/{surveyId}/survey-logic")]
         [Consumes("application/json")]
         [ProducesDefaultResponseType]
         [Produces(typeof(int))]
-        public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel)
+        public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel, [FromQuery]string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
             {
                 return new NotFoundResult();
             }
-            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel);
+            var surveyLogic = _mapper.Map<SurveyLogic>(surveyLogicViewModel, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
             await this._surveyBuilderService.AddSurveyLogic(survey, surveyLogic);
             return new OkObjectResult(surveyLogic.Id);
         }
@@ -1110,13 +1117,16 @@ namespace Traisi.Controllers
         /// <param name="surveyId"></param>
         /// <returns></returns>
         [HttpGet("surveys/{surveyId}/survey-logic")]
-        [Produces(typeof(List<SurveyLogicViewModel>))]
-        public async Task<IActionResult> GetSurveyLogic(int surveyId)
+        [Produces(typeof(List<SurveyLogicViewModel>))] 
+        public async Task<IActionResult> GetSurveyLogic(int surveyId, [FromQuery] string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey != null)
             {
-                var mappedResult = _mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic);
+                var mappedResult = _mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
                 return new OkObjectResult(mappedResult);
             }
             else

@@ -13,14 +13,12 @@ import {
 import { AlertService, DialogType, MessageSeverity } from '../../../shared/services/alert.service';
 import { AccountService } from '../services/account.service';
 import { AppTranslationService } from '../../../shared/services/app-translation.service';
-
 import { Utilities } from '../../../shared/services/utilities';
-
 import { UserGroupService } from '../services/user-group.service';
 import { UserGroup } from '../models/user-group.model';
 import { UserGroupAPIKeys } from '../models/user-group-apikeys.model';
 import { EmailTemplate } from '../models/email-template.model';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DomSanitizer } from '@angular/platform-browser';
 
 

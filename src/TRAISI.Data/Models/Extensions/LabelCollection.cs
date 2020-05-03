@@ -8,13 +8,22 @@ namespace Traisi.Data.Models.Extensions
     /// Utility class for containing label collections.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class LabelCollection<T> : HashSet<T> where T : Label
+    public class LabelCollection<T> : HashSet<T> where T : Label, new()
     {
         public T this[string key]
         {
             get
             {
-                return this.FirstOrDefault(t => t.Language == key);
+                var res = this.FirstOrDefault(t => t.Language == key);
+                if (res == null)
+                {
+                    res = new T()
+                    {
+                        Language = key
+                    };
+                    Add(res);
+                }
+                return res;
             }
             set
             {
@@ -29,8 +38,10 @@ namespace Traisi.Data.Models.Extensions
         /// </summary>
         /// <value>The label for the default language (usually first label).
         /// Returns null if no labels are in the collection.</value>
-        public T Default {
-            get {
+        public T Default
+        {
+            get
+            {
                 return this.FirstOrDefault();
             }
         }

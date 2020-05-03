@@ -16,7 +16,7 @@ import { RolesManagementComponent } from './roles-management/roles-management.co
 import { RoleEditorComponent } from './roles-management/role-editor.component';
 import { SharedModule } from '../shared/shared.module';
 import { GroupByPipe } from '../pipes/group-by.pipe';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 export const translateModuleForChild = TranslateModule.forChild({
 	loader: { provide: TranslateLoader, useClass: TranslateLanguageLoader }

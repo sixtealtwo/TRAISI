@@ -15,7 +15,7 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { PopoverModule } from "ngx-bootstrap/popover";
 import { CarouselModule } from "ngx-bootstrap/carousel";
-import { ButtonsModule } from "ngx-bootstrap";
+import { ButtonsModule } from "ngx-bootstrap/buttons";
 import { AppRoutingModule } from "./app-routing.module";
 import {
 	AppTranslationService,

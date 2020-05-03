@@ -21,7 +21,7 @@ import {
 import { QuestionConditionalSourceGroup } from "../../../../models/question-conditional-source-group.model";
 import { QuestionConditional } from "../../../../models/question-conditional.model";
 import { QuestionOptionConditional } from "../../../../models/question-option-conditional.model";
-import { BsDaterangepickerConfig } from "ngx-bootstrap";
+import { BsDaterangepickerConfig } from "ngx-bootstrap/datepicker";
 import { QuestionOptionValue } from "../../../../models/question-option-value.model";
 import {
 	SBQuestionPartViewModel,

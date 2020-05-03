@@ -4,8 +4,8 @@
   "documentGenerator": {
     "webApiToOpenApi": {
       "controllerNames": [
-        "TRAISI.Controllers.QuestionController",
-        "TRAISI.Controllers.SurveyBuilderController"
+        "Traisi.Controllers.SurveyBuilderController",
+        "Traisi.Controllers.QuestionController"
       ],
       "isAspNetCore": true,
       "resolveJsonOptions": false,
@@ -120,7 +120,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "ClientApp/src/admin-app/app/survey-builder/services/survey-builder-client.service.ts"
+      "output": "../Traisi.ClientApp/src/admin-app/app/survey-builder/services/survey-builder-client.service.ts"
     }
   }
 }

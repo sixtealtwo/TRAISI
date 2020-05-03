@@ -17,7 +17,7 @@ import {
 	MessageSeverity
 } from "../../../../../shared/services/alert.service";
 import { Utilities } from "../../../../../shared/services/utilities";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { QuestionConfigurationComponent } from "../question-configuration/question-configuration.component";
 import { QuestionTypeDefinition } from "../../models/question-type-definition";
 import { QuestionPartView } from "../../models/question-part-view.model";

@@ -13,7 +13,7 @@
 		"paths": {
 			//"traisi-question-sdk": ["../../TRAISI.SDK/Client/dist"],
 			"questions/*": ["../../Questions/*"],
-			"echarts": ["../node_modules/echarts/dist/echarts-en.min.js"],
+			"echarts": ["node_modules/echarts/dist/echarts-en.min.js"],
 			"shared/*": ["./src/shared/*"]
 		}
 	},
