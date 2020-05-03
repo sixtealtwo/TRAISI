@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Traisi.Services;
 using Traisi.Services.Interfaces;
+using Traisi.Data.Models.Extensions;
 
 namespace Traisi.UnitTests.Services
 {
@@ -76,6 +77,39 @@ namespace Traisi.UnitTests.Services
             };
             this._surveyBuilderService.AddSurveyLogic(survey, logic1);
             Assert.Equal(survey.SurveyLogic.First(), logic1); */
+        }
+
+        [Fact]
+        public void UpdateSurveyLogic_WithNewChildren_AddsCorrectly()
+        {
+            Survey survey = new Survey();
+            SurveyLogic logic1 = new SurveyLogic()
+            {
+                Id = 1,
+                ValidationMessages = new LabelCollection<Label>()
+            };
+            logic1.ValidationMessages["en"].Value = "Logic1";
+            this._surveyBuilderService.AddSurveyLogic(survey, logic1);
+
+            SurveyLogic logic1Update = new SurveyLogic()
+            {
+                Id = 1,
+                ValidationMessages = new LabelCollection<Label>()
+            };
+            logic1Update.ValidationMessages["en"].Value = "Logic1Update";
+            logic1Update.Expressions.Add(new SurveyLogic()
+            {
+                Id = 2,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+        this._surveyBuilderService.UpdateSurveyLogic(survey, logic1Update);
+            Assert.Equal("Logic1Update", logic1.ValidationMessages["en"].Value);
+            Assert.Collection(logic1.Expressions, (logic) =>
+            {
+                Assert.Equal(2, logic.Id);
+            });
+
+
         }
 
         [Fact]
