@@ -67,11 +67,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.modelChanged$.next(this.queryModels[index]);
 	}
 
-	public onOptionModelChange($event: string, index: number, rule: Rule): void {
+	public onOptionModelChange($event: Array<QuestionOptionValueViewModel>, index: number, rule: Rule): void {
 		
-		console.log($event);
-		console.log(rule);
-		rule.value = $event['code'];
+		let value = $event.map(i => i.code)
+		rule.value = value;
 		this.modelChanged$.next(this.queryModels[index]);
 	}
 

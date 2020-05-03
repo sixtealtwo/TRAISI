@@ -3,6 +3,8 @@ using AutoMapper;
 using Traisi.Models.ViewModels;
 using Traisi.Data.Models.Surveys;
 using Traisi.Data.Models.Extensions;
+using Newtonsoft.Json;
+using System;
 
 namespace Traisi.Models.Mapping
 {
@@ -32,7 +34,7 @@ namespace Traisi.Models.Mapping
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
             .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
-            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
+            .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
             .ForMember(s => s.Rules, opts => opts.MapFrom(o => o.Expressions));
 
             CreateMap<SurveyLogic, SurveyLogicBaseViewModel>()
@@ -46,10 +48,40 @@ namespace Traisi.Models.Mapping
 
             CreateMap<SurveyLogic, SurveyLogicRulesViewModel>()
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
-            .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
+            .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator));
         }
     }
+
+    public class LogicValueConverter : IValueConverter<string, object>
+    {
+        public object Convert(string sourceMember, ResolutionContext context)
+        {
+            if (sourceMember != null)
+            {
+                try
+                {
+                    var stringResult = JsonConvert.DeserializeObject<List<string>>(sourceMember);
+                    if (stringResult != null)
+                    {
+                        return stringResult;
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+                if (int.TryParse(sourceMember, out var intValue))
+                {
+                    return intValue;
+                }
+            }
+
+            return sourceMember;
+        }
+    }
+
+
     public class SurveyLogicOperatorTypeConverter : ITypeConverter<string, SurveyLogicOperator>
     {
         public SurveyLogicOperator Convert(string source, SurveyLogicOperator destination, ResolutionContext context)

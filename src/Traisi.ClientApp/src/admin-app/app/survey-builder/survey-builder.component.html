@@ -322,19 +322,11 @@
 								(change)="onPageChange($event)"
 							>
 								<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-	
-											<div class="page-label">
-												<i [ngClass]="item.icon"></i>{{ item.label.value }}
-											</div>
-
+									<div class="page-label"><i [ngClass]="item.icon"></i>{{ item.label.value }}</div>
 								</ng-template>
 								<ng-template ng-label-tmp let-item="item">
-			
-											<div class="page-label">
-												<i [ngClass]="item.icon"></i>{{ item.label.value }}
-											</div>
-			
-	
+									<div class="page-label"><i [ngClass]="item.icon"></i>{{ item.label.value }}</div>
+
 									<!--<div class="page-label"><i [ngClass]="item.icon"></i>{{ item.label.value }}</div>-->
 								</ng-template>
 							</ng-select>
@@ -542,18 +534,18 @@
 	aria-hidden="true"
 >
 	<div class="modal-dialog" *ngIf="currentSurveyPageEdit">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">
-					<i class="far fa-file-alt mr-2"></i>
-					Edit Survey Page
-				</h4>
-				<button type="button" class="close pull-right" title="Close" (click)="editPageModal.hide()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal form-label-left" role="form" (ngSubmit)="savePage()">
+		<form class="form-horizontal form-label-left" role="form" (ngSubmit)="savePage()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title pull-left">
+						<i class="far fa-file-alt mr-2"></i>
+						Edit Survey Page
+					</h4>
+					<button type="button" class="close pull-right" title="Close" (click)="editPageModal.hide()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 					<div class="form-group row">
 						<label for="normal-field" class="col-md-4 col-form-label text-md-right">Page Title</label>
 						<div class="col-md-7">
@@ -595,33 +587,33 @@
 							<hr class="edit-last-separator-hr" />
 						</div>
 					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<div class="container">
-					<div class="row">
-						<div class="col">
-							<button type="button" class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
-								Delete Page
-							</button>
-						</div>
-						<div class="col">
-							<button
-								type="button"
-								class="btn btn-secondary"
-								(click)="editPageModal.hide()"
-								title="Cancel"
-							>
-								Cancel
-							</button>
-							<button type="submit" class="btn btn-primary action-button" title="Save Page Changes">
-								Save Changes
-							</button>
+				</div>
+				<div class="modal-footer">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<button type="button" class="btn btn-danger" (click)="deletePage(currentSurveyPage.id)">
+									Delete Page
+								</button>
+							</div>
+							<div class="col">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									(click)="editPageModal.hide()"
+									title="Cancel"
+								>
+									Cancel
+								</button>
+								<button type="submit" class="btn btn-primary action-button" title="Save Page Changes">
+									Save Changes
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
 
