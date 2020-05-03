@@ -142,7 +142,7 @@ namespace Traisi.Models.Mapping
                 }))
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.Label = opt.Mapper.Map<QuestionPartViewLabelViewModel>(
+                    svm.Label = opt.Mapper.Map<LabelViewModel>(
                         s.Labels.FirstOrDefault(l => l.Language == (string)opt.Items["Language"]));
                     svm.QuestionPartViewChildren = svm.QuestionPartViewChildren?.OrderBy(c => c.Order).ToList();
                 });
@@ -241,26 +241,30 @@ namespace Traisi.Models.Mapping
                 .ForMember(o => o.Name, map => map.Ignore())
                 .ForMember(o => o.QuestionOptionLabels, map => map.Ignore());
 
-            CreateMap<QuestionPartViewLabelViewModel, QuestionPartViewLabel>()
-                .ForMember(w => w.QuestionPartView, map => map.Ignore())
+            CreateMap<LabelViewModel, Label>()
+                // .ForMember(w => w.QuestionPartView, map => map.Ignore())
                 .ReverseMap();
 
-            CreateMap<WelcomePageLabelViewModel, WelcomePageLabel>()
-                .ForMember(w => w.SurveyView, map => map.Ignore())
+            CreateMap<WelcomePageLabelViewModel, Label>()
+                .ForMember(w => w.Id, map => map.MapFrom(x => x.Id))
+                .ForMember(w => w.Language, map => map.MapFrom(x => x.Language))
+                .ForMember(w => w.Value, map => map.MapFrom(x => x.Value))
                 .ReverseMap();
-
-            CreateMap<ThankYouPageLabelViewModel, ThankYouPageLabel>()
-                .ForMember(w => w.SurveyView, map => map.Ignore())
-                .ReverseMap();
-
-            CreateMap<TermsAndConditionsPageLabelViewModel, TermsAndConditionsPageLabel>()
-                .ForMember(w => w.SurveyView, map => map.Ignore())
-                .ReverseMap();
-
-            CreateMap<ScreeningQuestionsLabelViewModel, ScreeningQuestionsPageLabel>()
-                .ForMember(w => w.SurveyView, map => map.Ignore())
-                .ReverseMap();
-
+            CreateMap<ThankYouPageLabelViewModel, Label>()
+            .ForMember(w => w.Id, map => map.MapFrom(x => x.Id))
+            .ForMember(w => w.Language, map => map.MapFrom(x => x.Language))
+            .ForMember(w => w.Value, map => map.MapFrom(x => x.Value))
+            .ReverseMap();
+            CreateMap<TermsAndConditionsPageLabelViewModel, Label>()
+            .ForMember(w => w.Id, map => map.MapFrom(x => x.Id))
+            .ForMember(w => w.Language, map => map.MapFrom(x => x.Language))
+            .ForMember(w => w.Value, map => map.MapFrom(x => x.Value))
+            .ReverseMap();
+            CreateMap<ScreeningQuestionsLabelViewModel, Label>()
+            .ForMember(w => w.Id, map => map.MapFrom(x => x.Id))
+            .ForMember(w => w.Language, map => map.MapFrom(x => x.Language))
+            .ForMember(w => w.Value, map => map.MapFrom(x => x.Value))
+            .ReverseMap();
             CreateMap<LabelViewModel, Label>()
                 .ReverseMap();
 
@@ -274,7 +278,7 @@ namespace Traisi.Models.Mapping
             CreateMap<QuestionConfigurationDefinition, QuestionConfigurationDefinitionViewModel>()
                 .ForMember(q => q.ResourceData, map => map.MapFrom<string>((s, d, m, o) =>
                 {
-                    
+
                     var result = ((s.SharedResource == null)
                         ? ((s.ResourceData == null) ? (null) : (System.Text.Encoding.UTF8.GetString(s.ResourceData)))
                         : System.Text.Encoding.UTF8.GetString(QuestionTypeManager

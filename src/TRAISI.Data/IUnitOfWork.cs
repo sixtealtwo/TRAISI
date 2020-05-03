@@ -22,11 +22,6 @@ namespace Traisi.Data
         ISurveyViewRepository SurveyViews { get; }
         IQuestionPartRepository QuestionParts { get; }
         IQuestionPartViewRepository QuestionPartViews { get; }
-        IWelcomePageLabelRepository WelcomePageLabels { get; }
-        IThankYouPageLabelRepository ThankYouPageLabels { get; }
-        IRepository<TitlePageLabel> TitlePageLabels { get; }
-        ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels { get; }
-        IScreeningQuestionsLabelRepository ScreeningQuestionsLabels { get; }
         ISurveyResponseRepository SurveyResponses { get; }
         IQuestionOptionRepository QuestionOptions { get; }
         IQuestionConditionalRepository QuestionConditionals { get; }

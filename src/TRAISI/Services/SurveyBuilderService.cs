@@ -862,7 +862,7 @@ namespace Traisi.Services
         /// <param name="language"></param>
         public void SetSurveyTitle(Survey survey, string title, string language)
         {
-            survey.TitleLabels[language] = new TitlePageLabel
+            survey.TitleLabels[language] = new Label
             {
                 Language = language,
                 Value = title
@@ -1007,7 +1007,7 @@ namespace Traisi.Services
             // add any new language labels
             source.ValidationMessages.UnionWith(logic.ValidationMessages.Where(x => !source.ValidationMessages.Select(x2 => x2.Language).Contains(x.Language)).Select(x =>
             {
-                return new SurveyLogicLabel()
+                return new Label()
                 {
                     Value = x.Value,
                     Language = x.Language

@@ -38,7 +38,7 @@ namespace Traisi.Models.Mapping
 
                 });
 
-            CreateMap<ThankYouPageLabel, SurveyViewThankYouViewModel>()
+            /*CreateMap<Label, SurveyViewThankYouViewModel>()
                 .ForMember(w => w.ThankYouText, map => map.MapFrom(m => m.Value))
                 .AfterMap((s, svm, opt) =>
                 {
@@ -52,7 +52,8 @@ namespace Traisi.Models.Mapping
                         svm.HasSuccessLink = true;
                         svm.SuccessLink = s.SurveyView.Survey.SuccessLink;
                     }
-                });
+                }); */
+                
             CreateMap<Survey, SurveyStartViewModel>()
                 .ForMember(m => m.HasGroupCodes, options => { options.Ignore(); })
                 .ForMember(m => m.Name, opts => opts.MapFrom(o => o.Name))

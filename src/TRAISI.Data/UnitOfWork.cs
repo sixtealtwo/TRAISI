@@ -24,10 +24,6 @@ namespace Traisi.Data
         IShortcodeRepository _shortcodes;
         IGroupcodeRepository _groupCodes;
         ISurveyViewRepository _surveyViews;
-        IWelcomePageLabelRepository _welcomePageLabels;
-        IThankYouPageLabelRepository _thankYouPageLabels;
-        ITermsAndConditionsPageLabelRepository _termsAndConditionsPageLabels;
-        IScreeningQuestionsLabelRepository _screeningQuestionsLabels;
         IQuestionPartRepository _questionParts;
         IQuestionPartViewRepository _questionPartViews;
         ISurveyResponseRepository _surveyResponses;
@@ -41,8 +37,6 @@ namespace Traisi.Data
         ISurveyRespondentRepository _surveyRespondentRepository;
 
         ISurveyUserRepository _surveyUserRepository;
-
-        IRepository<TitlePageLabel> _titlePageLabelsRepository;
 
         IRepository<SurveyLogic> _surveyLogicRepository;
 
@@ -261,57 +255,7 @@ namespace Traisi.Data
             }
         }
 
-        public IWelcomePageLabelRepository WelcomePageLabels
-        {
-            get
-            {
-                if (_welcomePageLabels == null)
-                {
-                    _welcomePageLabels = new WelcomePageLabelRepository(_context);
-                }
-
-                return _welcomePageLabels;
-            }
-        }
-
-        public IThankYouPageLabelRepository ThankYouPageLabels
-        {
-            get
-            {
-                if (_thankYouPageLabels == null)
-                {
-                    _thankYouPageLabels = new ThankYouPageLabelRepository(_context);
-                }
-
-                return _thankYouPageLabels;
-            }
-        }
-
-        public ITermsAndConditionsPageLabelRepository TermsAndConditionsPageLabels
-        {
-            get
-            {
-                if (_termsAndConditionsPageLabels == null)
-                {
-                    _termsAndConditionsPageLabels = new TermsAndConditionsPageLabelRepository(_context);
-                }
-
-                return _termsAndConditionsPageLabels;
-            }
-        }
-
-        public IScreeningQuestionsLabelRepository ScreeningQuestionsLabels
-        {
-            get
-            {
-                if (_screeningQuestionsLabels == null)
-                {
-                    _screeningQuestionsLabels = new ScreeningQuestionsLabelRepository(_context);
-                }
-
-                return _screeningQuestionsLabels;
-            }
-        }
+        
 
         public ISurveyRespondentRepository SurveyRespondents
         {
@@ -354,19 +298,7 @@ namespace Traisi.Data
             }
         }
 
-        public IRepository<TitlePageLabel> TitlePageLabels
-        {
-            get
-            {
-
-                if (_titlePageLabelsRepository == null)
-                {
-                    _titlePageLabelsRepository = new Repository<TitlePageLabel>(_context);
-                }
-
-                return _titlePageLabelsRepository;
-            }
-        }
+       
 
         public IRepository<SurveyLogic> SurveyLogic
         {

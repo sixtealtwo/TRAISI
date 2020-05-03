@@ -7,6 +7,7 @@
     <Company>University of Toronto + Personal</Company>
     <AssemblyVersion>2.0.0.1</AssemblyVersion>
     <FileVersion>2.0.0.1</FileVersion>
+    <GenerateFullPaths>true</GenerateFullPaths>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>8.0</LangVersion>

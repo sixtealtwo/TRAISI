@@ -27,6 +27,7 @@ using Traisi.ViewModels.Extensions;
 using Traisi.ViewModels.Questions;
 using Traisi.ViewModels.SurveyBuilder;
 using Traisi.Models.ViewModels;
+using Traisi.Models.Extensions;
 
 namespace Traisi.Controllers
 {
@@ -752,10 +753,11 @@ namespace Traisi.Controllers
         [Produces(typeof(WelcomePageLabelViewModel))]
         public async Task<IActionResult> GetWelcomePageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            SurveyViewType viewType = surveyViewName.Equals("Standard",StringComparison.OrdinalIgnoreCase) ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var welcomePageLabel = await this._unitOfWork.WelcomePageLabels.GetWelcomePageLabelAsync(surveyId, surveyViewName, language);
+                var welcomePageLabel = survey.GetSurveyView(surveyViewName).WelcomePageLabels[language];
                 return Ok(_mapper.Map<WelcomePageLabelViewModel>(welcomePageLabel));
             }
             else
@@ -768,11 +770,12 @@ namespace Traisi.Controllers
         [Produces(typeof(ThankYouPageLabelViewModel))]
         public async Task<IActionResult> GetThankYouPageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var thankYouPageLabel = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, surveyViewName, language);
-                return Ok(_mapper.Map<ThankYouPageLabelViewModel>(thankYouPageLabel));
+                var label = survey.SurveyViews.FirstOrDefault(s => s.ViewName == surveyViewName).ThankYouPageLabels[language];
+                return Ok(_mapper.Map<ThankYouPageLabelViewModel>(label));
             }
             else
             {
@@ -784,11 +787,12 @@ namespace Traisi.Controllers
         [Produces(typeof(TermsAndConditionsPageLabelViewModel))]
         public async Task<IActionResult> GetTermsAndConditionsPageLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var termsAndConditionsPageLabel = await this._unitOfWork.TermsAndConditionsPageLabels.GetTermsAndConditionsPageLabelAsync(surveyId, surveyViewName, language);
-                return Ok(_mapper.Map<TermsAndConditionsPageLabelViewModel>(termsAndConditionsPageLabel));
+                var label = survey.SurveyViews.FirstOrDefault(s => s.ViewName == surveyViewName).TermsAndConditionsLabels[language];
+                return Ok(_mapper.Map<TermsAndConditionsPageLabelViewModel>(label));
             }
             else
             {
@@ -800,11 +804,12 @@ namespace Traisi.Controllers
         [Produces(typeof(ScreeningQuestionsLabelViewModel))]
         public async Task<IActionResult> GetScreeningQuestionsLabel(int surveyId, string surveyViewName, string language)
         {
-            var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
+            SurveyViewType viewType = surveyViewName == "Standard" ? SurveyViewType.RespondentView :SurveyViewType.CatiView;
+            var survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
             if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
             {
-                var screeningQuestionsLabel = await this._unitOfWork.ScreeningQuestionsLabels.GetScreeningQuestionsLabelAsync(surveyId, surveyViewName, language);
-                return Ok(_mapper.Map<ScreeningQuestionsLabelViewModel>(screeningQuestionsLabel));
+                var label = survey.SurveyViews.FirstOrDefault(s => s.ViewName == surveyViewName).ScreeningQuestionLabels[language];
+                return Ok(_mapper.Map<ScreeningQuestionsLabelViewModel>(label));
             }
             else
             {
@@ -820,9 +825,9 @@ namespace Traisi.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    WelcomePageLabel welcomePageUpdated = _mapper.Map<WelcomePageLabel>(welcomePageLabel);
-                    welcomePageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(welcomePageUpdated.SurveyViewId);
-                    this._unitOfWork.WelcomePageLabels.Update(welcomePageUpdated);
+                    Label welcomePageUpdated = _mapper.Map<Label>(welcomePageLabel);
+                    // welcomePageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(welcomePageUpdated.SurveyViewId);
+                    this._unitOfWork.Labels.Update(welcomePageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }
@@ -842,9 +847,9 @@ namespace Traisi.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    ThankYouPageLabel thankYouPageUpdated = _mapper.Map<ThankYouPageLabel>(thankYouPageLabel);
-                    thankYouPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(thankYouPageUpdated.SurveyViewId);
-                    this._unitOfWork.ThankYouPageLabels.Update(thankYouPageUpdated);
+                    Label thankYouPageUpdated = _mapper.Map<Label>(thankYouPageLabel);
+                    // thankYouPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(thankYouPageUpdated.SurveyViewId);
+                    this._unitOfWork.Labels.Update(thankYouPageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }
@@ -897,9 +902,9 @@ namespace Traisi.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    TermsAndConditionsPageLabel termsAndConditionsPageUpdated = _mapper.Map<TermsAndConditionsPageLabel>(termsAndConditionsPageLabel);
-                    termsAndConditionsPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(termsAndConditionsPageUpdated.SurveyViewId);
-                    this._unitOfWork.TermsAndConditionsPageLabels.Update(termsAndConditionsPageUpdated);
+                    Label termsAndConditionsPageUpdated = _mapper.Map<Label>(termsAndConditionsPageLabel);
+                    // termsAndConditionsPageUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(termsAndConditionsPageUpdated.SurveyViewId);
+                    this._unitOfWork.Labels.Update(termsAndConditionsPageUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }
@@ -919,9 +924,9 @@ namespace Traisi.Controllers
                 var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
                 if (survey.Owner == this.User.Identity.Name || await HasModifySurveyPermissions(surveyId))
                 {
-                    ScreeningQuestionsPageLabel screeningQuestionsUpdated = _mapper.Map<ScreeningQuestionsPageLabel>(screeningQuestionsLabel);
-                    screeningQuestionsUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(screeningQuestionsUpdated.SurveyViewId);
-                    this._unitOfWork.ScreeningQuestionsLabels.Update(screeningQuestionsUpdated);
+                    Label screeningQuestionsUpdated = _mapper.Map<Label>(screeningQuestionsLabel);
+                    // screeningQuestionsUpdated.SurveyView = this._unitOfWork.SurveyViews.Get(screeningQuestionsUpdated.SurveyViewId);
+                    this._unitOfWork.Labels.Update(screeningQuestionsUpdated);
                     await this._unitOfWork.SaveChangesAsync();
                     return new OkResult();
                 }

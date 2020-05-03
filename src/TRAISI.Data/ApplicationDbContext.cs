@@ -54,12 +54,11 @@ namespace Traisi.Data
 
         public DbSet<LocationResponse> OptionSelectResponses { get; set; }
         public DbSet<SurveyView> SurveyViews { get; set; }
-        public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
-        public DbSet<ThankYouPageLabel> ThankYouPageLabels { get; set; }
-        // public DbSet<TermsAndConditionsPageLabel> TermsAndConditionsPageLabels { get; set; }
+        //public DbSet<WelcomePageLabel> WelcomePageLabels { get; set; }
+        //// public DbSet<TermsAndConditionsPageLabel> TermsAndConditionsPageLabels { get; set; }
 
-        public DbSet<ScreeningQuestionsPageLabel> ScreeningQuestionsLabels { get; set; }
-        public DbSet<TitlePageLabel> TitlePageLabels { get; set; }
+        //public DbSet<ScreeningQuestionsPageLabel> ScreeningQuestionsLabels { get; set; }
+        //public DbSet<TitlePageLabel> TitlePageLabels { get; set; }
 
         public DbSet<QuestionPartView> QuestionPartViews { get; set; }
 
@@ -228,6 +227,7 @@ namespace Traisi.Data
             builder.Entity<SurveyLogic>().HasMany(x => x.Expressions).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyLogic>().HasMany(x => x.ValidationMessages).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(x => x.SurveyLogic).WithOne().OnDelete(DeleteBehavior.Cascade);
+            
 
         }
 

@@ -26,6 +26,7 @@ using Traisi.ViewModels.Extensions;
 using Traisi.ViewModels.SurveyViewer;
 using Traisi.ViewModels.Users;
 using Traisi.Models.ViewModels;
+using Traisi.Models.Extensions;
 
 namespace Traisi.Services
 {
@@ -82,14 +83,12 @@ namespace Traisi.Services
             {
                 var s2 = (survey.SurveyViews as List<SurveyView>);
                 return (survey.SurveyViews as List<SurveyView>)[0]
-                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper,language);
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper, language);
             }
             else
             {
-
                 return (survey.SurveyViews as List<SurveyView>)[0]
-                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper,language);
-
+                    .ToLocalizedModel<SurveyViewTermsAndConditionsViewModel>(_mapper, language);
             }
         }
 
@@ -100,10 +99,12 @@ namespace Traisi.Services
         /// <param name="language"></param>
         /// <param name="viewType"></param>
         /// <returns></returns>
-        public async Task<SurveyViewThankYouViewModel> GetSurveyThankYouText(int surveyId, string language = null, SurveyViewType viewType = SurveyViewType.CatiView)
+        public async Task<SurveyViewThankYouViewModel> GetSurveyThankYouText(int surveyId, string language = "en",
+         SurveyViewType viewType = SurveyViewType.RespondentView)
         {
             string viewName = viewType == SurveyViewType.RespondentView ? "Standard" : "CATI";
-            var surveyThankYou = await this._unitOfWork.ThankYouPageLabels.GetThankYouPageLabelAsync(surveyId, viewName, language);
+            Survey survey = await this._unitOfWork.Surveys.GetSurveyWithLabelsAsync(surveyId, viewType);
+            var surveyThankYou = survey.GetSurveyView(viewType).ThankYouPageLabels[language];
             return _mapper.Map<SurveyViewThankYouViewModel>(surveyThankYou);
         }
 
@@ -178,7 +179,7 @@ namespace Traisi.Services
             var respondent = await this._respondentService.CreatePrimaryRespondentForUser(appUser, survey);
             result.Item3.PrimaryRespondent = respondent;
             return (result.Item1, result.Item2, result.Item3, respondent);
-            
+
         }
 
         /// <summary>
@@ -335,7 +336,7 @@ namespace Traisi.Services
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyByCodeFullAsync(name);
 
-            return survey.ToLocalizedModel<SurveyStartViewModel>(_mapper,"en");
+            return survey.ToLocalizedModel<SurveyStartViewModel>(_mapper, "en");
             //return Auto_mapper.Mapper.Map<SurveyWelcomeViewModel>(survey,"en");
         }
 

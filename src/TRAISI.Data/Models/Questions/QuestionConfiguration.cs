@@ -5,6 +5,7 @@ using Traisi.Sdk.Enums;
 using Newtonsoft.Json;
 using Traisi.Sdk.Interfaces;
 using System.Collections;
+using Traisi.Data.Models.Surveys;
 
 namespace Traisi.Data.Models.Questions
 {
@@ -44,7 +45,7 @@ namespace Traisi.Data.Models.Questions
 		/// 
 		/// </summary>
 		/// <value></value>
-		public LabelCollection<QuestionConfigurationLabel> QuestionConfigurationLabels { get; set; }
+		public LabelCollection<Label> QuestionConfigurationLabels { get; set; }
 
 		/// <summary>
 		/// 

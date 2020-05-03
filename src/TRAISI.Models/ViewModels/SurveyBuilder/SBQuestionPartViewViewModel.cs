@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentValidation;
+using Traisi.Models.ViewModels;
 
 namespace Traisi.ViewModels.SurveyBuilder
 {
@@ -9,7 +10,7 @@ namespace Traisi.ViewModels.SurveyBuilder
 
 		public SBQuestionPartViewModel QuestionPart { get; set; }
 
-		public QuestionPartViewLabelViewModel Label { get; set; }
+		public LabelViewModel Label { get; set; }
 
 		public int? ParentViewId { get; set; }
 
