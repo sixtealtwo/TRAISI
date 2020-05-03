@@ -975,6 +975,7 @@ namespace Traisi.Services
         public async Task RemoveSurveyLogic(Survey survey, SurveyLogic logic)
         {
             survey.SurveyLogic.Remove(survey.SurveyLogic.Find(x => x.Id == logic.Id));
+            this._unitOfWork.SurveyLogic.Remove(logic);
             await this._unitOfWork.SaveChangesAsync();
         }
 
@@ -985,6 +986,7 @@ namespace Traisi.Services
         /// <param name="logic"></param>
         public async Task AddSurveyLogic(Survey survey, SurveyLogic logic)
         {
+            this._unitOfWork.DbContext.Update(survey);
             if (!survey.SurveyLogic.Select(x => x.Id).Contains(logic.Id))
             {
                 survey.SurveyLogic.Add(logic);
@@ -1004,12 +1006,38 @@ namespace Traisi.Services
         public async Task UpdateSurveyLogic(Survey survey, SurveyLogic logic)
         {
             var source = survey.SurveyLogic.FirstOrDefault(x => x.Id == logic.Id);
-
-            source.Condition = logic.Condition;
-            source.Operator = logic.Operator;
-            source.ValidationMessages[logic.ValidationMessages.First().Language].Value =
-                logic.ValidationMessages.First().Value;
+            if (source == null)
+            {
+                // no logic id exists
+                return;
+            }
+            // replace the current logic in the survey
+            //survey.SurveyLogic.Remove(source);
+            // recursively update collections
+            this._unitOfWork.DbContext.Update(survey);
+            UpdateSurveyLogic(source, logic);
             await this._unitOfWork.SaveChangesAsync();
+            return;
+        }
+
+        private void UpdateSurveyLogic(SurveyLogic oldLogic, SurveyLogic newLogic)
+        {
+
+            this._unitOfWork.DbContext.Update(oldLogic);
+
+            oldLogic.ValidationMessages["en"].Value = newLogic.ValidationMessages["en"].Value;
+            oldLogic.Operator = newLogic.Operator;
+            oldLogic.QuestionId = newLogic.QuestionId;
+            oldLogic.Value = newLogic.Value;
+            oldLogic.Expressions.RemoveAll(x => newLogic.Expressions.All(y => y.Id != x.Id));
+            var newItems = newLogic.Expressions.Where(x => oldLogic.Expressions.All(y => y.Id != x.Id)).ToList();
+            oldLogic.Expressions.AddRange(newItems);
+            // loop through sub expressions and perform same options
+            foreach (var logic in oldLogic.Expressions)
+            {
+                var newSubLogic = newLogic.Expressions.First(x => x.Id == logic.Id);
+                UpdateSurveyLogic(logic, newSubLogic);
+            }
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)

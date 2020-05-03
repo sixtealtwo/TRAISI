@@ -6,6 +6,7 @@ using Traisi.Data;
 using Traisi.Data.Models.Questions;
 using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using Traisi.Services;
 using Traisi.Services.Interfaces;
 using Traisi.Data.Models.Extensions;
@@ -102,13 +103,93 @@ namespace Traisi.UnitTests.Services
                 Id = 2,
                 ValidationMessages = new LabelCollection<Label>()
             });
-        this._surveyBuilderService.UpdateSurveyLogic(survey, logic1Update);
-            Assert.Equal("Logic1Update", logic1.ValidationMessages["en"].Value);
-            Assert.Collection(logic1.Expressions, (logic) =>
+            logic1Update.Expressions.Add(new SurveyLogic()
+            {
+                Id = 3,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+            this._surveyBuilderService.UpdateSurveyLogic(survey, logic1Update);
+
+
+            Assert.Equal("Logic1Update", survey.SurveyLogic.First().ValidationMessages["en"].Value);
+            Assert.Collection(survey.SurveyLogic.First().Expressions, (logic) =>
             {
                 Assert.Equal(2, logic.Id);
+            },
+                (logic) =>
+                {
+                    Assert.Equal(3, logic.Id);
+                });
+
+
+        }
+
+        [Fact]
+        public void UpdateSurveyLogic_RemovesChild_RemovesCorrectly()
+        {
+            Survey survey = new Survey();
+            SurveyLogic logic1 = new SurveyLogic()
+            {
+                Id = 1,
+                ValidationMessages = new LabelCollection<Label>()
+            };
+            logic1.ValidationMessages["en"].Value = "Logic1";
+            this._surveyBuilderService.AddSurveyLogic(survey, logic1);
+
+            SurveyLogic logic1Update = new SurveyLogic()
+            {
+                Id = 1,
+                ValidationMessages = new LabelCollection<Label>()
+            };
+            logic1Update.ValidationMessages["en"].Value = "Logic1Update";
+            logic1Update.Expressions.Add(new SurveyLogic()
+            {
+                Id = 2,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+            logic1Update.Expressions.Add(new SurveyLogic()
+            {
+                Id = 3,
+                ValidationMessages = new LabelCollection<Label>()
             });
 
+            logic1Update.Expressions.First().Expressions.Add(new SurveyLogic()
+            {
+                Id = 4,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+
+            this._surveyBuilderService.UpdateSurveyLogic(survey, logic1Update);
+
+            // remove ID 2
+
+            SurveyLogic logic2Update = new SurveyLogic()
+            {
+                Id = 1,
+                ValidationMessages = new LabelCollection<Label>()
+            };
+            logic2Update.ValidationMessages["en"].Value = "Logic3Update";
+            logic2Update.Expressions.Add(new SurveyLogic()
+            {
+                Id = 3,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+
+            logic2Update.Expressions.First().Expressions.Add(new SurveyLogic()
+            {
+                Id = 4,
+                ValidationMessages = new LabelCollection<Label>()
+            });
+            this._surveyBuilderService.UpdateSurveyLogic(survey, logic2Update);
+            Assert.Collection(survey.SurveyLogic.First().Expressions,
+                (logic) =>
+                {
+                    Assert.Equal(3, logic.Id);
+                    Assert.Collection(logic.Expressions, (logic2) =>
+                    {
+                        Assert.Equal(4, logic2.Id);
+                    });
+                });
 
         }
 

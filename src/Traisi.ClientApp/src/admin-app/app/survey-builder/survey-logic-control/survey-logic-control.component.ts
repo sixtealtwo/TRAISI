@@ -1,5 +1,11 @@
 import { OnInit, Component, OnDestroy, ViewChild, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
-import { QueryBuilderConfig, QueryBuilderClassNames, QueryBuilderComponent, RuleSet } from 'angular2-query-builder';
+import {
+	QueryBuilderConfig,
+	QueryBuilderClassNames,
+	QueryBuilderComponent,
+	RuleSet,
+	Rule,
+} from 'angular2-query-builder';
 import { classNames } from './query-config';
 import { SurveyBuilderEditorData } from '../services/survey-builder-editor-data.service';
 import { QuestionPartView } from '../models/question-part-view.model';
@@ -37,6 +43,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 
 	public isLoaded$: Subject<boolean> = new Subject<boolean>();
 
+	public isOptionsLoaded: boolean = true;
 	/**
 	 *Creates an instance of SurveyLogicControlComponent.
 	 * @param {SurveyBuilderEditorData} _editor
@@ -55,9 +62,16 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.queryModels[index] = $event;
 		this.modelChanged$.next($event);
 	}
-
 	public onValidationMessageModelChange($event: string, index: number): void {
 		this.queryModels[index].message = $event;
+		this.modelChanged$.next(this.queryModels[index]);
+	}
+
+	public onOptionModelChange($event: string, index: number, rule: Rule): void {
+		
+		console.log($event);
+		console.log(rule);
+		rule.value = $event['code'];
 		this.modelChanged$.next(this.queryModels[index]);
 	}
 
@@ -67,8 +81,6 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this._builder.addSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, logic).subscribe((v) => {
 			logic.id = v;
 		});
-
-		console.log(logic);
 	}
 
 	/**
@@ -92,8 +104,8 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 			this.isLoaded$,
 			this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage)
 		).subscribe((result) => {
-			console.log(result[1]);
 			this.queryModels = <Array<RuleSet & { message: string; id: number }>>result[1];
+			console.log(this.queryModels);
 		});
 
 		// only send an update to the server every 500 ms of a model change
@@ -102,7 +114,6 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 				skip(1),
 				debounceTime(500),
 				tap((v) => {
-					console.log('sending model');
 					console.log(v);
 				})
 			)
@@ -129,6 +140,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 * @param questionName
 	 */
 	private initQuestionOptionsQuery(questionList: Array<QuestionPartView>, questionId: string): void {
+		// this.isOptionsLoaded = false;
 		this.optionsMap.set(
 			questionId,
 			concat(
@@ -137,7 +149,10 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 					.getQuestionOptions(questionList.find((q) => q.questionPart.id === Number(questionId)))
 					.pipe(
 						distinctUntilChanged(),
-						tap((v) => {})
+						tap((v) => {
+							console.log('loaded');
+							this.isOptionsLoaded = true;
+						})
 					)
 			)
 		);
@@ -148,7 +163,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 * @param questionList
 	 */
 	private buildConfig(questionList: Array<QuestionPartView>): void {
-		this.config = { fields: { tmp: { name: 'temp', type: 'number' } } };
+		this.config = { fields: {} };
 		for (let question of questionList) {
 			let responseType = this._editor.questionTypeMap.get(question.questionPart.questionType).responseType;
 			if (responseType == QuestionResponseType.Integer) {
@@ -164,7 +179,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 				this.config.fields[question.questionPart.id] = {
 					name: question.questionPart.name,
 					type: 'option',
-					operators: ['Any Of', 'All Of', 'None Of'],
+					operators: ['any of', 'all of', 'none of'],
 				};
 			} else {
 				this.config.fields[question.questionPart.id] = {

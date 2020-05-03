@@ -67,27 +67,20 @@
 		<!-- <Compile Remove="..\TRAISI.UI\questions\**" />
          <Content Remove="$(SpaRoot)**" />
          <Content Remove="..\TRAISI.UI\questions\**" /> -->
+		<Compile Remove="ClientApp\**" />
 		<Content Remove="$(SpaRoot)**" />
+		<Content Remove="ClientApp\**" />
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-		<None Remove="ClientApp\dist\**" />
-		<Content Remove="ClientApp\dist\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Remove="ClientApp\**" />
+	  <None Remove="ClientApp\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="ClientApp\src\survey-viewer-app\app\directives" />
-		<Folder Include="ClientApp\src\survey-viewer-app\app\modules" />
 		<Folder Include="Logs\" />
 		<Folder Include="Migrations\" />
 
-	</ItemGroup>
-	<ItemGroup>
-		<DistFiles Remove="ClientApp\dist\**" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Remove="ClientApp\dist\**" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Remove="ClientApp\dist\**" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -13,10 +13,12 @@
 					<ng-select
 						[items]="optionsMap.get(rule.field) | async"
 						bindLabel="optionLabel.value"
-						[searchable]="false"
+						[multiple]="false"
+						[searchable]="true"
 						class="option-select"
 						placeholder="Select ..."
-						bindValue="id"
+						bindValue="code"
+						(change)="onOptionModelChange($event,i,rule)"
 						[(ngModel)]="rule.value"
 					></ng-select>
 				</div>

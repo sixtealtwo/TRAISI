@@ -381,6 +381,7 @@ namespace Traisi.Data.Repositories {
 				.Include(s => s.SurveyLogic).ThenInclude(s => s.ValidationMessages)
 				.Include(s => s.SurveyLogic).ThenInclude(s => s.Expressions).ThenInclude( s => s.ValidationMessages)
 				.Include(s => s.SurveyLogic).ThenInclude(s => s.Expressions).ThenInclude( s => s.Expressions)
+				.AsNoTracking()
 				.SingleOrDefaultAsync ();
 
 			return survey;

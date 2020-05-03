@@ -156,7 +156,7 @@ namespace Traisi.Models.Mapping
             CreateMap<QuestionOption, QuestionOptionValueViewModel>()
                 .AfterMap((s, svm, opt) =>
                 {
-                    svm.OptionLabel = opt.Mapper.Map<QuestionOptionLabelViewModel>(
+                    svm.OptionLabel = opt.Mapper.Map<LabelViewModel>(
                         s.QuestionOptionLabels.First(l => l.Language == (string)opt.Items["Language"]));
                 });
 

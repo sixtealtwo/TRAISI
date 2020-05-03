@@ -27,7 +27,8 @@ namespace Traisi.Data.Models.Surveys
         public int? QuestionId { get; set; }
         public SurveyLogicOperator? Operator { get; set; }
 
-        public SurveyLogic() {
+        public SurveyLogic()
+        {
             ValidationMessages = new LabelCollection<Label>();
             Expressions = new List<SurveyLogic>();
         }
@@ -37,10 +38,26 @@ namespace Traisi.Data.Models.Surveys
     {
         [EnumMember(Value = "=")]
         Equals,
-        [EnumMember(Value = "NotEquals")]
+        [EnumMember(Value = "!=")]
         NotEquals,
-        [EnumMember(Value = "GreaterThan")]
-        GreaterThan
+        [EnumMember(Value = ">")]
+        GreaterThan,
+        [EnumMember(Value = ">=")]
+        GreaterThanEqualTo,
+        [EnumMember(Value = "<")]
+        LessThan,
+        [EnumMember(Value = "<=")]
+        LessThanEqualTo,
+        [EnumMember(Value = "contains")]
+        Contains,
+        [EnumMember(Value = "like")]
+        Like,
+        [EnumMember(Value = "any of")]
+        AnyOf,
+        [EnumMember(Value = "all of")]
+        AllOf,
+        [EnumMember(Value = "none of")]
+        NoneOf
     }
 
     public enum SurveyLogicCondition

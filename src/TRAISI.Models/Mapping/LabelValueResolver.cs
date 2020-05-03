@@ -20,7 +20,6 @@ namespace Traisi.Models.Mapping
 
     public class LabelToStringValueResolver : IMemberValueResolver<object, object, LabelCollection<Label>, string>
     {
-
         public string Resolve(object source, object destination, LabelCollection<Label> sourceMember, string destMember, ResolutionContext context)
         {
             var res = sourceMember[context.Items["Language"] as string].Value;
