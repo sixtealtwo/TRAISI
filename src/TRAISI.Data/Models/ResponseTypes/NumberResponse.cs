@@ -5,9 +5,8 @@ namespace Traisi.Data.Models.ResponseTypes
 {
     public class NumberResponse : ResponseValue, INumberResponse
     {
-   
-        public double Value { get; set; }
 
+        public double Value { get; set; }
 
     }
 }

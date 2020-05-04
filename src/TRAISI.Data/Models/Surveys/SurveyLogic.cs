@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Traisi.Data.Models.Extensions;
 using Traisi.Data.Models.Interfaces;
 using Traisi.Data.Models.Questions;
@@ -23,6 +23,7 @@ namespace Traisi.Data.Models.Surveys
         public string Value { get; set; }
         public QuestionPartView Question { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("Question")]
         public int? QuestionId { get; set; }
         public SurveyLogicOperator? Operator { get; set; }

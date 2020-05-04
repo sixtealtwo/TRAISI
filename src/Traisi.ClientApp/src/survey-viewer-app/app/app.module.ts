@@ -67,6 +67,7 @@ import { QuestionConfigurationService } from './services/question-configuration.
 import { QuestionConfigurationService as Config } from 'traisi-question-sdk';
 import { SurveyViewerResponseService } from './services/survey-viewer-response.service';
 import { SurveyViewerRespondentService } from './services/survey-viewer-respondent.service';
+import { SurveyProgressComponent } from './components/survey-progress/survey-progress.component';
 @NgModule({
 	entryComponents: [ModalBackdropComponent],
 	declarations: [
@@ -91,10 +92,10 @@ import { SurveyViewerRespondentService } from './services/survey-viewer-responde
 		TextBlock1Component,
 		AdminToolbarComponent,
 		SurveyThankYouPageComponent,
-		// SurveyQuestionViewDirective,
 		SurveyGroupcodePageComponent,
 		SurveyShortcodePageComponent,
 		Footer1Component,
+		SurveyProgressComponent
 	],
 	imports: [
 		BrowserModule,

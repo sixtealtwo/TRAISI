@@ -25,6 +25,13 @@ export class SurveyViewerSession {
 		return this._data?.surveyCode;
 	}
 
+	public get language(): string {
+		if (!this._data) {
+			throw new Error('Attempt to access language information before survey data is loaded.');
+		}
+		return this._data?.language;
+	}
+
 	/**
 	 *Creates an instance of SurveyViewerSession.
 	 * @memberof SurveyViewerSession
@@ -78,8 +85,8 @@ export class SurveyViewerSession {
 					isLoggedIn: isLoggedIn,
 					isUsingGroupcode: false,
 					authenticationMode: authMode,
+					language: 'en'
 				};
-				console.log('session loaded');
 				if (isLoggedIn) {
 					this._data.shortcode = this._surveyViewerService.currentUser.shortcode;
 					this._data.groupcode = this._surveyViewerService.currentUser.groupcode;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { SurveyViewerSession } from 'app/services/survey-viewer-session.service';
@@ -9,23 +9,48 @@ import { SurveyViewerSessionData } from 'app/models/survey-viewer-session-data.m
 /** Pass untouched request through to the next request handler. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-	/**
-	 *Creates an instance of AuthInterceptor.
-	 * @param {SurveyViewerSession} _session
-	 * @memberof AuthInterceptor
-	 */
-	public constructor(private _session: SurveyViewerSession, private _auth: AuthService) {}
+	public readonly apiVersion: string = '1';
+	constructor(private _authService: AuthService) {}
+	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		if (this._authService.isLoggedIn) {
+			request = request.clone({
+				setHeaders: {
+					Authorization: `Bearer ${this._authService.accessToken}`,
+				},
+			});
+			return next.handle(request);
+		} else {
+			return next.handle(request);
+		}
+	}
 
-	/**
-	 *
-	 *
-	 * @param {HttpRequest<any>} req
-	 * @param {HttpHandler} next
-	 * @returns {Observable<HttpEvent<any>>}
-	 * @memberof AuthInterceptor
-	 */
-	public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		const authReq = req.clone({});
-		return next.handle(authReq);
+	protected getRequestHeaders(
+		rType: any = 'json'
+	): {
+		headers: HttpHeaders | { [header: string]: string | string[] };
+		responseType: any;
+	} {
+		if (this._authService.currentUser != null && this._authService.currentUser.roles.includes('respondent')) {
+			let headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this._authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
+				'Survey-Id': String(this._authService.currentSurveyUser.surveyId),
+				Shortcode: this._authService.currentSurveyUser.shortcode,
+				'Respondent-Id': this._authService.currentSurveyUser.id,
+				Language: 'en',
+			});
+
+			return { headers: headers, responseType: rType };
+		} else {
+			let headers = new HttpHeaders({
+				Authorization: 'Bearer ' + this._authService.accessToken,
+				'Content-Type': 'application/json',
+				Accept: `application/vnd.iman.v${this.apiVersion}+json, application/json, text/plain, */*`,
+				Language: 'en',
+			});
+
+			return { headers: headers, responseType: rType };
+		}
 	}
 }

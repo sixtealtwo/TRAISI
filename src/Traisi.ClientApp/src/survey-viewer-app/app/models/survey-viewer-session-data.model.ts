@@ -16,4 +16,5 @@ export interface SurveyViewerSessionData {
 	isLoggedIn: boolean;
 	isUsingGroupcode: boolean;
 	authenticationMode: any;
-}2
+	language: string;
+}

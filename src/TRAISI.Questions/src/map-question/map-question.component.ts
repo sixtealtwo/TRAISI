@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { LngLatLike, MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
+import { MapMouseEvent, Marker, LngLat } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { Result } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
@@ -7,23 +7,22 @@ import { ReplaySubject, timer } from 'rxjs';
 import {
 	LocationResponseData,
 	OnVisibilityChanged,
-	ResponseData,
 	ResponseTypes,
 	ResponseValidationState,
 	SurveyQuestion,
 	SurveyViewer,
-	QuestionConfigurationService
+	QuestionConfigurationService,
 } from 'traisi-question-sdk';
 import { GeoLocation } from '../models/geo-location.model';
 import { MapEndpointService } from '../services/mapservice.service';
 import templateString from './map-question.component.html';
+import styleString from './map-question.component.scss';
 import * as mapboxgl from 'mapbox-gl';
-import { add } from 'ngx-bootstrap/chronos/public_api';
 @Component({
 	selector: 'traisi-map-question',
-	template: '' + <string>templateString,
+	template: '' + templateString,
 	encapsulation: ViewEncapsulation.None,
-	styles: [require('./map-question.component.scss').toString()]
+	styles: ['' + styleString],
 })
 export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location> implements OnInit, AfterViewInit, OnVisibilityChanged {
 	public locationSearch: string;
@@ -95,7 +94,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	@ViewChild('mapContainer', { static: false })
 	public mapContainer: ElementRef;
 
-	private _mapinstance: mapboxgl.Map;
 	public mapInstance: ReplaySubject<mapboxgl.Map>;
 
 	private _marker: mapboxgl.Marker;
@@ -116,7 +114,6 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 */
 	constructor(
 		private mapEndpointService: MapEndpointService,
-		private cdRef: ChangeDetectorRef,
 		private _configurationService: QuestionConfigurationService,
 		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer
 	) {
@@ -128,10 +125,10 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Flys to position
 	 * @param val
 	 */
-	private flyToPosition(val: number[], zoomLevel?: number): void {
+	private flyToPosition(val: number[]): void {
 		if (this._map) {
 			this._map.flyTo({
-				center: new LngLat(val[0], val[1])
+				center: new LngLat(val[0], val[1]),
 			});
 		}
 	}
@@ -174,14 +171,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			container: this.mapContainer.nativeElement,
 			center: [-79.4, 43.67],
 			style: 'mapbox://styles/mapbox/streets-v9',
-			zoom: 14
+			zoom: 14,
 		});
 		this._map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 		this._geocoder = new MapboxGeocoder({
 			countries: 'ca',
 			accessToken: mapboxgl.accessToken,
 			mapboxgl: mapboxgl,
-			marker: false
+			marker: false,
 		});
 		this._map.addControl(this._geocoder, 'top-right');
 
@@ -189,7 +186,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			this.mapLocationClicked(ev.lngLat);
 		});
 
-		this._geocoder.on('result', event => {
+		this._geocoder.on('result', (event) => {
 			this.locationFound(event);
 		});
 
@@ -231,7 +228,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			let data: LocationResponseData = {
 				latitude: lngLat.lat,
 				longitude: lngLat.lng,
-				address: saveAddress
+				address: saveAddress,
 			};
 			this.saveResponse(data);
 			this.validationState.emit(ResponseValidationState.VALID);
@@ -281,7 +278,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 * Determines whether drag start on
 	 * @param event
 	 */
-	public onDragStart(event: any): void {}
+	public onDragStart(): void {}
 
 	/**
 	 *
@@ -296,7 +293,7 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 			let data: LocationResponseData = {
 				latitude: event.getLngLat().lat,
 				longitude: event.getLngLat().lng,
-				address: <string>result.address
+				address: <string>result.address,
 			};
 
 			this.saveResponse(data);
@@ -321,14 +318,14 @@ export class MapQuestionComponent extends SurveyQuestion<ResponseTypes.Location>
 	 *
 	 * @param event
 	 */
-	public onDrag(event: MapMouseEvent): void {}
+	public onDrag(): void {}
 
 	/**
 	 * Determines whether question shown on
 	 */
 	public onQuestionShown(): void {
 		if (this._map) {
-			timer(5000).subscribe(val => {
+			timer(5000).subscribe(() => {
 				// this._map.resize();
 			});
 		}

@@ -8,9 +8,17 @@ namespace Traisi.Data.Models.ResponseTypes
 {
     public class LocationResponse : ResponseValue, ILocationResponse
     {
-        [Column(TypeName="geography")]
-        public Point Location {get;set;}
-
+        [Column(TypeName = "geography")]
+        public Point Location { get; set; }
         public string Address { get; set; }
     }
+
+    public class LocationLatLngResponse
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Address { get; set; }
+    }
+
+
 }

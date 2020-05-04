@@ -367,7 +367,7 @@ namespace Traisi
 
             // use profiles in the assembly where the SurveyBuilder Profile is Located
             services.AddAutoMapper(Assembly.GetAssembly(typeof(SurveyBuilderProfile)));
-            
+
             // Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
 
             // Configurations
@@ -422,6 +422,7 @@ namespace Traisi
             services.AddScoped<ISurveyRespondentService, SurveyRespondentService>();
             services.AddScoped<ISurveyViewerService, SurveyViewerService>();
             services.AddScoped<ISurveyResponseService, SurveyResponseService>();
+            services.AddScoped<ISurveyValidationService, SurveyValidationService>();
 
             // add memory cache
             services.AddMemoryCache();

@@ -74,10 +74,8 @@ namespace TRAISI.Export
             {
                 case QuestionResponseType.String:
                     return ((StringResponse)surveyResponse.ResponseValues.First()).Value;
-                case QuestionResponseType.Decimal:
-                    return ((DecimalResponse)surveyResponse.ResponseValues.First()).Value;
-                case QuestionResponseType.Integer:
-                    return ((IntegerResponse)surveyResponse.ResponseValues.First()).Value;
+                case QuestionResponseType.Number:
+                    return ((NumberResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.DateTime:
                     return ((DateTimeResponse)surveyResponse.ResponseValues.First()).Value;
                 case QuestionResponseType.Path:

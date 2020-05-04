@@ -143,7 +143,7 @@ namespace Traisi.Controllers.SurveyViewer
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("groups/respondents/{respondentId:" + AuthorizationFields.RESPONDENT + "}/groups", Name = "Remove_Respondent_From_Survey_Group")]
+        [Route("groups/respondents/{respondentId}")]
         public async Task<IActionResult> RemoveSurveyGroupMember(
             int respondentId)
         {
@@ -171,8 +171,8 @@ namespace Traisi.Controllers.SurveyViewer
         [HttpGet]
         [ProducesResponseType(typeof(List<SurveyRespondentViewModel>), StatusCodes.Status200OK)]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
-        [Route("groups/respondents/{respondentId}", Name = "List_Survey_Group_Members")]
-        public async Task<IActionResult> ListSurveyGroupMembers(int respondent)
+        [Route("groups/respondents/{respondentId}")]
+        public async Task<IActionResult> ListSurveyGroupMembers(int respondentId)
         {
             var user = await _userManager.FindByNameAsync(this.User.Identity.Name);
             var group = await this._respondentGroupService.GetSurveyRespondentGroupForUser(user);

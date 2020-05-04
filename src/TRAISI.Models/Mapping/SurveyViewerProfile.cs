@@ -9,6 +9,7 @@ using Traisi.ViewModels.SurveyViewer;
 using System.Collections.Concurrent;
 using Traisi.Sdk.Enums;
 using Traisi.ViewModels;
+using Traisi.Models.Surveys.Validation;
 
 namespace Traisi.Models.Mapping
 {
@@ -53,10 +54,11 @@ namespace Traisi.Models.Mapping
                         svm.SuccessLink = s.SurveyView.Survey.SuccessLink;
                     }
                 }); */
-                
+
             CreateMap<Survey, SurveyStartViewModel>()
                 .ForMember(m => m.HasGroupCodes, options => { options.Ignore(); })
                 .ForMember(m => m.Name, opts => opts.MapFrom(o => o.Name))
+                .ForMember(m => m.SurveyViews, opts => opts.Ignore())
                 .AfterMap((s, svm, opt) =>
                 {
                     var view = s.SurveyViews.FirstOrDefault();
@@ -215,6 +217,27 @@ namespace Traisi.Models.Mapping
                     }
 
                 });
+
+            CreateMap<SurveyLogicError, string>()
+            .ConvertUsing((error, dst, context) =>
+            {
+                return error.Messages[context.Items["Language"] as string].Value;
+            });
+
+            CreateMap<SurveyResponseValidationState, SurveyViewerResponseValidationState>()
+                .ForMember(o => o.ValidationState, opt => opt.MapFrom<ValidationState>((o, p) =>
+                {
+                    if (o.IsValid)
+                    {
+                        return ValidationState.Valid;
+                    }
+                    else
+                    {
+                        return ValidationState.Invalid;
+                    }
+
+                }))
+                .ForMember(o => o.ErrorMessages, opt => opt.MapFrom(m => m.Errors));
         }
     }
 }

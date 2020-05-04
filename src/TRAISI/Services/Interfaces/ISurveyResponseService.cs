@@ -6,6 +6,7 @@ using Traisi.Data.Models.ResponseTypes;
 using Traisi.Data.Models.Surveys;
 using Newtonsoft.Json.Linq;
 using Traisi.Sdk.Enums;
+using Traisi.Models.Surveys.Validation;
 
 namespace Traisi.Services.Interfaces
 {
@@ -19,7 +20,7 @@ namespace Traisi.Services.Interfaces
         /// <param name="user"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        Task<bool> SaveResponse(Survey survey, QuestionPart questionpart, SurveyRespondent respondent, JObject responseData, int repeat);
+        Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart questionpart, SurveyRespondent respondent, JArray responseData, int repeat);
 
         /// <summary>
         /// 
@@ -29,7 +30,7 @@ namespace Traisi.Services.Interfaces
         /// <param name="subRespondentId"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        Task<bool> SaveSubResponse(int questionId, int subRespondentId, JObject responseData);
+        Task<SurveyResponseValidationState> SaveSubResponse(int questionId, int subRespondentId, JObject responseData);
 
         /// <summary>
         /// 

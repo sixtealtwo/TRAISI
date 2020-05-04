@@ -64,7 +64,7 @@ const APP_PROVIDERS = [AppConfig];
 		BootstrapTabDirective,
 		BootstrapToggleDirective,
 		BootstrapDatepickerDirective,
-		BootstrapSelectDirective
+		BootstrapSelectDirective,
 	],
 	imports: [
 		BrowserModule,

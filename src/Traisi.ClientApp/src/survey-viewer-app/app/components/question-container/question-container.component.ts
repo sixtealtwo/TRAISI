@@ -21,7 +21,6 @@ import {
 	ResponseValidationState,
 	QuestionConfigurationService,
 } from 'traisi-question-sdk';
-import { SurveyResponderService } from '../../services/survey-responder.service';
 import { SurveyViewQuestion as ISurveyQuestion, SurveyViewQuestion } from '../../models/survey-view-question.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject, Subject, forkJoin } from 'rxjs';
@@ -37,6 +36,7 @@ import { QuestionInstance } from 'app/models/question-instance.model';
 import { SurveyTextTransformer } from 'app/services/survey-text-transform/survey-text-transformer.service';
 import { QuestionInstanceState } from 'app/services/question-instance.service';
 import { SurveyViewerResponseService } from 'app/services/survey-viewer-response.service';
+import { ValidationState, SurveyViewerResponseValidationState } from 'app/services/survey-viewer-api-client.service';
 
 export { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -100,9 +100,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	public isLoaded: boolean = false;
 
-	public validationStates: typeof ResponseValidationState = ResponseValidationState;
+	public validationStates: typeof ValidationState = ValidationState;
 
-	public responseValidationState: ResponseValidationState;
+	// public responseValidationState: SurveyViewerResponseValidationState;
 
 	public displayClass: string = 'view-compact';
 
@@ -120,6 +120,10 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 	private alreadyNavigated: boolean = false;
 
+	public get instanceState(): QuestionInstanceState {
+		return this._instanceState;
+	}
+
 	/**
 	 * Creates an instance of question container component.
 	 * @param questionLoaderService
@@ -135,8 +139,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		@Inject('SurveyViewerService')
 		private surveyViewerService: SurveyViewerService,
 		private _viewerStateService: SurveyViewerStateService,
-		@Inject('SurveyResponderService')
-		private _responderService: SurveyResponderService,
 		public viewContainerRef: ViewContainerRef,
 		private _navigator: SurveyNavigator,
 		private renderer: Renderer2,
@@ -169,7 +171,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		/**
 		 * Load the question component into the specified question outlet.
 		 */
-		this.responseValidationState = ResponseValidationState.PRISTINE;
+		// this.responseValidationState = { isValid: false, messages: [] };
 		this.processPipedQuestionLabel(this.question.label);
 
 		// this.container.questionInstance = this;
@@ -224,7 +226,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 						surveyQuestionInstance.traisiOnLoaded();
 					});
 
-				surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
+				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
 					setTimeout(() => {
 						this.autoAdvance();
@@ -364,15 +366,16 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 		validationState: ResponseValidationState
 	): void => {
 		this._viewerStateService.updateGroupQuestionValidationState(this.surveyViewQuestion, validationState);
-		this.responseValidationState = validationState;
+		// this.responseValidationState = validationState;
 		if (this.surveyViewQuestion.respondentValidationState === undefined) {
 			this.surveyViewQuestion.respondentValidationState = {};
 		}
 		this.surveyViewQuestion.respondentValidationState[this.respondent.id] = validationState;
 
-		this._navigator.navigationState$.getValue().activeQuestionInstances[
-			this.activeQuestionIndex
-		].validationState = validationState;
+		this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState =
+			validationState === ResponseValidationState.VALID
+				? { validationState: ValidationState.Valid, errorMessages: []}
+				: { validationState: ValidationState.Invalid, errorMessages: [] };
 
 		this._navigator.validationChanged();
 	};
@@ -390,7 +393,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Will unload is called before the active question is swapped out of view.
 	 */
 	public traisiQuestionWillUnload(): void {
-		if (this._questionInstance !== undefined) {
+		if (this._questionInstance !== undefined) { 
 			this._questionInstance.traisiOnUnloaded();
 		}
 	}

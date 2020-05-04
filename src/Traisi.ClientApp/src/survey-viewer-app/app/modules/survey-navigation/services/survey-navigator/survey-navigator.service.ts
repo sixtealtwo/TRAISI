@@ -10,7 +10,8 @@ import { expand, share, tap, flatMap, map, count, takeWhile } from 'rxjs/operato
 import { SurveyViewSection } from 'app/models/survey-view-section.model';
 import { ConditionalEvaluator } from 'app/services/conditional-evaluator/conditional-evaluator.service';
 import { ResponseValidationState, SurveyResponseService, SurveyRespondentService } from 'traisi-question-sdk';
-import { SurveyResponderService } from 'app/services/survey-responder.service';
+import { QuestionInstanceState } from 'app/services/question-instance.service';
+import { ValidationState, SurveyViewerResponseValidationState } from 'app/services/survey-viewer-api-client.service';
 
 /**
  *
@@ -374,7 +375,10 @@ export class SurveyNavigator {
 									index: navigationState.activeQuestionIndex,
 									model: result.question,
 									component: null,
-									validationState: ResponseValidationState.PRISTINE,
+									validationState: {
+										validationState: ValidationState.Untouched,
+										errorMessages: []
+									}
 								};
 								questionInstances.push(questionInstance);
 							}
@@ -389,18 +393,33 @@ export class SurveyNavigator {
 
 	private _checkValidation(): boolean {
 		// let valid = every(this.navigationState$.value.activeQuestionInstances, { 'validationState': ResponseValidationState.VALID });
+
+		console.log('in check navigation');
 		let allValid: boolean = true;
 		for (let instance of this.navigationState$.getValue().activeQuestionInstances) {
-			if (instance.validationState !== ResponseValidationState.VALID && !instance.model.isOptional) {
+			if (instance.validationState.validationState === ValidationState.Valid && !instance.model.isOptional) {
 				allValid = false;
 				break;
 			}
 		}
+		console.log(this.navigationState$.getValue().activeQuestionInstances);
+		console.log(allValid);
 		return allValid;
 	}
 
 	public validationChanged(): void {
 		this.nextEnabled$.next(this._checkValidation());
+	}
+
+	public updateQuestionValidationState(
+		instanceState: QuestionInstanceState,
+		result: SurveyViewerResponseValidationState
+	): void {
+		let match = this.navigationState$
+			.getValue()
+			.activeQuestionInstances.find((i) => i.component === instanceState.questionInstance);
+		console.log(' found match ');
+		console.log(match);
 	}
 
 	/**

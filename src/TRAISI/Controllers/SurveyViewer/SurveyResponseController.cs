@@ -17,6 +17,7 @@ using Traisi.Sdk.Enums;
 using Traisi.Services.Interfaces;
 using Traisi.ViewModels.SurveyViewer;
 using AutoMapper;
+using Traisi.Models.Surveys.Validation;
 
 namespace Traisi.Controllers.SurveyViewer
 {
@@ -29,7 +30,7 @@ namespace Traisi.Controllers.SurveyViewer
         private IUnitOfWork _unitOfWork;
         private ISurveyResponseService _resonseService;
         private readonly IMapper _mapper;
-        public SurveyResponseController(IUnitOfWork unitOfWork, ISurveyResponseService responseService, 
+        public SurveyResponseController(IUnitOfWork unitOfWork, ISurveyResponseService responseService,
         UserManager<ApplicationUser> userManager,
         IMapper mapper)
         {
@@ -46,12 +47,12 @@ namespace Traisi.Controllers.SurveyViewer
         /// <param name="questionId"></param>
         /// <param name="[ModelBinder(typeof(SurveyRespondentEntityBinder"></param>
         /// <returns></returns>
-        [Produces(typeof(bool))]
+        [Produces(typeof(SurveyViewerResponseValidationState))]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "Save_Response")]
-        public async Task<ActionResult<bool>> SaveResponse(int surveyId, int questionId,
-            int respondentId, int repeat, [FromBody] JObject content)
+        public async Task<ActionResult<SurveyViewerResponseValidationState>> SaveResponse(int surveyId, int questionId,
+            int respondentId, int repeat, [FromBody] JArray content, [FromHeader] string language)
         {
 
             var respondent = await _unitOfWork.SurveyRespondents.GetSurveyRespondentAsync(respondentId);
@@ -61,12 +62,13 @@ namespace Traisi.Controllers.SurveyViewer
                 return new BadRequestResult();
             }
 
-            bool success = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat);
-            return new OkObjectResult(success);
+            SurveyResponseValidationState validationState = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat);
+            var mappedState = _mapper.Map<SurveyViewerResponseValidationState>(validationState);
+            return new OkObjectResult(mappedState);
         }
         /// <summary>
         /// 
-        /// </summary>
+        /// /// </summary>
         /// <param name="surveyId"></param>
         /// <param name="questionId"></param>
         /// <returns></returns>
@@ -188,7 +190,8 @@ namespace Traisi.Controllers.SurveyViewer
         [Produces(typeof(SurveyCompletionStatus))]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Route("completion-status/primary-respondents/{respondentId}")]
-        public async Task<IActionResult> GetSurveyCompletionStatus(int surveyId, int respondentId) {
+        public async Task<IActionResult> GetSurveyCompletionStatus(int surveyId, int respondentId)
+        {
 
             return new OkResult();
         }

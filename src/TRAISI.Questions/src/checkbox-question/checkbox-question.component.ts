@@ -2,19 +2,19 @@ import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
 	OnOptionsLoaded,
 	QuestionOption,
 	OptionSelectResponseData,
-	ResponseValidationState
+	ResponseValidationState,
 } from 'traisi-question-sdk';
 import templateString from './checkbox-question.component.html';
+import styleString from './checkbox-question.component.scss';
 @Component({
 	selector: 'traisi-checkbox-question',
-	template: templateString,
-	styles: [require('./checkbox-question.component.scss').toString()]
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
 export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect[]> implements OnInit, OnOptionsLoaded {
 	public model: {};
@@ -47,7 +47,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 				responses.push({
 					value: key,
 					name: key,
-					code: key
+					code: key,
 				});
 			}
 		}
@@ -63,7 +63,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 		responses: OptionSelectResponseData[] | 'none'
 	) => {
 		if (responses !== 'none') {
-			responses.forEach(response => {
+			responses.forEach((response) => {
 				this.model[response.value] = true;
 			});
 
@@ -93,7 +93,7 @@ export class CheckboxQuestionComponent extends SurveyQuestion<ResponseTypes.Opti
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.options = options;
 
-		options.forEach(option => {
+		options.forEach((option) => {
 			if (this.model[option['code']] === undefined) {
 				this.model[option['code']] = false;
 			}

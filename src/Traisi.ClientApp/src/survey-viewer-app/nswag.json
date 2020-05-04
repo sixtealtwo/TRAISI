@@ -4,8 +4,9 @@
   "documentGenerator": {
     "webApiToOpenApi": {
       "controllerNames": [
-        "TRAISI.Controllers.SurveyViewer.SurveyResponseController",
-        "TRAISI.Controllers.SurveyViewer.SurveyRespondentController"
+        "Traisi.Controllers.SurveyViewer.SurveyRespondentController",
+        "Traisi.Controllers.SurveyViewer.SurveyResponseController",
+        "Traisi.Controllers.SurveyViewer.SurveyViewerController"
       ],
       "isAspNetCore": true,
       "resolveJsonOptions": false,
@@ -48,7 +49,7 @@
       "output": "api-client.json",
       "outputType": "OpenApi3",
       "assemblyPaths": [
-        "../../../bin/Debug/netcoreapp3.1/TRAISI.dll"
+        "../../../TRAISI/bin/Debug/netcoreapp3.1/Traisi.dll"
       ],
       "assemblyConfig": null,
       "referencePaths": [],
@@ -93,11 +94,15 @@
       "enumStyle": "Enum",
       "useLeafType": false,
       "classTypes": [],
-      "extendedClasses": [],
+      "extendedClasses": [
+        "Cat"
+      ],
       "extensionCode": null,
       "generateDefaultValues": true,
       "excludedTypeNames": [],
-      "excludedParameterNames": [],
+      "excludedParameterNames": [
+        "AuditableEntity"
+      ],
       "handleReferences": false,
       "generateConstructorInterface": true,
       "convertConstructorInterfaceData": false,

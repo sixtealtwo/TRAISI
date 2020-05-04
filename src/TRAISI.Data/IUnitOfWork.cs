@@ -32,7 +32,7 @@ namespace Traisi.Data
 
         IRepository<Label> Labels {get;}
 
-        IRepository<SurveyLogic> SurveyLogic {get;}
+        ISurveyLogicRepository SurveyLogic {get;}
 
         ApplicationDbContext DbContext {get;}
 

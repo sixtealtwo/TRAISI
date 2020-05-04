@@ -1,17 +1,12 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, OnChanges, DoCheck, AfterContentInit } from '@angular/core';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyRespondent,
-	ResponseValidationState,
-	SurveyRespondentService
-} from 'traisi-question-sdk';
+import { SurveyQuestion, ResponseTypes, SurveyRespondent, ResponseValidationState, SurveyRespondentService } from 'traisi-question-sdk';
 import { SurveyRespondentEdit } from './models/survey-respondent-edit.model';
 import templateString from './household-question.component.html';
+import styleString from './household-question.component.scss';
 @Component({
 	selector: 'traisi-household-question',
-	template: templateString,
-	styles: [require('./household-question.component.scss').toString()]
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
 export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.None> implements OnInit, DoCheck, AfterContentInit {
 	public typeName: string;
@@ -37,10 +32,10 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			respondent: {
 				firstName: '',
 				lastName: '',
-				id: -1
+				id: -1,
 			},
 			isSaved: false,
-			isValid: false
+			isValid: false,
 		};
 	}
 
@@ -60,7 +55,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				this.primaryRespondent = {
 					respondent: arr[0],
 					isSaved: true,
-					isValid: true
+					isValid: true,
 				};
 			}
 			arr.splice(0, 1);
@@ -69,7 +64,7 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 				this.respondents.push({
 					respondent: element,
 					isSaved: true,
-					isValid: true
+					isValid: true,
 				});
 			});
 		});
@@ -80,10 +75,10 @@ export class HouseholdQuestionComponent extends SurveyQuestion<ResponseTypes.Non
 			respondent: {
 				name: '',
 				id: undefined,
-				relationship: null
+				relationship: null,
 			},
 			isSaved: false,
-			isValid: false
+			isValid: false,
 		});
 	}
 

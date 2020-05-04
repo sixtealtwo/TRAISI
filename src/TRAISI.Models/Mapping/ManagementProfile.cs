@@ -150,8 +150,6 @@ namespace Traisi.Models.Mapping
             CreateMap<QuestionConfiguration, QuestionConfigurationValueViewModel>()
                 .ReverseMap();
 
-            CreateMap<QuestionOptionLabel, QuestionOptionLabelViewModel>()
-                .ReverseMap();
 
             CreateMap<QuestionOption, QuestionOptionValueViewModel>()
                 .AfterMap((s, svm, opt) =>

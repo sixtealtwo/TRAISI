@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { every as _every, some as _some } from 'lodash';
 import { point } from '@turf/helpers';
-import { SurveyResponderService } from '../survey-responder.service';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable } from 'rxjs';
 import { SurveyViewerStateService } from '../survey-viewer-state.service';
@@ -28,11 +27,7 @@ export class ConditionalEvaluator {
 	 * @param _state q
 	 * @param _responderService
 	 */
-	constructor(
-		private _responderService: SurveyResponderService,
-		private _responseService: SurveyViewerResponseService,
-		private _state: SurveyViewerStateService
-	) {}
+	constructor(private _responseService: SurveyViewerResponseService, private _state: SurveyViewerStateService) {}
 
 	/**
 	 *
@@ -197,6 +192,28 @@ export class ConditionalEvaluator {
 		conditionals: Array<QuestionConditionalOperator>,
 		respondent: SurveyRespondent
 	): boolean {
+		// determine if any of the conditionals have missing responses
+		// if responses are missing, then this question will be hidden
+
+		for (let conditional of conditionals) {
+			let questionId = conditional.lhs?.sourceQuestionId;
+			if (questionId) {
+				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
+				if (!this._responseService.hasStoredResponse(question, respondent)) {
+					console.log('no question yet');
+					return false;
+				}
+			}
+			questionId = conditional.rhs?.sourceQuestionId;
+			if (questionId) {
+				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
+				if (!this._responseService.hasStoredResponse(question, respondent)) {
+					console.log('no question yet');
+					return false;
+				}
+			}
+		}
+
 		let valueStack = new Stack<any>();
 		let operatorStack = new Stack<QuestionCondtionalOperatorType>();
 		for (let conditional of conditionals) {
@@ -204,10 +221,10 @@ export class ConditionalEvaluator {
 				// let questionId = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId].questionId;
 				// let response = this._responderService.getCachedSavedResponse(questionId, respondentId);
 				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
-				let response = this._responseService.getResponse(question, respondent);
+
+				let response = this._responseService.getStoredResponse(question, respondent);
 				// let evalResult = this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value);
 				valueStack.push(this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value));
-				console.log(response);
 			}
 			if (operatorStack.length === 0) {
 				operatorStack.push(conditional.operatorType);
@@ -219,7 +236,7 @@ export class ConditionalEvaluator {
 				// let questionId = this._state.viewerState.questionViewMap[conditional.rhs.sourceQuestionId].questionId;
 				// let response = this._responderService.getCachedSavedResponse(questionId, respondentId);
 				let question = this._state.viewerState.questionViewMap[conditional.lhs.sourceQuestionId];
-				let response = this._responseService.getResponse(question, respondent);
+				let response = this._responseService.getStoredResponse(question, respondent);
 				// console.log(response);
 				// let evalResult = this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value);
 				valueStack.push(this.evaluateConditional(conditional.lhs.condition, response, conditional.lhs.value));

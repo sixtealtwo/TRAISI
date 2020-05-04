@@ -38,7 +38,7 @@ namespace Traisi.Data
 
         ISurveyUserRepository _surveyUserRepository;
 
-        IRepository<SurveyLogic> _surveyLogicRepository;
+        ISurveyLogicRepository _surveyLogicRepository;
 
         IRepository<Label> _labelRepository;
 
@@ -300,14 +300,14 @@ namespace Traisi.Data
 
        
 
-        public IRepository<SurveyLogic> SurveyLogic
+        public ISurveyLogicRepository SurveyLogic
         {
             get
             {
 
                 if (_surveyLogicRepository == null)
                 {
-                    _surveyLogicRepository = new Repository<SurveyLogic>(_context);
+                    _surveyLogicRepository = new SurveyLogicRepository(_context);
                 }
 
                 return _surveyLogicRepository;

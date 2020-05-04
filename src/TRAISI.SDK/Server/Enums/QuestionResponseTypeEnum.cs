@@ -10,8 +10,7 @@ namespace Traisi.Sdk.Enums
 
         String,
         Boolean,
-        Integer,
-        Decimal,
+        Number,
         Location,
         Json,
         OptionSelect,

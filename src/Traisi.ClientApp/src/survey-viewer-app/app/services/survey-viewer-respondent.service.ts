@@ -9,6 +9,18 @@ import { SurveyViewerSession } from './survey-viewer-session.service';
 	providedIn: 'root',
 })
 export class SurveyViewerRespondentService {
+	private _primaryRespondent: SurveyRespondent;
+
+	public respondents: Record<number, SurveyRespondent> = {};
+
+	public get primaryRespondent(): SurveyRespondent {
+		return this._primaryRespondent;
+	}
+
+	public set primaryRespondent(respondent: SurveyRespondent) {
+		this._primaryRespondent = respondent;
+	}
+
 	public constructor(private _respondentClient: SurveyRespondentClient, private _session: SurveyViewerSession) {}
 
 	public getSurveyPrimaryRespondent(surveyId: number): Observable<any> {

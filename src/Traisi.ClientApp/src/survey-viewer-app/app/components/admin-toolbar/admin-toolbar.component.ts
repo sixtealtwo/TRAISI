@@ -15,7 +15,6 @@ import { SurveyStartPageComponent } from '../survey-start-page/survey-start-page
 
 import { Title } from '@angular/platform-browser';
 import { SurveyUser } from 'shared/models/survey-user.model';
-import { SurveyResponderService } from 'app/services/survey-responder.service';
 import { SurveyViewerStateService } from '../../services/survey-viewer-state.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Route } from '@angular/compiler/src/core';
@@ -39,7 +38,6 @@ export class AdminToolbarComponent implements OnInit {
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewerService,
-		@Inject('SurveyResponderService') private _responderService: SurveyResponderService,
 		private _viewerState: SurveyViewerStateService,
 		private modalService: BsModalService,
 		private _route: ActivatedRoute,

@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Traisi.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -449,8 +449,7 @@ namespace Traisi.Migrations
                     IsDefaultHidden = table.Column<bool>(nullable: false),
                     RepeatSourceId = table.Column<int>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
-                    CATIDependentId = table.Column<int>(nullable: true),
-                    SurveyViewId2 = table.Column<int>(nullable: true)
+                    CATIDependentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -482,12 +481,6 @@ namespace Traisi.Migrations
                     table.ForeignKey(
                         name: "FK_QuestionPartViews_SurveyViews_SurveyViewId",
                         column: x => x.SurveyViewId,
-                        principalTable: "SurveyViews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuestionPartViews_SurveyViews_SurveyViewId2",
-                        column: x => x.SurveyViewId2,
                         principalTable: "SurveyViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -640,10 +633,10 @@ namespace Traisi.Migrations
                     QuestionPartViewId = table.Column<int>(nullable: true),
                     SurveyId = table.Column<int>(nullable: true),
                     SurveyLogicId = table.Column<int>(nullable: true),
-                    SurveyViewId = table.Column<int>(nullable: true),
-                    SurveyViewId1 = table.Column<int>(nullable: true),
-                    SurveyViewId2 = table.Column<int>(nullable: true),
-                    SurveyViewId3 = table.Column<int>(nullable: true)
+                    SurveyViewScreeningId = table.Column<int>(nullable: true),
+                    SurveyViewTermsId = table.Column<int>(nullable: true),
+                    SurveyViewThankYouId = table.Column<int>(nullable: true),
+                    SurveyViewWelcomePageId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -679,26 +672,26 @@ namespace Traisi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Labels_SurveyViews_SurveyViewId",
-                        column: x => x.SurveyViewId,
-                        principalTable: "SurveyViews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Labels_SurveyViews_SurveyViewId1",
-                        column: x => x.SurveyViewId1,
+                        name: "FK_Labels_SurveyViews_SurveyViewScreeningId",
+                        column: x => x.SurveyViewScreeningId,
                         principalTable: "SurveyViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Labels_SurveyViews_SurveyViewId2",
-                        column: x => x.SurveyViewId2,
+                        name: "FK_Labels_SurveyViews_SurveyViewTermsId",
+                        column: x => x.SurveyViewTermsId,
                         principalTable: "SurveyViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Labels_SurveyViews_SurveyViewId3",
-                        column: x => x.SurveyViewId3,
+                        name: "FK_Labels_SurveyViews_SurveyViewThankYouId",
+                        column: x => x.SurveyViewThankYouId,
+                        principalTable: "SurveyViews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Labels_SurveyViews_SurveyViewWelcomePageId",
+                        column: x => x.SurveyViewWelcomePageId,
                         principalTable: "SurveyViews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -1130,24 +1123,24 @@ namespace Traisi.Migrations
                 column: "SurveyLogicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Labels_SurveyViewId",
+                name: "IX_Labels_SurveyViewScreeningId",
                 table: "Labels",
-                column: "SurveyViewId");
+                column: "SurveyViewScreeningId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Labels_SurveyViewId1",
+                name: "IX_Labels_SurveyViewTermsId",
                 table: "Labels",
-                column: "SurveyViewId1");
+                column: "SurveyViewTermsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Labels_SurveyViewId2",
+                name: "IX_Labels_SurveyViewThankYouId",
                 table: "Labels",
-                column: "SurveyViewId2");
+                column: "SurveyViewThankYouId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Labels_SurveyViewId3",
+                name: "IX_Labels_SurveyViewWelcomePageId",
                 table: "Labels",
-                column: "SurveyViewId3");
+                column: "SurveyViewWelcomePageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
@@ -1272,11 +1265,6 @@ namespace Traisi.Migrations
                 name: "IX_QuestionPartViews_SurveyViewId",
                 table: "QuestionPartViews",
                 column: "SurveyViewId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionPartViews_SurveyViewId2",
-                table: "QuestionPartViews",
-                column: "SurveyViewId2");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shortcodes_GroupcodeId",

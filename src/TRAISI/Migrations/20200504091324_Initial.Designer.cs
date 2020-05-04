@@ -11,8 +11,8 @@ using Traisi.Data;
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200502235531_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200504091324_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -825,9 +825,6 @@ namespace Traisi.Migrations
                     b.Property<int?>("SurveyViewId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SurveyViewId2")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CATIDependentId");
@@ -839,8 +836,6 @@ namespace Traisi.Migrations
                     b.HasIndex("RepeatSourceId");
 
                     b.HasIndex("SurveyViewId");
-
-                    b.HasIndex("SurveyViewId2");
 
                     b.ToTable("QuestionPartViews");
                 });
@@ -953,16 +948,16 @@ namespace Traisi.Migrations
                     b.Property<int?>("SurveyLogicId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SurveyViewId")
+                    b.Property<int?>("SurveyViewScreeningId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SurveyViewId1")
+                    b.Property<int?>("SurveyViewTermsId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SurveyViewId2")
+                    b.Property<int?>("SurveyViewThankYouId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SurveyViewId3")
+                    b.Property<int?>("SurveyViewWelcomePageId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Value")
@@ -980,13 +975,13 @@ namespace Traisi.Migrations
 
                     b.HasIndex("SurveyLogicId");
 
-                    b.HasIndex("SurveyViewId");
+                    b.HasIndex("SurveyViewScreeningId");
 
-                    b.HasIndex("SurveyViewId1");
+                    b.HasIndex("SurveyViewTermsId");
 
-                    b.HasIndex("SurveyViewId2");
+                    b.HasIndex("SurveyViewThankYouId");
 
-                    b.HasIndex("SurveyViewId3");
+                    b.HasIndex("SurveyViewWelcomePageId");
 
                     b.ToTable("Labels");
                 });
@@ -1703,12 +1698,8 @@ namespace Traisi.Migrations
                         .HasForeignKey("RepeatSourceId");
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyView", "SurveyView")
-                        .WithMany()
-                        .HasForeignKey("SurveyViewId");
-
-                    b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("QuestionPartViews")
-                        .HasForeignKey("SurveyViewId2")
+                        .HasForeignKey("SurveyViewId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1767,21 +1758,22 @@ namespace Traisi.Migrations
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("ScreeningQuestionLabels")
-                        .HasForeignKey("SurveyViewId");
+                        .HasForeignKey("SurveyViewScreeningId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("TermsAndConditionsLabels")
-                        .HasForeignKey("SurveyViewId1")
+                        .HasForeignKey("SurveyViewTermsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("ThankYouPageLabels")
-                        .HasForeignKey("SurveyViewId2")
+                        .HasForeignKey("SurveyViewThankYouId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyView", null)
                         .WithMany("WelcomePageLabels")
-                        .HasForeignKey("SurveyViewId3")
+                        .HasForeignKey("SurveyViewWelcomePageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

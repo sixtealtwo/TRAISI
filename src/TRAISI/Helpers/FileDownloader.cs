@@ -15,6 +15,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Globalization;
+using Newtonsoft.Json.Converters;
 
 namespace Traisi.Helpers
 {
@@ -70,7 +71,10 @@ namespace Traisi.Helpers
 
                 // Write out survey structure to json
                 using (var output = new StreamWriter (fileName)) {
-                    output.Write (JsonConvert.SerializeObject (fullSurveyStructure, new JsonSerializerSettings () { PreserveReferencesHandling = PreserveReferencesHandling.All }));
+                    var settings = new JsonSerializerSettings();
+                    settings.PreserveReferencesHandling = PreserveReferencesHandling.All;
+                    settings.Converters.Add(new StringEnumConverter());
+                    output.Write (JsonConvert.SerializeObject (fullSurveyStructure, settings));
                 }
 
                 ZipFile.CreateFromDirectory (compressDirectory, zipFileName);

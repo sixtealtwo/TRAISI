@@ -25,9 +25,9 @@
 			</ng-container>
 		</query-builder>
 
-		<div class="container">
+		<div class="validation-message-container">
 			<div class="row align-items-center">
-				<div class="col-sm">
+				<div class="col">
 					<div class="form-group">
 						<label for="{{ i }}-message">Validation Message</label>
 						<input
@@ -38,9 +38,12 @@
 							(ngModelChange)="onValidationMessageModelChange($event, i)"
 							[ngModel]="queryModels[i].message"
 						/>
+						<small class="form-text text-muted">
+							The validation message displayed to the user when the above conditions are met.
+						  </small>
 					</div>
 				</div>
-				<div class="col-sm text-right">
+				<div class="col text-right">
 					<button class="btn btn-primary mr-3" (click)="deleteLogic(i)">Delete</button>
 				</div>
 			</div>

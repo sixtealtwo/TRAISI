@@ -6,6 +6,8 @@ import {
 	SurveyResponseClient,
 	SurveyRespondentClient,
 	SurveyResponseViewModel,
+	ValidationState,
+	SurveyViewerResponseValidationState,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
@@ -83,12 +85,12 @@ export class SurveyViewerResponseService {
 		respondent: SurveyRespondent,
 		repeat: number = 0,
 		responseData: Array<ResponseData<ResponseTypes>>
-	): Observable<boolean> {
+	): Observable<SurveyViewerResponseValidationState> {
 		return new Observable((obs) => {
 			this._responseClient
-				.saveResponse(this._session.surveyId, question.questionId, respondent.id, repeat, responseData)
+				.saveResponse(this._session.surveyId, question.questionId, respondent.id, repeat, this._session.language, responseData)
 				.subscribe((result) => {
-					if (result) {
+					if (result.validationState === ValidationState.Valid) {
 						// store the passed response if valid
 						this._storeResponse(question.questionId, respondent, responseData);
 					}
@@ -113,7 +115,10 @@ export class SurveyViewerResponseService {
 			.getResponse(this._session.surveyId, question.questionId, respondent.id, repeat)
 			.pipe(
 				tap((response: SurveyResponseViewModel) => {
-					this._storeResponse(question.questionId, respondent, response.responseValues);
+					if (response) {
+						// only store a response if it exists
+						this._storeResponse(question.questionId, respondent, response.responseValues);
+					}
 				})
 			);
 	}

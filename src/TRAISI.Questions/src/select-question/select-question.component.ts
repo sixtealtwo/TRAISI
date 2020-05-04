@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, Af
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
 	QuestionConfiguration,
 	SurveyViewer,
 	OnSurveyQuestionInit,
@@ -13,19 +12,19 @@ import {
 	QuestionOption,
 	ResponseValidationState,
 	ResponseData,
-	OptionSelectResponseData
+	OptionSelectResponseData,
 } from 'traisi-question-sdk';
 import templateString from './select-question.component.html';
+import styleString from './select-question.component.scss';
 declare var $: any;
 
 @Component({
 	selector: 'traisi-select-question',
-	template: templateString,
-	styles: [require('./select-question.component.scss').toString()],
-	encapsulation: ViewEncapsulation.None
+	template: '' + templateString,
+	styles: ['' + styleString],
+	encapsulation: ViewEncapsulation.None,
 })
-export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect>
-	implements OnInit, OnOptionsLoaded, AfterViewInit {
+export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Select Question';
 
 	public typeName: string;
@@ -33,7 +32,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	public selectOptions: QuestionOption[];
 	public selectedOptionId: string;
 
-	@ViewChild('select', {static: true})
+	@ViewChild('select', { static: true })
 	public selectElement: ElementRef;
 
 	/**
@@ -42,11 +41,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	 * @param surveyResponderService
 	 * @param cdr
 	 */
-	constructor(
-		@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private surveyResponderService: SurveyResponder,
-		private cdr: ChangeDetectorRef
-	) {
+	constructor(@Inject('SurveyViewerService') private surveyViewerService: SurveyViewer) {
 		super();
 		this.typeName = this.QUESTION_TYPE_NAME;
 		this.icon = 'select';
@@ -58,9 +53,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 	 * Loads configuration data once it is available.
 	 * @param data
 	 */
-	public loadConfigurationData(data: QuestionConfiguration[]): void {
-
-	}
+	public loadConfigurationData(data: QuestionConfiguration[]): void {}
 
 	public ngOnInit(): void {}
 
@@ -68,7 +61,7 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 		this.savedResponse.subscribe(this.onSavedResponseData);
 	}
 
-		/**
+	/**
 	 * Determines whether saved response data on
 	 */
 	private onSavedResponseData: (response: ResponseData<ResponseTypes.OptionSelect>[] | 'none') => void = (
@@ -83,14 +76,12 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 		}
 	};
 
-
 	/**
 	 * This is called as soon as any options are ready (even if later queried).
 	 * @param options
 	 */
 	public onOptionsLoaded(options: QuestionOption[]): void {
 		this.selectOptions = options;
-
 	}
 
 	public onModelChanged(option: OptionSelectResponseData): void {
@@ -104,7 +95,4 @@ export class SelectQuestionComponent extends SurveyQuestion<ResponseTypes.Option
 		this.validationState.emit(ResponseValidationState.VALID);
 		// this.autoAdvance.emit(500);
 	}
-
-
 }
-

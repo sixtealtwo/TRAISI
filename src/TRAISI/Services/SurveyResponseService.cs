@@ -15,6 +15,7 @@ using Traisi.Sdk.Interfaces;
 using Traisi.Sdk.Library.ResponseTypes;
 using Traisi.Services.Interfaces;
 using Traisi.ViewModels.SurveyViewer;
+using Traisi.Models.Surveys.Validation;
 
 namespace Traisi.Services
 {
@@ -55,10 +56,13 @@ namespace Traisi.Services
         /// <param name="subRespondentId"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        public async Task<bool> SaveSubResponse(int questionId, int subRespondentId, JObject responseData)
+        public async Task<SurveyResponseValidationState> SaveSubResponse(int questionId, int subRespondentId, JObject responseData)
         {
             var respondent = await this._unitOfWork.SurveyRespondents.GetSubRespondentAsync(subRespondentId);
-            return true;
+            return new SurveyResponseValidationState()
+            {
+                IsValid = true
+            };
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace Traisi.Services
         /// <param name="responseData"></param>
         /// <param name="repeat"></param>
         /// <returns></returns>
-        public async Task<bool> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JObject responseData, int repeat)
+        public async Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JArray responseData, int repeat)
         {
 
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
@@ -80,7 +84,10 @@ namespace Traisi.Services
                 var responseDataUnwrapped = this.UnwrapResponseData(type.ResponseType, responseData);
                 if (!type.ResponseValidator.ValidateResponse(responseDataUnwrapped, question.QuestionConfigurations.Cast<IQuestionConfiguration>().ToHashSet()))
                 {
-                    return false;
+                    return new SurveyResponseValidationState()
+                    {
+                        IsValid = false
+                    };
                 }
             }
 
@@ -112,51 +119,51 @@ namespace Traisi.Services
 
                     };
                 }
-                this._unitOfWork.SurveyResponses.Add(surveyResponse);
+
             }
 
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:
-                    SaveStringResponse(survey, question, responseData, surveyResponse);
+                    SaveStringResponse(survey, question, responseData.First().ToObject<StringResponse>(), surveyResponse);
                     break;
-                case QuestionResponseType.Decimal:
-                    SaveDecimalResponse(survey, question, responseData, surveyResponse);
-                    break;
-                case QuestionResponseType.Integer:
-                    SaveIntegerResponse(survey, question, responseData, surveyResponse);
+                case QuestionResponseType.Number:
+                    SaveNumberResponse(survey, question, responseData.First().ToObject<NumberResponse>(), surveyResponse);
                     break;
                 case QuestionResponseType.DateTime:
-                    SaveDateTimeResponse(surveyResponse, responseData);
-                    break;
-                case QuestionResponseType.Path:
-                    SavePathResponse(surveyResponse, responseData);
+                    SaveDateTimeResponse(surveyResponse, responseData.First().ToObject<DateTimeResponse>());
                     break;
                 case QuestionResponseType.Json:
-                    SaveJsonResponse(surveyResponse, responseData);
+                    SaveJsonResponse(surveyResponse, responseData.First().ToObject<JsonResponse>());
                     break;
                 case QuestionResponseType.Location:
-                    SaveLocationResponse(survey, question, responseData, surveyResponse);
+                    SaveLocationResponse(survey, question, responseData.First().ToObject<LocationLatLngResponse>(), surveyResponse);
                     break;
                 case QuestionResponseType.Timeline:
-                    SaveTimelineResponse(surveyResponse, responseData);
+                    SaveTimelineResponse(surveyResponse, responseData.ToObject<List<TimelineResponse>>());
                     break;
                 case QuestionResponseType.OptionSelect:
-                    SaveOptionSelectResponse(survey, question, responseData, surveyResponse);
+                    SaveOptionSelectResponse(survey, question, responseData.ToObject<List<OptionSelectResponse>>(), surveyResponse);
                     break;
             }
             try
             {
-
+                this._unitOfWork.SurveyResponses.Update(surveyResponse);
                 await this._unitOfWork.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 this._logger.LogError(e, "Error saving response.");
-                return false;
+                return new SurveyResponseValidationState()
+                {
+                    IsValid = false
+                };
             }
 
-            return true;
+            return new SurveyResponseValidationState()
+            {
+                IsValid = true
+            };
 
         }
 
@@ -179,7 +186,7 @@ namespace Traisi.Services
         /// <param name="response"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        internal List<IResponseType> UnwrapResponseData(QuestionResponseType responseType, JObject response)
+        internal List<IResponseType> UnwrapResponseData(QuestionResponseType responseType, JArray response)
         {
 
             switch (responseType)
@@ -189,17 +196,13 @@ namespace Traisi.Services
                 case QuestionResponseType.Timeline:
                     return response["values"].ToObject<List<ITimelineResponse>>().Cast<IResponseType>().ToList();
                 case QuestionResponseType.DateTime:
-                    return new List<IResponseType>() { response.ToObject<DateTimeResponse>() };
+                    return new List<IResponseType>() { response[0].ToObject<DateTimeResponse>() };
                 case QuestionResponseType.String:
-                    return new List<IResponseType>() { response.ToObject<StringResponse>() };
+                    return new List<IResponseType>() { response[0].ToObject<StringResponse>() };
                 case QuestionResponseType.Location:
-                    return new List<IResponseType>() { response["value"].ToObject<LocationResponse>() };
-                case QuestionResponseType.Integer:
-                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
-                case QuestionResponseType.Decimal:
-                    return new List<IResponseType>() { response.ToObject<DecimalResponse>() };
+                    return new List<IResponseType>() { response[0].ToObject<LocationResponse>() };
                 case QuestionResponseType.Json:
-                    return new List<IResponseType>() { response.ToObject<JsonResponse>() };
+                    return new List<IResponseType>() { response[0].ToObject<JsonResponse>() };
 
                 default:
                     break;
@@ -226,14 +229,14 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal void SaveStringResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
+        internal void SaveStringResponse(Survey survey, QuestionPart question, StringResponse responseData, SurveyResponse response)
         {
             if (response.ResponseValues.Count == 0)
             {
                 //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new StringResponse());
             }
-            (response.ResponseValues[0] as StringResponse).Value = responseData.GetValue("value").ToObject<string>();
+            (response.ResponseValues[0] as StringResponse).Value = responseData.Value;
 
         }
 
@@ -245,13 +248,13 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <param name="response"></param>
-        internal void SaveIntegerResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
+        internal void SaveNumberResponse(Survey survey, QuestionPart question, NumberResponse responseData, SurveyResponse response)
         {
             if (response.ResponseValues.Count == 0)
             {
-                response.ResponseValues.Add(new IntegerResponse());
+                response.ResponseValues.Add(new NumberResponse());
             }
-            (response.ResponseValues[0] as IntegerResponse).Value = responseData.GetValue("value").ToObject<int>();
+            (response.ResponseValues[0] as NumberResponse).Value = responseData.Value;
 
         }
 
@@ -260,46 +263,25 @@ namespace Traisi.Services
         /// </summary>
         /// <param name="response"></param>
         /// <param name="responseData"></param>        
-        internal void SaveJsonResponse(SurveyResponse response, JObject responseData)
+        internal void SaveJsonResponse(SurveyResponse response, JsonResponse responseData)
         {
             response.ResponseValues.Clear();
-
-            if (responseData.GetValue("values") != null)
+            if (response.ResponseValues.Count == 0)
             {
-                var values = responseData.GetValue("values").ToObject<JArray>();
-
-                foreach (var rValue in values)
-                {
-                    response.ResponseValues.Add(new JsonResponse()
-                    {
-                        SurveyResponse = response,
-                        Value = rValue.ToString()
-                    });
-                }
+                response.ResponseValues.Add(new JsonResponse());
             }
-            else
-            {
-                var value = responseData.GetValue("value").Value<string>();
-                response.ResponseValues.Add(new JsonResponse()
-                {
-                    SurveyResponse = response,
-                    Value = value
-                });
-                return;
-            }
+            (response.ResponseValues[0] as JsonResponse).Value = responseData.Value;
 
-            // (response.ResponseValues[0] as JsonResponse).Value = responseData.ToString();
             return;
         }
 
-        internal void SaveDateTimeResponse(SurveyResponse response, JObject responseData)
+        internal void SaveDateTimeResponse(SurveyResponse response, DateTimeResponse responseData)
         {
             if (response.ResponseValues.Count == 0)
             {
-                //response.ResponseValues = new List<ResponseValue>();
                 response.ResponseValues.Add(new DateTimeResponse());
             }
-            (response.ResponseValues[0] as DateTimeResponse).Value = responseData.GetValue("value").ToObject<DateTime>();
+            (response.ResponseValues[0] as DateTimeResponse).Value = responseData.Value;
             return;
         }
 
@@ -311,11 +293,10 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <param name="response"></param>
-        internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
+        internal void SaveOptionSelectResponse(Survey survey, QuestionPart question, List<OptionSelectResponse> responseData, SurveyResponse response)
         {
             response.ResponseValues.Clear();
-            var values = responseData["values"].ToObject<List<OptionSelectResponse>>();
-            foreach (var val in values)
+            foreach (var val in responseData)
             {
                 response.ResponseValues.Add(new OptionSelectResponse()
                 {
@@ -327,24 +308,6 @@ namespace Traisi.Services
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="survey"></param>
-        /// <param name="question"></param>
-        /// <param name="respondent"></param>
-        /// <param name="responseData"></param>
-        /// <param name="response"></param>
-        internal void SaveDecimalResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
-        {
-            if (response.ResponseValues.Count == 0)
-            {
-                //response.ResponseValues = new List<ResponseValue>();
-                response.ResponseValues.Add(new DecimalResponse());
-            }
-            (response.ResponseValues[0] as DecimalResponse).Value = responseData.GetValue("value").ToObject<double>();
-
-        }
 
         /// <summary>
         ///  
@@ -354,11 +317,10 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="response"></param> 
         /// <returns></returns>
-        internal void SaveTimelineResponse(SurveyResponse response, JObject responseData)
+        internal void SaveTimelineResponse(SurveyResponse response, List<TimelineResponse> responseData)
         {
-            List<TimelineResponseValueViewModel> responseValues = responseData["values"].ToObject<List<TimelineResponseValueViewModel>>();
             List<TimelineResponse> values = new List<TimelineResponse>();
-            foreach (var responseValue in responseValues)
+            foreach (var responseValue in responseData)
             {
 
                 values.Add(new TimelineResponse()
@@ -369,7 +331,7 @@ namespace Traisi.Services
                     Order = responseValue.Order,
                     TimeA = responseValue.TimeA,
                     TimeB = responseValue.TimeB,
-                    Location = new Point(responseValue.Longitude, responseValue.Latitude)
+                    Location = responseValue.Location
                 });
             }
             response.ResponseValues.Clear();
@@ -396,16 +358,14 @@ namespace Traisi.Services
         /// <param name="respondent"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        internal void SaveLocationResponse(Survey survey, QuestionPart question, JObject responseData, SurveyResponse response)
+        internal void SaveLocationResponse(Survey survey, QuestionPart question, LocationLatLngResponse responseData, SurveyResponse response)
         {
             if (response.ResponseValues.Count == 0)
             {
                 response.ResponseValues.Add(new LocationResponse());
             }
-            Point point = new Point(new Coordinate(responseData.GetValue("longitude").Value<double>(),
-            responseData.GetValue("latitude").Value<double>()));
-            (response.ResponseValues[0] as LocationResponse).Location = point;
-            (response.ResponseValues[0] as LocationResponse).Address = responseData.GetValue("address").Value<string>();
+            (response.ResponseValues[0] as LocationResponse).Location = new Point(responseData.Longitude, responseData.Latitude);
+            (response.ResponseValues[0] as LocationResponse).Address = responseData.Address;
             return;
 
         }

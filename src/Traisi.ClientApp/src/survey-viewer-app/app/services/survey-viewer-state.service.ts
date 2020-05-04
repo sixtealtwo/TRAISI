@@ -4,10 +4,6 @@ import { BehaviorSubject, ReplaySubject, Subject, Observable, Observer, forkJoin
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { SurveyViewGroupMember } from '../models/survey-view-group-member.model';
 import { SurveyViewQuestion } from '../models/survey-view-question.model';
-import { ConditionalEvaluator } from './conditional-evaluator/conditional-evaluator.service';
-import { EventEmitter } from 'events';
-import { SurveyViewConditional } from 'app/models/survey-view-conditional.model';
-import { SurveyResponderService } from './survey-responder.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -26,7 +22,7 @@ export class SurveyViewerStateService {
 	 * @param _conditionalEvaluator
 	 * @param _responderService
 	 */
-	public constructor(@Inject('SurveyResponderService') private _responderService: SurveyResponderService) {
+	public constructor() {
 		this.viewerState = {
 			surveyPages: [],
 			activeQuestion: undefined,

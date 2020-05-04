@@ -1,37 +1,29 @@
 import {
 	Component,
-	EventEmitter,
 	Inject,
 	OnInit,
-	TemplateRef,
 	ViewChildren,
 	ElementRef,
-	AfterContentInit,
 	QueryList,
-	AfterViewInit
+	AfterViewInit,
 } from '@angular/core';
 import {
 	SurveyQuestion,
 	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
 	SurveyViewer,
-	OnSurveyQuestionInit,
-	OnVisibilityChanged,
-	OnSaveResponseStatus,
-	StringResponseData,
 	OnOptionsLoaded,
 	QuestionOption,
 	ResponseData,
 	ResponseValidationState,
-	OptionSelectResponseData
+	OptionSelectResponseData,
 } from 'traisi-question-sdk';
 
 import templateString from './radio-question.component.html';
+import styleString from './radio-question.component.scss';
 @Component({
 	selector: 'traisi-radio-question',
-	template: <string>templateString,
-	styles: [require('./radio-question.component.scss').toString()]
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
 export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit, OnOptionsLoaded, AfterViewInit {
 	public options: QuestionOption[];
@@ -52,7 +44,6 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	constructor(
 		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
 	) {
 		super();
 		this.options = [];
@@ -64,11 +55,10 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 */
 	public ngOnInit(): void {
 		this.configuration['allowCustomResponse'] = this.configuration['allowCustomResponse'] === 'true' ? true : false;
-		this._surveyViewerService.options.subscribe((value: QuestionOption[]) => {});
+		this._surveyViewerService.options.subscribe(() => {});
 		if (this.configuration['customResponseOptions'] !== undefined) {
 			const options = this.configuration['customResponseOptions'].split(',');
 			this.customResponseOptions = new Set(options);
-
 		}
 	}
 
@@ -129,7 +119,7 @@ export class RadioQuestionComponent extends SurveyQuestion<ResponseTypes.OptionS
 	 * @param {*} result
 	 * @memberof TextQuestionComponent
 	 */
-	public onResponseSaved(result: any): void {
+	public onResponseSaved(): void {
 		this.validationState.emit(ResponseValidationState.VALID);
 		this.autoAdvance.emit(500);
 	}

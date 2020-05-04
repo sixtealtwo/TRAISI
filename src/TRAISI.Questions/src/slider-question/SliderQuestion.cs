@@ -7,7 +7,7 @@ using Traisi.Sdk.Interfaces;
 
 namespace Traisi.Sdk.Questions
 {
-    [SurveyQuestion(QuestionResponseType.Decimal, CodeBundleName = "traisi-questions-general.module.js",
+    [SurveyQuestion(QuestionResponseType.Number, CodeBundleName = "traisi-questions-general.module.js",
     ResponseValidator = typeof(NumberQuestionValidator))]
     public class SliderQuestion : ISurveyQuestion
     {

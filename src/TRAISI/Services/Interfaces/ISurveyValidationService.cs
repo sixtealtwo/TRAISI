@@ -11,9 +11,9 @@ using Traisi.Models.Surveys.Validation;
 
 namespace Traisi.Services.Interfaces
 {
-    public interface ISurveyValidationService 
+    public interface ISurveyValidationService
     {
-        public bool ValidateSurveyResponse(SurveyResponse response);
+        public List<SurveyLogicError> ValidateSurveyResponse(SurveyResponse response);
 
         public SurveyLogicError GetSurveyLogicError(SurveyResponse response, SurveyRespondent respondent);
 

@@ -121,14 +121,17 @@ namespace Traisi.Data
             builder.Entity<Survey>().HasMany(s => s.SurveyPermissions).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(s => s.GroupCodes).WithOne(k => k.Survey).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(s => s.Shortcodes).WithOne(sc => sc.Survey).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Survey>().HasMany(s => s.TitleLabels).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Survey>().HasMany(s => s.TitleLabels).WithOne().HasForeignKey("SurveyId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().ToTable($"{nameof(this.Surveys)}");
 
             builder.Entity<SurveyView>().Property(s => s.ViewName).IsRequired().HasMaxLength(100);
-            builder.Entity<SurveyView>().HasMany(s => s.QuestionPartViews).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<SurveyView>().HasMany(s => s.WelcomePageLabels).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<SurveyView>().HasMany(s => s.TermsAndConditionsLabels).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<SurveyView>().HasMany(s => s.ThankYouPageLabels).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyView>().HasMany(s => s.QuestionPartViews).WithOne(s => s.SurveyView).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Label>().ToTable($"{nameof(Labels)}");
+            builder.Entity<SurveyView>().HasMany(s => s.WelcomePageLabels).WithOne().HasForeignKey("SurveyViewWelcomePageId").OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyView>().HasMany(s => s.TermsAndConditionsLabels).WithOne().HasForeignKey("SurveyViewTermsId").OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyView>().HasMany(s => s.ThankYouPageLabels).WithOne().HasForeignKey("SurveyViewThankYouId").OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyView>().HasMany(s => s.ScreeningQuestionLabels).WithOne().HasForeignKey("SurveyViewScreeningId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyView>().ToTable($"{nameof(this.SurveyViews)}");
 
             builder.Entity<SurveyPermission>().ToTable($"{nameof(this.SurveyPermissions)}");
@@ -151,32 +154,19 @@ namespace Traisi.Data
 
             builder.Entity<Groupcode>().ToTable($"{nameof(this.Groupcodes)}");
 
-            // builder.Entity<QuestionOptionLabel>().ToTable($"{nameof(this.QuestionOptionLabels)}");
-
-           // builder.Entity<WelcomePageLabel>().ToTable($"{nameof(this.WelcomePageLabels)}");
-
-            //builder.Entity<ThankYouPageLabel>().ToTable($"{nameof(this.ThankYouPageLabels)}");
-
-            //builder.Entity<TitlePageLabel>().ToTable($"{nameof(this.TitlePageLabels)}");
-
-            //builder.Entity<TermsAndConditionsPageLabel>().ToTable($"{nameof(this.TermsAndConditionsPageLabels)}");
-
-            //builder.Entity<ScreeningQuestionsPageLabel>().ToTable($"{nameof(this.ScreeningQuestionsLabels)}");
-
-            // builder.Entity<QuestionPartViewLabel>().ToTable($"{nameof(this.QuestionPartViewLabels)}");
 
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionConfigurations).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptions).WithOne(q => q.QuestionPartParent).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPart>().HasMany(q => q.QuestionOptionConditionalsSource).WithOne(q => q.SourceQuestion).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().HasIndex(o => new { o.Code, o.QuestionPartParentId }).IsUnique(true);
             builder.Entity<QuestionPart>().ToTable($"{nameof(this.QuestionParts)}");
-            builder.Entity<QuestionPartView>().HasMany(s => s.Labels).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionPartView>().HasMany(s => s.Labels).WithOne().HasForeignKey("QuestionPartViewId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().HasMany(qp => qp.QuestionPartViewChildren).WithOne(qc => qc.ParentView).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionPartView>().ToTable($"{nameof(this.QuestionPartViews)}");
             builder.Entity<QuestionPartView>().HasMany(v => v.Conditionals).WithOne(v => v.TargetQuestion).OnDelete(DeleteBehavior.Cascade);
 
             //builder.Entity<QuestionPartView>().HasOne(q => q.QuestionPart).WithOne(q2 => q2.Parent).HasForeignKey<QuestionPart>(k => k.ParentQuestionPartViewRef);
-            builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<QuestionOption>().HasMany(o => o.QuestionOptionLabels).WithOne().HasForeignKey("QuestionOptionId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().HasMany(q => q.QuestionOptionConditionalsTarget).WithOne(o => o.TargetOption).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<QuestionOption>().ToTable($"{nameof(this.QuestionOptions)}");
 
@@ -187,7 +177,6 @@ namespace Traisi.Data
             builder.Entity<ResponseValue>().ToTable($"{nameof(this.SurveyResponseValues)}").HasDiscriminator<int>("ResponseType")
                 .HasValue<StringResponse>((int)ResponseTypes.StringResponse)
                 .HasValue<LocationResponse>((int)ResponseTypes.LocationResponse)
-                .HasValue<OptionListResponse>((int)ResponseTypes.OptionListResponse)
                 .HasValue<JsonResponse>((int)ResponseTypes.JsonResponse)
                 .HasValue<TimelineResponse>((int)ResponseTypes.TimelineResponse)
                 .HasValue<DateTimeResponse>((int)ResponseTypes.DateTimeResponse)
@@ -224,8 +213,9 @@ namespace Traisi.Data
             builder.Entity<QuestionConditional>().HasOne(s => s.SourceQuestion).WithMany();
 
             builder.Entity<SurveyLogic>().ToTable(nameof(SurveyLogic));
+            builder.Entity<SurveyLogic>().HasOne(x => x.Question).WithMany().HasForeignKey(x => x.QuestionId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyLogic>().HasMany(x => x.Expressions).WithOne().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<SurveyLogic>().HasMany(x => x.ValidationMessages).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyLogic>().HasMany(x => x.ValidationMessages).WithOne().HasForeignKey("SurveyLogicId").OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(x => x.SurveyLogic).WithOne().OnDelete(DeleteBehavior.Cascade);
             
 

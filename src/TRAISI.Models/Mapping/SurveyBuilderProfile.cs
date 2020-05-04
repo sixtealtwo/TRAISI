@@ -67,7 +67,7 @@ namespace Traisi.Models.Mapping
                         return stringResult;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                 }

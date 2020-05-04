@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ComponentRef, ViewChild } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	Input,
+	Output,
+	EventEmitter,
+	ViewEncapsulation,
+	ComponentRef,
+	ViewChild,
+} from '@angular/core';
 import { Header1Component } from './header1/header1.component';
 import { MainSurveyAccess1Component } from './main-survey-access1/main-survey-access1.component';
 import { TextBlock1Component } from './text-block1/text-block1.component';
@@ -40,7 +49,7 @@ interface SpecialPageDataInput {
 	templateUrl: './special-page-builder.component.html',
 	styleUrls: ['./special-page-builder.component.scss'],
 	encapsulation: ViewEncapsulation.None,
-	entryComponents: [MainSurveyAccess1Component, TextBlock1Component]
+	entryComponents: [MainSurveyAccess1Component, TextBlock1Component, Header1Component, Footer1Component],
 })
 export class SpecialPageBuilderComponent implements OnInit {
 	public loadedComponents: boolean = false;
@@ -88,7 +97,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 		// deserailize page data
 		try {
 			let pageData = JSON.parse(this.pageHTML);
-			(<any[]>pageData).forEach(sectionInfo => {
+			(<any[]>pageData).forEach((sectionInfo) => {
 				if (sectionInfo.sectionType.startsWith('header')) {
 					this.headerComponent = this.getComponent(sectionInfo.sectionType);
 					this.headerHTML = sectionInfo.html;
@@ -138,21 +147,21 @@ export class SpecialPageBuilderComponent implements OnInit {
 	private setComponentInputs(): void {
 		this.headerInputs = {
 			pageHTML: this.headerHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
 		};
 
 		this.surveyAccessInputs = {
 			pageHTML: this.surveyAccessHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
 		};
 
 		this.surveyAccessOutputs = {
-			startSurveyPressed: (code: string) => this.startSurvey(code)
+			startSurveyPressed: (code: string) => this.startSurvey(code),
 		};
 
 		this.footerInputs = {
 			pageHTML: this.footerHTML,
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
 		};
 	}
 
@@ -190,7 +199,7 @@ export class SpecialPageBuilderComponent implements OnInit {
 	public getComponentInputs(index: number): SpecialPageDataInput {
 		let inputs = {
 			pageHTML: this.componentHTML[index],
-			pageThemeInfo: this.pageThemeInfo
+			pageThemeInfo: this.pageThemeInfo,
 		};
 		return inputs;
 	}

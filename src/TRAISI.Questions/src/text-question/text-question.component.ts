@@ -81,7 +81,7 @@ export class TextQuestionComponent extends SurveyQuestion<ResponseTypes.String>
 					value: this.textInput,
 				};
 
-				this.response.emit(data);
+				this.response.emit([data]);
 			}
 		});
 		this.isLoaded.next(true);

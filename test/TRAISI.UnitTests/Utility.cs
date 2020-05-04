@@ -55,7 +55,7 @@ namespace Traisi.UnitTests
             {
                 Description = "Description",
             });
-            var questionAttribute = new SurveyQuestionAttribute(QuestionResponseType.Integer)
+            var questionAttribute = new SurveyQuestionAttribute(QuestionResponseType.Number)
             {
                 CustomBuilderView = null,
             };
