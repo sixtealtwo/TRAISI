@@ -5,6 +5,7 @@ using Traisi.Data.Models.Surveys;
 using Traisi.Data.Models.Extensions;
 using Newtonsoft.Json;
 using System;
+using Traisi.ViewModels.SurveyBuilder;
 
 namespace Traisi.Models.Mapping
 {
@@ -50,6 +51,11 @@ namespace Traisi.Models.Mapping
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator));
+
+
+            CreateMap<SurveyLogic, GeneratedIdsViewModel>()
+                      .ForMember(s => s.Id, opts => opts.MapFrom(o => o.Id))
+                      .ForMember(s => s.Children, opts => opts.MapFrom(o => o.Expressions));
         }
     }
 

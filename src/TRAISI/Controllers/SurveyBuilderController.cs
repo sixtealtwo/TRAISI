@@ -1016,7 +1016,7 @@ namespace Traisi.Controllers
         /// <returns></returns>
         [HttpPost("{surveyId}/conditionals/{questionPartViewId}")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateQuestionConditionals(int surveyId, int questionPartViewId, [FromBody]QuestionConditionalOperatorViewModel[] conditionals)
+        public async Task<IActionResult> UpdateQuestionConditionals(int surveyId, int questionPartViewId, [FromBody] QuestionConditionalOperatorViewModel[] conditionals)
         {
             var survey = await this._unitOfWork.Surveys.GetAsync(surveyId);
             var question = await this._unitOfWork.QuestionPartViews.GetQuestionPartViewWithConditionals(questionPartViewId);
@@ -1050,7 +1050,8 @@ namespace Traisi.Controllers
         [HttpPut("surveys/{surveyId}/survey-logic")]
         [Consumes("application/json")]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel, [FromQuery]string language = "en")
+        [Produces(typeof(GeneratedIdsViewModel))]
+        public async Task<IActionResult> UpdateSurveyLogic(int surveyId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
@@ -1062,7 +1063,8 @@ namespace Traisi.Controllers
                 opts.Items["Language"] = language;
             });
             await this._surveyBuilderService.UpdateSurveyLogic(survey, surveyLogic);
-            return new OkResult();
+            var idMap = _mapper.Map<GeneratedIdsViewModel>(surveyLogic);
+            return new OkObjectResult(idMap);
         }
 
         /// <summary>
@@ -1076,7 +1078,7 @@ namespace Traisi.Controllers
         [Consumes("application/json")]
         [ProducesDefaultResponseType]
         [Produces(typeof(int))]
-        public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody]SurveyLogicViewModel surveyLogicViewModel, [FromQuery]string language = "en")
+        public async Task<IActionResult> AddSurveyLogic(int surveyId, [FromBody] SurveyLogicViewModel surveyLogicViewModel, [FromQuery] string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey == null)
@@ -1117,7 +1119,7 @@ namespace Traisi.Controllers
         /// <param name="surveyId"></param>
         /// <returns></returns>
         [HttpGet("surveys/{surveyId}/survey-logic")]
-        [Produces(typeof(List<SurveyLogicViewModel>))] 
+        [Produces(typeof(List<SurveyLogicViewModel>))]
         public async Task<IActionResult> GetSurveyLogic(int surveyId, [FromQuery] string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);

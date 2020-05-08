@@ -10,7 +10,8 @@
 		"paths": {
 			// "@angular/*": ["../../node_modules/@angular/*"],
 			"traisi-question-sdk": ["../../../TRAISI.SDK/Client/dist"],
-			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"]
+			"echarts": ["../../node_modules/echarts/dist/echarts-en.min.js"],
+			"shared/*": ["../shared/*"] 
 		}
 	},
 	"angularCompilerOptions": {

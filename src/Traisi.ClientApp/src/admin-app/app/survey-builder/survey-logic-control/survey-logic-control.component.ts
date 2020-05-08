@@ -13,6 +13,8 @@ import { Observable, concat, of, Subject, forkJoin, zip, combineLatest } from 'r
 import { QuestionOptionValueViewModel, SurveyBuilderClient } from '../services/survey-builder-client.service';
 import { QuestionResponseType } from '../models/question-response-type.enum';
 import { tap, distinctUntilChanged, debounceTime, skip, first, concatMap } from 'rxjs/operators';
+import { GeneratedIdsViewModel } from 'shared/models/generated-ids-view-model.model';
+import { UtilService } from 'shared/services/util.service';
 @Component({
 	selector: 'traisi-survey-logic-control',
 	templateUrl: './survey-logic-control.component.html',
@@ -48,7 +50,11 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	 *Creates an instance of SurveyLogicControlComponent.
 	 * @param {SurveyBuilderEditorData} _editor
 	 */
-	public constructor(private _editor: SurveyBuilderEditorData, private _builder: SurveyBuilderClient) {
+	public constructor(
+		private _editor: SurveyBuilderEditorData,
+		private _builder: SurveyBuilderClient,
+		private _util: UtilService
+	) {
 		this.config = { fields: { tmp: { name: 'temp', type: 'number' } } };
 		this.classNames = classNames;
 	}
@@ -68,8 +74,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	}
 
 	public onOptionModelChange($event: Array<QuestionOptionValueViewModel>, index: number, rule: Rule): void {
-		
-		let value = $event.map(i => i.code)
+		let value = $event.map((i) => i.code);
 		rule.value = value;
 		this.modelChanged$.next(this.queryModels[index]);
 	}
@@ -111,7 +116,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 		this.modelChanged$
 			.pipe(
 				skip(1),
-				debounceTime(500),
+				debounceTime(1000),
 				tap((v) => {
 					console.log(v);
 				})
@@ -119,7 +124,9 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 			.subscribe((model) => {
 				this._builder
 					.updateSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, model)
-					.subscribe((v) => {});
+					.subscribe((v: GeneratedIdsViewModel) => {
+						this._util.copyIds(v, model, 'rules');
+					});
 			});
 	}
 	ngOnDestroy(): void {}

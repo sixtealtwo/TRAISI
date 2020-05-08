@@ -4,8 +4,8 @@
   "documentGenerator": {
     "webApiToOpenApi": {
       "controllerNames": [
-        "Traisi.Controllers.SurveyBuilderController",
-        "Traisi.Controllers.QuestionController"
+        "Traisi.Controllers.QuestionController",
+        "Traisi.Controllers.SurveyBuilderController"
       ],
       "isAspNetCore": true,
       "resolveJsonOptions": false,
@@ -102,7 +102,8 @@
         "QuestionResponseType",
         "QuestionConditionalOperator",
         "QuestionBuilderType",
-        "QuestionConditionalType"
+        "QuestionConditionalType",
+        "GeneratedIdsViewModel"
       ],
       "excludedParameterNames": [],
       "handleReferences": false,
