@@ -109,25 +109,16 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 			this._builder.getSurveyLogic(this._editor.surveyId, this._editor.activeLanguage)
 		).subscribe((result) => {
 			this.queryModels = <Array<RuleSet & { message: string; id: number }>>result[1];
-			console.log(this.queryModels);
 		});
 
 		// only send an update to the server every 500 ms of a model change
-		this.modelChanged$
-			.pipe(
-				skip(1),
-				debounceTime(1000),
-				tap((v) => {
-					console.log(v);
-				})
-			)
-			.subscribe((model) => {
-				this._builder
-					.updateSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, model)
-					.subscribe((v: GeneratedIdsViewModel) => {
-						this._util.copyIds(v, model, 'rules');
-					});
-			});
+		this.modelChanged$.pipe(skip(1), debounceTime(1000)).subscribe((model) => {
+			this._builder
+				.updateSurveyLogic(this._editor.surveyId, this._editor.activeLanguage, model)
+				.subscribe((v: GeneratedIdsViewModel) => {
+					this._util.copyIds(v, model, 'rules');
+				});
+		});
 	}
 	ngOnDestroy(): void {}
 
