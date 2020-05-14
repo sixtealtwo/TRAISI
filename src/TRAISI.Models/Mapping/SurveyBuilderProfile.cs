@@ -29,14 +29,19 @@ namespace Traisi.Models.Mapping
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
             .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
             .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
-            .ForMember(s => s.Rules, opts => opts.MapFrom(o => o.Expressions));
+             .ForMember(s => s.Rules, opts => opts.ConvertUsing<RuleValueConverter2, List<SurveyLogic>>(x => x.Expressions))
+            .IncludeAllDerived();
+
 
             CreateMap<SurveyLogic, SurveyLogicRuleModel>()
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
             .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
             .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
-            .ForMember(s => s.Rules, opts => opts.MapFrom(o => o.Expressions));
+            .ForMember(s => s.Rules, opts => opts.ConvertUsing<RuleValueConverter, List<SurveyLogic>>(x => x.Expressions))
+            .IncludeAllDerived();
+
+
 
             CreateMap<SurveyLogic, SurveyLogicBaseViewModel>()
             .ConvertUsing<LogicRuleConverter>();
@@ -50,12 +55,38 @@ namespace Traisi.Models.Mapping
             CreateMap<SurveyLogic, SurveyLogicRulesViewModel>()
             .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
-            .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator));
-
+            .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
+            .IncludeAllDerived();
 
             CreateMap<SurveyLogic, GeneratedIdsViewModel>()
                       .ForMember(s => s.Id, opts => opts.MapFrom(o => o.Id))
                       .ForMember(s => s.Children, opts => opts.MapFrom(o => o.Expressions));
+        }
+    }
+
+    public class RuleValueConverter : IValueConverter<List<SurveyLogic>, List<SurveyLogicBaseViewModel>>
+    {
+        public List<SurveyLogicBaseViewModel> Convert(List<SurveyLogic> sourceMember, ResolutionContext context)
+        {
+            List<SurveyLogicBaseViewModel> result = new List<SurveyLogicBaseViewModel>();
+            foreach (var logic in sourceMember)
+            {
+                result.Add(context.Mapper.Map<SurveyLogicBaseViewModel>(logic));
+            }
+            return result;
+        }
+    }
+
+    public class RuleValueConverter2 : IValueConverter<List<SurveyLogic>, List<SurveyLogicViewModel>>
+    {
+        public List<SurveyLogicViewModel> Convert(List<SurveyLogic> sourceMember, ResolutionContext context)
+        {
+            List<SurveyLogicViewModel> result = new List<SurveyLogicViewModel>();
+            foreach (var logic in sourceMember)
+            {
+                result.Add(context.Mapper.Map<SurveyLogicViewModel>(logic));
+            }
+            return result;
         }
     }
 
@@ -87,7 +118,9 @@ namespace Traisi.Models.Mapping
         }
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class SurveyLogicOperatorTypeConverter : ITypeConverter<string, SurveyLogicOperator>
     {
         public SurveyLogicOperator Convert(string source, SurveyLogicOperator destination, ResolutionContext context)
@@ -123,12 +156,16 @@ namespace Traisi.Models.Mapping
         }
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class LogicRuleConverter : ITypeConverter<SurveyLogic, SurveyLogicBaseViewModel>
     {
         public SurveyLogicBaseViewModel Convert(SurveyLogic source, SurveyLogicBaseViewModel destination, ResolutionContext context)
         {
 
-            if (source.QuestionId > 0)
+            if (source.QuestionId > 0 && source.Condition == null)
             {
                 return context.Mapper.Map<SurveyLogicRulesViewModel>(source);
             }

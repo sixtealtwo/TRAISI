@@ -93,15 +93,13 @@
 								(click)="navigateNext()"
 								[disabled]="!(navigator.nextEnabled$ | async)"
 								class="btn btn-primary pl-4 pr-4 survey-nav-button"
-								type="button"
-							>
-								<!-- <div class="progress" *ngIf="false">
-							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-								aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-						</div>-->
+								type="button">
+
 								<div *ngIf="!viewerState.isNavComplete">
 									{{ 'Viewer.Next' | translate }}
 									<i class="fas fa-arrow-alt-circle-right ml-1"></i>
+
+									<span *ngIf="false">Has Error</span>
 								</div>
 							</button>
 							<button

@@ -237,7 +237,20 @@ namespace Traisi.Models.Mapping
                     }
 
                 }))
-                .ForMember(o => o.ErrorMessages, opt => opt.MapFrom(m => m.Errors));
+                .ForMember(o => o.ErrorMessages, opts => opts.MapFrom(x => x.Errors));
+        }
+    }
+
+    public class ErrorMessageConverter : IValueConverter<List<SurveyLogicError>, List<string>>
+    {
+        public List<SurveyLogicError> Convert(List<string> sourceMember, ResolutionContext context)
+        {
+            return null;
+        }
+
+        public List<string> Convert(List<SurveyLogicError> sourceMember, ResolutionContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

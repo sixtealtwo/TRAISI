@@ -480,13 +480,9 @@ export class QuestionConditionalsComponent implements OnInit, AfterViewInit {
 		) {
 			responseValue = "false";
 		} else if (
-			this.questionType.responseType === QuestionResponseType.Integer
+			this.questionType.responseType === QuestionResponseType.Number
 		) {
 			responseValue = "0";
-		} else if (
-			this.questionType.responseType === QuestionResponseType.Decimal
-		) {
-			responseValue = "0.0";
 		} else if (
 			this.questionType.responseType === QuestionResponseType.Location
 		) {

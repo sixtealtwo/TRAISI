@@ -23,21 +23,21 @@ namespace Traisi.Sdk.Questions
         public string Format = "Decimal";
 
         [QuestionConfiguration(ConfigurationValueType.Integer,
-        Name = "Min",
+        DisplayName = "Min",
         Description = "Minimum Number.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
         DefaultValue = "0")]
         public int Min = 0;
 
         [QuestionConfiguration(ConfigurationValueType.Integer,
-        Name = "Max",
+        DisplayName = "Max",
         Description = "Maximum Number.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
         DefaultValue = "100")]
         public int Max = 100;
 
         [QuestionConfiguration(ConfigurationValueType.Integer,
-        Name = "Step",
+        DisplayName = "Step",
         Description = "Slider Step.",
         SurveyBuilderValueType = QuestionBuilderType.NumericText,
         DefaultValue = "5")]

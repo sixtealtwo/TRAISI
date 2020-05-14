@@ -128,7 +128,7 @@ module.exports = {
 	],
 	plugins: [
 		new WebpackBar(),
-		new CopyWebpackPlugin([{ from: 'dist/', to: '../../TRAISI/development', toType: 'dir' }], { debug: 'warning' })
+		new CopyWebpackPlugin([{ from: 'dist/', to: '../../Traisi/development', toType: 'dir' }], { debug: 'warning' })
 
 	]
 };

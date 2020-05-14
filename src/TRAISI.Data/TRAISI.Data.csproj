@@ -31,6 +31,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TRAISI.SDK\Traisi.Sdk.csproj" />
+    <ProjectReference Include="..\Traisi.Sdk\Traisi.Sdk.csproj" />
   </ItemGroup>
 </Project>

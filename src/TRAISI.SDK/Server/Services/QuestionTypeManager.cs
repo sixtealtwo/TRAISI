@@ -53,7 +53,7 @@ namespace Traisi.Sdk.Services
         public void LoadQuestionExtensions(string loadFrom = "extensions")
         {
             var extensionList = LoadExtensionAssemblies(loadFrom);
-            LoadQuestionTypeDefinitions(extensionList,loadFrom);
+            LoadQuestionTypeDefinitions(extensionList, loadFrom);
         }
 
         ///
@@ -89,7 +89,8 @@ namespace Traisi.Sdk.Services
             ReadLocaleData(sourceAssembly);
             GetTypeClientData(typeDefinition, sourceAssembly);
 
-            foreach (var locale in locales.Keys) {
+            foreach (var locale in locales.Keys)
+            {
                 typeDefinition.TypeNameLocales[locale] = locales[locale][typeDefinition.TypeName.ToLower()];
 
             }
@@ -135,14 +136,18 @@ namespace Traisi.Sdk.Services
             Assembly sourceAssembly)
         {
             var members = questionType.GetMembers();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 var attributes = member.GetCustomAttributes();
-                foreach (var attribute in attributes) {
-                    if (attribute.GetType() == typeof(HasResourceAttribute)) {
+                foreach (var attribute in attributes)
+                {
+                    if (attribute.GetType() == typeof(HasResourceAttribute))
+                    {
                         var hasResourceAttribute = (HasResourceAttribute)attribute;
 
                         byte[] data;
-                        using (var ms = new MemoryStream()) {
+                        using (var ms = new MemoryStream())
+                        {
                             sourceAssembly.GetManifestResourceStream(hasResourceAttribute.ResourceName).CopyTo(ms);
                             data = ms.ToArray();
                         }
@@ -166,11 +171,13 @@ namespace Traisi.Sdk.Services
         /// <returns></returns>
         private Dictionary<string, Dictionary<string, string>> ReadLocaleData(Assembly sourceAssembly)
         {
-            if (!sourceAssembly.GetManifestResourceNames().Contains("locales")) {
+            if (!sourceAssembly.GetManifestResourceNames().Contains("locales"))
+            {
                 return new Dictionary<string, Dictionary<string, string>>();
             }
             byte[] data;
-            using (var ms = new MemoryStream()) {
+            using (var ms = new MemoryStream())
+            {
                 sourceAssembly.GetManifestResourceStream("locales").CopyTo(ms);
                 data = ms.ToArray();
             }
@@ -193,7 +200,8 @@ namespace Traisi.Sdk.Services
         {
             byte[] data = null;
             if (configAttribute.Resource != null)
-                using (var ms = new MemoryStream()) {
+                using (var ms = new MemoryStream())
+                {
                     sourceAssembly.GetManifestResourceStream(configAttribute.Resource).CopyTo(ms);
                     data = ms.ToArray();
                 }
@@ -222,14 +230,19 @@ namespace Traisi.Sdk.Services
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
             var configuration = new Dictionary<string, QuestionConfigurationDefinition>();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 var attributes = member.GetCustomAttributes();
-                if (attributes.Count() > 0) {
-                    foreach (var attribute in attributes) {
-                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute)) {
+                if (attributes.Count() > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(QuestionConfigurationAttribute))
+                        {
                             var configAttribute = attribute as QuestionConfigurationAttribute;
                             byte[] data = GetQuestionConfigurationData(configAttribute, sourceAssembly);
-                            if (configAttribute.Resource != null) {
+                            if (configAttribute.Resource != null)
+                            {
                                 SharedQuestionResources[configAttribute.Resource] = new QuestionResource()
                                 {
                                     Data = data,
@@ -239,7 +252,8 @@ namespace Traisi.Sdk.Services
                             }
                             var definition = new QuestionConfigurationDefinition
                             {
-                                Name = configAttribute.Name,
+                                PropertyName = member.Name,
+                                DisplayName = configAttribute.DisplayName,
                                 Description = configAttribute.Description,
                                 TypeId = configAttribute.TypeId,
                                 ValueType = configAttribute.ValueType,
@@ -249,9 +263,9 @@ namespace Traisi.Sdk.Services
                                 SharedResource = configAttribute.SharedResource,
                                 IsTranslatable = configAttribute.IsTranslatable,
                                 Configuration = _configuration != null ? _configuration.GetSection($"QuestionConfigurations:{questionType.FullName}").Get<Dictionary<string, string>>() : new Dictionary<string, string>()
-                                
+
                             };
-                            configuration.Add(configAttribute.Name, definition);
+                            configuration.Add(configAttribute.DisplayName, definition);
                             ;
                         }
                     }
@@ -273,11 +287,15 @@ namespace Traisi.Sdk.Services
             var properties = questionType.GetProperties();
             var members = questionType.GetMembers();
             var configuration = new Dictionary<string, QuestionOptionDefinition>();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 var attributes = member.GetCustomAttributes();
-                if (attributes.Count() > 0) {
-                    foreach (var attribute in attributes) {
-                        if (attribute.GetType() == typeof(QuestionOptionAttribute)) {
+                if (attributes.Count() > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(QuestionOptionAttribute))
+                        {
                             var configAttribute = attribute as QuestionOptionAttribute;
                             configuration.Add(configAttribute.Name, new QuestionOptionDefinition
                             {
@@ -311,7 +329,8 @@ namespace Traisi.Sdk.Services
 
             var formatter = new BinaryFormatter();
             foreach (var resourceName in resources)
-                using (var ms = new MemoryStream()) {
+                using (var ms = new MemoryStream())
+                {
                     sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
                     typeDefinition.ResourceData[resourceName] = ms.ToArray();
                 }
@@ -327,8 +346,10 @@ namespace Traisi.Sdk.Services
 
             var moduleResourceNames = sourceAssembly.GetManifestResourceNames().Where(r => r.EndsWith(".module.js"));
 
-            foreach (var resourceName in moduleResourceNames) {
-                using (var ms = new MemoryStream()) {
+            foreach (var resourceName in moduleResourceNames)
+            {
+                using (var ms = new MemoryStream())
+                {
                     sourceAssembly.GetManifestResourceStream(resourceName).CopyTo(ms);
 
 
@@ -344,7 +365,8 @@ namespace Traisi.Sdk.Services
         {
             var extensionAssemblies = new List<Assembly>();
             _logger.LogInformation("Loading TRAISI extensions");
-            if (!Directory.Exists(loadFrom)) {
+            if (!Directory.Exists(loadFrom))
+            {
                 _logger.LogWarning("Extensions folder does not exist.");
                 return extensionAssemblies;
             }
@@ -357,7 +379,8 @@ namespace Traisi.Sdk.Services
             var extensions = Directory.EnumerateFiles(loadFrom).Where(file => file.EndsWith("dll")).ToList();
             extensions.ForEach(file =>
             {
-                try {
+                try
+                {
                     var loadFrom = Path.Combine(Directory.GetCurrentDirectory(), file);
                     byte[] assemblyData = File.ReadAllBytes(loadFrom);
                     Assembly assembly = Assembly.Load(assemblyData);
@@ -367,7 +390,8 @@ namespace Traisi.Sdk.Services
                     extensionAssemblies.Add(assembly);
                     _logger.LogInformation($"Loading extension {Path.GetFileName(file)}");
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     _logger.LogWarning(e, "Error loading extension assembly.");
                 }
             });
@@ -384,18 +408,23 @@ namespace Traisi.Sdk.Services
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (var assembly in extensionList) {
+            foreach (var assembly in extensionList)
+            {
 
-                try {
+                try
+                {
                     var types = assembly.GetTypes();
                     var locales = ReadLocaleData(assembly);
 
 
-                    foreach (var type in types) {
+                    foreach (var type in types)
+                    {
                         var e = type.GetCustomAttributes(typeof(SurveyQuestionAttribute));
 
-                        foreach (var attribute in e) {
-                            if (attribute.GetType() == typeof(SurveyQuestionAttribute)) {
+                        foreach (var attribute in e)
+                        {
+                            if (attribute.GetType() == typeof(SurveyQuestionAttribute))
+                            {
                                 var questionType = CreateQuestionTypeDefinition(type, (SurveyQuestionAttribute)attribute, assembly, locales);
 
 
@@ -407,7 +436,8 @@ namespace Traisi.Sdk.Services
 
 
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     _logger.LogError(e, "Error loading extension assembly: " + assembly.FullName);
                 }
 

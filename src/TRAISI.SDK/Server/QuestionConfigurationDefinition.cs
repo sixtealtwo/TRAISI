@@ -3,7 +3,9 @@ using Traisi.Sdk.Enums;
 
 namespace Traisi.Sdk {
 	public class QuestionConfigurationDefinition {
-		public string Name { get; set; }
+		public string PropertyName { get; set; }
+
+		public string DisplayName {get;set;}
 
 		public string Description { get; set; }
 

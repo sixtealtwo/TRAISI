@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, EMPTY, forkJoin, Observer, Subject } from 'rxjs';
+import { Observable, EMPTY, forkJoin, Observer, Subject, BehaviorSubject } from 'rxjs';
 import { SurveyBuilderClient, QuestionOptionValueViewModel } from './survey-builder-client.service';
 import { QuestionClient } from './survey-builder-client.service';
 import { QuestionTypeDefinition } from '../models/question-type-definition';
@@ -28,7 +28,7 @@ export class SurveyBuilderEditorData {
 
 	public questionList: Array<QuestionPartView>;
 
-	public questionListChanged: Subject<Array<QuestionPartView>> = new Subject<Array<QuestionPartView>>();
+	public questionListChanged: BehaviorSubject<Array<QuestionPartView>> = new BehaviorSubject<Array<QuestionPartView>>([]);
 
 	public activeLanguage: string = "en";
 

@@ -5,7 +5,9 @@ export interface QuestionConfigurationDefinition {
 	description: string;
 	valueType: string;
 	defaultValue: string;
-	builderType: string;
+    builderType: string;
+    displayName: string;
+    propertyName: string;
 	resourceData: string;
 }
 export interface QuestionConfigurationDefinitionViewModel {
@@ -15,4 +17,6 @@ export interface QuestionConfigurationDefinitionViewModel {
     builderType?: string | undefined;
     defaultValue?: string | undefined;
     resourceData?: string | undefined;
+    displayName?: string;
+    propertyName?: string;
 }

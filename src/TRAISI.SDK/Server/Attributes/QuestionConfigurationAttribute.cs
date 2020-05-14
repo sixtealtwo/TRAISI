@@ -6,7 +6,7 @@ namespace Traisi.Sdk.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class QuestionConfigurationAttribute : Attribute
     {
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
 
         public string Description { get; set; }
 
@@ -39,6 +39,7 @@ namespace Traisi.Sdk.Attributes
         public string SharedResource { get; set; }
 
         public object DefaultValue { get; set; }
+        
         public QuestionConfigurationAttribute(ConfigurationValueType valueType)
         {
             this._valueType = valueType;

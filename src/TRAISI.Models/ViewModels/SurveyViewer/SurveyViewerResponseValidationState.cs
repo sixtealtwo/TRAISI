@@ -10,7 +10,7 @@ namespace Traisi.ViewModels.SurveyViewer
     public class SurveyViewerResponseValidationState
     {
         public ValidationState ValidationState { get; set; }
-        public string[] ErrorMessages { get; set; }
+        public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 
     public enum ValidationState {

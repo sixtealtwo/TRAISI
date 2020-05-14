@@ -50,6 +50,18 @@ export class QuestionInstanceState {
 			errorMessages: [],
 			validationState: ValidationState.Untouched,
 		});
+
+		// load the saved response
+		this.loadSavedResponse();
+	}
+
+	private loadSavedResponse(): void {
+		this._responseService.loadSavedResponse(this._questionModel, this._respondent, 0).subscribe((response) => {
+			this._questionInstance.savedResponse.next(
+				response === undefined || response === null ? 'none' : response.responseValues
+			);
+			this._questionInstance.traisiOnLoaded();
+		});
 	}
 
 	/**
@@ -80,7 +92,10 @@ export class QuestionInstanceState {
 	 * @private
 	 */
 	private onValidationStateChanged = (state: ResponseValidationState): void => {
-		console.log('got new validation state');
-		console.log(state);
+
+		this._navigator.updateQuestionValidationState(this, {
+			errorMessages: [],
+			validationState: ValidationState.Valid,
+		});
 	};
 }

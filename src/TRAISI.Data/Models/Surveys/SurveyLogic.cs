@@ -21,12 +21,28 @@ namespace Traisi.Data.Models.Surveys
         public List<SurveyLogic> Expressions { get; set; }
         public LabelCollection<Label> ValidationMessages { get; set; }
         public string Value { get; set; }
-        public QuestionPartView Question { get; set; }
+        public QuestionPart Question { get; set; }
+
+
+        [ForeignKey("ValidationQuestion")]
+        public int? ValidationQuestionId { get; set; }
+        public QuestionPart ValidationQuestion { get; set; }
+
+
+        [ForeignKey("Parent")]
+        public int? ParentId { get; set; }
+        public SurveyLogic Parent { get; set; }
+
+        [ForeignKey("Root")]
+        public int? RootId { get; set; }
+        public SurveyLogic Root { get; set; }
 
         [JsonIgnore]
         [ForeignKey("Question")]
         public int? QuestionId { get; set; }
         public SurveyLogicOperator? Operator { get; set; }
+
+        public SurveyLogicType? LogicType {get;set;}
 
         public SurveyLogic()
         {
@@ -67,5 +83,12 @@ namespace Traisi.Data.Models.Surveys
         And,
         [EnumMember(Value = "or")]
         Or
+    }
+
+    public enum SurveyLogicType {
+        [EnumMember(Value="response")]
+        Response,
+        [EnunNumber(Value="value")]
+        Value
     }
 }

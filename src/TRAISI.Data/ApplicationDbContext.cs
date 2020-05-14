@@ -82,7 +82,7 @@ namespace Traisi.Data
 
         public DbSet<ExtensionConfiguration> ExtensionConfigurations { get; set; }
 
-        public DbSet<SurveyLogic> SurveyLogic {get;set;}
+        public DbSet<SurveyLogic> SurveyLogic { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
@@ -213,11 +213,14 @@ namespace Traisi.Data
             builder.Entity<QuestionConditional>().HasOne(s => s.SourceQuestion).WithMany();
 
             builder.Entity<SurveyLogic>().ToTable(nameof(SurveyLogic));
+            builder.Entity<SurveyLogic>().HasOne(x => x.Parent).WithMany().HasForeignKey(x => x.ParentId).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyLogic>().HasOne(x => x.Root).WithMany().HasForeignKey(x => x.RootId).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyLogic>().HasOne(x => x.Question).WithMany().HasForeignKey(x => x.QuestionId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyLogic>().HasMany(x => x.Expressions).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SurveyLogic>().HasMany(x => x.ValidationMessages).WithOne().HasForeignKey("SurveyLogicId").OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SurveyLogic>().HasOne(x => x.ValidationQuestion).WithMany().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Survey>().HasMany(x => x.SurveyLogic).WithOne().OnDelete(DeleteBehavior.Cascade);
-            
+
 
         }
 

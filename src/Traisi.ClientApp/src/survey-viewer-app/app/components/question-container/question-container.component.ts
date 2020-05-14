@@ -216,15 +216,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
 
-				this._responseService
-					.loadSavedResponse(this.question, this.respondent, this.calcUniqueRepeatNumber())
-					.subscribe((response) => {
-						surveyQuestionInstance.savedResponse.next(
-							response === undefined || response === null ? 'none' : response.responseValues
-						);
-
-						surveyQuestionInstance.traisiOnLoaded();
-					});
 
 				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
@@ -386,7 +377,7 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	private onResponseSaved: (responseValid: boolean) => void = (responseValid: boolean): void => {
 		// this._navigator.navigationState$.getValue().activeQuestionInstances[this.activeQuestionIndex].validationState
 		// = this.responseValidationState;
-		this._navigator.responseChanged();
+		// this._navigator.responseChanged();
 	};
 
 	/**

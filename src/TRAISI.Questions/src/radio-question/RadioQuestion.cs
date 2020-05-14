@@ -22,14 +22,14 @@ namespace Traisi.Sdk.Questions {
 		public ICollection ResponseOptions;
 
 		[QuestionConfiguration (ConfigurationValueType.Boolean,
-			Name = "AllowCustomResponse",
+			DisplayName = "AllowCustomResponse",
 			Description = "Allow user to enter their own custom response.",
 			SurveyBuilderValueType = QuestionBuilderType.Switch,
 			DefaultValue = false)]
 		public bool AllowCustomResponse = false;
 
 		[QuestionConfiguration (ConfigurationValueType.String,
-			Name = "CustomResponseOptions",
+			DisplayName = "CustomResponseOptions",
 			Description = "A comma separated list of option codes that will display the custom response.",
 			SurveyBuilderValueType = QuestionBuilderType.Text,
 			DefaultValue = "")]

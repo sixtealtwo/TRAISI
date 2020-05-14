@@ -500,7 +500,7 @@ export class QuestionConfigurationComponent implements OnInit, AfterViewInit {
 
 	private allowAsRepeatSource(typeValue: string): boolean {
 		let responseType = this.getQuestionResponseType(typeValue);
-		if (responseType === QuestionResponseType.Integer) {
+		if (responseType === QuestionResponseType.Number) {
 			return true;
 		} else {
 			return false;

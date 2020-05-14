@@ -20,10 +20,19 @@ namespace Traisi.Data.Repositories
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
 
-        public async Task<SurveyLogic> GetSurveyLogicExpressionTreeForQuestionAsync(QuestionPart question) {
-
-            var containing =  await this._entities.Where(s => s.Question.QuestionPart.Id == question.Id).ToListAsync();
-            return containing[0];
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="question"></param>
+        /// <returns></returns>
+        public async Task<List<SurveyLogic>> GetSurveyLogicExpressionTreeForQuestionAsync(QuestionPart question)
+        {
+            var list = await this._entities.Where(x => x.Question.Id == question.Id).Include(x => x.Root)
+            .Include(x => x.Expressions).ThenInclude(x => x.Expressions).ThenInclude(x => x.Expressions)
+            .Include(x => x.Root).ThenInclude(x => x.Expressions).ThenInclude(x => x.Root)
+            .Include(x => x.Root).ThenInclude(x => x.ValidationMessages)
+            .ToListAsync();
+            return list;
         }
 
     }

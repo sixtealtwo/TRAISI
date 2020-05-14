@@ -64,6 +64,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { SurveyLogicControlComponent } from './survey-logic-control/survey-logic-control.component';
 import { UtilService } from 'shared/services/util.service';
+import { FilterPipe } from 'shared/pipes/ftiler.pipe';
 export const SURVEY_BUILDER = new InjectionToken("builder.service");
 export const bsDatepicker = BsDatepickerModule.forRoot();
 export const pagination = PaginationModule.forRoot();
@@ -148,7 +149,8 @@ export const translateForChild = TranslateModule.forChild({
 		CustomBuilderContainerDirective,
 		PrivacyConfirmationComponent,
 		ScreeningQuestionsComponent,
-		SurveyLogicControlComponent
+		SurveyLogicControlComponent,
+		FilterPipe
 	],
 	providers: [
 		SurveyBuilderEndpointService,

@@ -226,8 +226,7 @@ export class SourceConditionalComponent implements OnInit, AfterViewInit {
 		} else if (this.responseType === QuestionResponseType.Boolean) {
 			this.dropDownListItems = ["Is Equal To"];
 		} else if (
-			this.responseType === QuestionResponseType.Integer ||
-			this.responseType === QuestionResponseType.Decimal
+			this.responseType === QuestionResponseType.Number
 		) {
 			this.dropDownListItems = [
 				"Is Equal To",

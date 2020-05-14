@@ -1,8 +1,7 @@
 export enum QuestionResponseType {
     String = "String",
     Boolean = "Boolean",
-    Integer = "Integer",
-    Decimal = "Decimal",
+    Number = "Number",
     Location = "Location",
     Json = "Json",
     OptionSelect = "OptionSelect",

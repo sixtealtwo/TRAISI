@@ -21,6 +21,7 @@ import { NumberQuestionValidatorDirective } from './number-question/number-quest
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SliderQuestionComponent } from './slider-question/slider-question.component';
+import { ContactInformationQuestionComponent } from 'contact-information-question/contact-information-question.component';
 export const forRoot: ModuleWithProviders = BsDatepickerModule.forRoot();
 export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 @NgModule({
@@ -37,7 +38,8 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		LikertQuestionComponent,
 		NumberQuestionValidatorDirective,
 		HouseholdQuestionComponent,
-		SliderQuestionComponent
+		SliderQuestionComponent,
+		ContactInformationQuestionComponent
 	],
 	bootstrap: [TextQuestionComponent],
 	entryComponents: [
@@ -52,7 +54,8 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 		DateQuestionComponent,
 		LikertQuestionComponent,
 		HouseholdQuestionComponent,
-		SliderQuestionComponent
+		SliderQuestionComponent,
+		ContactInformationQuestionComponent
 	],
 	providers: [
 		{
@@ -141,6 +144,11 @@ export const tooltipForRoot: ModuleWithProviders = TooltipModule.forRoot();
 					name: 'traisi-slider-question',
 					id: 'slider',
 					component: SliderQuestionComponent
+				},
+				{
+					name: 'traisi-contact-information-question',
+					id: 'contact-information',
+					component: ContactInformationQuestionComponent
 				}
 			]
 		}

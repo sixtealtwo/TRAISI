@@ -136,7 +136,7 @@ namespace Traisi.Data.Repositories
         {
             if (user is SubRespondent subRespondent)
             {
-                var result  = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
+                var result = await this._entities.Where(s => s.Respondent == user && s.QuestionPart.Id == questionId && s.Repeat == repeat)
                     .Include(v => v.ResponseValues)
                     .Include(v => v.Respondent).ThenInclude(v => ((SubRespondent)v).PrimaryRespondent).ThenInclude(s => s.SurveyAccessRecords)
                     .Include(v => v.Respondent).ThenInclude(v => v.SurveyRespondentGroup).ThenInclude(v => v.GroupPrimaryRespondent)
@@ -167,14 +167,13 @@ namespace Traisi.Data.Repositories
         /// <returns></returns>
         public async Task<List<SurveyResponse>> ListSurveyResponsesForQuestionsAsync(List<int> questionIds, SurveyRespondent user)
         {
-            var result = await this._entities.Where(s => s.Respondent == user && questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
+            var r1 = await this._entities.Where(s => s.Respondent == user &&
+            questionIds.AsEnumerable().Contains(s.QuestionPart.Id))
                 .Include(v => v.ResponseValues)
-                //.Include (v => v.QuestionPart).OrderBy (s => questionIds.AsEnumerable().IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToListAsync(); 
                 .Include(v => v.QuestionPart)
-                .OrderBy(s => s.QuestionPart.Id).ThenByDescending(s => s.UpdatedDate).ToListAsync();
-            //.ToAsyncEnumerable ().OrderBy (s => questionIds.IndexOf (s.QuestionPart.Id)).ThenByDescending (s => s.UpdatedDate).ToList ();
-
-            result.ForEach(r => r.QuestionPart = null);
+                .Include(v => v.SurveyAccessRecord).ToListAsync();
+            var result = r1.GroupBy(x => x.QuestionPart.Id, (key, g) => g.OrderByDescending(e => e.SurveyAccessRecord.AccessDateTime).FirstOrDefault()).ToList();
+            // result.ForEach(r => r.QuestionPart = null);
             return result;
         }
 

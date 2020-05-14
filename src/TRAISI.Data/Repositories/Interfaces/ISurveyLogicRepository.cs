@@ -9,6 +9,6 @@ namespace Traisi.Data.Repositories.Interfaces
     public interface ISurveyLogicRepository : IRepository<SurveyLogic>
     {
 
-        public Task<SurveyLogic> GetSurveyLogicExpressionTreeForQuestionAsync(QuestionPart question);
+        public Task<List<SurveyLogic>> GetSurveyLogicExpressionTreeForQuestionAsync(QuestionPart question);
     }
 }

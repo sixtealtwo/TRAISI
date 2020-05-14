@@ -18,21 +18,21 @@ namespace Traisi.Sdk.Questions {
 		public QuestionIconType IconType { get => QuestionIconType.FONT; }
 
 		[QuestionConfiguration (ConfigurationValueType.Integer,
-			Name = TextQuestionConfiguration.MAX_LENGTH,
+			DisplayName = TextQuestionConfiguration.MAX_LENGTH,
 			Description = "Max number of characters",
 			SurveyBuilderValueType = QuestionBuilderType.NumericText,
 			DefaultValue = 255)]
 		public int MaxLength = 255;
 
 		[QuestionConfiguration (ConfigurationValueType.Boolean,
-			Name = TextQuestionConfiguration.MULTILINE,
+			DisplayName = TextQuestionConfiguration.MULTILINE,
 			SurveyBuilderValueType = QuestionBuilderType.Switch,
 			Description = "Specifies whether to render a text field or text area.",
 			DefaultValue = "false")]
 		public bool IsMultiLine = false;
 
 		[QuestionConfiguration (ConfigurationValueType.String,
-			Name = TextQuestionConfiguration.INPUT_MASK,
+			DisplayName = TextQuestionConfiguration.INPUT_MASK,
 			SurveyBuilderValueType = QuestionBuilderType.Text,
 			Description = "Configure a unique input mask",
 			DefaultValue = "")]

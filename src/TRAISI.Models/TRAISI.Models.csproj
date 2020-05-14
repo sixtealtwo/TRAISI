@@ -12,7 +12,7 @@
 	  
 	</ItemGroup>
 <ItemGroup>
-		<ProjectReference Include="..\TRAISI.Data\Traisi.Data.csproj" />
+		<ProjectReference Include="..\Traisi.Data\Traisi.Data.csproj" />
 	</ItemGroup>
 
 </Project>

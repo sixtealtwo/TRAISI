@@ -1,15 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ResponseData, ResponseValidationState, OptionSelectResponseData } from 'traisi-question-sdk';
-import {
-	SurveyQuestion,
-	ResponseTypes,
-	SurveyResponder,
-	QuestionConfiguration,
-	SurveyViewer,
-	QuestionOption
-} from 'traisi-question-sdk';
+import { SurveyQuestion, ResponseTypes, QuestionConfiguration, SurveyViewer, QuestionOption } from 'traisi-question-sdk';
 
 import templateString from './likert-question.component.html';
+import styleString from './likert-question.component.scss';
 /**
  *
  * @export
@@ -19,25 +13,15 @@ import templateString from './likert-question.component.html';
  */
 @Component({
 	selector: 'traisi-likert-question',
-	template: templateString,
-	styles: [require('./likert-question.component.scss').toString()]
+	template: '' + templateString,
+	styles: ['' + styleString],
 })
-export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> implements OnInit {
+export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.OptionSelect> implements OnInit {
 	public readonly QUESTION_TYPE_NAME: string = 'Likert Question';
-
 
 	public selectedOption: any;
 
-	/**
-	 *Creates an instance of LikertQuestionComponent.
-	 * @param {SurveyViewer} _surveyViewerService
-	 * @param {SurveyResponder} _surveyResponderService
-	 * @memberof LikertQuestionComponent
-	 */
-	constructor(
-		@Inject('SurveyViewerService') private _surveyViewerService: SurveyViewer,
-		@Inject('SurveyResponderService') private _surveyResponderService: SurveyResponder
-	) {
+	constructor() {
 		super();
 		this.selectedOption = { id: -1 };
 	}
@@ -48,7 +32,7 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 	public ngOnInit(): void {
 		this.savedResponse.subscribe(this.onSavedResponseData);
 		this.configuration = {
-			options: ['A', 'B', 'C', 'D', 'E']
+			options: ['A', 'B', 'C', 'D', 'E'],
 		};
 	}
 
@@ -66,13 +50,12 @@ export class LikertQuestionComponent extends SurveyQuestion<ResponseTypes.List> 
 	};
 
 	/**
-	 * 
-	 * @param option 
+	 *
+	 * @param option
 	 */
 	public onModelChanged(option: OptionSelectResponseData): void {
 		option.value = option.code;
 		this.response.emit([option]);
-
 	}
 
 	/**

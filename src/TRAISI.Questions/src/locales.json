@@ -14,7 +14,8 @@
 		"time": "Time",
 		"household": "Household",
 		"stated_preference": "Stated Preference",
-		"slider": "Value Slider"
+		"slider": "Value Slider",
+		"contact-information": "Contact Information"
 	},
 	"fr": {
 		"text": "Texte",
@@ -31,6 +32,7 @@
 		"time": "Temps",
 		"household": "Household",
 		"stated_preference": "Stated Preference",
-		"slider": "Value Slider"
+		"slider": "Value Slider",
+		"contact-information": "Contact Information"
 	}
 }

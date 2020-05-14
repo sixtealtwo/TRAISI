@@ -59,6 +59,7 @@ namespace Traisi.Services
                 };
                 survey.SurveyViews.Add(surveyView);
             }
+
             return surveyView;
         }
 
@@ -1008,36 +1009,46 @@ namespace Traisi.Services
             var source = survey.SurveyLogic.FirstOrDefault(x => x.Id == logic.Id);
             if (source == null)
             {
-                // no logic id exists
                 return;
             }
-            // replace the current logic in the survey
-            //survey.SurveyLogic.Remove(source);
-            // recursively update collections
             this._unitOfWork.DbContext.Update(survey);
-            UpdateSurveyLogic(source, logic);
+            UpdateSurveyLogic(source, logic, source.Id, source);
             await this._unitOfWork.SaveChangesAsync();
             return;
         }
 
-        private void UpdateSurveyLogic(SurveyLogic oldLogic, SurveyLogic newLogic)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldLogic"></param>
+        /// <param name="newLogic"></param>
+        /// <param name="rootId"></param>
+        private void UpdateSurveyLogic(SurveyLogic oldLogic, SurveyLogic newLogic, int rootId, SurveyLogic parent)
         {
 
             this._unitOfWork.DbContext.Update(oldLogic);
-
             oldLogic.ValidationMessages["en"].Value = newLogic.ValidationMessages["en"].Value;
             oldLogic.Operator = newLogic.Operator;
             oldLogic.QuestionId = newLogic.QuestionId;
+            oldLogic.ValidationQuestionId = newLogic.ValidationQuestionId;
             oldLogic.Value = newLogic.Value;
+            oldLogic.ParentId = newLogic.ParentId;
+            oldLogic.RootId = newLogic.RootId;
             oldLogic.Expressions.RemoveAll(x => newLogic.Expressions.All(y => y.Id != x.Id));
             var newItems = newLogic.Expressions.Where(x => oldLogic.Expressions.All(y => y.Id != x.Id)).ToList();
+            foreach (var newItem in newItems)
+            {
+                newItem.RootId = rootId;
+                newItem.Parent = parent;
+            }
             oldLogic.Expressions.AddRange(newItems);
-            // loop through sub expressions and perform same options
             foreach (var logic in oldLogic.Expressions)
             {
+                logic.RootId = rootId;
                 var newSubLogic = newLogic.Expressions.First(x => x.Id == logic.Id);
-                UpdateSurveyLogic(logic, newSubLogic);
+                UpdateSurveyLogic(logic, newSubLogic, rootId, oldLogic);
             }
+            return;
         }
 
         public void SetQuestionOptionConditionals(QuestionPart question, List<QuestionOptionConditional> conditionals)

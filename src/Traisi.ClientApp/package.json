@@ -159,7 +159,7 @@
     "link-module-alias": "^1.2.0",
     "node-sass": "^4.13.1",
     "protractor": "^5.4.3",
-    "traisi-question-sdk": "file:../TRAISI.SDK/Client/dist",
+    "traisi-question-sdk": "file:../Traisi.Sdk/Client/dist",
     "ts-node": "~8.5.4",
     "tslint": "~6.1.2",
     "typescript": "^3.8.3",

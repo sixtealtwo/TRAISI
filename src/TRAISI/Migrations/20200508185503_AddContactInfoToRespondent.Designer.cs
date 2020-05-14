@@ -11,8 +11,8 @@ using Traisi.Data;
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200504091324_Initial")]
-    partial class Initial
+    [Migration("20200508185503_AddContactInfoToRespondent")]
+    partial class AddContactInfoToRespondent
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -847,9 +847,6 @@ namespace Traisi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("OptionListResponseId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ResponseType")
                         .HasColumnType("integer");
 
@@ -857,8 +854,6 @@ namespace Traisi.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OptionListResponseId");
 
                     b.HasIndex("SurveyResponseId");
 
@@ -1171,7 +1166,13 @@ namespace Traisi.Migrations
                     b.Property<int?>("Operator")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("QuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RootId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("SurveyId")
@@ -1180,16 +1181,25 @@ namespace Traisi.Migrations
                     b.Property<int?>("SurveyLogicId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ValidationQuestionId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentId");
+
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("RootId");
 
                     b.HasIndex("SurveyId");
 
                     b.HasIndex("SurveyLogicId");
+
+                    b.HasIndex("ValidationQuestionId");
 
                     b.ToTable("SurveyLogic");
                 });
@@ -1231,7 +1241,16 @@ namespace Traisi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasConsent")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
                     b.Property<string>("Relationship")
@@ -1403,13 +1422,6 @@ namespace Traisi.Migrations
                         .HasColumnType("double precision");
 
                     b.HasDiscriminator().HasValue(2);
-                });
-
-            modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.OptionListResponse", b =>
-                {
-                    b.HasBaseType("Traisi.Data.Models.ResponseTypes.ResponseValue");
-
-                    b.HasDiscriminator().HasValue(4);
                 });
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.OptionSelectResponse", b =>
@@ -1705,10 +1717,6 @@ namespace Traisi.Migrations
 
             modelBuilder.Entity("Traisi.Data.Models.ResponseTypes.ResponseValue", b =>
                 {
-                    b.HasOne("Traisi.Data.Models.ResponseTypes.OptionListResponse", null)
-                        .WithMany("OptionResponseValues")
-                        .HasForeignKey("OptionListResponseId");
-
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyResponse", "SurveyResponse")
                         .WithMany("ResponseValues")
                         .HasForeignKey("SurveyResponseId")
@@ -1804,9 +1812,20 @@ namespace Traisi.Migrations
 
             modelBuilder.Entity("Traisi.Data.Models.Surveys.SurveyLogic", b =>
                 {
-                    b.HasOne("Traisi.Data.Models.Questions.QuestionPartView", "Question")
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", "Parent")
                         .WithMany()
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", "Root")
+                        .WithMany()
+                        .HasForeignKey("RootId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Traisi.Data.Models.Surveys.Survey", null)
                         .WithMany("SurveyLogic")
@@ -1816,6 +1835,11 @@ namespace Traisi.Migrations
                     b.HasOne("Traisi.Data.Models.Surveys.SurveyLogic", null)
                         .WithMany("Expressions")
                         .HasForeignKey("SurveyLogicId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Traisi.Data.Models.Questions.QuestionPart", "ValidationQuestion")
+                        .WithMany()
+                        .HasForeignKey("ValidationQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -63,7 +63,10 @@ namespace Traisi.Controllers.SurveyViewer
             }
 
             SurveyResponseValidationState validationState = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat);
-            var mappedState = _mapper.Map<SurveyViewerResponseValidationState>(validationState);
+            var mappedState = _mapper.Map<SurveyViewerResponseValidationState>(validationState, opts =>
+            {
+                opts.Items["Language"] = language;
+            });
             return new OkObjectResult(mappedState);
         }
         /// <summary>

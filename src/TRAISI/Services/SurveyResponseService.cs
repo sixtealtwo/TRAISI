@@ -29,6 +29,8 @@ namespace Traisi.Services
         private IQuestionTypeManager _questionTypeManager;
         private ILoggerFactory _loggerFactory;
         private ILogger<SurveyResponseService> _logger;
+
+        private readonly ISurveyValidationService _validation;
         public static readonly string LOCATION_RESPONSE = "location";
         public static readonly string TIMELINE_RESPONSE = "location";
 
@@ -39,11 +41,13 @@ namespace Traisi.Services
         /// <param name="manager"></param>
         /// <param name="loggerFactory"></param>
         public SurveyResponseService(IUnitOfWork _unitOfWork,
+            ISurveyValidationService validation,
             IQuestionTypeManager manager,
             ILoggerFactory loggerFactory)
         {
             this._unitOfWork = _unitOfWork;
             this._questionTypeManager = manager;
+            this._validation = validation;
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<SurveyResponseService>();
 
@@ -122,6 +126,7 @@ namespace Traisi.Services
 
             }
 
+            List<SurveyLogicError> errorList = new List<SurveyLogicError>();
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:
@@ -148,21 +153,27 @@ namespace Traisi.Services
             }
             try
             {
-                this._unitOfWork.SurveyResponses.Update(surveyResponse);
-                await this._unitOfWork.SaveChangesAsync();
+                var errors = await this._validation.ListSurveyLogicErrorsForResponse(surveyResponse, respondent);
+                errorList.AddRange(errors);
+                if (errorList.Count == 0)
+                {
+                    this._unitOfWork.SurveyResponses.Update(surveyResponse);
+                    await this._unitOfWork.SaveChangesAsync();
+                }
             }
             catch (Exception e)
             {
                 this._logger.LogError(e, "Error saving response.");
                 return new SurveyResponseValidationState()
                 {
-                    IsValid = false
+                    IsValid = false,
                 };
             }
-
             return new SurveyResponseValidationState()
             {
-                IsValid = true
+                IsValid = errorList.Count == 0 ? true : false,
+                Errors = errorList
+
             };
 
         }

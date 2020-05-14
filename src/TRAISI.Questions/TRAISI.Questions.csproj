@@ -14,7 +14,7 @@
 		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<OutputFile Include="$(OutDir)/TRAISI.Questions.dll" />
+		<OutputFile Include="$(OutDir)/Traisi.Questions.dll" />
 		<None Remove="node_modules/**" />
 		<Compile Remove="node_modules/**" />
 		<EmbeddedResource Include="dist/**" />
@@ -43,11 +43,11 @@
 
 
 	<Target Name="AfterBuildCopy" AfterTargets="AfterBuild">
-		<Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../TRAISI/extensions" />
-		<Message Text="TRAISI.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
+		<Copy SourceFiles="@(OutputFile)" DestinationFolder="$(MSBuildProjectDirectory)/../Traisi/extensions" />
+		<Message Text="Traisi.Questions.dll -&gt; Copied to TRAISI extensions folder" Importance="High" />
 	</Target>
 	<ItemGroup>
-		<ProjectReference Include="..\TRAISI.SDK\Traisi.Sdk.csproj" />
+		<ProjectReference Include="..\Traisi.Sdk\Traisi.Sdk.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="src/resources/mapquestion-purpose.json" LogicalName="mapquestion-purpose" />

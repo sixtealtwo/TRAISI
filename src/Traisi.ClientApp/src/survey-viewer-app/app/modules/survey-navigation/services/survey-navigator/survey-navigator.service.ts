@@ -40,6 +40,8 @@ export class SurveyNavigator {
 
 	public nextEnabled$: BehaviorSubject<boolean>;
 
+	public logicState$: Subject<any>;
+
 	private _surveyCompleted$: Subject<void>;
 
 	private _previousState: NavigationState;
@@ -377,8 +379,8 @@ export class SurveyNavigator {
 									component: null,
 									validationState: {
 										validationState: ValidationState.Untouched,
-										errorMessages: []
-									}
+										errorMessages: [],
+									},
 								};
 								questionInstances.push(questionInstance);
 							}
@@ -418,8 +420,6 @@ export class SurveyNavigator {
 		let match = this.navigationState$
 			.getValue()
 			.activeQuestionInstances.find((i) => i.component === instanceState.questionInstance);
-		console.log(' found match ');
-		console.log(match);
 	}
 
 	/**

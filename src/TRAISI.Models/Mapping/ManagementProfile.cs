@@ -283,6 +283,9 @@ namespace Traisi.Models.Mapping
                             .SharedQuestionResources[s.SharedResource].Data));
                     return result;
                 }))
+                .ForMember(x => x.Name, o => o.MapFrom(x => x.DisplayName))
+                .ForMember(x => x.DisplayName, o => o.MapFrom(x => x.DisplayName))
+                .ForMember(x => x.PropertyName, o => o.MapFrom(x => x.PropertyName))
                 .ReverseMap();
 
             CreateMap<QuestionOptionDefinition, QuestionOptionDefinitionViewModel>()

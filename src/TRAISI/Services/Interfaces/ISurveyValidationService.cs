@@ -15,8 +15,8 @@ namespace Traisi.Services.Interfaces
     {
         public List<SurveyLogicError> ValidateSurveyResponse(SurveyResponse response);
 
-        public SurveyLogicError GetSurveyLogicError(SurveyResponse response, SurveyRespondent respondent);
+        public Task<List<SurveyLogicError>> ListSurveyLogicErrorsForResponse(SurveyResponse response, SurveyRespondent respondent);
 
-        public List<SurveyLogicError> ListSurveyLogicErrors(Survey survey, SurveyRespondent respondent);
+        public List<SurveyLogicError> ListSurveyLogicErrorsForSurvey(Survey survey, SurveyRespondent respondent);
     }
 }

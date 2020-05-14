@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TRAISI.Data\Traisi.Data.csproj" />
-    <ProjectReference Include="..\..\src\TRAISI\Traisi.csproj" />
+    <ProjectReference Include="..\..\src\Traisi.Data\Traisi.Data.csproj" />
+    <ProjectReference Include="..\..\src\Traisi\Traisi.csproj" />
   </ItemGroup>
 
 </Project>

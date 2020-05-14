@@ -4,11 +4,9 @@ import { QuestionConfigurationDefinition } from '../../../models/question-config
 @Component({
 	selector: 'app-switch',
 	templateUrl: './switch.component.html',
-	styleUrls: ['./switch.component.scss']
+	styleUrls: ['./switch.component.scss'],
 })
-
 export class SwitchComponent implements OnInit {
-
 	public id: number;
 	public questionConfiguration: QuestionConfigurationDefinition;
 
@@ -24,14 +22,15 @@ export class SwitchComponent implements OnInit {
 
 	setDefaultValue() {
 		this.switchValue = this.questionConfiguration.defaultValue === 'true';
+
+		console.log(this.questionConfiguration);
 	}
 
-	getValue(){
+	getValue() {
 		return JSON.stringify(this.switchValue);
 	}
 
 	processPriorValue(last: string) {
 		this.switchValue = JSON.parse(last);
 	}
-
 }
