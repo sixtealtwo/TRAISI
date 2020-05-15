@@ -88,7 +88,7 @@ namespace Traisi.Data.Models.Surveys
     public enum SurveyLogicType {
         [EnumMember(Value="response")]
         Response,
-        [EnunNumber(Value="value")]
+        [EnumMember(Value="value")]
         Value
     }
 }
