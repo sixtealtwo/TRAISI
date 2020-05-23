@@ -8,21 +8,23 @@ namespace Traisi.Models.Surveys.Validation
 
     public class SurveyResponseValidationState
     {
-
         public bool IsValid { get; set; }
-        public List<SurveyLogicError> Errors { get; set; } = new List<SurveyLogicError>();
+        public SurveyValidationError SurveyLogicError { get; set; }
+        public SurveyValidationError SurveyQuestionValidationError { get; set; }
     }
 
-    public class SurveyLogicError
+    public class SurveyValidationError
     {
-
         public LabelCollection<Label> Messages { get; set; } = new LabelCollection<Label>();
+        public ValidationState ValidationState { get; set; }
+    }
 
-        public SurveyLogicError()
-        {
-
-        }
-
+    public enum ValidationState
+    {
+        Invalid,
+        Valid,
+        Untouched,
+        Touched
     }
 
 }

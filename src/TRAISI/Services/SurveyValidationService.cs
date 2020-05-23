@@ -10,6 +10,7 @@ using Traisi.Data.Models.ResponseTypes;
 using Traisi.Sdk;
 using Traisi.Sdk.Interfaces;
 using Traisi.Sdk.Enums;
+using Traisi.ViewModels.SurveyViewer;
 
 namespace Traisi.Services
 {
@@ -32,12 +33,12 @@ namespace Traisi.Services
         /// <param name="response"></param>
         /// <param name="respondent"></param>
         /// <returns></returns>
-        public async Task<List<SurveyLogicError>> ListSurveyLogicErrorsForResponse(SurveyResponse response, SurveyRespondent respondent)
+        public async Task<List<SurveyValidationError>> ListSurveyLogicErrorsForResponse(SurveyResponse response, SurveyRespondent respondent)
         {
             // find the survey logic referencing this response
             var logicTree = await this._unitOfWork.SurveyLogic.GetSurveyLogicExpressionTreeForQuestionAsync(response.QuestionPart);
             var uniqueRoots = logicTree.Select(s => s.Root).Distinct().ToList();
-            var results = new List<SurveyLogicError>();
+            var results = new List<SurveyValidationError>();
             if (uniqueRoots.Count > 0)
             {
                 List<int> questionIds = new List<int>();
@@ -53,8 +54,9 @@ namespace Traisi.Services
 
                 if (result)
                 {
-                    var logicError = new SurveyLogicError()
+                    var logicError = new SurveyValidationError()
                     {
+                        ValidationState = ValidationState.Invalid,
                         Messages = uniqueRoots[0].ValidationMessages,
 
                     };
@@ -131,7 +133,7 @@ namespace Traisi.Services
             }
         }
 
-        public List<SurveyLogicError> ListSurveyLogicErrorsForSurvey(Survey survey, SurveyRespondent respondent)
+        public List<SurveyValidationError> ListSurveyLogicErrorsForSurvey(Survey survey, SurveyRespondent respondent)
         {
             throw new System.NotImplementedException();
         }
@@ -142,9 +144,9 @@ namespace Traisi.Services
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
-        public List<SurveyLogicError> ValidateSurveyResponse(SurveyResponse response)
+        public async Task<List<SurveyValidationError>> ValidateSurveyResponse(SurveyResponse response)
         {
-            return new List<SurveyLogicError>();
+            return new List<SurveyValidationError>();
         }
     }
 }

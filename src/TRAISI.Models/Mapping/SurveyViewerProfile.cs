@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using Traisi.Sdk.Enums;
 using Traisi.ViewModels;
 using Traisi.Models.Surveys.Validation;
+using Traisi.Data.Models.Extensions;
 
 namespace Traisi.Models.Mapping
 {
@@ -218,13 +219,13 @@ namespace Traisi.Models.Mapping
 
                 });
 
-            CreateMap<SurveyLogicError, string>()
+            CreateMap<LabelCollection<Label>, string>()
             .ConvertUsing((error, dst, context) =>
             {
-                return error.Messages[context.Items["Language"] as string].Value;
+                return error[context.Items["Language"] as string].Value;
             });
 
-            CreateMap<SurveyResponseValidationState, SurveyViewerResponseValidationState>()
+            CreateMap<SurveyResponseValidationState, ValidationStateViewModel>()
                 .ForMember(o => o.ValidationState, opt => opt.MapFrom<ValidationState>((o, p) =>
                 {
                     if (o.IsValid)
@@ -236,21 +237,9 @@ namespace Traisi.Models.Mapping
                         return ValidationState.Invalid;
                     }
 
-                }))
-                .ForMember(o => o.ErrorMessages, opts => opts.MapFrom(x => x.Errors));
+                }));
         }
     }
 
-    public class ErrorMessageConverter : IValueConverter<List<SurveyLogicError>, List<string>>
-    {
-        public List<SurveyLogicError> Convert(List<string> sourceMember, ResolutionContext context)
-        {
-            return null;
-        }
 
-        public List<string> Convert(List<SurveyLogicError> sourceMember, ResolutionContext context)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

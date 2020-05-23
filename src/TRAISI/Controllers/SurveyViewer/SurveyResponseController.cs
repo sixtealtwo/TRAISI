@@ -47,11 +47,11 @@ namespace Traisi.Controllers.SurveyViewer
         /// <param name="questionId"></param>
         /// <param name="[ModelBinder(typeof(SurveyRespondentEntityBinder"></param>
         /// <returns></returns>
-        [Produces(typeof(SurveyViewerResponseValidationState))]
+        [Produces(typeof(SurveyViewerValidationStateViewModel))]
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [HttpPost]
         [Route("surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}", Name = "Save_Response")]
-        public async Task<ActionResult<SurveyViewerResponseValidationState>> SaveResponse(int surveyId, int questionId,
+        public async Task<ActionResult<SurveyViewerValidationStateViewModel>> SaveResponse(int surveyId, int questionId,
             int respondentId, int repeat, [FromBody] JArray content, [FromHeader] string language)
         {
 
@@ -63,7 +63,7 @@ namespace Traisi.Controllers.SurveyViewer
             }
 
             SurveyResponseValidationState validationState = await this._resonseService.SaveResponse(question.Survey, question, respondent, content, repeat);
-            var mappedState = _mapper.Map<SurveyViewerResponseValidationState>(validationState, opts =>
+            var mappedState = _mapper.Map<SurveyViewerValidationStateViewModel>(validationState, opts =>
             {
                 opts.Items["Language"] = language;
             });

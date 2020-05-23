@@ -126,7 +126,7 @@ namespace Traisi.Services
 
             }
 
-            List<SurveyLogicError> errorList = new List<SurveyLogicError>();
+            List<SurveyValidationError> errorList = new List<SurveyValidationError>();
             switch (type.ResponseType)
             {
                 case QuestionResponseType.String:
@@ -172,7 +172,8 @@ namespace Traisi.Services
             return new SurveyResponseValidationState()
             {
                 IsValid = errorList.Count == 0 ? true : false,
-                Errors = errorList
+                SurveyLogicError = new SurveyValidationError(),
+                SurveyQuestionValidationError = new SurveyValidationError()
 
             };
 
