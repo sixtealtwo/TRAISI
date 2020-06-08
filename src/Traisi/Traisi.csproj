@@ -56,10 +56,10 @@
 		<PackageReference Include="NSwag.AspNetCore" Version="13.4.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\TRAISI.Data\Traisi.Data.csproj" />
-		<ProjectReference Include="..\TRAISI.Questions\Traisi.Questions.csproj" />
-		<ProjectReference Include="..\TRAISI.SDK\Traisi.Sdk.csproj" />
-		<ProjectReference Include="..\TRAISI.Models\Traisi.Models.csproj" />
+		<ProjectReference Include="..\Traisi.Data\Traisi.Data.csproj" />
+		<ProjectReference Include="..\Traisi.Questions\Traisi.Questions.csproj" />
+		<ProjectReference Include="..\Traisi.Sdk\Traisi.Sdk.csproj" />
+		<ProjectReference Include="..\Traisi.Models\Traisi.Models.csproj" />
 
 	</ItemGroup>
 	<ItemGroup>
