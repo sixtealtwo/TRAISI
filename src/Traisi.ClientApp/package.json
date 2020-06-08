@@ -70,7 +70,7 @@
     "hammerjs": "^2.0.8",
     "headroom.js": "^0.11.0",
     "jasny-bootstrap": "4.0.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "jquery-flot": "0.8.3",
     "jquery-slimscroll": "1.3.8",
     "jquery-sparkline": "2.4.0",
@@ -78,7 +78,7 @@
     "jquery.animate-number": "0.0.14",
     "jvectormap": "2.0.4",
     "lodash": "^4.17.15",
-    "mapbox-gl": "^1.8.1",
+    "mapbox-gl": "^1.10.1",
     "markdown": "0.5.0",
     "moment": "2.24.0",
     "ng-autosize": "1.1.0",
@@ -136,7 +136,7 @@
     "skycons": "https://github.com/darkskyapp/skycons.git#7095ecf5f653dbcadbddb0d317b42e65fe091eae"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.4",
+    "@angular-devkit/build-angular": "^0.901.7",
     "@angular/cli": "^9.1.4",
     "@angular/compiler": "^9.1.4",
     "@angular/compiler-cli": "^9.1.4",
