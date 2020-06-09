@@ -68,14 +68,14 @@
 		<!-- <Compile Remove="..\TRAISI.UI\questions\**" />
          <Content Remove="$(SpaRoot)**" />
          <Content Remove="..\TRAISI.UI\questions\**" /> -->
-		<Compile Remove="ClientApp\**" />
+		<Compile Remove="$(SpaRoot)\**" />
 		<Content Remove="$(SpaRoot)**" />
-		<Content Remove="ClientApp\**" />
+		<Content Remove="$(SpaRoot)\**" />
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <EmbeddedResource Remove="ClientApp\**" />
-	  <None Remove="ClientApp\**" />
+	  <EmbeddedResource Remove="$(SpaRoot)\**" />
+	  <None Remove="$(SpaRoot)\**" />
 	</ItemGroup>
 
 	<ItemGroup>

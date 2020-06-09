@@ -544,7 +544,7 @@ namespace Traisi
                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
                     // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                    spa.Options.SourcePath = "../Traisi.ClientApp/";
+                    spa.Options.SourcePath = env.IsDevelopment() ? "../Traisi.ClientApp/"; : "Traisi.ClientApp/";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
                     spa.Options.DefaultPage = "/admin/index.html";
 
@@ -559,7 +559,7 @@ namespace Traisi
                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
                     // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                    spa.Options.SourcePath = "../Traisi.ClientApp/";
+                    spa.Options.SourcePath = env.IsDevelopment() ? "../Traisi.ClientApp/"; : "Traisi.ClientApp/";
                     spa.Options.DefaultPage = "/survey/index.html";
                     spa.Options.StartupTimeout = TimeSpan.FromSeconds(599);
 
