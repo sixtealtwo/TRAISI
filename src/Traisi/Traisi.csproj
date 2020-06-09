@@ -25,8 +25,8 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="3.1.3" />
 		<PackageReference Include="Serilog.AspnetCore" Version="3.2.0" />
@@ -68,14 +68,14 @@
 		<!-- <Compile Remove="..\TRAISI.UI\questions\**" />
          <Content Remove="$(SpaRoot)**" />
          <Content Remove="..\TRAISI.UI\questions\**" /> -->
-		<Compile Remove="$(SpaRoot)\**" />
+		<!-- <Compile Remove="$(SpaRoot)\**" />
 		<Content Remove="$(SpaRoot)**" />
-		<Content Remove="$(SpaRoot)\**" />
+		<Content Remove="$(SpaRoot)\**" /> -->
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <EmbeddedResource Remove="$(SpaRoot)\**" />
-	  <None Remove="$(SpaRoot)\**" />
+		<EmbeddedResource Remove="$(SpaRoot)\**" />
+		<None Remove="$(SpaRoot)\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -116,6 +116,12 @@
 
 	</Target>
 
+	<ItemGroup>
+		<Content Include="$(SpaRoot)\dist**" >
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
 		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
 
@@ -127,6 +133,7 @@
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- survey-viewer-app --prod --aot=false --build-optimizer=false" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 		<!-- Include the newly-built files in the publish output -->
 		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)\**"/>
 			<DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**; extensions\**; Resources\**" />
 			<DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
 			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">

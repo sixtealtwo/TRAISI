@@ -258,7 +258,14 @@ namespace Traisi
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+
+            if(_hostingEnvironment.IsDevelopment()) {
+                services.AddSpaStaticFiles(configuration => { configuration.RootPath = "../Traisi.ClientApp/dist"; });
+            }
+            else {
+                services.AddSpaStaticFiles(configuration => { configuration.RootPath = "Traisi.ClientApp/dist"; });
+            }
+            
 
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
             if (!_hostingEnvironment.IsDevelopment())
