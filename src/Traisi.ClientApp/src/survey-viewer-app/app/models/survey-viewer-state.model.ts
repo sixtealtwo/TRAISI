@@ -80,4 +80,6 @@ export interface SurveyViewerState {
 	questionNavIndex: number;
 
 	isNavFinished: boolean;
+
+	questionTree: Array<Array<SurveyViewQuestion>>;
 }

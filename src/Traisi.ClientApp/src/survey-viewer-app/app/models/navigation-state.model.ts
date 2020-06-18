@@ -1,6 +1,6 @@
-import { QuestionInstance } from "./question-instance.model";
-import { SurveyViewPage } from "./survey-view-page.model";
-import { SurveyViewSection } from "./survey-view-section.model";
+import { QuestionInstance } from './question-instance.model';
+import { SurveyViewPage } from './survey-view-page.model';
+import { SurveyViewSection } from './survey-view-section.model';
 import { SurveyViewGroupMember } from './survey-view-group-member.model';
 
 export interface NavigationState {
