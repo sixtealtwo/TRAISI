@@ -173,7 +173,6 @@ export class SurveyNavigator {
 				activeValidationStates: [],
 				isPreviousEnabled: true,
 			};
-			console.log(navigationState);
 
 			this._initState(navigationState).subscribe((r) => {
 				this.navigationState$.next(r);
@@ -373,6 +372,7 @@ export class SurveyNavigator {
 									index: navigationState.activeQuestionIndex,
 									model: result.question,
 									component: null,
+									questionInstanceState: null,
 									validationState: {
 										isValid: false,
 										questionValidationState: {
@@ -389,7 +389,6 @@ export class SurveyNavigator {
 								questionInstances.push(questionInstance);
 							}
 						}
-						console.log(questionInstances);
 						obs.next(questionInstances);
 						obs.complete();
 					}
@@ -398,6 +397,9 @@ export class SurveyNavigator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private _checkValidation(): boolean {
 		let allValid: boolean = true;
 
@@ -410,7 +412,6 @@ export class SurveyNavigator {
 				break;
 			}
 		}
-		console.log(this.navigationState$.getValue().activeQuestionInstances);
 		return allValid;
 	}
 
@@ -418,6 +419,11 @@ export class SurveyNavigator {
 		this.nextEnabled$.next(this._checkValidation());
 	}
 
+	/**
+	 * 
+	 * @param instanceState 
+	 * @param result 
+	 */
 	public updateQuestionValidationState(
 		instanceState: QuestionInstanceState,
 		result: SurveyViewerValidationStateViewModel
@@ -435,14 +441,5 @@ export class SurveyNavigator {
 	/**
 	 *
 	 */
-	public responseChanged(): void {
-		/*this._initState(this.navigationState$.getValue())
-			.pipe(
-				share(),
-				tap({
-					next: () => setTimeout(() => this.nextEnabled$.next(this._checkValidation())),
-				})
-			)
-			.subscribe(); */
-	}
+	public responseChanged(): void {}
 }

@@ -216,7 +216,6 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 
 				this._responseSaved.pipe(share()).subscribe(this.onResponseSaved);
 
-
 				// surveyQuestionInstance.validationState.subscribe(this.onResponseValidationStateChanged);
 				surveyQuestionInstance.autoAdvance.subscribe((result: number) => {
 					setTimeout(() => {
@@ -226,6 +225,9 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 				this._navigator.navigationState$.getValue().activeQuestionInstances[
 					this.activeQuestionIndex
 				].component = surveyQuestionInstance;
+				this._navigator.navigationState$.getValue().activeQuestionInstances[
+					this.activeQuestionIndex
+				].questionInstanceState = this._instanceState;
 
 				surveyQuestionInstance.respondent = this.respondent;
 				surveyQuestionInstance.traisiOnInit(this._viewerStateService.viewerState.isPreviousActionNext);
@@ -381,8 +383,8 @@ export class QuestionContainerComponent implements OnInit, OnDestroy {
 	 * Will unload is called before the active question is swapped out of view.
 	 */
 	public traisiQuestionWillUnload(): void {
-		if (this._questionInstance !== undefined) { 
+		if (this._questionInstance !== undefined) {
 			this._questionInstance.traisiOnUnloaded();
 		}
-	} 
+	}
 }

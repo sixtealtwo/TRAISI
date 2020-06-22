@@ -218,6 +218,15 @@
               "nullable": true
             },
             "x-position": 6
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 7
           }
         ],
         "requestBody": {
@@ -2150,11 +2159,6 @@
                 "$ref": "#/components/schemas/SurveyLogic"
               }
             ]
-          },
-          "rootId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "root": {
             "nullable": true,

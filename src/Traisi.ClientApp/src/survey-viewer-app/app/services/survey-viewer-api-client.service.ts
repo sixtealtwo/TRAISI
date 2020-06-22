@@ -287,8 +287,8 @@ export class SurveyResponseClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    saveResponse(surveyId: number, questionId: number, respondentId: number, repeat: number, language: string | null | undefined, content: any[] | null): Observable<SurveyViewerValidationStateViewModel> {
-        let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}";
+    saveResponse(surveyId: number, questionId: number, respondentId: number, repeat: number, language: string | null | undefined, force: boolean | undefined, content: any[] | null): Observable<SurveyViewerValidationStateViewModel> {
+        let url_ = this.baseUrl + "/api/SurveyResponse/surveys/{surveyId}/questions/{questionId}/respondents/{respondentId}/{repeat}?";
         if (surveyId === undefined || surveyId === null)
             throw new Error("The parameter 'surveyId' must be defined.");
         url_ = url_.replace("{surveyId}", encodeURIComponent("" + surveyId));
@@ -301,6 +301,10 @@ export class SurveyResponseClient {
         if (repeat === undefined || repeat === null)
             throw new Error("The parameter 'repeat' must be defined.");
         url_ = url_.replace("{repeat}", encodeURIComponent("" + repeat));
+        if (force === null)
+            throw new Error("The parameter 'force' cannot be null.");
+        else if (force !== undefined)
+            url_ += "force=" + encodeURIComponent("" + force) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(content);
@@ -1839,7 +1843,6 @@ export interface SurveyLogic {
     validationQuestion: QuestionPart | undefined;
     parentId: number | undefined;
     parent: SurveyLogic | undefined;
-    rootId: number | undefined;
     root: SurveyLogic | undefined;
     operator: SurveyLogicOperator | undefined;
     logicType: SurveyLogicType | undefined;

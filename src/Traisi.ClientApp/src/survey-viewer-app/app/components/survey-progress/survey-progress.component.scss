@@ -77,12 +77,13 @@ header {
 	min-height: $PROGRESS_LIST_HEIGHT;
 	// counter-increment: list;
 	padding-left: $SPACER_XS;
+	margin-top: 25px;
 	&:before {
 		content: '';
 		position: absolute;
-		left: -1.5rem;
+		left: -27px;
 		top: 33px;
-		height: 60%;
+		height: 100%;
 		width: 1px;
 		border-left: 1px solid #a08d8d;
 	}
@@ -90,17 +91,17 @@ header {
 		content: '';
 		position: absolute;
 		top: 10px;
-		left: -2.5rem;
+		left: -40px;
 		width: $PROGRESS_COUNTER_WIDTH;
 		height: $PROGRESS_COUNTER_WIDTH;
-    // border-radius: 50%;
-    border-color: #a08d8d;
+		// border-radius: 50%;
+		border-color: #a08d8d;
 		background: #fff;
 		color: #333;
 		font-weight: 400;
 		font-size: 13px;
 		line-height: 2rem;
-    text-align: center;
+		text-align: center;
 		border: 1px solid #fff;
 	}
 	//Hide border for Last Step
@@ -132,11 +133,14 @@ header {
 }
 
 .progress__title {
-	padding: 0.0rem 0 0;
+	padding: 0rem 0 0;
 	margin: 0;
 	font-size: 1rem;
+	padding-top: 10px;
 }
 
 .progress__info {
 	font-size: 13px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }

@@ -130,7 +130,7 @@
 							<div
 								class="alert alert-warning" style="height: 65px"
 								role="alert"
-								*ngIf="question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0"
+								*ngIf="!question.validationState?.isValid && question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0"
 							>
 								<div class="col-12">
 									{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}

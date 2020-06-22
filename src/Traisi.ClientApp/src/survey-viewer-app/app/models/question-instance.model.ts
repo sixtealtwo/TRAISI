@@ -3,6 +3,7 @@ import { QuestionContainerComponent } from 'app/components/question-container/qu
 import { ResponseValidationState } from 'traisi-question-sdk';
 import { Observable } from 'rxjs';
 import { SurveyViewerValidationStateViewModel, ValidationState } from 'app/services/survey-viewer-api-client.service';
+import { QuestionInstanceState } from 'app/services/question-instance.service';
 
 /**
  * Represents a question isntance that is displayable.
@@ -19,4 +20,6 @@ export interface QuestionInstance {
 	validationState: SurveyViewerValidationStateViewModel;
 
 	component: any;
+
+	questionInstanceState: QuestionInstanceState;
 }

@@ -1,16 +1,17 @@
 <div class="progressContainer" *ngIf="navigator.navigationState$ | async as state">
+	<ul class="progress-inner" *ngIf="state.activePage">
+		<li
+			class="progress__item progress-page"
+			[ngClass]="{ 'progress__item--active': state.activePage.id === page.id }"
+			(click)="navigateToPage(page)"
+			*ngFor="let page of viewerStateService.viewerState.surveyPages; let i = index"
+		>
+			<i class="{{ page.icon }} page-icon"></i>
+			<p class="progress__title">{{ page.label }}</p>
+			<p class="progress__info" *ngFor="let section of page.sections">{{ section.label }}</p>
+		</li>
 
-  <ul class="progress-inner" *ngIf="state.activePage">
-    
-      <li class="progress__item progress-page" [ngClass]="{'progress__item--active': state.activePage.id===page.id}" (click)="navigateToPage(page)"
-        *ngFor="let page of viewerStateService.viewerState.surveyPages; let i = index">
-        <i class="{{page.icon}} page-icon"></i>
-        <p class="progress__title">{{page.label}}</p> 
-        <p class="progress__info">_</p>
-
-      </li>
-  
-    <!--
+		<!--
     <li class="progress__item progress__item--completed">
       <p class="progress__title">Step 1</p>
       <p class="progress__info">Completed</p>
@@ -23,6 +24,5 @@
       <p class="progress__title">Step 3</p>
       <p class="progress__info">Next Step</p>
     </li>-->
-  </ul>
-
+	</ul>
 </div>

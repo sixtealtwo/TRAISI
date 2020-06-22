@@ -20,7 +20,7 @@ namespace Traisi.Services.Interfaces
         /// <param name="user"></param>
         /// <param name="responseData"></param>
         /// <returns></returns>
-        Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart questionpart, SurveyRespondent respondent, JArray responseData, int repeat);
+        Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart questionpart, SurveyRespondent respondent, JArray responseData, int repeat, bool force = false);
 
         /// <summary>
         /// 

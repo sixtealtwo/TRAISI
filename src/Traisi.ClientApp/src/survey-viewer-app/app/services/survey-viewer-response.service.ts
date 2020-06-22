@@ -127,6 +127,7 @@ export class SurveyViewerResponseService {
 					respondent.id,
 					repeat,
 					this._session.language,
+					false,
 					responseData
 				)
 				.subscribe((result) => {
@@ -141,19 +142,48 @@ export class SurveyViewerResponseService {
 		});
 	}
 
+	/**
+	 *
+	 * @param question
+	 * @param respondent
+	 * @param repeat
+	 */
 	public forceSaveInvalidResponse(
 		question: SurveyViewQuestion,
 		respondent: SurveyRespondent,
 		repeat: number = 0
-	): void {
-		this._responseClient.saveResponse(
-			this._session.surveyId,
-			question.questionId,
-			respondent.id,
-			repeat,
-			this._session.language,
-			this._getStoredInvalidResponse(question, respondent)
-		);
+	): Observable<SurveyViewerValidationStateViewModel> {
+		{
+			return new Observable((obs) => {
+				this._responseClient
+					.saveResponse(
+						this._session.surveyId,
+						question.questionId,
+						respondent.id,
+						repeat,
+						this._session.language,
+						true,
+						this._getStoredInvalidResponse(question, respondent)
+					)
+					.subscribe((result) => {
+						if (result.isValid) {
+							// store the passed response if valid
+							this._storeResponse(
+								question.questionId,
+								respondent,
+								this._getStoredInvalidResponse(question, respondent)
+							);
+						} else {
+							this._storeInvalidResponse(
+								question.questionId,
+								respondent,
+								this._getStoredInvalidResponse(question, respondent)
+							);
+						}
+						obs.next(result);
+					});
+			});
+		}
 	}
 
 	/**

@@ -78,7 +78,7 @@ namespace Traisi.Services
         /// <param name="responseData"></param>
         /// <param name="repeat"></param>
         /// <returns></returns>
-        public async Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JArray responseData, int repeat)
+        public async Task<SurveyResponseValidationState> SaveResponse(Survey survey, QuestionPart question, SurveyRespondent respondent, JArray responseData, int repeat, bool force)
         {
 
             var type = this._questionTypeManager.QuestionTypeDefinitions[question.QuestionType];
@@ -155,20 +155,27 @@ namespace Traisi.Services
             {
                 var errors = await this._validation.ListSurveyLogicErrorsForResponse(surveyResponse, respondent);
                 errorList.AddRange(errors);
-                if (errorList.Count == 0)
+                if (errorList.Count == 0 || force)
                 {
                     this._unitOfWork.SurveyResponses.Update(surveyResponse);
                     await this._unitOfWork.SaveChangesAsync();
                 }
                 return new SurveyResponseValidationState()
                 {
-                    IsValid = errorList.Count == 0 ? true : false,
-                    SurveyLogicError = errorList.Count > 0 ? new SurveyValidationError()
+                    IsValid = errorList.Count == 0 || force ? true : false,
+                    SurveyLogicError = errorList.Count > 0 && !force ? new SurveyValidationError(
+                    )
                     {
                         ValidationState = ValidationState.Invalid,
                         Messages = errorList[0].Messages
-                    } : new SurveyValidationError(),
+                    } : new SurveyValidationError()
+                    {
+                        ValidationState = ValidationState.Valid,
+                    },
                     SurveyQuestionValidationError = new SurveyValidationError()
+                    {
+                        ValidationState = ValidationState.Valid
+                    }
 
                 };
             }

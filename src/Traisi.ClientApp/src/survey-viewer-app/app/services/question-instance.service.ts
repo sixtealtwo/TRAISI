@@ -10,7 +10,7 @@ import {
 import { SurveyViewerResponseService } from './survey-viewer-response.service';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { isArray } from 'util';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { SurveyViewerValidationStateViewModel, ValidationState } from './survey-viewer-api-client.service';
 
 @Injectable()
@@ -60,6 +60,13 @@ export class QuestionInstanceState {
 
 		// load the saved response
 		this.loadSavedResponse();
+	}
+
+	public forceSaveResponse(): Observable<void> {
+		this._responseService.forceSaveInvalidResponse(this._questionModel, this._respondent).subscribe((result) => {
+			this.onResponseSaved(result);
+		});
+		return null;
 	}
 
 	private loadSavedResponse(): void {

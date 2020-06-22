@@ -36,6 +36,8 @@ import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-n
 import Headroom from 'headroom.js';
 import { SurveyRespondentClient } from 'app/services/survey-viewer-api-client.service';
 import { SurveyViewerRespondentService } from 'app/services/survey-viewer-respondent.service';
+import { QuestionInstanceState } from 'app/services/question-instance.service';
+import { QuestionInstance } from 'app/models/question-instance.model';
 interface SpecialPageDataInput {
 	pageHTML: string;
 	pageThemeInfo: string;
@@ -521,8 +523,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
-	public forceSave(question: any): void {
-		console.log(question);
+	/**
+	 * 
+	 * @param question 
+	 */
+	public forceSave(question: QuestionInstance): void {
+		question.questionInstanceState.forceSaveResponse();
 	}
 
 	/**
