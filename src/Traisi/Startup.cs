@@ -236,7 +236,7 @@ namespace Traisi
                     options
                         .ConstraintMap
                         .Add(AuthorizationFields.RESPONDENT,
-                        typeof (RespondentConstraint));
+                        typeof(RespondentConstraint));
                 });
 
             services
@@ -250,7 +250,8 @@ namespace Traisi
                 .AddOAuthValidation(options =>
                 {
                     options.Events =
-                        new OAuthValidationEvents {
+                        new OAuthValidationEvents
+                        {
                             OnRetrieveToken =
                                 context =>
                                 {
@@ -345,7 +346,8 @@ namespace Traisi
                     document
                         .AddSecurity("JWT",
                         Enumerable.Empty<string>(),
-                        new NSwag.OpenApiSecurityScheme {
+                        new NSwag.OpenApiSecurityScheme
+                        {
                             Type = OpenApiSecuritySchemeType.ApiKey,
                             Name = "Authorization",
                             In = OpenApiSecurityApiKeyLocation.Header,
@@ -500,7 +502,7 @@ namespace Traisi
             // use profiles in the assembly where the SurveyBuilder Profile is Located
             services
                 .AddAutoMapper(Assembly
-                    .GetAssembly(typeof (SurveyBuilderProfile)));
+                    .GetAssembly(typeof(SurveyBuilderProfile)));
 
             // Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
             // Configurations
@@ -605,25 +607,21 @@ namespace Traisi
             {
                 services.AddSingleton<IGeoServiceProvider, MapboxGeoService>();
             }
-            else
+
+            try
             {
-                try
-                {
-                    var providerName =
-                        Type
-                            .GetType(Configuration
-                                .GetValue<string>("GeoConfig:Provider"));
-                    var addSingletonMethod = services.GetType().GetMethods();
-                    services
-                        .AddSingleton(typeof (IGeoServiceProvider),
-                        providerName);
-                }
-                catch (Exception e)
-                {
-                    Console
-                        .WriteLine($"Unable to instantiate geoservice provider: ${
-                            e.Message}");
-                }
+                var providerName =
+                    Type
+                        .GetType(Configuration
+                            .GetValue<string>("GeoConfig:Provider"));
+                var addSingletonMethod = services.GetType().GetMethods();
+                services
+                    .AddSingleton(typeof(IGeoServiceProvider), providerName);
+            }
+            catch (Exception e)
+            {
+                Console
+                    .WriteLine($"Unable to instantiate geoservice provider: ${e.Message}");
             }
 
             services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
@@ -669,8 +667,8 @@ namespace Traisi
             // loggerFactory.AddDebug(LogLevel.Debug);
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
-            Utilities.ConfigureLogger (loggerFactory);
-            EmailTemplates.Initialize (env, Configuration);
+            Utilities.ConfigureLogger(loggerFactory);
+            EmailTemplates.Initialize(env, Configuration);
 
             questionTypeManager.LoadQuestionExtensions("extensions");
 
@@ -683,7 +681,8 @@ namespace Traisi
                 app.UseExceptionHandler("/Home/Error");
             }
             app
-                .UseForwardedHeaders(new ForwardedHeadersOptions {
+                .UseForwardedHeaders(new ForwardedHeadersOptions
+                {
                     ForwardedHeaders =
                         ForwardedHeaders.XForwardedFor |
                         ForwardedHeaders.XForwardedProto
@@ -762,7 +761,7 @@ namespace Traisi
                                     Configuration["survey-start-script"] == null
                                         ? DEFAULT_SURVEY_VIEWER_SPA_START_SCRIPT
                                         : Configuration["survey-start-script"];
-                                spa.UseAngularCliServer (angularConf);
+                                spa.UseAngularCliServer(angularConf);
                             }
                         });
                 });

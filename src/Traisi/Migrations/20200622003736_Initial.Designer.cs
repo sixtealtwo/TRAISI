@@ -11,8 +11,8 @@ using Traisi.Data;
 namespace Traisi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200508185503_AddContactInfoToRespondent")]
-    partial class AddContactInfoToRespondent
+    [Migration("20200622003736_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1161,6 +1161,9 @@ namespace Traisi.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int?>("Condition")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("LogicType")
                         .HasColumnType("integer");
 
                     b.Property<int?>("Operator")

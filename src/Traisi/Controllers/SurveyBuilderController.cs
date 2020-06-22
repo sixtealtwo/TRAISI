@@ -1125,7 +1125,7 @@ namespace Traisi.Controllers
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey != null)
             {
-                var mappedResult = _mapper.Map<List<SurveyLogicRuleModel>>(survey.SurveyLogic, opts =>
+                var mappedResult = _mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic, opts =>
             {
                 opts.Items["Language"] = language;
             });

@@ -446,6 +446,7 @@ namespace Traisi.Migrations
                     RootId = table.Column<int>(nullable: true),
                     QuestionId = table.Column<int>(nullable: true),
                     Operator = table.Column<int>(nullable: true),
+                    LogicType = table.Column<int>(nullable: true),
                     SurveyId = table.Column<int>(nullable: true),
                     SurveyLogicId = table.Column<int>(nullable: true)
                 },
@@ -853,6 +854,9 @@ namespace Traisi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
                     Relationship = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    HasConsent = table.Column<bool>(nullable: false),
                     SurveyRespondentGroupId = table.Column<int>(nullable: true),
                     RespondentType = table.Column<int>(nullable: false),
                     ShortcodeId = table.Column<int>(nullable: true),

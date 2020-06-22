@@ -20,7 +20,7 @@ namespace Traisi.Models.ViewModels
 
         public string Condition { get; set; }
 
-        public List<SurveyLogicViewModel> Rules { get; set; }
+        public List<SurveyLogicBaseViewModel> Rules { get; set; }
 
         public string Field { get; set; }
 
@@ -31,6 +31,8 @@ namespace Traisi.Models.ViewModels
         public int? ParentId { get; set; }
 
         public int? RootId { get; set; }
+
+        public string Entity { get; set; } = "value";
 
         public int? ValidationQuestionId { get; set; }
     }
@@ -55,10 +57,14 @@ namespace Traisi.Models.ViewModels
 
         public int? RootId { get; set; }
 
+        public string Entity { get; set; } = "value";
+
         public int? ValidationQuestionId { get; set; }
     }
 
-    public class SurveyLogicRulesViewModel : SurveyLogicBaseViewModel
+
+
+    public class SurveyLogicRuleViewModel : SurveyLogicBaseViewModel
     {
         public int? Id { get; set; } = 0;
 
@@ -71,6 +77,7 @@ namespace Traisi.Models.ViewModels
 
         public int? RootId { get; set; }
 
+        public string Entity { get; set; } = "value";
     }
 
 }

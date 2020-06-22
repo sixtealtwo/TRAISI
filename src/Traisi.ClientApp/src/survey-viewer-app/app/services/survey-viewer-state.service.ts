@@ -52,7 +52,9 @@ export class SurveyViewerStateService {
 			questionMap: {},
 			questionViewMap: {},
 			questionNavIndex: 0,
-			sectionMap: {}
+			sectionMap: {},
+			questionBlocks: [],
+			questionTree: []
 		};
 
 		this.surveyViewerState = new ReplaySubject<SurveyViewerState>();

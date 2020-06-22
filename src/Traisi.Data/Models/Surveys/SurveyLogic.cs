@@ -42,7 +42,7 @@ namespace Traisi.Data.Models.Surveys
         public int? QuestionId { get; set; }
         public SurveyLogicOperator? Operator { get; set; }
 
-        public SurveyLogicType? LogicType {get;set;}
+        public SurveyLogicType? LogicType { get; set; }
 
         public SurveyLogic()
         {
@@ -85,10 +85,11 @@ namespace Traisi.Data.Models.Surveys
         Or
     }
 
-    public enum SurveyLogicType {
-        [EnumMember(Value="response")]
+    public enum SurveyLogicType
+    {
+        [EnumMember(Value = "response")]
         Response,
-        [EnumMember(Value="value")]
+        [EnumMember(Value = "value")]
         Value
     }
 }

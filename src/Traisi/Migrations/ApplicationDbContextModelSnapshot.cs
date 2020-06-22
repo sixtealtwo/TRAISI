@@ -1161,6 +1161,9 @@ namespace Traisi.Migrations
                     b.Property<int?>("Condition")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("LogicType")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("Operator")
                         .HasColumnType("integer");
 
