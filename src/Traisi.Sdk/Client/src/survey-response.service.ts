@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { SurveyRespondent } from './survey-respondent.model';
-import { ResponseTypes, ResponseData } from './survey-question';
+import { ResponseTypes, ResponseData, QuestionResponseType } from './survey-question';
 export abstract class SurveyResponseService {
 	id: number;
-	abstract listSurveyResponsesOfType(surveyId: number, type: ResponseTypes): Observable<any>;
+	abstract listSurveyResponsesOfType(surveyId: number, type: QuestionResponseType): Observable<any>;
 	abstract getResponseValue(questionName: string, respondent: SurveyRespondent): Array<ResponseData<ResponseTypes>>;
 }

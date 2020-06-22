@@ -262,6 +262,20 @@ export enum ResponseTypes {
 	None = 'none'
 }
 
+export enum QuestionResponseType {
+    String = 0,
+    Boolean = 1,
+    Number = 2,
+    Location = 3,
+    Json = 4,
+    OptionSelect = 5,
+    DateTime = 6,
+    Time = 7,
+    Path = 8,
+    Timeline = 9,
+    None = 10,
+}
+
 export class GroupMember {
 	id: number;
 	name: string;

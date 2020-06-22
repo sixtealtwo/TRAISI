@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SurveyRespondent, SurveyQuestion, ResponseData, ResponseTypes } from 'traisi-question-sdk';
+import { SurveyRespondent, SurveyQuestion, ResponseData, ResponseTypes, SurveyRespondentService, SurveyResponseService } from 'traisi-question-sdk';
 import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import {
 	SurveyResponseClient,
 	SurveyResponseViewModel,
 	SurveyViewerValidationStateViewModel,
+	QuestionResponseType,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
 import { tap } from 'rxjs/operators';
@@ -13,10 +14,16 @@ import { tap } from 'rxjs/operators';
 @Injectable({
 	providedIn: 'root',
 })
-export class SurveyViewerResponseService {
+export class SurveyViewerResponseService  {
+
+
+
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
 	private _invalidResponses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
-	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
+
+	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {
+	
+	}
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -42,6 +49,15 @@ export class SurveyViewerResponseService {
 			throw Error('Asking to retrieve a stored (invalid) response that does not exist yet.');
 		}
 		return this._invalidResponses[respondent.id]?.[question.questionId];
+	}
+
+	/**
+	 * 
+	 * @param surveyId 
+	 * @param type 
+	 */
+	public listSurveyResponsesOfType(surveyId: number, type: QuestionResponseType): Observable<any> {
+		return this._responseClient.listResponsesOfType(surveyId,type );
 	}
 
 	/**
