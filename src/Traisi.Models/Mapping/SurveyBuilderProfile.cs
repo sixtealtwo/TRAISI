@@ -33,39 +33,26 @@ namespace Traisi.Models.Mapping
                 return;
             });
 
-            CreateMap<SurveyLogic, SurveyLogicViewModel>()
+            CreateMap<SurveyLogic, SurveyLogicRulesModel>()
             //.ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
             .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
             .ForMember(s => s.Value, opts => opts.MapFrom(o => o.Value))
-             .ForMember(s => s.Rules, opts => opts.ConvertUsing<RuleValueConverter2, List<SurveyLogic>>(x => x.Expressions))
-              .AfterMap((logic, view, ctx) =>
+            .ForMember(s => s.Rules, opts => opts.ConvertUsing<RuleValueConverter2, List<SurveyLogic>>(x => x.Expressions))
+            .AfterMap((logic, view, ctx) =>
             {
                 view.Field = logic.QuestionId + "." + logic.LogicType.ToString().ToLower();
             })
             .IncludeAllDerived();
 
-
-            /*CreateMap<SurveyLogic, SurveyLogicRuleModel>()
-            .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
-            .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
-            .ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
-            .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
-            .ForMember(s => s.Rules, opts => opts.ConvertUsing<RuleValueConverter, List<SurveyLogic>>(x => x.Expressions))
-                          .AfterMap((logic, view, ctx) =>
-            {
-                view.Field = logic.QuestionId + "." + logic.LogicType.ToString();
-            })
-            .IncludeAllDerived(); */
-
             CreateMap<SurveyLogic, SurveyLogicRuleViewModel>()
-            .ForMember(s => s.Field, opts => opts.MapFrom(o => (o.QuestionId)))
             .ForMember(s => s.Operator, opts => opts.MapFrom(o => o.Operator))
-            //.ForMember(s => s.Message, opts => opts.MapFrom<LabelToStringValueResolver, LabelCollection<Label>>(x => x.ValidationMessages))
             .ForMember(s => s.Value, opts => opts.ConvertUsing<LogicValueConverter, string>())
+             .AfterMap((logic, view, ctx) =>
+            {
+                view.Field = logic.QuestionId + "." + logic.LogicType.ToString().ToLower();
+            })
             .IncludeAllDerived();
-
-
 
             CreateMap<SurveyLogic, SurveyLogicBaseViewModel>()
             .ConvertUsing<LogicRuleConverter>();
@@ -104,9 +91,9 @@ namespace Traisi.Models.Mapping
             foreach (var logic in sourceMember)
             {
 
-                if (logic.Condition == null)
+                if (logic.Condition != null)
                 {
-                    result.Add(context.Mapper.Map<SurveyLogicViewModel>(logic));
+                    result.Add(context.Mapper.Map<SurveyLogicRulesModel>(logic));
                 }
                 else
                 {
@@ -116,6 +103,7 @@ namespace Traisi.Models.Mapping
             return result;
         }
     }
+
 
     public class LogicValueConverter : IValueConverter<string, object>
     {
@@ -194,11 +182,11 @@ namespace Traisi.Models.Mapping
 
             if (source.QuestionId > 0 && source.Condition == null)
             {
-                return context.Mapper.Map<SurveyLogicRuleModel>(source);
+                return context.Mapper.Map<SurveyLogicRuleViewModel>(source);
             }
             else
             {
-                return context.Mapper.Map<SurveyLogicViewModel>(source);
+                return context.Mapper.Map<SurveyLogicRulesModel>(source);
             }
         }
     }

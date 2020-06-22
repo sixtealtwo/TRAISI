@@ -89,7 +89,7 @@ export class SurveyLogicControlComponent implements OnInit, OnDestroy {
 	}
 
 	public onFieldValueChanged($event: SurveyLogicField, rule: Rule) {
-		rule.field = $event.value;
+		rule.field = ''+$event;
 		console.log(rule);
 		console.log($event);
 	}

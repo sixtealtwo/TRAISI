@@ -7,7 +7,7 @@ using Traisi.Data.Models.Surveys;
 namespace Traisi.Models.ViewModels
 {
 
-    public abstract class SurveyLogicBaseViewModel
+    public class SurveyLogicBaseViewModel
     {
 
     }
@@ -20,7 +20,7 @@ namespace Traisi.Models.ViewModels
 
         public string Condition { get; set; }
 
-        public List<SurveyLogicBaseViewModel> Rules { get; set; }
+        public List<SurveyLogicViewModel> Rules { get; set; }
 
         public string Field { get; set; }
 
@@ -37,7 +37,7 @@ namespace Traisi.Models.ViewModels
         public int? ValidationQuestionId { get; set; }
     }
 
-    public class SurveyLogicRuleModel : SurveyLogicBaseViewModel
+    public class SurveyLogicRulesModel : SurveyLogicBaseViewModel
     {
         public int? Id { get; set; } = 0;
 
@@ -61,8 +61,6 @@ namespace Traisi.Models.ViewModels
 
         public int? ValidationQuestionId { get; set; }
     }
-
-
 
     public class SurveyLogicRuleViewModel : SurveyLogicBaseViewModel
     {

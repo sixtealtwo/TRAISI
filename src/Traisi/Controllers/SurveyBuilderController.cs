@@ -1119,13 +1119,13 @@ namespace Traisi.Controllers
         /// <param name="surveyId"></param>
         /// <returns></returns>
         [HttpGet("surveys/{surveyId}/survey-logic")]
-        [Produces(typeof(List<SurveyLogicViewModel>))]
+        [Produces(typeof(List<SurveyLogicRulesModel>))]
         public async Task<IActionResult> GetSurveyLogic(int surveyId, [FromQuery] string language = "en")
         {
             var survey = await this._unitOfWork.Surveys.GetSurveyWithSurveyLogic(surveyId);
             if (survey != null)
             {
-                var mappedResult = _mapper.Map<List<SurveyLogicViewModel>>(survey.SurveyLogic, opts =>
+                var mappedResult = _mapper.Map<List<SurveyLogicRulesModel>>(survey.SurveyLogic, opts =>
             {
                 opts.Items["Language"] = language;
             });
