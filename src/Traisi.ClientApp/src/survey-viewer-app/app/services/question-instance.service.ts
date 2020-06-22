@@ -88,6 +88,7 @@ export class QuestionInstanceState {
 	 * @param result
 	 */
 	private onResponseSaved = (result: SurveyViewerValidationStateViewModel): void => {
+		console.log(result);
 		this.validationState$.next(result);
 		this._navigator.responseChanged();
 		this.onValidationStateChanged(result);

@@ -225,7 +225,21 @@ namespace Traisi.Models.Mapping
                 return error[context.Items["Language"] as string].Value;
             });
 
-            CreateMap<SurveyResponseValidationState, SurveyViewerValidationStateViewModel>();
+            CreateMap<SurveyValidationError, ValidationStateViewModel>()
+                             .AfterMap((s, svm, opt) =>
+                {
+                    try
+                    {
+                        svm.ErrorMessages = new List<string>(new[] { s.Messages[opt.Items["Language"] as string].Value });
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+
+                    }
+                });
+            CreateMap<SurveyResponseValidationState, SurveyViewerValidationStateViewModel>()
+            .ForMember(x => x.SurveyLogicValidationState, map => map.MapFrom(y => y.SurveyLogicError));
 
         }
     }

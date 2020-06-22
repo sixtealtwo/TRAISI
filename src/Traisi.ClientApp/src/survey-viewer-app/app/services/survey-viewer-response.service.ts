@@ -4,9 +4,7 @@ import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import {
 	SurveyResponseClient,
-	SurveyRespondentClient,
 	SurveyResponseViewModel,
-	ValidationState,
 	SurveyViewerValidationStateViewModel,
 } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
@@ -17,7 +15,8 @@ import { tap } from 'rxjs/operators';
 })
 export class SurveyViewerResponseService {
 	private _responses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
-	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) { }
+	private _invalidResponses: Record<number, Record<number, Array<ResponseData<ResponseTypes>>>> = {};
+	public constructor(private _responseClient: SurveyResponseClient, private _session: SurveyViewerSession) {}
 
 	/**
 	 * Gets the stored response for the passed respondent and question, this will return null
@@ -35,6 +34,16 @@ export class SurveyViewerResponseService {
 		return this._responses[respondent.id]?.[question.questionId];
 	}
 
+	private _getStoredInvalidResponse(
+		question: SurveyViewQuestion,
+		respondent: SurveyRespondent
+	): Array<ResponseData<ResponseTypes>> {
+		if (!this._hasStoredInvalidResponse(question, respondent)) {
+			throw Error('Asking to retrieve a stored (invalid) response that does not exist yet.');
+		}
+		return this._invalidResponses[respondent.id]?.[question.questionId];
+	}
+
 	/**
 	 * Determines if a response already exists for the question and respondent
 	 * @param question
@@ -42,6 +51,13 @@ export class SurveyViewerResponseService {
 	 */
 	public hasStoredResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
 		if (this._responses[respondent.id]?.[question.questionId]) {
+			return true;
+		}
+		return false;
+	}
+
+	private _hasStoredInvalidResponse(question: SurveyViewQuestion, respondent: SurveyRespondent): boolean {
+		if (this._invalidResponses[respondent.id]?.[question.questionId]) {
 			return true;
 		}
 		return false;
@@ -74,6 +90,23 @@ export class SurveyViewerResponseService {
 	}
 
 	/**
+	 *
+	 * @param questionId
+	 * @param respondent
+	 * @param response
+	 */
+	private _storeInvalidResponse(
+		questionId: number,
+		respondent: SurveyRespondent,
+		response: Array<ResponseData<ResponseTypes>>
+	): void {
+		if (!this._invalidResponses[respondent.id]) {
+			this._invalidResponses[respondent.id] = {};
+		}
+		this._invalidResponses[respondent.id][questionId] = response;
+	}
+
+	/**
 	 * Saves the response on the server
 	 * @param question
 	 * @param respondent
@@ -88,15 +121,39 @@ export class SurveyViewerResponseService {
 	): Observable<SurveyViewerValidationStateViewModel> {
 		return new Observable((obs) => {
 			this._responseClient
-				.saveResponse(this._session.surveyId, question.questionId, respondent.id, repeat, this._session.language, responseData)
+				.saveResponse(
+					this._session.surveyId,
+					question.questionId,
+					respondent.id,
+					repeat,
+					this._session.language,
+					responseData
+				)
 				.subscribe((result) => {
 					if (result.isValid) {
 						// store the passed response if valid
 						this._storeResponse(question.questionId, respondent, responseData);
+					} else {
+						this._storeInvalidResponse(question.questionId, respondent, responseData);
 					}
 					obs.next(result);
 				});
 		});
+	}
+
+	public forceSaveInvalidResponse(
+		question: SurveyViewQuestion,
+		respondent: SurveyRespondent,
+		repeat: number = 0
+	): void {
+		this._responseClient.saveResponse(
+			this._session.surveyId,
+			question.questionId,
+			respondent.id,
+			repeat,
+			this._session.language,
+			this._getStoredInvalidResponse(question, respondent)
+		);
 	}
 
 	/**

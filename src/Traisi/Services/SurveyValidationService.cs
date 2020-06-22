@@ -11,6 +11,7 @@ using Traisi.Sdk;
 using Traisi.Sdk.Interfaces;
 using Traisi.Sdk.Enums;
 using Traisi.ViewModels.SurveyViewer;
+using Newtonsoft.Json.Linq;
 
 namespace Traisi.Services
 {
@@ -112,9 +113,46 @@ namespace Traisi.Services
                     return EvaluateTextComparison(response, compareValue);
                 case QuestionResponseType.Number:
                     return true;
+                case QuestionResponseType.OptionSelect:
+                    return EvaluateOptionSelect(response, compareValue);
                 default:
                     return true;
             }
+        }
+
+
+        private bool EvaluateOptionSelect(SurveyResponse response, SurveyLogic logic)
+        {
+            JToken[] jvalues = JToken.Parse(logic.Value).ToArray();
+            // convert values to a list of strings
+            List<string> values = new List<string>();
+            foreach (var v in jvalues)
+            {
+                values.Add(v.Value<string>());
+            }
+            if (logic.Operator == SurveyLogicOperator.AllOf)
+            {
+                return response.ResponseValues.All(x =>
+                {
+                    return values.Contains((x as OptionSelectResponse).Code);
+                });
+            }
+            else if (logic.Operator == SurveyLogicOperator.AnyOf)
+            {
+                return response.ResponseValues.Any(x =>
+                {
+                    return values.Contains((x as OptionSelectResponse).Code);
+                });
+            }
+            else if (logic.Operator == SurveyLogicOperator.NoneOf)
+            {
+                return !response.ResponseValues.Any(x =>
+                {
+                    return values.Contains((x as OptionSelectResponse).Code);
+                });
+            }
+
+            return true;
         }
 
         private bool EvaluateTextComparison(SurveyResponse response, SurveyLogic compareValue)

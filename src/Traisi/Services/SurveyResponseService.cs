@@ -160,6 +160,17 @@ namespace Traisi.Services
                     this._unitOfWork.SurveyResponses.Update(surveyResponse);
                     await this._unitOfWork.SaveChangesAsync();
                 }
+                return new SurveyResponseValidationState()
+                {
+                    IsValid = errorList.Count == 0 ? true : false,
+                    SurveyLogicError = errorList.Count > 0 ? new SurveyValidationError()
+                    {
+                        ValidationState = ValidationState.Invalid,
+                        Messages = errorList[0].Messages
+                    } : new SurveyValidationError(),
+                    SurveyQuestionValidationError = new SurveyValidationError()
+
+                };
             }
             catch (Exception e)
             {
@@ -169,14 +180,6 @@ namespace Traisi.Services
                     IsValid = false,
                 };
             }
-            return new SurveyResponseValidationState()
-            {
-                IsValid = errorList.Count == 0 ? true : false,
-                SurveyLogicError = new SurveyValidationError(),
-                SurveyQuestionValidationError = new SurveyValidationError()
-
-            };
-
         }
 
         /// <summary>

@@ -345,8 +345,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 						if (question.isRepeat) {
 							this.viewerState.questionMap[question.repeatSource].repeatTargets.push(question.questionId);
 						}
-
-
 					});
 
 					page.sections.forEach((section) => {
@@ -376,8 +374,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 								);
 							}
 							inSectionIndex++;
-
-
 						});
 					});
 
@@ -390,7 +386,6 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 				});
 
 				viewOrder = 0;
-
 
 				this.viewerState.activeQuestionIndex = 0;
 
@@ -424,7 +419,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 							questionBlock.push(q);
 						} else {
 							for (let sectionQuestion of q['questions']) {
-								questionBlock.push(sectionQuestion)
+								questionBlock.push(sectionQuestion);
 								questions.push(sectionQuestion);
 							}
 						}
@@ -485,7 +480,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		// this._navigationService.navigatePrevious();
 
 		this.navigator.navigatePrevious().subscribe({
-			next: (v) => { },
+			next: (v) => {},
 			complete: () => {
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
 				this.questionsContainerElement.nativeElement.scrollTo(0, 0);
@@ -500,7 +495,7 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	public navigateNext(): void {
 		this.viewerState.isNavProcessing = true;
 		this.navigator.navigateNext().subscribe({
-			next: (v) => { },
+			next: (v) => {},
 			complete: () => {
 				console.log('in complete');
 				this.questionsContainerElement.nativeElement.scrollTop = 0;
@@ -526,6 +521,9 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		}
 	}
 
+	public forceSave(question: any): void {
+		console.log(question);
+	}
 
 	/**
 	 * Validates the disabled / enabled state of the navigation buttons.
@@ -534,12 +532,8 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 		return;
 	}
 
-	private activeRespondentId(): number {
-		if (this.isHouseholdQuestionActive()) {
-			return this.viewerState.groupMembers[this.viewerState.activeGroupMemberIndex].id;
-		} else {
-			return this.viewerState.primaryRespondent.id;
-		}
+	public confirmResponseWithLogicError(question: any) {
+		console.log(question);
 	}
 
 	private retrieveHouseholdTag(): string {
@@ -574,13 +568,12 @@ export class SurveyViewerComponent implements OnInit, AfterViewInit, AfterConten
 	 * Navigates complete survey
 	 */
 	public navigateCompleteSurvey(): void {
-
 		this._router.navigate([this.surveyName, 'thankyou']);
 	}
 
-	public ngAfterContentInit(): void { }
+	public ngAfterContentInit(): void {}
 
-	public ngAfterViewChecked(): void { }
+	public ngAfterViewChecked(): void {}
 
 	/**
 	 * Uses dark buttons

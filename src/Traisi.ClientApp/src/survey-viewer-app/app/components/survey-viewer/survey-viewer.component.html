@@ -86,13 +86,17 @@
 			</div>
 		</nav>
 		<!-- Begin page content -->
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10  container" #surveyBodyContainer>
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 container" #surveyBodyContainer>
 			<div *ngIf="navigator.navigationState$ | async as state" class="questions-outer-container">
-				<div class="survey-section-header h5" *ngIf="state.activeSectionId >= 0"
-					[style.background-color]="viewerTheme.sectionBackgroundColour" [style.color]="sectionTitleColour"
+				<div
+					class="survey-section-header h5"
+					*ngIf="state.activeSectionId >= 0"
+					[style.background-color]="viewerTheme.sectionBackgroundColour"
+					[style.color]="sectionTitleColour"
 					[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
 					[ngClass]="{ visible: viewerState.isSectionActive }"
-					[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml">
+					[innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"
+				>
 					<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
 						- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
 					</span>
@@ -101,36 +105,69 @@
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div class="question-section" #questionSection>
 						<ng-container
-							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index">
-							<traisi-question-container class="d-flex flex-column" [surveyViewer]="ref"
-								[activeQuestionIndex]="i" [questionInstance]="question"
+							*ngFor="let question of state.activeQuestionInstances; trackBy: trackById.bind(this); let i = index"
+						>
+							<traisi-question-container
+								class="d-flex flex-column"
+								[surveyViewer]="ref"
+								[activeQuestionIndex]="i"
+								[questionInstance]="question"
 								[respondent]="viewerState.groupMembers[state.activeRespondentIndex]"
-								[question]="question.model" [attr.data-questionid]="question.model.questionId"
+								[question]="question.model"
+								[attr.data-questionid]="question.model.questionId"
 								[attr.data-question-name]="question.model.name"
-								[attr.data-multiview]="state.isMultiView" [surveyViewQuestion]="question.model"
-								[surveyId]="surveyId" [repeatNumber]="0" [sectionRepeatNumber]="0"
-								[questionTypeMap]="questionTypeMap" [questionSectionElement]="questionSectionElement"
-								[questionNameMap]="questionNameMap" #questions>
+								[attr.data-multiview]="state.isMultiView"
+								[surveyViewQuestion]="question.model"
+								[surveyId]="surveyId"
+								[repeatNumber]="0"
+								[sectionRepeatNumber]="0"
+								[questionTypeMap]="questionTypeMap"
+								[questionSectionElement]="questionSectionElement"
+								[questionNameMap]="questionNameMap"
+								#questions
+							>
 							</traisi-question-container>
+							<div
+								class="alert alert-warning" style="height: 65px"
+								role="alert"
+								*ngIf="question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0"
+							>
+								<div class="col-12">
+									{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}
+									<button class="btn btn-secondary float-right" (click)="forceSave(question)">
+										Confirm
+									</button>
+								</div>
+							</div>
 						</ng-container>
 					</div>
 				</div>
 
-				<div id="question-viewer-nav" class="text-center viewer-nav"
-					[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold">
+				<div
+					id="question-viewer-nav"
+					class="text-center viewer-nav"
+					[class.household-tabs]="viewerState.isSectionActive && viewerState.activeSection.isHousehold"
+				>
 					<div class="row justify-content-center btn-group align-center">
-						<button [ngClass]="navButtonClass" (click)="navigatePrevious()"
+						<button
+							[ngClass]="navButtonClass"
+							(click)="navigatePrevious()"
 							[disabled]="!(navigator.previousEnabled$ | async)"
-							class="btn btn-secondary pl-4 pr-4 survey-nav-button" type="button">
+							class="btn btn-secondary pl-4 pr-4 survey-nav-button"
+							type="button"
+						>
 							<i class="fas fa-arrow-alt-circle-left mr-1"></i>
 							{{ 'Viewer.Previous' | translate }}
 						</button>
 
-						<button *ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
-							[ngClass]="navButtonClass" (click)="navigateNext()"
+						<button
+							*ngIf="!viewerState.isNavComplete && !viewerState.isNavFinished"
+							[ngClass]="navButtonClass"
+							(click)="navigateNext()"
 							[disabled]="!(navigator.nextEnabled$ | async)"
-							class="btn btn-primary pl-4 pr-4 survey-nav-button" type="button">
-
+							class="btn btn-primary pl-4 pr-4 survey-nav-button"
+							type="button"
+						>
 							<div *ngIf="!viewerState.isNavComplete">
 								{{ 'Viewer.Next' | translate }}
 								<i class="fas fa-arrow-alt-circle-right ml-1"></i>
@@ -138,9 +175,14 @@
 								<span *ngIf="false">Has Error</span>
 							</div>
 						</button>
-						<button *ngIf="viewerState.isNavFinished" [ngClass]="navButtonClass"
-							[disabled]="!viewerState.isNavComplete" (click)="navigateCompleteSurvey()"
-							class="btn btn-primary pl-4 pr-4 survey-nav-button" type="button">
+						<button
+							*ngIf="viewerState.isNavFinished"
+							[ngClass]="navButtonClass"
+							[disabled]="!viewerState.isNavComplete"
+							(click)="navigateCompleteSurvey()"
+							class="btn btn-primary pl-4 pr-4 survey-nav-button"
+							type="button"
+						>
 							<div>
 								{{ 'Viewer.CompleteSurvey' | translate }}
 								<i class="fas fa-arrow-alt-circle-right ml-1"></i>
