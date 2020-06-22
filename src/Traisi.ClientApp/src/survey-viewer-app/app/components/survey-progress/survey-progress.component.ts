@@ -3,6 +3,8 @@ import { SurveyViewerStateService } from 'app/services/survey-viewer-state.servi
 import { SurveyViewPage } from 'app/models/survey-view-page.model';
 import { SurveyNavigator } from 'app/modules/survey-navigation/services/survey-navigator/survey-navigator.service';
 import { NavigationState } from 'app/models/navigation-state.model';
+import { SurveyViewScreening } from 'app/models/survey-view-screening.model';
+import { SurveyViewSection } from 'app/models/survey-view-section.model';
 
 @Component({
 	selector: 'traisi-survey-progress',
@@ -18,8 +20,20 @@ export class SurveyProgressComponent implements OnInit {
 		console.log(this.pages);
 	}
 
+	/**
+	 *
+	 * @param page
+	 */
 	public navigateToPage(page: SurveyViewPage) {
-		console.log(page);
 		this.navigator.navigateToPage(page.id).subscribe();
+	}
+
+	/**
+	 *
+	 * @param section
+	 * @param page
+	 */
+	public navigateToSection(section: SurveyViewSection, page: SurveyViewPage) {
+		this.navigator.navigateToSection(page, section).subscribe();
 	}
 }

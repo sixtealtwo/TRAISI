@@ -88,9 +88,16 @@
 		<!-- Begin page content -->
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 container" #surveyBodyContainer>
 			<div *ngIf="navigator.navigationState$ | async as state" class="questions-outer-container">
-				<div
+				<div class="content-header">
+					<span class="page-header survey-section-header">{{ state.activePage?.label }}</span>
+					<span class="section-header survey-section-header" *ngIf="state.activeSectionId >= 0">
+					>
+						<span [innerHTML]="processedSectionLabel(state.activeSection.label) | safeHtml"></span>
+					</span>
+				</div>
+				<!--<span 
 					class="survey-section-header h5"
-					*ngIf="state.activeSectionId >= 0"
+					
 					[style.background-color]="viewerTheme.sectionBackgroundColour"
 					[style.color]="sectionTitleColour"
 					[class.household-tabs]="state.activeSectionId >= 0 && state.activeSection.isHousehold"
@@ -100,7 +107,7 @@
 					<span class="repeat-header" *ngIf="state.activeSection.isRepeat">
 						- Repeat {{ viewerState.activeSectionRepeatContainer.repeatIndex + 1 }}
 					</span>
-				</div>
+				</span> -->
 
 				<div class="questions-container flex-grow-1" #questionsContainer>
 					<div class="question-section" #questionSection>
@@ -128,9 +135,13 @@
 							>
 							</traisi-question-container>
 							<div
-								class="alert alert-warning" style="height: 65px"
+								class="alert alert-warning"
+								style="height: 65px;"
 								role="alert"
-								*ngIf="!question.validationState?.isValid && question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0"
+								*ngIf="
+									!question.validationState?.isValid &&
+									question.validationState?.surveyLogicValidationState?.errorMessages?.length > 0
+								"
 							>
 								<div class="col-12">
 									{{ (question.validationState?.surveyLogicValidationState?.errorMessages)[0] }}

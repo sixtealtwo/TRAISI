@@ -74,7 +74,7 @@ namespace Traisi.Services
         /// <param name="surveyId"></param>
         /// <returns></returns>
         public async Task<SurveyViewTermsAndConditionsViewModel> GetSurveyTermsAndConditionsText(int surveyId,
-            string language = null,
+            string language = "en",
             SurveyViewType viewType = SurveyViewType.RespondentView)
         {
             Survey survey = await this._unitOfWork.Surveys.GetSurveyFullAsync(surveyId, viewType);

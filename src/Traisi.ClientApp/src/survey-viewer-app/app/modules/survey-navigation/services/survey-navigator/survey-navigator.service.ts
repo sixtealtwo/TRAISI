@@ -141,6 +141,46 @@ export class SurveyNavigator {
 		});
 	}
 
+	public navigateToSection(page: SurveyViewPage, section: SurveyViewSection): Observable<NavigationState> {
+		let blockIndex: number = findIndex(this._state.viewerState.questionBlocks, (block: SurveyViewQuestion[]) => {
+			return block[0].parentSection?.id === section.id;
+		});
+		if (blockIndex < 0) {
+			blockIndex = 0;
+		}
+		let pageIndex = findIndex(this._state.viewerState.questionBlocks, (block: SurveyViewQuestion[]) => {
+			return block[0]?.parentPage.id === page.id;
+		}); 
+		return new Observable((obs: Observer<NavigationState>) => {
+			let navigationState: NavigationState = {
+				activePage: this._state.viewerState.surveyPages[pageIndex],
+				activeSectionIndex: -1,
+				activeSectionId: -1,
+				activeQuestionIndex: blockIndex,
+				activeRespondent: this._state.viewerState.primaryRespondent,
+				activeRespondentIndex: 0,
+				activeQuestionInstances: [],
+				isLoaded: true,
+				isNextEnabled: true,
+				activeValidationStates: [],
+				isPreviousEnabled: true,
+			};
+
+			this._initState(navigationState).subscribe((r) => {
+				this.navigationState$.next(r);
+				console.log(' done navigating ');
+				console.log(r);
+				obs.next(r);
+				obs.complete();
+			});
+
+			this._initQuestionInstancesForState(navigationState).subscribe((questionInstances) => {
+				navigationState.activeQuestionInstances = questionInstances;
+				this.validationChanged();
+			});
+		});
+	}
+
 	/**
 	 *
 	 * @param pageId
@@ -398,7 +438,7 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private _checkValidation(): boolean {
 		let allValid: boolean = true;
@@ -420,9 +460,9 @@ export class SurveyNavigator {
 	}
 
 	/**
-	 * 
-	 * @param instanceState 
-	 * @param result 
+	 *
+	 * @param instanceState
+	 * @param result
 	 */
 	public updateQuestionValidationState(
 		instanceState: QuestionInstanceState,

@@ -143,4 +143,11 @@ header {
 	font-size: 13px;
 	margin-bottom: 5px;
 	margin-top: 5px;
+	color: #333;
+	.section--active {
+		color: #16359a !important;
+	}
+}
+.progress__info.section--active {
+	color: #16359a !important;
 }

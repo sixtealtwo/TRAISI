@@ -4,6 +4,7 @@ import { SurveyViewQuestion } from 'app/models/survey-view-question.model';
 import { Observable, EMPTY } from 'rxjs';
 import { SurveyResponseClient, SurveyRespondentClient } from './survey-viewer-api-client.service';
 import { SurveyViewerSession } from './survey-viewer-session.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -35,7 +36,11 @@ export class SurveyViewerRespondentService {
 	 * @memberof SurveyResponderService
 	 */
 	public addSurveyGroupMember(respondent: SurveyRespondent): Observable<number> {
-		return this._respondentClient.addSurveyGroupMember(respondent);
+		return this._respondentClient.addSurveyGroupMember(respondent).pipe(
+			tap((r) => {
+				this.respondents[r] = respondent;
+			})
+		);
 	}
 
 	/**
@@ -46,7 +51,6 @@ export class SurveyViewerRespondentService {
 	 * @memberof SurveyResponderService
 	 */
 	public getSurveyGroupMembers(respondent: SurveyRespondent): Observable<SurveyRespondent[]> {
-		console.log(respondent);
 		return this._respondentClient.listSurveyGroupMembers(respondent.id);
 	}
 
@@ -55,7 +59,11 @@ export class SurveyViewerRespondentService {
 	 * @param respondent
 	 */
 	public removeSurveyGroupMember(respondent: SurveyRespondent): Observable<void> {
-		return this._respondentClient.removeSurveyGroupMember(respondent.id);
+		return this._respondentClient.removeSurveyGroupMember(respondent.id).pipe(
+			tap((r) => {
+				this.respondents[respondent.id] = undefined;
+			})
+		);
 	}
 
 	/**
@@ -63,6 +71,10 @@ export class SurveyViewerRespondentService {
 	 * @param respondent
 	 */
 	public updateSurveyGroupMember(respondent: SurveyRespondent): Observable<void> {
-		return this._respondentClient.updateSurveyGroupMember(respondent);
+		return this._respondentClient.updateSurveyGroupMember(respondent).pipe(
+			tap((r) => {
+				this.respondents[respondent.id] = respondent;
+			})
+		);
 	}
 }

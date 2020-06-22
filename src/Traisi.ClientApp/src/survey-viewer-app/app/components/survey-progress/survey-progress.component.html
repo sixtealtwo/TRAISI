@@ -8,7 +8,7 @@
 		>
 			<i class="{{ page.icon }} page-icon"></i>
 			<p class="progress__title">{{ page.label }}</p>
-			<p class="progress__info" *ngFor="let section of page.sections">{{ section.label }}</p>
+			<p class="progress__info" [ngClass]="{'section--active': state.activeSection.id === section.id }" *ngFor="let section of page.sections">{{ section.label }}</p>
 		</li>
 
 		<!--

@@ -362,9 +362,9 @@ namespace Traisi.Controllers.SurveyViewer
         [Authorize(Policy = Policies.RespondToSurveyPolicy)]
         [Produces(typeof(ObjectResult))]
         public async Task<IActionResult> GetSurveyTermsAndConditions(int surveyId,
-            SurveyViewType viewType = SurveyViewType.RespondentView, string language = null)
+            SurveyViewType viewType = SurveyViewType.RespondentView, string language = "en")
         {
-            var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, language, viewType);
+            var result = await this._viewService.GetSurveyTermsAndConditionsText(surveyId, "en", viewType);
             if (result == null)
             {
                 return new NotFoundResult();
